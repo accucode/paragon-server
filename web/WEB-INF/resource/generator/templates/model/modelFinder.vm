@@ -1,0 +1,43 @@
+${javaAutoGenerationComment}
+
+package ${package}.finder;
+
+import com.kodemore.collection.*;
+import com.kodemore.utility.*;
+
+import ${package}.dao.*;
+import ${package}.dao.base.*;
+import ${package}.finder.core.*;
+import ${package}.model.*;
+
+public class ${model.f_FinderClass}
+    implements KmKeyFinderIF<${model.f_Class},${model.primaryKeyField.f_Type}>
+{
+$utility.protocol("static")
+
+    public static ${model.f_Class} staticFind(${model.primaryKeyField.f_Type} key)
+    {
+        return new ${model.f_FinderClass}().find(key);
+    }
+
+    public static ${model.f_Class} staticFindDao(${model.primaryKeyField.f_Type} key)
+    {
+        return new ${model.f_FinderClass}().findDao(key);
+    }
+
+$utility.protocol("find")
+
+    @Override
+    public ${model.f_Class} find(${model.primaryKeyField.f_Type} key)
+    {
+        return new ${model.f_DaoClass}().find${model.primaryKeyField.f_Name}(key);
+    }
+
+    public ${model.f_Class} findDao(${model.primaryKeyField.f_Type} key)
+    {
+        MyDaoKeyFinder<${model.f_Class},${model.primaryKeyField.f_Type}> e;
+        e = new MyDaoKeyFinder<${model.f_Class},${model.primaryKeyField.f_Type}>(this, key);
+        e.run();
+        return e.getValue();
+    }
+}

@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall,
+                delay: 0
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+            
+            kmHoverClass('.jqueryBlock', 'jqueryBlockHover');
+        }
+        
+        function myTest()
+        {
+            Kmu.toast('hello');
+        }
+        
+        function kmHoverClass(target, className, ms)
+        {
+            if ( !ms )
+                ms = 250;
+                 
+            $(target).hover(
+                function(){ $(target).addClass(className, ms) },
+                function(){ $(target).removeClass(className, ms) }
+            );
+        }
+        
+    </script>
+
+    <style type="text/css">
+    
+        .cssBlock
+        {
+            transition: all 250ms;
+            -moz-transition: all 250ms;
+            -webkit-transition: all 250ms;
+            background-color: lightgrey;
+            border: thin solid gray;
+            margin: 10px;    
+            padding: 10px;    
+        }
+        
+        .cssBlock:hover
+        {
+            background-color: gray;
+            border: thin solid black;
+        }
+
+        .jqueryBlock
+        {
+            background-color: lightgrey;
+            border: thin solid gray;
+            margin: 10px;    
+            padding: 10px;    
+        }
+        
+        .jqueryBlockHover
+        {
+            background-color: gray;
+            border: thin solid black;
+        }
+        
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+
+<div id="main" style="display:none">
+
+    <div class="cssBlock">
+        CSS Transition.  Not yet supported in IE, but degrades gracefully.
+    </div>
+
+    <div class="jqueryBlock">
+        Jquery Transition.  Better compatibility (works in IE).
+    </div>
+
+</div>
+
+</body>
+
+</html>

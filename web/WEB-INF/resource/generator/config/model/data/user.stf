@@ -1,0 +1,75 @@
+model
+: name      = user
+: comment   = The list of all users. Users are global - that is, independent of any particular account.
+
+database
+: alias = u
+
+    index
+    : name      = email
+    : unique    = false
+    : on        = email
+
+attributes
+
+    field
+    : name          = uid
+    : comment       = The unique key.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    field
+    : name      = name
+    : comment   = The user name, we typically default this to the username portion of the user's email address.
+    : type      = name
+    : required  = required
+
+    field
+    : name      = email
+    : comment   = The email is effectively the user identify.
+    : type      = email
+    : required  = true
+
+    field
+    : name      = verified
+    : comment   = Indicates if this user's email address has been verified. We require the email address to be verified before the user is allowed to log in.
+    : type      = boolean
+    : default   = false
+    : required  = true
+
+    field
+    : name      = passwordSalt
+    : comment   = The salt used for this user. Each user has a different salt. The salt is set to a random value when the user is created, and should never be changed.
+    : type      = uid
+    : default   = newUid()
+    : required  = true
+
+    field
+    : name      = passwordHash
+    : comment   = The password sha hash used to authenticate the user. The actual password is not stored. If the user has no password the hash is set to empty string.
+    : type      = shaHash
+
+    field
+    : name      = timeZoneCode
+    : comment   = The time zone.
+    : type      = timeZoneCode
+
+    valueCollection
+    : name      = pet
+    : comment   = The user's pets.
+    : type      = name
+
+    field
+    : name      = roleCode
+    : comment   = The role, or access level.
+    : type      = letterCode
+    : required  = true
+    : default   = MyUserRole.User.getCode() 
+
+        enum
+            value(#U User)
+            value(#R Admin)
+            value(#D Developer)
+

@@ -1,0 +1,20 @@
+${javaAutoGenerationComment}
+
+package ${package}.command.base;
+
+import com.kodemore.command.*;
+import com.kodemore.hibernate.*;
+import com.kodemore.utility.*;
+
+import ${package}.command.*;
+import ${package}.dao.*;
+import ${package}.dao.core.*;
+import ${package}.filter.core.*;
+import ${package}.model.*;
+import ${package}.model.core.*;
+
+public abstract class ${Prefix}FilterBase<T>
+    extends MyFilter<T>
+{
+    // none
+}

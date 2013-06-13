@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="pad10">
+
+    <div class="boxGray padSpaced clearfix">
+        <p>
+            Note that the floated middle sections are the only divs with
+            explicit widths.
+            </p>
+        <p>
+            Also, the floated divs are nested within a clearfix to avoid 
+            overlapping with the footer.  There are other ways, but this
+            seems simple and consistent.
+            </p>
+    </div>
+    <br>
+    <br>
+    <br>
+
+    <table class="marginCenter">
+    <tr>
+    <td>
+    
+        <div class="boxBrown pad">
+            The header.  No explicit size.
+        </div>
+
+        <div class="clearfix">
+        
+            <div class="boxBlue width200 floatLeft pad">
+                Float Left.  Width 200.
+            </div>
+                        
+            <div class="boxGreen width200 floatLeft pad">
+                Float Left.  Width 200.
+            </div>            
+    
+            <div class="boxPurple width200 floatLeft pad">
+                Float Left.  Width 200.
+            </div>
+                        
+        </div>
+
+        <div class="boxRed pad">
+            The footer.  No explicit size.
+        </div>
+        
+    </td>
+    </tr>
+    </table>
+
+</div>
+</body>
+</html>

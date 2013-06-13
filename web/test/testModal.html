@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        // 'slow', 'fast', 'medium', 100, 500, 1000, etc...
+        var dialogOpenSpeed = 300; 
+        var dialogCloseSpeed = 100; 
+        
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $("#main").show();
+        }
+              
+        function myShowDialog1()
+        {
+            myShow('#dialog1');
+        }
+        
+        function myShowDialog2()
+        {
+            myShow('#dialog2');
+        }
+        
+        function myHideDialog()
+        {
+            Kmu.closeDialog();
+        }
+        
+        function myShow(target)
+        {
+            Kmu.openDialogTarget(target);
+        }
+        
+    </script>
+
+    <style type="text/css">
+
+        /* see dialog- in theme.css */
+          
+    </style>
+    
+</head>
+
+<body onload='myLoad();'>
+
+    <div id="main" style="display:none" class="padSpaced">
+    
+        <button onclick="myShowDialog1();">Show Dialog 1</button>
+        <button onclick="myShowDialog2();">Show Dialog 2</button>
+        
+        <br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        Just some body text.<br>
+        <br>
+    </div>
+    
+<!-- Dialog 1 -->
+
+    <div id="dialog1" style="display:none;">
+    
+        <div class="dialog-header-default">
+            One
+        </div>
+        
+        <div class="dialog-body-default">
+            <button onclick="Kmu.toast('test');">Toast</button>
+            <button onclick="$('#middle').slideToggle();">Show Middle</button>
+            <br>
+            <br>
+            01. The dialog content.<br>
+            02. The dialog content.<br>
+            03. The dialog content.<br>
+            04. The dialog content.<br>
+            05. The dialog content.<br>
+            <div id="middle" class="hide boxRed">
+                06. The dialog content.<br>
+                07. The dialog content.<br>
+                08. The dialog content.<br>
+                09. The dialog content.<br>
+                10. The dialog content.<br>
+                11. The dialog content.<br>
+                12. The dialog content.<br>
+                13. The dialog content.<br>
+                14. The dialog content.<br>
+                15. The dialog content.<br>
+            </div>
+            16. The dialog content.<br>
+            17. The dialog content.<br>
+            18. The dialog content.<br>
+            19. The dialog content.<br>
+            20. The dialog content.<br>
+            21. The dialog content.<br>
+            22. The dialog content.<br>
+            23. The dialog content.<br>
+            24. The dialog content.<br>
+            25. The dialog content.<br>
+        </div>
+    
+        <div class="dialog-footer-default clearfix">
+            <div class="buttonBoxRight clearfix">
+            
+                <button type="button" class="button button-element-default" onclick="myShowDialog2();">
+                    Show Dialog 2
+                </button>
+                
+                <button type="button" class="button button-element-default" onclick="myHideDialog();">
+                    Close
+                </button>
+                
+            </div>
+        </div>
+        
+    </div>
+
+<!-- Dialog 2 -->
+
+    <div id="dialog2" style="display:none;">
+    
+        <div class="dialog-header-default">
+            Two
+        </div>
+        
+        <div class="dialog-body-default" style="width:400px;height:200px;">
+            Dialog 2<br>
+            <br>
+            A text field<br>
+            <input id="tf" type="text" class="textField-default"><br>
+        </div>
+    
+        <div class="dialog-footer-default clearfix">
+            <div class="buttonBoxRight clearfix">
+            
+                <button type="button" class="button button-element-default" onclick="myShowDialog1();">
+                    Show Dialog 1
+                </button>
+                
+                <button type="button" class="button button-element-default" onclick="myHideDialog();">
+                    Close
+                </button>
+                
+            </div>
+        </div>
+        
+    </div>
+    
+</body>
+
+</html>

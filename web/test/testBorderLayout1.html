@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+   
+<html>
+ 
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml; charset=utf-8" />
+             
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        /**************************************************
+         * install
+         **************************************************/
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+
+        function myInstall()
+        {
+            myInstallOuter();
+            myInstallButtons();
+        }
+        
+        function myInstallOuter()
+        {
+            new KmBorderLayout(
+            {
+                parent:             '#outer',
+                
+                topVisible:         true,
+                topSize:            100,
+                topResizable:       true,
+                
+                bottomVisible:      true,
+                bottomSize:         100,
+                bottomResizable:    true,
+                
+                rightVisible:       true,
+                rightSize:          100,
+                rightResizable:     true,
+                
+                leftVisible:        true,
+                leftSize:           200,
+                leftResizable:      true,
+                
+                liveResize:         true,
+                debugBorders:       true
+            });            
+        }
+        
+        function myInstallButtons()
+        {
+            $('#outer-top').css('background-color', 'pink');
+                    
+            var p = $('#outer-left');
+            
+            Kmu.addButtonTo(p, 'slide outer top', mySlideOuterTop);
+            Kmu.addButtonTo(p, 'reset outer', myResetOuter);
+        }
+        
+        /**************************************************
+         * tests (outer)
+         **************************************************/
+
+        function mySlideOuterTop()
+        {
+            myGetOuterLayout().slideToggle('top');            
+        }
+        
+        function myResetOuter()
+        {
+            myGetOuterLayout().resetLayout();
+        }
+        
+        function myGetOuterLayout()
+        {
+            return $('#outer').data('borderLayout');
+        }
+        
+    </script>
+         
+</head>
+     
+<body id='outer' onload="myLoad();">
+</body>
+ 
+</html> 

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyPatch"
+        table="patch"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="name"
+            column="name"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <property
+            name="installedUtcTs"
+            column="installedUtcTs"
+            type="com.kodemore.hibernate.KmHibernateTimestampType"
+            />
+
+        <property
+            name="source"
+            column="source"
+            type="string"
+            />
+
+    </class>
+</hibernate-mapping>

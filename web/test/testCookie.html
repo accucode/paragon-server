@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function myRead()
+        {
+            $("#myReadField").val('');
+            
+            var key = $("#myKeyField");
+            var value = Kmu.getCookie(key);
+            
+            if ( value == null )
+            {
+                Kmu.toast("null");
+                return;
+            }
+            
+            $("#myReadField").val(value);
+        }
+        
+        function myWrite()
+        {
+            var key = $("#myKeyField");
+            var value = $("#myWriteField").val();
+            
+            Kmu.setCookie(key, value);
+        }
+        
+        function myClear()
+        {
+            var key = $("#myKeyField");
+            
+            Kmu.clearCookie(key);
+        }
+        
+    </script>
+
+    <style type="text/css">
+        
+        .myBox
+        {
+            padding: 10px;
+            border: thin solid gray;
+            background-color: lightgray;
+            margin-bottom: 10px;
+        }
+        
+        #myKeyField
+        {
+        }
+        
+        #myReadField
+        {
+            width: 300px;
+            height: 50px;
+        }
+        
+        #myWriteField
+        {
+            width: 300px;
+            height: 50px;
+        }
+        
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+    <div class="boxRed marginBottom">
+        <p>NOTE: Chrome does not support cookies for LOCAL FILES.
+            However, this will work for chrome via http.
+        </p>
+    </div>
+    
+    <div class="myBox">
+        <p>Key</p>
+        <input id='myKeyField' type="text" value="key"></input>
+    </div>
+    
+    <div class="myBox">
+        <p><button onclick="myRead();">Read</button></p>
+        <textarea id='myReadField'></textarea>
+    </div>
+    
+    <div class="myBox">
+        <p><button onclick="myWrite();">Write</button></p>
+        <textarea id='myWriteField'></textarea>
+    </div>
+    
+    <div class="myBox">
+        <button onclick="myClear();">Clear</button>
+    </div>
+    
+</div>
+</body>
+</html>

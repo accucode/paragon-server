@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+        function myShowError(e)
+        {   
+            e = $(e);
+            e.text("Error message.");
+            // e.show();
+        }
+        
+        function myHideError(e)
+        {
+            e = $(e);
+            e.text("");
+            // e.hide();
+        }
+        
+    </script>
+
+    <style type="text/css">
+        .myFieldError
+        {
+            color: red;
+            text-align: right;
+        }
+        .myFieldWrapper
+        {
+            // background-color: lightblue;
+            // border: 1px solid blue;
+            // padding: 5px;
+            float: left;
+        }
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+    <div class="boxGray padSpaced5 overflowAuto">
+        <p>
+            One:
+            <button onclick="myShowError('#oneError');">Show Error</button>
+            <button onclick="myHideError('#oneError');">Hide Error</button>
+        </p>
+        <p>
+            Two:
+            <button onclick="myShowError('#twoError');">Show Error</button>
+            <button onclick="myHideError('#twoError');">Hide Error</button>
+        </p>
+        <p>
+            All:
+            <button onclick="myShowError('.myFieldError');">Show Error</button>
+            <button onclick="myHideError('.myFieldError');">Hide Error</button>
+        </p>
+    </div>
+    
+    <form class="boxGray padSpaced10 overflowAuto">
+
+        <div class="overflowAuto">    
+            <p>One</p>
+            <div class="myFieldWrapper">
+                <input type="text"> 
+                <p id="oneError" class="myFieldError"></p> 
+            </div>
+        </div>
+
+        <div class="overflowAuto">    
+            <p>Two</p>
+            <div class="myFieldWrapper">
+                <input type="text">
+                <p id="twoError" class="myFieldError"></p> 
+            </div>
+        </div>
+        
+        <div class="overflowAuto">    
+            <p>Three</p>
+            <div class="myFieldWrapper">
+                <input type="text">
+                <p id="threeError" class="myFieldError"></p> 
+            </div>
+        </div>
+        
+    </form>
+
+</div>
+</body>
+</html>

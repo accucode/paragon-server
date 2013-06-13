@@ -1,0 +1,64 @@
+${javaAutoGenerationComment}
+
+package ${package}.dao.base;
+
+import com.kodemore.collection.*;
+
+import ${package}.dao.core.*;
+import ${package}.property.*;
+import ${package}.utility.*;
+
+public class ${Prefix}SchemaRegistry
+{
+$utility.protocol("static")
+
+    private static ${Prefix}SchemaRegistry _instance;
+
+    public static void install()
+    {
+        _instance = new ${Prefix}SchemaRegistry();
+    }
+
+    public static ${Prefix}SchemaRegistry getInstance()
+    {
+        return _instance;
+    }
+
+$utility.protocol("variables")
+
+#foreach ( $schema in $root.schemas )
+    private ${Prefix}Schema _${schema.f_name};
+#end
+
+$utility.protocol("constructor")
+
+    private MySchemaRegistry()
+    {
+        MyPropertyRegistry p = MyGlobals.getProperties();
+#foreach ( $schema in $root.schemas )
+
+        _${schema.f_name} = new ${Prefix}Schema();
+        _${schema.f_name}.setName("${schema.f_name}");
+        _${schema.f_name}.setDatabaseName(p.getDatabase${schema.f_Name}Schema());
+#end
+    }
+
+$utility.protocol("accessing")
+
+#foreach ( $schema in $root.schemas )
+    public ${Prefix}Schema get${schema.f_Name}Schema()
+    {
+        return _${schema.f_name};
+    }
+
+#end
+    public KmList<${Prefix}Schema> getSchemas()
+    {
+        KmList<${Prefix}Schema> v;
+        v = new KmList<${Prefix}Schema>();
+#foreach ( $schema in $root.schemas )
+        v.add(_${schema.f_name});
+#end
+        return v;
+    }
+}

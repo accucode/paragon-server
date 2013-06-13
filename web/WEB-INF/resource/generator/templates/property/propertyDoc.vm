@@ -1,0 +1,35 @@
+${htmlAutoGenerationComment}
+
+<html>
+<head>
+  <title>${applicationName} Properties</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+<h1>${applicationName} Properties</h1>
+
+#foreach ( $group in $root.propertyFile.groups )
+<h2>${group.f_name}</h2>
+    <table cellspacing=0 cellpadding=3 border=1>
+      <tr>
+        <th>Property</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Default</th>
+      </tr>
+#foreach ( $property in $group.properties )
+      <tr>
+        <td>${property.f_name}&nbsp;</td>
+        <td>${property.f_comment}&nbsp;</td>
+        <td>${property.f_type}&nbsp;</td>
+        <td>${property.f_default}&nbsp;</td>
+      </tr>
+#end
+    </table>
+    <br>
+
+#end
+
+</body>
+</html>

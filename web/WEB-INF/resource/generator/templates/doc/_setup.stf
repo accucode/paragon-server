@@ -1,0 +1,16 @@
+setup
+: name              = modelList
+: template          = docModels.vm
+: targetDirectory   = web/WEB-INF/resource/doc/model
+: fileMode          = oneFile
+: fileName          = models.html
+: ifExists          = overwrite
+
+setup
+: name              = modelDoc
+: template          = docModel.vm
+: targetDirectory   = web/WEB-INF/resource/doc/model
+: fileMode          = oneFilePerModel
+: fileName          = ${model.f_name}.html
+: ifExists          = overwrite
+

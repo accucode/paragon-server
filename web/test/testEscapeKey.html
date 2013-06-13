@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+            
+            $('#a').focus();
+            
+            Kmu.onEscape('.esc', function()
+            {
+                Kmu.toast('escape');
+            });
+        }
+        
+        function myTest()
+        {
+            Kmu.toast('click');
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+    <div class="boxGray pad">
+        Detect the escape key.
+    </div>
+    
+    <div class='padSpaced'>
+        a:  <input id='a' type='text' class=''> not registered<br>
+        b:  <input id='b' type='text' class='esc'><br>
+        c:  <input id='c' type='checkbox' class='esc'><br>
+        d:  <input id='d' type='checkbox' class='esc'><br>
+        e:  <input id='e' name='radio' type='radio' class="esc"><br>
+        f:  <input id='f' name='radio' type='radio' class="esc"><br>
+        g:  <input id='g' name='radio' type='radio' class="esc"><br>
+    </div>
+    
+</div>
+</body>
+</html>

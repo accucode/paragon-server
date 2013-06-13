@@ -1,0 +1,106 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>patch</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>patch</h1>
+
+The list of all database patches. These are used to coordinate database migrations.<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+<tr>
+  <td>name&nbsp;</td>
+  <td>The unique key.&nbsp;</td>
+  <td>name
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+            pk<br>                      &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>installedUtcTs&nbsp;</td>
+  <td>The time when the patch was installed in this database.&nbsp;</td>
+  <td>timestamp
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>source&nbsp;</td>
+  <td>The full raw script. This is used to downgrade the schema.&nbsp;</td>
+  <td>multiline20000
+        <br><nobr>max length: 20000</nobr>           <br>allows(
+                      printable
+                        ,&nbsp;
+                whitespace
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>installedLocalTs&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>timestamp
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>installedLocalTsMessage&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>text100
+        <br><nobr>max length: 100</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>installedLocalDate&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>date
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>installedLocalTime&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>time
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

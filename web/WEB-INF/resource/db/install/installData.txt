@@ -1,0 +1,5 @@
+# Any commands that should be executed immediately after the tables are created
+# as part of a fresh install.  Generally, indexes are defined as part of the
+# model descriptions.  Additional setup should be handled via Java whenever
+# possible so ensure business logic rules are maintained.  The intent is to
+# use this hook as a last resort.  See also MyInitializeDatabaseCommand.java.

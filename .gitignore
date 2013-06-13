@@ -1,6 +1,22 @@
+*.app02
+*.app03
 *.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
+*.swp
+.settings/*
+ant/output/*
+compile.txt
+bin/kmSetEnvLocal.bat
+bin/shared/*
+output/*
+startup.bat
+shared/*
+temp/*
+web/last.*
+web/ajaxLog.txt
+web/upload
+web/WEB-INF/checkout-config.xml
+web/WEB-INF/classes
+web/WEB-INF/resource/log4j/log4j.xml
+web/WEB-INF/resource/property/overrides.txt
+web/WEB-INF/resource/webInstall/app.xml
+velocity.log

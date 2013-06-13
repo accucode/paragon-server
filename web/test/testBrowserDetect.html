@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    
+    <script type="text/javascript" src ="browserDetect.js"></script>
+
+    <style type="text/css">
+        div.myBox
+        {
+            background-color: lightgray;
+            border: thin solid gray;
+            padding: 5px;
+            margin: 10px;
+        }
+    </style>
+    
+</head>
+
+<body>
+
+
+<div class="myBox">
+    <h2>Simple IE Detect</h2>
+    
+    <script>var IE_VERSION = null;</script>
+    <!--[if IE 5]><script>IE_VERSION=5</script><![endif]-->
+    <!--[if IE 6]><script>IE_VERSION=6</script><![endif]-->
+    <!--[if IE 7]><script>IE_VERSION=7</script><![endif]-->
+    <!--[if IE 8]><script>IE_VERSION=8</script><![endif]-->
+    <!--[if IE 9]><script>IE_VERSION=9</script><![endif]-->
+    
+    <b>IE Version</b><br>
+    <script>document.write(IE_VERSION);</script><br>
+</div>
+
+
+<div class="myBox">
+    <h2>Browser Detect</h2>
+
+    <b>BrowserDetect.browser</b><br>
+    <script>document.write(BrowserDetect.browser);</script><br>
+    <br>
+    
+    <b>BrowserDetect.version</b><br>
+    <script>document.write(BrowserDetect.version);</script><br>
+    <br>
+    
+    <b>BrowserDetect.OS</b><br>
+    <script>document.write(BrowserDetect.OS);</script><br>
+</div>
+
+
+<div class="myBox">
+    <h2>Navigator</h2>
+    
+    <b>navigator.appName</b><br>
+    <script>document.write(navigator.appName);</script><br>
+    <br>
+    
+    <b>navigator.appVersion</b><br>
+    <script>document.write(navigator.appVersion);</script><br>
+    <br>
+    
+    <b>navigator.appCodeName</b><br>
+    <script>document.write(navigator.appCodeName);</script><br>
+    <br>
+    
+    <b>navigator.platform</b><br>
+    <script>document.write(navigator.platform);</script><br>
+    <br>
+    
+    <b>navigator.cookieEnabled</b><br>
+    <script>document.write(navigator.cookieEnabled);</script><br>
+    <br>
+    
+    <b>navigator.userAgent</b><br>
+    <script>document.write(navigator.userAgent);</script><br>
+    <br>
+</div>
+
+</body>
+</html>

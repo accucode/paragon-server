@@ -1,0 +1,154 @@
+<project name="Tools" basedir="..">
+
+    <property name='dummy' value=''/>  
+    <import file="antCore.xml"/>
+
+    <!--
+    ****************************************
+    ** PATCH
+    ****************************************
+    -->
+
+    <target
+        name="patchCreate"
+        depends="init"
+        description="Create a new db patch.">
+        <antcall
+            target="runJavaClass">
+            <param name="javaClass" value="com.app.tools.MyPatchConsole"/>
+            <param name="javaArgs" value="create"/>
+        </antcall>
+    </target>
+
+    <target
+        name="patchRepeat"
+        depends="init"
+        description="Repeat the most recent patch (twice).">
+        <antcall
+            target="runJavaClass">
+            <param name="javaClass" value="com.app.tools.MyPatchConsole"/>
+            <param name="javaArgs" value="rerepeatLast"/>
+        </antcall>
+    </target>
+
+    <target
+        name="patchSync"
+        depends="init"
+        description="Synchronize the database schema.">
+        <antcall
+            target="runJavaClass">
+            <param name="javaClass" value="com.app.tools.MyPatchConsole"/>
+            <param name="javaArgs" value="sync"/>
+        </antcall>
+    </target>
+
+    <!--
+    ****************************************
+    ** GENERATE
+    ****************************************
+    -->
+
+    <target
+        name="compileGenerator"
+        depends="init">
+        <mkdir dir="${javaClasses}"/>
+        <javac
+            fork="true"
+            srcdir="${javaSource}"
+            destdir="${javaClasses}"
+            classpath="${classpath.full}"
+            includes="com/app/generator/**"
+            debug="on"
+            memoryinitialsize="256m"
+            memorymaximumsize="256m"
+            includeantruntime="false">
+            <compilerarg line="-g -nowarn"/>
+        </javac>
+    </target>
+
+    <target
+        name="compileGeneratorDebug"
+        depends="init">
+        <mkdir dir="${javaClasses}"/>
+        <javac
+            fork="true"
+            srcdir="${javaSource}"
+            destdir="${javaClasses}"
+            classpath="${classpath.full}"
+            includes="com/app/generator/**"
+            debug="on"
+            memoryinitialsize="256m"
+            memorymaximumsize="256m"
+        	includeantruntime="false">
+            <compilerarg line="-g -nowarn -verbose -Xstdout compile.txt"/>
+        </javac>
+    </target>
+
+    <target
+        name="generateAll"
+        depends="compileGenerator"
+        description="Generate dirty/missing classes.">
+        <antcall
+            target="runJavaClass">
+            <param name="javaClass" value="com.app.generator.MyGenerator"/>
+            <param name="javaArgs" value=""/>
+        </antcall>
+    </target>
+
+    <target
+        name="generateActivities"
+        depends="compileGenerator"
+        description="Generate dirty/missing classes.">
+        <antcall
+            target="runJavaClass">
+            <param name="javaClass" value="com.app.generator.MyGenerator"/>
+            <param name="javaArgs" value="activities"/>
+        </antcall>
+    </target>
+
+    <target
+        name="generateProperties"
+        depends="compileGenerator"
+        description="Generate dirty/missing classes.">
+        <antcall
+            target="runJavaClass">
+            <param name="javaClass" value="com.app.generator.MyGenerator"/>
+            <param name="javaArgs" value="properties"/>
+        </antcall>
+    </target>
+
+    <target
+        name="generateCss"
+        depends="compileGenerator"
+        description="Generate dirty/missing classes.">
+        <antcall
+            target="runJavaClass">
+            <param name="javaClass" value="com.app.generator.MyGenerator"/>
+            <param name="javaArgs" value="css"/>
+        </antcall>
+    </target>
+
+    <target
+        name="generateClean"
+        depends="clean,deleteGenerated,generateAll"
+        description="Delete and re-generate all classes." />
+
+    <target
+        name="deleteGenerated"
+        depends="init">
+        <delete>
+            <fileset file="${javaSource}/${packagePath}/command/base/*"/>
+            <fileset file="${javaSource}/${packagePath}/criteria/*"/>
+            <fileset file="${javaSource}/${packagePath}/dao/base/*"/>
+            <fileset file="${javaSource}/${packagePath}/filter/base/*"/>
+            <fileset file="${javaSource}/${packagePath}/finder/*"/>
+            <fileset file="${javaSource}/${packagePath}/model/base/*"/>
+            <fileset file="${javaSource}/${packagePath}/model/meta/*"/>
+            <fileset file="${javaSource}/${packagePath}/property/base/*"/>
+            <fileset file="${dbScript}/base/*"/>
+            <fileset file="${resource}/doc/model/*"/>
+            <fileset file="${webResource}/hibernate/mapping/*"/>
+        </delete>
+    </target>
+
+</project>

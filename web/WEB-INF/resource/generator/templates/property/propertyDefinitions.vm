@@ -1,0 +1,155 @@
+${javaAutoGenerationComment}
+
+package ${package}.property.base;
+
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.log.*;
+import com.kodemore.policy.date.*;
+import com.kodemore.policy.time.*;
+import com.kodemore.policy.weight.*;
+import com.kodemore.property.*;
+import com.kodemore.property.type.*;
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
+
+import ${package}.model.*;
+import ${package}.property.*;
+
+public class ${Prefix}PropertyDefinitions
+{
+$utility.protocol("group and keys")
+
+#foreach ( $group in $root.propertyFile.groups )
+    public static final String $group.f_CONSTANT = "$group.f_name";
+#foreach ( $property in $group.properties )
+    public static final String $property.f_CONSTANT = "$property.f_name";
+#end
+
+#end
+
+$utility.protocol("install")
+
+    private static KmMap<String,${Prefix}PropertyDefinition> installDefinitions()
+    {
+        KmMap<String,${Prefix}PropertyDefinition> m;
+        m = new KmMap<String,${Prefix}PropertyDefinition>();
+
+#foreach ( $group in $root.propertyFile.groups )
+        // ${group.f_name}
+#foreach ( $property in $group.properties )
+        install(m, new${property.f_MethodName}());
+#end
+
+#end
+        return m;
+    }
+
+    private static void install(KmMap<String,${Prefix}PropertyDefinition> m, ${Prefix}PropertyDefinition p)
+    {
+        String key = p.getKey();
+        if ( key == null )
+        {
+            KmLog.errorTrace("Attempting to install a property definition with a NULL key.");
+            return;
+        }
+        if ( p.getType() == null )
+        {
+            KmLog.errorTrace("Attempt to install a property definition with no type(%s)", key);
+            return;
+        }
+        if ( m.containsKey(key) )
+        {
+            KmLog.errorTrace("Attempting to install a duplicate property definition (%s).", key);
+            return;
+        }
+        m.put(key, p);
+    }
+#foreach ( $group in ${root.propertyFile.groups} )
+
+$utility.protocol("install (${group.f_name})")
+#foreach ( $property in ${group.properties} )
+
+    private static ${Prefix}PropertyDefinition new${property.f_MethodName}()
+    {
+        ${Prefix}PropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(${group.f_CONSTANT});
+        e.setKey(${property.f_CONSTANT});
+        e.setComment("${property.f_commentEscaped}");
+        e.setType(KmPropertyTypes.${property.f_TYPE_CONSTANT});
+        e.setDefaultValue("${property.f_default}");
+#foreach ( $f in $property.flags )
+        e.addFlag("${f}");
+#end
+        e.postInstall();
+        return e;
+    }
+#end
+#end
+
+$utility.protocol("accessing (utility)")
+
+    public static KmList<${Prefix}PropertyDefinition> getAll()
+    {
+        return _definitions.getValues();
+    }
+
+    public static KmList<String> getAllKeys()
+    {
+        KmList<String> v = _definitions.getKeys();
+        v.sort();
+        return v;
+    }
+
+    public static ${Prefix}PropertyDefinition get(String key)
+    {
+        ${Prefix}PropertyDefinition e = _definitions.get(key);
+        if ( e == null )
+            KmLog.error("No property found for key: %s.", key);
+        return e;
+    }
+
+    public static KmList<String> getAllGroups()
+    {
+        KmList<String> v = new KmList<String>();
+        for ( ${Prefix}PropertyDefinition e : getAll() )
+            v.addDistinct(e.getGroup());
+        return v;
+    }
+
+    public static KmList<${Prefix}PropertyDefinition> getAllInGroup(String group)
+    {
+        KmList<${Prefix}PropertyDefinition> v = new KmList<${Prefix}PropertyDefinition>();
+        for ( ${Prefix}PropertyDefinition e : getAll() )
+            if ( e.hasGroup(group) )
+                v.add(e);
+        return v;
+    }
+
+
+$utility.protocol("accessing")
+
+#foreach ( $group in $root.propertyFile.groups )
+#foreach ( $property in $group.properties )
+    public static ${Prefix}PropertyDefinition get${property.f_MethodName}()
+    {
+        return get(${property.f_CONSTANT});
+    }
+
+#end
+#end
+
+$utility.protocol("private")
+
+    private static ${Prefix}PropertyDefinition newPropertyDefinition()
+    {
+        return new ${Prefix}PropertyDefinition();
+    }
+
+$utility.protocol("install constants")
+
+    private static final KmMap<String,${Prefix}PropertyDefinition> _definitions = installDefinitions();
+
+}
+

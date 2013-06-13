@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function mySetVisibleTrue()
+        {
+            $('#target').setVisible(true);
+        }
+                
+        function mySetVisibleFalse()
+        {
+            $('#target').setVisible(false);
+        }
+                
+        function myIsVisible()
+        {
+            var e = $('#target').isVisible();
+            Kmu.toast(e.toString());
+        }
+                
+        function myTest()
+        {
+            Kmu.toast('test');
+        }
+                
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+    <div class="boxBlue pad">
+        See kmExtentions.js for the declaration of jquery.fn.setVisible().
+    </div>
+    <button onclick="mySetVisibleTrue();">Show</button>
+    <button onclick="mySetVisibleFalse();">Hide</button>
+    <button onclick="myIsVisible();">Is Visible</button>
+    <button id="target" onclick="myTest();">Target</button>
+    
+</div>
+</body>
+</html>

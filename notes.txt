@@ -1,0 +1,267 @@
+nicki minaj
+dark shadows
+
+=======================================
+== To Do
+=======================================
+
+Test on tablets and phones.
+    apple and android.
+    
+Improve field labels.
+    Add colon?
+    Determine style based on child element?
+    
+properties
+    review all database properties...
+    e.g.: databaseBatchInsertGroupSize
+    
+Review types.xml
+
+Read my readme.txt
+Read my notes.txt
+
+Update copyrights
+
+    
+=======================================
+== Key Classes
+=======================================
+
+A few classes that are helpful to know about when getting started.
+The focus is on classes that are not necessarily obvious when tracing
+code.
+
+    * MyInstaller
+    
+
+
+=======================================
+== Browser Compatibility
+=======================================
+
+    IE 8+       (needs css :after)
+    FF 3.5+
+    Chrome
+    Safari 3
+
+=======================================
+== Production access
+=======================================
+
+mysql -p -u root
+    accucode
+
+
+=======================================
+== Security and URLs
+=======================================
+
+Current thoughts on urls and security...
+
+For improved security, browsers generally prohibit javascript 
+from making requests to any host other than the one that 
+served the page in the first place.  This is generally referred
+to as the "same origin policy."
+
+The Same Origin Policy even disallows requests across subdomains.
+E.g.: the following pages cannot access each other:
+    sub1.domain.com
+    sub2.domain.com
+    
+On the other hand, cookies CAN be shared across sub-domains.
+This may not be the default, and may require setting an explicit
+parameter when setting the cookie. 
+
+So... thoughts on urls...
+
+We are moving towards greater emphasis on consumer facing 
+applications, and this is driving increased emphasis on 
+product marketing.  For a variety of reasons, it is important 
+to keep the hosting for the marketing site and the application
+site separate.  These sites are maintained by different 
+people with different skills and different tools.
+
+The intent is to use the same _domain_ for both the marketing
+site and the application site, but to split them across 
+different subdomains.  E.g.:
+    marketing:   www.mydomain.com
+    application: app.mydomain.com
+
+The Same Origin Policy will still prevent javascript from 
+making requests across the subdomains.  However, we can 
+share cookies between the subdomains and this will simplify
+a variety of cases.  Assuming the marketing site has already
+created a pertinent cookie (e.g.: an affiliate), then the
+marketing site can pass control to the application with a 
+simple url, and the application can then pull the affiliate
+code directly out of the original cookie.
+  
+http://en.wikipedia.org/wiki/Same_origin_policy
+http://en.wikipedia.org/wiki/HTTP_cookie
+
+=======================================
+== HTML meta tags
+=======================================
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+   
+I included this a while back.  Why?
+For now, I am removing it until I an rediscover why.
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    This option basically forces IE to use the latest rendering engine
+        rather than respecting the typical versioning mechanism.
+        Perhaps a simpler, though less reliable, way of coding an html
+        page for cross browser compatibility.
+    
+<link rel="stylesheet" type="text/css" href="mystyle.css" />
+
+=======================================
+== Javascript
+=======================================
+
+$('document').ready(someFunction);
+
+    Run some function when the DOM is ready.
+    Does not wait for all resources (e.g.: images) to be loaded.
+    
+    
+$('window').load(someFunction);
+
+    Run some function when the entire window has been loaded.
+    Waits for all resources (e.g.: images) to be loaded.
+
+
+function removeBodyChildren()
+{
+    var b = document.body;
+    while ( b.hasChildNodes() )
+        b.removeChild(b.firstChild);
+}
+
+
+var forceReload = true;    
+window.location.reload(forceReload);
+
+=======================================
+== css
+=======================================
+
+min-width: 75px;
+width: expression(this.width < 75 ? 75: true);
+            
+font: italic bold 14px sans-serif
+    
+=======================================
+== java
+=======================================
+
+    ScReplaceContentsScript r;
+    r = ajax().replaceContents();
+    r.setOuterSelector("#layoutCenter");
+    r.setInnerSelector("#layoutCenter");
+    r.setContents(e);
+
+
+    
+=======================================
+== concepts / glossary
+=======================================
+    
+flavor
+    Alternate ui formats for an individual control.  For example,
+    a group may have multiple flavors for things like: normal, warning,
+    error, nested.  When controls have multiple flavors, those flavors 
+    are all listed inside the .css file.
+    
+theme
+    Alternate ui formats that apply to the entire application.  Switching
+    the theme can affect nearly everything and requires a parallel definition
+    of all web resources.  We have partial support for multiple themes, but
+    the implementation is not complete.  Currently the application uses a 
+    single, "default", theme.
+      
+=======================================
+== css
+=======================================
+
+Class names that contain one or two dashes are interpreted by the 
+code generator as composites.  The two accepted formats are:
+
+    prefix-part-theme
+    prefix-part
+
+In the second format, the system will generate a "default" theme
+with a null value.
+
+This syntax allows us to auto-generate consistent css constants
+rather than relying on fragile string literals.  For example, 
+suppose we use a group box that contains a header, body, and 
+footer; and that has different themes for normal and alert.  The
+.css file may contain selectors like:
+
+    group-header-normal
+    group-body-normal
+    group-footer-normal
+    
+    group-header-alert
+    group-body-alert
+    group-footer-alert
+    
+The code generator will then create fully named constants like:
+
+    group_header_normal = "group-header-normal";
+    group_body_normal   = "group-body-normal"; 
+    ...
+
+But since the css classes match the composite pattern additional 
+constants will be generated like:
+
+    group_prefix        = "group";
+    group_part_header   = "header";
+    group_part_body     = "body";
+    group_part_footer   = "footer";
+    group_theme_normal  = "normal";
+    group_theme_alert   = "alert";
+    
+This pattern is not fool-proof, but is expected to significantly 
+reduces the accidental disconnects between .css files and java
+string literals.
+      
+=======================================
+== common class prefixes
+=======================================
+
+We use various prefixes at the beginning of our class names. A few
+of the common prefixes are:
+
+    My - Used for local application specific files.
+    Km - Used for the majority of the KodeMore open source library.
+    Sc - Used for the Servlet Control library.
+
+
+=======================================
+== temp
+=======================================
+
+
+
+$().toastmessage('showToast', {"sticky":false,"text":"hello","type":"notice",inEffectDuration:500});
+
+$().toastmessage('showToast',{text:"hello"});
+
+
+
+
+
+$(function(){setTimeout("Kmu.ajaxRequest(null,'pXR','n,');", 250);});
+
+setTimeout("Kmu.ajaxRequest(null,'pXR','n,');", 250);
+
+

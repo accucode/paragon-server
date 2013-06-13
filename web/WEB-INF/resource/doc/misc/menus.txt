@@ -1,0 +1,77 @@
+-----------------
+Menus
+-----------------
+
+This describes purpose and configuration of $project/resource/config/menu.xml
+
+The menu file describes the navigation flow used to access pages.  Although
+technically the menu structure allows for n-tiers, there are dependencies
+in the screen designs that currently limit the menu structure to <= 3 levels.
+
+The three levels are often referred to as: modules, areas, and options.
+
+The parameters for a menu are:
+
+    name
+
+        The key used at a programmatic level to bind things together.
+        The name must be unique within the context of its parent menu.
+
+    label
+
+        The display string that is shown to users.  Note, this attribute
+        is not used for module menus since they display as images.
+
+    layout
+
+        The screen layout that should be used for this menu and all children.
+
+    command
+
+        The command determines what action should be taken when the menu
+        is selected.  Common examples include:
+
+            showPage: the pageKey is defined in the argument
+            showChildren: show all child menus and display the first
+                available page.
+
+        Other commands may be hooked up but require minor extentions in the
+        code.
+
+    argument
+
+        The argument provides additional information that is context sensitive
+        based on the command.
+
+    visible
+
+        Determines if the menu is visible or not.  Valid values are:
+
+            default:
+                The menu is visible if it either references a visible page
+                or contains at least one visible child menu.  This is the
+                default value and is generally not explicitly specified.
+            no:
+                The menu should never be visible.
+            yes:
+                The menu should always be visible.
+            userAndAccount:
+                The menu should always be visible if there is a user and
+                account in the session.
+
+    role
+
+        The list of roles that are allowed to access the functionality
+        under this menu. Multiple roles can be specified for a given
+        menu option. If there are one or more roles specified the current
+        user must have at least one of the specified roles for the menu
+        to be displayed. If no roles are specified then it is assumed
+        that all roles are allowed to access this menu therefore the menu
+        will not be hidden due to roles.
+
+    emphasized
+
+        Determines if the menu should be displayed with emphasis.  This
+        is currently only supported for option menus.  Module and area
+        menus ignore this indicator.  The default value is "no".
+

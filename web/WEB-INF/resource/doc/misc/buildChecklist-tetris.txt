@@ -1,0 +1,52 @@
+========================================
+DEPLOY SERVICE TETRIS
+========================================
+
+
+----------------------------------------
+Local Deploy
+----------------------------------------
+
+Check Git Branch
+
+Update the application version
+    MyConstantsIF.APPLICATION_VERSION
+
+Commit & Tag
+    E.g.: Build-081231-1
+
+Deploy the application
+    xxDeployBarcom.bat
+    xxDeployDecisionPt.bat
+
+----------------------------------------
+Remote Server Updates
+----------------------------------------
+
+Login to each server
+    putty 172.16.20.111 (barcom)
+    putty 172.16.20.116 (decision point)
+    putty 172.16.20.107 (jdas)
+    (root/accucode)
+
+Stop tomcat
+    /etc/init.d/tomcat stop
+
+Move stage to live
+    /usr/local/service/bin/jwCopyStageToLive.sh
+
+Migrate the database
+    /usr/local/service/bin/jwJava.sh com.app.tools.MyPatchConsole sync
+
+Other database actions
+    mysql -uroot -paccucodeTEST
+
+Start tomcat
+    /etc/init.d/tomcat start
+
+----------------------------------------
+Local Clean Up
+----------------------------------------
+
+Clean up
+    xxPostDeployCleanUp.bat

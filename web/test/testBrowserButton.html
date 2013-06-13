@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $(window).on('hashchange', myHandleHashchange); 
+            $("#main").show();
+        }
+
+        function myHandleHashchange()
+        {
+            
+            Kmu.toast('hash: ' + location.hash);
+        }
+        
+        function myGotoHash(hash)
+        {
+            location.hash = hash;
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced10">
+
+    <div class="boxGray pad">
+        This demonstrates how to handle in-browser navigation using the 
+        "back" and "forward" buttons.  The intent is not to prevent the 
+        user from leaving the site; nor are we attempting to address
+        any security issues.  The sole purpose is to make the site more
+        user friendly.  This test is 100% client side.  The browser should
+        not make any server side requests.  This has been successfully tested 
+        with ~current versions of firefox, ie, and chrome in 2012.
+    </div>
+
+    <button type="button" onclick="myGotoHash('a');">Goto A</button>
+    <button type="button" onclick="myGotoHash('b');">Goto B</button>
+    <button type="button" onclick="myGotoHash('c');">Goto C</button>
+    <br>
+    <a href="#x">Goto X</a>
+    <a href="#y">Goto Y</a>
+    <a href="#z">Goto Z</a>
+    <br>
+    Click one or more of the 'Goto' buttons or links above, then click the browser back button.
+    
+</div>
+</body>
+
+</html>

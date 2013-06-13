@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $("#main").show();
+        }
+        
+        function myClick()
+        {
+            // Kmu.toast('click');
+        }
+        
+    </script>
+
+    <style type="text/css">
+    
+        .myWrapper
+        {
+            /*
+            float: left;
+            */
+            margin-left: auto;
+            margin-right: auto;
+            
+            
+            border: 1px solid black;
+            overflow: hidden;
+            width: 150px;
+            
+            -moz-border-radius-topleft:         10px;
+            -moz-border-radius-topright:        10px;
+            -webkit-border-radius-topleft:      10px;
+            -webkit-border-radius-topright:     10px;
+            border-top-left-radius:             10px;
+            border-top-right-radius:            10px;
+
+            -moz-box-shadow:    5px 5px 5px #ccc;
+            -webkit-box-shadow: 5px 5px 5px #ccc;
+            box-shadow:         5px 5px 5px #ccc;
+        }
+        
+        .myTitle
+        {
+            padding: 5px;
+            background-color: pink;
+            border-bottom: 1px solid gray;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .myHeader
+        {
+            padding: 5px;
+            background-color: lightgreen;
+            border-bottom: 1px solid gray;
+            overflow: hidden;
+            white-space: nowrap;
+            /*
+            display: none;
+            */
+        }
+        
+        .myBody
+        {
+            padding: 5px;
+            background-color: white;
+            overflow: auto;
+            height: 100px;
+        }
+        
+        .myFooter
+        {
+            padding: 5px;
+            background-color: lightblue;
+            border-top: 1px solid gray;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced10">
+
+<div class="boxGray pad">
+    This page tests the feasibility of creating "groups" using 
+    div tags instead of tables.
+</div>
+
+
+<div class="box vPadSpaced20 clearfix">
+
+    <div class="myWrapper clearfix">
+        <div class="myTitle">title title title title title title title title</div>
+        <div class="myHeader">header header header header header header header</div>
+        <div class="myBody">body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body body </div>
+        <div class="myFooter">
+            <div class="floatLeft">left</div>
+            <div class="floatRight">right</div>
+        </div>
+    </div>
+
+    <div class="myWrapper clearfix">
+        <div class="myTitle">title</div>
+        <div class="myHeader">header</div>
+        <div class="myBody">body</div>
+        <div class="myFooter">footer</div>
+    </div>
+
+    <div class="myWrapper clearfix">
+        <div class="myTitle">title</div>
+        <div class="myHeader">header</div>
+        <div class="myBody">body</div>
+        <div class="myFooter">footer</div>
+    </div>
+
+    <div class="myWrapper clearfix">
+        <div class="myTitle">title</div>
+        <div class="myHeader">header</div>
+        <div class="myBody">body</div>
+        <div class="myFooter">footer</div>
+    </div>
+
+    <div class="myWrapper clearfix">
+        <div class="myTitle">title</div>
+        <div class="myHeader">header</div>
+        <div class="myBody">body</div>
+        <div class="myFooter">footer</div>
+    </div>
+
+    <div class="myWrapper clearfix">
+        <div class="myTitle">title</div>
+        <div class="myHeader">header</div>
+        <div class="myBody">body</div>
+        <div class="myFooter">footer</div>
+    </div>
+
+    <div class="myWrapper clearfix">
+        <div class="myTitle">title</div>
+        <div class="myHeader">header</div>
+        <div class="myBody">body</div>
+        <div class="myFooter">footer</div>
+    </div>
+
+    <div class="myWrapper clearfix">
+        <div class="myTitle">title</div>
+        <div class="myHeader">header</div>
+        <div class="myBody">body</div>
+        <div class="myFooter">footer</div>
+    </div>
+
+    <div class="myWrapper clearfix">
+        <div class="myTitle">title</div>
+        <div class="myHeader">header</div>
+        <div class="myBody">body</div>
+        <div class="myFooter">footer</div>
+    </div>
+
+    <div class="myWrapper clearfix">
+        <div class="myTitle">title</div>
+        <div class="myHeader">header</div>
+        <div class="myBody">body</div>
+        <div class="myFooter">footer</div>
+    </div>
+
+    <div class="myWrapper clearfix">
+        <div class="myTitle">title</div>
+        <div class="myHeader">header</div>
+        <div class="myBody">body</div>
+        <div class="myFooter">footer</div>
+    </div>
+
+    <div class="myWrapper clearfix">
+        <div class="myTitle">title</div>
+        <div class="myHeader">header</div>
+        <div class="myBody">body</div>
+        <div class="myFooter">footer</div>
+    </div>
+
+    
+</div>
+
+    
+</div>
+</body>
+
+</html>

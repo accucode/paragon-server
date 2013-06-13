@@ -1,0 +1,18 @@
+package ${package}.model;
+
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
+
+import ${package}.model.base.*;
+import ${package}.model.core.*;
+
+public class $model.f_Class
+    extends $model.f_BaseClass
+{
+$utility.protocol("constructor")
+
+    public ${model.f_Class}()
+    {
+        super();
+    }
+}

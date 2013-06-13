@@ -1,0 +1,30 @@
+$ddlAutoGenerationComment
+
+#foreach ( $model in $root.databaseModels )
+
+DROP TABLE IF EXISTS ${model.f_sqlTable};
+CREATE TABLE $model.f_sqlTable
+(
+#foreach ( $field in $model.databaseAttributes )
+$field.f_sqlColumnDefinition
+#end
+    primary key ($model.primaryKeyField.f_sqlColumn)
+) ENGINE = ${model.database.f_engine};
+#foreach ( $index in $model.database.indexes )
+create ${index.f_unique}index ${index.name} on ${model.f_sqlTable} (${index.f_columnNames});
+#end
+
+#end
+
+#foreach ( $model in $root.databaseModels )
+#foreach ( $collection in $model.valueCollections )
+DROP TABLE IF EXISTS ${collection.f_sqlTable};
+CREATE TABLE ${collection.f_sqlTable}
+(
+${collection.model.primaryKeyField.f_sqlColumnDefinitionBare}
+${collection.element.f_sqlColumnDefinition}
+    primary key (${collection.model.primaryKeyField.f_sqlColumn},${collection.element.f_sqlColumn})
+) ENGINE = ${model.database.f_engine};
+
+#end
+#end

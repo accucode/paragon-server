@@ -1,0 +1,19 @@
+model
+: name      = namedCountVo
+: comment   = A node in the configuration hierarchy (customer/contract/modelCat/division).
+
+attributes
+
+    field
+    : name          = name
+    : comment       = The name.
+    : type          = text100
+    : primaryKey    = true
+    : required      = true
+
+    field
+    : name      = count
+    : comment   = The count.
+    : type      = integer
+    : required  = true
+

@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+
+    <link href='http://fonts.googleapis.com/css?family=Economica:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function myTest()
+        {
+            Kmu.toast('hello');
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+    <div class="boxGray pad">
+        <p class="font12 sans">font12 sans</p>
+        <p class="font12 sans bold">font12 sans bold</p>
+        <p class="font12 sans italic">font12 sans italic</p>
+        <p class="font12 sans strike">font12 sans strike</p>
+        <p class="font12 sans bold italic strike">font12 sans bold italic strike</p>
+    </div>
+    
+    <div class="boxGray pad">
+        <p class="font20 sans">font20 sans</p>
+        <p class="font20 sans bold">font20 sans bold</p>
+        <p class="font20 sans italic">font20 sans italic</p>
+        <p class="font20 sans strike">font20 sans strike</p>
+        <p class="font20 sans bold italic strike">font20 sans bold italic strike</p>
+    </div>
+    
+    <div class="boxGray pad">
+        <p class="font12 serif">font12 serif</p>
+        <p class="font12 serif bold">font12 serif bold</p>
+        <p class="font12 serif italic">font12 serif italic</p>
+        <p class="font12 serif strike">font12 serif strike</p>
+        <p class="font12 serif bold italic strike">font12 serif bold italic strike</p>
+    </div>
+    
+    <div class="boxGray pad">
+        <p class="font20 serif">font20 serif</p>
+        <p class="font20 serif bold">font20 serif bold</p>
+        <p class="font20 serif italic">font20 serif italic</p>
+        <p class="font20 serif strike">font20 serif strike</p>
+        <p class="font20 serif bold italic strike">font20 serif bold italic strike</p>
+    </div>
+    
+</div>
+</body>
+</html>

@@ -1,0 +1,226 @@
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+
+
+DROP TABLE IF EXISTS autoSignIn;
+CREATE TABLE autoSignIn
+(
+    uid varchar(30),
+    createdUtcTs datetime,
+    lastUtcTs datetime,
+    lockVersion int,
+    userUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+
+
+DROP TABLE IF EXISTS download;
+CREATE TABLE download
+(
+    uid varchar(30),
+    name varchar(30),
+    createdUtcTs datetime,
+    lockVersion int,
+    userUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index created on download (createdUtcTs);
+
+
+DROP TABLE IF EXISTS email;
+CREATE TABLE email
+(
+    uid varchar(30),
+    createdUtcTs datetime,
+    sentUtcTs datetime,
+    subject varchar(100),
+    fromAddress varchar(50),
+    statusCode char(1),
+    errorNotes varchar(100),
+    lockVersion int,
+    primary key (uid)
+) ENGINE = INNODB;
+create index status on email (statusCode, createdUtcTs);
+
+
+DROP TABLE IF EXISTS emailPart;
+CREATE TABLE emailPart
+(
+    uid varchar(30),
+    sequence int,
+    typeCode char(1),
+    attachmentName varchar(30),
+    data mediumblob,
+    lockVersion int,
+    emailUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index email on emailPart (emailUid);
+
+
+DROP TABLE IF EXISTS emailRecipient;
+CREATE TABLE emailRecipient
+(
+    uid varchar(30),
+    address varchar(50),
+    typeCode char(1),
+    lockVersion int,
+    emailUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index email on emailRecipient (emailUid);
+
+
+DROP TABLE IF EXISTS file;
+CREATE TABLE file
+(
+    id int AUTO_INCREMENT,
+    name varchar(100),
+    path varchar(100),
+    createdUtcTs datetime,
+    statusCode char(1),
+    size int,
+    partialSize int,
+    lockVersion int,
+    primary key (id)
+) ENGINE = INNODB;
+
+
+DROP TABLE IF EXISTS invitation;
+CREATE TABLE invitation
+(
+    uid varchar(30),
+    statusCode char(1),
+    accessKey varchar(30),
+    createdUtcTs datetime,
+    closedUtcTs datetime,
+    lockVersion int,
+    userUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index accessKey on invitation (accessKey);
+
+
+DROP TABLE IF EXISTS passwordReset;
+CREATE TABLE passwordReset
+(
+    uid varchar(30),
+    statusCode char(1),
+    accessKey varchar(30),
+    createdUtcTs datetime,
+    closedUtcTs datetime,
+    lockVersion int,
+    userUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create index accessKey on passwordReset (accessKey);
+
+
+DROP TABLE IF EXISTS patch;
+CREATE TABLE patch
+(
+    name varchar(30),
+    installedUtcTs datetime,
+    source text,
+    primary key (name)
+) ENGINE = INNODB;
+
+
+DROP TABLE IF EXISTS performanceLog;
+CREATE TABLE performanceLog
+(
+    id int AUTO_INCREMENT,
+    name varchar(100),
+    createdUtcTs datetime,
+    durationMs int,
+    primary key (id)
+) ENGINE = INNODB;
+create index name on performanceLog (name);
+create index createdUtcTs on performanceLog (createdUtcTs, name);
+
+
+DROP TABLE IF EXISTS serverSession;
+CREATE TABLE serverSession
+(
+    uid varchar(30),
+    active char(1),
+    createdUtcTs datetime,
+    closedUtcTs datetime,
+    lastTouchedUtcTs datetime,
+    version varchar(30),
+    lockVersion int,
+    userUid varchar(30),
+    autoSignInUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+
+
+DROP TABLE IF EXISTS settings;
+CREATE TABLE settings
+(
+    code int,
+    someMessage varchar(100),
+    lockVersion int,
+    primary key (code)
+) ENGINE = INNODB;
+
+
+DROP TABLE IF EXISTS systemLog;
+CREATE TABLE systemLog
+(
+    id int AUTO_INCREMENT,
+    createdUtcTs datetime,
+    loggerName varchar(100),
+    context varchar(100),
+    message varchar(100),
+    levelName char(5),
+    levelCode int,
+    threadName varchar(100),
+    exceptionText varchar(100),
+    primary key (id)
+) ENGINE = INNODB;
+create index levelCode on systemLog (levelCode, id);
+create index createdUtcTs on systemLog (createdUtcTs, id);
+
+
+DROP TABLE IF EXISTS systemLogTrace;
+CREATE TABLE systemLogTrace
+(
+    id int AUTO_INCREMENT,
+    sequence int,
+    value varchar(1000),
+    logId int,
+    primary key (id)
+) ENGINE = INNODB;
+
+
+DROP TABLE IF EXISTS user;
+CREATE TABLE user
+(
+    uid varchar(30),
+    name varchar(30),
+    email varchar(50),
+    verified char(1),
+    passwordSalt varchar(30),
+    passwordHash varchar(40),
+    timeZoneCode char(5),
+    roleCode char(1),
+    lockVersion int,
+    primary key (uid)
+) ENGINE = INNODB;
+create index email on user (email);
+
+
+DROP TABLE IF EXISTS user_pet;
+CREATE TABLE user_pet
+(
+    uid varchar(30),
+    pet varchar(30),
+    primary key (uid,pet)
+) ENGINE = INNODB;
+

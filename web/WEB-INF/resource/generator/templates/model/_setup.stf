@@ -1,0 +1,176 @@
+setup
+: name              = model
+: template          = model.vm
+: targetDirectory   = java/source/${packagePath}/model
+: fileMode          = oneFilePerModel
+: fileName          = ${model.f_Class}.java
+: ifExists          = skip
+
+setup
+: name              = modelBase
+: template          = modelBase.vm
+: targetDirectory   = java/source/${packagePath}/model/base
+: fileMode          = oneFilePerModelBase
+: fileName          = ${model.f_BaseClass}.java
+: ifExists          = overwrite
+
+setup
+: name              = modelToolsBase
+: template          = modelToolsBase.vm
+: targetDirectory   = java/source/${packagePath}/model/base
+: fileMode          = oneFilePerModel
+: fileName          = ${model.f_ToolsBaseClass}.java
+: ifExists          = overwrite
+
+setup
+: name              = modelTools
+: template          = modelTools.vm
+: targetDirectory   = java/source/${packagePath}/model
+: fileMode          = oneFilePerModel
+: fileName          = ${model.f_ToolsClass}.java
+: ifExists          = skip
+
+setup
+: name              = modelEnum
+: template          = modelEnum.vm
+: targetDirectory   = java/source/${packagePath}/model
+: fileMode          = oneFilePerEnum
+: fileName          = ${enum.f_Class}.java
+: ifExists          = overwrite
+
+setup
+: name              = metaModel
+: template          = metaModel.vm
+: targetDirectory   = java/source/${packagePath}/model/meta
+: fileMode          = oneFilePerModel
+: fileName          = ${model.f_MetaClass}.java
+: ifExists          = overwrite
+
+setup
+: name              = metaField
+: template          = metaField.vm
+: targetDirectory   = java/source/${packagePath}/model/meta
+: fileMode          = oneFilePerMetaFieldAndDelegate
+: fileName          = ${field.f_MetaClass}.java
+: ifExists          = overwrite
+
+setup
+: name              = metaAssociation
+: template          = metaAssociation.vm
+: targetDirectory   = java/source/${packagePath}/model/meta
+: fileMode          = oneFilePerMetaAssociation
+: fileName          = ${field.f_MetaClass}.java
+: ifExists          = overwrite
+
+setup
+: name              = modelValidator
+: template          = modelValidator.vm
+: targetDirectory   = java/source/${packagePath}/model
+: fileMode          = oneFilePerModel
+: fileName          = ${model.f_ValidatorClass}.java
+: ifExists          = skip
+
+setup
+: name              = modelValidatorBase
+: template          = modelValidatorBase.vm
+: targetDirectory   = java/source/${packagePath}/model/base
+: fileMode          = oneFilePerModel
+: fileName          = ${model.f_ValidatorBaseClass}.java
+: ifExists          = overwrite
+
+setup
+: name              = hibernateMapping
+: template          = hibernateMapping.vm
+: targetDirectory   = web/WEB-INF/resource/hibernate/mapping
+: fileMode          = oneFilePerDatabaseModel
+: fileName          = ${model.f_name}.hbm.xml
+: ifExists          = overwrite
+
+setup
+: name              = daoBase
+: template          = daoBase.vm
+: targetDirectory   = java/source/${packagePath}/dao/base
+: fileMode          = oneFilePerDatabaseModel
+: fileName          = ${model.f_DaoBaseClass}.java
+: ifExists          = overwrite
+
+setup
+: name              = daoConstantsIF
+: template          = daoConstantsIF.vm
+: targetDirectory   = java/source/${packagePath}/dao/base
+: fileMode          = oneFilePerDatabaseModel
+: fileName          = ${model.f_DaoConstantsIF}.java
+: ifExists          = overwrite
+
+setup
+: name              = dao
+: template          = dao.vm
+: targetDirectory   = java/source/${packagePath}/dao
+: fileMode          = oneFilePerDatabaseModel
+: fileName          = ${model.f_DaoClass}.java
+: ifExists          = skip
+
+setup
+: name              = daoRegistry
+: template          = daoRegistry.vm
+: targetDirectory   = java/source/${packagePath}/dao/base
+: fileMode          = oneFile
+: fileName          = ${Prefix}DaoRegistry.java
+: ifExists          = overwrite
+
+setup
+: name              = hibernateConfigurationBase
+: template          = hibernateConfigurationBase.vm
+: targetDirectory   = java/source/${packagePath}/hibernate/base
+: fileMode          = oneFile
+: fileName          = ${Prefix}HibernateConfigurationBase.java
+: ifExists          = overwrite
+
+setup
+: name              = modelCriteria
+: template          = modelCriteria.vm
+: targetDirectory   = java/source/${packagePath}/criteria
+: fileMode          = oneFilePerDatabaseModel
+: fileName          = ${model.f_CriteriaClass}.java
+: ifExists          = overwrite
+
+setup
+: name              = modelJunction
+: template          = modelJunction.vm
+: targetDirectory   = java/source/${packagePath}/criteria
+: fileMode          = oneFilePerDatabaseModel
+: fileName          = ${model.f_JunctionClass}.java
+: ifExists          = overwrite
+
+setup
+: name              = filterBase
+: template          = filterBase.vm
+: targetDirectory   = java/source/${packagePath}/command/base
+: fileMode          = oneFile
+: fileName          = ${Prefix}FilterBase.java
+: ifExists          = overwrite
+
+setup
+: name              = modelFilterBase
+: template          = modelFilterBase.vm
+: targetDirectory   = java/source/${packagePath}/filter/base
+: fileMode          = oneFilePerDatabaseModel
+: fileName          = ${model.f_FilterBaseClass}.java
+: ifExists          = overwrite
+
+setup
+: name              = modelFilter
+: template          = modelFilter.vm
+: targetDirectory   = java/source/${packagePath}/filter
+: fileMode          = oneFilePerDatabaseModel
+: fileName          = ${model.f_FilterClass}.java
+: ifExists          = skip
+
+setup
+: name              = modelFinder
+: template          = modelFinder.vm
+: targetDirectory   = java/source/${packagePath}/finder
+: fileMode          = oneFilePerDatabaseModel
+: fileName          = ${model.f_FinderClass}.java
+: ifExists          = overwrite
+

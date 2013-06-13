@@ -1,0 +1,79 @@
+------------------------------
+Credits
+------------------------------
+
+All third party libraries included in this deployment
+should be included in this file.
+
+
+------------------------------
+Javascript
+------------------------------
+
+JSON
+https://github.com/douglascrockford/JSON-js
+License: github public
+
+
+------------------------------
+Web Content
+------------------------------
+
+Glyphish icons
+http://glyphish.com
+License: Creative Commons Attribution
+
+LED icons
+http://led24.de/iconset/
+License: Creative Commons Attribution
+
+Silk icons
+http://www.famfamfam.com/lab/icons/silk/
+License: Creative Commons Attribution
+
+
+------------------------------
+JQuery
+------------------------------
+
+jQuery
+http://jquery.com/
+License: MIT
+
+jQuery UI
+http://jqueryui.com/
+License: MIT
+
+Toasts by akquinet
+http://akquinet.github.com/jquery-toastmessage-plugin/
+License: Apache 2.0
+
+Block UI
+http://malsup.com/jquery/block/
+License: MIT
+
+CLEditor
+A rich text editor
+http://premiumsoftware.net/cleditor/
+License: MIT
+
+Color Picker
+http://www.eyecon.ro/colorpicker/
+License: MIT
+
+Cookie Access
+https://github.com/carhartl
+License: github public
+
+Flexigrid
+http://flexigrid.info/
+License: MIT
+
+SimpleModal
+http://www.ericmmartin.com/projects/simplemodal/
+License: MIT
+
+Smooth Menu
+An animated css menu.
+http://www.dynamicdrive.com/dynamicindex1/ddsmoothmenu.htm
+License: custom; keep notice intact 

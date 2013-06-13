@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+            Kmu.focus();
+        }
+        
+        function mySubmit()
+        {
+            var msg = 'form submit: ' + $('#myField').val();
+            Kmu.toast(msg);
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+    <div class="boxGray padSpaced">
+        <p>
+            Test the behavior of a "submit" button.  Ideally, a submit button should
+            be triggered automatically when the enter-key is pressed on a input field
+            within a form.   
+        </p>
+        
+        <p>For this to work reliably across all browsers...
+            <ul>
+                <li>The desired action must be specified in the form's onsubmit
+                    attribute - NOT the submit button's onclick.</li>
+                    
+                <li>The form's onsubmit should terminate with "return false;" to 
+                    avoid the browser's default action.</li>
+                    
+                <li>The button's type should be explicitly set to type="submit",
+                    rather than type="button".</li>
+                    
+                <li>The button's onclick attribute should NOT be used.</li>
+            </ul>
+        </p>
+        
+        <p>Browser inconsistencies.  Although the pattern described above works 
+            across browsers, the following is worth noting...
+            <ul>
+                <li>In all cases, the button's onclick is executed when the user 
+                    explicitly clicks the button.</li>
+                    
+                <li>However, when the user presses the enter-key in an input field
+                    the result is inconsistent.  Some browsers (ff, chrome) call
+                    the button.onclick before calling form.onsubmit.  Other browsers
+                    (e.g.: ie) just call form.onsubmit.</li>
+                
+                <li>So, for consistent results we use the form.onsubmit instead of
+                    the button.onclick for submit buttons.  Non-submit buttons 
+                    (type=button) should still define onclick.
+            </ul>
+        </p>
+        
+        <p>What if I need multiple submit buttons?
+            <ul>
+                <li>Following the pattern above, you can have as many submit buttons
+                    as you want, but they will all trigger the same action as 
+                    defined in the form's onsubmit.</li>
+                    
+                <li>If you need to distinguish which (if any) submit button was clicked
+                    you can give all of the submit buttons the same "name" attribute, 
+                    then give each of them a distinct "value".  When the form is submitted
+                    you can check the form parameter to determine which button was clicked.
+                </li>
+            </ul>
+        </p>
+        
+    </div>
+    
+    <form 
+        class="boxBlue padSpaced" 
+        onsubmit="mySubmit(); return false;">
+        
+        <p>The form</p>
+        <p><input id='myField' name='myField' type="text"></p>
+        <p><button type="submit">submit</button></p>
+    </form>
+    
+</div>
+</body>
+</html>

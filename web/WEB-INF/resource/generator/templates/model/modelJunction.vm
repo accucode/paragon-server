@@ -1,0 +1,78 @@
+${javaAutoGenerationComment}
+
+package ${package}.criteria;
+
+import com.kodemore.collection.*;
+import com.kodemore.hibernate.*;
+import com.kodemore.hibernate.criteria.*;
+import com.kodemore.time.*;
+import com.kodemore.types.*;
+
+import ${package}.dao.*;
+import ${package}.dao.base.*;
+import ${package}.dao.core.*;
+import ${package}.filter.*;
+import ${package}.model.*;
+import ${package}.model.meta.*;
+
+public class ${model.f_JunctionClass}
+    extends KmModelJunction<${model.f_Class}>
+    implements ${model.f_DaoConstantsIF}
+{
+$utility.protocol("constructor")
+
+    public ${model.f_JunctionClass}(KmJunction context)
+    {
+        super(context);
+    }
+
+    public ${model.f_JunctionClass}(KmJunction context, KmAbstractCriteria parent)
+    {
+        super(context, parent);
+    }
+
+$utility.protocol("properties")
+
+#foreach ( $field in $model.fields )
+#if ( $field.isDaoProperty() )
+    public ${field.f_CriteriaClass} where${field.f_Name}()
+    {
+        return new ${field.f_CriteriaClass}(context(), fullName(${field.f_NAME}));
+    }
+
+#end
+#end
+$utility.protocol("associations")
+
+#foreach ( $ass in $model.associations )
+#if ( $ass.isMetaDao() )
+    public ${ass.modelReference.f_CriteriaClass} joinTo${ass.f_Name}()
+    {
+        return join(new ${ass.modelReference.f_CriteriaClass}(root().joinTo(${ass.f_NAME})));
+    }
+
+    public ${ass.modelReference.f_CriteriaClass} leftJoinTo${ass.f_Name}()
+    {
+        return join(new ${ass.modelReference.f_CriteriaClass}(root().leftJoinTo(${ass.f_NAME})));
+    }
+
+    public ${ass.modelReference.primaryKeyField.f_CriteriaClass} where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}()
+    {
+        return new ${ass.modelReference.primaryKeyField.f_CriteriaClass}(context(), fullName(${ass.f_NAME}_${ass.modelReference.primaryKeyField.f_NAME}));
+    }
+
+#end
+#end
+$utility.protocol("junction")
+
+    public ${model.f_JunctionClass} addAnd()
+    {
+        return new ${model.f_JunctionClass}(context().addAnd(), parent());
+    }
+
+    public ${model.f_JunctionClass} addOr()
+    {
+        return new ${model.f_JunctionClass}(context().addOr(), parent());
+    }
+
+}

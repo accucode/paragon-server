@@ -1,0 +1,62 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>systemLogTrace</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>systemLogTrace</h1>
+
+Used to store the stack trace segments.<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+<tr>
+  <td>id&nbsp;</td>
+  <td>The unique key.&nbsp;</td>
+  <td>id
+              </td>
+  <td>
+         id<br>              pk<br>                      &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>sequence&nbsp;</td>
+  <td>Used to maintained an ordered list.&nbsp;</td>
+  <td>integer
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>value&nbsp;</td>
+  <td>An individual stack trace segment.&nbsp;</td>
+  <td>text1000
+        <br><nobr>max length: 1000</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

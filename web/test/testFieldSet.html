@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+    </script>
+
+    <style type="text/css">
+
+        .myFieldset
+        {
+            background-color: lightgreen;
+            display: inline;
+        }
+                
+        .myLegend
+        {
+            background-color: lightblue;
+            padding: 2px 14px;
+            
+            border-radius:          10px;
+            -moz-border-radius:     10px;
+            -webkit-border-radius:  10px;
+        }
+        
+        .myField
+        {
+            width: 200px;
+            font-size: 16px;
+        }
+        .myField:focus
+        {
+            background-color: yellow;
+        }
+        
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+    <div class="boxGray padSpaced">
+        <p>This is a sample of the "fieldset" tag.</p>
+    </div>
+    <br>
+    
+    <form>
+        <fieldset class="myFieldset">
+            <legend class="myLegend">The Legend</legend>
+            
+            <p>Some Field</p>
+            <p><input type="text" class="myField"></p>
+            <br>
+            
+            <p>Another Field</p>
+            <p><input type="text" class="myField"></p>
+            
+        </fieldset>
+    </form>
+    
+</div>
+</body>
+</html>

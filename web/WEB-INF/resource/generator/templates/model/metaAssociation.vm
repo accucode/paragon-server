@@ -1,0 +1,57 @@
+${javaAutoGenerationComment}
+
+package ${package}.model.meta;
+
+import java.util.*;
+
+import com.kodemore.adaptor.*;
+import com.kodemore.collection.*;
+import com.kodemore.comparator.*;
+import com.kodemore.exception.*;
+import com.kodemore.meta.*;
+import com.kodemore.match.*;
+import com.kodemore.servlet.encoder.*;
+import com.kodemore.servlet.field.*;
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
+import com.kodemore.validator.*;
+
+import ${package}.model.*;
+import ${package}.model.core.*;
+import ${package}.utility.*;
+
+public class ${field.f_MetaClass}
+    extends ${field.f_MetaSuperClass}
+{
+$utility.protocol("accessing")
+
+    @Override
+    public String getName()
+    {
+        return "${field.f_name}";
+    }
+
+$utility.protocol("value")
+
+    @Override
+    public ${field.f_Type} getValueFor(${field.model.f_Class} model)
+    {
+        return model.${field.f_getMethod}();
+    }
+    
+    @Override
+    public void setValueFor(${field.model.f_Class} model, ${field.f_Type} value)
+    {
+#if ( $field.isEditable() )
+        model.${field.f_setMethod}(value);
+#else
+        throw new UnsupportedOperationException();
+#end
+    }
+    
+    @Override
+    public boolean hasValueFor(${field.model.f_Class} model, ${field.f_Type} value)
+    {
+        return model.${field.f_hasMethod}(value);
+    }
+}

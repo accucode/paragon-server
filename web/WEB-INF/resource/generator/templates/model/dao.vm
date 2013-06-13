@@ -1,0 +1,14 @@
+package ${package}.dao;
+
+import com.kodemore.collection.*;
+import com.kodemore.hibernate.criteria.*;
+
+import ${package}.dao.base.*;
+import ${package}.filter.*;
+import ${package}.model.*;
+
+public class ${model.f_DaoClass}
+    extends ${model.f_DaoBaseClass}
+{
+    // none
+}

@@ -1,0 +1,185 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>invitation</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>invitation</h1>
+
+Invite a user to the system.<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+  <td>The unique key.&nbsp;</td>
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+            pk<br>                required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>statusCode&nbsp;</td>
+  <td>The status.&nbsp;</td>
+  <td>letterCode
+        <br><nobr>max length: 1</nobr>           <br>allows(
+                      letters
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>accessKey&nbsp;</td>
+  <td>A long unique (~unguessable) code that allows the user to access this object without a password.&nbsp;</td>
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+  <td>When the object was created.&nbsp;</td>
+  <td>timestamp
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>closedUtcTs&nbsp;</td>
+  <td>When the object was used.&nbsp;</td>
+  <td>timestamp
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>lockVersion&nbsp;</td>
+  <td>Used for optimistic locking.&nbsp;</td>
+  <td>lockVersion
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>statusName&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>name
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>timestamp
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>text100
+        <br><nobr>max length: 100</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdLocalDate&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>date
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdLocalTime&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>time
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>closedLocalTs&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>timestamp
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>closedLocalTsMessage&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>text100
+        <br><nobr>max length: 100</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>closedLocalDate&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>date
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>closedLocalTime&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>time
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $("#main").show();
+        }
+              
+        function myBlockFor(ms)
+        {
+            myBlock();
+            myUnblockLater(ms);
+        }
+
+        function myBlockNoMessage()
+        {
+            $.blockUI(
+            { 
+                message: '' 
+            });
+            
+            myUnblockLater();
+        }
+                
+        function myBlockClear()
+        {
+            $.blockUI(
+            {
+                message: null, 
+                overlayCSS: 
+                { 
+                    backgroundColor: '#000', 
+                    opacity: 0                 
+                }
+            });
+            
+            myUnblockLater();
+        }
+             
+        function myBlockNested()
+        {
+            myBlock();
+            myBlock();
+
+            // finish quickly
+            myUnblock();
+            
+            // ui "should" should NOT be UN-blocked here, but it is.
+            
+            myUnblockLater(1000);
+        }
+                
+        function myBlock()
+        {
+            $.blockUI();
+        }
+        
+        function myUnblock()
+        {
+            $.unblockUI();
+        }
+        
+        function myUnblockLater(ms)
+        {
+            if ( !ms )
+                ms = 1000;
+                
+            setTimeout("myUnblock();", ms);
+        }
+        
+        function myBlockDiv()
+        {
+            $('#div1').block(
+            {
+                message: "<img src='../static/version/app/theme/default/image/loaderSmall.gif'></img> Processing...",
+                css: 
+                {
+                    background: '#ff4', 
+                    border: '3px solid #a00',
+                    padding: '20px 5px' 
+                } 
+            });
+            setTimeout("myUnblockDiv();", 1000);
+        }
+        
+        function myUnblockDiv()
+        {
+            $('.blockUI').css('cursor', 'auto');
+            $('#div1').unblock();
+        }
+        
+    </script>
+
+    <style type="text/css">
+        #div1
+        {
+            padding: 5px;
+            border: thin solid gray;
+        }
+    </style>
+    
+</head>
+
+<body onload='myLoad();'>
+<div id="main" style="display:none" class="padSpaced">
+    
+        <p>Temporarily block all user interaction.</p>
+        <p>Perhaps useful to quietly block the user while waiting for ~fast requests.</p> 
+        <p><button onclick="myBlockFor(10);">Block for 10</button></p>
+        <p><button onclick="myBlockFor(100);">Block for 100</button></p>
+        <p><button onclick="myBlockFor(1000);">Block for 1000</button></p>
+        <p><button onclick="myBlock();">Block forever</button></p>
+        <br>
+        <p><button onclick="myBlockNoMessage();">No Message</button></p>
+        <p><button onclick="myBlockClear();">Clear</button></p>
+        <br>
+        <p><button onclick="myBlockNested();">Nested - FAILS</button></p>
+        <br>
+        <div id='div1'>
+            <p>Some content.</p>
+            <p>Some content.</p>
+            <p><button onclick="myBlockDiv();">Block Div</button></p>
+            <p>Some content.</p>
+            <p>Some content.</p>
+        </div>
+        
+</div>
+</body>
+
+</html>

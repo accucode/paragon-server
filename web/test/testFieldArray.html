@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="pad">
+
+    <div class="boxGreen pad">
+
+        <table class="width100p">
+            <tr>
+                <td class="noWrap">Label A</td>
+                <td>
+                    <input 
+                        type="text" 
+                        class="textField-element-default"
+                        >
+                </td>
+            </tr>
+            <tr>
+                <td class="noWrap">Label B</td>
+                <td class="width100p">
+                    <div style="margin-right:12px">                    
+                        <textarea 
+                            class="textArea-element-default width100p height200">
+                        </textarea>
+                    </div>
+                </td>
+            </tr>
+        </table>    
+    
+    </div>
+    
+</div>
+</body>
+</html>

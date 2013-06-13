@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript">
+    </script>
+
+</head>
+
+<body>
+    View the console log with a tool like firebug to see test output.
+
+    <script type="text/javascript">
+    
+        function temp() 
+        {
+            this.color = 'red';
+        }
+        
+        temp.prototype.aaa = function() 
+        {
+            Kal.bbb();
+        }
+        
+        temp.prototype.bbb = function() 
+        {
+            console.log(Kal.color);
+        }
+
+        Kal = new temp();
+        fn = Kal.aaa;
+        fn();
+        
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $("#main").show();
+        }
+        
+        function myClick()
+        {
+            // Kmu.toast('click');
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced10">
+
+<table cellspacing="0" class="box shadow">
+    <tr>
+        <td>
+            A table with a border and shadow.
+        </td>
+    </tr>
+</table>
+
+<br>
+
+<table cellspacing="0" class="border">
+    <tr>
+        <td class="shadow">
+            A table with a border, the shadow is on the cell.
+        </td>
+    </tr>
+</table>
+
+<br>
+
+<div class="border shadow padSpaced width300 height100">
+    <div>Nested divs, shadow on the outer</div>
+    <div class="boxGreen">green box</div>
+    <div class="boxBlue">blue box</div>
+    <div class="boxRed">red box</div>
+</div>    
+    
+</div>
+</body>
+
+</html>

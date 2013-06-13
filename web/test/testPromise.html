@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function myToggle()
+        {
+            var ms = 200;
+            
+            $('#r').slideToggle(ms);
+            $('#r').promise().done(function() 
+            {
+                $('#g').slideToggle(ms);
+                $('#g').promise().done(function() 
+                {
+                    $('#b').slideToggle(ms);
+                    Kmu.toast('done.');
+                });
+            });
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced10">
+
+    <div class="boxGray padSpaced5">
+        <button onclick="myToggle();">toggle</button>
+    </div>
+    
+    <div id="r" class="boxRed   pad">A red box.  </div>
+    <div id="g" class="boxGreen pad">A green box.</div>
+    <div id="b" class="boxBlue  pad">A blue box. </div>
+    
+</div>
+</body>
+</html>

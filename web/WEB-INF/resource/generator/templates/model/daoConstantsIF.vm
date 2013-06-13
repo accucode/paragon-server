@@ -1,0 +1,36 @@
+${javaAutoGenerationComment}
+
+package ${package}.dao.base;
+
+import com.kodemore.collection.*;
+import ${package}.model.*;
+
+public interface ${model.f_DaoConstantsIF}
+{
+#if ( $model.fields.isNotEmpty() )
+$utility.protocol("fields")
+
+#foreach ( $field in $model.fields )
+    String ${field.f_NAME} = "${field.f_name}";
+#end
+
+#end
+#if ( $model.associations.isNotEmpty() )
+$utility.protocol("associations")
+
+#foreach ( $ass in $model.associations )
+#if ( $ass.isEditable() )
+    String ${ass.f_NAME} = "${ass.f_name}";
+    String ${ass.f_NAME}_${ass.modelReference.primaryKeyField.f_NAME} = "${ass.f_name}.${ass.modelReference.primaryKeyField.f_name}";
+
+#end
+#end
+#end
+#if ( $model.collections.isNotEmpty() )
+$utility.protocol("collections")
+
+#foreach ( $col in $model.collections )
+    String ${col.f_NAME} = "${col.f_name}";
+#end
+#end
+}

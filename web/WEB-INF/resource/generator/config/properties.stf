@@ -1,0 +1,644 @@
+group
+: name      = Production
+: comment   = Some properties that are particularly important to the production environment.
+
+    property
+    : name      = production
+    : type      = boolean
+    : default   = false
+    : comment   = Indicates if this is the production system or not. When set to true developers will see a prominent visual cue on the screen to tell them they are working on the production system.
+
+group
+: name      = AccountSetup
+: comment   = Configuration for new accounts.
+
+    property
+    : name      = defaultAdminPassword
+    : comment   = The password to be used for the initial admin user on all new accounts.
+    : type      = string
+    : default   = admin123
+
+    property
+    : name      = minimumPasswordLength
+    : comment   = The minimum number of characters required for a valid password.
+    : type      = integer
+    : default   = 5
+
+group
+: name      = Paths
+: comment   = These are the core file system paths. All other file system paths are relative to these. Messing up these paths can cause awkward problems, for example the inability to auto-generate java code or properties.
+
+    property
+    : name      = sharedPersistentPath
+    : type      = string
+    : default   = shared/persistent
+    : comment   = The path to work files that persist across deployment. Use this path for files like; ftp uploads, email attachments, csv uploads and other dynamic content. The contents of this directory are shared across all JVMs so some care needs to be take to avoid collisions. In production, this should be set to an absolute path that is outside of the web root, so that it persists across deployments.
+
+    property
+    : name      = sharedTransientPath
+    : type      = string
+    : default   = shared/transient
+    : comment   = The path to work files that persist across deployment. Use this path for files like; ftp uploads, email attachments, csv uploads and other dynamic content. The contents of this directory are shared across all JVMs so some care needs to be take to avoid collisions. In production, this should be set to an absolute path that is outside of the web root, so that it persists across deployments.
+
+group
+: name      = Monitoring
+: comment   = These properties are used to control various background monitoring.
+
+    property
+    : name      = sqlWarningThresholdMs
+    : type      = integer
+    : default   = 1000
+    : comment   = Sql statements that exceed this threshold will be logged as a warning. A value of 0 disables logging.
+
+    property
+    : name      = daoCommandWarningThresholdMs
+    : type      = integer
+    : default   = 2000
+    : comment   = Dao commands requests that exceed this threshold will be logged as a warning. A value of 0 disables logging.
+
+    property
+    : name      = contextFormatterEnabled
+    : type      = boolean
+    : default   = false
+    : comment   = Determines if the context registry is enabled. If enabled various instances, e.g.: KmCommand, ScAction will store the context (call stack) that the constructs each instance. This can be fairly expensive, but is extremely valuable in debugging the context of slow commands.
+
+    property
+    : name      = contextFormatterLines
+    : type      = integer
+    : default   = 20
+    : comment   = The number of lines to include in each context. If set to a value less than or equal to 0 (e.g.: -1), the full context will be stored.
+
+group
+: name      = Email
+: comment   = This properties are used to send outbound emails.
+
+    property
+    : name      = sendEmailJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Indicates if the job should be run. Note even if the job is run, that doesn't mean that emails will actually be sent. See also, the sendEmail* properties.
+
+    property
+    : name      = sendEmailJobActiveSeconds
+    : type      = integer
+    : default   = 5
+    : comment   = The active frquency of the job.
+
+    property
+    : name      = sendEmailJobIdleSeconds
+    : type      = integer
+    : default   = 60
+    : comment   = The idle frquency of the job.
+
+    property
+    : name      = sendEmailEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = If false, email sending is completely disabled. The sendEmail job may still run, no email will be sent, and no emails will be marked as sent.
+
+    property
+    : name      = sendEmailBatch
+    : type      = integer
+    : default   = 10
+    : comment   = The number of emails to send in each batch. Sending batches can be more effecient, but if one email fails it may cause the entire batch fail.
+
+    property
+    : name      = sendEmailMethod
+    : type      = string
+    : default   = print
+    : comment   = The mechanism used to send emails. Options are: smtp, gmail, print, noop. The default is set to 'print', this must be changed in production. [gmail]: send emails using the gmail passthrough. [print] Use System.out.print to display the contents of the email. [noop]: no action is take (but the email will still be maked as sent; if you don't want the email to be marked as sent, then you must set sendEmailEnabled=false.
+
+    property
+    : name      = sendEmailOverrideTo
+    : type      = string
+    : default   = 
+    : comment   = If set, then force all emails to be sent to this email address rather than the requested recipients. This can be useful for testing.
+
+    property
+    : name      = sendEmailFromAddress
+    : type      = string
+    : default   = DoNotReply@accucode.com
+    : comment   = The address that will be listed as the 'from' address.
+
+    property
+    : name      = gmailScheme
+    : type      = string
+    : default   = https
+    : comment   = Connecting to gmail.
+
+    property
+    : name      = gmailHost
+    : type      = string
+    : default   = smtp.gmail.com
+    : comment   = Connecting to gmail.
+
+    property
+    : name      = gmailPort
+    : type      = integer
+    : default   = 465
+    : comment   = Connecting to gmail.
+
+    property
+    : name      = gmailUser
+    : type      = string
+    : default   = 
+    : comment   = Connecting to gmail.
+
+    property
+    : name      = gmailPassword
+    : type      = string
+    : default   = 
+    : comment   = Connecting to gmail.
+
+    property
+    : name      = smtpScheme
+    : type      = string
+    : default   = smtp
+    : comment   = Connecting to smtp.
+
+    property
+    : name      = smtpHost
+    : type      = string
+    : default   = smtp
+    : comment   = Connecting to smtp.
+
+    property
+    : name      = smtpPort
+    : type      = integer
+    : default   = 25
+    : comment   = Connecting to smtp.
+
+    property
+    : name      = smtpUser
+    : type      = string
+    : default   = 
+    : comment   = Connecting to smtp.
+
+    property
+    : name      = smtpPassword
+    : type      = string
+    : default   = 
+    : comment   = Connecting to smtp.
+
+group
+: name      = Servlet
+: comment   = General configuration for the servlet framework.
+
+    property
+    : name      = servletHost
+    : type      = string
+    : default   = 
+    : comment   = This should be set to the appropriate host name. For simple development 'localhost' can typically be used. However, some development and local debugging may need a static IP address.
+
+    property
+    : name      = servletScheme
+    : type      = string
+    : default   = http
+    : comment   = The scheme used. Typically http, though this may also be set to https.
+
+    property
+    : name      = servletPort
+    : type      = string
+    : default   = 
+    : comment   = The port number used to serve the servlet requests. Normally left blank, so that it defaults based on the scheme.
+
+    property
+    : name      = servletRedirect
+    : type      = boolean
+    : default   = true
+    : comment   = If true, then attempt to redirect users to the appropriate scheme.
+
+    property
+    : name      = writeLastServletResults
+    : type      = boolean
+    : default   = false
+    : comment   = If true, the servlet results are written to the web root directory.
+
+    property
+    : name      = writeLastServletResultsCounter
+    : type      = boolean
+    : default   = false
+    : comment   = If true, a counter is appended to the file name so that the results are not overwritten each time.
+
+group
+: name      = ServerSession
+: comment   = Configuration of the serverSession used for both servlet and webService conversations.
+
+    property
+    : name      = serverSessionTimeoutSeconds
+    : type      = integer
+    : default   = 3600
+    : comment   = The length of time that a session may be idle before it is considered to be automatically stale.
+
+    property
+    : name      = serverSessionSecure
+    : type      = boolean
+    : default   = false
+    : comment   = Indicates if the cookie should be set to require secure transmission (https/ssl).
+
+group
+: name      = Debug
+: comment   = Various debugging flags. These should all be disabled by default and are typically overriden by developers in the overrides file during development.
+
+    property
+    : name      = servletShowStackTrace
+    : type      = boolean
+    : default   = false
+    : comment   = Determines if the stack trace should be displayed upon errors. Normally, this is 'false' and the trace is hidden in a comment. For debugging this is usually enabled.
+
+    property
+    : name      = allowEmptyUserPasswords
+    : type      = boolean
+    : default   = false
+    : comment   = Determines if empty/blank passwords should be allowed.
+
+group
+: name      = DatabaseConnection
+: comment   = The basic database properties.
+
+    property
+    : name      = databaseSchema
+    : type      = string
+    : default   = 
+    : comment   = Database connection.
+
+    property
+    : name      = databaseDriver
+    : type      = string
+    : default   = 
+    : comment   = Database connection.
+
+    property
+    : name      = databaseUri
+    : type      = string
+    : default   = 
+    : comment   = Database connection.
+
+    property
+    : name      = databaseUser
+    : type      = string
+    : default   = 
+    : comment   = Database connection.
+
+    property
+    : name      = databasePassword
+    : type      = string
+    : default   = 
+    : comment   = Database connection.
+
+group
+: name      = DatabaseOther
+: comment   = Configuration parameters for database interaction.
+
+    property
+    : name      = databaseBatchInsertGroupSize
+    : type      = integer
+    : default   = 100
+    : comment   = The number of records that should be inserted at a time when performing batch inserts. The framework provides convenience methods for inserting a list of models. However there are certain database limits on the maximum size of a statement. This parameter automatically takes a batch of arbitrary size and splits it into chunks that the database can handle.
+
+    property
+    : name      = databasePoolingEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Determines if local database pooling is enabled. When available, it is better to disable this pooling and use more robust pooling provided by an application server. However, this pooling should still be robust enough for production use.
+
+    property
+    : name      = databasePoolingRetryCount
+    : type      = integer
+    : default   = 5
+    : comment   = This is the number of times that the pooling manager will attempt to create a new connection before throwing an exception.
+
+    property
+    : name      = databasePoolingDelayMs
+    : type      = integer
+    : default   = 100
+    : comment   = The number of milliseconds between retries when attempting to create a new pooled connection.
+
+    property
+    : name      = databaseRowLockFailureRetryCount
+    : type      = integer
+    : default   = 0
+    : comment   = The maximum number of times that the system should retry to get a lock.
+
+    property
+    : name      = databaseRowLockFailureRetryMs
+    : type      = integer
+    : default   = 50
+    : comment   = The amount of time to wait between retries.
+
+    property
+    : name      = databaseAesPassword
+    : type      = string
+    : default   = databasePassword
+    : comment   = The password used for aes encryption. The password must be exactly 16 characters long. This should be overriden in production.
+
+group
+: name      = Jobs
+: comment   = Enablement and frequencies for jobs
+
+    property
+    : name      = overridesReloaderJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Control whether the Overrides file is automatically reloaded during runtime.
+
+    property
+    : name      = overridesReloaderJobActiveSeconds
+    : type      = integer
+    : default   = 10
+    : comment   = x
+
+    property
+    : name      = overridesReloaderJobIdleSeconds
+    : type      = integer
+    : default   = 10
+    : comment   = x
+
+    property
+    : name      = log4jReloaderJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Control whether the log4j config file is automatically reloaded during runtime.
+
+    property
+    : name      = log4jReloaderJobActiveSeconds
+    : type      = integer
+    : default   = 10
+    : comment   = x
+
+    property
+    : name      = log4jReloaderJobIdleSeconds
+    : type      = integer
+    : default   = 10
+    : comment   = x
+
+    property
+    : name      = ftpSendToNotifierJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Notify (via ftp) other depots that a device has been 'sent' to them.
+
+    property
+    : name      = ftpSendToNotifierJobActiveSeconds
+    : type      = integer
+    : default   = 60
+    : comment   = x
+
+    property
+    : name      = ftpSendToNotifierJobIdleSeconds
+    : type      = integer
+    : default   = 60
+    : comment   = x
+
+    property
+    : name      = monitorJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Indicates if the job should be run.
+
+    property
+    : name      = monitorJobActiveSeconds
+    : type      = integer
+    : default   = 600
+    : comment   = x
+
+    property
+    : name      = monitorJobIdleSeconds
+    : type      = integer
+    : default   = 600
+    : comment   = x
+
+    property
+    : name      = deleteOldServerSessionsJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Indicates if the job should be run.
+
+    property
+    : name      = deleteOldServerSessionsJobActiveSeconds
+    : type      = integer
+    : default   = 60
+    : comment   = x
+
+    property
+    : name      = deleteOldServerSessionsJobIdleSeconds
+    : type      = integer
+    : default   = 600
+    : comment   = x
+
+    property
+    : name      = deleteOldPerformanceLogsJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Indicates if the job should be run.
+
+    property
+    : name      = deleteOldPerformanceLogsJobActiveSeconds
+    : type      = integer
+    : default   = 60
+    : comment   = x
+
+    property
+    : name      = deleteOldPerformanceLogsJobIdleSeconds
+    : type      = integer
+    : default   = 600
+    : comment   = x
+
+    property
+    : name      = deleteOldSystemLogsJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Indicates if the job should be run.
+
+    property
+    : name      = deleteOldSystemLogsJobActiveSeconds
+    : type      = integer
+    : default   = 60
+    : comment   = x
+
+    property
+    : name      = deleteOldSystemLogsJobIdleSeconds
+    : type      = integer
+    : default   = 600
+    : comment   = x
+
+    property
+    : name      = csvUploadProcessorJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Indicates if the job should be run.
+
+    property
+    : name      = csvUploadProcessorJobActiveSeconds
+    : type      = integer
+    : default   = 10
+    : comment   = x
+
+    property
+    : name      = csvUploadProcessorJobIdleSeconds
+    : type      = integer
+    : default   = 10
+    : comment   = x
+
+    property
+    : name      = performanceLogJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Indicates if the job should be run.
+
+    property
+    : name      = performanceLogJobActiveSeconds
+    : type      = integer
+    : default   = 10
+    : comment   = x
+
+    property
+    : name      = performanceLogJobIdleSeconds
+    : type      = integer
+    : default   = 10
+    : comment   = x
+
+    property
+    : name      = dataProcessorJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Indicates if the job should be run. Note even if the job is run, that doesn't mean that emails will actually be sent. See also, the sendEmail* properties.
+
+    property
+    : name      = dataProcessorJobActiveSeconds
+    : type      = integer
+    : default   = 5
+    : comment   = The active frquency of the job.
+
+    property
+    : name      = dataProcessorJobIdleSeconds
+    : type      = integer
+    : default   = 60
+    : comment   = The idle frquency of the job.
+
+group
+: name      = Miscellaneous
+: comment   = Properties currently lacking a better category.
+
+    property
+    : name      = checkRecommendedBrowser
+    : type      = boolean
+    : default   = false
+    : comment   = If true, a warning will be display on login if the user is NOT using the recommended browser (firefox).
+
+    property
+    : name      = webResourceVersioning
+    : type      = string
+    : default   = static
+    : comment   ...
+        === 
+        This is used to automatically version css and javascript files.
+        none   - the version is always set to 'version'.
+        deploy - used in production to include the application version in the path.
+        dev    - used in development to change the path each time the app is restarted. 
+        ===                
+                
+    property
+    : name      = synchronizeServletsBySession
+    : type      = boolean
+    : default   = true
+    : comment   = This is used to synchronize servlet threads by session.
+
+    property
+    : name      = defaultTimeZoneCode
+    : type      = string
+    : default   = EST-D
+    : comment   = The default time zone used for new users.
+
+    property
+    : name      = fileUploadRefreshMs
+    : type      = integer
+    : default   = 1000
+    : comment   = Determines how often the progress bar should update when uploading files.
+
+    property
+    : name      = ajaxLogEnabled
+    : type      = boolean
+    : default   = false
+    : comment   = If true, all ScAjaxResults are logged in $webRoot/ajaxLog.txt.
+
+    property
+    : name      = ajaxLogDeleteOnStart
+    : type      = boolean
+    : default   = false
+    : comment   = If true, the ajax log file is deleted when tomcat starts.
+
+    property
+    : name      = maintenancePeriodStartHour
+    : type      = integer
+    : default   = 6
+    : comment   = The start of the daily maintenance window. Value should be in the range [0..23] and corresponds to UTC.
+
+    property
+    : name      = maintenancePeriodEndHour
+    : type      = integer
+    : default   = 6
+    : comment   = The end of the daily maintenance window. Value should be in the range [0..23] and corresponds to UTC.
+
+    property
+    : name      = ftpEnabled
+    : type      = boolean
+    : default   = false
+    : comment   = When disabled, the details of the message will be logged instead of being sent.
+
+    property
+    : name      = showHibernateSql
+    : type      = boolean
+    : default   = false
+    : comment   = Tell hibernate to show sql. Requires a restart to take effect.
+
+    property
+    : name      = memoryLeakLoopEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Allows you to turn the looping on and off without leaving the page.
+
+    property
+    : name      = memoryLeakLoopSpeedMs
+    : type      = integer
+    : default   = 0
+    : comment   = The speed of the memory leak test page.
+
+group
+: name      = GoogleChart
+: comment   = Properties for Google Chart
+
+    property
+    : name      = googleChartScheme
+    : type      = string
+    : default   = http
+    : comment   = Configure the google chart url.
+
+    property
+    : name      = googleChartHost
+    : type      = string
+    : default   = chart.apis.google.com
+    : comment   = Configure the google chart url.
+
+    property
+    : name      = googleChartPort
+    : type      = integer
+    : default   = 80
+    : comment   = Configure the google chart url.
+
+    property
+    : name      = googleChartPath
+    : type      = string
+    : default   = chart
+    : comment   = Configure the google chart url.
+
+group
+: name      = Bootstrap
+: comment   = Properties used when bootstrapping the system.
+
+    property
+    : name      = rootUserEmail
+    : type      = string
+    : default   = 
+    : comment   = If set, the system will create a default user when bootstrapping the initial database installation.
+

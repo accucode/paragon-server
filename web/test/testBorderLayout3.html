@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+   
+<html>
+ 
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml; charset=utf-8" />
+             
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        /**************************************************
+         * install
+         **************************************************/
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+
+        function myInstall()
+        {
+            myInstallOuter();
+            myInstallInner();
+            myInstallGrid();
+            myInstallButtons();
+        }
+        
+        function myInstallOuter()
+        {
+            new KmBorderLayout(
+            {
+                parent:             '#outer',
+                
+                topVisible:         true,
+                topSize:            50,
+                topResizable:       true,
+                
+                bottomVisible:      true,
+                bottomSize:         100,
+                bottomResizable:    true,
+                
+                rightVisible:       true,
+                rightSize:          100,
+                rightResizable:     true,
+                
+                leftVisible:        true,
+                leftSize:           250,
+                leftResizable:      true,
+                
+                liveResize:         true,
+                debugBorders:       true
+            });            
+        }
+        
+        function myInstallInner()
+        {
+            new KmBorderLayout(
+            {
+                parent:             '#outerCenter',
+                idPrefix:           'inner',
+                classPrefix:        'inner',
+                
+                topVisible:         true,
+                topResizable:       true,
+                topSize:            50,
+                
+                bottomVisible:      true,
+                bottomResizable:    true,
+                bottomSize:         50,
+                
+                liveResize:         true,
+                debugBorders:       false
+            });
+
+            var box;
+            box = $('#innerTop');            
+            box.css('background-color', 'yellow');            
+            box.css('border-bottom', 'thin solid gray');
+                        
+            box = $('#innerBottom');            
+            box.css('background-color', 'yellow');            
+            box.css('border-top', 'thin solid gray');            
+        }
+        
+        function myInstallButtons()
+        {
+            $('#outerTop').css('background-color', 'pink');
+                    
+            var div;
+            div = $("<div></div>");
+            div.addClass("padSpaced");
+            
+            Kmu.addButtonTo(div, 'slide outer top', mySlideOuterTop);
+            Kmu.addButtonTo(div, 'reset outer', myResetOuter);
+            Kmu.addButtonTo(div, 'resize on', myResizeOn);
+            Kmu.addButtonTo(div, 'resize off', myResizeOff);
+
+            var left;
+            left = $('#outerLeft');
+            left.append(div);
+        }
+        
+        function myInstallGrid()
+        {
+            var table;
+            table = $("<table></table>");
+            table.attr("id", "grid");
+            table.attr("class", "gridAutoResize");
+            
+            for ( var i=0; i<100; i++ )
+            {
+                var row = $("<tr><td>" + i + "</td><td>one</td><td>two</td><td>three</td><td>four</td><td>five</td><td>six</td><td>seven</td></tr>");
+                table.append(row);            
+            }
+            
+            var fixHeight = function() 
+            {
+                fixGridHeight("#grid"); 
+            };
+
+            $('#innerCenter').append(table);
+
+            table.flexigrid(
+            {
+                title:      'A Flexigrid Test',
+                striped:    true,
+                useRp:      true,
+                rp:         0,
+                resizable:  false,
+                usepager:   true
+            });
+            
+            autoResizeGrids();
+        }
+        
+        function autoResizeGrids()
+        {
+            fixGridHeight(".gridAutoResize");
+        }
+        
+        function fixGridHeight(tableSelector)
+        {
+            var table = $(tableSelector);
+            var body = table.closest('div.bDiv');
+            var grid = body.closest('div.flexigrid');
+            var parent = grid.parent();
+             
+            var bodyHeight = parseInt(body.css('height'));
+            var gridHeight = parseInt(grid.css('height'));
+            var diffHeight = gridHeight - bodyHeight;
+            var parentHeight = parent.innerHeight();
+            var newHeight = parentHeight - diffHeight;
+                            
+            if ( bodyHeight != newHeight )
+                body.css('height', newHeight);
+        }
+        
+        /**************************************************
+         * tests (outer)
+         **************************************************/
+
+        function mySlideOuterTop()
+        {
+            myGetOuterLayout().slideToggle('top');            
+        }
+        
+        function myResetOuter()
+        {
+            myGetOuterLayout().resetLayout();
+        }
+        
+        function myResizeOn()
+        {
+            $(window).bind('resize.autoResize', autoResizeGrids);
+            autoResizeGrids();
+        }
+        
+        function myResizeOff()
+        {
+            $(window).unbind('resize.autoResize');
+        }
+        
+        function myResizeLog()
+        {
+            Kmu.log('resize');
+        }
+        
+        
+        function myGetOuterLayout()
+        {
+            return $('#outer').data('borderLayout');
+        }
+        
+        /**************************************************
+         * tests (inner)
+         **************************************************/
+        
+        function myShowInnerRight()
+        {
+            myGetInnerLayout().showToggle('right');            
+        }
+        
+        function myResetInner()
+        {
+            myGetInnerLayout().resetLayout();
+        }
+        
+        function myGetInnerLayout()
+        {
+            return $('#outerCenter').data('borderLayout');
+        }
+        
+    </script>
+         
+</head>
+     
+<body id='outer' onload="myLoad();">
+</body>
+ 
+</html> 

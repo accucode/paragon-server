@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+        function myToggleFooter()
+        {
+            $('#extra').slideToggle();
+        }
+        
+    </script>
+
+    <style type="text/css">
+    
+        td.xGroupHeader
+        {
+            border: thick solid green;
+            background-color: lightgreen;
+        }
+        
+        td.xGroupBody
+        {
+            border: thick solid black;
+            border-top: none;
+            border-bottom: none;
+            background-color: lightgray;
+        }
+        
+        td.xGroupFooter
+        {
+            border: thick solid blue;
+            background-color: lightblue;
+        }
+
+        div.xContent
+        {
+            border: thin solid red;
+            overflow: auto;
+        }
+        
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+    <p>GROUPs.</p>
+    <br>
+    
+    <p>This demonstrates a loose approximation of the groups
+        that we commonly use.
+        </p>
+    <br>
+    
+    <p>Although we primarily use DIVs to manage the application UI,
+        TABLEs will offer the only good solution for things like
+        the group layouts.  We want the body, header, and footer
+        of the group to automatically size.  And we want the ability
+        to create multiple visual groups that align with each other.
+        </p>
+    <br>
+        
+    <div class="blueBox pad">
+        <table class="centerBlock">
+            <tr>
+                <td id="groupHeader" class="xGroupHeader">
+                    <div class="xContent">
+                        <p>header</p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td id="groupBody" class="xGroupBody">
+                    <div class="xContent">
+                        <p>body body body body body body body body body body body</p> 
+                        <p>body body body body body body body body body body body</p> 
+                        <p>body body body body body body body body body body body</p> 
+                        <p>body body body body body body body body body body body</p> 
+                        <p>body body body body body body body body body body body</p> 
+                        <p>body body body body body body body body body body body</p> 
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td id="groupFooter" class="xGroupFooter">
+                
+                    <div class="xContent padLeft marginRightChildren padVertical">
+                        <div class="floatLeft"><button class="button button-element-default" onclick="myToggleFooter()">Show Extra</button></div>
+                        <div class="floatLeft"><button class="button button-element-default">L2</button></div>
+                    </div>
+                    
+                    <div id="extra" class="hide boxBrown">
+                        <p>blah blah blah blah blah blah blah</p>
+                        <p>blah blah blah blah blah blah blah</p>
+                        <p>blah blah blah blah blah blah blah</p>
+                        <p>blah blah blah blah blah blah blah</p>
+                    </div>
+                    
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<br>
+<br>
+    
+    
+</div>
+</body>
+</html>

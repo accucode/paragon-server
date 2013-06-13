@@ -1,0 +1,21 @@
+model
+: name      = settings
+: comment   = A single record with global settings.
+
+database
+: alias = sx
+
+attributes
+
+    field
+    : name          = code
+    : comment       = The unique key.
+    : type          = integer
+    : identity      = false
+    : primaryKey    = true
+    : required      = true
+
+    field
+    : name      = someMessage
+    : comment   = Just a placeholder.
+    : type      = text100

@@ -1,0 +1,35 @@
+model
+: name      = systemLogTrace
+: comment   = Used to store the stack trace segments.
+
+database
+: alias     = slt
+: locking   = false
+
+attributes
+
+    field
+    : name          = id
+    : comment       = The unique key.
+    : type          = id
+    : identity      = true
+    : primaryKey    = true
+
+    field
+    : name      = sequence
+    : comment   = Used to maintained an ordered list.
+    : type      = integer
+    : required  = true
+
+    field
+    : name      = value
+    : comment   = An individual stack trace segment.
+    : type      = text1000
+
+    association
+    : name      = log
+    : comment   = The parent event.
+    : modelName = systemLog
+    : relation  = parent
+    : required  = true
+

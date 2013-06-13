@@ -1,0 +1,16 @@
+setup
+: name              = cssConstants
+: template          = cssConstants.vm
+: targetDirectory   = java/source/com/kodemore/html/cssBuilder
+: fileMode          = oneFilePerCssBundle
+: fileName          = KmCss${bundle.f_Name}ConstantsIF.java
+: ifExists          = overwrite
+
+setup
+: name              = cssBuilder
+: template          = cssBuilder.vm
+: targetDirectory   = java/source/com/kodemore/html/cssBuilder
+: fileMode          = oneFilePerCssBundle
+: fileName          = KmCss${bundle.f_Name}Builder.java
+: ifExists          = overwrite
+

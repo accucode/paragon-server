@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <style type="text/css">
+
+        .note
+        {
+            border: 1px solid gray;
+            background-color: lightgray;
+            padding: 3px;
+            margin-bottom: 5px;
+        }
+            
+        .aTable
+        {
+            border: 1px solid red;
+        }
+        
+        .aRow
+        {
+            border: 1px solid green;
+        }
+        
+        .aCell
+        {
+            border: 1px solid blue;
+        }
+
+        .bTable
+        {
+            border: 1px solid red;
+            padding: 5px;
+            
+            -moz-border-radius:    20px;
+            -webkit-border-radius: 20px;
+            border-radius:         20px;
+        }
+        
+        .bRow
+        {
+            border: 1px solid green;
+        }
+        
+        .bCell
+        {
+            border: 1px solid blue;
+            padding: 5px;
+            
+            -moz-border-radius:    20px;
+            -webkit-border-radius: 20px;
+            border-radius:         20px;
+        }
+
+        .cTable
+        {
+            border: 1px solid red;
+            padding: 0px;
+            
+            -moz-border-radius:    20px;
+            -webkit-border-radius: 20px;
+            border-radius:         20px;
+        }
+        
+        .cRow
+        {
+            border: 1px solid green;
+        }
+        
+        .cCell
+        {
+            border: 1px solid blue;
+            padding: 5px;
+        }
+
+
+        .dTable
+        {
+            border: 1px solid red;
+            padding: 0;
+        }
+        
+        .dRow
+        {
+            border: 1px solid green;
+            padding: 0;
+        }
+        
+        .dCell
+        {
+            border: 1px solid blue;
+            padding: 0;
+        }
+
+        .eTable
+        {
+            border: 1px solid red;
+            padding: 0;
+            border-spacing: 0;
+        }
+        
+        .eRow
+        {
+            border: 1px solid green;
+            padding: 0;
+        }
+        
+        .eCell
+        {
+            border: 1px solid blue;
+            padding: 0;
+        }
+
+        .fTable
+        {
+            border: 1px solid red;
+            border-collapse: collapse;
+        }
+        
+        .fRow
+        {
+            border: 1px solid green;
+        }
+        
+        .fCell
+        {
+            border: 1px solid blue;
+            padding: 0;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <div class="note">
+        This page demonstrates how css affects the table element.
+        Unlike many of the other tests, this page does NOT include or reference
+        any external stylesheets or tools.
+        
+        <br><br>
+        In each example we use a RGB (red, green, blue) borders for the table,
+        row, and cells respectively.  However, in most (all?) cases, one or
+        more of the borders do not actually display due to the rules for html
+        or css.
+        
+        <br><br>
+        The html structure is identical for all of the sample, only the css 
+        differs.
+        
+        <br><br>
+        As of Aug 2012, these tests appears consistent between current versions
+        of IE 9, Firefox 14, and Chrome 21.
+    </div>
+
+    <br>
+    <div class="note">
+        A. This example specifies nothing except simple borders.
+    </div>
+    <table class="aTable">
+        <tr class="aRow">
+            <td class="aCell">one</td>
+            <td class="aCell">two</td>
+        </tr>
+        <tr class="aRow">
+            <td class="aCell">three</td>
+            <td class="aCell">four</td>
+        </tr>
+    </table>
+    
+    <br>
+    <div class="note">
+        B. Here we add rounded corners and some padding.
+    </div>
+    <table class="bTable">
+        <tr class="bRow">
+            <td class="bCell">one</td>
+            <td class="bCell">two</td>
+        </tr>
+        <tr class="bRow">
+            <td class="bCell">three</td>
+            <td class="bCell">four</td>
+        </tr>
+    </table>
+
+    <br>    
+    <div class="note">
+        C. By removing the table padding and using normal cell borders
+        we see that cells can draw outside the table border.
+    </div>
+    <table class="cTable">
+        <tr class="cRow">
+            <td class="cCell">one</td>
+            <td class="cCell">two</td>
+        </tr>
+        <tr class="cRow">
+            <td class="cCell">three</td>
+            <td class="cCell">four</td>
+        </tr>
+    </table>
+    
+    <br>    
+    <div class="note">
+        D. This is like the first, simple, example, except that we have 
+        set all of the paddings to zero.  Note that most browsers still
+        display spacing <i>between</i> the cells.
+    </div>
+    <table class="dTable">
+        <tr class="dRow">
+            <td class="dCell">one</td>
+            <td class="dCell">two</td>
+        </tr>
+        <tr class="dRow">
+            <td class="dCell">three</td>
+            <td class="dCell">four</td>
+        </tr>
+    </table>
+    
+    <br>    
+    <div class="note">
+        E. As of CSS2 (and IE8+) we can use border-spacing to control the
+        spacing that is <i>between</i> the cells.
+    </div>
+    <table class="eTable">
+        <tr class="eRow">
+            <td class="eCell">one</td>
+            <td class="eCell">two</td>
+        </tr>
+        <tr class="eRow">
+            <td class="eCell">three</td>
+            <td class="eCell">four</td>
+        </tr>
+    </table>
+    
+    <br>    
+    <div class="note">
+        F. We can use border-collapse to collapse the cell and table borders.
+        In this case the table's border is ignored, and only the cell's border
+        is actually used.  Also, the borders between each cell are merged.
+    </div>
+    <table class="fTable">
+        <tr class="fRow">
+            <td class="fCell">one</td>
+            <td class="fCell">two</td>
+        </tr>
+        <tr class="fRow">
+            <td class="fCell">three</td>
+            <td class="fCell">four</td>
+        </tr>
+    </table>
+    
+</body>
+</html>

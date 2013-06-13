@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function myTest()
+        {
+            var pattern = $('#pattern').val();
+            var regex = new RegExp(pattern);
+            
+            var source = $('#source').val();
+            
+            var matchResult = source.match(regex);
+            $("#matchResult").text(matchResult + "");
+
+            var replace = $("#replace").val();            
+            var replaceResult = source.replace(regex, replace); 
+            $("#replaceResult").text(replaceResult + "");
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced10">
+
+    <div class="boxGreen padSpaced">
+        <p><b>Source</b></p>
+        <p><textarea id="source" style="width:300px;"></textarea></p>
+        <br>
+        
+        <p><b>Pattern</b></p>
+        <p><input type="text" id="pattern" style="width:300px;"></input></p>
+        <br>
+        
+        <p><b>Replace</b></p>
+        <p><input type="text" id="replace" style="width:300px;"></input></p>
+        <br>
+        
+        <p><button onclick="myTest();">Test</button></p>
+        
+        <p><b>Match</b></p>
+        <p id="matchResult"></p>
+        <br>
+        
+        <p><b>Replace</b></p>
+        <p id="replaceResult"></p>
+        <br>
+    </div>
+    
+</div>
+</body>
+</html>

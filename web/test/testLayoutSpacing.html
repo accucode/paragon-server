@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+    <div class="boxGray marginCenter pad10">
+
+        <div class="clearfix">    
+            <p>pad</p>
+            <div class="boxGreen floatLeft pad">
+                <button>button 01</button><button>button 02</button><button>button 03</button><button>button 04</button><br>
+                <button>button 05</button><button>button 06</button><button>button 07</button><button>button 08</button><br> 
+            </div>
+        </div>
+        <br>
+
+        <div class="clearfix">    
+        <p>spaced</p>
+            <div class="boxGreen floatLeft spaced">
+                <button>button 01</button><button>button 02</button><button>button 03</button><button>button 04</button><br>
+                <button>button 05</button><button>button 06</button><button>button 07</button><button>button 08</button><br> 
+            </div>
+        </div>
+        <br>
+
+        <div class="clearfix">    
+        <p>pad + spaced</p>
+            <div class="boxGreen floatLeft pad spaced">
+                <button>button 01</button><button>button 02</button><button>button 03</button><button>button 04</button><br>
+                <button>button 05</button><button>button 06</button><button>button 07</button><button>button 08</button><br> 
+            </div>
+        </div>
+        <br>
+
+        <div class="clearfix">    
+        <p>padSpaced</p>
+            <div class="boxGreen floatLeft padSpaced">
+                <button>button 01</button><button>button 02</button><button>button 03</button><button>button 04</button><br>
+                <button>button 05</button><button>button 06</button><button>button 07</button><button>button 08</button><br> 
+            </div>
+        </div>
+        <br>
+
+    </div>
+
+</div>
+</body>
+</html>

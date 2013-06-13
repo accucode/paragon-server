@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function myFocus(sel)
+        {
+            Kmu.focus(sel);
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+    <form id="f1" class="boxGray padSpaced5">
+        <b>Focus a text field.</b><br>
+        <input type="text" value="text field"><br>
+        <textarea class="zzz">text area</textarea><br>
+        <button type="button">button</button><br>
+        <br>
+        <button type="button" onclick="myFocus('#f1');">Focus</button>
+    </form>
+    
+    <form id="f2" class="boxGray padSpaced5">
+        <b>Focus a text area.</b><br>
+        <textarea>text area</textarea><br>
+        <input type="text" value="text field"><br>
+        <button type="button">button</button><br>
+        <br>
+        <button type="button" onclick="myFocus('#f2');">Focus</button>
+    </form>
+    
+    <form id="f3" class="boxGray padSpaced5">
+        <b>Focus a button.</b><br>
+        <button type="button">button</button><br>
+        <textarea>text area</textarea><br>
+        <input type="text" value="text field"><br>
+        <br>
+        <button type="button" onclick="myFocus('#f3');">Focus</button>
+    </form>
+    
+    <form id="f4" class="boxGray padSpaced5">
+        <b>Focus a specific field (the text area, id=x).</b><br>
+        <button type="button">button</button><br>
+        <textarea id="x">text area</textarea><br>
+        <input type="text" value="text field"><br>
+        <br>
+        <button type="button" onclick="myFocus('#x');">Focus</button>
+    </form>
+    
+    <form id="f3" class="boxGray padSpaced5">
+        <b>Focus first on entire page.</b><br>
+        <button type="button" onclick="myFocus();">Focus</button>
+    </form>
+    
+</div>
+</body>
+</html>

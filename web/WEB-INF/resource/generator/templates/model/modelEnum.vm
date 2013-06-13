@@ -1,0 +1,113 @@
+${javaAutoGenerationComment}
+
+package ${package}.model;
+
+import java.util.*;
+
+import com.kodemore.collection.*;
+import com.kodemore.utility.*;
+
+public enum ${enum.f_Class}
+    implements KmCodedEnumIF
+{
+$utility.protocol("values")
+
+#foreach ( $value in $enum.values )
+    ${value.f_Name}("${value.code}", "${value.label}"),
+#end
+    ;
+
+$utility.protocol("find")
+
+    private static final KmList<${enum.f_Class}> _values;
+    private static final KmMap<String,${enum.f_Class}> _codes;
+
+    static
+    {
+        _values = new KmList<${enum.f_Class}>();
+        _values.addAll(values());
+
+        _codes = new KmMap<String,${enum.f_Class}>();
+        for ( ${enum.f_Class} e : EnumSet.allOf(${enum.f_Class}.class) )
+            _codes.put(e.getCode(), e);
+    }
+
+    public static KmList<${enum.f_Class}> getValues()
+    {
+        return _values;
+    }
+
+    public static ${enum.f_Class} findCode(String code)
+    {
+        return _codes.get(code);
+    }
+
+$utility.protocol("variables")
+
+    private String _code;
+    private String _name;
+
+$utility.protocol("constructor")
+
+    private ${enum.f_Class}(String code, String name)
+    {
+        _code = code;
+        _name = name;
+    }
+
+$utility.protocol("accessing")
+
+    @Override
+    public String getCode()
+    {
+        return _code;
+    }
+
+    @Override
+    public String getName()
+    {
+        return _name;
+    }
+
+$utility.protocol("testing")
+
+#foreach ( $value in $enum.values )
+    public boolean is${value.f_Name}()
+    {
+        return this == ${value.f_Name};
+    }
+
+#end
+$utility.protocol("sequence")
+
+    public static ${enum.f_Class} getAt(int index)
+    {
+        return values()[index];
+    }
+
+    public static ${enum.f_Class} getFirst()
+    {
+        return values()[0];
+    }
+
+    public static ${enum.f_Class} getLast()
+    {
+        return values()[values().length - 1];
+    }
+
+    public ${enum.f_Class} getPrevious()
+    {
+        int i = ordinal() - 1;
+        if ( i >= 0 )
+            return values()[i];
+        return null;
+    }
+
+    public ${enum.f_Class} getNext()
+    {
+        int i = ordinal() + 1;
+        if ( i < values().length )
+            return values()[i];
+        return null;
+    }
+}

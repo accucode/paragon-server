@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+        function myWait()
+        {
+            Kmu.toast("Starting...");
+            setTimeout("myStartWait();", 2000);
+        }
+
+        function myStartWait()
+        {
+            Kmu.toast("waiting...");
+            $("#waitBox").css("cursor", "wait");
+            $("#waitButton").css("cursor", "wait");
+            setTimeout("myEndWait();", 2000);
+        }
+                
+        function myEndWait()
+        {
+            Kmu.toast("done.");
+            $("#waitBox").css("cursor", "auto");
+            $("#waitButton").css("cursor", "auto");
+        }
+        
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad();">
+<div id="main" style="display:none" class="padSpaced">
+
+	<div class="boxBlue padSpaced clearfix">
+		<div>Common Samples</div>
+		<div class="boxGray pad floatLeft clearfix cursorAuto">auto</div> 
+		<div class="boxGray pad floatLeft clearfix cursorCrosshair">crosshair</div>
+		<div class="boxGray pad floatLeft clearfix cursorDefault">default</div>
+		<div class="boxGray pad floatLeft clearfix cursorPointer">pointer</div>
+		<div class="boxGray pad floatLeft clearfix cursorHelp">help</div>
+		<div class="boxGray pad floatLeft clearfix cursorMove">move</div>
+		<div class="boxGray pad floatLeft clearfix cursorText">text</div>
+		<div class="boxGray pad floatLeft clearfix cursorWait">wait</div>
+	</div>
+    
+	<div id="waitBox" class="boxBlue padSpaced clearfix">
+		<button id="waitButton" onclick="myWait();">Wait for 2 seconds</button>
+	</div>
+    
+</div>
+</body>
+</html>

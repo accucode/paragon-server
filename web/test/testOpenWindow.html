@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function myOpenTab()
+        {
+            Kmu.openWindow(
+            {
+                name: 'myTab',
+                html: myGetHtml()
+            });
+        }
+        
+        function myOpenWindow()
+        {
+            var params = 'width=480,height=300,toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,copyhistory=0,resizable=0';
+
+            Kmu.openWindow(
+            {
+                name: 'myWindow',
+                params: params,
+                html: myGetHtml()
+            });
+        }
+
+        function myGetHtml()
+        {
+            return ""
+                + "<html>"
+                + "<head>"
+                + "<title>Download</title>"
+                + "</head>"
+                + "<body>"
+                + "<h1>hello world</h1>"
+                + new Date()
+                + "<br>"
+                + "<button onclick='window.close();'>close</button>"
+                + "</body>"
+                + "</html>"
+                + "";
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+    <div>
+        Although we cannot strictly control whether new windows open as
+        popups or tabs, these examples work generally work in Chrome and
+        Firefox; though NOT in IE.
+    </div>
+    <button onclick="myOpenTab();">Open Tab</button>
+    <button onclick="myOpenWindow();">Open Window</button>
+    
+</div>
+</body>
+</html>

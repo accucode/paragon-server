@@ -1,0 +1,556 @@
+${javaAutoGenerationComment}
+
+package ${package}.model.base;
+
+import java.util.*;
+
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.servlet.encoder.*;
+import com.kodemore.servlet.utility.*;
+import com.kodemore.time.*;
+import com.kodemore.types.*;
+import com.kodemore.utility.*;
+
+import ${package}.model.*;
+import ${package}.model.core.*;
+import ${package}.model.meta.*;
+import ${package}.utility.*;
+
+public abstract class $model.f_BaseClass
+    extends $model.f_Superclass
+#if ( $model.isSequenceIF() )
+    implements KmSequenceIF
+#end
+{
+$utility.protocol("static")
+
+    public static final ${model.f_MetaClass} Meta = ${model.f_MetaClass}.instance;
+    public static final ${model.f_ToolsClass} Tools = ${model.f_ToolsClass}.instance;
+    public static final ${model.f_ValidatorClass} Validator = ${model.f_ValidatorClass}.instance;
+
+$utility.protocol("variables")
+
+#foreach ( $e in $model.attributes )
+#if ( $e.requiresVariable() )
+    private $e.f_Type $e.f_variable;
+#end
+#end
+
+$utility.protocol("constructor")
+
+    public ${model.f_BaseClass}()
+    {
+        super();
+#foreach ( $e in $model.fields )
+#if ( $e.hasDefaultValue() )
+        ${e.f_setMethod}($e.f_defaultValue);
+#end
+#end
+#foreach ( $collection in $model.collections )
+        ${collection.f_variable} = new ${collection.f_ImplType}();
+#end
+    }
+
+#foreach ( $field in $model.fields )
+$utility.protocol("field (${field.Name})")
+
+#if ( $field.isCustomGetter() )
+    public final ${field.f_Type} ${field.f_getMethod}()
+    {
+        ${field.getter}
+    }
+#elseif ( $field.isAbstract() )
+    public abstract $field.f_Type ${field.f_getMethod}();
+#else
+#if ( $field.isSequence() )
+    @Override
+#end
+    public ${field.f_Type} ${field.f_getMethod}()
+    {
+        return ${field.f_variable};
+    }
+
+#if ( $field.isSequence() )
+    @Override
+#end
+    public void ${field.f_setMethod}(${field.f_Type} e)
+    {
+        checkReadOnly();
+        e = Validator.get${field.f_Name}Validator().convertOnly(e);
+        ${field.f_variable} = e;
+#foreach ( $method in ${field.onChangeMethods} )
+        ${method}();
+#end
+    }
+
+    public void clear${field.f_Name}()
+    {
+        ${field.f_setMethod}(null);
+    }
+#end
+
+    public boolean ${field.f_hasMethod}()
+    {
+#if ( $field.isString() )
+        return Kmu.hasValue(${field.f_getMethod}());
+#else
+        return ${field.f_getMethod}() != null;
+#end
+    }
+
+    public boolean ${field.f_hasMethod}(${field.f_Type} e)
+    {
+        return Kmu.isEqual(${field.f_getMethod}(), e);
+    }
+
+#if ( $field.isBoolean() )
+    public boolean is${field.f_Name}()
+    {
+        if ( ${field.f_getMethod}() == null )
+            return false;
+        return ${field.f_getMethod}();
+    }
+
+    public boolean isNot${field.f_Name}()
+    {
+        return !is${field.f_Name}();
+    }
+
+    public boolean is${field.f_Name}(Boolean b)
+    {
+        return Kmu.isEqual(${field.f_getMethod}(), b);
+    }
+
+#if ( $field.isEditable() )
+    public void toggle${field.f_Name}()
+    {
+        ${field.f_setMethod}(!${field.f_getMethod}());
+    }
+
+#end
+#end
+#if ( $field.isEditable() && $field.isString() )
+    public void truncate${field.f_Name}()
+    {
+        truncate${field.f_Name}(false);
+    }
+
+    public void truncate${field.f_Name}(boolean ellipses)
+    {
+        ${field.f_variable} = Kmu.truncate(${field.f_variable}, ${field.type.maximumLength}, ellipses);
+    }
+
+#end
+#if ( $field.hasEnum() )
+    public ${field.enum.f_Class} ${field.enum.f_getMethod}()
+    {
+        return ${field.enum.f_Class}.findCode(${field.f_getMethod}());
+    }
+
+    public void ${field.enum.f_setMethod}(${field.enum.f_Class} e)
+    {
+        if ( e == null )
+            ${field.f_setMethod}(null);
+        else
+            ${field.f_setMethod}(e.getCode());
+    }
+
+    public boolean ${field.enum.f_hasMethod}()
+    {
+        return ${field.enum.f_getMethod}() != null;
+    }
+
+    public boolean ${field.enum.f_hasMethod}(${field.enum.f_Class} e)
+    {
+        return ${field.enum.f_getMethod}() == e;
+    }
+
+#foreach ( $value in $field.enum.values )
+    public void set${field.enum.f_Name}${value.f_Name}()
+    {
+        ${field.enum.f_setMethod}(${field.enum.f_Class}.${value.f_Name});
+    }
+
+    public boolean is${field.enum.f_Name}${value.f_Name}()
+    {
+        return ${field.enum.f_hasMethod}(${field.enum.f_Class}.${value.f_Name});
+    }
+
+    public boolean isNot${field.enum.f_Name}${value.f_Name}()
+    {
+        return !is${field.enum.f_Name}${value.f_Name}();
+    }
+
+#end
+#end
+#end
+#foreach ( $association in $model.associations )
+$utility.protocol("${association.f_name}")
+
+#if ( $association.isAbstract() )
+    public abstract ${association.f_Type} ${association.f_getMethod}();
+#else
+    public ${association.f_Type} ${association.f_getMethod}()
+    {
+        return ${association.f_variable};
+    }
+
+    public void ${association.f_setMethod}(${association.f_Type} e)
+    {
+        checkReadOnly();
+        ${association.f_variable} = e;
+#foreach ( $method in ${association.onChangeMethods} )
+        ${method}();
+#end
+    }
+
+    public void _${association.f_setMethod}(${association.f_Type} e)
+    {
+        checkReadOnly();
+        ${association.f_variable} = e;
+    }
+
+    public void clear${association.f_Name}()
+    {
+        ${association.f_setMethod}(null);
+    }
+#end
+
+    public boolean has${association.f_Name}()
+    {
+        return ${association.f_getMethod}() != null;
+    }
+
+    public boolean has${association.f_Name}(${association.f_Type} e)
+    {
+        return Kmu.isEqual(${association.f_getMethod}(), e);
+    }
+
+#foreach ( $delegate in $association.delegates )
+    public ${delegate.f_Type} ${delegate.f_getMethod}()
+    {
+        if ( has${association.f_Name}() )
+            return ${association.f_getMethod}().${delegate.field.f_getMethod}();
+        return null;
+    }
+
+#if ( $delegate.isEditable() )
+    public void ${delegate.f_setMethod}(${delegate.f_Type} e)
+    {
+        ${association.f_getMethod}().${delegate.field.f_setMethod}(e);
+    }
+
+#end
+    public boolean has${delegate.f_Name}()
+    {
+        return has${association.f_Name}() && ${association.f_getMethod}().has${delegate.field.f_Name}();
+    }
+
+    public boolean has${delegate.f_Name}(${delegate.f_Type} e)
+    {
+        return has${association.f_Name}() && ${association.f_getMethod}().has${delegate.field.f_Name}(e);
+    }
+
+#end
+#end
+#foreach ( $collection in $model.collections )
+
+$utility.protocol("${collection.f_Name} (collection)")
+
+    public ${collection.f_WrapperType} ${collection.f_getMethod}()
+    {
+        return new ${collection.f_WrapperImplType}(
+            ${collection.f_implGetMethod}(),
+            ($model.f_Class)this,
+            ${collection.f_ElementType}.Meta.${collection.f_ElementName}.getAdaptor());
+    }
+
+#if ( $collection.elementModel.isSequenceIF() )
+    public KmList<${collection.elementModel.f_Type}> getSorted${collection.f_Name}()
+    {
+        KmList<${collection.elementModel.f_Type}> v;
+        v = ${collection.f_getMethod}().toList();
+        v.sortOn(${collection.elementModel.f_Type}.Meta.Sequence);
+        return v;
+    }
+
+#end
+    public boolean has${collection.f_Name}()
+    {
+        return !${collection.f_implGetMethod}().isEmpty();
+    }
+
+    public int get${collection.f_SingleName}Count()
+    {
+        return ${collection.f_implGetMethod}().size();
+    }
+
+    public ${collection.f_Type} ${collection.f_implGetMethod}()
+    {
+        return ${collection.f_variable};
+    }
+
+    public ${collection.f_ElementType} add${collection.f_SingleName}()
+    {
+        ${collection.f_ElementType} e;
+        e = new ${collection.f_ElementType}();
+#if ( $collection.elementModel.isSequenceIF() )
+        e.setSequence(${collection.f_getMethod}().getNextSequence());
+#end
+        ${collection.f_getMethod}().add(e);
+        return e;
+    }
+
+    public void add${collection.f_SingleName}(${collection.f_ElementType} e)
+    {
+        ${collection.f_getMethod}().add(e);
+    }
+
+    public boolean remove${collection.f_SingleName}(${collection.f_ElementType} e)
+    {
+        return ${collection.f_getMethod}().remove(e);
+    }
+
+    public boolean remove${collection.f_SingleName}${collection.elementModel.primaryKeyField.f_Name}(${collection.elementModel.primaryKeyField.f_Type} my${collection.elementModel.primaryKeyField.f_Name})
+    {
+        ${collection.f_ElementType} e = find${collection.f_SingleName}${collection.elementModel.primaryKeyField.f_Name}(my${collection.elementModel.primaryKeyField.f_Name});
+        if ( e == null )
+            return false;
+
+        return remove${collection.f_SingleName}(e);
+    }
+
+    public ${collection.f_ElementType} find${collection.f_SingleName}${collection.elementModel.primaryKeyField.f_Name}(${collection.elementModel.primaryKeyField.f_Type} my${collection.elementModel.primaryKeyField.f_Name})
+    {
+        for ( ${collection.f_ElementType} e : ${collection.f_implGetMethod}() )
+            if ( e.${collection.elementModel.primaryKeyField.f_hasMethod}(my${collection.elementModel.primaryKeyField.f_Name}) )
+                return e;
+        return null;
+    }
+
+    public void clear${collection.f_Name}()
+    {
+        ${collection.f_getMethod}().clear();
+    }
+#end
+#foreach ( $collection in $model.valueCollections )
+
+$utility.protocol("${collection.f_Name} (value collection)")
+
+    public ${collection.f_WrapperType} ${collection.f_getMethod}()
+    {
+        return new ${collection.f_WrapperType}(${collection.f_implGetMethod}());
+    }
+
+    public ${collection.f_Type} ${collection.f_implGetMethod}()
+    {
+        return ${collection.f_variable};
+    }
+
+    public void add${collection.f_SingleName}(${collection.f_ElementType} e)
+    {
+        ${collection.f_variable}.add(e);
+    }
+
+    public void remove${collection.f_SingleName}(${collection.f_ElementType} e)
+    {
+        ${collection.f_variable}.remove(e);
+    }
+#end
+
+#if ( $model.onChangeMethods.isNotEmpty() )
+$utility.protocol("on change")
+
+#foreach ( $method in $model.onChangeMethods )
+    protected abstract void $method();
+
+#end
+#end
+$utility.protocol("validate")
+
+    @Override
+    public void validate()
+    {
+        Validator.validate((${model.f_Class})this);
+    }
+
+    @Override
+    public void validateWarn()
+    {
+        Validator.validateWarn((${model.f_Class})this);
+    }
+
+    public boolean isValid()
+    {
+        return Validator.isValid((${model.f_Class})this);
+    }
+
+$utility.protocol("copy")
+
+    @Override
+    public final ${model.f_Class} getCopy()
+    {
+        return (${model.f_Class})super.getCopy();
+    }
+
+    @Override
+    public void postCopy()
+    {
+        super.postCopy();
+#if ( $model.hasPrimaryKey() )
+        ${model.primaryKeyField.f_variable} = null;
+#end
+#foreach ( $field in $model.postCopyFields )
+        ${field.f_variable} = copy(${field.f_variable});
+#end
+#foreach ( $association in $model.associations )
+#if ( $association.isOnCopyClear() )
+        ${association.f_variable} = null;
+#end
+#if ( $association.isOnCopyCopy() )
+        ${association.f_variable} = copy(${association.f_variable});
+#end
+#end
+#foreach ( $collection in $model.collections )
+
+#if ( $collection.isOnCopyCopy() )
+        ${collection.f_Type} old_${collection.f_variable} = ${collection.f_variable};
+        ${collection.f_variable} = new ${collection.f_ImplType}();
+        for ( ${collection.f_ElementType} e : old_${collection.f_variable} )
+            add${collection.f_SingleName}(copy(e));
+#end
+#if ( $collection.isOnCopyClear() )
+        ${collection.f_variable} = new ${collection.f_ImplType}();
+#end
+#end
+#foreach ( $collection in $model.valueCollections )
+
+        ${collection.f_Type} old_${collection.f_variable} = ${collection.f_variable};
+        ${collection.f_variable} = new ${collection.f_ImplType}();
+        for ( ${collection.f_ElementType} e : old_${collection.f_variable} )
+            add${collection.f_SingleName}(e);
+#end
+    }
+
+$utility.protocol("compare")
+
+#if ( $model.hasPrimaryKey() )
+    @Override
+    public boolean equals(Object o)
+    {
+        if ( !(o instanceof ${model.f_BaseClass}) )
+            return false;
+
+        ${model.f_BaseClass} e = (${model.f_BaseClass}) o;
+        return Kmu.isEqual(${model.primaryKeyField.f_getMethod}(), e.${model.primaryKeyField.f_getMethod}());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Kmu.getHashCode(${model.primaryKeyField.f_getMethod}());
+    }
+
+#end
+    public boolean isSame(${model.f_Class} e)
+    {
+#foreach ( $field in ${model.primaryKeyFields} )
+        if ( ! Kmu.isEqual(${field.f_getMethod}(), e.${field.f_getMethod}()) ) return false;
+#end
+        return isSameIgnoringKey(e);
+    }
+
+    public boolean isSameIgnoringKey(${model.f_Class} e)
+    {
+#foreach ( $field in ${model.nonPrimaryKeyFields} )
+        if ( ! Kmu.isEqual(${field.f_getMethod}(), e.${field.f_getMethod}()) ) return false;
+#end
+        return true;
+    }
+
+    public boolean isDifferent(${model.f_Class} e)
+    {
+        return ! isSame(e);
+    }
+
+    public boolean isDifferentIgnoringKey(${model.f_Class} e)
+    {
+        return ! isSameIgnoringKey(e);
+    }
+
+$utility.protocol("property")
+
+    public void importPropertyMap(KmMap<String,String> map)
+    {
+        KmProperties p;
+        p = new KmProperties();
+        p.setMap(map);
+#foreach ( $field in ${model.propertyFields} )
+
+        if ( p.hasKey("${field.f_name}") )
+            ${field.f_setMethod}(p.get${field.f_Type}("${field.f_name}"));
+#end
+    }
+
+    public KmMap<String,String> exportPropertyMap()
+    {
+        KmProperties p;
+        p = new KmProperties();
+
+#foreach ( $field in ${model.propertyFields} )
+        if ( ${field.f_hasMethod}() )
+            p.set${field.f_Type}("${field.f_name}", ${field.f_getMethod}());
+
+#end
+        return p.getMap();
+    }
+
+
+$utility.protocol("display")
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("${model.f_Class}");
+        sb.append("(");
+#foreach ( $field in $model.primaryKeyFields )
+#if ( $foreachIndex > 0 )
+        sb.append(", ");
+#end
+        sb.append("${field.f_Name}=");
+        sb.append(${field.f_variable});
+#end
+        sb.append(")");
+        return sb.toString();
+    }
+
+    public void printFields()
+    {
+        System.out.println(this);
+#foreach ( $field in $model.editableFields )
+        System.out.println("    ${field.f_Name} = " + ${field.f_variable});
+#end
+    }
+
+#if ( $model.hasPrimaryKey() )
+    /**
+     * Format the primary key fields in a comma separated list.  The format
+     * is intended to be suitable for display to users.
+     */
+    public String formatPrimaryKey()
+    {
+        StringBuilder sb = new StringBuilder();
+        ScFormatter f = getFormatter();
+#foreach ( $field in $model.primaryKeyFields )
+#if ( $foreachIndex > 0 )
+        sb.append(", ");
+#end
+        sb.append(f.formatAny(${field.f_variable}));
+#end
+        return sb.toString();
+    }
+
+#end
+}

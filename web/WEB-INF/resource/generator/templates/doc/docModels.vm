@@ -1,0 +1,27 @@
+${htmlAutoGenerationComment}
+
+<html>
+<head>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+#foreach ( $schema in $root.schemas )
+<b>${schema.f_name}</b><br>
+#foreach ( $model in $schema.models )
+  <a href="${model.f_name}.html" target=main>${model.f_name}</a><br>
+#end
+<br>
+#end
+
+#foreach ( $model in $root.nonDatabaseModels )
+    <_header>
+    <b>vo's</b><br>
+    </_header>
+    <_body>
+    <a href="${model.f_name}.html" target=main>${model.f_name}</a><br>
+    </_body>
+#end
+
+</body>
+</html>

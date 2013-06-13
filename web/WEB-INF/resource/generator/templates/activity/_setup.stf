@@ -1,0 +1,15 @@
+setup
+: name              = activityRegistryBase
+: template          = activityRegistryBase.vm
+: targetDirectory   = java/source/${packagePath}/ui/servlet/base
+: fileMode          = oneFile
+: fileName          = ${Prefix}ActivityRegistryBase.java
+: ifExists          = overwrite
+
+setup
+: name              = pageSessionBase
+: template          = pageSessionBase.vm
+: targetDirectory   = java/source/${packagePath}/ui/servlet/base
+: fileMode          = oneFile
+: fileName          = ${Prefix}PageSessionBase.java
+: ifExists          = overwrite

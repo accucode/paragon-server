@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<!--
+    Test the JSON parser provided by json2.
+    Demonstrates use of JSON.parse and JSON.stringify
+  -->
+  
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function myTest()
+        {
+            var sin  = $("#in").val();
+            var o = JSON.parse(sin);
+            var sout = JSON.stringify(o);
+            
+            $("#out").val(sout);
+        }
+        
+    </script>
+
+    <style type="text/css">
+    
+        #in, #out
+        {
+            width: 400px;
+            height: 100px;
+        }
+        
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced boxGray">
+    <textarea id="in">{"a":"aaa","b":2}</textarea>
+    <br>
+    <button onclick="myTest();">Parse, then Stringify...</button>
+    <br>
+    <textarea id="out" readonly="readonly"></textarea>
+</div>
+</body>
+
+</html>

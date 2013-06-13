@@ -1,0 +1,8 @@
+<!-- copy file to ${tomcat_home}/conf/Catalina/localhost -->
+
+<Context
+    path="/app"
+    docBase="d:/projects/paragon/web/"
+    crossContext="false"
+    debug="0"
+    reloadable="false"/>

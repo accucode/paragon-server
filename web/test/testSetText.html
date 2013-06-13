@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+            
+            $("#source").val("<b><i>Test</i></b>");
+        }
+        
+        function mySetText()
+        {
+            var s = $("#source").val();
+            $("#target").text(s);
+        }
+        
+        function mySetHtml()
+        {
+            var s = $("#source").val();
+            $("#target").html(s);
+        }
+
+        function myClear()
+        {
+            $("#target").text("");
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+    <form class="boxGray padSpaced" onsubmit="return false;">
+        <p>Use ajax / jquery to set the text of the blue box below.</p>
+        <p><textarea id="source" class="height100 width400"></textarea></p>
+        <p>
+            <button type="button" onclick="mySetText();">Set Text</button>
+            <button type="button" onclick="mySetHtml();">Set Html</button>
+            <button type="button" onclick="myClear();">Clear</button>
+        </p>
+    </form>
+
+    <div id="target" class="boxBlue pad"></div>    
+</div>
+</body>
+</html>

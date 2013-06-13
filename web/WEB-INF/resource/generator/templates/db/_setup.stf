@@ -1,0 +1,8 @@
+setup
+: name              = createTables
+: template          = createTables.vm
+: targetDirectory   = web/WEB-INF/resource/db/base
+: fileMode          = oneFile
+: fileName          = createTables.txt
+: ifExists          = overwrite
+

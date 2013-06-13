@@ -1,0 +1,44 @@
+model
+: name      = emailRecipient
+: comment   = Emails.
+
+database
+: alias = er
+
+    index
+    : name  = email
+    : on    = email
+
+attributes
+
+    field
+    : name          = uid
+    : comment       = The unique key.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    field
+    : name      = address
+    : comment   = e.g.: john@company.com
+    : type      = email
+    : required  = true
+
+    field
+    : name      = typeCode
+    : comment   = to, cc.
+    : type      = letterCode
+    : required  = true
+
+        enum
+            value(#T To)
+            value(#C Cc)
+
+    association
+    : name      = email
+    : comment   = The email.
+    : modelName = email
+    : relation  = parent
+    : required  = true
+

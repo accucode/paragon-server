@@ -1,0 +1,29 @@
+model
+: name      = patch
+: comment   = The list of all database patches. These are used to coordinate database migrations.
+
+database
+: alias     = p
+: locking   = false
+
+attributes
+
+    field
+    : name          = name
+    : comment       = The unique key.
+    : type          = name
+    : primaryKey    = true
+
+    field
+    : name      = installedUtcTs
+    : comment   = The time when the patch was installed in this database.
+    : type      = timestamp
+    : default   = getNowUtc()
+    : required  = true
+
+    field
+    : name      = source
+    : comment   = The full raw script. This is used to downgrade the schema.
+    : type      = multiline20000
+    : required  = true
+

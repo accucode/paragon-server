@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function myTest()
+        {
+            Kmu.toast('click');
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+    <div class="boxGray pad">
+        Test the use of the .floatRightChildren class in tools.css.
+    </div>
+
+    <br>
+    <div>
+        Normally we can just use floatRightChildren to apply a "float:right" all child elements...
+    </div>    
+    <div class="boxBlue padSpaced floatRightChildren clearfix">
+        <button>aaa</button>
+        <button>bbb</button>
+        <button>ccc</button>
+    </div>
+
+    <br>
+    <div>
+        However, if the child elements already have a float:left (like our typical styled buttons) then we have to add an extra wrapper... 
+    </div>    
+    <div class="boxBlue clearfix">
+        <div class="floatRight padSpaced">
+            <button class="button button-element-default">aaa</button>
+            <button class="button button-element-default">bbb</button>
+            <button class="button button-element-default">ccc</button>
+        </div>
+    </div>
+    
+</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+    </script>
+
+    <style type="text/css">
+        .box
+        {
+            border: thin solid gray;
+            background-color: #eee;
+            padding: 5px;
+            margin: 5px;
+            margin-bottom: 0;
+        }
+        
+        .xBlue
+        {
+            color: blue;
+        }
+        
+        .xRed
+        {
+            color: red;
+        }
+        
+        .xItalic
+        {
+            font-style: italic;
+        }
+        
+        .xBold
+        {
+            font-weight: bold;
+        }
+        
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced">
+
+<div class="box">
+    <p>Multiple classes are well supported in all browsers after IE5.</p>
+    <br>
+    <p>no class</p>
+    <p class="xBlue">blue</p>
+    <p class="xRed">red</p>
+    <p class="xBold">bold</p>
+    <p class="xItalic">italic</p>
+    <br>
+    <p class="xBlue xBold">blue bold</p>
+    <p class="xBlue xItalic">blue italic</p>
+    <p class="xBlue xBold xItalic">blue bold italic</p>
+    <br>
+    <p class="xRed xBold">red bold</p>
+    <p class="xRed xItalic">red italic</p>
+    <p class="xRed xBold xItalic">red bold italic</p>
+</div>
+
+<div class="box">
+    <p>However, multiple classes may not work as desired when both classes specify 
+        the same attribute.  Ideally, the classes would be applied in some well 
+        defined precendence, but this does not appear to be the case.</p>
+    <br>
+    <p class="xBlue xRed">blue red</p>
+    <p class="xRed xBlue">red blue</p>
+</div>
+
+</body>
+</html>

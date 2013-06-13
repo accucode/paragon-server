@@ -1,0 +1,43 @@
+model
+: name      = download
+: comment   = Used to manage file downloads to the client browser.
+
+database
+: alias = dl
+
+    index
+    : name      = created
+    : unique    = false
+    : on        = createdUtcTs
+
+attributes
+
+    field
+    : name          = uid
+    : comment       = The unique key.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    field
+    : name      = name
+    : comment   = The name of the file to be downloaded.  This is the name provided to the client browser, NOT the name we use internally.
+    : type      = name
+    : required  = required
+
+    field
+    : name      = createdUtcTs
+    : comment   = The time this record was created.
+    : type      = timestamp
+    : required  = true
+    : default   = getNowUtc() 
+
+    association
+    : name      = user
+    : comment   = The user allowed to download this download.
+    : modelName = user
+    : relation  = reference
+    : required  = true
+
+

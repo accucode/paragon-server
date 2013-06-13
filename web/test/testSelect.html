@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+        function mySetOptions()
+        {
+            Kmu.setSelectOptions("#jsSelect", myGetSampleOptions());
+        }
+
+        function myAddOptions()
+        {
+            Kmu.addSelectOptions("#jsSelect", myGetSampleOptions());
+        }
+
+        function myClearOptions()
+        {
+            Kmu.clearSelectOptions("#jsSelect");
+        }
+        
+        function myGetSampleOptions()
+        {
+            var arr = 
+            [
+                {'text':'text1', 'value':'value1' },
+                {'text':'text2', 'value':'value2' },
+                {'text':'text3', 'value':'value3' },
+                {'text':'text4', 'value':'value4' },
+                {'text':'text5', 'value':'value5' }
+            ];
+            return arr;
+        }        
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad();">
+<div id="main" style="display:none" class="padSpaced">
+
+    <div class="boxGray padSpaced">
+        <div class="borderBlue autoflowAuto pad">
+            <p>Default select, no size or height; works like a dropdown box.</p>
+            <span class="top">Select:</span>
+            <select>
+                <option value="1">one</option>
+                <option value="2">two</option>
+                <option value="3">three</option>
+                <option value="4">four</option>
+                <option value="5">five</option>
+                <option value="6">six</option>
+                <option value="7">seven</option>
+                <option value="8">eight</option>
+                <option value="9">nine</option>
+                <option value="10">ten</option>
+            </select>
+        </div>
+        
+        <div class="borderRed overflowAuto pad">
+            <p>To get a list box, you must set a size>1 (e.g.: 2), but chrome does not respect the specific value.</p>
+            <span class="top">Select:</span>
+            <select size="2">
+                <option value="1">one</option>
+                <option value="2">two</option>
+                <option value="3">three</option>
+                <option value="4">four</option>
+                <option value="5">five</option>
+                <option value="6">six</option>
+                <option value="7">seven</option>
+                <option value="8">eight</option>
+                <option value="9">nine</option>
+                <option value="10">ten</option>
+            </select>
+        </div>
+        
+        <div class="borderGreen overflowAuto pad">
+            <p>Without the size=2, setting the height just results in a tall dropdown.</p>
+            <span class="top">Select:</span>
+            <select style="height:100px;">
+                <option value="1">one</option>
+                <option value="2">two</option>
+                <option value="3">three</option>
+                <option value="4">four</option>
+                <option value="5">five</option>
+                <option value="6">six</option>
+                <option value="7">seven</option>
+                <option value="8">eight</option>
+                <option value="9">nine</option>
+                <option value="10">ten</option>
+            </select>
+        </div>
+        
+        <div class="borderPurple overflowAuto pad">
+            <p>Set size=2 to create list box; set height using css height:100px</p>
+            <span class="top">Select:</span>
+            <select size=2 style="height:100px;">
+                <option value="1">one</option>
+                <option value="2">two</option>
+                <option value="3">three</option>
+                <option value="4">four</option>
+                <option value="5">five</option>
+                <option value="6">six</option>
+                <option value="7">seven</option>
+                <option value="8">eight</option>
+                <option value="9">nine</option>
+                <option value="10">ten</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="boxGray pad10">
+        <div class="borderPurple overflowAuto">
+            <p>Fill options via javascript.</p>
+            <button onclick="mySetOptions();">Set</button>
+            <button onclick="myAddOptions();">Add</button>
+            <button onclick="myClearOptions();">Clear</button><br>
+            <span class="top">Select:</span>
+            <select id="jsSelect" size=2 class="height200 width100">
+            </select>
+        </div>
+    </div>
+    
+</div>
+</body>
+</html>

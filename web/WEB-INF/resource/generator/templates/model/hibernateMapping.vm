@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+#*
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "../hibernate-mapping-3.0.dtd">
+*#
+${xmlAutoGenerationComment}
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="${package}.model.${model.f_Class}"
+        table="${model.f_sqlTable}"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="${model.primaryKeyField.f_name}"
+            column="${model.primaryKeyField.f_sqlColumn}"
+            type="${model.primaryKeyField.f_hibernateType}"
+            >
+            <generator class="${model.primaryKeyField.f_hibernateGeneratorClass}"/>
+        </id>
+
+#if ( $model.hasLockVersionField() )
+        <version
+            name="${model.lockVersionField.f_name}"
+            column="${model.lockVersionField.f_sqlColumn}"
+            type="${model.lockVersionField.f_hibernateType}"
+            />
+
+#end
+#foreach ( $field in $model.generalFields )
+        <property
+            name="${field.f_name}"
+            column="${field.f_sqlColumn}"
+            type="${field.f_hibernateType}"
+            />
+
+#end
+#foreach ( $association in $model.editableAssociations )
+        <many-to-one
+            name="${association.f_name}"
+            column="${association.f_sqlColumn}"
+            class="${package}.model.${association.modelReference.f_Class}"
+            cascade="${association.f_cascade}"
+            />
+
+#end
+#foreach ( $collection in $model.collections )
+        <${collection.f_hibernateName}
+            name="${collection.f_name}"
+            inverse="${collection.f_inverse}"
+            cascade="${collection.f_cascade}"
+            >
+                <cache usage="read-write"/>
+                <key column="${collection.association.f_sqlColumn}"/>
+#if ( $collection.hasSequenceField() )
+                <index column="${collection.sequenceField.f_sqlColumn}"/>
+#end
+                <one-to-many class="${package}.model.${collection.f_ElementType}"/>
+        </${collection.f_hibernateName}>
+
+#end
+#foreach ( $collection in $model.valueCollections )
+        <${collection.f_hibernateType}
+            name="${collection.f_name}"
+            table="${collection.f_sqlTable}"
+            >
+                <key
+                    column="${collection.f_sqlModelColumn}"
+                    />
+                <element
+                    type="${collection.element.f_hibernateType}"
+                    column="${collection.f_sqlValueColumn}"
+                    not-null="true"
+                    />
+        </${collection.f_hibernateType}>
+
+#end
+    </class>
+</hibernate-mapping>

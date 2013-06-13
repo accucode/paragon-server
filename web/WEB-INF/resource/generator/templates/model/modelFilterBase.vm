@@ -1,0 +1,57 @@
+${javaAutoGenerationComment}
+
+package ${package}.filter.base;
+
+import com.kodemore.collection.*;
+import com.kodemore.hibernate.criteria.*;
+
+import ${package}.command.base.*;
+import ${package}.criteria.*;
+import ${package}.dao.*;
+import ${package}.dao.base.*;
+import ${package}.filter.*;
+import ${package}.filter.core.*;
+import ${package}.model.*;
+import ${package}.model.meta.*;
+
+public abstract class ${model.f_FilterBaseClass}
+    extends ${Prefix}BasicFilter<${model.f_Class}>
+    implements ${model.f_DaoConstantsIF}
+{
+$utility.protocol("apply")
+
+    @Override
+    protected void applyConditionsTo(KmModelCriteria<${model.f_Class}> c)
+    {
+        applyConditionsTo((${model.f_CriteriaClass})c);
+    }
+
+    @Override
+    protected void applySortsTo(KmModelCriteria<${model.f_Class}> c)
+    {
+        applySortsTo((${model.f_CriteriaClass})c);
+    }
+
+    protected abstract void applyConditionsTo(${model.f_CriteriaClass} c);
+
+    protected abstract void applySortsTo(${model.f_CriteriaClass} c);
+
+$utility.protocol("support")
+
+    protected ${model.f_MetaClass} getMeta()
+    {
+        return ${model.f_Class}.Meta;
+    }
+
+    @Override
+    protected ${model.f_DaoClass} getDao()
+    {
+        return getAccess().get${model.f_Name}Dao();
+    }
+
+    @Override
+    protected ${model.f_CriteriaClass} createCriteria()
+    {
+        return new ${model.f_CriteriaClass}(createGenericCriteria());
+    }
+}

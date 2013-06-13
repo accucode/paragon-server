@@ -1,0 +1,61 @@
+model
+: name      = invitation
+: comment   = Invite a user to the system.
+
+database
+: alias = inv
+
+    index
+    : name  = accessKey
+    : on    = accessKey
+
+attributes
+
+    field
+    : name          = uid
+    : comment       = The unique key.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    field
+    : name      = statusCode
+    : comment   = The status.
+    : type      = letterCode
+    : required  = true
+
+        enum
+            value(#N New)
+            value(#A Accepted)
+            value(#R Rejected)
+            value(#X Cancelled)
+
+    field
+    : name      = accessKey
+    : comment   = A long unique (~unguessable) code that allows the user to access this object without a password.
+    : type      = uid
+    : default   = newUid()
+    : required  = true
+
+    field
+    : name      = createdUtcTs
+    : comment   = When the object was created.
+    : type      = timestamp
+    : default   = getNowUtc()
+    : required  = true
+
+    field
+    : name      = closedUtcTs
+    : comment   = When the object was used.
+    : type      = timestamp
+
+    association
+    : name      = user
+    : comment   = The user to whom the invitation was sent.
+    : modelName = user
+    : relation  = reference
+    : required  = true
+
+        delegate
+        : fieldName = name

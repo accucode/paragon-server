@@ -1,0 +1,83 @@
+${javaAutoGenerationComment}
+
+package ${package}.ui.servlet.base;
+
+import com.kodemore.servlet.*;
+import com.kodemore.servlet.variable.*;
+import com.kodemore.time.*;
+
+import ${package}.dao.base.*;
+import ${package}.model.*;
+import ${package}.ui.core.*;
+import ${package}.utility.*;
+
+public class ${Prefix}PageSessionBase
+    extends ScPageSession
+{
+$utility.protocol("variables")
+
+#foreach ( $model in $root.databaseModels )
+    private ScLocal${model.primaryKeyField.f_Type} _${model.f_name}${model.primaryKeyField.f_Name};
+#end
+
+$utility.protocol("constructor")
+
+    protected ${Prefix}PageSessionBase()
+    {
+#foreach ( $model in $root.databaseModels )
+        _${model.f_name}${model.primaryKeyField.f_Name} = new ScLocal${model.primaryKeyField.f_Type}();
+        _${model.f_name}${model.primaryKeyField.f_Name}.setAutoSave();
+
+#end
+    }
+
+#foreach ( $model in $root.databaseModels )
+$utility.protocol("${model.f_Name}")
+
+    public ${model.primaryKeyField.f_Type} get${model.f_Name}${model.primaryKeyField.f_Name}()
+    {
+        return get${model.f_Name}${model.primaryKeyField.f_Name}Holder().getValue();
+    }
+
+    public void set${model.f_Name}${model.primaryKeyField.f_Name}(${model.primaryKeyField.f_Type} e)
+    {
+        get${model.f_Name}${model.primaryKeyField.f_Name}Holder().setValue(e);
+    }
+
+    public ScLocal${model.primaryKeyField.f_Type} get${model.f_Name}${model.primaryKeyField.f_Name}Holder()
+    {
+        return _${model.f_name}${model.primaryKeyField.f_Name};
+    }
+
+    public ${model.f_Class} get${model.f_Name}()
+    {
+        return getDaoRegistry().get${model.f_Name}Dao().find${model.primaryKeyField.f_Name}(get${model.f_Name}${model.primaryKeyField.f_Name}());
+    }
+
+    public void set${model.f_Name}(${model.f_Class} e)
+    {
+        if ( e == null )
+            set${model.f_Name}${model.primaryKeyField.f_Name}(null);
+        else
+            set${model.f_Name}${model.primaryKeyField.f_Name}(e.${model.primaryKeyField.f_getMethod}());
+    }
+
+    public void reset${model.f_Name}()
+    {
+        get${model.f_Name}${model.primaryKeyField.f_Name}Holder().resetValue();
+    }
+
+#end
+$utility.protocol("convenience")
+
+    protected ${Prefix}ServletData getData()
+    {
+        return ${Prefix}Globals.getData();
+    }
+
+    protected ${Prefix}DaoRegistry getDaoRegistry()
+    {
+        return new ${Prefix}DaoRegistry();
+    }
+
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $("#main").show();
+        }
+        
+        function myToggle()
+        {
+            var e;
+            e = $("#myDetail");
+            e.slideToggle();
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload='myLoad();'>
+<div id="main" style="display:none" class="padSpaced">
+
+    <div id="myBox" class="boxBlue pad"">
+    
+        <div id="myTitle" class="" onclick="myToggle();">
+            Options (click here to toggle)
+        </div>
+        
+        <div id="myDetail" class="pad hide">
+            <p>Detail</p>
+            <p>Detail</p>
+            <p>Detail</p>
+            <p>Detail</p>
+            <p>Detail</p>
+            <p>Detail</p>
+        </div>
+        
+    </div>
+    
+</div>
+</body>
+</html>

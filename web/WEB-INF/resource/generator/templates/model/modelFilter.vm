@@ -1,0 +1,102 @@
+package ${package}.filter;
+
+import com.kodemore.utility.*;
+
+import ${package}.criteria.*;
+import ${package}.filter.base.*;
+
+public class ${model.f_FilterClass}
+    extends ${model.f_FilterBaseClass}
+{
+$utility.protocol("sort (enum)")
+
+    public static enum Sort
+        implements KmNamedEnumIF
+    {
+        ${model.primaryKeyField.f_Name}("${model.primaryKeyField.f_Name}");
+
+        private String _name;
+
+        private Sort(String name)
+        {
+            _name = name;
+        }
+
+		@Override
+        public String getName()
+        {
+            return _name;
+        }
+    }
+
+$utility.protocol("variables")
+
+    private Sort _sort;
+    private boolean _sortAscending;
+
+$utility.protocol("sort")
+
+    public void sortOn${model.primaryKeyField.f_Name}()
+    {
+        sortOn(Sort.${model.primaryKeyField.f_Name});
+    }
+
+$utility.protocol("sort (support)")
+
+    public void sortOn(int i)
+    {
+        sortOn(Sort.values()[i]);
+    }
+
+    public void sortOn(Sort e)
+    {
+        _sort = e;
+    }
+
+    public boolean usesSort()
+    {
+        return _sort != null;
+    }
+
+$utility.protocol("sort order")
+
+    public void sortAscending()
+    {
+        sortAscending(true);
+    }
+
+    public void sortAscending(boolean e)
+    {
+        _sortAscending = e;
+    }
+
+    public void sortDescending()
+    {
+        sortAscending(false);
+    }
+
+$utility.protocol("apply")
+
+    @Override
+    protected void applyConditionsTo(${model.f_CriteriaClass} c)
+    {
+        // none
+    }
+
+    @Override
+    protected void applySortsTo(${model.f_CriteriaClass} c)
+    {
+        if ( !usesSort() )
+            return;
+
+        boolean asc = _sortAscending;
+
+        switch ( _sort )
+        {
+            case ${model.primaryKeyField.f_Name}:
+                c.sortOn${model.primaryKeyField.f_Name}(asc);
+                break;
+        }
+    }
+
+}

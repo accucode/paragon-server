@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+    </script>
+
+    <style type="text/css">
+    
+        .myTransparentField-div
+        {
+            background: lightgreen;
+            border: 1px solid darkgreen;
+            padding: 5px;
+        }
+        
+        .myTransparentField
+        {
+            border: none;
+            width: 100%;
+            font: normal 15px sans-serif;
+            background-color: transparent;
+        }
+        .myTransparentField:hover
+        {
+            -webkit-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow:    inset 0px 0px 3px rgba(0, 0, 0, 0.2);
+            box-shadow:         inset 0px 0px 3px rgba(0, 0, 0, 0.2);
+        }
+        .myTransparentField:focus
+        {
+            -webkit-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow:    inset 0px 0px 3px rgba(0, 0, 0, 0.2);
+            box-shadow:         inset 0px 0px 3px rgba(0, 0, 0, 0.2);
+        }
+
+            
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced10">
+
+    <form class="boxBlue padSpaced10">
+        <p>Some text in a form.</p>
+        
+        <p>Styling can be applied directly to the form (the blue box).
+            Note that the default form fills the horizontal container the 
+            same way as a "div".
+            </p>
+
+    </form>
+    
+    <form class="boxGray padSpaced10 clearfix">
+
+        <div>
+            Another form with samples of various input elements.
+        </div>
+        
+        <div class="label-default">
+            Label
+        </div>
+        
+        
+        <div>
+            <input type="text" class="textField-default" value="text field">
+        </div>
+        
+        
+        <div>
+            <textarea class="textArea-default">text area</textarea>
+        </div>
+        
+        
+        <div>
+            <p><input type="checkbox" checked> Checkbox 1</p>
+            <p><input type="checkbox"> Checkbox 2</p>
+            <p><input type="checkbox"> Checkbox 3</p>
+        </div>
+
+        
+        <div>
+            <p><input type="radio" name="group" checked> Radio 1</p>
+            <p><input type="radio" name="group"> Radio 2</p>
+            <p><input type="radio" name="group"> Radio 3</p>
+        </div>
+
+        <div>
+            <p>A text field with no border, a transparent background, and wrapped in a colored div.</p>
+            <p>This allows for more flexible styling.</p>
+            <p>This also allows you to simply set the fields with to 100%, then apply padding and margin to the div.</p>
+            <p>However, using this approach you cannot apply css styles to the div on focus.</p>
+            <div class="myTransparentField-div">
+                <input type="text" class="myTransparentField" value="transparent text field">
+            </div>
+        </div>
+        
+        <div class="buttonBoxLeft">
+                
+            <button type="button" class="button button-element-default" onclick="myClick();">
+                Button
+            </button>
+                
+            <button type="button" class="button button-element-default" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/cart.png" alt="">
+                With Image
+            </button>
+                
+            <button type="button" class="button button-element-positive" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/tick.png" alt="">
+                Positive
+            </button>
+                
+            <button type="button" class="button button-element-negative" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/cross.png" alt="">
+                Negative
+            </button>
+            
+            <button type="button" class="button button-element-disabled" disabled="disabled" onclick="myClick();">
+                Disabled
+            </button>
+            
+        </div>
+        
+    </form>
+    
+</div>
+</body>
+</html>

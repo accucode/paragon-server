@@ -1,0 +1,178 @@
+##################################################################################
+#
+# This file defines the replacement rules for the phonetic matching.
+#
+# Each rule has three parts.
+#
+#   Mode:     The mode defines how the rule will be applied.
+#             Valid values are: all, prefix, suffix.
+#
+#             all: all occurances of the oldValue will be replaced with the newValue
+#             prefix: Only the first occurance will be replaced, and only if it starts the beginning of the word.
+#             suffix: Only the last occurance will be replaced, and only if it ends the end of the word.
+#
+#   OldValue: The value to search for.
+#             This value is required and cannot not be an empty string.
+#
+#   NewValue: The value used to replace the oldValue, if found.
+#             This value may be an empty string.
+#
+# All rules are applied in the sequence in which they are defined.
+#
+# Blank lines are ignored.
+#
+# The pound (#) is a the comment delimited.
+# All text on a line after the pound sign is ignored.
+#
+##################################################################################
+
+
+# Change all y's to i's.  If the word starts with a y then leave that y unchanged.
+prefix,y,%
+all,y,i
+prefix,%,y
+
+
+# Change a couple of special cases.
+all,laugh,laf           # laugh
+all,ascis,ashis         # fashist
+
+
+# Change some common prefixes.
+prefix,gn,n             # gnome
+prefix,gh,g             # ghost
+prefix,jua,wa           # juan
+prefix,kn,n             # know
+prefix,pn,n             # pneumonia
+prefix,ps,s             # psycology
+prefix,pf,f             # pfizer
+prefix,rh,r             # rhombus
+prefix,ts,s             # tsunami
+prefix,who,ho           # whore
+prefix,wh,w             # whale
+prefix,x,s              # xerox
+
+
+# Change some common suffixes.
+suffix,ajo,aho          # navajo
+suffix,cht,t            # yacht
+suffix,ejo,eho          # viejo
+suffix,fth,th           # fifth
+suffix,ght,t            # flight
+suffix,gn,n             # foreign
+suffix,gns,ns           # aligns
+suffix,gned,nd          # aligned
+suffix,illa,ia          # tortilla
+suffix,illas,ias        # villas
+suffix,mb,m             # dumb
+suffix,mn,m             # condemn
+suffix,ogh,o            # van gogh
+suffix,ough,of          # enough
+suffix,augh,a           # limbaugh
+
+
+all,cce,kse             # success
+all,cci,ksi             # succinct
+all,ph,f                # pharmacy
+all,sce,se              # scene
+all,scho,sko            # school
+all,sche,ske            # schema
+all,sch,sh              # busch
+all,sci,si              # science
+all,gg,k                # egg
+
+
+all,z,s
+all,x,ks
+all,q,k
+all,v,f
+
+
+# change sh's to x, but only if the sh is not part of ssh.
+all,ss,%
+all,sh,x
+all,%,ss
+
+
+all,ck,k                # clock
+
+
+# change all duplicate letters to single letters
+all,aa,a
+all,bb,b
+all,cc,c
+all,dd,d
+all,ee,e
+all,ff,f
+all,gg,g
+all,hh,h
+all,ii,i
+all,jj,j
+all,kk,k
+all,ll,l
+all,mm,m
+all,nn,n
+all,oo,o
+all,pp,p
+all,qq,q
+all,rr,r
+all,ss,s
+all,tt,t
+all,uu,u
+all,vv,v
+all,ww,w
+all,xx,x
+all,yy,y
+all,zz,z
+
+
+all,cia,xa          # official
+all,dge,je          # judge
+all,dgi,ji          #
+all,gi,ji           # gin
+all,ge,je           # gender
+all,sia,xa          # persian
+all,sio,xa          # tension
+all,tch,x           # itch
+all,tia,xa          # martian
+all,tio,xo          # action
+all,th,z            # this
+all,ch,x            # sandwich
+all,ci,sa           # cinder
+all,ce,sa           # central
+all,gh,k            # spaghetti
+
+
+all,d,t
+all,c,k
+all,g,k
+
+
+all,e,a
+all,i,a
+all,o,a
+all,u,a
+
+
+# remove h if after a vowel and no vowel follows
+all,ah,%
+all,%a,aha
+all,%,a
+
+
+# remove w if not followed by a vowel
+all,w,%
+all,%a,wa
+all,%,
+
+
+# strip all remaining vowels
+# if the word started with a vowel then replace it with a single e.
+all,a,e
+prefix,e,%
+all,e,
+prefix,%,e
+
+
+suffix,s,           # remove plurals
+

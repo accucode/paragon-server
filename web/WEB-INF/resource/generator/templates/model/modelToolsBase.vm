@@ -1,0 +1,43 @@
+${javaAutoGenerationComment}
+
+package ${package}.model.base;
+
+import java.util.*;
+
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.servlet.action.*;
+import com.kodemore.servlet.control.*;
+import com.kodemore.servlet.field.*;
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
+import com.kodemore.validator.*;
+
+import ${package}.filter.*;
+import ${package}.finder.*;
+import ${package}.model.*;
+import ${package}.model.core.*;
+import ${package}.model.meta.*;
+import ${package}.utility.*;
+
+/**
+ * Miscellaneous tools for use with the model.
+ */
+public abstract class ${model.f_ToolsBaseClass}
+    extends ${Prefix}AbstractDomainTools
+{
+    public static final ${model.f_MetaClass} Meta = ${model.f_Class}.Meta;
+
+#if ( $model.hasDatabase() )
+    public ScDomainDropdownField<${model.f_Class},${model.primaryKeyField.f_Type}> newDomainDropdown()
+    {
+        ScDomainDropdownField<${model.f_Class},${model.primaryKeyField.f_Type}> e;
+        e = new ScDomainDropdownField<${model.f_Class},${model.primaryKeyField.f_Type}>();
+        e.setLabel(Meta.getLabel());
+        e.setFilter(new ${model.f_FilterClass}());
+        e.setFinder(new ${model.f_FinderClass}());
+        e.setOptionKeyAdaptor(Meta.${model.primaryKeyField.f_Name});
+        return e;
+    }
+#end
+}

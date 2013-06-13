@@ -1,0 +1,97 @@
+<project name="Setup" basedir="..">
+
+    <property name='dummy' value=''/>  
+    <import file="antCore.xml"/>
+
+    <target
+        name="installDatabase"
+        depends="init"
+        description="Reset the database schema.">
+        <antcall
+            target="runJavaClass">
+            <param name="javaClass" value="com.app.install.MyDatabaseInstaller"/>
+        </antcall>
+    </target>
+
+    <target
+        name="configureTomcat"
+        depends="init"
+        description="Configure the local development tomcat.">
+    	<copy
+    		file="${resource}/webInstall/index.html"
+    		todir="${env.CATALINA_HOME}/webapps/ROOT"
+    	    overwrite="true"
+            verbose="true"/>
+    	<copy
+    		file="${resource}/webInstall/favicon.ico"
+    		todir="${env.CATALINA_HOME}/webapps/ROOT"
+    	    overwrite="true"
+            verbose="true"/>
+    	<copy
+    		file="${resource}/webInstall/app.xml"
+    		todir="${env.CATALINA_HOME}/conf/Catalina/localhost"
+    	    overwrite="true"
+    		verbose="true"/>
+    </target>
+
+    <target
+        name="importSettings"
+        depends="init"
+    	description="Import user specific settings.">
+        <input
+            message="Settings to Import:"
+            addproperty="settingName"/>
+    	<copy
+    		file="${resource}/settings/${settingName}/_kmSetEnvLocal.bat"
+            tofile="${bin}/kmSetEnvLocal.bat"
+    	    overwrite="true"
+            verbose="true"/>
+    	<copy
+    		file="${resource}/settings/${settingName}/_overrides.txt"
+            tofile="${resource}/property/overrides.txt"
+    	    overwrite="true"
+            verbose="true"/>
+    	<copy
+    		file="${resource}/settings/${settingName}/_log4j.xml"
+            tofile="${resource}/log4j/log4j.xml"
+    	    overwrite="true"
+            verbose="true"/>
+        <copy
+            file="${resource}/settings/${settingName}/_app.xml"
+            tofile="${resource}/webInstall/app.xml"
+            overwrite="true"
+            verbose="true"/>
+    </target>
+
+    <target
+        name="exportSettings"
+        depends="init"
+        description="Export user specific settings.">
+        <input
+            message="Settings to Export:"
+            addproperty="settingName"/>
+        <mkdir
+            dir="${resource}/settings/${settingName}"/>
+        <copy
+            file="${bin}/kmSetEnvLocal.bat"
+            tofile="${resource}/settings/${settingName}/_kmSetEnvLocal.bat"
+            overwrite="true"
+            verbose="true"/>
+        <copy
+            file="${webResource}/property/overrides.txt"
+            tofile="${resource}/settings/${settingName}/_overrides.txt"
+            overwrite="true"
+            verbose="true"/>
+        <copy
+            file="${webResource}/log4j/log4j.xml"
+            tofile="${resource}/settings/${settingName}/_log4j.xml"
+            overwrite="true"
+            verbose="true"/>
+        <copy
+            file="${resource}/webInstall/app.xml"
+            tofile="${resource}/settings/${settingName}/_app.xml"
+            overwrite="true"
+            verbose="true"/>
+    </target>
+
+</project>

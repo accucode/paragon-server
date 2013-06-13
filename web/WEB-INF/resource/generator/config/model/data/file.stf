@@ -1,0 +1,56 @@
+model
+: name      = file
+: comment   = A file. A record of files managed on the file system.
+
+database
+: alias = f
+
+attributes
+
+    field
+    : name          = id
+    : comment       = The unique key.
+    : type          = id
+    : identity      = true
+    : primaryKey    = true
+
+    field
+    : name      = name
+    : comment   = A record of the file's original name. The name on our system is different. This may be initially unknown (null).
+    : type      = text100
+
+    field
+    : name      = path
+    : comment   = The local path to the file. This is not the full file system path, but rather the relative path based on the root directory that contains persistent files.
+    : type      = text100
+    : required  = true
+
+    field
+    : name      = createdUtcTs
+    : comment   = The time when the file was created (in our system).
+    : type      = timestamp
+    : default   = getNowUtc()
+    : required  = true
+
+    field
+    : name      = statusCode
+    : comment   = The status of the file. New: being created, should not use yet. Ready: Available for use; should not not edit. Deleted: The file has been deleted from the file system.
+    : type      = letterCode
+    : required  = true
+
+        enum
+            value(#N New)
+            value(#R Ready)
+            value(#D Deleted)
+            value(#E Error)
+
+    field
+    : name      = size
+    : comment   = The size of the file (in bytes).
+    : type      = integer
+
+    field
+    : name      = partialSize
+    : comment   = This may be used to monitor file creation status. E.g.: for web uploads.
+    : type      = integer
+

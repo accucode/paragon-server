@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+   
+<html>
+ 
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml; charset=utf-8" />
+             
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        /**************************************************
+         * install
+         **************************************************/
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+
+        function myInstall()
+        {
+            myInstallOuter();
+            myInstallInner();
+            
+            myInstallButtons();
+        }
+        
+        function myInstallOuter()
+        {
+            new KmBorderLayout(
+            {
+                parent:             '#outer',
+                
+                topVisible:         true,
+                topSize:            100,
+                topResizable:       true,
+                
+                bottomVisible:      true,
+                bottomSize:         100,
+                bottomResizable:    true,
+                
+                rightVisible:       true,
+                rightSize:          100,
+                rightResizable:     true,
+                
+                leftVisible:        true,
+                leftSize:           200,
+                leftResizable:      true,
+                
+                liveResize:         true,
+                debugBorders:       true
+            });            
+        }
+        
+        function myInstallInner()
+        {
+            new KmBorderLayout(
+            {
+                parent:             '#outerCenter',
+                idPrefix:           'inner',
+                classPrefix:        'inner',
+                
+                topVisible:         true,
+                topSize:            100,
+                topResizable:       true,
+                
+                bottomVisible:      true,
+                bottomSize:         100,
+                bottomResizable:    true,
+                
+                rightVisible:       true,
+                rightSize:          100,
+                rightResizable:     true,
+                
+                leftVisible:        true,
+                leftSize:           200,
+                leftResizable:      true,
+                
+                liveResize:         true,
+                debugBorders:       true
+            });            
+        }
+        
+        function myInstallButtons()
+        {
+            $('#outerTop').css('background-color', 'pink');
+                    
+            var p = $('#outerLeft');
+            
+            Kmu.addButtonTo(p, 'slide outer top', mySlideOuterTop);
+            Kmu.addButtonTo(p, 'reset outer', myResetOuter);
+            
+            p.append('<br>');
+            
+            Kmu.addButtonTo(p, 'show inner right', myShowInnerRight);
+            Kmu.addButtonTo(p, 'reset inner', myResetInner);
+        }
+        
+        /**************************************************
+         * tests (outer)
+         **************************************************/
+
+        function mySlideOuterTop()
+        {
+            myGetOuterLayout().slideToggle('top');            
+        }
+        
+        function myResetOuter()
+        {
+            myGetOuterLayout().resetLayout();
+        }
+        
+        function myGetOuterLayout()
+        {
+            return $('#outer').data('borderLayout');
+        }
+        
+        /**************************************************
+         * tests (inner)
+         **************************************************/
+        
+        function myShowInnerRight()
+        {
+            myGetInnerLayout().showToggle('right');            
+        }
+        
+        function myResetInner()
+        {
+            myGetInnerLayout().resetLayout();
+        }
+        
+        function myGetInnerLayout()
+        {
+            return $('#outerCenter').data('borderLayout');
+        }
+        
+    </script>
+         
+</head>
+     
+<body id='outer' onload="myLoad();">
+</body>
+ 
+</html>
+ 

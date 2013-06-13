@@ -1,0 +1,69 @@
+${javaAutoGenerationComment}
+
+package ${package}.dao.base;
+
+import com.kodemore.collection.*;
+import com.kodemore.dao.*;
+import com.kodemore.hibernate.*;
+import com.kodemore.hibernate.criteria.*;
+
+import ${package}.criteria.*;
+import ${package}.dao.core.*;
+import ${package}.filter.*;
+import ${package}.model.*;
+import ${package}.model.meta.*;
+
+public abstract class ${model.f_DaoBaseClass}
+    extends KmAbstractDao<${model.f_Class},${model.primaryKeyField.f_Type}>
+    implements ${model.f_DaoConstantsIF}
+{
+$utility.protocol("constructor")
+
+    public ${model.f_DaoBaseClass}()
+    {
+        super();
+    }
+
+$utility.protocol("override")
+
+    @Override
+    protected Class<${model.f_Class}> getPersistentClass()
+    {
+        return ${model.f_Class}.class;
+    }
+
+    @Override
+    protected String getTableName()
+    {
+        return "${model.f_sqlTable}";
+    }
+
+    @Override
+    public ${model.f_CriteriaClass} createCriteria()
+    {
+        return new ${model.f_CriteriaClass}(createGenericCriteria());
+    }
+
+    protected ${model.f_MetaClass} getMeta()
+    {
+        return ${model.f_Class}.Meta;
+    }
+
+$utility.protocol("find")
+
+    public ${model.f_Class} find${model.primaryKeyField.f_Name}(${model.primaryKeyField.f_Type} e)
+    {
+        return getKey(e);
+    }
+
+$utility.protocol("delete")
+
+    public void delete${model.primaryKeyField.f_Name}(${model.primaryKeyField.f_Type} e)
+    {
+        ${model.f_Class} m = find${model.primaryKeyField.f_Name}(e);
+        if ( m == null )
+            fatal("Cannot delete; key not found(%s).", e);
+        delete(m);
+    }
+
+}

@@ -1,0 +1,37 @@
+model
+: name      = autoSignIn
+: comment   = Track the tokens that authorize a person/browser to automatically sign in.
+
+database
+: alias = asi
+
+attributes
+
+    field
+    : name          = uid
+    : comment       = The unique key.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+
+    field
+    : name          = createdUtcTs
+    : comment       = When was the token created.
+    : type          = timestamp
+    : default       = getNowUtc()
+    : required      = true
+                    
+    field
+    : name          = lastUtcTs
+    : comment       = The last time this token was used.
+    : type          = timestamp
+    : default       = getNowUtc()
+    : required      = true
+                    
+    association     
+    : name          = user
+    : comment       = The user to sign in.
+    : modelName     = user
+    : relation      = reference
+    : required      = true
+

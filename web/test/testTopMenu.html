@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<!--
+    http://webdesignerwall.com/tutorials/css3-dropdown-menu
+  -->
+  
+<html>
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+    
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function mySetAccount(name)
+        {
+            $("#accountMenu").text(name);
+        }
+        
+    </script>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none">
+
+    <div class="boxBlue pad">
+        Before
+    </div>
+
+    <div class="topMenuWrapper clearfix">
+        
+        <ul class="topMenu">
+        
+        	<li><a href="#" onclick="Kmu.toast('home');return false;">Top Only</a></li>
+        	
+        	<li><a href="#" onclick="return false;">With Children</a>
+        		<ul>
+                    <li><a href="#" onclick="return false;">Item 1</a></li>
+                    <li><a href="#" onclick="return false;">Item 2</a></li>
+                    <li><a href="#" onclick="return false;">Item 3</a></li>
+                    <li><a href="#" onclick="return false;">Item 4</a></li>
+                    <li><a href="#" onclick="return false;">Item 5</a></li>
+        		</ul>
+        	</li>
+        		
+            <li><a id="accountMenu" href="#" onclick="return false;">AccuCode Inc.</a>
+        		<ul>
+                    <li><a href="#" onclick="return false;">Item 1</a></li>
+                    <li>
+                        <a href="#" onclick="return false;">Nested...</a>
+                        <ul>
+                            <li><a href="#" onclick="return false;">Sub Item 1</a></li>
+                            <li>
+                                <a href="#" onclick="return false;">Nested...</a>
+                                <ul>
+                                    <li><a href="#" onclick="return false;">Sub Item 1</a></li>
+                                    <li><a href="#" onclick="return false;">Sub Item 2</a></li>
+                                    <li><a href="#" onclick="return false;">Sub Item 3</a></li>
+                                    <li><a href="#" onclick="return false;">Sub Item 4</a></li>
+                                    <li><a href="#" onclick="return false;">Sub Item 5</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#" onclick="return false;">Sub Item 3</a></li>
+                            <li><a href="#" onclick="return false;">Sub Item 4</a></li>
+                            <li><a href="#" onclick="return false;">Sub Item 5</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" onclick="return false;">Item 3</a></li>
+                    <li><a href="#" onclick="return false;">Item 4</a></li>
+                    <li><a href="#" onclick="return false;">Item 5</a></li>
+        		</ul>
+        	</li>
+        	
+        	<li><a href="#" onclick="return false;">Wyatt Love</a>
+                <ul>
+                    <li><a href="#" onclick="return false;">Item 1</a></li>
+                    <li><a href="#" onclick="return false;">Item 2</a></li>
+                    <li><a href="#" onclick="return false;">Item 3</a></li>
+                    <li><a href="#" onclick="return false;">Item 4</a></li>
+                    <li><a href="#" onclick="return false;">Item 5</a></li>
+                </ul>
+        	</li>
+        	
+        </ul>
+        
+    </div>
+    
+    <div class="boxBlue pad">
+        After
+    </div>
+
+    <div class="boxGreen pad">
+        <button onclick="mySetAccount('AccuCode Inc.');">Set Account (accucode)</button>
+        <button onclick="mySetAccount('Acme Inc.');">Set Account (acme)</button>
+    </div>
+
+</div>
+</body>
+</html>

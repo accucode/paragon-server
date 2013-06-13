@@ -1,0 +1,1 @@
+A jquery plugin to show popup toast messages that automatically fade.Licencse: Apache 2.0http://akquinet.github.com/jquery-toastmessage-plugin/

@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $("#main").fadeIn();
+        }            
+        
+    </script>
+
+    <style type="text/css">
+    
+        #rounded
+        {   
+            padding: 10px;
+            background-color: lightgray;
+            
+            border: thin solid gray;
+            
+            border-radius:          10px;
+            -moz-border-radius:     10px;
+            -webkit-border-radius:  10px;
+        }
+        
+    </style>
+
+</head>
+
+<body onload="myLoad();">
+<div id="main" style="display:none" class="padSpaced">
+
+    <div id="rounded">test</div>
+    
+</div>
+</body>
+</html>

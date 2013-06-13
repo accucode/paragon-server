@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<!--
+Application: ${applicationName}
+Version: ${applicationVersion}
+-->
+
+<html>
+<head>
+    <title>${applicationName}</title>
+    
+    <meta http-equiv="Content-Type"     content="text/html; charset=UTF-8">
+    <meta http-equiv="Cache-Control"    content="no-cache">
+    <meta http-equiv="Pragma"           content="no-cache">
+    <meta http-equiv="Expires"          content="-1">
+    
+    <script type="text/javascript" src ="/app/static/${versionFolder}/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="/app/static/${versionFolder}/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            var version = "${versionFolder}";
+            
+            var options = 
+            { 
+                title: "${applicationName}",
+                onComplete: myInstall,
+                delay: 0
+            };
+            
+            MyResourceLoader.loadAppResources(options, version);
+        }
+        
+        function myInstall()
+        {
+            KmHistory.register(Kmu.ajaxNavigate);
+            Kmu.ajaxEnter(${params});
+        }
+        
+    </script>
+
+</head>
+
+<body onload="myLoad();"></body>
+
+</html>

@@ -1,0 +1,146 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>user</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>user</h1>
+
+The list of all users. Users are global - that is, independent of any particular account.<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+  <td>The unique key.&nbsp;</td>
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+            pk<br>                required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>name&nbsp;</td>
+  <td>The user name, we typically default this to the username portion of the user's email address.&nbsp;</td>
+  <td>name
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>email&nbsp;</td>
+  <td>The email is effectively the user identify.&nbsp;</td>
+  <td>email
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>verified&nbsp;</td>
+  <td>Indicates if this user's email address has been verified. We require the email address to be verified before the user is allowed to log in.&nbsp;</td>
+  <td>boolean
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>passwordSalt&nbsp;</td>
+  <td>The salt used for this user. Each user has a different salt. The salt is set to a random value when the user is created, and should never be changed.&nbsp;</td>
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>passwordHash&nbsp;</td>
+  <td>The password sha hash used to authenticate the user. The actual password is not stored. If the user has no password the hash is set to empty string.&nbsp;</td>
+  <td>shaHash
+        <br><nobr>max length: 40</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>timeZoneCode&nbsp;</td>
+  <td>The time zone.&nbsp;</td>
+  <td>timeZoneCode
+        <br><nobr>max length: 5</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>roleCode&nbsp;</td>
+  <td>The role, or access level.&nbsp;</td>
+  <td>letterCode
+        <br><nobr>max length: 1</nobr>           <br>allows(
+                      letters
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>lockVersion&nbsp;</td>
+  <td>Used for optimistic locking.&nbsp;</td>
+  <td>lockVersion
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>roleName&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>name
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

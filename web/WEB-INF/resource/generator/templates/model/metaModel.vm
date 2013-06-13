@@ -1,0 +1,58 @@
+${javaAutoGenerationComment}
+
+package ${package}.model.meta;
+
+import java.util.*;
+
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.meta.*;
+import com.kodemore.servlet.encoder.*;
+import com.kodemore.servlet.field.*;
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
+import com.kodemore.validator.*;
+
+import ${package}.model.*;
+import ${package}.model.core.*;
+import ${package}.utility.*;
+
+public class $model.f_MetaClass
+    extends KmMetaModel
+{
+$utility.protocol("singleton")
+
+    public static final ${model.f_MetaClass} instance = new ${model.f_MetaClass}();
+
+$utility.protocol("constructor")
+
+    private ${model.f_MetaClass}()
+    {
+        // singleton
+    }
+
+$utility.protocol("accessing")
+
+    @Override
+    public String getName()
+    {
+        return "$model.f_name";
+    }
+
+    public static ${model.f_ValidatorClass} getValidator()
+    {
+        return ${model.f_ValidatorClass}.instance;
+    }
+
+$utility.protocol("fields and delegates")
+
+#foreach ( $field in $model.metaFieldsAndDelegates )
+    public static final ${field.f_MetaClass} ${field.f_Name} = new ${field.f_MetaClass}();
+#end
+
+$utility.protocol("associations")
+
+#foreach ( $field in $model.metaAssociations )
+    public static final ${field.f_MetaClass} ${field.f_Name} = new ${field.f_MetaClass}();
+#end
+}

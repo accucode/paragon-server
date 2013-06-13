@@ -1,0 +1,65 @@
+${javaAutoGenerationComment}
+
+package ${package}.db.misc;
+
+import com.kodemore.sql.*;
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
+
+import ${package}.db.*;
+import ${package}.db.core.*;
+import ${package}.model.*;
+
+/**
+ * The dbAccess acts as a wrapper for a database connection and
+ * instances of the modelDb classes.  This allows clients to easily
+ * create a dbAccess and use it to retrieve the pertinent modelDb's
+ * ensuring that only a single instance of each modelDb is used for
+ * the given context and that all the modelDb's share the same db
+ * connection.
+ */
+public class $(schema.DbAccessClass)
+    extends ${Prefix}DbAccess
+{
+    //##################################################
+    //# constructor
+    //##################################################//
+
+    public $(schema.DbAccessClass)(${Prefix}Schema e)
+    {
+        super(e);
+    }
+
+    //##################################################
+    //# variables
+    //##################################################//
+
+    <loop list="$(schema.models)" each="model">
+    private $(model.DbClass) $(model.variable)Db;
+    </loop>
+
+    //##################################################
+    //# db's
+    //##################################################//
+
+    <loop list="$(schema.models)" each="model">
+    public $(model.DbClass) $(model.getter)Db()
+    {
+        if ( $(model.variable)Db == null )
+            $(model.variable)Db = new $(model.DbClass)(this);
+        return $(model.variable)Db;
+    }
+
+    </loop>
+<if test="$schema.isMultiple">
+    //##################################################
+    //# support
+    //##################################################//
+
+    public String get${schema.f_Name}Code()
+    {
+        return getSchema().get${schema.f_Name}Code();
+    }
+</if>
+}
+

@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyServerSession"
+        table="serverSession"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="active"
+            column="active"
+            type="yes_no"
+            />
+
+        <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.KmHibernateTimestampType"
+            />
+
+        <property
+            name="closedUtcTs"
+            column="closedUtcTs"
+            type="com.kodemore.hibernate.KmHibernateTimestampType"
+            />
+
+        <property
+            name="lastTouchedUtcTs"
+            column="lastTouchedUtcTs"
+            type="com.kodemore.hibernate.KmHibernateTimestampType"
+            />
+
+        <property
+            name="version"
+            column="version"
+            type="string"
+            />
+
+        <many-to-one
+            name="user"
+            column="userUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="autoSignIn"
+            column="autoSignInUid"
+            class="com.app.model.MyAutoSignIn"
+            cascade="none"
+            />
+
+    </class>
+</hibernate-mapping>

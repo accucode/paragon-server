@@ -1,0 +1,281 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<!--
+  - Buttons become rather more complicated when used in applications.
+  -
+  - Goals:
+  -     Pretty:     We want the buttons to be relatively pretty.
+  -     Size:       Buttons should auto-size based on text.
+  -     CSS:        Manage the LAF via CSS, rather than creating customer images.
+  -     Icons:      Support the ability embed small icons, icons should not affect vertical button size.
+  -     Consistent: Buttons should look the ~same across all browsers.
+  -
+  - We need to accounts for all of the following permutations:
+  -     Primary.  Does the button represent the "primary" form action.  Values: Yes, No.
+  -     Enabled.  Is the button currently enabled.  Values: Yes, No.
+  -     Style.    What is the general style.  Values: Neutral, Positive, Negative.
+  -     Image.    Support an optional 16x16 embedded icon.
+  -     Hover.    Visually indicate when hovered (e.g.: change background)
+  -     Click.    Visually indicate when clicked (e.g.: offset icon and text)
+  - 
+  - Non-compatible effects.  There are a number of CSS effects that
+  - have been applied for those browsers that support them.  These
+  - effects make the buttons "prettier" but should not affect the user's
+  - interpretation of the buttons.  Effects should only be used if they
+  - degrade politely in browsers that do not support them.  Effects being
+  - used: transitions, shadows, rounded corners, hovers. 
+  -
+  - These styles are based loosely on those discussed by particletree.
+  - However, the html and css have been redesigned with different 
+  - structure and colors.
+  - http://particletree.com/features/rediscovering-the-button-element/
+  - 
+  - This sample used images from silk, however any 16x16 pngs will work.
+  - http://www.famfamfam.com/
+  -
+  - Shadows: 
+  -     The shadows add a lot to the feel of the buttons.
+  -     The shadows are supported by multiple version of various browsers.
+  -     Shadows are NOT supported by IE.  Not even IE9.
+  -     When not supported, the shadows are simply not displayed.
+  - 
+  - Outlines: 
+  -     I have currently disabled outlines.
+  -     I would prefer to enable outlines; e.g.: to display a dashed box around
+  -     the button when it is clicked.  However, Firefox display the outline
+  -     outside of the shadow box, and therefore it looks odd.  For now, I would
+  -     prefer to use shadow boxes when available, so I am NOT using outlines.
+  -  
+  - Rounded Corners: 
+  -     I am currently using rounded corners.  The effect is slight and meant
+  -     to soften the buttons rather than add a strong effect.  Rounded corners
+  -     have fairly broad support and degrade to normal rectangular corners.
+  -     IE9 is required.  
+  --> 
+  
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+        function myClick()
+        {
+            // Kmu.toast('click');
+        }
+        
+    </script>
+
+    <style type="text/css">
+
+        .myBox
+        {
+            border: thin solid #aaa;
+            background-color: #eee;
+            overflow: auto;
+            padding: 10px;
+        }
+
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced10">
+
+    <div class="boxGray">
+        
+        <div class="backgroundLightGray pad" onclick="$('#notes').slideToggle();">
+            Notes (toggle)
+        </div>
+        
+        <div id="notes" class="hide pad10">
+            <p class="bold">Summary</p>
+            <p>This page demonstrates the standard buttons used in the application.
+                The themes are based on the standard application styles derived from
+                resources such as reset.css, theme.css, and button.css.
+            </p>
+            
+            <br>
+            <p class="bold">Rules</p>
+            <p> 
+                <ul>
+                    <li>Buttons must always be floated.  That is, you must apply 
+                        a style of float:left, or float:right.  Without this the 
+                        buttons will not behave correctly.
+                    </li>
+                    <li>Buttons should always include the class: "button".  
+                        Additional styles can be applied to indicate positive
+                        or negative emphasis, as well as which button is the 
+                        primary.
+                    </li>
+                    <li>Buttons should always be wrapped inside a div with the
+                        class "button".  The primary reason for this is to allow
+                        for simple and consistent layout.  Because the buttons
+                        use the margin attribute to ~wiggle when clicked, any
+                        use of margins for the purpose of layout should be applied
+                        to the wrapping div.
+                    </li>
+                    <li>There is currently no way to truly center buttons. 
+                        However, we can reasonably approximate a centered button
+                        by right-aligning a button with a container set to 50%
+                        width.  An example of this is included below.
+                    </li>
+                </ul>  
+            </p>
+        </div>
+    </div>
+
+
+    <div class="myBox">
+        <div class="marginRightChildren">
+        
+            <div>Normal Buttons</div>
+        
+            <button type="button" class="button button-element-default" onclick="myClick();">
+                Button
+            </button>
+                
+            <button type="button" class="button button-element-default" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/cart.png" alt="">
+                With Image
+            </button>
+                
+            <button type="button" class="button button-element-positive" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/tick.png" alt="">
+                Positive
+            </button>
+                
+            <button type="button" class="button button-element-negative" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/cross.png" alt="">
+                Negative
+            </button>
+            
+            <button type="button" class="button button-element-disabled" disabled="disabled" onclick="myClick();">
+                Disabled
+            </button>
+            
+        </div>
+    </div>
+    
+    
+        
+    <div class="myBox">
+        <div class="marginRightChildren">
+                
+            <div>Primary Buttons</div>
+            
+            <button type="button" class="button button-element-default button-primary" onclick="myClick();">
+                Button
+            </button>
+                
+            <button type="button" class="button button-element-default button-primary" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/cart.png" alt="">
+                With Image
+            </button>
+                
+            <button type="button" class="button button-element-positive button-primary" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/tick.png" alt="">
+                Positive
+            </button>
+                
+            <button type="button" class="button button-element-negative button-primary" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/cross.png" alt="">
+                Negative
+            </button>
+            
+            <button type="button" class="button button-element-disabled button-primary" disabled="disabled" onclick="myClick();">
+                Disabled
+            </button>
+            
+        </div>
+    </div>
+    
+    
+        
+    <div class="myBox">
+        <div>Simple Layout.</div>
+    
+        <div class="floatLeft width50p">
+            
+            <button type="button" class="button button-element-default" onclick="myClick();">
+                Button
+            </button>
+
+            <div class="floatRight">
+                <button type="button" class="button button-element-default" onclick="myClick();">
+                    <img src="../static/silk-1.3/icons/cart.png" alt="">
+                    With Image
+                </button>
+            </div>
+            
+        </div>
+                        
+        <div class="floatRight marginLeftChildren">
+        
+            <button type="button" class="button button-element-negative" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/cross.png" alt="">
+                Negative
+            </button>
+            
+            <button type="button" class="button button-element-positive button-primary" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/tick.png" alt="">
+                Positive
+            </button>
+                
+        </div>
+    </div>
+    
+    <div class="myBox">
+        <div>
+        
+            <div>No spacing</div>
+        
+            <button type="button" class="button button-element-default" onclick="myClick();">
+                Button
+            </button>
+                
+            <button type="button" class="button button-element-default" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/cart.png" alt="">
+                With Image
+            </button>
+                
+            <button type="button" class="button button-element-positive" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/tick.png" alt="">
+                Positive
+            </button>
+                
+            <button type="button" class="button button-element-negative" onclick="myClick();">
+                <img src="../static/silk-1.3/icons/cross.png" alt="">
+                Negative
+            </button>
+            
+            <button type="button" class="button button-element-disabled" disabled="disabled" onclick="myClick();">
+                Disabled
+            </button>
+            
+        </div>
+    </div>
+
+    
+</div>
+</body>
+
+</html>

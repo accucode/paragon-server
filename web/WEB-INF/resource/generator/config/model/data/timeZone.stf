@@ -1,0 +1,52 @@
+model
+: name          = timeZone
+: comment       = A service type. Changing service types requires and update to java business logic.
+: skipModelBase
+
+attributes
+
+    abstractField
+    : name      = code
+    : comment   = The unique key.
+    : type      = code5
+
+    abstractField
+    : name      = name
+    : comment   = The longer display name.
+    : type      = name
+
+    abstractField
+    : name      = utcOffsetMinutes
+    : comment   = The number of minutes ahead or behind UTC.
+    : type      = integer
+
+    abstractField
+    : name      = dstCode
+    : comment   = dstCode
+    : type      = calculated
+
+    abstractField
+    : name      = dstOffsetMinutes
+    : comment   = dstOffsetMinutes
+    : type      = integer
+
+    abstractField
+    : name      = dstStartMonth
+    : comment   = dstStartMonth
+    : type      = integer
+
+    abstractField
+    : name      = dstStartDay
+    : comment   = dstStartDay
+    : type      = integer
+
+    abstractField
+    : name      = dstEndMonth
+    : comment   = dstEndMonth
+    : type      = integer
+
+    abstractField
+    : name      = dstEndDay
+    : comment   = dstEndDay
+    : type      = integer
+

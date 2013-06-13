@@ -1,0 +1,45 @@
+model
+: name      = performanceLog
+: comment   = A log for performance metrics.
+
+database
+: alias     = pl
+: locking   = false
+
+    index
+    : name  = name
+    : on    = name
+
+    index
+    : name  = createdUtcTs
+    : on    = createdUtcTs
+    : on    = name
+
+attributes
+
+    field
+    : name          = id
+    : comment       = The unique key.
+    : type          = id
+    : identity      = true
+    : primaryKey    = true
+
+    field
+    : name      = name
+    : comment   = The name. This is typically something like the name of the servlet or job.
+    : type      = text100
+    : required  = true
+
+    field
+    : name      = createdUtcTs
+    : comment   = The approximate time when the task was run. In practice this will be very close to when the task ended but may lag a few milliseconds.
+    : type      = timestamp
+    : default   = getNowUtc()
+    : required  = true
+
+    field
+    : name      = durationMs
+    : comment   = The length of the task in milliseconds.
+    : type      = integer
+    : required  = true
+

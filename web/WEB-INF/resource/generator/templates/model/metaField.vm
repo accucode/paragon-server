@@ -1,0 +1,135 @@
+${javaAutoGenerationComment}
+
+package ${package}.model.meta;
+
+import java.util.*;
+
+import com.kodemore.adaptor.*;
+import com.kodemore.collection.*;
+import com.kodemore.comparator.*;
+import com.kodemore.exception.*;
+import com.kodemore.match.*;
+import com.kodemore.meta.*;
+import com.kodemore.servlet.encoder.*;
+import com.kodemore.servlet.field.*;
+import com.kodemore.time.*;
+import com.kodemore.types.*;
+import com.kodemore.utility.*;
+import com.kodemore.validator.*;
+
+import ${package}.dao.*;
+import ${package}.dao.base.*;
+import ${package}.model.*;
+import ${package}.model.core.*;
+import ${package}.utility.*;
+
+public class ${field.f_MetaClass}
+    extends ${field.f_MetaSuperClass}
+#if ( $field.isDaoProperty() )
+    implements KmMetaDaoPropertyIF<${field.model.f_Class},${field.f_Type}>
+#end
+{
+$utility.protocol("accessing")
+
+    @Override
+    public String getName()
+    {
+        return "${field.f_name}";
+    }
+
+    @Override
+    public String getLabel()
+    {
+        return "${field.f_label}";
+    }
+
+    @Override
+    public int getColumnWidth()
+    {
+        return ${field.f_columnWidth};
+    }
+
+    @Override
+    public boolean isEditable()
+    {
+        return $field.isEditable();
+    }
+
+#if ( $field.hasValidator() )
+    @Override
+    public ${field.f_ValidatorClass} getValidator()
+    {
+        return ${field.model.f_ValidatorClass}.instance.get${field.f_Name}Validator();
+    }
+
+#end
+#if ( $field.isDaoProperty() )
+$utility.protocol("dao")
+
+    @Override
+    public String getDaoPropertyName()
+    {
+        return "${field.f_daoPropertyName}";
+    }
+
+    @Override
+    public $field.model.f_DaoClass getDao()
+    {
+        return ${field.model.f_daoGetter}();
+    }
+
+    private MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
+    
+#end
+#if ( $field.hasEnum() )
+$utility.protocol("enum")
+
+    public ScDropdown newDropdown()
+    {
+        return newDropdown(getLabel());
+    }
+
+    public ScDropdown newDropdown(String label)
+    {
+        ScDropdown e;
+        e = new ScDropdown();
+        e.setLabel(label);
+        e.setValidator(getValidator());
+        e.setValue(getAdaptor());
+        e.addOptions(${field.enum.f_Class}.values());
+        return e;
+    }
+    
+#end
+$utility.protocol("value")
+
+    @Override
+    public ${field.f_Type} getValueFor(${field.model.f_Class} model)
+    {
+        return model.${field.f_getMethod}();
+    }
+    
+#if ( $field.isEditable() )
+    @Override
+    public void setValueFor(${field.model.f_Class} model, ${field.f_Type} value)
+    {
+        model.${field.f_setMethod}(value);
+    }
+    
+#end    
+    @Override
+    public boolean hasValueFor(${field.model.f_Class} model, ${field.f_Type} value)
+    {
+        return model.${field.f_hasMethod}(value);
+    }
+    
+    @Override
+    public int compareValues(${field.model.f_Class} o1, ${field.model.f_Class} o2, boolean nullsOnTop)
+    {
+        return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
+    }
+    
+}

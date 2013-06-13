@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<!--
+  - Some misc CSS tests and examples.
+  --> 
+  
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <!--
+       -------------------------------- 
+       - The RESET css 
+       -------------------------------- 
+       -->
+    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/reset.css" />
+    
+    <style type="text/css">
+
+        h1
+        {
+            font-size: 36px;
+            font-weight: bold;
+            background-color: yellow;
+            border: thin solid gray;
+            padding: 10px 5px;
+            margin: 20px 5px 10px;
+        }
+
+        p
+        {
+            margin: 10px;
+        }
+                
+        /*
+         * Hide an element.
+         * We use the display attribute for compatiblity with JQuery and other tools.
+         */
+        .hidden
+        {
+            display: none;
+        }
+
+        /*
+         * Add a 5px gap around all of my children.
+         * This is done by adding a top-left 5px padding to myself.
+         * Then adding a bottom-right 5px margin to all my children.
+         */
+        .rowPad5
+        {
+            padding-top: 5px;
+            padding-left: 5px;
+        }
+        .rowPad5 > *
+        {
+            margin-bottom: 5px;
+            margin-right: 5px;
+        }
+
+        .blackBorder
+        {
+            border: thin solid black;
+        }
+
+        .blueBorder
+        {
+            border: thin solid blue;
+        }
+
+        .redBorder
+        {
+            border: thin solid red;
+        }
+
+        /*
+         * The basic overflow.  This typically set to remind divs to expand
+         * around their children.  Without this divs often allow their children
+         * to expand past the edge of the parent.
+         */        
+        .autoOverflow
+        {
+            overflow: auto;
+        }
+
+        .floatLeft
+        {
+            float: left;
+        }
+
+        .floatRight
+        {
+            float: right;
+        }
+
+        .font72
+        {
+            font-size: 72px;
+        }
+
+        .clearBoth
+        {
+            clear: both;
+        }
+
+        /*
+         * A style button.
+         */
+        .greenButton
+        {
+            background-color: lightgreen;
+            border: thin solid darkgreen;
+        }
+        
+        textarea.sample
+        {
+            width: 90%;
+            margin: 10px;
+            background-color: lightgrey;
+            border: thin solid grey;        
+            white-space: nowrap;
+        }
+        
+    </style>
+
+    <script type="text/javascript">
+
+        function myTest()
+        {
+            // noop
+        }
+        
+    </script>
+
+</head>
+
+<body>
+
+<!--
+  ===============================================
+  == Div Overflow
+  ===============================================
+-->
+
+<h1>Div Overflow</h1>
+<p>This demonstrates a common problem with nested divs.  When the child divs are taller than the parent div, the parent div fails to expand to contain the children.</p>
+<div class="blueBox">
+    Some text.
+    <div class="floatLeft redBorder font72">left</div>
+    <div class="floatRight redBorder font72">right</div>
+</div>
+<div class="clearBoth"></div>
+<p>The solution is to add an "overflow:auto" to the parent div.  The other common solution is the "clearfix" approach, which adds an extra hidden child with the style "clear:both".  Setting the parent's overflow seems be an accepted solution.</p>
+<div class="blackBorder autoOverflow">
+    Some text.
+    <div class="floatLeft redBorder font72">left</div>
+    <div class="floatRight redBorder font72">right</div>
+</div>
+
+
+<!--
+  ===============================================
+  == Style the Children
+  ===============================================
+-->
+
+<h1>Style the Children</h1>
+<p>Normally we think of setting style on a specific element or class. However, you can also apply styles to an elements children.  This allows you to style the children in a manner that is specific to themselves, then allow the parent to add extra decorations.</p>
+<p>Here is a div containing several styled buttons.</p>
+<div class="blueBorder">
+    <button class="greenButton">One</button><button class="greenButton">Two</button><button class="greenButton">Three</button>
+</div>
+<p>Here is the same div.  This time the parent div includes the class "rowPad5" to add some padding on the children.</p>
+<div class="blueBorder rowPad5">
+    <button class="greenButton">One</button><button class="greenButton">Two</button><button class="greenButton">Three</button>
+</div>
+<textarea class="sample" style="height:100px" wrap="off" readonly>
+<div class="blueBorder rowPad5">
+    <button class="greenButton">One</button><button class="greenButton">Two</button><button class="greenButton">Three</button>
+</div>
+</textarea>
+
+</body>
+</html>

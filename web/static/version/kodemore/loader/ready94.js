@@ -1,0 +1,1 @@
+KmResourceLoader.ready = true;

@@ -1,0 +1,111 @@
+${javaAutoGenerationComment}
+
+package com.kodemore.html.cssBuilder;
+
+import com.kodemore.html.KmCssBuilder;
+import com.kodemore.utility.KmValueHolderIF;
+
+public class KmCss${bundle.f_Name}Builder
+    extends KmCssBuilder
+{
+$utility.protocol("constructor")
+
+    public KmCss${bundle.f_Name}Builder()
+    {
+        super();
+    }
+
+    public KmCss${bundle.f_Name}Builder(KmValueHolderIF<String> holder)
+    {
+        super(holder);
+    }
+
+$utility.protocol("chain")
+
+    @Override
+    public KmCss${bundle.f_Name}Builder add()
+    {
+        return (KmCss${bundle.f_Name}Builder) super.add();
+    }
+
+    @Override
+    public KmCss${bundle.f_Name}Builder add(String e)
+    {
+        return (KmCss${bundle.f_Name}Builder) super.add(e);
+    }
+
+    @Override
+    public KmCss${bundle.f_Name}Builder add(String prefix, String part, String flavor)
+    {
+        return (KmCss${bundle.f_Name}Builder) super.add(prefix, part, flavor);
+    }
+
+    @Override
+    public KmCss${bundle.f_Name}Builder remove()
+    {
+        return (KmCss${bundle.f_Name}Builder) super.remove();
+    }
+
+    @Override
+    public KmCss${bundle.f_Name}Builder remove(String e)
+    {
+        return (KmCss${bundle.f_Name}Builder) super.remove(e);
+    }
+    
+    @Override
+    public KmCss${bundle.f_Name}Builder remove(String prefix, String part, String flavor)
+    {
+        return (KmCss${bundle.f_Name}Builder) super.remove(prefix, part, flavor);
+    }
+
+    @Override
+    public KmCss${bundle.f_Name}Builder toggle()
+    {
+        return (KmCss${bundle.f_Name}Builder) super.toggle();
+    }
+
+    @Override
+    public KmCss${bundle.f_Name}Builder toggle(String e)
+    {
+        return (KmCss${bundle.f_Name}Builder) super.toggle(e);
+    }
+
+    @Override
+    public KmCss${bundle.f_Name}Builder toggle(String prefix, String part, String flavor)
+    {
+        return (KmCss${bundle.f_Name}Builder) super.toggle(prefix, part, flavor);
+    }
+
+    @Override
+    public KmCss${bundle.f_Name}Builder apply(String e)
+    {
+        return (KmCss${bundle.f_Name}Builder) super.apply(e);
+    }
+
+    @Override
+    public KmCss${bundle.f_Name}Builder apply(String prefix, String part, String flavor)
+    {
+        return (KmCss${bundle.f_Name}Builder) super.apply(prefix, part, flavor);
+    }
+
+$utility.protocol("copy")
+
+    @Override
+    public KmCss${bundle.f_Name}Builder getCopy()
+    {
+        KmCss${bundle.f_Name}Builder copy;
+        copy = new KmCss${bundle.f_Name}Builder();
+        copy.setValue(getValue());
+        return copy;
+    }
+
+$utility.protocol("selectors")
+
+#foreach ( $e in $bundle.selectors )
+    public KmCss${bundle.f_Name}Builder ${e.f_method}()
+    {
+        return apply(KmCss${bundle.f_Name}ConstantsIF.${e.f_constant});
+    }
+    
+#end
+}

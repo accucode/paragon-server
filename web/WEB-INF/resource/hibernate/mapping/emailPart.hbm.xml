@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyEmailPart"
+        table="emailPart"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="sequence"
+            column="sequence"
+            type="integer"
+            />
+
+        <property
+            name="typeCode"
+            column="typeCode"
+            type="string"
+            />
+
+        <property
+            name="attachmentName"
+            column="attachmentName"
+            type="string"
+            />
+
+        <property
+            name="data"
+            column="data"
+            type="com.kodemore.hibernate.KmHibernateBlobType"
+            />
+
+        <many-to-one
+            name="email"
+            column="emailUid"
+            class="com.app.model.MyEmail"
+            cascade="none"
+            />
+
+    </class>
+</hibernate-mapping>

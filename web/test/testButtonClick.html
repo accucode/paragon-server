@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+        function showToast()
+        {
+            Kmu.toast('click');
+        }
+        
+    </script>
+
+    <style type="text/css">
+
+        .myBox
+        {
+            border: thin solid #aaa;
+            background-color: #eee;
+            overflow: auto;
+            padding: 10px;
+        }
+
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced10">
+
+    <div class="boxGray">
+        
+        <div class="backgroundLightGray pad" onclick="$('#notes').slideToggle();">
+            Notes (toggle)
+        </div>
+        <div id="notes" class="hide pad10">
+            ...
+        </div>
+    </div>
+
+
+    <div class="myBox">
+        <div class="marginRightChildren">
+        
+            <button type="button" class="button button-element-default" onclick="showToast();">
+                toast
+            </button>
+            
+            <button type="button" class="button button-element-default" onclick="document.location='http://www.google.com';">
+                google
+            </button>
+            
+        </div>
+    </div>
+    
+</div>
+</body>
+
+</html>

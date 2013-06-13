@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced10">
+
+    <div class="boxRed pad">
+        The <b>problem</b>.  We want the text field to automatically layout
+        according to the width of its container.  By default, the text field
+        is too wide.  This is <i>correct</i> but generally undesired.  Note,
+        any candidate solution needs to preserve the width of the outer gray
+        box when the green box that contains the text field is hidden.
+    </div>
+
+    <button onclick="$('.content').slideToggle();">Toggle Content</button>
+
+            <div class="boxGray pad width300">
+            
+                <div class="boxBlue pad">
+                    <p>Header</p>
+                </div>
+                
+                <div class="content boxGreen pad clearfix">
+                    <p>Label</p>
+                    <p><input type="text" class="width100p pad5"></p>
+                    <div class="floatRight padTop marginLeftChildren">
+                        <button type="button" class="button button-element-default">
+                            Button 1
+                        </button>
+                        <button type="button" class="button button-element-positive button-primary">
+                            <img src="../static/silk-1.3/icons/tick.png" alt="">
+                            Button 2
+                        </button>
+                    </div>
+                </div>
+        
+                <div class="boxBrown padSpaced">
+                    <p>Footer</p>
+                </div>
+                
+            </div>
+
+    <div class="boxGray">
+        One common solution is to use a precisely calculated width 
+        for the input field.  First we size the outer container to
+        300px; this ensures that it doesn't change size or flicker 
+        as the contents are dynamically changed.
+        <br>
+        <br>
+        Then we size the text field to match.  In this case the gray
+        box starts with a width of 300px.  Then we account for the 
+        various elements; working from the outside to the inside:
+        <ul>
+            <li>green box border: 2 (1px, left and right).
+            <li>green box padding: 10 (5px, left and right).
+            <li>text field border: 2 (1px, left and right).
+            <li>text field padding: 10 (1px, left and right).
+        </ul>
+        300 - 2 - 10 - 2 - 10 = 276.<br>
+        So we set the text field's width to 276.
+        <br>
+        <br>
+        This works, but... ugh.
+    </div>
+
+            <div class="boxGray pad width300">
+            
+                <div class="boxBlue pad">
+                    <p>Header</p>
+                </div>
+                
+                <div class="content boxGreen pad clearfix">
+                    <p>Label</p>
+                    <p><input type="text" class="pad" style="width:276px"></p>
+                    <div class="floatRight padTop marginLeftChildren">
+                        <button type="button" class="button button-element-default">
+                            Button 1
+                        </button>
+                        <button type="button" class="button button-element-positive button-primary">
+                            <img src="../static/silk-1.3/icons/tick.png" alt="">
+                            Button 2
+                        </button>
+                    </div>
+                </div>
+        
+                <div class="boxBrown padSpaced">
+                    <p>Footer</p>
+                </div>
+                
+            </div>
+
+    <div class="boxGreen pad">
+        A <i>better</i> solution?  Set the input field's width to 100%, then 
+        wrap the input in an extra div that adjusts the input's size.  In 
+        the following example, the input field has a width of 100%, and extra
+        'spacing' = 12px (padding = 5 + 5, border = 1 + 1).  So we simply wrap
+        the text field in a div with a right margin of 12px and everything works.
+    </div>
+
+            <div class="boxGray pad width300">
+            
+                <div class="boxBlue pad">
+                    <p>Header</p>
+                </div>
+                
+                <div class="content boxGreen pad clearfix">
+                    <p>Label</p>
+                    <div class="" style="margin-right: 12px;">
+                        <input type="text" class="width100p pad5">
+                    </div>
+                    <div class="floatRight padTop marginLeftChildren">
+                        <button type="button" class="button button-element-default">
+                            Button 1
+                        </button>
+                        <button type="button" class="button button-element-positive button-primary">
+                            <img src="../static/silk-1.3/icons/tick.png" alt="">
+                            Button 2
+                        </button>
+                    </div>
+                </div>
+        
+                <div class="boxBrown padSpaced">
+                    <p>Footer</p>
+                </div>
+                
+            </div>
+
+</div>
+</body>
+</html>

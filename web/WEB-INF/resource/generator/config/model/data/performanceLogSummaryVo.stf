@@ -1,0 +1,37 @@
+model
+: name      = performanceLogSummaryVo
+: comment   = Used to present summary information about performance logs.
+
+attributes
+
+    field
+    : name      = name
+    : comment   = The name.
+    : type      = text100
+    : required  = true
+
+    field
+    : name      = count
+    : comment   = The count of hits matching this name.
+    : type      = integer
+
+    field
+    : name      = minimumMs
+    : comment   = The minimum.
+    : type      = integer
+
+    field
+    : name      = maximumMs
+    : comment   = The maximum.
+    : type      = integer
+
+    field
+    : name      = averageMs
+    : comment   = The average.
+    : type      = integer
+
+    field
+    : name      = totalMs
+    : comment   = The total.
+    : type      = integer
+

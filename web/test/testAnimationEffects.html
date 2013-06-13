@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $("#main").show();
+        }
+        
+        function myToggle()
+        {
+        	var effect = $("#effect").val();
+        	var easing = $("#easing").val();
+        	var speed = $("#speed").val();
+        	
+        	// Kmu.toast(easing);
+
+			var options =
+			{
+				direction: 'up',
+				easing: easing
+			};
+        	
+            var e;
+            e = $("#myDetail");
+            e.toggle(effect, options, speed);
+            
+            // animate( {height:"hide"}, 1000, "swing");
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad();">
+<div id="main" style="display:none" class="padSpaced">
+
+	<div class="boxGray padSpaced clearfix">
+	
+		<div class="floatLeft">
+	        <b>Effect:</b> 
+	        <select id="effect">
+	            <option>blind</option>
+	            <option>clip</option>
+	            <option>drop</option>
+	            <option>explode</option>
+	            <option>fold</option>
+	            <option>puff</option>
+	            <option selected="selected">slide</option>
+	            <option>scale</option>
+	            <option>size</option>
+	            <option>pulsate</option>
+	        </select>
+	    </div>
+	    
+		<div class="floatLeft">
+	        <b>Easing:</b> 
+	        <select id="easing">
+	            <option>linear</option>
+	            <option>swing</option>
+	            
+	            <option>easeIn</option>
+	            <option>easeOut</option>
+	            <option>easeInOut</option>
+	            
+	            <option>easeInQuad</option>
+	            <option>easeOutQuad</option>
+	            <option>easeInOutQuad</option>
+	            
+	            <option>easeInCubic</option>
+	            <option>easeOutCubic</option>
+	            <option>easeInOutCubic</option>
+	            
+	            <option>easeInQuart</option>
+	            <option>easeOutQuart</option>
+	            <option>easeInOutQuart</option>
+	            
+	            <option>easeInQuint</option>
+	            <option selected="selected">easeOutQuint</option>
+	            <option>easeInOutQuint</option>
+	            
+	            <option>easeInExpo</option>
+	            <option>easeOutExpo</option>
+	            <option>easeInOutExpo</option>
+	            
+	            <option>easeInSine</option>
+	            <option>easeOutSine</option>
+	            <option>easeInOutSine</option>
+	            
+	            <option>easeInCirc</option>
+	            <option>easeOutCirc</option>
+	            <option>easeInOutCirc</option>
+	            
+	            <option>easeInElastic</option>
+	            <option>easeOutElastic</option>
+	            <option>easeInOutElastic</option>
+	            
+	            <option>easeInBack</option>
+	            <option>easeOutBack</option>
+	            <option>easeInOutBack</option>
+	            
+	            <option>easeInBounce</option>
+	            <option>easeOutBounce</option>
+	            <option>easeInOutBounce</option>
+	            
+	        </select>
+	    </div>
+	    
+		<div class="floatLeft">
+	        <b>Speed:</b> 
+	        <select id="speed">
+	            <option>0</option>
+	            <option>100</option>
+	            <option>250</option>
+	            <option selected="selected">500</option>
+	            <option>1000</option>
+	            <option>2000</option>
+	        </select>
+	    </div>
+	    
+	</div>
+
+    <div id="myBox" class="boxBlue pad">
+    
+        <div id="myTitle" class="" onclick="myToggle();">
+            Options (click here to toggle)
+        </div>
+        
+        <div id="myDetail" class="pad hide">
+            <p>Detail</p>
+            <p>Detail</p>
+            <p>Detail</p>
+            <p>Detail</p>
+            <p>Detail</p>
+            <p>Detail</p>
+        </div>
+        
+    </div>
+    
+</div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+package com.app.job.application;
+
+import com.kodemore.log.KmLogger;
+
+import com.app.job.MyJob;
+
+public class MyMonitorJob
+    extends MyJob
+{
+    //##################################################
+    //# log
+    //##################################################
+
+    private static final KmLogger logger = KmLogger.getLogger(MyMonitorJob.class);
+
+    //##################################################
+    //# variables
+    //##################################################
+
+    private String                _name;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public MyMonitorJob(String name)
+    {
+        _name = name;
+    }
+
+    //##################################################
+    //# settings
+    //##################################################
+
+    @Override
+    protected boolean isEnabled()
+    {
+        return getProperties().getMonitorJobEnabled();
+    }
+
+    @Override
+    protected int getActiveMs()
+    {
+        Integer seconds = getProperties().getMonitorJobActiveSeconds();
+        return secondsToMs(seconds);
+    }
+
+    @Override
+    protected int getIdleMs()
+    {
+        Integer seconds = getProperties().getMonitorJobIdleSeconds();
+        return secondsToMs(seconds);
+    }
+
+    //##################################################
+    //# run
+    //##################################################
+
+    @Override
+    protected boolean run()
+    {
+        logger.info(_name);
+        return true;
+    }
+}

@@ -1,0 +1,142 @@
+${javaAutoGenerationComment}
+
+package ${package}.model.base;
+
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.exception.error.*;
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
+import com.kodemore.validator.*;
+
+import ${package}.model.*;
+import ${package}.model.core.*;
+import ${package}.utility.*;
+
+/**
+ * Validation rules for ${model.f_name}.
+ */
+public class ${model.f_ValidatorBaseClass}
+    extends ${Prefix}DomainValidator<${model.f_Class}>
+{
+$utility.protocol("static")
+
+    public static final ${model.f_ValidatorClass} instance = new ${model.f_ValidatorClass}();
+
+$utility.protocol("variables")
+
+#foreach ( $field in ${model.editableFieldsAndDelegates} )
+    private ${field.f_ValidatorClass} ${field.f_variable}Validator;
+#end
+
+$utility.protocol("constructor")
+
+    protected ${model.f_ValidatorBaseClass}()
+    {
+        super();
+#foreach ( $field in ${model.editableFieldsAndDelegates} )
+        ${field.f_variable}Validator = new${field.f_Name}Validator();
+#end
+    }
+
+$utility.protocol("accessing")
+
+#foreach ( $field in ${model.editableFieldsAndDelegates} )
+    public ${field.f_ValidatorClass} ${field.f_getMethod}Validator()
+    {
+        return ${field.f_variable}Validator;
+    }
+
+#end
+$utility.protocol("validate")
+
+    @Override
+    public void convertOnly(${model.f_Class} value)
+    {
+#if ( $model.editableFields.isEmpty() )
+        // none
+#end
+#foreach ( $field in ${model.editableFields} )
+        value.${field.f_setMethod}(${field.f_variable}Validator.convertOnly(value.${field.f_getMethod}()));
+#end
+    }
+
+    @Override
+    public void validateOnly(${model.f_Class} value, KmList<KmErrorIF> errors)
+    {
+#if ( $model.editableFields.isEmpty() )
+        // none
+#end
+#foreach ( $field in ${model.editableFields} )
+        ${field.f_variable}Validator.validateOnly(value.${field.f_getMethod}(), errors);
+#end
+    }
+
+$utility.protocol("instance creation")
+
+#foreach ( $field in ${model.editableFieldsAndDelegates} )
+    public ${field.f_ValidatorClass} new${field.f_Name}Validator()
+    {
+        $field.f_ValidatorClass e;
+        e = new ${field.f_ValidatorClass}();
+#if ( $field.type.isString() )
+#if ( $field.type.hasMinimumLength() )
+        e.setMinimumLength(${field.type.minimumLength});
+#end
+#if ( $field.type.hasMaximumLength() )
+        e.setMaximumLength(${field.type.maximumLength});
+#end
+#if ( $field.type.allowsAll() )
+        e.setAllowsAll(true);
+#end
+#if ( $field.type.allowsPrintable() )
+        e.setAllowsPrintable(true);
+#end
+#if ( $field.type.allowsLetters() )
+        e.setAllowsLetters(true);
+#end
+#if ( $field.type.allowsDigits() )
+        e.setAllowsDigits(true);
+#end
+#if ( $field.type.allowsSymbols() )
+        e.setAllowsSymbols(true);
+#end
+#if ( $field.type.allowsWhitespace() )
+        e.setAllowsWhitespace(true);
+#end
+#end
+#if ( $field.type.isDouble() )
+        e.setAllDigits(${field.type.allDigits});
+        e.setRightDigits(${field.type.rightDigits});
+#end
+#if ( $field.type.isDecimal() )
+        e.setAllDigits(${field.type.allDigits});
+        e.setRightDigits(${field.type.rightDigits});
+#end
+#if ( $field.type.getForcesLowerCase() )
+        e.setForcesLowerCase(true);
+#end
+#if ( $field.type.getForcesUpperCase() )
+        e.setForcesUpperCase(true);
+#end
+#if ( $field.type.getStripsLeadingZeros() )
+        e.setStripsLeadingZeros(true);
+#end
+#if ( $field.type.getStripsAllSpaces() )
+        e.setStripsAllSpaces(true);
+#end
+#if ( $field.type.getStripsAllDashes() )
+        e.setStripsAllDashes(true);
+#end
+        e.setModel("$model.f_name");
+        e.setField("${field.f_name}");
+#if ( $field.isRequired() )
+        e.setRequired();
+#end
+        return e;
+    }
+
+#end
+
+}
+

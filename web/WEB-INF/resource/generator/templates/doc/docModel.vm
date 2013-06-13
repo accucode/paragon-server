@@ -1,0 +1,51 @@
+${htmlAutoGenerationComment}
+
+<html>
+<head>
+  <title>${model.f_name}</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>${model.f_name}</h1>
+
+${model.f_comment}<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+#foreach ( $field in $model.fields )
+<tr>
+  <td>${field.f_name}&nbsp;</td>
+  <td>${field.f_comment}&nbsp;</td>
+  <td>${field.type.f_name}
+    #if ( $field.type.hasMinimumLength() )<br><nobr>min length: $field.type.f_minimumLength</nobr> #end
+    #if ( $field.type.hasMaximumLength() )<br><nobr>max length: $field.type.f_maximumLength</nobr> #end
+    #if ( $field.type.validCharacters.size() > 0 )
+      <br>allows(
+      #foreach( $ch in $field.type.validCharacters )
+        #if ( $foreachIndex > 0 )
+          ,&nbsp;
+        #end
+        $ch
+      #end
+      )
+    #end
+  </td>
+  <td>
+     #if ( $field.isIdentity() )    id<br>       #end
+     #if ( $field.isPrimaryKey() )  pk<br>       #end
+     #if ( $field.isRequired() )    required<br> #end
+     #if ( $field.isUnique() )      unique<br>   #end
+     &nbsp;
+  </td>
+</tr>
+#end
+</table>
+
+</body>
+</html>

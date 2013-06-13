@@ -1,0 +1,158 @@
+<project name="core" basedir="..">
+
+    <!--
+    ****************************************
+    ** PROPERTIES
+    ****************************************
+    -->
+
+    <property environment="env"/>
+
+    <property name="bin"                value="${basedir}/bin"/>
+    <property name="output"             value="${basedir}/output"/>
+    <property name="temp"               value="${basedir}/temp"/>
+    <property name="build"              value="${basedir}/java/build"/>
+    <property name="web"                value="${basedir}/web"/>
+    <property name="webResource"        value="${web}/WEB-INF/resource"/>
+    <property name="resource"           value="${web}/WEB-INF/resource"/>
+    <property name="settings"           value="${resource}/settings"/>
+    <property name="lib"                value="${web}/WEB-INF/lib"/>
+    <property name="tar.dest.dir"       value="${build}/tmp.deploy"/>
+    <property name="jarFile"            value="app.jar"/>
+
+    <property name="javaDir"            value="${basedir}/java"/>
+    <property name="javaSource"         value="${javaDir}/source"/>
+    <property name="javaClasses"        value="${web}/WEB-INF/classes"/>
+
+    <property name="appJarFile"         value="${temp}/${jarFile}"/>
+    <property name="kmJarFileName"      value="kodemore.jar"/>
+    <property name="kmJarFile"          value="${temp}/${kmJarFileName}"/>
+
+    <property name="dbScript"           value="${resource}/db"/>
+    <property name="docPath"            value="${resource}/doc"/>
+
+    <property name="packagePath"        value="com/app"/>
+
+    <property name="srvTarFileName"     value="srv.tgz"/>
+    <property name="srvTarFile"         value="${temp}/${srvTarFileName}"/>
+
+    <property name="tcstage"            value="${svc.dir}/stage"/>
+    <property name="logs.dir"           value="${svc.dir}/output/log"/>
+
+
+    <!--
+    ****************************************
+    ** CLASSPATHS
+    ****************************************
+    -->
+
+    <path id="classpath.app.id">
+        <pathelement location="${javaClasses}"/>
+        <fileset dir="${lib}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+    <pathconvert refid="classpath.app.id" property="classpath.app"/>
+
+    <path id="classpath.full.id">
+    <path refid="classpath.app.id"/>
+        <fileset dir="${javaDir}/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <pathelement path="${env.JAVA_HOME}/lib/tools.jar"/>
+        <pathelement path="${env.JAVA_HOME}/jre/lib/rt.jar"/>
+    </path>
+    <pathconvert refid="classpath.full.id" property="classpath.full"/>
+
+    <!--
+    ****************************************
+    ** BASICS
+    ****************************************
+    -->
+
+    <target name="init">
+        <tstamp/>
+        <mkdir dir="${temp}"/>
+    </target>
+
+    <target
+        name="clean"
+        depends="init">
+        <delete quiet="true">
+            <fileset dir="${javaSource}" includes="**/*.class" />
+            <fileset dir="${javaClasses}" includes="**/*.class" />
+            <fileset dir="${output}" includes="*"/>
+            <fileset dir="${temp}" includes="*"/>
+        </delete>
+    </target>
+
+    <target
+        name="confirmProduction"
+        depends="init">
+        <input
+            message="PRODUCTION ACCESS REQUESTED.  Enter YES to continue:"
+            addProperty="productionAccess"/>
+        <fail
+            message="User declined production access.">
+            <condition>
+                <not>
+                    <equals arg1="${productionAccess}" arg2="YES"/>
+                </not>
+            </condition>
+        </fail>
+    </target>
+
+    <!--
+    ****************************************
+    ** COMPILE
+    ****************************************
+    -->
+
+    <target
+        name="compile"
+        depends="init">
+        <mkdir dir="${javaClasses}"/>
+        <javac
+            fork="true"
+            srcdir="${javaSource}"
+            destdir="${javaClasses}"
+            classpath="${classpath.full}"
+            debug="on"
+            memoryinitialsize="512m"
+            memorymaximumsize="512m"
+        	includeantruntime="false">
+            <compilerarg line="-g -nowarn"/>
+        </javac>
+    </target>
+
+    <!--
+    ****************************************
+    ** RUN JAVA
+    ****************************************
+    -->
+
+    <target
+        name="runJavaClass"
+        depends="init">
+        <java
+            fork="true"
+            classname="${javaClass}"
+            classpath="${classpath.full}"
+            maxmemory="256m">
+            <arg line="${javaArgs}"/>
+            <jvmarg value="-DAppResourceDir=${basedir}/resource"/>
+        </java>
+    </target>
+
+    <target
+        name="runJavaClass.noFork"
+        depends="init">
+        <java
+            fork="false"
+            classname="${javaClass}"
+            classpath="${classpath.full}">
+            <arg line="${javaArgs}"/>
+        </java>
+    </target>
+
+</project>

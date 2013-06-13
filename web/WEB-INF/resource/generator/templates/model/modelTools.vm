@@ -1,0 +1,31 @@
+package ${package}.model;
+
+import java.util.*;
+
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
+
+import ${package}.model.base.*;
+import ${package}.model.core.*;
+import ${package}.utility.*;
+
+/**
+ * Miscellaneous tools for use with the model.
+ */
+public class ${model.f_ToolsClass}
+    extends ${model.f_ToolsBaseClass}
+{
+$utility.protocol("singleton")
+
+    public static final ${model.f_ToolsClass} instance = new ${model.f_ToolsClass}();
+
+$utility.protocol("constructor")
+
+    private ${model.f_ToolsClass}()
+    {
+        // singleton
+    }
+
+}

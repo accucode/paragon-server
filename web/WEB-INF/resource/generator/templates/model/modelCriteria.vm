@@ -1,0 +1,264 @@
+${javaAutoGenerationComment}
+
+package ${package}.criteria;
+
+import com.kodemore.collection.*;
+import com.kodemore.hibernate.*;
+import com.kodemore.hibernate.criteria.*;
+import com.kodemore.time.*;
+import com.kodemore.types.*;
+
+import ${package}.criteria.core.*;
+import ${package}.dao.*;
+import ${package}.dao.base.*;
+import ${package}.dao.core.*;
+import ${package}.filter.*;
+import ${package}.model.*;
+import ${package}.model.meta.*;
+
+public class ${model.f_CriteriaClass}
+    extends ${Prefix}AbstractCriteria<${model.f_Class}>
+    implements ${model.f_DaoConstantsIF}
+{
+$utility.protocol("constructor")
+
+    public ${model.f_CriteriaClass}(KmCriteria parent)
+    {
+        super(parent);
+    }
+
+    public ${model.f_CriteriaClass}(KmCriteria parent, KmAbstractCriteria context)
+    {
+        super(parent, context);
+    }
+
+$utility.protocol("properties")
+
+#foreach ( $field in $model.fields )
+#if ( $field.isDaoProperty() )
+    public ${field.f_CriteriaClass} where${field.f_Name}()
+    {
+        return new ${field.f_CriteriaClass}(context(), fullName(${field.f_NAME}));
+    }
+
+#if ( $field.hasEnum() )
+    public void where${field.enum.f_Name}Is(${field.enum.f_Class} e)
+    {
+        if ( e == null )
+            where${field.f_Name}().isNull();
+        else
+            where${field.f_Name}().is(e.getCode());
+    }
+
+    public void where${field.enum.f_Name}IsNot(${field.enum.f_Class} e)
+    {
+        if ( e == null )
+            where${field.f_Name}().isNull();
+        else
+            where${field.f_Name}().isNot(e.getCode());
+    }
+
+#foreach ( $value in $field.enum.values )
+    public void where${field.enum.f_Name}Is${value.f_Name}()
+    {
+        where${field.enum.f_Name}Is(${field.enum.f_Class}.${value.f_Name});
+    }
+
+    public void where${field.enum.f_Name}IsNot${value.f_Name}()
+    {
+        where${field.enum.f_Name}IsNot(${field.enum.f_Class}.${value.f_Name});
+    }
+
+    public void where${field.enum.f_Name}Is${value.f_Name}(boolean e)
+    {
+        if ( e )
+            where${field.enum.f_Name}Is${value.f_Name}();
+        else
+            where${field.enum.f_Name}IsNot${value.f_Name}();
+    }
+
+#end
+#end
+#end
+#end
+#foreach ( $enum in $model.enums )
+$utility.protocol("enum (${enum.f_Name})")
+
+    public ${enum.f_CodeCriteriaClass} where${enum.f_NameCode}()
+    {
+        return new ${enum.f_CodeCriteriaClass}(context(), fullName(${enum.f_NAME_CODE}));
+    }
+
+    public void where${enum.f_Name}Is(${enum.f_Type} e)
+    {
+        if ( e == null )
+            where${enum.f_NameCode}().isNull();
+        else
+            where${enum.f_NameCode}().is(e.getCode());
+    }
+
+#foreach ( $value in $enum.values )
+    public void where${enum.f_Name}Is${value.f_Name}()
+    {
+        where${enum.f_Name}Is(${enum.f_Type}.${value.f_Name});
+    }
+
+#end
+#end
+$utility.protocol("sorts")
+
+#foreach ( $field in $model.fields )
+#if ( $field.isDaoProperty() )
+    public void sortOn${field.f_Name}()
+    {
+        parent().sortAscending(${field.f_NAME});
+    }
+
+    public void sortOn${field.f_Name}Descending()
+    {
+        parent().sortDescending(${field.f_NAME});
+    }
+
+    public void sortOn${field.f_Name}(boolean asc)
+    {
+        if ( asc )
+            sortOn${field.f_Name}();
+        else
+            sortOn${field.f_Name}Descending();
+    }
+
+#end
+#end
+#foreach ( $field in $model.fields )
+#if ( $field.isDaoProperty() )
+$utility.protocol("projections (${field.f_name})")
+
+    public void select${field.f_Name}()
+    {
+        select(${field.f_NAME});
+    }
+
+    public void selectDistinct${field.f_Name}()
+    {
+        selectDistinct(${field.f_NAME});
+    }
+
+    public void selectCountDistinct${field.f_Name}()
+    {
+        selectCountDistinct(${field.f_NAME});
+    }
+
+    public void selectMinimum${field.f_Name}()
+    {
+        selectMinimum(${field.f_NAME});
+    }
+
+    public void selectMaximum${field.f_Name}()
+    {
+        selectMaximum(${field.f_NAME});
+    }
+
+    public void selectAverage${field.f_Name}()
+    {
+        selectAverage(${field.f_NAME});
+    }
+
+    public void selectSum${field.f_Name}()
+    {
+        selectSum(${field.f_NAME});
+    }
+
+    public void groupBy${field.f_Name}()
+    {
+        groupBy(${field.f_NAME});
+    }
+
+#end
+#end
+#foreach ( $ass in $model.associations )
+#if ( $ass.isMetaDao() )
+#if ( $ass.isEditable() )
+$utility.protocol("association (${ass.f_Name})")
+
+    public void select${ass.f_PkName}()
+    {
+        select(${ass.f_PK_NAME});
+    }
+
+    public void selectMinimum${ass.f_PkName}()
+    {
+        selectMinimum(${ass.f_PK_NAME});
+    }
+
+    public void selectMaximum${ass.f_PkName}()
+    {
+        selectMaximum(${ass.f_PK_NAME});
+    }
+
+    public void groupBy${ass.f_PkName}()
+    {
+        groupBy(${ass.f_NAME});
+    }
+
+    public ${ass.modelReference.f_CriteriaClass} joinTo${ass.f_Name}()
+    {
+        return new ${ass.modelReference.f_CriteriaClass}(joinTo(${ass.f_NAME}));
+    }
+
+    public ${ass.modelReference.f_CriteriaClass} leftJoinTo${ass.f_Name}()
+    {
+        return new ${ass.modelReference.f_CriteriaClass}(leftJoinTo(${ass.f_NAME}));
+    }
+
+    public ${ass.modelReference.primaryKeyField.f_CriteriaClass} where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}()
+    {
+        return new ${ass.modelReference.primaryKeyField.f_CriteriaClass}(parent(), fullName(${ass.f_PK_NAME}));
+    }
+
+    public void where${ass.f_Name}Is(${ass.modelReference.f_Class} e)
+    {
+        if ( e == null )
+            where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}().isNull();
+        else
+            where${ass.f_Name}${ass.modelReference.primaryKeyField.f_Name}().is(e.${ass.modelReference.primaryKeyField.f_getMethod}());
+    }
+
+#end
+#end
+#end
+#foreach ( $col in $model.collections )
+$utility.protocol("collection (${col.f_Name})")
+
+    public ${col.associationReferenceModel.f_CriteriaClass} joinTo${col.f_Name}()
+    {
+        return new ${col.associationReferenceModel.f_CriteriaClass}(joinTo(${col.f_NAME}));
+    }
+
+    public ${col.associationReferenceModel.f_CriteriaClass} leftJoinTo${col.f_Name}()
+    {
+        return new ${col.associationReferenceModel.f_CriteriaClass}(leftJoinTo(${col.f_NAME}));
+    }
+
+#end
+$utility.protocol("junction")
+
+    public ${model.f_JunctionClass} addAnd()
+    {
+        return new ${model.f_JunctionClass}(parent().addAnd());
+    }
+
+    public ${model.f_JunctionClass} addOr()
+    {
+        return new ${model.f_JunctionClass}(parent().addOr());
+    }
+
+$utility.protocol("support")
+
+    @Override
+    @SuppressWarnings("rawtypes")
+    public ${model.f_CriteriaClass} createOn(KmModelJunction junction)
+    {
+        return new ${model.f_CriteriaClass}(parent(), junction.context());
+    }
+
+}

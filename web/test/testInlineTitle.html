@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            myInstallInlineTitles();
+            
+            $('#main').show();
+        }
+        
+        function myClear()
+        {
+            $(":input").val('');
+            myInlineTitleRefreshAll();
+        }
+        
+        function myInstallInlineTitles()
+        {
+            myInlineTitleInstall('#name');
+            myInlineTitleInstall('#phone');
+            myInlineTitleInstall('#email');
+        }
+        
+        function myInlineTitleInstall(e)
+        {
+            var e = $(e);
+            var title = e.attr('title');
+             
+            if ( !title )
+                return;
+                
+            e.addClass('myInlineTitle');
+            myInlineTitleBlur(e);
+    
+            e.focus(function() 
+            {
+                myInlineTitleFocus(e);
+            });
+            
+            e.blur(function() 
+            {
+                myInlineTitleBlur(e);
+            });
+        }
+        
+        function myInlineTitleFocus(e)
+        {
+            e = $(e);
+            
+            if ( !e.hasClass('myInlineTitle') )
+                return;
+                
+            if ( !e.hasClass('myInlineTitleActive') )
+                return;
+                
+            if ( e.val() != e.attr('title') )
+                return;
+                
+            e.val('');
+            e.removeClass('myInlineTitleActive');    
+        }
+        
+        function myInlineTitleBlur(e)
+        {
+            e = $(e);
+
+            if ( !e.hasClass('myInlineTitle') )
+                return;
+            
+            if ( e.val() != '' )
+                return;
+                
+            e.val(e.attr('title'));
+            e.addClass('myInlineTitleActive');  
+        }
+        
+        function myInlineTitleRefreshAll()
+        {
+            $('.myInlineTitle').each(function(i)
+            {
+                myInlineTitleBlur(this);
+            });
+        }
+        
+    </script>
+
+    <style type="text/css">
+
+        .myInlineTitle
+        {
+            /* used as a marker */
+        }
+        .myInlineTitleActive
+        {
+            color: gray;
+        }
+
+        .myInput
+        {
+            padding: 2px;
+            width: 200px;
+        }
+        .myInput:focus
+        {
+            color: #000;
+            background-color: yellow;
+        } 
+        
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="padSpaced10">
+
+    <div class="boxGray padSpaced10">
+    
+        <p>It has become more popular to display a field's title (aka label)
+            within the field itself.
+            </p>
+        
+        <p>This works best for things like search fields, or when used to 
+            display an example value for fields that do not receive default
+            focus.
+            </p>
+             
+    </div> 
+
+    <form class="boxBlue padSpaced10">
+        <p><input id="name"  name="name"  type="text" class="myInput" title="Name" /></p>
+        <p><input id="phone" name="phone" type="text" class="myInput" title="Phone"></p>
+        <p><input id="email" name="email" type="text" class="myInput" title="Email"></p>
+        <p><button type="button" onclick="myClear();">Clear</button></p>
+    </form>
+    
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyEmail"
+        table="email"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="createdUtcTs"
+            column="createdUtcTs"
+            type="com.kodemore.hibernate.KmHibernateTimestampType"
+            />
+
+        <property
+            name="sentUtcTs"
+            column="sentUtcTs"
+            type="com.kodemore.hibernate.KmHibernateTimestampType"
+            />
+
+        <property
+            name="subject"
+            column="subject"
+            type="string"
+            />
+
+        <property
+            name="fromAddress"
+            column="fromAddress"
+            type="string"
+            />
+
+        <property
+            name="statusCode"
+            column="statusCode"
+            type="string"
+            />
+
+        <property
+            name="errorNotes"
+            column="errorNotes"
+            type="string"
+            />
+
+        <bag
+            name="recipients"
+            inverse="true"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="emailUid"/>
+                <one-to-many class="com.app.model.MyEmailRecipient"/>
+        </bag>
+
+        <bag
+            name="parts"
+            inverse="true"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="emailUid"/>
+                <one-to-many class="com.app.model.MyEmailPart"/>
+        </bag>
+
+    </class>
+</hibernate-mapping>

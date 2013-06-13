@@ -1,0 +1,1007 @@
+/*******************************************************************
+ ** text field 
+ *******************************************************************/
+
+.textField
+{
+    margin: 0;
+    padding: 5px;
+    font: normal 15px sans-serif;
+    background-color: #ffd;
+    
+    border-top:    1px solid #999;
+    border-left:   1px solid #999;
+    border-bottom: 1px solid #bbb;
+    border-right:  1px solid #bbb;
+    
+    -moz-transition:    border 200ms;
+    -webkit-transition: border 200ms;
+    transition:         border 200ms;
+}
+
+.textField:hover
+{
+    -moz-box-shadow:    inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.textField:focus
+{
+    background-color: #fff;
+    border: 1px solid #48f;
+    
+    -moz-box-shadow:    inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* 
+ * Used to wrap the field when the field's width is 100%. 
+ * This value should equal the sum of the element's left 
+ * and right padding, margin, and border.
+ */
+.textFieldWrapper
+{
+    padding-right: 12px;
+}
+
+/*******************************************************************
+ ** dropdown
+ *******************************************************************/
+
+.dropdown
+{
+    margin: 0;
+    padding: 3px;
+    font: normal 15px sans-serif;
+    background-color: #ffd;
+    
+    border-top:    1px solid #999;
+    border-left:   1px solid #999;
+    border-bottom: 1px solid #bbb;
+    border-right:  1px solid #bbb;
+    
+    -moz-transition:    border 200ms;
+    -webkit-transition: border 200ms;
+    transition:         border 200ms;
+}
+
+.dropdown:hover
+{
+    -moz-box-shadow:    inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown:focus
+{
+    border: 1px solid #48f;
+    background-color: #fff;
+    
+    -moz-box-shadow:    inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/*******************************************************************
+ ** other fields 
+ *******************************************************************/
+
+.radio
+{
+    padding: 0;
+    margin: 0;
+}
+
+.checkbox
+{
+    padding: 0;
+    margin: 0;
+}
+
+.listBox
+{
+}
+
+/*******************************************************************
+ ** link
+ *******************************************************************/
+
+.link
+{
+    font: normal 13px sans-serif;
+    color: #000;
+}
+
+.link:hover
+{
+    color: #00f;
+    cursor: pointer;
+}
+
+.linkBox      { padding: 10px  5px  5px 10px }
+.linkBox > *  { margin:   0px  5px  5px  0px }
+
+.lineBox      { padding: 10px  5px  5px 10px }
+.lineBox > *  { margin:   0px  5px  5px  0px }
+
+/*******************************************************************
+ ** field set
+ *******************************************************************/
+
+.fieldset-legend-default
+{
+    padding: 2px 14px;
+    background-color: #ccc;
+    border: 2px groove #eee;
+    
+    -moz-border-radius:     10px;
+    -webkit-border-radius:  10px;
+    border-radius:          10px;
+}
+
+.fieldset-body-default
+{
+    background-color: #ddd;
+    border: 2px groove #eee;
+}
+
+
+/*******************************************************************
+ ** page layout
+ *******************************************************************/
+
+#pageLayoutTop
+{
+    background: white url(../image/blackFadeDown100.png) repeat-x 0 -50px
+}
+
+#pageLayoutLeft
+{
+    /*
+    border-right: 1px solid #ddd;
+    */
+}
+
+#pageLayoutBottom
+{
+    /*
+    border-top: 1px solid #ddd;
+    */
+}
+
+#pageLayoutCenter
+{
+    background-color: white;
+}
+
+/*******************************************************************
+ ** page header
+ *******************************************************************/
+
+#pageHeaderLink
+{
+    text-decoration: none;
+}
+
+#pageHeaderLogoImage
+{
+    float: left;
+    padding-top: 7px;
+    padding-left: 5px;
+}
+
+#pageHeaderLogoText
+{
+    color: #080;
+    font: italic bold 36px sans-serif;
+    text-shadow: -1px -1px #fff,  1px  1px #444;
+    padding-top: 5px;
+    padding-left: 5px;
+    display: block;
+    float: left;
+}
+
+#pageHeaderLeft
+{
+    float: left;
+}
+
+#pageHeaderCenter
+{
+    padding: 0 5px;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+#pageHeaderRight
+{
+    padding: 0 5px;
+    text-align: right;
+    float: right;
+}
+
+#pageHeaderMenu
+{
+}
+
+.headerUser
+{
+    color: #000;
+    font-size: 13px;
+}
+
+.headerLink
+{
+    color: #444;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.headerLink:hover
+{
+    text-decoration: underline;
+}
+
+.headerLinkBar
+{
+    color: #888;
+}
+
+
+/*******************************************************************
+ ** page footer
+ *******************************************************************/
+
+.pageFooter
+{
+    text-align: center;
+    color: #444;
+    font: normal 12px sans-serif;
+    padding-top: 5px;
+}
+
+
+/*******************************************************************
+ ** page title
+ *******************************************************************/
+
+.pageTitle
+{
+    background-color: #ccc;
+    border-top: thin solid #aaa;
+    border-bottom: thin solid #aaa;
+    width: 100%;
+    padding-left: 5px;
+}
+
+.pageTitleButton
+{
+    vertical-align: middle;
+    padding: 2px;
+    margin: 0;
+}
+
+.pageTitleButton:disabled
+{
+    background-color: #888;
+    border: 1px solid #888;
+}
+
+.pageTitleText
+{
+    font: normal 22px sans-serif;
+    color: #000;
+    vertical-align: middle;
+    padding: 3px 0 3px 10px;
+    width: 100%;
+}
+
+/*******************************************************************
+ ** main
+ *******************************************************************/
+
+table.main
+{
+    padding: 0;
+    margin: 0;
+    height: 400px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td.main
+{
+    padding: 0;
+    margin: 0;
+    background-color: #eee;
+    min-height: 400px;
+    height: 400px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+}
+
+table.content
+{
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td.content
+{
+    vertical-align: top;
+    margin: 0;
+    padding: 5px;
+}
+
+/*******************************************************************
+ ** data table
+ *******************************************************************/
+
+.dataTable
+{
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #666;
+}
+
+th.dataTableHeader
+{
+    vertical-align: top;
+    font: 12px sans-serif;
+    background-color: #d4d0c8;
+    margin: 0 0 0 0;
+    padding: 1px 5px 2px 2px;
+    border: 0px;
+    border-right: 1px solid #808080;
+    border-left: 1px solid #ffffff;
+    border-bottom: 1px solid #808080;
+}
+
+tr.dataTableOdd
+{
+    vertical-align: top;
+    font: 12px sans-serif;
+    background-color: #ffffff;
+    padding: 1px 2px 1px 2px;
+    border: 0px;
+    border-right: 1px solid #666;
+}
+
+tr.dataTableEven
+{
+    vertical-align: top;
+    font: 12px sans-serif;
+    background-color: #f0f5fa;
+    padding: 1px 2px 1px 2px;
+    border: 0px;
+    border-right: 1px solid #666;
+}
+
+tr.dataTableOddOver
+{
+    vertical-align: top;
+    font: 12px sans-serif;
+    background-color: #EDDFC9;
+    padding: 1px 2px 1px 2px;
+    border: 0px;
+    border-right: 1px solid #666;
+}
+
+tr.dataTableEvenOver
+{
+    vertical-align: top;
+    font: 12px sans-serif;
+    background-color: #EDDFC9;
+    padding: 1px 2px 1px 2px;
+    border: 0px;
+    border-right: 1px solid #666;
+}
+
+td.dataTableOdd
+{
+    vertical-align: top;
+    font: 12px sans-serif;
+    padding: 1px 2px 1px 2px;
+    border: 0px;
+    border-right: 1px solid #666;
+    white-space: nowrap;
+}
+
+td.dataTableEven
+{
+    vertical-align: top;
+    font: 12px sans-serif;
+    padding: 1px 2px 1px 2px;
+    border: 0px;
+    border-right: 1px solid #666;
+    white-space: nowrap;
+}
+
+
+/*******************************************************************
+ ** text
+ *******************************************************************/
+
+.text
+{
+    font: normal 12px sans-serif;
+    color: #000;
+}
+
+.smallText
+{
+    font: normal 10px sans-serif;
+    color: #000;
+}
+
+.importantText
+{
+    font: bold 12px sans-serif;
+    color: #f00;
+}
+
+.label
+{
+    font: bold 13px sans-serif;
+    color: #000;
+    white-space: nowrap;
+}
+
+.fieldValue
+{
+    font: normal 15px sans-serif;
+    border: 1px solid #ddd;
+    padding: 2px;
+}
+
+
+/*******************************************************************
+ ** Fields
+ *******************************************************************/
+
+table.fields
+{
+    border-collapse: collapse;
+    border-spacing: 0;
+    padding: 0;
+}
+
+td.fields
+{
+    padding: 0;
+    vertical-align: top;
+}
+
+td.fieldsTop
+{
+}
+
+td.fieldsMore
+{
+    padding-top: 3px;
+}
+
+td.fieldsLeft
+{
+}
+
+td.fieldsRight
+{
+    padding-left: 3px;
+    width: 100%;
+}
+
+/*******************************************************************
+ ** Navigation Trail
+ *******************************************************************/
+
+.navigationTrail
+{
+    margin: 0;
+    padding: 0.3em;
+    border: 1px solid black;
+    border-bottom: 0px;
+    color: #111;
+    background-color: #ebeef3;
+}
+
+.navigationElement
+{
+    background-color: #ebeef3;
+    font: bold 16pt serif;
+}
+
+.navigationSeparator
+{
+    background-color: #ebeef3;
+    font: bold 10pt serif;
+}
+
+/*******************************************************************
+ ** Notebooks
+ *******************************************************************/
+
+.tabGroup
+{
+    background-color: #CF9958;
+    border: 1px solid #000000;
+    padding-top: 5px;
+    border-bottom: 1px solid #000000;
+}
+
+.tabBody
+{
+    background-color: #E3DFD6;
+    border: 1px solid #000000;
+    border-top: none;
+    padding: 10px;
+}
+
+a.tab
+{
+    color: #000000;
+    padding: 3px 3px 3px 3px;
+    background-color: #C5C1B8;
+    border: 1px solid #000000;
+    border-bottom: 0px;
+    margin: 0px 5px 0px 0px;
+    text-decoration: none;
+    
+    -moz-border-radius-topleft:         5px;
+    -moz-border-radius-topright:        5px;
+    -webkit-border-top-left-radius:     5px;
+    -webkit-border-top-right-radius:    5px;
+    border-top-left-radius:             5px;
+    border-top-right-radius:            5px;
+}
+
+a.tabx
+{
+    color: #000000;
+    padding: 8px 6px 4px 6px;
+    font-weight: bold;
+    background-color: #E3DFD6;
+    border: 1px solid #000000;
+    border-bottom: 0px;
+    margin: 0px 5px 0px 0px;
+    text-decoration: none;
+    
+    -moz-border-radius-topleft:         5px;
+    -moz-border-radius-topright:        5px;
+    -webkit-border-top-left-radius:     5px;
+    -webkit-border-top-right-radius:    5px;
+    border-top-left-radius:             5px;
+    border-top-right-radius:            5px;
+}
+
+a.tab:hover
+{
+    color: #0000FF;
+    background: #FFFFFF;
+    border-bottom: 1px solid #000000;
+}
+
+a.tabx:hover
+{
+    color: #0000FF;
+}
+
+/*******************************************************************
+ ** accordion
+ *******************************************************************/
+
+.accordion
+{
+}
+
+.accordionEnabledTab
+{
+    font: bold 10pt sans-serif;
+    color: #000000;
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.accordionEnabledTab:hover
+{
+    color: #0000FF;
+}
+
+.accordionDisabledTab
+{
+    font: bold 10pt sans-serif;
+    color: #000000;
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.accordionOpenTab
+{
+    font: bold 10pt sans-serif;
+    color: #000000;
+    background-color: #DDDD66;
+    border: 1px solid #444444;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.accordionOpenBody
+{
+    background-color: #FFFF88;
+    border: 1px solid #444444;
+    border-top: none;
+    padding: 5px;
+}
+
+/*******************************************************************
+ ** dialog
+ *******************************************************************/
+
+.dialog-box-default
+{
+    border: 1px solid #888;
+}
+
+.dialog-header-default
+{
+    background-color: #ff0;
+    border-bottom: 1px solid #888;
+    font: bold 24px sans-serif; 
+    padding: 10px;
+}
+
+.dialog-body-default
+{
+    padding: 10px;
+    overflow: auto;
+    
+    /* should usually match the normal page background. */
+    background-color: #eee;
+    
+    /* size should be set explicitly, but can be overridden in html style */
+    height: 300px;
+}
+
+.dialog-footer-default
+{
+    border-top: 1px solid #888;
+    background-color: white;
+    padding: 5px;
+    
+    font: normal 12px sans-serif;
+    text-align: center;
+}
+
+.dialog-error-default
+{
+}
+
+/*******************************************************************
+ ** error
+ *******************************************************************/
+
+/*
+ * I am used to identify all error elements regardless of their
+ * visual style so that they can be easily identified and hidden.
+ * I should not contain any styling.
+ */
+.error
+{
+}
+
+.errorBox-wrapper-attached
+{
+}
+
+.errorBox-message-attached
+{
+    color: red;
+    padding: 5px;
+    background-color: white;
+    font: normal 13px sans-serif; 
+    
+    border: 1px solid red;
+    border-top: none;
+}
+
+.errorBox-wrapper-detached
+{
+}
+
+.errorBox-message-detached
+{
+    color: red;
+    padding: 2px 5px;
+    background-color: white;
+    font: normal 13px sans-serif;
+    
+    border: 1px solid #f00;
+    margin-top: 1px; 
+    margin-bottom: 3px; 
+}
+
+
+/*******************************************************************
+ ** app
+ *******************************************************************/
+ 
+.appMenu-box
+{
+    padding: 50px 0 0 10px;
+}
+
+.appMenu-item
+{
+    cursor: pointer;
+    font: normal 13px sans-serif;
+    
+    padding: 5px 5px 5px 10px;
+    margin-bottom: 2px;
+    
+    border: 1px solid transparent;
+    border-right: none;
+}
+
+.appMenu-item:hover
+{
+    background-color: #cec;
+    
+    border: 1px solid #080;
+    border-right: none;
+    
+    -moz-border-radius:     10px 0 0 10px;
+    -webkit-border-radius:  10px 0 0 10px;
+    border-radius:          10px 0 0 10px;
+
+    -webkit-box-shadow:     5px 5px 5px #ccc;
+    -moz-box-shadow:        5px 5px 5px #ccc;
+    box-shadow:             5px 5px 5px #ccc;
+}
+
+.appMenu-selectedItem
+{
+    color: #000;
+    cursor: pointer;
+    font: normal 13px sans-serif;
+    
+    padding: 5px 5px 5px 10px;
+    margin-bottom: 2px;
+    
+    background-color: #9b9;
+    
+    border: 1px solid #080;
+    border-right: none;
+    
+    -moz-border-radius:     10px 0 0 10px;
+    -webkit-border-radius:  10px 0 0 10px;
+    border-radius:          10px 0 0 10px;
+    
+    -webkit-box-shadow:     5px 5px 5px #ccc;
+    -moz-box-shadow:        5px 5px 5px #ccc;
+    box-shadow:             5px 5px 5px #ccc;
+}
+
+.appMenu-selectedItem:hover
+{
+    color: #000;
+}
+
+.appMenu-link
+{
+    font: inherit;
+    color: inherit;
+    text-decoration: inherit;
+}
+.appMenu-link:hover
+{
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.appMenu-content
+{
+    border: 5px solid #080;
+    border-right: none;
+
+    -moz-border-radius:     3px 0 0 3px;
+    -webkit-border-radius:  3px 0 0 3px;
+    border-radius:          3px 0 0 3px;
+}
+
+/*******************************************************************
+ ** group (default)
+ *******************************************************************/
+
+.group-wrapper-default
+{
+    overflow: hidden;
+    border: 1px solid #aaa;
+    background-color: #eee;
+    
+    -moz-border-radius-topleft:         5px;
+    -moz-border-radius-topright:        5px;
+    -webkit-border-radius-topleft:      5px;
+    -webkit-border-radius-topright:     5px;
+    border-top-left-radius:             5px;
+    border-top-right-radius:            5px;
+
+    -moz-box-shadow:    5px 5px 5px #ccc;
+    -webkit-box-shadow: 5px 5px 5px #ccc;
+    box-shadow:         5px 5px 5px #ccc;
+}
+
+.group-header-default
+{
+    background-color: #ccc;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.group-title-default
+{
+    padding: 5px 10px;
+    font: bold 24px sans-serif;
+    text-shadow:  1px  1px #fff, -1px -1px #444;
+}
+
+.group-divider-default
+{
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #fff;
+}
+
+/*******************************************************************
+ ** group (error)
+ *******************************************************************/
+
+.group-wrapper-error
+{
+    overflow: hidden;
+    border: 1px solid #f00;
+    background-color: #fdd;
+    
+    -moz-border-radius-topleft:         5px;
+    -moz-border-radius-topright:        5px;
+    -webkit-border-radius-topleft:      5px;
+    -webkit-border-radius-topright:     5px;
+    border-top-left-radius:             5px;
+    border-top-right-radius:            5px;
+
+    -moz-box-shadow:    5px 5px 5px #ccc;
+    -webkit-box-shadow: 5px 5px 5px #ccc;
+    box-shadow:         5px 5px 5px #ccc;
+}
+
+.group-header-error
+{
+    background-color: #fbb;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.group-title-error
+{
+    padding: 5px 10px;
+    font: bold 24px sans-serif;
+    text-shadow:  1px  1px #fff, -1px -1px #444;
+}
+
+.group-divider-error
+{
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #fff;
+}
+
+
+/*******************************************************************
+ ** block ui 
+ *******************************************************************/
+ 
+.blockMsg
+{
+    background-color: #ffa;
+    border: 4px solid #f00;
+    font: bold 12px sans-serif;
+     
+    padding: 10px;
+    padding-left: 35px;
+    
+    -moz-border-radius:     5px;
+    -webkit-border-radius:  5px;
+    border-radius:          5px;
+
+    background-image:       url(blockSpinner.gif);
+    background-repeat:      no-repeat;
+    background-position:    10px center;
+    
+    cursor: wait;
+}
+
+
+/*******************************************************************
+ ** rules (dividers) 
+ *******************************************************************/
+
+.divider-inner-groove
+{
+	height: 2px;
+    border-top:    1px solid #aaa;
+    border-bottom: 1px solid #fff;
+}
+
+.divider-inner-bevel
+{
+	height: 2px;
+    border-top:    1px solid #fff;
+    border-bottom: 1px solid #aaa;
+}
+
+
+/*******************************************************************
+ ** sql result 
+ *******************************************************************/
+
+.sqlResultBlock
+{
+    border: 1px solid #444;
+    padding: 5px;
+    
+    -moz-box-shadow:    5px 5px 5px #ccc;
+    -webkit-box-shadow: 5px 5px 5px #ccc;
+    box-shadow:         5px 5px 5px #ccc;
+}
+
+.sqlResultSelect
+{
+    background-color: #ff0; 
+}
+
+.sqlResultUpdate
+{
+    background-color: #0ff; 
+}
+
+.sqlResultError
+{
+    background-color: #f00; 
+}
+
+table.sqlResultTable
+{
+}
+
+td.sqlResultHeader
+{
+    font-weight: bold;
+    padding: 3px;
+    background-color: #eee;
+    white-space: nowrap;
+    border: 1px solid gray;
+}
+
+tr.sqlResultValue:nth-child(even)
+{
+    background-color: #fff;
+}
+
+tr.sqlResultValue:nth-child(odd)
+{
+    background-color: #eee;
+}
+
+td.sqlResultValue
+{
+    padding: 3px;
+    border: 1px solid gray;
+    white-space: nowrap;
+}
+

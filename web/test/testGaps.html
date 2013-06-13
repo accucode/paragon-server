@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+    </script>
+
+    <style type="text/css">
+        .myInput
+        {
+            padding: 0;
+            margin: 0;
+            width: 30px;
+        }
+
+        .myImage
+        {
+            width: 1px;
+            height: 1px;
+            border: none;
+            background-color: #f00;
+        }
+                
+        .myImage1
+        {
+            width:  1px;
+            height: 1px;
+            border: none;
+            background-color: #f00;
+        }
+                
+        .myImage3
+        {
+            width:  2px;
+            height: 2px;
+            border: none;
+            background-color: #f00;
+        }
+                
+        .myImage5
+        {
+            width:  5px;
+            height: 5px;
+            border: none;
+            background-color: #f00;
+        }
+        
+    </style>
+
+
+</head>
+<body onload="myLoad()">
+<div id="main"  style="display:none" class="pad">
+
+    <div class="boxBlue">
+        Use divs to create gaps in the layout.
+    </div>
+
+
+    <div class="clearfix">    
+        <br>
+        <br>
+        <div class="boxBlue">
+            First, a control set of divs with no gaps.
+        </div>
+        <div class="boxGreen">aaa</div>
+        <div class="boxGreen">bbb</div>
+        <div class="boxGreen">ccc</div>
+        <div class="boxGreen floatLeft width100">ddd</div>
+        <div class="boxGreen floatLeft width100">eee</div>
+        <div class="boxGreen floatLeft width100">fff</div>
+        <div class="boxGreen floatLeft width100">ggg</div>
+    </div>
+    
+        
+    <div class="clearfix">    
+        <br>
+        <br>
+        <div class="boxBlue">
+            Add gaps between divs.
+        </div>
+        <div class="boxGreen">aaa</div>
+        <div class="noSpace backgroundRed" style="height:1px"></div>
+        
+        <div class="boxGreen">bbb</div>
+        <div class="noSpace backgroundRed" style="height:3px"></div>
+        
+        <div class="boxGreen">ccc</div>
+        <div class="noSpace backgroundRed" style="height:5px"></div>
+        
+        <div class="boxGreen floatLeft width100">ddd</div>
+        <div class="noSpace backgroundRed floatLeft width100" style="width:1px">&nbsp;</div>
+        
+        <div class="boxGreen floatLeft width100">eee</div>
+        <div class="noSpace backgroundRed floatLeft width100" style="width:3px">&nbsp;</div>
+        
+        <div class="boxGreen floatLeft width100">fff</div>
+        <div class="noSpace backgroundRed floatLeft width100" style="width:5px">&nbsp;</div>
+        
+        <div class="boxGreen floatLeft width100">ggg</div>
+    </div>
+    
+    
+    <div class="clearfix">    
+        <br>
+        <br>
+        <div class="boxBlue">
+            A control set of fields with no gaps.
+        </div>
+        <input type="text" class="myInput" value="aaa"><input type="text" class="myInput" value="bbb"><input type="text" class="myInput" value="ccc"><input type="text" class="myInput" value="ddd">
+    </div>
+
+    <div class="clearfix">    
+        <br>
+        <br>
+        <div class="boxBlue">
+            Create gaps using images.
+        </div>
+        <input type="text" class="myInput" value="aaa"><img src="i/b.gif" class="myImage1"><input type="text" class="myInput" value="bbb"><img src="b.gif" class="myImage3"><input type="text" class="myInput" value="ccc"><img src="b.gif" class="myImage5"><input type="text" class="myInput" value="ddd">
+    </div>
+
+</div>
+</body>
+</html>
