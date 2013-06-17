@@ -1,6 +1,3 @@
-nicki minaj
-dark shadows
-
 =======================================
 == To Do
 =======================================
@@ -110,7 +107,7 @@ http://en.wikipedia.org/wiki/HTTP_cookie
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
     "http://www.w3.org/TR/html4/strict.dtd">
    
-I included this a while back.  Why?
+I had previously included the following...  Why?
 For now, I am removing it until I an rediscover why.
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -254,7 +251,7 @@ of the common prefixes are:
 
 $().toastmessage('showToast', {"sticky":false,"text":"hello","type":"notice",inEffectDuration:500});
 
-$().toastmessage('showToast',{text:"hello"});
+$().toastmessage('showToast', {text:"hello"});
 
 
 
