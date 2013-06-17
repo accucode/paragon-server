@@ -39,7 +39,7 @@ Third party libraries
     
     All third party libraries should be documented in credits.txt. 
         
-Additional technical docs can can be found at:
+Installation instructions and other details can be found at:
 
 	web/WEB-INF/resource/doc/index.html
 	
