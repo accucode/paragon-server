@@ -66,6 +66,6 @@ public class JkConnectionPoolingTest
 
     private static void sleepRandom(int ms)
     {
-        Kmu.sleep(KmRandomUtility.getInteger(ms));
+        Kmu.sleepMs(KmRandomUtility.getInteger(ms));
     }
 }

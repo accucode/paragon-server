@@ -18,7 +18,7 @@ public abstract class KmDaoCommand
     //# constants
     //##################################################
 
-    private static final KmLogger logger = KmLogger.getLogger(KmDaoCommand.class);
+    private static final KmLogger logger = KmLogger.create(KmDaoCommand.class);
 
     //##################################################
     //# variables
@@ -128,7 +128,7 @@ public abstract class KmDaoCommand
                 if ( retries < retryCount )
                 {
                     retries++;
-                    Kmu.sleep(retryDelayMs);
+                    Kmu.sleepMs(retryDelayMs);
                     onStaleObjectRetry();
                     continue;
                 }

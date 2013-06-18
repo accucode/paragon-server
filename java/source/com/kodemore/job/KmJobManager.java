@@ -48,7 +48,7 @@ public abstract class KmJobManager
     {
         _name = Kmu.getSimpleClassName(this);
         _thread = null;
-        _logger = KmLogger.getLogger(getClass());
+        _logger = KmLogger.create(getClass());
     }
 
     //##################################################
@@ -116,7 +116,7 @@ public abstract class KmJobManager
             {
                 try
                 {
-                    Kmu.sleep(startDelayMs);
+                    Kmu.sleepMs(startDelayMs);
                     KmLog.info("Starting Job Manager (%s).", _name);
 
                     while ( true )
@@ -206,7 +206,7 @@ public abstract class KmJobManager
 
     private void cycleSleep()
     {
-        Kmu.sleep(getCycleSleepMs());
+        Kmu.sleepMs(getCycleSleepMs());
     }
 
     //##################################################

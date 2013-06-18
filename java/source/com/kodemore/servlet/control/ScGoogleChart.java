@@ -41,7 +41,7 @@ public class ScGoogleChart
     //# logging
     //##################################################
 
-    private static final KmLogger       logger = KmLogger.getLogger(ScGoogleChart.class);
+    private static final KmLogger       logger = KmLogger.create(ScGoogleChart.class);
 
     //##################################################
     //# install

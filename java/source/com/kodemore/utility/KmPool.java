@@ -97,7 +97,7 @@ public abstract class KmPool
         int n = _retryCount;
         for ( int i = 0; i < n; i++ )
         {
-            Kmu.sleep(_retryDelayMs);
+            Kmu.sleepMs(_retryDelayMs);
             Object e = _getExisting();
             if ( e != null )
                 return e;

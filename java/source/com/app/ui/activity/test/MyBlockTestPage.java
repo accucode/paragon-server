@@ -243,13 +243,13 @@ public class MyBlockTestPage
 
     private void handleBlockRequest()
     {
-        Kmu.sleep(DELAY_MS);
+        Kmu.sleepMs(DELAY_MS);
         ajax().toast("Ok");
     }
 
     private void handleFormTest()
     {
-        Kmu.sleep(DELAY_MS);
+        Kmu.sleepMs(DELAY_MS);
         String name = _nameField.getValue();
         ajax().toast("name = %s.", name);
     }

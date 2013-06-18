@@ -29,8 +29,8 @@ public class MyAutoCompleteTestPage
     //# variables
     //##################################################
 
-    private ScAutoCompleteField _field1;
-    private ScAutoCompleteField _field2;
+    private ScAutoCompleteField _staticField;
+    private ScAutoCompleteField _dynamicField;
 
     //##################################################
     //# install
@@ -39,21 +39,21 @@ public class MyAutoCompleteTestPage
     @Override
     protected ScControl installRoot()
     {
-        _field1 = new ScAutoCompleteField();
-        _field1.setLabel("Static");
-        _field1.addOption("acorn");
-        _field1.addOption("another");
-        _field1.addOption("apple");
-        _field1.addOption("barn");
-        _field1.addOption("bandit");
-        _field1.addOption("baggage");
-        _field1.addOption("candy");
-        _field1.addOption("camping");
-        _field1.addOption("cinder");
+        _staticField = new ScAutoCompleteField();
+        _staticField.setLabel("Static");
+        _staticField.addOption("acorn");
+        _staticField.addOption("another");
+        _staticField.addOption("apple");
+        _staticField.addOption("barn");
+        _staticField.addOption("bandit");
+        _staticField.addOption("baggage");
+        _staticField.addOption("candy");
+        _staticField.addOption("camping");
+        _staticField.addOption("cinder");
 
-        _field2 = new ScAutoCompleteField();
-        _field2.setLabel("Dynamic");
-        _field2.setCallback(newCallback());
+        _dynamicField = new ScAutoCompleteField();
+        _dynamicField.setLabel("Dynamic");
+        _dynamicField.setCallback(newCallback());
 
         ScBox root;
         root = new ScBox();
@@ -68,8 +68,8 @@ public class MyAutoCompleteTestPage
 
         ScFieldTable fields;
         fields = group.addPad().addFields();
-        fields.add(_field1);
-        fields.add(_field2);
+        fields.add(_staticField);
+        fields.add(_dynamicField);
 
         group.addDivider();
         group.addButtonBox().addSubmitButton();
@@ -120,8 +120,8 @@ public class MyAutoCompleteTestPage
 
     private void handleSubmit()
     {
-        String s1 = _field1.getValue();
-        String s2 = _field2.getValue();
+        String s1 = _staticField.getValue();
+        String s2 = _dynamicField.getValue();
 
         ajax().toast("%s\n%s", s1, s2);
     }

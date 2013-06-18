@@ -156,7 +156,7 @@ public class KmProcessor
                 _thread.interrupt();
                 break;
             }
-            Kmu.sleep(_delayMs);
+            Kmu.sleepMs(_delayMs);
             if ( !_thread.isAlive() )
             {
                 _ok = true;
@@ -179,7 +179,7 @@ public class KmProcessor
             {
                 int n = 10;
                 for ( int i = 0; i < n; i++ )
-                    Kmu.sleep(100);
+                    Kmu.sleepMs(100);
                 return "success";
             }
         };

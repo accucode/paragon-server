@@ -195,7 +195,6 @@ public class MyGridTestPage
 
     private void handleSearch()
     {
-        _grid.ajaxUpdateParams();
         _grid.ajaxReload();
     }
 
@@ -216,7 +215,6 @@ public class MyGridTestPage
 
         ajax().toast("Added %s user(s).", n);
 
-        _grid.ajaxUpdateParams();
         _grid.ajaxReload();
     }
 

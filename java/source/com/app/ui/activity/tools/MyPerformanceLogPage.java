@@ -174,7 +174,6 @@ public class MyPerformanceLogPage
 
     private void handleSearch()
     {
-        _grid.ajaxUpdateParams();
         _grid.ajaxReload();
     }
 
@@ -182,7 +181,6 @@ public class MyPerformanceLogPage
     {
         getAccess().getPerformanceLogDao()._truncate();
 
-        _grid.ajaxUpdateParams();
         _grid.ajaxReload();
     }
 

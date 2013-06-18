@@ -52,6 +52,8 @@ import com.app.ui.servlet.ScServletCallbackRegistry;
 
 /**
  * A grid based on the JQuery Flexigrid tool.
+ * http://flexigrid.info/
+ * http://github.com/paulopmx/Flexigrid
  *
  * additional options?
  *      rpOptions           => [10,15,20,25,40]
@@ -423,7 +425,6 @@ public class ScGrid<T>
 
         setupGeneral(map);
         setupRequestUrl(map);
-        setupRequestParameters(map);
         setupPager(map);
         setupSorting(map);
         setupColumns(map);
@@ -973,14 +974,17 @@ public class ScGrid<T>
         String sPage = data.getParameter(REQUEST_PAGE);
         String sRows = data.getParameter(REQUEST_ROWS);
 
+        int total = getTotalFor(data, filter);
+
         Integer page = Kmu.parseInteger(sPage);
+        if ( page > total )
+            page = total;
+
         Integer reqRows = Kmu.parseInteger(sRows);
 
         int index = (page - 1) * reqRows;
         int count = reqRows;
         KmList<T> results = filter.findBatch(index, count);
-
-        int total = getTotalFor(data, filter);
 
         KmJsonObject json = composeJsonFor(results, page, total);
         data.setJsonResult(json);
@@ -1064,7 +1068,7 @@ public class ScGrid<T>
     //# ajax results
     //##################################################
 
-    public void ajaxUpdateParams()
+    public void ajaxReload()
     {
         String ref = formatJqueryReference();
 
@@ -1073,10 +1077,6 @@ public class ScGrid<T>
         String options = map.formatJson();
 
         ajax().run("%s.flexOptions(%s);", ref, options);
-    }
-
-    public void ajaxReload()
-    {
         ajax().run("%s.flexReload();", formatJqueryReference());
     }
 

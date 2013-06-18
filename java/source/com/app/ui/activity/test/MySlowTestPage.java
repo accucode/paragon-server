@@ -90,7 +90,7 @@ public class MySlowTestPage
 
     private void handleDelay(int ms)
     {
-        Kmu.sleep(ms);
+        Kmu.sleepMs(ms);
         ajax().toast("Delayed %s ms.", ms);
     }
 

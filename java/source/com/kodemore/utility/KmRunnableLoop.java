@@ -36,7 +36,7 @@ public abstract class KmRunnableLoop
     //# logger
     //##################################################
 
-    private static final KmLogger logger = KmLogger.getLogger(KmRunnableLoop.class);
+    private static final KmLogger logger = KmLogger.create(KmRunnableLoop.class);
 
     //##################################################
     //# variables
@@ -90,7 +90,7 @@ public abstract class KmRunnableLoop
         }
     }
 
-    public void loop()
+    private void loop()
     {
         while ( true )
         {
@@ -103,7 +103,7 @@ public abstract class KmRunnableLoop
             {
                 KmLog.error(ex, "LOOP ERROR: Attempting to continue loop (%s).", getDebugName());
             }
-            Kmu.sleep(getSleepMilliseconds());
+            Kmu.sleepMs(getSleepMilliseconds());
         }
     }
 
@@ -119,7 +119,6 @@ public abstract class KmRunnableLoop
         synchronized (this)
         {
             _thread = new Thread(this);
-            _thread.setDaemon(true);
             _thread.start();
         }
     }

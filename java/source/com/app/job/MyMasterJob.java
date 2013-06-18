@@ -1,5 +1,6 @@
 package com.app.job;
 
+import com.kodemore.job.KmJobManager;
 import com.kodemore.job.KmSimpleJobManager;
 
 import com.app.job.application.MyApplicationJobManager;
@@ -12,7 +13,8 @@ public class MyMasterJob
     //# install / shutdown
     //##################################################
 
-    private static MyMasterJob _instance;
+    private static MyMasterJob  _instance;
+    private static KmJobManager _manager;
 
     public static void install()
     {
@@ -23,11 +25,13 @@ public class MyMasterJob
         e.setName("Master");
         e.add(_instance);
         e.startDelayedSeconds(5);
+        _manager = e;
     }
 
     public static void shutdown()
     {
         _instance._shutdown();
+        _manager.stop();
     }
 
     //##################################################

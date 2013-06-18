@@ -458,7 +458,6 @@ public class MyUsersPage
 
     private void handleSearch()
     {
-        _grid.ajaxUpdateParams();
         _grid.ajaxReload();
     }
 

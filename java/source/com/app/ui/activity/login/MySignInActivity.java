@@ -162,6 +162,7 @@ public class MySignInActivity
         ScDiv right;
         right = footer.addFloatRight();
         right.add(_staySignedInField);
+        right.addSpace();
         right.addText("Stay Signed In");
     }
 

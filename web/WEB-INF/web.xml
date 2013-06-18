@@ -6,6 +6,12 @@
 
 <web-app>
 
+    <!-- listeners -->
+
+    <listener>
+        <listener-class>com.app.ui.servlet.MyServletContextListener</listener-class>
+    </listener>
+    
     <!-- filters -->
     
     <filter>
@@ -17,14 +23,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>    
 
-
     <!-- servlets -->
-
-    <servlet>
-        <servlet-name>init</servlet-name>
-        <servlet-class>com.app.ui.servlet.MyInitServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
 
     <servlet>
         <servlet-name>main</servlet-name>

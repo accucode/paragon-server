@@ -262,7 +262,7 @@ public abstract class KmDaoSession
                 return false;
 
             i++;
-            Kmu.sleep(retryDelayMs);
+            Kmu.sleepMs(retryDelayMs);
         }
     }
 

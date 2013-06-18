@@ -145,7 +145,7 @@ public abstract class ScAbstractServlet<T extends ScServletData>
         if ( logsPerformance() )
             data.logServletPerformance();
 
-        KmThreadLocalManager.threadEnd();
+        KmThreadLocalManager.clearDirtyLocals();
     }
 
     //##################################################

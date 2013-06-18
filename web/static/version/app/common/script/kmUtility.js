@@ -31,7 +31,13 @@ Kmu.pageSession = {};
 Kmu.dialogOpenSpeed  = 300;
 Kmu.dialogCloseSpeed = 100;
 
-Kmu.blockDelayMs     = 200; 	
+/*
+ * Used to determine the automatic block delay.
+ * Page content is automatically blocked during ajax requests.
+ * If the ajax request takes longer than this, then shade the
+ * screen to provide a visual indication to the user.
+ */
+Kmu.blockDelayMs     = 350; 	
 
 //**********************************************************
 //** dom

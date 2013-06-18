@@ -76,7 +76,7 @@ public class MyLeftMenu
 
     private ScActivity getDefault()
     {
-        return MyTestPage.instance;
+        return MyHomePage.instance;
     }
 
     //##################################################

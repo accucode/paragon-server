@@ -65,7 +65,7 @@ public class ScControlRegistry
     private int                                _nextPersistentId;
     private KmMap<String,ScKeyIF>              _persistentValues;
 
-    private boolean                            _transient;
+    private boolean                            _locked;
     private ThreadLocal<KmMap<String,ScKeyIF>> _transientValues;
 
     //##################################################
@@ -78,7 +78,7 @@ public class ScControlRegistry
         _nextPersistentId = 0;
         _persistentValues = new KmMap<String,ScKeyIF>();
 
-        _transient = false;
+        _locked = false;
         _transientValues = KmThreadLocalManager.newLocal();
     }
 
@@ -88,23 +88,31 @@ public class ScControlRegistry
 
     public void register(ScKeyIF e)
     {
-        if ( _transient )
+        if ( _locked )
             register(getTransientValues(), e);
         else
             register(getPersistentValues(), e);
     }
 
+    public void unregister(ScKeyIF e)
+    {
+        if ( _locked )
+            unregister(getTransientValues(), e);
+        else
+            unregister(getPersistentValues(), e);
+    }
+
     public String getNextKey()
     {
-        if ( _transient )
+        if ( _locked )
             return getNextTransientKey();
 
         return getNextPersistentKey();
     }
 
-    public void setTransient()
+    public void setLocked()
     {
-        _transient = true;
+        _locked = true;
     }
 
     //##################################################
@@ -213,6 +221,24 @@ public class ScControlRegistry
         }
 
         m.put(key, e);
+    }
+
+    private void unregister(KmMap<String,ScKeyIF> m, ScKeyIF e)
+    {
+        String key = e.getKey();
+        if ( key == null )
+        {
+            KmLog.errorTrace("Attempt to unregister control with null key.");
+            return;
+        }
+
+        if ( !m.containsKey(key) )
+        {
+            KmLog.errorTrace("Attempt to unregister control with unknown key (%s).", key);
+            return;
+        }
+
+        m.remove(key);
     }
 
     private ScKeyIF findKey(String key)

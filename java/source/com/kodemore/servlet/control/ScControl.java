@@ -111,41 +111,12 @@ public abstract class ScControl
     //##################################################
 
     /**
-     * Because controls have a deep inheritance hierarchy with
-     * a variety of customizations and extensions, additional
-     * care must be taken with the pattern used for constructing
-     * new instances.
-     *
-     * First, initialize is called to set the default state of
-     * all instance variables.  Then, the control is registered
-     * with the control registry.  And finally, after the control
-     * is initialized and registered, any additional configuration
-     * may be handled as necessary in configure().
-     *
-     * Without this care, one can easily end up in a situation
-     * where one of the superclass constructors calls a method
-     * that is overridden by a subclass, and the subclass attempts
-     * to access some superclass state that has not yet been
-     * initialized.
+     * Register the control with a default key, then
+     * perform any default initialization. 
      */
     public ScControl()
     {
         register();
-        install();
-    }
-
-    /**
-     * Create a new control with the specified key.  The caller
-     * is responsible for making sure that this key does not collide
-     * with any other control's key.  See ScRegistry.getNextKey for
-     * the format of auto-generated control keys.
-     *
-     * 99% of the time the no-argument constructor will be called
-     * to create a new control with a default key.
-     */
-    protected ScControl(String key)
-    {
-        register(key);
         install();
     }
 
@@ -155,26 +126,14 @@ public abstract class ScControl
 
     /**
      * Bind this instance to a unique key and register this instance
-     * with the ScControlRegistry.  Once registered, the key should
-     * NOT be changed.  This method should only be called during the
-     * instance creation cycle.
+     * with the ScControlRegistry.
      */
     private void register()
     {
-        String k = getRegistry().getNextKey();
-        register(k);
-    }
+        ScControlRegistry r = getRegistry();
 
-    /**
-     * Bind this instance to the specified key and register this instance
-     * with the ScControlRegistry.  If the key is null, the instance is NOT
-     * registered.  Once registered, the key should NOT be changed.  This
-     * method should only be called during the instance creation cycle.
-     */
-    private void register(String key)
-    {
-        _key = key;
-        getRegistry().register(this);
+        _key = r.getNextKey();
+        r.register(this);
     }
 
     /**
@@ -199,6 +158,27 @@ public abstract class ScControl
     public String getKey()
     {
         return _key;
+    }
+
+    /**
+     * Set the key to a new unique, non-null value; and re-register 
+     * this control for the new key.  
+     * 
+     * Although clients are allowed to modified the key, doing so should 
+     * normally be done immediately after the control is created.  In 
+     * particular, attempting to modify the key after the registry has
+     * been locked at the end of the application install process will fail.
+     * 
+     * In most cases, setting an explicit key is not required.
+     */
+    public void setKey(String e)
+    {
+        ScControlRegistry r;
+        r = getRegistry();
+        r.unregister(this);
+
+        _key = e;
+        r.register(this);
     }
 
     public boolean hasKey(String e)

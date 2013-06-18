@@ -4698,7 +4698,7 @@ public class Kmu
     /**
      * A convenience wrapper for Thread.sleep that bags any exception.
      */
-    public static void sleep(long ms)
+    public static void sleepMs(long ms)
     {
         try
         {
@@ -4715,7 +4715,7 @@ public class Kmu
 
     public static void sleepSeconds(long seconds)
     {
-        sleep(seconds * 1000);
+        sleepMs(seconds * 1000);
     }
 
     /**

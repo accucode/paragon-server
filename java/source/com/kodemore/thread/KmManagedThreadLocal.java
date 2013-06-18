@@ -25,16 +25,30 @@ package com.kodemore.thread;
 public class KmManagedThreadLocal<T>
     extends ThreadLocal<T>
 {
+    //##################################################
+    //# accessing
+    //##################################################//
+
     @Override
     public T get()
     {
+        markDirty();
         return super.get();
     }
 
     @Override
     public void set(T e)
     {
+        markDirty();
         super.set(e);
+    }
+
+    //##################################################
+    //# support
+    //##################################################//
+
+    private void markDirty()
+    {
         KmThreadLocalManager.markDirty(this);
     }
 }

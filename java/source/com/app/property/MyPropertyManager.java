@@ -18,7 +18,7 @@ public class MyPropertyManager
     //# log
     //##################################################
 
-    private static final KmLogger logger = KmLogger.getLogger(MyPropertyManager.class);
+    private static final KmLogger logger = KmLogger.create(MyPropertyManager.class);
 
     //##################################################
     //# install

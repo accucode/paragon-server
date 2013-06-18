@@ -40,10 +40,6 @@ public abstract class ScAbstractLocal
 
     private String               _key;
     private boolean              _autoSave;
-
-    /**
-     * todo_wyatt this is causing errors during tomcat shutdown
-     */
     private ThreadLocal<Boolean> _loaded;
 
     //##################################################

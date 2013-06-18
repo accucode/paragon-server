@@ -35,10 +35,10 @@ public interface KmSqlConstantsIF
     //# loggers
     //##################################################
 
-    KmLogger SqlStatementLogger           = KmLogger.getLogger("com.kodemore.sql.statement");
-    KmLogger SqlTransactionLogger         = KmLogger.getLogger("com.kodemore.sql.transaction");
-    KmLogger SqlConnectionLogger          = KmLogger.getLogger("com.kodemore.sql.connection");
-    KmLogger SqlPoolingLogger             = KmLogger.getLogger("com.kodemore.sql.pooling");
+    KmLogger SqlStatementLogger           = KmLogger.create("com.kodemore.sql.statement");
+    KmLogger SqlTransactionLogger         = KmLogger.create("com.kodemore.sql.transaction");
+    KmLogger SqlConnectionLogger          = KmLogger.create("com.kodemore.sql.connection");
+    KmLogger SqlPoolingLogger             = KmLogger.create("com.kodemore.sql.pooling");
 
     //##################################################
     //# money

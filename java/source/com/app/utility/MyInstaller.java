@@ -40,7 +40,7 @@ public class MyInstaller
     //# logger
     //##################################################
 
-    private static final KmLogger _logger    = KmLogger.getLogger(MyInstaller.class);
+    private static final KmLogger _logger    = KmLogger.create(MyInstaller.class);
 
     private static boolean        _installed = false;
 
@@ -65,7 +65,6 @@ public class MyInstaller
         _installClock();
         _installAjaxLog();
         _installJobs();
-        _installShutdownHook();
 
         long used2 = getUsedMemory();
         printMemory(used1, used2);
@@ -304,7 +303,7 @@ public class MyInstaller
     private static void lockControlRegistry()
     {
         printfHeader("Lock ScRegistry");
-        ScControlRegistry.getInstance().setTransient();
+        ScControlRegistry.getInstance().setLocked();
         printOk();
     }
 
@@ -392,28 +391,6 @@ public class MyInstaller
         printfHeader("Formatter");
         MyFormatter.install();
         printOk();
-    }
-
-    private static void _installShutdownHook()
-    {
-        printfHeader("Shutdown Hook");
-        Thread t = new Thread("My Shutdown Hook")
-        {
-            @Override
-            public void run()
-            {
-                shutdown();
-            }
-        };
-        Runtime.getRuntime().addShutdownHook(t);
-        printOk();
-    }
-
-    private static void shutdown()
-    {
-        _printfln("Shutdown...");
-        MyMasterJob.shutdown();
-        _printfln("Shutdown ok.");
     }
 
     //##################################################

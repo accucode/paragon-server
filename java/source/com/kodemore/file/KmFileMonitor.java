@@ -57,7 +57,7 @@ public class KmFileMonitor
 
         KmFileMonitor f;
         f = new KmFileMonitor();
-        f.addRoot("d:/projects/rebill", "css");
+        f.addRoot("someFilePath", "css");
         f.setHandler(h);
         f.setLogScan(true);
         f.start();
@@ -370,7 +370,7 @@ public class KmFileMonitor
 
     private void sleep()
     {
-        Kmu.sleep(100);
+        Kmu.sleepMs(100);
     }
 
 }

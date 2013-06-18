@@ -62,27 +62,38 @@ public class MyDatabaseInstaller
 
     private void resetSchema()
     {
+
         KmDatabaseTool u;
         u = new KmDatabaseTool();
         u.setOpenDefaultSchema(false);
 
-        println();
-        println("Schema: " + u.getDefaultSchema());
+        String schema;
+        schema = u.getDefaultSchema();
 
+        println("Schema: " + schema);
         println();
+
         println("Open Connection...");
         u.open();
         println("ok.");
+        println();
 
         try
         {
-            println();
-            println("Use schema...");
-            u.useDefaultSchema();
-            println("ok.");
+            if ( !u.hasSchema(schema) )
+            {
+                println("Creating schema...");
+                u.createSchema(schema);
+                println("ok.");
+                println();
+            }
 
+            println("Use schema...");
+            u.useSchema(schema);
+            println("ok.");
             println();
-            println("Drop tables...");
+
+            println("Drop ALL tables...");
             KmList<String> tables = u.getTableNames();
             for ( String table : tables )
             {
@@ -90,6 +101,7 @@ public class MyDatabaseInstaller
                 u.dropTable(table);
             }
             println("ok.");
+            println();
 
             MyResourceFiles files = MyResourceFiles.getInstance();
             KmFile baseFolder = files.getDatabaseBaseFolder();
@@ -101,29 +113,29 @@ public class MyDatabaseInstaller
             String installName = "installData.txt";
             KmFile installFile = installFolder.getChild(installName);
 
-            println();
             println("Create tables...");
             u.runScriptFile(createTablesFile);
             println("ok.");
-
             println();
+
             println("Install script...");
             u.runScriptFile(installFile);
             println("ok.");
-
             println();
+
             println("Commit...");
             u.commit();
             println("ok.");
+            println();
         }
         finally
         {
             try
             {
-                println();
                 println("Close Connection...");
                 u.close();
                 println("ok.");
+                println();
             }
             catch ( RuntimeException ex )
             {

@@ -527,6 +527,18 @@ public class KmList<T>
         removeAll(a.getMatch(true));
     }
 
+    /**
+     * Set all elements to null, then clear the list.
+     */
+    public void purge()
+    {
+        int n = size();
+        for ( int i = 0; i < n; i++ )
+            set(i, null);
+
+        clear();
+    }
+
     //##################################################
     //# retain
     //##################################################

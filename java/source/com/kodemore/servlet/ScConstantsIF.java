@@ -37,7 +37,7 @@ public interface ScConstantsIF
     //# loggers
     //##################################################
 
-    KmLogger ScPerformanceLogger             = KmLogger.getLogger("com.kodemore.servlet.performance");
+    KmLogger ScPerformanceLogger             = KmLogger.create("com.kodemore.servlet.performance");
 
     //##################################################
     //# path

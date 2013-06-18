@@ -51,8 +51,8 @@ public class MyTestPage
         links.addLink(MyDateFieldTestPage.instance);
         links.addLink(MyColorFieldTestPage.instance);
         links.addLink(MyAutoCompleteTestPage.instance);
-        links.addLink(MyGridTestPage.instance);
         links.addLink(MyGoogleChartTestPage.instance);
+        links.addLink(MyGridTestPage.instance);
 
         group = groups.addGroup("Misc");
         links = group.addLinkBox();

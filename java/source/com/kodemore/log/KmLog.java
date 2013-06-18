@@ -9,7 +9,7 @@ public class KmLog
     //# constants
     //##################################################
 
-    private static final KmLogger root = KmLogger.getRootLogger();
+    private static KmLogger root = KmLogger.createRoot();
 
     //##################################################
     //# debug

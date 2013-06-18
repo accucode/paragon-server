@@ -76,7 +76,7 @@ public class ScServletData
     //# static
     //##################################################
 
-    private static final KmLogger logger = KmLogger.getLogger(ScServletData.class);
+    private static final KmLogger logger = KmLogger.create(ScServletData.class);
 
     //##################################################
     //# instance creation

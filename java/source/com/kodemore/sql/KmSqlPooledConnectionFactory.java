@@ -39,7 +39,7 @@ public class KmSqlPooledConnectionFactory
     //# constants
     //##################################################
 
-    private static final KmLogger    logger = KmLogger.getLogger(KmSqlPooledConnectionFactory.class);
+    private static final KmLogger    logger = KmLogger.create(KmSqlPooledConnectionFactory.class);
 
     //##################################################
     //# variables
@@ -100,7 +100,7 @@ public class KmSqlPooledConnectionFactory
             c = _createConnection();
             if ( _isAlive(c) )
                 return c;
-            Kmu.sleep(getNewConnectionRetryDelayMs());
+            Kmu.sleepMs(getNewConnectionRetryDelayMs());
         }
 
         throw new RuntimeException("Cannot get live connection.  Reason unknown.");

@@ -11,7 +11,7 @@ public class MyMonitorJob
     //# log
     //##################################################
 
-    private static final KmLogger logger = KmLogger.getLogger(MyMonitorJob.class);
+    private static final KmLogger logger = KmLogger.create(MyMonitorJob.class);
 
     //##################################################
     //# variables

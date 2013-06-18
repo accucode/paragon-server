@@ -7,6 +7,8 @@ import java.util.Set;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import com.kodemore.collection.KmList;
+
 /**
  * I wrap log4j, to provide convenience methods and insulation from
  * if/when we swap out the logging library.
@@ -49,44 +51,77 @@ import org.apache.log4j.Logger;
 public class KmLogger
 {
     //##################################################
+    //# static
+    //##################################################
+
+    private static KmList<KmLogger> _all = new KmList<KmLogger>();
+
+    public static void resetAll()
+    {
+        for ( KmLogger e : _all )
+            e.reset();
+    }
+
+    //##################################################
     //# instance creation
     //##################################################
 
-    public static KmLogger getRootLogger()
+    public static KmLogger createRoot()
     {
-        return new KmLogger(Logger.getRootLogger());
+        String name = null;
+        return _create(name);
     }
 
-    public static KmLogger getLogger(Class<?> c)
+    public static KmLogger create(Class<?> c)
     {
-        return new KmLogger(Logger.getLogger(c));
+        String name = c.getClass().getName();
+        return _create(name);
     }
 
-    public static KmLogger getLogger(Class<?> c, String suffix)
+    public static KmLogger create(String name)
     {
-        String prefix = c.getName();
-        String name = prefix + "." + suffix;
-        return getLogger(name);
+        return _create(name);
     }
 
-    public static KmLogger getLogger(String name)
+    private static KmLogger _create(String name)
     {
-        return new KmLogger(Logger.getLogger(name));
+        KmLogger e = new KmLogger(name);
+        _all.add(e);
+        return e;
     }
 
     //##################################################
     //# variables
     //##################################################
 
+    private String _name;
     private Logger _logger;
 
     //##################################################
     //# constructor
     //##################################################
 
-    private KmLogger(Logger e)
+    private KmLogger(String name)
     {
-        _logger = e;
+        _name = name;
+        reset();
+    }
+
+    //##################################################
+    //# accessing
+    //##################################################
+
+    public String getName()
+    {
+        return _name;
+    }
+
+    public void reset()
+    {
+        if ( _name == null )
+            _logger = Logger.getRootLogger();
+        else
+            _logger = Logger.getLogger(_name);
     }
 
     //##################################################

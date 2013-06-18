@@ -6,11 +6,13 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import com.kodemore.file.KmFile;
 import com.kodemore.log.KmLog;
+import com.kodemore.log.KmLogger;
 
 import com.app.file.MyResourceFiles;
 
@@ -83,8 +85,10 @@ public class MyLog4jManager
         e.setWriter(writer);
         e.setLayout(layout);
 
+        LogManager.shutdown();
         BasicConfigurator.resetConfiguration();
         BasicConfigurator.configure(e);
+        KmLogger.resetAll();
     }
 
     private static boolean hasChanged()

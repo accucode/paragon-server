@@ -25,17 +25,13 @@ package com.kodemore.thread;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.kodemore.collection.KmList;
-
 public abstract class KmThreadLocalManager
 {
     //##################################################
     //# variables
     //##################################################
 
-    @SuppressWarnings("rawtypes")
-    private static KmList<ThreadLocal>              _locals   = new KmList<ThreadLocal>();
-    private static ThreadLocal<Set<ThreadLocal<?>>> _dirtySet = new ThreadLocal<Set<ThreadLocal<?>>>();
+    private static final ThreadLocal<Set<ThreadLocal<?>>> _dirtySet = new ThreadLocal<Set<ThreadLocal<?>>>();
 
     //##################################################
     //# register
@@ -43,14 +39,7 @@ public abstract class KmThreadLocalManager
 
     public static <E> ThreadLocal<E> newLocal()
     {
-        ThreadLocal<E> e = new KmManagedThreadLocal<E>();
-        register(e);
-        return e;
-    }
-
-    private static void register(ThreadLocal<?> e)
-    {
-        _locals.add(e);
+        return new KmManagedThreadLocal<E>();
     }
 
     //##################################################
@@ -68,7 +57,7 @@ public abstract class KmThreadLocalManager
         v.add(e);
     }
 
-    public static synchronized void threadEnd()
+    public static synchronized void clearDirtyLocals()
     {
         Set<ThreadLocal<?>> dirty = _dirtySet.get();
         if ( dirty != null )
@@ -77,5 +66,4 @@ public abstract class KmThreadLocalManager
 
         _dirtySet.remove();
     }
-
 }
