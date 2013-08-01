@@ -44,4 +44,3 @@ Installation instructions and other details can be found at:
 	web/WEB-INF/resource/doc/index.html
 	
 [end]
-test
