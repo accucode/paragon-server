@@ -60,6 +60,7 @@ public abstract class MyActivityRegistryBase
         add(MyPerformanceLogPage.instance);
         add(MyPlaceholderTestPage.instance);
         add(MyPropertiesPage.instance);
+        add(MyQuickTestPage.instance);
         add(MyScriptTestPage.instance);
         add(MySharedFileBrowserPage.instance);
         add(MyShowDialogTestPage.instance);
