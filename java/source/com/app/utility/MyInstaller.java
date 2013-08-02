@@ -435,7 +435,7 @@ public class MyInstaller
         s = Kmu.format(line, s);
         _printfln(s);
 
-        s = Kmu.format("  %s", Kmu.getLocalHostName());
+        s = Kmu.format("  %s, %s", Kmu.getLocalHostName(), Kmu.getLocalHostAddress());
         s = Kmu.rightPad(s, n);
         s = Kmu.format(line, s);
         _printfln(s);
