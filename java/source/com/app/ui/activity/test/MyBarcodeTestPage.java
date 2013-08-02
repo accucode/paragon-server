@@ -1,6 +1,5 @@
 package com.app.ui.activity.test;
 
-import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScControl;
 
@@ -36,8 +35,8 @@ public class MyBarcodeTestPage
         root = new ScBox();
         root.css().padSpaced();
 
-        KmHtmlBuilder test;
-        test = new KmHtmlBuilder();
+        //        KmHtmlBuilder test;
+        //        test = new KmHtmlBuilder();
 
         return root;
     }
