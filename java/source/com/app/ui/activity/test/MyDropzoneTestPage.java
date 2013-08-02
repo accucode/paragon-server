@@ -74,10 +74,6 @@ public class MyDropzoneTestPage
 
     private void handleRemove()
     {
-        // remove_aaron: print
-        System.out.println("MyDropzoneTestPage.handleRemove");
-        System.out.println("    getArgument(): " + getArgument());
-
         ajax().toast("Removed File");
     }
 

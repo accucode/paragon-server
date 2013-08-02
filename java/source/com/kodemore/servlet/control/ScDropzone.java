@@ -106,8 +106,8 @@ public class ScDropzone
             formatOnRemoveAction());
 
        
-        System.out.println("ScDropzone.formatScript");
-        System.out.println("    formatOnRemoveAction(): " + formatOnRemoveAction());
+        
+        
 
         out.printfln("%s.dropzone(%s);", formatJqueryReference(), formatOptions());
 

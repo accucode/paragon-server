@@ -145,5 +145,4 @@ public class ScGroupIconHeader
 
         out.endDiv();
     }
-
 }

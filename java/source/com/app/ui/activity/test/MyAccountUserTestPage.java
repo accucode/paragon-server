@@ -344,7 +344,6 @@ public class MyAccountUserTestPage
         String userName = _searchUserNameField.getValue();
         String accountName = _searchAccountNameField.getValue();
 
-        // fixme_valerie: missing type here
         MyAccountUserFilter f;
         f = new MyAccountUserFilter();
         f.sortAscending();

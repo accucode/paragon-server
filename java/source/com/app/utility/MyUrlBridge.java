@@ -90,7 +90,7 @@ public class MyUrlBridge
         return getStatic("app/theme/default", join(path));
     }
 
-    private String getStatic(String... path)
+    public String getStatic(String... path)
     {
         return getWeb("static", getVersionFolder(), join(path));
     }

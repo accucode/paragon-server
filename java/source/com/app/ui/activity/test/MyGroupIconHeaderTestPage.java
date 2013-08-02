@@ -3,27 +3,28 @@ package com.app.ui.activity.test;
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScControl;
-import com.kodemore.servlet.control.ScDialog;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupIconHeader;
 import com.kodemore.servlet.field.ScDropdown;
 
-import com.app.utility.MyButtonUrls;
-
-public class MyUserAccountPage
+public class MyGroupIconHeaderTestPage
     extends MyAbstractTestPage
 {
+    /**
+     * this is an example of how to use the ScGroupIconHeadder
+     * to dynamically change the title and icon in a group's 
+     * headder.
+     */
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyUserAccountPage instance = new MyUserAccountPage();
+    public static final MyGroupIconHeaderTestPage instance = new MyGroupIconHeaderTestPage();
 
-    private MyUserAccountPage()
+    private MyGroupIconHeaderTestPage()
     {
         // singleton
     }
@@ -32,9 +33,7 @@ public class MyUserAccountPage
     //# variables
     //##################################################
 
-    private ScDialog          _dialog;
-    private ScGroupIconHeader _welcomeMessage;
-
+    private ScGroupIconHeader _groupHeader;
     private ScDropdown        _dropdown;
 
     //##################################################
@@ -47,8 +46,6 @@ public class MyUserAccountPage
         ScBox root;
         root = new ScBox();
         root.css().padSpaced();
-
-        installDialog(root);
 
         ScForm form = root.addForm();
 
@@ -63,7 +60,7 @@ public class MyUserAccountPage
         ScGroup group;
         group = form.addGroup();
 
-        _welcomeMessage = group.setTitleWithIcon("source ", "welcome");
+        _groupHeader = group.setTitleWithIcon("source ", "welcome");
 
         ScBox body;
         body = group.addPad();
@@ -73,66 +70,9 @@ public class MyUserAccountPage
         return root;
     }
 
-    private void installDialog(ScBox root)
-    {
-        _dialog = root.addDialog();
-        _dialog.getHeaderBox().addPad().addText("This is the Header");
-        _dialog.getFooterBox().addPad().addText("This is the Footer.");
-
-        ScBox body = _dialog.getBodyBox();
-        body.addPad().addText("This is the Body of the dialog.");
-
-        ScGroup group;
-        group = body.addGroup("This is a Group inside the body");
-        group.addPad().addText("This is text inside the group, with a text field below.");
-        group.addPad().addTextField();
-        group.addPad().addButton("Toast Button", newToastAction());
-
-        ScActionButton button;
-        button = body.addPad().addButton("Close Dialog", newCloseAction());
-        button.setImage(MyButtonUrls.cancel());
-    }
-
     //##################################################
     //# action
     //##################################################
-
-    @SuppressWarnings("unused")
-    private ScActionIF newOpenAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleOpen();
-            }
-        };
-    }
-
-    private ScActionIF newToastAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleToast();
-            }
-        };
-    }
-
-    private ScActionIF newCloseAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleClose();
-            }
-        };
-    }
 
     private ScActionIF newChangeIconAction()
     {
@@ -153,9 +93,9 @@ public class MyUserAccountPage
     @Override
     public void start()
     {
-        _welcomeMessage.setText("Welcome " + getCurrentUser().getName());
-        _welcomeMessage.setImageSource(getCommonImageUrl("smiley.png"));
-        _welcomeMessage.ajaxUpdateValues();
+        _groupHeader.setText("Welcome " + getCurrentUser().getName());
+        _groupHeader.setImageSource(getCommonImageUrl("smiley.png"));
+        _groupHeader.ajaxUpdateValues();
 
         super.start();
     }
@@ -164,38 +104,23 @@ public class MyUserAccountPage
     //# handle
     //##################################################
 
-    private void handleOpen()
-    {
-        _dialog.ajaxOpen();
-    }
-
-    private void handleToast()
-    {
-        ajax().toast("Button pressed");
-    }
-
-    private void handleClose()
-    {
-        _dialog.ajaxClose();
-    }
-
     private void handleChangeIcon()
     {
         String house = getCommonImageUrl("house.png");
         String smiley = getCommonImageUrl("smiley.png");
         String squares = getCommonImageUrl("squares.png");
 
-        _welcomeMessage.setText("Welcome " + getCurrentUser().getName());
+        _groupHeader.setText("Welcome " + getCurrentUser().getName());
 
         if ( _dropdown.getStringValue().equals("house") )
-            _welcomeMessage.setImageSource(house);
+            _groupHeader.setImageSource(house);
 
         if ( _dropdown.getStringValue().equals("smiley") )
-            _welcomeMessage.setImageSource(smiley);
+            _groupHeader.setImageSource(smiley);
 
         if ( _dropdown.getStringValue().equals("squares") )
-            _welcomeMessage.setImageSource(squares);
+            _groupHeader.setImageSource(squares);
 
-        _welcomeMessage.ajax().replace();
+        _groupHeader.ajax().replace();
     }
 }

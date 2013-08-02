@@ -43,6 +43,7 @@ public class MyTestPage
         links.addLink(MyFormTestPage.instance);
         links.addLink(MyPlaceholderTestPage.instance);
         links.addLink(MyGroupTestPage.instance);
+        links.addLink(MyGroupIconHeaderTestPage.instance);
         links.addLink(MyNotebookTestPage.instance);
 
         group = groups.addGroup("Fields");
