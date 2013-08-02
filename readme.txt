@@ -1,7 +1,5 @@
 Paragon
 
---test
-
 Purpose:
 
     This repository is intended to provide a sandbox for developing
