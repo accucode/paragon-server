@@ -1,15 +1,15 @@
 package com.app.ui.activity.general;
 
+import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScGroupArray;
+
 import com.app.ui.activity.MyPage;
 import com.app.ui.activity.test.MyAccountTestPage;
 import com.app.ui.activity.test.MyAccountUserTestPage;
 import com.app.ui.activity.test.MyUserAccountPage;
 import com.app.utility.MyConstantsIF;
-
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
 
 public class MyHomePage
     extends MyPage
@@ -36,7 +36,7 @@ public class MyHomePage
 
         ScBox root;
         root = new ScBox();
-        root.css().pad();
+        root.css().padSpaced();
 
         ScGroupArray groups;
         groups = root.addGroupArray();
