@@ -19,7 +19,6 @@ Tomcat
     Required Version: 5.5.x
 
     Install tomcat.
-    Follow additional instructions at: $project/web/install/readme.txt
 
 -----------------
 Ant
@@ -101,6 +100,17 @@ MySql Database
     You can disable it at Control Panel > Windows Firewall
 
 -----------------
+Environment Vars
+-----------------
+
+ You need to set the following environment variables to match the folders on your hard drive.
+    
+        JAVA_HOME       - this should point to the root folder of the installed jdk    
+        ANT_HOME        - This should point to where you installed Ant
+        TOMCAT_HOME     - This should point to where you installed Tomcat
+        CATALINA_HOME   - This should also point to where you installed Tomcat
+
+-----------------
 Local Environment
 -----------------
 
@@ -136,6 +146,16 @@ Local Environment
     
         ant -f antSetup.xml exportSettings
         (enter your AccuCode login when prompted; e.g.: "wlove")
+
+-----------------
+Configure Tomcat
+-----------------
+
+ You already installed a base implementation of the Tomcat servlet container.
+    Now that you have configured your local environment, you can point Tomcat
+    to our application.  Simply run the ant script:
+    
+        ant -f antSetup.xml configureTomcat
 
 -----------------
 Compile Java
