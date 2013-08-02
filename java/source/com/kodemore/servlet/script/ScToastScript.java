@@ -23,6 +23,7 @@
 package com.kodemore.servlet.script;
 
 import com.kodemore.json.KmJsonObject;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 public class ScToastScript
@@ -241,7 +242,7 @@ public class ScToastScript
     //##################################################
 
     @Override
-    public String formatScript()
+    public void formatScriptOn(KmStringBuilder out)
     {
         KmJsonObject params;
         params = new KmJsonObject();
@@ -251,6 +252,6 @@ public class ScToastScript
         params.setInteger("inEffectDuration", getEffectMs());
         params.setInteger("stayTime", getDurationMs());
 
-        return Kmu.format("$().toastmessage('showToast',%s);", params);
+        out.printf("$().toastmessage('showToast',%s);", params);
     }
 }

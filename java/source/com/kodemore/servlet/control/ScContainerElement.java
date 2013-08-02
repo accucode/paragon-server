@@ -22,7 +22,6 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
@@ -237,7 +236,7 @@ public abstract class ScContainerElement
 
     /**
      * Render a container that follows a very simple and common
-     * format.  All children must explicitly define their on
+     * format.  All children must explicitly define their own
      * renderControlOn() method, but many will do nothing more
      * than delegate to this method. 
      */
@@ -262,8 +261,7 @@ public abstract class ScContainerElement
 
     protected void renderChildrenOn(KmHtmlBuilder out)
     {
-        KmList<ScControl> v = getChildren();
-        for ( ScControl e : v )
+        for ( ScControl e : getChildren() )
             renderChildOn(out, e);
     }
 
@@ -281,14 +279,14 @@ public abstract class ScContainerElement
         ajax().setText(value);
     }
 
-    public void ajaxSetHtml(String value)
-    {
-        ajax().setHtml(value);
-    }
-
     public void ajaxClearText()
     {
         _ajax().clearText(this);
+    }
+
+    public void ajaxSetHtml(String value)
+    {
+        ajax().setHtml(value);
     }
 
 }

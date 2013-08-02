@@ -68,6 +68,7 @@ public class MyMetaUser
     public static final MyMetaUser_PasswordHash PasswordHash = new MyMetaUser_PasswordHash();
     public static final MyMetaUser_TimeZoneCode TimeZoneCode = new MyMetaUser_TimeZoneCode();
     public static final MyMetaUser_RoleCode RoleCode = new MyMetaUser_RoleCode();
+    public static final MyMetaUser_FavoriteColor FavoriteColor = new MyMetaUser_FavoriteColor();
     public static final MyMetaUser_LockVersion LockVersion = new MyMetaUser_LockVersion();
     public static final MyMetaUser_RoleName RoleName = new MyMetaUser_RoleName();
 

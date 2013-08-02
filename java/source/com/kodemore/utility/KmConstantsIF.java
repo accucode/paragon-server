@@ -119,6 +119,7 @@ public interface KmConstantsIF
     String      OPEN_PAREN            = "" + CHAR_OPEN_PAREN;
     String      CLOSE_PAREN           = "" + CHAR_CLOSE_PAREN;
     String      QUOTE                 = "" + CHAR_QUOTE;
+    String      TICK                  = "" + CHAR_TICK;
 
     //##################################################
     //# weight conversion

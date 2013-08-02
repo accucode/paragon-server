@@ -43,6 +43,7 @@ public class MyUserValidatorBase
     private KmStringValidator passwordHashValidator;
     private KmStringValidator timeZoneCodeValidator;
     private KmStringValidator roleCodeValidator;
+    private KmHtmlColorValidator favoriteColorValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -60,6 +61,7 @@ public class MyUserValidatorBase
         passwordHashValidator = newPasswordHashValidator();
         timeZoneCodeValidator = newTimeZoneCodeValidator();
         roleCodeValidator = newRoleCodeValidator();
+        favoriteColorValidator = newFavoriteColorValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -107,6 +109,11 @@ public class MyUserValidatorBase
         return roleCodeValidator;
     }
 
+    public KmHtmlColorValidator getFavoriteColorValidator()
+    {
+        return favoriteColorValidator;
+    }
+
     public KmIntegerValidator getLockVersionValidator()
     {
         return lockVersionValidator;
@@ -127,6 +134,7 @@ public class MyUserValidatorBase
         value.setPasswordHash(passwordHashValidator.convertOnly(value.getPasswordHash()));
         value.setTimeZoneCode(timeZoneCodeValidator.convertOnly(value.getTimeZoneCode()));
         value.setRoleCode(roleCodeValidator.convertOnly(value.getRoleCode()));
+        value.setFavoriteColor(favoriteColorValidator.convertOnly(value.getFavoriteColor()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
     }
 
@@ -141,6 +149,7 @@ public class MyUserValidatorBase
         passwordHashValidator.validateOnly(value.getPasswordHash(), errors);
         timeZoneCodeValidator.validateOnly(value.getTimeZoneCode(), errors);
         roleCodeValidator.validateOnly(value.getRoleCode(), errors);
+        favoriteColorValidator.validateOnly(value.getFavoriteColor(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
     }
 
@@ -239,6 +248,15 @@ public class MyUserValidatorBase
         e.setModel("user");
         e.setField("roleCode");
         e.setRequired();
+        return e;
+    }
+
+    public KmHtmlColorValidator newFavoriteColorValidator()
+    {
+        KmHtmlColorValidator e;
+        e = new KmHtmlColorValidator();
+        e.setModel("user");
+        e.setField("favoriteColor");
         return e;
     }
 

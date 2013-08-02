@@ -42,6 +42,9 @@ import com.kodemore.servlet.variable.ScLocalStyle;
 /**
  * I show a modal dialog.
  * 
+ * I rely on the SimpleModal javascript library
+ * http://www.ericmmartin.com/projects/simplemodal/
+ * 
  * The styling should generally be managed via external 
  * css.  However, it is safe to hide the header and footer
  * sections dynamically.  
@@ -283,11 +286,15 @@ public class ScDialog
     /**
      * Show the modal dialog.  This method assumes that the dialog's
      * html has already been rendered/attached to the DOM.
+     * 
+     * persist is defaulted to true to avoid incompatibility problems
+     * that otherwise occur with some other tools such as the Flexigrid.
      */
     public void ajaxOpen()
     {
         KmJsonObject options;
         options = new KmJsonObject();
+        options.setBoolean("persist", true);
 
         KmJsonObject style;
         style = options.setObject("containerCss");

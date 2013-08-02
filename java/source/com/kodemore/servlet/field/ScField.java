@@ -28,6 +28,7 @@ import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.ScEncodedValueIF;
+import com.kodemore.servlet.control.ScAjaxValueIF;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.utility.ScJquery;
@@ -38,7 +39,7 @@ import com.kodemore.utility.Kmu;
 
 public abstract class ScField<T>
     extends ScControl
-    implements ScHtmlIdIF, ScEncodedValueIF
+    implements ScHtmlIdIF, ScEncodedValueIF, ScAjaxValueIF
 {
     //##################################################
     //# variables

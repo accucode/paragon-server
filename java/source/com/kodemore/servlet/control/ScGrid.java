@@ -1049,6 +1049,7 @@ public class ScGrid<T>
     private void applyTrackedValuesFor(ScServletData data)
     {
         String encodedValues = data.getParameter(PARAMETER_TRACKED_VALUES);
+
         if ( Kmu.isEmpty(encodedValues) )
             return;
 
@@ -1059,7 +1060,9 @@ public class ScGrid<T>
         while ( decodedIterator.hasNext() )
         {
             Object nextDecode = decodedIterator.next();
-            ScEncodedValueIF nextValue = trackedIterator.next();
+
+            ScEncodedValueIF nextValue;
+            nextValue = trackedIterator.next();
             nextValue.setEncodedValue(nextDecode);
         }
     }

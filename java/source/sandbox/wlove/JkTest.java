@@ -1,5 +1,7 @@
 package sandbox.wlove;
 
+import com.kodemore.json.KmJsonObject;
+
 public class JkTest
 {
     //##################################################
@@ -13,7 +15,10 @@ public class JkTest
 
     public void run()
     {
-        // none
+        KmJsonObject e;
+        e = new KmJsonObject();
+        e.setString("name", "bob/smith");
+        System.out.println(e);
     }
 
 }

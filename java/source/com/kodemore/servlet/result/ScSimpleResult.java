@@ -94,10 +94,18 @@ public class ScSimpleResult
         if ( getHttpNoCache() )
             data.setNoCacheHeaders();
 
+        byte[] value = getValue();
+
         if ( isAttachment() )
-            data.writeAttachment(getAttachmentName(), getValue());
+        {
+            data.writeAttachment(getAttachmentName(), value);
+            data.logResults("[attachment]");
+        }
         else
-            data.writeBytes(getValue());
+        {
+            data.writeBytes(value);
+            data.logResults(new String(value));
+        }
     }
 
 }

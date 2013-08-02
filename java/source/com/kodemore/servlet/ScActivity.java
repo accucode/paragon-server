@@ -105,6 +105,11 @@ public abstract class ScActivity
         return ScUrls.getThemeImage(file);
     }
 
+    protected static final String getCommonImageUrl(String file)
+    {
+        return ScUrls.getCommonImage(file);
+    }
+
     protected static final String getBlankImageUrl()
     {
         return ScUrls.getBlankImage();

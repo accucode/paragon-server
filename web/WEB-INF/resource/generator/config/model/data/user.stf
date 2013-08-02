@@ -7,7 +7,7 @@ database
 
     index
     : name      = email
-    : unique    = false
+    : unique    = true
     : on        = email
 
 attributes
@@ -28,7 +28,7 @@ attributes
 
     field
     : name      = email
-    : comment   = The email is effectively the user identify.
+    : comment   = The email is effectively the user identity.
     : type      = email
     : required  = true
 
@@ -56,13 +56,9 @@ attributes
     : comment   = The time zone.
     : type      = timeZoneCode
 
-    valueCollection
-    : name      = pet
-    : comment   = The user's pets.
-    : type      = name
-
     field
     : name      = roleCode
+    : label     = Role
     : comment   = The role, or access level.
     : type      = letterCode
     : required  = true
@@ -72,4 +68,16 @@ attributes
             value(#U User)
             value(#R Admin)
             value(#D Developer)
+
+    valueCollection
+    : name      = pet
+    : comment   = The user's pets.
+    : type      = name
+
+    field
+    : name      = favoriteColor
+    : comment   = The user's favorite color.  Used to test the custom htmlColor type.
+    : type      = htmlColor
+    : required  = false
+    : default   =  
 

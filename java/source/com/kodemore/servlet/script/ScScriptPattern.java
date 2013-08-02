@@ -23,7 +23,7 @@
 package com.kodemore.servlet.script;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.utility.Kmu;
+import com.kodemore.string.KmStringBuilder;
 
 /**
  * I provide a simple way to defer execution of scripts
@@ -33,7 +33,7 @@ import com.kodemore.utility.Kmu;
  * always justify creating specialized class hierarchies.
  */
 public class ScScriptPattern
-    implements ScScriptIF
+    extends ScAbstractScript
 {
     //##################################################
     //# variables
@@ -85,9 +85,8 @@ public class ScScriptPattern
     //##################################################
 
     @Override
-    public final String formatScript()
+    public void formatScriptOn(KmStringBuilder out)
     {
-        return Kmu.format(_pattern, _arguments.toArray());
+        out.printf(_pattern, _arguments.toArray());
     }
-
 }

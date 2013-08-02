@@ -95,6 +95,16 @@ public class ScColorField
         return Kmu.hasValue(getText());
     }
 
+    public boolean hasText(String e)
+    {
+        return _text.is(e);
+    }
+
+    public void clearText()
+    {
+        _text.setValue("");
+    }
+
     //##################################################
     //# full wrapper
     //##################################################
@@ -151,6 +161,24 @@ public class ScColorField
             setText("");
         else
             setText(e.getValue());
+    }
+
+    //##################################################
+    //# page session
+    //##################################################
+
+    @Override
+    public void saveFieldValues()
+    {
+        super.saveFieldValues();
+        _text.saveValue();
+    }
+
+    @Override
+    public void resetFieldValues()
+    {
+        super.resetFieldValues();
+        resetValue();
     }
 
     @Override
@@ -261,4 +289,13 @@ public class ScColorField
         return newCssBuilder().textFieldWrapper();
     }
 
+    //##################################################
+    //# ajax
+    //##################################################
+
+    @Override
+    public void ajaxUpdateValue()
+    {
+        ajax().setValue(getText());
+    }
 }

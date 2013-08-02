@@ -115,4 +115,14 @@ public class ScHiddenField<T>
         return false;
     }
 
+    //##################################################
+    //# ajax
+    //##################################################
+
+    @Override
+    public void ajaxUpdateValue()
+    {
+        ajax().setValue(encode(getValue()));
+    }
+
 }

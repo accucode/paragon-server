@@ -28,6 +28,44 @@ public class MyDaoRegistry
     }
 
     //##################################################
+    //# account
+    //##################################################
+
+    public MyAccountDao getAccountDao()
+    {
+        return new MyAccountDao();
+    }
+
+    public KmList<MyAccount> findAllAccounts()
+    {
+        return getAccountDao().findAll();
+    }
+
+    public MyAccount findAccountUid(String e)
+    {
+        return getAccountDao().findUid(e);
+    }
+
+    //##################################################
+    //# accountUser
+    //##################################################
+
+    public MyAccountUserDao getAccountUserDao()
+    {
+        return new MyAccountUserDao();
+    }
+
+    public KmList<MyAccountUser> findAllAccountUsers()
+    {
+        return getAccountUserDao().findAll();
+    }
+
+    public MyAccountUser findAccountUserUid(String e)
+    {
+        return getAccountUserDao().findUid(e);
+    }
+
+    //##################################################
     //# autoSignIn
     //##################################################
 

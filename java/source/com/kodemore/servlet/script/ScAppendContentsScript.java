@@ -27,10 +27,11 @@ import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScTransition;
 import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 public class ScAppendContentsScript
-    implements ScScriptIF
+    extends ScAbstractScript
 {
     //##################################################
     //# variables
@@ -222,57 +223,63 @@ public class ScAppendContentsScript
     }
 
     //##################################################
-    //# scriptIF 
+    //# format (custom)
     //##################################################
 
     @Override
-    public String formatScript()
+    public void formatScriptOn(KmStringBuilder out)
     {
         if ( !usesTransition() )
-            return formatSimple();
+        {
+            formatSimpleOn(out);
+            return;
+        }
 
         ScTransition e = getTransition();
         switch ( e )
         {
             case Fade:
-                return formatFade();
+                formatFadeOn(out);
+                return;
 
             case SlideLeft:
-                return formatLeft();
+                formatLeftOn(out);
+                return;
 
             case SlideRight:
-                return formatRight();
+                formatRightOn(out);
+                return;
         }
 
-        return formatSimple();
+        formatSimpleOn(out);
     }
 
-    private String formatSimple()
+    private void formatSimpleOn(KmStringBuilder out)
     {
-        return formatCall("Kmu.jsonReplaceSimple");
+        formatCallOn(out, "Kmu.jsonReplaceSimple");
     }
 
-    private String formatFade()
+    private void formatFadeOn(KmStringBuilder out)
     {
-        return formatCall("Kmu.jsonReplaceFade");
+        formatCallOn(out, "Kmu.jsonReplaceFade");
     }
 
-    private String formatLeft()
+    private void formatLeftOn(KmStringBuilder out)
     {
-        return formatCall("Kmu.jsonReplaceLeft");
+        formatCallOn(out, "Kmu.jsonReplaceLeft");
     }
 
-    private String formatRight()
+    private void formatRightOn(KmStringBuilder out)
     {
-        return formatCall("Kmu.jsonReplaceRight");
+        formatCallOn(out, "Kmu.jsonReplaceRight");
     }
 
-    private String formatCall(String fn)
+    private void formatCallOn(KmStringBuilder out, String fn)
     {
-        ScScript out;
-        out = new ScScript();
-        out.run("%s(%s);", fn, composeJson());
-        return out.toString();
+        ScScript s;
+        s = new ScScript();
+        s.run("%s(%s);", fn, composeJson());
+        s.formatScriptOn(out);
     }
 
     private KmJsonObject composeJson()

@@ -97,6 +97,7 @@ public interface KmCssDefaultConstantsIF
     String tabx = "tabx";
     String text = "text";
     String textField = "textField";
+    String textFieldReadOnly = "textFieldReadOnly";
     String textFieldWrapper = "textFieldWrapper";
     String backgroundBlack = "backgroundBlack";
     String backgroundBlue = "backgroundBlue";
@@ -236,6 +237,7 @@ public interface KmCssDefaultConstantsIF
     String pad20 = "pad20";
     String pad30 = "pad30";
     String pad5 = "pad5";
+    String pad50 = "pad50";
     String padHorizontal = "padHorizontal";
     String padLeft = "padLeft";
     String padLeft5 = "padLeft5";

@@ -187,7 +187,7 @@ public class ScControlRegistry
 
     private String getNextTransientId()
     {
-        return "t-" + Kmu.newUid();
+        return Kmu.newUid();
     }
 
     private KmMap<String,ScKeyIF> getTransientValues()

@@ -192,4 +192,14 @@ public class ScListField
         return true;
     }
 
+    //##################################################
+    //# ajax
+    //##################################################
+
+    @Override
+    public void ajaxUpdateValue()
+    {
+        ajax().setValue(encode(getValue()));
+    }
+
 }

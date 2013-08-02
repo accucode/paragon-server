@@ -46,6 +46,7 @@ public abstract class MyUserBase
     private String passwordHash;
     private String timeZoneCode;
     private String roleCode;
+    private KmHtmlColor favoriteColor;
     private Integer lockVersion;
     private List<String> pets;
 
@@ -471,6 +472,37 @@ public abstract class MyUserBase
     }
 
     //##################################################
+    //# field (favoriteColor)
+    //##################################################
+
+    public KmHtmlColor getFavoriteColor()
+    {
+        return favoriteColor;
+    }
+
+    public void setFavoriteColor(KmHtmlColor e)
+    {
+        checkReadOnly();
+        e = Validator.getFavoriteColorValidator().convertOnly(e);
+        favoriteColor = e;
+    }
+
+    public void clearFavoriteColor()
+    {
+        setFavoriteColor(null);
+    }
+
+    public boolean hasFavoriteColor()
+    {
+        return getFavoriteColor() != null;
+    }
+
+    public boolean hasFavoriteColor(KmHtmlColor e)
+    {
+        return Kmu.isEqual(getFavoriteColor(), e);
+    }
+
+    //##################################################
     //# field (lockVersion)
     //##################################################
 
@@ -623,6 +655,7 @@ public abstract class MyUserBase
         if ( ! Kmu.isEqual(getPasswordHash(), e.getPasswordHash()) ) return false;
         if ( ! Kmu.isEqual(getTimeZoneCode(), e.getTimeZoneCode()) ) return false;
         if ( ! Kmu.isEqual(getRoleCode(), e.getRoleCode()) ) return false;
+        if ( ! Kmu.isEqual(getFavoriteColor(), e.getFavoriteColor()) ) return false;
         if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
         if ( ! Kmu.isEqual(getRoleName(), e.getRoleName()) ) return false;
         return true;
@@ -739,6 +772,7 @@ public abstract class MyUserBase
         System.out.println("    PasswordHash = " + passwordHash);
         System.out.println("    TimeZoneCode = " + timeZoneCode);
         System.out.println("    RoleCode = " + roleCode);
+        System.out.println("    FavoriteColor = " + favoriteColor);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

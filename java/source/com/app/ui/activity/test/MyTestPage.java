@@ -28,11 +28,11 @@ public class MyTestPage
     {
         ScBox root;
         root = new ScBox();
-        root.css().padSpaced();
+        root.css().padSpaced10();
 
         ScGroupArray groups;
         groups = root.addGroupArray();
-        groups.style().floatLeft().width(150).height(300);
+        groups.style().floatLeft().width(200).height(300);
 
         ScGroup group;
         ScBox links;
@@ -41,6 +41,7 @@ public class MyTestPage
         links = group.addLinkBox();
         links.addLink(MyBlankTestPage.instance);
         links.addLink(MyFormTestPage.instance);
+        links.addLink(MyPlaceholderTestPage.instance);
         links.addLink(MyGroupTestPage.instance);
         links.addLink(MyNotebookTestPage.instance);
 
@@ -53,6 +54,7 @@ public class MyTestPage
         links.addLink(MyAutoCompleteTestPage.instance);
         links.addLink(MyGoogleChartTestPage.instance);
         links.addLink(MyGridTestPage.instance);
+        links.addLink(MyDropzoneTestPage.instance);
 
         group = groups.addGroup("Misc");
         links = group.addLinkBox();
@@ -63,6 +65,7 @@ public class MyTestPage
         links.addLink(MyHideErrorsTestPage.instance);
         links.addLink(MyOpenWindowTestPage.instance);
         links.addLink(MyDownloadTestPage.instance);
+        links.addLink(MyShowDialogTestPage.instance);
 
         group = groups.addGroup("Tools");
         links = group.addLinkBox();

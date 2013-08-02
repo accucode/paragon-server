@@ -32,7 +32,9 @@ public interface ScCoderConstantsIF
     String CODER_BOOLEAN    = "b";
     String CODER_DOUBLE     = "d";
     String CODER_DATE       = "D";
+    String CODER_HTML_COLOR = "h";
     String CODER_INTEGER    = "i";
+    String CODER_LONG       = "l";
     String CODER_MAP        = "m";
     String CODER_NULL       = "n";
     String CODER_QUANTITY   = "q";

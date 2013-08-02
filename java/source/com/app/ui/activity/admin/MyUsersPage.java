@@ -17,6 +17,8 @@ import com.kodemore.servlet.control.ScFrame;
 import com.kodemore.servlet.control.ScFrameChild;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.field.ScColorField;
+import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.filter.MyUserFilter;
@@ -127,6 +129,7 @@ public class MyUsersPage
         grid.addLinkColumn(x.Name, newViewAction(), x.Uid);
         grid.addColumn(x.Email);
         grid.addColumn(x.Verified);
+        grid.addColumn(x.RoleName);
 
         _grid = grid;
     }
@@ -195,6 +198,8 @@ public class MyUsersPage
         fields.addText(x.Uid);
         fields.addText(x.Email);
         fields.addText(x.Name);
+        fields.addText(x.FavoriteColor);
+        fields.addText(x.RoleName);
 
         _viewChild = frame;
     }
@@ -213,6 +218,15 @@ public class MyUsersPage
         ScTextField nameField;
         nameField = x.Name.newField();
         nameField.setWidthFull();
+
+        ScColorField colorField;
+        colorField = x.FavoriteColor.newField();
+        colorField.setWidthFull();
+
+        ScDropdown roleField;
+        roleField = x.RoleCode.newDropdown();
+        roleField.setValueAdaptor(x.RoleCode);
+        roleField.css().widthFull();
 
         ScFrameChild frame;
         frame = _frame.createChild();
@@ -236,6 +250,8 @@ public class MyUsersPage
         fields.addText(x.Uid);
         fields.add(emailField);
         fields.add(nameField);
+        fields.add(colorField);
+        fields.add(roleField);
 
         group.addDivider();
 

@@ -515,6 +515,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.textField);
     }
     
+    public KmCssDefaultBuilder textFieldReadOnly()
+    {
+        return apply(KmCssDefaultConstantsIF.textFieldReadOnly);
+    }
+    
     public KmCssDefaultBuilder textFieldWrapper()
     {
         return apply(KmCssDefaultConstantsIF.textFieldWrapper);
@@ -1208,6 +1213,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder pad5()
     {
         return apply(KmCssDefaultConstantsIF.pad5);
+    }
+    
+    public KmCssDefaultBuilder pad50()
+    {
+        return apply(KmCssDefaultConstantsIF.pad50);
     }
     
     public KmCssDefaultBuilder padHorizontal()

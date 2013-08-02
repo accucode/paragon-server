@@ -33,6 +33,7 @@ import com.kodemore.time.KmTimestamp;
 import com.kodemore.time.KmTimestampFormatter;
 import com.kodemore.time.KmTimestampParser;
 import com.kodemore.types.KmCost;
+import com.kodemore.types.KmHtmlColor;
 import com.kodemore.types.KmKilogram;
 import com.kodemore.types.KmMoney;
 import com.kodemore.types.KmQuantity;
@@ -219,6 +220,28 @@ public class ScFormatter
     }
 
     //##################################################
+    //# color
+    //##################################################
+
+    public String formatHtmlColor(KmHtmlColor e)
+    {
+        if ( e == null )
+            return formatNull();
+
+        return e.getValue();
+    }
+
+    public KmHtmlColor parseHtmlColor(String s)
+    {
+        return KmHtmlColor.create(s);
+    }
+
+    public String getHtmlColorSample()
+    {
+        return "#BBAADD";
+    }
+
+    //##################################################
     //# boolean
     //##################################################
 
@@ -332,9 +355,11 @@ public class ScFormatter
     {
         if ( Kmu.isEmpty(s) )
             return null;
+
         Double d = Kmu.parseDouble(s);
         if ( d == null )
             return null;
+
         return new KmWeight(d, u);
     }
 
@@ -358,9 +383,11 @@ public class ScFormatter
     {
         if ( Kmu.isEmpty(s) )
             return null;
+
         Double d = Kmu.parseDouble(s);
         if ( d == null )
             return null;
+
         return new KmKilogram(d);
     }
 
@@ -389,6 +416,7 @@ public class ScFormatter
     {
         if ( Kmu.isEmpty(s) )
             return null;
+
         s = Kmu.stripCharacters(s, ',');
         return Kmu.parseQuantity(s);
     }
@@ -406,6 +434,7 @@ public class ScFormatter
     {
         if ( e == null )
             return formatNull();
+
         return e.getDisplayString();
     }
 
@@ -413,9 +442,11 @@ public class ScFormatter
     {
         if ( Kmu.isEmpty(s) )
             return null;
+
         Double d = Kmu.parseDouble(s);
         if ( d == null )
             return null;
+
         return new KmRate(d);
     }
 
@@ -432,6 +463,7 @@ public class ScFormatter
     {
         if ( e == null )
             return formatNull();
+
         return e.getDisplayString();
     }
 
@@ -444,8 +476,10 @@ public class ScFormatter
         s = Kmu.removePrefix(s, "$");
         s = Kmu.stripCharacters(s, ',');
         Double d = Kmu.parseDouble(s);
+
         if ( d == null )
             return null;
+
         return new KmCost(d);
     }
 
@@ -504,6 +538,9 @@ public class ScFormatter
 
         if ( e instanceof KmMoney )
             return formatMoney((KmMoney)e);
+
+        if ( e instanceof KmHtmlColor )
+            return formatHtmlColor((KmHtmlColor)e);
 
         KmLog.warnTrace("Unsupported format: " + e.getClass().getName());
         return "";

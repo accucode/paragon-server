@@ -72,12 +72,14 @@ public class ScCoderRegistry
 
         registerCoder(new ScStringCoder());
         registerCoder(new ScIntegerCoder());
+        registerCoder(new ScLongCoder());
         registerCoder(new ScDoubleCoder());
         registerCoder(new ScBooleanCoder());
 
         registerCoder(new ScDateCoder());
         registerCoder(new ScQuantityCoder());
         registerCoder(new ScActionCoder());
+        registerCoder(new ScHtmlColorCoder());
 
         registerCoder(new ScListCoder());
         registerCoder(new ScMapCoder());

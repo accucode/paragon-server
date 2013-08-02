@@ -240,4 +240,19 @@ public class ScCheckboxField
     {
         return _disabled.isTrue();
     }
+
+    //##################################################
+    //# ajax
+    //##################################################//
+
+    @Override
+    public void ajaxUpdateValue()
+    {
+        ajaxSetValue(getValue());
+    }
+
+    public void ajaxSetValue(Object e)
+    {
+        ajax().setValue(encode(e));
+    }
 }

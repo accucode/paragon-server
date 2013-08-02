@@ -110,6 +110,16 @@ public class ScAutoCompleteField
         return Kmu.hasValue(getText());
     }
 
+    public boolean hasText(String e)
+    {
+        return _text.is(e);
+    }
+
+    public void clearText()
+    {
+        _text.setValue("");
+    }
+
     public boolean isEmpty()
     {
         return !hasText();
@@ -194,6 +204,24 @@ public class ScAutoCompleteField
     public void setValue(String e)
     {
         _text.setValue(e);
+    }
+
+    //##################################################
+    //# page session
+    //##################################################
+
+    @Override
+    public void saveFieldValues()
+    {
+        super.saveFieldValues();
+        _text.saveValue();
+    }
+
+    @Override
+    public void resetFieldValues()
+    {
+        super.resetFieldValues();
+        resetValue();
     }
 
     @Override
@@ -342,6 +370,16 @@ public class ScAutoCompleteField
         json.addStrings(v);
 
         data.setJsonResult(json);
+    }
+
+    //##################################################
+    //# ajax
+    //##################################################
+
+    @Override
+    public void ajaxUpdateValue()
+    {
+        ajax().setValue(getText());
     }
 
 }

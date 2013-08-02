@@ -22,7 +22,15 @@
 
 package com.kodemore.servlet.script;
 
+import com.kodemore.string.KmStringBuilder;
+
 public interface ScScriptIF
 {
     String formatScript();
+
+    void formatScriptOn(KmStringBuilder out);
+
+    String formatMultilineScript();
+
+    void formatMultilineScriptOn(KmStringBuilder out);
 }

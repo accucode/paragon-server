@@ -35,12 +35,12 @@ public class ScCallbackScript
     extends ScBlockScript
 {
     @Override
-    protected void formatScriptOn(KmStringBuilder out)
+    public void formatScriptOn(KmStringBuilder out)
     {
-        out.append("function(){");
+        out.print("function(){");
 
         super.formatScriptOn(out);
 
-        out.append("}");
+        out.print("}");
     }
 }

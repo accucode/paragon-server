@@ -102,6 +102,11 @@ public class ScEncoder
         _buffer.append(e);
     }
 
+    public void _printLong(long e)
+    {
+        _buffer.append(e);
+    }
+
     private void print(char c)
     {
         if ( requiresEscape(c) )

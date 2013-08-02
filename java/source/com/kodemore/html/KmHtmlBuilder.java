@@ -26,6 +26,7 @@ import java.util.List;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.script.ScScript;
 import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.string.KmStringBuilder;
@@ -194,9 +195,9 @@ public class KmHtmlBuilder
         _buffer.append(" ");
         _buffer.append(key);
         _buffer.append("=");
-        _buffer.append(KmConstantsIF.QUOTE);
+        _buffer.append(KmConstantsIF.TICK);
         _buffer.append(escapeAttribute(value));
-        _buffer.append(KmConstantsIF.QUOTE);
+        _buffer.append(KmConstantsIF.TICK);
     }
 
     private String escapeAttribute(String value)
@@ -350,7 +351,7 @@ public class KmHtmlBuilder
 
     /**
      * Print the meta refresh tag.
-     * This will cause the page to refresh evern n seconds.
+     * This will cause the page to refresh every n seconds.
      * This tag should be used inside the <head>.
      */
     public void printMetaRefresh(int seconds)
@@ -734,7 +735,7 @@ public class KmHtmlBuilder
         printLiteral(out.formatHtml());
     }
 
-    public void render(ScControl e)
+    public void render(ScControlIF e)
     {
         if ( e != null )
             e.renderOn(this);

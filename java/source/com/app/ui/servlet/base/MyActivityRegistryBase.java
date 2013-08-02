@@ -25,6 +25,8 @@ public abstract class MyActivityRegistryBase
     {
         super.registerActivities();
         
+        add(MyAccountTestPage.instance);
+        add(MyAccountUserTestPage.instance);
         add(MyAdminPage.instance);
         add(MyAnimationTestPage.instance);
         add(MyAutoCompleteTestPage.instance);
@@ -33,11 +35,14 @@ public abstract class MyActivityRegistryBase
         add(MyBlockTestPage.instance);
         add(MyColorFieldTestPage.instance);
         add(MyDateFieldTestPage.instance);
+        add(MyDomainDropdownSetValueTestPage.instance);
         add(MyDownloadTestPage.instance);
+        add(MyDropzoneTestPage.instance);
         add(MyEmailEditPage.instance);
         add(MyEmailListPage.instance);
         add(MyEmailViewPage.instance);
         add(MyFieldTestPage.instance);
+        add(MyFilterTableRowTestPage.instance);
         add(MyFormTestPage.instance);
         add(MyGmailTestPage.instance);
         add(MyGoogleChartTestPage.instance);
@@ -52,9 +57,11 @@ public abstract class MyActivityRegistryBase
         add(MyNotebookTestPage.instance);
         add(MyOpenWindowTestPage.instance);
         add(MyPerformanceLogPage.instance);
+        add(MyPlaceholderTestPage.instance);
         add(MyPropertiesPage.instance);
         add(MyScriptTestPage.instance);
         add(MySharedFileBrowserPage.instance);
+        add(MyShowDialogTestPage.instance);
         add(MySignInActivity.instance);
         add(MySignOutPage.instance);
         add(MySlowTestPage.instance);
@@ -65,6 +72,7 @@ public abstract class MyActivityRegistryBase
         add(MyTimeoutPage.instance);
         add(MyToastTestPage.instance);
         add(MyToolsPage.instance);
+        add(MyUserAccountPage.instance);
         add(MyUserPasswordPage.instance);
         add(MyUserSettingsPage.instance);
         add(MyUsersPage.instance);

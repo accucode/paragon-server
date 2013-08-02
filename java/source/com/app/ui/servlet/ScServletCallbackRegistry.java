@@ -1,6 +1,7 @@
 package com.app.ui.servlet;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.servlet.control.ScDropzone;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.field.ScAutoCompleteField;
 import com.kodemore.utility.Kmu;
@@ -50,6 +51,8 @@ public class ScServletCallbackRegistry
     private static final String       KEY_AUTO_COMPLETE = "autoComplete";
     private static final String       KEY_FLEXIGRID     = "flexigrid";
 
+    private static final String       KEY_DROPZONE      = "dropzone";
+
     //##################################################
     //# variables
     //##################################################
@@ -84,6 +87,7 @@ public class ScServletCallbackRegistry
     {
         registerAutoComplete();
         registerFlexigrid();
+        registerDropzone();
     }
 
     private void registerAutoComplete()
@@ -106,6 +110,18 @@ public class ScServletCallbackRegistry
             public void handle(String suffix)
             {
                 ScGrid.handleServletCallback(suffix);
+            }
+        });
+    }
+
+    private void registerDropzone()
+    {
+        register(new ScServletCallback(KEY_DROPZONE)
+        {
+            @Override
+            public void handle(String suffix)
+            {
+                ScDropzone.handleServletCallback(suffix);
             }
         });
     }
@@ -135,6 +151,11 @@ public class ScServletCallbackRegistry
     public ScServletCallback getFlexigridCallback()
     {
         return getCallbackForKey(KEY_FLEXIGRID);
+    }
+
+    public ScServletCallback getDropzoneCallback()
+    {
+        return getCallbackForKey(KEY_DROPZONE);
     }
 
     //##################################################

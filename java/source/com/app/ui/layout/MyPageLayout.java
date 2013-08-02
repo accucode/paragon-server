@@ -1,10 +1,13 @@
 package com.app.ui.layout;
 
+import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.ScMenuItem;
 import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScTopMenu;
+import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.script.ScScript;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.time.KmTimestamp;
@@ -78,7 +81,9 @@ public class MyPageLayout
     //# variables
     //##################################################
 
-    private ScTopMenu _menu;
+    private ScTopMenu  _menu;
+    private ScDiv      _topRightDiv;
+    private ScDropdown _dropdown;
 
     //##################################################
     //# constructor
@@ -86,16 +91,55 @@ public class MyPageLayout
 
     public MyPageLayout()
     {
-        installMenu();
+        installTopRightDiv();
     }
 
     //##################################################
-    //# install: menu
+    //# install: 
     //##################################################
 
     private void installMenu()
     {
         _menu = new ScTopMenu();
+
+    }
+
+    //##################################################
+    //# install: dropdown
+    //##################################################//
+
+    private void installDropdown()
+    {
+        _dropdown = new ScDropdown();
+        _dropdown.setOptions(getDropdownList());
+    }
+
+    private KmList<String> getDropdownList()
+    {
+       
+
+        KmList<String> list;
+        list = new KmList<String>();
+        list.add("one");
+        list.add("two");
+        list.add("three");
+        return list;
+    }
+
+    //##################################################
+    //# install: top right div
+    //##################################################//
+
+    private void installTopRightDiv()
+    {
+        installMenu();
+        installDropdown();
+
+        _topRightDiv = new ScDiv();
+        _topRightDiv.css().pad10();
+        _topRightDiv.add(_dropdown);
+        _topRightDiv.add(_menu);
+
     }
 
     //##################################################
@@ -142,7 +186,7 @@ public class MyPageLayout
         ajax().addDivIdTo(BOTTOM_SELECTOR, FOOTER_ID);
         ajax().addCss(FOOTER_SELECTOR, FOOTER_ID);
 
-        ajax().setContents(HEADER_RIGHT_SELECTOR, _menu);
+        ajax().setContents(HEADER_RIGHT_SELECTOR, _topRightDiv);
     }
 
     public void ajaxRefreshHeader()

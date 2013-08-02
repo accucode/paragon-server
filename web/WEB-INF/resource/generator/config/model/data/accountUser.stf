@@ -1,0 +1,54 @@
+model
+: name      = accountUser
+: comment   = The list of all account users.
+
+database
+: alias = au
+
+    index
+    : name      = uid
+    : unique    = true
+    : on        = uid
+
+attributes
+
+    field
+    : name          = uid
+    : comment       = The unique key.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    association
+    : name          = account
+    : comment       = The account table's unique key.
+    : modelName     = account
+    : relation      = reference
+    : required      = true
+    
+        delegate
+        : fieldName = name
+        
+    association
+    : name          = user
+    : comment       = The user table's unique key.
+    : modelName     = user
+    : relation      = reference
+    : required      = true
+    
+        delegate
+        : fieldName = name
+        
+    field
+    : name      = roleCode
+    : label     = Role
+    : comment   = The role of account user.
+    : type      = letterCode
+    : required  = true
+    : default   = MyAccountUserRole.User.getCode() 
+
+        enum
+            value(#O Owner)
+            value(#M Manager)
+            value(#U User)

@@ -1,0 +1,38 @@
+model
+: name      = account
+: comment   = The list of all accounts.
+
+database
+: alias = a
+
+    index
+    : name      = accountName
+    : on        = name
+
+attributes
+
+    field
+    : name          = uid
+    : comment       = The unique key.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    field
+    : name      = name
+    : comment   = The account name.
+    : type      = name
+    : required  = required
+        
+    field
+    : name      = typeCode
+    : label     = Type
+    : comment   = The type of account.
+    : type      = letterCode
+    : required  = true
+    : default   = MyAccountType.Personal.getCode() 
+
+        enum
+            value(#P Personal)
+            value(#B Business)

@@ -46,7 +46,7 @@ public class MyMetaUser_RoleCode
     @Override
     public String getLabel()
     {
-        return "Role Code";
+        return "Role";
     }
 
     @Override

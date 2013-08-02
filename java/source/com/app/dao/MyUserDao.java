@@ -19,4 +19,11 @@ public class MyUserDao
         return c.findFirst();
     }
 
+    public MyUser findUserWithName(String s)
+    {
+        MyUserCriteria c;
+        c = createCriteria();
+        c.whereName().is(s);
+        return c.findFirst();
+    }
 }

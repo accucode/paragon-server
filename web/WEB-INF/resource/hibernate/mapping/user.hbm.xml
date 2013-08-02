@@ -79,6 +79,12 @@
             type="string"
             />
 
+        <property
+            name="favoriteColor"
+            column="favoriteColor"
+            type="string"
+            />
+
         <bag
             name="pets"
             table="user_pet"

@@ -118,8 +118,8 @@ public interface ScConstantsIF
     //# session keys
     //##################################################
 
-    String   TRANSIENT_KEY_PREFIX            = "t";
-    String   PERSISTENT_KEY_PREFIX           = "p";
+    String   TRANSIENT_KEY_PREFIX            = "T";
+    String   PERSISTENT_KEY_PREFIX           = "P";
 
     //##################################################
     //# misc

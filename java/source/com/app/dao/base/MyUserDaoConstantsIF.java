@@ -25,6 +25,7 @@ public interface MyUserDaoConstantsIF
     String PASSWORD_HASH = "passwordHash";
     String TIME_ZONE_CODE = "timeZoneCode";
     String ROLE_CODE = "roleCode";
+    String FAVORITE_COLOR = "favoriteColor";
     String LOCK_VERSION = "lockVersion";
     String ROLE_NAME = "roleName";
 

@@ -28,7 +28,6 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.ScServletData;
-import com.kodemore.servlet.control.ScAjaxValueIF;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalString;
@@ -45,7 +44,6 @@ import com.kodemore.validator.KmValidator;
  */
 public class ScTextArea
     extends ScField<String>
-    implements ScAjaxValueIF
 {
     //##################################################
     //# variables

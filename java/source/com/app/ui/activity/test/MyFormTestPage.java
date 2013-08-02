@@ -1,13 +1,13 @@
 package com.app.ui.activity.test;
 
+import com.app.ui.activity.MyActivity;
+
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.field.ScTextField;
-
-import com.app.ui.activity.MyActivity;
 
 public class MyFormTestPage
     extends MyAbstractTestPage
@@ -38,6 +38,7 @@ public class MyFormTestPage
     {
         _textField = new ScTextField();
         _textField.setLabel("Field");
+        _textField.css().padLeft5();
 
         ScForm root;
         root = new ScForm();

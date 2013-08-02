@@ -25,6 +25,7 @@ package com.kodemore.servlet.script;
 import com.kodemore.json.KmJsonUtility;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.string.KmStringBuilder;
 
 /**
  * I manage a list of scripts, roughly representing the
@@ -72,6 +73,35 @@ public abstract class ScAbstractScript
     public CharSequence subSequence(int start, int end)
     {
         return toString().subSequence(start, end);
+    }
+
+    //##################################################
+    //# format
+    //##################################################
+
+    @Override
+    public final String formatScript()
+    {
+        KmStringBuilder out = new KmStringBuilder();
+        formatScriptOn(out);
+        return out.toString();
+    }
+
+    @Override
+    public abstract void formatScriptOn(KmStringBuilder out);
+
+    @Override
+    public final String formatMultilineScript()
+    {
+        KmStringBuilder out = new KmStringBuilder();
+        formatMultilineScriptOn(out);
+        return out.toString();
+    }
+
+    @Override
+    public void formatMultilineScriptOn(KmStringBuilder out)
+    {
+        formatScriptOn(out);
     }
 
     //##################################################

@@ -23,13 +23,14 @@
 package com.kodemore.servlet.script;
 
 import com.kodemore.json.KmJsonObject;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 /**
  * I am used to open a new browser window (tab) with various options.
  */
 public class ScOpenWindowScript
-    implements ScScriptIF
+    extends ScAbstractScript
 {
     //##################################################
     //# variables
@@ -152,7 +153,7 @@ public class ScOpenWindowScript
     //##################################################
 
     @Override
-    public String formatScript()
+    public void formatScriptOn(KmStringBuilder out)
     {
         KmJsonObject args;
         args = new KmJsonObject();
@@ -169,7 +170,6 @@ public class ScOpenWindowScript
         if ( hasParameters() )
             args.setString("params", getParameters());
 
-        return Kmu.format("Kmu.openWindow(%s);", args);
-
+        out.printf("Kmu.openWindow(%s);", args);
     }
 }

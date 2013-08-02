@@ -22,10 +22,11 @@
 
 package com.kodemore.servlet.script;
 
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 public class ScSimpleScript
-    implements ScScriptIF
+    extends ScAbstractScript
 {
     //##################################################
     //# instance creation
@@ -78,9 +79,8 @@ public class ScSimpleScript
     //##################################################
 
     @Override
-    public String formatScript()
+    public void formatScriptOn(KmStringBuilder out)
     {
-        return _value;
+        out.print(_value);
     }
-
 }

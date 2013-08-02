@@ -7,6 +7,31 @@
 ###############################################################
 
 
+DROP TABLE IF EXISTS account;
+CREATE TABLE account
+(
+    uid varchar(30),
+    name varchar(30),
+    typeCode char(1),
+    lockVersion int,
+    primary key (uid)
+) ENGINE = INNODB;
+create index accountName on account (name);
+
+
+DROP TABLE IF EXISTS accountUser;
+CREATE TABLE accountUser
+(
+    uid varchar(30),
+    roleCode char(1),
+    lockVersion int,
+    accountUid varchar(30),
+    userUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create unique index uid on accountUser (uid);
+
+
 DROP TABLE IF EXISTS autoSignIn;
 CREATE TABLE autoSignIn
 (
@@ -210,10 +235,11 @@ CREATE TABLE user
     passwordHash varchar(40),
     timeZoneCode char(5),
     roleCode char(1),
+    favoriteColor char(7),
     lockVersion int,
     primary key (uid)
 ) ENGINE = INNODB;
-create index email on user (email);
+create unique index email on user (email);
 
 
 DROP TABLE IF EXISTS user_pet;

@@ -25,6 +25,7 @@ package com.kodemore.servlet.script;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.utility.ScEasing;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 public abstract class ScAbstractVisibilityScript
@@ -160,11 +161,12 @@ public abstract class ScAbstractVisibilityScript
     //##################################################
 
     @Override
-    public String formatScript()
+    public void formatScriptOn(KmStringBuilder out)
     {
-        return hasEffect()
-            ? formatEffect()
-            : formatNoEffect();
+        if ( hasEffect() )
+            out.print(formatEffect());
+        else
+            out.print(formatNoEffect());
     }
 
     private String formatNoEffect()

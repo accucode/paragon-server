@@ -25,8 +25,6 @@ package com.kodemore.servlet.field;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.ScServletData;
-import com.kodemore.servlet.encoder.ScDecoder;
-import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalObject;
 import com.kodemore.utility.Kmu;
@@ -123,7 +121,7 @@ public class ScRadioField
     {
         super.renderAttributesOn(out);
 
-        String value = ScEncoder.staticEncode(getValue());
+        String value = encode(getValue());
         out.printAttribute("value", value);
 
         if ( isChecked() )
@@ -149,7 +147,7 @@ public class ScRadioField
         super.readParameters(data);
 
         String encodedValue = data.getParameter(getHtmlName());
-        Object value = ScDecoder.staticDecode(encodedValue);
+        Object value = decode(encodedValue);
         boolean checked = Kmu.isEqual(getValue(), value);
         _checked.setValue(checked);
     }
@@ -183,4 +181,13 @@ public class ScRadioField
         return !isDisabled();
     }
 
+    //##################################################
+    //# ajax
+    //##################################################
+
+    @Override
+    public void ajaxUpdateValue()
+    {
+        ajax().setValue(encode(getValue()));
+    }
 }

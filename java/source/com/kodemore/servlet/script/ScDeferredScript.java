@@ -24,6 +24,7 @@ package com.kodemore.servlet.script;
 
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.Kmu;
 
 /**
  * Defer my children until the target's promise is done.
@@ -61,13 +62,28 @@ public class ScDeferredScript
     //##################################################
 
     @Override
-    protected void formatScriptOn(KmStringBuilder out)
+    public void formatScriptOn(KmStringBuilder out)
     {
-        String sel = json(getSelector());
-        out.printf("$(%s).promise().done(function(){", sel);
-
+        out.print(begin());
         super.formatScriptOn(out);
+        out.print(end());
+    }
 
-        out.append("});");
+    @Override
+    public void formatMultilineScriptOn(KmStringBuilder out)
+    {
+        out.println(begin());
+        super.formatMultilineScriptOn(out);
+        out.println(end());
+    }
+
+    private String begin()
+    {
+        return Kmu.format("$(%s).promise().done(function(){", json(getSelector()));
+    }
+
+    private String end()
+    {
+        return "});";
     }
 }

@@ -196,7 +196,7 @@ public class ScDropdown
     public void resetFieldValues()
     {
         super.resetFieldValues();
-        _value.resetValue();
+        resetValue();
     }
 
     protected String getDefaultFocusKey()
@@ -616,6 +616,12 @@ public class ScDropdown
     //##################################################
     //# ajax
     //##################################################
+
+    @Override
+    public void ajaxUpdateValue()
+    {
+        ajaxSetValue(getValue());
+    }
 
     public void ajaxSetValue(Object e)
     {

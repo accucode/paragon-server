@@ -25,6 +25,7 @@ package com.kodemore.servlet.script;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -165,25 +166,24 @@ public class ScAddContentScript
     //##################################################
 
     @Override
-    public String formatScript()
+    public void formatScriptOn(KmStringBuilder out)
     {
         if ( !hasTarget() )
-            return null;
+            return;
 
         KmHtmlBuilder c = getContent();
         if ( c == null )
-            return null;
+            return;
 
         String fn = getMode();
         String target = json(getTarget());
         String html = json(c.formatHtml());
 
-        ScScript out;
-        out = new ScScript();
-        out.run("$(%s).%s(%s);", target, fn, html);
-        out.run(c.getPostDom());
-        out.run(c.getPostRender());
-
-        return out.formatScript();
+        ScScript s;
+        s = new ScScript();
+        s.run("$(%s).%s(%s);", target, fn, html);
+        s.run(c.getPostDom());
+        s.run(c.getPostRender());
+        s.formatScriptOn(out);
     }
 }

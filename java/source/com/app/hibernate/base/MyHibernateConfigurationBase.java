@@ -20,6 +20,8 @@ public abstract class MyHibernateConfigurationBase
     @Override
     protected void addMappings()
     {
+        addMapping("account");
+        addMapping("accountUser");
         addMapping("autoSignIn");
         addMapping("download");
         addMapping("email");

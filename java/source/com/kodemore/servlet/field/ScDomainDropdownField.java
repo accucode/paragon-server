@@ -33,7 +33,6 @@ import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.control.ScText;
-import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.variable.ScLocal;
 import com.kodemore.servlet.variable.ScLocalAdaptor;
 import com.kodemore.servlet.variable.ScLocalBoolean;
@@ -328,13 +327,15 @@ public class ScDomainDropdownField<T, K>
 
     private void renderOption(KmHtmlBuilder out, T value, K key, String label)
     {
-        String encodedKey = ScEncoder.staticEncode(key);
+        String encodedKey = encode(key);
         boolean isSelected = Kmu.isEqual(getValue(), value);
 
         out.open("option");
         out.printAttribute("value", encodedKey);
+
         if ( isSelected )
             out.printAttribute("selected");
+
         out.close();
         out.print(label);
         out.end("option");
@@ -359,6 +360,7 @@ public class ScDomainDropdownField<T, K>
 
         KmList<KmErrorIF> errors = new KmList<KmErrorIF>();
         _validator.validateOnly(getValue(), errors);
+
         if ( errors.isEmpty() )
             return ok;
 
@@ -450,6 +452,11 @@ public class ScDomainDropdownField<T, K>
         return Kmu.isEqual(getValue(), e);
     }
 
+    private K getValueKey()
+    {
+        return _valueKey.getValue();
+    }
+
     //##################################################
     //# read only
     //##################################################
@@ -504,5 +511,15 @@ public class ScDomainDropdownField<T, K>
     public boolean isEditable()
     {
         return !isReadOnly() && !isDisabled();
+    }
+
+    //##################################################
+    //# ajax
+    //##################################################
+
+    @Override
+    public void ajaxUpdateValue()
+    {
+        ajax().setValue(encode(getValueKey()));
     }
 }

@@ -27,7 +27,6 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.field.ScHtmlIdIF;
@@ -106,7 +105,7 @@ public abstract class ScBlockScript
      *      out.deferUntil(field);
      *      out.focus(field);
      * 
-     * Finally, many control support convenience methods 
+     * Finally, many controls support convenience methods 
      * to help streamline this.  For example:
      * 
      *      ScTextField field = ...
@@ -122,6 +121,12 @@ public abstract class ScBlockScript
     public ScBlockScript()
     {
         clearScript();
+    }
+
+    public void clearScript()
+    {
+        _list = new KmList<ScScriptIF>();
+        _stack = null;
     }
 
     //##################################################
@@ -472,7 +477,7 @@ public abstract class ScBlockScript
         run(postRender);
     }
 
-    public void replaceWith(String target, ScControl with)
+    public void replaceWith(String target, ScControlIF with)
     {
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
@@ -481,9 +486,15 @@ public abstract class ScBlockScript
         replaceWith(target, out);
     }
 
-    public void replaceWith(ScHtmlIdIF target, ScControl with)
+    public void replaceWith(ScHtmlIdIF target, ScControlIF with)
     {
         replaceWith(target.formatJquerySelector(), with);
+    }
+
+    public void replace(ScHtmlIdIF target)
+    {
+        ScControlIF with = target;
+        replaceWith(target, with);
     }
 
     //##################################################
@@ -584,6 +595,14 @@ public abstract class ScBlockScript
         ScOpenWindowScript e;
         e = openWindow();
         e.setHtml(html);
+        return e;
+    }
+
+    public ScOpenWindowScript openWindowUrl(String url)
+    {
+        ScOpenWindowScript e;
+        e = openWindow();
+        e.setUrl(url);
         return e;
     }
 
@@ -940,30 +959,24 @@ public abstract class ScBlockScript
     }
 
     //##################################################
-    //# display
+    //# format
     //##################################################
 
     @Override
-    public final String formatScript()
-    {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-
-        formatScriptOn(out);
-
-        return out.toString();
-    }
-
-    protected void formatScriptOn(KmStringBuilder out)
+    public void formatScriptOn(KmStringBuilder out)
     {
         for ( ScScriptIF e : _list )
-            out.append(e.formatScript());
+            e.formatScriptOn(out);
     }
 
-    public void clearScript()
+    @Override
+    public void formatMultilineScriptOn(KmStringBuilder out)
     {
-        _list = new KmList<ScScriptIF>();
-        _stack = null;
+        for ( ScScriptIF e : _list )
+        {
+            e.formatMultilineScriptOn(out);
+            out.println();
+        }
     }
 
     //##################################################

@@ -27,24 +27,21 @@ import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.ScServletData;
-import com.kodemore.servlet.control.ScAjaxValueIF;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 import com.kodemore.validator.KmRequiredValidator;
 import com.kodemore.validator.KmValidator;
 
-// todo_wyatt: move ajaxValueIF to superclass
-
 public abstract class ScAbstractTextField<T>
     extends ScInputField<T>
-    implements ScAjaxValueIF
 {
     //##################################################
     //# variables
     //##################################################
 
     private ScLocalString  _text;
+    private ScLocalString  _placeholder;
     private ScLocalBoolean _readOnly;
     private ScLocalBoolean _disabled;
     private ScLocalBoolean _fullWrapper;
@@ -61,6 +58,7 @@ public abstract class ScAbstractTextField<T>
         super.install();
 
         _text = new ScLocalString("");
+        _placeholder = new ScLocalString("");
         _readOnly = new ScLocalBoolean(false);
         _disabled = new ScLocalBoolean(false);
         _fullWrapper = new ScLocalBoolean(false);
@@ -198,9 +196,7 @@ public abstract class ScAbstractTextField<T>
     private void renderWrappedField(KmHtmlBuilder out)
     {
         out.beginDiv(formatWrapperCss());
-
         renderField(out);
-
         out.endDiv();
     }
 
@@ -220,13 +216,23 @@ public abstract class ScAbstractTextField<T>
         if ( isReadOnly() )
             out.printAttribute("readonly", "readonly");
 
+        if ( hasPlaceholder() )
+            out.printAttribute("placeholder", getPlaceholder());
+
         out.printAttribute("value", getText());
     }
 
     @Override
     protected KmCssDefaultBuilder formatCss()
     {
-        return super.formatCss().textField();
+        KmCssDefaultBuilder css = super.formatCss();
+
+        if ( isReadOnly() )
+            css.textFieldReadOnly();
+        else
+            css.textField();
+
+        return css;
     }
 
     private KmCssDefaultBuilder formatWrapperCss()
@@ -337,7 +343,7 @@ public abstract class ScAbstractTextField<T>
     }
 
     //##################################################
-    //# convenience
+    //# text
     //##################################################
 
     public String getText()
@@ -365,6 +371,10 @@ public abstract class ScAbstractTextField<T>
         _text.setValue("");
     }
 
+    //##################################################
+    //# read only
+    //##################################################
+
     public void setReadOnly(boolean b)
     {
         _readOnly.setValue(b);
@@ -380,11 +390,20 @@ public abstract class ScAbstractTextField<T>
         setReadOnly(true);
     }
 
+    //##################################################
+    //# enable
+    //##################################################
+
     public void enable()
     {
         _disabled.setFalse();
     }
 
+    /**
+    * WARNING, a disabled field cannont receive user input nor will its
+    * value be submitted with the form.
+    * http://www.w3.org/TR/REC-html40/interact/forms.html#adef-disabled
+    */
     public void disable()
     {
         _disabled.setTrue();
@@ -393,6 +412,25 @@ public abstract class ScAbstractTextField<T>
     public boolean isDisabled()
     {
         return _disabled.isTrue();
+    }
+
+    //##################################################
+    //# placeholder
+    //##################################################
+
+    public void setPlaceholder(String e)
+    {
+        _placeholder.setValue(e);
+    }
+
+    public String getPlaceholder()
+    {
+        return _placeholder.getValue();
+    }
+
+    public boolean hasPlaceholder()
+    {
+        return _placeholder.hasValue();
     }
 
     //##################################################

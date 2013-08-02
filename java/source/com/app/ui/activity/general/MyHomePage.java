@@ -1,11 +1,15 @@
 package com.app.ui.activity.general;
 
+import com.app.ui.activity.MyPage;
+import com.app.ui.activity.test.MyAccountTestPage;
+import com.app.ui.activity.test.MyAccountUserTestPage;
+import com.app.ui.activity.test.MyUserAccountPage;
+import com.app.utility.MyConstantsIF;
+
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScGroup;
-
-import com.app.ui.activity.MyPage;
-import com.app.utility.MyConstantsIF;
+import com.kodemore.servlet.control.ScGroupArray;
 
 public class MyHomePage
     extends MyPage
@@ -34,9 +38,23 @@ public class MyHomePage
         root = new ScBox();
         root.css().pad();
 
+        ScGroupArray groups;
+        groups = root.addGroupArray();
+        groups.style().floatLeft().width(200).height(300);
+
+        ScBox links;
+
         ScGroup group;
-        group = root.addGroup("Home");
+        group = groups.addGroup("Home");
         group.addPad().addText(msg);
+
+        group = groups.addGroup("Paragon");
+        links = group.addLinkBox();
+
+        links.addLink(MyUserAccountPage.instance);
+
+        links.addLink(MyAccountTestPage.instance);
+        links.addLink(MyAccountUserTestPage.instance);
 
         return root;
     }

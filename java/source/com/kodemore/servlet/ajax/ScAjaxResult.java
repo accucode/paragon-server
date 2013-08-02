@@ -91,7 +91,7 @@ public class ScAjaxResult
         setContentTypeJson();
 
         data.writeBytes(bytes);
-        data.logResults(getScript().formatScript());
+        data.logResults(getScript().formatMultilineScript());
     }
 
     @Override

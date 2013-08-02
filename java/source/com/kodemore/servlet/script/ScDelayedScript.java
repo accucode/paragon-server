@@ -22,10 +22,11 @@
 
 package com.kodemore.servlet.script;
 
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 public class ScDelayedScript
-    implements ScScriptIF
+    extends ScAbstractScript
 {
     //##################################################
     //# variables
@@ -91,11 +92,11 @@ public class ScDelayedScript
     }
 
     //##################################################
-    //# format
+    //# format (custom)
     //##################################################
 
     @Override
-    public String formatScript()
+    public void formatScriptOn(KmStringBuilder out)
     {
         String s = getScript().formatScript();
 
@@ -108,6 +109,6 @@ public class ScDelayedScript
         if ( getOnReady() )
             s = Kmu.format("$(function(){%s});", s);
 
-        return s;
+        out.print(s);
     }
 }

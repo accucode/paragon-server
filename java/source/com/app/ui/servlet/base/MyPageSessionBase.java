@@ -24,6 +24,8 @@ public class MyPageSessionBase
     //# variables
     //##################################################
 
+    private ScLocalString _accountUid;
+    private ScLocalString _accountUserUid;
     private ScLocalString _autoSignInUid;
     private ScLocalString _downloadUid;
     private ScLocalString _emailUid;
@@ -46,6 +48,12 @@ public class MyPageSessionBase
 
     protected MyPageSessionBase()
     {
+        _accountUid = new ScLocalString();
+        _accountUid.setAutoSave();
+
+        _accountUserUid = new ScLocalString();
+        _accountUserUid.setAutoSave();
+
         _autoSignInUid = new ScLocalString();
         _autoSignInUid.setAutoSave();
 
@@ -91,6 +99,80 @@ public class MyPageSessionBase
         _userUid = new ScLocalString();
         _userUid.setAutoSave();
 
+    }
+
+    //##################################################
+    //# Account
+    //##################################################
+
+    public String getAccountUid()
+    {
+        return getAccountUidHolder().getValue();
+    }
+
+    public void setAccountUid(String e)
+    {
+        getAccountUidHolder().setValue(e);
+    }
+
+    public ScLocalString getAccountUidHolder()
+    {
+        return _accountUid;
+    }
+
+    public MyAccount getAccount()
+    {
+        return getDaoRegistry().getAccountDao().findUid(getAccountUid());
+    }
+
+    public void setAccount(MyAccount e)
+    {
+        if ( e == null )
+            setAccountUid(null);
+        else
+            setAccountUid(e.getUid());
+    }
+
+    public void resetAccount()
+    {
+        getAccountUidHolder().resetValue();
+    }
+
+    //##################################################
+    //# AccountUser
+    //##################################################
+
+    public String getAccountUserUid()
+    {
+        return getAccountUserUidHolder().getValue();
+    }
+
+    public void setAccountUserUid(String e)
+    {
+        getAccountUserUidHolder().setValue(e);
+    }
+
+    public ScLocalString getAccountUserUidHolder()
+    {
+        return _accountUserUid;
+    }
+
+    public MyAccountUser getAccountUser()
+    {
+        return getDaoRegistry().getAccountUserDao().findUid(getAccountUserUid());
+    }
+
+    public void setAccountUser(MyAccountUser e)
+    {
+        if ( e == null )
+            setAccountUserUid(null);
+        else
+            setAccountUserUid(e.getUid());
+    }
+
+    public void resetAccountUser()
+    {
+        getAccountUserUidHolder().resetValue();
     }
 
     //##################################################

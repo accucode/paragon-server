@@ -29,7 +29,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.field.ScHtmlIdIF;
-import com.kodemore.utility.Kmu;
+import com.kodemore.string.KmStringBuilder;
 
 public class ScActionScript
     extends ScAbstractScript
@@ -209,10 +209,10 @@ public class ScActionScript
     //##################################################
 
     @Override
-    public String formatScript()
+    public void formatScriptOn(KmStringBuilder out)
     {
         if ( !hasAction() )
-            return null;
+            return;
 
         KmJsonObject args;
         args = new KmJsonObject();
@@ -229,7 +229,7 @@ public class ScActionScript
         if ( hasBlockTarget() )
             args.setString("block", getBlockTarget().formatJquerySelector());
 
-        return Kmu.format("Kmu.ajax(%s);", args);
+        out.printf("Kmu.ajax(%s);", args);
     }
 
 }

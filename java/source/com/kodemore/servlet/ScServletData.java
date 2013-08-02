@@ -33,6 +33,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -40,6 +41,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
@@ -397,6 +403,31 @@ public class ScServletData
     public String getRemoteIpAddress()
     {
         return _request.getRemoteAddr();
+    }
+
+    
+    @SuppressWarnings("unchecked")
+    public KmList<FileItem> getUploadedFiles()
+    {
+        KmList<FileItem> v;
+        v = new KmList<FileItem>();
+
+        try
+        {
+            DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
+            ServletFileUpload servletFileUpload = new ServletFileUpload(diskFileItemFactory);
+
+            List<FileItem> files;
+            files = servletFileUpload.parseRequest(_getRequest());
+
+            v.addAll(files);
+        }
+        catch ( FileUploadException ex )
+        {
+            ex.printStackTrace();
+        }
+
+        return v;
     }
 
     //##################################################
@@ -1254,8 +1285,11 @@ public class ScServletData
 
     private String _composeTotalMessage(int size, int totalMs)
     {
-        StringBuilder out = new StringBuilder();
+        StringBuilder out;
+        out = new StringBuilder();
+
         appendLogIdentification(out);
+
         out.append(" : TOTAL");
         out.append("=");
         out.append(totalMs);
@@ -1264,6 +1298,7 @@ public class ScServletData
         out.append("size=");
         out.append(Kmu.formatDouble(1.0 * size / 1024, 1));
         out.append("kb");
+
         return out.toString();
     }
 
