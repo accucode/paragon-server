@@ -42,17 +42,15 @@ public class MyHomePage
         groups = root.addGroupArray();
         groups.style().floatLeft().width(200).height(300);
 
-        ScBox links;
-
         ScGroup group;
         group = groups.addGroup("Home");
         group.addPad().addText(msg);
 
         group = groups.addGroup("Paragon");
+
+        ScBox links;
         links = group.addLinkBox();
-
         links.addLink(MyUserAccountPage.instance);
-
         links.addLink(MyAccountTestPage.instance);
         links.addLink(MyAccountUserTestPage.instance);
 
