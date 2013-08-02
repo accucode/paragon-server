@@ -74,6 +74,7 @@ public class MyTestPage
         links.addLink(MyMemoryLeakTestPage.instance);
         links.addLink(MyGmailTestPage.instance);
         links.addLink(MyStaticIncludeTestPage.instance);
+        links.addLink(MyQuickTestPage.instance);
 
         return root;
     }
