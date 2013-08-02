@@ -82,7 +82,7 @@
         <property
             name="favoriteColor"
             column="favoriteColor"
-            type="string"
+            type="com.kodemore.hibernate.KmHibernateHtmlColorType"
             />
 
         <bag

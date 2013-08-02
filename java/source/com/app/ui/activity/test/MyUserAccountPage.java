@@ -1,15 +1,18 @@
 package com.app.ui.activity.test;
 
+import com.app.utility.MyButtonUrls;
+
+import com.kodemore.collection.KmList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDialog;
+import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScText;
-
-import com.app.utility.MyButtonUrls;
+import com.kodemore.servlet.control.ScGroupIconHeader;
+import com.kodemore.servlet.field.ScDropdown;
 
 public class MyUserAccountPage
     extends MyAbstractTestPage
@@ -29,8 +32,10 @@ public class MyUserAccountPage
     //# variables
     //##################################################
 
-    private ScDialog _dialog;
-    private ScText   _welcomeMessage;
+    private ScDialog          _dialog;
+    private ScGroupIconHeader _welcomeMessage;
+
+    private ScDropdown        _dropdown;
 
     //##################################################
     //# install
@@ -45,19 +50,25 @@ public class MyUserAccountPage
 
         installDialog(root);
 
-        _welcomeMessage = new ScText();
-        _welcomeMessage.setValue("welcome");
+        ScForm form = root.addForm();
+
+        KmList<String> list = new KmList<String>();
+        list.add("house");
+        list.add("smiley");
+        list.add("squares");
+
+        _dropdown = new ScDropdown();
+        _dropdown.setOptions(list);
 
         ScGroup group;
-        group = root.addGroup();
-        group.style().bold();
-        group.style().size(25);
+        group = form.addGroup();
 
-        group.getHeader().add(_welcomeMessage);
+        _welcomeMessage = group.setTitleWithIcon("source ", "welcome");
 
         ScBox body;
         body = group.addPad();
-        body.addButton("Show Dialog", newOpenAction());
+        body.addButton("change Icon", newChangeIconAction());
+        body.add(_dropdown);
 
         return root;
     }
@@ -86,18 +97,6 @@ public class MyUserAccountPage
     //# action
     //##################################################
 
-    private ScActionIF newOpenAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleOpen();
-            }
-        };
-    }
-
     private ScActionIF newToastAction()
     {
         return new ScAction(this)
@@ -122,6 +121,18 @@ public class MyUserAccountPage
         };
     }
 
+    private ScActionIF newChangeIconAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleChangeIcon();
+            }
+        };
+    }
+
     //##################################################
     //# start
     //##################################################//
@@ -129,7 +140,8 @@ public class MyUserAccountPage
     @Override
     public void start()
     {
-        _welcomeMessage.setValue("Welcome " + getCurrentUser().getName());
+        _welcomeMessage.setText("Welcome " + getCurrentUser().getName());
+        _welcomeMessage.setImageSource(getCommonImageUrl("smiley.png"));
         _welcomeMessage.ajaxUpdateValues();
 
         super.start();
@@ -139,11 +151,6 @@ public class MyUserAccountPage
     //# handle
     //##################################################
 
-    private void handleOpen()
-    {
-        _dialog.ajaxOpen();
-    }
-
     private void handleToast()
     {
         ajax().toast("Button pressed");
@@ -152,5 +159,27 @@ public class MyUserAccountPage
     private void handleClose()
     {
         _dialog.ajaxClose();
+    }
+
+    private void handleChangeIcon()
+    {
+        String house = getCommonImageUrl("house.png");
+        String smiley = getCommonImageUrl("smiley.png");
+        String squares = getCommonImageUrl("squares.png");
+
+        System.out.println("==============" + _dropdown.getStringValue());
+
+        _welcomeMessage.setText("Welcome " + getCurrentUser().getName());
+
+        if ( _dropdown.getStringValue().equals("house") )
+            _welcomeMessage.setImageSource(house);
+
+        if ( _dropdown.getStringValue().equals("smiley") )
+            _welcomeMessage.setImageSource(smiley);
+
+        if ( _dropdown.getStringValue().equals("squares") )
+            _welcomeMessage.setImageSource(squares);
+
+        _welcomeMessage.ajax().replace();
     }
 }

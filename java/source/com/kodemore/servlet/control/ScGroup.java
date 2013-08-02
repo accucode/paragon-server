@@ -307,6 +307,30 @@ public class ScGroup
         return div.addText(s);
     }
 
+    /**
+     * Replace header contents (if any) with a standard title.
+     * This will automatically apply a default style for the text
+     * based on the current flavor.
+     */
+    public ScGroupIconHeader setTitleWithIcon(String iconSource, String msg, Object... args)
+    {
+        String s = Kmu.format(msg, args);
+
+        ScContainer header;
+        header = getHeader();
+        header.clear();
+
+        ScDiv div;
+        div = header.addDiv();
+        div.css().floatLeft().add(PREFIX, PART_TITLE, getFlavor());
+
+        ScGroupIconHeader iconHeader = new ScGroupIconHeader();
+        iconHeader.setImageSource(iconSource);
+        iconHeader.setText(s);
+
+        return div.add(iconHeader);
+    }
+
     //##################################################
     //# components
     //##################################################

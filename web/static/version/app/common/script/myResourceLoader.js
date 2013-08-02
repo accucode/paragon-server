@@ -41,6 +41,10 @@ var MyResourceLoader =
             
             "static/{version}/jquery/cookie-1.0.0/jquery.cookie.js",
             
+            // Dropzone js and css
+            "static/{version}/dropzone-361/dropzone.js",
+            "static/{version}/dropzone-361/dropzone.css",
+            
             "static/{version}/json-2010.11.18/json2.js",
             
             "static/{version}/app/common/script/kmExtensions.js",
