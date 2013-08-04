@@ -747,7 +747,7 @@ Kmu.removeClassesWithPrefix = function(e, prefix)
 Kmu.openDialogTarget = function(target, options)
 {
    	options = Kmu.getDialogOptions(options);
-    
+
     var postClose = function()
     {
         $(target).modal(options);
