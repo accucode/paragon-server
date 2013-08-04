@@ -426,8 +426,11 @@ Kmu.jsonReplaceSimple = function(json)
 
 Kmu.jsonReplaceFade = function(json)
 {
-    var outer = $(json.outer); 
     var inner = $(json.inner);
+    
+    var outer = json.outer 
+        ? $(json.outer) 
+        : inner; 
     
     var speed = json.speed;
     
@@ -451,8 +454,11 @@ Kmu.jsonReplaceFade = function(json)
 
 Kmu.jsonReplaceLeft = function(json)
 {
-    var outer = $(json.outer); 
     var inner = $(json.inner);
+    
+    var outer = json.outer 
+        ? $(json.outer) 
+        : inner; 
     
     var speed = json.speed;
     
@@ -476,8 +482,11 @@ Kmu.jsonReplaceLeft = function(json)
 
 Kmu.jsonReplaceRight = function(json)
 {
-    var outer = $(json.outer); 
     var inner = $(json.inner);
+    
+    var outer = json.outer 
+        ? $(json.outer) 
+        : inner; 
     
     var speed = json.speed;
     

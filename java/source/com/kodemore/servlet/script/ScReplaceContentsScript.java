@@ -103,6 +103,16 @@ public class ScReplaceContentsScript
         _outerSelector = e;
     }
 
+    public boolean hasOuterSelector()
+    {
+        return Kmu.hasValue(getOuterSelector());
+    }
+
+    public boolean hasDistinctOuterSelector()
+    {
+        return hasOuterSelector() && !getOuterSelector().equals(getInnerSelector());
+    }
+
     public String getInnerSelector()
     {
         return _innerSelector;
@@ -313,9 +323,12 @@ public class ScReplaceContentsScript
     {
         KmJsonObject e;
         e = new KmJsonObject();
-        e.setString("inner", getInnerSelector());
-        e.setString("outer", getOuterSelector());
+
         e.setString("html", getContents());
+        e.setString("inner", getInnerSelector());
+
+        if ( hasDistinctOuterSelector() )
+            e.setString("outer", getOuterSelector());
 
         if ( hasSpeed() )
             e.setInteger("speed", getSpeed());
