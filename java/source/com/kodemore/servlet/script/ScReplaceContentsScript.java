@@ -316,9 +316,16 @@ public class ScReplaceContentsScript
         e.setString("inner", getInnerSelector());
         e.setString("outer", getOuterSelector());
         e.setString("html", getContents());
-        e.setInteger("speed", getSpeed());
-        e.setString("postDomScript", getPostDomScript());
-        e.setString("postRenderScript", getPostRenderScript());
+
+        if ( hasSpeed() )
+            e.setInteger("speed", getSpeed());
+
+        if ( hasPostDomScript() )
+            e.setString("postDomScript", getPostDomScript());
+
+        if ( hasPostRenderScript() )
+            e.setString("postRenderScript", getPostRenderScript());
+
         return e;
     }
 
