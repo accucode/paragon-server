@@ -38,7 +38,7 @@ var MyResourceLoader =
             "static/{version}/jquery/flexigrid-1.1/css/flexigrid.pack.css",
             "static/{version}/jquery/flexigrid-1.1/js/flexigrid.js",
             
-            // Toasts
+            // Akquinet Toasts
             "static/{version}/jquery/akquinet-0.2.0-13/resources/css/jquery.toastmessage.css",
             "static/{version}/jquery/akquinet-0.2.0-13/javascript/jquery.toastmessage.js",
             
