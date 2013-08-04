@@ -270,7 +270,7 @@ Kmu.ajaxEnter = function(params)
     Kmu.ajax(
     {
     	action: "_enter",
-    	arg:    params
+    	argument: params
     });
 }
 
