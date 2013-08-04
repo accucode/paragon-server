@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $("#main").show();
+        }
+
+        var ms = 200;
+        
+        function testFlip()
+        {
+            flipCard('#card', '#front', '#back');
+        }
+        
+        function flipCard(card, from, to)
+        {
+            card = $(card);
+            from = $(from);
+            to = $(to);
+            
+            beginFlip(card);
+                
+            card.promise().done(function()
+            {
+                from.toggle();
+                to.toggle();
+                endFlip(card);
+            });
+        }
+
+        function beginFlip(card)
+        {
+            $(card).transition(
+            {
+                rotateY: 90, 
+                duration: ms, 
+                easing: 'easeInQuad'
+            });
+        }
+        
+        function endFlip(card)
+        {
+            $(card).transition(
+            {
+                rotateY: 0, 
+                duration: ms, 
+                easing: 'easeOutQuad'
+            });
+        }
+        
+    </script>
+
+    <style type="text/css">
+        #card
+        {
+            float: left;
+            box-shadow: 10px 10px 5px #888888;
+            border: 1px solid black;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        #front
+        {
+            float: left;
+            padding: 10px;
+            font: bold 14pt sans-serif; 
+            width:  300px;
+            height: 200px;
+            background-color: yellow;
+        }
+        #back
+        {
+            float: left;
+            padding: 10px;
+            font: bold 14pt sans-serif; 
+            background-color: cyan;
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body onload='myLoad();'>
+<div id="main" style="display:none" class="padSpaced">
+
+    <button onclick='location.reload();'>reload</button>
+    <button onclick='testFlip();'>flip</button>
+    <br>
+    <br>
+    
+    <div id='card'>
+        <div id='front'>
+            This is the front
+            <br style='clear:both'>
+        </div>
+        <div id='back'>
+            This is the back. This is the back. This is the back.<br>
+            This is the back. This is the back. This is the back.<br>
+            This is the back. This is the back. This is the back.<br>
+            This is the back. This is the back. This is the back.<br>
+            This is the back. This is the back. This is the back.<br>
+            This is the back. This is the back. This is the back.<br>
+            This is the back. This is the back. This is the back.<br>
+            This is the back. This is the back. This is the back.<br>
+            This is the back. This is the back. This is the back.<br>
+            This is the back. This is the back. This is the back.<br>
+            This is the back. This is the back. This is the back.<br>
+            This is the back. This is the back. This is the back.<br>
+            This is the back. This is the back. This is the back.<br>
+            This is the back. This is the back. This is the back.<br>
+            <br style='clear:both'>
+        </div>
+    </div>
+    <br style='clear:both'>
+</body>
+
+</html>
