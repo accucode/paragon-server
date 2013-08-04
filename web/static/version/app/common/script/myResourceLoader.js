@@ -67,7 +67,7 @@ var MyResourceLoader =
             "static/{version}/json-2010.11.18/json2.js",
             
             // Code39 Azalea
-            "static/{version}/Code39Azalea.min.css", 
+            "static/{version}/azaleaCode39/Code39Azalea.min.css", 
             
             // Kodemore
             "static/{version}/app/common/script/kmExtensions.js",
