@@ -252,10 +252,11 @@ KmBorderLayout.prototype.layout = function()
     var bottomOffset = 0;
     var leftOffset = 0;
     var rightOffset = 0;
-    
+
     if ( top.isVisible() )
     {
-        topOffset = top.outerHeight();
+        topOffset = top.outerHeight(true);
+        
         top.css('top', 0);
         top.css('width', 'auto');
         top.css('left', 0);
@@ -265,7 +266,7 @@ KmBorderLayout.prototype.layout = function()
 
     if ( bottom.isVisible() )
     {
-        bottomOffset = bottom.outerHeight();
+        bottomOffset = bottom.outerHeight(true);
         bottom.css('top', 'auto');
         bottom.css('bottom', 0);
         bottom.css('left', 0);
@@ -275,7 +276,7 @@ KmBorderLayout.prototype.layout = function()
 
     if ( left.isVisible() )
     {
-        leftOffset = left.outerWidth();
+        leftOffset = left.outerWidth(true);
         left.css('top', topOffset);
         left.css('bottom', bottomOffset);
         left.css('height', 'auto');
@@ -284,7 +285,7 @@ KmBorderLayout.prototype.layout = function()
 
     if ( right.isVisible() )
     {
-        rightOffset = right.outerWidth();
+        rightOffset = right.outerWidth(true);
         right.css('left', 'auto');
         right.css('right', 0);
         right.css('top', topOffset);
@@ -294,7 +295,7 @@ KmBorderLayout.prototype.layout = function()
 
     if ( center.is(':visible') )
     {
-        centerOffset = right.outerWidth();
+        centerOffset = right.outerWidth(true);
         center.css('top', topOffset);
         center.css('bottom', bottomOffset);
         center.css('left', leftOffset);
