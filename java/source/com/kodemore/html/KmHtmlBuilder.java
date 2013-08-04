@@ -280,6 +280,11 @@ public class KmHtmlBuilder
     //# span
     //##################################################
 
+    public void beginSpan()
+    {
+        begin("span");
+    }
+
     public void openSpan()
     {
         open("span");
