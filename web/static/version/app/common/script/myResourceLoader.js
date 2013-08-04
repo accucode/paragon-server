@@ -66,6 +66,9 @@ var MyResourceLoader =
             // Json
             "static/{version}/json-2010.11.18/json2.js",
             
+            // Code39 Azalea
+            "static/{version}/Code39Azalea.min.css", 
+            
             // Kodemore
             "static/{version}/app/common/script/kmExtensions.js",
             "static/{version}/app/common/script/kmUtility.js",
@@ -76,10 +79,7 @@ var MyResourceLoader =
             "static/{version}/app/theme/default/css/tools.css",
             "static/{version}/app/theme/default/css/topMenu.css",
             "static/{version}/app/theme/default/css/button.css",
-            "static/{version}/app/theme/default/css/theme.css",
-            
-            // Code39Azalea
-            "static/{version}/Code39Azalea.min.css" 
+            "static/{version}/app/theme/default/css/theme.css"
         ],
 
     //**********************************************************
