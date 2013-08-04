@@ -13,6 +13,7 @@ var MyResourceLoader =
 
             // JQuery
             "static/{version}/jquery/core/jquery-1.10.2.min.js",
+            "static/{version}/jquery/core/jquery-migrate-1.2.1.min.js",
 
             // JQuery UI
             // 		Pick ONE of the jquery ui themes.  You can also download or create others.
