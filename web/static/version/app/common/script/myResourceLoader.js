@@ -76,7 +76,10 @@ var MyResourceLoader =
             "static/{version}/app/theme/default/css/tools.css",
             "static/{version}/app/theme/default/css/topMenu.css",
             "static/{version}/app/theme/default/css/button.css",
-            "static/{version}/app/theme/default/css/theme.css"
+            "static/{version}/app/theme/default/css/theme.css",
+            
+            // Code39Azalea
+            "static/{version}/Code39Azalea.min.css" 
         ],
 
     //**********************************************************
