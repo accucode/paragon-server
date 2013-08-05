@@ -1,12 +1,12 @@
 package com.app.ui.activity.general;
 
-import com.app.ui.activity.MyPage;
-import com.app.utility.MyConstantsIF;
-
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
+
+import com.app.ui.activity.MyPage;
+import com.app.utility.MyConstantsIF;
 
 public class MyHomePage
     extends MyPage

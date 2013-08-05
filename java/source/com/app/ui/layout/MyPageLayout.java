@@ -1,15 +1,5 @@
 package com.app.ui.layout;
 
-import com.app.model.MyServerSession;
-import com.app.model.MyUser;
-import com.app.property.MyPropertyRegistry;
-import com.app.ui.core.MyActions;
-import com.app.ui.core.MyServletData;
-import com.app.ui.servlet.MyServletConstantsIF;
-import com.app.utility.MyConstantsIF;
-import com.app.utility.MyGlobals;
-import com.app.utility.MyUrls;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonObject;
@@ -22,6 +12,16 @@ import com.kodemore.servlet.script.ScScript;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
+
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.property.MyPropertyRegistry;
+import com.app.ui.core.MyActions;
+import com.app.ui.core.MyServletData;
+import com.app.ui.servlet.MyServletConstantsIF;
+import com.app.utility.MyConstantsIF;
+import com.app.utility.MyGlobals;
+import com.app.utility.MyUrls;
 
 public class MyPageLayout
     implements MyServletConstantsIF
@@ -116,6 +116,8 @@ public class MyPageLayout
 
     private KmList<String> getDropdownList()
     {
+        // fixme_steve hook this up to accounts
+
         KmList<String> list;
         list = new KmList<String>();
         list.add("one");
