@@ -35,6 +35,16 @@ public class MyWelcomePage
 
     private ScDropdown        _dropdown;
 
+    private ScTextField       _accountName;
+    private ScTextField       _accountType;
+    private ScTextField       _accountRole;
+    private ScTextField       _userName;
+    private ScTextField       _userEmail;
+    private ScTextField       _defaultAccount;
+
+    private ScFieldset        _accountInfo;
+    private ScFieldset        _profile;
+
     //##################################################
     //# install
     //##################################################
@@ -75,47 +85,53 @@ public class MyWelcomePage
         ScBox body;
         body = group.addPadSpaced();
 
+        _accountInfo = new ScFieldset();
+        _accountInfo.setLabel("Account Info");
+
         ScFieldset box;
-        box = body.addFieldset("General Account Information");
+        box = body.add(_accountInfo);
         box.css().floatLeft().pad();
 
-        ScTextField accountName = new ScTextField();
-        accountName.setLabel("Name");
-        accountName.setReadOnly();
+        _accountName = new ScTextField();
+        _accountName.setLabel("Name");
+        _accountName.setReadOnly();
 
-        ScTextField accountType = new ScTextField();
-        accountType.setLabel("Type");
-        accountType.setReadOnly();
+        _accountType = new ScTextField();
+        _accountType.setLabel("Type");
+        _accountType.setReadOnly();
 
-        ScTextField accountRole = new ScTextField();
-        accountRole.setLabel("My Role");
-        accountRole.setReadOnly();
+        _accountRole = new ScTextField();
+        _accountRole.setLabel("My Role");
+        _accountRole.setReadOnly();
 
         ScFieldTable fields;
         fields = box.addFields();
-        fields.add(accountName);
-        fields.add(accountType);
-        fields.add(accountRole);
+        fields.add(_accountName);
+        fields.add(_accountType);
+        fields.add(_accountRole);
 
-        box = body.addFieldset("My Profile");
+        _profile = new ScFieldset();
+        _profile.setLabel("My Profile");
+
+        box = body.add(_profile);
         box.css().floatLeft().pad();
 
-        ScTextField userName = new ScTextField();
-        userName.setLabel("Name");
-        userName.setReadOnly();
+        _userName = new ScTextField();
+        _userName.setLabel("Name");
+        _userName.setReadOnly();
 
-        ScTextField userEmail = new ScTextField();
-        userEmail.setLabel("Email");
-        userEmail.setReadOnly();
+        _userEmail = new ScTextField();
+        _userEmail.setLabel("Email");
+        _userEmail.setReadOnly();
 
-        ScTextField defaultAccount = new ScTextField();
-        defaultAccount.setLabel("Default account");
-        defaultAccount.setReadOnly();
+        _defaultAccount = new ScTextField();
+        _defaultAccount.setLabel("Default account");
+        _defaultAccount.setReadOnly();
 
         fields = box.addFields();
-        fields.add(userName);
-        fields.add(userEmail);
-        fields.add(defaultAccount);
+        fields.add(_userName);
+        fields.add(_userEmail);
+        fields.add(_defaultAccount);
     }
 
     //##################################################
@@ -136,7 +152,7 @@ public class MyWelcomePage
 
     //##################################################
     //# start
-    //##################################################//
+    //##################################################
 
     @Override
     public void start()
@@ -144,6 +160,16 @@ public class MyWelcomePage
         _welcomeMessage.setText("Welcome " + getCurrentUser().getName());
         _welcomeMessage.setImageSource(getCommonImageUrl("smiley.png"));
         _welcomeMessage.ajaxUpdateValues();
+
+        // fixme_valerie: 
+        //        _accountName.setValue(getCurrentAccount().getName());
+        //        _accountType.setValue(getCurrentAccount().getTypeName());
+        //        _accountRole.setValue(getAccountUser().getRoleName());
+        _accountInfo.ajaxUpdateValues();
+
+        _userName.setValue(getCurrentUser().getName());
+        _userEmail.setValue(getCurrentUser().getEmail());
+        _profile.ajaxUpdateValues();
 
         super.start();
     }
@@ -171,4 +197,5 @@ public class MyWelcomePage
 
         _welcomeMessage.ajax().replace();
     }
+
 }
