@@ -1,11 +1,18 @@
 package com.app.ui.activity.test;
 
+import com.app.filter.MyUserFilter;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaUser;
+import com.app.utility.MyButtonUrls;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.filter.KmFilter;
+import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScControl;
@@ -15,7 +22,9 @@ import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScFrame;
 import com.kodemore.servlet.control.ScFrameChild;
+import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.field.ScColorField;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
 
@@ -37,26 +46,36 @@ public class MyManageAccountsPage
     //# variables
     //##################################################
 
-    private ScDropdown   _dropdown;
+    private ScDropdown     _accountDropdown;
+    private ScDropdown     _editTypeDropdown;
 
-    private ScFrame      _accountFrame;
+    private ScFrame        _accountFrame;
 
-    private ScTextField  _viewAccountName;
-    private ScTextField  _viewAccountType;
+    private ScTextField    _viewAccountName;
+    private ScTextField    _viewAccountType;
 
-    private ScTextField  _editAccountName;
-    private ScTextField  _editAccountType;
+    private ScTextField    _editAccountName;
+    private ScTextField    _editAccountType;
 
-    private ScTextField  _transferEmail;
+    private ScTextField    _addAccountName;
+    private ScDropdown     _addAccountType;
 
-    private ScFrameChild _viewAccountChild;
-    private ScFrameChild _editAccountChild;
+    private ScTextField    _transferEmail;
 
-    private ScDropdown   _editTypeDropdown;
+    private ScFrameChild   _viewAccountChild;
+    private ScFrameChild   _editAccountChild;
+    private ScFrameChild   _addAccountChild;
 
-    private ScFrame      _transferFrame;
+    private ScFrame        _transferFrame;
 
-    private ScDialog     _deleteDialog;
+    private ScDialog       _deleteDialog;
+    @SuppressWarnings("unused")
+    private ScGrid<MyUser> _userGrid;
+    private ScFrame        _userFrame;
+    private ScFrameChild   _viewUserChild;
+    @SuppressWarnings("unused")
+    private ScFrameChild   _editUserChild;
+    private ScFrameChild   _addUserChild;
 
     //##################################################
     //# install
@@ -77,6 +96,12 @@ public class MyManageAccountsPage
 
         installAccountFrame(row);
         installTransferBox(row);
+
+        ScArray row2;
+        row2 = root.addRow();
+
+        installUserGrid(row2);
+        installUserFrame(row2);
 
         return root;
     }
@@ -100,17 +125,16 @@ public class MyManageAccountsPage
 
     private void installAccountsDropdown(ScBox root)
     {
-        // remove_valerie: 
-        _dropdown = new ScDropdown();
-        //        _dropdown = MyAccount.Tools.newTypeDropdown();
+        _accountDropdown = new ScDropdown();
 
         ScGroup group;
         group = root.addGroup("Manage Accounts");
 
         ScBox body;
         body = group.addPadSpaced();
-        body.add(_dropdown);
+        body.add(_accountDropdown);
         body.addButton("Test", showView());
+        body.addButton("Add", newShowAddAccountBoxAction());
     }
 
     private void installAccountFrame(ScArray row)
@@ -119,6 +143,7 @@ public class MyManageAccountsPage
 
         installViewAccountFrame();
         installEditAccountFrame();
+        installAddAccountFrame();
     }
 
     private void installViewAccountFrame()
@@ -156,7 +181,6 @@ public class MyManageAccountsPage
         footer.addButton("Delete", newShowDeleteDialogAction());
 
         _viewAccountChild = frame;
-
     }
 
     private void installTransferBox(ScArray row)
@@ -231,6 +255,235 @@ public class MyManageAccountsPage
         _editAccountChild = frame;
     }
 
+    private void installAddAccountFrame()
+    {
+        ScActionIF saveAction = newAddAccountSaveAction();
+        ScActionIF cancelAction = newAddAccountCancelAction();
+
+        ScFrameChild frame;
+        frame = _accountFrame.createChild();
+
+        ScForm form;
+        form = frame.addForm();
+        form.setDefaultAction(saveAction);
+        form.onEscape().run(cancelAction);
+
+        ScGroup group;
+        group = form.addGroup("Add");
+
+        ScBox body;
+        body = group.addBox();
+        body.css().pad();
+
+        _addAccountName = new ScTextField();
+        _addAccountName.setLabel("Account name is ");
+
+        _addAccountType = MyAccount.Tools.newTypeDropdown();
+        _addAccountType.setLabel("Account type is ");
+
+        ScFieldTable fields;
+        fields = body.addFields();
+        fields.add(_addAccountName);
+        fields.add(_addAccountType);
+
+        group.addDivider();
+
+        ScDiv footer;
+        footer = group.addButtonBoxRight();
+        footer.addCancelButton(cancelAction);
+        footer.addSubmitButton("Save");
+
+        _addAccountChild = frame;
+    }
+
+    private void installUserGrid(ScArray root)
+    {
+        MyMetaUser x = MyUser.Meta;
+
+        ScActionIF addAction;
+        addAction = newAddUserAction();
+
+        ScGroup group;
+        group = root.addGroup();
+        group.setTitle("Users");
+
+        ScDiv right;
+        right = group.getHeader().addFloatRight();
+        right.css().pad5();
+
+        ScActionButton button;
+        button = right.addButton("Add", addAction);
+        button.setImage(MyButtonUrls.add());
+
+        ScGrid<MyUser> grid;
+        grid = group.addGrid();
+        grid.setFilterFactory(newFetcher());
+        grid.addLinkColumn(x.Name, newViewUserAction(), x.Uid);
+        grid.addColumn(x.Email);
+        grid.addColumn(x.Verified);
+        grid.addColumn(x.RoleName);
+
+        _userGrid = grid;
+    }
+
+    private KmFilterFactoryIF<MyUser> newFetcher()
+    {
+        return new KmFilterFactoryIF<MyUser>()
+        {
+            @Override
+            public KmFilter<MyUser> createFilter()
+            {
+                return newUserFilter();
+            }
+        };
+    }
+
+    private KmFilter<MyUser> newUserFilter()
+    {
+        MyUserFilter f;
+        f = new MyUserFilter();
+        f.sortOnName();
+
+        return f;
+    }
+
+    private void installUserFrame(ScArray row)
+    {
+        _userFrame = row.addFrame();
+
+        installViewUserFrame();
+        installEditUserFrame();
+        installAddUserFrame();
+    }
+
+    private void installViewUserFrame()
+    {
+        MyMetaUser x = MyUser.Meta;
+
+        ScFrameChild frame;
+        frame = _userFrame.createChild();
+
+        ScGroup group;
+        group = frame.addGroup("View");
+
+        ScDiv header;
+        header = group.getHeader().addFloatRight();
+        header.css().pad5();
+
+        //        ScActionButton button;
+        // fixme_valerie: 
+        //        button = header.addButton("Edit", newEditUserAction());
+        //        button.setImage(MyButtonUrls.edit());
+
+        ScBox body;
+        body = group.addBox();
+        body.css().pad();
+
+        ScFieldTable fields;
+        fields = body.addFields();
+        fields.addText(x.Name);
+        fields.addText(x.Email);
+        fields.addText(x.RoleName);
+
+        _viewUserChild = frame;
+    }
+
+    private void installEditUserFrame()
+    {
+        MyMetaUser x = MyUser.Meta;
+
+        // fixme_valerie: 
+        //        ScActionIF saveAction = newEditSaveAction();
+        //        ScActionIF cancelAction = newEditCancelAction();
+
+        ScTextField emailField;
+        emailField = x.Email.newField();
+        emailField.setWidthFull();
+
+        ScTextField nameField;
+        nameField = x.Name.newField();
+        nameField.setWidthFull();
+
+        ScColorField colorField;
+        colorField = x.FavoriteColor.newField();
+        colorField.setWidthFull();
+
+        ScDropdown roleField;
+        roleField = x.RoleCode.newDropdown();
+        roleField.setValueAdaptor(x.RoleCode);
+        roleField.css().widthFull();
+
+        ScFrameChild frame;
+        frame = _userFrame.createChild();
+
+        ScForm form;
+        form = frame.addForm();
+        //        form.setDefaultAction(saveAction);
+        //        form.onEscape().run(cancelAction);
+
+        ScGroup group;
+        group = form.addGroup("Edit");
+        group.style().minWidth(300);
+
+        ScBox body;
+        body = group.addBox();
+        body.css().pad();
+
+        ScFieldTable fields;
+        fields = body.addFields();
+        fields.css().widthFull();
+        fields.addText(x.Uid);
+        fields.add(nameField);
+        fields.add(emailField);
+        fields.add(roleField);
+
+        group.addDivider();
+
+        ScDiv footer;
+        footer = group.addButtonBoxRight();
+        //        footer.addCancelButton(cancelAction);
+        footer.addSubmitButton("Save");
+
+        _editUserChild = frame;
+    }
+
+    private void installAddUserFrame()
+    {
+        MyMetaUser x = MyUser.Meta;
+
+        //        ScActionIF saveAction = newAddSaveAction();
+        //        ScActionIF cancelAction = newAddCancelAction();
+
+        ScFrameChild frame;
+        frame = _userFrame.createChild();
+
+        ScForm form;
+        form = frame.addForm();
+        //        form.setDefaultAction(saveAction);
+        //        form.onEscape().run(cancelAction);
+
+        ScGroup group;
+        group = form.addGroup("Add");
+
+        ScBox body;
+        body = group.addBox();
+        body.css().pad();
+
+        ScFieldTable fields;
+        fields = body.addFields();
+        fields.addField(x.Email);
+        fields.addField(x.Name);
+
+        group.addDivider();
+
+        ScDiv footer;
+        footer = group.addButtonBoxRight();
+        //        footer.addCancelButton(cancelAction);
+        footer.addSubmitButton("Save");
+
+        _addUserChild = frame;
+    }
+
     //##################################################
     //# action
     //##################################################
@@ -283,6 +536,18 @@ public class MyManageAccountsPage
         };
     }
 
+    private ScActionIF newShowAddAccountBoxAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleShowAddAccountBox();
+            }
+        };
+    }
+
     private ScActionIF newShowEditAccountBoxAction()
     {
         return new ScAction(this)
@@ -331,6 +596,54 @@ public class MyManageAccountsPage
         };
     }
 
+    private ScActionIF newAddAccountSaveAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleAddAccountSave();
+            }
+        };
+    }
+
+    private ScActionIF newAddAccountCancelAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleAddAccountCancel();
+            }
+        };
+    }
+
+    private ScActionIF newAddUserAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleAddUser();
+            }
+        };
+    }
+
+    private ScActionIF newViewUserAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleViewUser();
+            }
+        };
+    }
+
     //##################################################
     //# start
     //##################################################
@@ -348,7 +661,8 @@ public class MyManageAccountsPage
             accountNames.add(account.getName());
 
         // fixme_valerie: 
-        _dropdown.ajaxUpdateValues();
+        _accountDropdown.setOptions(accountNames);
+        //        _dropdown.ajaxUpdateValues();
 
         super.start();
     }
@@ -376,7 +690,7 @@ public class MyManageAccountsPage
 
         ajax().toast("Deleted account user %s", e.getUid());
 
-        _dropdown.ajaxUpdateValues();
+        _accountDropdown.ajaxUpdateValues();
     }
 
     private void handleClose()
@@ -387,7 +701,7 @@ public class MyManageAccountsPage
     private void handleShowView()
     {
         String accountName;
-        accountName = _dropdown.getStringValue();
+        accountName = _accountDropdown.getStringValue();
 
         MyAccount account;
         account = getAccess().getAccountDao().findWithName(accountName);
@@ -400,6 +714,12 @@ public class MyManageAccountsPage
 
         _viewAccountChild.ajaxPrint();
         _viewAccountChild.ajax().focus();
+    }
+
+    private void handleShowAddAccountBox()
+    {
+        _addAccountChild.ajaxPrint();
+        _addAccountChild.ajax().focus();
     }
 
     private void handleShowEditAccountBox()
@@ -450,11 +770,68 @@ public class MyManageAccountsPage
         account.saveDao();
         accountUser.saveDao();
 
-        _dropdown.ajaxUpdateValues();
+        _accountDropdown.ajaxUpdateValues();
     }
 
     private void handleEditAccountCancel()
     {
         _accountFrame.ajaxClear();
+    }
+
+    private void handleAddAccountSave()
+    {
+        _addAccountChild.validate();
+
+        if ( !_addAccountName.hasValue() )
+        {
+            ajax().toast("Please enter an account name");
+            return;
+        }
+
+        MyAccount account;
+        account = new MyAccount();
+        account.setName(_addAccountName.getValue());
+
+        MyUser user;
+        user = getCurrentUser();
+
+        MyAccountUser accountUser;
+        accountUser = new MyAccountUser();
+        accountUser.setAccount(account);
+        accountUser.setUser(user);
+
+        if ( _addAccountType.hasValue() )
+            account.setTypeCode(_addAccountType.getStringValue());
+
+        user.saveDao();
+        account.saveDao();
+        accountUser.saveDao();
+
+        _accountDropdown.ajaxUpdateValues();
+    }
+
+    private void handleAddAccountCancel()
+    {
+        _accountFrame.ajaxClear();
+    }
+
+    private void handleAddUser()
+    {
+        _addUserChild.ajaxPrint();
+        _addUserChild.ajax().focus();
+    }
+
+    private void handleViewUser()
+    {
+        String uid;
+        uid = getStringArgument();
+
+        MyUser user;
+        user = getAccess().findUserUid(uid);
+
+        getPageSession().setUser(user);
+
+        _viewUserChild.applyFromModel(user);
+        _viewUserChild.ajaxPrint();
     }
 }
