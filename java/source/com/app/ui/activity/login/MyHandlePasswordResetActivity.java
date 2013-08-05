@@ -74,6 +74,7 @@ public class MyHandlePasswordResetActivity
         group.style().width(300).marginTop(100).marginCenter();
 
         ScContainer body = group.getBody();
+
         installForm(body);
         installSuccessBox(body);
         installInvalidKeyBox(body);
@@ -84,15 +85,17 @@ public class MyHandlePasswordResetActivity
     private void installForm(ScContainer root)
     {
         _password1Field = new ScPasswordField();
-        _password1Field.style().widthFull();
+        _password1Field.style().width(270);
         _password1Field.setRequired();
 
         _password2Field = new ScPasswordField();
-        _password2Field.style().widthFull();
+        _password2Field.style().width(270);
 
         ScForm form;
         form = root.addForm();
         form.setDefaultAction(newAcceptAction());
+        form.css().pad10();
+        //review_steve (question) what does this hide do?
         form.hide();
         _form = form;
 
@@ -101,10 +104,14 @@ public class MyHandlePasswordResetActivity
         _emailBox = form.addBox();
         _emailBox.css().fieldValue();
 
-        form.addLabel("Choose a Password");
+        ScBox chooseLabel;
+        chooseLabel = form.addLabel("Choose a Password");
+        chooseLabel.css().padTop();
         form.addErrorBox().add(_password1Field);
 
-        form.addLabel("Re-enter Password");
+        ScBox reEnterLabel;
+        reEnterLabel = form.addLabel("Re-enter Password");
+        reEnterLabel.css().padTop();
         form.addErrorBox().add(_password2Field);
 
         ScBox buttons;

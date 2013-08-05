@@ -23,9 +23,19 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.utility.Kmu;
 
 /**
- * A simple control which displays Code39 barcodes.   
+ * A simple control which displays Code39 barcodes.
+ * 
+ * Only digits (0-9) can be encoded.  The value to be 
+ * encoded will be automatically validated before display.
+ * If the value is null or invalid, a warning will be 
+ * displayed instead. The start and stop bit are added 
+ * automtically.
+ * 
+ * Because of the limitations of barcode font formatting,
+ * only code39 barcodes can currently be displayed.
  */
 public class ScBarcodeCode39
     extends ScControl
@@ -34,17 +44,7 @@ public class ScBarcodeCode39
     //# variables
     //##################################################
 
-    //##################################################
-    //# init
-    //##################################################
-
-    @Override
-    protected void install()
-    {
-        super.install();
-
-        // todo_aaron:  
-    }
+    private String _value;
 
     //##################################################
     //# print
@@ -53,15 +53,59 @@ public class ScBarcodeCode39
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        // todo_aaron:  
+        if ( hasValue() )
+        {
+            out.openDiv();
+            out.printAttribute("style", "font-family:Code39AzaleaFont; font-size:72px;");
+            out.close();
+            out.printf("*%s*", getValue());
+            out.endDiv();
+        }
+        else
+        {
+            out.openDiv();
+            out.printAttribute("style", "color:red; font-weight:bold");
+            out.close();
+            out.print("[Invalid Value. Use only digits (0-9).]");
+            out.endDiv();
+        }
     }
-
-    //##################################################
-    //# remove action
-    //##################################################
 
     //##################################################
     //# accessing
     //##################################################
 
+    public String getValue()
+    {
+        return _value;
+    }
+
+    /**
+     * The value to be encoded.  Value is automatically validated.
+     * Values that do not contain only digits are rejected.
+     */
+    public void setValue(String value)
+    {
+        _value = validate(value);
+    }
+
+    private boolean hasValue()
+    {
+        return getValue() != null;
+    }
+
+    //##################################################
+    //# utility
+    //##################################################
+
+    // review_aaron: How exactly should we validate?
+    private String validate(String value)
+    {
+        if ( Kmu.isEmpty(value) )
+            return null;
+
+        return Kmu.isAllDigits(value)
+            ? value
+            : null;
+    }
 }
