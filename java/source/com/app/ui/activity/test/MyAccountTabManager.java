@@ -443,10 +443,8 @@ public class MyAccountTabManager
 
     private void handleAddAccountSamples()
     {
-        installAccount("Steve", MyAccountType.Personal);
-        installAccount("Aaron", MyAccountType.Personal);
-        installAccount("Wyatt", MyAccountType.Business);
-        installAccount("Travis", MyAccountType.Business);
+        installAccount("MyPersonalAccount", MyAccountType.Personal);
+        installAccount("AccuCode", MyAccountType.Business);
 
         ajax().toast("Added Samples");
 
