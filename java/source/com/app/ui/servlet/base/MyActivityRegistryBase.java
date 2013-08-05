@@ -53,7 +53,7 @@ import com.app.ui.activity.test.MyStaticIncludeTestPage;
 import com.app.ui.activity.test.MyTabManagerTestPage;
 import com.app.ui.activity.test.MyTestPage;
 import com.app.ui.activity.test.MyToastTestPage;
-import com.app.ui.activity.test.MyUserAccountPage;
+import com.app.ui.activity.test.MyWelcomePage;
 import com.app.ui.activity.tools.MyBeanShellPage;
 import com.app.ui.activity.tools.MyPerformanceLogPage;
 import com.app.ui.activity.tools.MyPropertiesPage;
@@ -126,10 +126,10 @@ public abstract class MyActivityRegistryBase
         add(MyTimeoutPage.instance);
         add(MyToastTestPage.instance);
         add(MyToolsPage.instance);
-        add(MyUserAccountPage.instance);
         add(MyUserPasswordPage.instance);
         add(MyUserSettingsPage.instance);
         add(MyUsersPage.instance);
         add(MyUtilityPage.instance);
+        add(MyWelcomePage.instance);
     }
 }
