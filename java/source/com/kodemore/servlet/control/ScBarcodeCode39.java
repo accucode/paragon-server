@@ -98,7 +98,6 @@ public class ScBarcodeCode39
     //# utility
     //##################################################
 
-    // review_aaron: How exactly should we validate?
     private String validate(String value)
     {
         if ( Kmu.isEmpty(value) )
