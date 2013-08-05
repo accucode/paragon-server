@@ -116,8 +116,6 @@ public class MyPageLayout
 
     private KmList<String> getDropdownList()
     {
-       
-
         KmList<String> list;
         list = new KmList<String>();
         list.add("one");
@@ -262,7 +260,9 @@ public class MyPageLayout
     {
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
+        out.beginSpan();
         out.printLiteral(MyConstantsIF.COPYRIGHT_HTML);
+        out.endSpan();
 
         ajax().setContents(FOOTER_SELECTOR, out);
     }

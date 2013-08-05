@@ -3,27 +3,26 @@ package com.app.ui.activity.test;
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScControl;
-import com.kodemore.servlet.control.ScDialog;
-import com.kodemore.servlet.control.ScForm;
+import com.kodemore.servlet.control.ScDiv;
+import com.kodemore.servlet.control.ScFieldTable;
+import com.kodemore.servlet.control.ScFieldset;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupIconHeader;
 import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScTextField;
 
-import com.app.utility.MyButtonUrls;
-
-public class MyUserAccountPage
+public class MyWelcomePage
     extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyUserAccountPage instance = new MyUserAccountPage();
+    public static final MyWelcomePage instance = new MyWelcomePage();
 
-    private MyUserAccountPage()
+    private MyWelcomePage()
     {
         // singleton
     }
@@ -32,7 +31,6 @@ public class MyUserAccountPage
     //# variables
     //##################################################
 
-    private ScDialog          _dialog;
     private ScGroupIconHeader _welcomeMessage;
 
     private ScDropdown        _dropdown;
@@ -48,10 +46,13 @@ public class MyUserAccountPage
         root = new ScBox();
         root.css().padSpaced();
 
-        installDialog(root);
+        installFieldsets(root);
 
-        ScForm form = root.addForm();
+        return root;
+    }
 
+    private void installFieldsets(ScBox root)
+    {
         KmList<String> list = new KmList<String>();
         list.add("house");
         list.add("smiley");
@@ -61,78 +62,65 @@ public class MyUserAccountPage
         _dropdown.setOptions(list);
 
         ScGroup group;
-        group = form.addGroup();
+        group = root.addGroup("Fieldset Samples");
 
         _welcomeMessage = group.setTitleWithIcon("source ", "welcome");
 
+        ScDiv buttons;
+        buttons = group.getHeader().addFloatRight().addPadSpaced();
+        buttons.addButton("change Icon", newChangeIconAction());
+        buttons.add(_dropdown);
+        buttons.addSpaces(3);
+
         ScBox body;
-        body = group.addPad();
-        body.addButton("change Icon", newChangeIconAction());
-        body.add(_dropdown);
+        body = group.addPadSpaced();
 
-        return root;
-    }
+        ScFieldset box;
+        box = body.addFieldset("General Account Information");
+        box.css().floatLeft().pad();
 
-    private void installDialog(ScBox root)
-    {
-        _dialog = root.addDialog();
-        _dialog.getHeaderBox().addPad().addText("This is the Header");
-        _dialog.getFooterBox().addPad().addText("This is the Footer.");
+        ScTextField accountName = new ScTextField();
+        accountName.setLabel("Name");
+        accountName.setReadOnly();
 
-        ScBox body = _dialog.getBodyBox();
-        body.addPad().addText("This is the Body of the dialog.");
+        ScTextField accountType = new ScTextField();
+        accountType.setLabel("Type");
+        accountType.setReadOnly();
 
-        ScGroup group;
-        group = body.addGroup("This is a Group inside the body");
-        group.addPad().addText("This is text inside the group, with a text field below.");
-        group.addPad().addTextField();
-        group.addPad().addButton("Toast Button", newToastAction());
+        ScTextField accountRole = new ScTextField();
+        accountRole.setLabel("My Role");
+        accountRole.setReadOnly();
 
-        ScActionButton button;
-        button = body.addPad().addButton("Close Dialog", newCloseAction());
-        button.setImage(MyButtonUrls.cancel());
+        ScFieldTable fields;
+        fields = box.addFields();
+        fields.add(accountName);
+        fields.add(accountType);
+        fields.add(accountRole);
+
+        box = body.addFieldset("My Profile");
+        box.css().floatLeft().pad();
+
+        ScTextField userName = new ScTextField();
+        userName.setLabel("Name");
+        userName.setReadOnly();
+
+        ScTextField userEmail = new ScTextField();
+        userEmail.setLabel("Email");
+        userEmail.setReadOnly();
+
+        ScTextField defaultAccount = new ScTextField();
+        defaultAccount.setLabel("Default account");
+        defaultAccount.setReadOnly();
+
+        fields = box.addFields();
+        fields.add(userName);
+        fields.add(userEmail);
+        fields.add(defaultAccount);
     }
 
     //##################################################
     //# action
     //##################################################
-
-    @SuppressWarnings("unused")
-    private ScActionIF newOpenAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleOpen();
-            }
-        };
-    }
-
-    private ScActionIF newToastAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleToast();
-            }
-        };
-    }
-
-    private ScActionIF newCloseAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleClose();
-            }
-        };
-    }
 
     private ScActionIF newChangeIconAction()
     {
@@ -163,21 +151,6 @@ public class MyUserAccountPage
     //##################################################
     //# handle
     //##################################################
-
-    private void handleOpen()
-    {
-        _dialog.ajaxOpen();
-    }
-
-    private void handleToast()
-    {
-        ajax().toast("Button pressed");
-    }
-
-    private void handleClose()
-    {
-        _dialog.ajaxClose();
-    }
 
     private void handleChangeIcon()
     {

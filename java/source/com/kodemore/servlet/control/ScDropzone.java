@@ -299,7 +299,7 @@ public class ScDropzone
                 data = Kmu.readBytesFrom(is);
                 Kmu.closeSafely(is);
 
-                getUploadHandler().handleUpload(fileName, data);
+                getUploadHandler().upload(fileName, data);
             }
         }
         catch ( IOException ex )

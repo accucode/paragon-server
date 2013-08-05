@@ -24,5 +24,5 @@ package com.kodemore.servlet.control;
 
 public interface ScDropzoneUploadHandlerIF
 {
-    void handleUpload(String fileName, byte[] data);
+    void upload(String fileName, byte[] data);
 }

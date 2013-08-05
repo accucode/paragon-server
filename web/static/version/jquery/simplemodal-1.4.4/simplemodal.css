@@ -1,0 +1,51 @@
+/* 
+ **********************************************************
+ *
+ * Default application style for modal boxes.
+ * 
+ **********************************************************
+ * 
+ * SimpleModal Basic Modal Dialog
+ * http://www.ericmmartin.com/projects/simplemodal/
+ * http://code.google.com/p/simplemodal/
+ *
+ * Copyright (c) 2010 Eric Martin - http://ericmmartin.com
+ *
+ * Licensed under the MIT license:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *
+ **********************************************************
+ *
+ * Use the default "x" image for the close icon.
+ * We currently assume IE7+ so no need for the IE6 image hack.
+ * No size is set, by default the modal box will grow to contain
+ * the content.
+ *
+ **********************************************************
+ */
+
+
+#simplemodal-overlay 
+{
+    background-color: #000;
+    cursor: wait;
+}
+
+#simplemodal-container 
+{
+	background-color: #fff; 
+	border: 4px solid #44f; 
+}
+
+#simplemodal-container a.modalCloseImg 
+{
+	background:url(simplemodal-x.png) no-repeat; 
+	width: 25px; 
+	height: 29px; 
+	display: inline; 
+	z-index: 3200; 
+	position: absolute; 
+	top: -15px; 
+	right: -16px; 
+	cursor: pointer;
+}
