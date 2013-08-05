@@ -110,6 +110,8 @@ public class MyPageLayout
 
     private void installDropdown()
     {
+        //fixme_steve make the dropdown hidden when the login screen is showing
+
         _dropdown = new ScDropdown();
         _dropdown.setOptions(getDropdownList());
     }
