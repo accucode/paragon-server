@@ -15,7 +15,6 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDialog;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -24,7 +23,7 @@ import com.kodemore.servlet.control.ScFrame;
 import com.kodemore.servlet.control.ScFrameChild;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.field.ScColorField;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
 
@@ -48,44 +47,43 @@ public class MyManageAccountsPage
 
     private ScDropdown     _accountDropdown;
     private ScDropdown     _editTypeDropdown;
+    private ScDropdown     _addAccountType;
+    private ScDropdown     _editRoleDropdown;
 
     private ScFrame        _accountFrame;
 
     private ScTextField    _viewAccountName;
     private ScTextField    _viewAccountType;
-
     private ScTextField    _editAccountName;
     private ScTextField    _editAccountType;
-
     private ScTextField    _addAccountName;
-    private ScDropdown     _addAccountType;
-
     private ScTextField    _transferEmail;
+    private ScTextField    _editUserName;
+    private ScTextField    _editUserEmail;
 
     private ScFrameChild   _viewAccountChild;
     private ScFrameChild   _editAccountChild;
     private ScFrameChild   _addAccountChild;
-
-    private ScFrame        _transferFrame;
-
-    private ScDialog       _deleteDialog;
-    @SuppressWarnings("unused")
-    private ScGrid<MyUser> _userGrid;
-    private ScFrame        _userFrame;
     private ScFrameChild   _viewUserChild;
-    @SuppressWarnings("unused")
     private ScFrameChild   _editUserChild;
     private ScFrameChild   _addUserChild;
+
+    private ScFrame        _transferFrame;
+    private ScFrame        _userFrame;
+
+    private ScDialog       _deleteDialog;
+
+    private ScGrid<MyUser> _userGrid;
 
     //##################################################
     //# install
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
         root.css().padSpaced();
 
         installDialog(root);
@@ -206,11 +204,9 @@ public class MyManageAccountsPage
 
         group.addDivider();
 
-        @SuppressWarnings("unused")
         ScDiv footer;
         footer = group.addButtonBox();
-        // fixme_valerie: 
-        //        footer.addButton("Send Request", newSendTransferRequestAction());
+        footer.addButton("Send Request", newSendTransferRequestAction());
     }
 
     private void installEditAccountFrame()
@@ -320,8 +316,6 @@ public class MyManageAccountsPage
         grid.setFilterFactory(newFetcher());
         grid.addLinkColumn(x.Name, newViewUserAction(), x.Uid);
         grid.addColumn(x.Email);
-        grid.addColumn(x.Verified);
-        grid.addColumn(x.RoleName);
 
         _userGrid = grid;
     }
@@ -370,10 +364,9 @@ public class MyManageAccountsPage
         header = group.getHeader().addFloatRight();
         header.css().pad5();
 
-        //        ScActionButton button;
-        // fixme_valerie: 
-        //        button = header.addButton("Edit", newEditUserAction());
-        //        button.setImage(MyButtonUrls.edit());
+        ScActionButton button;
+        button = header.addButton("Edit", newShowEditUserBoxAction());
+        button.setImage(MyButtonUrls.edit());
 
         ScBox body;
         body = group.addBox();
@@ -390,58 +383,45 @@ public class MyManageAccountsPage
 
     private void installEditUserFrame()
     {
-        MyMetaUser x = MyUser.Meta;
-
-        // fixme_valerie: 
-        //        ScActionIF saveAction = newEditSaveAction();
-        //        ScActionIF cancelAction = newEditCancelAction();
-
-        ScTextField emailField;
-        emailField = x.Email.newField();
-        emailField.setWidthFull();
-
-        ScTextField nameField;
-        nameField = x.Name.newField();
-        nameField.setWidthFull();
-
-        ScColorField colorField;
-        colorField = x.FavoriteColor.newField();
-        colorField.setWidthFull();
-
-        ScDropdown roleField;
-        roleField = x.RoleCode.newDropdown();
-        roleField.setValueAdaptor(x.RoleCode);
-        roleField.css().widthFull();
+        ScActionIF saveAction = newEditUserSaveAction();
+        ScActionIF cancelAction = newEditUserCancelAction();
 
         ScFrameChild frame;
         frame = _userFrame.createChild();
 
         ScForm form;
         form = frame.addForm();
-        //        form.setDefaultAction(saveAction);
-        //        form.onEscape().run(cancelAction);
+        form.setDefaultAction(saveAction);
+        form.onEscape().run(cancelAction);
 
         ScGroup group;
         group = form.addGroup("Edit");
-        group.style().minWidth(300);
 
         ScBox body;
         body = group.addBox();
         body.css().pad();
 
+        _editUserName = new ScTextField();
+        _editUserName.setLabel("User name is ");
+
+        _editUserEmail = new ScTextField();
+        _editUserEmail.setLabel("User's email is ");
+
+        _editRoleDropdown = MyAccountUser.Tools.newRoleDropdown();
+        _editRoleDropdown.setLabel("User role is ");
+
         ScFieldTable fields;
         fields = body.addFields();
-        fields.css().widthFull();
-        fields.addText(x.Uid);
-        fields.add(nameField);
-        fields.add(emailField);
-        fields.add(roleField);
+        fields.add(_editUserName);
+        fields.add(_editUserEmail);
+        fields.add(_editAccountName);
+        fields.add(_editRoleDropdown);
 
         group.addDivider();
 
         ScDiv footer;
         footer = group.addButtonBoxRight();
-        //        footer.addCancelButton(cancelAction);
+        footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Save");
 
         _editUserChild = frame;
@@ -572,6 +552,18 @@ public class MyManageAccountsPage
         };
     }
 
+    private ScActionIF newSendTransferRequestAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleSendTransferRequest();
+            }
+        };
+    }
+
     private ScActionIF newEditAccountSaveAction()
     {
         return new ScAction(this)
@@ -640,6 +632,42 @@ public class MyManageAccountsPage
             public void handle()
             {
                 handleViewUser();
+            }
+        };
+    }
+
+    private ScActionIF newEditUserSaveAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleEditUserSave();
+            }
+        };
+    }
+
+    private ScActionIF newEditUserCancelAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleEditUserCancel();
+            }
+        };
+    }
+
+    private ScActionIF newShowEditUserBoxAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleShowEditUserBox();
             }
         };
     }
@@ -742,6 +770,11 @@ public class MyManageAccountsPage
         _transferFrame.ajaxPrint();
     }
 
+    private void handleSendTransferRequest()
+    {
+        // fixme_valerie: send email
+    }
+
     private void handleEditAccountSave()
     {
         _editAccountChild.validate();
@@ -833,5 +866,81 @@ public class MyManageAccountsPage
 
         _viewUserChild.applyFromModel(user);
         _viewUserChild.ajaxPrint();
+    }
+
+    private void handleShowEditUserBox()
+    {
+        MyAccountUser e;
+        e = getPageSession().getAccountUser();
+
+        MyUser u;
+        u = getPageSession().getUser();
+
+        if ( u != null )
+            _editUserName.setValue(u.getName());
+
+        if ( u != null )
+            _editUserEmail.setValue(u.getEmail());
+
+        _editRoleDropdown.setValue(e.getRole());
+
+        _editUserChild.applyFromModel(e);
+        _editUserChild.ajaxPrint();
+    }
+
+    private void handleEditUserSave()
+    {
+        _editUserChild.validate();
+
+        if ( !_editUserName.hasValue() )
+        {
+            ajax().toast("Please enter a user name");
+            return;
+        }
+
+        if ( !_editUserEmail.hasValue() )
+        {
+            ajax().toast("Please enter the user's email");
+            return;
+        }
+
+        MyUser user;
+        user = getPageSession().getUser();
+
+        if ( user == null )
+            user = new MyUser();
+
+        user.setName(_editUserName.getValue());
+        user.setEmail(_editUserEmail.getValue());
+
+        MyAccount account;
+        account = getPageSession().getAccount();
+
+        if ( account == null )
+            account = new MyAccount();
+
+        account.setName(_editAccountName.getValue());
+
+        MyAccountUser accountUser;
+        accountUser = getPageSession().getAccountUser();
+        accountUser.setAccount(account);
+        accountUser.setUser(user);
+
+        if ( _editTypeDropdown.hasValue() )
+            account.setTypeCode(_editTypeDropdown.getStringValue());
+
+        if ( _editRoleDropdown.hasValue() )
+            accountUser.setRoleCode(_editRoleDropdown.getStringValue());
+
+        user.saveDao();
+        account.saveDao();
+        accountUser.saveDao();
+
+        _userGrid.ajaxReload();
+    }
+
+    private void handleEditUserCancel()
+    {
+        _userFrame.ajaxClear();
     }
 }
