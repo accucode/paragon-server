@@ -7,6 +7,7 @@ import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFieldset;
+import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupIconHeader;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -63,6 +64,8 @@ public class MyWelcomePage
 
     private void installFieldsets(ScBox root)
     {
+        ScForm form = root.addForm();
+
         KmList<String> list = new KmList<String>();
         list.add("house");
         list.add("smiley");
@@ -72,7 +75,7 @@ public class MyWelcomePage
         _dropdown.setOptions(list);
 
         ScGroup group;
-        group = root.addGroup();
+        group = form.addGroup("Fieldset Samples");
 
         _welcomeMessage = group.setTitleWithIcon("source ", "welcome");
 
@@ -185,6 +188,8 @@ public class MyWelcomePage
         String squares = getCommonImageUrl("squares.png");
 
         _welcomeMessage.setText("Welcome " + getCurrentUser().getName());
+
+        System.out.println("---------------" + _dropdown.getStringValue());
 
         if ( _dropdown.getStringValue().equals("house") )
             _welcomeMessage.setImageSource(house);
