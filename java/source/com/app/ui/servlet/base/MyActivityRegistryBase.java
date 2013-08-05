@@ -8,6 +8,8 @@
 
 package com.app.ui.servlet.base;
 
+import com.kodemore.servlet.ScActivityRegistry;
+
 import com.app.ui.activity.admin.MyAdminPage;
 import com.app.ui.activity.admin.MyEmailEditPage;
 import com.app.ui.activity.admin.MyEmailListPage;
@@ -64,8 +66,6 @@ import com.app.ui.activity.tools.MyToolsPage;
 import com.app.ui.activity.tools.MyUtilityPage;
 import com.app.ui.activity.user.MyUserPasswordPage;
 import com.app.ui.activity.user.MyUserSettingsPage;
-
-import com.kodemore.servlet.ScActivityRegistry;
 
 public abstract class MyActivityRegistryBase
     extends ScActivityRegistry
