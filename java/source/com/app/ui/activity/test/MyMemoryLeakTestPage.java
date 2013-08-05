@@ -5,10 +5,10 @@ import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDateField;
 import com.kodemore.servlet.script.ScDelayedScript;
 
@@ -46,20 +46,23 @@ public class MyMemoryLeakTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
         _field = new ScDateField();
         _field.setLabel("Some field");
 
-        ScForm root;
-        root = new ScForm();
-        root.css().padSpaced();
+        ScPageRoot root;
+        root = newPageRoot();
+
+        ScForm form;
+        form = root.addForm();
+        form.css().padSpaced();
 
         ScGroup group;
-        group = root.addGroup("Test");
+        group = form.addGroup("Test");
         group.addPad().addFields().add(_field);
 
-        root.add(newUserGrid());
+        form.add(newUserGrid());
 
         _loopAction = newLoopAction();
 

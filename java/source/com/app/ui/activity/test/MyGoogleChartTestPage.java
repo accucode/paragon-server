@@ -2,8 +2,8 @@ package com.app.ui.activity.test;
 
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScContainer;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScGoogleChart;
+import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.ui.activity.MyActivity;
 
@@ -26,19 +26,22 @@ public class MyGoogleChartTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScArray root;
-        root = new ScArray();
-        root.setColumnCount(3);
+        ScPageRoot root;
+        root = newPageRoot();
 
-        addBar1(root);
-        addBar2(root);
-        addBar3(root);
+        ScArray arr;
+        arr = new ScArray();
+        arr.setColumnCount(3);
 
-        addPie1(root);
-        addPie2(root);
-        addLine1(root);
+        addBar1(arr);
+        addBar2(arr);
+        addBar3(arr);
+
+        addPie1(arr);
+        addPie2(arr);
+        addLine1(arr);
 
         return root;
     }

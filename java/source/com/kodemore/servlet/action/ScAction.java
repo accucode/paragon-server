@@ -10,11 +10,6 @@ public abstract class ScAction
     //# constructor
     //##################################################
 
-    protected ScAction()
-    {
-        super();
-    }
-
     protected ScAction(ScActionContextIF context)
     {
         super(context);
@@ -29,6 +24,7 @@ public abstract class ScAction
     {
         try
         {
+            getContext().checkSecurity();
             handle();
         }
         catch ( KmCancelException ex )

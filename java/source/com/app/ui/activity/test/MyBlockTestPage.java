@@ -4,9 +4,9 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
 
@@ -42,10 +42,10 @@ public class MyBlockTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
 
         installTestGroup(root);
         installFormGroup1(root);

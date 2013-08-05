@@ -1,6 +1,6 @@
 package com.app.ui.activity.test;
 
-import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyBlankTestPage
     extends MyAbstractTestPage
@@ -21,7 +21,7 @@ public class MyBlankTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
         return null;
     }

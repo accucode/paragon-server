@@ -3,10 +3,10 @@ package com.app.ui.activity.test;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyToastTestPage
     extends MyAbstractTestPage
@@ -27,14 +27,17 @@ public class MyToastTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScForm root;
-        root = new ScForm();
-        root.css().padSpaced();
+        ScPageRoot root;
+        root = newPageRoot();
+
+        ScForm form;
+        form = root.addForm();
+        form.css().padSpaced();
 
         ScGroupArray groups;
-        groups = root.addGroupArray(150, 200);
+        groups = form.addGroupArray(150, 200);
         groups.style().floatLeft();
 
         ScGroup group;

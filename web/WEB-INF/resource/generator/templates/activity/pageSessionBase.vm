@@ -67,6 +67,11 @@ $utility.protocol("${model.f_Name}")
         get${model.f_Name}${model.primaryKeyField.f_Name}Holder().resetValue();
     }
 
+    public void clear${model.f_Name}()
+    {
+        get${model.f_Name}${model.primaryKeyField.f_Name}Holder().clearValue();
+    }
+
 #end
 $utility.protocol("convenience")
 

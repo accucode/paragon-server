@@ -4,10 +4,10 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScContainer;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.utility.Kmu;
 
@@ -41,12 +41,15 @@ public class MyUserPasswordPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScArray root;
-        root = new ScArray();
+        ScPageRoot root;
+        root = newPageRoot();
 
-        installPasswordGroup(root);
+        ScArray arr;
+        arr = root.addArray();
+
+        installPasswordGroup(arr);
 
         return root;
     }

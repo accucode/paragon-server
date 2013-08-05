@@ -20,50 +20,63 @@
   THE SOFTWARE.
 */
 
-package com.kodemore.servlet.control;
+package com.app.ui.control;
+
+import com.kodemore.dao.KmDaoSession;
+import com.kodemore.servlet.control.ScFrame;
+import com.kodemore.time.KmDate;
+import com.kodemore.time.KmTimestamp;
+
+import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MySettings;
+import com.app.property.MyPropertyRegistry;
+import com.app.ui.core.MyPageSession;
+import com.app.utility.MyGlobals;
 
 /**
  * Used to wrap dynamic ajax content.
  */
-public class ScFrameChild
-    extends ScDiv
+public class MyFrame
+    extends ScFrame
 {
-    //##################################################
-    //# init
-    //##################################################
-
-    @Override
-    protected void install()
+    public MyPageSession getPageSession()
     {
-        super.install();
+        return MyGlobals.getPageSession();
     }
 
-    //##################################################
-    //# accessing
-    //##################################################
-
-    @Override
-    public ScFrame getParent()
+    public static MyDaoRegistry getAccess()
     {
-        return (ScFrame)super.getParent();
+        return MyDaoRegistry.getInstance();
     }
 
-    //##################################################
-    //# abstract accessing
-    //##################################################
-
-    public void beDefault()
+    protected KmDate getTodayUtc()
     {
-        getParent().setDefaultChild(this);
+        return getNowUtc().getDate();
     }
 
-    //##################################################
-    //# ajax
-    //##################################################
-
-    public void ajaxPrint()
+    protected KmTimestamp getNowUtc()
     {
-        getParent().ajaxPrint(this);
+        return MyGlobals.getNowUtc();
+    }
+
+    protected MyPropertyRegistry getProperties()
+    {
+        return MyGlobals.getProperties();
+    }
+
+    protected MySettings getSettings()
+    {
+        return getAccess().getSettingsDao().getSettings();
+    }
+
+    protected KmDaoSession getDaoSession()
+    {
+        return MyGlobals.getDaoSession();
+    }
+
+    protected void flushDao()
+    {
+        getDaoSession().flush();
     }
 
 }

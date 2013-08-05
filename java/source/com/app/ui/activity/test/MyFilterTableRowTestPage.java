@@ -2,9 +2,9 @@ package com.app.ui.activity.test;
 
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.servlet.field.ScTextField;
 
@@ -36,10 +36,10 @@ public class MyFilterTableRowTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
         root.css().padSpaced();
 
         installBuildingSearchBox(root);

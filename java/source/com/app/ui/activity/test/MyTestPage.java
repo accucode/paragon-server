@@ -1,9 +1,9 @@
 package com.app.ui.activity.test;
 
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyTestPage
     extends MyAbstractTestPage
@@ -24,10 +24,10 @@ public class MyTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
         root.css().padSpaced10();
 
         ScGroupArray groups;

@@ -5,10 +5,10 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScButton;
 import com.kodemore.servlet.control.ScContainer;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
 
@@ -39,15 +39,18 @@ public class MyScriptTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScForm root;
-        root = new ScForm();
-        root.setDefaultAction(newRunAction());
-        root.css().padSpaced();
+        ScPageRoot root;
+        root = newPageRoot();
 
-        installScript(root);
-        installSamples(root);
+        ScForm form;
+        form = root.addForm();
+        form.setDefaultAction(newRunAction());
+        form.css().padSpaced();
+
+        installScript(form);
+        installSamples(form);
 
         return root;
     }

@@ -6,14 +6,13 @@ import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
 
@@ -53,10 +52,10 @@ public class MyEmailEditPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
 
         ScGroupArray row;
         row = root.addGroupArray();

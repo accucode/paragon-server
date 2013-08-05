@@ -42,8 +42,7 @@ public final class ScSimpleContainer
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        KmList<ScControl> v = getChildren();
-        for ( ScControl e : v )
+        for ( ScControl e : getChildren() )
             e.renderOn(out);
     }
 

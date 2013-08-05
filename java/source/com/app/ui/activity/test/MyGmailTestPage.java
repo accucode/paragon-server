@@ -4,10 +4,10 @@ import com.kodemore.email.KmEmail;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
 
@@ -42,7 +42,7 @@ public class MyGmailTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
         _toField = new ScTextField();
         _toField.setLabel("To");
@@ -60,13 +60,16 @@ public class MyGmailTestPage
         _messageField.setLabel("Message");
         _messageField.setRequired();
 
-        ScForm root;
-        root = new ScForm();
-        root.css().pad();
-        root.setDefaultAction(newSendAction());
+        ScPageRoot root;
+        root = newPageRoot();
+
+        ScForm form;
+        form = root.addForm();
+        form.css().pad();
+        form.setDefaultAction(newSendAction());
 
         ScGroup group;
-        group = root.addGroup("Send Gmail");
+        group = form.addGroup("Send Gmail");
 
         ScBox body;
         body = group.addPadSpaced();

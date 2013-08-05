@@ -22,20 +22,31 @@
 
 package com.kodemore.servlet.control;
 
+import com.kodemore.exception.KmApplicationException;
+import com.kodemore.servlet.action.ScActionContextIF;
+
 /**
- * Used to wrap dynamic ajax content.
+ * I am typically the root control for each page.  I act as
+ * the bridge that provides the control hierarchy access to
+ * the page's context for things like security and error 
+ * logging. 
  */
-public class ScFrameChild
-    extends ScDiv
+public class ScPageRoot
+    extends ScBox
 {
     //##################################################
-    //# init
+    //# variables
     //##################################################
 
-    @Override
-    protected void install()
+    private ScActionContextIF _context;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public ScPageRoot(ScActionContextIF e)
     {
-        super.install();
+        _context = e;
     }
 
     //##################################################
@@ -43,27 +54,30 @@ public class ScFrameChild
     //##################################################
 
     @Override
-    public ScFrame getParent()
+    public ScActionContextIF getContext()
     {
-        return (ScFrame)super.getParent();
+        return _context;
     }
 
     //##################################################
-    //# abstract accessing
+    //# context
     //##################################################
 
-    public void beDefault()
+    @Override
+    public void checkSecurity()
     {
-        getParent().setDefaultChild(this);
+        getContext().checkSecurity();
     }
 
-    //##################################################
-    //# ajax
-    //##################################################
-
-    public void ajaxPrint()
+    @Override
+    public void handleError(KmApplicationException ex)
     {
-        getParent().ajaxPrint(this);
+        getContext().handleError(ex);
     }
 
+    @Override
+    public void handleFatal(RuntimeException ex)
+    {
+        getContext().handleFatal(ex);
+    }
 }

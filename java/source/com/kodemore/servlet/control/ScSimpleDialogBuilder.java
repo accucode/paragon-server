@@ -38,7 +38,7 @@ import com.kodemore.utility.Kmu;
  * for non-editable, non-dynamic, messages.  
  * 
  * I am NOT an ScControl.  Instead, I am intended to be
- * created and displayed on the fly.  
+ * created on the fly, in order to generate an ad hoc dialog. 
  * 
  * NOTE: Care must be taken to ensure than any custom actions 
  * are created as singletons and bound into the controlRegistry 

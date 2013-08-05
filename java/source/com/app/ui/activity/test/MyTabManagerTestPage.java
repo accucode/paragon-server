@@ -1,8 +1,7 @@
 package com.app.ui.activity.test;
 
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScNotebook;
+import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyTabManagerTestPage
     extends MyAbstractTestPage
@@ -23,10 +22,10 @@ public class MyTabManagerTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
         root.css().pad();
 
         ScNotebook book;
