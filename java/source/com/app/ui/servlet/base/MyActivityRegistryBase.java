@@ -8,6 +8,8 @@
 
 package com.app.ui.servlet.base;
 
+import com.kodemore.servlet.ScActivityRegistry;
+
 import com.app.ui.activity.admin.MyAdminPage;
 import com.app.ui.activity.admin.MyEmailEditPage;
 import com.app.ui.activity.admin.MyEmailListPage;
@@ -53,7 +55,7 @@ import com.app.ui.activity.test.MyStaticIncludeTestPage;
 import com.app.ui.activity.test.MyTabManagerTestPage;
 import com.app.ui.activity.test.MyTestPage;
 import com.app.ui.activity.test.MyToastTestPage;
-import com.app.ui.activity.test.MyUserAccountPage;
+import com.app.ui.activity.test.MyWelcomePage;
 import com.app.ui.activity.tools.MyBeanShellPage;
 import com.app.ui.activity.tools.MyPerformanceLogPage;
 import com.app.ui.activity.tools.MyPropertiesPage;
@@ -64,8 +66,6 @@ import com.app.ui.activity.tools.MyToolsPage;
 import com.app.ui.activity.tools.MyUtilityPage;
 import com.app.ui.activity.user.MyUserPasswordPage;
 import com.app.ui.activity.user.MyUserSettingsPage;
-
-import com.kodemore.servlet.ScActivityRegistry;
 
 public abstract class MyActivityRegistryBase
     extends ScActivityRegistry
@@ -126,10 +126,10 @@ public abstract class MyActivityRegistryBase
         add(MyTimeoutPage.instance);
         add(MyToastTestPage.instance);
         add(MyToolsPage.instance);
-        add(MyUserAccountPage.instance);
         add(MyUserPasswordPage.instance);
         add(MyUserSettingsPage.instance);
         add(MyUsersPage.instance);
         add(MyUtilityPage.instance);
+        add(MyWelcomePage.instance);
     }
 }

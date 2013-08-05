@@ -141,6 +141,7 @@ public class ScGroupIconHeader
         out.close();
 
         out.render(_image);
+        out.printSpace();
         out.render(_text);
 
         out.endDiv();
