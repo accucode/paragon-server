@@ -2,6 +2,7 @@ package com.app.ui.activity;
 
 import com.kodemore.servlet.ScModelApplicatorIF;
 import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 
 /**
@@ -129,6 +130,11 @@ public abstract class MyPage
     //##################################################
     //# convenience
     //##################################################
+
+    protected ScPageRoot newPageRoot()
+    {
+        return new ScPageRoot(this);
+    }
 
     protected void validate()
     {

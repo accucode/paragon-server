@@ -108,7 +108,7 @@ public class MyDomainDropdownSetValueTestPage
 
     private ScActionIF newSelectUserAction()
     {
-        return new ScAction()
+        return new ScAction(this)
         {
             @Override
             protected void handle()
@@ -120,7 +120,7 @@ public class MyDomainDropdownSetValueTestPage
 
     private ScActionIF newShowDialogAction()
     {
-        return new ScAction()
+        return new ScAction(this)
         {
             @Override
             protected void handle()

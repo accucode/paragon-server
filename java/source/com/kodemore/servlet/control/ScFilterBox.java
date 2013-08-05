@@ -85,7 +85,7 @@ public class ScFilterBox
 
     protected ScActionIF newSearchAction()
     {
-        return new ScAction()
+        return new ScAction(this)
         {
             @Override
             public void handle()
@@ -97,7 +97,7 @@ public class ScFilterBox
 
     protected ScActionIF newClearAction()
     {
-        return new ScAction()
+        return new ScAction(this)
         {
             @Override
             public void handle()

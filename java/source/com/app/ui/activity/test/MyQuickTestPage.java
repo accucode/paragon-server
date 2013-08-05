@@ -45,7 +45,7 @@ public class MyQuickTestPage
 
     private ScActionIF newTestAction()
     {
-        return new ScAction()
+        return new ScAction(this)
         {
             @Override
             protected void handle()

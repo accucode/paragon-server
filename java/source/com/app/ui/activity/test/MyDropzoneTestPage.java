@@ -71,7 +71,7 @@ public class MyDropzoneTestPage
 
     private ScActionIF newRemoveAction()
     {
-        return new ScAction()
+        return new ScAction(this)
         {
             @Override
             protected void handle()

@@ -26,12 +26,14 @@ import java.util.Iterator;
 
 import com.kodemore.collection.KmEmptyIterator;
 import com.kodemore.collection.KmList;
+import com.kodemore.exception.KmApplicationException;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.json.KmJsonUtility;
 import com.kodemore.servlet.ScModelApplicatorIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScActionContextIF;
+import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.field.ScAbstractTextField;
@@ -49,7 +51,7 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 public abstract class ScControl
-    implements ScControlIF, ScKeyIF, ScModelApplicatorIF
+    implements ScControlIF, ScKeyIF, ScModelApplicatorIF, ScActionContextIF
 {
     //##################################################
     //# constants
@@ -200,6 +202,36 @@ public abstract class ScControl
     }
 
     //##################################################
+    //# context
+    //##################################################
+
+    @Override
+    public void checkSecurity()
+    {
+        getContext().checkSecurity();
+    }
+
+    @Override
+    public void handleError(KmApplicationException ex)
+    {
+        getContext().handleError(ex);
+    }
+
+    @Override
+    public void handleFatal(RuntimeException ex)
+    {
+        getContext().handleFatal(ex);
+    }
+
+    public ScActionContextIF getContext()
+    {
+        if ( isRoot() )
+            return ScGlobalContext.getInstance();
+
+        return getParent().getContext();
+    }
+
+    //##################################################
     //# tree
     //##################################################
 
@@ -307,26 +339,6 @@ public abstract class ScControl
     public boolean isBlockWrapper()
     {
         return false;
-    }
-
-    //##################################################
-    //# action context
-    //##################################################
-
-    public ScActionContextIF findActionContextWrapper()
-    {
-        if ( isActionContextWrapper() )
-            return (ScActionContextIF)this;
-
-        if ( hasParent() )
-            return getParent().findActionContextWrapper();
-
-        return null;
-    }
-
-    public boolean isActionContextWrapper()
-    {
-        return this instanceof ScActionContextIF;
     }
 
     //##################################################

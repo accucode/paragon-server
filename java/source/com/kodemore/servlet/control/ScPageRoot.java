@@ -22,28 +22,62 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.exception.KmApplicationException;
+import com.kodemore.servlet.action.ScActionContextIF;
 
 /**
- * I simply render my children.  
- * 
- * I do NOT provide any additional wrapping elements or layout.  
- * I do not have any htmlId, style, css of my own. If I do not 
- * contain any children, then I do not generate any html.
+ * I am typically the root control for each page.  I act as
+ * the bridge that provides the control hierarchy access to
+ * the page's context for things like security and error 
+ * logging. 
  */
-public final class ScSimpleContainer
-    extends ScChildContainer
+public class ScPageRoot
+    extends ScBox
 {
     //##################################################
-    //# render
+    //# variables
+    //##################################################
+
+    private ScActionContextIF _context;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public ScPageRoot(ScActionContextIF e)
+    {
+        _context = e;
+    }
+
+    //##################################################
+    //# accessing
     //##################################################
 
     @Override
-    protected void renderControlOn(KmHtmlBuilder out)
+    public ScActionContextIF getContext()
     {
-        for ( ScControl e : getChildren() )
-            e.renderOn(out);
+        return _context;
     }
 
+    //##################################################
+    //# context
+    //##################################################
+
+    @Override
+    public void checkSecurity()
+    {
+        getContext().checkSecurity();
+    }
+
+    @Override
+    public void handleError(KmApplicationException ex)
+    {
+        getContext().handleError(ex);
+    }
+
+    @Override
+    public void handleFatal(RuntimeException ex)
+    {
+        getContext().handleFatal(ex);
+    }
 }

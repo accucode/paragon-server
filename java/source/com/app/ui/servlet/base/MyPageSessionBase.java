@@ -138,6 +138,11 @@ public class MyPageSessionBase
         getAccountUidHolder().resetValue();
     }
 
+    public void clearAccount()
+    {
+        getAccountUidHolder().clearValue();
+    }
+
     //##################################################
     //# AccountUser
     //##################################################
@@ -173,6 +178,11 @@ public class MyPageSessionBase
     public void resetAccountUser()
     {
         getAccountUserUidHolder().resetValue();
+    }
+
+    public void clearAccountUser()
+    {
+        getAccountUserUidHolder().clearValue();
     }
 
     //##################################################
@@ -212,6 +222,11 @@ public class MyPageSessionBase
         getAutoSignInUidHolder().resetValue();
     }
 
+    public void clearAutoSignIn()
+    {
+        getAutoSignInUidHolder().clearValue();
+    }
+
     //##################################################
     //# Download
     //##################################################
@@ -247,6 +262,11 @@ public class MyPageSessionBase
     public void resetDownload()
     {
         getDownloadUidHolder().resetValue();
+    }
+
+    public void clearDownload()
+    {
+        getDownloadUidHolder().clearValue();
     }
 
     //##################################################
@@ -286,6 +306,11 @@ public class MyPageSessionBase
         getEmailUidHolder().resetValue();
     }
 
+    public void clearEmail()
+    {
+        getEmailUidHolder().clearValue();
+    }
+
     //##################################################
     //# EmailPart
     //##################################################
@@ -321,6 +346,11 @@ public class MyPageSessionBase
     public void resetEmailPart()
     {
         getEmailPartUidHolder().resetValue();
+    }
+
+    public void clearEmailPart()
+    {
+        getEmailPartUidHolder().clearValue();
     }
 
     //##################################################
@@ -360,6 +390,11 @@ public class MyPageSessionBase
         getEmailRecipientUidHolder().resetValue();
     }
 
+    public void clearEmailRecipient()
+    {
+        getEmailRecipientUidHolder().clearValue();
+    }
+
     //##################################################
     //# File
     //##################################################
@@ -395,6 +430,11 @@ public class MyPageSessionBase
     public void resetFile()
     {
         getFileIdHolder().resetValue();
+    }
+
+    public void clearFile()
+    {
+        getFileIdHolder().clearValue();
     }
 
     //##################################################
@@ -434,6 +474,11 @@ public class MyPageSessionBase
         getInvitationUidHolder().resetValue();
     }
 
+    public void clearInvitation()
+    {
+        getInvitationUidHolder().clearValue();
+    }
+
     //##################################################
     //# PasswordReset
     //##################################################
@@ -469,6 +514,11 @@ public class MyPageSessionBase
     public void resetPasswordReset()
     {
         getPasswordResetUidHolder().resetValue();
+    }
+
+    public void clearPasswordReset()
+    {
+        getPasswordResetUidHolder().clearValue();
     }
 
     //##################################################
@@ -508,6 +558,11 @@ public class MyPageSessionBase
         getPatchNameHolder().resetValue();
     }
 
+    public void clearPatch()
+    {
+        getPatchNameHolder().clearValue();
+    }
+
     //##################################################
     //# PerformanceLog
     //##################################################
@@ -543,6 +598,11 @@ public class MyPageSessionBase
     public void resetPerformanceLog()
     {
         getPerformanceLogIdHolder().resetValue();
+    }
+
+    public void clearPerformanceLog()
+    {
+        getPerformanceLogIdHolder().clearValue();
     }
 
     //##################################################
@@ -582,6 +642,11 @@ public class MyPageSessionBase
         getServerSessionUidHolder().resetValue();
     }
 
+    public void clearServerSession()
+    {
+        getServerSessionUidHolder().clearValue();
+    }
+
     //##################################################
     //# Settings
     //##################################################
@@ -617,6 +682,11 @@ public class MyPageSessionBase
     public void resetSettings()
     {
         getSettingsCodeHolder().resetValue();
+    }
+
+    public void clearSettings()
+    {
+        getSettingsCodeHolder().clearValue();
     }
 
     //##################################################
@@ -656,6 +726,11 @@ public class MyPageSessionBase
         getSystemLogIdHolder().resetValue();
     }
 
+    public void clearSystemLog()
+    {
+        getSystemLogIdHolder().clearValue();
+    }
+
     //##################################################
     //# SystemLogTrace
     //##################################################
@@ -693,6 +768,11 @@ public class MyPageSessionBase
         getSystemLogTraceIdHolder().resetValue();
     }
 
+    public void clearSystemLogTrace()
+    {
+        getSystemLogTraceIdHolder().clearValue();
+    }
+
     //##################################################
     //# User
     //##################################################
@@ -728,6 +808,11 @@ public class MyPageSessionBase
     public void resetUser()
     {
         getUserUidHolder().resetValue();
+    }
+
+    public void clearUser()
+    {
+        getUserUidHolder().clearValue();
     }
 
     //##################################################

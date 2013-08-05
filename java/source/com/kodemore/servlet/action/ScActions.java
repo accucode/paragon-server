@@ -43,7 +43,7 @@ public class ScActions
 
     private ScActionIF newCloseDialogAction()
     {
-        return new ScAction()
+        return new ScAction(getGlobalContext())
         {
             @Override
             protected void handle()
@@ -60,5 +60,14 @@ public class ScActions
     public ScActionIF getCloseDialogAction()
     {
         return _closeDialogAction;
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private ScActionContextIF getGlobalContext()
+    {
+        return ScGlobalContext.getInstance();
     }
 }
