@@ -8,11 +8,13 @@ import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScTopMenu;
 import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.script.ScScript;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
 
+import com.app.model.MyAccount;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
@@ -95,7 +97,7 @@ public class MyPageLayout
     }
 
     //##################################################
-    //# install: 
+    //# install: menu
     //##################################################
 
     private void installMenu()
@@ -110,21 +112,28 @@ public class MyPageLayout
 
     private void installDropdown()
     {
-        //fixme_steve make the dropdown hidden when the login screen is showing
-
         _dropdown = new ScDropdown();
-        _dropdown.setOptions(getDropdownList());
+        _dropdown.hide();
     }
 
-    private KmList<String> getDropdownList()
+    private KmList<ScOption> getDropdownList()
     {
         // fixme_steve hook this up to accounts
+        MyServerSession ss = MyGlobals.getServerSession();
+        MyUser u = ss.getUser();
 
-        KmList<String> list;
-        list = new KmList<String>();
-        list.add("one");
-        list.add("two");
-        list.add("three");
+        if ( u == null )
+            return null;
+
+        ScOption option;
+        option = new ScOption();
+        option.setText("options!!!");
+        option.setValue("option");
+
+        KmList<ScOption> list;
+        list = new KmList<ScOption>();
+        list.add(option);
+
         return list;
     }
 
@@ -194,6 +203,7 @@ public class MyPageLayout
     public void ajaxRefreshHeader()
     {
         printHeaderLogo();
+        printHeadderDropdown();
         printHeaderMenu();
     }
 
@@ -254,6 +264,31 @@ public class MyPageLayout
         m.addChild("Sign Out", actions.getSignOutAction());
 
         return root;
+    }
+
+    //##################################################
+    //# header: dropdown
+    //##################################################//
+
+    private void printHeadderDropdown()
+    {
+        MyServerSession ss = MyGlobals.getServerSession();
+        MyUser u = ss.getUser();
+
+        if ( u == null )
+        {
+            _dropdown.ajax().hide();
+            return;
+        }
+
+        setDropdownOptions(u);
+        _dropdown.ajax().show();
+    }
+
+    private void setDropdownOptions(MyUser u)
+    {
+        for ( ScOption e : getDropdownList() )
+            _dropdown.ajaxAddOption(e.getText(), e.getValue());
     }
 
     //##################################################
@@ -410,4 +445,18 @@ public class MyPageLayout
         return getData().getAjaxResult().getScript();
     }
 
+    public KmList<MyAccount> findAccountsFor(MyUser u)
+    {
+        //        KmList<MyAccountUser> accountsUsers;
+        //        accountsUsers = get .findAccountsUsersFor(u);
+        //        
+        //        KmList<MyAccount> list;
+        //        list = new KmList<MyAccount>();
+        //        
+        //        
+        //        for ( MyAccountUser e : accountsUsers ) 
+        //            
+        //            
+        return null;
+    }
 }
