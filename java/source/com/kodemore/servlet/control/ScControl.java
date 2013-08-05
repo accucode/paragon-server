@@ -72,7 +72,7 @@ public abstract class ScControl
     /**
      * Controls organized in a simple tree hierarchy.
      * However, the parent can be null for non-root elements, typically
-     * when managing dynamica content.
+     * when managing dynamic content.
      */
     private ScControl                          _parent;
 
