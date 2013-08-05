@@ -43,15 +43,15 @@ public class ScFrame
     /**
      * If set, then render this child when rendering this frame.
      */
-    private ScControl _defaultChild;
+    private ScFrameChild _defaultChild;
 
-    private ScEffect  _showEffect;
-    private ScEasing  _showEasing;
-    private Integer   _showSpeed;
+    private ScEffect     _showEffect;
+    private ScEasing     _showEasing;
+    private Integer      _showSpeed;
 
-    private ScEffect  _hideEffect;
-    private ScEasing  _hideEasing;
-    private Integer   _hideSpeed;
+    private ScEffect     _hideEffect;
+    private ScEasing     _hideEasing;
+    private Integer      _hideSpeed;
 
     //##################################################
     //# init
@@ -75,12 +75,12 @@ public class ScFrame
     //# child
     //##################################################
 
-    public ScControl getDefaultChild()
+    public ScFrameChild getDefaultChild()
     {
         return _defaultChild;
     }
 
-    public void setDefaultChild(ScControl e)
+    public void setDefaultChild(ScFrameChild e)
     {
         _defaultChild = e;
     }
@@ -94,7 +94,7 @@ public class ScFrame
     {
         ScFrameChild e;
         e = new ScFrameChild();
-        e.setFrame(this);
+        e.setParent(this);
         return e;
     }
 
@@ -258,7 +258,7 @@ public class ScFrame
         ajaxPrint(getDefaultChild());
     }
 
-    public void ajaxPrint(ScControl e)
+    public void ajaxPrint(ScFrameChild child)
     {
         ScHtmlIdAjax ajax;
         ajax = ajax();
@@ -270,7 +270,8 @@ public class ScFrame
         hide.setSpeedMs(getHideSpeed());
 
         ajax.pushDefer();
-        ajax.setContents(e);
+
+        ajax.setContents(child);
 
         ScShowScript show;
         show = ajax.show();

@@ -29,12 +29,6 @@ public class ScFrameChild
     extends ScDiv
 {
     //##################################################
-    //# variables
-    //##################################################
-
-    private ScFrame _frame;
-
-    //##################################################
     //# init
     //##################################################
 
@@ -48,14 +42,10 @@ public class ScFrameChild
     //# accessing
     //##################################################
 
-    public void setFrame(ScFrame e)
+    @Override
+    public ScFrame getParent()
     {
-        _frame = e;
-    }
-
-    public ScFrame getFrame()
-    {
-        return _frame;
+        return (ScFrame)super.getParent();
     }
 
     //##################################################
@@ -64,7 +54,7 @@ public class ScFrameChild
 
     public void beDefault()
     {
-        getFrame().setDefaultChild(this);
+        getParent().setDefaultChild(this);
     }
 
     //##################################################
@@ -73,7 +63,7 @@ public class ScFrameChild
 
     public void ajaxPrint()
     {
-        getFrame().ajaxPrint(this);
+        getParent().ajaxPrint(this);
     }
 
 }
