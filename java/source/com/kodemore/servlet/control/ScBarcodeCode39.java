@@ -25,7 +25,13 @@ package com.kodemore.servlet.control;
 import com.kodemore.html.KmHtmlBuilder;
 
 /**
- * A simple control which displays Code39 barcodes.   
+ * A simple control which displays Code39 barcodes.
+ * 
+ * Only numbers (0-9) can be encoded.  The value to be encoded will be automatically validated before display. 
+ * The start and stop characters are added automtically.
+ * 
+ * Because of the limitations of barcode font formatting,
+ * only code39 barcodes can currently be displayed.
  */
 public class ScBarcodeCode39
     extends ScControl
@@ -34,34 +40,57 @@ public class ScBarcodeCode39
     //# variables
     //##################################################
 
+    private String _value;
+
     //##################################################
     //# init
     //##################################################
 
-    @Override
-    protected void install()
-    {
-        super.install();
-
-        // todo_aaron:  
-    }
+    // remove_aaron: 
+    //    @Override
+    //    protected void install()
+    //    {
+    //        super.install();
+    //    }
 
     //##################################################
     //# print
     //##################################################
 
+    // todo_aaron: add validation to value 
+
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        // todo_aaron:  
+        if ( hasValue() )
+        {
+            out.openDiv();
+            out.printAttribute("style", "font-family:Code39AzaleaFont; font-size:72px;");
+            out.close();
+            out.printf("*%s*", getValue());
+            out.endDiv();
+        }
     }
-
-    //##################################################
-    //# remove action
-    //##################################################
 
     //##################################################
     //# accessing
     //##################################################
 
+    public String getValue()
+    {
+        return _value;
+    }
+
+    /**
+     * The value to be encoded.  Only number are allowed (0-9).
+     */
+    public void setValue(String value)
+    {
+        _value = value;
+    }
+
+    private boolean hasValue()
+    {
+        return getValue() != null;
+    }
 }
