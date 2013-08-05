@@ -30,7 +30,6 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.log.KmLog;
-import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
@@ -60,7 +59,7 @@ import com.kodemore.servlet.variable.ScLocalStyle;
  */
 public class ScDialog
     extends ScControl
-    implements ScHtmlIdIF, ScActionContextIF
+    implements ScHtmlIdIF
 {
     //##################################################
     //# variables
@@ -335,25 +334,6 @@ public class ScDialog
     public void setAction(ScActionIF e)
     {
         getForm().setDefaultAction(e);
-    }
-
-    //##################################################
-    //# security
-    //##################################################
-
-    @Override
-    public void checkSecurity()
-    {
-        if ( !hasParent() )
-            return;
-
-        ScActionContextIF c;
-        c = getParent().findActionContextWrapper();
-
-        if ( c == null )
-            return;
-
-        c.checkSecurity();
     }
 
 }

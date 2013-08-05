@@ -3,9 +3,9 @@ package com.app.ui.activity.test;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.ui.activity.MyActivity;
@@ -35,20 +35,23 @@ public class MyPlaceholderTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
         _textField = new ScTextField();
         _textField.setLabel("Field");
         _textField.setPlaceholder("Enter a name");
         _textField.css().padLeft5();
 
-        ScForm root;
-        root = new ScForm();
-        root.setDefaultAction(newSubmitAction());
-        root.css().padSpaced();
+        ScPageRoot root;
+        root = newPageRoot();
+
+        ScForm form;
+        form = root.addForm();
+        form.setDefaultAction(newSubmitAction());
+        form.css().padSpaced();
 
         ScGroup group;
-        group = root.addGroup("Placeholder Test");
+        group = form.addGroup("Placeholder Test");
 
         ScBox box;
         box = group.addPadSpaced();

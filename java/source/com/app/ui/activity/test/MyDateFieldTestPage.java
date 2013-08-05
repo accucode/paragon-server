@@ -2,11 +2,10 @@ package com.app.ui.activity.test;
 
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDateField;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.string.KmStringBuilder;
@@ -39,7 +38,7 @@ public class MyDateFieldTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
         _nameField = new ScTextField();
         _nameField.setLabel("Name");
@@ -50,8 +49,8 @@ public class MyDateFieldTestPage
         _endField = new ScDateField();
         _endField.setLabel("End Date");
 
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
         root.css().pad();
 
         ScForm form;

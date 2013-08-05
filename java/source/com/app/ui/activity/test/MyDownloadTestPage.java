@@ -2,8 +2,7 @@ package com.app.ui.activity.test;
 
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.time.KmTimestamp;
 
@@ -29,10 +28,10 @@ public class MyDownloadTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
         root.css().padSpaced();
 
         root.addButton("Download", newDownloadAction());

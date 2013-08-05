@@ -3,11 +3,10 @@ package com.app.ui.activity.test;
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScAutoCompleteCallbackIF;
 import com.kodemore.servlet.field.ScAutoCompleteField;
 
@@ -37,7 +36,7 @@ public class MyAutoCompleteTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
         _staticField = new ScAutoCompleteField();
         _staticField.setLabel("Static");
@@ -55,8 +54,8 @@ public class MyAutoCompleteTestPage
         _dynamicField.setLabel("Dynamic");
         _dynamicField.setCallback(newCallback());
 
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
         root.css().pad();
 
         ScForm form;

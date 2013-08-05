@@ -2,6 +2,7 @@ package com.app.utility;
 
 import com.kodemore.log.KmLogger;
 import com.kodemore.servlet.action.ScActions;
+import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.time.KmTimeZoneBridge;
 import com.kodemore.utility.Kmu;
@@ -360,6 +361,7 @@ public class MyInstaller
     private static void _installActions()
     {
         printfHeader("Actions");
+        ScGlobalContext.install();
         ScActions.install();
         MyActions.install();
         printOk();

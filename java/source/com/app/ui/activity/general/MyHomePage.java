@@ -1,9 +1,8 @@
 package com.app.ui.activity.general;
 
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.ui.activity.MyPage;
 import com.app.utility.MyConstantsIF;
@@ -27,12 +26,12 @@ public class MyHomePage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
         String msg = "Welcome to " + MyConstantsIF.APPLICATION_NAME;
 
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
         root.css().padSpaced();
 
         ScGroupArray groups;

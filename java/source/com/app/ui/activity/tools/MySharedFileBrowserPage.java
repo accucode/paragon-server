@@ -5,10 +5,10 @@ import com.kodemore.file.KmFile;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScListField;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
@@ -42,16 +42,19 @@ public class MySharedFileBrowserPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScForm root;
-        root = new ScForm();
-        root.setDefaultAction(newFindDirectoryAction());
+        ScPageRoot root;
+        root = newPageRoot();
 
-        installPath(root);
+        ScForm form;
+        form = root.addForm();
+        form.setDefaultAction(newFindDirectoryAction());
+
+        installPath(form);
 
         ScGroupArray row;
-        row = root.addGroupArray();
+        row = form.addGroupArray();
 
         installFolders(row);
         installFiles(row);

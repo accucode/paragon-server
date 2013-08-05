@@ -2,10 +2,10 @@ package com.app.ui.activity.test;
 
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScColorField;
 
 public class MyColorFieldTestPage
@@ -33,18 +33,21 @@ public class MyColorFieldTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
         _colorField = new ScColorField();
         _colorField.setLabel("Color");
 
-        ScForm root;
-        root = new ScForm();
-        root.setDefaultAction(newSubmitAction());
-        root.css().pad();
+        ScPageRoot root;
+        root = newPageRoot();
+
+        ScForm form;
+        form = root.addForm();
+        form.setDefaultAction(newSubmitAction());
+        form.css().pad();
 
         ScGroup group;
-        group = root.addGroup("Color Field Test");
+        group = form.addGroup("Color Field Test");
 
         ScFieldTable fields;
         fields = group.addPad().addFields();

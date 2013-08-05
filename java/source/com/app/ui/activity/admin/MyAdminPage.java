@@ -1,14 +1,14 @@
 package com.app.ui.activity.admin;
 
+import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScPageRoot;
+
 import com.app.ui.activity.test.MyAccountTestPage;
 import com.app.ui.activity.test.MyAccountUserTestPage;
 import com.app.ui.activity.test.MyTabManagerTestPage;
 import com.app.ui.activity.test.MyWelcomePage;
-
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
 
 public class MyAdminPage
     extends MyAbstractAdminPage
@@ -29,10 +29,10 @@ public class MyAdminPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
         root.css().padSpaced();
 
         ScGroupArray groups;

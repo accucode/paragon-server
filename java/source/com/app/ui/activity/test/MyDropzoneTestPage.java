@@ -3,11 +3,10 @@ package com.app.ui.activity.test;
 import com.kodemore.file.KmFile;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDropzone;
 import com.kodemore.servlet.control.ScDropzoneUploadHandlerIF;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyDropzoneTestPage
     extends MyAbstractTestPage
@@ -34,10 +33,10 @@ public class MyDropzoneTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
         root.css().padSpaced();
 
         ScDropzone dz;
@@ -71,7 +70,7 @@ public class MyDropzoneTestPage
 
     private ScActionIF newRemoveAction()
     {
-        return new ScAction()
+        return new ScAction(this)
         {
             @Override
             protected void handle()

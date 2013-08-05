@@ -1,8 +1,7 @@
 package com.app.ui.activity.test;
 
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -27,10 +26,10 @@ public class MyGroupTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
         root.css().padSpaced();
 
         root.add(newGroup("aaa", "the gaps between children are provided the class padSpaced"));

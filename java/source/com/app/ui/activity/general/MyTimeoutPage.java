@@ -1,10 +1,10 @@
 package com.app.ui.activity.general;
 
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGeneralButton;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.ui.activity.MyPage;
 import com.app.utility.MyUrls;
@@ -38,15 +38,18 @@ public class MyTimeoutPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
         String href = MyUrls.getEntryUrl();
 
-        ScForm root;
-        root = new ScForm();
+        ScPageRoot root;
+        root = newPageRoot();
+
+        ScForm form;
+        form = root.addForm();
 
         ScGroup group;
-        group = root.addGroup("Time Out");
+        group = form.addGroup("Time Out");
         group.addText("For security reasons, your session has expired.");
         group.addSpace();
         group.addText("Please log back in.");
