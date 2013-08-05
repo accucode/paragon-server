@@ -44,6 +44,11 @@
             background: #fff;
         }
         
+        .multicolor
+        {
+            background: linear-gradient(to right, white, yellow, blue, red, green, black);
+        }
+        
     </style>
 
 </head>
@@ -54,7 +59,7 @@
 
     <div class="boxGreen pad margin">
         This demonstrates the css gradient effect available in FF6+ and Chrome.
-        It does not work in IE.
+        It also works with IE10+.
     </div>
     
     <div class="myTop">The top band.  Solid color.</div>
@@ -65,9 +70,17 @@
     <br>
     <br>
 
+    <div class="border pad margin multicolor">
+        A left to right gradient with multiple colors.
+    </div>
+
+    <br>
+    <br>
+    <br>
+
     <div class="padSpaced">
     
-        <div class="boxGreen">
+        <div class="boxGreen pad">
             The following also use css, but use a background image with a gradient tranparency
             rather than using the "gradient" css attribute.  Css background images are more 
             consistently supported across multiple browsers.  Also, this approach is actually
