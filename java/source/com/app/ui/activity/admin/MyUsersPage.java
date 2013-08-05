@@ -7,7 +7,6 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScContainer;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
@@ -57,7 +56,7 @@ public class MyUsersPage
     }
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
         ScPageRoot root;
         root = newPageRoot();

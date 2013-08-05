@@ -1,13 +1,13 @@
 package com.app.ui.activity.test;
 
-import com.app.ui.activity.MyActivity;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
+
+import com.app.ui.activity.MyActivity;
 
 public class MyFormTestPage
     extends MyAbstractTestPage
@@ -34,19 +34,22 @@ public class MyFormTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
         _textField = new ScTextField();
         _textField.setLabel("Field");
         _textField.css().padLeft5();
 
-        ScForm root;
-        root = new ScForm();
-        root.setDefaultAction(newSubmitAction());
-        root.css().padSpaced();
+        ScPageRoot root;
+        root = newPageRoot();
+
+        ScForm form;
+        form = root.addForm();
+        form.setDefaultAction(newSubmitAction());
+        form.css().padSpaced();
 
         ScGroup group;
-        group = root.addGroup("Form Test");
+        group = form.addGroup("Form Test");
         group.addPad().addFields().add(_textField);
         group.addDivider();
         group.addButtonBox().addSubmitButton();

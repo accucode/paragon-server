@@ -1,8 +1,8 @@
 package com.app.ui.activity.user;
 
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.ui.activity.MyPage;
 
@@ -25,10 +25,10 @@ public class MyUserSettingsPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
 
         ScGroup group;
         group = root.addGroup("User Settings");

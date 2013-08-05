@@ -2,8 +2,8 @@ package com.app.ui.activity.test;
 
 import com.kodemore.servlet.control.ScBarcodeCode39;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 
 /**
  * Test the various form fields.
@@ -34,10 +34,10 @@ public class MyBarcodeTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
         root.css().padSpaced();
 
         ScGroup group;

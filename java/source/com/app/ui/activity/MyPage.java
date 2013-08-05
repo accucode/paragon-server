@@ -47,7 +47,7 @@ public abstract class MyPage
         _root = installRoot();
     }
 
-    protected abstract ScControl installRoot();
+    protected abstract ScPageRoot installRoot();
 
     //##################################################
     //# start

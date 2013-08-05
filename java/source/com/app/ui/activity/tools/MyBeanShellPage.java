@@ -3,9 +3,9 @@ package com.app.ui.activity.tools;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.script.ScAddContentScript;
 import com.kodemore.utility.KmBeanShell;
@@ -39,7 +39,7 @@ public class MyBeanShellPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
         ScActionIF submitAction = newSubmitAction();
 
@@ -47,8 +47,8 @@ public class MyBeanShellPage
         _scriptField.style().height(100);
         _scriptField.setWidthFull();
 
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
 
         ScForm form;
         form = root.addForm();

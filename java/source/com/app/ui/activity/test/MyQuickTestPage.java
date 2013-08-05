@@ -3,8 +3,7 @@ package com.app.ui.activity.test;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyQuickTestPage
     extends MyAbstractTestPage
@@ -25,10 +24,10 @@ public class MyQuickTestPage
     //##################################################
 
     @Override
-    protected ScControl installRoot()
+    protected ScPageRoot installRoot()
     {
-        ScBox root;
-        root = new ScBox();
+        ScPageRoot root;
+        root = newPageRoot();
         root.css().pad();
 
         ScArray col;
