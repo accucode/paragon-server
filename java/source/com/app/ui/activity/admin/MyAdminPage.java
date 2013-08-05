@@ -1,5 +1,10 @@
 package com.app.ui.activity.admin;
 
+import com.app.ui.activity.test.MyAccountTestPage;
+import com.app.ui.activity.test.MyAccountUserTestPage;
+import com.app.ui.activity.test.MyTabManagerTestPage;
+import com.app.ui.activity.test.MyUserAccountPage;
+
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScGroup;
@@ -41,6 +46,10 @@ public class MyAdminPage
         links = group.addLinkBox();
         links.addLink(MyUsersPage.instance);
         links.addLink(MyEmailListPage.instance);
+        links.addLink(MyTabManagerTestPage.instance);
+        links.addLink(MyUserAccountPage.instance);
+        links.addLink(MyAccountTestPage.instance);
+        links.addLink(MyAccountUserTestPage.instance);
 
         return root;
     }

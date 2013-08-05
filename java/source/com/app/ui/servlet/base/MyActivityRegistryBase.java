@@ -23,6 +23,7 @@ import com.app.ui.activity.test.MyAccountTestPage;
 import com.app.ui.activity.test.MyAccountUserTestPage;
 import com.app.ui.activity.test.MyAnimationTestPage;
 import com.app.ui.activity.test.MyAutoCompleteTestPage;
+import com.app.ui.activity.test.MyBarcodeTestPage;
 import com.app.ui.activity.test.MyBlankTestPage;
 import com.app.ui.activity.test.MyBlockTestPage;
 import com.app.ui.activity.test.MyColorFieldTestPage;
