@@ -72,7 +72,7 @@ public class MyWelcomePage
         _dropdown.setOptions(list);
 
         ScGroup group;
-        group = root.addGroup("Fieldset Samples");
+        group = root.addGroup();
 
         _welcomeMessage = group.setTitleWithIcon("source ", "welcome");
 

@@ -8,8 +8,6 @@
 
 package com.app.ui.servlet.base;
 
-import com.kodemore.servlet.ScActivityRegistry;
-
 import com.app.ui.activity.admin.MyAdminPage;
 import com.app.ui.activity.admin.MyEmailEditPage;
 import com.app.ui.activity.admin.MyEmailListPage;
@@ -43,6 +41,7 @@ import com.app.ui.activity.test.MyGroupIconHeaderTestPage;
 import com.app.ui.activity.test.MyGroupTestPage;
 import com.app.ui.activity.test.MyHideErrorsTestPage;
 import com.app.ui.activity.test.MyLocalValueTestPage;
+import com.app.ui.activity.test.MyManageAccountsPage;
 import com.app.ui.activity.test.MyMemoryLeakTestPage;
 import com.app.ui.activity.test.MyNotebookTestPage;
 import com.app.ui.activity.test.MyOpenWindowTestPage;
@@ -66,6 +65,8 @@ import com.app.ui.activity.tools.MyToolsPage;
 import com.app.ui.activity.tools.MyUtilityPage;
 import com.app.ui.activity.user.MyUserPasswordPage;
 import com.app.ui.activity.user.MyUserSettingsPage;
+
+import com.kodemore.servlet.ScActivityRegistry;
 
 public abstract class MyActivityRegistryBase
     extends ScActivityRegistry
@@ -105,6 +106,7 @@ public abstract class MyActivityRegistryBase
         add(MyHideErrorsTestPage.instance);
         add(MyHomePage.instance);
         add(MyLocalValueTestPage.instance);
+        add(MyManageAccountsPage.instance);
         add(MyMemoryLeakTestPage.instance);
         add(MyNotebookTestPage.instance);
         add(MyOpenWindowTestPage.instance);

@@ -2,6 +2,7 @@ package com.app.ui.activity.admin;
 
 import com.app.ui.activity.test.MyAccountTestPage;
 import com.app.ui.activity.test.MyAccountUserTestPage;
+import com.app.ui.activity.test.MyManageAccountsPage;
 import com.app.ui.activity.test.MyTabManagerTestPage;
 import com.app.ui.activity.test.MyWelcomePage;
 
@@ -47,6 +48,7 @@ public class MyAdminPage
         links.addLink(MyUsersPage.instance);
         links.addLink(MyEmailListPage.instance);
         links.addLink(MyWelcomePage.instance);
+        links.addLink(MyManageAccountsPage.instance);
         links.addLink(MyTabManagerTestPage.instance);
         links.addLink(MyAccountTestPage.instance);
         links.addLink(MyAccountUserTestPage.instance);
