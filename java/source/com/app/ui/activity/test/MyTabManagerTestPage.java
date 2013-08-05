@@ -33,6 +33,7 @@ public class MyTabManagerTestPage
         book = root.addNotebook();
 
         book.install(new MyAccountOverviewTabManager(this));
+        book.install(new MyAccountTabManager(this));
 
         return root;
     }
