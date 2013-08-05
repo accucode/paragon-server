@@ -67,6 +67,7 @@ public class MyTestPage
         links.addLink(MyOpenWindowTestPage.instance);
         links.addLink(MyDownloadTestPage.instance);
         links.addLink(MyShowDialogTestPage.instance);
+        links.addLink(MyBarcodeTestPage.instance);
 
         group = groups.addGroup("Tools");
         links = group.addLinkBox();

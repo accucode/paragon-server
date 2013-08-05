@@ -6,9 +6,6 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 
 import com.app.ui.activity.MyPage;
-import com.app.ui.activity.test.MyAccountTestPage;
-import com.app.ui.activity.test.MyAccountUserTestPage;
-import com.app.ui.activity.test.MyUserAccountPage;
 import com.app.utility.MyConstantsIF;
 
 public class MyHomePage
@@ -45,14 +42,6 @@ public class MyHomePage
         ScGroup group;
         group = groups.addGroup("Home");
         group.addPad().addText(msg);
-
-        group = groups.addGroup("Paragon");
-
-        ScBox links;
-        links = group.addLinkBox();
-        links.addLink(MyUserAccountPage.instance);
-        links.addLink(MyAccountTestPage.instance);
-        links.addLink(MyAccountUserTestPage.instance);
 
         return root;
     }

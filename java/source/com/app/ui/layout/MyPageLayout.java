@@ -106,16 +106,20 @@ public class MyPageLayout
 
     //##################################################
     //# install: dropdown
-    //##################################################//
+    //##################################################
 
     private void installDropdown()
     {
+        //fixme_steve make the dropdown hidden when the login screen is showing
+
         _dropdown = new ScDropdown();
         _dropdown.setOptions(getDropdownList());
     }
 
     private KmList<String> getDropdownList()
     {
+        // fixme_steve hook this up to accounts
+
         KmList<String> list;
         list = new KmList<String>();
         list.add("one");
@@ -126,7 +130,7 @@ public class MyPageLayout
 
     //##################################################
     //# install: top right div
-    //##################################################//
+    //##################################################
 
     private void installTopRightDiv()
     {
