@@ -79,6 +79,7 @@ public abstract class MyActivityRegistryBase
         add(MyAdminPage.instance);
         add(MyAnimationTestPage.instance);
         add(MyAutoCompleteTestPage.instance);
+        add(MyBarcodeTestPage.instance);
         add(MyBeanShellPage.instance);
         add(MyBlankTestPage.instance);
         add(MyBlockTestPage.instance);
