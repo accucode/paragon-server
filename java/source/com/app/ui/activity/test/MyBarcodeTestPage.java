@@ -26,7 +26,8 @@ public class MyBarcodeTestPage
     //# constants
     //##################################################
 
-    private static String CODE = "16180339887";
+    private static String VALID_CODE   = "16180339887";
+    private static String INVALID_CODE = "23jb8v 8e5i";
 
     //##################################################
     //# install
@@ -45,11 +46,22 @@ public class MyBarcodeTestPage
         ScBox body;
         body = group.addPad();
 
-        body.addText("Below is a code39 barcode that contains: " + CODE);
+        body.addText("Below is a code39 barcode that contains (valid entry): '" + VALID_CODE + "'");
 
         ScBarcodeCode39 code;
         code = new ScBarcodeCode39();
-        code.setValue(CODE);
+        code.setValue(VALID_CODE);
+
+        body.add(code);
+
+        body.addBreak();
+
+        body.addText("Below is a code39 barcode that contains (invalid entry): '"
+            + INVALID_CODE
+            + "'");
+
+        code = new ScBarcodeCode39();
+        code.setValue(INVALID_CODE);
 
         body.add(code);
 
