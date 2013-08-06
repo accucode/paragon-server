@@ -440,8 +440,11 @@ public class MyPageLayout
     //##################################################
 
     /**
-     * review_wyatt (valerie)
+     * (valerie)
      * please check convenience methods
+     * 
+     * review_valerie (wyatt)
+     *      These are fine, except for the findAccountsFor method.
      */
     protected MyServletData getData()
     {
