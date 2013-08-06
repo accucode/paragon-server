@@ -576,6 +576,16 @@ public abstract class ScControl
         return ScServletData.getLocal();
     }
 
+    public String getStringArgument()
+    {
+        return getData().getStringArgument();
+    }
+
+    public Integer getIntegerArgument()
+    {
+        return getData().getIntegerArgument();
+    }
+
     protected boolean hasData()
     {
         return getData() != null;

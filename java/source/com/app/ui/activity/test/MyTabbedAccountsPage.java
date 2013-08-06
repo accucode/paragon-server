@@ -30,9 +30,8 @@ public class MyTabbedAccountsPage
 
         ScNotebook book;
         book = root.addNotebook();
-
-        book.install(new MyAccountOverviewTabManager(this));
-        book.install(new MyAccountTabManager(this));
+        book.add(new MyAccountOverviewTab());
+        book.add(new MyAccountTab());
 
         return root;
     }

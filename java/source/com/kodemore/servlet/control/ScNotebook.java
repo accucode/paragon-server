@@ -139,9 +139,10 @@ public class ScNotebook
         return newCssBuilder().clearfix();
     }
 
-    public void install(ScTabManager mgr)
-    {
-        ScControl tab = mgr.createTab();
-        add(tab);
-    }
+    // fixme_wyatt: 
+    //    public void install(ScTabManager mgr)
+    //    {
+    //        ScControl tab = mgr.createTab();
+    //        add(tab);
+    //    }
 }
