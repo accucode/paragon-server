@@ -103,7 +103,6 @@ public class MyPageLayout
     private void installMenu()
     {
         _menu = new ScTopMenu();
-
     }
 
     //##################################################
