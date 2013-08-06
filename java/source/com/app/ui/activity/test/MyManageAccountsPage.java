@@ -62,6 +62,9 @@ public class MyManageAccountsPage
     private ScTextField           _transferEmail;
     private ScTextField           _editUserName;
     private ScTextField           _editUserEmail;
+    private ScTextField           _viewUserName;
+    private ScTextField           _viewUserEmail;
+    private ScTextField           _viewUserRole;
 
     private ScFrameChild          _viewAccountChild;
     private ScFrameChild          _editAccountChild;
@@ -69,6 +72,7 @@ public class MyManageAccountsPage
     private ScFrameChild          _viewUserChild;
     private ScFrameChild          _editUserChild;
     private ScFrameChild          _addUserChild;
+    private ScFrameChild          _transferChild;
 
     private ScFrame               _transferFrame;
     private ScFrame               _userFrame;
@@ -76,7 +80,8 @@ public class MyManageAccountsPage
     private ScDialog              _deleteAccountDialog;
 
     private ScGrid<MyAccountUser> _userGrid;
-    private ScFrameChild          _transferChild;
+
+    private String                _inviteUserLabel;
 
     //##################################################
     //# install
@@ -137,8 +142,8 @@ public class MyManageAccountsPage
         ScBox body;
         body = form.addPadSpaced();
         body.add(_accountDropdown);
-        body.addButton("Test", showView());
-        body.addButton("Add", newShowAddAccountBoxAction());
+        body.addButton("Update", newUpdateValuesAction());
+        body.addButton("Add Account", newShowAddAccountBoxAction());
     }
 
     private void installAccountFrame(ScArray row)
@@ -213,6 +218,7 @@ public class MyManageAccountsPage
         ScDiv footer;
         footer = group.addButtonBox();
         footer.addButton("Send Request", newSendTransferRequestAction());
+        footer.addCancelButton(newCancelTransferRequestAction());
 
         _transferChild = frame;
     }
@@ -304,9 +310,6 @@ public class MyManageAccountsPage
     {
         MyMetaAccountUser x = MyAccountUser.Meta;
 
-        ScActionIF addAction;
-        addAction = newAddUserAction();
-
         ScGroup group;
         group = root.addGroup();
         group.setTitle("Users");
@@ -316,7 +319,7 @@ public class MyManageAccountsPage
         right.css().pad5();
 
         ScActionButton button;
-        button = right.addButton("Add", addAction);
+        button = right.addButton("Add", newAddUserAction());
         button.setImage(MyButtonUrls.add());
 
         ScGridColumn<MyAccountUser> userEmail;
@@ -326,6 +329,7 @@ public class MyManageAccountsPage
 
         ScGrid<MyAccountUser> grid;
         grid = group.addGrid();
+        grid.trackAll(_accountDropdown);
         grid.setFilterFactory(newFetcher());
         grid.addLinkColumn(x.UserName, newViewUserAction(), x.Uid);
         grid.addColumn(userEmail);
@@ -371,10 +375,12 @@ public class MyManageAccountsPage
         f = new MyAccountUserFilter();
         f.sortAscending();
 
-        // fixme_valerie: need an onChange method for dropdown
-        String accountName = _accountDropdown.getStringValue();
-        MyAccount a = getAccess().getAccountDao().findWithName(accountName);
-        f.setAccountUid(a.getUid());
+        /**ask_valerie 
+         * why this is broken
+         */
+        //        String accountName = _accountDropdown.getStringValue();
+        //        MyAccount a = getAccess().getAccountDao().findWithName(accountName);
+        //        f.setAccountUid(a.getUid());
 
         return f;
     }
@@ -390,14 +396,11 @@ public class MyManageAccountsPage
 
     private void installViewUserFrame()
     {
-        MyMetaUser x = MyUser.Meta;
-        MyMetaAccountUser y = MyAccountUser.Meta;
-
         ScFrameChild frame;
         frame = _userFrame.createChild();
 
         ScGroup group;
-        group = frame.addGroup("View");
+        group = frame.addGroup("View User");
 
         ScDiv header;
         header = group.getHeader().addFloatRight();
@@ -407,11 +410,23 @@ public class MyManageAccountsPage
         body = group.addBox();
         body.css().pad();
 
+        _viewUserName = new ScTextField();
+        _viewUserName.setLabel("Name ");
+        _viewUserName.setReadOnly();
+
+        _viewUserEmail = new ScTextField();
+        _viewUserEmail.setLabel("Email ");
+        _viewUserEmail.setReadOnly();
+
+        _viewUserRole = new ScTextField();
+        _viewUserRole.setLabel("Role ");
+        _viewUserRole.setReadOnly();
+
         ScFieldTable fields;
         fields = body.addFields();
-        fields.addText(x.Name);
-        fields.addText(x.Email);
-        fields.addText(y.RoleName);
+        fields.add(_viewUserName);
+        fields.add(_viewUserEmail);
+        fields.add(_viewUserRole);
 
         group.addDivider();
 
@@ -492,7 +507,7 @@ public class MyManageAccountsPage
         form.onEscape().run(cancelAction);
 
         ScGroup group;
-        group = form.addGroup("Invite User to " + getPageSession().getAccount());
+        group = form.addGroup(_inviteUserLabel);
 
         ScBox body;
         body = group.addBox();
@@ -553,14 +568,14 @@ public class MyManageAccountsPage
         };
     }
 
-    private ScActionIF showView()
+    private ScActionIF newUpdateValuesAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleShowView();
+                handleUpdateValues();
             }
         };
     }
@@ -609,6 +624,18 @@ public class MyManageAccountsPage
             public void handle()
             {
                 handleSendTransferRequest();
+            }
+        };
+    }
+
+    private ScActionIF newCancelTransferRequestAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleCancelTransferRequest();
             }
         };
     }
@@ -764,6 +791,13 @@ public class MyManageAccountsPage
         _accountDropdown.setOptions(accountNames);
         _accountDropdown.ajaxUpdateValues();
 
+        String accountName;
+        accountName = _accountDropdown.getStringValue();
+
+        MyAccount account;
+        account = getAccess().getAccountDao().findWithName(accountName);
+        getPageSession().setAccount(account);
+
         super.start();
     }
 
@@ -798,7 +832,7 @@ public class MyManageAccountsPage
         _deleteAccountDialog.ajaxClose();
     }
 
-    private void handleShowView()
+    private void handleUpdateValues()
     {
         String accountName;
         accountName = _accountDropdown.getStringValue();
@@ -812,6 +846,8 @@ public class MyManageAccountsPage
 
         _viewAccountChild.ajaxPrint();
         _viewAccountChild.ajax().focus();
+
+        _userGrid.ajaxReload();
     }
 
     private void handleShowAddAccountBox()
@@ -844,6 +880,11 @@ public class MyManageAccountsPage
     private void handleSendTransferRequest()
     {
         // fixme_valerie: send email
+    }
+
+    private void handleCancelTransferRequest()
+    {
+        _transferFrame.ajaxClear();
     }
 
     private void handleEditAccountSave()
@@ -879,7 +920,16 @@ public class MyManageAccountsPage
 
     private void handleEditAccountCancel()
     {
-        _accountFrame.ajaxClear();
+        MyAccount a;
+        a = getPageSession().getAccount();
+
+        _viewAccountName.setValue(a.getName());
+        _viewAccountType.setValue(a.getType().getName());
+
+        _viewAccountChild.ajaxPrint();
+        _viewAccountChild.ajax().focus();
+
+        _userGrid.ajaxReload();
     }
 
     private void handleAddAccountSave()
@@ -921,6 +971,16 @@ public class MyManageAccountsPage
 
     private void handleAddUser()
     {
+        String accountName;
+        accountName = _accountDropdown.getStringValue();
+
+        MyAccount account;
+        account = getAccess().getAccountDao().findWithName(accountName);
+        getPageSession().setAccount(account);
+
+        _inviteUserLabel = "Invite User to " + accountName;
+
+        // fixme_valerie: placeholder
         _addUserChild.ajaxPrint();
         _addUserChild.ajax().focus();
     }
@@ -933,7 +993,15 @@ public class MyManageAccountsPage
         MyUser user;
         user = getAccess().findUserUid(uid);
 
+        MyAccountUser accountUser;
+        accountUser = getAccess().findAccountUserUid(getStringArgument());
+        getPageSession().setAccountUser(accountUser);
+
         getPageSession().setUser(user);
+
+        _viewUserName.setValue(user.getName());
+        _viewUserEmail.setValue(user.getEmail());
+        _viewUserRole.setValue(accountUser.getRoleName());
 
         _viewUserChild.applyFromModel(user);
         _viewUserChild.ajaxPrint();
