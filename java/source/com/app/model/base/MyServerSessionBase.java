@@ -47,6 +47,7 @@ public abstract class MyServerSessionBase
     private Integer lockVersion;
     private MyUser user;
     private MyAutoSignIn autoSignIn;
+    private MyAccount account;
 
     //##################################################
     //# constructor
@@ -618,6 +619,42 @@ public abstract class MyServerSessionBase
     public boolean hasAutoSignIn(MyAutoSignIn e)
     {
         return Kmu.isEqual(getAutoSignIn(), e);
+    }
+
+    //##################################################
+    //# account
+    //##################################################
+
+    public MyAccount getAccount()
+    {
+        return account;
+    }
+
+    public void setAccount(MyAccount e)
+    {
+        checkReadOnly();
+        account = e;
+    }
+
+    public void _setAccount(MyAccount e)
+    {
+        checkReadOnly();
+        account = e;
+    }
+
+    public void clearAccount()
+    {
+        setAccount(null);
+    }
+
+    public boolean hasAccount()
+    {
+        return getAccount() != null;
+    }
+
+    public boolean hasAccount(MyAccount e)
+    {
+        return Kmu.isEqual(getAccount(), e);
     }
 
 

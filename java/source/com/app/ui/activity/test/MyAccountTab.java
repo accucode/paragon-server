@@ -1,18 +1,11 @@
 package com.app.ui.activity.test;
 
-import com.app.filter.MyAccountFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountType;
-import com.app.model.meta.MyMetaAccount;
-
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.filter.KmFilterIF;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDialog;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -22,12 +15,17 @@ import com.kodemore.servlet.control.ScFrame;
 import com.kodemore.servlet.control.ScFrameChild;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScTabManager;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
 
-public class MyAccountTabManager
-    extends ScTabManager
+import com.app.filter.MyAccountFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountType;
+import com.app.model.meta.MyMetaAccount;
+import com.app.ui.control.MyBox;
+
+public class MyAccountTab
+    extends MyBox
 {
     //##################################################
     //# variables
@@ -53,22 +51,15 @@ public class MyAccountTabManager
     private ScFrameChild      _editAccountChild;
 
     //##################################################
-    //# constructors
-    //##################################################
-
-    public MyAccountTabManager(ScActionContextIF e)
-    {
-        super(e);
-    }
-
-    //##################################################
     //# install
     //##################################################
+
     @Override
-    public ScControl createTab()
+    public void install()
     {
-        ScBox root;
-        root = new ScBox();
+        super.install();
+
+        ScBox root = this;
         root.css().pad10();
         root.setLabel("Accounts");
 
@@ -86,8 +77,6 @@ public class MyAccountTabManager
 
         installAccountGrid(row);
         installAccountTarget(row);
-
-        return root;
     }
 
     private void installDialog(ScBox root)

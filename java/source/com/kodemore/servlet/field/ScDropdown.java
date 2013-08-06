@@ -642,18 +642,12 @@ public class ScDropdown
     //# on change
     //##################################################
 
-    /**
-     * review_wyatt (valerie)
-     * please review our dropdown on change method
-     */
     protected String formatOnChange()
     {
         if ( !hasAction() )
             return null;
 
-        ScForm form;
-        form = findFormWrapper();
-
+        ScForm form = findFormWrapper();
         ScHtmlIdIF block = findBlockWrapper();
 
         ScActionScript s;

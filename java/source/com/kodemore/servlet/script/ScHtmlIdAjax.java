@@ -24,9 +24,11 @@ package com.kodemore.servlet.script;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
+import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.utility.Kmu;
 
 /**
  * A block script that knows about a specific element.
@@ -258,5 +260,61 @@ public class ScHtmlIdAjax
     public void unblock()
     {
         ajax().unblockControl(getTarget());
+    }
+
+    //##################################################
+    //# hack
+    //##################################################
+
+    // fixme_wyatt: toast kludge 
+    public void toast(String msg, Object... args)
+    {
+        ajax().toast(msg, args);
+    }
+
+    //##################################################
+    //# equalize children
+    //##################################################
+
+    // review_aaron: Equalize scripts
+    public void equalizeChildren()
+    {
+        equalizeChildren(true);
+    }
+
+    public void equalizeChildren(boolean reset)
+    {
+        equalizeChildrenWidth(reset);
+        equalizeChildrenHeight(reset);
+    }
+
+    public void equalizeChildrenHeight(boolean reset)
+    {
+        run(equalizeHeightScript(reset));
+    }
+
+    public void equalizeChildrenWidth(boolean reset)
+    {
+        run(equalizeWidthScript(reset));
+    }
+
+    private String equalizeHeightScript(boolean reset)
+    {
+        KmJsonObject options;
+        options = new KmJsonObject();
+        options.setString("equalize", "height");
+        options.setBoolean("reset", reset);
+
+        return Kmu.format("%s.equalize(%s);", formatJqueryReference(), options);
+    }
+
+    private String equalizeWidthScript(boolean reset)
+    {
+        KmJsonObject options;
+        options = new KmJsonObject();
+        options.setString("equalize", "width");
+        options.setBoolean("reset", reset);
+
+        return Kmu.format("%s.equalize(%s);", formatJqueryReference(), options);
     }
 }

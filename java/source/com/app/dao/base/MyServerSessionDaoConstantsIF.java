@@ -47,4 +47,7 @@ public interface MyServerSessionDaoConstantsIF
     String AUTO_SIGN_IN = "autoSignIn";
     String AUTO_SIGN_IN_UID = "autoSignIn.uid";
 
+    String ACCOUNT = "account";
+    String ACCOUNT_UID = "account.uid";
+
 }

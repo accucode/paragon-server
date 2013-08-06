@@ -1,22 +1,13 @@
 package com.app.ui.activity.test;
 
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.filter.KmFilterIF;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDialog;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -27,7 +18,6 @@ import com.kodemore.servlet.control.ScFrameChild;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScTabManager;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.field.ScAutoCompleteCallbackIF;
 import com.kodemore.servlet.field.ScAutoCompleteField;
@@ -35,8 +25,16 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScTextField;
 
-public class MyAccountOverviewTabManager
-    extends ScTabManager
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.ui.control.MyBox;
+
+public class MyAccountOverviewTab
+    extends MyBox
 {
     //##################################################
     //# variables
@@ -82,23 +80,16 @@ public class MyAccountOverviewTabManager
     private ScText                _viewUserVerifiedField;
 
     //##################################################
-    //# constructors
-    //##################################################
-
-    public MyAccountOverviewTabManager(ScActionContextIF e)
-    {
-        super(e);
-    }
-
-    //##################################################
     //# install
     //##################################################
 
     @Override
-    public ScControl createTab()
+    public void install()
     {
+        super.install();
+
         ScBox root;
-        root = new ScBox();
+        root = this;
         root.css().pad10();
         root.setLabel("AccountUsers");
 
@@ -113,8 +104,6 @@ public class MyAccountOverviewTabManager
         installAccountUserSearchBox(row);
         installAccountUserTarget(row);
         installAccountUserGrid(leftCol);
-
-        return root;
     }
 
     private void installDialog(ScBox root)
@@ -946,4 +935,5 @@ public class MyAccountOverviewTabManager
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Save");
     }
+
 }

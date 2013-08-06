@@ -60,4 +60,11 @@ attributes
     : modelName = autoSignIn
     : relation  = reference
     : required  = false
+    
+    association
+    : name      = account
+    : comment   = The current account that the application is displaying.
+    : modelName = account
+    : relation  = reference
+    : required  = false
 
