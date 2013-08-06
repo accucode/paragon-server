@@ -70,6 +70,9 @@ var MyResourceLoader =
             // Code39 Azalea
             "static/{version}/azaleaCode39/Code39Azalea.min.css", 
             
+            // Equal Heights
+            "static/{version}/jquery/equalHeights-1.0/jquery.equalheightswidthstest.js", 
+            
             // Kodemore
             "static/{version}/app/common/script/kmExtensions.js",
             "static/{version}/app/common/script/kmUtility.js",
