@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').fadeIn();
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id='main' style='display:none' class='padSpaced'>
+
+    <div class='boxGreen'>
+        Sort the items in the list by dragging them.
+    </div>
+    
+    
+    
+    
+</div>
+</body>
+</html>

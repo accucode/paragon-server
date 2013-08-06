@@ -68,6 +68,7 @@ public class MyTestPage
         links.addLink(MyDownloadTestPage.instance);
         links.addLink(MyShowDialogTestPage.instance);
         links.addLink(MyBarcodeTestPage.instance);
+        links.addLink(MyGradientTestPage.instance);
 
         group = groups.addGroup("Tools");
         links = group.addLinkBox();

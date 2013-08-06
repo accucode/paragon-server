@@ -504,6 +504,36 @@ public class KmStyleBuilder
     }
 
     //##################################################
+    //# gradient (html5)
+    //##################################################
+
+    public KmStyleBuilder gradientDown(String... colors)
+    {
+        return gradient("bottom", colors);
+    }
+
+    public KmStyleBuilder gradientRight(String... colors)
+    {
+        return gradient("right", colors);
+    }
+
+    /**
+     * Add an html5 style gradient.
+     * background: linear-gradient(to right, white, yellow, blue, red, green, black);
+     */
+    public KmStyleBuilder gradient(String to, String... colorArr)
+    {
+        if ( colorArr.length == 0 )
+            return this;
+
+        String colors = Kmu.formatList(colorArr);
+        String value = Kmu.format("linear-gradient(to %s, %s)", to, colors);
+        addValue("background", value);
+
+        return this;
+    }
+
+    //##################################################
     //# support
     //##################################################
 

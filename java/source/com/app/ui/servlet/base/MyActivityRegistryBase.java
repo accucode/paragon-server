@@ -47,6 +47,7 @@ public abstract class MyActivityRegistryBase
         add(MyFormTestPage.instance);
         add(MyGmailTestPage.instance);
         add(MyGoogleChartTestPage.instance);
+        add(MyGradientTestPage.instance);
         add(MyGridTestPage.instance);
         add(MyGroupIconHeaderTestPage.instance);
         add(MyGroupTestPage.instance);
