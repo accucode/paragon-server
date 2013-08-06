@@ -18,7 +18,7 @@ public class MyAccountUserDao
         return c.findFirst();
     }
 
-    public KmList<MyAccountUser> findAccountsUsersFor(MyUser u)
+    public KmList<MyAccountUser> findAccountUsersFor(MyUser u)
     {
         MyAccountUserCriteria c;
         c = createCriteria();
