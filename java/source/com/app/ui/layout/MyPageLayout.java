@@ -427,6 +427,10 @@ public class MyPageLayout
     //# support 
     //##################################################
 
+    /**
+     * review_wyatt (valerie)
+     * please check convenience methods
+     */
     protected MyServletData getData()
     {
         return MyGlobals.getData();
