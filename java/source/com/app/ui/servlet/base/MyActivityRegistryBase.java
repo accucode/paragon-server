@@ -42,6 +42,7 @@ public abstract class MyActivityRegistryBase
         add(MyEmailEditPage.instance);
         add(MyEmailListPage.instance);
         add(MyEmailViewPage.instance);
+        add(MyEqualizeTestPage.instance);
         add(MyFieldTestPage.instance);
         add(MyFilterTableRowTestPage.instance);
         add(MyFormTestPage.instance);

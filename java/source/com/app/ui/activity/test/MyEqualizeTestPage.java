@@ -2,19 +2,19 @@ package com.app.ui.activity.test;
 
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScGroupArrayEqualized;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyTestPage
+public class MyEqualizeTestPage
     extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyTestPage instance = new MyTestPage();
+    public static final MyEqualizeTestPage instance = new MyEqualizeTestPage();
 
-    private MyTestPage()
+    private MyEqualizeTestPage()
     {
         // singleton
     }
@@ -30,9 +30,18 @@ public class MyTestPage
         root = newPageRoot();
         root.css().padSpaced10();
 
-        ScGroupArray groups;
-        groups = root.addGroupArray();
-        groups.style().floatLeft().width(200).height(300);
+        ScGroup info;
+        info = root.addGroup("Equalize Test");
+        info.addPad().addText(
+            "This is to test some javascript that will equalize the "
+                + "height and width of elements within a group array.  All of the groups "
+                + "below should be the same size.");
+
+        ScGroupArrayEqualized groups;
+        groups = new ScGroupArrayEqualized();
+        groups.style().floatLeft();
+
+        root.add(groups);
 
         ScGroup group;
         ScBox links;
@@ -45,7 +54,6 @@ public class MyTestPage
         links.addLink(MyGroupTestPage.instance);
         links.addLink(MyGroupIconHeaderTestPage.instance);
         links.addLink(MyNotebookTestPage.instance);
-        links.addLink(MyEqualizeTestPage.instance);
 
         group = groups.addGroup("Fields");
         links = group.addLinkBox();
@@ -69,7 +77,6 @@ public class MyTestPage
         links.addLink(MyDownloadTestPage.instance);
         links.addLink(MyShowDialogTestPage.instance);
         links.addLink(MyBarcodeTestPage.instance);
-        links.addLink(MyGradientTestPage.instance);
 
         group = groups.addGroup("Tools");
         links = group.addLinkBox();

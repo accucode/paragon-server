@@ -44,7 +44,6 @@ import com.kodemore.utility.Kmu;
 import com.app.ui.servlet.ScServletCallback;
 import com.app.ui.servlet.ScServletCallbackRegistry;
 
-
 public class ScDropzone
     extends ScControl
     implements ScHtmlIdIF
@@ -99,15 +98,10 @@ public class ScDropzone
         KmStringBuilder out;
         out = new KmStringBuilder();
 
-       
         out.printfln(
             "Dropzone.options.%s = { init: function() { this.on('removedfile', function(file) { %s }); } };",
             getKey(),
             formatOnRemoveAction());
-
-       
-        
-        
 
         out.printfln("%s.dropzone(%s);", formatJqueryReference(), formatOptions());
 
