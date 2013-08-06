@@ -333,6 +333,7 @@ public class MyManageAccountsPage
         grid.setFilterFactory(newFetcher());
         grid.addLinkColumn(x.UserName, newViewUserAction(), x.Uid);
         grid.addColumn(userEmail);
+        grid.addColumn(x.RoleName).setCharacterWidth(8);
 
         _userGrid = grid;
     }
@@ -376,7 +377,7 @@ public class MyManageAccountsPage
         f.sortAscending();
 
         /**ask_valerie 
-         * why this is broken
+         * why this isn't working
          */
         //        String accountName = _accountDropdown.getStringValue();
         //        MyAccount a = getAccess().getAccountDao().findWithName(accountName);
@@ -457,7 +458,7 @@ public class MyManageAccountsPage
         form.onEscape().run(cancelAction);
 
         ScGroup group;
-        group = form.addGroup("Edit");
+        group = form.addGroup("Edit User Role");
 
         ScBox body;
         body = group.addBox();
@@ -916,19 +917,13 @@ public class MyManageAccountsPage
         accountUser.saveDao();
 
         _accountDropdown.ajaxUpdateValues();
+        _userGrid.ajaxReload();
     }
 
     private void handleEditAccountCancel()
     {
-        MyAccount a;
-        a = getPageSession().getAccount();
-
-        _viewAccountName.setValue(a.getName());
-        _viewAccountType.setValue(a.getType().getName());
-
-        _viewAccountChild.ajaxPrint();
-        _viewAccountChild.ajax().focus();
-
+        // fixme_valerie: come back to this
+        _accountFrame.ajaxClear();
         _userGrid.ajaxReload();
     }
 
@@ -987,15 +982,15 @@ public class MyManageAccountsPage
 
     private void handleViewUser()
     {
-        String uid;
-        uid = getStringArgument();
-
-        MyUser user;
-        user = getAccess().findUserUid(uid);
+        String accountUserUid;
+        accountUserUid = getStringArgument();
 
         MyAccountUser accountUser;
-        accountUser = getAccess().findAccountUserUid(getStringArgument());
+        accountUser = getAccess().getAccountUserDao().findWithUid(accountUserUid);
         getPageSession().setAccountUser(accountUser);
+
+        MyUser user;
+        user = accountUser.getUser();
 
         getPageSession().setUser(user);
 
@@ -1022,6 +1017,21 @@ public class MyManageAccountsPage
     private void handleEditUserCancel()
     {
         _userFrame.ajaxClear();
+
+        MyAccountUser accountUser;
+        accountUser = getPageSession().getAccountUser();
+
+        MyUser user;
+        user = accountUser.getUser();
+
+        getPageSession().setUser(user);
+
+        _viewUserName.setValue(user.getName());
+        _viewUserEmail.setValue(user.getEmail());
+        _viewUserRole.setValue(accountUser.getRoleName());
+
+        _viewUserChild.applyFromModel(user);
+        _viewUserChild.ajaxPrint();
     }
 
     private void handleShowEditUserBox()
@@ -1048,30 +1058,24 @@ public class MyManageAccountsPage
     {
         _editUserChild.validate();
 
-        MyUser user;
-        user = getPageSession().getUser();
-
-        MyAccount account;
-        account = getPageSession().getAccount();
-
-        if ( account == null )
-            account = new MyAccount();
-
-        account.setName(_editAccountName.getValue());
-
         MyAccountUser accountUser;
         accountUser = getPageSession().getAccountUser();
-        accountUser.setAccount(account);
-        accountUser.setUser(user);
-
-        if ( _editRoleDropdown.hasValue() )
-            accountUser.setRoleCode(_editRoleDropdown.getStringValue());
-
-        user.saveDao();
-        account.saveDao();
+        accountUser.setRoleCode(_editRoleDropdown.getStringValue());
         accountUser.saveDao();
 
         _userGrid.ajaxReload();
+
+        MyUser user;
+        user = accountUser.getUser();
+
+        getPageSession().setUser(user);
+
+        _viewUserName.setValue(user.getName());
+        _viewUserEmail.setValue(user.getEmail());
+        _viewUserRole.setValue(accountUser.getRoleName());
+
+        _viewUserChild.applyFromModel(user);
+        _viewUserChild.ajaxPrint();
     }
 
 }

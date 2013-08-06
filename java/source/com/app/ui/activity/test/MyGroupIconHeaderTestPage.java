@@ -56,6 +56,7 @@ public class MyGroupIconHeaderTestPage
 
         _dropdown = new ScDropdown();
         _dropdown.setOptions(list);
+        _dropdown.setAction(newChangeIconAction());
 
         ScGroup group;
         group = form.addGroup();

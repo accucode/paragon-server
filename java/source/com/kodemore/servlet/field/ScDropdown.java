@@ -35,7 +35,10 @@ import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.json.KmJsonList;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScElementIF;
+import com.kodemore.servlet.control.ScForm;
+import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.variable.ScLocalAdaptor;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalCss;
@@ -76,6 +79,8 @@ public class ScDropdown
 
     private ScLocalCss         _css;
     private ScLocalStyle       _style;
+
+    private ScActionIF         _action;
 
     //##################################################
     //# init
@@ -302,6 +307,7 @@ public class ScDropdown
         out.printAttribute("size", 1);
         out.printAttribute(formatCss());
         out.printAttribute(formatStyle());
+        out.printAttribute("onchange", formatOnChange());
 
         if ( isDisabled() )
             out.printAttribute("disabled");
@@ -338,6 +344,25 @@ public class ScDropdown
             out.print(e.getText());
             out.end("option");
         }
+    }
+
+    //##################################################
+    //# action
+    //##################################################
+
+    public ScActionIF getAction()
+    {
+        return _action;
+    }
+
+    public void setAction(ScActionIF e)
+    {
+        _action = e;
+    }
+
+    public boolean hasAction()
+    {
+        return _action != null;
     }
 
     //##################################################
@@ -614,6 +639,34 @@ public class ScDropdown
     }
 
     //##################################################
+    //# on change
+    //##################################################
+
+    /**
+     * review_wyatt (valerie)
+     * please review our dropdown on change method
+     */
+    protected String formatOnChange()
+    {
+        if ( !hasAction() )
+            return null;
+
+        ScForm form;
+        form = findFormWrapper();
+
+        ScHtmlIdIF block = findBlockWrapper();
+
+        ScActionScript s;
+        s = new ScActionScript();
+        s.setAction(getAction());
+        s.setForm(form);
+        s.setModel(getModel());
+        s.setBlockTarget(block);
+
+        return s.formatScript();
+    }
+
+    //##################################################
     //# ajax
     //##################################################
 
@@ -650,4 +703,5 @@ public class ScDropdown
     {
         ajax().run("Kmu.clearSelectOptions(%s);", json(formatJquerySelector()));
     }
+
 }

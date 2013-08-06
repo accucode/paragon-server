@@ -1,15 +1,13 @@
 package com.app.ui.activity.admin;
 
+import com.app.ui.activity.test.MyManageAccountsPage;
+import com.app.ui.activity.test.MyTabbedAccountsPage;
+import com.app.ui.activity.test.MyWelcomePage;
+
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
-
-import com.app.ui.activity.test.MyAccountTestPage;
-import com.app.ui.activity.test.MyAccountUserTestPage;
-import com.app.ui.activity.test.MyManageAccountsPage;
-import com.app.ui.activity.test.MyTabManagerTestPage;
-import com.app.ui.activity.test.MyWelcomePage;
 
 public class MyAdminPage
     extends MyAbstractAdminPage
@@ -49,11 +47,8 @@ public class MyAdminPage
         links.addLink(MyEmailListPage.instance);
         links.addLink(MyWelcomePage.instance);
         links.addLink(MyManageAccountsPage.instance);
-        links.addLink(MyTabManagerTestPage.instance);
-        links.addLink(MyAccountTestPage.instance);
-        links.addLink(MyAccountUserTestPage.instance);
+        links.addLink(MyTabbedAccountsPage.instance);
 
         return root;
     }
-
 }
