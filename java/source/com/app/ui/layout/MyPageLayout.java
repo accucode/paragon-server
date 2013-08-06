@@ -217,7 +217,7 @@ public class MyPageLayout
     public void ajaxRefreshHeader()
     {
         printHeaderLogo();
-        printHeadderDropdown();
+        printHeaderDropdown();
         printHeaderMenu();
     }
 
@@ -284,7 +284,7 @@ public class MyPageLayout
     //# header: dropdown
     //##################################################//
 
-    private void printHeadderDropdown()
+    private void printHeaderDropdown()
     {
         MyServerSession ss = MyGlobals.getServerSession();
         MyUser u = ss.getUser();
