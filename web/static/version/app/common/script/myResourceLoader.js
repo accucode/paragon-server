@@ -60,7 +60,7 @@ var MyResourceLoader =
             "static/{version}/jquery/chosen-1.0.0/chosen.min.css",
             "static/{version}/jquery/chosen-1.0.0/chosen.jquery.min.js",
             
-            // Dropzone js and css
+            // Dropzone
             "static/{version}/dropzone-3.6.1/dropzone.js",
             "static/{version}/dropzone-3.6.1/dropzone.css",
             
@@ -70,8 +70,8 @@ var MyResourceLoader =
             // Code39 Azalea
             "static/{version}/azaleaCode39/Code39Azalea.min.css", 
             
-            // Equal Heights
-            "static/{version}/jquery/equalHeights-1.0/jquery.equalheightswidthstest.js", 
+            // Equalize
+            "static/{version}/jquery/equalize-1.0.1/js/equalize.js",
             
             // Kodemore
             "static/{version}/app/common/script/kmExtensions.js",

@@ -31,7 +31,6 @@ import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
-import com.kodemore.servlet.script.ScScript;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.servlet.variable.ScLocalStyle;
@@ -39,8 +38,6 @@ import com.kodemore.string.KmStringBuilder;
 
 /**
  * todo_aaron: finish this stuff
- * also see jquery/equalHeights-1.0/jquery.equalheightswidthstest.js
- * and reference in MyResourceLoader.js
  * 
  * I am a container that holds groups and automatically equalizes their sizes.
  */
@@ -192,17 +189,9 @@ public class ScGroupArrayEqualized
         out.endDiv();
 
         // todo_aaron:  
-        ScScript ajax;
-        ajax = out.getPostRender();
-        ajax.run(formatScript());
-    }
-
-    private String formatScript()
-    {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.printf("%s.children().equalHeightsWidths();", formatJqueryReference());
-        return out.toString();
+        //        ScScript ajax;
+        //        ajax = out.getPostRender();
+        //        ajax.run(formatScript());
     }
 
     //##################################################
@@ -249,4 +238,40 @@ public class ScGroupArrayEqualized
         return i;
     }
 
+    //##################################################
+    //# ajax
+    //##################################################
+
+    // todo_aaron: test 
+    public void ajaxEqualize()
+    {
+        ajax().run(equalizeScript());
+    }
+
+    public void ajaxEqualizeReset()
+    {
+        ajax().run(equalizeResetScript());
+    }
+
+    //##################################################
+    //# equalize
+    //##################################################
+
+    private String equalizeResetScript()
+    {
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.printf("%s.equalize({reset: true});", formatJqueryReference());
+        out.printf("%s.equalize({equalize: 'width', reset: true});", formatJqueryReference());
+        return out.toString();
+    }
+
+    private String equalizeScript()
+    {
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.printf("%s.equalize();", formatJqueryReference());
+        out.printf("%s.equalize({equalize: 'width',});", formatJqueryReference());
+        return out.toString();
+    }
 }
