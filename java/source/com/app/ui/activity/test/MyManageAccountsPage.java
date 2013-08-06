@@ -5,7 +5,6 @@ import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
-import com.app.model.meta.MyMetaUser;
 import com.app.utility.MyButtonUrls;
 
 import com.kodemore.adaptor.KmAdaptorIF;
@@ -28,7 +27,9 @@ import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
+import com.kodemore.utility.KmEmailParser;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -78,10 +79,13 @@ public class MyManageAccountsPage
     private ScFrame               _userFrame;
 
     private ScDialog              _deleteAccountDialog;
+    private ScDialog              _deleteUserDialog;
 
     private ScGrid<MyAccountUser> _userGrid;
 
     private String                _inviteUserLabel;
+    private ScTextField           _addUserEmail;
+    private ScDropdown            _addRoleDropdown;
 
     //##################################################
     //# install
@@ -95,6 +99,7 @@ public class MyManageAccountsPage
         root.css().padSpaced();
 
         installDeleteAccountDialog(root);
+        installDeleteUserDialog(root);
         installAccountsDropdown(root);
 
         ScArray row;
@@ -129,9 +134,27 @@ public class MyManageAccountsPage
         row.addPad().addButton("No", newCloseAction());
     }
 
+    private void installDeleteUserDialog(ScBox root)
+    {
+        _deleteUserDialog = root.addDialog();
+        _deleteUserDialog.getHeaderBox().hide();
+        _deleteUserDialog.getFooterBox().hide();
+
+        ScBox body = _deleteUserDialog.getBodyBox();
+
+        ScGroup group;
+        group = body.addGroup("Are you sure you want to remove this user?");
+
+        ScArray row;
+        row = group.addRow();
+        row.addPad().addButton("Yes", newDeleteUserAction());
+        row.addPad().addButton("No", newCloseAction());
+    }
+
     private void installAccountsDropdown(ScBox root)
     {
         _accountDropdown = new ScDropdown();
+        _accountDropdown.setAction(newUpdateValuesAction());
 
         ScGroup group;
         group = root.addGroup("Manage Accounts");
@@ -142,7 +165,6 @@ public class MyManageAccountsPage
         ScBox body;
         body = form.addPadSpaced();
         body.add(_accountDropdown);
-        body.addButton("Update", newUpdateValuesAction());
         body.addButton("Add Account", newShowAddAccountBoxAction());
     }
 
@@ -187,7 +209,7 @@ public class MyManageAccountsPage
         footer = group.addButtonBox();
         footer.addButton("Edit", newShowEditAccountBoxAction());
         footer.addButton("Transfer", newShowTransferBoxAction());
-        footer.addButton("Delete", newShowDeleteDialogAction());
+        footer.addButton("Delete", newShowDeleteAccountDialogAction());
 
         _viewAccountChild = frame;
     }
@@ -237,7 +259,7 @@ public class MyManageAccountsPage
         form.onEscape().run(cancelAction);
 
         ScGroup group;
-        group = frame.addGroup("Edit");
+        group = form.addGroup("Edit Account");
 
         ScBox body;
         body = group.addBox();
@@ -434,12 +456,15 @@ public class MyManageAccountsPage
         ScDiv footer;
         footer = group.addButtonBoxRight();
 
-        ScActionButton button;
-        button = footer.addButton("Edit", newShowEditUserBoxAction());
-        button.setImage(MyButtonUrls.edit());
+        ScActionButton editButton;
+        editButton = footer.addButton("Edit", newShowEditUserBoxAction());
+        editButton.setImage(MyButtonUrls.edit());
 
-        // fixme_valerie: add this dialog
-        //        footer.addButton("Remove from Account", newShowDeleteAccountUserDialogAction());
+        ScActionButton removeButton;
+        removeButton = footer.addButton(
+            "Remove from Account",
+            newShowDeleteAccountUserDialogAction());
+        removeButton.setImage(MyButtonUrls.cancel());
 
         _viewUserChild = frame;
     }
@@ -465,15 +490,15 @@ public class MyManageAccountsPage
         body.css().pad();
 
         _editUserName = new ScTextField();
-        _editUserName.setLabel("User name is ");
+        _editUserName.setLabel("Name ");
         _editUserName.setReadOnly();
 
         _editUserEmail = new ScTextField();
-        _editUserEmail.setLabel("User's email is ");
+        _editUserEmail.setLabel("Email ");
         _editUserEmail.setReadOnly();
 
         _editRoleDropdown = MyAccountUser.Tools.newRoleDropdown();
-        _editRoleDropdown.setLabel("User role is ");
+        _editRoleDropdown.setLabel("Role ");
 
         ScFieldTable fields;
         fields = body.addFields();
@@ -493,9 +518,6 @@ public class MyManageAccountsPage
 
     private void installAddUserFrame()
     {
-        MyMetaUser x = MyUser.Meta;
-        MyMetaAccountUser y = MyAccountUser.Meta;
-
         ScActionIF sendAction = newAddUserSendEmailAction();
         ScActionIF cancelAction = newAddUserCancelAction();
 
@@ -508,16 +530,22 @@ public class MyManageAccountsPage
         form.onEscape().run(cancelAction);
 
         ScGroup group;
-        group = form.addGroup(_inviteUserLabel);
+        group = form.addGroup(getInviteUserLabel());
 
         ScBox body;
         body = group.addBox();
         body.css().pad();
 
+        _addUserEmail = new ScTextField();
+        _addUserEmail.setLabel("Email ");
+
+        _addRoleDropdown = MyAccountUser.Tools.newRoleDropdown();
+        _addRoleDropdown.setLabel("Role ");
+
         ScFieldTable fields;
         fields = body.addFields();
-        fields.addField(x.Email);
-        fields.addField(y.RoleName);
+        fields.add(_addUserEmail);
+        fields.add(_addRoleDropdown);
 
         group.addDivider();
 
@@ -533,14 +561,14 @@ public class MyManageAccountsPage
     //# action
     //##################################################
 
-    private ScActionIF newShowDeleteDialogAction()
+    private ScActionIF newShowDeleteAccountDialogAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleShowDeleteDialog();
+                handleShowDeleteAccountDialog();
             }
         };
     }
@@ -553,6 +581,18 @@ public class MyManageAccountsPage
             public void handle()
             {
                 handleDeleteAccount();
+            }
+        };
+    }
+
+    private ScActionIF newDeleteUserAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleDeleteUser();
             }
         };
     }
@@ -773,6 +813,18 @@ public class MyManageAccountsPage
         };
     }
 
+    private ScActionIF newShowDeleteAccountUserDialogAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleShowDeleteAccountUserDialog();
+            }
+        };
+    }
+
     //##################################################
     //# start
     //##################################################
@@ -780,39 +832,31 @@ public class MyManageAccountsPage
     @Override
     public void start()
     {
-        KmList<String> accountNames;
-        accountNames = new KmList<String>();
-
-        KmList<MyAccount> accounts;
-        accounts = getAccess().getAccountDao().findAll();
-
-        for ( MyAccount account : accounts )
-            accountNames.add(account.getName());
-
-        _accountDropdown.setOptions(accountNames);
-        _accountDropdown.ajaxUpdateValues();
-
-        String accountName;
-        accountName = _accountDropdown.getStringValue();
-
-        MyAccount account;
-        account = getAccess().getAccountDao().findWithName(accountName);
-        getPageSession().setAccount(account);
-
         super.start();
+        setDropdownOptions();
+
     }
 
     //##################################################
     //# handle
     //##################################################
 
-    private void handleShowDeleteDialog()
+    private void handleShowDeleteAccountDialog()
     {
         MyAccountUser e;
         e = getAccess().findAccountUserUid(getStringArgument());
         getPageSession().setAccountUser(e);
 
         _deleteAccountDialog.ajaxOpen();
+    }
+
+    private void handleShowDeleteAccountUserDialog()
+    {
+        MyAccountUser e;
+        e = getAccess().findAccountUserUid(getStringArgument());
+        getPageSession().setAccountUser(e);
+
+        _deleteUserDialog.ajaxOpen();
     }
 
     private void handleDeleteAccount()
@@ -828,18 +872,39 @@ public class MyManageAccountsPage
         _accountDropdown.ajaxUpdateValues();
     }
 
+    private void handleDeleteUser()
+    {
+        MyUser u;
+        u = getPageSession().getUser();
+
+        MyAccount a;
+        a = getPageSession().getAccount();
+
+        MyAccountUser accountUser;
+        accountUser = getAccess().getAccountUserDao().findAccountUserFor(u, a);
+
+        accountUser.deleteDao();
+
+        _deleteUserDialog.ajaxClose();
+
+        ajax().toast("Deleted user %s from account %s", u.getName(), a.getName());
+
+        _userGrid.ajaxReload();
+    }
+
     private void handleClose()
     {
         _deleteAccountDialog.ajaxClose();
+        _deleteUserDialog.ajaxClose();
     }
 
     private void handleUpdateValues()
     {
-        String accountName;
-        accountName = _accountDropdown.getStringValue();
+        String accountUid;
+        accountUid = _accountDropdown.getStringValue();
 
         MyAccount account;
-        account = getAccess().getAccountDao().findWithName(accountName);
+        account = getAccess().getAccountDao().findUid(accountUid);
         getPageSession().setAccount(account);
 
         _viewAccountName.setValue(account.getName());
@@ -900,31 +965,25 @@ public class MyManageAccountsPage
 
         MyAccount account;
         account = getPageSession().getAccount();
-
-        if ( account == null )
-            account = new MyAccount();
-
         account.setName(_editAccountName.getValue());
-
-        MyAccountUser accountUser;
-        accountUser = getPageSession().getAccountUser();
-        accountUser.setAccount(account);
-
-        if ( _editTypeDropdown.hasValue() )
-            account.setTypeCode(_editTypeDropdown.getStringValue());
-
+        account.setTypeCode(_editTypeDropdown.getStringValue());
         account.saveDao();
-        accountUser.saveDao();
 
-        _accountDropdown.ajaxUpdateValues();
+        setDropdownOptions();
+
         _userGrid.ajaxReload();
     }
 
     private void handleEditAccountCancel()
     {
-        // fixme_valerie: come back to this
-        _accountFrame.ajaxClear();
-        _userGrid.ajaxReload();
+        MyAccount account;
+        account = getPageSession().getAccount();
+
+        _viewAccountName.setValue(account.getName());
+        _viewAccountType.setValue(account.getType().getName());
+
+        _viewAccountChild.applyFromModel(account);
+        _viewAccountChild.ajaxPrint();
     }
 
     private void handleAddAccountSave()
@@ -973,11 +1032,75 @@ public class MyManageAccountsPage
         account = getAccess().getAccountDao().findWithName(accountName);
         getPageSession().setAccount(account);
 
-        _inviteUserLabel = "Invite User to " + accountName;
+        setInviteUserLabel("Invite User to " + accountName);
 
-        // fixme_valerie: placeholder
+        // fixme_valerie: seems weird
+        installAddUserFrame();
+
+        String email = _addUserEmail.getValue();
+
+        boolean isValid = KmEmailParser.validate(email);
+
+        if ( !isValid )
+            _addUserEmail.error("Invalid email");
+
+        //        MyUser user = getAccess().getUserDao().findEmail(email);
+        //        if ( user == null )
+        //            sendInviteNewUserEmail(email, accountName);
+        //        else
+        //            sendResetPasswordInvitation(user);
+        //
+        //        showSentMessage(email);
+        //        setEmailCookie(email);
+
         _addUserChild.ajaxPrint();
         _addUserChild.ajax().focus();
+    }
+
+    //    private void sendInviteNewUserEmail(String email, String accountName)
+    //    {
+    //        MyPropertyRegistry p = getProperties();
+    //
+    //        String app = MyConstantsIF.APPLICATION_NAME;
+    //
+    //        MyInvitation i;
+    //        i = new MyInvitation();
+    //        i.setUser(user);
+    //        i.saveDao();
+    //
+    //        KmHtmlBuilder msg;
+    //        msg = new KmHtmlBuilder();
+    //        msg.printfln("Hello");
+    //        msg.printfln();
+    //        msg.printf("Welcome to %s! ", app);
+    //        msg.printf("You have been invited to join %s. ", accountName);
+    //        msg.printfln();
+    //        msg.printf("To signup with a new account please click this link:");
+    //        msg.printfln();
+    //        msg.printfln();
+    //        msg.printLink("Activate My Account", MyUrls.getInvitationUrl(i));
+    //        msg.printfln();
+    //
+    //        String subject = Kmu.format("%s Invitation", app);
+    //
+    //        MyEmail e;
+    //        e = new MyEmail();
+    //        e.setSubject(subject);
+    //        e.addToRecipient(email);
+    //        e.setFromAddress(p.getSendEmailFromAddress());
+    //        e.addHtmlPart(msg.toString());
+    //        e.markReady();
+    //        e.saveDao();
+    //    }
+
+    private String getInviteUserLabel()
+    {
+        return _inviteUserLabel;
+    }
+
+    private void setInviteUserLabel(String e)
+    {
+        _inviteUserLabel = e;
     }
 
     private void handleViewUser()
@@ -1078,4 +1201,34 @@ public class MyManageAccountsPage
         _viewUserChild.ajaxPrint();
     }
 
+    //##################################################
+    //# convenience
+    //##################################################
+
+    private KmList<ScOption> getDropdownOptions()
+    {
+        KmList<ScOption> accountNames;
+        accountNames = new KmList<ScOption>();
+
+        KmList<MyAccount> accounts;
+        accounts = getAccess().getAccountDao().findAll();
+
+        for ( MyAccount account : accounts )
+        {
+            ScOption option = new ScOption();
+            option.setText(account.getName());
+            option.setValue(account.getUid());
+            accountNames.add(option);
+        }
+
+        return accountNames;
+    }
+
+    private void setDropdownOptions()
+    {
+        for ( ScOption e : getDropdownOptions() )
+            _accountDropdown.ajaxAddOption(e.getText(), e.getValue());
+
+        _accountDropdown.ajaxUpdateValues();
+    }
 }
