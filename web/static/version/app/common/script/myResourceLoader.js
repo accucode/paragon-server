@@ -71,7 +71,7 @@ var MyResourceLoader =
             "static/{version}/azaleaCode39/Code39Azalea.min.css", 
             
             // Equalize
-            "static/{version}/jquery/equalize-1.0.1/js/equalize.js",
+            "static/{version}/jquery/equalize-1.0.1/js/equalize.min.js",
             
             // Kodemore
             "static/{version}/app/common/script/kmExtensions.js",
