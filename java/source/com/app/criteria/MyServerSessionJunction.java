@@ -112,6 +112,21 @@ public class MyServerSessionJunction
         return new KmStringCriteria(context(), fullName(AUTO_SIGN_IN_UID));
     }
 
+    public MyAccountCriteria joinToAccount()
+    {
+        return join(new MyAccountCriteria(root().joinTo(ACCOUNT)));
+    }
+
+    public MyAccountCriteria leftJoinToAccount()
+    {
+        return join(new MyAccountCriteria(root().leftJoinTo(ACCOUNT)));
+    }
+
+    public KmStringCriteria whereAccountUid()
+    {
+        return new KmStringCriteria(context(), fullName(ACCOUNT_UID));
+    }
+
     //##################################################
     //# junction
     //##################################################
