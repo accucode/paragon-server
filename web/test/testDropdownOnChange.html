@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $("#main").show();
+        }
+        
+        function myLocal()
+        {
+            $().toastmessage('showToast', 
+            {
+                type:               'success',
+                text:               'Success Dialog which is sticky',
+                sticky:             false,
+                inEffectDuration:   250,
+                stayTime:           5000,
+                position:           'top-right'
+            });
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload='myLoad();'>
+<div id="main" style="display:none" class="padSpaced">
+
+    <div class="boxGray padSpaced5">
+   <select size = '1' onchange= "Kmu.toast('toast');">
+           <option value="one">One</option>
+           <option value="two">Two</option>
+           <option value="three">Three</option>
+           <option value="four">Four</option>
+   </select>    
+    </div>
+    
+</div>
+</body>
+</html>
