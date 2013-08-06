@@ -85,11 +85,4 @@ public class MyBox
     {
         getDaoSession().flush();
     }
-
-    // fixme_wyatt: clumsy
-    protected void toast(String msg, Object... args)
-    {
-        _ajax().toast(msg, args);
-    }
-
 }

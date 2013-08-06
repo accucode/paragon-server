@@ -259,4 +259,14 @@ public class ScHtmlIdAjax
     {
         ajax().unblockControl(getTarget());
     }
+
+    //##################################################
+    //# hack
+    //##################################################
+
+    // fixme_wyatt: toast kludge 
+    public void toast(String msg, Object... args)
+    {
+        ajax().toast(msg, args);
+    }
 }

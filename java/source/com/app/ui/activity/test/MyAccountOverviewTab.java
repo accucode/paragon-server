@@ -89,7 +89,7 @@ public class MyAccountOverviewTab
         super.install();
 
         ScBox root;
-        root = new ScBox();
+        root = this;
         root.css().pad10();
         root.setLabel("AccountUsers");
 
@@ -683,7 +683,7 @@ public class MyAccountOverviewTab
 
         _deleteDialog.ajaxClose();
 
-        toast("Deleted account user %s", e.getUid());
+        ajax().toast("Deleted account user %s", e.getUid());
 
         _accountUserGrid.ajaxReload();
     }
@@ -724,7 +724,7 @@ public class MyAccountOverviewTab
             e.saveDao();
         }
 
-        toast("Added Samples");
+        ajax().toast("Added Samples");
 
         _accountUserGrid.ajaxReload();
     }
@@ -804,19 +804,19 @@ public class MyAccountOverviewTab
 
         if ( !_addUserNameField.hasValue() )
         {
-            toast("Please enter a user name");
+            ajax().toast("Please enter a user name");
             return;
         }
 
         if ( !_addUserEmailField.hasValue() )
         {
-            toast("Please enter the user's email");
+            ajax().toast("Please enter the user's email");
             return;
         }
 
         if ( !_addAccountNameField.hasValue() )
         {
-            toast("Please enter an account name");
+            ajax().toast("Please enter an account name");
             return;
         }
 
@@ -859,19 +859,19 @@ public class MyAccountOverviewTab
 
         if ( !_editUserNameField.hasValue() )
         {
-            toast("Please enter a user name");
+            ajax().toast("Please enter a user name");
             return;
         }
 
         if ( !_editUserEmailField.hasValue() )
         {
-            toast("Please enter the user's email");
+            ajax().toast("Please enter the user's email");
             return;
         }
 
         if ( !_editAccountNameField.hasValue() )
         {
-            toast("Please enter an account name");
+            ajax().toast("Please enter an account name");
             return;
         }
 
