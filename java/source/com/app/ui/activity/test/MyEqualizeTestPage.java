@@ -4,7 +4,7 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArrayEqualized;
+import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.string.KmStringBuilder;
 
@@ -26,12 +26,14 @@ public class MyEqualizeTestPage
     //# variables
     //##################################################
 
-    private ScGroupArrayEqualized _groups;
+    private ScGroupArray _groups;
 
-    private ScGroup               _group1;
-    private ScGroup               _group2;
-    private ScGroup               _group3;
-    private ScGroup               _group4;
+    private ScGroup      _group1;
+    private ScGroup      _group2;
+    private ScGroup      _group3;
+    private ScGroup      _group4;
+
+    private ScBox        _buttons;
 
     //##################################################
     //# install
@@ -59,11 +61,13 @@ public class MyEqualizeTestPage
         buttons = info.addButtonBox();
         buttons.addButton("Equalize", newEqualizeAction());
         buttons.addButton("Equalize - Reset", newEqualizeResetAction());
+        buttons.addButton("Equalize Button Width", newEqualizeButtonsAction());
+        buttons.addButton("Equalize Button Width- Reset", newEqualizeButtonsResetAction());
 
-        _groups = new ScGroupArrayEqualized();
+        _buttons = buttons;
+
+        _groups = root.addGroupArray();
         _groups.style().floatLeft();
-
-        root.add(_groups);
 
         ScBox links;
 
@@ -203,8 +207,32 @@ public class MyEqualizeTestPage
         };
     }
 
+    private ScActionIF newEqualizeButtonsAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            protected void handle()
+            {
+                handleEqualizeButtons();
+            }
+        };
+    }
+
+    private ScActionIF newEqualizeButtonsResetAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            protected void handle()
+            {
+                handleEqualizeButtonsReset();
+            }
+        };
+    }
+
     //##################################################
-    //# hanlde
+    //# handle
     //##################################################
 
     private void handleToggleGroup1()
@@ -229,11 +257,21 @@ public class MyEqualizeTestPage
 
     private void handleEqualize()
     {
-        _groups.ajaxEqualize();
+        _groups.ajax().equalizeChildren(false);
     }
 
     private void handleEqualizeReset()
     {
-        _groups.ajaxEqualizeReset();
+        _groups.ajax().equalizeChildren();
+    }
+
+    private void handleEqualizeButtons()
+    {
+        _buttons.ajax().equalizeChildrenWidth(false);
+    }
+
+    private void handleEqualizeButtonsReset()
+    {
+        _buttons.ajax().equalizeChildrenWidth(true);
     }
 }

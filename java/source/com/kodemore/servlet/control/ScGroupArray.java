@@ -29,6 +29,9 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.servlet.variable.ScLocalStyle;
 
@@ -38,6 +41,7 @@ import com.kodemore.servlet.variable.ScLocalStyle;
  */
 public class ScGroupArray
     extends ScControl
+    implements ScHtmlIdIF
 {
     //##################################################
     //# constants
@@ -63,6 +67,35 @@ public class ScGroupArray
      * The style to apply to child groups.
      */
     private ScLocalStyle        _style;
+
+    // review_aaron: needed html id in order to call equalize children
+    //##################################################
+    //# html id
+    //##################################################
+
+    @Override
+    public String getHtmlId()
+    {
+        return getKey();
+    }
+
+    @Override
+    public String formatJquerySelector()
+    {
+        return ScJquery.formatSelector(this);
+    }
+
+    @Override
+    public String formatJqueryReference()
+    {
+        return ScJquery.formatReference(this);
+    }
+
+    @Override
+    public ScHtmlIdAjax ajax()
+    {
+        return new ScHtmlIdAjax(this);
+    }
 
     //##################################################
     //# init
@@ -172,8 +205,16 @@ public class ScGroupArray
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
+        // review_aaron: needed containing div in order to call equalize children
+        out.openDiv();
+        out.printAttribute("id", getKey());
+        out.printAttribute("class", "marginBottomChildren marginRightChildren clearfix");
+        out.close();
+
         for ( ScGroup e : _groups )
             out.render(e);
+
+        out.endDiv();
     }
 
     //##################################################
@@ -191,5 +232,4 @@ public class ScGroupArray
 
         return i;
     }
-
 }

@@ -24,9 +24,11 @@ package com.kodemore.servlet.script;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
+import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.string.KmStringBuilder;
 
 /**
  * A block script that knows about a specific element.
@@ -268,5 +270,59 @@ public class ScHtmlIdAjax
     public void toast(String msg, Object... args)
     {
         ajax().toast(msg, args);
+    }
+
+    //##################################################
+    //# equalize children
+    //##################################################
+
+    // review_aaron: Equalize scripts
+    public void equalizeChildren()
+    {
+        equalizeChildren(true);
+    }
+
+    public void equalizeChildren(boolean reset)
+    {
+        equalizeChildrenHeight(reset);
+        equalizeChildrenWidth(reset);
+    }
+
+    public void equalizeChildrenHeight(boolean reset)
+    {
+        run(equalizeHeightScript(reset));
+    }
+
+    public void equalizeChildrenWidth(boolean reset)
+    {
+        run(equalizeWidthScript(reset));
+    }
+
+    private String equalizeHeightScript(boolean reset)
+    {
+        KmJsonObject options;
+        options = new KmJsonObject();
+        options.setBoolean("reset", reset);
+
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.printf("%s.equalize(%s);", formatJqueryReference(), options.toString());
+        return out.toString();
+    }
+
+    private String equalizeWidthScript(boolean reset)
+    {
+        KmJsonObject options;
+        options = new KmJsonObject();
+        options.setString("equalize", "width");
+        options.setBoolean("reset", reset);
+
+        /**
+         * review_aaron (wyatt) discuss
+         */
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.printf("%s.equalize(%s);", formatJqueryReference(), options.toString());
+        return out.toString();
     }
 }
