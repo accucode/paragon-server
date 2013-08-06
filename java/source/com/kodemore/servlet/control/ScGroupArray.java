@@ -68,7 +68,10 @@ public class ScGroupArray
      */
     private ScLocalStyle        _style;
 
-    // review_aaron: needed html id in order to call equalize children
+    /**
+     *  review_wyatt: (aaron) I had to imlement ScHtmlIdIF on the group array so that it
+     *  could equalize it's children.
+     */
     //##################################################
     //# html id
     //##################################################
@@ -205,7 +208,10 @@ public class ScGroupArray
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        // review_aaron: needed containing div in order to call equalize children
+        /**
+         *  review_wyatt: (aaron) In order for the Group array to be able to equalize it's
+         *  children I had to add a div to serve as the parent.
+         */
         out.openDiv();
         out.printAttribute("id", getKey());
         out.printAttribute("class", "marginBottomChildren marginRightChildren clearfix");

@@ -276,7 +276,6 @@ public class ScHtmlIdAjax
     //# equalize children
     //##################################################
 
-    // review_aaron: Equalize scripts
     public void equalizeChildren()
     {
         equalizeChildren(true);
@@ -298,13 +297,32 @@ public class ScHtmlIdAjax
         run(equalizeWidthScript(reset));
     }
 
+    /**
+     *  review_wyatt: (aaron) It seems that the Equalize tool does not actually support modes
+     *  for inner and outer height and width, even though it claims to.  The readme files says
+     *  you can pass a string in instead of the options object like so: 
+     *  $('.parent').equalize('outerHeight');
+     *  $('.parent').equalize('innerHeight');
+     *  
+     *  however, when implemented like that (as seen commented out below) the tool no 
+     *  longer functions properly, and whenever equalize is called, the elements are reduced to 
+     *  a single pixel.
+     *  
+     *  Alternatively I tried setting the value of the "equalize" parameter to outerHeight or
+     *  innerHeight, but this had the same effect as above, reducing the items to a signle
+     *  pixel.
+     */
     private String equalizeHeightScript(boolean reset)
     {
         KmJsonObject options;
         options = new KmJsonObject();
+        // review_aaron: this doesn't work
+        //        options.setString("equalize", "outerHeight");
         options.setString("equalize", "height");
         options.setBoolean("reset", reset);
 
+        // review_aaron: this doesn't work
+        //                return Kmu.format("%s.equalize(%s);", formatJqueryReference(), "'outerHeight'");
         return Kmu.format("%s.equalize(%s);", formatJqueryReference(), options);
     }
 
@@ -312,9 +330,13 @@ public class ScHtmlIdAjax
     {
         KmJsonObject options;
         options = new KmJsonObject();
+        // review_aaron: this doesn't work
+        //        options.setString("equalize", "outerWidth");
         options.setString("equalize", "width");
         options.setBoolean("reset", reset);
 
+        // review_aaron: this doesn't work
+        //        return Kmu.format("%s.equalize(%s);", formatJqueryReference(), "'outerWidth'");
         return Kmu.format("%s.equalize(%s);", formatJqueryReference(), options);
     }
 }
