@@ -3,16 +3,16 @@ package com.app.ui.activity.test;
 import com.kodemore.servlet.control.ScNotebook;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyTabManagerTestPage
+public class MyTabbedAccountsPage
     extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyTabManagerTestPage instance = new MyTabManagerTestPage();
+    public static final MyTabbedAccountsPage instance = new MyTabbedAccountsPage();
 
-    private MyTabManagerTestPage()
+    private MyTabbedAccountsPage()
     {
         // singleton
     }
