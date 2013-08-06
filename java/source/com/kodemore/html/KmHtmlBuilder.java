@@ -27,7 +27,6 @@ import java.util.List;
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScControlIF;
-import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScScript;
 import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.string.KmStringBuilder;
@@ -228,18 +227,6 @@ public class KmHtmlBuilder
             return;
 
         printAttribute("class", out.getValue());
-    }
-
-    /**
-     * review_wyatt (valerie)
-     * added this method for our dropdown onChange
-     */
-    public void printAttribute(String key, ScActionScript out)
-    {
-        if ( out == null )
-            return;
-
-        printAttribute(key, out.formatScript());
     }
 
     //##################################################

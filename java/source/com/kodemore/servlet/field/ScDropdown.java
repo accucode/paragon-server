@@ -646,7 +646,7 @@ public class ScDropdown
      * review_wyatt (valerie)
      * please review our dropdown on change method
      */
-    protected ScActionScript formatOnChange()
+    protected String formatOnChange()
     {
         if ( !hasAction() )
             return null;
@@ -663,7 +663,7 @@ public class ScDropdown
         s.setModel(getModel());
         s.setBlockTarget(block);
 
-        return s;
+        return s.formatScript();
     }
 
     //##################################################
