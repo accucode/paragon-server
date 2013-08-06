@@ -28,7 +28,7 @@ import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.field.ScHtmlIdIF;
-import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.Kmu;
 
 /**
  * A block script that knows about a specific element.
@@ -284,8 +284,8 @@ public class ScHtmlIdAjax
 
     public void equalizeChildren(boolean reset)
     {
-        equalizeChildrenHeight(reset);
         equalizeChildrenWidth(reset);
+        equalizeChildrenHeight(reset);
     }
 
     public void equalizeChildrenHeight(boolean reset)
@@ -302,12 +302,10 @@ public class ScHtmlIdAjax
     {
         KmJsonObject options;
         options = new KmJsonObject();
+        options.setString("equalize", "height");
         options.setBoolean("reset", reset);
 
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.printf("%s.equalize(%s);", formatJqueryReference(), options.toString());
-        return out.toString();
+        return Kmu.format("%s.equalize(%s);", formatJqueryReference(), options);
     }
 
     private String equalizeWidthScript(boolean reset)
@@ -317,12 +315,6 @@ public class ScHtmlIdAjax
         options.setString("equalize", "width");
         options.setBoolean("reset", reset);
 
-        /**
-         * review_aaron (wyatt) discuss
-         */
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.printf("%s.equalize(%s);", formatJqueryReference(), options.toString());
-        return out.toString();
+        return Kmu.format("%s.equalize(%s);", formatJqueryReference(), options);
     }
 }
