@@ -191,7 +191,7 @@
 
 #pageLayoutTop
 {
-    background: white url(../image/blackFadeDown100.png) repeat-x 0 -50px
+    background-image: linear-gradient(to bottom, #888, #fff);    
 }
 
 #pageLayoutLeft

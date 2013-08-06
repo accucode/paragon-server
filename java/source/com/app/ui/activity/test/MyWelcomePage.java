@@ -189,8 +189,6 @@ public class MyWelcomePage
 
         _welcomeMessage.setText("Welcome " + getCurrentUser().getName());
 
-        System.out.println("---------------" + _dropdown.getStringValue());
-
         if ( _dropdown.getStringValue().equals("house") )
             _welcomeMessage.setImageSource(house);
 
