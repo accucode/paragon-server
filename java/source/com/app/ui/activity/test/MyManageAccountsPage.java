@@ -458,7 +458,7 @@ public class MyManageAccountsPage
         form.onEscape().run(cancelAction);
 
         ScGroup group;
-        group = form.addGroup("Edit");
+        group = form.addGroup("Edit User Role");
 
         ScBox body;
         body = group.addBox();
@@ -917,19 +917,13 @@ public class MyManageAccountsPage
         accountUser.saveDao();
 
         _accountDropdown.ajaxUpdateValues();
+        _userGrid.ajaxReload();
     }
 
     private void handleEditAccountCancel()
     {
-        MyAccount a;
-        a = getPageSession().getAccount();
-
-        _viewAccountName.setValue(a.getName());
-        _viewAccountType.setValue(a.getType().getName());
-
-        _viewAccountChild.ajaxPrint();
-        _viewAccountChild.ajax().focus();
-
+        // fixme_valerie: come back to this
+        _accountFrame.ajaxClear();
         _userGrid.ajaxReload();
     }
 
