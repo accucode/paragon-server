@@ -56,6 +56,7 @@ public abstract class MyInvitationBase
     {
         super();
         setUid(newUid());
+        setTypeCode(MyInvitationType.User.getCode());
         setAccessKey(newUid());
         setCreatedUtcTs(getNowUtc());
     }

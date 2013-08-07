@@ -75,17 +75,6 @@ public class MyHandleInvitationActivity
         ScGroup group;
         group = new ScGroup();
 
-        if ( _type.equals(MyInvitationType.User) )
-        {
-            group.setTitle("Activate User");
-            group.style().width(300).marginTop(100).marginCenter();
-
-            ScContainer body = group.getBody();
-
-            installForm(body);
-            installMessageBox(body);
-        }
-
         if ( _type.equals(MyInvitationType.Transfer) )
         {
             group.setTitle("Transfer Account");
@@ -94,8 +83,18 @@ public class MyHandleInvitationActivity
             ScContainer body = group.getBody();
 
             installTransferForm(body);
-            // fixme_valerie: 
             //            installTransferMessageBox(body);
+        }
+
+        else
+        {
+            group.setTitle("Activate User");
+            group.style().width(300).marginTop(100).marginCenter();
+
+            ScContainer body = group.getBody();
+
+            installForm(body);
+            installMessageBox(body);
         }
 
         _root = group;
@@ -149,7 +148,7 @@ public class MyHandleInvitationActivity
         form = root.addForm();
         form.setDefaultAction(newAcceptAction());
         form.css().pad10();
-        //review_steve (question) what does this hide do?
+
         _form = form;
 
         form.addLabel("Email");
