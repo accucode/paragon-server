@@ -37,6 +37,7 @@ public class MyInvitationValidatorBase
 
     private KmStringValidator uidValidator;
     private KmStringValidator statusCodeValidator;
+    private KmStringValidator typeCodeValidator;
     private KmStringValidator accessKeyValidator;
     private KmTimestampValidator createdUtcTsValidator;
     private KmTimestampValidator closedUtcTsValidator;
@@ -52,6 +53,7 @@ public class MyInvitationValidatorBase
         super();
         uidValidator = newUidValidator();
         statusCodeValidator = newStatusCodeValidator();
+        typeCodeValidator = newTypeCodeValidator();
         accessKeyValidator = newAccessKeyValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
         closedUtcTsValidator = newClosedUtcTsValidator();
@@ -71,6 +73,11 @@ public class MyInvitationValidatorBase
     public KmStringValidator getStatusCodeValidator()
     {
         return statusCodeValidator;
+    }
+
+    public KmStringValidator getTypeCodeValidator()
+    {
+        return typeCodeValidator;
     }
 
     public KmStringValidator getAccessKeyValidator()
@@ -107,6 +114,7 @@ public class MyInvitationValidatorBase
     {
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setStatusCode(statusCodeValidator.convertOnly(value.getStatusCode()));
+        value.setTypeCode(typeCodeValidator.convertOnly(value.getTypeCode()));
         value.setAccessKey(accessKeyValidator.convertOnly(value.getAccessKey()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
         value.setClosedUtcTs(closedUtcTsValidator.convertOnly(value.getClosedUtcTs()));
@@ -118,6 +126,7 @@ public class MyInvitationValidatorBase
     {
         uidValidator.validateOnly(value.getUid(), errors);
         statusCodeValidator.validateOnly(value.getStatusCode(), errors);
+        typeCodeValidator.validateOnly(value.getTypeCode(), errors);
         accessKeyValidator.validateOnly(value.getAccessKey(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
         closedUtcTsValidator.validateOnly(value.getClosedUtcTs(), errors);
@@ -150,6 +159,20 @@ public class MyInvitationValidatorBase
         e.setStripsAllSpaces(true);
         e.setModel("invitation");
         e.setField("statusCode");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newTypeCodeValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(1);
+        e.setAllowsLetters(true);
+        e.setForcesUpperCase(true);
+        e.setStripsAllSpaces(true);
+        e.setModel("invitation");
+        e.setField("typeCode");
         e.setRequired();
         return e;
     }

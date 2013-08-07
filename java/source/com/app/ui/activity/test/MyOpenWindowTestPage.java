@@ -65,7 +65,7 @@ public class MyOpenWindowTestPage
 
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
-        out.printDocType401Strict();
+        out.printDocType();
         out.beginHtml();
         out.printTitle(title);
         out.beginBody();

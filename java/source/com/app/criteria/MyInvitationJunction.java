@@ -53,6 +53,11 @@ public class MyInvitationJunction
         return new KmStringCriteria(context(), fullName(STATUS_CODE));
     }
 
+    public KmStringCriteria whereTypeCode()
+    {
+        return new KmStringCriteria(context(), fullName(TYPE_CODE));
+    }
+
     public KmStringCriteria whereAccessKey()
     {
         return new KmStringCriteria(context(), fullName(ACCESS_KEY));

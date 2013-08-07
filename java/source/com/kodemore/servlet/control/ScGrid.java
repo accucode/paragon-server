@@ -743,14 +743,11 @@ public class ScGrid<T>
         _trackedValues.add(e);
     }
 
-    public void trackAll(KmList<ScEncodedValueIF> v)
-    {
-        for ( ScEncodedValueIF e : v )
-            track(e);
-    }
-
     public void trackAll(ScControl c)
     {
+        if ( c instanceof ScEncodedValueIF )
+            track((ScEncodedValueIF)c);
+
         Iterator<ScControl> i = c.getComponents();
         while ( i.hasNext() )
         {

@@ -62,11 +62,13 @@ public class MyMetaInvitation
 
     public static final MyMetaInvitation_Uid Uid = new MyMetaInvitation_Uid();
     public static final MyMetaInvitation_StatusCode StatusCode = new MyMetaInvitation_StatusCode();
+    public static final MyMetaInvitation_TypeCode TypeCode = new MyMetaInvitation_TypeCode();
     public static final MyMetaInvitation_AccessKey AccessKey = new MyMetaInvitation_AccessKey();
     public static final MyMetaInvitation_CreatedUtcTs CreatedUtcTs = new MyMetaInvitation_CreatedUtcTs();
     public static final MyMetaInvitation_ClosedUtcTs ClosedUtcTs = new MyMetaInvitation_ClosedUtcTs();
     public static final MyMetaInvitation_LockVersion LockVersion = new MyMetaInvitation_LockVersion();
     public static final MyMetaInvitation_StatusName StatusName = new MyMetaInvitation_StatusName();
+    public static final MyMetaInvitation_TypeName TypeName = new MyMetaInvitation_TypeName();
     public static final MyMetaInvitation_CreatedLocalTs CreatedLocalTs = new MyMetaInvitation_CreatedLocalTs();
     public static final MyMetaInvitation_CreatedLocalTsMessage CreatedLocalTsMessage = new MyMetaInvitation_CreatedLocalTsMessage();
     public static final MyMetaInvitation_CreatedLocalDate CreatedLocalDate = new MyMetaInvitation_CreatedLocalDate();
