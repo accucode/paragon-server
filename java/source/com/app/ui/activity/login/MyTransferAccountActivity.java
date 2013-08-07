@@ -16,33 +16,14 @@ import com.kodemore.utility.Kmu;
 
 public class MyTransferAccountActivity
 {
-    //##################################################
-    //# singleton
-    //##################################################
-
-    public static final MyTransferAccountActivity instance = new MyTransferAccountActivity();
-
-    private MyTransferAccountActivity()
-    {
-        // singleton
-    }
-
-    //##################################################
-    //# variables
-    //##################################################
-
-    //##################################################
-    //# install
-    //##################################################
-
-    //##################################################
-    //# install
-    //##################################################
 
     //##################################################
     //# start
     //##################################################
 
+    /**ask_valerie 
+     * about static methods
+     */
     public void start(MyAccount account, String email)
     {
         MyUser user = getAccess().getUserDao().findEmail(email);
@@ -167,19 +148,8 @@ public class MyTransferAccountActivity
         out.printBold(email);
         out.endDiv();
 
-        /**ask_valerie 
-         * about static methods
-         */
         //        MyManageAccountsPage.clearTransferFrame();
     }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    //##################################################
-    //# handle
-    //##################################################
 
     //##################################################
     //# utility
