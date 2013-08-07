@@ -16,11 +16,8 @@ var MyResourceLoader =
             "static/{version}/jquery/core/jquery-migrate-1.2.1.min.js",
 
             // JQuery UI
-            // 		Pick ONE of the jquery ui themes.  You can also download or create others.
-            // 		"static/{version}/jquery/jquery-ui-1.8.16/css/flick/jquery-ui-1.8.16.custom.css",
-            // 		"static/{version}/jquery/jquery-ui-1.8.16/css/le-frog/jquery-ui-1.8.16.custom.css",
-            "static/{version}/jquery/jquery-ui-1.8.16/css/smoothness/jquery-ui-1.8.16.custom.css",
-            "static/{version}/jquery/jquery-ui-1.8.16/js/jquery-ui-1.8.16.all.min.js",
+            "static/{version}/jquery/jquery-ui-1.10.3/themes/base/minified/jquery-ui.min.css",
+            "static/{version}/jquery/jquery-ui-1.10.3/ui/minified/jquery-ui.min.js",
 
             // Simple Modal
             "static/{version}/jquery/simplemodal-1.4.4/simplemodal.css",
