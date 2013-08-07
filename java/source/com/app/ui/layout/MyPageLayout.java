@@ -4,8 +4,13 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.ScMenuItem;
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.action.ScActionContextIF;
+import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
+import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScTopMenu;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
@@ -20,6 +25,7 @@ import com.app.model.MyAccountUser;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
+import com.app.ui.activity.test.MyWelcomePage;
 import com.app.ui.core.MyActions;
 import com.app.ui.core.MyServletData;
 import com.app.ui.servlet.MyServletConstantsIF;
@@ -115,6 +121,7 @@ public class MyPageLayout
     {
         _dropdown = new ScDropdown();
         _dropdown.hide();
+        _dropdown.setAction(newSetAccountAction());
     }
 
     private KmList<ScOption> getDropdownList()
@@ -142,13 +149,49 @@ public class MyPageLayout
             {
                 ScOption option;
                 option = new ScOption();
-                option.setValue(account.getUid());
                 option.setText(account.getName());
+                option.setValue(account.getUid());
 
                 list.add(option);
             }
         }
         return list;
+    }
+
+    /**
+     *  review_wyatt (steve) getting context
+     *  this was our "for now" fix
+     */
+    private ScActionIF newSetAccountAction()
+    {
+        ScActionContextIF context = ScGlobalContext.getInstance();
+        return new ScAction(context)
+        {
+            @Override
+            public void handle()
+            {
+                handleSetAccount();
+            }
+        };
+    }
+
+    private void handleSetAccount()
+    {
+        setServerSessionAccount();
+
+        /**
+         * review_wyatt ajax servlet handle enter
+         */
+        MyWelcomePage.instance.start();
+    }
+
+    private void setServerSessionAccount()
+    {
+        MyAccount account;
+        account = getAccess().getAccountDao().findUid(_dropdown.getStringValue());
+
+        MyServerSession ss = MyGlobals.getServerSession();
+        ss.setAccount(account);
     }
 
     //##################################################
@@ -162,8 +205,10 @@ public class MyPageLayout
 
         _topRightDiv = new ScDiv();
         _topRightDiv.css().pad10();
-        _topRightDiv.add(_dropdown);
-        _topRightDiv.add(_menu);
+
+        ScForm form = _topRightDiv.addForm();
+        form.add(_dropdown);
+        form.add(_menu);
 
     }
 
@@ -296,13 +341,21 @@ public class MyPageLayout
         }
 
         setDropdownOptions(u);
+        _dropdown.ajax().replace();
+        setServerSessionAccount();
         _dropdown.ajax().show();
     }
 
     private void setDropdownOptions(MyUser u)
     {
-        for ( ScOption e : getDropdownList() )
-            _dropdown.ajaxAddOption(e.getText(), e.getValue());
+        KmList<ScOption> list = getDropdownList();
+        if ( list.isEmpty() )
+            return;
+
+        for ( ScOption e : list )
+            _dropdown.addOption(e.getValue(), e.getText());
+
+        _dropdown.setValue(list.getFirst().getValue());
     }
 
     //##################################################
@@ -464,21 +517,6 @@ public class MyPageLayout
     private ScScript ajax()
     {
         return getData().getAjaxResult().getScript();
-    }
-
-    public KmList<MyAccount> findAccountsFor(MyUser u)
-    {
-        //        KmList<MyAccountUser> accountsUsers;
-        //        accountsUsers = get .findAccountsUsersFor(u);
-        //        
-        //        KmList<MyAccount> list;
-        //        list = new KmList<MyAccount>();
-        //        
-        //        
-        //        for ( MyAccountUser e : accountsUsers ) 
-        //            
-        //            
-        return null;
     }
 
     protected MyDaoRegistry getAccess()

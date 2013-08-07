@@ -215,6 +215,7 @@ public class MyAjaxServlet
 
         String value = params.get(key);
 
+        // fixme_valerie: placeholder for emails
         MyHandleInvitationActivity.instance.start(value);
         return true;
     }

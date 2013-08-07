@@ -30,6 +30,18 @@ attributes
             value(#A Accepted)
             value(#R Rejected)
             value(#X Cancelled)
+            
+    field
+    : name      = typeCode
+    : label     = Type
+    : comment   = The type.
+    : type      = letterCode
+    : required  = true
+
+        enum
+            value(#U User)
+            value(#T Transfer)
+            value(#J Join)
 
     field
     : name      = accessKey
@@ -56,6 +68,16 @@ attributes
     : modelName = user
     : relation  = reference
     : required  = true
+
+        delegate
+        : fieldName = name
+        
+    association
+    : name      = account
+    : comment   = The account to which the invitation referred.
+    : modelName = account
+    : relation  = reference
+    : required  = false
 
         delegate
         : fieldName = name

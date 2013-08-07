@@ -142,6 +142,81 @@ public class MyInvitationCriteria
             whereStatusIsNotCancelled();
     }
 
+    public KmStringCriteria whereTypeCode()
+    {
+        return new KmStringCriteria(context(), fullName(TYPE_CODE));
+    }
+
+    public void whereTypeIs(MyInvitationType e)
+    {
+        if ( e == null )
+            whereTypeCode().isNull();
+        else
+            whereTypeCode().is(e.getCode());
+    }
+
+    public void whereTypeIsNot(MyInvitationType e)
+    {
+        if ( e == null )
+            whereTypeCode().isNull();
+        else
+            whereTypeCode().isNot(e.getCode());
+    }
+
+    public void whereTypeIsUser()
+    {
+        whereTypeIs(MyInvitationType.User);
+    }
+
+    public void whereTypeIsNotUser()
+    {
+        whereTypeIsNot(MyInvitationType.User);
+    }
+
+    public void whereTypeIsUser(boolean e)
+    {
+        if ( e )
+            whereTypeIsUser();
+        else
+            whereTypeIsNotUser();
+    }
+
+    public void whereTypeIsTransfer()
+    {
+        whereTypeIs(MyInvitationType.Transfer);
+    }
+
+    public void whereTypeIsNotTransfer()
+    {
+        whereTypeIsNot(MyInvitationType.Transfer);
+    }
+
+    public void whereTypeIsTransfer(boolean e)
+    {
+        if ( e )
+            whereTypeIsTransfer();
+        else
+            whereTypeIsNotTransfer();
+    }
+
+    public void whereTypeIsJoin()
+    {
+        whereTypeIs(MyInvitationType.Join);
+    }
+
+    public void whereTypeIsNotJoin()
+    {
+        whereTypeIsNot(MyInvitationType.Join);
+    }
+
+    public void whereTypeIsJoin(boolean e)
+    {
+        if ( e )
+            whereTypeIsJoin();
+        else
+            whereTypeIsNotJoin();
+    }
+
     public KmStringCriteria whereAccessKey()
     {
         return new KmStringCriteria(context(), fullName(ACCESS_KEY));
@@ -200,6 +275,24 @@ public class MyInvitationCriteria
             sortOnStatusCode();
         else
             sortOnStatusCodeDescending();
+    }
+
+    public void sortOnTypeCode()
+    {
+        parent().sortAscending(TYPE_CODE);
+    }
+
+    public void sortOnTypeCodeDescending()
+    {
+        parent().sortDescending(TYPE_CODE);
+    }
+
+    public void sortOnTypeCode(boolean asc)
+    {
+        if ( asc )
+            sortOnTypeCode();
+        else
+            sortOnTypeCodeDescending();
     }
 
     public void sortOnAccessKey()
@@ -360,6 +453,50 @@ public class MyInvitationCriteria
     public void groupByStatusCode()
     {
         groupBy(STATUS_CODE);
+    }
+
+    //##################################################
+    //# projections (typeCode)
+    //##################################################
+
+    public void selectTypeCode()
+    {
+        select(TYPE_CODE);
+    }
+
+    public void selectDistinctTypeCode()
+    {
+        selectDistinct(TYPE_CODE);
+    }
+
+    public void selectCountDistinctTypeCode()
+    {
+        selectCountDistinct(TYPE_CODE);
+    }
+
+    public void selectMinimumTypeCode()
+    {
+        selectMinimum(TYPE_CODE);
+    }
+
+    public void selectMaximumTypeCode()
+    {
+        selectMaximum(TYPE_CODE);
+    }
+
+    public void selectAverageTypeCode()
+    {
+        selectAverage(TYPE_CODE);
+    }
+
+    public void selectSumTypeCode()
+    {
+        selectSum(TYPE_CODE);
+    }
+
+    public void groupByTypeCode()
+    {
+        groupBy(TYPE_CODE);
     }
 
     //##################################################
@@ -583,6 +720,53 @@ public class MyInvitationCriteria
             whereUserUid().isNull();
         else
             whereUserUid().is(e.getUid());
+    }
+
+    //##################################################
+    //# association (Account)
+    //##################################################
+
+    public void selectAccountUid()
+    {
+        select(ACCOUNT_UID);
+    }
+
+    public void selectMinimumAccountUid()
+    {
+        selectMinimum(ACCOUNT_UID);
+    }
+
+    public void selectMaximumAccountUid()
+    {
+        selectMaximum(ACCOUNT_UID);
+    }
+
+    public void groupByAccountUid()
+    {
+        groupBy(ACCOUNT);
+    }
+
+    public MyAccountCriteria joinToAccount()
+    {
+        return new MyAccountCriteria(joinTo(ACCOUNT));
+    }
+
+    public MyAccountCriteria leftJoinToAccount()
+    {
+        return new MyAccountCriteria(leftJoinTo(ACCOUNT));
+    }
+
+    public KmStringCriteria whereAccountUid()
+    {
+        return new KmStringCriteria(parent(), fullName(ACCOUNT_UID));
+    }
+
+    public void whereAccountIs(MyAccount e)
+    {
+        if ( e == null )
+            whereAccountUid().isNull();
+        else
+            whereAccountUid().is(e.getUid());
     }
 
     //##################################################

@@ -1,9 +1,24 @@
 package com.app.ui.activity.test;
 
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyEmail;
+import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.property.MyPropertyRegistry;
+import com.app.ui.activity.login.MyTransferAccount;
+import com.app.utility.MyButtonUrls;
+import com.app.utility.MyConstantsIF;
+import com.app.utility.MyUrls;
+
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
+import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
@@ -22,13 +37,8 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
-
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.utility.MyButtonUrls;
+import com.kodemore.utility.KmEmailParser;
+import com.kodemore.utility.Kmu;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -115,7 +125,7 @@ public class MyManageAccountsPage
         return root;
     }
 
-    private void installDeleteAccountDialog(ScBox root)
+    private void installDeleteAccountDialog(ScPageRoot root)
     {
         _deleteAccountDialog = root.addDialog();
         _deleteAccountDialog.getHeaderBox().hide();
@@ -123,8 +133,11 @@ public class MyManageAccountsPage
 
         ScBox body = _deleteAccountDialog.getBodyBox();
 
+        ScForm form;
+        form = body.addForm();
+
         ScGroup group;
-        group = body.addGroup("Are you sure you want to delete this account?");
+        group = form.addGroup("Are you sure you want to delete this account?");
 
         ScArray row;
         row = group.addRow();
@@ -132,7 +145,7 @@ public class MyManageAccountsPage
         row.addPad().addButton("No", newCloseAction());
     }
 
-    private void installDeleteUserDialog(ScBox root)
+    private void installDeleteUserDialog(ScPageRoot root)
     {
         _deleteUserDialog = root.addDialog();
         _deleteUserDialog.getHeaderBox().hide();
@@ -140,8 +153,11 @@ public class MyManageAccountsPage
 
         ScBox body = _deleteUserDialog.getBodyBox();
 
+        ScForm form;
+        form = body.addForm();
+
         ScGroup group;
-        group = body.addGroup("Are you sure you want to remove this user?");
+        group = form.addGroup("Are you sure you want to remove this user?");
 
         ScArray row;
         row = group.addRow();
@@ -149,19 +165,19 @@ public class MyManageAccountsPage
         row.addPad().addButton("No", newCloseAction());
     }
 
-    private void installAccountsDropdown(ScBox root)
+    private void installAccountsDropdown(ScPageRoot root)
     {
         _accountDropdown = new ScDropdown();
         _accountDropdown.setAction(newUpdateValuesAction());
 
-        ScGroup group;
-        group = root.addGroup("Manage Accounts");
-
         ScForm form;
-        form = group.addForm();
+        form = root.addForm();
+
+        ScGroup group;
+        group = form.addGroup("Manage Accounts");
 
         ScBox body;
-        body = form.addPadSpaced();
+        body = group.addPadSpaced();
         body.add(_accountDropdown);
         body.addButton("Add Account", newShowAddAccountBoxAction());
     }
@@ -180,8 +196,11 @@ public class MyManageAccountsPage
         ScFrameChild frame;
         frame = _accountFrame.createChild();
 
+        ScForm form;
+        form = frame.addForm();
+
         ScGroup group;
-        group = frame.addGroup("View");
+        group = form.addGroup("View");
 
         ScBox body;
         body = group.addBox();
@@ -210,37 +229,6 @@ public class MyManageAccountsPage
         footer.addButton("Delete", newShowDeleteAccountDialogAction());
 
         _viewAccountChild = frame;
-    }
-
-    private void installTransferBox(ScArray row)
-    {
-        _transferFrame = row.addFrame();
-
-        ScFrameChild frame;
-        frame = _transferFrame.createChild();
-
-        ScGroup group;
-        group = frame.addGroup("Transfer Account");
-
-        ScBox body;
-        body = group.addBox();
-        body.css().pad();
-
-        _transferEmail = new ScTextField();
-        _transferEmail.setLabel("Email ");
-
-        ScFieldTable fields;
-        fields = body.addFields();
-        fields.add(_transferEmail);
-
-        group.addDivider();
-
-        ScDiv footer;
-        footer = group.addButtonBox();
-        footer.addButton("Send Request", newSendTransferRequestAction());
-        footer.addCancelButton(newCancelTransferRequestAction());
-
-        _transferChild = frame;
     }
 
     private void installEditAccountFrame()
@@ -326,12 +314,49 @@ public class MyManageAccountsPage
         _addAccountChild = frame;
     }
 
+    private void installTransferBox(ScArray row)
+    {
+        _transferFrame = row.addFrame();
+
+        ScFrameChild frame;
+        frame = _transferFrame.createChild();
+
+        ScForm form;
+        form = frame.addForm();
+
+        ScGroup group;
+        group = form.addGroup("Transfer Account");
+
+        ScBox body;
+        body = group.addBox();
+        body.css().pad();
+
+        _transferEmail = new ScTextField();
+        _transferEmail.setLabel("Email ");
+
+        ScFieldTable fields;
+        fields = body.addFields();
+        fields.add(_transferEmail);
+
+        group.addDivider();
+
+        ScDiv footer;
+        footer = group.addButtonBox();
+        footer.addButton("Send Request", newSendTransferRequestAction());
+        footer.addCancelButton(newCancelTransferRequestAction());
+
+        _transferChild = frame;
+    }
+
     private void installUserGrid(ScArray root)
     {
         MyMetaAccountUser x = MyAccountUser.Meta;
 
+        ScForm form;
+        form = root.addForm();
+
         ScGroup group;
-        group = root.addGroup();
+        group = form.addGroup();
         group.setTitle("Users");
 
         ScDiv right;
@@ -339,7 +364,7 @@ public class MyManageAccountsPage
         right.css().pad5();
 
         ScActionButton button;
-        button = right.addButton("Add", newAddUserAction());
+        button = right.addButton("Add", newShowAddUserBoxAction());
         button.setImage(MyButtonUrls.add());
 
         ScGridColumn<MyAccountUser> userEmail;
@@ -725,14 +750,14 @@ public class MyManageAccountsPage
         };
     }
 
-    private ScActionIF newAddUserAction()
+    private ScActionIF newShowAddUserBoxAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleAddUser();
+                handleShowAddUserBox();
             }
         };
     }
@@ -922,28 +947,85 @@ public class MyManageAccountsPage
 
     private void handleShowEditAccountBox()
     {
-        MyAccount a;
-        a = getPageSession().getAccount();
+        String accountName;
+        accountName = _viewAccountName.getValue();
 
-        if ( a != null )
-            _editAccountName.setValue(a.getName());
+        MyAccount account;
+        account = getAccess().getAccountDao().findWithName(accountName);
+        getPageSession().setAccount(account);
 
-        if ( a != null )
-            _editTypeDropdown.setValue(a.getType());
+        if ( account != null )
+            _editAccountName.setValue(account.getName());
 
-        _editAccountChild.applyFromModel(a);
+        if ( account != null )
+            _editTypeDropdown.setValue(account.getType());
+
         _editAccountChild.ajaxPrint();
     }
 
     private void handleShowTransferBox()
     {
+        String accountName;
+        accountName = _viewAccountName.getValue();
+
+        MyAccount account;
+        account = getAccess().getAccountDao().findWithName(accountName);
+        getPageSession().setAccount(account);
+
         _transferChild.ajaxPrint();
         _transferChild.ajax().focus();
     }
 
     private void handleSendTransferRequest()
     {
-        // fixme_valerie: send email
+        MyAccount account;
+        account = getPageSession().getAccount();
+
+        String email = _transferEmail.getValue();
+
+        boolean isValid = KmEmailParser.validate(email);
+
+        if ( !isValid )
+            _transferEmail.error("Invalid");
+
+        /**
+         * review_wyatt (valerie)
+         */
+        MyTransferAccount.instance.start(account, email);
+    }
+
+    private MyUser createUser(String email)
+    {
+        KmEmailParser p;
+        p = new KmEmailParser();
+        p.setEmail(email);
+
+        String name;
+        name = p.getName();
+
+        MyUser u;
+        u = new MyUser();
+        u.setName(name);
+        u.setEmail(email);
+        u.saveDao();
+
+        return u;
+    }
+
+    // todo_valerie needs callback from activity
+    private void showSentMessage(String email)
+    {
+        ajax().toast("Your request has been sent to:" + email);
+
+        clearTransferFrame();
+    }
+
+    /**ask_valerie 
+     * if MyTransferAccountActivity showSentMessage runs clear transfer frame
+     */
+    public void clearTransferFrame()
+    {
+        _transferFrame.ajaxClear();
     }
 
     private void handleCancelTransferRequest()
@@ -969,6 +1051,15 @@ public class MyManageAccountsPage
 
         setDropdownOptions();
 
+        String accountUid = account.getUid();
+
+        loadViewAccount();
+
+        /**ask_valerie 
+         * not setting dropdown
+         */
+        _accountDropdown.ajaxSetValue(accountUid);
+
         _userGrid.ajaxReload();
     }
 
@@ -979,6 +1070,8 @@ public class MyManageAccountsPage
 
     private void loadViewAccount()
     {
+        // remove_valerie: 
+
         String accountUid = _accountDropdown.getStringValue();
 
         MyAccount account;
@@ -1031,15 +1124,8 @@ public class MyManageAccountsPage
         _accountFrame.ajaxClear();
     }
 
-    private void handleAddUser()
+    private void handleShowAddUserBox()
     {
-        String accountName;
-        accountName = _accountDropdown.getStringValue();
-
-        MyAccount account;
-        account = getAccess().getAccountDao().findWithName(accountName);
-        getPageSession().setAccount(account);
-
         _addUserChild.ajaxPrint();
         _addUserChild.ajax().focus();
     }
@@ -1068,9 +1154,114 @@ public class MyManageAccountsPage
 
     private void handleAddUserSendEmail()
     {
-        /**
-         * todo_valerie hook up email request
+        MyAccount account;
+        account = getPageSession().getAccount();
+
+        String email = _addUserEmail.getValue();
+
+        boolean isValid = KmEmailParser.validate(email);
+
+        if ( !isValid )
+            _addUserEmail.error("Invalid");
+
+        //        todo_valerie come back to this
+        //        MyTransferAccountActivity.start(account, email);
+        MyUser user = getAccess().getUserDao().findEmail(email);
+
+        if ( user == null )
+        {
+            user = createUser(email);
+            sendAddNewUserJoinInvitation(user, account);
+        }
+        else
+            sendAddExistingUserJoinInvitation(user, account);
+
+        showSentMessage(email);
+    }
+
+    private void sendAddNewUserJoinInvitation(MyUser user, MyAccount account)
+    {
+        MyPropertyRegistry p = getProperties();
+
+        String userName = user.getName();
+        String email = user.getEmail();
+        String accountName = account.getName();
+        String app = MyConstantsIF.APPLICATION_NAME;
+
+        MyInvitation i;
+        i = new MyInvitation();
+        /**ask_valerie 
+         * about adding a new user and add account
          */
+        i.setType(MyInvitationType.Join);
+        i.setUser(user);
+        i.saveDao();
+
+        KmHtmlBuilder msg;
+        msg = new KmHtmlBuilder();
+        msg.printfln("Hi %s", userName);
+        msg.printfln();
+        msg.printf("Welcome to %s! ", app);
+        msg.printf("A new user account has been created for the email %s. ", email);
+        msg.printf("You have been asked to join the account %s. ", accountName);
+        msg.printfln();
+        msg.printf("To join %s and to activate your new user account "
+            + "click the following link.", accountName);
+        msg.printfln();
+        msg.printfln();
+        msg.printLink(
+            "Activate My Account and Join " + accountName + ".",
+            MyUrls.getInvitationUrl(i));
+        msg.printfln();
+
+        String subject = Kmu.format("%s Join Account Invitation", app);
+
+        MyEmail e;
+        e = new MyEmail();
+        e.setSubject(subject);
+        e.addToRecipient(email);
+        e.setFromAddress(p.getSendEmailFromAddress());
+        e.addHtmlPart(msg.toString());
+        e.markReady();
+        e.saveDao();
+    }
+
+    private void sendAddExistingUserJoinInvitation(MyUser user, MyAccount account)
+    {
+        MyPropertyRegistry p = getProperties();
+
+        String userName = user.getName();
+        String email = user.getEmail();
+        String accountName = account.getName();
+
+        MyInvitation i;
+        i = new MyInvitation();
+        i.setUser(user);
+        i.setType(MyInvitationType.Transfer);
+        i.saveDao();
+
+        KmHtmlBuilder msg;
+        msg = new KmHtmlBuilder();
+        msg.printfln("Hi %s", userName);
+        msg.printfln();
+        msg.printf("You have been asked to join the account %s. ", accountName);
+        msg.printfln();
+        msg.printf("To join this account click the following link.");
+        msg.printfln();
+        msg.printfln();
+        msg.printLink("Join " + accountName + ".", MyUrls.getInvitationUrl(i));
+        msg.printfln();
+
+        String subject = Kmu.format("%s Join Invitation", accountName);
+
+        MyEmail e;
+        e = new MyEmail();
+        e.setSubject(subject);
+        e.addToRecipient(email);
+        e.setFromAddress(p.getSendEmailFromAddress());
+        e.addHtmlPart(msg.toString());
+        e.markReady();
+        e.saveDao();
     }
 
     private void handleAddUserCancel()

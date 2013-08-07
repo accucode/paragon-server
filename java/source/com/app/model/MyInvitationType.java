@@ -8,11 +8,10 @@
 
 package com.app.model;
 
-import java.util.EnumSet;
+import java.util.*;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.collection.KmMap;
-import com.kodemore.utility.KmCodedEnumIF;
+import com.kodemore.collection.*;
+import com.kodemore.utility.*;
 
 public enum MyInvitationType
     implements KmCodedEnumIF
@@ -21,14 +20,16 @@ public enum MyInvitationType
     //# values
     //##################################################
 
-    NewUser("U", "New User"),
-    JoinAccount("J", "Join Account"), ;
+    User("U", "User"),
+    Transfer("T", "Transfer"),
+    Join("J", "Join"),
+    ;
 
     //##################################################
     //# find
     //##################################################
 
-    private static final KmList<MyInvitationType>       _values;
+    private static final KmList<MyInvitationType> _values;
     private static final KmMap<String,MyInvitationType> _codes;
 
     static
@@ -88,14 +89,19 @@ public enum MyInvitationType
     //# testing
     //##################################################
 
-    public boolean isNewUser()
+    public boolean isUser()
     {
-        return this == NewUser;
+        return this == User;
     }
 
-    public boolean isJoinAccount()
+    public boolean isTransfer()
     {
-        return this == JoinAccount;
+        return this == Transfer;
+    }
+
+    public boolean isJoin()
+    {
+        return this == Join;
     }
 
     //##################################################

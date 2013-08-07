@@ -1004,3 +1004,30 @@ $.blockUI.defaults.css = {};
  */
 // $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
+
+//**********************************************************
+//** equalize
+//**********************************************************
+
+/*
+ * This function will equalize the height and width of elements
+ * passed in a jquery selector.
+ */
+(function($) {
+   $.fn.equalize = function() {
+       tallest = 0;
+       widest = 0;
+       this.each(function() {
+           if($(this).height() > tallest) {
+               tallest = $(this).height();
+           }
+           if($(this).width() > widest) {
+               widest = $(this).width();
+           }
+       });
+       return this.each(function() {
+           $(this).height(tallest).css("overflow","auto");
+           $(this).width(widest).css("overflow","auto");
+       });
+   }
+})(jQuery);

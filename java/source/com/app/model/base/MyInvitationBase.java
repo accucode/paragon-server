@@ -40,11 +40,13 @@ public abstract class MyInvitationBase
 
     private String uid;
     private String statusCode;
+    private String typeCode;
     private String accessKey;
     private KmTimestamp createdUtcTs;
     private KmTimestamp closedUtcTs;
     private Integer lockVersion;
     private MyUser user;
+    private MyAccount account;
 
     //##################################################
     //# constructor
@@ -224,6 +226,115 @@ public abstract class MyInvitationBase
     }
 
     //##################################################
+    //# field (typeCode)
+    //##################################################
+
+    public String getTypeCode()
+    {
+        return typeCode;
+    }
+
+    public void setTypeCode(String e)
+    {
+        checkReadOnly();
+        e = Validator.getTypeCodeValidator().convertOnly(e);
+        typeCode = e;
+    }
+
+    public void clearTypeCode()
+    {
+        setTypeCode(null);
+    }
+
+    public boolean hasTypeCode()
+    {
+        return Kmu.hasValue(getTypeCode());
+    }
+
+    public boolean hasTypeCode(String e)
+    {
+        return Kmu.isEqual(getTypeCode(), e);
+    }
+
+    public void truncateTypeCode()
+    {
+        truncateTypeCode(false);
+    }
+
+    public void truncateTypeCode(boolean ellipses)
+    {
+        typeCode = Kmu.truncate(typeCode, 1, ellipses);
+    }
+
+    public MyInvitationType getType()
+    {
+        return MyInvitationType.findCode(getTypeCode());
+    }
+
+    public void setType(MyInvitationType e)
+    {
+        if ( e == null )
+            setTypeCode(null);
+        else
+            setTypeCode(e.getCode());
+    }
+
+    public boolean hasType()
+    {
+        return getType() != null;
+    }
+
+    public boolean hasType(MyInvitationType e)
+    {
+        return getType() == e;
+    }
+
+    public void setTypeUser()
+    {
+        setType(MyInvitationType.User);
+    }
+
+    public boolean isTypeUser()
+    {
+        return hasType(MyInvitationType.User);
+    }
+
+    public boolean isNotTypeUser()
+    {
+        return !isTypeUser();
+    }
+
+    public void setTypeTransfer()
+    {
+        setType(MyInvitationType.Transfer);
+    }
+
+    public boolean isTypeTransfer()
+    {
+        return hasType(MyInvitationType.Transfer);
+    }
+
+    public boolean isNotTypeTransfer()
+    {
+        return !isTypeTransfer();
+    }
+
+    public void setTypeJoin()
+    {
+        setType(MyInvitationType.Join);
+    }
+
+    public boolean isTypeJoin()
+    {
+        return hasType(MyInvitationType.Join);
+    }
+
+    public boolean isNotTypeJoin()
+    {
+        return !isTypeJoin();
+    }
+
+    //##################################################
     //# field (accessKey)
     //##################################################
 
@@ -374,6 +485,25 @@ public abstract class MyInvitationBase
     public boolean hasStatusName(String e)
     {
         return Kmu.isEqual(getStatusName(), e);
+    }
+
+    //##################################################
+    //# field (typeName)
+    //##################################################
+
+    public final String getTypeName()
+    {
+        return Kmu.getName(getType());
+    }
+
+    public boolean hasTypeName()
+    {
+        return Kmu.hasValue(getTypeName());
+    }
+
+    public boolean hasTypeName(String e)
+    {
+        return Kmu.isEqual(getTypeName(), e);
     }
 
     //##################################################
@@ -586,6 +716,64 @@ public abstract class MyInvitationBase
         return hasUser() && getUser().hasName(e);
     }
 
+    //##################################################
+    //# account
+    //##################################################
+
+    public MyAccount getAccount()
+    {
+        return account;
+    }
+
+    public void setAccount(MyAccount e)
+    {
+        checkReadOnly();
+        account = e;
+    }
+
+    public void _setAccount(MyAccount e)
+    {
+        checkReadOnly();
+        account = e;
+    }
+
+    public void clearAccount()
+    {
+        setAccount(null);
+    }
+
+    public boolean hasAccount()
+    {
+        return getAccount() != null;
+    }
+
+    public boolean hasAccount(MyAccount e)
+    {
+        return Kmu.isEqual(getAccount(), e);
+    }
+
+    public String getAccountName()
+    {
+        if ( hasAccount() )
+            return getAccount().getName();
+        return null;
+    }
+
+    public void setAccountName(String e)
+    {
+        getAccount().setName(e);
+    }
+
+    public boolean hasAccountName()
+    {
+        return hasAccount() && getAccount().hasName();
+    }
+
+    public boolean hasAccountName(String e)
+    {
+        return hasAccount() && getAccount().hasName(e);
+    }
+
 
     //##################################################
     //# validate
@@ -654,11 +842,13 @@ public abstract class MyInvitationBase
     public boolean isSameIgnoringKey(MyInvitation e)
     {
         if ( ! Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
+        if ( ! Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
         if ( ! Kmu.isEqual(getAccessKey(), e.getAccessKey()) ) return false;
         if ( ! Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
         if ( ! Kmu.isEqual(getClosedUtcTs(), e.getClosedUtcTs()) ) return false;
         if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
         if ( ! Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
+        if ( ! Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
         if ( ! Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( ! Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( ! Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
@@ -696,6 +886,9 @@ public abstract class MyInvitationBase
         if ( p.hasKey("statusCode") )
             setStatusCode(p.getString("statusCode"));
 
+        if ( p.hasKey("typeCode") )
+            setTypeCode(p.getString("typeCode"));
+
         if ( p.hasKey("accessKey") )
             setAccessKey(p.getString("accessKey"));
 
@@ -713,6 +906,9 @@ public abstract class MyInvitationBase
 
         if ( hasStatusCode() )
             p.setString("statusCode", getStatusCode());
+
+        if ( hasTypeCode() )
+            p.setString("typeCode", getTypeCode());
 
         if ( hasAccessKey() )
             p.setString("accessKey", getAccessKey());
@@ -745,6 +941,7 @@ public abstract class MyInvitationBase
         System.out.println(this);
         System.out.println("    Uid = " + uid);
         System.out.println("    StatusCode = " + statusCode);
+        System.out.println("    TypeCode = " + typeCode);
         System.out.println("    AccessKey = " + accessKey);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
         System.out.println("    ClosedUtcTs = " + closedUtcTs);

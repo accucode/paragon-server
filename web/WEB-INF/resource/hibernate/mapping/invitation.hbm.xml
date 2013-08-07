@@ -44,6 +44,12 @@
             />
 
         <property
+            name="typeCode"
+            column="typeCode"
+            type="string"
+            />
+
+        <property
             name="accessKey"
             column="accessKey"
             type="string"
@@ -65,6 +71,13 @@
             name="user"
             column="userUid"
             class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="account"
+            column="accountUid"
+            class="com.app.model.MyAccount"
             cascade="none"
             />
 
