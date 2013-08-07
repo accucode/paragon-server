@@ -1013,7 +1013,7 @@ $.blockUI.defaults.css = {};
  * This function will equalize the height and width of elements
  * passed in a jquery selector.
  */
-(function($) {
+ (function($) {
    $.fn.equalize = function() {
        tallest = 0;
        widest = 0;
@@ -1031,3 +1031,27 @@ $.blockUI.defaults.css = {};
        });
    }
 })(jQuery);
+
+/*
+ * same as above but with parameters for min and max
+ */ 
+//(function($) {
+//   $.fn.equalize = function(minHeight, maxHeight, minWidth, maxWidth) {
+//       tallest = (minHeight) ? minHeight : 0;
+//       widest = (minWidth) ? minWidth : 0;
+//       this.each(function() {
+//           if($(this).height() > tallest) {
+//               tallest = $(this).height();
+//           }
+//           if($(this).width() > widest) {
+//               widest = $(this).width();
+//           }
+//       });
+//       if((maxHeight) && tallest > maxHeight) tallest = maxHeight;
+//       if((maxWidth) && widest > maxWidth) widest = maxWidth;
+//       return this.each(function() {
+//           $(this).height(tallest).css("overflow","auto");
+//           $(this).width(widest).css("overflow","auto");
+//       });
+//   }
+//})(jQuery);

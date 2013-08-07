@@ -277,11 +277,35 @@ public class ScHtmlIdAjax
 
     public void equalizeChildren()
     {
-        run(equalizeScript());
+        String selector;
+        selector = Kmu.format("%s.children()", formatJqueryReference());
+
+        run(equalizeScript(selector));
     }
 
-    private String equalizeScript()
+    public void equalizeChildrenGroups()
     {
-        return Kmu.format("%s.children().equalize();", formatJqueryReference());
+        equalizeChildrenClass(KmCssDefaultConstantsIF.group_prefix);
+    }
+
+    public void equalizeChildrenClass(String childClass)
+    {
+        String selector;
+        selector = Kmu.format("$('%s > .%s')", formatJquerySelector(), childClass);
+
+        run(equalizeScript(selector));
+    }
+
+    public void equalizeDecendentClass(String childClass)
+    {
+        String selector;
+        selector = Kmu.format("$('%s .%s')", formatJquerySelector(), childClass);
+
+        run(equalizeScript(selector));
+    }
+
+    private String equalizeScript(String selector)
+    {
+        return Kmu.format("%s.equalize();", selector);
     }
 }
