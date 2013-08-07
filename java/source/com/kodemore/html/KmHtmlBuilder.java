@@ -123,17 +123,26 @@ public class KmHtmlBuilder
     //# doc type
     //##################################################
 
+    /**
+     * This is the doc type for html5.
+     * We are attempting to standardize on this.
+     */
+    public void printDocType()
+    {
+        printLiteralLine("<!DOCTYPE html>");
+    }
+
+    //    public void printDocType401Strict()
+    //    {
+    //        printLiteralLine("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"");
+    //        printLiteralLine("\"http://www.w3.org/TR/html4/strict.dtd\">");
+    //    }
+
     //    public void printDocType401Transitional()
     //    {
     //        printLiteralLine("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"");
     //        printLiteralLine("\"http://www.w3.org/TR/html4/loose.dtd\">");
     //    }
-
-    public void printDocType401Strict()
-    {
-        printLiteralLine("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"");
-        printLiteralLine("\"http://www.w3.org/TR/html4/strict.dtd\">");
-    }
 
     //##################################################
     //# begin & end

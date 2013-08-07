@@ -112,7 +112,7 @@ public class MyDownloadServlet
     {
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
-        out.printDocType401Strict();
+        out.printDocType();
         out.beginHtml();
         out.printTitle("Download Failed");
         out.beginBody();

@@ -60,7 +60,7 @@ public class MyInstallServlet
             KmHtmlBuilder out;
             out = new KmHtmlBuilder();
 
-            out.printDocType401Strict();
+            out.printDocType();
             out.beginHtml();
             out.beginBody();
 
