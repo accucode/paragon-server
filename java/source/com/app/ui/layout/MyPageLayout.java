@@ -4,6 +4,10 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.ScMenuItem;
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.action.ScActionContextIF;
+import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScTopMenu;
@@ -115,6 +119,8 @@ public class MyPageLayout
     {
         _dropdown = new ScDropdown();
         _dropdown.hide();
+        // fixme_steve finish this
+        _dropdown.setAction(newSetAccountAction());
     }
 
     private KmList<ScOption> getDropdownList()
@@ -149,6 +155,36 @@ public class MyPageLayout
             }
         }
         return list;
+    }
+
+    /**
+     *  review_wyatt (steve) getting context
+     *  this was our "for now" fix
+     */
+    private ScActionIF newSetAccountAction()
+    {
+        ScActionContextIF context = ScGlobalContext.getInstance();
+        return new ScAction(context)
+        {
+            @Override
+            public void handle()
+            {
+                handleSetAccount();
+            }
+        };
+    }
+
+    private void handleSetAccount()
+    {
+        //fixme_steve still working on this the _dropdown is giving me a null string value
+        MyServerSession ss = MyGlobals.getServerSession();
+        MyAccount account;
+        account = getAccess().getAccountDao().findUid(_dropdown.getStringValue());
+        ss.setAccount(account);
+
+        // remove_steve: print
+        System.out.println("MyPageLayout.handleSetAccount");
+        System.out.println("====== top account uid: " + _dropdown.getStringValue());
     }
 
     //##################################################
