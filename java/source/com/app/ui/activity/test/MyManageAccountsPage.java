@@ -299,7 +299,7 @@ public class MyManageAccountsPage
         form.onEscape().run(cancelAction);
 
         ScGroup group;
-        group = form.addGroup("Add");
+        group = form.addGroup("Add Account");
 
         ScBox body;
         body = group.addBox();
@@ -396,18 +396,10 @@ public class MyManageAccountsPage
         f = new MyAccountUserFilter();
         f.sortAscending();
 
-        /**ask_valerie 
-         * why this isn't working
-         */
         String accountUid;
         accountUid = _accountDropdown.getStringValue();
 
-        //remove_valerie: println
-        System.out.println("    accountUid: " + accountUid);
-        //remove_steve print account uid from dropdown
-
-        if ( accountUid != null )
-            f.setAccountUid(accountUid);
+        f.setAccountUid(accountUid);
 
         return f;
     }
@@ -837,8 +829,9 @@ public class MyManageAccountsPage
     public void start()
     {
         super.start();
-        setDropdownOptions();
 
+        setDropdownOptions();
+        loadViewAccount();
     }
 
     //##################################################
@@ -893,6 +886,7 @@ public class MyManageAccountsPage
 
         ajax().toast("Deleted user %s from account %s", u.getName(), a.getName());
 
+        _userFrame.ajaxClear();
         _userGrid.ajaxReload();
     }
 
@@ -980,13 +974,22 @@ public class MyManageAccountsPage
 
     private void handleEditAccountCancel()
     {
+        loadViewAccount();
+    }
+
+    private void loadViewAccount()
+    {
+        String accountUid = _accountDropdown.getStringValue();
+
         MyAccount account;
-        account = getPageSession().getAccount();
+        account = getAccess().getAccountDao().findUid(accountUid);
 
-        _viewAccountName.setValue(account.getName());
-        _viewAccountType.setValue(account.getType().getName());
+        if ( account != null )
+        {
+            _viewAccountName.setValue(account.getName());
+            _viewAccountType.setValue(account.getType().getName());
+        }
 
-        _viewAccountChild.applyFromModel(account);
         _viewAccountChild.ajaxPrint();
     }
 
@@ -1003,6 +1006,8 @@ public class MyManageAccountsPage
         MyAccount account;
         account = new MyAccount();
         account.setName(_addAccountName.getValue());
+        account.setTypeCode(_addAccountType.getStringValue());
+        account.saveDao();
 
         MyUser user;
         user = getCurrentUser();
@@ -1011,15 +1016,14 @@ public class MyManageAccountsPage
         accountUser = new MyAccountUser();
         accountUser.setAccount(account);
         accountUser.setUser(user);
-
-        if ( _addAccountType.hasValue() )
-            account.setTypeCode(_addAccountType.getStringValue());
-
-        user.saveDao();
-        account.saveDao();
         accountUser.saveDao();
 
-        _accountDropdown.ajaxUpdateValues();
+        String accountUid = account.getUid();
+        _accountDropdown.setValue(accountUid);
+        _accountDropdown.ajaxAddOption(account.getName(), accountUid);
+        _accountDropdown.ajaxSetValue(accountUid);
+
+        loadViewAccount();
     }
 
     private void handleAddAccountCancel()
@@ -1163,9 +1167,15 @@ public class MyManageAccountsPage
 
     private void setDropdownOptions()
     {
-        for ( ScOption e : getDropdownOptions() )
+        KmList<ScOption> options = getDropdownOptions();
+
+        for ( ScOption e : options )
             _accountDropdown.ajaxAddOption(e.getText(), e.getValue());
 
-        _accountDropdown.ajaxUpdateValues();
+        if ( options.isNotEmpty() )
+        {
+            _accountDropdown.setValue(options.getFirst().getValue());
+            _accountDropdown.ajaxUpdateValue();
+        }
     }
 }
