@@ -989,7 +989,7 @@ public class MyManageAccountsPage
             _transferEmail.error("Invalid");
 
         /**
-         * review_wyatt (valerie)
+         * review_wyatt review_steve (valerie)
          */
         MyTransferAccount.instance.start(account, email);
     }
