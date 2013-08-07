@@ -988,7 +988,9 @@ public class MyManageAccountsPage
         if ( !isValid )
             _transferEmail.error("Invalid");
 
-        //  todo_valerie come back to this
+        /**
+         * review_wyatt (valerie)
+         */
         MyTransferAccountActivity.instance.start(account, email);
     }
 
