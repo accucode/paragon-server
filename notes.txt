@@ -97,27 +97,6 @@ code directly out of the original cookie.
 http://en.wikipedia.org/wiki/Same_origin_policy
 http://en.wikipedia.org/wiki/HTTP_cookie
 
-=======================================
-== HTML meta tags
-=======================================
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-   
-I had previously included the following...  Why?
-For now, I am removing it until I an rediscover why.
-
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
-    This option basically forces IE to use the latest rendering engine
-        rather than respecting the typical versioning mechanism.
-        Perhaps a simpler, though less reliable, way of coding an html
-        page for cross browser compatibility.
-    
-<link rel="stylesheet" type="text/css" href="mystyle.css" />
 
 =======================================
 == Javascript
