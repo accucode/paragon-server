@@ -30,14 +30,8 @@ public class MyEqualizeTestPage
     //# variables
     //##################################################
 
-    private ScGroupArray _groups;
-
-    private ScGroup      _group1;
-    private ScGroup      _group2;
-    private ScGroup      _group3;
-    private ScGroup      _group4;
-
-    private ScBox        _buttons;
+    private ScBox _root;
+    private ScBox _groups;
 
     //##################################################
     //# install
@@ -57,24 +51,21 @@ public class MyEqualizeTestPage
 
         ScBox buttons;
         buttons = info.addButtonBox();
-        buttons.addButton("Toggle Group 1", newToggleGroup1Action());
-        buttons.addButton("Toggle Group 2", newToggleGroup2Action());
-        buttons.addButton("Toggle Group 3", newToggleGroup3Action());
-        buttons.addButton("Toggle Group 4", newToggleGroup4Action());
+        buttons.addButton("Equalize Groups", newEqualizeAction());
+        buttons.addButton("Click here to equalize all the buttons.", newEqualizeButtonsAction());
 
-        buttons = info.addButtonBox();
-        buttons.addButton("Equalize", newEqualizeAction());
-        buttons.addButton("Equalize Buttons", newEqualizeButtonsAction());
+        _groups = root.addBox();
+        _groups.css().padSpaced();
 
-        _buttons = buttons;
-
-        _groups = root.addGroupArray();
-        _groups.style().floatLeft();
+        ScGroupArray groups;
+        groups = _groups.addGroupArray();
+        groups.style().floatLeft();
 
         ScBox links;
 
-        _group1 = _groups.addGroup("Group 1");
-        links = _group1.addLinkBox();
+        ScGroup group;
+        group = groups.addGroup("Group 1");
+        links = group.addLinkBox();
         links.addLink(MyBlankTestPage.instance);
         links.addLink(MyFormTestPage.instance);
         links.addLink(MyPlaceholderTestPage.instance);
@@ -82,9 +73,9 @@ public class MyEqualizeTestPage
         links.addLink(MyGroupIconHeaderTestPage.instance);
         links.addLink(MyNotebookTestPage.instance);
 
-        _group2 = _groups.addGroup("Group 2");
-        links = _group2.addLinkBox();
-        _group2.style().height(300);
+        group = groups.addGroup("Group 2");
+        links = group.addLinkBox();
+        group.style().height(300);
         links.addLink(MyFieldTestPage.instance);
         links.addLink(MyLocalValueTestPage.instance);
         links.addLink(MyDateFieldTestPage.instance);
@@ -94,9 +85,9 @@ public class MyEqualizeTestPage
         links.addLink(MyGridTestPage.instance);
         links.addLink(MyDropzoneTestPage.instance);
 
-        _group3 = _groups.addGroup("Group 3");
-        links = _group3.addLinkBox();
-        _group3.style().width(300);
+        group = groups.addGroup("Group 3");
+        links = group.addLinkBox();
+        group.style().width(300);
         links.addLink(MyBlockTestPage.instance);
         links.addLink(MySlowTestPage.instance);
         links.addLink(MyToastTestPage.instance);
@@ -107,14 +98,21 @@ public class MyEqualizeTestPage
         links.addLink(MyShowDialogTestPage.instance);
         links.addLink(MyBarcodeTestPage.instance);
 
-        _group4 = _groups.addGroup("Group 4");
-        links = _group4.addLinkBox();
+        group = groups.addGroup("Group 4");
+        links = group.addLinkBox();
         links.addLink(MyScriptTestPage.instance);
         links.addLink(MyMemoryLeakTestPage.instance);
         links.addLink(MyGmailTestPage.instance);
         links.addLink(MyStaticIncludeTestPage.instance);
         links.addLink(MyQuickTestPage.instance);
 
+        group = root.addGroup("Here's more content");
+
+        buttons = group.addButtonBox();
+        buttons.addButton("Button");
+        buttons.addButton("One more button with lots of text");
+
+        _root = root;
         return root;
     }
 
@@ -123,12 +121,7 @@ public class MyEqualizeTestPage
         KmStringBuilder out;
         out = new KmStringBuilder();
 
-        out.println("'Equalize' will make all of the below groups the same size.");
-        out.println("'Equalize - Reset' will reset the size of all groups, and then equalize their"
-            + "sizes.");
-        out.println();
-        out.print("Groups that are hidden will still be considered in the equalization, so visible"
-            + "groups will still match the size of hidden groups, vice versa");
+        out.println("'Equalize Groups' will make all of the below groups the same size.");
 
         return out.toString();
     }
@@ -136,54 +129,6 @@ public class MyEqualizeTestPage
     //##################################################
     //# action
     //##################################################
-
-    private ScActionIF newToggleGroup1Action()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleToggleGroup1();
-            }
-        };
-    }
-
-    private ScActionIF newToggleGroup2Action()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleToggleGroup2();
-            }
-        };
-    }
-
-    private ScActionIF newToggleGroup3Action()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleToggleGroup3();
-            }
-        };
-    }
-
-    private ScActionIF newToggleGroup4Action()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleToggleGroup4();
-            }
-        };
-    }
 
     private ScActionIF newEqualizeAction()
     {
@@ -213,33 +158,13 @@ public class MyEqualizeTestPage
     //# handle
     //##################################################
 
-    private void handleToggleGroup1()
-    {
-        _group1.ajax().toggle();
-    }
-
-    private void handleToggleGroup2()
-    {
-        _group2.ajax().toggle();
-    }
-
-    private void handleToggleGroup3()
-    {
-        _group3.ajax().toggle();
-    }
-
-    private void handleToggleGroup4()
-    {
-        _group4.ajax().toggle();
-    }
-
     private void handleEqualize()
     {
-        _groups.ajax().equalizeChildren();
+        _groups.ajax().equalizeChildrenGroups();
     }
 
     private void handleEqualizeButtons()
     {
-        _buttons.ajax().equalizeChildren();
+        _root.ajax().equalizeDecendentClass("button");
     }
 }

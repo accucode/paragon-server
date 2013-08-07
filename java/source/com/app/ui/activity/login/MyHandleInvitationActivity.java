@@ -1,11 +1,5 @@
 package com.app.ui.activity.login;
 
-import com.app.model.MyInvitation;
-import com.app.model.MyInvitationType;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.utility.MyUrls;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -19,6 +13,12 @@ import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
+
+import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyActivity;
+import com.app.utility.MyUrls;
 
 public class MyHandleInvitationActivity
     extends MyActivity
@@ -75,28 +75,21 @@ public class MyHandleInvitationActivity
         ScGroup group;
         group = new ScGroup();
 
-        if ( _type.equals(MyInvitationType.User) )
-        {
-            group.setTitle("Activate User");
-            group.style().width(300).marginTop(100).marginCenter();
+        // fixme_valerie: install based on type
+        //        installBody(group);
+        /**
+         * reveiw_valerie (steve) the above line was Broken I have no idea 
+         * what it does or why it is broken. came from a push.
+         * 
+         * review_steve this was broken
+         */
+        group.setTitle("Activate User");
+        group.style().width(300).marginTop(100).marginCenter();
 
-            ScContainer body = group.getBody();
+        ScContainer body = group.getBody();
 
-            installForm(body);
-            installMessageBox(body);
-        }
-
-        if ( _type.equals(MyInvitationType.Transfer) )
-        {
-            group.setTitle("Transfer Account");
-            group.style().width(300).marginTop(100).marginCenter();
-
-            ScContainer body = group.getBody();
-
-            installTransferForm(body);
-            // fixme_valerie: 
-            //            installTransferMessageBox(body);
-        }
+        installForm(body);
+        installMessageBox(body);
 
         _root = group;
     }
@@ -143,13 +136,15 @@ public class MyHandleInvitationActivity
         button.style().marginTop(10);
     }
 
+    // fixme_valerie: 
+    @SuppressWarnings("unused")
     private void installTransferForm(ScContainer root)
     {
         ScForm form;
         form = root.addForm();
         form.setDefaultAction(newAcceptAction());
         form.css().pad10();
-        //review_steve (question) what does this hide do?
+
         _form = form;
 
         form.addLabel("Email");

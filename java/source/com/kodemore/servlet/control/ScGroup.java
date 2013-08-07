@@ -356,7 +356,9 @@ public class ScGroup
     protected void renderControlOn(KmHtmlBuilder out)
     {
         KmCssDefaultBuilder css;
-        css = newCssBuilder().add(PREFIX, PART_WRAPPER, getFlavor());
+        // review_aaron: added additional 'group' to class 
+        //        css = newCssBuilder().add(PREFIX, PART_WRAPPER, getFlavor());
+        css = newCssBuilder().add(PREFIX).add(PREFIX, PART_WRAPPER, getFlavor());
 
         out.openDiv();
         out.printAttribute("id", getHtmlId());
