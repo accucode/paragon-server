@@ -4,6 +4,7 @@ import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAccount;
 import com.app.model.MyEmail;
 import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
 import com.app.utility.MyConstantsIF;
@@ -16,6 +17,16 @@ import com.kodemore.utility.Kmu;
 
 public class MyTransferAccountActivity
 {
+    //##################################################
+    //# singleton
+    //##################################################
+
+    public static final MyTransferAccountActivity instance = new MyTransferAccountActivity();
+
+    private MyTransferAccountActivity()
+    {
+        // singleton
+    }
 
     //##################################################
     //# start
@@ -68,6 +79,7 @@ public class MyTransferAccountActivity
 
         MyInvitation i;
         i = new MyInvitation();
+        i.setType(MyInvitationType.Transfer);
         i.setUser(user);
         i.saveDao();
 
@@ -86,7 +98,7 @@ public class MyTransferAccountActivity
         msg.printLink("Activate My Account and Take Ownership.", MyUrls.getInvitationUrl(i));
         msg.printfln();
 
-        String subject = Kmu.format("%s Account Transfer Invitation", app);
+        String subject = Kmu.format("%s Account Transfer Invitation", accountName);
 
         MyEmail e;
         e = new MyEmail();
@@ -110,6 +122,7 @@ public class MyTransferAccountActivity
         MyInvitation i;
         i = new MyInvitation();
         i.setUser(user);
+        i.setType(MyInvitationType.Transfer);
         i.saveDao();
 
         KmHtmlBuilder msg;
@@ -138,17 +151,10 @@ public class MyTransferAccountActivity
 
     private void showSentMessage(String email)
     {
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
-
-        out.println("Your request has been sent to:");
-        out.println();
-
-        out.beginDivCss("indent");
-        out.printBold(email);
-        out.endDiv();
-
-        //        MyManageAccountsPage.clearTransferFrame();
+        /**
+         * todo_valerie 
+         * insert callback
+         */
     }
 
     //##################################################
