@@ -25,6 +25,7 @@ import com.app.model.MyAccountUser;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
+import com.app.ui.activity.test.MyWelcomePage;
 import com.app.ui.core.MyActions;
 import com.app.ui.core.MyServletData;
 import com.app.ui.servlet.MyServletConstantsIF;
@@ -176,17 +177,21 @@ public class MyPageLayout
 
     private void handleSetAccount()
     {
-        //fixme_steve still working on this the _dropdown is giving me a null string value
+        setServerSessionAccount();
 
+        /**
+         * review_wyatt ajax servlet handle enter
+         */
+        MyWelcomePage.instance.start();
+    }
+
+    private void setServerSessionAccount()
+    {
         MyAccount account;
         account = getAccess().getAccountDao().findUid(_dropdown.getStringValue());
 
         MyServerSession ss = MyGlobals.getServerSession();
         ss.setAccount(account);
-
-        // remove_steve: print
-        System.out.println("MyPageLayout.handleSetAccount");
-        System.out.println("====== top account uid: " + ss.getAccount().getName());
     }
 
     //##################################################
@@ -336,13 +341,21 @@ public class MyPageLayout
         }
 
         setDropdownOptions(u);
+        _dropdown.ajax().replace();
+        setServerSessionAccount();
         _dropdown.ajax().show();
     }
 
     private void setDropdownOptions(MyUser u)
     {
-        for ( ScOption e : getDropdownList() )
-            _dropdown.ajaxAddOption(e.getText(), e.getValue());
+        KmList<ScOption> list = getDropdownList();
+        if ( list.isEmpty() )
+            return;
+
+        for ( ScOption e : list )
+            _dropdown.addOption(e.getValue(), e.getText());
+
+        _dropdown.setValue(list.getFirst().getValue());
     }
 
     //##################################################
@@ -504,21 +517,6 @@ public class MyPageLayout
     private ScScript ajax()
     {
         return getData().getAjaxResult().getScript();
-    }
-
-    public KmList<MyAccount> findAccountsFor(MyUser u)
-    {
-        //        KmList<MyAccountUser> accountsUsers;
-        //        accountsUsers = get .findAccountsUsersFor(u);
-        //        
-        //        KmList<MyAccount> list;
-        //        list = new KmList<MyAccount>();
-        //        
-        //        
-        //        for ( MyAccountUser e : accountsUsers ) 
-        //            
-        //            
-        return null;
     }
 
     protected MyDaoRegistry getAccess()

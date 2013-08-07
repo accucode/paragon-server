@@ -37,6 +37,7 @@ attributes
     : comment   = The type.
     : type      = letterCode
     : required  = true
+    : default   = MyInvitationType.User.getCode()
 
         enum
             value(#U User)
@@ -68,6 +69,16 @@ attributes
     : modelName = user
     : relation  = reference
     : required  = true
+
+        delegate
+        : fieldName = name
+        
+    association
+    : name      = account
+    : comment   = The account to which the invitation referred.
+    : modelName = account
+    : relation  = reference
+    : required  = false
 
         delegate
         : fieldName = name

@@ -1,17 +1,14 @@
 package com.app.ui.activity.test;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFieldset;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupIconHeader;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.field.ScTextField;
 
 public class MyWelcomePage
@@ -32,19 +29,17 @@ public class MyWelcomePage
     //# variables
     //##################################################
 
-    private ScGroupIconHeader _welcomeMessage;
+    private ScText      _welcomeMessage;
 
-    private ScDropdown        _dropdown;
+    private ScTextField _accountName;
+    private ScTextField _accountType;
+    private ScTextField _accountRole;
+    private ScTextField _userName;
+    private ScTextField _userEmail;
+    private ScTextField _defaultAccount;
 
-    private ScTextField       _accountName;
-    private ScTextField       _accountType;
-    private ScTextField       _accountRole;
-    private ScTextField       _userName;
-    private ScTextField       _userEmail;
-    private ScTextField       _defaultAccount;
-
-    private ScFieldset        _accountInfo;
-    private ScFieldset        _profile;
+    private ScFieldset  _accountInfo;
+    private ScFieldset  _profile;
 
     //##################################################
     //# install
@@ -71,18 +66,13 @@ public class MyWelcomePage
         list.add("smiley");
         list.add("squares");
 
-        _dropdown = new ScDropdown();
-        _dropdown.setOptions(list);
-
         ScGroup group;
         group = form.addGroup("Fieldset Samples");
 
-        _welcomeMessage = group.setTitleWithIcon("source ", "welcome");
+        _welcomeMessage = group.setTitle("welcome");
 
         ScDiv buttons;
         buttons = group.getHeader().addFloatRight().addPadSpaced();
-        buttons.addButton("change Icon", newChangeIconAction());
-        buttons.add(_dropdown);
         buttons.addSpaces(3);
 
         ScBox body;
@@ -138,36 +128,18 @@ public class MyWelcomePage
     }
 
     //##################################################
-    //# action
-    //##################################################
-
-    private ScActionIF newChangeIconAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleChangeIcon();
-            }
-        };
-    }
-
-    //##################################################
     //# start
     //##################################################
 
     @Override
     public void start()
     {
-        _welcomeMessage.setText("Welcome " + getCurrentUser().getName());
-        _welcomeMessage.setImageSource(getCommonImageUrl("smiley.png"));
+        _welcomeMessage.setValue("Welcome " + getCurrentUser().getName());
         _welcomeMessage.ajaxUpdateValues();
 
-        // fixme_valerie: 
-        //        _accountName.setValue(getCurrentAccount().getName());
-        //        _accountType.setValue(getCurrentAccount().getTypeName());
-        //        _accountRole.setValue(getAccountUser().getRoleName());
+        _accountName.setValue(getCurrentAccount().getName());
+        _accountType.setValue(getCurrentAccount().getTypeName());
+        _accountRole.setValue(getCurrentAccountUser().getRoleName());
         _accountInfo.ajaxUpdateValues();
 
         _userName.setValue(getCurrentUser().getName());
@@ -176,29 +148,4 @@ public class MyWelcomePage
 
         super.start();
     }
-
-    //##################################################
-    //# handle
-    //##################################################
-
-    private void handleChangeIcon()
-    {
-        String house = getCommonImageUrl("house.png");
-        String smiley = getCommonImageUrl("smiley.png");
-        String squares = getCommonImageUrl("squares.png");
-
-        _welcomeMessage.setText("Welcome " + getCurrentUser().getName());
-
-        if ( _dropdown.getStringValue().equals("house") )
-            _welcomeMessage.setImageSource(house);
-
-        if ( _dropdown.getStringValue().equals("smiley") )
-            _welcomeMessage.setImageSource(smiley);
-
-        if ( _dropdown.getStringValue().equals("squares") )
-            _welcomeMessage.setImageSource(squares);
-
-        _welcomeMessage.ajax().replace();
-    }
-
 }

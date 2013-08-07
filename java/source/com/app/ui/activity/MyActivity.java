@@ -1,7 +1,16 @@
 package com.app.ui.activity;
 
+import com.kodemore.dao.KmDaoSession;
+import com.kodemore.servlet.ScActivity;
+import com.kodemore.servlet.control.ScControl;
+import com.kodemore.time.KmDate;
+import com.kodemore.time.KmTimestamp;
+import com.kodemore.utility.Kmu;
+
 import com.app.dao.base.MyDaoRegistry;
 import com.app.file.MyFilePaths;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
 import com.app.model.MyServerSession;
 import com.app.model.MySettings;
 import com.app.model.MyUser;
@@ -11,13 +20,6 @@ import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyGlobals;
-
-import com.kodemore.dao.KmDaoSession;
-import com.kodemore.servlet.ScActivity;
-import com.kodemore.servlet.control.ScControl;
-import com.kodemore.time.KmDate;
-import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.Kmu;
 
 public abstract class MyActivity
     extends ScActivity
@@ -114,6 +116,57 @@ public abstract class MyActivity
     public boolean hasCurrentUser()
     {
         return getCurrentUser() != null;
+    }
+
+    //##################################################
+    //# account
+    //##################################################
+
+    public MyAccount getCurrentAccount()
+    {
+        MyServerSession ss = getServerSession();
+        if ( ss == null )
+            return null;
+
+        return ss.getAccount();
+    }
+
+    public String getCurrentAccountUid()
+    {
+        MyAccount a = getCurrentAccount();
+        if ( a == null )
+            return null;
+
+        return a.getUid();
+    }
+
+    public boolean hasCurrentAccount()
+    {
+        return getCurrentAccount() != null;
+    }
+
+    //##################################################
+    //# account user
+    //##################################################//
+
+    public MyAccountUser getCurrentAccountUser()
+    {
+
+        MyUser u = getCurrentUser();
+        MyAccount a = getCurrentAccount();
+
+        MyAccountUser accountUser = getAccess().getAccountUserDao().findAccountUserFor(u, a);
+
+        return accountUser;
+    }
+
+    public String getCurrentAccountUserUid()
+    {
+        MyAccount a = getCurrentAccount();
+        if ( a == null )
+            return null;
+
+        return a.getUid();
     }
 
     //##################################################

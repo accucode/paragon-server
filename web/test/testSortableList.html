@@ -22,6 +22,13 @@
             $('#main').fadeIn();
         }
         
+        function myTest()
+        {
+            Kmu.toast('sortable...');
+            $("#sortable").sortable();
+            $("#sortable").disableSelection();
+        }
+        
     </script>
 
     <style type="text/css">
@@ -32,12 +39,21 @@
 <body onload="myLoad()">
 <div id='main' style='display:none' class='padSpaced'>
 
-    <div class='boxGreen'>
+    <div class='boxGreen pad'>
         Sort the items in the list by dragging them.
     </div>
     
     
-    
+    <div class='boxBlue padSpaced'>
+        <button onclick='myTest();'>Make Sortable</button><br>        
+        <ul id="sortable">
+          <li class='ui-state-default'><span>aaaaa</span></li>
+          <li class='ui-state-default'><span>bbbbb</span></li>
+          <li class='ui-state-default'><span>ccccc</span></li>
+          <li class='ui-state-default'><span>ddddd</span></li>
+          <li class='ui-state-default'><span>eeeee</span></li>
+        </ul>    
+    </div>    
     
 </div>
 </body>

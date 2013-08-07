@@ -9,6 +9,7 @@ import com.app.model.MyInvitationType;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
 import com.app.property.MyPropertyRegistry;
+import com.app.ui.activity.login.MyTransferAccount;
 import com.app.utility.MyButtonUrls;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyUrls;
@@ -132,8 +133,11 @@ public class MyManageAccountsPage
 
         ScBox body = _deleteAccountDialog.getBodyBox();
 
+        ScForm form;
+        form = body.addForm();
+
         ScGroup group;
-        group = body.addGroup("Are you sure you want to delete this account?");
+        group = form.addGroup("Are you sure you want to delete this account?");
 
         ScArray row;
         row = group.addRow();
@@ -149,8 +153,11 @@ public class MyManageAccountsPage
 
         ScBox body = _deleteUserDialog.getBodyBox();
 
+        ScForm form;
+        form = body.addForm();
+
         ScGroup group;
-        group = body.addGroup("Are you sure you want to remove this user?");
+        group = form.addGroup("Are you sure you want to remove this user?");
 
         ScArray row;
         row = group.addRow();
@@ -163,8 +170,11 @@ public class MyManageAccountsPage
         _accountDropdown = new ScDropdown();
         _accountDropdown.setAction(newUpdateValuesAction());
 
+        ScForm form;
+        form = root.addForm();
+
         ScGroup group;
-        group = root.addGroup("Manage Accounts");
+        group = form.addGroup("Manage Accounts");
 
         ScBox body;
         body = group.addPadSpaced();
@@ -342,8 +352,11 @@ public class MyManageAccountsPage
     {
         MyMetaAccountUser x = MyAccountUser.Meta;
 
+        ScForm form;
+        form = root.addForm();
+
         ScGroup group;
-        group = root.addGroup();
+        group = form.addGroup();
         group.setTitle("Users");
 
         ScDiv right;
@@ -975,19 +988,10 @@ public class MyManageAccountsPage
         if ( !isValid )
             _transferEmail.error("Invalid");
 
-        //        todo_valerie come back to this
-        //        MyTransferAccountActivity.start(account, email);
-        MyUser user = getAccess().getUserDao().findEmail(email);
-
-        if ( user == null )
-        {
-            user = createUser(email);
-            sendTransferNewUserInvitation(user, account);
-        }
-        else
-            sendTransferExistingUserInvitation(user, account);
-
-        showSentMessage(email);
+        /**
+         * review_wyatt review_steve (valerie)
+         */
+        MyTransferAccount.instance.start(account, email);
     }
 
     private MyUser createUser(String email)
@@ -1008,90 +1012,7 @@ public class MyManageAccountsPage
         return u;
     }
 
-    private void sendTransferNewUserInvitation(MyUser user, MyAccount account)
-    {
-        MyPropertyRegistry p = getProperties();
-
-        String userName = user.getName();
-        String email = user.getEmail();
-        String accountName = account.getName();
-        String app = MyConstantsIF.APPLICATION_NAME;
-
-        MyInvitation i;
-        i = new MyInvitation();
-        /**ask_valerie 
-         * about adding a new user and transfer
-         */
-        i.setType(MyInvitationType.Transfer);
-        i.setUser(user);
-        i.saveDao();
-
-        KmHtmlBuilder msg;
-        msg = new KmHtmlBuilder();
-        msg.printfln("Hi %s", userName);
-        msg.printfln();
-        msg.printf("Welcome to %s! ", app);
-        msg.printf("A new user account has been created for the email %s. ", email);
-        msg.printf("You have been asked to acquire the account %s. ", accountName);
-        msg.printfln();
-        msg.printf("To take ownership of the new account and to activate your new user account "
-            + "click the following link.");
-        msg.printfln();
-        msg.printfln();
-        msg.printLink("Activate My Account and Take Ownership.", MyUrls.getInvitationUrl(i));
-        msg.printfln();
-
-        String subject = Kmu.format("%s Account Transfer Invitation", accountName);
-
-        MyEmail e;
-        e = new MyEmail();
-        e.setSubject(subject);
-        e.addToRecipient(email);
-        e.setFromAddress(p.getSendEmailFromAddress());
-        e.addHtmlPart(msg.toString());
-        e.markReady();
-        e.saveDao();
-    }
-
-    private void sendTransferExistingUserInvitation(MyUser user, MyAccount account)
-    {
-        MyPropertyRegistry p = getProperties();
-
-        String userName = user.getName();
-        String email = user.getEmail();
-        String accountName = account.getName();
-        String app = MyConstantsIF.APPLICATION_NAME;
-
-        MyInvitation i;
-        i = new MyInvitation();
-        i.setUser(user);
-        i.setType(MyInvitationType.Transfer);
-        i.saveDao();
-
-        KmHtmlBuilder msg;
-        msg = new KmHtmlBuilder();
-        msg.printfln("Hi %s", userName);
-        msg.printfln();
-        msg.printf("You have been asked to acquire the account %s. ", accountName);
-        msg.printfln();
-        msg.printf("To take ownership of this account click the following link.");
-        msg.printfln();
-        msg.printfln();
-        msg.printLink("Take Ownership.", MyUrls.getInvitationUrl(i));
-        msg.printfln();
-
-        String subject = Kmu.format("%s Account Transfer Invitation", app);
-
-        MyEmail e;
-        e = new MyEmail();
-        e.setSubject(subject);
-        e.addToRecipient(email);
-        e.setFromAddress(p.getSendEmailFromAddress());
-        e.addHtmlPart(msg.toString());
-        e.markReady();
-        e.saveDao();
-    }
-
+    // todo_valerie needs callback from activity
     private void showSentMessage(String email)
     {
         ajax().toast("Your request has been sent to:" + email);
@@ -1131,12 +1052,13 @@ public class MyManageAccountsPage
         setDropdownOptions();
 
         String accountUid = account.getUid();
+
+        loadViewAccount();
+
         /**ask_valerie 
          * not setting dropdown
          */
         _accountDropdown.ajaxSetValue(accountUid);
-
-        loadViewAccount();
 
         _userGrid.ajaxReload();
     }
@@ -1148,6 +1070,8 @@ public class MyManageAccountsPage
 
     private void loadViewAccount()
     {
+        // remove_valerie: 
+
         String accountUid = _accountDropdown.getStringValue();
 
         MyAccount account;
@@ -1202,9 +1126,6 @@ public class MyManageAccountsPage
 
     private void handleShowAddUserBox()
     {
-        //        MyAccount account;
-        //        account = getPageSession().getAccount();
-
         _addUserChild.ajaxPrint();
         _addUserChild.ajax().focus();
     }

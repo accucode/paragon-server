@@ -1,5 +1,11 @@
 package com.app.ui.activity.login;
 
+import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyActivity;
+import com.app.utility.MyUrls;
+
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -13,11 +19,6 @@ import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
-
-import com.app.model.MyInvitation;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.utility.MyUrls;
 
 public class MyHandleInvitationActivity
     extends MyActivity
@@ -37,17 +38,19 @@ public class MyHandleInvitationActivity
     //# variables
     //##################################################
 
-    private ScLocalString   _accessKey;
+    private ScLocalString    _accessKey;
 
-    private ScContainer     _root;
+    private MyInvitationType _type;
 
-    private ScText          _emailText;
+    private ScContainer      _root;
 
-    private ScForm          _form;
-    private ScPasswordField _password1Field;
-    private ScPasswordField _password2Field;
+    private ScText           _emailText;
 
-    private ScBox           _messageBox;
+    private ScForm           _form;
+    private ScPasswordField  _password1Field;
+    private ScPasswordField  _password2Field;
+
+    private ScBox            _messageBox;
 
     //##################################################
     //# install
@@ -71,10 +74,14 @@ public class MyHandleInvitationActivity
 
         ScGroup group;
         group = new ScGroup();
+
+        // fixme_valerie: install based on type
+        installBody(group);
         group.setTitle("Activate User");
         group.style().width(300).marginTop(100).marginCenter();
 
         ScContainer body = group.getBody();
+
         installForm(body);
         installMessageBox(body);
 
@@ -95,6 +102,43 @@ public class MyHandleInvitationActivity
         form.setDefaultAction(newAcceptAction());
         form.css().pad10();
         //review_steve (question) what does this hide do?
+        _form = form;
+
+        form.addLabel("Email");
+
+        ScBox box;
+        box = form.addBox();
+        box.css().fieldValue();
+
+        _emailText = box.addText();
+
+        ScBox chooseLabel;
+        chooseLabel = form.addLabel("Choose a Password");
+        chooseLabel.css().padTop();
+        form.addErrorBox().add(_password1Field);
+
+        ScBox reEnterLabel;
+        reEnterLabel = form.addLabel("Re-enter Password");
+        reEnterLabel.css().padTop();
+        form.addErrorBox().add(_password2Field);
+
+        ScBox buttons;
+        buttons = form.addButtonBoxRight();
+
+        ScSubmitButton button;
+        button = buttons.addSubmitButton("Activate User");
+        button.style().marginTop(10);
+    }
+
+    // fixme_valerie: 
+    @SuppressWarnings("unused")
+    private void installTransferForm(ScContainer root)
+    {
+        ScForm form;
+        form = root.addForm();
+        form.setDefaultAction(newAcceptAction());
+        form.css().pad10();
+
         _form = form;
 
         form.addLabel("Email");
@@ -186,6 +230,8 @@ public class MyHandleInvitationActivity
         MyInvitation a;
         a = getAccess().getInvitationDao().findAccessKey(key);
 
+        setInvitationType(a.getType());
+
         MyUser u;
         u = a.getUser();
 
@@ -243,6 +289,21 @@ public class MyHandleInvitationActivity
     private void setAccessKey(String e)
     {
         _accessKey.setValue(e);
+    }
+
+    //##################################################
+    //# type
+    //##################################################
+
+    @SuppressWarnings("unused")
+    private MyInvitationType getInvitationType()
+    {
+        return _type;
+    }
+
+    private void setInvitationType(MyInvitationType e)
+    {
+        _type = e;
     }
 
 }

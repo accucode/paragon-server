@@ -46,6 +46,7 @@ public abstract class MyInvitationBase
     private KmTimestamp closedUtcTs;
     private Integer lockVersion;
     private MyUser user;
+    private MyAccount account;
 
     //##################################################
     //# constructor
@@ -55,6 +56,7 @@ public abstract class MyInvitationBase
     {
         super();
         setUid(newUid());
+        setTypeCode(MyInvitationType.User.getCode());
         setAccessKey(newUid());
         setCreatedUtcTs(getNowUtc());
     }
@@ -713,6 +715,64 @@ public abstract class MyInvitationBase
     public boolean hasUserName(String e)
     {
         return hasUser() && getUser().hasName(e);
+    }
+
+    //##################################################
+    //# account
+    //##################################################
+
+    public MyAccount getAccount()
+    {
+        return account;
+    }
+
+    public void setAccount(MyAccount e)
+    {
+        checkReadOnly();
+        account = e;
+    }
+
+    public void _setAccount(MyAccount e)
+    {
+        checkReadOnly();
+        account = e;
+    }
+
+    public void clearAccount()
+    {
+        setAccount(null);
+    }
+
+    public boolean hasAccount()
+    {
+        return getAccount() != null;
+    }
+
+    public boolean hasAccount(MyAccount e)
+    {
+        return Kmu.isEqual(getAccount(), e);
+    }
+
+    public String getAccountName()
+    {
+        if ( hasAccount() )
+            return getAccount().getName();
+        return null;
+    }
+
+    public void setAccountName(String e)
+    {
+        getAccount().setName(e);
+    }
+
+    public boolean hasAccountName()
+    {
+        return hasAccount() && getAccount().hasName();
+    }
+
+    public boolean hasAccountName(String e)
+    {
+        return hasAccount() && getAccount().hasName(e);
     }
 
 
