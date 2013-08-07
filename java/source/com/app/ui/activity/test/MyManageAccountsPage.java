@@ -105,18 +105,21 @@ public class MyManageAccountsPage
         root = newPageRoot();
         root.css().padSpaced();
 
-        installDeleteAccountDialog(root);
-        installDeleteUserDialog(root);
-        installAccountsDropdown(root);
+        ScForm form;
+        form = root.addForm();
+
+        installDeleteAccountDialog(form);
+        installDeleteUserDialog(form);
+        installAccountsDropdown(form);
 
         ScArray row;
-        row = root.addRow();
+        row = form.addRow();
 
         installAccountFrame(row);
         installTransferBox(row);
 
         ScArray row2;
-        row2 = root.addRow();
+        row2 = form.addRow();
 
         installUserGrid(row2);
         installUserFrame(row2);
@@ -124,7 +127,7 @@ public class MyManageAccountsPage
         return root;
     }
 
-    private void installDeleteAccountDialog(ScBox root)
+    private void installDeleteAccountDialog(ScForm root)
     {
         _deleteAccountDialog = root.addDialog();
         _deleteAccountDialog.getHeaderBox().hide();
@@ -141,7 +144,7 @@ public class MyManageAccountsPage
         row.addPad().addButton("No", newCloseAction());
     }
 
-    private void installDeleteUserDialog(ScBox root)
+    private void installDeleteUserDialog(ScForm root)
     {
         _deleteUserDialog = root.addDialog();
         _deleteUserDialog.getHeaderBox().hide();
@@ -158,7 +161,7 @@ public class MyManageAccountsPage
         row.addPad().addButton("No", newCloseAction());
     }
 
-    private void installAccountsDropdown(ScBox root)
+    private void installAccountsDropdown(ScForm root)
     {
         _accountDropdown = new ScDropdown();
         _accountDropdown.setAction(newUpdateValuesAction());
@@ -166,11 +169,8 @@ public class MyManageAccountsPage
         ScGroup group;
         group = root.addGroup("Manage Accounts");
 
-        ScForm form;
-        form = group.addForm();
-
         ScBox body;
-        body = form.addPadSpaced();
+        body = group.addPadSpaced();
         body.add(_accountDropdown);
         body.addButton("Add Account", newShowAddAccountBoxAction());
     }
@@ -354,7 +354,7 @@ public class MyManageAccountsPage
         right.css().pad5();
 
         ScActionButton button;
-        button = right.addButton("Add", newAddUserAction());
+        button = right.addButton("Add", newShowAddUserBoxAction());
         button.setImage(MyButtonUrls.add());
 
         ScGridColumn<MyAccountUser> userEmail;
@@ -740,14 +740,14 @@ public class MyManageAccountsPage
         };
     }
 
-    private ScActionIF newAddUserAction()
+    private ScActionIF newShowAddUserBoxAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleAddUser();
+                handleShowAddUserBox();
             }
         };
     }
@@ -957,6 +957,7 @@ public class MyManageAccountsPage
     {
         String accountName;
         accountName = _viewAccountName.getValue();
+
         MyAccount account;
         account = getAccess().getAccountDao().findWithName(accountName);
         getPageSession().setAccount(account);
@@ -1043,7 +1044,7 @@ public class MyManageAccountsPage
         msg.printLink("Activate My Account and Take Ownership.", MyUrls.getInvitationUrl(i));
         msg.printfln();
 
-        String subject = Kmu.format("%s Account Transfer Invitation", app);
+        String subject = Kmu.format("%s Account Transfer Invitation", accountName);
 
         MyEmail e;
         e = new MyEmail();
@@ -1202,14 +1203,10 @@ public class MyManageAccountsPage
         _accountFrame.ajaxClear();
     }
 
-    private void handleAddUser()
+    private void handleShowAddUserBox()
     {
-        String accountName;
-        accountName = _accountDropdown.getStringValue();
-
-        MyAccount account;
-        account = getAccess().getAccountDao().findWithName(accountName);
-        getPageSession().setAccount(account);
+        //        MyAccount account;
+        //        account = getPageSession().getAccount();
 
         _addUserChild.ajaxPrint();
         _addUserChild.ajax().focus();
@@ -1239,9 +1236,114 @@ public class MyManageAccountsPage
 
     private void handleAddUserSendEmail()
     {
-        /**
-         * todo_valerie hook up email request
+        MyAccount account;
+        account = getPageSession().getAccount();
+
+        String email = _addUserEmail.getValue();
+
+        boolean isValid = KmEmailParser.validate(email);
+
+        if ( !isValid )
+            _addUserEmail.error("Invalid");
+
+        //        todo_valerie come back to this
+        //        MyTransferAccountActivity.start(account, email);
+        MyUser user = getAccess().getUserDao().findEmail(email);
+
+        if ( user == null )
+        {
+            user = createUser(email);
+            sendAddNewUserJoinInvitation(user, account);
+        }
+        else
+            sendAddExistingUserJoinInvitation(user, account);
+
+        showSentMessage(email);
+    }
+
+    private void sendAddNewUserJoinInvitation(MyUser user, MyAccount account)
+    {
+        MyPropertyRegistry p = getProperties();
+
+        String userName = user.getName();
+        String email = user.getEmail();
+        String accountName = account.getName();
+        String app = MyConstantsIF.APPLICATION_NAME;
+
+        MyInvitation i;
+        i = new MyInvitation();
+        /**ask_valerie 
+         * about adding a new user and add account
          */
+        i.setType(MyInvitationType.Join);
+        i.setUser(user);
+        i.saveDao();
+
+        KmHtmlBuilder msg;
+        msg = new KmHtmlBuilder();
+        msg.printfln("Hi %s", userName);
+        msg.printfln();
+        msg.printf("Welcome to %s! ", app);
+        msg.printf("A new user account has been created for the email %s. ", email);
+        msg.printf("You have been asked to join the account %s. ", accountName);
+        msg.printfln();
+        msg.printf("To join %s and to activate your new user account "
+            + "click the following link.", accountName);
+        msg.printfln();
+        msg.printfln();
+        msg.printLink(
+            "Activate My Account and Join " + accountName + ".",
+            MyUrls.getInvitationUrl(i));
+        msg.printfln();
+
+        String subject = Kmu.format("%s Join Account Invitation", app);
+
+        MyEmail e;
+        e = new MyEmail();
+        e.setSubject(subject);
+        e.addToRecipient(email);
+        e.setFromAddress(p.getSendEmailFromAddress());
+        e.addHtmlPart(msg.toString());
+        e.markReady();
+        e.saveDao();
+    }
+
+    private void sendAddExistingUserJoinInvitation(MyUser user, MyAccount account)
+    {
+        MyPropertyRegistry p = getProperties();
+
+        String userName = user.getName();
+        String email = user.getEmail();
+        String accountName = account.getName();
+
+        MyInvitation i;
+        i = new MyInvitation();
+        i.setUser(user);
+        i.setType(MyInvitationType.Transfer);
+        i.saveDao();
+
+        KmHtmlBuilder msg;
+        msg = new KmHtmlBuilder();
+        msg.printfln("Hi %s", userName);
+        msg.printfln();
+        msg.printf("You have been asked to join the account %s. ", accountName);
+        msg.printfln();
+        msg.printf("To join this account click the following link.");
+        msg.printfln();
+        msg.printfln();
+        msg.printLink("Join " + accountName + ".", MyUrls.getInvitationUrl(i));
+        msg.printfln();
+
+        String subject = Kmu.format("%s Join Invitation", accountName);
+
+        MyEmail e;
+        e = new MyEmail();
+        e.setSubject(subject);
+        e.addToRecipient(email);
+        e.setFromAddress(p.getSendEmailFromAddress());
+        e.addHtmlPart(msg.toString());
+        e.markReady();
+        e.saveDao();
     }
 
     private void handleAddUserCancel()
