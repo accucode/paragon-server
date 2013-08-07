@@ -29,7 +29,6 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
-import com.kodemore.utility.KmEmailParser;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -83,7 +82,6 @@ public class MyManageAccountsPage
 
     private ScGrid<MyAccountUser> _userGrid;
 
-    private String                _inviteUserLabel;
     private ScTextField           _addUserEmail;
     private ScDropdown            _addRoleDropdown;
 
@@ -401,9 +399,15 @@ public class MyManageAccountsPage
         /**ask_valerie 
          * why this isn't working
          */
-        //        String accountName = _accountDropdown.getStringValue();
-        //        MyAccount a = getAccess().getAccountDao().findWithName(accountName);
-        //        f.setAccountUid(a.getUid());
+        String accountUid;
+        accountUid = _accountDropdown.getStringValue();
+
+        //remove_valerie: println
+        System.out.println("    accountUid: " + accountUid);
+        //remove_steve print account uid from dropdown
+
+        if ( accountUid != null )
+            f.setAccountUid(accountUid);
 
         return f;
     }
@@ -530,7 +534,7 @@ public class MyManageAccountsPage
         form.onEscape().run(cancelAction);
 
         ScGroup group;
-        group = form.addGroup(getInviteUserLabel());
+        group = form.addGroup("Invite User");
 
         ScBox body;
         body = group.addBox();
@@ -1032,75 +1036,8 @@ public class MyManageAccountsPage
         account = getAccess().getAccountDao().findWithName(accountName);
         getPageSession().setAccount(account);
 
-        setInviteUserLabel("Invite User to " + accountName);
-
-        // fixme_valerie: seems weird
-        installAddUserFrame();
-
-        String email = _addUserEmail.getValue();
-
-        boolean isValid = KmEmailParser.validate(email);
-
-        if ( !isValid )
-            _addUserEmail.error("Invalid email");
-
-        //        MyUser user = getAccess().getUserDao().findEmail(email);
-        //        if ( user == null )
-        //            sendInviteNewUserEmail(email, accountName);
-        //        else
-        //            sendResetPasswordInvitation(user);
-        //
-        //        showSentMessage(email);
-        //        setEmailCookie(email);
-
         _addUserChild.ajaxPrint();
         _addUserChild.ajax().focus();
-    }
-
-    //    private void sendInviteNewUserEmail(String email, String accountName)
-    //    {
-    //        MyPropertyRegistry p = getProperties();
-    //
-    //        String app = MyConstantsIF.APPLICATION_NAME;
-    //
-    //        MyInvitation i;
-    //        i = new MyInvitation();
-    //        i.setUser(user);
-    //        i.saveDao();
-    //
-    //        KmHtmlBuilder msg;
-    //        msg = new KmHtmlBuilder();
-    //        msg.printfln("Hello");
-    //        msg.printfln();
-    //        msg.printf("Welcome to %s! ", app);
-    //        msg.printf("You have been invited to join %s. ", accountName);
-    //        msg.printfln();
-    //        msg.printf("To signup with a new account please click this link:");
-    //        msg.printfln();
-    //        msg.printfln();
-    //        msg.printLink("Activate My Account", MyUrls.getInvitationUrl(i));
-    //        msg.printfln();
-    //
-    //        String subject = Kmu.format("%s Invitation", app);
-    //
-    //        MyEmail e;
-    //        e = new MyEmail();
-    //        e.setSubject(subject);
-    //        e.addToRecipient(email);
-    //        e.setFromAddress(p.getSendEmailFromAddress());
-    //        e.addHtmlPart(msg.toString());
-    //        e.markReady();
-    //        e.saveDao();
-    //    }
-
-    private String getInviteUserLabel()
-    {
-        return _inviteUserLabel;
-    }
-
-    private void setInviteUserLabel(String e)
-    {
-        _inviteUserLabel = e;
     }
 
     private void handleViewUser()
