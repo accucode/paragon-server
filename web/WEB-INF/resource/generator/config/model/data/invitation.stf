@@ -71,3 +71,13 @@ attributes
 
         delegate
         : fieldName = name
+        
+    association
+    : name      = account
+    : comment   = The account to which the invitation referred.
+    : modelName = account
+    : relation  = reference
+    : required  = false
+
+        delegate
+        : fieldName = name
