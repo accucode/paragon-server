@@ -64,9 +64,7 @@ public class MyEqualizeTestPage
 
         buttons = info.addButtonBox();
         buttons.addButton("Equalize", newEqualizeAction());
-        buttons.addButton("Equalize - Reset", newEqualizeResetAction());
-        buttons.addButton("Equalize Button Width", newEqualizeButtonsAction());
-        buttons.addButton("Equalize Button Width- Reset", newEqualizeButtonsResetAction());
+        buttons.addButton("Equalize Buttons", newEqualizeButtonsAction());
 
         _buttons = buttons;
 
@@ -199,18 +197,6 @@ public class MyEqualizeTestPage
         };
     }
 
-    private ScActionIF newEqualizeResetAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleEqualizeReset();
-            }
-        };
-    }
-
     private ScActionIF newEqualizeButtonsAction()
     {
         return new ScAction(this)
@@ -219,18 +205,6 @@ public class MyEqualizeTestPage
             protected void handle()
             {
                 handleEqualizeButtons();
-            }
-        };
-    }
-
-    private ScActionIF newEqualizeButtonsResetAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleEqualizeButtonsReset();
             }
         };
     }
@@ -261,21 +235,11 @@ public class MyEqualizeTestPage
 
     private void handleEqualize()
     {
-        _groups.ajax().equalizeChildren(false);
-    }
-
-    private void handleEqualizeReset()
-    {
         _groups.ajax().equalizeChildren();
     }
 
     private void handleEqualizeButtons()
     {
-        _buttons.ajax().equalizeChildrenWidth(false);
-    }
-
-    private void handleEqualizeButtonsReset()
-    {
-        _buttons.ajax().equalizeChildrenWidth(true);
+        _buttons.ajax().equalizeChildren();
     }
 }
