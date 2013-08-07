@@ -4,8 +4,13 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.ScMenuItem;
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.action.ScActionContextIF;
+import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
+import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScTopMenu;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
@@ -115,6 +120,7 @@ public class MyPageLayout
     {
         _dropdown = new ScDropdown();
         _dropdown.hide();
+        _dropdown.setAction(newSetAccountAction());
     }
 
     private KmList<ScOption> getDropdownList()
@@ -142,13 +148,45 @@ public class MyPageLayout
             {
                 ScOption option;
                 option = new ScOption();
-                option.setValue(account.getUid());
                 option.setText(account.getName());
+                option.setValue(account.getUid());
 
                 list.add(option);
             }
         }
         return list;
+    }
+
+    /**
+     *  review_wyatt (steve) getting context
+     *  this was our "for now" fix
+     */
+    private ScActionIF newSetAccountAction()
+    {
+        ScActionContextIF context = ScGlobalContext.getInstance();
+        return new ScAction(context)
+        {
+            @Override
+            public void handle()
+            {
+                handleSetAccount();
+            }
+        };
+    }
+
+    private void handleSetAccount()
+    {
+        //fixme_steve still working on this the _dropdown is giving me a null string value
+
+        MyAccount account;
+        account = getAccess().getAccountDao().findUid(_dropdown.getStringValue());
+
+        MyServerSession ss = MyGlobals.getServerSession();
+        ss.setAccount(account);
+
+        // remove_steve: print
+        System.out.println("MyPageLayout.handleSetAccount");
+        System.out.println("====== top account uid: " + ss.getAccount().getName());
     }
 
     //##################################################
@@ -162,8 +200,10 @@ public class MyPageLayout
 
         _topRightDiv = new ScDiv();
         _topRightDiv.css().pad10();
-        _topRightDiv.add(_dropdown);
-        _topRightDiv.add(_menu);
+
+        ScForm form = _topRightDiv.addForm();
+        form.add(_dropdown);
+        form.add(_menu);
 
     }
 
