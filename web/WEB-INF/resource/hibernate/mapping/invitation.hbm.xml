@@ -44,6 +44,12 @@
             />
 
         <property
+            name="typeCode"
+            column="typeCode"
+            type="string"
+            />
+
+        <property
             name="accessKey"
             column="accessKey"
             type="string"

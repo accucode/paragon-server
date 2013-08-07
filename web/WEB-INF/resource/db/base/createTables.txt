@@ -121,6 +121,7 @@ CREATE TABLE invitation
 (
     uid varchar(30),
     statusCode char(1),
+    typeCode char(1),
     accessKey varchar(30),
     createdUtcTs datetime,
     closedUtcTs datetime,
