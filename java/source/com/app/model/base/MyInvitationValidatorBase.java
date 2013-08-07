@@ -43,6 +43,7 @@ public class MyInvitationValidatorBase
     private KmTimestampValidator closedUtcTsValidator;
     private KmIntegerValidator lockVersionValidator;
     private KmStringValidator userNameValidator;
+    private KmStringValidator accountNameValidator;
 
     //##################################################
     //# constructor
@@ -59,6 +60,7 @@ public class MyInvitationValidatorBase
         closedUtcTsValidator = newClosedUtcTsValidator();
         lockVersionValidator = newLockVersionValidator();
         userNameValidator = newUserNameValidator();
+        accountNameValidator = newAccountNameValidator();
     }
 
     //##################################################
@@ -103,6 +105,11 @@ public class MyInvitationValidatorBase
     public KmStringValidator getUserNameValidator()
     {
         return userNameValidator;
+    }
+
+    public KmStringValidator getAccountNameValidator()
+    {
+        return accountNameValidator;
     }
 
     //##################################################
@@ -225,6 +232,18 @@ public class MyInvitationValidatorBase
         e.setAllowsPrintable(true);
         e.setModel("invitation");
         e.setField("userName");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newAccountNameValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
+        e.setModel("invitation");
+        e.setField("accountName");
         e.setRequired();
         return e;
     }

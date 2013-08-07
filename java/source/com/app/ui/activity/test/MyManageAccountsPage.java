@@ -9,7 +9,7 @@ import com.app.model.MyInvitationType;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
 import com.app.property.MyPropertyRegistry;
-import com.app.ui.activity.login.MyTransferAccountActivity;
+import com.app.ui.activity.login.MyTransferAccount;
 import com.app.utility.MyButtonUrls;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyUrls;
@@ -991,7 +991,7 @@ public class MyManageAccountsPage
         /**
          * review_wyatt (valerie)
          */
-        MyTransferAccountActivity.instance.start(account, email);
+        MyTransferAccount.instance.start(account, email);
     }
 
     private MyUser createUser(String email)

@@ -15,15 +15,15 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
-public class MyTransferAccountActivity
+public class MyTransferAccount
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyTransferAccountActivity instance = new MyTransferAccountActivity();
+    public static final MyTransferAccount instance = new MyTransferAccount();
 
-    private MyTransferAccountActivity()
+    private MyTransferAccount()
     {
         // singleton
     }

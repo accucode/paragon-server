@@ -78,10 +78,12 @@ public class MyMetaInvitation
     public static final MyMetaInvitation_ClosedLocalDate ClosedLocalDate = new MyMetaInvitation_ClosedLocalDate();
     public static final MyMetaInvitation_ClosedLocalTime ClosedLocalTime = new MyMetaInvitation_ClosedLocalTime();
     public static final MyMetaInvitation_UserName UserName = new MyMetaInvitation_UserName();
+    public static final MyMetaInvitation_AccountName AccountName = new MyMetaInvitation_AccountName();
 
     //##################################################
     //# associations
     //##################################################
 
     public static final MyMetaInvitation_User User = new MyMetaInvitation_User();
+    public static final MyMetaInvitation_Account Account = new MyMetaInvitation_Account();
 }

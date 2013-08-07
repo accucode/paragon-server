@@ -1,0 +1,11 @@
+########################################
+#! UPGRADE
+########################################
+
+ALTER TABLE invitation ADD accountUid varchar(30);
+
+########################################
+#! DOWNGRADE
+########################################
+
+ALTER TABLE invitation DROP accountUid;

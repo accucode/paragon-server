@@ -74,5 +74,12 @@
             cascade="none"
             />
 
+        <many-to-one
+            name="account"
+            column="accountUid"
+            class="com.app.model.MyAccount"
+            cascade="none"
+            />
+
     </class>
 </hibernate-mapping>
