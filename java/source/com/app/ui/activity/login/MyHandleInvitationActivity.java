@@ -74,28 +74,13 @@ public class MyHandleInvitationActivity
 
         ScGroup group;
         group = new ScGroup();
+        group.setTitle("Activate User");
+        group.style().width(300).marginTop(100).marginCenter();
 
-        if ( _type.equals(MyInvitationType.Transfer) )
-        {
-            group.setTitle("Transfer Account");
-            group.style().width(300).marginTop(100).marginCenter();
+        ScContainer body = group.getBody();
 
-            ScContainer body = group.getBody();
-
-            installTransferForm(body);
-            //            installTransferMessageBox(body);
-        }
-
-        else
-        {
-            group.setTitle("Activate User");
-            group.style().width(300).marginTop(100).marginCenter();
-
-            ScContainer body = group.getBody();
-
-            installForm(body);
-            installMessageBox(body);
-        }
+        installForm(body);
+        installMessageBox(body);
 
         _root = group;
     }
@@ -142,6 +127,8 @@ public class MyHandleInvitationActivity
         button.style().marginTop(10);
     }
 
+    // fixme_valerie: 
+    @SuppressWarnings("unused")
     private void installTransferForm(ScContainer root)
     {
         ScForm form;
