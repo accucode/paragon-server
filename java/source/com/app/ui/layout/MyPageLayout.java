@@ -10,6 +10,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
+import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScTopMenu;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
@@ -119,7 +120,6 @@ public class MyPageLayout
     {
         _dropdown = new ScDropdown();
         _dropdown.hide();
-        // fixme_steve finish this
         _dropdown.setAction(newSetAccountAction());
     }
 
@@ -148,8 +148,8 @@ public class MyPageLayout
             {
                 ScOption option;
                 option = new ScOption();
-                option.setValue(account.getUid());
                 option.setText(account.getName());
+                option.setValue(account.getUid());
 
                 list.add(option);
             }
@@ -177,14 +177,16 @@ public class MyPageLayout
     private void handleSetAccount()
     {
         //fixme_steve still working on this the _dropdown is giving me a null string value
-        MyServerSession ss = MyGlobals.getServerSession();
+
         MyAccount account;
         account = getAccess().getAccountDao().findUid(_dropdown.getStringValue());
+
+        MyServerSession ss = MyGlobals.getServerSession();
         ss.setAccount(account);
 
         // remove_steve: print
         System.out.println("MyPageLayout.handleSetAccount");
-        System.out.println("====== top account uid: " + _dropdown.getStringValue());
+        System.out.println("====== top account uid: " + ss.getAccount().getName());
     }
 
     //##################################################
@@ -198,8 +200,10 @@ public class MyPageLayout
 
         _topRightDiv = new ScDiv();
         _topRightDiv.css().pad10();
-        _topRightDiv.add(_dropdown);
-        _topRightDiv.add(_menu);
+
+        ScForm form = _topRightDiv.addForm();
+        form.add(_dropdown);
+        form.add(_menu);
 
     }
 
