@@ -70,6 +70,7 @@ public class MyTestPage
         links.addLink(MyShowDialogTestPage.instance);
         links.addLink(MyBarcodeTestPage.instance);
         links.addLink(MyGradientTestPage.instance);
+        links.addLink(MyCardFlipTestPage.instance);
 
         group = groups.addGroup("Tools");
         links = group.addLinkBox();
