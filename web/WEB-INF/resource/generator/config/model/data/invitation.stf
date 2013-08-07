@@ -30,6 +30,18 @@ attributes
             value(#A Accepted)
             value(#R Rejected)
             value(#X Cancelled)
+            
+    field
+    : name      = typeCode
+    : label     = Type
+    : comment   = The type.
+    : type      = letterCode
+    : required  = true
+
+        enum
+            value(#U User)
+            value(#T Transfer)
+            value(#J Join)
 
     field
     : name      = accessKey
