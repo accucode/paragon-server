@@ -78,11 +78,6 @@ An animated css menu.
 http://www.dynamicdrive.com/dynamicindex1/ddsmoothmenu.htm
 License: custom; keep notice intact
 
-Equalize
-a plugin to equalize the size of elements
-http://tsvensen.github.io/equalize.js/
-License: MIT & GPLv2 licens
-
 ------------------------------
 Other
 ------------------------------
