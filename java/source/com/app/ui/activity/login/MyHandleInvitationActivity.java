@@ -1,11 +1,5 @@
 package com.app.ui.activity.login;
 
-import com.app.model.MyInvitation;
-import com.app.model.MyInvitationType;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.utility.MyUrls;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -19,6 +13,12 @@ import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
+
+import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyActivity;
+import com.app.utility.MyUrls;
 
 public class MyHandleInvitationActivity
     extends MyActivity
@@ -76,7 +76,13 @@ public class MyHandleInvitationActivity
         group = new ScGroup();
 
         // fixme_valerie: install based on type
-        installBody(group);
+        //        installBody(group);
+        /**
+         * reveiw_valerie (steve) the above line was Broken I have no idea 
+         * what it does or why it is broken. came from a push.
+         * 
+         * review_steve this was broken
+         */
         group.setTitle("Activate User");
         group.style().width(300).marginTop(100).marginCenter();
 

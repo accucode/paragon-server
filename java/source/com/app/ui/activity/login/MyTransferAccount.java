@@ -35,7 +35,7 @@ public class MyTransferAccount
     /**ask_valerie 
      * about static methods
      */
-    public void start(MyAccount account, String email)
+    public boolean start(MyAccount account, String email)
     {
         MyUser user = getAccess().getUserDao().findEmail(email);
 
@@ -48,6 +48,8 @@ public class MyTransferAccount
             sendTransferExistingUserInvitation(user, account);
 
         showSentMessage(email);
+
+        return true;
     }
 
     private MyUser createUser(String email)
