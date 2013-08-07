@@ -105,21 +105,18 @@ public class MyManageAccountsPage
         root = newPageRoot();
         root.css().padSpaced();
 
-        ScForm form;
-        form = root.addForm();
-
-        installDeleteAccountDialog(form);
-        installDeleteUserDialog(form);
-        installAccountsDropdown(form);
+        installDeleteAccountDialog(root);
+        installDeleteUserDialog(root);
+        installAccountsDropdown(root);
 
         ScArray row;
-        row = form.addRow();
+        row = root.addRow();
 
         installAccountFrame(row);
         installTransferBox(row);
 
         ScArray row2;
-        row2 = form.addRow();
+        row2 = root.addRow();
 
         installUserGrid(row2);
         installUserFrame(row2);
@@ -127,7 +124,7 @@ public class MyManageAccountsPage
         return root;
     }
 
-    private void installDeleteAccountDialog(ScForm root)
+    private void installDeleteAccountDialog(ScPageRoot root)
     {
         _deleteAccountDialog = root.addDialog();
         _deleteAccountDialog.getHeaderBox().hide();
@@ -144,7 +141,7 @@ public class MyManageAccountsPage
         row.addPad().addButton("No", newCloseAction());
     }
 
-    private void installDeleteUserDialog(ScForm root)
+    private void installDeleteUserDialog(ScPageRoot root)
     {
         _deleteUserDialog = root.addDialog();
         _deleteUserDialog.getHeaderBox().hide();
@@ -161,7 +158,7 @@ public class MyManageAccountsPage
         row.addPad().addButton("No", newCloseAction());
     }
 
-    private void installAccountsDropdown(ScForm root)
+    private void installAccountsDropdown(ScPageRoot root)
     {
         _accountDropdown = new ScDropdown();
         _accountDropdown.setAction(newUpdateValuesAction());
