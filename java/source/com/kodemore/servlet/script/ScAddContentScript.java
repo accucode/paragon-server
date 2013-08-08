@@ -48,7 +48,7 @@ public class ScAddContentScript
      * should be added.  This is typically an id selector
      * like "#someId", but any selector will generally work. 
      */
-    private String        _target;
+    private String        _selector;
 
     /**
      * The method used to add new content.
@@ -75,24 +75,24 @@ public class ScAddContentScript
     //# selector
     //##################################################
 
-    public String getTarget()
+    public String getSelector()
     {
-        return _target;
+        return _selector;
     }
 
-    public void setTarget(String e)
+    public void setSelector(String e)
     {
-        _target = e;
+        _selector = e;
     }
 
-    public void setTarget(ScHtmlIdIF e)
+    public void setSelector(ScHtmlIdIF e)
     {
-        setTarget(e.formatJquerySelector());
+        setSelector(e.formatJquerySelector());
     }
 
-    public boolean hasTarget()
+    public boolean hasSelector()
     {
-        return Kmu.hasValue(getTarget());
+        return Kmu.hasValue(getSelector());
     }
 
     //##################################################
@@ -168,7 +168,7 @@ public class ScAddContentScript
     @Override
     public void formatScriptOn(KmStringBuilder out)
     {
-        if ( !hasTarget() )
+        if ( !hasSelector() )
             return;
 
         KmHtmlBuilder c = getContent();
@@ -176,12 +176,12 @@ public class ScAddContentScript
             return;
 
         String fn = getMode();
-        String target = json(getTarget());
+        String sel = json(getSelector());
         String html = json(c.formatHtml());
 
         ScScript s;
         s = new ScScript();
-        s.run("$(%s).%s(%s);", target, fn, html);
+        s.run("$(%s).%s(%s);", sel, fn, html);
         s.run(c.getPostDom());
         s.run(c.getPostRender());
         s.formatScriptOn(out);

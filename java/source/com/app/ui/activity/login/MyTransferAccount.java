@@ -1,5 +1,9 @@
 package com.app.ui.activity.login;
 
+import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.utility.KmEmailParser;
+import com.kodemore.utility.Kmu;
+
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAccount;
 import com.app.model.MyEmail;
@@ -11,13 +15,18 @@ import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyUrls;
 
-import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.utility.KmEmailParser;
-import com.kodemore.utility.Kmu;
+/**
+ * review_valerie (wyatt) discuss MyTransferAccount
+ *      class
+ *      name
+ *      singleton
+ */
 
 /**
- * review_wyatt (valerie)
+ * wyatt (valerie)
  * will wait for the green light to move the Join request to its own class as well
+ * 
+ * review_valerie (wyatt) discuss
  */
 public class MyTransferAccount
 {
@@ -36,10 +45,21 @@ public class MyTransferAccount
     //# start
     //##################################################
 
+    /**ask_valerie 
+     * about static methods
+     * 
+     * review_valerie (wyatt)
+     *      Fix the comment format above.
+     *      Text for multiline comments should start on the second line.
+     */
     public boolean start(MyAccount account, String email)
     {
         MyUser user = getAccess().getUserDao().findEmail(email);
 
+        /**
+         * review_valerie (wyatt) discuss
+         *      refactor
+         */
         if ( user == null )
         {
             user = createUser(email);
@@ -48,6 +68,10 @@ public class MyTransferAccount
         else
             sendTransferExistingUserInvitation(user, account);
 
+        /**
+         * review_valerie (wyatt)
+         *      I don't understand what this is.
+         */
         showSentMessage(email);
 
         return true;
@@ -67,6 +91,10 @@ public class MyTransferAccount
         u.setName(name);
         u.setEmail(email);
         u.saveDao();
+
+        /**
+         * review_valerie (wyatt) discuss password
+         */
 
         return u;
     }

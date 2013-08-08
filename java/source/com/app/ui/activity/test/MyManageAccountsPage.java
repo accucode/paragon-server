@@ -1066,10 +1066,13 @@ public class MyManageAccountsPage
             _transferEmail.error("Invalid");
 
         /**
-         * review_wyatt review_steve (valerie)
+         * wyatt review_steve (valerie)
          * 
-         * review_wyatt (steve) this is pretty ghetto, but I do manage to get a respoce from
+         * wyatt (steve) this is pretty ghetto, but I do manage to get a respoce from
          * the class.
+         * 
+         * review_valerie (wyatt) discuss
+         * review_steve   (wyatt) discuss
          */
         if ( MyTransferAccount.instance.start(account, email) )
             ajax().toast("Your request has been sent to:" + email);
