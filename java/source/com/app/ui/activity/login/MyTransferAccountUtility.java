@@ -25,17 +25,11 @@ public class MyTransferAccountUtility
     {
         MyUser user = getAccess().getUserDao().findEmail(email);
 
-        /**
-         * review_valerie (wyatt) discuss
-         *      refactor
-         */
-        if ( user == null )
-        {
+        boolean isNewUser = user == null;
+
+        if ( isNewUser )
             user = createUser(email);
-            sendTransferNewUserInvitation(user, account);
-        }
-        else
-            sendTransferExistingUserInvitation(user, account);
+        sendTransferInvitation(user, account, true);
     }
 
     private MyUser createUser(String email)
@@ -58,21 +52,45 @@ public class MyTransferAccountUtility
         return u;
     }
 
-    private void sendTransferNewUserInvitation(MyUser user, MyAccount account)
+    private void sendTransferInvitation(MyUser user, MyAccount account, boolean isNewUser)
     {
         MyPropertyRegistry p = getProperties();
 
+        String email = user.getEmail();
+        String accountName = account.getName();
+
+        MyInvitation inv;
+        inv = new MyInvitation();
+        inv.setType(MyInvitationType.Transfer);
+        inv.setAccount(account);
+        inv.setUser(user);
+        inv.saveDao();
+
+        KmHtmlBuilder msg;
+
+        if ( isNewUser )
+            msg = formatNewUserMsg(user, account, inv);
+        else
+            msg = formatExistingUserMsg(user, account, inv);
+
+        String subject = Kmu.format("%s Account Transfer Invitation", accountName);
+
+        MyEmail e;
+        e = new MyEmail();
+        e.setSubject(subject);
+        e.addToRecipient(email);
+        e.setFromAddress(p.getSendEmailFromAddress());
+        e.addHtmlPart(msg.toString());
+        e.markReady();
+        e.saveDao();
+    }
+
+    private KmHtmlBuilder formatNewUserMsg(MyUser user, MyAccount account, MyInvitation i)
+    {
         String userName = user.getName();
         String email = user.getEmail();
         String accountName = account.getName();
         String app = MyConstantsIF.APPLICATION_NAME;
-
-        MyInvitation i;
-        i = new MyInvitation();
-        i.setType(MyInvitationType.Transfer);
-        i.setAccount(account);
-        i.setUser(user);
-        i.saveDao();
 
         KmHtmlBuilder msg;
         msg = new KmHtmlBuilder();
@@ -88,34 +106,13 @@ public class MyTransferAccountUtility
         msg.printfln();
         msg.printLink("Activate My Account and Take Ownership.", MyUrls.getInvitationUrl(i));
         msg.printfln();
-
-        String subject = Kmu.format("%s Account Transfer Invitation", accountName);
-
-        MyEmail e;
-        e = new MyEmail();
-        e.setSubject(subject);
-        e.addToRecipient(email);
-        e.setFromAddress(p.getSendEmailFromAddress());
-        e.addHtmlPart(msg.toString());
-        e.markReady();
-        e.saveDao();
+        return msg;
     }
 
-    private void sendTransferExistingUserInvitation(MyUser user, MyAccount account)
+    private KmHtmlBuilder formatExistingUserMsg(MyUser user, MyAccount account, MyInvitation i)
     {
-        MyPropertyRegistry p = getProperties();
-
         String userName = user.getName();
-        String email = user.getEmail();
         String accountName = account.getName();
-        String app = MyConstantsIF.APPLICATION_NAME;
-
-        MyInvitation i;
-        i = new MyInvitation();
-        i.setType(MyInvitationType.Transfer);
-        i.setAccount(account);
-        i.setUser(user);
-        i.saveDao();
 
         KmHtmlBuilder msg;
         msg = new KmHtmlBuilder();
@@ -128,17 +125,7 @@ public class MyTransferAccountUtility
         msg.printfln();
         msg.printLink("Take Ownership.", MyUrls.getInvitationUrl(i));
         msg.printfln();
-
-        String subject = Kmu.format("%s Account Transfer Invitation", app);
-
-        MyEmail e;
-        e = new MyEmail();
-        e.setSubject(subject);
-        e.addToRecipient(email);
-        e.setFromAddress(p.getSendEmailFromAddress());
-        e.addHtmlPart(msg.toString());
-        e.markReady();
-        e.saveDao();
+        return msg;
     }
 
     //##################################################
