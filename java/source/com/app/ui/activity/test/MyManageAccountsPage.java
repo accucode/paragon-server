@@ -1419,7 +1419,6 @@ public class MyManageAccountsPage
         _viewUserEmail.setValue(user.getEmail());
         _viewUserRole.setValue(accountUser.getRoleName());
 
-        _viewUserChild.applyFromModel(user);
         _viewUserChild.ajaxPrint();
     }
 
