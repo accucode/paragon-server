@@ -1014,18 +1014,30 @@ $.blockUI.defaults.css = {};
  * passed in a jquery selector.
  */
 (function($) {
-   $.fn.equalize = function() {
-       tallest = 0;
-       widest = 0;
-       this.each(function() {
-           if($(this).height() > tallest) {
+   $.fn.equalize = function(options) {
+        
+       tallest = options.minHeight || 0;
+       widest = options.minWidth || 0;
+       maxHeight = options.maxHeight;
+       maxWidth = options.maxWidth;
+
+       this.each(function() 
+       {
+           if($(this).height() > tallest) 
                tallest = $(this).height();
-           }
-           if($(this).width() > widest) {
+           
+           if($(this).width() > widest) 
                widest = $(this).width();
-           }
        });
-       return this.each(function() {
+       
+       if((maxHeight) && tallest > maxHeight) 
+            tallest = maxHeight;
+            
+       if((maxWidth) && widest > maxWidth) 
+            widest = maxWidth;
+       
+       return this.each(function() 
+       {
            $(this).height(tallest).css("overflow","auto");
            $(this).width(widest).css("overflow","auto");
        });

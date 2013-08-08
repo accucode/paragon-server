@@ -22,16 +22,56 @@
             $('#main').fadeIn();
         }
         
-        function myTest()
+        function fSortable()
         {
-            Kmu.toast('sortable...');
-            $("#sortable").sortable();
+            $('#sortable').sortable();
+            Kmu.toast('sortable');
+        }
+        
+        function fEnableSelection()
+        {
+            $('#sortable').enableSelection();
+            Kmu.toast('enableSelection');
+        }
+        
+        function fDisableSelection()
+        {
             $("#sortable").disableSelection();
+            Kmu.toast("disableSelection");
+        }
+        
+        function fEnable()
+        {
+            $("#sortable").sortable("enable");
+            Kmu.toast("enable");
+        }
+        
+        function fDisable()
+        {
+            $("#sortable").sortable("disable");
+            Kmu.toast("disable");
+        }
+        
+        function fRegisterUpdate()
+        {
+            $("#sortable").sortable(
+            {
+                update: function(ev, ui) 
+                {
+                    Kmu.toast("Updated");
+                }
+            });
+            Kmu.toast("register update");
         }
         
     </script>
 
     <style type="text/css">
+        li
+        {
+            vertical-align: middle;
+            height: 30px;
+        }
     </style>
 
 </head>
@@ -45,7 +85,16 @@
     
     
     <div class='boxBlue padSpaced'>
-        <button onclick='myTest();'>Make Sortable</button><br>        
+        <div>
+            <button onclick='fSortable();'>Sortable</button>
+            <button onclick='fEnable();'>Enable</button>
+            <button onclick='fDisable();'>Disable</button>
+            <button onclick='fEnableSelection();'>Enable Selection</button>
+            <button onclick='fDisableSelection();'>Disable Selection</button>
+            <button onclick='fRegisterUpdate();'>Register Update</button>
+        </div>
+        <br>
+                
         <ul id="sortable">
           <li class='ui-state-default'><span>aaaaa</span></li>
           <li class='ui-state-default'><span>bbbbb</span></li>
