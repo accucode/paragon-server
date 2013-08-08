@@ -25,5 +25,6 @@ package com.kodemore.servlet.script;
 public enum ScEffect
 {
     fade,
-    slide
+    slide,
+    flip
 }
