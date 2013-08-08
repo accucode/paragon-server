@@ -1018,8 +1018,29 @@ public class MyManageAccountsPage
 
     private void handleShowAddAccountBox()
     {
+        String accountUid;
+        accountUid = _accountDropdown.getStringValue();
+
+        MyAccount account;
+        account = getAccess().getAccountDao().findUid(accountUid);
+        getPageSession().setAccount(account);
+
         _addAccountChild.ajaxPrint();
         _addAccountChild.ajax().focus();
+    }
+
+    private void handleAddAccountCancel()
+    {
+        MyAccount account;
+        account = getPageSession().getAccount();
+
+        if ( account != null )
+        {
+            _viewAccountName.setValue(account.getName());
+            _viewAccountType.setValue(account.getType().getName());
+        }
+
+        _viewAccountChild.ajaxPrint();
     }
 
     private void handleShowEditAccountBox()
@@ -1205,11 +1226,6 @@ public class MyManageAccountsPage
         _accountDropdown.ajaxSetValue(accountUid);
 
         loadViewAccount();
-    }
-
-    private void handleAddAccountCancel()
-    {
-        _accountFrame.ajaxClear();
     }
 
     private void handleShowAddUserBox()
