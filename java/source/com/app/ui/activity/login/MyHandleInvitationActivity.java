@@ -76,7 +76,7 @@ public class MyHandleInvitationActivity
         group = new ScGroup();
 
         // fixme_valerie: install based on type
-        installBody(group);
+        //        installBody(group);
         group.setTitle("Activate User");
         group.style().width(300).marginTop(100).marginCenter();
 
