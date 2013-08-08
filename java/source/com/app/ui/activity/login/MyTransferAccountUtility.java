@@ -45,8 +45,7 @@ public class MyTransferAccountUtility
         u = new MyUser();
         u.setName(name);
         u.setEmail(email);
-        // fixme_valerie: convenience method in the user called setRandomPassword
-        u.setPassword(Kmu.newUid());
+        u.setRandomPassword();
         u.saveDao();
 
         return u;
