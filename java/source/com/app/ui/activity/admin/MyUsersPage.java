@@ -153,15 +153,10 @@ public class MyUsersPage
     //# frames
     //##################################################
 
-    // review_aaron: Flip effect on user frame.
     private void installFrame(ScArray row)
     {
         _frame = new MyUserFrame();
         _frame.setOnChangeAction(newOnChangeAction());
-        _frame.setHideFlip();
-        //        _frame.setHideSpeed(150);
-        _frame.setShowFlip();
-        //        _frame.setShowSpeed(150);
 
         row.add(_frame);
     }
