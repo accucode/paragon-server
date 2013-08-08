@@ -71,13 +71,13 @@ public class MyManageAccountsPage
     private ScTextField           _viewAccountType;
     private ScTextField           _editAccountName;
     private ScTextField           _addAccountName;
-    //    private ScTextField           _transferEmail;
-    private ScAutoCompleteField   _transferEmail;
     private ScTextField           _editUserName;
     private ScTextField           _editUserEmail;
     private ScTextField           _viewUserName;
     private ScTextField           _viewUserEmail;
     private ScTextField           _viewUserRole;
+
+    private ScAutoCompleteField   _transferEmail;
 
     private ScFrameChild          _viewAccountChild;
     private ScFrameChild          _editAccountChild;
@@ -144,12 +144,18 @@ public class MyManageAccountsPage
         form = body.addForm();
 
         ScGroup group;
-        group = form.addGroup("Are you sure you want to delete this account?");
+        group = form.addGroup("Are you sure you want to \n delete this account?");
 
-        ScArray row;
-        row = group.addRow();
-        row.addPad().addButton("Yes", newDeleteAccountAction());
-        row.addPad().addButton("No", newCloseAction());
+        ScDiv footer;
+        footer = group.addButtonBoxRight();
+
+        ScActionButton button1;
+        button1 = footer.addButton("Cancel", newCloseAction());
+        button1.setImage(MyButtonUrls.cancel());
+
+        ScActionButton button2;
+        button2 = footer.addButton("Yes", newDeleteAccountAction());
+        button2.setImage(MyButtonUrls.primary());
     }
 
     private void installDeleteUserDialog(ScPageRoot root)
@@ -164,12 +170,18 @@ public class MyManageAccountsPage
         form = body.addForm();
 
         ScGroup group;
-        group = form.addGroup("Are you sure you want to remove this user?");
+        group = form.addGroup("Are you sure you want to \n remove this user?");
 
-        ScArray row;
-        row = group.addRow();
-        row.addPad().addButton("Yes", newDeleteUserAction());
-        row.addPad().addButton("No", newCloseAction());
+        ScDiv footer;
+        footer = group.addButtonBoxRight();
+
+        ScActionButton button1;
+        button1 = footer.addButton("Cancel", newCloseAction());
+        button1.setImage(MyButtonUrls.cancel());
+
+        ScActionButton button2;
+        button2 = footer.addButton("Yes", newDeleteUserAction());
+        button2.setImage(MyButtonUrls.primary());
     }
 
     private void installAccountsDropdown(ScArray col)
@@ -349,7 +361,6 @@ public class MyManageAccountsPage
         body.css().pad();
 
         // fixme_valerie: 
-        //        _transferEmail = new ScTextField();
         _transferEmail = new ScAutoCompleteField();
         _transferEmail.setLabel("Email ");
         _transferEmail.setCallback(newTransferEmailCallback());
@@ -383,7 +394,7 @@ public class MyManageAccountsPage
     private KmList<String> getAutocompleteTransferEmailOptions(String term)
     {
         /**ask_valerie 
-         * can't grab accountName
+         * can't grab accountName, tried a track method like grid has with no luck
          */
         KmList<String> v;
         v = new KmList<String>();
@@ -401,7 +412,6 @@ public class MyManageAccountsPage
         accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(account);
 
         for ( MyAccountUser e : accountUsers )
-            //            if ( e.getEmail().toLowerCase().contains(term.toLowerCase()) )
             if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
                 v.add(e.getUser().getEmail());
 
@@ -921,18 +931,25 @@ public class MyManageAccountsPage
 
     private void handleShowDeleteAccountDialog()
     {
-        MyAccountUser e;
-        e = getAccess().findAccountUserUid(getStringArgument());
-        getPageSession().setAccountUser(e);
+        String accountName;
+        accountName = _viewAccountName.getValue();
+
+        MyAccount account;
+        account = getAccess().getAccountDao().findWithName(accountName);
+        getPageSession().setAccount(account);
 
         _deleteAccountDialog.ajaxOpen();
     }
 
+    // fixme_valerie: doesn't work, see handleDeleteUser()
     private void handleShowDeleteAccountUserDialog()
     {
-        MyAccountUser e;
-        e = getAccess().findAccountUserUid(getStringArgument());
-        getPageSession().setAccountUser(e);
+        String accountName;
+        accountName = _accountDropdown.getStringValue();
+
+        MyAccount account;
+        account = getAccess().getAccountDao().findWithName(accountName);
+        getPageSession().setAccount(account);
 
         _deleteUserDialog.ajaxOpen();
     }
@@ -952,6 +969,10 @@ public class MyManageAccountsPage
 
     private void handleDeleteUser()
     {
+        /**ask_valerie 
+         * can't grab account from _userGrid. Therefore, can't remove user
+         * from account
+         */
         MyUser u;
         u = getPageSession().getUser();
 
