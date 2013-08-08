@@ -1,13 +1,5 @@
 package com.app.ui.servlet;
 
-import com.kodemore.collection.KmMap;
-import com.kodemore.command.KmDaoCommand;
-import com.kodemore.exception.KmApplicationException;
-import com.kodemore.exception.KmRoleViolationException;
-import com.kodemore.log.KmLog;
-import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.utility.Kmu;
-
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
@@ -21,6 +13,14 @@ import com.app.ui.layout.MyLeftMenu;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyUrls;
+
+import com.kodemore.collection.KmMap;
+import com.kodemore.command.KmDaoCommand;
+import com.kodemore.exception.KmApplicationException;
+import com.kodemore.exception.KmRoleViolationException;
+import com.kodemore.log.KmLog;
+import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.utility.Kmu;
 
 public class MyAjaxServlet
     extends MyServlet
@@ -220,23 +220,26 @@ public class MyAjaxServlet
 
         String value = params.get(key);
 
-        MyInvitation a;
-        a = getAccess().getInvitationDao().findAccessKey(value);
+        MyInvitation inv;
+        inv = getAccess().getInvitationDao().findAccessKey(value);
 
         MyInvitationType type;
-        type = a.getType();
+        type = inv.getType();
 
-        /**
-         * review_valerie (wyatt) discuss
-         */
-        if ( type.equals(MyInvitationType.Transfer) )
-            MyHandleTransferInvitationActivity.instance.start(value);
+        switch ( type )
+        {
+            case Join:
+                MyHandleJoinInvitationActivity.instance.start(value);
+                break;
 
-        if ( type.equals(MyInvitationType.Join) )
-            MyHandleJoinInvitationActivity.instance.start(value);
+            case Transfer:
+                MyHandleTransferInvitationActivity.instance.start(value);
+                break;
 
-        else
-            MyHandleInvitationActivity.instance.start(value);
+            case User:
+                MyHandleInvitationActivity.instance.start(value);
+                break;
+        }
 
         return true;
     }

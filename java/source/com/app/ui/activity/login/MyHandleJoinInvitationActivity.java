@@ -226,7 +226,8 @@ public class MyHandleJoinInvitationActivity
             accountUser.setAccount(account);
         }
 
-        /**ask_valerie 
+        /**
+         * ask_valerie 
          * about role
          */
         //        accountUser.setRole(MyAccountUserRole.Owner);

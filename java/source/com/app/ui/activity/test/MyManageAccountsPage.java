@@ -1,5 +1,19 @@
 package com.app.ui.activity.test;
 
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyEmail;
+import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.property.MyPropertyRegistry;
+import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.utility.MyButtonUrls;
+import com.app.utility.MyConstantsIF;
+import com.app.utility.MyUrls;
+
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -27,20 +41,6 @@ import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
-
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyEmail;
-import com.app.model.MyInvitation;
-import com.app.model.MyInvitationType;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.property.MyPropertyRegistry;
-import com.app.ui.activity.login.MyTransferAccount;
-import com.app.utility.MyButtonUrls;
-import com.app.utility.MyConstantsIF;
-import com.app.utility.MyUrls;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -360,7 +360,7 @@ public class MyManageAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        // fixme_valerie: 
+        // review_steve
         _transferEmail = new ScAutoCompleteField();
         _transferEmail.setLabel("Email ");
         _transferEmail.setCallback(newTransferEmailCallback());
@@ -393,7 +393,9 @@ public class MyManageAccountsPage
 
     private KmList<String> getAutocompleteTransferEmailOptions(String term)
     {
-        /**ask_valerie 
+        // review_steve (valerie)
+        /**
+         * ask_valerie 
          * can't grab accountName, tried a track method like grid has with no luck
          */
         KmList<String> v;
@@ -516,6 +518,10 @@ public class MyManageAccountsPage
         header = group.getHeader().addFloatRight();
         header.css().pad5();
 
+        ScActionButton editButton;
+        editButton = header.addButton("Edit", newShowEditUserBoxAction());
+        editButton.setImage(MyButtonUrls.edit());
+
         ScBox body;
         body = group.addBox();
         body.css().pad();
@@ -543,15 +549,19 @@ public class MyManageAccountsPage
         ScDiv footer;
         footer = group.addButtonBoxRight();
 
-        ScActionButton editButton;
-        editButton = footer.addButton("Edit", newShowEditUserBoxAction());
-        editButton.setImage(MyButtonUrls.edit());
+        //        ScActionButton editButton;
+        //        editButton = footer.addButton("Edit", newShowEditUserBoxAction());
+        //        editButton.setImage(MyButtonUrls.edit());
+        // fixme_valerie: come back to this
+        ScActionButton cancelButton;
+        cancelButton = footer.addButton("Cancel", newEditUserCancelAction());
+        cancelButton.setImage(MyButtonUrls.cancel());
 
         ScActionButton removeButton;
         removeButton = footer.addButton(
             "Remove from Account",
             newShowDeleteAccountUserDialogAction());
-        removeButton.setImage(MyButtonUrls.cancel());
+        removeButton.setImage(MyButtonUrls.primary());
 
         _viewUserChild = frame;
     }
@@ -1112,17 +1122,11 @@ public class MyManageAccountsPage
         if ( !isValid )
             _transferEmail.error("Invalid");
 
-        /**
-         * wyatt review_steve (valerie)
-         * 
-         * wyatt (steve) this is pretty ghetto, but I do manage to get a respoce from
-         * the class.
-         * 
-         * review_valerie (wyatt) discuss
-         * review_steve   (wyatt) discuss
-         */
-        if ( MyTransferAccount.instance.start(account, email) )
-            ajax().toast("Your request has been sent to:" + email);
+        MyTransferAccountUtility utility;
+        utility = new MyTransferAccountUtility();
+        utility.start(account, email);
+
+        ajax().toast("Your request has been sent to:" + email);
     }
 
     private MyUser createUser(String email)
@@ -1272,10 +1276,14 @@ public class MyManageAccountsPage
 
         MyAccountUser accountUser;
         accountUser = getAccess().getAccountUserDao().findWithUid(accountUserUid);
+
         getPageSession().setAccountUser(accountUser);
 
         MyUser user;
         user = accountUser.getUser();
+
+        // fixme_valerie: use this account to hold in pageSession here
+        //        MyAccount account = accountUser.getAccount();
 
         getPageSession().setUser(user);
 
