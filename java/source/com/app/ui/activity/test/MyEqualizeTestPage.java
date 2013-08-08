@@ -8,15 +8,6 @@ import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.string.KmStringBuilder;
 
-/**
- *  wyatt: (aaron) Here is the equalize test page.  There is still some weirdness
- *  happening with the buttons.  See the tags in ScHtmlIdAjax for more information.
- * 
- * review_aaron (wyatt)
- *      Fix comments above.
- *      What "weirdness" are you referring to?
- *      What is the name of the standalone test (test???.html) that demonstrates the problem?
- */
 public class MyEqualizeTestPage
     extends MyAbstractTestPage
 {

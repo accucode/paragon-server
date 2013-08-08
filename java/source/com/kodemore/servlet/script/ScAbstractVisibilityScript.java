@@ -39,7 +39,7 @@ public abstract class ScAbstractVisibilityScript
      * The target selector.  This can be any valid jquery
      * selector, and may match zero, one, or many elements. 
      */
-    private String   _target;
+    private String   _selector;
 
     /**
      * The optional animation effect to use.  By default,
@@ -69,7 +69,7 @@ public abstract class ScAbstractVisibilityScript
 
     public ScAbstractVisibilityScript()
     {
-        _target = null;
+        _selector = null;
         _effect = ScConstantsIF.DEFAULT_EFFECT;
         _easing = ScConstantsIF.DEFAULT_EASING;
         _speedMs = ScConstantsIF.DEFAULT_SPEED_MS;
@@ -98,19 +98,19 @@ public abstract class ScAbstractVisibilityScript
     //# selector
     //##################################################
 
-    public String getTarget()
+    public String getSelector()
     {
-        return _target;
+        return _selector;
     }
 
-    public void setTarget(String e)
+    public void setSelector(String e)
     {
-        _target = e;
+        _selector = e;
     }
 
-    public void setSelector(ScHtmlIdIF e)
+    public void setTarget(ScHtmlIdIF e)
     {
-        setTarget(e.formatJquerySelector());
+        setSelector(e.formatJquerySelector());
     }
 
     //##################################################
@@ -171,7 +171,7 @@ public abstract class ScAbstractVisibilityScript
 
     private String formatNoEffect()
     {
-        String sel = json(getTarget());
+        String sel = json(getSelector());
         String fn = getInstantFunction();
 
         return Kmu.format("$(%s).%s();", sel, fn);
@@ -202,7 +202,7 @@ public abstract class ScAbstractVisibilityScript
 
     private String formatNormalEffect(String function)
     {
-        String sel = json(getTarget());
+        String sel = json(getSelector());
         Integer ms = getSpeedMs();
         String ease = json(getEasing().name());
 
@@ -211,7 +211,7 @@ public abstract class ScAbstractVisibilityScript
 
     private String formatFlipEffect()
     {
-        String sel = json(getTarget());
+        String sel = json(getSelector());
         String function = getFlipFunction();
 
         return Kmu.format("$(%s).%s;", sel, function);
@@ -290,7 +290,7 @@ public abstract class ScAbstractVisibilityScript
 
     public ScAbstractVisibilityScript defer()
     {
-        ajax().deferUntil(getTarget());
+        ajax().deferUntil(getSelector());
         return this;
     }
 

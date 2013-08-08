@@ -124,6 +124,7 @@ public class ScFrame
         setShowEffect(ScEffect.slide);
     }
 
+    // review_aaron: Set some different defaults here?
     public void setShowFlip()
     {
         setShowEffect(ScEffect.flip);
@@ -196,6 +197,7 @@ public class ScFrame
         setHideEffect(ScEffect.slide);
     }
 
+    // review_aaron: Set some different defaults here?
     public void setHideFlip()
     {
         setHideEffect(ScEffect.flip);
