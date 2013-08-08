@@ -27,6 +27,14 @@ public class MyAccountUserDao
         return c.findAll();
     }
 
+    public KmList<MyAccountUser> findAccountUsersFor(MyAccount a)
+    {
+        MyAccountUserCriteria c;
+        c = createCriteria();
+        c.whereAccountIs(a);
+        return c.findAll();
+    }
+
     public MyAccountUser findAccountUserFor(MyUser u, MyAccount a)
     {
         MyAccountUserCriteria c;

@@ -20,6 +20,8 @@ import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.field.ScAutoCompleteCallbackIF;
+import com.kodemore.servlet.field.ScAutoCompleteField;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
@@ -69,12 +71,13 @@ public class MyManageAccountsPage
     private ScTextField           _viewAccountType;
     private ScTextField           _editAccountName;
     private ScTextField           _addAccountName;
-    private ScTextField           _transferEmail;
     private ScTextField           _editUserName;
     private ScTextField           _editUserEmail;
     private ScTextField           _viewUserName;
     private ScTextField           _viewUserEmail;
     private ScTextField           _viewUserRole;
+
+    private ScAutoCompleteField   _transferEmail;
 
     private ScFrameChild          _viewAccountChild;
     private ScFrameChild          _editAccountChild;
@@ -108,7 +111,11 @@ public class MyManageAccountsPage
 
         installDeleteAccountDialog(root);
         installDeleteUserDialog(root);
-        installAccountsDropdown(root);
+
+        ScArray col;
+        col = root.addColumn();
+
+        installAccountsDropdown(col);
 
         ScArray row;
         row = root.addRow();
@@ -137,12 +144,18 @@ public class MyManageAccountsPage
         form = body.addForm();
 
         ScGroup group;
-        group = form.addGroup("Are you sure you want to delete this account?");
+        group = form.addGroup("Are you sure you want to \n delete this account?");
 
-        ScArray row;
-        row = group.addRow();
-        row.addPad().addButton("Yes", newDeleteAccountAction());
-        row.addPad().addButton("No", newCloseAction());
+        ScDiv footer;
+        footer = group.addButtonBoxRight();
+
+        ScActionButton button1;
+        button1 = footer.addButton("Cancel", newCloseAction());
+        button1.setImage(MyButtonUrls.cancel());
+
+        ScActionButton button2;
+        button2 = footer.addButton("Yes", newDeleteAccountAction());
+        button2.setImage(MyButtonUrls.primary());
     }
 
     private void installDeleteUserDialog(ScPageRoot root)
@@ -157,21 +170,27 @@ public class MyManageAccountsPage
         form = body.addForm();
 
         ScGroup group;
-        group = form.addGroup("Are you sure you want to remove this user?");
+        group = form.addGroup("Are you sure you want to \n remove this user?");
 
-        ScArray row;
-        row = group.addRow();
-        row.addPad().addButton("Yes", newDeleteUserAction());
-        row.addPad().addButton("No", newCloseAction());
+        ScDiv footer;
+        footer = group.addButtonBoxRight();
+
+        ScActionButton button1;
+        button1 = footer.addButton("Cancel", newCloseAction());
+        button1.setImage(MyButtonUrls.cancel());
+
+        ScActionButton button2;
+        button2 = footer.addButton("Yes", newDeleteUserAction());
+        button2.setImage(MyButtonUrls.primary());
     }
 
-    private void installAccountsDropdown(ScPageRoot root)
+    private void installAccountsDropdown(ScArray col)
     {
         _accountDropdown = new ScDropdown();
         _accountDropdown.setAction(newUpdateValuesAction());
 
         ScForm form;
-        form = root.addForm();
+        form = col.addForm();
 
         ScGroup group;
         group = form.addGroup("Manage Accounts");
@@ -179,7 +198,11 @@ public class MyManageAccountsPage
         ScBox body;
         body = group.addPadSpaced();
         body.add(_accountDropdown);
-        body.addButton("Add Account", newShowAddAccountBoxAction());
+        body.addSpaces(3);
+
+        ScActionButton button;
+        button = body.addButton("Add Account", newShowAddAccountBoxAction());
+        button.setImage(MyButtonUrls.add());
     }
 
     private void installAccountFrame(ScArray row)
@@ -200,7 +223,7 @@ public class MyManageAccountsPage
         form = frame.addForm();
 
         ScGroup group;
-        group = form.addGroup("View");
+        group = form.addGroup("View Account");
 
         ScBox body;
         body = group.addBox();
@@ -223,7 +246,7 @@ public class MyManageAccountsPage
         group.addDivider();
 
         ScDiv footer;
-        footer = group.addButtonBox();
+        footer = group.addButtonBoxRight();
         footer.addButton("Edit", newShowEditAccountBoxAction());
         footer.addButton("Transfer", newShowTransferBoxAction());
         footer.addButton("Invite", newShowAddUserBoxAction());
@@ -317,6 +340,9 @@ public class MyManageAccountsPage
 
     private void installTransferBox(ScArray row)
     {
+        ScActionIF sendAction = newSendTransferRequestAction();
+        ScActionIF cancelAction = newCancelTransferRequestAction();
+
         _transferFrame = row.addFrame();
 
         ScFrameChild frame;
@@ -324,6 +350,8 @@ public class MyManageAccountsPage
 
         ScForm form;
         form = frame.addForm();
+        form.setDefaultAction(sendAction);
+        form.onEscape().run(cancelAction);
 
         ScGroup group;
         group = form.addGroup("Transfer Account");
@@ -332,8 +360,10 @@ public class MyManageAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        _transferEmail = new ScTextField();
+        // fixme_valerie: 
+        _transferEmail = new ScAutoCompleteField();
         _transferEmail.setLabel("Email ");
+        _transferEmail.setCallback(newTransferEmailCallback());
 
         ScFieldTable fields;
         fields = body.addFields();
@@ -342,11 +372,50 @@ public class MyManageAccountsPage
         group.addDivider();
 
         ScDiv footer;
-        footer = group.addButtonBox();
-        footer.addButton("Send Request", newSendTransferRequestAction());
-        footer.addCancelButton(newCancelTransferRequestAction());
+        footer = group.addButtonBoxRight();
+        footer.addCancelButton(cancelAction);
+        footer.addSubmitButton("Send Request");
 
         _transferChild = frame;
+    }
+
+    private ScAutoCompleteCallbackIF newTransferEmailCallback()
+    {
+        return new ScAutoCompleteCallbackIF()
+        {
+            @Override
+            public KmList<String> getOptionsFor(String term)
+            {
+                return getAutocompleteTransferEmailOptions(term);
+            }
+        };
+    }
+
+    private KmList<String> getAutocompleteTransferEmailOptions(String term)
+    {
+        /**ask_valerie 
+         * can't grab accountName, tried a track method like grid has with no luck
+         */
+        KmList<String> v;
+        v = new KmList<String>();
+
+        String accountName;
+        accountName = _accountDropdown.getStringValue();
+        //remove_valerie: println
+        System.out.println("    accountName: " + accountName);
+
+        MyAccount account;
+        account = getAccess().getAccountDao().findWithName(accountName);
+        getPageSession().setAccount(account);
+
+        KmList<MyAccountUser> accountUsers;
+        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(account);
+
+        for ( MyAccountUser e : accountUsers )
+            if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
+                v.add(e.getUser().getEmail());
+
+        return v;
     }
 
     private void installUserGrid(ScArray root)
@@ -358,7 +427,7 @@ public class MyManageAccountsPage
 
         ScGroup group;
         group = form.addGroup();
-        group.setTitle("Users");
+        group.setTitle("Users on this Account");
 
         ScDiv right;
         right = group.getHeader().addFloatRight();
@@ -548,7 +617,7 @@ public class MyManageAccountsPage
         form.onEscape().run(cancelAction);
 
         ScGroup group;
-        group = form.addGroup("Invite User");
+        group = form.addGroup("Invite User to Account");
 
         ScBox body;
         body = group.addBox();
@@ -863,18 +932,25 @@ public class MyManageAccountsPage
 
     private void handleShowDeleteAccountDialog()
     {
-        MyAccountUser e;
-        e = getAccess().findAccountUserUid(getStringArgument());
-        getPageSession().setAccountUser(e);
+        String accountName;
+        accountName = _viewAccountName.getValue();
+
+        MyAccount account;
+        account = getAccess().getAccountDao().findWithName(accountName);
+        getPageSession().setAccount(account);
 
         _deleteAccountDialog.ajaxOpen();
     }
 
+    // fixme_valerie: doesn't work, see handleDeleteUser()
     private void handleShowDeleteAccountUserDialog()
     {
-        MyAccountUser e;
-        e = getAccess().findAccountUserUid(getStringArgument());
-        getPageSession().setAccountUser(e);
+        String accountName;
+        accountName = _accountDropdown.getStringValue();
+
+        MyAccount account;
+        account = getAccess().getAccountDao().findWithName(accountName);
+        getPageSession().setAccount(account);
 
         _deleteUserDialog.ajaxOpen();
     }
@@ -894,6 +970,10 @@ public class MyManageAccountsPage
 
     private void handleDeleteUser()
     {
+        /**ask_valerie 
+         * can't grab account from _userGrid. Therefore, can't remove user
+         * from account
+         */
         MyUser u;
         u = getPageSession().getUser();
 
@@ -1012,10 +1092,13 @@ public class MyManageAccountsPage
             _transferEmail.error("Invalid");
 
         /**
-         * review_wyatt review_steve (valerie)
+         * wyatt review_steve (valerie)
          * 
-         * review_wyatt (steve) this is pretty ghetto, but I do manage to get a respoce from
+         * wyatt (steve) this is pretty ghetto, but I do manage to get a respoce from
          * the class.
+         * 
+         * review_valerie (wyatt) discuss
+         * review_steve   (wyatt) discuss
          */
         if ( MyTransferAccount.instance.start(account, email) )
             ajax().toast("Your request has been sent to:" + email);
@@ -1089,12 +1172,20 @@ public class MyManageAccountsPage
 
     private void handleEditAccountCancel()
     {
-        loadViewAccount();
+        MyAccount account;
+        account = getPageSession().getAccount();
+
+        if ( account != null )
+        {
+            _viewAccountName.setValue(account.getName());
+            _viewAccountType.setValue(account.getType().getName());
+        }
+
+        _viewAccountChild.ajaxPrint();
     }
 
     private void loadViewAccount()
     {
-        // remove_valerie: check getPageSession
         MyAccount account;
         account = getPageSession().getAccount();
 

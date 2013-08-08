@@ -265,7 +265,7 @@ public class ScHtmlIdAjax
     //# hack
     //##################################################
 
-    // fixme_wyatt: toast kludge 
+    // todo_wyatt: toast kludge 
     public void toast(String msg, Object... args)
     {
         ajax().toast(msg, args);
@@ -276,11 +276,15 @@ public class ScHtmlIdAjax
     //##################################################
 
     /**
-     *  review_wyatt: (aaron) here are all the equalize methods, they all delegate
+     *  wyatt: (aaron) here are all the equalize methods, they all delegate
      *  to the ScEqualizeScrips and return it so extra options can be set.
      *  
      *  I also added a few convenience methods for children, children class, and
      *  descendent class.
+     *  
+     * review_aaron (wyatt)
+     *      Fix comments above.
+     *      Discuss methods below.
      */
     public ScEqualizeScript equalizeChildren()
     {
@@ -311,6 +315,9 @@ public class ScHtmlIdAjax
         return runEqualizeScript(selector);
     }
 
+    /**
+     * review_aaron (wyatt) sel
+     */
     private ScEqualizeScript runEqualizeScript(String selector)
     {
         ScEqualizeScript e;
