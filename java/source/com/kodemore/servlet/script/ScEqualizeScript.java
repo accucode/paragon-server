@@ -42,6 +42,9 @@ public class ScEqualizeScript
      */
     private String  selector;
 
+    private boolean _equalizeHeight;
+    private boolean _equalizeWidth;
+
     /**
      * The min/max values for height and width.  The 
      * equalized elements will always fall between these values
@@ -64,6 +67,46 @@ public class ScEqualizeScript
     public void setSelector(String target)
     {
         selector = target;
+    }
+
+    //##################################################
+    //# mode
+    //##################################################
+
+    public boolean getEqualizeHeight()
+    {
+        return _equalizeHeight;
+    }
+
+    public void setEqualizeHeight(boolean e)
+    {
+        _equalizeHeight = e;
+    }
+
+    public void setEqualizeHeight()
+    {
+        setEqualizeHeight(true);
+    }
+
+    public boolean getEqualizeWidth()
+    {
+        return _equalizeWidth;
+    }
+
+    public void setEqualizeWidth(boolean e)
+    {
+        _equalizeWidth = e;
+    }
+
+    public void setEqualizeWidth()
+    {
+        setEqualizeWidth(true);
+    }
+
+    public void setEqualizeBoth()
+    {
+        setEqualizeHeight();
+        setEqualizeWidth();
     }
 
     //##################################################
@@ -114,16 +157,32 @@ public class ScEqualizeScript
     //# format
     //##################################################
 
+    /**
+     * review_wyatt: (aaron) EQUALIZE - I addressed everything we discussed earlier about
+     * the equalize function.  I added booleans to determine the 'mode' of the
+     * function, but made it default to both height and width if not specifically
+     * stated otherwise.
+     * 
+     * See the function in KmUtility.js for additional changes.
+     */
+
     @Override
     public void formatScriptOn(KmStringBuilder out)
     {
+        // review_aaron: default to equalize both if neither is set?
+        if ( !getEqualizeHeight() && !getEqualizeWidth() )
+            setEqualizeBoth();
+
         KmJsonObject options;
         options = new KmJsonObject();
+        options.setString("selector", getSelector());
+        options.setBoolean("height", getEqualizeHeight());
+        options.setBoolean("width", getEqualizeWidth());
         options.setInteger("minWidth", getMinWidth());
         options.setInteger("maxWidth", getMaxWidth());
         options.setInteger("minHeight", getMinHeight());
         options.setInteger("maxHeight", getMaxHeight());
 
-        out.printf("$('%s').equalize(%s);", getSelector(), options);
+        out.printf("Kmu.equalize(%s);", options);
     }
 }
