@@ -275,9 +275,9 @@ public abstract class ScBlockScript
     //# html class
     //##################################################
 
-    public void addCss(String target, String css)
+    public void addCss(String sel, String css)
     {
-        run("$(%s).addClass(%s);", json(target), json(css));
+        run("$(%s).addClass(%s);", json(sel), json(css));
     }
 
     public void addCss(ScHtmlIdIF target, String css)
@@ -285,9 +285,9 @@ public abstract class ScBlockScript
         addCss(target.formatJquerySelector(), css);
     }
 
-    public void removeCss(String target, String css)
+    public void removeCss(String sel, String css)
     {
-        run("$(%s).removeClass(%s);", json(target), json(css));
+        run("$(%s).removeClass(%s);", json(sel), json(css));
     }
 
     public void removeCss(ScHtmlIdIF target, String css)
@@ -295,9 +295,9 @@ public abstract class ScBlockScript
         removeCss(target.formatJquerySelector(), css);
     }
 
-    public void setCss(String target, String css)
+    public void setCss(String sel, String css)
     {
-        setAttribute(target, "class", css);
+        setAttribute(sel, "class", css);
     }
 
     public void setCss(ScHtmlIdIF target, String css)
@@ -305,9 +305,9 @@ public abstract class ScBlockScript
         setCss(target.formatJquerySelector(), css);
     }
 
-    public void clearCss(String target)
+    public void clearCss(String sel)
     {
-        removeAttribute(target, "class");
+        removeAttribute(sel, "class");
     }
 
     //##################################################
@@ -438,7 +438,7 @@ public abstract class ScBlockScript
     {
         ScAddContentScript e;
         e = new ScAddContentScript();
-        e.setTarget(target);
+        e.setSelector(target);
         run(e);
         return e;
     }

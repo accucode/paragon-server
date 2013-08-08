@@ -159,8 +159,13 @@ public class MyPageLayout
     }
 
     /**
-     *  review_wyatt (steve) getting context
+     *  wyatt (steve) getting context
      *  this was our "for now" fix
+     *  
+     * review_steve (wyatt)
+     *      fix format of comment text above.
+     *      
+     * todo_wyatt global context
      */
     private ScActionIF newSetAccountAction()
     {
@@ -180,7 +185,7 @@ public class MyPageLayout
         setServerSessionAccount();
 
         /**
-         * review_wyatt ajax servlet handle enter
+         * todo_wyatt define common entry point
          */
         MyWelcomePage.instance.start();
     }
