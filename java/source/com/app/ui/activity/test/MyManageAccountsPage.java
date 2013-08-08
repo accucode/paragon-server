@@ -223,7 +223,7 @@ public class MyManageAccountsPage
         form = frame.addForm();
 
         ScGroup group;
-        group = form.addGroup("View");
+        group = form.addGroup("View Account");
 
         ScBox body;
         body = group.addBox();
@@ -617,7 +617,7 @@ public class MyManageAccountsPage
         form.onEscape().run(cancelAction);
 
         ScGroup group;
-        group = form.addGroup("Invite User");
+        group = form.addGroup("Invite User to Account");
 
         ScBox body;
         body = group.addBox();
