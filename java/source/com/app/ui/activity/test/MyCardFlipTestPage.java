@@ -46,10 +46,8 @@ public class MyCardFlipTestPage
         _frame = root.addFrame();
         _frame.style().width(300);
         _frame.setHideFlip();
-        //        _frame.setHideSpeed(1000);
         _frame.setHideEasing(ScEasing.easeInOutQuad);
         _frame.setShowFlip();
-        //        _frame.setShowSpeed(1000);
         _frame.setShowEasing(ScEasing.easeInOutQuad);
 
         _childFront = _frame.createChild();

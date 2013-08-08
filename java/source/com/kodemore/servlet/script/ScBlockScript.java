@@ -537,7 +537,7 @@ public abstract class ScBlockScript
     {
         ScShowScript s;
         s = new ScShowScript();
-        s.setTarget(sel);
+        s.setSelector(sel);
 
         _add(s);
 
@@ -553,7 +553,7 @@ public abstract class ScBlockScript
     {
         ScHideScript s;
         s = new ScHideScript();
-        s.setTarget(sel);
+        s.setSelector(sel);
 
         _add(s);
 
@@ -569,7 +569,7 @@ public abstract class ScBlockScript
     {
         ScToggleScript e;
         e = new ScToggleScript();
-        e.setTarget(sel);
+        e.setSelector(sel);
 
         _add(e);
 

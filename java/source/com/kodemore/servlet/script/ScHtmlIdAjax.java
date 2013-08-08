@@ -275,21 +275,10 @@ public class ScHtmlIdAjax
     //# equalize children
     //##################################################
 
-    /**
-     *  wyatt: (aaron) here are all the equalize methods, they all delegate
-     *  to the ScEqualizeScrips and return it so extra options can be set.
-     *  
-     *  I also added a few convenience methods for children, children class, and
-     *  descendent class.
-     *  
-     * review_aaron (wyatt)
-     *      Fix comments above.
-     *      Discuss methods below.
-     */
     public ScEqualizeScript equalizeChildren()
     {
         String selector;
-        selector = Kmu.format("%s.children()", formatJqueryReference());
+        selector = Kmu.format("%s > *", formatJqueryReference());
 
         return runEqualizeScript(selector);
     }
@@ -302,7 +291,7 @@ public class ScHtmlIdAjax
     public ScEqualizeScript equalizeChildrenClass(String childClass)
     {
         String selector;
-        selector = Kmu.format("$('%s > .%s')", formatJquerySelector(), childClass);
+        selector = Kmu.format("%s > .%s", formatJquerySelector(), childClass);
 
         return runEqualizeScript(selector);
     }
@@ -310,18 +299,16 @@ public class ScHtmlIdAjax
     public ScEqualizeScript equalizeDecendentClass(String childClass)
     {
         String selector;
-        selector = Kmu.format("$('%s .%s')", formatJquerySelector(), childClass);
+        selector = Kmu.format("%s .%s", formatJquerySelector(), childClass);
 
         return runEqualizeScript(selector);
     }
 
-    /**
-     * review_aaron (wyatt) sel
-     */
     private ScEqualizeScript runEqualizeScript(String selector)
     {
         ScEqualizeScript e;
-        e = new ScEqualizeScript(selector);
+        e = new ScEqualizeScript();
+        e.setSelector(selector);
 
         run(e);
         return e;
