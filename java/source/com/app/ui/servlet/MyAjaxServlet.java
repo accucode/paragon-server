@@ -1,5 +1,13 @@
 package com.app.ui.servlet;
 
+import com.kodemore.collection.KmMap;
+import com.kodemore.command.KmDaoCommand;
+import com.kodemore.exception.KmApplicationException;
+import com.kodemore.exception.KmRoleViolationException;
+import com.kodemore.log.KmLog;
+import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.utility.Kmu;
+
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
@@ -13,14 +21,6 @@ import com.app.ui.layout.MyLeftMenu;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyUrls;
-
-import com.kodemore.collection.KmMap;
-import com.kodemore.command.KmDaoCommand;
-import com.kodemore.exception.KmApplicationException;
-import com.kodemore.exception.KmRoleViolationException;
-import com.kodemore.log.KmLog;
-import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.utility.Kmu;
 
 public class MyAjaxServlet
     extends MyServlet
@@ -212,10 +212,6 @@ public class MyAjaxServlet
         return (KmMap<String,String>)data.getArgument();
     }
 
-    /**
-     * review_wyatt (valerie)
-     * handleInvitation method
-     */
     private boolean handleInvitation(KmMap<String,String> params)
     {
         String key = MyUrls.PARAMETER_INVITATION;
@@ -230,6 +226,9 @@ public class MyAjaxServlet
         MyInvitationType type;
         type = a.getType();
 
+        /**
+         * review_valerie (wyatt) discuss
+         */
         if ( type.equals(MyInvitationType.Transfer) )
             MyHandleTransferInvitationActivity.instance.start(value);
 

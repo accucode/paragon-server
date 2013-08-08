@@ -1,19 +1,5 @@
 package com.app.ui.layout;
 
-import com.app.dao.base.MyDaoRegistry;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyServerSession;
-import com.app.model.MyUser;
-import com.app.property.MyPropertyRegistry;
-import com.app.ui.activity.test.MyWelcomePage;
-import com.app.ui.core.MyActions;
-import com.app.ui.core.MyServletData;
-import com.app.ui.servlet.MyServletConstantsIF;
-import com.app.utility.MyConstantsIF;
-import com.app.utility.MyGlobals;
-import com.app.utility.MyUrls;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonObject;
@@ -32,6 +18,20 @@ import com.kodemore.servlet.script.ScScript;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
+
+import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.property.MyPropertyRegistry;
+import com.app.ui.activity.test.MyWelcomePage;
+import com.app.ui.core.MyActions;
+import com.app.ui.core.MyServletData;
+import com.app.ui.servlet.MyServletConstantsIF;
+import com.app.utility.MyConstantsIF;
+import com.app.utility.MyGlobals;
+import com.app.utility.MyUrls;
 
 public class MyPageLayout
     implements MyServletConstantsIF
@@ -126,9 +126,6 @@ public class MyPageLayout
 
     private KmList<ScOption> getDropdownList()
     {
-        // fixme_steve this could use some refactoring
-        getAccess();
-
         MyServerSession ss = MyGlobals.getServerSession();
         MyUser u = ss.getUser();
 
@@ -144,23 +141,32 @@ public class MyPageLayout
         for ( MyAccountUser e : accountUsers )
         {
             MyAccount account = e.getAccount();
-
-            if ( account != null )
-            {
-                ScOption option;
-                option = new ScOption();
-                option.setText(account.getName());
-                option.setValue(account.getUid());
-
-                list.add(option);
-            }
+            buildOptionsList(list, account);
         }
         return list;
     }
 
+    private void buildOptionsList(KmList<ScOption> list, MyAccount account)
+    {
+        if ( account != null )
+        {
+            ScOption option;
+            option = new ScOption();
+            option.setText(account.getName());
+            option.setValue(account.getUid());
+
+            list.add(option);
+        }
+    }
+
     /**
-     *  review_wyatt (steve) getting context
+     *  wyatt (steve) getting context
      *  this was our "for now" fix
+     *  
+     * review_steve (wyatt)
+     *      fix format of comment text above.
+     *      
+     * todo_wyatt global context
      */
     private ScActionIF newSetAccountAction()
     {
@@ -180,7 +186,7 @@ public class MyPageLayout
         setServerSessionAccount();
 
         /**
-         * review_wyatt ajax servlet handle enter
+         * todo_wyatt define common entry point
          */
         MyWelcomePage.instance.start();
     }

@@ -26,8 +26,11 @@ import com.kodemore.json.KmJsonObject;
 import com.kodemore.string.KmStringBuilder;
 
 /**
- *  review_wyatt: (aaron) here is the Equalize script wrapper.  The actual
+ *  wyatt: (aaron) here is the Equalize script wrapper.  The actual
  *  javascrip function is at the bottom of KmUtility.js
+ *  
+ * review_aaron (wyatt)
+ *      Fix your comment.
  */
 public class ScEqualizeScript
     extends ScAbstractScript
@@ -38,6 +41,8 @@ public class ScEqualizeScript
 
     /**
      * The jquery selector for the elements to be equalized.
+     * 
+     * review_aaron (wyatt) target
      */
     private String  _target;
 
@@ -45,6 +50,12 @@ public class ScEqualizeScript
      *  The minimum/maximum values for height and width.  The 
      *  equalized elements will always fall between these values
      *  if they are defined.
+     *  
+     *  review_aaron (wyatt) comment
+     *      Fix comment formatting above.
+     *      Unindented lines should start with ONE space, not two.
+     *      
+     *  review_aaron (wyatt) discuss naming
      */
     private Integer _minWidth;
     private Integer _maxWidth;
@@ -55,6 +66,9 @@ public class ScEqualizeScript
     //# constructor
     //##################################################
 
+    /**
+     * review_aaron (wyatt) remove constructor
+     */
     public ScEqualizeScript(String target)
     {
         _target = target;
@@ -83,6 +97,9 @@ public class ScEqualizeScript
         return _minWidth;
     }
 
+    /**
+     * discuss_aaron (wyatt) discuss getter/setters.
+     */
     public void setMinWidth(Integer minWidth)
     {
         _minWidth = minWidth;
@@ -122,6 +139,10 @@ public class ScEqualizeScript
     //# format
     //##################################################
 
+    /**
+     * review_aaron (wyatt) discuss
+     *      see KmUtility.js
+     */
     @Override
     public void formatScriptOn(KmStringBuilder out)
     {

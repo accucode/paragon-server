@@ -1,5 +1,13 @@
 package com.app.ui.activity.test;
 
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.ui.control.MyBox;
+
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilterFactoryIF;
@@ -25,14 +33,6 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScTextField;
 
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.ui.control.MyBox;
-
 public class MyAccountOverviewTab
     extends MyBox
 {
@@ -47,7 +47,7 @@ public class MyAccountOverviewTab
     private ScTextField           _editUserNameField;
 
     private ScAutoCompleteField   _searchAccountNameField;
-    private ScTextField           _addAccountNameField;
+    private ScAutoCompleteField   _addAccountNameField;
     private ScTextField           _editAccountNameField;
     private ScTextField           _addUserEmailField;
 
@@ -440,8 +440,9 @@ public class MyAccountOverviewTab
         _addUserEmailField = new ScTextField();
         _addUserEmailField.setLabel("User's email is ");
 
-        _addAccountNameField = new ScTextField();
+        _addAccountNameField = new ScAutoCompleteField();
         _addAccountNameField.setLabel("Account name is ");
+        _addAccountNameField.setCallback(newAccountNameCallback());
 
         _addTypeDropdown = MyAccount.Tools.newTypeDropdown();
         _addTypeDropdown.setLabel("Account type is ");
@@ -824,26 +825,37 @@ public class MyAccountOverviewTab
         user = new MyUser();
         user.setName(_addUserNameField.getValue());
         user.setEmail(_addUserEmailField.getValue());
+        user.saveDao();
+
+        String accountName;
+        accountName = _addAccountNameField.getValue();
+
+        MyAccount findAccount;
+        findAccount = getAccess().getAccountDao().findWithName(accountName);
 
         MyAccount account;
-        account = new MyAccount();
-        account.setName(_addAccountNameField.getValue());
+
+        if ( findAccount != null )
+            account = findAccount;
+
+        else
+            account = new MyAccount();
+
+        account.setName(accountName);
+        account.saveDao();
 
         MyAccountUser accountUser;
         accountUser = new MyAccountUser();
         accountUser.applyFrom(_addAccountUserChild);
         accountUser.setAccount(account);
         accountUser.setUser(user);
+        accountUser.saveDao();
 
         if ( _addTypeDropdown.hasValue() )
             account.setTypeCode(_addTypeDropdown.getStringValue());
 
         if ( _addRoleDropdown.hasValue() )
             accountUser.setRoleCode(_addRoleDropdown.getStringValue());
-
-        user.saveDao();
-        account.saveDao();
-        accountUser.saveDao();
 
         _accountUserGrid.ajaxReload();
     }
