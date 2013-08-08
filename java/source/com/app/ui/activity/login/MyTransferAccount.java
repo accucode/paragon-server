@@ -21,6 +21,13 @@ import com.app.utility.MyUrls;
  *      name
  *      singleton
  */
+
+/**
+ * wyatt (valerie)
+ * will wait for the green light to move the Join request to its own class as well
+ * 
+ * review_valerie (wyatt) discuss
+ */
 public class MyTransferAccount
 {
     //##################################################
@@ -104,6 +111,7 @@ public class MyTransferAccount
         MyInvitation i;
         i = new MyInvitation();
         i.setType(MyInvitationType.Transfer);
+        i.setAccount(account);
         i.setUser(user);
         i.saveDao();
 
@@ -115,7 +123,7 @@ public class MyTransferAccount
         msg.printf("A new user account has been created for the email %s. ", email);
         msg.printf("You have been asked to acquire the account %s. ", accountName);
         msg.printfln();
-        msg.printf("To take ownership of the new account and to activate your new user account "
+        msg.printf("To take ownership of this account and to activate your new user account "
             + "click the following link.");
         msg.printfln();
         msg.printfln();
@@ -145,8 +153,9 @@ public class MyTransferAccount
 
         MyInvitation i;
         i = new MyInvitation();
-        i.setUser(user);
         i.setType(MyInvitationType.Transfer);
+        i.setAccount(account);
+        i.setUser(user);
         i.saveDao();
 
         KmHtmlBuilder msg;

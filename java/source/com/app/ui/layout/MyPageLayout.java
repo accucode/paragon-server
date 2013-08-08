@@ -126,9 +126,6 @@ public class MyPageLayout
 
     private KmList<ScOption> getDropdownList()
     {
-        // fixme_steve this could use some refactoring
-        getAccess();
-
         MyServerSession ss = MyGlobals.getServerSession();
         MyUser u = ss.getUser();
 
@@ -144,18 +141,22 @@ public class MyPageLayout
         for ( MyAccountUser e : accountUsers )
         {
             MyAccount account = e.getAccount();
-
-            if ( account != null )
-            {
-                ScOption option;
-                option = new ScOption();
-                option.setText(account.getName());
-                option.setValue(account.getUid());
-
-                list.add(option);
-            }
+            buildOptionsList(list, account);
         }
         return list;
+    }
+
+    private void buildOptionsList(KmList<ScOption> list, MyAccount account)
+    {
+        if ( account != null )
+        {
+            ScOption option;
+            option = new ScOption();
+            option.setText(account.getName());
+            option.setValue(account.getUid());
+
+            list.add(option);
+        }
     }
 
     /**
@@ -332,7 +333,7 @@ public class MyPageLayout
 
     //##################################################
     //# header: dropdown
-    //##################################################//
+    //##################################################
 
     private void printHeaderDropdown()
     {

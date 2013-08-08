@@ -177,40 +177,84 @@ public abstract class ScAbstractVisibilityScript
         return Kmu.format("$(%s).%s();", sel, fn);
     }
 
+    // review_aaron: new format effect method, had to create formatNormal and formatFlip
     private String formatEffect()
-    {
-        String sel = json(getTarget());
-        String fn = getFunction();
-        Integer ms = getSpeedMs();
-        String ease = json(getEasing().name());
-
-        return Kmu.format("$(%s).%s(%s,%s);", sel, fn, ms, ease);
-    }
-
-    private String getFunction()
     {
         ScEffect e = getEffect();
 
         if ( e == null )
-            return getInstantFunction();
+            return formatNormalEffect(getInstantFunction());
 
         switch ( e )
         {
             case fade:
-                return getFadeFunction();
+                return formatNormalEffect(getFadeFunction());
 
             case slide:
-                return getSlideFunction();
+                return formatNormalEffect(getSlideFunction());
+
+            case flip:
+                return formatFlipEffect();
         }
 
         return null;
     }
+
+    private String formatNormalEffect(String function)
+    {
+        String sel = json(getTarget());
+        Integer ms = getSpeedMs();
+        String ease = json(getEasing().name());
+
+        return Kmu.format("$(%s).%s(%s,%s);", sel, function, ms, ease);
+    }
+
+    private String formatFlipEffect()
+    {
+        String sel = json(getTarget());
+        String function = getFlipFunction();
+
+        return Kmu.format("$(%s).%s;", sel, function);
+    }
+
+    // review_aaron: original formatEffect method
+    //    private String formatEffect()
+    //    {
+    //        String sel = json(getTarget());
+    //        String fn = getFunction();
+    //        Integer ms = getSpeedMs();
+    //        String ease = json(getEasing().name());
+    //
+    //        return Kmu.format("$(%s).%s(%s,%s);", sel, fn, ms, ease);
+    //    }
+
+    // review_aaron: original getFunction method
+    //    private String getFunction()
+    //    {
+    //        ScEffect e = getEffect();
+    //
+    //        if ( e == null )
+    //            return getInstantFunction();
+    //
+    //        switch ( e )
+    //        {
+    //            case fade:
+    //                return getFadeFunction();
+    //
+    //            case slide:
+    //                return getSlideFunction();
+    //        }
+    //
+    //        return null;
+    //    }
 
     protected abstract String getInstantFunction();
 
     protected abstract String getFadeFunction();
 
     protected abstract String getSlideFunction();
+
+    protected abstract String getFlipFunction();
 
     //##################################################
     //# chaining

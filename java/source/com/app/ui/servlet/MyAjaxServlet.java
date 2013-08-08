@@ -8,8 +8,13 @@ import com.kodemore.log.KmLog;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.utility.Kmu;
 
+import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
 import com.app.ui.activity.login.MyHandleInvitationActivity;
+import com.app.ui.activity.login.MyHandleJoinInvitationActivity;
 import com.app.ui.activity.login.MyHandlePasswordResetActivity;
+import com.app.ui.activity.login.MyHandleTransferInvitationActivity;
 import com.app.ui.activity.login.MySignInActivity;
 import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyLeftMenu;
@@ -215,8 +220,24 @@ public class MyAjaxServlet
 
         String value = params.get(key);
 
-        // fixme_valerie: placeholder for emails
-        MyHandleInvitationActivity.instance.start(value);
+        MyInvitation a;
+        a = getAccess().getInvitationDao().findAccessKey(value);
+
+        MyInvitationType type;
+        type = a.getType();
+
+        /**
+         * review_valerie (wyatt) discuss
+         */
+        if ( type.equals(MyInvitationType.Transfer) )
+            MyHandleTransferInvitationActivity.instance.start(value);
+
+        if ( type.equals(MyInvitationType.Join) )
+            MyHandleJoinInvitationActivity.instance.start(value);
+
+        else
+            MyHandleInvitationActivity.instance.start(value);
+
         return true;
     }
 
@@ -328,4 +349,8 @@ public class MyAjaxServlet
         ajax().toast(s).error().sticky();
     }
 
+    protected MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
 }
