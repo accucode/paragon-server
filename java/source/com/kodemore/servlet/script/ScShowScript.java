@@ -22,6 +22,9 @@
 
 package com.kodemore.servlet.script;
 
+import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.Kmu;
+
 public class ScShowScript
     extends ScAbstractVisibilityScript
 {
@@ -45,6 +48,24 @@ public class ScShowScript
     protected String getSlideFunction()
     {
         return "slideDown";
+    }
+
+    /**
+     *  review_aaron: Show Flip function.  The string builder is necesary because the
+     *  parameters need to be in a certain order.
+     */
+    @Override
+    protected String getFlipFunction()
+    {
+        KmStringBuilder params;
+        params = new KmStringBuilder();
+        params.print("{");
+        params.print("rotateY: 0,");
+        params.printf("duration: %s,", getSpeedMs());
+        params.printf("easing: '%s'", getEasing().name());
+        params.print("}");
+
+        return Kmu.format("transition(%s);", params);
     }
 
     //##################################################

@@ -22,6 +22,9 @@
 
 package com.kodemore.servlet.script;
 
+import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.Kmu;
+
 public class ScHideScript
     extends ScAbstractVisibilityScript
 {
@@ -45,6 +48,21 @@ public class ScHideScript
     protected String getSlideFunction()
     {
         return "slideUp";
+    }
+
+    // review_aaron: Hide Flip function
+    @Override
+    protected String getFlipFunction()
+    {
+        KmStringBuilder params;
+        params = new KmStringBuilder();
+        params.print("{");
+        params.print("rotateY: 90,");
+        params.printf("duration: %s,", getSpeedMs());
+        params.printf("easing: '%s'", getEasing().name());
+        params.print("}");
+
+        return Kmu.format("transition(%s);", params);
     }
 
     //##################################################
@@ -86,5 +104,4 @@ public class ScHideScript
     {
         return (ScHideScript)super.defer();
     }
-
 }

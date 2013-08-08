@@ -47,6 +47,14 @@ public class ScToggleScript
         return "slideToggle";
     }
 
+    // review_aaron: Toggle Flip function... Not sure how to make this one work...
+    @Override
+    protected String getFlipFunction()
+    {
+        // fixme_aaron: 
+        return null;
+    }
+
     //##################################################
     //# chaining
     //##################################################

@@ -124,6 +124,11 @@ public class ScFrame
         setShowEffect(ScEffect.slide);
     }
 
+    public void setShowFlip()
+    {
+        setShowEffect(ScEffect.flip);
+    }
+
     public void clearShowEffect()
     {
         setShowEffect(null);
@@ -189,6 +194,11 @@ public class ScFrame
     public void setHideSlide()
     {
         setHideEffect(ScEffect.slide);
+    }
+
+    public void setHideFlip()
+    {
+        setHideEffect(ScEffect.flip);
     }
 
     public void clearHideEffect()
