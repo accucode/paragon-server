@@ -1,19 +1,5 @@
 package com.app.ui.activity.test;
 
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyEmail;
-import com.app.model.MyInvitation;
-import com.app.model.MyInvitationType;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.property.MyPropertyRegistry;
-import com.app.ui.activity.login.MyTransferAccount;
-import com.app.utility.MyButtonUrls;
-import com.app.utility.MyConstantsIF;
-import com.app.utility.MyUrls;
-
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -39,6 +25,20 @@ import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
+
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyEmail;
+import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.property.MyPropertyRegistry;
+import com.app.ui.activity.login.MyTransferAccount;
+import com.app.utility.MyButtonUrls;
+import com.app.utility.MyConstantsIF;
+import com.app.utility.MyUrls;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -854,6 +854,7 @@ public class MyManageAccountsPage
 
         setDropdownOptions();
         loadViewAccount();
+        handleUpdateValues();
     }
 
     //##################################################
@@ -920,20 +921,45 @@ public class MyManageAccountsPage
 
     private void handleUpdateValues()
     {
+        //        String accountUid;
+        //        accountUid = _accountDropdown.getStringValue();
+        //
+        //        MyAccount account;
+        //        account = getAccess().getAccountDao().findUid(accountUid);
+        //        getPageSession().setAccount(account);
+
+        updateViewAccount();
+
+        _userGrid.ajaxReload();
+    }
+
+    private void updateViewAccount()
+    {
+        MyAccount account;
+        account = getPageSession().getAccount();
+
         String accountUid;
         accountUid = _accountDropdown.getStringValue();
 
-        MyAccount account;
-        account = getAccess().getAccountDao().findUid(accountUid);
-        getPageSession().setAccount(account);
+        MyAccount dropdownAccount;
+        dropdownAccount = getAccess().getAccountDao().findUid(accountUid);
+
+        /**
+         * review_wyatt (steve) this is ugly and probably not too readable
+         * 
+         * review_valerie (steve)
+         */
+        if ( account == null || !dropdownAccount.equals(account) )
+        {
+            account = dropdownAccount;
+            getPageSession().setAccount(account);
+        }
 
         _viewAccountName.setValue(account.getName());
         _viewAccountType.setValue(account.getType().getName());
 
         _viewAccountChild.ajaxPrint();
         _viewAccountChild.ajax().focus();
-
-        _userGrid.ajaxReload();
     }
 
     private void handleShowAddAccountBox()
@@ -1069,11 +1095,8 @@ public class MyManageAccountsPage
     private void loadViewAccount()
     {
         // remove_valerie: check getPageSession
-
-        String accountUid = _accountDropdown.getStringValue();
-
         MyAccount account;
-        account = getAccess().getAccountDao().findUid(accountUid);
+        account = getPageSession().getAccount();
 
         if ( account != null )
         {
