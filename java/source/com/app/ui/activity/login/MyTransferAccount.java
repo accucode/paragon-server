@@ -15,6 +15,10 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
+/**
+ * review_wyatt (valerie)
+ * will wait for the green light to move the Join request to its own class as well
+ */
 public class MyTransferAccount
 {
     //##################################################
@@ -91,7 +95,7 @@ public class MyTransferAccount
         msg.printf("A new user account has been created for the email %s. ", email);
         msg.printf("You have been asked to acquire the account %s. ", accountName);
         msg.printfln();
-        msg.printf("To take ownership of the new account and to activate your new user account "
+        msg.printf("To take ownership of this account and to activate your new user account "
             + "click the following link.");
         msg.printfln();
         msg.printfln();

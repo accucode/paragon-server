@@ -2,7 +2,6 @@ package com.app.ui.activity.login;
 
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
 import com.app.model.MyInvitation;
 import com.app.model.MyUser;
 import com.app.ui.activity.MyActivity;
@@ -20,16 +19,16 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.variable.ScLocalString;
 
-public class MyHandleTransferInvitationActivity
+public class MyHandleJoinInvitationActivity
     extends MyActivity
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyHandleTransferInvitationActivity instance = new MyHandleTransferInvitationActivity();
+    public static final MyHandleJoinInvitationActivity instance = new MyHandleJoinInvitationActivity();
 
-    private MyHandleTransferInvitationActivity()
+    private MyHandleJoinInvitationActivity()
     {
         // singleton
     }
@@ -72,7 +71,7 @@ public class MyHandleTransferInvitationActivity
         ScGroup group;
         group = new ScGroup();
 
-        group.setTitle("Transfer Account");
+        group.setTitle("Join Account");
         group.style().width(300).marginTop(100).marginCenter();
 
         ScContainer body = group.getBody();
@@ -112,7 +111,7 @@ public class MyHandleTransferInvitationActivity
         buttons = form.addButtonBoxRight();
 
         ScSubmitButton button;
-        button = buttons.addSubmitButton("Accept Ownership");
+        button = buttons.addSubmitButton("Join");
         button.style().marginTop(10);
     }
 
@@ -128,7 +127,7 @@ public class MyHandleTransferInvitationActivity
         text = box.addStyledText();
         text.style().bold().italic().size(16);
         text.setValue(""
-            + "Congratulations, you are now the owner! "
+            + "Congratulations, you are now part of this account! "
             + "You may now return to the Sign In page and log in.");
 
         box.addBreaks(2);
@@ -227,7 +226,10 @@ public class MyHandleTransferInvitationActivity
             accountUser.setAccount(account);
         }
 
-        accountUser.setRole(MyAccountUserRole.Owner);
+        /**ask_valerie 
+         * about role
+         */
+        //        accountUser.setRole(MyAccountUserRole.Owner);
         accountUser.saveDao();
 
         _form.ajax().hide();

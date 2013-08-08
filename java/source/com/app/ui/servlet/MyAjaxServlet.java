@@ -4,6 +4,7 @@ import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
 import com.app.ui.activity.login.MyHandleInvitationActivity;
+import com.app.ui.activity.login.MyHandleJoinInvitationActivity;
 import com.app.ui.activity.login.MyHandlePasswordResetActivity;
 import com.app.ui.activity.login.MyHandleTransferInvitationActivity;
 import com.app.ui.activity.login.MySignInActivity;
@@ -211,6 +212,10 @@ public class MyAjaxServlet
         return (KmMap<String,String>)data.getArgument();
     }
 
+    /**
+     * review_wyatt (valerie)
+     * handleInvitation method
+     */
     private boolean handleInvitation(KmMap<String,String> params)
     {
         String key = MyUrls.PARAMETER_INVITATION;
@@ -225,12 +230,11 @@ public class MyAjaxServlet
         MyInvitationType type;
         type = a.getType();
 
-        // fixme_valerie: finish
         if ( type.equals(MyInvitationType.Transfer) )
             MyHandleTransferInvitationActivity.instance.start(value);
 
-        //        if ( type.equals(MyInvitationType.Join) )
-        //            MyHandleJoinInvitationActivity.instance.start(value);
+        if ( type.equals(MyInvitationType.Join) )
+            MyHandleJoinInvitationActivity.instance.start(value);
 
         else
             MyHandleInvitationActivity.instance.start(value);

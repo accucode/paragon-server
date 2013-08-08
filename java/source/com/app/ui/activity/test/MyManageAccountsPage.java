@@ -226,6 +226,7 @@ public class MyManageAccountsPage
         footer = group.addButtonBox();
         footer.addButton("Edit", newShowEditAccountBoxAction());
         footer.addButton("Transfer", newShowTransferBoxAction());
+        footer.addButton("Invite", newShowAddUserBoxAction());
         footer.addButton("Delete", newShowDeleteAccountDialogAction());
 
         _viewAccountChild = frame;
@@ -362,10 +363,6 @@ public class MyManageAccountsPage
         ScDiv right;
         right = group.getHeader().addFloatRight();
         right.css().pad5();
-
-        ScActionButton button;
-        button = right.addButton("Add", newShowAddUserBoxAction());
-        button.setImage(MyButtonUrls.add());
 
         ScGridColumn<MyAccountUser> userEmail;
         userEmail = new ScGridColumn<MyAccountUser>();
@@ -539,7 +536,7 @@ public class MyManageAccountsPage
 
     private void installAddUserFrame()
     {
-        ScActionIF sendAction = newAddUserSendEmailAction();
+        ScActionIF sendAction = newSendJoinRequestAction();
         ScActionIF cancelAction = newAddUserCancelAction();
 
         ScFrameChild frame;
@@ -798,14 +795,14 @@ public class MyManageAccountsPage
         };
     }
 
-    private ScActionIF newAddUserSendEmailAction()
+    private ScActionIF newSendJoinRequestAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleAddUserSendEmail();
+                handleSendJoinRequest();
             }
         };
     }
@@ -1019,7 +1016,7 @@ public class MyManageAccountsPage
     // todo_valerie needs callback from activity
     private void showSentMessage(String email)
     {
-        ajax().toast("Your request has been sent to:" + email);
+        ajax().toast("Your request has been sent to: " + email);
 
         clearTransferFrame();
     }
@@ -1071,7 +1068,7 @@ public class MyManageAccountsPage
 
     private void loadViewAccount()
     {
-        // remove_valerie: 
+        // remove_valerie: check getPageSession
 
         String accountUid = _accountDropdown.getStringValue();
 
@@ -1127,6 +1124,13 @@ public class MyManageAccountsPage
 
     private void handleShowAddUserBox()
     {
+        String accountName;
+        accountName = _viewAccountName.getValue();
+
+        MyAccount account;
+        account = getAccess().getAccountDao().findWithName(accountName);
+        getPageSession().setAccount(account);
+
         _addUserChild.ajaxPrint();
         _addUserChild.ajax().focus();
     }
@@ -1153,7 +1157,7 @@ public class MyManageAccountsPage
         _viewUserChild.ajaxPrint();
     }
 
-    private void handleAddUserSendEmail()
+    private void handleSendJoinRequest()
     {
         MyAccount account;
         account = getPageSession().getAccount();
@@ -1165,22 +1169,22 @@ public class MyManageAccountsPage
         if ( !isValid )
             _addUserEmail.error("Invalid");
 
-        //        todo_valerie come back to this
-        //        MyTransferAccountActivity.start(account, email);
+        //  todo_valerie come back to this
+        //  MyTransferAccountActivity.start(account, email);
         MyUser user = getAccess().getUserDao().findEmail(email);
 
         if ( user == null )
         {
             user = createUser(email);
-            sendAddNewUserJoinInvitation(user, account);
+            sendJoinNewUserInvitation(user, account);
         }
         else
-            sendAddExistingUserJoinInvitation(user, account);
+            sendJoinExistingUserInvitation(user, account);
 
         showSentMessage(email);
     }
 
-    private void sendAddNewUserJoinInvitation(MyUser user, MyAccount account)
+    private void sendJoinNewUserInvitation(MyUser user, MyAccount account)
     {
         MyPropertyRegistry p = getProperties();
 
@@ -1191,10 +1195,8 @@ public class MyManageAccountsPage
 
         MyInvitation i;
         i = new MyInvitation();
-        /**ask_valerie 
-         * about adding a new user and add account
-         */
         i.setType(MyInvitationType.Join);
+        i.setAccount(account);
         i.setUser(user);
         i.saveDao();
 
@@ -1227,7 +1229,7 @@ public class MyManageAccountsPage
         e.saveDao();
     }
 
-    private void sendAddExistingUserJoinInvitation(MyUser user, MyAccount account)
+    private void sendJoinExistingUserInvitation(MyUser user, MyAccount account)
     {
         MyPropertyRegistry p = getProperties();
 
@@ -1237,8 +1239,9 @@ public class MyManageAccountsPage
 
         MyInvitation i;
         i = new MyInvitation();
+        i.setType(MyInvitationType.Join);
+        i.setAccount(account);
         i.setUser(user);
-        i.setType(MyInvitationType.Transfer);
         i.saveDao();
 
         KmHtmlBuilder msg;
