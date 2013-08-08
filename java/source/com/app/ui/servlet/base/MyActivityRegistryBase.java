@@ -53,6 +53,7 @@ public abstract class MyActivityRegistryBase
         add(MyGroupTestPage.instance);
         add(MyHandleInvitationActivity.instance);
         add(MyHandlePasswordResetActivity.instance);
+        add(MyHandleTransferInvitationActivity.instance);
         add(MyHideErrorsTestPage.instance);
         add(MyHomePage.instance);
         add(MyLocalValueTestPage.instance);

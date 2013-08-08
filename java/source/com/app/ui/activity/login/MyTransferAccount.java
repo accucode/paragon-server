@@ -32,9 +32,6 @@ public class MyTransferAccount
     //# start
     //##################################################
 
-    /**ask_valerie 
-     * about static methods
-     */
     public boolean start(MyAccount account, String email)
     {
         MyUser user = getAccess().getUserDao().findEmail(email);
@@ -82,6 +79,7 @@ public class MyTransferAccount
         MyInvitation i;
         i = new MyInvitation();
         i.setType(MyInvitationType.Transfer);
+        i.setAccount(account);
         i.setUser(user);
         i.saveDao();
 
@@ -123,8 +121,9 @@ public class MyTransferAccount
 
         MyInvitation i;
         i = new MyInvitation();
-        i.setUser(user);
         i.setType(MyInvitationType.Transfer);
+        i.setAccount(account);
+        i.setUser(user);
         i.saveDao();
 
         KmHtmlBuilder msg;

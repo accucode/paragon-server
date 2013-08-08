@@ -1,5 +1,19 @@
 package com.app.ui.activity.test;
 
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyEmail;
+import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.property.MyPropertyRegistry;
+import com.app.ui.activity.login.MyTransferAccount;
+import com.app.utility.MyButtonUrls;
+import com.app.utility.MyConstantsIF;
+import com.app.utility.MyUrls;
+
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -25,20 +39,6 @@ import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
-
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyEmail;
-import com.app.model.MyInvitation;
-import com.app.model.MyInvitationType;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.property.MyPropertyRegistry;
-import com.app.ui.activity.login.MyTransferAccount;
-import com.app.utility.MyButtonUrls;
-import com.app.utility.MyConstantsIF;
-import com.app.utility.MyUrls;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -995,7 +995,7 @@ public class MyManageAccountsPage
          * the class.
          */
         if ( MyTransferAccount.instance.start(account, email) )
-            ajax().toast("message sent");
+            ajax().toast("Your request has been sent to:" + email);
     }
 
     private MyUser createUser(String email)
@@ -1024,9 +1024,6 @@ public class MyManageAccountsPage
         clearTransferFrame();
     }
 
-    /**ask_valerie 
-     * if MyTransferAccountActivity showSentMessage runs clear transfer frame
-     */
     public void clearTransferFrame()
     {
         _transferFrame.ajaxClear();
