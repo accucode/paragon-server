@@ -9,7 +9,7 @@ import com.app.model.MyInvitationType;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
 import com.app.property.MyPropertyRegistry;
-import com.app.ui.activity.login.MyTransferAccount;
+import com.app.ui.activity.login.MyTransferAccountUtility;
 import com.app.utility.MyButtonUrls;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyUrls;
@@ -223,7 +223,7 @@ public class MyManageAccountsPage
         form = frame.addForm();
 
         ScGroup group;
-        group = form.addGroup("View");
+        group = form.addGroup("View Account");
 
         ScBox body;
         body = group.addBox();
@@ -360,7 +360,7 @@ public class MyManageAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        // fixme_valerie: 
+        // review_steve
         _transferEmail = new ScAutoCompleteField();
         _transferEmail.setLabel("Email ");
         _transferEmail.setCallback(newTransferEmailCallback());
@@ -393,7 +393,9 @@ public class MyManageAccountsPage
 
     private KmList<String> getAutocompleteTransferEmailOptions(String term)
     {
-        /**ask_valerie 
+        // review_steve (valerie)
+        /**
+         * ask_valerie 
          * can't grab accountName, tried a track method like grid has with no luck
          */
         KmList<String> v;
@@ -516,6 +518,10 @@ public class MyManageAccountsPage
         header = group.getHeader().addFloatRight();
         header.css().pad5();
 
+        ScActionButton editButton;
+        editButton = header.addButton("Edit", newShowEditUserBoxAction());
+        editButton.setImage(MyButtonUrls.edit());
+
         ScBox body;
         body = group.addBox();
         body.css().pad();
@@ -543,15 +549,19 @@ public class MyManageAccountsPage
         ScDiv footer;
         footer = group.addButtonBoxRight();
 
-        ScActionButton editButton;
-        editButton = footer.addButton("Edit", newShowEditUserBoxAction());
-        editButton.setImage(MyButtonUrls.edit());
+        //        ScActionButton editButton;
+        //        editButton = footer.addButton("Edit", newShowEditUserBoxAction());
+        //        editButton.setImage(MyButtonUrls.edit());
+        // fixme_valerie: come back to this
+        ScActionButton cancelButton;
+        cancelButton = footer.addButton("Cancel", newEditUserCancelAction());
+        cancelButton.setImage(MyButtonUrls.cancel());
 
         ScActionButton removeButton;
         removeButton = footer.addButton(
             "Remove from Account",
             newShowDeleteAccountUserDialogAction());
-        removeButton.setImage(MyButtonUrls.cancel());
+        removeButton.setImage(MyButtonUrls.primary());
 
         _viewUserChild = frame;
     }
@@ -617,7 +627,7 @@ public class MyManageAccountsPage
         form.onEscape().run(cancelAction);
 
         ScGroup group;
-        group = form.addGroup("Invite User");
+        group = form.addGroup("Invite User to Account");
 
         ScBox body;
         body = group.addBox();
@@ -923,6 +933,7 @@ public class MyManageAccountsPage
 
         setDropdownOptions();
         loadViewAccount();
+        handleUpdateValues();
     }
 
     //##################################################
@@ -1000,6 +1011,41 @@ public class MyManageAccountsPage
 
     private void handleUpdateValues()
     {
+        updateViewAccount();
+        _userGrid.ajaxReload();
+    }
+
+    private void updateViewAccount()
+    {
+        MyAccount account;
+        account = getPageSession().getAccount();
+
+        String accountUid;
+        accountUid = _accountDropdown.getStringValue();
+
+        MyAccount dropdownAccount;
+        dropdownAccount = getAccess().getAccountDao().findUid(accountUid);
+
+        /**
+         * review_wyatt (steve) this is ugly and probably not too readable
+         * 
+         * review_valerie (steve)
+         */
+        if ( account == null || !dropdownAccount.equals(account) )
+        {
+            account = dropdownAccount;
+            getPageSession().setAccount(account);
+        }
+
+        _viewAccountName.setValue(account.getName());
+        _viewAccountType.setValue(account.getType().getName());
+
+        _viewAccountChild.ajaxPrint();
+        _viewAccountChild.ajax().focus();
+    }
+
+    private void handleShowAddAccountBox()
+    {
         String accountUid;
         accountUid = _accountDropdown.getStringValue();
 
@@ -1007,19 +1053,22 @@ public class MyManageAccountsPage
         account = getAccess().getAccountDao().findUid(accountUid);
         getPageSession().setAccount(account);
 
-        _viewAccountName.setValue(account.getName());
-        _viewAccountType.setValue(account.getType().getName());
-
-        _viewAccountChild.ajaxPrint();
-        _viewAccountChild.ajax().focus();
-
-        _userGrid.ajaxReload();
-    }
-
-    private void handleShowAddAccountBox()
-    {
         _addAccountChild.ajaxPrint();
         _addAccountChild.ajax().focus();
+    }
+
+    private void handleAddAccountCancel()
+    {
+        MyAccount account;
+        account = getPageSession().getAccount();
+
+        if ( account != null )
+        {
+            _viewAccountName.setValue(account.getName());
+            _viewAccountType.setValue(account.getType().getName());
+        }
+
+        _viewAccountChild.ajaxPrint();
     }
 
     private void handleShowEditAccountBox()
@@ -1065,17 +1114,11 @@ public class MyManageAccountsPage
         if ( !isValid )
             _transferEmail.error("Invalid");
 
-        /**
-         * wyatt review_steve (valerie)
-         * 
-         * wyatt (steve) this is pretty ghetto, but I do manage to get a respoce from
-         * the class.
-         * 
-         * review_valerie (wyatt) discuss
-         * review_steve   (wyatt) discuss
-         */
-        if ( MyTransferAccount.instance.start(account, email) )
-            ajax().toast("Your request has been sent to:" + email);
+        MyTransferAccountUtility utility;
+        utility = new MyTransferAccountUtility();
+        utility.start(account, email);
+
+        ajax().toast("Your request has been sent to:" + email);
     }
 
     private MyUser createUser(String email)
@@ -1160,10 +1203,8 @@ public class MyManageAccountsPage
 
     private void loadViewAccount()
     {
-        String accountUid = _accountDropdown.getStringValue();
-
         MyAccount account;
-        account = getAccess().getAccountDao().findUid(accountUid);
+        account = getPageSession().getAccount();
 
         if ( account != null )
         {
@@ -1207,11 +1248,6 @@ public class MyManageAccountsPage
         loadViewAccount();
     }
 
-    private void handleAddAccountCancel()
-    {
-        _accountFrame.ajaxClear();
-    }
-
     private void handleShowAddUserBox()
     {
         String accountName;
@@ -1232,10 +1268,14 @@ public class MyManageAccountsPage
 
         MyAccountUser accountUser;
         accountUser = getAccess().getAccountUserDao().findWithUid(accountUserUid);
+
         getPageSession().setAccountUser(accountUser);
 
         MyUser user;
         user = accountUser.getUser();
+
+        // fixme_valerie: use this account to hold in pageSession here
+        //        MyAccount account = accountUser.getAccount();
 
         getPageSession().setUser(user);
 
@@ -1379,7 +1419,6 @@ public class MyManageAccountsPage
         _viewUserEmail.setValue(user.getEmail());
         _viewUserRole.setValue(accountUser.getRoleName());
 
-        _viewUserChild.applyFromModel(user);
         _viewUserChild.ajaxPrint();
     }
 

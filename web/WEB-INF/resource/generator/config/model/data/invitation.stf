@@ -37,7 +37,6 @@ attributes
     : comment   = The type.
     : type      = letterCode
     : required  = true
-    : default   = MyInvitationType.User.getCode()
 
         enum
             value(#U User)
