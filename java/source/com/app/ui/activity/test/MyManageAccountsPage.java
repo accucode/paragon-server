@@ -1001,15 +1001,7 @@ public class MyManageAccountsPage
 
     private void handleUpdateValues()
     {
-        //        String accountUid;
-        //        accountUid = _accountDropdown.getStringValue();
-        //
-        //        MyAccount account;
-        //        account = getAccess().getAccountDao().findUid(accountUid);
-        //        getPageSession().setAccount(account);
-
         updateViewAccount();
-
         _userGrid.ajaxReload();
     }
 
