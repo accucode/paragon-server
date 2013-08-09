@@ -1227,8 +1227,6 @@ public class MyManageAccountsPage
         _viewUserName.setValue(user.getName());
         _viewUserEmail.setValue(user.getEmail());
         _viewUserRole.setValue(accountUser.getRoleName());
-
-        _viewUserChild.applyFromModel(user);
         _viewUserChild.ajaxPrint();
     }
 
@@ -1277,8 +1275,6 @@ public class MyManageAccountsPage
             _editUserEmail.setValue(u.getEmail());
 
         _editRoleDropdown.setValue(accountUser.getRole());
-
-        _editUserChild.applyFromModel(accountUser);
         _editUserChild.ajaxPrint();
     }
 
@@ -1302,8 +1298,6 @@ public class MyManageAccountsPage
         _viewUserName.setValue(user.getName());
         _viewUserEmail.setValue(user.getEmail());
         _viewUserRole.setValue(accountUser.getRoleName());
-
-        _viewUserChild.applyFromModel(user);
         _viewUserChild.ajaxPrint();
     }
 
