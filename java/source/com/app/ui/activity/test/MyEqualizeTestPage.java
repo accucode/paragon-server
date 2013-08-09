@@ -156,7 +156,7 @@ public class MyEqualizeTestPage
 
     private void handleEqualize()
     {
-        _groups.ajax().equalizeChildrenGroups();
+        _groups.ajax().equalizeDecendentGroups();
     }
 
     private void handleEqualizeButtons()

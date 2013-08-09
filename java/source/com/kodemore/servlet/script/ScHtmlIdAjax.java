@@ -278,7 +278,7 @@ public class ScHtmlIdAjax
     public ScEqualizeScript equalizeChildren()
     {
         String selector;
-        selector = Kmu.format("%s > *", formatJqueryReference());
+        selector = Kmu.format("%s > *", formatJquerySelector());
 
         return runEqualizeScript(selector);
     }
@@ -294,6 +294,11 @@ public class ScHtmlIdAjax
         selector = Kmu.format("%s > .%s", formatJquerySelector(), childClass);
 
         return runEqualizeScript(selector);
+    }
+
+    public ScEqualizeScript equalizeDecendentGroups()
+    {
+        return equalizeDecendentClass(KmCssDefaultConstantsIF.group_prefix);
     }
 
     public ScEqualizeScript equalizeDecendentClass(String childClass)
