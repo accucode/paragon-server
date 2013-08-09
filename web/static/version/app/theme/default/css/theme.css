@@ -860,7 +860,7 @@ a.tabx:hover
 
 .group-wrapper-default
 {
-    overflow: hidden;
+    overflow: visible;
     border: 1px solid #aaa;
     background-color: #eee;
     
@@ -902,7 +902,7 @@ a.tabx:hover
 
 .group-wrapper-error
 {
-    overflow: hidden;
+    overflow: visible;
     border: 1px solid #f00;
     background-color: #fdd;
     
