@@ -66,6 +66,7 @@ public class MyMetaInvitation
     public static final MyMetaInvitation_AccessKey AccessKey = new MyMetaInvitation_AccessKey();
     public static final MyMetaInvitation_CreatedUtcTs CreatedUtcTs = new MyMetaInvitation_CreatedUtcTs();
     public static final MyMetaInvitation_ClosedUtcTs ClosedUtcTs = new MyMetaInvitation_ClosedUtcTs();
+    public static final MyMetaInvitation_Email Email = new MyMetaInvitation_Email();
     public static final MyMetaInvitation_LockVersion LockVersion = new MyMetaInvitation_LockVersion();
     public static final MyMetaInvitation_StatusName StatusName = new MyMetaInvitation_StatusName();
     public static final MyMetaInvitation_TypeName TypeName = new MyMetaInvitation_TypeName();

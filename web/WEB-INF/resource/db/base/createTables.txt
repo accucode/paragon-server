@@ -125,6 +125,7 @@ CREATE TABLE invitation
     accessKey varchar(30),
     createdUtcTs datetime,
     closedUtcTs datetime,
+    email varchar(50),
     lockVersion int,
     userUid varchar(30),
     accountUid varchar(30),

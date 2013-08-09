@@ -3,7 +3,7 @@ package com.app.ui.servlet;
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
-import com.app.ui.activity.login.MyHandleInvitationActivity;
+import com.app.ui.activity.login.MyHandleNewUserInvitationActivity;
 import com.app.ui.activity.login.MyHandleJoinInvitationActivity;
 import com.app.ui.activity.login.MyHandlePasswordResetActivity;
 import com.app.ui.activity.login.MyHandleTransferInvitationActivity;
@@ -237,7 +237,7 @@ public class MyAjaxServlet
                 break;
 
             case User:
-                MyHandleInvitationActivity.instance.start(value);
+                MyHandleNewUserInvitationActivity.instance.start(value);
                 break;
         }
 

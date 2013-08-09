@@ -52,8 +52,8 @@ public abstract class MyActivityRegistryBase
         add(MyGridTestPage.instance);
         add(MyGroupIconHeaderTestPage.instance);
         add(MyGroupTestPage.instance);
-        add(MyHandleInvitationActivity.instance);
         add(MyHandleJoinInvitationActivity.instance);
+        add(MyHandleNewUserInvitationActivity.instance);
         add(MyHandlePasswordResetActivity.instance);
         add(MyHandleTransferInvitationActivity.instance);
         add(MyHideErrorsTestPage.instance);
