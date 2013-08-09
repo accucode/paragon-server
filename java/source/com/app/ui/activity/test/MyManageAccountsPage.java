@@ -31,6 +31,7 @@ import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
+import com.app.ui.activity.login.MyJoinAccountUtility;
 import com.app.ui.activity.login.MyTransferAccountUtility;
 import com.app.utility.MyButtonUrls;
 
