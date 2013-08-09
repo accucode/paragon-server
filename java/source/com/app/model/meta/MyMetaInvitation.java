@@ -67,6 +67,7 @@ public class MyMetaInvitation
     public static final MyMetaInvitation_CreatedUtcTs CreatedUtcTs = new MyMetaInvitation_CreatedUtcTs();
     public static final MyMetaInvitation_ClosedUtcTs ClosedUtcTs = new MyMetaInvitation_ClosedUtcTs();
     public static final MyMetaInvitation_Email Email = new MyMetaInvitation_Email();
+    public static final MyMetaInvitation_RoleCode RoleCode = new MyMetaInvitation_RoleCode();
     public static final MyMetaInvitation_LockVersion LockVersion = new MyMetaInvitation_LockVersion();
     public static final MyMetaInvitation_StatusName StatusName = new MyMetaInvitation_StatusName();
     public static final MyMetaInvitation_TypeName TypeName = new MyMetaInvitation_TypeName();
@@ -80,7 +81,6 @@ public class MyMetaInvitation
     public static final MyMetaInvitation_ClosedLocalTime ClosedLocalTime = new MyMetaInvitation_ClosedLocalTime();
     public static final MyMetaInvitation_UserName UserName = new MyMetaInvitation_UserName();
     public static final MyMetaInvitation_AccountName AccountName = new MyMetaInvitation_AccountName();
-    public static final MyMetaInvitation_AccountUserRoleCode AccountUserRoleCode = new MyMetaInvitation_AccountUserRoleCode();
 
     //##################################################
     //# associations
@@ -88,5 +88,4 @@ public class MyMetaInvitation
 
     public static final MyMetaInvitation_User User = new MyMetaInvitation_User();
     public static final MyMetaInvitation_Account Account = new MyMetaInvitation_Account();
-    public static final MyMetaInvitation_AccountUser AccountUser = new MyMetaInvitation_AccountUser();
 }

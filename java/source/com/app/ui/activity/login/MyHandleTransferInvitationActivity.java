@@ -288,8 +288,7 @@ public class MyHandleTransferInvitationActivity
 
         MyAccountUser oldOwner;
         oldOwner = accountUserDao.findCurrentOwner(account);
-        //remove_valerie: println
-        System.out.println("    oldOwner: " + oldOwner);
+
         /**
          * review_wyatt (valerie) use of transfer ownership
          */

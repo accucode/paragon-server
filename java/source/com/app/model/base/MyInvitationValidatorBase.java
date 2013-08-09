@@ -42,10 +42,10 @@ public class MyInvitationValidatorBase
     private KmTimestampValidator createdUtcTsValidator;
     private KmTimestampValidator closedUtcTsValidator;
     private KmStringValidator emailValidator;
+    private KmStringValidator roleCodeValidator;
     private KmIntegerValidator lockVersionValidator;
     private KmStringValidator userNameValidator;
     private KmStringValidator accountNameValidator;
-    private KmStringValidator accountUserRoleCodeValidator;
 
     //##################################################
     //# constructor
@@ -61,10 +61,10 @@ public class MyInvitationValidatorBase
         createdUtcTsValidator = newCreatedUtcTsValidator();
         closedUtcTsValidator = newClosedUtcTsValidator();
         emailValidator = newEmailValidator();
+        roleCodeValidator = newRoleCodeValidator();
         lockVersionValidator = newLockVersionValidator();
         userNameValidator = newUserNameValidator();
         accountNameValidator = newAccountNameValidator();
-        accountUserRoleCodeValidator = newAccountUserRoleCodeValidator();
     }
 
     //##################################################
@@ -106,6 +106,11 @@ public class MyInvitationValidatorBase
         return emailValidator;
     }
 
+    public KmStringValidator getRoleCodeValidator()
+    {
+        return roleCodeValidator;
+    }
+
     public KmIntegerValidator getLockVersionValidator()
     {
         return lockVersionValidator;
@@ -119,11 +124,6 @@ public class MyInvitationValidatorBase
     public KmStringValidator getAccountNameValidator()
     {
         return accountNameValidator;
-    }
-
-    public KmStringValidator getAccountUserRoleCodeValidator()
-    {
-        return accountUserRoleCodeValidator;
     }
 
     //##################################################
@@ -140,6 +140,7 @@ public class MyInvitationValidatorBase
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
         value.setClosedUtcTs(closedUtcTsValidator.convertOnly(value.getClosedUtcTs()));
         value.setEmail(emailValidator.convertOnly(value.getEmail()));
+        value.setRoleCode(roleCodeValidator.convertOnly(value.getRoleCode()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
     }
 
@@ -153,6 +154,7 @@ public class MyInvitationValidatorBase
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
         closedUtcTsValidator.validateOnly(value.getClosedUtcTs(), errors);
         emailValidator.validateOnly(value.getEmail(), errors);
+        roleCodeValidator.validateOnly(value.getRoleCode(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
     }
 
@@ -243,6 +245,19 @@ public class MyInvitationValidatorBase
         return e;
     }
 
+    public KmStringValidator newRoleCodeValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(1);
+        e.setAllowsLetters(true);
+        e.setForcesUpperCase(true);
+        e.setStripsAllSpaces(true);
+        e.setModel("invitation");
+        e.setField("roleCode");
+        return e;
+    }
+
     public KmIntegerValidator newLockVersionValidator()
     {
         KmIntegerValidator e;
@@ -272,20 +287,6 @@ public class MyInvitationValidatorBase
         e.setAllowsPrintable(true);
         e.setModel("invitation");
         e.setField("accountName");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newAccountUserRoleCodeValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(1);
-        e.setAllowsLetters(true);
-        e.setForcesUpperCase(true);
-        e.setStripsAllSpaces(true);
-        e.setModel("invitation");
-        e.setField("accountUserRoleCode");
         e.setRequired();
         return e;
     }

@@ -73,6 +73,12 @@
             type="string"
             />
 
+        <property
+            name="roleCode"
+            column="roleCode"
+            type="string"
+            />
+
         <many-to-one
             name="user"
             column="userUid"
@@ -84,13 +90,6 @@
             name="account"
             column="accountUid"
             class="com.app.model.MyAccount"
-            cascade="none"
-            />
-
-        <many-to-one
-            name="accountUser"
-            column="accountUserUid"
-            class="com.app.model.MyAccountUser"
             cascade="none"
             />
 

@@ -24,6 +24,7 @@ public interface MyInvitationDaoConstantsIF
     String CREATED_UTC_TS = "createdUtcTs";
     String CLOSED_UTC_TS = "closedUtcTs";
     String EMAIL = "email";
+    String ROLE_CODE = "roleCode";
     String LOCK_VERSION = "lockVersion";
     String STATUS_NAME = "statusName";
     String TYPE_NAME = "typeName";
@@ -45,8 +46,5 @@ public interface MyInvitationDaoConstantsIF
 
     String ACCOUNT = "account";
     String ACCOUNT_UID = "account.uid";
-
-    String ACCOUNT_USER = "accountUser";
-    String ACCOUNT_USER_UID = "accountUser.uid";
 
 }

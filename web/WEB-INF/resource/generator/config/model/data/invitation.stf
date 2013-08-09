@@ -68,6 +68,13 @@ attributes
     : type      = email
     : required  = true
     
+    field
+    : name      = roleCode
+    : label     = Role
+    : comment   = The role of the account joiner.
+    : type      = letterCode
+    : required  = false
+            
     association
     : name      = user
     : comment   = The user to whom the invitation was sent.
@@ -87,13 +94,3 @@ attributes
 
         delegate
         : fieldName = name
-        
-    association
-    : name      = accountUser
-    : comment   = The accountUser to which the invitation referred.
-    : modelName = accountUser
-    : relation  = reference
-    : required  = false
-
-        delegate
-        : fieldName = roleCode

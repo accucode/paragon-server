@@ -237,6 +237,11 @@ public class MyInvitationCriteria
         return new KmStringCriteria(context(), fullName(EMAIL));
     }
 
+    public KmStringCriteria whereRoleCode()
+    {
+        return new KmStringCriteria(context(), fullName(ROLE_CODE));
+    }
+
     public KmIntegerCriteria whereLockVersion()
     {
         return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
@@ -370,6 +375,24 @@ public class MyInvitationCriteria
             sortOnEmail();
         else
             sortOnEmailDescending();
+    }
+
+    public void sortOnRoleCode()
+    {
+        parent().sortAscending(ROLE_CODE);
+    }
+
+    public void sortOnRoleCodeDescending()
+    {
+        parent().sortDescending(ROLE_CODE);
+    }
+
+    public void sortOnRoleCode(boolean asc)
+    {
+        if ( asc )
+            sortOnRoleCode();
+        else
+            sortOnRoleCodeDescending();
     }
 
     public void sortOnLockVersion()
@@ -699,6 +722,50 @@ public class MyInvitationCriteria
     }
 
     //##################################################
+    //# projections (roleCode)
+    //##################################################
+
+    public void selectRoleCode()
+    {
+        select(ROLE_CODE);
+    }
+
+    public void selectDistinctRoleCode()
+    {
+        selectDistinct(ROLE_CODE);
+    }
+
+    public void selectCountDistinctRoleCode()
+    {
+        selectCountDistinct(ROLE_CODE);
+    }
+
+    public void selectMinimumRoleCode()
+    {
+        selectMinimum(ROLE_CODE);
+    }
+
+    public void selectMaximumRoleCode()
+    {
+        selectMaximum(ROLE_CODE);
+    }
+
+    public void selectAverageRoleCode()
+    {
+        selectAverage(ROLE_CODE);
+    }
+
+    public void selectSumRoleCode()
+    {
+        selectSum(ROLE_CODE);
+    }
+
+    public void groupByRoleCode()
+    {
+        groupBy(ROLE_CODE);
+    }
+
+    //##################################################
     //# projections (lockVersion)
     //##################################################
 
@@ -834,53 +901,6 @@ public class MyInvitationCriteria
             whereAccountUid().isNull();
         else
             whereAccountUid().is(e.getUid());
-    }
-
-    //##################################################
-    //# association (AccountUser)
-    //##################################################
-
-    public void selectAccountUserUid()
-    {
-        select(ACCOUNT_USER_UID);
-    }
-
-    public void selectMinimumAccountUserUid()
-    {
-        selectMinimum(ACCOUNT_USER_UID);
-    }
-
-    public void selectMaximumAccountUserUid()
-    {
-        selectMaximum(ACCOUNT_USER_UID);
-    }
-
-    public void groupByAccountUserUid()
-    {
-        groupBy(ACCOUNT_USER);
-    }
-
-    public MyAccountUserCriteria joinToAccountUser()
-    {
-        return new MyAccountUserCriteria(joinTo(ACCOUNT_USER));
-    }
-
-    public MyAccountUserCriteria leftJoinToAccountUser()
-    {
-        return new MyAccountUserCriteria(leftJoinTo(ACCOUNT_USER));
-    }
-
-    public KmStringCriteria whereAccountUserUid()
-    {
-        return new KmStringCriteria(parent(), fullName(ACCOUNT_USER_UID));
-    }
-
-    public void whereAccountUserIs(MyAccountUser e)
-    {
-        if ( e == null )
-            whereAccountUserUid().isNull();
-        else
-            whereAccountUserUid().is(e.getUid());
     }
 
     //##################################################

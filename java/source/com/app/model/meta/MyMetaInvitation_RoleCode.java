@@ -29,8 +29,9 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaInvitation_AccountUserRoleCode
+public class MyMetaInvitation_RoleCode
     extends KmMetaStringProperty<MyInvitation>
+    implements KmMetaDaoPropertyIF<MyInvitation,String>
 {
     //##################################################
     //# accessing
@@ -39,13 +40,13 @@ public class MyMetaInvitation_AccountUserRoleCode
     @Override
     public String getName()
     {
-        return "accountUserRoleCode";
+        return "roleCode";
     }
 
     @Override
     public String getLabel()
     {
-        return "Account User Role Code";
+        return "Role";
     }
 
     @Override
@@ -60,6 +61,33 @@ public class MyMetaInvitation_AccountUserRoleCode
         return true;
     }
 
+    @Override
+    public KmStringValidator getValidator()
+    {
+        return MyInvitationValidator.instance.getRoleCodeValidator();
+    }
+
+    //##################################################
+    //# dao
+    //##################################################
+
+    @Override
+    public String getDaoPropertyName()
+    {
+        return "roleCode";
+    }
+
+    @Override
+    public MyInvitationDao getDao()
+    {
+        return getAccess().getInvitationDao();
+    }
+
+    private MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
+    
     //##################################################
     //# value
     //##################################################
@@ -67,19 +95,19 @@ public class MyMetaInvitation_AccountUserRoleCode
     @Override
     public String getValueFor(MyInvitation model)
     {
-        return model.getAccountUserRoleCode();
+        return model.getRoleCode();
     }
     
     @Override
     public void setValueFor(MyInvitation model, String value)
     {
-        model.setAccountUserRoleCode(value);
+        model.setRoleCode(value);
     }
     
     @Override
     public boolean hasValueFor(MyInvitation model, String value)
     {
-        return model.hasAccountUserRoleCode(value);
+        return model.hasRoleCode(value);
     }
     
     @Override

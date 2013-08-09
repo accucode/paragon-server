@@ -45,10 +45,10 @@ public abstract class MyInvitationBase
     private KmTimestamp createdUtcTs;
     private KmTimestamp closedUtcTs;
     private String email;
+    private String roleCode;
     private Integer lockVersion;
     private MyUser user;
     private MyAccount account;
-    private MyAccountUser accountUser;
 
     //##################################################
     //# constructor
@@ -481,6 +481,47 @@ public abstract class MyInvitationBase
     }
 
     //##################################################
+    //# field (roleCode)
+    //##################################################
+
+    public String getRoleCode()
+    {
+        return roleCode;
+    }
+
+    public void setRoleCode(String e)
+    {
+        checkReadOnly();
+        e = Validator.getRoleCodeValidator().convertOnly(e);
+        roleCode = e;
+    }
+
+    public void clearRoleCode()
+    {
+        setRoleCode(null);
+    }
+
+    public boolean hasRoleCode()
+    {
+        return Kmu.hasValue(getRoleCode());
+    }
+
+    public boolean hasRoleCode(String e)
+    {
+        return Kmu.isEqual(getRoleCode(), e);
+    }
+
+    public void truncateRoleCode()
+    {
+        truncateRoleCode(false);
+    }
+
+    public void truncateRoleCode(boolean ellipses)
+    {
+        roleCode = Kmu.truncate(roleCode, 1, ellipses);
+    }
+
+    //##################################################
     //# field (lockVersion)
     //##################################################
 
@@ -817,64 +858,6 @@ public abstract class MyInvitationBase
         return hasAccount() && getAccount().hasName(e);
     }
 
-    //##################################################
-    //# accountUser
-    //##################################################
-
-    public MyAccountUser getAccountUser()
-    {
-        return accountUser;
-    }
-
-    public void setAccountUser(MyAccountUser e)
-    {
-        checkReadOnly();
-        accountUser = e;
-    }
-
-    public void _setAccountUser(MyAccountUser e)
-    {
-        checkReadOnly();
-        accountUser = e;
-    }
-
-    public void clearAccountUser()
-    {
-        setAccountUser(null);
-    }
-
-    public boolean hasAccountUser()
-    {
-        return getAccountUser() != null;
-    }
-
-    public boolean hasAccountUser(MyAccountUser e)
-    {
-        return Kmu.isEqual(getAccountUser(), e);
-    }
-
-    public String getAccountUserRoleCode()
-    {
-        if ( hasAccountUser() )
-            return getAccountUser().getRoleCode();
-        return null;
-    }
-
-    public void setAccountUserRoleCode(String e)
-    {
-        getAccountUser().setRoleCode(e);
-    }
-
-    public boolean hasAccountUserRoleCode()
-    {
-        return hasAccountUser() && getAccountUser().hasRoleCode();
-    }
-
-    public boolean hasAccountUserRoleCode(String e)
-    {
-        return hasAccountUser() && getAccountUser().hasRoleCode(e);
-    }
-
 
     //##################################################
     //# validate
@@ -948,6 +931,7 @@ public abstract class MyInvitationBase
         if ( ! Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
         if ( ! Kmu.isEqual(getClosedUtcTs(), e.getClosedUtcTs()) ) return false;
         if ( ! Kmu.isEqual(getEmail(), e.getEmail()) ) return false;
+        if ( ! Kmu.isEqual(getRoleCode(), e.getRoleCode()) ) return false;
         if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
         if ( ! Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
         if ( ! Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
@@ -997,6 +981,9 @@ public abstract class MyInvitationBase
         if ( p.hasKey("email") )
             setEmail(p.getString("email"));
 
+        if ( p.hasKey("roleCode") )
+            setRoleCode(p.getString("roleCode"));
+
         if ( p.hasKey("lockVersion") )
             setLockVersion(p.getInteger("lockVersion"));
     }
@@ -1020,6 +1007,9 @@ public abstract class MyInvitationBase
 
         if ( hasEmail() )
             p.setString("email", getEmail());
+
+        if ( hasRoleCode() )
+            p.setString("roleCode", getRoleCode());
 
         if ( hasLockVersion() )
             p.setInteger("lockVersion", getLockVersion());
@@ -1054,6 +1044,7 @@ public abstract class MyInvitationBase
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
         System.out.println("    ClosedUtcTs = " + closedUtcTs);
         System.out.println("    Email = " + email);
+        System.out.println("    RoleCode = " + roleCode);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

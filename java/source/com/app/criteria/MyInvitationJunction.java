@@ -78,6 +78,11 @@ public class MyInvitationJunction
         return new KmStringCriteria(context(), fullName(EMAIL));
     }
 
+    public KmStringCriteria whereRoleCode()
+    {
+        return new KmStringCriteria(context(), fullName(ROLE_CODE));
+    }
+
     public KmIntegerCriteria whereLockVersion()
     {
         return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
@@ -115,21 +120,6 @@ public class MyInvitationJunction
     public KmStringCriteria whereAccountUid()
     {
         return new KmStringCriteria(context(), fullName(ACCOUNT_UID));
-    }
-
-    public MyAccountUserCriteria joinToAccountUser()
-    {
-        return join(new MyAccountUserCriteria(root().joinTo(ACCOUNT_USER)));
-    }
-
-    public MyAccountUserCriteria leftJoinToAccountUser()
-    {
-        return join(new MyAccountUserCriteria(root().leftJoinTo(ACCOUNT_USER)));
-    }
-
-    public KmStringCriteria whereAccountUserUid()
-    {
-        return new KmStringCriteria(context(), fullName(ACCOUNT_USER_UID));
     }
 
     //##################################################
