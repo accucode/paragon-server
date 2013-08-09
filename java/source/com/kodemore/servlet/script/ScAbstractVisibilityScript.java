@@ -53,7 +53,7 @@ public abstract class ScAbstractVisibilityScript
      * 
      * We have a wide library of functions available due
      * to the use of the jquery ui effects library.  See...
-     *      http://jqueryui.com/demos/effect/easing.html
+     *      http://jqueryui.com/resources/demos/effect/easing.html
      */
     private ScEasing _easing;
 

@@ -23,11 +23,24 @@
 package com.kodemore.servlet.script;
 
 import com.kodemore.json.KmJsonObject;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.utility.Kmu;
 
 public class ScShowScript
     extends ScAbstractVisibilityScript
 {
+    //##################################################
+    //# constructor
+    //##################################################
+
+    // review_aaron: Talk with Wyatt - different easings for different scripts?
+    public ScShowScript()
+    {
+        super();
+
+        setEasing(ScConstantsIF.DEFAULT_SHOW_EASING);
+    }
+
     //##################################################
     //# overrides
     //##################################################

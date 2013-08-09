@@ -22,6 +22,9 @@
 
 package com.kodemore.servlet.script;
 
+import com.kodemore.json.KmJsonObject;
+import com.kodemore.utility.Kmu;
+
 public class ScToggleScript
     extends ScAbstractVisibilityScript
 {
@@ -50,12 +53,19 @@ public class ScToggleScript
     /**
      * review_wyatt: (aaron) FLIP - This is where we must implement the flip function
      * for the ScToggleScript.  I don't know what to do here.
+     * 
+     * For now it just does a 180 flip.
      */
     @Override
     protected String getFlipFunction()
     {
-        // fixme_aaron: toggle flip function
-        return null;
+        KmJsonObject options;
+        options = new KmJsonObject();
+        options.setInteger("rotateY", 180);
+        options.setInteger("duration", getSpeedMs());
+        options.setString("easing", getEasing().name());
+
+        return Kmu.format("transition(%s);", options);
     }
 
     //##################################################

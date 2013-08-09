@@ -177,6 +177,13 @@ public interface ScConstantsIF
     //##################################################
 
     ScEffect DEFAULT_EFFECT                  = ScEffect.fade;
-    ScEasing DEFAULT_EASING                  = ScEasing.easeOutExpo;
+
+    // fixme_aaron: 
+    ScEasing DEFAULT_EASING                  = ScEasing.easeInOutCirc;
+    ScEasing DEFAULT_HIDE_EASING             = ScEasing.easeInCirc;
+    ScEasing DEFAULT_SHOW_EASING             = ScEasing.easeOutCirc;
     Integer  DEFAULT_SPEED_MS                = 200;
+
+    //    ScEasing DEFAULT_EASING                  = ScEasing.easeOutExpo;
+    //    Integer  DEFAULT_SPEED_MS                = 200;
 }
