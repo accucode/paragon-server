@@ -18,6 +18,7 @@ import com.kodemore.servlet.control.ScStyledText;
 import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
+import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
 
 public class MyHandleTransferInvitationActivity
@@ -38,16 +39,24 @@ public class MyHandleTransferInvitationActivity
     //# variables
     //##################################################
 
-    private ScLocalString _accessKey;
+    private ScLocalString   _accessKey;
 
-    private ScContainer   _root;
+    private ScContainer     _root;
 
-    private ScText        _emailText;
-    private ScText        _accountText;
+    private ScText          _emailText;
+    private ScText          _accountText;
 
-    private ScForm        _form;
+    private ScForm          _form;
+    private ScPasswordField _password1Field;
+    private ScPasswordField _password2Field;
 
-    private ScBox         _messageBox;
+    private ScBox           _messageBox;
+
+    private ScBox           _chooseLabel;
+
+    private ScBox           _reEnterLabel;
+
+    private String          _submitButtonText;
 
     //##################################################
     //# install
@@ -85,6 +94,15 @@ public class MyHandleTransferInvitationActivity
 
     private void installForm(ScContainer root)
     {
+        _password1Field = new ScPasswordField();
+        _password1Field.style().width(270);
+        _password1Field.setRequired();
+        _password1Field.hide();
+
+        _password2Field = new ScPasswordField();
+        _password2Field.style().width(270);
+        _password2Field.hide();
+
         ScForm form;
         form = root.addForm();
         form.setDefaultAction(newAcceptAction());
@@ -108,11 +126,22 @@ public class MyHandleTransferInvitationActivity
 
         _accountText = accountBox.addText();
 
+        _chooseLabel = form.addLabel("Choose a Password");
+        _chooseLabel.css().padTop();
+        _chooseLabel.hide();
+        form.addErrorBox().add(_password1Field);
+
+        _reEnterLabel = form.addLabel("Re-enter Password");
+        _reEnterLabel.css().padTop();
+        _reEnterLabel.hide();
+        form.addErrorBox().add(_password2Field);
+
         ScBox buttons;
         buttons = form.addButtonBoxRight();
 
         ScSubmitButton button;
-        button = buttons.addSubmitButton("Accept Ownership");
+        setSubmitButtonText("Accept Ownership");
+        button = buttons.addSubmitButton(_submitButtonText);
         button.style().marginTop(10);
     }
 
@@ -256,6 +285,22 @@ public class MyHandleTransferInvitationActivity
     private void setAccessKey(String e)
     {
         _accessKey.setValue(e);
+    }
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    // fixme_valerie: remove warning
+    @SuppressWarnings("unused")
+    private String getSubmitButtonText()
+    {
+        return _submitButtonText;
+    }
+
+    private void setSubmitButtonText(String submitButtonText)
+    {
+        _submitButtonText = submitButtonText;
     }
 
 }
