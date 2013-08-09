@@ -86,6 +86,7 @@ public class MyManageAccountsPage
     private ScDialog              _deleteAccountDialog;
     private ScDialog              _deleteUserDialog;
 
+    // fixme_valerie: not loading properly on page load
     private ScGrid<MyAccountUser> _userGrid;
 
     private ScTextField           _addUserEmail;
@@ -544,10 +545,6 @@ public class MyManageAccountsPage
         ScDiv footer;
         footer = group.addButtonBoxRight();
 
-        //        ScActionButton editButton;
-        //        editButton = footer.addButton("Edit", newShowEditUserBoxAction());
-        //        editButton.setImage(MyButtonUrls.edit());
-        // fixme_valerie: come back to this
         ScActionButton cancelButton;
         cancelButton = footer.addButton("Cancel", newEditUserCancelAction());
         cancelButton.setImage(MyButtonUrls.cancel());
@@ -975,24 +972,20 @@ public class MyManageAccountsPage
 
     private void handleDeleteUser()
     {
-        /**ask_valerie 
-         * can't grab account from _userGrid. Therefore, can't remove user
-         * from account
-         */
-        MyUser u;
-        u = getPageSession().getUser();
-
-        MyAccount a;
-        a = getPageSession().getAccount();
-
         MyAccountUser accountUser;
-        accountUser = getAccess().getAccountUserDao().findAccountUserFor(u, a);
+        accountUser = getPageSession().getAccountUser();
+
+        String userName;
+        userName = accountUser.getUserName();
+
+        String accountName;
+        accountName = accountUser.getAccountName();
 
         accountUser.deleteDao();
 
         _deleteUserDialog.ajaxClose();
 
-        ajax().toast("Deleted user %s from account %s", u.getName(), a.getName());
+        ajax().toast("Deleted user %s from %s", userName, accountName);
 
         _userFrame.ajaxClear();
         _userGrid.ajaxReload();
@@ -1248,15 +1241,10 @@ public class MyManageAccountsPage
         MyAccountUser accountUser;
         accountUser = getAccess().getAccountUserDao().findWithUid(accountUserUid);
 
-        getPageSession().setAccountUser(accountUser);
-
         MyUser user;
         user = accountUser.getUser();
 
-        // fixme_valerie: use this account to hold in pageSession here
-        //        MyAccount account = accountUser.getAccount();
-
-        getPageSession().setUser(user);
+        getPageSession().setAccountUser(accountUser);
 
         _viewUserName.setValue(user.getName());
         _viewUserEmail.setValue(user.getEmail());
@@ -1272,10 +1260,7 @@ public class MyManageAccountsPage
         account = getPageSession().getAccount();
 
         String email = _addUserEmail.getValue();
-        // fixme_valerie: 
         String roleCode = _addRoleDropdown.getStringValue();
-        //remove_valerie: println
-        System.out.println("    roleCode: " + roleCode);
 
         boolean isValid = KmEmailParser.validate(email);
 
@@ -1297,20 +1282,6 @@ public class MyManageAccountsPage
     private void handleEditUserCancel()
     {
         _userFrame.ajaxClear();
-
-        MyAccountUser accountUser;
-        accountUser = getPageSession().getAccountUser();
-
-        MyUser user;
-        user = accountUser.getUser();
-
-        getPageSession().setUser(user);
-
-        _viewUserName.setValue(user.getName());
-        _viewUserEmail.setValue(user.getEmail());
-        _viewUserRole.setValue(accountUser.getRoleName());
-
-        _viewUserChild.ajaxPrint();
     }
 
     private void handleShowEditUserBox()

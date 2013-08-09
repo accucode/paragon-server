@@ -89,9 +89,6 @@ public class MyJoinAccountUtility
         inv.setAccountUserRoleCode(roleCode);
         inv.saveDao();
 
-        // remove_valerie: print
-        System.out.println("MyJoinAccountUtility.sendTransferInvitation --- invitation saved");
-
         KmHtmlBuilder msg;
 
         if ( isNewUser )
