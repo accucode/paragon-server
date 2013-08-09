@@ -2,6 +2,7 @@ package com.app.ui.activity.login;
 
 import com.app.model.MyEmail;
 import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
 import com.app.model.MyPasswordReset;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
@@ -132,6 +133,7 @@ public class MySignUpDialog
             _emailField.error("Invalid");
 
         MyUser user = getAccess().getUserDao().findEmail(email);
+
         if ( user == null )
         {
             user = createUser(email);
@@ -173,6 +175,7 @@ public class MySignUpDialog
         MyInvitation i;
         i = new MyInvitation();
         i.setUser(user);
+        i.setType(MyInvitationType.User);
         i.saveDao();
 
         KmHtmlBuilder msg;

@@ -23,6 +23,7 @@ public interface MyInvitationDaoConstantsIF
     String ACCESS_KEY = "accessKey";
     String CREATED_UTC_TS = "createdUtcTs";
     String CLOSED_UTC_TS = "closedUtcTs";
+    String EMAIL = "email";
     String LOCK_VERSION = "lockVersion";
     String STATUS_NAME = "statusName";
     String TYPE_NAME = "typeName";

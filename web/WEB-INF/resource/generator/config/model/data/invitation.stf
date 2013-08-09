@@ -62,12 +62,18 @@ attributes
     : comment   = When the object was used.
     : type      = timestamp
 
+    field
+    : name      = email
+    : comment   = The email to which the invitation was sent.
+    : type      = email
+    : required  = true
+    
     association
     : name      = user
     : comment   = The user to whom the invitation was sent.
     : modelName = user
     : relation  = reference
-    : required  = true
+    : required  = false
 
         delegate
         : fieldName = name

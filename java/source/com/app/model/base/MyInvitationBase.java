@@ -44,6 +44,7 @@ public abstract class MyInvitationBase
     private String accessKey;
     private KmTimestamp createdUtcTs;
     private KmTimestamp closedUtcTs;
+    private String email;
     private Integer lockVersion;
     private MyUser user;
     private MyAccount account;
@@ -436,6 +437,47 @@ public abstract class MyInvitationBase
     public boolean hasClosedUtcTs(KmTimestamp e)
     {
         return Kmu.isEqual(getClosedUtcTs(), e);
+    }
+
+    //##################################################
+    //# field (email)
+    //##################################################
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String e)
+    {
+        checkReadOnly();
+        e = Validator.getEmailValidator().convertOnly(e);
+        email = e;
+    }
+
+    public void clearEmail()
+    {
+        setEmail(null);
+    }
+
+    public boolean hasEmail()
+    {
+        return Kmu.hasValue(getEmail());
+    }
+
+    public boolean hasEmail(String e)
+    {
+        return Kmu.isEqual(getEmail(), e);
+    }
+
+    public void truncateEmail()
+    {
+        truncateEmail(false);
+    }
+
+    public void truncateEmail(boolean ellipses)
+    {
+        email = Kmu.truncate(email, 50, ellipses);
     }
 
     //##################################################
@@ -905,6 +947,7 @@ public abstract class MyInvitationBase
         if ( ! Kmu.isEqual(getAccessKey(), e.getAccessKey()) ) return false;
         if ( ! Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
         if ( ! Kmu.isEqual(getClosedUtcTs(), e.getClosedUtcTs()) ) return false;
+        if ( ! Kmu.isEqual(getEmail(), e.getEmail()) ) return false;
         if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
         if ( ! Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
         if ( ! Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
@@ -951,6 +994,9 @@ public abstract class MyInvitationBase
         if ( p.hasKey("accessKey") )
             setAccessKey(p.getString("accessKey"));
 
+        if ( p.hasKey("email") )
+            setEmail(p.getString("email"));
+
         if ( p.hasKey("lockVersion") )
             setLockVersion(p.getInteger("lockVersion"));
     }
@@ -971,6 +1017,9 @@ public abstract class MyInvitationBase
 
         if ( hasAccessKey() )
             p.setString("accessKey", getAccessKey());
+
+        if ( hasEmail() )
+            p.setString("email", getEmail());
 
         if ( hasLockVersion() )
             p.setInteger("lockVersion", getLockVersion());
@@ -1004,6 +1053,7 @@ public abstract class MyInvitationBase
         System.out.println("    AccessKey = " + accessKey);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
         System.out.println("    ClosedUtcTs = " + closedUtcTs);
+        System.out.println("    Email = " + email);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

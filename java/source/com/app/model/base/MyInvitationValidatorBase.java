@@ -41,6 +41,7 @@ public class MyInvitationValidatorBase
     private KmStringValidator accessKeyValidator;
     private KmTimestampValidator createdUtcTsValidator;
     private KmTimestampValidator closedUtcTsValidator;
+    private KmStringValidator emailValidator;
     private KmIntegerValidator lockVersionValidator;
     private KmStringValidator userNameValidator;
     private KmStringValidator accountNameValidator;
@@ -59,6 +60,7 @@ public class MyInvitationValidatorBase
         accessKeyValidator = newAccessKeyValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
         closedUtcTsValidator = newClosedUtcTsValidator();
+        emailValidator = newEmailValidator();
         lockVersionValidator = newLockVersionValidator();
         userNameValidator = newUserNameValidator();
         accountNameValidator = newAccountNameValidator();
@@ -99,6 +101,11 @@ public class MyInvitationValidatorBase
         return closedUtcTsValidator;
     }
 
+    public KmStringValidator getEmailValidator()
+    {
+        return emailValidator;
+    }
+
     public KmIntegerValidator getLockVersionValidator()
     {
         return lockVersionValidator;
@@ -132,6 +139,7 @@ public class MyInvitationValidatorBase
         value.setAccessKey(accessKeyValidator.convertOnly(value.getAccessKey()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
         value.setClosedUtcTs(closedUtcTsValidator.convertOnly(value.getClosedUtcTs()));
+        value.setEmail(emailValidator.convertOnly(value.getEmail()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
     }
 
@@ -144,6 +152,7 @@ public class MyInvitationValidatorBase
         accessKeyValidator.validateOnly(value.getAccessKey(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
         closedUtcTsValidator.validateOnly(value.getClosedUtcTs(), errors);
+        emailValidator.validateOnly(value.getEmail(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
     }
 
@@ -219,6 +228,18 @@ public class MyInvitationValidatorBase
         e = new KmTimestampValidator();
         e.setModel("invitation");
         e.setField("closedUtcTs");
+        return e;
+    }
+
+    public KmStringValidator newEmailValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModel("invitation");
+        e.setField("email");
+        e.setRequired();
         return e;
     }
 

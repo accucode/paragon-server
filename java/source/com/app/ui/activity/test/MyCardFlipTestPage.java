@@ -2,6 +2,7 @@ package com.app.ui.activity.test;
 
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFrame;
 import com.kodemore.servlet.control.ScFrameChild;
 import com.kodemore.servlet.control.ScGroup;
@@ -29,10 +30,15 @@ public class MyCardFlipTestPage
     //# variables
     //##################################################
 
-    private ScFrame      _frame;
+    private ScFrame      _flipFrame;
 
-    private ScFrameChild _childFront;
-    private ScFrameChild _childBack;
+    private ScFrameChild _flipFront;
+    private ScFrameChild _flipBack;
+
+    private ScFrame      _fadeFrame;
+
+    private ScFrameChild _fadeFront;
+    private ScFrameChild _fadeBack;
 
     //##################################################
     //# install
@@ -45,29 +51,49 @@ public class MyCardFlipTestPage
         root = newPageRoot();
         root.css().padSpaced();
 
-        _frame = root.addFrame();
-        _frame.style().width(300);
-        _frame.setHideFlip();
-        _frame.setHideEasing(ScEasing.easeInOutQuad);
-        _frame.setShowFlip();
-        _frame.setShowEasing(ScEasing.easeInOutQuad);
+        ScBox buttons;
+        buttons = root.addButtonBox();
+        buttons.addButton("Show Front", newShowFrontAction());
+        buttons.addButton("Show Back", newShowBackAction());
 
-        _childFront = _frame.createChild();
-        _childBack = _frame.createChild();
+        _flipFrame = root.addFrame();
+        _flipFrame.style().floatLeft().width(300);
+        _flipFrame.setHideFlip();
+        _flipFrame.setHideEasing(ScEasing.easeInOutQuad);
+        _flipFrame.setShowFlip();
+        _flipFrame.setShowEasing(ScEasing.easeInOutQuad);
 
-        _frame.setDefaultChild(_childFront);
+        _fadeFrame = root.addFrame();
+        _fadeFrame.style().floatLeft().width(300);
+        _fadeFrame.setHideFade();
+        _fadeFrame.setShowFade();
+
+        _flipFront = _flipFrame.createChild();
+        _flipBack = _flipFrame.createChild();
+
+        _fadeFront = _fadeFrame.createChild();
+        _fadeBack = _fadeFrame.createChild();
+
+        _flipFrame.setDefaultChild(_flipFront);
+        _fadeFrame.setDefaultChild(_fadeFront);
 
         ScGroup front;
-        front = _childFront.addGroup("Front");
+        front = _flipFront.addGroup("Front");
         front.addPad().addText("THIS IS THE FRONT!");
         front.style().height(400);
-        front.getHeader().addPad().addFloatRight().addButton("Flip!", newFlipToBackAction());
 
         ScGroup back;
-        back = _childBack.addGroup("Back");
+        back = _flipBack.addGroup("Back");
         back.addPad().addText("THIS IS THE BACK!");
         back.style().height(400);
-        back.getHeader().addPad().addFloatRight().addButton("Flip!", newFlipToFrontAction());
+
+        front = _fadeFront.addGroup("Front");
+        front.addPad().addText("THIS IS THE FRONT!");
+        front.style().height(400);
+
+        back = _fadeBack.addGroup("Back");
+        back.addPad().addText("THIS IS THE BACK!");
+        back.style().height(400);
 
         return root;
     }
@@ -76,26 +102,26 @@ public class MyCardFlipTestPage
     //# action
     //##################################################
 
-    private ScActionIF newFlipToFrontAction()
+    private ScActionIF newShowFrontAction()
     {
         return new ScAction(this)
         {
             @Override
             protected void handle()
             {
-                handleFlipToFront();
+                handleShowFront();
             }
         };
     }
 
-    private ScActionIF newFlipToBackAction()
+    private ScActionIF newShowBackAction()
     {
         return new ScAction(this)
         {
             @Override
             protected void handle()
             {
-                handleFlipToBack();
+                handleShowBack();
             }
         };
     }
@@ -104,13 +130,15 @@ public class MyCardFlipTestPage
     //# handle
     //##################################################
 
-    private void handleFlipToFront()
+    private void handleShowFront()
     {
-        _frame.ajaxPrint(_childFront);
+        _flipFrame.ajaxPrint(_flipFront);
+        _fadeFrame.ajaxPrint(_fadeFront);
     }
 
-    private void handleFlipToBack()
+    private void handleShowBack()
     {
-        _frame.ajaxPrint(_childBack);
+        _flipFrame.ajaxPrint(_flipBack);
+        _fadeFrame.ajaxPrint(_fadeBack);
     }
 }

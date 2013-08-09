@@ -28,8 +28,11 @@ public class MyTransferAccountUtility
         boolean isNewUser = user == null;
 
         if ( isNewUser )
-            user = createUser(email);
-        sendTransferInvitation(user, account, true);
+        {
+            createUser(email);
+            sendTransferInvitation(user, account, true);
+        }
+        sendTransferInvitation(user, account, false);
     }
 
     private MyUser createUser(String email)

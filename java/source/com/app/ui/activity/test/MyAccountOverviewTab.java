@@ -43,7 +43,7 @@ public class MyAccountOverviewTab
     private ScDialog              _deleteDialog;
 
     private ScAutoCompleteField   _searchUserNameField;
-    private ScTextField           _addUserNameField;
+    private ScAutoCompleteField   _addUserNameField;
     private ScTextField           _editUserNameField;
 
     private ScAutoCompleteField   _searchAccountNameField;
@@ -434,8 +434,9 @@ public class MyAccountOverviewTab
         body = group.addBox();
         body.css().pad();
 
-        _addUserNameField = new ScTextField();
+        _addUserNameField = new ScAutoCompleteField();
         _addUserNameField.setLabel("User name is ");
+        _addUserNameField.setCallback(newUserNameCallback());
 
         _addUserEmailField = new ScTextField();
         _addUserEmailField.setLabel("User's email is ");
@@ -822,7 +823,15 @@ public class MyAccountOverviewTab
         }
 
         MyUser user;
-        user = new MyUser();
+
+        MyUser findUser;
+        findUser = getAccess().getUserDao().findUserWithName(_addUserNameField.getValue());
+
+        if ( findUser != null )
+            user = findUser;
+        else
+            user = new MyUser();
+
         user.setName(_addUserNameField.getValue());
         user.setEmail(_addUserEmailField.getValue());
         user.saveDao();
@@ -837,15 +846,22 @@ public class MyAccountOverviewTab
 
         if ( findAccount != null )
             account = findAccount;
-
         else
             account = new MyAccount();
 
         account.setName(accountName);
         account.saveDao();
 
+        MyAccountUser findAccountUser;
+        findAccountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
+
         MyAccountUser accountUser;
-        accountUser = new MyAccountUser();
+
+        if ( findAccountUser != null )
+            accountUser = findAccountUser;
+        else
+            accountUser = new MyAccountUser();
+
         accountUser.applyFrom(_addAccountUserChild);
         accountUser.setAccount(account);
         accountUser.setUser(user);

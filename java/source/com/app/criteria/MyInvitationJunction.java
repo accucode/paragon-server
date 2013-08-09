@@ -73,6 +73,11 @@ public class MyInvitationJunction
         return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CLOSED_UTC_TS));
     }
 
+    public KmStringCriteria whereEmail()
+    {
+        return new KmStringCriteria(context(), fullName(EMAIL));
+    }
+
     public KmIntegerCriteria whereLockVersion()
     {
         return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));

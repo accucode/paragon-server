@@ -4,6 +4,7 @@ import com.app.criteria.MyAccountUserCriteria;
 import com.app.dao.base.MyAccountUserDaoBase;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
 import com.app.model.MyUser;
 
 import com.kodemore.collection.KmList;
@@ -42,5 +43,24 @@ public class MyAccountUserDao
         c.whereUserIs(u);
         c.whereAccountIs(a);
         return c.findFirst();
+    }
+
+    /**
+     * review_wyatt (valerie)
+     * these two convenience methods
+     */
+    public MyAccountUser findCurrentOwner(MyAccount a)
+    {
+        MyAccountUserCriteria c;
+        c = createCriteria();
+        c.whereAccountIs(a);
+        c.whereRoleIsOwner();
+        return c.findFirst();
+    }
+
+    public void transferOwnership(MyAccountUser oldOwner, MyAccountUser newOwner)
+    {
+        oldOwner.setRole(MyAccountUserRole.User);
+        newOwner.setRole(MyAccountUserRole.Owner);
     }
 }
