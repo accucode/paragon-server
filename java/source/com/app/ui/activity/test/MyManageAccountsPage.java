@@ -3,6 +3,7 @@ package com.app.ui.activity.test;
 import com.app.filter.MyAccountUserFilter;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
@@ -1297,7 +1298,22 @@ public class MyManageAccountsPage
 
         MyAccountUser accountUser;
         accountUser = getPageSession().getAccountUser();
-        accountUser.setRoleCode(_editRoleDropdown.getStringValue());
+
+        MyAccount account;
+        account = accountUser.getAccount();
+
+        String roleCode = _editRoleDropdown.getStringValue();
+
+        MyAccountUser findOwner;
+        findOwner = getAccess().getAccountUserDao().findCurrentOwner(account);
+
+        boolean hasOwner = findOwner != null;
+        boolean setOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
+
+        if ( hasOwner && setOwner )
+            ajax().alert("Looks like this account already has an owner.");
+        else
+            accountUser.setRoleCode(roleCode);
         accountUser.saveDao();
 
         _userGrid.ajaxReload();
