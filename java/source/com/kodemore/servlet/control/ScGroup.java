@@ -361,6 +361,8 @@ public class ScGroup
         css = newCssBuilder();
         css.add(PREFIX);
         css.add(PREFIX, PART_WRAPPER, getFlavor());
+        // review_aaron: added clearfix to group, fix button box issue caused by Overflow: visible
+        css.add(KmCssDefaultConstantsIF.clearfix);
 
         out.openDiv();
         out.printAttribute("id", getHtmlId());
