@@ -1,19 +1,5 @@
 package com.app.ui.activity.test;
 
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyEmail;
-import com.app.model.MyInvitation;
-import com.app.model.MyInvitationType;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.property.MyPropertyRegistry;
-import com.app.ui.activity.login.MyTransferAccountUtility;
-import com.app.utility.MyButtonUrls;
-import com.app.utility.MyConstantsIF;
-import com.app.utility.MyUrls;
-
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -41,6 +27,20 @@ import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
+
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyEmail;
+import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.property.MyPropertyRegistry;
+import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.utility.MyButtonUrls;
+import com.app.utility.MyConstantsIF;
+import com.app.utility.MyUrls;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -360,10 +360,13 @@ public class MyManageAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        // review_steve
+        // review_steve tracking junk
         _transferEmail = new ScAutoCompleteField();
         _transferEmail.setLabel("Email ");
         _transferEmail.setCallback(newTransferEmailCallback());
+        _transferEmail.trackAll(_accountDropdown);
+        _transferEmail.trackAll(_addAccountName);
+        _transferEmail.trackAll(_editTypeDropdown);
 
         ScFieldTable fields;
         fields = body.addFields();
@@ -394,28 +397,27 @@ public class MyManageAccountsPage
     private KmList<String> getAutocompleteTransferEmailOptions(String term)
     {
         // review_steve (valerie)
-        /**
-         * ask_valerie 
-         * can't grab accountName, tried a track method like grid has with no luck
-         */
+
         KmList<String> v;
         v = new KmList<String>();
 
-        String accountName;
-        accountName = _accountDropdown.getStringValue();
-        //remove_valerie: println
-        System.out.println("    accountName: " + accountName);
-
-        MyAccount account;
-        account = getAccess().getAccountDao().findWithName(accountName);
-        getPageSession().setAccount(account);
+        //        MyAccount account;
+        //        account = getPageSession().getAccount();
+        //        account = getAccess().getAccountDao().findWithName(accountName);
+        //        getPageSession().setAccount(account);
 
         KmList<MyAccountUser> accountUsers;
-        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(account);
+        accountUsers = getAccess().getAccountUserDao().findAll();
+
+        System.out.println("    ============================ account uid: "
+            + getPageSession().getAccountUid());
+
+        //        for ( MyAccountUser e : accountUsers )
+        //            if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
+        //                v.add(e.getUser().getEmail());
 
         for ( MyAccountUser e : accountUsers )
-            if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
-                v.add(e.getUser().getEmail());
+            v.add(e.getUser().getEmail());
 
         return v;
     }
@@ -1042,6 +1044,9 @@ public class MyManageAccountsPage
 
         _viewAccountChild.ajaxPrint();
         _viewAccountChild.ajax().focus();
+
+        System.out.println("   ***************************** account uid: "
+            + getPageSession().getAccountUid());
     }
 
     private void handleShowAddAccountBox()
@@ -1091,12 +1096,17 @@ public class MyManageAccountsPage
 
     private void handleShowTransferBox()
     {
-        String accountName;
-        accountName = _viewAccountName.getValue();
+        //        String accountName;
+        //        accountName = _viewAccountName.getValue();
 
-        MyAccount account;
-        account = getAccess().getAccountDao().findWithName(accountName);
-        getPageSession().setAccount(account);
+        // remove_steve pretty sure we don't need this
+        //        MyAccount account;
+        //        account = getAccess().getAccountDao().findWithName(accountName);
+        //        getPageSession().setAccount(account);
+
+        //      remove_steve print 
+        System.out.println("    ############################ account uid: "
+            + getPageSession().getAccountUid());
 
         _transferChild.ajaxPrint();
         _transferChild.ajax().focus();
@@ -1154,6 +1164,8 @@ public class MyManageAccountsPage
 
     private void handleCancelTransferRequest()
     {
+        System.out.println("    xxxxxxxxxxxxxxxxxxxxxxxxxxxx account uid: "
+            + getPageSession().getAccountUid());
         _transferFrame.ajaxClear();
     }
 

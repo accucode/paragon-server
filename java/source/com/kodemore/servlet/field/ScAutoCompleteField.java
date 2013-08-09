@@ -22,6 +22,7 @@
 
 package com.kodemore.servlet.field;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.kodemore.collection.KmList;
@@ -29,8 +30,10 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.json.KmJsonList;
 import com.kodemore.json.KmJsonObject;
+import com.kodemore.servlet.ScEncodedValueIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalString;
@@ -76,6 +79,15 @@ public class ScAutoCompleteField
      */
     private ScAutoCompleteCallbackIF _callback;
 
+    /**
+     * Used to bind extra data for filtering and sorting.
+     * The values in this list will be encoded into the Auto 
+     * complete field's callback request url.  The values will 
+     * be rebound to their respective ScValue's prior to execute 
+     * the filter.
+     */
+    private KmList<ScEncodedValueIF> _trackedValues;
+
     //##################################################
     //# init
     //##################################################
@@ -89,6 +101,7 @@ public class ScAutoCompleteField
         _triggerLength = new ScLocalInteger(1);
         _options = new ScLocalStringList();
         _callback = null;
+        _trackedValues = new KmList<ScEncodedValueIF>();
     }
 
     //##################################################
@@ -185,6 +198,43 @@ public class ScAutoCompleteField
     public boolean hasCallback()
     {
         return _callback != null;
+    }
+
+    //##################################################
+    //# tracking
+    //##################################################
+
+    public void track(ScEncodedValueIF e)
+    {
+        System.out.println("    tracking: " + e.toString());
+        _trackedValues.add(e);
+    }
+
+    public void trackAll(ScControl c)
+    {
+        if ( c instanceof ScEncodedValueIF )
+            track((ScEncodedValueIF)c);
+
+        Iterator<ScControl> i = c.getComponents();
+        while ( i.hasNext() )
+        {
+            ScControl e = i.next();
+
+            if ( e instanceof ScEncodedValueIF )
+                track((ScEncodedValueIF)e);
+
+            trackAll(e);
+        }
+    }
+
+    private KmList<?> getTrackedValues()
+    {
+        KmList<Object> v = new KmList<Object>();
+
+        for ( ScEncodedValueIF value : _trackedValues )
+            v.add(value.getEncodedValue());
+
+        return v;
     }
 
     //##################################################
@@ -309,7 +359,25 @@ public class ScAutoCompleteField
         ScServletCallbackRegistry r = ScServletCallbackRegistry.getInstance();
         ScServletCallback c = r.getAutoCompleteCallback();
 
-        return c.getPath(getKey());
+        String path = c.getPath(getKey());
+
+        String suffix = "";
+        // fixme_steve AUTO COMPLETE FIELD
+
+        KmList<?> values = getTrackedValues();
+        if ( values.isNotEmpty() )
+        {
+
+            //            for ( Object e : values )
+            //                if ( e instanceof ScEncodedValueIF )
+            suffix = ScEncoder.staticEncode(values);
+
+            // remove_steve: print
+            System.out.println("ScAutoCompleteField.getSourceCallback");
+            System.out.println("  ^^^^^^^^^^^  suffix: " + suffix);
+        }
+
+        return path;
     }
 
     private KmJsonList getSourceOptions()
@@ -362,6 +430,15 @@ public class ScAutoCompleteField
     {
         ScServletData data = getData();
         String term = data.getParameter("term");
+
+        // fixme_steve AUTO COMPLETE FIELD
+        //        String acct = data.getParameter("acct");
+        //
+        //        // remove_steve: print
+        //        System.out.println("ScAutoCompleteField._handleServletCallback");
+        //        System.out.println("  ===== acct " + acct);
+        //        System.out.println("  ===== term " + term);
+
         ScAutoCompleteCallbackIF c = getCallback();
         KmList<String> v = c.getOptionsFor(term);
 
