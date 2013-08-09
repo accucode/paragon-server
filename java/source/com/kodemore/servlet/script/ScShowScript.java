@@ -23,11 +23,25 @@
 package com.kodemore.servlet.script;
 
 import com.kodemore.json.KmJsonObject;
+import com.kodemore.servlet.ScConstantsIF;
+import com.kodemore.servlet.utility.ScEasing;
 import com.kodemore.utility.Kmu;
 
 public class ScShowScript
     extends ScAbstractVisibilityScript
 {
+    //##################################################
+    //# constructor
+    //##################################################
+
+    // review_aaron: different easings for different scripts?
+    public ScShowScript()
+    {
+        super();
+
+        setEasing(ScConstantsIF.DEFAULT_SHOW_EASING);
+    }
+
     //##################################################
     //# overrides
     //##################################################
@@ -60,7 +74,8 @@ public class ScShowScript
         options = new KmJsonObject();
         options.setInteger("rotateY", 0);
         options.setInteger("duration", getSpeedMs());
-        options.setString("easing", getEasing().name());
+        // fixme_aaron: 
+        options.setString("easing", ScEasing.easeOutQuad.name());
 
         return Kmu.format("transition(%s);", options);
     }

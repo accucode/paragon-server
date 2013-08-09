@@ -151,7 +151,10 @@ public class ScDropdown
         return _style.toBuilder();
     }
 
-    // review_aaron: Chosen boolean
+    /**
+     * review_wyatt: (aaron) CHOSEN - Simple boolean determines if chosen should be used
+     * on the dropdown.
+     */
     //##################################################
     //# chosen
     //##################################################
@@ -322,7 +325,10 @@ public class ScDropdown
 
         out.end("select");
 
-        // review_aaron: chosen script
+        /**
+         * review_wyatt: (aaron) CHOSEN - This will format the dropdown as a Chosen
+         * dropdown if usesChosen is true.
+         */
         if ( usesChosen() )
         {
             ScScript ajax;
@@ -331,6 +337,10 @@ public class ScDropdown
         }
     }
 
+    /**
+     * review_wyatt: (aaron) CHOSEN - the chosen script, there are several options
+     * that can be passed in, examples are commented out below.
+     */
     private String formatChosenScript()
     {
         /**
