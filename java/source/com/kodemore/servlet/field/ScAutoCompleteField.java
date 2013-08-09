@@ -33,6 +33,7 @@ import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.ScEncodedValueIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.variable.ScLocalInteger;
@@ -50,6 +51,12 @@ import com.app.ui.servlet.ScServletCallbackRegistry;
 public class ScAutoCompleteField
     extends ScField<String>
 {
+    //##################################################
+    //# constants
+    //##################################################//
+
+    private static final String      PARAMETER_TRACKED_VALUES = "trackedValues";
+
     //##################################################
     //# variables
     //##################################################
@@ -356,28 +363,30 @@ public class ScAutoCompleteField
 
     private String getSourceCallback()
     {
+        // review_steve AUTO COMPLETE FIELD
+        /**
+         *  review_wyatt (steve) autocomplete field tracked values
+         */
         ScServletCallbackRegistry r = ScServletCallbackRegistry.getInstance();
         ScServletCallback c = r.getAutoCompleteCallback();
 
         String path = c.getPath(getKey());
+        String addedValues = getFormattedTrackedValues();
 
-        String suffix = "";
-        // fixme_steve AUTO COMPLETE FIELD
+        return path + addedValues;
+    }
 
-        KmList<?> values = getTrackedValues();
-        if ( values.isNotEmpty() )
-        {
+    private String getFormattedTrackedValues()
+    {
+        KmList<?> trackedValues = getTrackedValues();
 
-            //            for ( Object e : values )
-            //                if ( e instanceof ScEncodedValueIF )
-            suffix = ScEncoder.staticEncode(values);
+        String encodedValues;
+        encodedValues = ScEncoder.staticEncode(trackedValues);
 
-            // remove_steve: print
-            System.out.println("ScAutoCompleteField.getSourceCallback");
-            System.out.println("  ^^^^^^^^^^^  suffix: " + suffix);
-        }
+        String result;
+        result = "?" + PARAMETER_TRACKED_VALUES + "=" + encodedValues;
 
-        return path;
+        return result;
     }
 
     private KmJsonList getSourceOptions()
@@ -428,16 +437,14 @@ public class ScAutoCompleteField
 
     private void _handleServletCallback()
     {
+        // review_steve AUTO COMPLETE FIELD
+        /**
+         *  review_wyatt (steve) autocomplete field tracked values
+         */
+
         ScServletData data = getData();
         String term = data.getParameter("term");
-
-        // fixme_steve AUTO COMPLETE FIELD
-        //        String acct = data.getParameter("acct");
-        //
-        //        // remove_steve: print
-        //        System.out.println("ScAutoCompleteField._handleServletCallback");
-        //        System.out.println("  ===== acct " + acct);
-        //        System.out.println("  ===== term " + term);
+        applyTrackedValuesFor(data);
 
         ScAutoCompleteCallbackIF c = getCallback();
         KmList<String> v = c.getOptionsFor(term);
@@ -447,6 +454,27 @@ public class ScAutoCompleteField
         json.addStrings(v);
 
         data.setJsonResult(json);
+    }
+
+    private void applyTrackedValuesFor(ScServletData data)
+    {
+        String encodedValues = data.getParameter(PARAMETER_TRACKED_VALUES);
+
+        if ( Kmu.isEmpty(encodedValues) )
+            return;
+
+        KmList<?> decodedValues = (KmList<?>)ScDecoder.staticDecode(encodedValues);
+        Iterator<?> decodedIterator = decodedValues.iterator();
+        Iterator<ScEncodedValueIF> trackedIterator = _trackedValues.iterator();
+
+        while ( decodedIterator.hasNext() )
+        {
+            Object nextDecode = decodedIterator.next();
+
+            ScEncodedValueIF nextValue;
+            nextValue = trackedIterator.next();
+            nextValue.setEncodedValue(nextDecode);
+        }
     }
 
     //##################################################

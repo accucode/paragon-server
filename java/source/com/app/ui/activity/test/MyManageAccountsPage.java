@@ -72,7 +72,7 @@ public class MyManageAccountsPage
     private ScTextField           _viewUserEmail;
     private ScTextField           _viewUserRole;
 
-    private ScAutoCompleteField   _transferEmail;
+    private ScAutoCompleteField   _transferEmailAutoComplete;
 
     private ScFrameChild          _viewAccountChild;
     private ScFrameChild          _editAccountChild;
@@ -360,17 +360,18 @@ public class MyManageAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        // review_steve tracking junk
-        _transferEmail = new ScAutoCompleteField();
-        _transferEmail.setLabel("Email ");
-        _transferEmail.setCallback(newTransferEmailCallback());
-        _transferEmail.trackAll(_accountDropdown);
-        _transferEmail.trackAll(_addAccountName);
-        _transferEmail.trackAll(_editTypeDropdown);
+        // review_steve AUTO COMPLETE FIELD
+        /**
+         *  review_wyatt (steve) autocomplete field tracked values
+         */
+        _transferEmailAutoComplete = new ScAutoCompleteField();
+        _transferEmailAutoComplete.setLabel("Email ");
+        _transferEmailAutoComplete.setCallback(newTransferEmailCallback());
+        _transferEmailAutoComplete.track(getPageSession().getAccountUidHolder());
 
         ScFieldTable fields;
         fields = body.addFields();
-        fields.add(_transferEmail);
+        fields.add(_transferEmailAutoComplete);
 
         group.addDivider();
 
@@ -396,25 +397,22 @@ public class MyManageAccountsPage
 
     private KmList<String> getAutocompleteTransferEmailOptions(String term)
     {
-        // review_steve (valerie)
+        // review_steve AUTO COMPLETE FIELD
+        /**
+         *  review_wyatt (steve) autocomplete field tracked values
+         */
 
         KmList<String> v;
         v = new KmList<String>();
 
-        //        MyAccount account;
-        //        account = getPageSession().getAccount();
-        //        account = getAccess().getAccountDao().findWithName(accountName);
-        //        getPageSession().setAccount(account);
+        MyAccount account = getPageSession().getAccount();
 
         KmList<MyAccountUser> accountUsers;
-        accountUsers = getAccess().getAccountUserDao().findAll();
+        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(account);
 
-        System.out.println("    ============================ account uid: "
-            + getPageSession().getAccountUid());
-
-        //        for ( MyAccountUser e : accountUsers )
-        //            if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
-        //                v.add(e.getUser().getEmail());
+        for ( MyAccountUser e : accountUsers )
+            if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
+                v.add(e.getUser().getEmail());
 
         for ( MyAccountUser e : accountUsers )
             v.add(e.getUser().getEmail());
@@ -1088,18 +1086,6 @@ public class MyManageAccountsPage
 
     private void handleShowTransferBox()
     {
-        //        String accountName;
-        //        accountName = _viewAccountName.getValue();
-
-        // remove_steve pretty sure we don't need this
-        //        MyAccount account;
-        //        account = getAccess().getAccountDao().findWithName(accountName);
-        //        getPageSession().setAccount(account);
-
-        //      remove_steve print 
-        System.out.println("    ############################ account uid: "
-            + getPageSession().getAccountUid());
-
         _transferChild.ajaxPrint();
         _transferChild.ajax().focus();
     }
@@ -1109,12 +1095,12 @@ public class MyManageAccountsPage
         MyAccount account;
         account = getPageSession().getAccount();
 
-        String email = _transferEmail.getValue();
+        String email = _transferEmailAutoComplete.getValue();
 
         boolean isValid = KmEmailParser.validate(email);
 
         if ( !isValid )
-            _transferEmail.error("Invalid");
+            _transferEmailAutoComplete.error("Invalid");
 
         MyTransferAccountUtility utility;
         utility = new MyTransferAccountUtility();
@@ -1255,8 +1241,6 @@ public class MyManageAccountsPage
         _viewUserName.setValue(user.getName());
         _viewUserEmail.setValue(user.getEmail());
         _viewUserRole.setValue(accountUser.getRoleName());
-
-        _viewUserChild.applyFromModel(user);
         _viewUserChild.ajaxPrint();
     }
 
@@ -1305,8 +1289,6 @@ public class MyManageAccountsPage
             _editUserEmail.setValue(u.getEmail());
 
         _editRoleDropdown.setValue(accountUser.getRole());
-
-        _editUserChild.applyFromModel(accountUser);
         _editUserChild.ajaxPrint();
     }
 
@@ -1330,8 +1312,6 @@ public class MyManageAccountsPage
         _viewUserName.setValue(user.getName());
         _viewUserEmail.setValue(user.getEmail());
         _viewUserRole.setValue(accountUser.getRoleName());
-
-        _viewUserChild.applyFromModel(user);
         _viewUserChild.ajaxPrint();
     }
 
