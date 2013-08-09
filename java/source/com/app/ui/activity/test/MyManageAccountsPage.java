@@ -1,5 +1,14 @@
 package com.app.ui.activity.test;
 
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.ui.activity.login.MyJoinAccountUtility;
+import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.utility.MyButtonUrls;
+
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -25,15 +34,6 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.KmEmailParser;
-
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.ui.activity.login.MyJoinAccountUtility;
-import com.app.ui.activity.login.MyTransferAccountUtility;
-import com.app.utility.MyButtonUrls;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -1032,14 +1032,14 @@ public class MyManageAccountsPage
             getPageSession().setAccount(account);
         }
 
-        _viewAccountName.setValue(account.getName());
-        _viewAccountType.setValue(account.getType().getName());
+        if ( account != null )
+        {
+            _viewAccountName.setValue(account.getName());
+            _viewAccountType.setValue(account.getType().getName());
+        }
 
         _viewAccountChild.ajaxPrint();
         _viewAccountChild.ajax().focus();
-
-        System.out.println("   ***************************** account uid: "
-            + getPageSession().getAccountUid());
     }
 
     private void handleShowAddAccountBox()
@@ -1133,8 +1133,6 @@ public class MyManageAccountsPage
 
     private void handleCancelTransferRequest()
     {
-        System.out.println("    xxxxxxxxxxxxxxxxxxxxxxxxxxxx account uid: "
-            + getPageSession().getAccountUid());
         _transferFrame.ajaxClear();
     }
 
