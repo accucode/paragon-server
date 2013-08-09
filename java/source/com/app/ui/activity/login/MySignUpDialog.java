@@ -135,10 +135,7 @@ public class MySignUpDialog
         MyUser user = getAccess().getUserDao().findEmail(email);
 
         if ( user == null )
-        {
-            user = createUser(email);
-            sendNewUserInvitation(user);
-        }
+            sendNewUserInvitation(email);
         else
             sendResetPasswordInvitation(user);
 
@@ -146,35 +143,22 @@ public class MySignUpDialog
         setEmailCookie(email);
     }
 
-    private MyUser createUser(String email)
-    {
-        KmEmailParser p;
-        p = new KmEmailParser();
-        p.setEmail(email);
-
-        String name;
-        name = p.getName();
-
-        MyUser u;
-        u = new MyUser();
-        u.setName(name);
-        u.setEmail(email);
-        u.saveDao();
-
-        return u;
-    }
-
-    private void sendNewUserInvitation(MyUser user)
+    private void sendNewUserInvitation(String email)
     {
         MyPropertyRegistry p = getProperties();
 
-        String name = user.getName();
-        String email = user.getEmail();
+        KmEmailParser parser;
+        parser = new KmEmailParser();
+        parser.setEmail(email);
+
+        String name;
+        name = parser.getName();
+
         String app = MyConstantsIF.APPLICATION_NAME;
 
         MyInvitation i;
         i = new MyInvitation();
-        i.setUser(user);
+        i.setEmail(email);
         i.setType(MyInvitationType.User);
         i.saveDao();
 
@@ -183,9 +167,7 @@ public class MySignUpDialog
         msg.printfln("Hi %s", name);
         msg.printfln();
         msg.printf("Welcome to %s! ", app);
-        msg.printf("Your new user account has been created for the email %s. ", email);
-        msg.printfln();
-        msg.printf("To activate your new account click the following link.");
+        msg.printf("To set up your new account click the following link.");
         msg.printfln();
         msg.printfln();
         msg.printLink("Activate My Account", MyUrls.getInvitationUrl(i));

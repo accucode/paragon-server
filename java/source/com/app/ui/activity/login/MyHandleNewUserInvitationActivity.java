@@ -17,6 +17,7 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
 public class MyHandleNewUserInvitationActivity
@@ -130,6 +131,7 @@ public class MyHandleNewUserInvitationActivity
         ScBox box;
         box = root.addBox();
         box.hide();
+        box.css().pad10();
         _messageBox = box;
 
         ScStyledText text;
@@ -185,13 +187,10 @@ public class MyHandleNewUserInvitationActivity
         String key;
         key = getAccessKey();
 
-        MyInvitation a;
-        a = getAccess().getInvitationDao().findAccessKey(key);
+        MyInvitation inv;
+        inv = getAccess().getInvitationDao().findAccessKey(key);
 
-        MyUser u;
-        u = a.getUser();
-
-        _emailText.setValue(u.getEmail());
+        _emailText.setValue(inv.getEmail());
 
         ajax().printMain(_root);
         ajax().focus();
@@ -203,19 +202,10 @@ public class MyHandleNewUserInvitationActivity
 
     private void handleAccept()
     {
-        _password1Field.ajax().clearValue();
-        _password2Field.ajax().clearValue();
-
         ajax().hideAllErrors();
         ajax().focus();
 
         _form.validate();
-
-        String p1 = _password1Field.getValue();
-        String p2 = _password2Field.getValue();
-
-        if ( Kmu.isNotEqual(p1, p2) )
-            _password1Field.error("Passwords did not match.");
 
         String key = getAccessKey();
 
@@ -224,13 +214,40 @@ public class MyHandleNewUserInvitationActivity
         i.setStatusAccepted();
         i.setClosedUtcTs(getNowUtc());
 
-        MyUser u;
-        u = i.getUser();
-        u.setPassword(p1);
-        u.setVerified(true);
+        String email;
+        email = i.getEmail();
+
+        createUser(email);
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
+    }
+
+    private void createUser(String email)
+    {
+        _password1Field.ajax().clearValue();
+        _password2Field.ajax().clearValue();
+
+        String p1 = _password1Field.getValue();
+        String p2 = _password2Field.getValue();
+
+        if ( Kmu.isNotEqual(p1, p2) )
+            _password1Field.error("Passwords did not match.");
+
+        KmEmailParser p;
+        p = new KmEmailParser();
+        p.setEmail(email);
+
+        String name;
+        name = p.getName();
+
+        MyUser u;
+        u = new MyUser();
+        u.setName(name);
+        u.setEmail(email);
+        u.setPassword(p1);
+        u.setVerified(true);
+        u.saveDao();
     }
 
     //##################################################

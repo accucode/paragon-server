@@ -1,5 +1,17 @@
 package com.app.ui.activity.test;
 
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.ui.activity.login.MyJoinAccountUtility;
+import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.utility.MyButtonUrls;
+import com.app.utility.MyGlobals;
+
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -25,15 +37,6 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.KmEmailParser;
-
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.ui.activity.login.MyJoinAccountUtility;
-import com.app.ui.activity.login.MyTransferAccountUtility;
-import com.app.utility.MyButtonUrls;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -86,11 +89,11 @@ public class MyManageAccountsPage
     private ScDialog              _deleteAccountDialog;
     private ScDialog              _deleteUserDialog;
 
-    // fixme_valerie: not loading properly on page load
     private ScGrid<MyAccountUser> _userGrid;
 
     private ScTextField           _addUserEmail;
     private ScDropdown            _addRoleDropdown;
+    private ScActionButton        _transferButton;
 
     //##################################################
     //# install
@@ -242,7 +245,10 @@ public class MyManageAccountsPage
         ScDiv footer;
         footer = group.addButtonBoxRight();
         footer.addButton("Edit", newShowEditAccountBoxAction());
-        footer.addButton("Transfer", newShowTransferBoxAction());
+
+        _transferButton = footer.addButton("Transfer", newShowTransferBoxAction());
+        _transferButton.hide();
+
         footer.addButton("Invite", newShowAddUserBoxAction());
         footer.addButton("Delete", newShowDeleteAccountDialogAction());
 
@@ -1004,6 +1010,14 @@ public class MyManageAccountsPage
         MyAccount dropdownAccount;
         dropdownAccount = getAccess().getAccountDao().findUid(accountUid);
 
+        MyServerSession ss = MyGlobals.getServerSession();
+        MyUser user = ss.getUser();
+
+        MyAccountUser findCurrentOwner;
+        findCurrentOwner = getAccess().getAccountUserDao().findCurrentOwner(account);
+
+        if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
+            _transferButton.show();
         /**
          * review_wyatt (steve) this is ugly and probably not too readable
          * 
@@ -1227,8 +1241,6 @@ public class MyManageAccountsPage
         _viewUserName.setValue(user.getName());
         _viewUserEmail.setValue(user.getEmail());
         _viewUserRole.setValue(accountUser.getRoleName());
-
-        _viewUserChild.applyFromModel(user);
         _viewUserChild.ajaxPrint();
     }
 
@@ -1277,8 +1289,6 @@ public class MyManageAccountsPage
             _editUserEmail.setValue(u.getEmail());
 
         _editRoleDropdown.setValue(accountUser.getRole());
-
-        _editUserChild.applyFromModel(accountUser);
         _editUserChild.ajaxPrint();
     }
 
@@ -1288,10 +1298,24 @@ public class MyManageAccountsPage
 
         MyAccountUser accountUser;
         accountUser = getPageSession().getAccountUser();
-        accountUser.setRoleCode(_editRoleDropdown.getStringValue());
+
+        MyAccount account;
+        account = accountUser.getAccount();
+
+        String roleCode = _editRoleDropdown.getStringValue();
+
+        MyAccountUser findOwner;
+        findOwner = getAccess().getAccountUserDao().findCurrentOwner(account);
+
+        boolean hasOwner = findOwner != null;
+        boolean setOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
+
+        if ( hasOwner && setOwner )
+            ajax().alert("Looks like this account already has an owner.");
+        else
+            accountUser.setRoleCode(roleCode);
         accountUser.saveDao();
 
-        // fixme_valerie: doesn't refresh properly
         _userGrid.ajaxReload();
 
         MyUser user;
@@ -1302,8 +1326,6 @@ public class MyManageAccountsPage
         _viewUserName.setValue(user.getName());
         _viewUserEmail.setValue(user.getEmail());
         _viewUserRole.setValue(accountUser.getRoleName());
-
-        _viewUserChild.applyFromModel(user);
         _viewUserChild.ajaxPrint();
     }
 
