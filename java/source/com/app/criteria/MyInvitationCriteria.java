@@ -770,6 +770,53 @@ public class MyInvitationCriteria
     }
 
     //##################################################
+    //# association (AccountUser)
+    //##################################################
+
+    public void selectAccountUserUid()
+    {
+        select(ACCOUNT_USER_UID);
+    }
+
+    public void selectMinimumAccountUserUid()
+    {
+        selectMinimum(ACCOUNT_USER_UID);
+    }
+
+    public void selectMaximumAccountUserUid()
+    {
+        selectMaximum(ACCOUNT_USER_UID);
+    }
+
+    public void groupByAccountUserUid()
+    {
+        groupBy(ACCOUNT_USER);
+    }
+
+    public MyAccountUserCriteria joinToAccountUser()
+    {
+        return new MyAccountUserCriteria(joinTo(ACCOUNT_USER));
+    }
+
+    public MyAccountUserCriteria leftJoinToAccountUser()
+    {
+        return new MyAccountUserCriteria(leftJoinTo(ACCOUNT_USER));
+    }
+
+    public KmStringCriteria whereAccountUserUid()
+    {
+        return new KmStringCriteria(parent(), fullName(ACCOUNT_USER_UID));
+    }
+
+    public void whereAccountUserIs(MyAccountUser e)
+    {
+        if ( e == null )
+            whereAccountUserUid().isNull();
+        else
+            whereAccountUserUid().is(e.getUid());
+    }
+
+    //##################################################
     //# junction
     //##################################################
 

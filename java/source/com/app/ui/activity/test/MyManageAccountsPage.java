@@ -1262,6 +1262,10 @@ public class MyManageAccountsPage
         account = getPageSession().getAccount();
 
         String email = _addUserEmail.getValue();
+        // fixme_valerie: 
+        String roleCode = _addRoleDropdown.getStringValue();
+        //remove_valerie: println
+        System.out.println("    roleCode: " + roleCode);
 
         boolean isValid = KmEmailParser.validate(email);
 
@@ -1270,7 +1274,7 @@ public class MyManageAccountsPage
 
         MyJoinAccountUtility utility;
         utility = new MyJoinAccountUtility();
-        utility.start(account, email);
+        utility.start(account, email, roleCode);
 
         showSentMessage(email);
     }
