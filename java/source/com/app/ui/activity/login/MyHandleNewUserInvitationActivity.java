@@ -19,16 +19,16 @@ import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
-public class MyHandleInvitationActivity
+public class MyHandleNewUserInvitationActivity
     extends MyActivity
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyHandleInvitationActivity instance = new MyHandleInvitationActivity();
+    public static final MyHandleNewUserInvitationActivity instance = new MyHandleNewUserInvitationActivity();
 
-    private MyHandleInvitationActivity()
+    private MyHandleNewUserInvitationActivity()
     {
         // singleton
     }
