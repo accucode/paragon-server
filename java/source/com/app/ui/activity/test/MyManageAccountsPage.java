@@ -147,12 +147,13 @@ public class MyManageAccountsPage
         footer = group.addButtonBoxRight();
 
         ScActionButton button1;
-        button1 = footer.addButton("Cancel", newCloseAction());
+        button1 = footer.addCancelButton(newCloseAction());
         button1.setImage(MyButtonUrls.cancel());
 
         ScActionButton button2;
         button2 = footer.addButton("Yes", newDeleteAccountAction());
         button2.setImage(MyButtonUrls.primary());
+        button2.applyPrimaryFlavor();
     }
 
     private void installDeleteUserDialog(ScPageRoot root)
