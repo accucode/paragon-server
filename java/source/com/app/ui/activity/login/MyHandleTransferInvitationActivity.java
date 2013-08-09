@@ -12,6 +12,7 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScErrorBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScStyledText;
@@ -20,6 +21,8 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.KmEmailParser;
+import com.kodemore.utility.Kmu;
 
 public class MyHandleTransferInvitationActivity
     extends MyActivity
@@ -47,16 +50,16 @@ public class MyHandleTransferInvitationActivity
     private ScText          _accountText;
 
     private ScForm          _form;
+
     private ScPasswordField _password1Field;
     private ScPasswordField _password2Field;
 
     private ScBox           _messageBox;
-
     private ScBox           _chooseLabel;
-
     private ScBox           _reEnterLabel;
 
-    private String          _submitButtonText;
+    private ScErrorBox      _password1ErrorBox;
+    private ScErrorBox      _password2ErrorBox;
 
     //##################################################
     //# install
@@ -126,22 +129,32 @@ public class MyHandleTransferInvitationActivity
 
         _accountText = accountBox.addText();
 
+        // fixme_valerie: causing problems
         _chooseLabel = form.addLabel("Choose a Password");
         _chooseLabel.css().padTop();
         _chooseLabel.hide();
-        form.addErrorBox().add(_password1Field);
+
+        _password1ErrorBox = new ScErrorBox();
+        _password1ErrorBox.add(_password1Field);
+        _password1ErrorBox.hide();
+        form.add(_password1ErrorBox);
+        //        _password1ErrorBox = form.addErrorBox().add(_password1Field);
 
         _reEnterLabel = form.addLabel("Re-enter Password");
         _reEnterLabel.css().padTop();
         _reEnterLabel.hide();
-        form.addErrorBox().add(_password2Field);
+
+        _password2ErrorBox = new ScErrorBox();
+        _password2ErrorBox.add(_password2Field);
+        _password2ErrorBox.hide();
+        form.add(_password2ErrorBox);
+        //        _password2ErrorBox = form.addErrorBox().add(_password2Field);
 
         ScBox buttons;
         buttons = form.addButtonBoxRight();
 
         ScSubmitButton button;
-        setSubmitButtonText("Accept Ownership");
-        button = buttons.addSubmitButton(_submitButtonText);
+        button = buttons.addSubmitButton("Accept Ownership");
         button.style().marginTop(10);
     }
 
@@ -209,13 +222,25 @@ public class MyHandleTransferInvitationActivity
         MyInvitation i;
         i = getAccess().getInvitationDao().findAccessKey(key);
 
-        MyUser user;
-        user = i.getUser();
+        String email;
+        email = i.getEmail();
+
+        MyUser user = getAccess().getUserDao().findEmail(email);
+
+        if ( user == null )
+        {
+            _password1Field.show();
+            _password2Field.show();
+            _chooseLabel.show();
+            _reEnterLabel.show();
+            _password1ErrorBox.show();
+            _password2ErrorBox.show();
+        }
 
         MyAccount account;
         account = i.getAccount();
 
-        _emailText.setValue(user.getEmail());
+        _emailText.setValue(i.getEmail());
         _accountText.setValue(account.getName());
 
         ajax().printMain(_root);
@@ -240,8 +265,13 @@ public class MyHandleTransferInvitationActivity
         i.setStatusAccepted();
         i.setClosedUtcTs(getNowUtc());
 
-        MyUser user;
-        user = i.getUser();
+        String email;
+        email = i.getEmail();
+
+        MyUser user = getAccess().getUserDao().findEmail(email);
+
+        if ( user == null )
+            user = createUser(email);
 
         MyAccount account;
         account = i.getAccount();
@@ -263,7 +293,8 @@ public class MyHandleTransferInvitationActivity
 
         MyAccountUser oldOwner;
         oldOwner = accountUserDao.findCurrentOwner(account);
-
+        //remove_valerie: println
+        System.out.println("    oldOwner: " + oldOwner);
         /**
          * review_wyatt (valerie) use of transfer ownership
          */
@@ -271,6 +302,35 @@ public class MyHandleTransferInvitationActivity
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
+    }
+
+    private MyUser createUser(String email)
+    {
+        _password1Field.ajax().clearValue();
+        _password2Field.ajax().clearValue();
+
+        String p1 = _password1Field.getValue();
+        String p2 = _password2Field.getValue();
+
+        if ( Kmu.isNotEqual(p1, p2) )
+            _password1Field.error("Passwords did not match.");
+
+        KmEmailParser p;
+        p = new KmEmailParser();
+        p.setEmail(email);
+
+        String name;
+        name = p.getName();
+
+        MyUser u;
+        u = new MyUser();
+        u.setName(name);
+        u.setEmail(email);
+        u.setPassword(p1);
+        u.setVerified(true);
+        u.saveDao();
+
+        return u;
     }
 
     //##################################################
@@ -286,21 +346,4 @@ public class MyHandleTransferInvitationActivity
     {
         _accessKey.setValue(e);
     }
-
-    //##################################################
-    //# convenience
-    //##################################################
-
-    // fixme_valerie: remove warning
-    @SuppressWarnings("unused")
-    private String getSubmitButtonText()
-    {
-        return _submitButtonText;
-    }
-
-    private void setSubmitButtonText(String submitButtonText)
-    {
-        _submitButtonText = submitButtonText;
-    }
-
 }

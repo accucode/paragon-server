@@ -3,11 +3,13 @@ package com.app.ui.activity.test;
 import com.app.filter.MyAccountUserFilter;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
+import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
 import com.app.ui.activity.login.MyJoinAccountUtility;
 import com.app.ui.activity.login.MyTransferAccountUtility;
 import com.app.utility.MyButtonUrls;
+import com.app.utility.MyGlobals;
 
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
@@ -91,6 +93,7 @@ public class MyManageAccountsPage
 
     private ScTextField           _addUserEmail;
     private ScDropdown            _addRoleDropdown;
+    private ScActionButton        _transferButton;
 
     //##################################################
     //# install
@@ -242,7 +245,10 @@ public class MyManageAccountsPage
         ScDiv footer;
         footer = group.addButtonBoxRight();
         footer.addButton("Edit", newShowEditAccountBoxAction());
-        footer.addButton("Transfer", newShowTransferBoxAction());
+
+        _transferButton = footer.addButton("Transfer", newShowTransferBoxAction());
+        _transferButton.hide();
+
         footer.addButton("Invite", newShowAddUserBoxAction());
         footer.addButton("Delete", newShowDeleteAccountDialogAction());
 
@@ -1006,6 +1012,14 @@ public class MyManageAccountsPage
         MyAccount dropdownAccount;
         dropdownAccount = getAccess().getAccountDao().findUid(accountUid);
 
+        MyServerSession ss = MyGlobals.getServerSession();
+        MyUser user = ss.getUser();
+
+        MyAccountUser findCurrentOwner;
+        findCurrentOwner = getAccess().getAccountUserDao().findCurrentOwner(account);
+
+        if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
+            _transferButton.show();
         /**
          * review_wyatt (steve) this is ugly and probably not too readable
          * 

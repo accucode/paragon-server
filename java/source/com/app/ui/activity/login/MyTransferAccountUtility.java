@@ -28,50 +28,30 @@ public class MyTransferAccountUtility
         boolean isNewUser = user == null;
 
         if ( isNewUser )
-        {
-            createUser(email);
-            sendTransferInvitation(user, account, true);
-        }
-        sendTransferInvitation(user, account, false);
+            sendTransferInvitation(email, account, true);
+        else
+            sendTransferInvitation(email, account, false);
     }
 
-    private MyUser createUser(String email)
-    {
-        KmEmailParser p;
-        p = new KmEmailParser();
-        p.setEmail(email);
-
-        String name;
-        name = p.getName();
-
-        MyUser u;
-        u = new MyUser();
-        u.setName(name);
-        u.setEmail(email);
-        u.setRandomPassword();
-        u.saveDao();
-
-        return u;
-    }
-
-    private void sendTransferInvitation(MyUser user, MyAccount account, boolean isNewUser)
+    private void sendTransferInvitation(String email, MyAccount account, boolean isNewUser)
     {
         MyPropertyRegistry p = getProperties();
 
-        String email = user.getEmail();
         String accountName = account.getName();
 
         MyInvitation inv;
         inv = new MyInvitation();
         inv.setType(MyInvitationType.Transfer);
         inv.setAccount(account);
-        inv.setUser(user);
+        inv.setEmail(email);
         inv.saveDao();
+
+        MyUser user = getAccess().getUserDao().findEmail(email);
 
         KmHtmlBuilder msg;
 
         if ( isNewUser )
-            msg = formatNewUserMsg(user, account, inv);
+            msg = formatNewUserMsg(email, account, inv);
         else
             msg = formatExistingUserMsg(user, account, inv);
 
@@ -87,26 +67,30 @@ public class MyTransferAccountUtility
         e.saveDao();
     }
 
-    private KmHtmlBuilder formatNewUserMsg(MyUser user, MyAccount account, MyInvitation i)
+    private KmHtmlBuilder formatNewUserMsg(String email, MyAccount account, MyInvitation i)
     {
-        String userName = user.getName();
-        String email = user.getEmail();
+        KmEmailParser parser;
+        parser = new KmEmailParser();
+        parser.setEmail(email);
+
+        String name;
+        name = parser.getName();
+
         String accountName = account.getName();
         String app = MyConstantsIF.APPLICATION_NAME;
 
         KmHtmlBuilder msg;
         msg = new KmHtmlBuilder();
-        msg.printfln("Hi %s", userName);
+        msg.printfln("Hi %s", name);
         msg.printfln();
         msg.printf("Welcome to %s! ", app);
-        msg.printf("A new user account has been created for the email %s. ", email);
         msg.printf("You have been asked to acquire the account %s. ", accountName);
         msg.printfln();
         msg.printf("To take ownership of this account and to activate your new user account "
             + "click the following link.");
         msg.printfln();
         msg.printfln();
-        msg.printLink("Activate My Account and Take Ownership.", MyUrls.getInvitationUrl(i));
+        msg.printLink("Set Up My Account and Take Ownership.", MyUrls.getInvitationUrl(i));
         msg.printfln();
         return msg;
     }
