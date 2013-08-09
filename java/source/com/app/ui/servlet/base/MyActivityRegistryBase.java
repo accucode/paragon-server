@@ -33,6 +33,7 @@ public abstract class MyActivityRegistryBase
         add(MyBlankTestPage.instance);
         add(MyBlockTestPage.instance);
         add(MyCardFlipTestPage.instance);
+        add(MyChosenTestPage.instance);
         add(MyColorFieldTestPage.instance);
         add(MyDateFieldTestPage.instance);
         add(MyDomainDropdownSetValueTestPage.instance);

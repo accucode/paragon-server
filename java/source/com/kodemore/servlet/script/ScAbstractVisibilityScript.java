@@ -177,7 +177,14 @@ public abstract class ScAbstractVisibilityScript
         return Kmu.format("$(%s).%s();", sel, fn);
     }
 
-    // review_aaron: new format effect method, had to create formatNormal and formatFlip
+    /**
+     * review_wyatt: (aaron) FLIP - I moved the switch statement here where
+     * the effect is formatted here, the original method is commented out below.
+     * 
+     * The switch statement used to be in the getFunction method, also commented
+     * out below.  I had to refactor becuase the flip effect uses different function
+     * structure.
+     */
     private String formatEffect()
     {
         ScEffect e = getEffect();
@@ -200,6 +207,17 @@ public abstract class ScAbstractVisibilityScript
         return null;
     }
 
+    // remove_aaron: original formatEffect method
+    //    private String formatEffect()
+    //    {
+    //        String sel = json(getTarget());
+    //        String fn = getFunction();
+    //        Integer ms = getSpeedMs();
+    //        String ease = json(getEasing().name());
+    //
+    //        return Kmu.format("$(%s).%s(%s,%s);", sel, fn, ms, ease);
+    //    }
+
     private String formatNormalEffect(String function)
     {
         String sel = json(getSelector());
@@ -217,18 +235,7 @@ public abstract class ScAbstractVisibilityScript
         return Kmu.format("$(%s).%s;", sel, function);
     }
 
-    // review_aaron: original formatEffect method
-    //    private String formatEffect()
-    //    {
-    //        String sel = json(getTarget());
-    //        String fn = getFunction();
-    //        Integer ms = getSpeedMs();
-    //        String ease = json(getEasing().name());
-    //
-    //        return Kmu.format("$(%s).%s(%s,%s);", sel, fn, ms, ease);
-    //    }
-
-    // review_aaron: original getFunction method
+    // remove_aaron: original getFunction method
     //    private String getFunction()
     //    {
     //        ScEffect e = getEffect();

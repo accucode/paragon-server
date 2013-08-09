@@ -8,7 +8,9 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.utility.ScEasing;
 
-// review_aaron: card flip test
+/**
+ * review_wyatt: (aaron) FLIP - This is the card flip test class
+ */
 public class MyCardFlipTestPage
     extends MyAbstractTestPage
 {

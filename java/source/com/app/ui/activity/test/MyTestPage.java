@@ -57,6 +57,7 @@ public class MyTestPage
         links.addLink(MyGoogleChartTestPage.instance);
         links.addLink(MyGridTestPage.instance);
         links.addLink(MyDropzoneTestPage.instance);
+        links.addLink(MyChosenTestPage.instance);
 
         group = groups.addGroup("Misc");
         links = group.addLinkBox();

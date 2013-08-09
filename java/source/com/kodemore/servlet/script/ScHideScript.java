@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.script;
 
-import com.kodemore.string.KmStringBuilder;
+import com.kodemore.json.KmJsonObject;
 import com.kodemore.utility.Kmu;
 
 public class ScHideScript
@@ -50,19 +50,19 @@ public class ScHideScript
         return "slideUp";
     }
 
-    // review_aaron: Hide Flip function
+    /**
+     * review_wyatt: (aaron) FLIP - Hide script flip function
+     */
     @Override
     protected String getFlipFunction()
     {
-        KmStringBuilder params;
-        params = new KmStringBuilder();
-        params.print("{");
-        params.print("rotateY: 90,");
-        params.printf("duration: %s,", getSpeedMs());
-        params.printf("easing: '%s'", getEasing().name());
-        params.print("}");
+        KmJsonObject options;
+        options = new KmJsonObject();
+        options.setInteger("rotateY", 90);
+        options.setInteger("duration", getSpeedMs());
+        options.setString("easing", getEasing().name());
 
-        return Kmu.format("transition(%s);", params);
+        return Kmu.format("transition(%s);", options);
     }
 
     //##################################################

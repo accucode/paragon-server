@@ -192,6 +192,7 @@ public class ScGrid<T>
      * callback request url.  The values will be rebound to
      * their respective ScValue's prior to execute the filter.
      */
+    // fixme_steve AUTO COMPLETE FIELD
     private KmList<ScEncodedValueIF> _trackedValues;
 
     //##################################################

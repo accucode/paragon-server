@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.script;
 
-import com.kodemore.string.KmStringBuilder;
+import com.kodemore.json.KmJsonObject;
 import com.kodemore.utility.Kmu;
 
 public class ScShowScript
@@ -51,21 +51,18 @@ public class ScShowScript
     }
 
     /**
-     *  review_aaron: Show Flip function.  The string builder is necesary because the
-     *  parameters need to be in a certain order.
+     * review_wyatt: (aaron) FLIP - This is the show flip function.
      */
     @Override
     protected String getFlipFunction()
     {
-        KmStringBuilder params;
-        params = new KmStringBuilder();
-        params.print("{");
-        params.print("rotateY: 0,");
-        params.printf("duration: %s,", getSpeedMs());
-        params.printf("easing: '%s'", getEasing().name());
-        params.print("}");
+        KmJsonObject options;
+        options = new KmJsonObject();
+        options.setInteger("rotateY", 0);
+        options.setInteger("duration", getSpeedMs());
+        options.setString("easing", getEasing().name());
 
-        return Kmu.format("transition(%s);", params);
+        return Kmu.format("transition(%s);", options);
     }
 
     //##################################################
