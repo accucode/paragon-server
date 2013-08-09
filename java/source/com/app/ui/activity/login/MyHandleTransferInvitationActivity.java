@@ -129,26 +129,21 @@ public class MyHandleTransferInvitationActivity
 
         _accountText = accountBox.addText();
 
-        // fixme_valerie: causing problems
         _chooseLabel = form.addLabel("Choose a Password");
         _chooseLabel.css().padTop();
         _chooseLabel.hide();
 
-        _password1ErrorBox = new ScErrorBox();
+        _password1ErrorBox = form.addErrorBox();
         _password1ErrorBox.add(_password1Field);
         _password1ErrorBox.hide();
-        form.add(_password1ErrorBox);
-        //        _password1ErrorBox = form.addErrorBox().add(_password1Field);
 
         _reEnterLabel = form.addLabel("Re-enter Password");
         _reEnterLabel.css().padTop();
         _reEnterLabel.hide();
 
-        _password2ErrorBox = new ScErrorBox();
+        _password2ErrorBox = form.addErrorBox();
         _password2ErrorBox.add(_password2Field);
         _password2ErrorBox.hide();
-        form.add(_password2ErrorBox);
-        //        _password2ErrorBox = form.addErrorBox().add(_password2Field);
 
         ScBox buttons;
         buttons = form.addButtonBoxRight();
