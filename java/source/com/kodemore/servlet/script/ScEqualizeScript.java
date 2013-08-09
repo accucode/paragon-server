@@ -38,7 +38,6 @@ public class ScEqualizeScript
 
     /**
      * The jquery selector for the elements to be equalized.
-     * todo_aaron make selsctor fix
      */
     private String  selector;
 
@@ -169,7 +168,6 @@ public class ScEqualizeScript
     @Override
     public void formatScriptOn(KmStringBuilder out)
     {
-        // review_aaron: default to equalize both if neither is set?
         if ( !getEqualizeHeight() && !getEqualizeWidth() )
             setEqualizeBoth();
 

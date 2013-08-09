@@ -355,13 +355,17 @@ public class ScGroup
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
+        /**
+         * review_aaron: Talk with Wyatt:
+         *      Added extra 'group' to class, so groups can be easily targeted for equalize
+         *      Added clearfix to group class to fix bug caused by setting overflow to visible
+         */
+
         KmCssDefaultBuilder css;
-        // review_aaron: added additional 'group' to class 
         //        css = newCssBuilder().add(PREFIX, PART_WRAPPER, getFlavor());
         css = newCssBuilder();
         css.add(PREFIX);
         css.add(PREFIX, PART_WRAPPER, getFlavor());
-        // review_aaron: added clearfix to group, fix button box issue caused by Overflow: visible
         css.add(KmCssDefaultConstantsIF.clearfix);
 
         out.openDiv();

@@ -24,7 +24,6 @@ package com.kodemore.servlet.script;
 
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.ScConstantsIF;
-import com.kodemore.servlet.utility.ScEasing;
 import com.kodemore.utility.Kmu;
 
 public class ScHideScript
@@ -34,7 +33,7 @@ public class ScHideScript
     //# constructor
     //##################################################
 
-    // review_aaron: different easings for different scripts?
+    // review_aaron: Talk with Wyatt - different easings for different scripts?
     public ScHideScript()
     {
         super();
@@ -74,8 +73,7 @@ public class ScHideScript
         options = new KmJsonObject();
         options.setInteger("rotateY", 90);
         options.setInteger("duration", getSpeedMs());
-        // fixme_aaron: 
-        options.setString("easing", ScEasing.easeInQuad.name());
+        options.setString("easing", getEasing().name());
 
         return Kmu.format("transition(%s);", options);
     }
