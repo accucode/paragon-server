@@ -88,7 +88,6 @@ public class MyManageAccountsPage
     private ScDialog              _deleteAccountDialog;
     private ScDialog              _deleteUserDialog;
 
-    // fixme_valerie: not loading properly on page load
     private ScGrid<MyAccountUser> _userGrid;
 
     private ScTextField           _addUserEmail;
@@ -1301,7 +1300,6 @@ public class MyManageAccountsPage
         accountUser.setRoleCode(_editRoleDropdown.getStringValue());
         accountUser.saveDao();
 
-        // fixme_valerie: doesn't refresh properly
         _userGrid.ajaxReload();
 
         MyUser user;
