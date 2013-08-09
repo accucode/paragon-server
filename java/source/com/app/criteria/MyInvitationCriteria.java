@@ -232,6 +232,11 @@ public class MyInvitationCriteria
         return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CLOSED_UTC_TS));
     }
 
+    public KmStringCriteria whereEmail()
+    {
+        return new KmStringCriteria(context(), fullName(EMAIL));
+    }
+
     public KmIntegerCriteria whereLockVersion()
     {
         return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
@@ -347,6 +352,24 @@ public class MyInvitationCriteria
             sortOnClosedUtcTs();
         else
             sortOnClosedUtcTsDescending();
+    }
+
+    public void sortOnEmail()
+    {
+        parent().sortAscending(EMAIL);
+    }
+
+    public void sortOnEmailDescending()
+    {
+        parent().sortDescending(EMAIL);
+    }
+
+    public void sortOnEmail(boolean asc)
+    {
+        if ( asc )
+            sortOnEmail();
+        else
+            sortOnEmailDescending();
     }
 
     public void sortOnLockVersion()
@@ -629,6 +652,50 @@ public class MyInvitationCriteria
     public void groupByClosedUtcTs()
     {
         groupBy(CLOSED_UTC_TS);
+    }
+
+    //##################################################
+    //# projections (email)
+    //##################################################
+
+    public void selectEmail()
+    {
+        select(EMAIL);
+    }
+
+    public void selectDistinctEmail()
+    {
+        selectDistinct(EMAIL);
+    }
+
+    public void selectCountDistinctEmail()
+    {
+        selectCountDistinct(EMAIL);
+    }
+
+    public void selectMinimumEmail()
+    {
+        selectMinimum(EMAIL);
+    }
+
+    public void selectMaximumEmail()
+    {
+        selectMaximum(EMAIL);
+    }
+
+    public void selectAverageEmail()
+    {
+        selectAverage(EMAIL);
+    }
+
+    public void selectSumEmail()
+    {
+        selectSum(EMAIL);
+    }
+
+    public void groupByEmail()
+    {
+        groupBy(EMAIL);
     }
 
     //##################################################

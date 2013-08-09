@@ -67,6 +67,12 @@
             type="com.kodemore.hibernate.KmHibernateTimestampType"
             />
 
+        <property
+            name="email"
+            column="email"
+            type="string"
+            />
+
         <many-to-one
             name="user"
             column="userUid"
