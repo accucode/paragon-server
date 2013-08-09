@@ -2,6 +2,7 @@ package com.app.ui.activity.login;
 
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
 import com.app.model.MyEmail;
 import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
@@ -21,18 +22,22 @@ public class MyJoinAccountUtility
     //# start
     //##################################################
 
-    public void start(MyAccount account, String email)
+    public void start(MyAccount account, String email, String roleCode)
     {
         MyUser user = getAccess().getUserDao().findEmail(email);
+        MyAccountUser accountUser;
+        accountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
 
         boolean isNewUser = user == null;
 
         if ( isNewUser )
-            user = createUser(email);
-        sendTransferInvitation(user, account, true);
+            user = createUser(email, account, roleCode);
+
+        accountUser = createAccountUser(user, account, roleCode);
+        sendTransferInvitation(user, account, accountUser, true, roleCode);
     }
 
-    private MyUser createUser(String email)
+    private MyUser createUser(String email, MyAccount account, String roleCode)
     {
         KmEmailParser p;
         p = new KmEmailParser();
@@ -51,7 +56,24 @@ public class MyJoinAccountUtility
         return u;
     }
 
-    private void sendTransferInvitation(MyUser user, MyAccount account, boolean isNewUser)
+    private MyAccountUser createAccountUser(MyUser user, MyAccount account, String roleCode)
+    {
+        MyAccountUser accountUser;
+        accountUser = new MyAccountUser();
+        accountUser.setAccount(account);
+        accountUser.setUser(user);
+        accountUser.setRoleCode(roleCode);
+        accountUser.saveDao();
+
+        return accountUser;
+    }
+
+    private void sendTransferInvitation(
+        MyUser user,
+        MyAccount account,
+        MyAccountUser accountUser,
+        boolean isNewUser,
+        String roleCode)
     {
         MyPropertyRegistry p = getProperties();
 
@@ -63,6 +85,8 @@ public class MyJoinAccountUtility
         inv.setType(MyInvitationType.Join);
         inv.setAccount(account);
         inv.setUser(user);
+        inv.setAccountUser(accountUser);
+        inv.setAccountUserRoleCode(roleCode);
         inv.saveDao();
 
         KmHtmlBuilder msg;

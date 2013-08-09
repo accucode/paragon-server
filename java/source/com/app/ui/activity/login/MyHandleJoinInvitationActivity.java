@@ -230,7 +230,9 @@ public class MyHandleJoinInvitationActivity
          * ask_valerie 
          * about role
          */
-        //        accountUser.setRole(MyAccountUserRole.Owner);
+        accountUser.setRoleCode(i.getAccountUserRoleCode());
+        //remove_valerie: println
+        System.out.println("    i.getAccountUserRoleCode(): " + i.getAccountUserRoleCode());
         accountUser.saveDao();
 
         _form.ajax().hide();

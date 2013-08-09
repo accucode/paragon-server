@@ -47,6 +47,7 @@ public abstract class MyInvitationBase
     private Integer lockVersion;
     private MyUser user;
     private MyAccount account;
+    private MyAccountUser accountUser;
 
     //##################################################
     //# constructor
@@ -772,6 +773,64 @@ public abstract class MyInvitationBase
     public boolean hasAccountName(String e)
     {
         return hasAccount() && getAccount().hasName(e);
+    }
+
+    //##################################################
+    //# accountUser
+    //##################################################
+
+    public MyAccountUser getAccountUser()
+    {
+        return accountUser;
+    }
+
+    public void setAccountUser(MyAccountUser e)
+    {
+        checkReadOnly();
+        accountUser = e;
+    }
+
+    public void _setAccountUser(MyAccountUser e)
+    {
+        checkReadOnly();
+        accountUser = e;
+    }
+
+    public void clearAccountUser()
+    {
+        setAccountUser(null);
+    }
+
+    public boolean hasAccountUser()
+    {
+        return getAccountUser() != null;
+    }
+
+    public boolean hasAccountUser(MyAccountUser e)
+    {
+        return Kmu.isEqual(getAccountUser(), e);
+    }
+
+    public String getAccountUserRoleCode()
+    {
+        if ( hasAccountUser() )
+            return getAccountUser().getRoleCode();
+        return null;
+    }
+
+    public void setAccountUserRoleCode(String e)
+    {
+        getAccountUser().setRoleCode(e);
+    }
+
+    public boolean hasAccountUserRoleCode()
+    {
+        return hasAccountUser() && getAccountUser().hasRoleCode();
+    }
+
+    public boolean hasAccountUserRoleCode(String e)
+    {
+        return hasAccountUser() && getAccountUser().hasRoleCode(e);
     }
 
 

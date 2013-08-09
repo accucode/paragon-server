@@ -81,3 +81,13 @@ attributes
 
         delegate
         : fieldName = name
+        
+    association
+    : name      = accountUser
+    : comment   = The accountUser to which the invitation referred.
+    : modelName = accountUser
+    : relation  = reference
+    : required  = false
+
+        delegate
+        : fieldName = roleCode
