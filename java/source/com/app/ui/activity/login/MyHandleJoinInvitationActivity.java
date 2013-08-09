@@ -11,13 +11,17 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScErrorBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScStyledText;
 import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
+import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.KmEmailParser;
+import com.kodemore.utility.Kmu;
 
 public class MyHandleJoinInvitationActivity
     extends MyActivity
@@ -37,16 +41,24 @@ public class MyHandleJoinInvitationActivity
     //# variables
     //##################################################
 
-    private ScLocalString _accessKey;
+    private ScLocalString   _accessKey;
 
-    private ScContainer   _root;
+    private ScContainer     _root;
 
-    private ScText        _emailText;
-    private ScText        _accountText;
+    private ScText          _emailText;
+    private ScText          _accountText;
 
-    private ScForm        _form;
+    private ScForm          _form;
 
-    private ScBox         _messageBox;
+    private ScPasswordField _password1Field;
+    private ScPasswordField _password2Field;
+
+    private ScBox           _messageBox;
+    private ScBox           _chooseLabel;
+    private ScBox           _reEnterLabel;
+
+    private ScErrorBox      _password1ErrorBox;
+    private ScErrorBox      _password2ErrorBox;
 
     //##################################################
     //# install
@@ -84,6 +96,15 @@ public class MyHandleJoinInvitationActivity
 
     private void installForm(ScContainer root)
     {
+        _password1Field = new ScPasswordField();
+        _password1Field.style().width(270);
+        _password1Field.setRequired();
+        _password1Field.hide();
+
+        _password2Field = new ScPasswordField();
+        _password2Field.style().width(270);
+        _password2Field.hide();
+
         ScForm form;
         form = root.addForm();
         form.setDefaultAction(newAcceptAction());
@@ -106,6 +127,22 @@ public class MyHandleJoinInvitationActivity
         accountBox.css().fieldValue();
 
         _accountText = accountBox.addText();
+
+        _chooseLabel = form.addLabel("Choose a Password");
+        _chooseLabel.css().padTop();
+        _chooseLabel.hide();
+
+        _password1ErrorBox = form.addErrorBox();
+        _password1ErrorBox.add(_password1Field);
+        _password1ErrorBox.hide();
+
+        _reEnterLabel = form.addLabel("Re-enter Password");
+        _reEnterLabel.css().padTop();
+        _reEnterLabel.hide();
+
+        _password2ErrorBox = form.addErrorBox();
+        _password2ErrorBox.add(_password2Field);
+        _password2ErrorBox.hide();
 
         ScBox buttons;
         buttons = form.addButtonBoxRight();
@@ -179,13 +216,25 @@ public class MyHandleJoinInvitationActivity
         MyInvitation i;
         i = getAccess().getInvitationDao().findAccessKey(key);
 
-        MyUser user;
-        user = i.getUser();
+        String email;
+        email = i.getEmail();
+
+        MyUser user = getAccess().getUserDao().findEmail(email);
+
+        if ( user == null )
+        {
+            _password1Field.show();
+            _password2Field.show();
+            _chooseLabel.show();
+            _reEnterLabel.show();
+            _password1ErrorBox.show();
+            _password2ErrorBox.show();
+        }
 
         MyAccount account;
         account = i.getAccount();
 
-        _emailText.setValue(user.getEmail());
+        _emailText.setValue(i.getEmail());
         _accountText.setValue(account.getName());
 
         ajax().printMain(_root);
@@ -201,8 +250,6 @@ public class MyHandleJoinInvitationActivity
         ajax().hideAllErrors();
         ajax().focus();
 
-        _form.validate();
-
         String key = getAccessKey();
 
         MyInvitation i;
@@ -210,8 +257,11 @@ public class MyHandleJoinInvitationActivity
         i.setStatusAccepted();
         i.setClosedUtcTs(getNowUtc());
 
+        String email;
+        email = i.getEmail();
+
         MyUser user;
-        user = i.getUser();
+        user = getAccess().getUserDao().findEmail(email);
 
         MyAccount account;
         account = i.getAccount();
@@ -219,18 +269,62 @@ public class MyHandleJoinInvitationActivity
         MyAccountUser accountUser;
         accountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
 
-        if ( accountUser == null )
+        String roleCode;
+        roleCode = i.getRoleCode();
+
+        if ( user == null )
         {
-            accountUser = new MyAccountUser();
-            accountUser.setUser(user);
-            accountUser.setAccount(account);
+            _form.validate();
+            user = createUser(email);
         }
 
-        accountUser.setRoleCode(i.getAccountUserRoleCode());
+        if ( accountUser == null )
+            accountUser = createAccountUser(user, account);
+
+        accountUser.setRoleCode(roleCode);
         accountUser.saveDao();
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
+    }
+
+    private MyUser createUser(String email)
+    {
+        _password1Field.ajax().clearValue();
+        _password2Field.ajax().clearValue();
+
+        String p1 = _password1Field.getValue();
+        String p2 = _password2Field.getValue();
+
+        if ( Kmu.isNotEqual(p1, p2) )
+            _password1Field.error("Passwords did not match.");
+
+        KmEmailParser p;
+        p = new KmEmailParser();
+        p.setEmail(email);
+
+        String name;
+        name = p.getName();
+
+        MyUser u;
+        u = new MyUser();
+        u.setName(name);
+        u.setEmail(email);
+        u.setPassword(p1);
+        u.setVerified(true);
+        u.saveDao();
+
+        return u;
+    }
+
+    private MyAccountUser createAccountUser(MyUser user, MyAccount account)
+    {
+        MyAccountUser accountUser;
+        accountUser = new MyAccountUser();
+        accountUser.setAccount(account);
+        accountUser.setUser(user);
+
+        return accountUser;
     }
 
     //##################################################

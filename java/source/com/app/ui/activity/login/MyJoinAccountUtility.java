@@ -2,7 +2,6 @@ package com.app.ui.activity.login;
 
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
 import com.app.model.MyEmail;
 import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
@@ -25,74 +24,39 @@ public class MyJoinAccountUtility
     public void start(MyAccount account, String email, String roleCode)
     {
         MyUser user = getAccess().getUserDao().findEmail(email);
-        MyAccountUser accountUser;
-        accountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
 
         boolean isNewUser = user == null;
 
         if ( isNewUser )
-            user = createUser(email, account, roleCode);
-
-        accountUser = createAccountUser(user, account, roleCode);
-        sendTransferInvitation(user, account, accountUser, true, roleCode);
+            sendJoinInvitation(email, account, true, roleCode);
+        else
+            sendJoinInvitation(email, account, false, roleCode);
     }
 
-    private MyUser createUser(String email, MyAccount account, String roleCode)
-    {
-        KmEmailParser p;
-        p = new KmEmailParser();
-        p.setEmail(email);
-
-        String name;
-        name = p.getName();
-
-        MyUser u;
-        u = new MyUser();
-        u.setName(name);
-        u.setEmail(email);
-        u.setRandomPassword();
-        u.saveDao();
-
-        return u;
-    }
-
-    private MyAccountUser createAccountUser(MyUser user, MyAccount account, String roleCode)
-    {
-        MyAccountUser accountUser;
-        accountUser = new MyAccountUser();
-        accountUser.setAccount(account);
-        accountUser.setUser(user);
-        accountUser.setRoleCode(roleCode);
-        accountUser.saveDao();
-
-        return accountUser;
-    }
-
-    private void sendTransferInvitation(
-        MyUser user,
+    private void sendJoinInvitation(
+        String email,
         MyAccount account,
-        MyAccountUser accountUser,
         boolean isNewUser,
         String roleCode)
     {
         MyPropertyRegistry p = getProperties();
 
-        String email = user.getEmail();
         String accountName = account.getName();
 
         MyInvitation inv;
         inv = new MyInvitation();
         inv.setType(MyInvitationType.Join);
         inv.setAccount(account);
-        inv.setUser(user);
-        inv.setAccountUser(accountUser);
-        inv.setAccountUserRoleCode(roleCode);
+        inv.setEmail(email);
+        inv.setRoleCode(roleCode);
         inv.saveDao();
+
+        MyUser user = getAccess().getUserDao().findEmail(email);
 
         KmHtmlBuilder msg;
 
         if ( isNewUser )
-            msg = formatNewUserMsg(user, account, inv);
+            msg = formatNewUserMsg(email, account, inv);
         else
             msg = formatExistingUserMsg(user, account, inv);
 
@@ -108,20 +72,25 @@ public class MyJoinAccountUtility
         e.saveDao();
     }
 
-    private KmHtmlBuilder formatNewUserMsg(MyUser user, MyAccount account, MyInvitation i)
+    private KmHtmlBuilder formatNewUserMsg(String email, MyAccount account, MyInvitation i)
     {
-        String userName = user.getName();
-        String email = user.getEmail();
+        KmEmailParser parser;
+        parser = new KmEmailParser();
+        parser.setEmail(email);
+
+        String name;
+        name = parser.getName();
+
         String accountName = account.getName();
         String app = MyConstantsIF.APPLICATION_NAME;
 
         KmHtmlBuilder msg;
         msg = new KmHtmlBuilder();
-        msg.printfln("Hi %s", userName);
+        msg.printfln("Hi %s", name);
         msg.printfln();
         msg.printf("Welcome to %s! ", app);
         msg.printf("A new user account has been created for the email %s. ", email);
-        msg.printf("You have been asked to join the account %s. ", accountName);
+        msg.printf("You have been asked to join %s! ", accountName);
         msg.printfln();
         msg.printf("To join %s and to activate your new user account "
             + "click the following link.", accountName);
@@ -143,7 +112,7 @@ public class MyJoinAccountUtility
         msg = new KmHtmlBuilder();
         msg.printfln("Hi %s", userName);
         msg.printfln();
-        msg.printf("You have been asked to join the account %s. ", accountName);
+        msg.printf("You have been asked to join %s! ", accountName);
         msg.printfln();
         msg.printf("To join this account click the following link.");
         msg.printfln();
