@@ -1,8 +1,8 @@
 package com.app.ui.activity.login;
 
+import com.app.dao.MyAccountUserDao;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
 import com.app.model.MyInvitation;
 import com.app.model.MyUser;
 import com.app.ui.activity.MyActivity;
@@ -217,18 +217,28 @@ public class MyHandleTransferInvitationActivity
         MyAccount account;
         account = i.getAccount();
 
-        MyAccountUser accountUser;
-        accountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
+        MyAccountUserDao accountUserDao;
+        accountUserDao = getAccess().getAccountUserDao();
 
-        if ( accountUser == null )
+        MyAccountUser newOwner;
+        newOwner = accountUserDao.findAccountUserFor(user, account);
+
+        if ( newOwner == null )
         {
-            accountUser = new MyAccountUser();
-            accountUser.setUser(user);
-            accountUser.setAccount(account);
+            newOwner = new MyAccountUser();
+            newOwner.setUser(user);
+            newOwner.setAccount(account);
         }
 
-        accountUser.setRole(MyAccountUserRole.Owner);
-        accountUser.saveDao();
+        newOwner.saveDao();
+
+        MyAccountUser oldOwner;
+        oldOwner = accountUserDao.findCurrentOwner(account);
+
+        /**
+         * review_wyatt (valerie) use of transfer ownership
+         */
+        accountUserDao.transferOwnership(oldOwner, newOwner);
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();

@@ -944,16 +944,8 @@ public class MyManageAccountsPage
         _deleteAccountDialog.ajaxOpen();
     }
 
-    // fixme_valerie: doesn't work, see handleDeleteUser()
     private void handleShowDeleteAccountUserDialog()
     {
-        String accountName;
-        accountName = _accountDropdown.getStringValue();
-
-        MyAccount account;
-        account = getAccess().getAccountDao().findWithName(accountName);
-        getPageSession().setAccount(account);
-
         _deleteUserDialog.ajaxOpen();
     }
 
@@ -1286,11 +1278,11 @@ public class MyManageAccountsPage
 
     private void handleShowEditUserBox()
     {
-        MyAccountUser e;
-        e = getPageSession().getAccountUser();
+        MyAccountUser accountUser;
+        accountUser = getPageSession().getAccountUser();
 
         MyUser u;
-        u = getPageSession().getUser();
+        u = accountUser.getUser();
 
         if ( u != null )
             _editUserName.setValue(u.getName());
@@ -1298,9 +1290,9 @@ public class MyManageAccountsPage
         if ( u != null )
             _editUserEmail.setValue(u.getEmail());
 
-        _editRoleDropdown.setValue(e.getRole());
+        _editRoleDropdown.setValue(accountUser.getRole());
 
-        _editUserChild.applyFromModel(e);
+        _editUserChild.applyFromModel(accountUser);
         _editUserChild.ajaxPrint();
     }
 
@@ -1313,6 +1305,7 @@ public class MyManageAccountsPage
         accountUser.setRoleCode(_editRoleDropdown.getStringValue());
         accountUser.saveDao();
 
+        // fixme_valerie: doesn't refresh properly
         _userGrid.ajaxReload();
 
         MyUser user;
