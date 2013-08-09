@@ -15,7 +15,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
-public class MyTransferAccountUtility
+public class MyJoinAccountUtility
 {
     //##################################################
     //# start
@@ -60,7 +60,7 @@ public class MyTransferAccountUtility
 
         MyInvitation inv;
         inv = new MyInvitation();
-        inv.setType(MyInvitationType.Transfer);
+        inv.setType(MyInvitationType.Join);
         inv.setAccount(account);
         inv.setUser(user);
         inv.saveDao();
@@ -72,7 +72,7 @@ public class MyTransferAccountUtility
         else
             msg = formatExistingUserMsg(user, account, inv);
 
-        String subject = Kmu.format("%s Account Transfer Invitation", accountName);
+        String subject = Kmu.format("%s Join Account Invitation", accountName);
 
         MyEmail e;
         e = new MyEmail();
@@ -97,13 +97,15 @@ public class MyTransferAccountUtility
         msg.printfln();
         msg.printf("Welcome to %s! ", app);
         msg.printf("A new user account has been created for the email %s. ", email);
-        msg.printf("You have been asked to acquire the account %s. ", accountName);
+        msg.printf("You have been asked to join the account %s. ", accountName);
         msg.printfln();
-        msg.printf("To take ownership of this account and to activate your new user account "
-            + "click the following link.");
+        msg.printf("To join %s and to activate your new user account "
+            + "click the following link.", accountName);
         msg.printfln();
         msg.printfln();
-        msg.printLink("Activate My Account and Take Ownership.", MyUrls.getInvitationUrl(i));
+        msg.printLink(
+            "Activate My Account and Join " + accountName + ".",
+            MyUrls.getInvitationUrl(i));
         msg.printfln();
         return msg;
     }
@@ -117,12 +119,12 @@ public class MyTransferAccountUtility
         msg = new KmHtmlBuilder();
         msg.printfln("Hi %s", userName);
         msg.printfln();
-        msg.printf("You have been asked to acquire the account %s. ", accountName);
+        msg.printf("You have been asked to join the account %s. ", accountName);
         msg.printfln();
-        msg.printf("To take ownership of this account click the following link.");
+        msg.printf("To join this account click the following link.");
         msg.printfln();
         msg.printfln();
-        msg.printLink("Take Ownership.", MyUrls.getInvitationUrl(i));
+        msg.printLink("Join " + accountName + ".", MyUrls.getInvitationUrl(i));
         msg.printfln();
         return msg;
     }

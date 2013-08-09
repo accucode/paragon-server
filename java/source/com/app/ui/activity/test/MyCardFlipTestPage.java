@@ -6,8 +6,11 @@ import com.kodemore.servlet.control.ScFrame;
 import com.kodemore.servlet.control.ScFrameChild;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.utility.ScEasing;
 
-// review_aaron: card flip test
+/**
+ * review_wyatt: (aaron) FLIP - This is the card flip test class
+ */
 public class MyCardFlipTestPage
     extends MyAbstractTestPage
 {
@@ -44,6 +47,10 @@ public class MyCardFlipTestPage
 
         _frame = root.addFrame();
         _frame.style().width(300);
+        _frame.setHideFlip();
+        _frame.setHideEasing(ScEasing.easeInOutQuad);
+        _frame.setShowFlip();
+        _frame.setShowEasing(ScEasing.easeInOutQuad);
 
         _childFront = _frame.createChild();
         _childBack = _frame.createChild();
@@ -99,11 +106,11 @@ public class MyCardFlipTestPage
 
     private void handleFlipToFront()
     {
-        _frame.ajaxFlipTo(_childFront);
+        _frame.ajaxPrint(_childFront);
     }
 
     private void handleFlipToBack()
     {
-        _frame.ajaxFlipTo(_childBack);
+        _frame.ajaxPrint(_childBack);
     }
 }

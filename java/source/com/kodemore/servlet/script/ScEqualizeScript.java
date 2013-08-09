@@ -26,11 +26,8 @@ import com.kodemore.json.KmJsonObject;
 import com.kodemore.string.KmStringBuilder;
 
 /**
- *  wyatt: (aaron) here is the Equalize script wrapper.  The actual
- *  javascrip function is at the bottom of KmUtility.js
- *  
- * review_aaron (wyatt)
- *      Fix your comment.
+ * wyatt: (aaron) here is the Equalize script wrapper.  The actual
+ * javascrip function is at the bottom of KmUtility.js
  */
 public class ScEqualizeScript
     extends ScAbstractScript
@@ -41,21 +38,17 @@ public class ScEqualizeScript
 
     /**
      * The jquery selector for the elements to be equalized.
-     * 
-     * review_aaron (wyatt) target
+     * todo_aaron make selsctor fix
      */
-    private String  _target;
+    private String  selector;
+
+    private boolean _equalizeHeight;
+    private boolean _equalizeWidth;
 
     /**
-     *  The minimum/maximum values for height and width.  The 
-     *  equalized elements will always fall between these values
-     *  if they are defined.
-     *  
-     *  review_aaron (wyatt) comment
-     *      Fix comment formatting above.
-     *      Unindented lines should start with ONE space, not two.
-     *      
-     *  review_aaron (wyatt) discuss naming
+     * The min/max values for height and width.  The 
+     * equalized elements will always fall between these values
+     * if they are defined.
      */
     private Integer _minWidth;
     private Integer _maxWidth;
@@ -63,29 +56,57 @@ public class ScEqualizeScript
     private Integer _maxHeight;
 
     //##################################################
-    //# constructor
-    //##################################################
-
-    /**
-     * review_aaron (wyatt) remove constructor
-     */
-    public ScEqualizeScript(String target)
-    {
-        _target = target;
-    }
-
-    //##################################################
     //# acessing
     //##################################################
 
-    public String getTarget()
+    public String getSelector()
     {
-        return _target;
+        return selector;
     }
 
-    public void setTarget(String target)
+    public void setSelector(String target)
     {
-        _target = target;
+        selector = target;
+    }
+
+    //##################################################
+    //# mode
+    //##################################################
+
+    public boolean getEqualizeHeight()
+    {
+        return _equalizeHeight;
+    }
+
+    public void setEqualizeHeight(boolean e)
+    {
+        _equalizeHeight = e;
+    }
+
+    public void setEqualizeHeight()
+    {
+        setEqualizeHeight(true);
+    }
+
+    public boolean getEqualizeWidth()
+    {
+        return _equalizeWidth;
+    }
+
+    public void setEqualizeWidth(boolean e)
+    {
+        _equalizeWidth = e;
+    }
+
+    public void setEqualizeWidth()
+    {
+        setEqualizeWidth(true);
+    }
+
+    public void setEqualizeBoth()
+    {
+        setEqualizeHeight();
+        setEqualizeWidth();
     }
 
     //##################################################
@@ -97,12 +118,9 @@ public class ScEqualizeScript
         return _minWidth;
     }
 
-    /**
-     * discuss_aaron (wyatt) discuss getter/setters.
-     */
-    public void setMinWidth(Integer minWidth)
+    public void setMinWidth(Integer e)
     {
-        _minWidth = minWidth;
+        _minWidth = e;
     }
 
     public Integer getMaxWidth()
@@ -110,9 +128,9 @@ public class ScEqualizeScript
         return _maxWidth;
     }
 
-    public void setMaxWidth(Integer maxWidth)
+    public void setMaxWidth(Integer e)
     {
-        _maxWidth = maxWidth;
+        _maxWidth = e;
     }
 
     public Integer getMinHeight()
@@ -120,9 +138,9 @@ public class ScEqualizeScript
         return _minHeight;
     }
 
-    public void setMinHeight(Integer minHeight)
+    public void setMinHeight(Integer e)
     {
-        _minHeight = minHeight;
+        _minHeight = e;
     }
 
     public Integer getMaxHeight()
@@ -130,9 +148,9 @@ public class ScEqualizeScript
         return _maxHeight;
     }
 
-    public void setMaxHeight(Integer maxHeight)
+    public void setMaxHeight(Integer e)
     {
-        _maxHeight = maxHeight;
+        _maxHeight = e;
     }
 
     //##################################################
@@ -140,19 +158,31 @@ public class ScEqualizeScript
     //##################################################
 
     /**
-     * review_aaron (wyatt) discuss
-     *      see KmUtility.js
+     * review_wyatt: (aaron) EQUALIZE - I addressed everything we discussed earlier about
+     * the equalize function.  I added booleans to determine the 'mode' of the
+     * function, but made it default to both height and width if not specifically
+     * stated otherwise.
+     * 
+     * See the function in KmUtility.js for additional changes.
      */
+
     @Override
     public void formatScriptOn(KmStringBuilder out)
     {
+        // review_aaron: default to equalize both if neither is set?
+        if ( !getEqualizeHeight() && !getEqualizeWidth() )
+            setEqualizeBoth();
+
         KmJsonObject options;
         options = new KmJsonObject();
+        options.setString("selector", getSelector());
+        options.setBoolean("height", getEqualizeHeight());
+        options.setBoolean("width", getEqualizeWidth());
         options.setInteger("minWidth", getMinWidth());
         options.setInteger("maxWidth", getMaxWidth());
         options.setInteger("minHeight", getMinHeight());
         options.setInteger("maxHeight", getMaxHeight());
 
-        out.printf("%s.equalize(%s);", getTarget(), options);
+        out.printf("Kmu.equalize(%s);", options);
     }
 }

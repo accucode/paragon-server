@@ -4,7 +4,6 @@ import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
-import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
@@ -26,21 +25,14 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.KmEmailParser;
-import com.kodemore.utility.Kmu;
 
 import com.app.filter.MyAccountUserFilter;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
-import com.app.model.MyEmail;
-import com.app.model.MyInvitation;
-import com.app.model.MyInvitationType;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
-import com.app.property.MyPropertyRegistry;
 import com.app.ui.activity.login.MyTransferAccountUtility;
 import com.app.utility.MyButtonUrls;
-import com.app.utility.MyConstantsIF;
-import com.app.utility.MyUrls;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -1128,37 +1120,13 @@ public class MyManageAccountsPage
         utility = new MyTransferAccountUtility();
         utility.start(account, email);
 
-        ajax().toast("Your request has been sent to:" + email);
+        showSentMessage(email);
     }
 
-    private MyUser createUser(String email)
-    {
-        KmEmailParser p;
-        p = new KmEmailParser();
-        p.setEmail(email);
-
-        String name;
-        name = p.getName();
-
-        MyUser u;
-        u = new MyUser();
-        u.setName(name);
-        u.setEmail(email);
-        u.saveDao();
-
-        return u;
-    }
-
-    // todo_valerie needs callback from activity
     private void showSentMessage(String email)
     {
         ajax().toast("Your request has been sent to: " + email);
 
-        clearTransferFrame();
-    }
-
-    public void clearTransferFrame()
-    {
         _transferFrame.ajaxClear();
     }
 
@@ -1311,103 +1279,11 @@ public class MyManageAccountsPage
         if ( !isValid )
             _addUserEmail.error("Invalid");
 
-        //  todo_valerie come back to this
-        //  MyTransferAccountActivity.start(account, email);
-        MyUser user = getAccess().getUserDao().findEmail(email);
-
-        if ( user == null )
-        {
-            user = createUser(email);
-            sendJoinNewUserInvitation(user, account);
-        }
-        else
-            sendJoinExistingUserInvitation(user, account);
+        MyJoinAccountUtility utility;
+        utility = new MyJoinAccountUtility();
+        utility.start(account, email);
 
         showSentMessage(email);
-    }
-
-    private void sendJoinNewUserInvitation(MyUser user, MyAccount account)
-    {
-        MyPropertyRegistry p = getProperties();
-
-        String userName = user.getName();
-        String email = user.getEmail();
-        String accountName = account.getName();
-        String app = MyConstantsIF.APPLICATION_NAME;
-
-        MyInvitation i;
-        i = new MyInvitation();
-        i.setType(MyInvitationType.Join);
-        i.setAccount(account);
-        i.setUser(user);
-        i.saveDao();
-
-        KmHtmlBuilder msg;
-        msg = new KmHtmlBuilder();
-        msg.printfln("Hi %s", userName);
-        msg.printfln();
-        msg.printf("Welcome to %s! ", app);
-        msg.printf("A new user account has been created for the email %s. ", email);
-        msg.printf("You have been asked to join the account %s. ", accountName);
-        msg.printfln();
-        msg.printf("To join %s and to activate your new user account "
-            + "click the following link.", accountName);
-        msg.printfln();
-        msg.printfln();
-        msg.printLink(
-            "Activate My Account and Join " + accountName + ".",
-            MyUrls.getInvitationUrl(i));
-        msg.printfln();
-
-        String subject = Kmu.format("%s Join Account Invitation", app);
-
-        MyEmail e;
-        e = new MyEmail();
-        e.setSubject(subject);
-        e.addToRecipient(email);
-        e.setFromAddress(p.getSendEmailFromAddress());
-        e.addHtmlPart(msg.toString());
-        e.markReady();
-        e.saveDao();
-    }
-
-    private void sendJoinExistingUserInvitation(MyUser user, MyAccount account)
-    {
-        MyPropertyRegistry p = getProperties();
-
-        String userName = user.getName();
-        String email = user.getEmail();
-        String accountName = account.getName();
-
-        MyInvitation i;
-        i = new MyInvitation();
-        i.setType(MyInvitationType.Join);
-        i.setAccount(account);
-        i.setUser(user);
-        i.saveDao();
-
-        KmHtmlBuilder msg;
-        msg = new KmHtmlBuilder();
-        msg.printfln("Hi %s", userName);
-        msg.printfln();
-        msg.printf("You have been asked to join the account %s. ", accountName);
-        msg.printfln();
-        msg.printf("To join this account click the following link.");
-        msg.printfln();
-        msg.printfln();
-        msg.printLink("Join " + accountName + ".", MyUrls.getInvitationUrl(i));
-        msg.printfln();
-
-        String subject = Kmu.format("%s Join Invitation", accountName);
-
-        MyEmail e;
-        e = new MyEmail();
-        e.setSubject(subject);
-        e.addToRecipient(email);
-        e.setFromAddress(p.getSendEmailFromAddress());
-        e.addHtmlPart(msg.toString());
-        e.markReady();
-        e.saveDao();
     }
 
     private void handleAddUserCancel()
@@ -1431,7 +1307,6 @@ public class MyManageAccountsPage
         _viewUserEmail.setValue(user.getEmail());
         _viewUserRole.setValue(accountUser.getRoleName());
 
-        _viewUserChild.applyFromModel(user);
         _viewUserChild.ajaxPrint();
     }
 

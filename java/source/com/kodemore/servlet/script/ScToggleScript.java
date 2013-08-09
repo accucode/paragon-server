@@ -47,11 +47,14 @@ public class ScToggleScript
         return "slideToggle";
     }
 
-    // review_aaron: Toggle Flip function... Not sure how to make this one work...
+    /**
+     * review_wyatt: (aaron) FLIP - This is where we must implement the flip function
+     * for the ScToggleScript.  I don't know what to do here.
+     */
     @Override
     protected String getFlipFunction()
     {
-        // fixme_aaron: 
+        // fixme_aaron: toggle flip function
         return null;
     }
 

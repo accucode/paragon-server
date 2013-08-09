@@ -29,8 +29,6 @@ import com.kodemore.servlet.script.ScHideScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.script.ScShowScript;
 import com.kodemore.servlet.utility.ScEasing;
-import com.kodemore.string.KmStringBuilder;
-import com.kodemore.utility.Kmu;
 
 /**
  * Used to wrap dynamic ajax content.
@@ -292,47 +290,5 @@ public class ScFrame
         show.setSpeedMs(getShowSpeed());
 
         ajax().pop();
-    }
-
-    // review_aaron: Card flip in ScFrame
-    public void ajaxFlipTo(ScFrameChild child)
-    {
-        ScHtmlIdAjax ajax;
-        ajax = ajax();
-
-        ajax.run(hideFlipScript());
-        ajax.pushDefer();
-        ajax.setContents(child);
-        ajax.run(showFlipScript());
-    }
-
-    //##################################################
-    //# card flip script
-    //##################################################
-
-    private String hideFlipScript()
-    {
-        KmStringBuilder params;
-        params = new KmStringBuilder();
-        params.print("{");
-        params.print("rotateY: 90,");
-        params.print("duration: 100,");
-        params.print("easing: 'easeOutQuad'");
-        params.print("}");
-
-        return Kmu.format("$('#%s').transition(%s);", getKey(), params);
-    }
-
-    private String showFlipScript()
-    {
-        KmStringBuilder params;
-        params = new KmStringBuilder();
-        params.print("{");
-        params.print("rotateY: 0,");
-        params.print("duration: 100,");
-        params.print("easing: 'easeInQuad'");
-        params.print("}");
-
-        return Kmu.format("$('#%s').transition(%s);", getKey(), params);
     }
 }

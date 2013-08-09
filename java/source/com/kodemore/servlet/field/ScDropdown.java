@@ -33,12 +33,14 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.json.KmJsonList;
+import com.kodemore.json.KmJsonObject;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScElementIF;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.script.ScActionScript;
+import com.kodemore.servlet.script.ScScript;
 import com.kodemore.servlet.variable.ScLocalAdaptor;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalCss;
@@ -81,6 +83,8 @@ public class ScDropdown
     private ScLocalStyle       _style;
 
     private ScActionIF         _action;
+
+    private boolean            _usesChosen;
 
     //##################################################
     //# init
@@ -145,6 +149,26 @@ public class ScDropdown
     public KmStyleBuilder style()
     {
         return _style.toBuilder();
+    }
+
+    // review_aaron: Chosen boolean
+    //##################################################
+    //# chosen
+    //##################################################
+
+    public boolean usesChosen()
+    {
+        return _usesChosen;
+    }
+
+    public void setUsesChosen(boolean useChosen)
+    {
+        _usesChosen = useChosen;
+    }
+
+    public void setUsesChosen()
+    {
+        setUsesChosen(true);
     }
 
     //##################################################
@@ -297,6 +321,29 @@ public class ScDropdown
         renderOptions(out, getOptions());
 
         out.end("select");
+
+        // review_aaron: chosen script
+        if ( usesChosen() )
+        {
+            ScScript ajax;
+            ajax = out.getPostRender();
+            ajax.run(formatChosenScript());
+        }
+    }
+
+    private String formatChosenScript()
+    {
+        /**
+         * review_aaron: options:
+         *      disable_search_threshold - don't show search if below this many options 
+         *      no_results_text - text to show when nothing is found in search
+         */
+        KmJsonObject options;
+        options = new KmJsonObject();
+        //        options.setInteger("disable_search_threshold", 10);
+        //        options.setString("no_results_text", "No results found");
+
+        return Kmu.format("$('%s').chosen(%s);", formatJquerySelector(), options);
     }
 
     @Override

@@ -1013,33 +1013,51 @@ $.blockUI.defaults.css = {};
  * This function will equalize the height and width of elements
  * passed in a jquery selector.
  */
-(function($) {
-   $.fn.equalize = function(options) {
-        
-       tallest = options.minHeight || 0;
-       widest = options.minWidth || 0;
-       maxHeight = options.maxHeight;
-       maxWidth = options.maxWidth;
+Kmu.equalize = function(options) 
+{
+    var selector    = options.selector;
+    var height      = options.height;
+    var width       = options.width;
+    var tallest     = options.minHeight || 0;
+    var widest      = options.minWidth || 0;
+    var maxHeight   = options.maxHeight;
+    var maxWidth    = options.maxWidth;
 
-       this.each(function() 
-       {
-           if($(this).height() > tallest) 
-               tallest = $(this).height();
-           
-           if($(this).width() > widest) 
-               widest = $(this).width();
-       });
-       
-       if((maxHeight) && tallest > maxHeight) 
-            tallest = maxHeight;
+    // equalize width
+    
+    if ( width )
+    {
+        $(selector).each(function() 
+        {
+            if ( $(this).width() > widest ) 
+                widest = $(this).width();
+        });
             
-       if((maxWidth) && widest > maxWidth) 
-            widest = maxWidth;
+        if ( maxWidth && widest > maxWidth ) 
+                widest = maxWidth;
        
-       return this.each(function() 
-       {
-           $(this).height(tallest).css("overflow","auto");
-           $(this).width(widest).css("overflow","auto");
-       });
-   }
-})(jQuery);
+        $(selector).each(function() 
+        {
+            $(this).width(widest).css("overflow","auto");
+        });
+    }
+    
+    // equalize height
+    
+    if ( height )
+    {
+        $(selector).each(function() 
+        {
+            if ( $(this).height() > tallest ) 
+                tallest = $(this).height();
+        });
+       
+        if ( maxHeight && tallest > maxHeight ) 
+                tallest = maxHeight;
+       
+        $(selector).each(function() 
+        {
+            $(this).height(tallest).css("overflow","auto");
+        });
+    }
+}
