@@ -1208,7 +1208,7 @@ public class MyManageAccountsPage
             _viewAccountType.setValue(account.getType().getName());
         }
 
-        _viewAccountChild.ajaxPrint();
+        updateViewAccount();
         _userGrid.ajaxReload();
     }
 
@@ -1386,6 +1386,10 @@ public class MyManageAccountsPage
         return accountNames;
     }
 
+    /**
+     * this method sets the account dropdown to the value of the serversession account, 
+     * which in turn is set by the MyPageLayout dropdown.
+     */
     private void setDropdownOptions()
     {
         KmList<ScOption> options = getDropdownOptions();
@@ -1395,7 +1399,8 @@ public class MyManageAccountsPage
 
         if ( options.isNotEmpty() )
         {
-            _accountDropdown.setValue(options.getFirst().getValue());
+            String accountUidServerSession = getServerSession().getAccount().getUid();
+            _accountDropdown.setValue(accountUidServerSession);
             _accountDropdown.ajaxUpdateValue();
         }
     }
