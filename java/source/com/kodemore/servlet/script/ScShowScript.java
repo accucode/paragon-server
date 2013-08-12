@@ -33,7 +33,6 @@ public class ScShowScript
     //# constructor
     //##################################################
 
-    // review_aaron: Talk with Wyatt - different easings for different scripts?
     public ScShowScript()
     {
         super();
