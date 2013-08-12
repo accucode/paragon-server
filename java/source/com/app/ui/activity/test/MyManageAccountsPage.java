@@ -1,17 +1,5 @@
 package com.app.ui.activity.test;
 
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
-import com.app.model.MyServerSession;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.ui.activity.login.MyJoinAccountUtility;
-import com.app.ui.activity.login.MyTransferAccountUtility;
-import com.app.utility.MyButtonUrls;
-import com.app.utility.MyGlobals;
-
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -37,6 +25,18 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.KmEmailParser;
+
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.ui.activity.login.MyJoinAccountUtility;
+import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.utility.MyButtonUrls;
+import com.app.utility.MyGlobals;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -591,8 +591,8 @@ public class MyManageAccountsPage
         _editUserEmail.setLabel("Email ");
         _editUserEmail.setReadOnly();
 
-        _editRoleDropdown = MyAccountUser.Tools.newRoleDropdown();
-        _editRoleDropdown.setLabel("Role ");
+        // fixme_steve do this dropdown also
+        populateEditRoleDropdown();
 
         ScFieldTable fields;
         fields = body.addFields();
@@ -608,6 +608,22 @@ public class MyManageAccountsPage
         footer.addSubmitButton("Save");
 
         _editUserChild = frame;
+    }
+
+    private void populateEditRoleDropdown()
+    {
+        ScOption user = new ScOption();
+        user.setText("User");
+        user.setValue(MyAccountUserRole.User.getCode());
+
+        ScOption manager = new ScOption();
+        manager.setText("Manager");
+        manager.setValue(MyAccountUserRole.Manager.getCode());
+
+        _editRoleDropdown = new ScDropdown();
+        _editRoleDropdown.addOption(user);
+        _editRoleDropdown.addOption(manager);
+        _editRoleDropdown.setLabel("Role ");
     }
 
     private void installAddUserFrame()
@@ -633,8 +649,7 @@ public class MyManageAccountsPage
         _addUserEmail = new ScTextField();
         _addUserEmail.setLabel("Email ");
 
-        _addRoleDropdown = MyAccountUser.Tools.newRoleDropdown();
-        _addRoleDropdown.setLabel("Role ");
+        populateAddRoleDropdown();
 
         ScFieldTable fields;
         fields = body.addFields();
@@ -649,6 +664,22 @@ public class MyManageAccountsPage
         footer.addSubmitButton("Send Request");
 
         _addUserChild = frame;
+    }
+
+    private void populateAddRoleDropdown()
+    {
+        ScOption user = new ScOption();
+        user.setText("User");
+        user.setValue(MyAccountUserRole.User.getCode());
+
+        ScOption manager = new ScOption();
+        manager.setText("Manager");
+        manager.setValue(MyAccountUserRole.Manager.getCode());
+
+        _addRoleDropdown = new ScDropdown();
+        _addRoleDropdown.addOption(user);
+        _addRoleDropdown.addOption(manager);
+        _addRoleDropdown.setLabel("Role ");
     }
 
     //##################################################
@@ -1251,7 +1282,7 @@ public class MyManageAccountsPage
         account = getPageSession().getAccount();
 
         String email = _addUserEmail.getValue();
-        String roleCode = _addRoleDropdown.getStringValue();
+        String roleCode = (String)_addRoleDropdown.getValue();
 
         boolean isValid = KmEmailParser.validate(email);
 
