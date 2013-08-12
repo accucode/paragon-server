@@ -1225,14 +1225,7 @@ public class MyManageAccountsPage
 
         setDropdownOptions();
 
-        String accountUid = account.getUid();
-
         loadViewAccount();
-
-        /**ask_valerie 
-         * not setting dropdown
-         */
-        _accountDropdown.ajaxSetValue(accountUid);
 
         _userGrid.ajaxReload();
     }
