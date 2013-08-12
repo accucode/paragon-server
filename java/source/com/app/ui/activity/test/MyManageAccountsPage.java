@@ -135,11 +135,7 @@ public class MyManageAccountsPage
         _deleteAccountDialog.getHeaderBox().hide();
         _deleteAccountDialog.getFooterBox().hide();
 
-        // remove_valerie: cleanup
         ScBox body = _deleteAccountDialog.getBodyBox();
-
-        //        ScForm form;
-        //        form = body.addForm();
 
         ScGroup group;
         group = body.addGroup("Are you sure you want to \n delete this account?");
@@ -1005,12 +1001,8 @@ public class MyManageAccountsPage
 
         ajax().toast("Deleted account %s", account.getName());
 
-        _accountDropdown.ajaxClearOptions();
-
         setDropdownOptions();
-        // remove_valerie: testing
         updateViewAccount();
-        //        loadViewAccount();
     }
 
     private void handleDeleteUser()
@@ -1154,14 +1146,10 @@ public class MyManageAccountsPage
         accountUser.saveDao();
 
         setDropdownOptions();
+
         _accountDropdown.ajaxSetValue(account.getUid());
 
-        // remove_valerie: testing
         loadViewAccount();
-        _userGrid.ajaxReload();
-        _userGrid.ajaxUpdateValues();
-        // remove_valerie: print
-        System.out.println("MyManageAccountsPage.handleAddAccountSave");
     }
 
     private void handleShowEditAccountBox()
@@ -1275,7 +1263,7 @@ public class MyManageAccountsPage
             _viewAccountType.setValue(account.getType().getName());
         }
 
-        updateViewAccount();
+        _viewAccountChild.ajaxPrint();
         _userGrid.ajaxReload();
     }
 
