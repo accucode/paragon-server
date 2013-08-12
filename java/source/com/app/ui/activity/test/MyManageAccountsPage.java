@@ -1,5 +1,18 @@
 package com.app.ui.activity.test;
 
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.ui.activity.login.MyJoinAccountUtility;
+import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.ui.layout.MyPageLayout;
+import com.app.utility.MyButtonUrls;
+import com.app.utility.MyGlobals;
+
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -25,18 +38,6 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.KmEmailParser;
-
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
-import com.app.model.MyServerSession;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.ui.activity.login.MyJoinAccountUtility;
-import com.app.ui.activity.login.MyTransferAccountUtility;
-import com.app.utility.MyButtonUrls;
-import com.app.utility.MyGlobals;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -426,7 +427,6 @@ public class MyManageAccountsPage
         MyMetaAccountUser x = MyAccountUser.Meta;
 
         ScForm form = root.addForm();
-        form.hide();
 
         ScGroup group;
         group = form.addGroup();
@@ -997,6 +997,10 @@ public class MyManageAccountsPage
         accountUser = getAccess().getAccountUserDao().findAccountUserFor(getCurrentUser(), account);
         accountUser.deleteDao();
 
+        getServerSession().getAccount().setUid((String)getDropdownList().getFirst().getValue());
+
+        MyPageLayout.getInstance().refreshDropdown();
+
         _deleteAccountDialog.ajaxClose();
 
         ajax().toast("Deleted account %s", account.getName());
@@ -1430,11 +1434,6 @@ public class MyManageAccountsPage
         _accountDropdown.ajaxClearOptions();
 
         KmList<ScOption> list = getDropdownList();
-        if ( list.isEmpty() )
-        {
-            _accountDropdown.ajaxAddOption("None", null);
-            return;
-        }
 
         for ( ScOption e : list )
             _accountDropdown.ajaxAddOption(e.getText(), e.getValue());
@@ -1445,5 +1444,12 @@ public class MyManageAccountsPage
             _accountDropdown.setValue(accountUidServerSession);
             _accountDropdown.ajaxUpdateValue();
         }
+
+        if ( list.isEmpty() )
+        {
+            _accountDropdown.ajaxAddOption("None", null);
+            return;
+        }
+
     }
 }
