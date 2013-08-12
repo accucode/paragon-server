@@ -355,6 +355,7 @@ public class MyPageLayout
     private void setDropdownOptions()
     {
         KmList<ScOption> list = getDropdownList();
+
         if ( list.isEmpty() )
         {
             _dropdown.addNullNonePrefix();
@@ -526,10 +527,12 @@ public class MyPageLayout
         return MyGlobals.getAccess();
     }
 
+    //  review_steve(valerie) broken
     public void refreshDropdown()
     {
         setDropdownOptions();
         setServerSessionAccount();
+        _dropdown.ajax().replace();
         _dropdown.ajaxUpdateValues();
     }
 }

@@ -207,6 +207,7 @@ public class MyManageAccountsPage
         installViewAccountFrame();
         installEditAccountFrame();
         installAddAccountFrame();
+        installInviteUserFrame();
     }
 
     private void installViewAccountFrame()
@@ -247,7 +248,7 @@ public class MyManageAccountsPage
         _transferButton = footer.addButton("Transfer", newShowTransferBoxAction());
         _transferButton.hide();
 
-        footer.addButton("Invite", newShowAddUserBoxAction());
+        footer.addButton("Invite", newShowInviteUserBoxAction());
         footer.addButton("Delete", newShowDeleteAccountDialogAction());
 
         _viewAccountChild = frame;
@@ -500,7 +501,7 @@ public class MyManageAccountsPage
 
         installViewUserFrame();
         installEditUserFrame();
-        installAddUserFrame();
+        installInviteUserFrame();
     }
 
     private void installViewUserFrame()
@@ -621,13 +622,14 @@ public class MyManageAccountsPage
         _editRoleDropdown.setLabel("Role ");
     }
 
-    private void installAddUserFrame()
+    // fixme_valerie: come back to this
+    private void installInviteUserFrame()
     {
         ScActionIF sendAction = newSendJoinRequestAction();
         ScActionIF cancelAction = newAddUserCancelAction();
 
         ScFrameChild frame;
-        frame = _userFrame.createChild();
+        frame = _accountFrame.createChild();
 
         ScForm form;
         form = frame.addForm();
@@ -849,14 +851,14 @@ public class MyManageAccountsPage
         };
     }
 
-    private ScActionIF newShowAddUserBoxAction()
+    private ScActionIF newShowInviteUserBoxAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleShowAddUserBox();
+                handleShowInviteUserBox();
             }
         };
     }
@@ -993,7 +995,8 @@ public class MyManageAccountsPage
         accountUser = getAccess().getAccountUserDao().findAccountUserFor(getCurrentUser(), account);
         accountUser.deleteDao();
 
-        getServerSession().getAccount().setUid((String)getDropdownList().getFirst().getValue());
+        if ( !getDropdownList().isEmpty() )
+            getServerSession().getAccount().setUid((String)getDropdownList().getFirst().getValue());
 
         MyPageLayout.getInstance().refreshDropdown();
 
@@ -1260,7 +1263,7 @@ public class MyManageAccountsPage
         _userGrid.ajaxReload();
     }
 
-    private void handleShowAddUserBox()
+    private void handleShowInviteUserBox()
     {
         String accountName;
         accountName = _viewAccountName.getValue();
@@ -1419,7 +1422,7 @@ public class MyManageAccountsPage
         for ( ScOption e : list )
             _accountDropdown.ajaxAddOption(e.getText(), e.getValue());
 
-        if ( list.isNotEmpty() )
+        if ( list.isNotEmpty() && getServerSession().getAccount() != null )
         {
             String accountUidServerSession = getServerSession().getAccount().getUid();
             _accountDropdown.setValue(accountUidServerSession);
@@ -1429,6 +1432,8 @@ public class MyManageAccountsPage
         if ( list.isEmpty() )
         {
             _accountDropdown.ajaxAddOption("None", null);
+            getServerSession().setAccount(null);
+            MyPageLayout.getInstance().refreshDropdown();
             return;
         }
 
