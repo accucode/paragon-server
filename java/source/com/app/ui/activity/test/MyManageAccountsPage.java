@@ -61,8 +61,6 @@ public class MyManageAccountsPage
     private ScDropdown            _addAccountType;
     private ScDropdown            _editRoleDropdown;
 
-    private ScFrame               _accountFrame;
-
     private ScTextField           _viewAccountName;
     private ScTextField           _viewAccountType;
     private ScTextField           _editAccountName;
@@ -83,6 +81,7 @@ public class MyManageAccountsPage
     private ScFrameChild          _addUserChild;
     private ScFrameChild          _transferChild;
 
+    private ScFrame               _accountFrame;
     private ScFrame               _transferFrame;
     private ScFrame               _userFrame;
 
@@ -102,13 +101,9 @@ public class MyManageAccountsPage
     @Override
     protected ScPageRoot installRoot()
     {
-        // remove_valerie: 
-        //        super.install();
-
         ScPageRoot root;
         root = newPageRoot();
         root.css().padSpaced();
-        //        root.setLabel("General Overview");
 
         installDeleteAccountDialog(root);
         installDeleteUserDialog(root);
@@ -139,13 +134,14 @@ public class MyManageAccountsPage
         _deleteAccountDialog.getHeaderBox().hide();
         _deleteAccountDialog.getFooterBox().hide();
 
+        // remove_valerie: cleanup
         ScBox body = _deleteAccountDialog.getBodyBox();
 
-        ScForm form;
-        form = body.addForm();
+        //        ScForm form;
+        //        form = body.addForm();
 
         ScGroup group;
-        group = form.addGroup("Are you sure you want to \n delete this account?");
+        group = body.addGroup("Are you sure you want to \n delete this account?");
 
         ScDiv footer;
         footer = group.addButtonBoxRight();
@@ -429,8 +425,8 @@ public class MyManageAccountsPage
     {
         MyMetaAccountUser x = MyAccountUser.Meta;
 
-        ScForm form;
-        form = root.addForm();
+        ScForm form = root.addForm();
+        form.hide();
 
         ScGroup group;
         group = form.addGroup();
@@ -935,8 +931,11 @@ public class MyManageAccountsPage
         super.start();
 
         setDropdownOptions();
-        loadViewAccount();
-        handleUpdateValues();
+
+        KmList<ScOption> list = getDropdownList();
+
+        if ( !list.isEmpty() )
+            updateViewAccount();
     }
 
     //##################################################
@@ -962,15 +961,23 @@ public class MyManageAccountsPage
 
     private void handleDeleteAccount()
     {
-        MyAccount e;
-        e = getPageSession().getAccount();
-        e.deleteDao();
+        MyAccount account;
+        account = getPageSession().getAccount();
+        account.deleteDao();
+
+        MyAccountUser accountUser;
+        accountUser = getAccess().getAccountUserDao().findAccountUserFor(getCurrentUser(), account);
+        accountUser.deleteDao();
 
         _deleteAccountDialog.ajaxClose();
 
-        ajax().toast("Deleted account %s", e.getName());
+        ajax().toast("Deleted account %s", account.getName());
 
-        _accountDropdown.ajaxUpdateValues();
+        _accountDropdown.ajaxClearOptions();
+
+        setDropdownOptions();
+        // fixme_valerie: come back to this
+        updateViewAccount();
     }
 
     private void handleDeleteUser()
@@ -1003,7 +1010,21 @@ public class MyManageAccountsPage
     private void handleUpdateValues()
     {
         updateViewAccount();
-        _userGrid.ajaxReload();
+
+        String accountUid;
+        accountUid = _accountDropdown.getStringValue();
+
+        MyAccount dropdownAccount;
+        dropdownAccount = getAccess().getAccountDao().findUid(accountUid);
+
+        KmList<MyAccountUser> accountUsers;
+        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(dropdownAccount);
+
+        if ( !accountUsers.isEmpty() )
+        {
+            _userFrame.show();
+            _userGrid.ajaxReload();
+        }
     }
 
     private void updateViewAccount()
@@ -1041,10 +1062,9 @@ public class MyManageAccountsPage
         {
             _viewAccountName.setValue(account.getName());
             _viewAccountType.setValue(account.getType().getName());
+            _viewAccountChild.ajaxPrint();
+            _viewAccountChild.ajax().focus();
         }
-
-        _viewAccountChild.ajaxPrint();
-        _viewAccountChild.ajax().focus();
     }
 
     private void handleShowAddAccountBox()
@@ -1101,11 +1121,13 @@ public class MyManageAccountsPage
         accountUser.saveDao();
 
         String accountUid = account.getUid();
+        _accountDropdown.ajax().replace();
         _accountDropdown.setValue(accountUid);
         _accountDropdown.ajaxAddOption(account.getName(), accountUid);
         _accountDropdown.ajaxSetValue(accountUid);
 
-        loadViewAccount();
+        _accountFrame.show();
+        updateViewAccount();
     }
 
     private void handleShowEditAccountBox()
@@ -1210,7 +1232,7 @@ public class MyManageAccountsPage
             _viewAccountType.setValue(account.getType().getName());
         }
 
-        _viewAccountChild.ajaxPrint();
+        _viewAccountChild.ajaxUpdateValues();
     }
 
     private void handleShowAddUserBox()
@@ -1371,9 +1393,14 @@ public class MyManageAccountsPage
 
     private void setDropdownOptions()
     {
+        _accountDropdown.ajaxClearOptions();
+
         KmList<ScOption> list = getDropdownList();
         if ( list.isEmpty() )
+        {
+            _accountDropdown.ajaxAddOption("None", null);
             return;
+        }
 
         for ( ScOption e : list )
             _accountDropdown.ajaxAddOption(e.getText(), e.getValue());
@@ -1384,20 +1411,4 @@ public class MyManageAccountsPage
             _accountDropdown.ajaxUpdateValue();
         }
     }
-
-    // remove_valerie: 
-    //    private void setDropdownOptions()
-    //    {
-    //        KmList<ScOption> options = getDropdownList();
-    //
-    //        for ( ScOption e : options )
-    //            _accountDropdown.ajaxAddOption(e.getText(), e.getValue());
-    //
-    //        if ( options.isNotEmpty() )
-    //        {
-    //            _accountDropdown.setValue(options.getFirst().getValue());
-    //            _accountDropdown.ajaxUpdateValue();
-    //        }
-    //    }
-
 }
