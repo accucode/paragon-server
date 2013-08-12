@@ -1,7 +1,7 @@
 package com.app.ui.activity.admin;
 
+import com.app.ui.activity.test.MyAccountDetailsPage;
 import com.app.ui.activity.test.MyManageAccountsPage;
-import com.app.ui.activity.test.MyTabbedAccountsPage;
 import com.app.ui.activity.test.MyWelcomePage;
 
 import com.kodemore.servlet.control.ScBox;
@@ -47,7 +47,7 @@ public class MyAdminPage
         links.addLink(MyEmailListPage.instance);
         links.addLink(MyWelcomePage.instance);
         links.addLink(MyManageAccountsPage.instance);
-        links.addLink(MyTabbedAccountsPage.instance);
+        links.addLink(MyAccountDetailsPage.instance);
 
         return root;
     }

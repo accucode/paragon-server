@@ -33,7 +33,6 @@ public class ScHideScript
     //# constructor
     //##################################################
 
-    // review_aaron: Talk with Wyatt - different easings for different scripts?
     public ScHideScript()
     {
         super();

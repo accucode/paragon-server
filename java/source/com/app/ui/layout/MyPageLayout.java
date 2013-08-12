@@ -346,13 +346,13 @@ public class MyPageLayout
             return;
         }
 
-        setDropdownOptions(u);
+        setDropdownOptions();
         _dropdown.ajax().replace();
         setServerSessionAccount();
         _dropdown.ajax().show();
     }
 
-    private void setDropdownOptions(MyUser u)
+    private void setDropdownOptions()
     {
         KmList<ScOption> list = getDropdownList();
         if ( list.isEmpty() )

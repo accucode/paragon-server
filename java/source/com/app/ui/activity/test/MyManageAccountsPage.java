@@ -102,9 +102,13 @@ public class MyManageAccountsPage
     @Override
     protected ScPageRoot installRoot()
     {
+        // remove_valerie: 
+        //        super.install();
+
         ScPageRoot root;
         root = newPageRoot();
         root.css().padSpaced();
+        //        root.setLabel("General Overview");
 
         installDeleteAccountDialog(root);
         installDeleteUserDialog(root);
@@ -129,7 +133,7 @@ public class MyManageAccountsPage
         return root;
     }
 
-    private void installDeleteAccountDialog(ScPageRoot root)
+    private void installDeleteAccountDialog(ScBox root)
     {
         _deleteAccountDialog = root.addDialog();
         _deleteAccountDialog.getHeaderBox().hide();
@@ -156,7 +160,7 @@ public class MyManageAccountsPage
         button2.applyPrimaryFlavor();
     }
 
-    private void installDeleteUserDialog(ScPageRoot root)
+    private void installDeleteUserDialog(ScBox root)
     {
         _deleteUserDialog = root.addDialog();
         _deleteUserDialog.getHeaderBox().hide();
@@ -551,7 +555,7 @@ public class MyManageAccountsPage
         footer = group.addButtonBoxRight();
 
         ScActionButton cancelButton;
-        cancelButton = footer.addButton("Cancel", newEditUserCancelAction());
+        cancelButton = footer.addCancelButton(newEditUserCancelAction());
         cancelButton.setImage(MyButtonUrls.cancel());
 
         ScActionButton removeButton;
@@ -559,6 +563,7 @@ public class MyManageAccountsPage
             "Remove from Account",
             newShowDeleteAccountUserDialogAction());
         removeButton.setImage(MyButtonUrls.primary());
+        removeButton.applyPrimaryFlavor();
 
         _viewUserChild = frame;
     }
@@ -957,6 +962,7 @@ public class MyManageAccountsPage
     @Override
     public void start()
     {
+        // fixme_valerie: throwing error when try to make it a tab
         super.start();
 
         setDropdownOptions();
@@ -1050,6 +1056,7 @@ public class MyManageAccountsPage
 
         if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
             _transferButton.show();
+
         /**
          * review_wyatt (steve) this is ugly and probably not too readable
          * 
@@ -1098,6 +1105,40 @@ public class MyManageAccountsPage
         _viewAccountChild.ajaxPrint();
     }
 
+    private void handleAddAccountSave()
+    {
+        _addAccountChild.validate();
+
+        if ( !_addAccountName.hasValue() )
+        {
+            ajax().toast("Please enter an account name");
+            return;
+        }
+
+        MyAccount account;
+        account = new MyAccount();
+        account.setName(_addAccountName.getValue());
+        account.setTypeCode(_addAccountType.getStringValue());
+        account.saveDao();
+        getPageSession().setAccount(account);
+
+        MyUser user;
+        user = getCurrentUser();
+
+        MyAccountUser accountUser;
+        accountUser = new MyAccountUser();
+        accountUser.setAccount(account);
+        accountUser.setUser(user);
+        accountUser.saveDao();
+
+        String accountUid = account.getUid();
+        _accountDropdown.setValue(accountUid);
+        _accountDropdown.ajaxAddOption(account.getName(), accountUid);
+        _accountDropdown.ajaxSetValue(accountUid);
+
+        loadViewAccount();
+    }
+
     private void handleShowEditAccountBox()
     {
         String accountName;
@@ -1114,6 +1155,42 @@ public class MyManageAccountsPage
             _editTypeDropdown.setValue(account.getType());
 
         _editAccountChild.ajaxPrint();
+    }
+
+    private void handleEditAccountSave()
+    {
+        _editAccountChild.validate();
+
+        if ( !_editAccountName.hasValue() )
+        {
+            ajax().toast("Please enter an account name");
+            return;
+        }
+
+        MyAccount account;
+        account = getPageSession().getAccount();
+        account.setName(_editAccountName.getValue());
+        account.setTypeCode(_editTypeDropdown.getStringValue());
+        account.saveDao();
+        getPageSession().setAccount(account);
+
+        loadViewAccount();
+
+        _userGrid.ajaxReload();
+    }
+
+    private void handleEditAccountCancel()
+    {
+        MyAccount account;
+        account = getPageSession().getAccount();
+
+        if ( account != null )
+        {
+            _viewAccountName.setValue(account.getName());
+            _viewAccountType.setValue(account.getType().getName());
+        }
+
+        _viewAccountChild.ajaxPrint();
     }
 
     private void handleShowTransferBox()
@@ -1153,50 +1230,6 @@ public class MyManageAccountsPage
         _transferFrame.ajaxClear();
     }
 
-    private void handleEditAccountSave()
-    {
-        _editAccountChild.validate();
-
-        if ( !_editAccountName.hasValue() )
-        {
-            ajax().toast("Please enter an account name");
-            return;
-        }
-
-        MyAccount account;
-        account = getPageSession().getAccount();
-        account.setName(_editAccountName.getValue());
-        account.setTypeCode(_editTypeDropdown.getStringValue());
-        account.saveDao();
-
-        setDropdownOptions();
-
-        String accountUid = account.getUid();
-
-        loadViewAccount();
-
-        /**ask_valerie 
-         * not setting dropdown
-         */
-        _accountDropdown.ajaxSetValue(accountUid);
-
-        _userGrid.ajaxReload();
-    }
-
-    private void handleEditAccountCancel()
-    {
-        MyAccount account;
-        account = getPageSession().getAccount();
-
-        if ( account != null )
-        {
-            _viewAccountName.setValue(account.getName());
-            _viewAccountType.setValue(account.getType().getName());
-        }
-
-        _viewAccountChild.ajaxPrint();
-    }
-
     private void loadViewAccount()
     {
         MyAccount account;
@@ -1209,39 +1242,6 @@ public class MyManageAccountsPage
         }
 
         _viewAccountChild.ajaxPrint();
-    }
-
-    private void handleAddAccountSave()
-    {
-        _addAccountChild.validate();
-
-        if ( !_addAccountName.hasValue() )
-        {
-            ajax().toast("Please enter an account name");
-            return;
-        }
-
-        MyAccount account;
-        account = new MyAccount();
-        account.setName(_addAccountName.getValue());
-        account.setTypeCode(_addAccountType.getStringValue());
-        account.saveDao();
-
-        MyUser user;
-        user = getCurrentUser();
-
-        MyAccountUser accountUser;
-        accountUser = new MyAccountUser();
-        accountUser.setAccount(account);
-        accountUser.setUser(user);
-        accountUser.saveDao();
-
-        String accountUid = account.getUid();
-        _accountDropdown.setValue(accountUid);
-        _accountDropdown.ajaxAddOption(account.getName(), accountUid);
-        _accountDropdown.ajaxSetValue(accountUid);
-
-        loadViewAccount();
     }
 
     private void handleShowAddUserBox()
@@ -1365,36 +1365,70 @@ public class MyManageAccountsPage
     //# convenience
     //##################################################
 
-    private KmList<ScOption> getDropdownOptions()
+    private KmList<ScOption> getDropdownList()
     {
-        KmList<ScOption> accountNames;
-        accountNames = new KmList<ScOption>();
+        MyServerSession ss = MyGlobals.getServerSession();
+        MyUser u = ss.getUser();
 
-        KmList<MyAccount> accounts;
-        accounts = getAccess().getAccountDao().findAll();
+        if ( u == null )
+            return null;
 
-        for ( MyAccount account : accounts )
+        KmList<ScOption> list;
+        list = new KmList<ScOption>();
+
+        KmList<MyAccountUser> accountUsers;
+        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(u);
+
+        for ( MyAccountUser e : accountUsers )
         {
-            ScOption option = new ScOption();
+            MyAccount account = e.getAccount();
+            buildOptionsList(list, account);
+        }
+        return list;
+    }
+
+    private void buildOptionsList(KmList<ScOption> list, MyAccount account)
+    {
+        if ( account != null )
+        {
+            ScOption option;
+            option = new ScOption();
             option.setText(account.getName());
             option.setValue(account.getUid());
-            accountNames.add(option);
-        }
 
-        return accountNames;
+            list.add(option);
+        }
     }
 
     private void setDropdownOptions()
     {
-        KmList<ScOption> options = getDropdownOptions();
+        KmList<ScOption> list = getDropdownList();
+        if ( list.isEmpty() )
+            return;
 
-        for ( ScOption e : options )
+        for ( ScOption e : list )
             _accountDropdown.ajaxAddOption(e.getText(), e.getValue());
 
-        if ( options.isNotEmpty() )
+        if ( list.isNotEmpty() )
         {
-            _accountDropdown.setValue(options.getFirst().getValue());
+            _accountDropdown.setValue(list.getFirst().getValue());
             _accountDropdown.ajaxUpdateValue();
         }
     }
+
+    // remove_valerie: 
+    //    private void setDropdownOptions()
+    //    {
+    //        KmList<ScOption> options = getDropdownList();
+    //
+    //        for ( ScOption e : options )
+    //            _accountDropdown.ajaxAddOption(e.getText(), e.getValue());
+    //
+    //        if ( options.isNotEmpty() )
+    //        {
+    //            _accountDropdown.setValue(options.getFirst().getValue());
+    //            _accountDropdown.ajaxUpdateValue();
+    //        }
+    //    }
+
 }

@@ -25,6 +25,7 @@ public abstract class MyActivityRegistryBase
     {
         super.registerActivities();
         
+        add(MyAccountDetailsPage.instance);
         add(MyAdminPage.instance);
         add(MyAnimationTestPage.instance);
         add(MyAutoCompleteTestPage.instance);
@@ -76,7 +77,7 @@ public abstract class MyActivityRegistryBase
         add(MySqlPage.instance);
         add(MyStaticIncludeTestPage.instance);
         add(MySystemLogListPage.instance);
-        add(MyTabbedAccountsPage.instance);
+        add(MyTabbedTestPage.instance);
         add(MyTestPage.instance);
         add(MyTimeoutPage.instance);
         add(MyToastTestPage.instance);

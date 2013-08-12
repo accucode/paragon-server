@@ -3,16 +3,16 @@ package com.app.ui.activity.test;
 import com.kodemore.servlet.control.ScNotebook;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyTabbedAccountsPage
+public class MyTabbedTestPage
     extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyTabbedAccountsPage instance = new MyTabbedAccountsPage();
+    public static final MyTabbedTestPage instance = new MyTabbedTestPage();
 
-    private MyTabbedAccountsPage()
+    private MyTabbedTestPage()
     {
         // singleton
     }
@@ -30,8 +30,8 @@ public class MyTabbedAccountsPage
 
         ScNotebook book;
         book = root.addNotebook();
-        book.add(new MyAccountOverviewTab());
-        book.add(new MyAccountTab());
+        book.add(new MyFirstTab());
+        book.add(new MySecondTab());
 
         return root;
     }

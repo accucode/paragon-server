@@ -271,6 +271,11 @@ public class ScHtmlIdAjax
         ajax().toast(msg, args);
     }
 
+    public void alert(String msg, Object... args)
+    {
+        ajax().alert(msg, args);
+    }
+
     //##################################################
     //# equalize children
     //##################################################

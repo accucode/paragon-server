@@ -30,6 +30,9 @@ public class MyTestPage
         root = newPageRoot();
         root.css().padSpaced10();
 
+        // fixme_valerie: ???
+        // root.ajax().equalizeDecendentGroups();
+
         ScGroupArray groups;
         groups = root.addGroupArray();
         groups.style().floatLeft().width(200).height(300);
@@ -45,6 +48,7 @@ public class MyTestPage
         links.addLink(MyGroupTestPage.instance);
         links.addLink(MyGroupIconHeaderTestPage.instance);
         links.addLink(MyNotebookTestPage.instance);
+        links.addLink(MyTabbedTestPage.instance);
         links.addLink(MyEqualizeTestPage.instance);
 
         group = groups.addGroup("Fields");
