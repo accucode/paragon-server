@@ -60,16 +60,18 @@ public class MyManageAccountsPage
     private ScDropdown            _editTypeDropdown;
     private ScDropdown            _addAccountType;
     private ScDropdown            _editRoleDropdown;
+    private ScDropdown            _addRoleDropdown;
 
     private ScTextField           _viewAccountName;
     private ScTextField           _viewAccountType;
     private ScTextField           _editAccountName;
     private ScTextField           _addAccountName;
-    private ScTextField           _editUserName;
-    private ScTextField           _editUserEmail;
     private ScTextField           _viewUserName;
     private ScTextField           _viewUserEmail;
     private ScTextField           _viewUserRole;
+    private ScTextField           _editUserName;
+    private ScTextField           _editUserEmail;
+    private ScTextField           _addUserEmail;
 
     private ScAutoCompleteField   _transferEmailAutoComplete;
 
@@ -90,8 +92,6 @@ public class MyManageAccountsPage
 
     private ScGrid<MyAccountUser> _userGrid;
 
-    private ScTextField           _addUserEmail;
-    private ScDropdown            _addRoleDropdown;
     private ScActionButton        _transferButton;
 
     //##################################################
@@ -1004,8 +1004,9 @@ public class MyManageAccountsPage
         _accountDropdown.ajaxClearOptions();
 
         setDropdownOptions();
-        // fixme_valerie: come back to this
+        // remove_valerie: testing
         updateViewAccount();
+        //        loadViewAccount();
     }
 
     private void handleDeleteUser()
@@ -1050,8 +1051,8 @@ public class MyManageAccountsPage
 
         if ( !accountUsers.isEmpty() )
         {
-            _userFrame.show();
             _userGrid.ajaxReload();
+            _userFrame.show();
         }
     }
 
@@ -1148,11 +1149,15 @@ public class MyManageAccountsPage
         accountUser.setRoleOwner();
         accountUser.saveDao();
 
-        String accountUid = account.getUid();
         setDropdownOptions();
-        _accountDropdown.ajaxSetValue(accountUid);
+        _accountDropdown.ajaxSetValue(account.getUid());
 
+        // remove_valerie: testing
         loadViewAccount();
+        _userGrid.ajaxReload();
+        _userGrid.ajaxUpdateValues();
+        // remove_valerie: print
+        System.out.println("MyManageAccountsPage.handleAddAccountSave");
     }
 
     private void handleShowEditAccountBox()
