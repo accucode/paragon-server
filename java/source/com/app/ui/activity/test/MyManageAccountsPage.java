@@ -1,17 +1,5 @@
 package com.app.ui.activity.test;
 
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
-import com.app.model.MyServerSession;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.ui.activity.login.MyJoinAccountUtility;
-import com.app.ui.activity.login.MyTransferAccountUtility;
-import com.app.utility.MyButtonUrls;
-import com.app.utility.MyGlobals;
-
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -37,6 +25,18 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.KmEmailParser;
+
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.ui.activity.login.MyJoinAccountUtility;
+import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.utility.MyButtonUrls;
+import com.app.utility.MyGlobals;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -1271,8 +1271,7 @@ public class MyManageAccountsPage
             _viewAccountType.setValue(account.getType().getName());
         }
 
-        _viewAccountChild.ajaxUpdateValues();
-        _viewAccountChild.ajaxPrint();
+        updateViewAccount();
         _userGrid.ajaxReload();
     }
 
@@ -1422,6 +1421,10 @@ public class MyManageAccountsPage
         return list;
     }
 
+    /**
+     * this method sets the account dropdown to the value of the serversession account, 
+     * which in turn is set by the MyPageLayout dropdown.
+     */
     private void setDropdownOptions()
     {
         _accountDropdown.ajaxClearOptions();
@@ -1438,7 +1441,8 @@ public class MyManageAccountsPage
 
         if ( list.isNotEmpty() )
         {
-            _accountDropdown.setValue(list.getFirst().getValue());
+            String accountUidServerSession = getServerSession().getAccount().getUid();
+            _accountDropdown.setValue(accountUidServerSession);
             _accountDropdown.ajaxUpdateValue();
         }
     }
