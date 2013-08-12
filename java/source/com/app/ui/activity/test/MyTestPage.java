@@ -30,6 +30,9 @@ public class MyTestPage
         root = newPageRoot();
         root.css().padSpaced10();
 
+        // fixme_valerie: ???
+        // root.ajax().equalizeDecendentGroups();
+
         ScGroupArray groups;
         groups = root.addGroupArray();
         groups.style().floatLeft().width(200).height(300);
