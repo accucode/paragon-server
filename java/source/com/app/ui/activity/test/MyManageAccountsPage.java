@@ -551,7 +551,7 @@ public class MyManageAccountsPage
         footer = group.addButtonBoxRight();
 
         ScActionButton cancelButton;
-        cancelButton = footer.addButton("Cancel", newEditUserCancelAction());
+        cancelButton = footer.addCancelButton(newEditUserCancelAction());
         cancelButton.setImage(MyButtonUrls.cancel());
 
         ScActionButton removeButton;
@@ -559,6 +559,7 @@ public class MyManageAccountsPage
             "Remove from Account",
             newShowDeleteAccountUserDialogAction());
         removeButton.setImage(MyButtonUrls.primary());
+        removeButton.applyPrimaryFlavor();
 
         _viewUserChild = frame;
     }
@@ -1019,6 +1020,7 @@ public class MyManageAccountsPage
 
         if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
             _transferButton.show();
+
         /**
          * review_wyatt (steve) this is ugly and probably not too readable
          * 
@@ -1065,6 +1067,40 @@ public class MyManageAccountsPage
         }
 
         _viewAccountChild.ajaxPrint();
+    }
+
+    private void handleAddAccountSave()
+    {
+        _addAccountChild.validate();
+
+        if ( !_addAccountName.hasValue() )
+        {
+            ajax().toast("Please enter an account name");
+            return;
+        }
+
+        MyAccount account;
+        account = new MyAccount();
+        account.setName(_addAccountName.getValue());
+        account.setTypeCode(_addAccountType.getStringValue());
+        account.saveDao();
+        getPageSession().setAccount(account);
+
+        MyUser user;
+        user = getCurrentUser();
+
+        MyAccountUser accountUser;
+        accountUser = new MyAccountUser();
+        accountUser.setAccount(account);
+        accountUser.setUser(user);
+        accountUser.saveDao();
+
+        String accountUid = account.getUid();
+        _accountDropdown.setValue(accountUid);
+        _accountDropdown.ajaxAddOption(account.getName(), accountUid);
+        _accountDropdown.ajaxSetValue(accountUid);
+
+        loadViewAccount();
     }
 
     private void handleShowEditAccountBox()
@@ -1178,39 +1214,6 @@ public class MyManageAccountsPage
         }
 
         _viewAccountChild.ajaxPrint();
-    }
-
-    private void handleAddAccountSave()
-    {
-        _addAccountChild.validate();
-
-        if ( !_addAccountName.hasValue() )
-        {
-            ajax().toast("Please enter an account name");
-            return;
-        }
-
-        MyAccount account;
-        account = new MyAccount();
-        account.setName(_addAccountName.getValue());
-        account.setTypeCode(_addAccountType.getStringValue());
-        account.saveDao();
-
-        MyUser user;
-        user = getCurrentUser();
-
-        MyAccountUser accountUser;
-        accountUser = new MyAccountUser();
-        accountUser.setAccount(account);
-        accountUser.setUser(user);
-        accountUser.saveDao();
-
-        String accountUid = account.getUid();
-        _accountDropdown.setValue(accountUid);
-        _accountDropdown.ajaxAddOption(account.getName(), accountUid);
-        _accountDropdown.ajaxSetValue(accountUid);
-
-        loadViewAccount();
     }
 
     private void handleShowAddUserBox()

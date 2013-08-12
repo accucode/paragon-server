@@ -1,5 +1,11 @@
 package com.app.ui.activity.test;
 
+import com.app.filter.MyAccountFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountType;
+import com.app.model.meta.MyMetaAccount;
+import com.app.ui.control.MyBox;
+
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.filter.KmFilterIF;
 import com.kodemore.servlet.action.ScAction;
@@ -17,12 +23,6 @@ import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
-
-import com.app.filter.MyAccountFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountType;
-import com.app.model.meta.MyMetaAccount;
-import com.app.ui.control.MyBox;
 
 public class MyAccountTab
     extends MyBox
@@ -433,7 +433,7 @@ public class MyAccountTab
     private void handleAddAccountSamples()
     {
         installAccount("MyPersonalAccount", MyAccountType.Personal);
-        installAccount("AccuCode", MyAccountType.Business);
+        installAccount("Acme", MyAccountType.Business);
 
         ajax().toast("Added Samples");
 
