@@ -3,7 +3,6 @@ package com.app.ui.activity.test;
 import com.app.filter.MyAccountUserFilter;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
 import com.app.ui.control.MyBox;
@@ -33,7 +32,7 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScTextField;
 
-public class MyAccountOverviewTab
+public class MyAccountDetailsTab
     extends MyBox
 {
     //##################################################
@@ -91,7 +90,7 @@ public class MyAccountOverviewTab
         ScBox root;
         root = this;
         root.css().pad10();
-        root.setLabel("AccountUsers");
+        root.setLabel("Account Details");
 
         installDialog(root);
 
@@ -222,7 +221,6 @@ public class MyAccountOverviewTab
         ScDiv right;
         right = group.getHeader().addFloatRight();
         right.css().pad5();
-        right.addButton("Add Samples", newAddAccountUserSamplesAction());
         right.addButton("Add", newShowAddAccountUserBoxAction());
 
         ScGridColumn<MyAccountUser> userEmail;
@@ -568,18 +566,6 @@ public class MyAccountOverviewTab
         };
     }
 
-    private ScActionIF newAddAccountUserSamplesAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleAddAccountUserSamples();
-            }
-        };
-    }
-
     private ScActionIF newShowAddAccountUserBoxAction()
     {
         return new ScAction(this)
@@ -697,37 +683,6 @@ public class MyAccountOverviewTab
 
     private void handleSearchAccountUser()
     {
-        _accountUserGrid.ajaxReload();
-    }
-
-    private void handleAddAccountUserSamples()
-    {
-        KmList<MyUser> users;
-        users = getAccess().getUserDao().findAll();
-
-        KmList<MyAccount> accounts;
-        accounts = getAccess().getAccountDao().findAll();
-
-        for ( MyUser u : users )
-        {
-            MyAccountUser e;
-            e = new MyAccountUser();
-            e.setUser(u);
-            e.setRole(MyAccountUserRole.User);
-            e.saveDao();
-        }
-
-        for ( MyAccount a : accounts )
-        {
-            MyAccountUser e;
-            e = new MyAccountUser();
-            e.setAccount(a);
-            e.setRole(MyAccountUserRole.Owner);
-            e.saveDao();
-        }
-
-        ajax().toast("Added Samples");
-
         _accountUserGrid.ajaxReload();
     }
 
