@@ -5,7 +5,6 @@ import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
-import com.app.ui.control.MyBox;
 
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
@@ -25,6 +24,7 @@ import com.kodemore.servlet.control.ScFrameChild;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.field.ScAutoCompleteCallbackIF;
 import com.kodemore.servlet.field.ScAutoCompleteField;
@@ -32,9 +32,20 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScTextField;
 
-public class MyAccountDetailsTab
-    extends MyBox
+public class MyAccountDetailsPage
+    extends MyAbstractTestPage
 {
+    //##################################################
+    //# singleton
+    //##################################################
+
+    public static final MyAccountDetailsPage instance = new MyAccountDetailsPage();
+
+    private MyAccountDetailsPage()
+    {
+        // singleton
+    }
+
     //##################################################
     //# variables
     //##################################################
@@ -83,14 +94,15 @@ public class MyAccountDetailsTab
     //##################################################
 
     @Override
-    public void install()
+    protected ScPageRoot installRoot()
     {
-        super.install();
+        // remove_valerie: 
+        //        super.install();
 
-        ScBox root;
-        root = this;
-        root.css().pad10();
-        root.setLabel("Account Details");
+        ScPageRoot root;
+        root = newPageRoot();
+        root.css().padSpaced();
+        //        root.setLabel("Account Details");
 
         installDialog(root);
 
@@ -103,6 +115,8 @@ public class MyAccountDetailsTab
         installAccountUserSearchBox(row);
         installAccountUserTarget(row);
         installAccountUserGrid(leftCol);
+
+        return root;
     }
 
     private void installDialog(ScBox root)
