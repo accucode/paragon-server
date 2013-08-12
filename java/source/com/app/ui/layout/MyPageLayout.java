@@ -356,7 +356,10 @@ public class MyPageLayout
     {
         KmList<ScOption> list = getDropdownList();
         if ( list.isEmpty() )
+        {
+            _dropdown.addNullNonePrefix();
             return;
+        }
 
         for ( ScOption e : list )
             _dropdown.addOption(e.getValue(), e.getText());
