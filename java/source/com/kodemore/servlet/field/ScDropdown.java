@@ -40,7 +40,6 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScElementIF;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.script.ScActionScript;
-import com.kodemore.servlet.script.ScScript;
 import com.kodemore.servlet.variable.ScLocalAdaptor;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalCss;
@@ -84,6 +83,7 @@ public class ScDropdown
 
     private ScActionIF         _action;
 
+    // fixme_wyatt: local
     private boolean            _usesChosen;
 
     //##################################################
@@ -164,9 +164,9 @@ public class ScDropdown
         return _usesChosen;
     }
 
-    public void setUsesChosen(boolean useChosen)
+    public void setUsesChosen(boolean e)
     {
-        _usesChosen = useChosen;
+        _usesChosen = e;
     }
 
     public void setUsesChosen()
@@ -325,21 +325,15 @@ public class ScDropdown
 
         out.end("select");
 
-        /**
-         * review_wyatt: (aaron) CHOSEN - This will format the dropdown as a Chosen
-         * dropdown if usesChosen is true.
-         */
         if ( usesChosen() )
-        {
-            ScScript ajax;
-            ajax = out.getPostRender();
-            ajax.run(formatChosenScript());
-        }
+            out.getPostRender().run(formatChosenScript());
     }
 
     /**
-     * review_wyatt: (aaron) CHOSEN - the chosen script, there are several options
+     * (aaron) CHOSEN - the chosen script, there are several options
      * that can be passed in, examples are commented out below.
+     * 
+     * review_aaron (wyatt) discuss comments
      */
     private String formatChosenScript()
     {
@@ -353,7 +347,7 @@ public class ScDropdown
         //        options.setInteger("disable_search_threshold", 10);
         //        options.setString("no_results_text", "No results found");
 
-        return Kmu.format("$('%s').chosen(%s);", formatJquerySelector(), options);
+        return Kmu.format("%s.chosen(%s);", formatJqueryReference(), options);
     }
 
     @Override
