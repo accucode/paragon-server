@@ -1,18 +1,5 @@
 package com.app.ui.activity.test;
 
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
-import com.app.model.MyServerSession;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.ui.activity.login.MyJoinAccountUtility;
-import com.app.ui.activity.login.MyTransferAccountUtility;
-import com.app.ui.layout.MyPageLayout;
-import com.app.utility.MyButtonUrls;
-import com.app.utility.MyGlobals;
-
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -39,6 +26,19 @@ import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
+
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.ui.activity.login.MyJoinAccountUtility;
+import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.ui.layout.MyPageLayout;
+import com.app.utility.MyButtonUrls;
+import com.app.utility.MyGlobals;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -384,6 +384,12 @@ public class MyManageAccountsPage
         // review_steve AUTO COMPLETE FIELD
         /**
          *  review_wyatt (steve) autoComplete field tracked values
+         *  
+         * review_steve (wyatt)
+         *      Fix comment spacing above.
+         *      Discuss method below.
+         *      Use db.
+         *      Limit.
          */
 
         KmList<String> v;
