@@ -1,18 +1,5 @@
 package com.app.ui.activity.test;
 
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
-import com.app.model.MyServerSession;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.ui.activity.login.MyJoinAccountUtility;
-import com.app.ui.activity.login.MyTransferAccountUtility;
-import com.app.ui.layout.MyPageLayout;
-import com.app.utility.MyButtonUrls;
-import com.app.utility.MyGlobals;
-
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -39,6 +26,19 @@ import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
+
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.ui.activity.login.MyJoinAccountUtility;
+import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.ui.layout.MyPageLayout;
+import com.app.utility.MyButtonUrls;
+import com.app.utility.MyGlobals;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -1021,6 +1021,7 @@ public class MyManageAccountsPage
 
     private void handleDeleteAccount()
     {
+        //review_Steve here
         MyAccount account;
         account = getPageSession().getAccount();
         account.deleteDao();
@@ -1028,10 +1029,6 @@ public class MyManageAccountsPage
         MyAccountUser accountUser;
         accountUser = getAccess().getAccountUserDao().findAccountUserFor(getCurrentUser(), account);
         accountUser.deleteDao();
-
-        // fixme_valerie: broken
-        //        if ( !getDropdownList().isEmpty() )
-        //            getServerSession().getAccount().setUid((String)getDropdownList().getFirst().getValue());
 
         MyPageLayout.getInstance().refreshDropdown();
 
@@ -1095,6 +1092,7 @@ public class MyManageAccountsPage
 
     private void handleAddAccountSave()
     {
+        //review_Steve here
         _addAccountChild.validate();
 
         if ( !_addAccountName.hasValue() )
@@ -1123,7 +1121,7 @@ public class MyManageAccountsPage
         setDropdownOptions();
 
         _accountDropdown.ajaxSetValue(account.getUid());
-
+        MyPageLayout.getInstance().refreshDropdown();
         loadViewAccount();
     }
 
