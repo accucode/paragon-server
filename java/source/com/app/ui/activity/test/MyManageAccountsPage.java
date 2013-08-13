@@ -1,5 +1,18 @@
 package com.app.ui.activity.test;
 
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.ui.activity.login.MyJoinAccountUtility;
+import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.ui.layout.MyPageLayout;
+import com.app.utility.MyButtonUrls;
+import com.app.utility.MyGlobals;
+
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -26,19 +39,6 @@ import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
-
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
-import com.app.model.MyServerSession;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.ui.activity.login.MyJoinAccountUtility;
-import com.app.ui.activity.login.MyTransferAccountUtility;
-import com.app.ui.layout.MyPageLayout;
-import com.app.utility.MyButtonUrls;
-import com.app.utility.MyGlobals;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -577,7 +577,7 @@ public class MyManageAccountsPage
         footer = group.addButtonBoxRight();
 
         ScActionButton cancelButton;
-        cancelButton = footer.addButton("Cancel", newEditUserCancelAction());
+        cancelButton = footer.addButton("Cancel", newViewUserCancelAction());
         cancelButton.setImage(MyButtonUrls.cancel());
 
         ScActionButton removeButton;
@@ -963,6 +963,18 @@ public class MyManageAccountsPage
         };
     }
 
+    private ScActionIF newViewUserCancelAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleViewUserCancel();
+            }
+        };
+    }
+
     private ScActionIF newShowDeleteAccountUserDialogAction()
     {
         return new ScAction(this)
@@ -988,11 +1000,7 @@ public class MyManageAccountsPage
         super.start();
 
         setDropdownOptions();
-
-        KmList<ScOption> list = getDropdownList();
-
-        if ( !list.isEmpty() )
-            updateViewAccount();
+        handleUpdateValues();
     }
 
     //##################################################
@@ -1008,7 +1016,6 @@ public class MyManageAccountsPage
 
         MyAccount account;
         account = getAccess().getAccountDao().findWithName(accountName);
-        getPageSession().setAccount(account);
 
         if ( account != null )
             _deleteAccountName.setValue(account.getName());
@@ -1035,14 +1042,14 @@ public class MyManageAccountsPage
         ajax().toast("Deleted account %s", account.getName());
 
         setDropdownOptions();
-        loadViewAccount();
+        refreshAll();
     }
 
     private void handleClose()
     {
         _deleteUserDialog.ajaxClose();
 
-        loadViewAccount();
+        refreshAll();
     }
 
     private void handleShowDeleteAccountUserDialog()
@@ -1078,16 +1085,13 @@ public class MyManageAccountsPage
 
     private void handleShowAddAccountBox()
     {
-        MyAccount account = getDropdownAccount();
-        getPageSession().setAccount(account);
-
         _addAccountChild.ajaxPrint();
         _addAccountChild.ajax().focus();
     }
 
     private void handleAddAccountCancel()
     {
-        loadViewAccount();
+        refreshAll();
     }
 
     private void handleAddAccountSave()
@@ -1122,7 +1126,7 @@ public class MyManageAccountsPage
 
         _accountDropdown.ajaxSetValue(account.getUid());
         MyPageLayout.getInstance().refreshDropdown();
-        loadViewAccount();
+        refreshAll();
     }
 
     private void handleShowEditAccountBox()
@@ -1132,7 +1136,6 @@ public class MyManageAccountsPage
 
         MyAccount account;
         account = getAccess().getAccountDao().findWithName(accountName);
-        getPageSession().setAccount(account);
 
         if ( account != null )
             _editAccountName.setValue(account.getName());
@@ -1182,7 +1185,7 @@ public class MyManageAccountsPage
 
     private void handleCancelTransferRequest()
     {
-        loadViewAccount();
+        refreshAll();
     }
 
     private void handleEditAccountSave()
@@ -1202,15 +1205,12 @@ public class MyManageAccountsPage
         account.saveDao();
 
         setDropdownOptions();
-
-        loadViewAccount();
-
-        _userGrid.ajaxReload();
+        refreshAll();
     }
 
     private void handleEditAccountCancel()
     {
-        loadViewAccount();
+        refreshAll();
     }
 
     private void handleShowInviteUserBox()
@@ -1219,10 +1219,6 @@ public class MyManageAccountsPage
         accountName = _viewAccountName.getValue();
 
         _inviteGroup.setTitle("Invite User to %s", accountName);
-
-        MyAccount account;
-        account = getAccess().getAccountDao().findWithName(accountName);
-        getPageSession().setAccount(account);
 
         _addUserChild.ajaxPrint();
         _addUserChild.ajax().focus();
@@ -1236,9 +1232,13 @@ public class MyManageAccountsPage
         MyAccountUser accountUser;
         accountUser = getAccess().getAccountUserDao().findWithUid(accountUserUid);
 
+        if ( accountUser == null )
+            accountUser = getPageSession().getAccountUser();
+
         MyUser user;
         user = accountUser.getUser();
 
+        getPageSession().setUser(user);
         getPageSession().setAccountUser(accountUser);
 
         _viewUserName.setValue(user.getName());
@@ -1266,21 +1266,17 @@ public class MyManageAccountsPage
 
         showSentMessage(email);
 
-        loadViewAccount();
+        refreshAll();
     }
 
     private void handleAddUserCancel()
     {
-        _userFrame.ajaxClear();
-
-        loadViewAccount();
+        refreshAll();
     }
 
     private void handleEditUserCancel()
     {
-        _userFrame.ajaxClear();
-
-        loadViewAccount();
+        handleViewUser();
     }
 
     private void handleShowEditUserBox()
@@ -1292,10 +1288,10 @@ public class MyManageAccountsPage
         u = accountUser.getUser();
 
         if ( u != null )
+        {
             _editUserName.setValue(u.getName());
-
-        if ( u != null )
             _editUserEmail.setValue(u.getEmail());
+        }
 
         _editRoleDropdown.setValue(accountUser.getRole());
         _editUserChild.ajaxPrint();
@@ -1323,26 +1319,32 @@ public class MyManageAccountsPage
             ajax().alert("Looks like this account already has an owner.");
         else
             accountUser.setRoleCode(roleCode);
-        accountUser.saveDao();
 
-        _userGrid.ajaxReload();
+        accountUser.saveDao();
 
         MyUser user;
         user = accountUser.getUser();
-
-        getPageSession().setUser(user);
 
         _viewUserName.setValue(user.getName());
         _viewUserEmail.setValue(user.getEmail());
         _viewUserRole.setValue(accountUser.getRoleName());
         _viewUserChild.ajaxPrint();
+
+        refreshAll();
+    }
+
+    private void handleViewUserCancel()
+    {
+        _userFrame.ajaxClear();
+
+        refreshAll();
     }
 
     //##################################################
     //# convenience
     //##################################################
 
-    private void loadViewAccount()
+    private void refreshAll()
     {
         MyAccount account;
         account = getPageSession().getAccount();
@@ -1394,7 +1396,7 @@ public class MyManageAccountsPage
             getPageSession().setAccount(account);
         }
 
-        loadViewAccount();
+        refreshAll();
     }
 
     private MyAccount getDropdownAccount()
