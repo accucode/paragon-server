@@ -54,17 +54,16 @@ public class MyAccountDetailsPage
 
     private ScAutoCompleteField   _searchUserNameField;
     private ScAutoCompleteField   _addUserNameField;
-    private ScTextField           _editUserNameField;
-
     private ScAutoCompleteField   _searchAccountNameField;
     private ScAutoCompleteField   _addAccountNameField;
+
+    private ScTextField           _editUserNameField;
     private ScTextField           _editAccountNameField;
     private ScTextField           _addUserEmailField;
 
     private ScDropdown            _searchTypeDropdown;
     private ScDropdown            _addTypeDropdown;
     private ScDropdown            _editTypeDropdown;
-
     private ScDropdown            _searchRoleDropdown;
     private ScDropdown            _addRoleDropdown;
     private ScDropdown            _editRoleDropdown;
@@ -86,7 +85,6 @@ public class MyAccountDetailsPage
     private ScText                _viewRole;
     private ScText                _viewUserNameField;
     private ScText                _viewUserEmailField;
-
     private ScText                _viewUserVerifiedField;
 
     //##################################################
@@ -96,13 +94,9 @@ public class MyAccountDetailsPage
     @Override
     protected ScPageRoot installRoot()
     {
-        // remove_valerie: 
-        //        super.install();
-
         ScPageRoot root;
         root = newPageRoot();
         root.css().padSpaced();
-        //        root.setLabel("Account Details");
 
         installDialog(root);
 

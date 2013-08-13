@@ -20,6 +20,12 @@ public class MyTestPage
     }
 
     //##################################################
+    //# variable
+    //##################################################
+
+    private ScBox _box;
+
+    //##################################################
     //# install
     //##################################################
 
@@ -30,12 +36,12 @@ public class MyTestPage
         root = newPageRoot();
         root.css().padSpaced10();
 
-        // fixme_valerie: ???
-        // root.ajax().equalizeDecendentGroups();
+        _box = root.addBox();
+        _box.css().padSpaced();
 
         ScGroupArray groups;
-        groups = root.addGroupArray();
-        groups.style().floatLeft().width(200).height(300);
+        groups = _box.addGroupArray();
+        groups.style().floatLeft();
 
         ScGroup group;
         ScBox links;
@@ -86,5 +92,25 @@ public class MyTestPage
         links.addLink(MyQuickTestPage.instance);
 
         return root;
+    }
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void start()
+    {
+        super.start();
+        handleEqualize();
+    }
+
+    //##################################################
+    //# handle
+    //##################################################
+
+    private void handleEqualize()
+    {
+        _box.ajax().equalizeDecendentGroups();
     }
 }
