@@ -43,6 +43,13 @@ import com.app.utility.MyGlobals;
 public class MyManageAccountsPage
     extends MyAbstractTestPage
 {
+
+    /**
+     *  review_wyatt (steve) Grid not loading users
+     *  when you enter the app you click "admin", then clcik "manage accounts".
+     *  when you enter this page the grid fails to display the users associated with the current account.
+     *  if you click the refresh icon it will display. Please check it out.
+     */
     //##################################################
     //# singleton
     //##################################################
@@ -498,10 +505,10 @@ public class MyManageAccountsPage
     {
         MyMetaAccountUser x = MyAccountUser.Meta;
 
-        ScForm form = root.addForm();
+        //        ScForm form = root.addForm();
 
         ScGroup group;
-        group = form.addGroup();
+        group = root.addGroup();
         group.setTitle("Users on this Account");
 
         ScDiv right;
@@ -515,7 +522,7 @@ public class MyManageAccountsPage
 
         ScGrid<MyAccountUser> grid;
         grid = group.addGrid();
-        grid.track(_accountDropdown);
+        grid.trackAll(_accountDropdown);
         grid.setFilterFactory(newFetcher());
         grid.addLinkColumn(x.UserName, newViewUserAction(), x.Uid);
         grid.addColumn(userEmail);
@@ -564,6 +571,10 @@ public class MyManageAccountsPage
 
         String accountUid;
         accountUid = _accountDropdown.getStringValue();
+
+        // remove_steve: print
+        System.out.println("MyManageAccountsPage.newUserFilter");
+        System.out.println("    accountUid: " + accountUid);
 
         f.setAccountUid(accountUid);
 
@@ -1454,13 +1465,14 @@ public class MyManageAccountsPage
         for ( ScOption e : list )
             _accountDropdown.ajaxAddOption(e.getText(), e.getValue());
 
-        if ( list.isNotEmpty() && getServerSession().getAccount() != null )
+        if ( list.isNotEmpty() && getServerSession().hasAccount() )
         {
-            String accountUidServerSession = getServerSession().getAccount().getUid();
-            _accountDropdown.setValue(accountUidServerSession);
+            String accountUid = getServerSession().getAccount().getUid();
+            _accountDropdown.setValue(accountUid);
             _accountDropdown.ajaxUpdateValue();
         }
 
+        //fixme_steve remove this when we have garunteed that the accounts list will never be empty.
         if ( list.isEmpty() )
         {
             _accountDropdown.ajaxAddOption("None", null);
@@ -1486,6 +1498,6 @@ public class MyManageAccountsPage
 
     private boolean isFirstStart()
     {
-        return getFirstStart() == true;
+        return getFirstStart();
     }
 }
