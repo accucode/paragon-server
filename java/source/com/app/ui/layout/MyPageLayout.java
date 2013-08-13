@@ -160,11 +160,7 @@ public class MyPageLayout
     }
 
     /**
-     *  wyatt (steve) getting context
-     *  this was our "for now" fix
-     *  
-     * review_steve (wyatt)
-     *      fix format of comment text above.
+     *  wyatt (steve) This is our quick fix to get the context
      *      
      * todo_wyatt global context
      */
@@ -183,16 +179,16 @@ public class MyPageLayout
 
     private void handleSetAccount()
     {
+        //review_valerie review_steve (steve) why is this not going to the welcome screen anymore?
         setServerSessionAccount();
-
         MyActivityRegistry.getInstance().getHomeActivity();
     }
 
     private void setServerSessionAccount()
     {
         String uid = _dropdown.getStringValue();
-        MyAccount e = getAccess().findAccountUid(uid);
 
+        MyAccount e = getAccess().findAccountUid(uid);
         MyGlobals.getServerSession().setAccount(e);
     }
 
@@ -529,6 +525,7 @@ public class MyPageLayout
         setDropdownOptions();
         setServerSessionAccount();
         _dropdown.ajax().replace();
+        _dropdown.ajax().show();
         _dropdown.ajaxUpdateValues();
     }
 }
