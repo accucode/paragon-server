@@ -84,12 +84,11 @@ public class MyManageAccountsPage
     private ScFrameChild          _addAccountChild;
     private ScFrameChild          _viewUserChild;
     private ScFrameChild          _editUserChild;
-    private ScFrameChild          _addUserChild;
+    private ScFrameChild          _inviteUserChild;
     private ScFrameChild          _transferChild;
     private ScFrameChild          _deleteAccountChild;
 
     private ScFrame               _accountFrame;
-    private ScFrame               _transferFrame;
     private ScFrame               _userFrame;
 
     private ScDialog              _deleteUserDialog;
@@ -194,6 +193,8 @@ public class MyManageAccountsPage
     private void installAccountFrame(ScArray row)
     {
         _accountFrame = row.addFrame();
+        _accountFrame.setHideFlip();
+        _accountFrame.setShowFlip();
 
         installViewAccountFrame();
         installEditAccountFrame();
@@ -410,7 +411,6 @@ public class MyManageAccountsPage
         return v;
     }
 
-    // fixme_valerie: come back to this
     private void installInviteUserFrame()
     {
         ScActionIF sendAction = newSendJoinRequestAction();
@@ -447,7 +447,7 @@ public class MyManageAccountsPage
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Send Request");
 
-        _addUserChild = frameChild;
+        _inviteUserChild = frameChild;
     }
 
     private void installDeleteAccountFrame()
@@ -573,6 +573,8 @@ public class MyManageAccountsPage
     private void installUserFrame(ScArray row)
     {
         _userFrame = row.addFrame();
+        _userFrame.setHideFlip();
+        _userFrame.setShowFlip();
 
         installViewUserFrame();
         installEditUserFrame();
@@ -1026,7 +1028,7 @@ public class MyManageAccountsPage
         if ( account != null )
             _deleteAccountType.setValue(account.getType().getName());
 
-        _deleteAccountChild.ajaxPrint();
+        _accountFrame.ajaxPrint(_deleteAccountChild);
     }
 
     private void handleDeleteAccount()
@@ -1088,7 +1090,7 @@ public class MyManageAccountsPage
 
     private void handleShowAddAccountBox()
     {
-        _addAccountChild.ajaxPrint();
+        _accountFrame.ajaxPrint(_addAccountChild);
         _addAccountChild.ajax().focus();
     }
 
@@ -1146,7 +1148,7 @@ public class MyManageAccountsPage
         if ( account != null )
             _editTypeDropdown.setValue(account.getType());
 
-        _editAccountChild.ajaxPrint();
+        _accountFrame.ajaxPrint(_editAccountChild);
     }
 
     private void handleShowTransferBox()
@@ -1156,7 +1158,7 @@ public class MyManageAccountsPage
 
         _transferGroup.setTitle("Transfer Ownership \n of %s", accountName);
 
-        _transferChild.ajaxPrint();
+        _accountFrame.ajaxPrint(_transferChild);
         _transferChild.ajax().focus();
     }
 
@@ -1183,7 +1185,7 @@ public class MyManageAccountsPage
     {
         ajax().toast("Your request has been sent to: " + email);
 
-        _transferFrame.ajaxClear();
+        refreshAll();
     }
 
     private void handleCancelTransferRequest()
@@ -1223,8 +1225,8 @@ public class MyManageAccountsPage
 
         _inviteGroup.setTitle("Invite User to %s", accountName);
 
-        _addUserChild.ajaxPrint();
-        _addUserChild.ajax().focus();
+        _accountFrame.ajaxPrint(_inviteUserChild);
+        _inviteUserChild.ajax().focus();
     }
 
     private void handleViewUser()
@@ -1247,7 +1249,8 @@ public class MyManageAccountsPage
         _viewUserName.setValue(user.getName());
         _viewUserEmail.setValue(user.getEmail());
         _viewUserRole.setValue(accountUser.getRoleName());
-        _viewUserChild.ajaxPrint();
+
+        _userFrame.ajaxPrint(_viewUserChild);
     }
 
     private void handleSendJoinRequest()
@@ -1297,7 +1300,7 @@ public class MyManageAccountsPage
         }
 
         _editRoleDropdown.setValue(accountUser.getRole());
-        _editUserChild.ajaxPrint();
+        _userFrame.ajaxPrint(_editUserChild);
     }
 
     private void handleEditUserSave()
@@ -1331,7 +1334,8 @@ public class MyManageAccountsPage
         _viewUserName.setValue(user.getName());
         _viewUserEmail.setValue(user.getEmail());
         _viewUserRole.setValue(accountUser.getRoleName());
-        _viewUserChild.ajaxPrint();
+
+        _userFrame.ajaxPrint(_viewUserChild);
 
         refreshAll();
     }
@@ -1380,7 +1384,7 @@ public class MyManageAccountsPage
         if ( isFirstStart() )
             _viewAccountChild.ajaxUpdateValues();
         else
-            _viewAccountChild.ajaxPrint();
+            _accountFrame.ajaxPrint(_viewAccountChild);
 
         _userGrid.ajaxReload();
     }
@@ -1471,7 +1475,7 @@ public class MyManageAccountsPage
     }
 
     //##################################################
-    //# first start
+    //# support
     //##################################################
 
     private boolean getFirstStart()
