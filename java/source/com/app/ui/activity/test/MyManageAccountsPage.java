@@ -563,7 +563,10 @@ public class MyManageAccountsPage
         f.sortAscending();
 
         String accountUid;
-        accountUid = getServerSession().getAccount().getUid();
+        accountUid = _accountDropdown.getStringValue();
+
+        if ( accountUid == null )
+            accountUid = getServerSession().getAccount().getUid();
 
         f.setAccountUid(accountUid);
 
@@ -1210,12 +1213,13 @@ public class MyManageAccountsPage
         account.saveDao();
 
         setDropdownOptions();
-        refreshAll();
+        updateViewAccount();
     }
 
     private void handleEditAccountCancel()
     {
-        refreshAll();
+        setDropdownOptions();
+        updateViewAccount();
     }
 
     private void handleShowInviteUserBox()
@@ -1417,6 +1421,7 @@ public class MyManageAccountsPage
 
         MyAccount dropdownAccount;
         dropdownAccount = getAccess().getAccountDao().findUid(accountUid);
+
         return dropdownAccount;
     }
 
