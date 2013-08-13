@@ -142,7 +142,7 @@ public class MyManageAccountsPage
         installAccountFrame(row);
 
         ScArray row2;
-        row2 = root.addRow();
+        row2 = col.addRow();
 
         installUserGrid(row2);
         installUserFrame(row2);
@@ -512,8 +512,6 @@ public class MyManageAccountsPage
     private void installUserGrid(ScArray root)
     {
         MyMetaAccountUser x = MyAccountUser.Meta;
-
-        //        ScForm form = root.addForm();
 
         ScGroup group;
         group = root.addGroup();
