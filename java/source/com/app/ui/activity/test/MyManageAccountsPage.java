@@ -104,6 +104,7 @@ public class MyManageAccountsPage
     private ScGroup               _deleteGroup;
 
     private ScDiv                 _viewAccountFooter;
+    private ScGroup               _transferGroup;
 
     //##################################################
     //# install
@@ -129,7 +130,6 @@ public class MyManageAccountsPage
 
         installAccountsDropdown(row);
         installAccountFrame(row);
-        installTransferBox(row);
 
         ScArray row2;
         row2 = root.addRow();
@@ -194,6 +194,7 @@ public class MyManageAccountsPage
         installViewAccountFrame();
         installEditAccountFrame();
         installAddAccountFrame();
+        installTransferAccountFrame();
         installInviteUserFrame();
         installDeleteAccountFrame();
     }
@@ -324,26 +325,23 @@ public class MyManageAccountsPage
         _addAccountChild = frame;
     }
 
-    private void installTransferBox(ScArray row)
+    private void installTransferAccountFrame()
     {
         ScActionIF sendAction = newSendTransferRequestAction();
         ScActionIF cancelAction = newCancelTransferRequestAction();
 
-        _transferFrame = row.addFrame();
-
         ScFrameChild frame;
-        frame = _transferFrame.createChild();
+        frame = _accountFrame.createChild();
 
         ScForm form;
         form = frame.addForm();
         form.setDefaultAction(sendAction);
         form.onEscape().run(cancelAction);
 
-        ScGroup group;
-        group = form.addGroup("Transfer Account");
+        _transferGroup = form.addGroup();
 
         ScBox body;
-        body = group.addBox();
+        body = _transferGroup.addBox();
         body.css().pad();
 
         // review_steve AUTO COMPLETE FIELD
@@ -359,10 +357,10 @@ public class MyManageAccountsPage
         fields = body.addFields();
         fields.add(_transferEmailAutoComplete);
 
-        group.addDivider();
+        _transferGroup.addDivider();
 
         ScDiv footer;
-        footer = group.addButtonBoxRight();
+        footer = _transferGroup.addButtonBoxRight();
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Send Request");
 
@@ -1076,21 +1074,6 @@ public class MyManageAccountsPage
     private void handleUpdateValues()
     {
         updateViewAccount();
-
-        String accountUid;
-        accountUid = _accountDropdown.getStringValue();
-
-        MyAccount dropdownAccount;
-        dropdownAccount = getAccess().getAccountDao().findUid(accountUid);
-
-        KmList<MyAccountUser> accountUsers;
-        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(dropdownAccount);
-
-        if ( !accountUsers.isEmpty() )
-        {
-            _userGrid.ajaxReload();
-            _userFrame.show();
-        }
     }
 
     private void handleShowAddAccountBox()
@@ -1166,6 +1149,11 @@ public class MyManageAccountsPage
 
     private void handleShowTransferBox()
     {
+        String accountName;
+        accountName = _viewAccountName.getValue();
+
+        _transferGroup.setTitle("Transfer Ownership \n of %s", accountName);
+
         _transferChild.ajaxPrint();
         _transferChild.ajax().focus();
     }
@@ -1363,6 +1351,16 @@ public class MyManageAccountsPage
         //fixme_steve refresh the view account here
         MyAccount account;
         account = getPageSession().getAccount();
+
+        if ( account == null )
+        {
+            String accountUid;
+            accountUid = _accountDropdown.getStringValue();
+
+            account = getAccess().getAccountDao().findUid(accountUid);
+
+            getPageSession().setAccount(account);
+        }
 
         MyServerSession ss = MyGlobals.getServerSession();
         MyUser user = ss.getUser();
