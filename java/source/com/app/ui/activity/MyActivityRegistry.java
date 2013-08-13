@@ -2,6 +2,7 @@ package com.app.ui.activity;
 
 import com.kodemore.servlet.ScActivityRegistry;
 
+import com.app.ui.activity.general.MyHomePage;
 import com.app.ui.servlet.base.MyActivityRegistryBase;
 
 public class MyActivityRegistry
@@ -28,6 +29,15 @@ public class MyActivityRegistry
     protected MyActivityRegistry()
     {
         // protected
+    }
+
+    //##################################################
+    //# accessing
+    //##################################################
+
+    public MyActivity getHomeActivity()
+    {
+        return MyHomePage.instance;
     }
 
 }
