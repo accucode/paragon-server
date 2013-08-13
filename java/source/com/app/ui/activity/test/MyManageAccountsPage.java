@@ -115,7 +115,7 @@ public class MyManageAccountsPage
     @Override
     protected ScPageRoot installRoot()
     {
-        _firstStart = true;
+        setFirstStart(true);
 
         _accountName = new ScLocalString();
         _accountName.setAutoSave();
@@ -996,9 +996,6 @@ public class MyManageAccountsPage
     //# start
     //##################################################
 
-    /**
-     * ask_valerie flicker happens because we show viewFrameChild on start
-     */
     @Override
     public void start()
     {
@@ -1006,7 +1003,7 @@ public class MyManageAccountsPage
 
         setDropdownOptions();
         handleUpdateValues();
-        _firstStart = false;
+        setFirstStart(false);
     }
 
     //##################################################
@@ -1380,9 +1377,9 @@ public class MyManageAccountsPage
             _viewAccountType.setValue(account.getType().getName());
         }
 
-        _viewAccountChild.ajaxUpdateValues();
-
-        if ( !_firstStart )
+        if ( isFirstStart() )
+            _viewAccountChild.ajaxUpdateValues();
+        else
             _viewAccountChild.ajaxPrint();
 
         _userGrid.ajaxReload();
@@ -1471,5 +1468,24 @@ public class MyManageAccountsPage
             MyPageLayout.getInstance().refreshDropdown();
             return;
         }
+    }
+
+    //##################################################
+    //# first start
+    //##################################################
+
+    private boolean getFirstStart()
+    {
+        return _firstStart;
+    }
+
+    private void setFirstStart(boolean firstStart)
+    {
+        _firstStart = firstStart;
+    }
+
+    private boolean isFirstStart()
+    {
+        return getFirstStart() == true;
     }
 }
