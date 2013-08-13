@@ -36,6 +36,9 @@ public class MyTestPage
         root = newPageRoot();
         root.css().padSpaced10();
 
+        // todo_wyatt: eq groups
+        // root.getPostDomScript().equalizeGroups();
+
         _box = root.addBox();
         _box.css().padSpaced();
 
@@ -99,18 +102,11 @@ public class MyTestPage
     //##################################################
 
     @Override
-    public void start()
+    protected void postPrint()
     {
-        super.start();
-        handleEqualize();
-    }
+        super.postPrint();
 
-    //##################################################
-    //# handle
-    //##################################################
-
-    private void handleEqualize()
-    {
-        _box.ajax().equalizeDecendentGroups();
+        // todo_wyatt: move to postDomScript?
+        getRoot().ajax().equalizeDecendentGroups();
     }
 }

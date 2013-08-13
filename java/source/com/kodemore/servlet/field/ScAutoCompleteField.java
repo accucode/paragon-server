@@ -365,7 +365,7 @@ public class ScAutoCompleteField
     {
         // review_steve AUTO COMPLETE FIELD
         /**
-         *  review_wyatt (steve) autocomplete field tracked values
+         *  review_wyatt (steve) autoComplete field tracked values
          */
         ScServletCallbackRegistry r = ScServletCallbackRegistry.getInstance();
         ScServletCallback c = r.getAutoCompleteCallback();
@@ -439,7 +439,7 @@ public class ScAutoCompleteField
     {
         // review_steve AUTO COMPLETE FIELD
         /**
-         *  review_wyatt (steve) autocomplete field tracked values
+         *  review_wyatt (steve) autoComplete field tracked values
          */
 
         ScServletData data = getData();

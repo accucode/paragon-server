@@ -164,12 +164,12 @@ public class MyFieldTestPage
             @Override
             public KmList<String> getOptionsFor(String term)
             {
-                return getAutocompleteOptions(term);
+                return getAutoCompleteOptions(term);
             }
         };
     }
 
-    private KmList<String> getAutocompleteOptions(String term)
+    private KmList<String> getAutoCompleteOptions(String term)
     {
         KmList<String> v;
         v = new KmList<String>();

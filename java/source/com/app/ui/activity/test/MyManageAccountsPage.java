@@ -352,7 +352,7 @@ public class MyManageAccountsPage
 
         // review_steve AUTO COMPLETE FIELD
         /**
-         *  review_wyatt (steve) autocomplete field tracked values
+         *  review_wyatt (steve) autoComplete field tracked values
          */
         _transferEmailAutoComplete = new ScAutoCompleteField();
         _transferEmailAutoComplete.setLabel("Email ");
@@ -380,16 +380,16 @@ public class MyManageAccountsPage
             @Override
             public KmList<String> getOptionsFor(String term)
             {
-                return getAutocompleteTransferEmailOptions(term);
+                return getAutoCompleteTransferEmailOptions(term);
             }
         };
     }
 
-    private KmList<String> getAutocompleteTransferEmailOptions(String term)
+    private KmList<String> getAutoCompleteTransferEmailOptions(String term)
     {
         // review_steve AUTO COMPLETE FIELD
         /**
-         *  review_wyatt (steve) autocomplete field tracked values
+         *  review_wyatt (steve) autoComplete field tracked values
          */
 
         KmList<String> v;
