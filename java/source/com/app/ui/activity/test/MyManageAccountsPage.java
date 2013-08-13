@@ -563,7 +563,7 @@ public class MyManageAccountsPage
         f.sortAscending();
 
         String accountUid;
-        accountUid = _accountDropdown.getStringValue();
+        accountUid = getServerSession().getAccount().getUid();
 
         f.setAccountUid(accountUid);
 
