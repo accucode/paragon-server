@@ -1077,21 +1077,6 @@ public class MyManageAccountsPage
     private void handleUpdateValues()
     {
         updateViewAccount();
-
-        String accountUid;
-        accountUid = _accountDropdown.getStringValue();
-
-        MyAccount dropdownAccount;
-        dropdownAccount = getAccess().getAccountDao().findUid(accountUid);
-
-        KmList<MyAccountUser> accountUsers;
-        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(dropdownAccount);
-
-        if ( !accountUsers.isEmpty() )
-        {
-            _userGrid.ajaxReload();
-            _userFrame.show();
-        }
     }
 
     private void handleShowAddAccountBox()
@@ -1368,6 +1353,16 @@ public class MyManageAccountsPage
         //fixme_steve refresh the view account here
         MyAccount account;
         account = getPageSession().getAccount();
+
+        if ( account == null )
+        {
+            String accountUid;
+            accountUid = _accountDropdown.getStringValue();
+
+            account = getAccess().getAccountDao().findUid(accountUid);
+
+            getPageSession().setAccount(account);
+        }
 
         MyServerSession ss = MyGlobals.getServerSession();
         MyUser user = ss.getUser();
