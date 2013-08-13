@@ -1,9 +1,7 @@
 package com.app.ui.activity;
 
 import com.kodemore.servlet.ScModelApplicatorIF;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.field.ScHtmlIdIF;
 
 /**
  * Pages are specialized activities intended to display
@@ -21,13 +19,13 @@ public abstract class MyPage
      * Each page is assumed to have a single root.
      * The root may be null, which will result in a blank page.
      */
-    private ScControl _root;
+    private ScPageRoot _root;
 
     //##################################################
     //# root
     //##################################################
 
-    public ScControl getRoot()
+    public ScPageRoot getRoot()
     {
         return _root;
     }
@@ -88,13 +86,34 @@ public abstract class MyPage
             return;
         }
 
-        ScControl root = getRoot();
+        ScPageRoot root = getRoot();
+
+        prePrint();
 
         ajax().printMain(root);
 
         if ( focus )
-            if ( root instanceof ScHtmlIdIF )
-                ((ScHtmlIdIF)root).ajax().focus();
+            root.ajax().focus();
+
+        postPrint();
+    }
+
+    /**
+     * I am called immediately BEFORE the page is printed.
+     * I provide a hook for subclasses.
+     */
+    protected void prePrint()
+    {
+        // subclass
+    }
+
+    /**
+     * I am called immediately AFTER the page is printed.
+     * I provide a hook for subclasses.
+     */
+    protected void postPrint()
+    {
+        // subclass
     }
 
     //##################################################
