@@ -94,4 +94,19 @@
             verbose="true"/>
     </target>
 
+    <target
+        name="makeWar"
+        depends="init"
+        description="Make the war file.">
+        <mkdir
+            dir="${output}"/>
+        <delete
+            file="${output}/app.war"
+            quiet="true"/>            
+        <war
+            destfile="${output}/app.war"
+            basedir="${web}"
+            />
+    </target>
+
 </project>
