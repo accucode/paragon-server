@@ -1081,11 +1081,7 @@ public class MyManageAccountsPage
 
     private void handleShowAddAccountBox()
     {
-        String accountUid;
-        accountUid = _accountDropdown.getStringValue();
-
-        MyAccount account;
-        account = getAccess().getAccountDao().findUid(accountUid);
+        MyAccount account = getDropdownAccount();
         getPageSession().setAccount(account);
 
         _addAccountChild.ajaxPrint();
@@ -1350,16 +1346,12 @@ public class MyManageAccountsPage
 
     private void loadViewAccount()
     {
-        //fixme_steve refresh the view account here
         MyAccount account;
         account = getPageSession().getAccount();
 
         if ( account == null )
         {
-            String accountUid;
-            accountUid = _accountDropdown.getStringValue();
-
-            account = getAccess().getAccountDao().findUid(accountUid);
+            account = getDropdownAccount();
 
             getPageSession().setAccount(account);
         }
@@ -1391,11 +1383,7 @@ public class MyManageAccountsPage
         MyAccount account;
         account = getPageSession().getAccount();
 
-        String accountUid;
-        accountUid = _accountDropdown.getStringValue();
-
-        MyAccount dropdownAccount;
-        dropdownAccount = getAccess().getAccountDao().findUid(accountUid);
+        MyAccount dropdownAccount = getDropdownAccount();
 
         /**
          * review_wyatt (steve) this is ugly and probably not too readable
@@ -1409,6 +1397,16 @@ public class MyManageAccountsPage
         }
 
         loadViewAccount();
+    }
+
+    private MyAccount getDropdownAccount()
+    {
+        String accountUid;
+        accountUid = _accountDropdown.getStringValue();
+
+        MyAccount dropdownAccount;
+        dropdownAccount = getAccess().getAccountDao().findUid(accountUid);
+        return dropdownAccount;
     }
 
     private KmList<ScOption> getDropdownList()
