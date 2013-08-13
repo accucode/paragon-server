@@ -103,6 +103,8 @@ public class MyManageAccountsPage
     private ScGroup               _inviteGroup;
     private ScGroup               _deleteGroup;
 
+    private ScDiv                 _viewAccountFooter;
+
     //##################################################
     //# install
     //##################################################
@@ -227,15 +229,14 @@ public class MyManageAccountsPage
 
         group.addDivider();
 
-        ScDiv footer;
-        footer = group.addButtonBoxRight();
-        footer.addButton("Edit", newShowEditAccountBoxAction());
+        _viewAccountFooter = group.addButtonBoxRight();
+        _viewAccountFooter.addButton("Edit", newShowEditAccountBoxAction());
 
-        _transferButton = footer.addButton("Transfer", newShowTransferBoxAction());
+        _transferButton = _viewAccountFooter.addButton("Transfer", newShowTransferBoxAction());
         _transferButton.hide();
 
-        footer.addButton("Invite", newShowInviteUserBoxAction());
-        footer.addButton("Delete", newShowDeleteAccountBoxAction());
+        _viewAccountFooter.addButton("Invite", newShowInviteUserBoxAction());
+        _viewAccountFooter.addButton("Delete", newShowDeleteAccountBoxAction());
 
         _viewAccountChild = frame;
     }
@@ -1005,7 +1006,7 @@ public class MyManageAccountsPage
         String accountName;
         accountName = _viewAccountName.getValue();
 
-        _deleteGroup.setTitle("Delete %s", accountName);
+        _deleteGroup.setTitle("Delete %s Account", accountName);
 
         MyAccount account;
         account = getAccess().getAccountDao().findWithName(accountName);
@@ -1020,11 +1021,6 @@ public class MyManageAccountsPage
         _deleteAccountChild.ajaxPrint();
     }
 
-    private void handleShowDeleteAccountUserDialog()
-    {
-        _deleteUserDialog.ajaxOpen();
-    }
-
     private void handleDeleteAccount()
     {
         MyAccount account;
@@ -1035,15 +1031,28 @@ public class MyManageAccountsPage
         accountUser = getAccess().getAccountUserDao().findAccountUserFor(getCurrentUser(), account);
         accountUser.deleteDao();
 
-        if ( !getDropdownList().isEmpty() )
-            getServerSession().getAccount().setUid((String)getDropdownList().getFirst().getValue());
+        // fixme_valerie: broken
+        //        if ( !getDropdownList().isEmpty() )
+        //            getServerSession().getAccount().setUid((String)getDropdownList().getFirst().getValue());
 
         MyPageLayout.getInstance().refreshDropdown();
 
         ajax().toast("Deleted account %s", account.getName());
 
         setDropdownOptions();
-        updateViewAccount();
+        loadViewAccount();
+    }
+
+    private void handleClose()
+    {
+        _deleteUserDialog.ajaxClose();
+
+        loadViewAccount();
+    }
+
+    private void handleShowDeleteAccountUserDialog()
+    {
+        _deleteUserDialog.ajaxOpen();
     }
 
     private void handleDeleteUser()
@@ -1065,13 +1074,6 @@ public class MyManageAccountsPage
 
         _userFrame.ajaxClear();
         _userGrid.ajaxReload();
-    }
-
-    private void handleClose()
-    {
-        _deleteUserDialog.ajaxClose();
-
-        loadViewAccount();
     }
 
     private void handleUpdateValues()
@@ -1109,16 +1111,7 @@ public class MyManageAccountsPage
 
     private void handleAddAccountCancel()
     {
-        MyAccount account;
-        account = getPageSession().getAccount();
-
-        if ( account != null )
-        {
-            _viewAccountName.setValue(account.getName());
-            _viewAccountType.setValue(account.getType().getName());
-        }
-
-        _viewAccountChild.ajaxPrint();
+        loadViewAccount();
     }
 
     private void handleAddAccountSave()
@@ -1207,7 +1200,7 @@ public class MyManageAccountsPage
 
     private void handleCancelTransferRequest()
     {
-        _transferFrame.ajaxClear();
+        loadViewAccount();
     }
 
     private void handleEditAccountSave()
@@ -1235,16 +1228,7 @@ public class MyManageAccountsPage
 
     private void handleEditAccountCancel()
     {
-        MyAccount account;
-        account = getPageSession().getAccount();
-
-        if ( account != null )
-        {
-            _viewAccountName.setValue(account.getName());
-            _viewAccountType.setValue(account.getType().getName());
-        }
-
-        _viewAccountChild.ajaxPrint();
+        loadViewAccount();
     }
 
     private void handleShowInviteUserBox()
@@ -1313,6 +1297,8 @@ public class MyManageAccountsPage
     private void handleEditUserCancel()
     {
         _userFrame.ajaxClear();
+
+        loadViewAccount();
     }
 
     private void handleShowEditUserBox()
@@ -1386,6 +1372,9 @@ public class MyManageAccountsPage
         MyAccountUser findCurrentOwner;
         findCurrentOwner = getAccess().getAccountUserDao().findCurrentOwner(account);
 
+        if ( getDropdownList().isEmpty() )
+            _viewAccountFooter.hide();
+
         if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
             _transferButton.show();
 
@@ -1410,14 +1399,6 @@ public class MyManageAccountsPage
         MyAccount dropdownAccount;
         dropdownAccount = getAccess().getAccountDao().findUid(accountUid);
 
-        MyServerSession ss = MyGlobals.getServerSession();
-        MyUser user = ss.getUser();
-
-        MyAccountUser findCurrentOwner;
-        findCurrentOwner = getAccess().getAccountUserDao().findCurrentOwner(account);
-
-        if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
-            _transferButton.show();
         /**
          * review_wyatt (steve) this is ugly and probably not too readable
          * 
@@ -1429,13 +1410,7 @@ public class MyManageAccountsPage
             getPageSession().setAccount(account);
         }
 
-        if ( account != null )
-        {
-            _viewAccountName.setValue(account.getName());
-            _viewAccountType.setValue(account.getType().getName());
-        }
-        _viewAccountChild.ajaxPrint();
-        _viewAccountChild.ajax().focus();
+        loadViewAccount();
     }
 
     private KmList<ScOption> getDropdownList()
