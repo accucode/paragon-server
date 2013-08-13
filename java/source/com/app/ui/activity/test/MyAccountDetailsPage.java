@@ -171,12 +171,12 @@ public class MyAccountDetailsPage
             @Override
             public KmList<String> getOptionsFor(String term)
             {
-                return getAutocompleteUserNameOptions(term);
+                return getAutoCompleteUserNameOptions(term);
             }
         };
     }
 
-    private KmList<String> getAutocompleteUserNameOptions(String term)
+    private KmList<String> getAutoCompleteUserNameOptions(String term)
     {
         KmList<String> v;
         v = new KmList<String>();
@@ -198,12 +198,12 @@ public class MyAccountDetailsPage
             @Override
             public KmList<String> getOptionsFor(String term)
             {
-                return getAutocompleteAccountNameOptions(term);
+                return getAutoCompleteAccountNameOptions(term);
             }
         };
     }
 
-    private KmList<String> getAutocompleteAccountNameOptions(String term)
+    private KmList<String> getAutoCompleteAccountNameOptions(String term)
     {
         KmList<String> v;
         v = new KmList<String>();
