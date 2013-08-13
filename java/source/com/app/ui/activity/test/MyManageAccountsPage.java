@@ -1,18 +1,5 @@
 package com.app.ui.activity.test;
 
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
-import com.app.model.MyServerSession;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.ui.activity.login.MyJoinAccountUtility;
-import com.app.ui.activity.login.MyTransferAccountUtility;
-import com.app.ui.layout.MyPageLayout;
-import com.app.utility.MyButtonUrls;
-import com.app.utility.MyGlobals;
-
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -39,6 +26,19 @@ import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
+
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.ui.activity.login.MyJoinAccountUtility;
+import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.ui.layout.MyPageLayout;
+import com.app.utility.MyButtonUrls;
+import com.app.utility.MyGlobals;
 
 public class MyManageAccountsPage
     extends MyAbstractTestPage
@@ -106,6 +106,8 @@ public class MyManageAccountsPage
     private ScDiv                 _viewAccountFooter;
     private ScGroup               _transferGroup;
 
+    private boolean               _firstStart;
+
     //##################################################
     //# install
     //##################################################
@@ -113,6 +115,8 @@ public class MyManageAccountsPage
     @Override
     protected ScPageRoot installRoot()
     {
+        _firstStart = true;
+
         _accountName = new ScLocalString();
         _accountName.setAutoSave();
 
@@ -197,15 +201,17 @@ public class MyManageAccountsPage
         installTransferAccountFrame();
         installInviteUserFrame();
         installDeleteAccountFrame();
+
+        _accountFrame.setDefaultChild(_viewAccountChild);
     }
 
     private void installViewAccountFrame()
     {
-        ScFrameChild frame;
-        frame = _accountFrame.createChild();
+        ScFrameChild frameChild;
+        frameChild = _accountFrame.createChild();
 
         ScForm form;
-        form = frame.addForm();
+        form = frameChild.addForm();
 
         ScGroup group;
         group = form.addGroup("View Account");
@@ -239,7 +245,7 @@ public class MyManageAccountsPage
         _viewAccountFooter.addButton("Invite", newShowInviteUserBoxAction());
         _viewAccountFooter.addButton("Delete", newShowDeleteAccountBoxAction());
 
-        _viewAccountChild = frame;
+        _viewAccountChild = frameChild;
     }
 
     private void installEditAccountFrame()
@@ -247,11 +253,11 @@ public class MyManageAccountsPage
         ScActionIF saveAction = newEditAccountSaveAction();
         ScActionIF cancelAction = newEditAccountCancelAction();
 
-        ScFrameChild frame;
-        frame = _accountFrame.createChild();
+        ScFrameChild frameChild;
+        frameChild = _accountFrame.createChild();
 
         ScForm form;
-        form = frame.addForm();
+        form = frameChild.addForm();
         form.setDefaultAction(saveAction);
         form.onEscape().run(cancelAction);
 
@@ -281,7 +287,7 @@ public class MyManageAccountsPage
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Save");
 
-        _editAccountChild = frame;
+        _editAccountChild = frameChild;
     }
 
     private void installAddAccountFrame()
@@ -289,11 +295,11 @@ public class MyManageAccountsPage
         ScActionIF saveAction = newAddAccountSaveAction();
         ScActionIF cancelAction = newAddAccountCancelAction();
 
-        ScFrameChild frame;
-        frame = _accountFrame.createChild();
+        ScFrameChild frameChild;
+        frameChild = _accountFrame.createChild();
 
         ScForm form;
-        form = frame.addForm();
+        form = frameChild.addForm();
         form.setDefaultAction(saveAction);
         form.onEscape().run(cancelAction);
 
@@ -322,7 +328,7 @@ public class MyManageAccountsPage
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Save");
 
-        _addAccountChild = frame;
+        _addAccountChild = frameChild;
     }
 
     private void installTransferAccountFrame()
@@ -330,11 +336,11 @@ public class MyManageAccountsPage
         ScActionIF sendAction = newSendTransferRequestAction();
         ScActionIF cancelAction = newCancelTransferRequestAction();
 
-        ScFrameChild frame;
-        frame = _accountFrame.createChild();
+        ScFrameChild frameChild;
+        frameChild = _accountFrame.createChild();
 
         ScForm form;
-        form = frame.addForm();
+        form = frameChild.addForm();
         form.setDefaultAction(sendAction);
         form.onEscape().run(cancelAction);
 
@@ -364,7 +370,7 @@ public class MyManageAccountsPage
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Send Request");
 
-        _transferChild = frame;
+        _transferChild = frameChild;
     }
 
     private ScAutoCompleteCallbackIF newTransferEmailCallback()
@@ -404,16 +410,56 @@ public class MyManageAccountsPage
         return v;
     }
 
+    // fixme_valerie: come back to this
+    private void installInviteUserFrame()
+    {
+        ScActionIF sendAction = newSendJoinRequestAction();
+        ScActionIF cancelAction = newAddUserCancelAction();
+
+        ScFrameChild frameChild;
+        frameChild = _accountFrame.createChild();
+
+        ScForm form;
+        form = frameChild.addForm();
+        form.setDefaultAction(sendAction);
+        form.onEscape().run(cancelAction);
+
+        _inviteGroup = form.addGroup();
+
+        ScBox body;
+        body = _inviteGroup.addBox();
+        body.css().pad();
+
+        _addUserEmail = new ScTextField();
+        _addUserEmail.setLabel("Email ");
+
+        populateAddRoleDropdown();
+
+        ScFieldTable fields;
+        fields = body.addFields();
+        fields.add(_addUserEmail);
+        fields.add(_addRoleDropdown);
+
+        _inviteGroup.addDivider();
+
+        ScDiv footer;
+        footer = _inviteGroup.addButtonBoxRight();
+        footer.addCancelButton(cancelAction);
+        footer.addSubmitButton("Send Request");
+
+        _addUserChild = frameChild;
+    }
+
     private void installDeleteAccountFrame()
     {
         ScActionIF saveAction = newDeleteAccountAction();
         ScActionIF cancelAction = newCloseAction();
 
-        ScFrameChild frame;
-        frame = _accountFrame.createChild();
+        ScFrameChild frameChild;
+        frameChild = _accountFrame.createChild();
 
         ScForm form;
-        form = frame.addForm();
+        form = frameChild.addForm();
         form.setDefaultAction(saveAction);
         form.onEscape().run(cancelAction);
 
@@ -445,7 +491,7 @@ public class MyManageAccountsPage
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Delete");
 
-        _deleteAccountChild = frame;
+        _deleteAccountChild = frameChild;
     }
 
     private void installUserGrid(ScArray root)
@@ -530,16 +576,15 @@ public class MyManageAccountsPage
 
         installViewUserFrame();
         installEditUserFrame();
-        installInviteUserFrame();
     }
 
     private void installViewUserFrame()
     {
-        ScFrameChild frame;
-        frame = _userFrame.createChild();
+        ScFrameChild frameChild;
+        frameChild = _userFrame.createChild();
 
         ScGroup group;
-        group = frame.addGroup("View User");
+        group = frameChild.addGroup("View User");
 
         ScDiv header;
         header = group.getHeader().addFloatRight();
@@ -586,7 +631,7 @@ public class MyManageAccountsPage
             newShowDeleteAccountUserDialogAction());
         removeButton.setImage(MyButtonUrls.primary());
 
-        _viewUserChild = frame;
+        _viewUserChild = frameChild;
     }
 
     private void installEditUserFrame()
@@ -594,11 +639,11 @@ public class MyManageAccountsPage
         ScActionIF saveAction = newEditUserSaveAction();
         ScActionIF cancelAction = newEditUserCancelAction();
 
-        ScFrameChild frame;
-        frame = _userFrame.createChild();
+        ScFrameChild frameChild;
+        frameChild = _userFrame.createChild();
 
         ScForm form;
-        form = frame.addForm();
+        form = frameChild.addForm();
         form.setDefaultAction(saveAction);
         form.onEscape().run(cancelAction);
 
@@ -632,7 +677,7 @@ public class MyManageAccountsPage
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Save");
 
-        _editUserChild = frame;
+        _editUserChild = frameChild;
     }
 
     private void populateEditRoleDropdown()
@@ -649,46 +694,6 @@ public class MyManageAccountsPage
         _editRoleDropdown.addOption(user);
         _editRoleDropdown.addOption(manager);
         _editRoleDropdown.setLabel("Role ");
-    }
-
-    // fixme_valerie: come back to this
-    private void installInviteUserFrame()
-    {
-        ScActionIF sendAction = newSendJoinRequestAction();
-        ScActionIF cancelAction = newAddUserCancelAction();
-
-        ScFrameChild frame;
-        frame = _accountFrame.createChild();
-
-        ScForm form;
-        form = frame.addForm();
-        form.setDefaultAction(sendAction);
-        form.onEscape().run(cancelAction);
-
-        _inviteGroup = form.addGroup();
-
-        ScBox body;
-        body = _inviteGroup.addBox();
-        body.css().pad();
-
-        _addUserEmail = new ScTextField();
-        _addUserEmail.setLabel("Email ");
-
-        populateAddRoleDropdown();
-
-        ScFieldTable fields;
-        fields = body.addFields();
-        fields.add(_addUserEmail);
-        fields.add(_addRoleDropdown);
-
-        _inviteGroup.addDivider();
-
-        ScDiv footer;
-        footer = _inviteGroup.addButtonBoxRight();
-        footer.addCancelButton(cancelAction);
-        footer.addSubmitButton("Send Request");
-
-        _addUserChild = frame;
     }
 
     private void populateAddRoleDropdown()
@@ -1001,6 +1006,7 @@ public class MyManageAccountsPage
 
         setDropdownOptions();
         handleUpdateValues();
+        _firstStart = false;
     }
 
     //##################################################
@@ -1374,7 +1380,11 @@ public class MyManageAccountsPage
             _viewAccountType.setValue(account.getType().getName());
         }
 
-        _viewAccountChild.ajaxPrint();
+        _viewAccountChild.ajaxUpdateValues();
+
+        if ( !_firstStart )
+            _viewAccountChild.ajaxPrint();
+
         _userGrid.ajaxReload();
     }
 
