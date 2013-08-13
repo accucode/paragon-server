@@ -143,19 +143,21 @@ public class MyManageAccountsPage
         return root;
     }
 
+    /**
+     * review_wyatt (valerie)
+     * not sure this looks too much better
+     */
     private void installDeleteUserDialog(ScPageRoot root)
     {
         _deleteUserDialog = root.addDialog();
         _deleteUserDialog.getHeaderBox().hide();
         _deleteUserDialog.getFooterBox().hide();
+        _deleteUserDialog.setBodyHeight(125);
 
         ScBox body = _deleteUserDialog.getBodyBox();
 
-        ScForm form;
-        form = body.addForm();
-
         ScGroup group;
-        group = form.addGroup("Are you sure you want to \n remove this user?");
+        group = body.addGroup("Are you sure you want to \n remove this user?");
 
         ScDiv footer;
         footer = group.addButtonBoxRight();
