@@ -3,8 +3,9 @@ package com.app.ui.activity.test;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.string.KmStringBuilder;
 
@@ -51,13 +52,15 @@ public class MyEqualizeTestPage
         buttons.addButton("Click here to equalize all the buttons.", newEqualizeButtonsAction());
 
         _groups = root.addBox();
-        _groups.css().padSpaced();
 
-        ScGroupArray groups;
-        groups = _groups.addGroupArray();
-        groups.style().floatLeft();
+        ScContainer groups;
+        groups = _groups.addRow();
 
         ScBox links;
+
+        ScFilterBox filter;
+        filter = groups.addFilterBox("Filter Box Test");
+        filter.addText("This is a test filter box...");
 
         ScGroup group;
         group = groups.addGroup("Group 1");
@@ -94,13 +97,14 @@ public class MyEqualizeTestPage
         links.addLink(MyShowDialogTestPage.instance);
         links.addLink(MyBarcodeTestPage.instance);
 
-        group = groups.addGroup("Group 4");
-        links = group.addLinkBox();
-        links.addLink(MyScriptTestPage.instance);
-        links.addLink(MyMemoryLeakTestPage.instance);
-        links.addLink(MyGmailTestPage.instance);
-        links.addLink(MyStaticIncludeTestPage.instance);
-        links.addLink(MyQuickTestPage.instance);
+        // fixme_aaron: 
+        //        group = groups.addGroup("Group 4");
+        //        links = group.addLinkBox();
+        //        links.addLink(MyScriptTestPage.instance);
+        //        links.addLink(MyMemoryLeakTestPage.instance);
+        //        links.addLink(MyGmailTestPage.instance);
+        //        links.addLink(MyStaticIncludeTestPage.instance);
+        //        links.addLink(MyQuickTestPage.instance);
 
         group = root.addGroup("Here's more content");
 
