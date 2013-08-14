@@ -150,7 +150,7 @@ public class MyManageAccountsPage
 
     /**
      * review_wyatt (valerie)
-     * not sure this looks too much better
+     * not sure this the boarder around the form looks too much better
      */
     private void installDeleteUserDialog(ScPageRoot root)
     {
@@ -1511,6 +1511,6 @@ public class MyManageAccountsPage
 
     private boolean isFirstStart()
     {
-        return getFirstStart();
+        return getFirstStart() == true;
     }
 }
