@@ -193,6 +193,10 @@ public class MyManageAccountsPage
         button.setImage(MyButtonUrls.add());
     }
 
+    //==================================================
+    //= install : account frame
+    //==================================================//
+
     private void installAccountFrameOn(ScContainer root)
     {
         _accountFrame = root.addFrame();
@@ -202,9 +206,9 @@ public class MyManageAccountsPage
         installViewAccountFrame();
         installEditAccountFrame();
         installAddAccountFrame();
-        installTransferAccountFrame();
         installInviteUserFrame();
         installDeleteAccountFrame();
+        installTransferAccountFrame();
 
         _accountFrame.setDefaultChild(_viewAccountChild);
     }
@@ -335,91 +339,6 @@ public class MyManageAccountsPage
         _addAccountChild = frameChild;
     }
 
-    private void installTransferAccountFrame()
-    {
-        ScActionIF sendAction = newSendTransferRequestAction();
-        ScActionIF cancelAction = newCancelTransferRequestAction();
-
-        ScFrameChild frameChild;
-        frameChild = _accountFrame.createChild();
-
-        ScForm form;
-        form = frameChild.addForm();
-        form.setDefaultAction(sendAction);
-        form.onEscape().run(cancelAction);
-
-        _transferGroup = form.addGroup();
-
-        ScBox body;
-        body = _transferGroup.addBox();
-        body.css().pad();
-
-        // review_steve AUTO COMPLETE FIELD
-        /**
-         *  review_wyatt (steve) autoComplete field tracked values
-         */
-        _transferEmailAutoComplete = new ScAutoCompleteField();
-        _transferEmailAutoComplete.setLabel("Email ");
-        _transferEmailAutoComplete.setCallback(newTransferEmailCallback());
-        _transferEmailAutoComplete.track(getPageSession().getAccountUidHolder());
-
-        ScFieldTable fields;
-        fields = body.addFields();
-        fields.add(_transferEmailAutoComplete);
-
-        _transferGroup.addDivider();
-
-        ScDiv footer;
-        footer = _transferGroup.addButtonBoxRight();
-        footer.addCancelButton(cancelAction);
-        footer.addSubmitButton("Send Request");
-
-        _transferChild = frameChild;
-    }
-
-    private ScAutoCompleteCallbackIF newTransferEmailCallback()
-    {
-        return new ScAutoCompleteCallbackIF()
-        {
-            @Override
-            public KmList<String> getOptionsFor(String term)
-            {
-                return getAutoCompleteTransferEmailOptions(term);
-            }
-        };
-    }
-
-    private KmList<String> getAutoCompleteTransferEmailOptions(String term)
-    {
-        // review_steve AUTO COMPLETE FIELD
-        /**
-         *  review_wyatt (steve) autoComplete field tracked values
-         *  
-         * review_steve (wyatt)
-         *      Fix comment spacing above.
-         *      Discuss method below.
-         *      Use db.
-         *      Limit.
-         */
-
-        KmList<String> v;
-        v = new KmList<String>();
-
-        MyAccount account = getPageSession().getAccount();
-
-        KmList<MyAccountUser> accountUsers;
-        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(account);
-
-        for ( MyAccountUser e : accountUsers )
-            if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
-                v.add(e.getUser().getEmail());
-
-        for ( MyAccountUser e : accountUsers )
-            v.add(e.getUser().getEmail());
-
-        return v;
-    }
-
     private void installInviteUserFrame()
     {
         ScActionIF sendAction = newSendJoinRequestAction();
@@ -503,6 +422,115 @@ public class MyManageAccountsPage
         _deleteAccountChild = frameChild;
     }
 
+    private void installTransferAccountFrame()
+    {
+        ScActionIF sendAction = newSendTransferRequestAction();
+        ScActionIF cancelAction = newCancelTransferRequestAction();
+
+        ScFrameChild frameChild;
+        frameChild = _accountFrame.createChild();
+
+        ScForm form;
+        form = frameChild.addForm();
+        form.setDefaultAction(sendAction);
+        form.onEscape().run(cancelAction);
+
+        _transferGroup = form.addGroup();
+
+        ScBox body;
+        body = _transferGroup.addBox();
+        body.css().pad();
+
+        // review_steve AUTO COMPLETE FIELD
+        /**
+         *  review_wyatt (steve) autoComplete field tracked values
+         */
+        _transferEmailAutoComplete = new ScAutoCompleteField();
+        _transferEmailAutoComplete.setLabel("Email ");
+        _transferEmailAutoComplete.setCallback(newTransferEmailCallback());
+        _transferEmailAutoComplete.track(getPageSession().getAccountUidHolder());
+
+        ScFieldTable fields;
+        fields = body.addFields();
+        fields.add(_transferEmailAutoComplete);
+
+        _transferGroup.addDivider();
+
+        ScDiv footer;
+        footer = _transferGroup.addButtonBoxRight();
+        footer.addCancelButton(cancelAction);
+        footer.addSubmitButton("Send Request");
+
+        _transferChild = frameChild;
+    }
+
+    private void populateAddRoleDropdown()
+    {
+        ScOption user = new ScOption();
+        user.setText("User");
+        user.setValue(MyAccountUserRole.User.getCode());
+
+        ScOption manager = new ScOption();
+        manager.setText("Manager");
+        manager.setValue(MyAccountUserRole.Manager.getCode());
+
+        _addRoleDropdown = new ScDropdown();
+        _addRoleDropdown.addOption(user);
+        _addRoleDropdown.addOption(manager);
+        _addRoleDropdown.setLabel("Role ");
+    }
+
+    //==================================================
+    //= install : transfer account
+    //==================================================//
+
+    private ScAutoCompleteCallbackIF newTransferEmailCallback()
+    {
+        return new ScAutoCompleteCallbackIF()
+        {
+            @Override
+            public KmList<String> getOptionsFor(String term)
+            {
+                return getAutoCompleteTransferEmailOptions(term);
+            }
+        };
+    }
+
+    private KmList<String> getAutoCompleteTransferEmailOptions(String term)
+    {
+        // review_steve AUTO COMPLETE FIELD
+        /**
+         *  review_wyatt (steve) autoComplete field tracked values
+         *  
+         * review_steve (wyatt)
+         *      Fix comment spacing above.
+         *      Discuss method below.
+         *      Use db.
+         *      Limit.
+         */
+
+        KmList<String> v;
+        v = new KmList<String>();
+
+        MyAccount account = getPageSession().getAccount();
+
+        KmList<MyAccountUser> accountUsers;
+        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(account);
+
+        for ( MyAccountUser e : accountUsers )
+            if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
+                v.add(e.getUser().getEmail());
+
+        for ( MyAccountUser e : accountUsers )
+            v.add(e.getUser().getEmail());
+
+        return v;
+    }
+
+    //==================================================
+    //= install : grid
+    //==================================================//
+
     private void installUserGrid(ScContainer root)
     {
         MyMetaAccountUser x = MyAccountUser.Meta;
@@ -572,10 +600,6 @@ public class MyManageAccountsPage
         String accountUid;
         accountUid = _accountDropdown.getStringValue();
 
-        // remove_steve: print
-        System.out.println("MyManageAccountsPage.newUserFilter");
-        System.out.println("    accountUid: " + accountUid);
-
         if ( accountUid == null )
             accountUid = getServerSession().getAccount().getUid();
 
@@ -583,6 +607,10 @@ public class MyManageAccountsPage
 
         return f;
     }
+
+    //==================================================
+    //= install : user frame
+    //==================================================//
 
     private void installUserFrameOn(ScContainer root)
     {
@@ -710,22 +738,6 @@ public class MyManageAccountsPage
         _editRoleDropdown.addOption(user);
         _editRoleDropdown.addOption(manager);
         _editRoleDropdown.setLabel("Role ");
-    }
-
-    private void populateAddRoleDropdown()
-    {
-        ScOption user = new ScOption();
-        user.setText("User");
-        user.setValue(MyAccountUserRole.User.getCode());
-
-        ScOption manager = new ScOption();
-        manager.setText("Manager");
-        manager.setValue(MyAccountUserRole.Manager.getCode());
-
-        _addRoleDropdown = new ScDropdown();
-        _addRoleDropdown.addOption(user);
-        _addRoleDropdown.addOption(manager);
-        _addRoleDropdown.setLabel("Role ");
     }
 
     //##################################################
@@ -1046,7 +1058,6 @@ public class MyManageAccountsPage
 
     private void handleDeleteAccount()
     {
-        //review_Steve here
         MyAccount account;
         account = getPageSession().getAccount();
 
@@ -1115,7 +1126,6 @@ public class MyManageAccountsPage
 
     private void handleAddAccountSave()
     {
-        //review_Steve here
         _addAccountChild.validate();
 
         if ( !_addAccountName.hasValue() )
