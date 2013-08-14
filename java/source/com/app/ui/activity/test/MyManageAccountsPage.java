@@ -1049,10 +1049,11 @@ public class MyManageAccountsPage
         //review_Steve here
         MyAccount account;
         account = getPageSession().getAccount();
-        account.deleteDao();
 
         MyAccountUser accountUser;
         accountUser = getAccess().getAccountUserDao().findAccountUserFor(getCurrentUser(), account);
+
+        account.deleteDao();
         accountUser.deleteDao();
 
         MyPageLayout.getInstance().refreshDropdown();
