@@ -1,11 +1,5 @@
 package com.app.ui.activity.test;
 
-import com.app.filter.MyAccountUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilterFactoryIF;
@@ -31,6 +25,12 @@ import com.kodemore.servlet.field.ScAutoCompleteField;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScTextField;
+
+import com.app.filter.MyAccountUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
 
 public class MyAccountDetailsPage
     extends MyAbstractTestPage
@@ -87,6 +87,8 @@ public class MyAccountDetailsPage
     private ScText                _viewUserEmailField;
     private ScText                _viewUserVerifiedField;
 
+    private ScBox                 _equalizeBox;
+
     //##################################################
     //# install
     //##################################################
@@ -103,8 +105,11 @@ public class MyAccountDetailsPage
         ScArray leftCol;
         leftCol = root.addColumn();
 
+        _equalizeBox = leftCol.addBox();
+
         ScArray row;
-        row = leftCol.addRow();
+        //        row = leftCol.addRow();
+        row = _equalizeBox.addRow();
 
         installAccountUserSearchBox(row);
         installAccountUserTarget(row);
@@ -698,6 +703,10 @@ public class MyAccountDetailsPage
     {
         _addAccountUserChild.ajaxPrint();
         _addAccountUserChild.ajax().focus();
+
+        // review_aaron: 
+        _accountUserFrame.ajax().defer();
+        _equalizeBox.ajax().equalizeDecendentGroups();
     }
 
     private void handleShowViewAccountUserBox()
@@ -732,6 +741,10 @@ public class MyAccountDetailsPage
         _viewRole.setValue(e.getRoleName());
 
         _viewAccountUserChild.ajaxPrint();
+
+        // review_aaron: 
+        _accountUserFrame.ajax().defer();
+        _equalizeBox.ajax().equalizeDecendentGroups();
     }
 
     private void handleShowEditAccountUserBox()
@@ -761,6 +774,10 @@ public class MyAccountDetailsPage
 
         _editAccountUserChild.applyFromModel(e);
         _editAccountUserChild.ajaxPrint();
+
+        // review_aaron: 
+        _accountUserFrame.ajax().defer();
+        _equalizeBox.ajax().equalizeDecendentGroups();
     }
 
     private void handleAddAccountUserSave()
