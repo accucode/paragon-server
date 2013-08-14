@@ -227,10 +227,10 @@ public class MyHandleNewUserInvitationActivity
         _password1Field.ajax().clearValue();
         _password2Field.ajax().clearValue();
 
-        String p1 = _password1Field.getValue();
-        String p2 = _password2Field.getValue();
+        String pw1 = _password1Field.getValue();
+        String pw2 = _password2Field.getValue();
 
-        if ( Kmu.isNotEqual(p1, p2) )
+        if ( Kmu.isNotEqual(pw1, pw2) )
             _password1Field.error("Passwords did not match.");
 
         KmEmailParser p;
@@ -240,10 +240,7 @@ public class MyHandleNewUserInvitationActivity
         String name;
         name = p.getName();
 
-        /**
-         * review_wyatt (valerie) using createNewUser method
-         */
-        getAccess().getUserDao().createNewUserInvitation(name, email, p1);
+        getAccess().getUserDao().createNewUserInvitation(name, email, pw1);
     }
 
     //##################################################

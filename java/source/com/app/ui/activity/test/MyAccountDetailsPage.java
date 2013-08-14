@@ -364,13 +364,13 @@ public class MyAccountDetailsPage
 
         if ( _searchUserNameField.hasValue() )
         {
-            MyUser u = getUserDao().findUserWithName(userName);
+            MyUser u = getUserDao().findName(userName);
             f.setUserUid(u.getUid());
         }
 
         if ( _searchAccountNameField.hasValue() )
         {
-            MyAccount a = getAccountDao().findWithName(accountName);
+            MyAccount a = getAccountDao().findName(accountName);
             f.setAccountUid(a.getUid());
         }
 
@@ -855,7 +855,7 @@ public class MyAccountDetailsPage
         String accountName = _addAccountNameField.getValue();
 
         MyAccount findAccount;
-        findAccount = getAccountDao().findWithName(accountName);
+        findAccount = getAccountDao().findName(accountName);
 
         MyUser user;
 
@@ -865,7 +865,7 @@ public class MyAccountDetailsPage
             user = getUserDao().createNewUser(userName, userEmail, p1, findAccount);
 
         MyAccount account;
-        account = getAccountDao().findWithName(accountName);
+        account = getAccountDao().findName(accountName);
         account.saveDao();
 
         MyAccountUser accountUser;
@@ -942,10 +942,10 @@ public class MyAccountDetailsPage
         String accountName = _addAccountNameField.getValue();
 
         MyUser findUser;
-        findUser = getUserDao().findUserWithName(userName);
+        findUser = getUserDao().findName(userName);
 
         MyAccount findAccount;
-        findAccount = getAccountDao().findWithName(accountName);
+        findAccount = getAccountDao().findName(accountName);
 
         if ( findUser == null )
         {

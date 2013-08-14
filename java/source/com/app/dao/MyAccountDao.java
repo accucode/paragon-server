@@ -12,7 +12,7 @@ import com.app.utility.MyGlobals;
 public class MyAccountDao
     extends MyAccountDaoBase
 {
-    public MyAccount findWithName(String name)
+    public MyAccount findName(String name)
     {
         MyAccountCriteria c;
         c = createCriteria();

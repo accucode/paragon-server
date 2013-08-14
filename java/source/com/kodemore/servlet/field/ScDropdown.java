@@ -52,6 +52,10 @@ import com.kodemore.utility.Kmu;
 import com.kodemore.validator.KmRequiredValidator;
 import com.kodemore.validator.KmValidator;
 
+// todo_wyatt: fix chosen styling in page header
+
+// todo_wyatt: fix copyright
+
 public class ScDropdown
     extends ScField<Object>
     implements ScElementIF
@@ -83,8 +87,7 @@ public class ScDropdown
 
     private ScActionIF         _action;
 
-    // fixme_wyatt: local
-    private boolean            _usesChosen;
+    private ScLocalBoolean     _usesChosen;
 
     //##################################################
     //# init
@@ -104,6 +107,7 @@ public class ScDropdown
 
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
+        _usesChosen = new ScLocalBoolean(true);
     }
 
     //##################################################
@@ -151,22 +155,18 @@ public class ScDropdown
         return _style.toBuilder();
     }
 
-    /**
-     * review_wyatt: (aaron) CHOSEN - Simple boolean determines if chosen should be used
-     * on the dropdown.
-     */
     //##################################################
     //# chosen
     //##################################################
 
     public boolean usesChosen()
     {
-        return _usesChosen;
+        return _usesChosen.getValue();
     }
 
     public void setUsesChosen(boolean e)
     {
-        _usesChosen = e;
+        _usesChosen.setValue(e);
     }
 
     public void setUsesChosen()

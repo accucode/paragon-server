@@ -48,11 +48,16 @@ public class MyManageAccountsPage
     extends MyAbstractTestPage
 {
     /**
-     *  review_wyatt (steve) Grid not loading users
-     *  when you enter the app you click "admin", then clcik "manage accounts".
+     *  (steve) Grid not loading users
+     *  when you enter the app you click "admin", then click "manage accounts".
      *  when you enter this page the grid fails to display the users associated with the current account.
      *  if you click the refresh icon it will display. Please check it out.
+     *  
+     * review_steve (wyatt)
+     *      Fix spacing in comments.
+     *      I cannot reproduce the problem.
      */
+
     //##################################################
     //# singleton
     //##################################################
@@ -149,8 +154,18 @@ public class MyManageAccountsPage
     }
 
     /**
-     * review_wyatt (valerie)
-     * not sure this the boarder around the form looks too much better
+     * (valerie)
+     * not sure this looks too much better
+     * 
+     * review_valerie (wyatt) discuss
+     *      I don't know what you are referring to.
+     *      Use better names for the two buttons.
+     *      
+     * (valerie)
+     * not sure this the border around the form looks too much better
+     * 
+     * review_valerie (wyatt) discuss
+     *      Use better names for the two buttons.
      */
     private void installDeleteUserDialog(ScPageRoot root)
     {
@@ -451,9 +466,6 @@ public class MyManageAccountsPage
         body.css().pad();
 
         // review_steve AUTO COMPLETE FIELD
-        /**
-         *  review_wyatt (steve) autoComplete field tracked values
-         */
         _transferEmailAutoComplete = new ScAutoCompleteField();
         _transferEmailAutoComplete.setLabel("Email ");
         _transferEmailAutoComplete.setCallback(newTransferEmailCallback());
@@ -509,7 +521,8 @@ public class MyManageAccountsPage
     {
         // review_steve AUTO COMPLETE FIELD
         /**
-         *  review_wyatt (steve) autoComplete field tracked values
+         * (steve) autoComplete field tracked values
+         *  (steve) autoComplete field tracked values
          *  
          * review_steve (wyatt)
          *      Fix comment spacing above.
@@ -1033,6 +1046,10 @@ public class MyManageAccountsPage
     //# start
     //##################################################
 
+    /**
+     * review_valerie (wyatt) discuss start
+     * review_steve   (wyatt) discuss start
+     */
     @Override
     public void start()
     {
@@ -1054,7 +1071,7 @@ public class MyManageAccountsPage
         _deleteGroup.setTitle("Delete %s Account", accountName);
 
         MyAccount account;
-        account = getAccountDao().findWithName(accountName);
+        account = getAccountDao().findName(accountName);
 
         if ( account != null )
             _deleteAccountName.setValue(account.getName());
@@ -1084,18 +1101,6 @@ public class MyManageAccountsPage
         refreshAll(true);
     }
 
-    private void handleClose()
-    {
-        _deleteUserDialog.ajaxClose();
-
-        refreshAll(false);
-    }
-
-    private void handleShowDeleteAccountUserDialog()
-    {
-        _deleteUserDialog.ajaxOpen();
-    }
-
     private void handleDeleteUser()
     {
         MyAccountUser accountUser;
@@ -1117,6 +1122,13 @@ public class MyManageAccountsPage
         _userGrid.ajaxReload();
     }
 
+    private void handleClose()
+    {
+        _deleteUserDialog.ajaxClose();
+
+        refreshAll(false);
+    }
+
     private void handleUpdateValues()
     {
         updateViewAccount();
@@ -1128,47 +1140,13 @@ public class MyManageAccountsPage
         _addAccountChild.ajax().focus();
     }
 
-    private void handleAddAccountCancel()
-    {
-        refreshAll(true);
-    }
-
-    /**
-     * review_steve review_valerie 
-     * view account needs to show just added method after save
-     */
-    private void handleAddAccountSave()
-    {
-        _addAccountChild.validate();
-
-        if ( !_addAccountName.hasValue() )
-        {
-            ajax().toast("Please enter an account name");
-            return;
-        }
-
-        String name = _addAccountName.getValue();
-        String typeCode = _addAccountType.getStringValue();
-        MyAccountType type = MyAccountType.findCode(typeCode);
-        MyUser user = getCurrentUser();
-
-        MyAccount account;
-        account = getAccountDao().createNewAccount(name, type, user);
-
-        setDropdownOptions();
-
-        _accountDropdown.ajaxSetValue(account.getUid());
-        MyPageLayout.getInstance().refreshDropdown();
-        refreshAll(true);
-    }
-
     private void handleShowEditAccountBox()
     {
         String accountName;
         accountName = _viewAccountName.getValue();
 
         MyAccount account;
-        account = getAccountDao().findWithName(accountName);
+        account = getAccountDao().findName(accountName);
 
         if ( account != null )
             _editAccountName.setValue(account.getName());
@@ -1209,13 +1187,6 @@ public class MyManageAccountsPage
         showSentMessage(email);
     }
 
-    private void showSentMessage(String email)
-    {
-        ajax().toast("Your request has been sent to: " + email);
-
-        refreshAll(true);
-    }
-
     private void handleCancelTransferRequest()
     {
         refreshAll(true);
@@ -1244,6 +1215,40 @@ public class MyManageAccountsPage
     private void handleEditAccountCancel()
     {
         setDropdownOptions();
+        refreshAll(true);
+    }
+
+    /**
+     * review_steve review_valerie 
+     * view account needs to show just added method after save
+     */
+    private void handleAddAccountSave()
+    {
+        _addAccountChild.validate();
+
+        if ( !_addAccountName.hasValue() )
+        {
+            ajax().toast("Please enter an account name");
+            return;
+        }
+
+        String name = _addAccountName.getValue();
+        String typeCode = _addAccountType.getStringValue();
+        MyAccountType type = MyAccountType.findCode(typeCode);
+        MyUser user = getCurrentUser();
+
+        MyAccount account;
+        account = getAccountDao().createNewAccount(name, type, user);
+
+        setDropdownOptions();
+
+        _accountDropdown.ajaxSetValue(account.getUid());
+        MyPageLayout.getInstance().refreshDropdown();
+        refreshAll(true);
+    }
+
+    private void handleAddAccountCancel()
+    {
         refreshAll(true);
     }
 
@@ -1280,54 +1285,6 @@ public class MyManageAccountsPage
         _viewUserRole.setValue(accountUser.getRoleName());
 
         _userFrame.ajaxPrint(_viewUserChild);
-    }
-
-    private void handleSendJoinRequest()
-    {
-        MyAccount account;
-        account = getPageSession().getAccount();
-
-        String email = _addUserEmail.getValue();
-        String roleCode = (String)_addRoleDropdown.getValue();
-
-        boolean isValid = KmEmailParser.validate(email);
-
-        if ( !isValid )
-            _addUserEmail.error("Invalid");
-
-        MyJoinAccountUtility utility;
-        utility = new MyJoinAccountUtility();
-        utility.start(account, email, roleCode);
-
-        showSentMessage(email);
-    }
-
-    private void handleInviteUserCancel()
-    {
-        refreshAll(true);
-    }
-
-    private void handleEditUserCancel()
-    {
-        handleViewUser();
-    }
-
-    private void handleShowEditUserBox()
-    {
-        MyAccountUser accountUser;
-        accountUser = getPageSession().getAccountUser();
-
-        MyUser u;
-        u = accountUser.getUser();
-
-        if ( u != null )
-        {
-            _editUserName.setValue(u.getName());
-            _editUserEmail.setValue(u.getEmail());
-        }
-
-        _editRoleDropdown.setValue(accountUser.getRole());
-        _userFrame.ajaxPrint(_editUserChild);
     }
 
     private void handleEditUserSave()
@@ -1367,11 +1324,71 @@ public class MyManageAccountsPage
         refreshAll(false);
     }
 
+    private void handleEditUserCancel()
+    {
+        handleViewUser();
+    }
+
+    private void handleSendJoinRequest()
+    {
+        MyAccount account;
+        account = getPageSession().getAccount();
+
+        String email = _addUserEmail.getValue();
+        String roleCode = (String)_addRoleDropdown.getValue();
+
+        boolean isValid = KmEmailParser.validate(email);
+
+        if ( !isValid )
+            _addUserEmail.error("Invalid");
+
+        MyJoinAccountUtility utility;
+        utility = new MyJoinAccountUtility();
+        utility.start(account, email, roleCode);
+
+        showSentMessage(email);
+    }
+
+    private void handleInviteUserCancel()
+    {
+        refreshAll(true);
+    }
+
+    private void handleShowEditUserBox()
+    {
+        MyAccountUser accountUser;
+        accountUser = getPageSession().getAccountUser();
+
+        MyUser u;
+        u = accountUser.getUser();
+
+        if ( u != null )
+        {
+            _editUserName.setValue(u.getName());
+            _editUserEmail.setValue(u.getEmail());
+        }
+
+        _editRoleDropdown.setValue(accountUser.getRole());
+        _userFrame.ajaxPrint(_editUserChild);
+    }
+
     private void handleViewUserCancel()
     {
         _userFrame.ajaxClear();
 
         refreshAll(false);
+    }
+
+    private void handleShowDeleteAccountUserDialog()
+    {
+        _deleteUserDialog.ajaxOpen();
+    }
+
+    private void showSentMessage(String email)
+    {
+        ajax().toast("Your request has been sent to: " + email);
+
+        refreshAll(true);
     }
 
     //##################################################
@@ -1389,20 +1406,25 @@ public class MyManageAccountsPage
         if ( account == null )
         {
             account = getDropdownAccount();
-
             getPageSession().setAccount(account);
         }
 
         _viewAccountName.setValue(account.getName());
         _viewAccountType.setValue(account.getType().getName());
 
+        /**
+         * review_steve (wyatt) discuss name
+         */
         MyAccountUser findCurrentOwner;
         findCurrentOwner = getAccountUserDao().findCurrentOwner(account);
 
         if ( getDropdownList().isEmpty() )
             _viewAccountFooter.hide();
 
-        /**
+        /*
+         * review_steve (wyatt) discuss
+         *      if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
+         *         
          * review_steve review_valerie finicky
          */
         if ( findCurrentOwner != null && findCurrentOwner.getUser().isSame(user) )
@@ -1410,6 +1432,8 @@ public class MyManageAccountsPage
 
         /**
          * review_steve review_valerie this condition is not working as intended
+         * 
+         * review_steve (wyatt)
          */
         if ( account.getName().equalsIgnoreCase("Personal") )
             _deleteButton.hide();
@@ -1430,9 +1454,11 @@ public class MyManageAccountsPage
         MyAccount dropdownAccount = getDropdownAccount();
 
         /**
-         * review_wyatt (steve) this is ugly and probably not too readable
+         * (steve) this is ugly and probably not too readable
          * 
          * review_valerie (steve)
+         * 
+         * review_steve (wyatt) discuss
          */
         if ( account == null || !dropdownAccount.equals(account) )
         {
@@ -1443,6 +1469,9 @@ public class MyManageAccountsPage
         refreshAll(false);
     }
 
+    /**
+     * review_steve (wyatt) discuss
+     */
     private MyAccount getDropdownAccount()
     {
         String accountUid;

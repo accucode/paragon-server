@@ -34,7 +34,11 @@ public class MyUserDao
         return c.findFirst();
     }
 
-    public MyUser findUserWithName(String s)
+    /**
+     * review_steve (wyatt)   discuss
+     * review_valerie (wyatt) discuss
+     */
+    public MyUser findName(String s)
     {
         MyUserCriteria c;
         c = createCriteria();
@@ -42,7 +46,7 @@ public class MyUserDao
         return c.findFirst();
     }
 
-    public void createNewRootUser()
+    public void createRootUser()
     {
         MyUser u;
         u = new MyUser();
@@ -67,6 +71,10 @@ public class MyUserDao
         au.setRoleOwner();
     }
 
+    /**
+     * review_valerie (wyatt) name
+     *      This method creates a new invitation?
+     */
     public void createNewUserInvitation(String name, String email, String password)
     {
         MyUser u = createNewUser(MyUserRole.User, email, password, name);

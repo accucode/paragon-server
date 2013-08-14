@@ -46,8 +46,10 @@ public class MyAccountUserDao
     }
 
     /**
-     * review_wyatt (valerie)
+     * (valerie)
      * these two convenience methods
+     * 
+     * review_valerie (wyatt) discuss 
      */
     public MyAccountUser findCurrentOwner(MyAccount a)
     {
