@@ -1,13 +1,5 @@
 package com.app.ui.activity.login;
 
-import com.app.dao.MyAccountUserDao;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyInvitation;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.utility.MyUrls;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -21,8 +13,15 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
+
+import com.app.dao.MyAccountUserDao;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyInvitation;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyActivity;
+import com.app.utility.MyUrls;
 
 public class MyHandleTransferInvitationActivity
     extends MyActivity
@@ -265,26 +264,17 @@ public class MyHandleTransferInvitationActivity
 
         MyUser user = getAccess().getUserDao().findEmail(email);
 
-        if ( user == null )
-            user = createUser(email);
-
         MyAccount account;
         account = i.getAccount();
+
+        if ( user == null )
+            user = createUser(email, account);
 
         MyAccountUserDao accountUserDao;
         accountUserDao = getAccess().getAccountUserDao();
 
         MyAccountUser newOwner;
         newOwner = accountUserDao.findAccountUserFor(user, account);
-
-        if ( newOwner == null )
-        {
-            newOwner = new MyAccountUser();
-            newOwner.setUser(user);
-            newOwner.setAccount(account);
-        }
-
-        newOwner.saveDao();
 
         MyAccountUser oldOwner;
         oldOwner = accountUserDao.findCurrentOwner(account);
@@ -298,7 +288,7 @@ public class MyHandleTransferInvitationActivity
         _messageBox.ajax().show().slide();
     }
 
-    private MyUser createUser(String email)
+    private MyUser createUser(String email, MyAccount account)
     {
         _password1Field.ajax().clearValue();
         _password2Field.ajax().clearValue();
@@ -309,20 +299,8 @@ public class MyHandleTransferInvitationActivity
         if ( Kmu.isNotEqual(p1, p2) )
             _password1Field.error("Passwords did not match.");
 
-        KmEmailParser p;
-        p = new KmEmailParser();
-        p.setEmail(email);
-
-        String name;
-        name = p.getName();
-
         MyUser u;
-        u = new MyUser();
-        u.setName(name);
-        u.setEmail(email);
-        u.setPassword(p1);
-        u.setVerified(true);
-        u.saveDao();
+        u = getAccess().getUserDao().createNewUserTransfer(email, p1, account);
 
         return u;
     }

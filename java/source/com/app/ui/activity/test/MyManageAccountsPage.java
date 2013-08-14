@@ -103,6 +103,7 @@ public class MyManageAccountsPage
     private ScGrid<MyAccountUser> _userGrid;
 
     private ScActionButton        _transferButton;
+    private ScActionButton        _deleteButton;
 
     private ScLocalString         _accountName;
 
@@ -251,7 +252,8 @@ public class MyManageAccountsPage
         _transferButton.hide();
 
         _viewAccountFooter.addButton("Invite", newShowInviteUserBoxAction());
-        _viewAccountFooter.addButton("Delete", newShowDeleteAccountBoxAction());
+
+        _deleteButton = _viewAccountFooter.addButton("Delete", newShowDeleteAccountBoxAction());
 
         _viewAccountChild = frameChild;
     }
@@ -342,7 +344,7 @@ public class MyManageAccountsPage
     private void installInviteUserFrame()
     {
         ScActionIF sendAction = newSendJoinRequestAction();
-        ScActionIF cancelAction = newAddUserCancelAction();
+        ScActionIF cancelAction = newInviteUserCancelAction();
 
         ScFrameChild frameChild;
         frameChild = _accountFrame.createChild();
@@ -972,14 +974,14 @@ public class MyManageAccountsPage
         };
     }
 
-    private ScActionIF newAddUserCancelAction()
+    private ScActionIF newInviteUserCancelAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleAddUserCancel();
+                handleInviteUserCancel();
             }
         };
     }
@@ -1234,13 +1236,13 @@ public class MyManageAccountsPage
         account.saveDao();
 
         setDropdownOptions();
-        updateViewAccount();
+        refreshAll(true);
     }
 
     private void handleEditAccountCancel()
     {
         setDropdownOptions();
-        updateViewAccount();
+        refreshAll(true);
     }
 
     private void handleShowInviteUserBox()
@@ -1298,9 +1300,9 @@ public class MyManageAccountsPage
         showSentMessage(email);
     }
 
-    private void handleAddUserCancel()
+    private void handleInviteUserCancel()
     {
-        refreshAll(false);
+        refreshAll(true);
     }
 
     private void handleEditUserCancel()
@@ -1379,6 +1381,9 @@ public class MyManageAccountsPage
         MyAccount account;
         account = getPageSession().getAccount();
 
+        MyServerSession ss = MyGlobals.getServerSession();
+        MyUser user = ss.getUser();
+
         if ( account == null )
         {
             account = getDropdownAccount();
@@ -1386,8 +1391,8 @@ public class MyManageAccountsPage
             getPageSession().setAccount(account);
         }
 
-        MyServerSession ss = MyGlobals.getServerSession();
-        MyUser user = ss.getUser();
+        _viewAccountName.setValue(account.getName());
+        _viewAccountType.setValue(account.getType().getName());
 
         MyAccountUser findCurrentOwner;
         findCurrentOwner = getAccess().getAccountUserDao().findCurrentOwner(account);
@@ -1395,19 +1400,22 @@ public class MyManageAccountsPage
         if ( getDropdownList().isEmpty() )
             _viewAccountFooter.hide();
 
-        if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
+        /**
+         * ask_valerie finicky
+         */
+        if ( findCurrentOwner != null && findCurrentOwner.getUser().isSame(user) )
             _transferButton.show();
 
-        if ( account != null )
-        {
-            _viewAccountName.setValue(account.getName());
-            _viewAccountType.setValue(account.getType().getName());
-        }
+        /**
+         * ask_valerie this condition is not working as intended
+         */
+        if ( account.getName().equalsIgnoreCase("Personal") )
+            _deleteButton.hide();
+
+        _viewAccountChild.ajaxUpdateValues();
 
         if ( flipView )
             _accountFrame.ajaxPrint(_viewAccountChild);
-        else
-            _viewAccountChild.ajaxUpdateValues();
 
         _userGrid.ajaxReload();
     }
