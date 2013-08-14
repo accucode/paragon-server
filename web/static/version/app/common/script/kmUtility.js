@@ -1057,7 +1057,15 @@ Kmu.equalize = function(options)
        
         $(selector).each(function() 
         {
-            $(this).height(tallest).css("overflow","auto");
+            var filler = $(this).find('.filler');
+            
+            if ( filler.length > 0 )
+            {
+                var diff = tallest - $(this).height();
+                filler.first().height(diff);
+            }        
+            else    
+                $(this).height(tallest).css("overflow","auto");
         });
     }
 }
