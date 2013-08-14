@@ -71,11 +71,7 @@ public class MyUserDao
         au.setRoleOwner();
     }
 
-    /**
-     * review_valerie (wyatt) name
-     *      This method creates a new invitation?
-     */
-    public void createNewUserInvitation(String name, String email, String password)
+    public void createNewUser(String name, String email, String password)
     {
         MyUser u = createNewUser(MyUserRole.User, email, password, name);
         MyAccount a = getAccess().getAccountDao().createNewAccount(

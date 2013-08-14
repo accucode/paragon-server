@@ -240,7 +240,7 @@ public class MyHandleNewUserInvitationActivity
         String name;
         name = p.getName();
 
-        getAccess().getUserDao().createNewUserInvitation(name, email, pw1);
+        getAccess().getUserDao().createNewUser(name, email, pw1);
     }
 
     //##################################################

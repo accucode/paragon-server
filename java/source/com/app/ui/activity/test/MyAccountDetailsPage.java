@@ -121,6 +121,7 @@ public class MyAccountDetailsPage
         _equalizeBox = leftCol.addBox();
 
         ScArray row;
+        // review_aaron
         //        row = leftCol.addRow();
         row = _equalizeBox.addRow();
 
@@ -411,11 +412,9 @@ public class MyAccountDetailsPage
         body.css().pad();
 
         _password1Field = new ScPasswordField();
-        _password1Field.setLabel("Choose a Password ");
         _password1Field.setRequired();
 
         _password2Field = new ScPasswordField();
-        _password2Field.setLabel("Re-enter Password ");
 
         // todo_valerie: make this prettier
         ScBox chooseLabel;

@@ -227,7 +227,7 @@ public class MyHackTestPage
 
         MyUserDao dao;
         dao = getAccess().getUserDao();
-        dao.createNewUserInvitation(name, email, pwd);
+        dao.createNewUser(name, email, pwd);
     }
 
     private MyUser findUser(String name)
