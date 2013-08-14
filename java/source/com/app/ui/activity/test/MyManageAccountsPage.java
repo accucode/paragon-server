@@ -28,15 +28,15 @@ import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
 
+import com.app.dao.MyAccountDao;
+import com.app.dao.MyAccountUserDao;
 import com.app.filter.MyAccountUserFilter;
-import com.app.filter.MyUserFilter;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
 import com.app.model.MyAccountUserRole;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
-import com.app.model.meta.MyMetaUser;
 import com.app.ui.activity.login.MyJoinAccountUtility;
 import com.app.ui.activity.login.MyTransferAccountUtility;
 import com.app.ui.layout.MyPageLayout;
@@ -110,6 +110,7 @@ public class MyManageAccountsPage
     private ScGrid<MyAccountUser> _userGrid;
 
     private ScActionButton        _transferButton;
+    private ScActionButton        _deleteButton;
 
     private ScLocalString         _accountName;
 
@@ -119,8 +120,6 @@ public class MyManageAccountsPage
     private ScDiv                 _viewAccountFooter;
     private ScGroup               _transferGroup;
 
-    private boolean               _firstStart;
-
     //##################################################
     //# install
     //##################################################
@@ -128,8 +127,6 @@ public class MyManageAccountsPage
     @Override
     protected ScPageRoot installRoot()
     {
-        setFirstStart(true);
-
         _accountName = new ScLocalString();
         _accountName.setAutoSave();
 
@@ -162,6 +159,9 @@ public class MyManageAccountsPage
      * review_valerie (wyatt) discuss
      *      I don't know what you are referring to.
      *      Use better names for the two buttons.
+     *      
+     * review_wyatt (valerie)
+     * not sure this the boarder around the form looks too much better
      */
     private void installDeleteUserDialog(ScPageRoot root)
     {
@@ -208,6 +208,10 @@ public class MyManageAccountsPage
         button.setImage(MyButtonUrls.add());
     }
 
+    //==================================================
+    //= install : account frame
+    //==================================================//
+
     private void installAccountFrameOn(ScContainer root)
     {
         _accountFrame = root.addFrame();
@@ -217,9 +221,9 @@ public class MyManageAccountsPage
         installViewAccountFrame();
         installEditAccountFrame();
         installAddAccountFrame();
-        installTransferAccountFrame();
         installInviteUserFrame();
         installDeleteAccountFrame();
+        installTransferAccountFrame();
 
         _accountFrame.setDefaultChild(_viewAccountChild);
     }
@@ -262,7 +266,8 @@ public class MyManageAccountsPage
         _transferButton.hide();
 
         _viewAccountFooter.addButton("Invite", newShowInviteUserBoxAction());
-        _viewAccountFooter.addButton("Delete", newShowDeleteAccountBoxAction());
+
+        _deleteButton = _viewAccountFooter.addButton("Delete", newShowDeleteAccountBoxAction());
 
         _viewAccountChild = frameChild;
     }
@@ -350,106 +355,10 @@ public class MyManageAccountsPage
         _addAccountChild = frameChild;
     }
 
-    private void installTransferAccountFrame()
-    {
-        ScActionIF sendAction = newSendTransferRequestAction();
-        ScActionIF cancelAction = newCancelTransferRequestAction();
-
-        ScFrameChild frameChild;
-        frameChild = _accountFrame.createChild();
-
-        ScForm form;
-        form = frameChild.addForm();
-        form.setDefaultAction(sendAction);
-        form.onEscape().run(cancelAction);
-
-        _transferGroup = form.addGroup();
-
-        ScBox body;
-        body = _transferGroup.addBox();
-        body.css().pad();
-
-        // review_steve AUTO COMPLETE FIELD
-        _transferEmailAutoComplete = new ScAutoCompleteField();
-        _transferEmailAutoComplete.setLabel("Email ");
-        _transferEmailAutoComplete.setCallback(newTransferEmailCallback());
-        _transferEmailAutoComplete.track(getPageSession().getAccountUidHolder());
-
-        ScFieldTable fields;
-        fields = body.addFields();
-        fields.add(_transferEmailAutoComplete);
-
-        _transferGroup.addDivider();
-
-        ScDiv footer;
-        footer = _transferGroup.addButtonBoxRight();
-        footer.addCancelButton(cancelAction);
-        footer.addSubmitButton("Send Request");
-
-        _transferChild = frameChild;
-    }
-
-    private ScAutoCompleteCallbackIF newTransferEmailCallback()
-    {
-        return new ScAutoCompleteCallbackIF()
-        {
-            @Override
-            public KmList<String> getOptionsFor(String term)
-            {
-                return getAutoCompleteTransferEmailOptions(term);
-            }
-        };
-    }
-
-    private KmList<String> getAutoCompleteTransferEmailOptions(String term)
-    {
-        // review_steve AUTO COMPLETE FIELD
-        /**
-         *  (steve) autoComplete field tracked values
-         *  
-         * review_steve (wyatt)
-         *      Fix comment spacing above.
-         *      Discuss method below.
-         *      Use db.
-         *      Limit.
-         */
-
-        KmList<String> v;
-        v = new KmList<String>();
-
-        MyAccount account = getPageSession().getAccount();
-
-        KmList<MyAccountUser> accountUsers;
-        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(account);
-
-        for ( MyAccountUser e : accountUsers )
-            if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
-                v.add(e.getUser().getEmail());
-
-        for ( MyAccountUser e : accountUsers )
-            v.add(e.getUser().getEmail());
-
-        return v;
-    }
-
-    @SuppressWarnings("unused")
-    private KmList<String> getAutoCompleteTransferEmailOptions_x(String term)
-    {
-        MyMetaUser x = MyUser.Meta;
-
-        MyUserFilter f;
-        f = new MyUserFilter();
-        f.setAccount(getPageSession().getAccount());
-        f.setEmailSubstring(term);
-        f.sortOnEmail();
-
-        return f.findFirst(10).collect(x.Email);
-    }
-
     private void installInviteUserFrame()
     {
         ScActionIF sendAction = newSendJoinRequestAction();
-        ScActionIF cancelAction = newAddUserCancelAction();
+        ScActionIF cancelAction = newInviteUserCancelAction();
 
         ScFrameChild frameChild;
         frameChild = _accountFrame.createChild();
@@ -499,6 +408,10 @@ public class MyManageAccountsPage
         form.onEscape().run(cancelAction);
 
         _deleteGroup = form.addGroup();
+        /**
+         * review_steve (valerie) trying to make this stand out more than the
+         * others
+         */
         // todo_valerie add red background somewhere in here
 
         ScBox body;
@@ -528,6 +441,112 @@ public class MyManageAccountsPage
 
         _deleteAccountChild = frameChild;
     }
+
+    private void installTransferAccountFrame()
+    {
+        ScActionIF sendAction = newSendTransferRequestAction();
+        ScActionIF cancelAction = newCancelTransferRequestAction();
+
+        ScFrameChild frameChild;
+        frameChild = _accountFrame.createChild();
+
+        ScForm form;
+        form = frameChild.addForm();
+        form.setDefaultAction(sendAction);
+        form.onEscape().run(cancelAction);
+
+        _transferGroup = form.addGroup();
+
+        ScBox body;
+        body = _transferGroup.addBox();
+        body.css().pad();
+
+        // review_steve AUTO COMPLETE FIELD
+        _transferEmailAutoComplete = new ScAutoCompleteField();
+        _transferEmailAutoComplete.setLabel("Email ");
+        _transferEmailAutoComplete.setCallback(newTransferEmailCallback());
+        _transferEmailAutoComplete.track(getPageSession().getAccountUidHolder());
+
+        ScFieldTable fields;
+        fields = body.addFields();
+        fields.add(_transferEmailAutoComplete);
+
+        _transferGroup.addDivider();
+
+        ScDiv footer;
+        footer = _transferGroup.addButtonBoxRight();
+        footer.addCancelButton(cancelAction);
+        footer.addSubmitButton("Send Request");
+
+        _transferChild = frameChild;
+    }
+
+    private void populateAddRoleDropdown()
+    {
+        ScOption user = new ScOption();
+        user.setText("User");
+        user.setValue(MyAccountUserRole.User.getCode());
+
+        ScOption manager = new ScOption();
+        manager.setText("Manager");
+        manager.setValue(MyAccountUserRole.Manager.getCode());
+
+        _addRoleDropdown = new ScDropdown();
+        _addRoleDropdown.addOption(user);
+        _addRoleDropdown.addOption(manager);
+        _addRoleDropdown.setLabel("Role ");
+    }
+
+    //==================================================
+    //= install : transfer account
+    //==================================================//
+
+    private ScAutoCompleteCallbackIF newTransferEmailCallback()
+    {
+        return new ScAutoCompleteCallbackIF()
+        {
+            @Override
+            public KmList<String> getOptionsFor(String term)
+            {
+                return getAutoCompleteTransferEmailOptions(term);
+            }
+        };
+    }
+
+    private KmList<String> getAutoCompleteTransferEmailOptions(String term)
+    {
+        // review_steve AUTO COMPLETE FIELD
+        /**
+         *  (steve) autoComplete field tracked values
+         *  
+         * review_steve (wyatt)
+         *      Fix comment spacing above.
+         *      Discuss method below.
+         *      Use db.
+         *      Limit.
+         */
+
+        KmList<String> v;
+        v = new KmList<String>();
+
+        MyAccount account = getPageSession().getAccount();
+
+        KmList<MyAccountUser> accountUsers;
+        accountUsers = getAccountUserDao().findAccountUsersFor(account);
+
+        for ( MyAccountUser e : accountUsers )
+            if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
+                v.add(e.getUser().getEmail());
+
+        for ( MyAccountUser e : accountUsers )
+            v.add(e.getUser().getEmail());
+
+        return v;
+    }
+
+    //==================================================
+    //= install : grid
+    //==================================================//
 
     private void installUserGrid(ScContainer root)
     {
@@ -598,10 +617,6 @@ public class MyManageAccountsPage
         String accountUid;
         accountUid = _accountDropdown.getStringValue();
 
-        // remove_steve: print
-        System.out.println("MyManageAccountsPage.newUserFilter");
-        System.out.println("    accountUid: " + accountUid);
-
         if ( accountUid == null )
             accountUid = getServerSession().getAccount().getUid();
 
@@ -609,6 +624,10 @@ public class MyManageAccountsPage
 
         return f;
     }
+
+    //==================================================
+    //= install : user frame
+    //==================================================//
 
     private void installUserFrameOn(ScContainer root)
     {
@@ -736,22 +755,6 @@ public class MyManageAccountsPage
         _editRoleDropdown.addOption(user);
         _editRoleDropdown.addOption(manager);
         _editRoleDropdown.setLabel("Role ");
-    }
-
-    private void populateAddRoleDropdown()
-    {
-        ScOption user = new ScOption();
-        user.setText("User");
-        user.setValue(MyAccountUserRole.User.getCode());
-
-        ScOption manager = new ScOption();
-        manager.setText("Manager");
-        manager.setValue(MyAccountUserRole.Manager.getCode());
-
-        _addRoleDropdown = new ScDropdown();
-        _addRoleDropdown.addOption(user);
-        _addRoleDropdown.addOption(manager);
-        _addRoleDropdown.setLabel("Role ");
     }
 
     //##################################################
@@ -986,14 +989,14 @@ public class MyManageAccountsPage
         };
     }
 
-    private ScActionIF newAddUserCancelAction()
+    private ScActionIF newInviteUserCancelAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleAddUserCancel();
+                handleInviteUserCancel();
             }
         };
     }
@@ -1045,7 +1048,6 @@ public class MyManageAccountsPage
 
         setDropdownOptions();
         handleUpdateValues();
-        setFirstStart(false);
     }
 
     //##################################################
@@ -1060,7 +1062,7 @@ public class MyManageAccountsPage
         _deleteGroup.setTitle("Delete %s Account", accountName);
 
         MyAccount account;
-        account = getAccess().getAccountDao().findWithName(accountName);
+        account = getAccountDao().findWithName(accountName);
 
         if ( account != null )
             _deleteAccountName.setValue(account.getName());
@@ -1073,13 +1075,13 @@ public class MyManageAccountsPage
 
     private void handleDeleteAccount()
     {
-        //review_Steve here
         MyAccount account;
         account = getPageSession().getAccount();
-        account.deleteDao();
 
         MyAccountUser accountUser;
-        accountUser = getAccess().getAccountUserDao().findAccountUserFor(getCurrentUser(), account);
+        accountUser = getAccountUserDao().findAccountUserFor(getCurrentUser(), account);
+
+        account.deleteDao();
         accountUser.deleteDao();
 
         MyPageLayout.getInstance().refreshDropdown();
@@ -1087,19 +1089,7 @@ public class MyManageAccountsPage
         ajax().toast("Deleted account %s", account.getName());
 
         setDropdownOptions();
-        refreshAll();
-    }
-
-    private void handleClose()
-    {
-        _deleteUserDialog.ajaxClose();
-
-        refreshAll();
-    }
-
-    private void handleShowDeleteAccountUserDialog()
-    {
-        _deleteUserDialog.ajaxOpen();
+        refreshAll(true);
     }
 
     private void handleDeleteUser()
@@ -1123,6 +1113,13 @@ public class MyManageAccountsPage
         _userGrid.ajaxReload();
     }
 
+    private void handleClose()
+    {
+        _deleteUserDialog.ajaxClose();
+
+        refreshAll(false);
+    }
+
     private void handleUpdateValues()
     {
         updateViewAccount();
@@ -1134,53 +1131,13 @@ public class MyManageAccountsPage
         _addAccountChild.ajax().focus();
     }
 
-    private void handleAddAccountCancel()
-    {
-        refreshAll();
-    }
-
-    private void handleAddAccountSave()
-    {
-        //review_Steve here
-        _addAccountChild.validate();
-
-        if ( !_addAccountName.hasValue() )
-        {
-            ajax().toast("Please enter an account name");
-            return;
-        }
-
-        MyAccount account;
-        account = new MyAccount();
-        account.setName(_addAccountName.getValue());
-        account.setTypeCode(_addAccountType.getStringValue());
-        account.saveDao();
-        getPageSession().setAccount(account);
-
-        MyUser user;
-        user = getCurrentUser();
-
-        MyAccountUser accountUser;
-        accountUser = new MyAccountUser();
-        accountUser.setAccount(account);
-        accountUser.setUser(user);
-        accountUser.setRoleOwner();
-        accountUser.saveDao();
-
-        setDropdownOptions();
-
-        _accountDropdown.ajaxSetValue(account.getUid());
-        MyPageLayout.getInstance().refreshDropdown();
-        refreshAll();
-    }
-
     private void handleShowEditAccountBox()
     {
         String accountName;
         accountName = _viewAccountName.getValue();
 
         MyAccount account;
-        account = getAccess().getAccountDao().findWithName(accountName);
+        account = getAccountDao().findWithName(accountName);
 
         if ( account != null )
             _editAccountName.setValue(account.getName());
@@ -1221,16 +1178,9 @@ public class MyManageAccountsPage
         showSentMessage(email);
     }
 
-    private void showSentMessage(String email)
-    {
-        ajax().toast("Your request has been sent to: " + email);
-
-        refreshAll();
-    }
-
     private void handleCancelTransferRequest()
     {
-        refreshAll();
+        refreshAll(true);
     }
 
     private void handleEditAccountSave()
@@ -1250,13 +1200,46 @@ public class MyManageAccountsPage
         account.saveDao();
 
         setDropdownOptions();
-        updateViewAccount();
+        refreshAll(true);
     }
 
     private void handleEditAccountCancel()
     {
         setDropdownOptions();
-        updateViewAccount();
+        refreshAll(true);
+    }
+
+    /**
+     * review_steve review_valerie 
+     * view account needs to show just added method after save
+     */
+    private void handleAddAccountSave()
+    {
+        _addAccountChild.validate();
+
+        if ( !_addAccountName.hasValue() )
+        {
+            ajax().toast("Please enter an account name");
+            return;
+        }
+
+        String name = _addAccountName.getValue();
+        String typeCode = _addAccountType.getStringValue();
+        MyUser user = getCurrentUser();
+
+        MyAccount account;
+        account = getAccountDao().createNewAccount(name, typeCode, user);
+
+        setDropdownOptions();
+
+        _accountDropdown.ajaxSetValue(account.getUid());
+        MyPageLayout.getInstance().refreshDropdown();
+        refreshAll(true);
+    }
+
+    private void handleAddAccountCancel()
+    {
+        refreshAll(true);
     }
 
     private void handleShowInviteUserBox()
@@ -1276,7 +1259,7 @@ public class MyManageAccountsPage
         accountUserUid = getStringArgument();
 
         MyAccountUser accountUser;
-        accountUser = getAccess().getAccountUserDao().findWithUid(accountUserUid);
+        accountUser = getAccountUserDao().findWithUid(accountUserUid);
 
         if ( accountUser == null )
             accountUser = getPageSession().getAccountUser();
@@ -1294,56 +1277,6 @@ public class MyManageAccountsPage
         _userFrame.ajaxPrint(_viewUserChild);
     }
 
-    private void handleSendJoinRequest()
-    {
-        MyAccount account;
-        account = getPageSession().getAccount();
-
-        String email = _addUserEmail.getValue();
-        String roleCode = (String)_addRoleDropdown.getValue();
-
-        boolean isValid = KmEmailParser.validate(email);
-
-        if ( !isValid )
-            _addUserEmail.error("Invalid");
-
-        MyJoinAccountUtility utility;
-        utility = new MyJoinAccountUtility();
-        utility.start(account, email, roleCode);
-
-        showSentMessage(email);
-
-        refreshAll();
-    }
-
-    private void handleAddUserCancel()
-    {
-        refreshAll();
-    }
-
-    private void handleEditUserCancel()
-    {
-        handleViewUser();
-    }
-
-    private void handleShowEditUserBox()
-    {
-        MyAccountUser accountUser;
-        accountUser = getPageSession().getAccountUser();
-
-        MyUser u;
-        u = accountUser.getUser();
-
-        if ( u != null )
-        {
-            _editUserName.setValue(u.getName());
-            _editUserEmail.setValue(u.getEmail());
-        }
-
-        _editRoleDropdown.setValue(accountUser.getRole());
-        _userFrame.ajaxPrint(_editUserChild);
-    }
-
     private void handleEditUserSave()
     {
         _editUserChild.validate();
@@ -1357,7 +1290,7 @@ public class MyManageAccountsPage
         String roleCode = _editRoleDropdown.getStringValue();
 
         MyAccountUser findOwner;
-        findOwner = getAccess().getAccountUserDao().findCurrentOwner(account);
+        findOwner = getAccountUserDao().findCurrentOwner(account);
 
         boolean hasOwner = findOwner != null;
         boolean setOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
@@ -1378,24 +1311,87 @@ public class MyManageAccountsPage
 
         _userFrame.ajaxPrint(_viewUserChild);
 
-        refreshAll();
+        refreshAll(false);
+    }
+
+    private void handleEditUserCancel()
+    {
+        handleViewUser();
+    }
+
+    private void handleSendJoinRequest()
+    {
+        MyAccount account;
+        account = getPageSession().getAccount();
+
+        String email = _addUserEmail.getValue();
+        String roleCode = (String)_addRoleDropdown.getValue();
+
+        boolean isValid = KmEmailParser.validate(email);
+
+        if ( !isValid )
+            _addUserEmail.error("Invalid");
+
+        MyJoinAccountUtility utility;
+        utility = new MyJoinAccountUtility();
+        utility.start(account, email, roleCode);
+
+        showSentMessage(email);
+    }
+
+    private void handleInviteUserCancel()
+    {
+        refreshAll(true);
+    }
+
+    private void handleShowEditUserBox()
+    {
+        MyAccountUser accountUser;
+        accountUser = getPageSession().getAccountUser();
+
+        MyUser u;
+        u = accountUser.getUser();
+
+        if ( u != null )
+        {
+            _editUserName.setValue(u.getName());
+            _editUserEmail.setValue(u.getEmail());
+        }
+
+        _editRoleDropdown.setValue(accountUser.getRole());
+        _userFrame.ajaxPrint(_editUserChild);
     }
 
     private void handleViewUserCancel()
     {
         _userFrame.ajaxClear();
 
-        refreshAll();
+        refreshAll(false);
+    }
+
+    private void handleShowDeleteAccountUserDialog()
+    {
+        _deleteUserDialog.ajaxOpen();
+    }
+
+    private void showSentMessage(String email)
+    {
+        ajax().toast("Your request has been sent to: " + email);
+
+        refreshAll(true);
     }
 
     //##################################################
     //# convenience
     //##################################################
 
-    private void refreshAll()
+    private void refreshAll(boolean flipView)
     {
         MyAccount account;
         account = getPageSession().getAccount();
+
+        MyServerSession ss = MyGlobals.getServerSession();
+        MyUser user = ss.getUser();
 
         if ( account == null )
         {
@@ -1403,37 +1399,38 @@ public class MyManageAccountsPage
             getPageSession().setAccount(account);
         }
 
-        MyServerSession ss = MyGlobals.getServerSession();
-        MyUser user = ss.getUser();
+        _viewAccountName.setValue(account.getName());
+        _viewAccountType.setValue(account.getType().getName());
 
         /**
          * review_steve (wyatt) discuss name
          */
         MyAccountUser findCurrentOwner;
-        findCurrentOwner = getAccess().getAccountUserDao().findCurrentOwner(account);
+        findCurrentOwner = getAccountUserDao().findCurrentOwner(account);
 
         if ( getDropdownList().isEmpty() )
             _viewAccountFooter.hide();
 
-        /**
+        /*
          * review_steve (wyatt) discuss
+         *      if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
+         *         
+         * review_steve review_valerie finicky
          */
-        if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
+        if ( findCurrentOwner != null && findCurrentOwner.getUser().isSame(user) )
             _transferButton.show();
 
-        if ( account != null )
-        {
-            _viewAccountName.setValue(account.getName());
+        /**
+         * review_steve review_valerie this condition is not working as intended
+         * 
+         * review_steve (wyatt)
+         */
+        if ( account.getName().equalsIgnoreCase("Personal") )
+            _deleteButton.hide();
 
-            /**
-             * review_steve
-             */
-            _viewAccountType.setValue(account.getType().getName());
-        }
+        _viewAccountChild.ajaxUpdateValues();
 
-        if ( isFirstStart() )
-            _viewAccountChild.ajaxUpdateValues();
-        else
+        if ( flipView )
             _accountFrame.ajaxPrint(_viewAccountChild);
 
         _userGrid.ajaxReload();
@@ -1459,7 +1456,7 @@ public class MyManageAccountsPage
             getPageSession().setAccount(account);
         }
 
-        refreshAll();
+        refreshAll(false);
     }
 
     /**
@@ -1471,7 +1468,7 @@ public class MyManageAccountsPage
         accountUid = _accountDropdown.getStringValue();
 
         MyAccount dropdownAccount;
-        dropdownAccount = getAccess().getAccountDao().findUid(accountUid);
+        dropdownAccount = getAccountDao().findUid(accountUid);
 
         return dropdownAccount;
     }
@@ -1488,7 +1485,7 @@ public class MyManageAccountsPage
         list = new KmList<ScOption>();
 
         KmList<MyAccountUser> accountUsers;
-        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(u);
+        accountUsers = getAccountUserDao().findAccountUsersFor(u);
 
         for ( MyAccountUser accountUser : accountUsers )
         {
@@ -1532,21 +1529,16 @@ public class MyManageAccountsPage
     }
 
     //##################################################
-    //# support
+    //# convenience
     //##################################################
 
-    private boolean getFirstStart()
+    private MyAccountDao getAccountDao()
     {
-        return _firstStart;
+        return getAccess().getAccountDao();
     }
 
-    private void setFirstStart(boolean firstStart)
+    private MyAccountUserDao getAccountUserDao()
     {
-        _firstStart = firstStart;
-    }
-
-    private boolean isFirstStart()
-    {
-        return getFirstStart();
+        return getAccess().getAccountUserDao();
     }
 }

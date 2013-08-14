@@ -13,7 +13,6 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyAccount;
@@ -265,29 +264,24 @@ public class MyHandleJoinInvitationActivity
         MyAccount account;
         account = i.getAccount();
 
-        MyAccountUser accountUser;
-        accountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
-
         String roleCode;
         roleCode = i.getRoleCode();
 
         if ( user == null )
         {
             _form.validate();
-            user = createUser(email);
+            user = createUser(email, account);
         }
 
-        if ( accountUser == null )
-            accountUser = createAccountUser(user, account);
-
+        MyAccountUser accountUser;
+        accountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
         accountUser.setRoleCode(roleCode);
-        accountUser.saveDao();
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
     }
 
-    private MyUser createUser(String email)
+    private MyUser createUser(String email, MyAccount account)
     {
         _password1Field.ajax().clearValue();
         _password2Field.ajax().clearValue();
@@ -298,32 +292,10 @@ public class MyHandleJoinInvitationActivity
         if ( Kmu.isNotEqual(p1, p2) )
             _password1Field.error("Passwords did not match.");
 
-        KmEmailParser p;
-        p = new KmEmailParser();
-        p.setEmail(email);
-
-        String name;
-        name = p.getName();
-
         MyUser u;
-        u = new MyUser();
-        u.setName(name);
-        u.setEmail(email);
-        u.setPassword(p1);
-        u.setVerified(true);
-        u.saveDao();
+        u = getAccess().getUserDao().createNewUserTransfer(email, p1, account);
 
         return u;
-    }
-
-    private MyAccountUser createAccountUser(MyUser user, MyAccount account)
-    {
-        MyAccountUser accountUser;
-        accountUser = new MyAccountUser();
-        accountUser.setAccount(account);
-        accountUser.setUser(user);
-
-        return accountUser;
     }
 
     //##################################################
