@@ -1083,18 +1083,6 @@ public class MyManageAccountsPage
         refreshAll(true);
     }
 
-    private void handleClose()
-    {
-        _deleteUserDialog.ajaxClose();
-
-        refreshAll(false);
-    }
-
-    private void handleShowDeleteAccountUserDialog()
-    {
-        _deleteUserDialog.ajaxOpen();
-    }
-
     private void handleDeleteUser()
     {
         MyAccountUser accountUser;
@@ -1116,6 +1104,13 @@ public class MyManageAccountsPage
         _userGrid.ajaxReload();
     }
 
+    private void handleClose()
+    {
+        _deleteUserDialog.ajaxClose();
+
+        refreshAll(false);
+    }
+
     private void handleUpdateValues()
     {
         updateViewAccount();
@@ -1125,39 +1120,6 @@ public class MyManageAccountsPage
     {
         _accountFrame.ajaxPrint(_addAccountChild);
         _addAccountChild.ajax().focus();
-    }
-
-    private void handleAddAccountCancel()
-    {
-        refreshAll(true);
-    }
-
-    /**
-     * review_steve review_valerie 
-     * view account needs to show just added method after save
-     */
-    private void handleAddAccountSave()
-    {
-        _addAccountChild.validate();
-
-        if ( !_addAccountName.hasValue() )
-        {
-            ajax().toast("Please enter an account name");
-            return;
-        }
-
-        String name = _addAccountName.getValue();
-        String typeCode = _addAccountType.getStringValue();
-        MyUser user = getCurrentUser();
-
-        MyAccount account;
-        account = getAccountDao().createNewAccount(name, typeCode, user);
-
-        setDropdownOptions();
-
-        _accountDropdown.ajaxSetValue(account.getUid());
-        MyPageLayout.getInstance().refreshDropdown();
-        refreshAll(true);
     }
 
     private void handleShowEditAccountBox()
@@ -1207,13 +1169,6 @@ public class MyManageAccountsPage
         showSentMessage(email);
     }
 
-    private void showSentMessage(String email)
-    {
-        ajax().toast("Your request has been sent to: " + email);
-
-        refreshAll(true);
-    }
-
     private void handleCancelTransferRequest()
     {
         refreshAll(true);
@@ -1242,6 +1197,39 @@ public class MyManageAccountsPage
     private void handleEditAccountCancel()
     {
         setDropdownOptions();
+        refreshAll(true);
+    }
+
+    /**
+     * review_steve review_valerie 
+     * view account needs to show just added method after save
+     */
+    private void handleAddAccountSave()
+    {
+        _addAccountChild.validate();
+
+        if ( !_addAccountName.hasValue() )
+        {
+            ajax().toast("Please enter an account name");
+            return;
+        }
+
+        String name = _addAccountName.getValue();
+        String typeCode = _addAccountType.getStringValue();
+        MyUser user = getCurrentUser();
+
+        MyAccount account;
+        account = getAccountDao().createNewAccount(name, typeCode, user);
+
+        setDropdownOptions();
+
+        _accountDropdown.ajaxSetValue(account.getUid());
+        MyPageLayout.getInstance().refreshDropdown();
+        refreshAll(true);
+    }
+
+    private void handleAddAccountCancel()
+    {
         refreshAll(true);
     }
 
@@ -1278,54 +1266,6 @@ public class MyManageAccountsPage
         _viewUserRole.setValue(accountUser.getRoleName());
 
         _userFrame.ajaxPrint(_viewUserChild);
-    }
-
-    private void handleSendJoinRequest()
-    {
-        MyAccount account;
-        account = getPageSession().getAccount();
-
-        String email = _addUserEmail.getValue();
-        String roleCode = (String)_addRoleDropdown.getValue();
-
-        boolean isValid = KmEmailParser.validate(email);
-
-        if ( !isValid )
-            _addUserEmail.error("Invalid");
-
-        MyJoinAccountUtility utility;
-        utility = new MyJoinAccountUtility();
-        utility.start(account, email, roleCode);
-
-        showSentMessage(email);
-    }
-
-    private void handleInviteUserCancel()
-    {
-        refreshAll(true);
-    }
-
-    private void handleEditUserCancel()
-    {
-        handleViewUser();
-    }
-
-    private void handleShowEditUserBox()
-    {
-        MyAccountUser accountUser;
-        accountUser = getPageSession().getAccountUser();
-
-        MyUser u;
-        u = accountUser.getUser();
-
-        if ( u != null )
-        {
-            _editUserName.setValue(u.getName());
-            _editUserEmail.setValue(u.getEmail());
-        }
-
-        _editRoleDropdown.setValue(accountUser.getRole());
-        _userFrame.ajaxPrint(_editUserChild);
     }
 
     private void handleEditUserSave()
@@ -1365,11 +1305,71 @@ public class MyManageAccountsPage
         refreshAll(false);
     }
 
+    private void handleEditUserCancel()
+    {
+        handleViewUser();
+    }
+
+    private void handleSendJoinRequest()
+    {
+        MyAccount account;
+        account = getPageSession().getAccount();
+
+        String email = _addUserEmail.getValue();
+        String roleCode = (String)_addRoleDropdown.getValue();
+
+        boolean isValid = KmEmailParser.validate(email);
+
+        if ( !isValid )
+            _addUserEmail.error("Invalid");
+
+        MyJoinAccountUtility utility;
+        utility = new MyJoinAccountUtility();
+        utility.start(account, email, roleCode);
+
+        showSentMessage(email);
+    }
+
+    private void handleInviteUserCancel()
+    {
+        refreshAll(true);
+    }
+
+    private void handleShowEditUserBox()
+    {
+        MyAccountUser accountUser;
+        accountUser = getPageSession().getAccountUser();
+
+        MyUser u;
+        u = accountUser.getUser();
+
+        if ( u != null )
+        {
+            _editUserName.setValue(u.getName());
+            _editUserEmail.setValue(u.getEmail());
+        }
+
+        _editRoleDropdown.setValue(accountUser.getRole());
+        _userFrame.ajaxPrint(_editUserChild);
+    }
+
     private void handleViewUserCancel()
     {
         _userFrame.ajaxClear();
 
         refreshAll(false);
+    }
+
+    private void handleShowDeleteAccountUserDialog()
+    {
+        _deleteUserDialog.ajaxOpen();
+    }
+
+    private void showSentMessage(String email)
+    {
+        ajax().toast("Your request has been sent to: " + email);
+
+        refreshAll(true);
     }
 
     //##################################################
