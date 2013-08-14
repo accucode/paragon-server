@@ -19,7 +19,11 @@ public class MyUserDao
         return c.findFirst();
     }
 
-    public MyUser findUserWithName(String s)
+    /**
+     * review_steve (wyatt)   discuss
+     * review_valerie (wyatt) discuss
+     */
+    public MyUser findName(String s)
     {
         MyUserCriteria c;
         c = createCriteria();

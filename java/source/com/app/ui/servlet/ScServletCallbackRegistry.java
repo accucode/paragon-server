@@ -50,7 +50,6 @@ public class ScServletCallbackRegistry
 
     private static final String       KEY_AUTO_COMPLETE = "autoComplete";
     private static final String       KEY_FLEXIGRID     = "flexigrid";
-
     private static final String       KEY_DROPZONE      = "dropzone";
 
     //##################################################

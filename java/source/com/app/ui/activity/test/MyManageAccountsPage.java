@@ -29,12 +29,14 @@ import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
 
 import com.app.filter.MyAccountUserFilter;
+import com.app.filter.MyUserFilter;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
 import com.app.model.MyAccountUserRole;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
+import com.app.model.meta.MyMetaUser;
 import com.app.ui.activity.login.MyJoinAccountUtility;
 import com.app.ui.activity.login.MyTransferAccountUtility;
 import com.app.ui.layout.MyPageLayout;
@@ -45,11 +47,16 @@ public class MyManageAccountsPage
     extends MyAbstractTestPage
 {
     /**
-     *  review_wyatt (steve) Grid not loading users
-     *  when you enter the app you click "admin", then clcik "manage accounts".
+     *  (steve) Grid not loading users
+     *  when you enter the app you click "admin", then click "manage accounts".
      *  when you enter this page the grid fails to display the users associated with the current account.
      *  if you click the refresh icon it will display. Please check it out.
+     *  
+     * review_steve (wyatt)
+     *      Fix spacing in comments.
+     *      I cannot reproduce the problem.
      */
+
     //##################################################
     //# singleton
     //##################################################
@@ -149,8 +156,12 @@ public class MyManageAccountsPage
     }
 
     /**
-     * review_wyatt (valerie)
+     * (valerie)
      * not sure this looks too much better
+     * 
+     * review_valerie (wyatt) discuss
+     *      I don't know what you are referring to.
+     *      Use better names for the two buttons.
      */
     private void installDeleteUserDialog(ScPageRoot root)
     {
@@ -359,9 +370,6 @@ public class MyManageAccountsPage
         body.css().pad();
 
         // review_steve AUTO COMPLETE FIELD
-        /**
-         *  review_wyatt (steve) autoComplete field tracked values
-         */
         _transferEmailAutoComplete = new ScAutoCompleteField();
         _transferEmailAutoComplete.setLabel("Email ");
         _transferEmailAutoComplete.setCallback(newTransferEmailCallback());
@@ -397,7 +405,7 @@ public class MyManageAccountsPage
     {
         // review_steve AUTO COMPLETE FIELD
         /**
-         *  review_wyatt (steve) autoComplete field tracked values
+         *  (steve) autoComplete field tracked values
          *  
          * review_steve (wyatt)
          *      Fix comment spacing above.
@@ -422,6 +430,20 @@ public class MyManageAccountsPage
             v.add(e.getUser().getEmail());
 
         return v;
+    }
+
+    @SuppressWarnings("unused")
+    private KmList<String> getAutoCompleteTransferEmailOptions_x(String term)
+    {
+        MyMetaUser x = MyUser.Meta;
+
+        MyUserFilter f;
+        f = new MyUserFilter();
+        f.setAccount(getPageSession().getAccount());
+        f.setEmailSubstring(term);
+        f.sortOnEmail();
+
+        return f.findFirst(10).collect(x.Email);
     }
 
     private void installInviteUserFrame()
@@ -1378,25 +1400,34 @@ public class MyManageAccountsPage
         if ( account == null )
         {
             account = getDropdownAccount();
-
             getPageSession().setAccount(account);
         }
 
         MyServerSession ss = MyGlobals.getServerSession();
         MyUser user = ss.getUser();
 
+        /**
+         * review_steve (wyatt) discuss name
+         */
         MyAccountUser findCurrentOwner;
         findCurrentOwner = getAccess().getAccountUserDao().findCurrentOwner(account);
 
         if ( getDropdownList().isEmpty() )
             _viewAccountFooter.hide();
 
+        /**
+         * review_steve (wyatt) discuss
+         */
         if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
             _transferButton.show();
 
         if ( account != null )
         {
             _viewAccountName.setValue(account.getName());
+
+            /**
+             * review_steve
+             */
             _viewAccountType.setValue(account.getType().getName());
         }
 
@@ -1416,9 +1447,11 @@ public class MyManageAccountsPage
         MyAccount dropdownAccount = getDropdownAccount();
 
         /**
-         * review_wyatt (steve) this is ugly and probably not too readable
+         * (steve) this is ugly and probably not too readable
          * 
          * review_valerie (steve)
+         * 
+         * review_steve (wyatt) discuss
          */
         if ( account == null || !dropdownAccount.equals(account) )
         {
@@ -1429,6 +1462,9 @@ public class MyManageAccountsPage
         refreshAll();
     }
 
+    /**
+     * review_steve (wyatt) discuss
+     */
     private MyAccount getDropdownAccount()
     {
         String accountUid;

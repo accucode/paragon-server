@@ -364,9 +364,6 @@ public class ScAutoCompleteField
     private String getSourceCallback()
     {
         // review_steve AUTO COMPLETE FIELD
-        /**
-         *  review_wyatt (steve) autoComplete field tracked values
-         */
         ScServletCallbackRegistry r = ScServletCallbackRegistry.getInstance();
         ScServletCallback c = r.getAutoCompleteCallback();
 
@@ -438,10 +435,6 @@ public class ScAutoCompleteField
     private void _handleServletCallback()
     {
         // review_steve AUTO COMPLETE FIELD
-        /**
-         *  review_wyatt (steve) autoComplete field tracked values
-         */
-
         ScServletData data = getData();
         String term = data.getParameter("term");
         applyTrackedValuesFor(data);
