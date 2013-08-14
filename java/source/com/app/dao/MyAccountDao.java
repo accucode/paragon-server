@@ -9,7 +9,7 @@ import com.app.model.MyUser;
 public class MyAccountDao
     extends MyAccountDaoBase
 {
-    public MyAccount findWithName(String name)
+    public MyAccount findName(String name)
     {
         MyAccountCriteria c;
         c = createCriteria();

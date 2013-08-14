@@ -35,7 +35,7 @@ public class MyUserDao
         return c.findFirst();
     }
 
-    public void createNewUser()
+    public void createRootUser()
     {
         MyUser u;
         u = new MyUser();

@@ -1070,7 +1070,7 @@ public class MyManageAccountsPage
         _deleteGroup.setTitle("Delete %s Account", accountName);
 
         MyAccount account;
-        account = getAccountDao().findWithName(accountName);
+        account = getAccountDao().findName(accountName);
 
         if ( account != null )
             _deleteAccountName.setValue(account.getName());
@@ -1145,7 +1145,7 @@ public class MyManageAccountsPage
         accountName = _viewAccountName.getValue();
 
         MyAccount account;
-        account = getAccountDao().findWithName(accountName);
+        account = getAccountDao().findName(accountName);
 
         if ( account != null )
             _editAccountName.setValue(account.getName());

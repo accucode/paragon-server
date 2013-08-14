@@ -356,7 +356,7 @@ public class MyAccountDetailsPage
 
         if ( _searchAccountNameField.hasValue() )
         {
-            MyAccount a = getAccess().getAccountDao().findWithName(accountName);
+            MyAccount a = getAccess().getAccountDao().findName(accountName);
             f.setAccountUid(a.getUid());
         }
 
@@ -820,7 +820,7 @@ public class MyAccountDetailsPage
         accountName = _addAccountNameField.getValue();
 
         MyAccount findAccount;
-        findAccount = getAccess().getAccountDao().findWithName(accountName);
+        findAccount = getAccess().getAccountDao().findName(accountName);
 
         MyAccount account;
 
