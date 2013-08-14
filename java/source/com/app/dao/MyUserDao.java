@@ -56,12 +56,11 @@ public class MyUserDao
         au.setRoleOwner();
     }
 
-    public void createNewUser(String name, String email, String password)
+    public void createNewUserInvitation(String name, String email, String password)
     {
         MyUser u;
         u = new MyUser();
-        u.setUid(MyUser.ROOT_UID);
-        u.setRoleDeveloper();
+        u.setRoleUser();
         u.setEmail(email);
         u.setPassword(password);
         u.setName(name);
@@ -80,6 +79,7 @@ public class MyUserDao
         au.setRoleOwner();
     }
 
+    // fixme_valerie: rename transfer join
     public MyUser createNewUserTransfer(String email, String password, MyAccount account)
     {
         KmEmailParser p;
@@ -91,7 +91,7 @@ public class MyUserDao
 
         MyUser u;
         u = new MyUser();
-        u.setRoleDeveloper();
+        u.setRoleUser();
         u.setEmail(email);
         u.setPassword(password);
         u.setName(name);

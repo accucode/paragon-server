@@ -28,6 +28,8 @@ import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
 
+import com.app.dao.MyAccountDao;
+import com.app.dao.MyAccountUserDao;
 import com.app.filter.MyAccountUserFilter;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
@@ -410,7 +412,7 @@ public class MyManageAccountsPage
         MyAccount account = getPageSession().getAccount();
 
         KmList<MyAccountUser> accountUsers;
-        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(account);
+        accountUsers = getAccountUserDao().findAccountUsersFor(account);
 
         for ( MyAccountUser e : accountUsers )
             if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
@@ -1035,7 +1037,7 @@ public class MyManageAccountsPage
         _deleteGroup.setTitle("Delete %s Account", accountName);
 
         MyAccount account;
-        account = getAccess().getAccountDao().findWithName(accountName);
+        account = getAccountDao().findWithName(accountName);
 
         if ( account != null )
             _deleteAccountName.setValue(account.getName());
@@ -1053,7 +1055,7 @@ public class MyManageAccountsPage
         account = getPageSession().getAccount();
 
         MyAccountUser accountUser;
-        accountUser = getAccess().getAccountUserDao().findAccountUserFor(getCurrentUser(), account);
+        accountUser = getAccountUserDao().findAccountUserFor(getCurrentUser(), account);
 
         account.deleteDao();
         accountUser.deleteDao();
@@ -1126,22 +1128,12 @@ public class MyManageAccountsPage
             return;
         }
 
+        String name = _addAccountName.getValue();
+        String typeCode = _addAccountType.getStringValue();
+        MyUser user = getCurrentUser();
+
         MyAccount account;
-        account = new MyAccount();
-        account.setName(_addAccountName.getValue());
-        account.setTypeCode(_addAccountType.getStringValue());
-        account.saveDao();
-        getPageSession().setAccount(account);
-
-        MyUser user;
-        user = getCurrentUser();
-
-        MyAccountUser accountUser;
-        accountUser = new MyAccountUser();
-        accountUser.setAccount(account);
-        accountUser.setUser(user);
-        accountUser.setRoleOwner();
-        accountUser.saveDao();
+        account = getAccountDao().createNewAccount(name, typeCode, user);
 
         setDropdownOptions();
 
@@ -1156,7 +1148,7 @@ public class MyManageAccountsPage
         accountName = _viewAccountName.getValue();
 
         MyAccount account;
-        account = getAccess().getAccountDao().findWithName(accountName);
+        account = getAccountDao().findWithName(accountName);
 
         if ( account != null )
             _editAccountName.setValue(account.getName());
@@ -1252,7 +1244,7 @@ public class MyManageAccountsPage
         accountUserUid = getStringArgument();
 
         MyAccountUser accountUser;
-        accountUser = getAccess().getAccountUserDao().findWithUid(accountUserUid);
+        accountUser = getAccountUserDao().findWithUid(accountUserUid);
 
         if ( accountUser == null )
             accountUser = getPageSession().getAccountUser();
@@ -1331,7 +1323,7 @@ public class MyManageAccountsPage
         String roleCode = _editRoleDropdown.getStringValue();
 
         MyAccountUser findOwner;
-        findOwner = getAccess().getAccountUserDao().findCurrentOwner(account);
+        findOwner = getAccountUserDao().findCurrentOwner(account);
 
         boolean hasOwner = findOwner != null;
         boolean setOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
@@ -1385,7 +1377,7 @@ public class MyManageAccountsPage
         _viewAccountType.setValue(account.getType().getName());
 
         MyAccountUser findCurrentOwner;
-        findCurrentOwner = getAccess().getAccountUserDao().findCurrentOwner(account);
+        findCurrentOwner = getAccountUserDao().findCurrentOwner(account);
 
         if ( getDropdownList().isEmpty() )
             _viewAccountFooter.hide();
@@ -1437,7 +1429,7 @@ public class MyManageAccountsPage
         accountUid = _accountDropdown.getStringValue();
 
         MyAccount dropdownAccount;
-        dropdownAccount = getAccess().getAccountDao().findUid(accountUid);
+        dropdownAccount = getAccountDao().findUid(accountUid);
 
         return dropdownAccount;
     }
@@ -1454,7 +1446,7 @@ public class MyManageAccountsPage
         list = new KmList<ScOption>();
 
         KmList<MyAccountUser> accountUsers;
-        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(u);
+        accountUsers = getAccountUserDao().findAccountUsersFor(u);
 
         for ( MyAccountUser accountUser : accountUsers )
         {
@@ -1495,5 +1487,19 @@ public class MyManageAccountsPage
             MyPageLayout.getInstance().refreshDropdown();
             return;
         }
+    }
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    private MyAccountDao getAccountDao()
+    {
+        return getAccess().getAccountDao();
+    }
+
+    private MyAccountUserDao getAccountUserDao()
+    {
+        return getAccess().getAccountUserDao();
     }
 }

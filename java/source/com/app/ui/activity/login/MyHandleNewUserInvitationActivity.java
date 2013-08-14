@@ -243,7 +243,7 @@ public class MyHandleNewUserInvitationActivity
         /**
          * review_wyatt (valerie) using createNewUser method
          */
-        getAccess().getUserDao().createNewUser(name, email, p1);
+        getAccess().getUserDao().createNewUserInvitation(name, email, p1);
     }
 
     //##################################################
