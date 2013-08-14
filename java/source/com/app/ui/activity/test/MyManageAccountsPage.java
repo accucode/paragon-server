@@ -160,8 +160,11 @@ public class MyManageAccountsPage
      *      I don't know what you are referring to.
      *      Use better names for the two buttons.
      *      
-     * review_wyatt (valerie)
-     * not sure this the boarder around the form looks too much better
+     * (valerie)
+     * not sure this the border around the form looks too much better
+     * 
+     * review_valerie (wyatt) discuss
+     *      Use better names for the two buttons.
      */
     private void installDeleteUserDialog(ScPageRoot root)
     {
@@ -517,7 +520,7 @@ public class MyManageAccountsPage
     {
         // review_steve AUTO COMPLETE FIELD
         /**
-         * review_wyatt (steve) autoComplete field tracked values
+         * (steve) autoComplete field tracked values
          *  (steve) autoComplete field tracked values
          *  
          * review_steve (wyatt)
@@ -1042,6 +1045,10 @@ public class MyManageAccountsPage
     //# start
     //##################################################
 
+    /**
+     * review_valerie (wyatt) discuss start
+     * review_steve   (wyatt) discuss start
+     */
     @Override
     public void start()
     {

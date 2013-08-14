@@ -60,6 +60,10 @@ public class MyUserDao
         au.setRoleOwner();
     }
 
+    /**
+     * review_valerie (wyatt) name
+     *      This method creates a new invitation?
+     */
     public void createNewUserInvitation(String name, String email, String password)
     {
         MyUser u;

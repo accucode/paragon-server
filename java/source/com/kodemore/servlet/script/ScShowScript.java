@@ -62,9 +62,6 @@ public class ScShowScript
         return "slideDown";
     }
 
-    /**
-     * review_wyatt: (aaron) FLIP - This is the show flip function.
-     */
     @Override
     protected String getFlipFunction()
     {
