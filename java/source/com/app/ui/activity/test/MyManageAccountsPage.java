@@ -112,8 +112,6 @@ public class MyManageAccountsPage
     private ScDiv                 _viewAccountFooter;
     private ScGroup               _transferGroup;
 
-    private boolean               _firstStart;
-
     //##################################################
     //# install
     //##################################################
@@ -121,8 +119,6 @@ public class MyManageAccountsPage
     @Override
     protected ScPageRoot installRoot()
     {
-        setFirstStart(true);
-
         _accountName = new ScLocalString();
         _accountName.setAutoSave();
 
@@ -1023,7 +1019,6 @@ public class MyManageAccountsPage
 
         setDropdownOptions();
         handleUpdateValues();
-        setFirstStart(false);
     }
 
     //##################################################
@@ -1203,7 +1198,7 @@ public class MyManageAccountsPage
     {
         ajax().toast("Your request has been sent to: " + email);
 
-        refreshAll(false);
+        refreshAll(true);
     }
 
     private void handleCancelTransferRequest()
@@ -1424,10 +1419,7 @@ public class MyManageAccountsPage
             getPageSession().setAccount(account);
         }
 
-        if ( isFirstStart() )
-            refreshAll(false);
-        else
-            refreshAll(true);
+        refreshAll(false);
     }
 
     private MyAccount getDropdownAccount()
@@ -1494,24 +1486,5 @@ public class MyManageAccountsPage
             MyPageLayout.getInstance().refreshDropdown();
             return;
         }
-    }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private boolean getFirstStart()
-    {
-        return _firstStart;
-    }
-
-    private void setFirstStart(boolean firstStart)
-    {
-        _firstStart = firstStart;
-    }
-
-    private boolean isFirstStart()
-    {
-        return getFirstStart() == true;
     }
 }
