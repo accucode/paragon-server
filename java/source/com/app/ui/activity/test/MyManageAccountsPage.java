@@ -9,6 +9,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDialog;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -43,7 +44,6 @@ import com.app.utility.MyGlobals;
 public class MyManageAccountsPage
     extends MyAbstractTestPage
 {
-
     /**
      *  review_wyatt (steve) Grid not loading users
      *  when you enter the app you click "admin", then clcik "manage accounts".
@@ -130,22 +130,20 @@ public class MyManageAccountsPage
         root = newPageRoot();
         root.css().padSpaced();
 
-        installDeleteUserDialog(root);
-
-        ScArray col;
-        col = root.addColumn();
-
         ScArray row;
-        row = col.addRow();
+        row = root.addRow();
 
-        installAccountsDropdown(row);
-        installAccountFrame(row);
+        ScContainer left;
+        left = row.addColumn();
+        installAccountsDropdownOn(left);
+        installUserGrid(left);
 
-        ScArray row2;
-        row2 = col.addRow();
+        ScContainer right;
+        right = row.addColumn();
+        installAccountFrameOn(right);
+        installUserFrameOn(right);
 
-        installUserGrid(row2);
-        installUserFrame(row2);
+        installDeleteUserDialog(root);
 
         return root;
     }
@@ -178,13 +176,13 @@ public class MyManageAccountsPage
         button2.setImage(MyButtonUrls.primary());
     }
 
-    private void installAccountsDropdown(ScArray col)
+    private void installAccountsDropdownOn(ScContainer root)
     {
         _accountDropdown = new ScDropdown();
         _accountDropdown.setAction(newUpdateValuesAction());
 
         ScForm form;
-        form = col.addForm();
+        form = root.addForm();
 
         ScGroup group;
         group = form.addGroup("Manage Accounts");
@@ -199,9 +197,9 @@ public class MyManageAccountsPage
         button.setImage(MyButtonUrls.add());
     }
 
-    private void installAccountFrame(ScArray row)
+    private void installAccountFrameOn(ScContainer root)
     {
-        _accountFrame = row.addFrame();
+        _accountFrame = root.addFrame();
         _accountFrame.setHideFlip();
         _accountFrame.setShowFlip();
 
@@ -263,11 +261,11 @@ public class MyManageAccountsPage
         ScActionIF saveAction = newEditAccountSaveAction();
         ScActionIF cancelAction = newEditAccountCancelAction();
 
-        ScFrameChild frameChild;
-        frameChild = _accountFrame.createChild();
+        ScFrameChild child;
+        child = _accountFrame.createChild();
 
         ScForm form;
-        form = frameChild.addForm();
+        form = child.addForm();
         form.setDefaultAction(saveAction);
         form.onEscape().run(cancelAction);
 
@@ -297,7 +295,7 @@ public class MyManageAccountsPage
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Save");
 
-        _editAccountChild = frameChild;
+        _editAccountChild = child;
     }
 
     private void installAddAccountFrame()
@@ -509,7 +507,7 @@ public class MyManageAccountsPage
         _deleteAccountChild = frameChild;
     }
 
-    private void installUserGrid(ScArray root)
+    private void installUserGrid(ScContainer root)
     {
         MyMetaAccountUser x = MyAccountUser.Meta;
 
@@ -590,9 +588,9 @@ public class MyManageAccountsPage
         return f;
     }
 
-    private void installUserFrame(ScArray row)
+    private void installUserFrameOn(ScContainer root)
     {
-        _userFrame = row.addFrame();
+        _userFrame = root.addFrame();
         _userFrame.setHideFlip();
         _userFrame.setShowFlip();
 
