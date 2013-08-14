@@ -396,6 +396,10 @@ public class MyManageAccountsPage
         form.onEscape().run(cancelAction);
 
         _deleteGroup = form.addGroup();
+        /**
+         * review_steve (valerie) trying to make this stand out more than the
+         * others
+         */
         // todo_valerie add red background somewhere in here
 
         ScBox body;
@@ -1128,6 +1132,10 @@ public class MyManageAccountsPage
         refreshAll(true);
     }
 
+    /**
+     * review_steve review_valerie 
+     * view account needs to show just added method after save
+     */
     private void handleAddAccountSave()
     {
         _addAccountChild.validate();
@@ -1393,13 +1401,13 @@ public class MyManageAccountsPage
             _viewAccountFooter.hide();
 
         /**
-         * ask_valerie finicky
+         * review_steve review_valerie finicky
          */
         if ( findCurrentOwner != null && findCurrentOwner.getUser().isSame(user) )
             _transferButton.show();
 
         /**
-         * ask_valerie this condition is not working as intended
+         * review_steve review_valerie this condition is not working as intended
          */
         if ( account.getName().equalsIgnoreCase("Personal") )
             _deleteButton.hide();
