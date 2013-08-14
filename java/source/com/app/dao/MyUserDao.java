@@ -80,6 +80,21 @@ public class MyUserDao
         getAccess().getAccountUserDao().createNewAccountUser(u, a, MyAccountUserRole.Owner);
     }
 
+    /**
+     * review_wyatt (valerie)
+     * Not sure about the naming here. If it is ok here, I know I'll need to match others.
+     */
+    public MyUser getNewUser(String name, String email, String password)
+    {
+        MyUser u = createNewUser(MyUserRole.User, email, password, name);
+        MyAccount a = getAccess().getAccountDao().createNewAccount(
+            "Personal",
+            MyAccountType.Personal);
+        getAccess().getAccountUserDao().createNewAccountUser(u, a, MyAccountUserRole.Owner);
+
+        return u;
+    }
+
     public MyUser createNewUserWithAccount(String email, String password, MyAccount account)
     {
         KmEmailParser p;

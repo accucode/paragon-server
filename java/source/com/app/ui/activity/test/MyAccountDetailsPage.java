@@ -27,12 +27,14 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
+import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.MyAccountDao;
 import com.app.dao.MyUserDao;
 import com.app.filter.MyAccountUserFilter;
 import com.app.model.MyAccount;
+import com.app.model.MyAccountType;
 import com.app.model.MyAccountUser;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
@@ -102,6 +104,10 @@ public class MyAccountDetailsPage
 
     private ScForm                _form;
 
+    private ScLocalString         _userName;
+    private ScLocalString         _userEmail;
+    private ScLocalString         _accountName;
+
     //##################################################
     //# install
     //##################################################
@@ -109,6 +115,15 @@ public class MyAccountDetailsPage
     @Override
     protected ScPageRoot installRoot()
     {
+        _userName = new ScLocalString();
+        _userName.setAutoSave();
+
+        _userEmail = new ScLocalString();
+        _userEmail.setAutoSave();
+
+        _accountName = new ScLocalString();
+        _accountName.setAutoSave();
+
         ScPageRoot root;
         root = newPageRoot();
         root.css().padSpaced();
@@ -831,7 +846,6 @@ public class MyAccountDetailsPage
         _equalizeBox.ajax().equalizeDecendentGroups();
     }
 
-    // fixme_valerie: alerting for name and email
     private void handleAccept()
     {
         ajax().hideAllErrors();
@@ -849,22 +863,26 @@ public class MyAccountDetailsPage
         if ( Kmu.isNotEqual(p1, p2) )
             _password1Field.error("Passwords did not match.");
 
-        String userName = _addUserNameField.getValue();
-        String userEmail = _addUserEmailField.getValue();
-        String accountName = _addAccountNameField.getValue();
-
         MyAccount findAccount;
-        findAccount = getAccountDao().findName(accountName);
+        findAccount = getAccountDao().findName(getAccountName());
 
         MyUser user;
 
-        if ( findAccount == null )
-            user = getUserDao().createNewUser(userName, userEmail, p1, accountName);
+        // fixme_valerie: come back to this
+        if ( getAccountName() == null )
+            user = getUserDao().getNewUser(getUserName(), getUserEmail(), p1);
         else
-            user = getUserDao().createNewUser(userName, userEmail, p1, findAccount);
+            if ( findAccount == null )
+                user = getUserDao().createNewUser(
+                    getUserName(),
+                    getUserEmail(),
+                    p1,
+                    getAccountName());
+            else
+                user = getUserDao().createNewUser(getUserName(), getUserEmail(), p1, findAccount);
 
         MyAccount account;
-        account = getAccountDao().findName(accountName);
+        account = getAccountDao().findName(getAccountName());
         account.saveDao();
 
         MyAccountUser accountUser;
@@ -930,23 +948,17 @@ public class MyAccountDetailsPage
             return;
         }
 
-        if ( !_addAccountNameField.hasValue() )
-        {
-            ajax().toast("Please enter an account name");
-            return;
-        }
+        setUserName(_addUserNameField.getValue());
+        setUserEmail(_addUserEmailField.getValue());
+        setAccountName(_addAccountNameField.getValue());
 
-        String userName = _addUserNameField.getValue();
-        String userEmail = _addUserEmailField.getValue();
-        String accountName = _addAccountNameField.getValue();
+        if ( getAccountName() == null )
+            setAccountName("Personal");
 
-        MyUser findUser;
-        findUser = getUserDao().findName(userName);
+        MyUser user;
+        user = getUserDao().findName(getUserName());
 
-        MyAccount findAccount;
-        findAccount = getAccountDao().findName(accountName);
-
-        if ( findUser == null )
+        if ( user == null )
         {
             _passwordChild.ajaxPrint();
             _passwordChild.ajax().focus();
@@ -955,24 +967,28 @@ public class MyAccountDetailsPage
             return;
         }
 
-        MyUser user;
-        user = findUser;
-        user.setName(userName);
-        user.setEmail(userEmail);
+        user.setName(getUserName());
+        user.setEmail(getUserEmail());
         user.saveDao();
 
         MyAccount account;
+        account = getAccountDao().findName(getAccountName());
 
-        if ( findAccount != null )
-            account = findAccount;
-        else
-            account = new MyAccount();
+        if ( account == null )
+            account = getAccountDao().createNewAccount(
+                getAccountName(),
+                MyAccountType.Personal,
+                user);
 
-        account.setName(accountName);
+        account.setName(getAccountName());
         account.saveDao();
 
         MyAccountUser accountUser;
         accountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
+
+        if ( accountUser == null )
+            accountUser = getAccess().getAccountUserDao().getNewAccountUser(user, account);
+
         accountUser.setAccount(account);
         accountUser.setUser(user);
         accountUser.saveDao();
@@ -1082,5 +1098,35 @@ public class MyAccountDetailsPage
     private MyAccountDao getAccountDao()
     {
         return getAccess().getAccountDao();
+    }
+
+    private String getUserName()
+    {
+        return _userName.getValue();
+    }
+
+    private void setUserName(String e)
+    {
+        _userName.setValue(e);
+    }
+
+    private String getUserEmail()
+    {
+        return _userEmail.getValue();
+    }
+
+    private void setUserEmail(String e)
+    {
+        _userEmail.setValue(e);
+    }
+
+    private String getAccountName()
+    {
+        return _accountName.getValue();
+    }
+
+    private void setAccountName(String e)
+    {
+        _accountName.setValue(e);
     }
 }

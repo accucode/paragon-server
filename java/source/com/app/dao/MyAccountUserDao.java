@@ -76,6 +76,17 @@ public class MyAccountUserDao
         accountUser.saveDao();
     }
 
+    public MyAccountUser getNewAccountUser(MyUser user, MyAccount account)
+    {
+        MyAccountUser accountUser;
+        accountUser = new MyAccountUser();
+        accountUser.setAccount(account);
+        accountUser.setUser(user);
+        accountUser.setRole(MyAccountUserRole.User);
+        accountUser.saveDao();
+        return accountUser;
+    }
+
     public void createNewAccountUser(MyUser user, MyAccount account)
     {
         createNewAccountUser(user, account, MyAccountUserRole.User);
