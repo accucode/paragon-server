@@ -10,6 +10,7 @@ import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDialog;
 import com.kodemore.servlet.control.ScDiv;
+import com.kodemore.servlet.control.ScErrorBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScForm;
@@ -24,8 +25,12 @@ import com.kodemore.servlet.field.ScAutoCompleteCallbackIF;
 import com.kodemore.servlet.field.ScAutoCompleteField;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScField;
+import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
+import com.kodemore.utility.Kmu;
 
+import com.app.dao.MyAccountDao;
+import com.app.dao.MyUserDao;
 import com.app.filter.MyAccountUserFilter;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
@@ -73,6 +78,7 @@ public class MyAccountDetailsPage
     private ScGrid<MyAccountUser> _accountUserGrid;
 
     private ScFrame               _accountUserFrame;
+    private ScFrame               _passwordFrame;
 
     private ScFrameChild          _viewAccountUserChild;
     private ScFrameChild          _addAccountUserChild;
@@ -88,6 +94,13 @@ public class MyAccountDetailsPage
     private ScText                _viewUserVerifiedField;
 
     private ScBox                 _equalizeBox;
+
+    private ScPasswordField       _password1Field;
+    private ScPasswordField       _password2Field;
+
+    private ScFrameChild          _passwordChild;
+
+    private ScForm                _form;
 
     //##################################################
     //# install
@@ -108,11 +121,13 @@ public class MyAccountDetailsPage
         _equalizeBox = leftCol.addBox();
 
         ScArray row;
+        // review_aaron
         //        row = leftCol.addRow();
         row = _equalizeBox.addRow();
 
         installAccountUserSearchBox(row);
         installAccountUserTarget(row);
+        installPasswordFrame(row);
         installAccountUserGrid(leftCol);
 
         return root;
@@ -350,13 +365,13 @@ public class MyAccountDetailsPage
 
         if ( _searchUserNameField.hasValue() )
         {
-            MyUser u = getAccess().getUserDao().findName(userName);
+            MyUser u = getUserDao().findName(userName);
             f.setUserUid(u.getUid());
         }
 
         if ( _searchAccountNameField.hasValue() )
         {
-            MyAccount a = getAccess().getAccountDao().findWithName(accountName);
+            MyAccount a = getAccountDao().findName(accountName);
             f.setAccountUid(a.getUid());
         }
 
@@ -373,6 +388,63 @@ public class MyAccountDetailsPage
         installViewAccountUserFrame();
         installAddAccountUserFrame();
         installEditAccountUserFrame();
+    }
+
+    private void installPasswordFrame(ScArray row)
+    {
+        _passwordFrame = row.addFrame();
+
+        ScActionIF saveAction = newAcceptAction();
+        ScActionIF cancelAction = newAddAccountUserCancelAction();
+
+        ScFrameChild frameChild;
+        frameChild = _passwordFrame.createChild();
+
+        ScForm form;
+        form = addFormToFrame(saveAction, cancelAction, frameChild);
+        _form = form;
+
+        ScGroup group;
+        group = form.addGroup("Set a Password");
+
+        ScBox body;
+        body = group.addBox();
+        body.css().pad();
+
+        _password1Field = new ScPasswordField();
+        _password1Field.setRequired();
+
+        _password2Field = new ScPasswordField();
+
+        // todo_valerie: make this prettier
+        ScBox chooseLabel;
+        chooseLabel = group.addLabel("Choose a Password");
+        chooseLabel.css().padTop();
+        chooseLabel.css().padHorizontal();
+
+        ScErrorBox chooseBox;
+        chooseBox = group.addErrorBox();
+        chooseBox.add(_password1Field);
+        chooseBox.css().padHorizontal();
+
+        ScBox reEnterLabel;
+        reEnterLabel = group.addLabel("Re-enter Password");
+        reEnterLabel.css().padTop();
+        reEnterLabel.css().padHorizontal();
+
+        ScErrorBox reEnterBox;
+        reEnterBox = group.addErrorBox();
+        reEnterBox.add(_password2Field);
+        reEnterBox.css().padHorizontal();
+
+        group.addDivider();
+
+        ScDiv footer;
+        footer = group.addButtonBoxRight();
+        footer.addCancelButton(cancelAction);
+        footer.addSubmitButton("Activate User");
+
+        _passwordChild = frameChild;
     }
 
     private void installViewAccountUserFrame()
@@ -603,6 +675,18 @@ public class MyAccountDetailsPage
         };
     }
 
+    private ScActionIF newAcceptAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleAccept();
+            }
+        };
+    }
+
     private ScActionIF newShowEditAccountUserBoxAction()
     {
         return new ScAction(this)
@@ -747,6 +831,56 @@ public class MyAccountDetailsPage
         _equalizeBox.ajax().equalizeDecendentGroups();
     }
 
+    // fixme_valerie: alerting for name and email
+    private void handleAccept()
+    {
+        ajax().hideAllErrors();
+        ajax().focus();
+
+        _form.validate();
+
+        _password1Field.ajax().clearValue();
+        _password2Field.ajax().clearValue();
+
+        String p1 = _password1Field.getValue();
+        String p2 = _password2Field.getValue();
+
+        // fixme_valerie: not warning correctly
+        if ( Kmu.isNotEqual(p1, p2) )
+            _password1Field.error("Passwords did not match.");
+
+        String userName = _addUserNameField.getValue();
+        String userEmail = _addUserEmailField.getValue();
+        String accountName = _addAccountNameField.getValue();
+
+        MyAccount findAccount;
+        findAccount = getAccountDao().findName(accountName);
+
+        MyUser user;
+
+        if ( findAccount == null )
+            user = getUserDao().createNewUser(userName, userEmail, p1, accountName);
+        else
+            user = getUserDao().createNewUser(userName, userEmail, p1, findAccount);
+
+        MyAccount account;
+        account = getAccountDao().findName(accountName);
+        account.saveDao();
+
+        MyAccountUser accountUser;
+        accountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
+        accountUser.saveDao();
+
+        if ( _addTypeDropdown.hasValue() )
+            account.setTypeCode(_addTypeDropdown.getStringValue());
+
+        if ( _addRoleDropdown.hasValue() )
+            accountUser.setRoleCode(_addRoleDropdown.getStringValue());
+
+        _form.ajax().hide();
+        _accountUserGrid.ajaxReload();
+    }
+
     private void handleShowEditAccountUserBox()
     {
         MyAccountUser e;
@@ -802,25 +936,30 @@ public class MyAccountDetailsPage
             return;
         }
 
-        MyUser user;
+        String userName = _addUserNameField.getValue();
+        String userEmail = _addUserEmailField.getValue();
+        String accountName = _addAccountNameField.getValue();
 
         MyUser findUser;
-        findUser = getAccess().getUserDao().findName(_addUserNameField.getValue());
-
-        if ( findUser != null )
-            user = findUser;
-        else
-            user = new MyUser();
-
-        user.setName(_addUserNameField.getValue());
-        user.setEmail(_addUserEmailField.getValue());
-        user.saveDao();
-
-        String accountName;
-        accountName = _addAccountNameField.getValue();
+        findUser = getUserDao().findName(userName);
 
         MyAccount findAccount;
-        findAccount = getAccess().getAccountDao().findWithName(accountName);
+        findAccount = getAccountDao().findName(accountName);
+
+        if ( findUser == null )
+        {
+            _passwordChild.ajaxPrint();
+            _passwordChild.ajax().focus();
+            _passwordFrame.ajax().defer();
+            _equalizeBox.ajax().equalizeDecendentGroups();
+            return;
+        }
+
+        MyUser user;
+        user = findUser;
+        user.setName(userName);
+        user.setEmail(userEmail);
+        user.saveDao();
 
         MyAccount account;
 
@@ -832,17 +971,8 @@ public class MyAccountDetailsPage
         account.setName(accountName);
         account.saveDao();
 
-        MyAccountUser findAccountUser;
-        findAccountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
-
         MyAccountUser accountUser;
-
-        if ( findAccountUser != null )
-            accountUser = findAccountUser;
-        else
-            accountUser = new MyAccountUser();
-
-        accountUser.applyFrom(_addAccountUserChild);
+        accountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
         accountUser.setAccount(account);
         accountUser.setUser(user);
         accountUser.saveDao();
@@ -944,4 +1074,13 @@ public class MyAccountDetailsPage
         footer.addSubmitButton("Save");
     }
 
+    private MyUserDao getUserDao()
+    {
+        return getAccess().getUserDao();
+    }
+
+    private MyAccountDao getAccountDao()
+    {
+        return getAccess().getAccountDao();
+    }
 }

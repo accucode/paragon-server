@@ -3,10 +3,21 @@ package com.app.dao;
 import com.kodemore.utility.KmEmailParser;
 
 import com.app.criteria.MyUserCriteria;
+import com.app.dao.base.MyDaoRegistry;
 import com.app.dao.base.MyUserDaoBase;
 import com.app.model.MyAccount;
+import com.app.model.MyAccountType;
 import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
 import com.app.model.MyUser;
+import com.app.model.MyUserRole;
+import com.app.utility.MyGlobals;
+
+/**
+ * review_wyatt (valerie)
+ * hope I didn't get too carried away with the refactoring, still working
+ * on the right balance
+ */
 
 public class MyUserDao
     extends MyUserDaoBase
@@ -35,7 +46,7 @@ public class MyUserDao
         return c.findFirst();
     }
 
-    public void createNewUser()
+    public void createRootUser()
     {
         MyUser u;
         u = new MyUser();
@@ -60,31 +71,16 @@ public class MyUserDao
         au.setRoleOwner();
     }
 
-    public void createNewUserInvitation(String name, String email, String password)
+    public void createNewUser(String name, String email, String password)
     {
-        MyUser u;
-        u = new MyUser();
-        u.setRoleUser();
-        u.setEmail(email);
-        u.setPassword(password);
-        u.setName(name);
-        u.setVerified(true);
-        u.saveDao();
-
-        MyAccount a;
-        a = new MyAccount();
-        a.setName("Personal");
-        a.setTypePersonal();
-        a.saveDao();
-
-        MyAccountUser au;
-        au = a.addAccountUser();
-        au.setUser(u);
-        au.setRoleOwner();
+        MyUser u = createNewUser(MyUserRole.User, email, password, name);
+        MyAccount a = getAccess().getAccountDao().createNewAccount(
+            "Personal",
+            MyAccountType.Personal);
+        getAccess().getAccountUserDao().createNewAccountUser(u, a, MyAccountUserRole.Owner);
     }
 
-    // fixme_valerie: rename transfer join
-    public MyUser createNewUserTransfer(String email, String password, MyAccount account)
+    public MyUser createNewUserWithAccount(String email, String password, MyAccount account)
     {
         KmEmailParser p;
         p = new KmEmailParser();
@@ -93,23 +89,61 @@ public class MyUserDao
         String name;
         name = p.getName();
 
-        MyUser u;
-        u = new MyUser();
-        u.setRoleUser();
-        u.setEmail(email);
-        u.setPassword(password);
-        u.setName(name);
-        u.setVerified(true);
-        u.saveDao();
+        MyUser u = createNewUser(MyUserRole.User, email, password, name);
 
-        MyAccount a;
-        a = account;
+        MyAccount a = account;
         a.saveDao();
 
-        MyAccountUser au;
-        au = a.addAccountUser();
-        au.setUser(u);
+        getAccess().getAccountUserDao().createNewAccountUser(u, a);
 
         return u;
+    }
+
+    public MyUser createNewUser(String name, String email, String password, MyAccount account)
+    {
+        MyUser u = createNewUser(MyUserRole.Admin, email, password, name);
+
+        MyAccount a = account;
+        a.saveDao();
+
+        getAccess().getAccountUserDao().createNewAccountUser(u, a);
+
+        return u;
+    }
+
+    public MyUser createNewUser(String name, String email, String password, String accountName)
+    {
+        MyUser u = createNewUser(MyUserRole.Admin, email, password, name);
+
+        MyAccount a = getAccess().getAccountDao().createNewAccount(
+            accountName,
+            MyAccountType.Personal,
+            u);
+
+        getAccess().getAccountUserDao().createNewAccountUser(u, a);
+
+        return u;
+    }
+
+    private MyUser createNewUser(MyUserRole userRole, String email, String password, String userName)
+    {
+        MyUser u;
+        u = new MyUser();
+        u.setRole(userRole);
+        u.setEmail(email);
+        u.setPassword(password);
+        u.setName(userName);
+        u.setVerified(true);
+        u.saveDao();
+        return u;
+    }
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    protected MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
     }
 }

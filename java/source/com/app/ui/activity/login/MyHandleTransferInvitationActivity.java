@@ -302,7 +302,7 @@ public class MyHandleTransferInvitationActivity
             _password1Field.error("Passwords did not match.");
 
         MyUser u;
-        u = getAccess().getUserDao().createNewUserTransfer(email, p1, account);
+        u = getAccess().getUserDao().createNewUserWithAccount(email, p1, account);
 
         return u;
     }

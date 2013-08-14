@@ -32,6 +32,7 @@ import com.app.dao.MyAccountDao;
 import com.app.dao.MyAccountUserDao;
 import com.app.filter.MyAccountUserFilter;
 import com.app.model.MyAccount;
+import com.app.model.MyAccountType;
 import com.app.model.MyAccountUser;
 import com.app.model.MyAccountUserRole;
 import com.app.model.MyServerSession;
@@ -160,8 +161,11 @@ public class MyManageAccountsPage
      *      I don't know what you are referring to.
      *      Use better names for the two buttons.
      *      
-     * review_wyatt (valerie)
-     * not sure this the boarder around the form looks too much better
+     * (valerie)
+     * not sure this the border around the form looks too much better
+     * 
+     * review_valerie (wyatt) discuss
+     *      Use better names for the two buttons.
      */
     private void installDeleteUserDialog(ScPageRoot root)
     {
@@ -517,7 +521,7 @@ public class MyManageAccountsPage
     {
         // review_steve AUTO COMPLETE FIELD
         /**
-         * review_wyatt (steve) autoComplete field tracked values
+         * (steve) autoComplete field tracked values
          *  (steve) autoComplete field tracked values
          *  
          * review_steve (wyatt)
@@ -1042,6 +1046,10 @@ public class MyManageAccountsPage
     //# start
     //##################################################
 
+    /**
+     * review_valerie (wyatt) discuss start
+     * review_steve   (wyatt) discuss start
+     */
     @Override
     public void start()
     {
@@ -1063,7 +1071,7 @@ public class MyManageAccountsPage
         _deleteGroup.setTitle("Delete %s Account", accountName);
 
         MyAccount account;
-        account = getAccountDao().findWithName(accountName);
+        account = getAccountDao().findName(accountName);
 
         if ( account != null )
             _deleteAccountName.setValue(account.getName());
@@ -1138,7 +1146,7 @@ public class MyManageAccountsPage
         accountName = _viewAccountName.getValue();
 
         MyAccount account;
-        account = getAccountDao().findWithName(accountName);
+        account = getAccountDao().findName(accountName);
 
         if ( account != null )
             _editAccountName.setValue(account.getName());
@@ -1226,10 +1234,11 @@ public class MyManageAccountsPage
 
         String name = _addAccountName.getValue();
         String typeCode = _addAccountType.getStringValue();
+        MyAccountType type = MyAccountType.findCode(typeCode);
         MyUser user = getCurrentUser();
 
         MyAccount account;
-        account = getAccountDao().createNewAccount(name, typeCode, user);
+        account = getAccountDao().createNewAccount(name, type, user);
 
         setDropdownOptions();
 
