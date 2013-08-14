@@ -350,7 +350,7 @@ public class MyAccountDetailsPage
 
         if ( _searchUserNameField.hasValue() )
         {
-            MyUser u = getAccess().getUserDao().findUserWithName(userName);
+            MyUser u = getAccess().getUserDao().findName(userName);
             f.setUserUid(u.getUid());
         }
 
@@ -805,7 +805,7 @@ public class MyAccountDetailsPage
         MyUser user;
 
         MyUser findUser;
-        findUser = getAccess().getUserDao().findUserWithName(_addUserNameField.getValue());
+        findUser = getAccess().getUserDao().findName(_addUserNameField.getValue());
 
         if ( findUser != null )
             user = findUser;

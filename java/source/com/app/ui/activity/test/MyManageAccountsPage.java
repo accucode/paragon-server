@@ -47,11 +47,16 @@ public class MyManageAccountsPage
     extends MyAbstractTestPage
 {
     /**
-     *  review_wyatt (steve) Grid not loading users
-     *  when you enter the app you click "admin", then clcik "manage accounts".
+     *  (steve) Grid not loading users
+     *  when you enter the app you click "admin", then click "manage accounts".
      *  when you enter this page the grid fails to display the users associated with the current account.
      *  if you click the refresh icon it will display. Please check it out.
+     *  
+     * review_steve (wyatt)
+     *      Fix spacing in comments.
+     *      I cannot reproduce the problem.
      */
+
     //##################################################
     //# singleton
     //##################################################
@@ -148,6 +153,13 @@ public class MyManageAccountsPage
     }
 
     /**
+     * (valerie)
+     * not sure this looks too much better
+     * 
+     * review_valerie (wyatt) discuss
+     *      I don't know what you are referring to.
+     *      Use better names for the two buttons.
+     *      
      * review_wyatt (valerie)
      * not sure this the boarder around the form looks too much better
      */
@@ -450,9 +462,6 @@ public class MyManageAccountsPage
         body.css().pad();
 
         // review_steve AUTO COMPLETE FIELD
-        /**
-         *  review_wyatt (steve) autoComplete field tracked values
-         */
         _transferEmailAutoComplete = new ScAutoCompleteField();
         _transferEmailAutoComplete.setLabel("Email ");
         _transferEmailAutoComplete.setCallback(newTransferEmailCallback());
@@ -509,6 +518,7 @@ public class MyManageAccountsPage
         // review_steve AUTO COMPLETE FIELD
         /**
          * review_wyatt (steve) autoComplete field tracked values
+         *  (steve) autoComplete field tracked values
          *  
          * review_steve (wyatt)
          *      Fix comment spacing above.
@@ -1387,20 +1397,25 @@ public class MyManageAccountsPage
         if ( account == null )
         {
             account = getDropdownAccount();
-
             getPageSession().setAccount(account);
         }
 
         _viewAccountName.setValue(account.getName());
         _viewAccountType.setValue(account.getType().getName());
 
+        /**
+         * review_steve (wyatt) discuss name
+         */
         MyAccountUser findCurrentOwner;
         findCurrentOwner = getAccountUserDao().findCurrentOwner(account);
 
         if ( getDropdownList().isEmpty() )
             _viewAccountFooter.hide();
 
-        /**
+        /*
+         * review_steve (wyatt) discuss
+         *      if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
+         *         
          * review_steve review_valerie finicky
          */
         if ( findCurrentOwner != null && findCurrentOwner.getUser().isSame(user) )
@@ -1408,6 +1423,8 @@ public class MyManageAccountsPage
 
         /**
          * review_steve review_valerie this condition is not working as intended
+         * 
+         * review_steve (wyatt)
          */
         if ( account.getName().equalsIgnoreCase("Personal") )
             _deleteButton.hide();
@@ -1428,9 +1445,11 @@ public class MyManageAccountsPage
         MyAccount dropdownAccount = getDropdownAccount();
 
         /**
-         * review_wyatt (steve) this is ugly and probably not too readable
+         * (steve) this is ugly and probably not too readable
          * 
          * review_valerie (steve)
+         * 
+         * review_steve (wyatt) discuss
          */
         if ( account == null || !dropdownAccount.equals(account) )
         {
@@ -1441,6 +1460,9 @@ public class MyManageAccountsPage
         refreshAll(false);
     }
 
+    /**
+     * review_steve (wyatt) discuss
+     */
     private MyAccount getDropdownAccount()
     {
         String accountUid;

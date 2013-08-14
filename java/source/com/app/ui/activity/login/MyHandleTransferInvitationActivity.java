@@ -280,7 +280,9 @@ public class MyHandleTransferInvitationActivity
         oldOwner = accountUserDao.findCurrentOwner(account);
 
         /**
-         * review_wyatt (valerie) use of transfer ownership
+         * (valerie) use of transfer ownership
+         * 
+         * review_valerie (wyatt) discuss
          */
         accountUserDao.transferOwnership(oldOwner, newOwner);
 

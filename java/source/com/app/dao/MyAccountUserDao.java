@@ -1,13 +1,13 @@
 package com.app.dao;
 
+import com.kodemore.collection.KmList;
+
 import com.app.criteria.MyAccountUserCriteria;
 import com.app.dao.base.MyAccountUserDaoBase;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
 import com.app.model.MyAccountUserRole;
 import com.app.model.MyUser;
-
-import com.kodemore.collection.KmList;
 
 public class MyAccountUserDao
     extends MyAccountUserDaoBase
@@ -46,8 +46,10 @@ public class MyAccountUserDao
     }
 
     /**
-     * review_wyatt (valerie)
+     * (valerie)
      * these two convenience methods
+     * 
+     * review_valerie (wyatt) discuss 
      */
     public MyAccountUser findCurrentOwner(MyAccount a)
     {

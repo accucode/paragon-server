@@ -5,6 +5,7 @@ import com.kodemore.utility.KmNamedEnumIF;
 import com.app.criteria.MyUserCriteria;
 import com.app.criteria.MyUserJunction;
 import com.app.filter.base.MyUserFilterBase;
+import com.app.model.MyAccount;
 
 public class MyUserFilter
     extends MyUserFilterBase
@@ -38,8 +39,14 @@ public class MyUserFilter
     //# variables
     //##################################################
 
+    private String  _accountUid;
+    private boolean _usesAccountUid;
+
     private String  _email;
     private boolean _usesEmail;
+
+    private String  _emailSubstring;
+    private boolean _usesEmailSubstring;
 
     private String  _looseName;
     private boolean _usesLooseName;
@@ -48,7 +55,35 @@ public class MyUserFilter
     private boolean _sortAscending;
 
     //##################################################
-    //# login
+    //# account
+    //##################################################
+
+    public String getAccountUid()
+    {
+        return _accountUid;
+    }
+
+    public void setAccountUid(String e)
+    {
+        _accountUid = e;
+        _usesAccountUid = true;
+    }
+
+    public void setAccount(MyAccount e)
+    {
+        if ( e == null )
+            setAccountUid(null);
+        else
+            setAccountUid(e.getUid());
+    }
+
+    public boolean usesAccountUid()
+    {
+        return _usesAccountUid;
+    }
+
+    //##################################################
+    //# email
     //##################################################
 
     public String getEmail()
@@ -65,6 +100,26 @@ public class MyUserFilter
     public boolean usesEmail()
     {
         return _usesEmail;
+    }
+
+    //##################################################
+    //# email substring
+    //##################################################
+
+    public String getEmailSubstring()
+    {
+        return _emailSubstring;
+    }
+
+    public void setEmailSubstring(String e)
+    {
+        _emailSubstring = e;
+        _usesEmailSubstring = true;
+    }
+
+    public boolean usesEmailSubstring()
+    {
+        return _usesEmailSubstring;
     }
 
     //##################################################
@@ -151,8 +206,14 @@ public class MyUserFilter
     @Override
     public void applyConditionsTo(MyUserCriteria c)
     {
+        if ( usesAccountUid() )
+            c.joinToAccountUsers().whereAccountUid().is(getAccountUid());
+
         if ( usesEmail() )
             c.whereEmail().is(getEmail());
+
+        if ( usesEmailSubstring() )
+            c.whereEmail().hasSubstring(getEmailSubstring());
 
         if ( usesLooseName() )
         {
