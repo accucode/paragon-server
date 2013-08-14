@@ -508,7 +508,7 @@ public class MyManageAccountsPage
     {
         // review_steve AUTO COMPLETE FIELD
         /**
-         *  review_wyatt (steve) autoComplete field tracked values
+         * review_wyatt (steve) autoComplete field tracked values
          *  
          * review_steve (wyatt)
          *      Fix comment spacing above.
