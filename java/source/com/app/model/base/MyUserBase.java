@@ -48,6 +48,7 @@ public abstract class MyUserBase
     private String roleCode;
     private KmHtmlColor favoriteColor;
     private Integer lockVersion;
+    private List<MyAccountUser> accountUsers;
     private List<String> pets;
 
     //##################################################
@@ -61,6 +62,7 @@ public abstract class MyUserBase
         setVerified(false);
         setPasswordSalt(newUid());
         setRoleCode(MyUserRole.User.getCode());
+        accountUsers = new ArrayList<MyAccountUser>();
     }
 
     //##################################################
@@ -554,6 +556,73 @@ public abstract class MyUserBase
 
 
     //##################################################
+    //# AccountUsers (collection)
+    //##################################################
+
+    public KmCollection<MyAccountUser> getAccountUsers()
+    {
+        return new KmHibernateCollection<MyAccountUser,MyUser>(
+            getBaseAccountUsers(),
+            (MyUser)this,
+            MyAccountUser.Meta.User.getAdaptor());
+    }
+
+    public boolean hasAccountUsers()
+    {
+        return !getBaseAccountUsers().isEmpty();
+    }
+
+    public int getAccountUserCount()
+    {
+        return getBaseAccountUsers().size();
+    }
+
+    public List<MyAccountUser> getBaseAccountUsers()
+    {
+        return accountUsers;
+    }
+
+    public MyAccountUser addAccountUser()
+    {
+        MyAccountUser e;
+        e = new MyAccountUser();
+        getAccountUsers().add(e);
+        return e;
+    }
+
+    public void addAccountUser(MyAccountUser e)
+    {
+        getAccountUsers().add(e);
+    }
+
+    public boolean removeAccountUser(MyAccountUser e)
+    {
+        return getAccountUsers().remove(e);
+    }
+
+    public boolean removeAccountUserUid(String myUid)
+    {
+        MyAccountUser e = findAccountUserUid(myUid);
+        if ( e == null )
+            return false;
+
+        return removeAccountUser(e);
+    }
+
+    public MyAccountUser findAccountUserUid(String myUid)
+    {
+        for ( MyAccountUser e : getBaseAccountUsers() )
+            if ( e.hasUid(myUid) )
+                return e;
+        return null;
+    }
+
+    public void clearAccountUsers()
+    {
+        getAccountUsers().clear();
+    }
+
+    //##################################################
     //# Pets (value collection)
     //##################################################
 
@@ -613,6 +682,8 @@ public abstract class MyUserBase
     {
         super.postCopy();
         uid = null;
+
+        accountUsers = new ArrayList<MyAccountUser>();
 
         List<String> old_pets = pets;
         pets = new ArrayList<String>();

@@ -47,6 +47,6 @@ public class KmgModelHibernateCollectionType
 
     public boolean getInverse()
     {
-        return true;
+        return false;
     }
 }

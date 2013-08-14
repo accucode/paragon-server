@@ -86,6 +86,16 @@
             />
 
         <bag
+            name="accountUsers"
+            inverse="false"
+            cascade="save-update,evict,lock,replicate,merge,persist"
+            >
+                <cache usage="read-write"/>
+                <key column="userUid"/>
+                <one-to-many class="com.app.model.MyAccountUser"/>
+        </bag>
+
+        <bag
             name="pets"
             table="user_pet"
             >

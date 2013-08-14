@@ -604,11 +604,11 @@ public class KmgModel
 
         int i = 0;
         for ( KmgModelAssociation e : getAssociations() )
-            if ( e.isRelationParent() )
+            if ( e.isRelationParent() && e.getInverseCollection().isRelationStrong() )
                 i++;
 
         if ( i > 1 )
-            error("Model cannot contain multiple parent associations.");
+            error("Model cannot contain multiple (strong) parent associations.");
     }
 
     @Override

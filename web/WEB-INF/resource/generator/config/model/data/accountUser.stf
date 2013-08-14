@@ -24,22 +24,22 @@ attributes
     : name          = account
     : comment       = The account table's unique key.
     : modelName     = account
-    : relation      = reference
+    : relation      = parent
     : required      = true
-    
+
         delegate
         : fieldName = name
-        
+
     association
     : name          = user
     : comment       = The user table's unique key.
     : modelName     = user
-    : relation      = reference
+    : relation      = parent
     : required      = true
-    
+
         delegate
         : fieldName = name
-        
+
     field
     : name      = roleCode
     : label     = Role

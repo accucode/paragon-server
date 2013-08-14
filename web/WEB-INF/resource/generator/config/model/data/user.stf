@@ -81,3 +81,9 @@ attributes
     : required  = false
     : default   =  
 
+    collection
+    : name          = accountUser
+    : comment       = The many-to-many relationship to this user's accounts.
+    : relation      = weakChildren
+    : elementModel  = accountUser
+    : elementField  = user

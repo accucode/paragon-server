@@ -408,6 +408,8 @@ public abstract class MyAccountUserBase
     {
         super.postCopy();
         uid = null;
+        account = null;
+        user = null;
     }
 
     //##################################################

@@ -141,6 +141,16 @@ public class KmgModelCollection
         return _relation;
     }
 
+    public boolean isRelationWeak()
+    {
+        return _relation == Relation.WeakChildren;
+    }
+
+    public boolean isRelationStrong()
+    {
+        return !isRelationWeak();
+    }
+
     //##################################################
     //# onCopy
     //##################################################
@@ -177,8 +187,10 @@ public class KmgModelCollection
         switch ( _relation )
         {
             case Children:
-            case WeakChildren:
                 return "all-delete-orphan";
+
+            case WeakChildren:
+                return "save-update,evict,lock,replicate,merge,persist";
         }
         return null;
 

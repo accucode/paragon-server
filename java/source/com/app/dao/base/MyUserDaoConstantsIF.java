@@ -29,4 +29,9 @@ public interface MyUserDaoConstantsIF
     String LOCK_VERSION = "lockVersion";
     String ROLE_NAME = "roleName";
 
+    //##################################################
+    //# collections
+    //##################################################
+
+    String ACCOUNT_USERS = "accountUsers";
 }

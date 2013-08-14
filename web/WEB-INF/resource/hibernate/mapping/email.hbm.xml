@@ -75,7 +75,7 @@
 
         <bag
             name="recipients"
-            inverse="true"
+            inverse="false"
             cascade="all-delete-orphan"
             >
                 <cache usage="read-write"/>
@@ -85,7 +85,7 @@
 
         <bag
             name="parts"
-            inverse="true"
+            inverse="false"
             cascade="all-delete-orphan"
             >
                 <cache usage="read-write"/>

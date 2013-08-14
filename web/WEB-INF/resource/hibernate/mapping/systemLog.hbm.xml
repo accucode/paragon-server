@@ -81,7 +81,7 @@
 
         <bag
             name="traces"
-            inverse="true"
+            inverse="false"
             cascade="all-delete-orphan"
             >
                 <cache usage="read-write"/>
