@@ -1390,7 +1390,10 @@ public class MyManageAccountsPage
         if ( getDropdownList().isEmpty() )
             _viewAccountFooter.hide();
 
-        if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
+        /**
+         * ask_valerie finicky
+         */
+        if ( findCurrentOwner != null && findCurrentOwner.getUser().isSame(user) )
             _transferButton.show();
 
         /**

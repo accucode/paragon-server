@@ -1,10 +1,5 @@
 package com.app.ui.activity.login;
 
-import com.app.model.MyInvitation;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.utility.MyUrls;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -19,6 +14,10 @@ import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
+
+import com.app.model.MyInvitation;
+import com.app.ui.activity.MyActivity;
+import com.app.utility.MyUrls;
 
 public class MyHandleNewUserInvitationActivity
     extends MyActivity
@@ -241,13 +240,10 @@ public class MyHandleNewUserInvitationActivity
         String name;
         name = p.getName();
 
-        MyUser u;
-        u = new MyUser();
-        u.setName(name);
-        u.setEmail(email);
-        u.setPassword(p1);
-        u.setVerified(true);
-        u.saveDao();
+        /**
+         * review_wyatt (valerie) using createNewUser method
+         */
+        getAccess().getUserDao().createNewUser(name, email, p1);
     }
 
     //##################################################
