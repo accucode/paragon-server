@@ -1065,14 +1065,14 @@ public class MyManageAccountsPage
         ajax().toast("Deleted account %s", account.getName());
 
         setDropdownOptions();
-        refreshAll();
+        refreshAll(true);
     }
 
     private void handleClose()
     {
         _deleteUserDialog.ajaxClose();
 
-        refreshAll();
+        refreshAll(false);
     }
 
     private void handleShowDeleteAccountUserDialog()
@@ -1114,7 +1114,7 @@ public class MyManageAccountsPage
 
     private void handleAddAccountCancel()
     {
-        refreshAll();
+        refreshAll(true);
     }
 
     private void handleAddAccountSave()
@@ -1149,7 +1149,7 @@ public class MyManageAccountsPage
 
         _accountDropdown.ajaxSetValue(account.getUid());
         MyPageLayout.getInstance().refreshDropdown();
-        refreshAll();
+        refreshAll(true);
     }
 
     private void handleShowEditAccountBox()
@@ -1203,12 +1203,12 @@ public class MyManageAccountsPage
     {
         ajax().toast("Your request has been sent to: " + email);
 
-        refreshAll();
+        refreshAll(false);
     }
 
     private void handleCancelTransferRequest()
     {
-        refreshAll();
+        refreshAll(true);
     }
 
     private void handleEditAccountSave()
@@ -1290,13 +1290,11 @@ public class MyManageAccountsPage
         utility.start(account, email, roleCode);
 
         showSentMessage(email);
-
-        refreshAll();
     }
 
     private void handleAddUserCancel()
     {
-        refreshAll();
+        refreshAll(false);
     }
 
     private void handleEditUserCancel()
@@ -1356,21 +1354,21 @@ public class MyManageAccountsPage
 
         _userFrame.ajaxPrint(_viewUserChild);
 
-        refreshAll();
+        refreshAll(false);
     }
 
     private void handleViewUserCancel()
     {
         _userFrame.ajaxClear();
 
-        refreshAll();
+        refreshAll(false);
     }
 
     //##################################################
     //# convenience
     //##################################################
 
-    private void refreshAll()
+    private void refreshAll(boolean flipView)
     {
         MyAccount account;
         account = getPageSession().getAccount();
@@ -1400,10 +1398,10 @@ public class MyManageAccountsPage
             _viewAccountType.setValue(account.getType().getName());
         }
 
-        if ( isFirstStart() )
-            _viewAccountChild.ajaxUpdateValues();
-        else
+        if ( flipView )
             _accountFrame.ajaxPrint(_viewAccountChild);
+        else
+            _viewAccountChild.ajaxUpdateValues();
 
         _userGrid.ajaxReload();
     }
@@ -1426,7 +1424,10 @@ public class MyManageAccountsPage
             getPageSession().setAccount(account);
         }
 
-        refreshAll();
+        if ( isFirstStart() )
+            refreshAll(false);
+        else
+            refreshAll(true);
     }
 
     private MyAccount getDropdownAccount()
