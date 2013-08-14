@@ -27,7 +27,7 @@ public class MyDatabaseBootstrapCommand
 
     private void installRootUser()
     {
-        getAccess().getUserDao().createNewUser();
+        getAccess().getUserDao().createNewRootUser();
     }
 
     private void installExistingPatches()

@@ -32,6 +32,7 @@ import com.app.dao.MyAccountDao;
 import com.app.dao.MyAccountUserDao;
 import com.app.filter.MyAccountUserFilter;
 import com.app.model.MyAccount;
+import com.app.model.MyAccountType;
 import com.app.model.MyAccountUser;
 import com.app.model.MyAccountUserRole;
 import com.app.model.MyServerSession;
@@ -1148,10 +1149,11 @@ public class MyManageAccountsPage
 
         String name = _addAccountName.getValue();
         String typeCode = _addAccountType.getStringValue();
+        MyAccountType type = MyAccountType.findCode(typeCode);
         MyUser user = getCurrentUser();
 
         MyAccount account;
-        account = getAccountDao().createNewAccount(name, typeCode, user);
+        account = getAccountDao().createNewAccount(name, type, user);
 
         setDropdownOptions();
 

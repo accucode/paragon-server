@@ -1,13 +1,13 @@
 package com.app.dao;
 
+import com.kodemore.collection.KmList;
+
 import com.app.criteria.MyAccountUserCriteria;
 import com.app.dao.base.MyAccountUserDaoBase;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
 import com.app.model.MyAccountUserRole;
 import com.app.model.MyUser;
-
-import com.kodemore.collection.KmList;
 
 public class MyAccountUserDao
     extends MyAccountUserDaoBase
@@ -62,5 +62,20 @@ public class MyAccountUserDao
     {
         oldOwner.setRole(MyAccountUserRole.User);
         newOwner.setRole(MyAccountUserRole.Owner);
+    }
+
+    public void createNewAccountUser(MyUser user, MyAccount account, MyAccountUserRole role)
+    {
+        MyAccountUser accountUser;
+        accountUser = new MyAccountUser();
+        accountUser.setAccount(account);
+        accountUser.setUser(user);
+        accountUser.setRole(role);
+        accountUser.saveDao();
+    }
+
+    public void createNewAccountUser(MyUser user, MyAccount account)
+    {
+        createNewAccountUser(user, account, MyAccountUserRole.User);
     }
 }
