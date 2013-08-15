@@ -6,6 +6,7 @@ import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.filter.KmFilterIF;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDialog;
@@ -38,6 +39,7 @@ import com.app.model.MyAccountType;
 import com.app.model.MyAccountUser;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
+import com.app.utility.MyButtonUrls;
 
 public class MyAccountDetailsPage
     extends MyAbstractTestPage
@@ -152,16 +154,25 @@ public class MyAccountDetailsPage
         _deleteDialog = root.addDialog();
         _deleteDialog.getHeaderBox().hide();
         _deleteDialog.getFooterBox().hide();
+        _deleteDialog.setBodyHeight(125);
 
         ScBox body = _deleteDialog.getBodyBox();
 
         ScGroup group;
-        group = body.addGroup("Are you sure you want to delete this account user?");
+        group = body.addGroup("Are you sure you want to \n delete this account user?");
 
-        ScArray row;
-        row = group.addRow();
-        row.addPad().addButton("Yes", newDeleteAction());
-        row.addPad().addButton("No", newCloseAction());
+        ScDiv footer;
+        footer = group.addButtonBoxRight();
+
+        ScActionButton button1;
+        button1 = footer.addButton("Go Back", newCloseAction());
+        button1.setImage(MyButtonUrls.cancel());
+        button1.setFlavorNegative();
+
+        ScActionButton button2;
+        button2 = footer.addButton("Delete", newDeleteAction());
+        button2.setImage(MyButtonUrls.primary());
+        button2.setFlavorPositive();
     }
 
     private void installAccountUserSearchBox(ScArray root)
@@ -974,10 +985,7 @@ public class MyAccountDetailsPage
         a = getAccountDao().findName(getAccountName());
 
         if ( a == null )
-            a = getAccountDao().createNewAccount(
-                getAccountName(),
-                MyAccountType.Personal,
-                u);
+            a = getAccountDao().createNewAccount(getAccountName(), MyAccountType.Personal, u);
 
         a.setName(getAccountName());
         a.saveDao();

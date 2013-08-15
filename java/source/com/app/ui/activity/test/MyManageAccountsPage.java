@@ -183,12 +183,14 @@ public class MyManageAccountsPage
         footer = group.addButtonBoxRight();
 
         ScActionButton button1;
-        button1 = footer.addButton("Cancel", newCloseAction());
+        button1 = footer.addButton("Go Back", newCloseAction());
         button1.setImage(MyButtonUrls.cancel());
+        button1.setFlavorNegative();
 
         ScActionButton button2;
-        button2 = footer.addButton("Yes", newDeleteUserAction());
+        button2 = footer.addButton("Delete", newDeleteUserAction());
         button2.setImage(MyButtonUrls.primary());
+        button2.setFlavorPositive();
     }
 
     private void installAccountsDropdownOn(ScContainer root)
@@ -401,7 +403,7 @@ public class MyManageAccountsPage
     private void installDeleteAccountFrame()
     {
         ScActionIF saveAction = newDeleteAccountAction();
-        ScActionIF cancelAction = newCloseAction();
+        ScActionIF cancelAction = newDeleteAccountCancelAction();
 
         ScFrameChild frameChild;
         frameChild = _accountFrame.createChild();
@@ -646,11 +648,19 @@ public class MyManageAccountsPage
 
     private void installViewUserFrame()
     {
+        ScActionIF sendAction = newShowDeleteAccountUserDialogAction();
+        ScActionIF cancelAction = newViewUserCancelAction();
+
         ScFrameChild frameChild;
         frameChild = _userFrame.createChild();
 
+        ScForm form;
+        form = frameChild.addForm();
+        form.setDefaultAction(sendAction);
+        form.onEscape().run(cancelAction);
+
         ScGroup group;
-        group = frameChild.addGroup("View User");
+        group = form.addGroup("View User");
 
         ScDiv header;
         header = group.getHeader().addFloatRight();
@@ -686,16 +696,8 @@ public class MyManageAccountsPage
 
         ScDiv footer;
         footer = group.addButtonBoxRight();
-
-        ScActionButton cancelButton;
-        cancelButton = footer.addButton("Cancel", newViewUserCancelAction());
-        cancelButton.setImage(MyButtonUrls.cancel());
-
-        ScActionButton removeButton;
-        removeButton = footer.addButton(
-            "Remove from Account",
-            newShowDeleteAccountUserDialogAction());
-        removeButton.setImage(MyButtonUrls.primary());
+        footer.addCancelButton(cancelAction);
+        footer.addSubmitButton("Remove from Account");
 
         _viewUserChild = frameChild;
     }
@@ -786,6 +788,18 @@ public class MyManageAccountsPage
             public void handle()
             {
                 handleDeleteAccount();
+            }
+        };
+    }
+
+    private ScActionIF newDeleteAccountCancelAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleDeleteAccountCancel();
             }
         };
     }
@@ -1098,6 +1112,11 @@ public class MyManageAccountsPage
         ajax().toast("Deleted account %s", a.getName());
 
         setDropdownOptions();
+        refreshAll(true);
+    }
+
+    private void handleDeleteAccountCancel()
+    {
         refreshAll(true);
     }
 
