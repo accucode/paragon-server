@@ -14,9 +14,11 @@ import com.app.model.MyUserRole;
 import com.app.utility.MyGlobals;
 
 /**
- * review_wyatt (valerie)
+ * (valerie)
  * hope I didn't get too carried away with the refactoring, still working
  * on the right balance
+ * 
+ * review_valerie (wyatt) discuss
  */
 
 public class MyUserDao
@@ -111,8 +113,10 @@ public class MyUserDao
     }
 
     /**
-     * review_wyatt (valerie)
+     * (valerie)
      * Not sure about the naming here. If it is ok here, I know I'll need to match others.
+     * 
+     * review_valerie (wyatt) discuss
      */
     public MyUser getNewUser(String name, String email, String password)
     {
