@@ -18,6 +18,7 @@ public class MyAccountDao
 
     /**
      * review_valerie (wyatt) discuss
+     * needs to return a list or use a uid if returning only one
      */
     public MyAccount findName(String name)
     {
