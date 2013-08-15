@@ -1069,7 +1069,7 @@ public class MyManageAccountsPage
         super.start();
 
         setDropdownOptions();
-        handleUpdateValues();
+        updateViewAccount(true);
     }
 
     //##################################################
@@ -1142,7 +1142,7 @@ public class MyManageAccountsPage
 
     private void handleUpdateValues()
     {
-        updateViewAccount();
+        updateViewAccount(false);
     }
 
     private void handleShowAddAccountBox()
@@ -1439,7 +1439,7 @@ public class MyManageAccountsPage
         _userGrid.ajaxReload();
     }
 
-    private void updateViewAccount()
+    private void updateViewAccount(boolean isStart)
     {
         MyAccount a;
         a = getPageSession().getAccount();
@@ -1460,7 +1460,10 @@ public class MyManageAccountsPage
             getPageSession().setAccount(a);
         }
 
-        refreshAll(false);
+        if ( isStart )
+            refreshAll(false);
+        else
+            refreshAll(true);
     }
 
     /**
