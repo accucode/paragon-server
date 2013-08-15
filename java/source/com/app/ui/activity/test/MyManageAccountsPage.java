@@ -31,12 +31,14 @@ import com.kodemore.utility.KmEmailParser;
 import com.app.dao.MyAccountDao;
 import com.app.dao.MyAccountUserDao;
 import com.app.filter.MyAccountUserFilter;
+import com.app.filter.MyUserFilter;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
 import com.app.model.MyAccountUserRole;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
+import com.app.model.meta.MyMetaUser;
 import com.app.ui.activity.login.MyJoinAccountUtility;
 import com.app.ui.activity.login.MyTransferAccountUtility;
 import com.app.ui.layout.MyPageLayout;
@@ -516,33 +518,33 @@ public class MyManageAccountsPage
     private KmList<String> getAutoCompleteTransferEmailOptions(String term)
     {
         // review_steve AUTO COMPLETE FIELD
-        /**
-         * review_wyatt (steve) autoComplete field tracked values
-         *  (steve) autoComplete field tracked values
-         *  
-         * review_steve (wyatt)
-         *      Fix comment spacing above.
-         *      Discuss method below.
-         *      Use db.
-         *      Limit.
-         */
-
-        KmList<String> v;
-        v = new KmList<String>();
-
+        MyMetaUser x = MyUser.Meta;
         MyAccount account = getPageSession().getAccount();
 
-        KmList<MyAccountUser> accountUsers;
-        accountUsers = getAccountUserDao().findAccountUsersFor(account);
+        MyUserFilter f;
+        f = new MyUserFilter();
+        f.setEmailSubstring(term);
+        f.setAccount(account);
+        f.sortOnEmail();
 
-        for ( MyAccountUser e : accountUsers )
-            if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
-                v.add(e.getUser().getEmail());
+        return f.findFirst(10).collect(x.Email);
 
-        for ( MyAccountUser e : accountUsers )
-            v.add(e.getUser().getEmail());
-
-        return v;
+        //        KmList<String> v;
+        //        v = new KmList<String>();
+        //
+        //        MyAccount account = getPageSession().getAccount();
+        //
+        //        KmList<MyAccountUser> accountUsers;
+        //        accountUsers = getAccountUserDao().findAccountUsersFor(account);
+        //
+        //        for ( MyAccountUser e : accountUsers )
+        //            if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
+        //                v.add(e.getUser().getEmail());
+        //
+        //        for ( MyAccountUser e : accountUsers )
+        //            v.add(e.getUser().getEmail());
+        //
+        //        return v;
     }
 
     //==================================================
