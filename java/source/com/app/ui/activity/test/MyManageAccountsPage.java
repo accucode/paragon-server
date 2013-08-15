@@ -143,42 +143,27 @@ public class MyManageAccountsPage
         return root;
     }
 
-    /**
-     * (valerie)
-     * not sure this looks too much better
-     * 
-     * review_valerie (wyatt) discuss
-     *      I don't know what you are referring to.
-     *      Use better names for the two buttons.
-     *      
-     * (valerie)
-     * not sure this the border around the form looks too much better
-     * 
-     * review_valerie (wyatt) discuss
-     *      Use better names for the two buttons.
-     */
     private void installDeleteUserDialog(ScPageRoot root)
     {
         _deleteUserDialog = root.addDialog();
-        _deleteUserDialog.getHeaderBox().hide();
-        _deleteUserDialog.getFooterBox().hide();
+        _deleteUserDialog.getHeaderBox().addPad().addText(
+            "Are you sure you want to \n remove this user?");
+        _deleteUserDialog.getBodyBox().hide();
         _deleteUserDialog.setBodyHeight(125);
 
-        ScBox body = _deleteUserDialog.getBodyBox();
+        ScBox footer;
+        footer = _deleteUserDialog.getFooterBox().addPad();
 
-        ScGroup group;
-        group = body.addGroup("Are you sure you want to \n remove this user?");
-
-        ScDiv footer;
-        footer = group.addButtonBoxRight();
+        ScBox buttonBox;
+        buttonBox = footer.addButtonBoxRight();
 
         ScActionButton cancelButton;
-        cancelButton = footer.addButton("Go Back", newCloseAction());
+        cancelButton = buttonBox.addButton("Cancel", newCloseAction());
         cancelButton.setImage(MyButtonUrls.cancel());
         cancelButton.setFlavorNegative();
 
         ScActionButton deleteButton;
-        deleteButton = footer.addButton("Delete", newDeleteUserAction());
+        deleteButton = buttonBox.addButton("Delete", newDeleteUserAction());
         deleteButton.setImage(MyButtonUrls.primary());
         deleteButton.setFlavorPositive();
     }
