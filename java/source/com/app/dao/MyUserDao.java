@@ -46,7 +46,7 @@ public class MyUserDao
         return c.findFirst();
     }
 
-    public void createRootUser()
+    public MyUser createRootUser()
     {
         MyUser u;
         u = new MyUser();
@@ -61,6 +61,34 @@ public class MyUserDao
         MyAccount a;
         a = new MyAccount();
         a.setUid(MyAccount.ROOT_UID);
+        a.setName("Root");
+        a.setTypePersonal();
+        a.saveDao();
+
+        MyAccountUser au;
+        au = a.addAccountUser();
+        au.setUser(u);
+        au.setRoleOwner();
+
+        return u;
+    }
+
+    /**
+     * Create a new user.  
+     * Automatically creates the user's personal account.
+     */
+    public MyUser createUser(String name, String email)
+    {
+        MyUser u;
+        u = new MyUser();
+        u.setRoleUser();
+        u.setName(name);
+        u.setEmail(email);
+        u.setRandomPassword();
+        u.saveDao();
+
+        MyAccount a;
+        a = new MyAccount();
         a.setName("Personal");
         a.setTypePersonal();
         a.saveDao();
@@ -69,6 +97,8 @@ public class MyUserDao
         au = a.addAccountUser();
         au.setUser(u);
         au.setRoleOwner();
+
+        return u;
     }
 
     public void createNewUser(String name, String email, String password)
@@ -161,4 +191,10 @@ public class MyUserDao
     {
         return MyGlobals.getAccess();
     }
+
+    public MyUser findRoot()
+    {
+        return findUid(MyUser.ROOT_UID);
+    }
+
 }
