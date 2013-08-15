@@ -273,9 +273,23 @@ public class MyHandleJoinInvitationActivity
             u = createUser(email, a);
         }
 
+        System.out.println("    a: " + a.getName());
+        System.out.println("    u: " + u.getName());
+
         MyAccountUser au;
         au = getAccess().getAccountUserDao().findAccountUserFor(u, a);
+
+        if ( au == null )
+        {
+            au = new MyAccountUser();
+            au.setAccount(a);
+            au.setUser(u);
+        }
+
+        System.out.println("    au: " + au);
+
         au.setRoleCode(roleCode);
+        au.saveDao();
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
