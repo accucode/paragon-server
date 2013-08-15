@@ -833,19 +833,17 @@ public class MyAccountDetailsPage
         getPageSession().setAccount(a);
 
         if ( u != null )
+        {
             _viewUserNameField.setValue(u.getName());
-
-        if ( u != null )
             _viewUserEmailField.setValue(u.getEmail());
-
-        if ( u != null )
             _viewUserVerifiedField.setValue(u.getVerified().toString());
+        }
 
         if ( a != null )
+        {
             _viewAccountName.setValue(a.getName());
-
-        if ( a != null )
             _viewType.setValue(a.getType().getName());
+        }
 
         _viewRole.setValue(au.getRoleName());
 
@@ -876,27 +874,23 @@ public class MyAccountDetailsPage
         MyAccount findAccount;
         findAccount = getAccountDao().findName(getAccountName());
 
-        MyUser user;
+        MyUser u;
 
         // fixme_valerie: come back to this
         if ( getAccountName() == null )
-            user = getUserDao().getNewUser(getUserName(), getUserEmail(), p1);
+            u = getUserDao().getNewUser(getUserName(), getUserEmail(), p1);
         else
             if ( findAccount == null )
-                user = getUserDao().createNewUser(
-                    getUserName(),
-                    getUserEmail(),
-                    p1,
-                    getAccountName());
+                u = getUserDao().createNewUser(getUserName(), getUserEmail(), p1, getAccountName());
             else
-                user = getUserDao().createNewUser(getUserName(), getUserEmail(), p1, findAccount);
+                u = getUserDao().createNewUser(getUserName(), getUserEmail(), p1, findAccount);
 
         MyAccount a;
         a = getAccountDao().findName(getAccountName());
         a.saveDao();
 
         MyAccountUser au;
-        au = getAccess().getAccountUserDao().findAccountUserFor(user, a);
+        au = getAccess().getAccountUserDao().findAccountUserFor(u, a);
         au.saveDao();
 
         if ( _addTypeDropdown.hasValue() )
@@ -921,16 +915,16 @@ public class MyAccountDetailsPage
         a = getPageSession().getAccount();
 
         if ( u != null )
+        {
             _editUserNameField.setValue(u.getName());
-
-        if ( u != null )
             _editUserEmailField.setValue(u.getEmail());
+        }
 
         if ( a != null )
+        {
             _editAccountNameField.setValue(a.getName());
-
-        if ( a != null )
             _editTypeDropdown.setValue(a.getType());
+        }
 
         _editRoleDropdown.setValue(au.getRole());
 

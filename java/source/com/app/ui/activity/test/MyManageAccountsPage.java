@@ -415,6 +415,7 @@ public class MyManageAccountsPage
         form.onEscape().run(cancelAction);
 
         _deleteGroup = form.addGroup();
+
         /**
          * review_steve (valerie) trying to make this stand out more than the
          * others
@@ -1405,6 +1406,7 @@ public class MyManageAccountsPage
          */
         /**
          * ask_valerie preference on footer print vs flipView
+         * can implement a footer print only maybe
          */
         if ( owner != null && owner.getUser().isSame(u) )
             _transferButton.show();
@@ -1513,9 +1515,6 @@ public class MyManageAccountsPage
             return;
         }
 
-        /**
-         * ask_valerie produces two dropdowns?
-         */
         _accountDropdown.ajax().replace();
     }
 

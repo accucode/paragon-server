@@ -2560,7 +2560,7 @@ public class Kmu
 
     public static <E> String formatList(Iterable<E> v, Object separator)
     {
-        return formatList(v, (KmAdaptorIF<E,?>)null, LIST_SEPARATOR);
+        return formatList(v, (KmAdaptorIF<E,?>)null, separator);
     }
 
     public static <E> String formatList(Iterable<E> v, KmMetaAttribute<E,?> attr, Object separator)
