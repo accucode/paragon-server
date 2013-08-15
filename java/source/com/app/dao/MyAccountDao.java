@@ -22,21 +22,21 @@ public class MyAccountDao
 
     public MyAccount createNewAccount(String name, MyAccountType type, MyUser user)
     {
-        MyAccount account = createNewAccount(name, type);
+        MyAccount a = createNewAccount(name, type);
 
-        getAccess().getAccountUserDao().createNewAccountUser(user, account, MyAccountUserRole.Owner);
+        getAccess().getAccountUserDao().createNewAccountUser(user, a, MyAccountUserRole.Owner);
 
-        return account;
+        return a;
     }
 
     public MyAccount createNewAccount(String name, MyAccountType type)
     {
-        MyAccount account;
-        account = new MyAccount();
-        account.setName(name);
-        account.setType(type);
-        account.saveDao();
-        return account;
+        MyAccount a;
+        a = new MyAccount();
+        a.setName(name);
+        a.setType(type);
+        a.saveDao();
+        return a;
     }
 
     //##################################################

@@ -6,6 +6,7 @@ import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.filter.KmFilterIF;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDialog;
@@ -27,15 +28,18 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
+import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.MyAccountDao;
 import com.app.dao.MyUserDao;
 import com.app.filter.MyAccountUserFilter;
 import com.app.model.MyAccount;
+import com.app.model.MyAccountType;
 import com.app.model.MyAccountUser;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
+import com.app.utility.MyButtonUrls;
 
 public class MyAccountDetailsPage
     extends MyAbstractTestPage
@@ -83,6 +87,7 @@ public class MyAccountDetailsPage
     private ScFrameChild          _viewAccountUserChild;
     private ScFrameChild          _addAccountUserChild;
     private ScFrameChild          _editAccountUserChild;
+    private ScFrameChild          _passwordChild;
 
     private ScField<String>       _editUserEmailField;
 
@@ -98,9 +103,11 @@ public class MyAccountDetailsPage
     private ScPasswordField       _password1Field;
     private ScPasswordField       _password2Field;
 
-    private ScFrameChild          _passwordChild;
-
     private ScForm                _form;
+
+    private ScLocalString         _userName;
+    private ScLocalString         _userEmail;
+    private ScLocalString         _accountName;
 
     //##################################################
     //# install
@@ -109,26 +116,35 @@ public class MyAccountDetailsPage
     @Override
     protected ScPageRoot installRoot()
     {
+        _userName = new ScLocalString();
+        _userName.setAutoSave();
+
+        _userEmail = new ScLocalString();
+        _userEmail.setAutoSave();
+
+        _accountName = new ScLocalString();
+        _accountName.setAutoSave();
+
         ScPageRoot root;
         root = newPageRoot();
         root.css().padSpaced();
 
         installDialog(root);
 
-        ScArray leftCol;
-        leftCol = root.addColumn();
+        ScArray col;
+        col = root.addColumn();
 
-        _equalizeBox = leftCol.addBox();
+        _equalizeBox = col.addBox();
 
-        ScArray row;
+        ScArray row1;
         // review_aaron
         //        row = leftCol.addRow();
-        row = _equalizeBox.addRow();
+        row1 = _equalizeBox.addRow();
 
-        installAccountUserSearchBox(row);
-        installAccountUserTarget(row);
-        installPasswordFrame(row);
-        installAccountUserGrid(leftCol);
+        installAccountUserSearchBox(row1);
+        installAccountUserTarget(row1);
+        installPasswordFrame(row1);
+        installAccountUserGrid(col);
 
         return root;
     }
@@ -138,16 +154,25 @@ public class MyAccountDetailsPage
         _deleteDialog = root.addDialog();
         _deleteDialog.getHeaderBox().hide();
         _deleteDialog.getFooterBox().hide();
+        _deleteDialog.setBodyHeight(125);
 
         ScBox body = _deleteDialog.getBodyBox();
 
         ScGroup group;
-        group = body.addGroup("Are you sure you want to delete this account user?");
+        group = body.addGroup("Are you sure you want to \n delete this account user?");
 
-        ScArray row;
-        row = group.addRow();
-        row.addPad().addButton("Yes", newDeleteAction());
-        row.addPad().addButton("No", newCloseAction());
+        ScDiv footer;
+        footer = group.addButtonBoxRight();
+
+        ScActionButton button1;
+        button1 = footer.addButton("Go Back", newCloseAction());
+        button1.setImage(MyButtonUrls.cancel());
+        button1.setFlavorNegative();
+
+        ScActionButton button2;
+        button2 = footer.addButton("Delete", newDeleteAction());
+        button2.setImage(MyButtonUrls.primary());
+        button2.setFlavorPositive();
     }
 
     private void installAccountUserSearchBox(ScArray root)
@@ -795,16 +820,16 @@ public class MyAccountDetailsPage
 
     private void handleShowViewAccountUserBox()
     {
-        MyAccountUser e;
-        e = getAccess().findAccountUserUid(getStringArgument());
-        getPageSession().setAccountUser(e);
+        MyAccountUser au;
+        au = getAccess().findAccountUserUid(getStringArgument());
+        getPageSession().setAccountUser(au);
 
         MyUser u;
-        u = e.getUser();
+        u = au.getUser();
         getPageSession().setUser(u);
 
         MyAccount a;
-        a = e.getAccount();
+        a = au.getAccount();
         getPageSession().setAccount(a);
 
         if ( u != null )
@@ -822,7 +847,7 @@ public class MyAccountDetailsPage
         if ( a != null )
             _viewType.setValue(a.getType().getName());
 
-        _viewRole.setValue(e.getRoleName());
+        _viewRole.setValue(au.getRoleName());
 
         _viewAccountUserChild.ajaxPrint();
 
@@ -831,7 +856,6 @@ public class MyAccountDetailsPage
         _equalizeBox.ajax().equalizeDecendentGroups();
     }
 
-    // fixme_valerie: alerting for name and email
     private void handleAccept()
     {
         ajax().hideAllErrors();
@@ -849,33 +873,37 @@ public class MyAccountDetailsPage
         if ( Kmu.isNotEqual(p1, p2) )
             _password1Field.error("Passwords did not match.");
 
-        String userName = _addUserNameField.getValue();
-        String userEmail = _addUserEmailField.getValue();
-        String accountName = _addAccountNameField.getValue();
-
         MyAccount findAccount;
-        findAccount = getAccountDao().findName(accountName);
+        findAccount = getAccountDao().findName(getAccountName());
 
         MyUser user;
 
-        if ( findAccount == null )
-            user = getUserDao().createNewUser(userName, userEmail, p1, accountName);
+        // fixme_valerie: come back to this
+        if ( getAccountName() == null )
+            user = getUserDao().getNewUser(getUserName(), getUserEmail(), p1);
         else
-            user = getUserDao().createNewUser(userName, userEmail, p1, findAccount);
+            if ( findAccount == null )
+                user = getUserDao().createNewUser(
+                    getUserName(),
+                    getUserEmail(),
+                    p1,
+                    getAccountName());
+            else
+                user = getUserDao().createNewUser(getUserName(), getUserEmail(), p1, findAccount);
 
-        MyAccount account;
-        account = getAccountDao().findName(accountName);
-        account.saveDao();
+        MyAccount a;
+        a = getAccountDao().findName(getAccountName());
+        a.saveDao();
 
-        MyAccountUser accountUser;
-        accountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
-        accountUser.saveDao();
+        MyAccountUser au;
+        au = getAccess().getAccountUserDao().findAccountUserFor(user, a);
+        au.saveDao();
 
         if ( _addTypeDropdown.hasValue() )
-            account.setTypeCode(_addTypeDropdown.getStringValue());
+            a.setTypeCode(_addTypeDropdown.getStringValue());
 
         if ( _addRoleDropdown.hasValue() )
-            accountUser.setRoleCode(_addRoleDropdown.getStringValue());
+            au.setRoleCode(_addRoleDropdown.getStringValue());
 
         _form.ajax().hide();
         _accountUserGrid.ajaxReload();
@@ -883,8 +911,8 @@ public class MyAccountDetailsPage
 
     private void handleShowEditAccountUserBox()
     {
-        MyAccountUser e;
-        e = getPageSession().getAccountUser();
+        MyAccountUser au;
+        au = getPageSession().getAccountUser();
 
         MyUser u;
         u = getPageSession().getUser();
@@ -904,9 +932,9 @@ public class MyAccountDetailsPage
         if ( a != null )
             _editTypeDropdown.setValue(a.getType());
 
-        _editRoleDropdown.setValue(e.getRole());
+        _editRoleDropdown.setValue(au.getRole());
 
-        _editAccountUserChild.applyFromModel(e);
+        _editAccountUserChild.applyFromModel(au);
         _editAccountUserChild.ajaxPrint();
 
         // review_aaron: 
@@ -930,23 +958,17 @@ public class MyAccountDetailsPage
             return;
         }
 
-        if ( !_addAccountNameField.hasValue() )
-        {
-            ajax().toast("Please enter an account name");
-            return;
-        }
+        setUserName(_addUserNameField.getValue());
+        setUserEmail(_addUserEmailField.getValue());
+        setAccountName(_addAccountNameField.getValue());
 
-        String userName = _addUserNameField.getValue();
-        String userEmail = _addUserEmailField.getValue();
-        String accountName = _addAccountNameField.getValue();
+        if ( getAccountName() == null )
+            setAccountName("Personal");
 
-        MyUser findUser;
-        findUser = getUserDao().findName(userName);
+        MyUser u;
+        u = getUserDao().findName(getUserName());
 
-        MyAccount findAccount;
-        findAccount = getAccountDao().findName(accountName);
-
-        if ( findUser == null )
+        if ( u == null )
         {
             _passwordChild.ajaxPrint();
             _passwordChild.ajax().focus();
@@ -955,33 +977,34 @@ public class MyAccountDetailsPage
             return;
         }
 
-        MyUser user;
-        user = findUser;
-        user.setName(userName);
-        user.setEmail(userEmail);
-        user.saveDao();
+        u.setName(getUserName());
+        u.setEmail(getUserEmail());
+        u.saveDao();
 
-        MyAccount account;
+        MyAccount a;
+        a = getAccountDao().findName(getAccountName());
 
-        if ( findAccount != null )
-            account = findAccount;
-        else
-            account = new MyAccount();
+        if ( a == null )
+            a = getAccountDao().createNewAccount(getAccountName(), MyAccountType.Personal, u);
 
-        account.setName(accountName);
-        account.saveDao();
+        a.setName(getAccountName());
+        a.saveDao();
 
-        MyAccountUser accountUser;
-        accountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
-        accountUser.setAccount(account);
-        accountUser.setUser(user);
-        accountUser.saveDao();
+        MyAccountUser au;
+        au = getAccess().getAccountUserDao().findAccountUserFor(u, a);
+
+        if ( au == null )
+            au = getAccess().getAccountUserDao().getNewAccountUser(u, a);
+
+        au.setAccount(a);
+        au.setUser(u);
+        au.saveDao();
 
         if ( _addTypeDropdown.hasValue() )
-            account.setTypeCode(_addTypeDropdown.getStringValue());
+            a.setTypeCode(_addTypeDropdown.getStringValue());
 
         if ( _addRoleDropdown.hasValue() )
-            accountUser.setRoleCode(_addRoleDropdown.getStringValue());
+            au.setRoleCode(_addRoleDropdown.getStringValue());
 
         _accountUserGrid.ajaxReload();
     }
@@ -1013,37 +1036,37 @@ public class MyAccountDetailsPage
             return;
         }
 
-        MyUser user;
-        user = getPageSession().getUser();
+        MyUser u;
+        u = getPageSession().getUser();
 
-        if ( user == null )
-            user = new MyUser();
+        if ( u == null )
+            u = new MyUser();
 
-        user.setName(_editUserNameField.getValue());
-        user.setEmail(_editUserEmailField.getValue());
+        u.setName(_editUserNameField.getValue());
+        u.setEmail(_editUserEmailField.getValue());
 
-        MyAccount account;
-        account = getPageSession().getAccount();
+        MyAccount a;
+        a = getPageSession().getAccount();
 
-        if ( account == null )
-            account = new MyAccount();
+        if ( a == null )
+            a = new MyAccount();
 
-        account.setName(_editAccountNameField.getValue());
+        a.setName(_editAccountNameField.getValue());
 
-        MyAccountUser accountUser;
-        accountUser = getPageSession().getAccountUser();
-        accountUser.setAccount(account);
-        accountUser.setUser(user);
+        MyAccountUser au;
+        au = getPageSession().getAccountUser();
+        au.setAccount(a);
+        au.setUser(u);
 
         if ( _editTypeDropdown.hasValue() )
-            account.setTypeCode(_editTypeDropdown.getStringValue());
+            a.setTypeCode(_editTypeDropdown.getStringValue());
 
         if ( _editRoleDropdown.hasValue() )
-            accountUser.setRoleCode(_editRoleDropdown.getStringValue());
+            au.setRoleCode(_editRoleDropdown.getStringValue());
 
-        user.saveDao();
-        account.saveDao();
-        accountUser.saveDao();
+        u.saveDao();
+        a.saveDao();
+        au.saveDao();
 
         _accountUserGrid.ajaxReload();
     }
@@ -1059,19 +1082,19 @@ public class MyAccountDetailsPage
 
     private ScForm addFormToFrame(ScActionIF saveAction, ScActionIF cancelAction, ScFrameChild frame)
     {
-        ScForm form;
-        form = frame.addForm();
-        form.setDefaultAction(saveAction);
-        form.onEscape().run(cancelAction);
-        return form;
+        ScForm e;
+        e = frame.addForm();
+        e.setDefaultAction(saveAction);
+        e.onEscape().run(cancelAction);
+        return e;
     }
 
     private void addFooterToGroup(ScActionIF cancelAction, ScGroup group)
     {
-        ScDiv footer;
-        footer = group.addButtonBoxRight();
-        footer.addCancelButton(cancelAction);
-        footer.addSubmitButton("Save");
+        ScDiv e;
+        e = group.addButtonBoxRight();
+        e.addCancelButton(cancelAction);
+        e.addSubmitButton("Save");
     }
 
     private MyUserDao getUserDao()
@@ -1082,5 +1105,35 @@ public class MyAccountDetailsPage
     private MyAccountDao getAccountDao()
     {
         return getAccess().getAccountDao();
+    }
+
+    private String getUserName()
+    {
+        return _userName.getValue();
+    }
+
+    private void setUserName(String e)
+    {
+        _userName.setValue(e);
+    }
+
+    private String getUserEmail()
+    {
+        return _userEmail.getValue();
+    }
+
+    private void setUserEmail(String e)
+    {
+        _userEmail.setValue(e);
+    }
+
+    private String getAccountName()
+    {
+        return _accountName.getValue();
+    }
+
+    private void setAccountName(String e)
+    {
+        _accountName.setValue(e);
     }
 }
