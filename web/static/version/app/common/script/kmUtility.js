@@ -1038,7 +1038,7 @@ Kmu.equalize = function(options)
        
         $(selector).each(function() 
         {
-            $(this).width(widest).css("overflow","auto");
+            $(this).width(widest);
         });
     }
     
@@ -1072,7 +1072,7 @@ Kmu.equalize = function(options)
                     filler.first().height(diff);
             }        
             else    
-                $(this).height(tallest).css("overflow","auto");
+                $(this).height(tallest);
         });
     }
 }
