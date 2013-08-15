@@ -153,6 +153,17 @@ public class MyUser
         return au;
     }
 
+    public MyAccountUser joinAccount(MyAccount a, String roleCode)
+    {
+        MyAccountUser au;
+        au = a.addAccountUser();
+        au.setRoleCode(roleCode);
+
+        addAccountUser(au);
+
+        return au;
+    }
+
     //##################################################
     //# support
     //##################################################
