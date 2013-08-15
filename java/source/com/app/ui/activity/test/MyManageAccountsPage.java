@@ -528,23 +528,6 @@ public class MyManageAccountsPage
         f.sortOnEmail();
 
         return f.findFirst(10).collect(x.Email);
-
-        //        KmList<String> v;
-        //        v = new KmList<String>();
-        //
-        //        MyAccount account = getPageSession().getAccount();
-        //
-        //        KmList<MyAccountUser> accountUsers;
-        //        accountUsers = getAccountUserDao().findAccountUsersFor(account);
-        //
-        //        for ( MyAccountUser e : accountUsers )
-        //            if ( e.getUser().getEmail().toLowerCase().contains(term.toLowerCase()) )
-        //                v.add(e.getUser().getEmail());
-        //
-        //        for ( MyAccountUser e : accountUsers )
-        //            v.add(e.getUser().getEmail());
-        //
-        //        return v;
     }
 
     //==================================================
