@@ -211,15 +211,15 @@ public class MyHandleJoinInvitationActivity
         String key;
         key = getAccessKey();
 
-        MyInvitation i;
-        i = getAccess().getInvitationDao().findAccessKey(key);
+        MyInvitation inv;
+        inv = getAccess().getInvitationDao().findAccessKey(key);
 
         String email;
-        email = i.getEmail();
+        email = inv.getEmail();
 
-        MyUser user = getAccess().getUserDao().findEmail(email);
+        MyUser u = getAccess().getUserDao().findEmail(email);
 
-        if ( user == null )
+        if ( u == null )
         {
             _password1Field.show();
             _password2Field.show();
@@ -229,11 +229,11 @@ public class MyHandleJoinInvitationActivity
             _password2ErrorBox.show();
         }
 
-        MyAccount account;
-        account = i.getAccount();
+        MyAccount a;
+        a = inv.getAccount();
 
-        _emailText.setValue(i.getEmail());
-        _accountText.setValue(account.getName());
+        _emailText.setValue(inv.getEmail());
+        _accountText.setValue(a.getName());
 
         ajax().printMain(_root);
         ajax().focus();
@@ -250,38 +250,38 @@ public class MyHandleJoinInvitationActivity
 
         String key = getAccessKey();
 
-        MyInvitation i;
-        i = getAccess().getInvitationDao().findAccessKey(key);
-        i.setStatusAccepted();
-        i.setClosedUtcTs(getNowUtc());
+        MyInvitation inv;
+        inv = getAccess().getInvitationDao().findAccessKey(key);
+        inv.setStatusAccepted();
+        inv.setClosedUtcTs(getNowUtc());
 
         String email;
-        email = i.getEmail();
+        email = inv.getEmail();
 
-        MyUser user;
-        user = getAccess().getUserDao().findEmail(email);
+        MyUser u;
+        u = getAccess().getUserDao().findEmail(email);
 
-        MyAccount account;
-        account = i.getAccount();
+        MyAccount a;
+        a = inv.getAccount();
 
         String roleCode;
-        roleCode = i.getRoleCode();
+        roleCode = inv.getRoleCode();
 
-        if ( user == null )
+        if ( u == null )
         {
             _form.validate();
-            user = createUser(email, account);
+            u = createUser(email, a);
         }
 
-        MyAccountUser accountUser;
-        accountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
-        accountUser.setRoleCode(roleCode);
+        MyAccountUser au;
+        au = getAccess().getAccountUserDao().findAccountUserFor(u, a);
+        au.setRoleCode(roleCode);
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
     }
 
-    private MyUser createUser(String email, MyAccount account)
+    private MyUser createUser(String email, MyAccount a)
     {
         _password1Field.ajax().clearValue();
         _password2Field.ajax().clearValue();
@@ -293,7 +293,7 @@ public class MyHandleJoinInvitationActivity
             _password1Field.error("Passwords did not match.");
 
         MyUser u;
-        u = getAccess().getUserDao().createNewUserTransfer(email, p1, account);
+        u = getAccess().getUserDao().createNewUserWithAccount(email, p1, a);
 
         return u;
     }

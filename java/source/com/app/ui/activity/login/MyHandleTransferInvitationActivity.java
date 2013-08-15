@@ -213,15 +213,15 @@ public class MyHandleTransferInvitationActivity
         String key;
         key = getAccessKey();
 
-        MyInvitation i;
-        i = getAccess().getInvitationDao().findAccessKey(key);
+        MyInvitation inv;
+        inv = getAccess().getInvitationDao().findAccessKey(key);
 
         String email;
-        email = i.getEmail();
+        email = inv.getEmail();
 
-        MyUser user = getAccess().getUserDao().findEmail(email);
+        MyUser u = getAccess().getUserDao().findEmail(email);
 
-        if ( user == null )
+        if ( u == null )
         {
             _password1Field.show();
             _password2Field.show();
@@ -231,11 +231,11 @@ public class MyHandleTransferInvitationActivity
             _password2ErrorBox.show();
         }
 
-        MyAccount account;
-        account = i.getAccount();
+        MyAccount a;
+        a = inv.getAccount();
 
-        _emailText.setValue(i.getEmail());
-        _accountText.setValue(account.getName());
+        _emailText.setValue(inv.getEmail());
+        _accountText.setValue(a.getName());
 
         ajax().printMain(_root);
         ajax().focus();
@@ -254,43 +254,43 @@ public class MyHandleTransferInvitationActivity
 
         String key = getAccessKey();
 
-        MyInvitation i;
-        i = getAccess().getInvitationDao().findAccessKey(key);
-        i.setStatusAccepted();
-        i.setClosedUtcTs(getNowUtc());
+        MyInvitation inv;
+        inv = getAccess().getInvitationDao().findAccessKey(key);
+        inv.setStatusAccepted();
+        inv.setClosedUtcTs(getNowUtc());
 
         String email;
-        email = i.getEmail();
+        email = inv.getEmail();
 
         MyUser user = getAccess().getUserDao().findEmail(email);
 
-        MyAccount account;
-        account = i.getAccount();
+        MyAccount a;
+        a = inv.getAccount();
 
         if ( user == null )
-            user = createUser(email, account);
+            user = createUser(email, a);
 
-        MyAccountUserDao accountUserDao;
-        accountUserDao = getAccess().getAccountUserDao();
+        MyAccountUserDao auDao;
+        auDao = getAccess().getAccountUserDao();
 
         MyAccountUser newOwner;
-        newOwner = accountUserDao.findAccountUserFor(user, account);
+        newOwner = auDao.findAccountUserFor(user, a);
 
         MyAccountUser oldOwner;
-        oldOwner = accountUserDao.findCurrentOwner(account);
+        oldOwner = auDao.findCurrentOwner(a);
 
         /**
          * (valerie) use of transfer ownership
          * 
          * review_valerie (wyatt) discuss
          */
-        accountUserDao.transferOwnership(oldOwner, newOwner);
+        auDao.transferOwnership(oldOwner, newOwner);
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
     }
 
-    private MyUser createUser(String email, MyAccount account)
+    private MyUser createUser(String email, MyAccount a)
     {
         _password1Field.ajax().clearValue();
         _password2Field.ajax().clearValue();
@@ -302,7 +302,7 @@ public class MyHandleTransferInvitationActivity
             _password1Field.error("Passwords did not match.");
 
         MyUser u;
-        u = getAccess().getUserDao().createNewUserTransfer(email, p1, account);
+        u = getAccess().getUserDao().createNewUserWithAccount(email, p1, a);
 
         return u;
     }

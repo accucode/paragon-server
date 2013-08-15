@@ -2,14 +2,17 @@ package com.app.dao;
 
 import com.app.criteria.MyAccountCriteria;
 import com.app.dao.base.MyAccountDaoBase;
+import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
+import com.app.model.MyAccountType;
+import com.app.model.MyAccountUserRole;
 import com.app.model.MyUser;
+import com.app.utility.MyGlobals;
 
 public class MyAccountDao
     extends MyAccountDaoBase
 {
-    public MyAccount findWithName(String name)
+    public MyAccount findName(String name)
     {
         MyAccountCriteria c;
         c = createCriteria();
@@ -17,21 +20,31 @@ public class MyAccountDao
         return c.findFirst();
     }
 
-    public MyAccount createNewAccount(String name, String typeCode, MyUser user)
+    public MyAccount createNewAccount(String name, MyAccountType type, MyUser user)
     {
-        MyAccount account;
-        account = new MyAccount();
-        account.setName(name);
-        account.setTypeCode(typeCode);
-        account.saveDao();
+        MyAccount a = createNewAccount(name, type);
 
-        MyAccountUser accountUser;
-        accountUser = new MyAccountUser();
-        accountUser.setAccount(account);
-        accountUser.setUser(user);
-        accountUser.setRoleOwner();
-        accountUser.saveDao();
+        getAccess().getAccountUserDao().createNewAccountUser(user, a, MyAccountUserRole.Owner);
 
-        return account;
+        return a;
+    }
+
+    public MyAccount createNewAccount(String name, MyAccountType type)
+    {
+        MyAccount a;
+        a = new MyAccount();
+        a.setName(name);
+        a.setType(type);
+        a.saveDao();
+        return a;
+    }
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    protected MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
     }
 }

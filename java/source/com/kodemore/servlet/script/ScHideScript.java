@@ -62,9 +62,6 @@ public class ScHideScript
         return "slideUp";
     }
 
-    /**
-     * review_wyatt: (aaron) FLIP - Hide script flip function
-     */
     @Override
     protected String getFlipFunction()
     {

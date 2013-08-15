@@ -65,4 +65,30 @@ public class MyAccountUserDao
         oldOwner.setRole(MyAccountUserRole.User);
         newOwner.setRole(MyAccountUserRole.Owner);
     }
+
+    public void createNewAccountUser(MyUser u, MyAccount a, MyAccountUserRole role)
+    {
+        MyAccountUser au;
+        au = new MyAccountUser();
+        au.setAccount(a);
+        au.setUser(u);
+        au.setRole(role);
+        au.saveDao();
+    }
+
+    public MyAccountUser getNewAccountUser(MyUser u, MyAccount a)
+    {
+        MyAccountUser au;
+        au = new MyAccountUser();
+        au.setAccount(a);
+        au.setUser(u);
+        au.setRole(MyAccountUserRole.User);
+        au.saveDao();
+        return au;
+    }
+
+    public void createNewAccountUser(MyUser u, MyAccount a)
+    {
+        createNewAccountUser(u, a, MyAccountUserRole.User);
+    }
 }
