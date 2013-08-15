@@ -152,27 +152,26 @@ public class MyAccountDetailsPage
     private void installDialog(ScBox root)
     {
         _deleteDialog = root.addDialog();
-        _deleteDialog.getHeaderBox().hide();
-        _deleteDialog.getFooterBox().hide();
+        _deleteDialog.getHeaderBox().addPad().addText(
+            "Are you sure you want to \n delete this account user?");
+        _deleteDialog.getBodyBox().hide();
         _deleteDialog.setBodyHeight(125);
 
-        ScBox body = _deleteDialog.getBodyBox();
+        ScBox footer;
+        footer = _deleteDialog.getFooterBox().addPad();
 
-        ScGroup group;
-        group = body.addGroup("Are you sure you want to \n delete this account user?");
+        ScBox buttonBox;
+        buttonBox = footer.addButtonBoxRight();
 
-        ScDiv footer;
-        footer = group.addButtonBoxRight();
+        ScActionButton cancelButton;
+        cancelButton = buttonBox.addButton("Cancel", newCloseAction());
+        cancelButton.setImage(MyButtonUrls.cancel());
+        cancelButton.setFlavorNegative();
 
-        ScActionButton button1;
-        button1 = footer.addButton("Go Back", newCloseAction());
-        button1.setImage(MyButtonUrls.cancel());
-        button1.setFlavorNegative();
-
-        ScActionButton button2;
-        button2 = footer.addButton("Delete", newDeleteAction());
-        button2.setImage(MyButtonUrls.primary());
-        button2.setFlavorPositive();
+        ScActionButton deleteButton;
+        deleteButton = buttonBox.addButton("Delete", newDeleteAction());
+        deleteButton.setImage(MyButtonUrls.primary());
+        deleteButton.setFlavorPositive();
     }
 
     private void installAccountUserSearchBox(ScArray root)
