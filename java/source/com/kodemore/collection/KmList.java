@@ -970,22 +970,22 @@ public class KmList<T>
 
     public String format()
     {
-        return Kmu.formatList(this, (KmAdaptorIF<T,?>)null, ", ");
+        return Kmu.formatList(this);
     }
 
     public String format(KmAdaptorIF<T,?> a)
     {
-        return Kmu.formatList(this, a, ", ");
+        return Kmu.formatList(this, a);
     }
 
     public String format(KmMetaAttribute<T,?> a)
     {
-        return Kmu.formatList(this, a, ", ");
+        return Kmu.formatList(this, a);
     }
 
     public String format(Object separator)
     {
-        return Kmu.formatList(this, (KmAdaptorIF<T,?>)null, separator);
+        return Kmu.formatList(this, separator);
     }
 
     //##################################################
