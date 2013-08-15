@@ -24,7 +24,7 @@ import com.app.model.meta.*;
 import com.app.utility.*;
 
 public abstract class MyPatchBase
-    extends MyAbstractModel
+    extends MyAbstractDomain
 {
     //##################################################
     //# static
