@@ -1046,6 +1046,11 @@ Kmu.equalize = function(options)
     
     if ( height )
     {
+        $(selector).find('.filler').each(function()
+        {
+            $(this).height(0);        
+        });
+    
         $(selector).each(function() 
         {
             if ( $(this).height() > tallest ) 
@@ -1062,7 +1067,9 @@ Kmu.equalize = function(options)
             if ( filler.length > 0 )
             {
                 var diff = tallest - $(this).height();
-                filler.first().height(diff);
+                
+                if ( diff > 0 )
+                    filler.first().height(diff);
             }        
             else    
                 $(this).height(tallest).css("overflow","auto");
