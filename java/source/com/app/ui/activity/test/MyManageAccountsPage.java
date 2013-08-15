@@ -1417,8 +1417,9 @@ public class MyManageAccountsPage
         /*
          * review_steve (wyatt) discuss
          *      if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
-         *         
-         * review_steve review_valerie finicky
+         */
+        /**
+         * ask_valerie preference on footer print vs flipView
          */
         if ( owner != null && owner.getUser().isSame(u) )
             _transferButton.show();
