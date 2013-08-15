@@ -172,15 +172,15 @@ public class MyManageAccountsPage
         ScDiv footer;
         footer = group.addButtonBoxRight();
 
-        ScActionButton button1;
-        button1 = footer.addButton("Go Back", newCloseAction());
-        button1.setImage(MyButtonUrls.cancel());
-        button1.setFlavorNegative();
+        ScActionButton cancelButton;
+        cancelButton = footer.addButton("Go Back", newCloseAction());
+        cancelButton.setImage(MyButtonUrls.cancel());
+        cancelButton.setFlavorNegative();
 
-        ScActionButton button2;
-        button2 = footer.addButton("Delete", newDeleteUserAction());
-        button2.setImage(MyButtonUrls.primary());
-        button2.setFlavorPositive();
+        ScActionButton deleteButton;
+        deleteButton = footer.addButton("Delete", newDeleteUserAction());
+        deleteButton.setImage(MyButtonUrls.primary());
+        deleteButton.setFlavorPositive();
     }
 
     private void installAccountsDropdownOn(ScContainer root)
@@ -1420,9 +1420,6 @@ public class MyManageAccountsPage
 
     private void updateViewAccount(boolean isStart)
     {
-        MyAccount a;
-        a = getPageSession().getAccount();
-
         MyAccount da;
         da = getDropdownAccount();
 
@@ -1431,18 +1428,23 @@ public class MyManageAccountsPage
          * 
          * review_valerie (steve)
          * 
-         * review_steve (wyatt) discuss
+         * review_steve (valerie) discuss
          */
-        if ( a == null || !da.equals(a) )
-        {
-            a = da;
-            getPageSession().setAccount(a);
-        }
+        //        if ( psa == null || !da.equals(psa) )
+        //        {
+        //            psa = da;
+        //            getPageSession().setAccount(psa);
+        //        }
 
-        if ( isStart )
-            refreshAll(false);
-        else
-            refreshAll(true);
+        getPageSession().setAccount(da);
+
+        boolean flipView = !isStart;
+        refreshAll(flipView);
+
+        //        if ( isStart )
+        //            refreshAll(false);
+        //        else
+        //            refreshAll(true);
     }
 
     /**
