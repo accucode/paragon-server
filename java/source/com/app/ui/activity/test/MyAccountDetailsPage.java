@@ -131,20 +131,20 @@ public class MyAccountDetailsPage
 
         installDialog(root);
 
-        ScArray leftCol;
-        leftCol = root.addColumn();
+        ScArray col;
+        col = root.addColumn();
 
-        _equalizeBox = leftCol.addBox();
+        _equalizeBox = col.addBox();
 
-        ScArray row;
+        ScArray row1;
         // review_aaron
         //        row = leftCol.addRow();
-        row = _equalizeBox.addRow();
+        row1 = _equalizeBox.addRow();
 
-        installAccountUserSearchBox(row);
-        installAccountUserTarget(row);
-        installPasswordFrame(row);
-        installAccountUserGrid(leftCol);
+        installAccountUserSearchBox(row1);
+        installAccountUserTarget(row1);
+        installPasswordFrame(row1);
+        installAccountUserGrid(col);
 
         return root;
     }

@@ -1237,10 +1237,6 @@ public class MyManageAccountsPage
         refreshAll(true);
     }
 
-    /**
-     * review_steve review_valerie 
-     * view account needs to show just added method after save
-     */
     private void handleAddAccountSave()
     {
         _addAccountChild.validate();
@@ -1256,12 +1252,12 @@ public class MyManageAccountsPage
         MyAccountType type = MyAccountType.findCode(typeCode);
         MyUser user = getCurrentUser();
 
-        MyAccount account;
-        account = getAccountDao().createNewAccount(name, type, user);
-
+        MyAccount a;
+        a = getAccountDao().createNewAccount(name, type, user);
+        getPageSession().setAccount(a);
         setDropdownOptions();
 
-        _accountDropdown.ajaxSetValue(account.getUid());
+        _accountDropdown.ajaxSetValue(a.getUid());
         MyPageLayout.getInstance().refreshDropdown();
         refreshAll(true);
     }
