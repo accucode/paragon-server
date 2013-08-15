@@ -208,13 +208,13 @@ public class MyHandleNewUserInvitationActivity
 
         String key = getAccessKey();
 
-        MyInvitation i;
-        i = getAccess().getInvitationDao().findAccessKey(key);
-        i.setStatusAccepted();
-        i.setClosedUtcTs(getNowUtc());
+        MyInvitation inv;
+        inv = getAccess().getInvitationDao().findAccessKey(key);
+        inv.setStatusAccepted();
+        inv.setClosedUtcTs(getNowUtc());
 
         String email;
-        email = i.getEmail();
+        email = inv.getEmail();
 
         createUser(email);
 
