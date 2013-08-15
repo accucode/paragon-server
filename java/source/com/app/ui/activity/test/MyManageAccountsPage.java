@@ -1429,9 +1429,6 @@ public class MyManageAccountsPage
 
     private void updateViewAccount(boolean isStart)
     {
-        MyAccount psa;
-        psa = getPageSession().getAccount();
-
         MyAccount da;
         da = getDropdownAccount();
 
