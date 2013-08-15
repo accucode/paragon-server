@@ -1506,7 +1506,7 @@ public class MyManageAccountsPage
         KmList<ScOption> list = getDropdownList();
 
         for ( ScOption e : list )
-            _accountDropdown.ajaxAddOption(e.getText(), e.getValue());
+            _accountDropdown.addOption(e.getValue(), e.getText());
 
         if ( list.isNotEmpty() && getServerSession().hasAccount() )
         {
@@ -1523,6 +1523,11 @@ public class MyManageAccountsPage
             MyPageLayout.getInstance().refreshDropdown();
             return;
         }
+
+        /**
+         * ask_valerie produces two dropdowns?
+         */
+        _accountDropdown.ajax().replace();
     }
 
     //##################################################
