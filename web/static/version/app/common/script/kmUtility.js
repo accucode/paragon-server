@@ -1038,7 +1038,7 @@ Kmu.equalize = function(options)
        
         $(selector).each(function() 
         {
-            $(this).width(widest).css("overflow","auto");
+            $(this).width(widest);
         });
     }
     
@@ -1046,6 +1046,11 @@ Kmu.equalize = function(options)
     
     if ( height )
     {
+        $(selector).find('.filler').each(function()
+        {
+            $(this).height(0);        
+        });
+    
         $(selector).each(function() 
         {
             if ( $(this).height() > tallest ) 
@@ -1057,7 +1062,17 @@ Kmu.equalize = function(options)
        
         $(selector).each(function() 
         {
-            $(this).height(tallest).css("overflow","auto");
+            var filler = $(this).find('.filler');
+            
+            if ( filler.length > 0 )
+            {
+                var diff = tallest - $(this).height();
+                
+                if ( diff > 0 )
+                    filler.first().height(diff);
+            }        
+            else    
+                $(this).height(tallest);
         });
     }
 }
