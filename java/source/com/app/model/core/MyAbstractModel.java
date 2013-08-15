@@ -19,6 +19,7 @@ import com.app.dao.core.MyDaoSessionCache;
 import com.app.property.MyPropertyRegistry;
 import com.app.utility.MyGlobals;
 
+// todo_wyatt: rename
 public abstract class MyAbstractModel
     implements KmConstantsIF, KmReadOnlyIF, KmCopyIF, Serializable, Cloneable
 {
@@ -216,6 +217,11 @@ public abstract class MyAbstractModel
         return e == null
             ? null
             : e.getCode();
+    }
+
+    protected MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
     }
 
 }

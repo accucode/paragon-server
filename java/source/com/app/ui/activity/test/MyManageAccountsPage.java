@@ -36,7 +36,6 @@ import com.app.model.MyAccount;
 import com.app.model.MyAccountType;
 import com.app.model.MyAccountUser;
 import com.app.model.MyAccountUserRole;
-import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
 import com.app.model.meta.MyMetaUser;
@@ -119,9 +118,9 @@ public class MyManageAccountsPage
 
     private ScGroup               _inviteGroup;
     private ScGroup               _deleteGroup;
+    private ScGroup               _transferGroup;
 
     private ScDiv                 _viewAccountFooter;
-    private ScGroup               _transferGroup;
 
     //##################################################
     //# install
@@ -1073,10 +1072,10 @@ public class MyManageAccountsPage
         a = getAccountDao().findName(name);
 
         if ( a != null )
+        {
             _deleteAccountName.setValue(a.getName());
-
-        if ( a != null )
             _deleteAccountType.setValue(a.getType().getName());
+        }
 
         _accountFrame.ajaxPrint(_deleteAccountChild);
     }
@@ -1109,18 +1108,11 @@ public class MyManageAccountsPage
     {
         MyAccountUser au;
         au = getPageSession().getAccountUser();
-
-        String userName;
-        userName = au.getUserName();
-
-        String accountName;
-        accountName = au.getAccountName();
-
         au.deleteDao();
 
         _deleteUserDialog.ajaxClose();
 
-        ajax().toast("Deleted user %s from %s", userName, accountName);
+        ajax().toast("Deleted user %s from %s", au.getUserName(), au.getAccountName());
 
         _userFrame.ajaxClear();
         _userGrid.ajaxReload();
@@ -1146,11 +1138,8 @@ public class MyManageAccountsPage
 
     private void handleShowEditAccountBox()
     {
-        String name;
-        name = _viewAccountName.getValue();
-
         MyAccount a;
-        a = getAccountDao().findName(name);
+        a = getAccountDao().findName(_viewAccountName.getValue());
 
         if ( a != null )
             _editAccountName.setValue(a.getName());
@@ -1254,10 +1243,7 @@ public class MyManageAccountsPage
 
     private void handleShowInviteUserBox()
     {
-        String name;
-        name = _viewAccountName.getValue();
-
-        _inviteGroup.setTitle("Invite User to %s", name);
+        _inviteGroup.setTitle("Invite User to %s", _viewAccountName.getValue());
 
         _accountFrame.ajaxPrint(_inviteUserChild);
         _inviteUserChild.ajax().focus();
@@ -1265,11 +1251,8 @@ public class MyManageAccountsPage
 
     private void handleViewUser()
     {
-        String auUid;
-        auUid = getStringArgument();
-
         MyAccountUser au;
-        au = getAccountUserDao().findWithUid(auUid);
+        au = getAccountUserDao().findWithUid(getStringArgument());
 
         if ( au == null )
             au = getPageSession().getAccountUser();
@@ -1294,13 +1277,10 @@ public class MyManageAccountsPage
         MyAccountUser au;
         au = getPageSession().getAccountUser();
 
-        MyAccount a;
-        a = au.getAccount();
-
         String roleCode = _editRoleDropdown.getStringValue();
 
         MyAccountUser owner;
-        owner = getAccountUserDao().findCurrentOwner(a);
+        owner = getAccountUserDao().findCurrentOwner(au.getAccount());
 
         boolean hasOwner = owner != null;
         boolean setOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
@@ -1331,11 +1311,9 @@ public class MyManageAccountsPage
 
     private void handleSendJoinRequest()
     {
-        MyAccount account;
-        account = getPageSession().getAccount();
-
+        MyAccount account = getPageSession().getAccount();
         String email = _addUserEmail.getValue();
-        String roleCode = (String)_addRoleDropdown.getValue();
+        String roleCode = _addRoleDropdown.getStringValue();
 
         boolean isValid = KmEmailParser.validate(email);
 
@@ -1400,8 +1378,8 @@ public class MyManageAccountsPage
         MyAccount a;
         a = getPageSession().getAccount();
 
-        MyServerSession ss = MyGlobals.getServerSession();
-        MyUser u = ss.getUser();
+        MyUser u;
+        u = MyGlobals.getServerSession().getUser();
 
         if ( a == null )
         {
@@ -1451,7 +1429,8 @@ public class MyManageAccountsPage
         MyAccount a;
         a = getPageSession().getAccount();
 
-        MyAccount dropdownAccount = getDropdownAccount();
+        MyAccount da;
+        da = getDropdownAccount();
 
         /**
          * (steve) this is ugly and probably not too readable
@@ -1460,9 +1439,9 @@ public class MyManageAccountsPage
          * 
          * review_steve (wyatt) discuss
          */
-        if ( a == null || !dropdownAccount.equals(a) )
+        if ( a == null || !da.equals(a) )
         {
-            a = dropdownAccount;
+            a = da;
             getPageSession().setAccount(a);
         }
 
@@ -1474,19 +1453,12 @@ public class MyManageAccountsPage
      */
     private MyAccount getDropdownAccount()
     {
-        String aUid;
-        aUid = _accountDropdown.getStringValue();
-
-        MyAccount a;
-        a = getAccountDao().findUid(aUid);
-
-        return a;
+        return getAccountDao().findUid(_accountDropdown.getStringValue());
     }
 
     private KmList<ScOption> getDropdownList()
     {
-        MyServerSession ss = MyGlobals.getServerSession();
-        MyUser u = ss.getUser();
+        MyUser u = MyGlobals.getServerSession().getUser();
 
         if ( u == null )
             return null;
@@ -1497,11 +1469,11 @@ public class MyManageAccountsPage
         KmList<MyAccountUser> accountUsers;
         accountUsers = getAccountUserDao().findAccountUsersFor(u);
 
-        for ( MyAccountUser accountUser : accountUsers )
+        for ( MyAccountUser au : accountUsers )
         {
             ScOption e = new ScOption();
-            e.setText(accountUser.getAccount().getName());
-            e.setValue(accountUser.getAccount().getUid());
+            e.setText(au.getAccount().getName());
+            e.setValue(au.getAccount().getUid());
             v.add(e);
         }
 
@@ -1519,7 +1491,7 @@ public class MyManageAccountsPage
         KmList<ScOption> list = getDropdownList();
 
         for ( ScOption e : list )
-            _accountDropdown.ajaxAddOption(e.getText(), e.getValue());
+            _accountDropdown.addOption(e.getValue(), e.getText());
 
         if ( list.isNotEmpty() && getServerSession().hasAccount() )
         {
@@ -1536,6 +1508,11 @@ public class MyManageAccountsPage
             MyPageLayout.getInstance().refreshDropdown();
             return;
         }
+
+        /**
+         * ask_valerie produces two dropdowns?
+         */
+        _accountDropdown.ajax().replace();
     }
 
     //##################################################

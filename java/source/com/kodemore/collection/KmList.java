@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2011 www.kodemore.com
+  Copyright (c) 2005-2013 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -970,22 +970,22 @@ public class KmList<T>
 
     public String format()
     {
-        return Kmu.formatList(this, (KmAdaptorIF<T,?>)null, ", ");
+        return Kmu.formatList(this);
     }
 
     public String format(KmAdaptorIF<T,?> a)
     {
-        return Kmu.formatList(this, a, ", ");
+        return Kmu.formatList(this, a);
     }
 
     public String format(KmMetaAttribute<T,?> a)
     {
-        return Kmu.formatList(this, a, ", ");
+        return Kmu.formatList(this, a);
     }
 
     public String format(Object separator)
     {
-        return Kmu.formatList(this, (KmAdaptorIF<T,?>)null, separator);
+        return Kmu.formatList(this, separator);
     }
 
     //##################################################

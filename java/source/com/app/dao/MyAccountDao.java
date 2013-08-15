@@ -12,6 +12,13 @@ import com.app.utility.MyGlobals;
 public class MyAccountDao
     extends MyAccountDaoBase
 {
+    //##################################################
+    //# find
+    //##################################################
+
+    /**
+     * review_valerie (wyatt) discuss
+     */
     public MyAccount findName(String name)
     {
         MyAccountCriteria c;
@@ -20,23 +27,30 @@ public class MyAccountDao
         return c.findFirst();
     }
 
+    public MyAccount findRoot()
+    {
+        return findUid(MyAccount.ROOT_UID);
+    }
+
+    //##################################################
+    //# create
+    //##################################################
+
     public MyAccount createNewAccount(String name, MyAccountType type, MyUser user)
     {
-        MyAccount a = createNewAccount(name, type);
-
-        getAccess().getAccountUserDao().createNewAccountUser(user, a, MyAccountUserRole.Owner);
-
-        return a;
+        MyAccount e = createNewAccount(name, type);
+        getAccess().getAccountUserDao().createNewAccountUser(user, e, MyAccountUserRole.Owner);
+        return e;
     }
 
     public MyAccount createNewAccount(String name, MyAccountType type)
     {
-        MyAccount a;
-        a = new MyAccount();
-        a.setName(name);
-        a.setType(type);
-        a.saveDao();
-        return a;
+        MyAccount e;
+        e = new MyAccount();
+        e.setName(name);
+        e.setType(type);
+        e.saveDao();
+        return e;
     }
 
     //##################################################
