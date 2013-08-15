@@ -54,8 +54,6 @@ import com.kodemore.validator.KmValidator;
 
 // todo_wyatt: fix chosen styling in page header
 
-// todo_wyatt: fix copyright
-
 public class ScDropdown
     extends ScField<Object>
     implements ScElementIF

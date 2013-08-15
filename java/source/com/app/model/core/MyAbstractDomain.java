@@ -19,8 +19,7 @@ import com.app.dao.core.MyDaoSessionCache;
 import com.app.property.MyPropertyRegistry;
 import com.app.utility.MyGlobals;
 
-// todo_wyatt: rename
-public abstract class MyAbstractModel
+public abstract class MyAbstractDomain
     implements KmConstantsIF, KmReadOnlyIF, KmCopyIF, Serializable, Cloneable
 {
     //##################################################
@@ -112,18 +111,18 @@ public abstract class MyAbstractModel
      * to specialize the return type.
      */
     @Override
-    public MyAbstractModel getCopy()
+    public MyAbstractDomain getCopy()
     {
-        MyAbstractModel e = getShallowCopy();
+        MyAbstractDomain e = getShallowCopy();
         e.postCopy();
         return e;
     }
 
-    public MyAbstractModel getShallowCopy()
+    public MyAbstractDomain getShallowCopy()
     {
         try
         {
-            return (MyAbstractModel)clone();
+            return (MyAbstractDomain)clone();
         }
         catch ( Exception ex )
         {

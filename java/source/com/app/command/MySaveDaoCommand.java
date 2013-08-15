@@ -2,9 +2,9 @@ package com.app.command;
 
 import com.kodemore.command.KmDaoCommand;
 
-import com.app.model.core.MyAbstractModel;
+import com.app.model.core.MyAbstractDomain;
 
-public class MySaveDaoCommand<T extends MyAbstractModel>
+public class MySaveDaoCommand<T extends MyAbstractDomain>
     extends KmDaoCommand
 {
     //##################################################
