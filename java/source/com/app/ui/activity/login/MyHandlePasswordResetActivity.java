@@ -178,9 +178,9 @@ public class MyHandlePasswordResetActivity
     //# start
     //##################################################
 
-    public void start(String accessKey)
+    public void start(String key)
     {
-        setAccessKey(accessKey);
+        setAccessKey(key);
         _start();
     }
 
@@ -234,13 +234,13 @@ public class MyHandlePasswordResetActivity
 
         String key = getAccessKey();
 
-        MyPasswordReset i;
-        i = getAccess().getPasswordResetDao().findAccessKey(key);
-        i.setStatusAccepted();
-        i.setClosedUtcTs(getNowUtc());
+        MyPasswordReset e;
+        e = getAccess().getPasswordResetDao().findAccessKey(key);
+        e.setStatusAccepted();
+        e.setClosedUtcTs(getNowUtc());
 
         MyUser u;
-        u = i.getUser();
+        u = e.getUser();
         u.setPassword(p1);
         u.setVerified(true);
 
