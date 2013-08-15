@@ -213,7 +213,6 @@ public class ScAutoCompleteField
 
     public void track(ScEncodedValueIF e)
     {
-        System.out.println("    tracking: " + e.toString());
         _trackedValues.add(e);
     }
 
