@@ -48,17 +48,6 @@ import com.app.utility.MyGlobals;
 public class MyManageAccountsPage
     extends MyAbstractTestPage
 {
-    /**
-     *  (steve) Grid not loading users
-     *  when you enter the app you click "admin", then click "manage accounts".
-     *  when you enter this page the grid fails to display the users associated with the current account.
-     *  if you click the refresh icon it will display. Please check it out.
-     *  
-     * review_steve (wyatt)
-     *      Fix spacing in comments.
-     *      I cannot reproduce the problem.
-     */
-
     //##################################################
     //# singleton
     //##################################################
@@ -469,7 +458,6 @@ public class MyManageAccountsPage
         body = _transferGroup.addBox();
         body.css().pad();
 
-        // review_steve AUTO COMPLETE FIELD
         _transferEmailAutoComplete = new ScAutoCompleteField();
         _transferEmailAutoComplete.setLabel("Email ");
         _transferEmailAutoComplete.setCallback(newTransferEmailCallback());
@@ -523,7 +511,6 @@ public class MyManageAccountsPage
 
     private KmList<String> getAutoCompleteTransferEmailOptions(String term)
     {
-        // review_steve AUTO COMPLETE FIELD
         MyMetaUser x = MyUser.Meta;
         MyAccount account = getPageSession().getAccount();
 
@@ -559,7 +546,7 @@ public class MyManageAccountsPage
 
         ScGrid<MyAccountUser> grid;
         grid = group.addGrid();
-        grid.trackAll(_accountDropdown);
+        grid.track(getPageSession().getAccountUidHolder());
         grid.setFilterFactory(newFetcher());
         grid.addLinkColumn(x.UserName, newViewUserAction(), x.Uid);
         grid.addColumn(userEmail);
@@ -607,7 +594,7 @@ public class MyManageAccountsPage
         f.sortAscending();
 
         String accountUid;
-        accountUid = _accountDropdown.getStringValue();
+        accountUid = getPageSession().getAccountUidHolder().getValue();
 
         if ( accountUid == null )
             accountUid = getServerSession().getAccount().getUid();
@@ -1102,6 +1089,8 @@ public class MyManageAccountsPage
 
     private void handleDeleteAccountCancel()
     {
+        // remove_steve: print
+        System.out.println("MyManageAccountsPage.handleDeleteAccountCancel");
         refreshAll(true);
     }
 
@@ -1378,6 +1367,8 @@ public class MyManageAccountsPage
     {
         MyAccount a;
         a = getPageSession().getAccount();
+
+        System.out.println("    @@@@@@@@@@@@@a: " + a);
 
         MyUser u;
         u = MyGlobals.getServerSession().getUser();

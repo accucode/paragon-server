@@ -59,6 +59,12 @@ public class ScDropdown
     implements ScElementIF
 {
     //##################################################
+    //# constants
+    //##################################################//
+
+    private static final boolean USE_CHOOSER = false;
+
+    //##################################################
     //# variables
     //##################################################
 
@@ -66,26 +72,26 @@ public class ScDropdown
      * If not null, refetch the options from the filter
      * each time render is executed.
      */
-    private KmFilter<ScOption> _optionFilter;
+    private KmFilter<ScOption>   _optionFilter;
 
-    private ScLocalOptionList  _options;
-    private ScLocalOptionList  _prefixes;
+    private ScLocalOptionList    _options;
+    private ScLocalOptionList    _prefixes;
 
-    private ScLocalObject      _value;
-    private ScLocalAdaptor     _optionLabelAdaptor;
-    private ScLocalAdaptor     _optionValueAdaptor;
+    private ScLocalObject        _value;
+    private ScLocalAdaptor       _optionLabelAdaptor;
+    private ScLocalAdaptor       _optionValueAdaptor;
 
-    private ScLocalBoolean     _disabled;
+    private ScLocalBoolean       _disabled;
 
     @SuppressWarnings("rawtypes")
-    private KmValidator        _validator;
+    private KmValidator          _validator;
 
-    private ScLocalCss         _css;
-    private ScLocalStyle       _style;
+    private ScLocalCss           _css;
+    private ScLocalStyle         _style;
 
-    private ScActionIF         _action;
+    private ScActionIF           _action;
 
-    private ScLocalBoolean     _usesChosen;
+    private ScLocalBoolean       _usesChosen;
 
     //##################################################
     //# init
@@ -106,7 +112,7 @@ public class ScDropdown
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
 
-        _usesChosen = new ScLocalBoolean(true);
+        _usesChosen = new ScLocalBoolean(USE_CHOOSER);
     }
 
     //##################################################

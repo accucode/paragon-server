@@ -273,6 +273,7 @@ public class MyHandleJoinInvitationActivity
             u = createUser(email, a);
         }
 
+        // fixme_steve use the user methods to join to the account
         System.out.println("    a: " + a.getName());
         System.out.println("    u: " + u.getName());
 
