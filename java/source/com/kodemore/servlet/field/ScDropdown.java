@@ -106,8 +106,7 @@ public class ScDropdown
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
 
-        // fix_valerie change back to true once fixed 
-        _usesChosen = new ScLocalBoolean(false);
+        _usesChosen = new ScLocalBoolean(true);
     }
 
     //##################################################
