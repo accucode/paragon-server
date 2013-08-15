@@ -194,7 +194,7 @@ public class MyGenerator
             _root.setApplicationName(MyConstantsIF.APPLICATION_NAME);
             _root.setApplicationPrefix(APPLICATION_PREFIX);
             _root.setApplicationPackage(APPLICATION_PACKAGE);
-            _root.setDefaultModelSuperClass("MyAbstractModel");
+            _root.setDefaultModelSuperClass("MyAbstractDomain");
         }
         return _root;
     }

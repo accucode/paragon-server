@@ -94,11 +94,6 @@ public class MyTestPage
         links.addLink(MyStaticIncludeTestPage.instance);
         links.addLink(MyQuickTestPage.instance);
 
-        // fixme_wyatt: remove
-        group = groups.addGroup("Hack");
-        links = group.addLinkBox();
-        links.addLink(MyHackTestPage.instance);
-
         return root;
     }
 

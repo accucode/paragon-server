@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2011 www.kodemore.com
+  Copyright (c) 2005-2013 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -53,8 +53,6 @@ import com.kodemore.validator.KmRequiredValidator;
 import com.kodemore.validator.KmValidator;
 
 // todo_wyatt: fix chosen styling in page header
-
-// todo_wyatt: fix copyright
 
 public class ScDropdown
     extends ScField<Object>
