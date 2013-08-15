@@ -53,7 +53,6 @@ public abstract class MyActivityRegistryBase
         add(MyGridTestPage.instance);
         add(MyGroupIconHeaderTestPage.instance);
         add(MyGroupTestPage.instance);
-        add(MyHackTestPage.instance);
         add(MyHandleJoinInvitationActivity.instance);
         add(MyHandleNewUserInvitationActivity.instance);
         add(MyHandlePasswordResetActivity.instance);
