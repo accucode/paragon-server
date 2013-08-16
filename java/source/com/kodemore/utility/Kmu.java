@@ -2568,6 +2568,11 @@ public class Kmu
         return formatList(v, attr.getAdaptor(), separator);
     }
 
+    public static <E> String formatLines(Iterable<E> v)
+    {
+        return formatList(v, "\n");
+    }
+
     public static String formatSeparated(String separator, Object... arr)
     {
         StringBuilder out = new StringBuilder();

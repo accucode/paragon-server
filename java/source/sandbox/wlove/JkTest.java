@@ -1,6 +1,8 @@
 package sandbox.wlove;
 
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.collection.KmList;
+import com.kodemore.file.KmFile;
+import com.kodemore.string.KmStringTokenizer;
 
 public class JkTest
 {
@@ -13,12 +15,53 @@ public class JkTest
         new JkTest().run();
     }
 
-    public void run()
+    //##################################################
+    //# constants
+    //##################################################
+
+    private static final String IN  = "/temp/in.txt";
+    private static final String OUT = "/temp/out.txt";
+
+    //##################################################
+    //# run
+    //##################################################
+
+    private void run()
     {
-        KmJsonObject e;
-        e = new KmJsonObject();
-        e.setString("name", "bob/smith");
-        System.out.println(e);
+        KmList<String> v;
+        v = new KmList<String>();
+        v.addAll(read(IN));
+        v.addAll(read(OUT));
+        v.removeDuplicates();
+        v.sort();
+
+        System.out.println("Words: " + v.size());
+
+        new KmFile(OUT).write(v.formatLines());
     }
 
+    private KmList<String> read(String path)
+    {
+        KmFile f = new KmFile(path);
+        String in = f.readString().toLowerCase();
+
+        KmStringTokenizer t;
+        t = new KmStringTokenizer();
+        t.setIgnoreEmptyValues();
+        t.setTrimValues();
+        t.addWhitespaceDelimiters();
+        t.addDelimiter(',');
+        t.addDelimiter(';');
+        t.addDelimiter(':');
+        t.addDelimiter('.');
+        t.addDelimiter('?');
+        t.addDelimiter('!');
+        t.addDelimiter('"');
+        t.addDelimiter("--");
+
+        KmList<String> words;
+        words = t.split(in);
+        words.removeDuplicates();
+        return words;
+    }
 }

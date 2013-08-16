@@ -200,6 +200,7 @@ public class JkDaoTest
     //# utility
     //##################################################
 
+    // review_valerie: start here
     private MyUser createUser(String name)
     {
         String email = name + "@acme.com";
@@ -223,12 +224,12 @@ public class JkDaoTest
         return getAccess().getAccountDao().findRoot();
     }
 
-    private MyAccount findAccount(String name)
+    private KmList<MyAccount> findAccounts(String name)
     {
         return getAccess().getAccountDao().findName(name);
     }
 
-    private MyUser findUser(String name)
+    private KmList<MyUser> findUsers(String name)
     {
         return getAccess().getUserDao().findName(name);
     }

@@ -1,5 +1,7 @@
 package com.app.dao;
 
+import com.kodemore.collection.KmList;
+
 import com.app.criteria.MyAccountCriteria;
 import com.app.dao.base.MyAccountDaoBase;
 import com.app.dao.base.MyDaoRegistry;
@@ -18,13 +20,14 @@ public class MyAccountDao
 
     /**
      * review_valerie (wyatt) discuss
+     * needs to return a list or use a uid if returning only one
      */
-    public MyAccount findName(String name)
+    public KmList<MyAccount> findName(String name)
     {
         MyAccountCriteria c;
         c = createCriteria();
         c.whereName().is(name);
-        return c.findFirst();
+        return c.findAll();
     }
 
     public MyAccount findRoot()

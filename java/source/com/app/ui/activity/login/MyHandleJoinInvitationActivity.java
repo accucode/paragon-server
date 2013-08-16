@@ -16,7 +16,6 @@ import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
 import com.app.model.MyInvitation;
 import com.app.model.MyUser;
 import com.app.ui.activity.MyActivity;
@@ -273,23 +272,7 @@ public class MyHandleJoinInvitationActivity
             u = createUser(email, a);
         }
 
-        System.out.println("    a: " + a.getName());
-        System.out.println("    u: " + u.getName());
-
-        MyAccountUser au;
-        au = getAccess().getAccountUserDao().findAccountUserFor(u, a);
-
-        if ( au == null )
-        {
-            au = new MyAccountUser();
-            au.setAccount(a);
-            au.setUser(u);
-        }
-
-        System.out.println("    au: " + au);
-
-        au.setRoleCode(roleCode);
-        au.saveDao();
+        u.joinAccount(a, roleCode);
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();

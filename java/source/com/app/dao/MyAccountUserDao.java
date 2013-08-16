@@ -12,14 +12,6 @@ import com.app.model.MyUser;
 public class MyAccountUserDao
     extends MyAccountUserDaoBase
 {
-    public MyAccountUser findWithUid(String uid)
-    {
-        MyAccountUserCriteria c;
-        c = createCriteria();
-        c.whereUid().is(uid);
-        return c.findFirst();
-    }
-
     public KmList<MyAccountUser> findAccountUsersFor(MyUser u)
     {
         MyAccountUserCriteria c;
@@ -57,7 +49,7 @@ public class MyAccountUserDao
         c = createCriteria();
         c.whereAccountIs(a);
         c.whereRoleIsOwner();
-        return c.findFirst();
+        return c.findUnique();
     }
 
     public void transferOwnership(MyAccountUser oldOwner, MyAccountUser newOwner)

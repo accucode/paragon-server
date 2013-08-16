@@ -48,17 +48,6 @@ import com.app.utility.MyGlobals;
 public class MyManageAccountsPage
     extends MyAbstractTestPage
 {
-    /**
-     *  (steve) Grid not loading users
-     *  when you enter the app you click "admin", then click "manage accounts".
-     *  when you enter this page the grid fails to display the users associated with the current account.
-     *  if you click the refresh icon it will display. Please check it out.
-     *  
-     * review_steve (wyatt)
-     *      Fix spacing in comments.
-     *      I cannot reproduce the problem.
-     */
-
     //##################################################
     //# singleton
     //##################################################
@@ -113,6 +102,7 @@ public class MyManageAccountsPage
 
     private ScActionButton        _transferButton;
     private ScActionButton        _deleteButton;
+    private ScActionButton        _editButton;
 
     private ScLocalString         _accountName;
 
@@ -121,6 +111,7 @@ public class MyManageAccountsPage
     private ScGroup               _transferGroup;
 
     private ScDiv                 _viewAccountFooter;
+    private ScDiv                 _viewUserFooter;
 
     //##################################################
     //# install
@@ -154,44 +145,29 @@ public class MyManageAccountsPage
         return root;
     }
 
-    /**
-     * (valerie)
-     * not sure this looks too much better
-     * 
-     * review_valerie (wyatt) discuss
-     *      I don't know what you are referring to.
-     *      Use better names for the two buttons.
-     *      
-     * (valerie)
-     * not sure this the border around the form looks too much better
-     * 
-     * review_valerie (wyatt) discuss
-     *      Use better names for the two buttons.
-     */
     private void installDeleteUserDialog(ScPageRoot root)
     {
         _deleteUserDialog = root.addDialog();
-        _deleteUserDialog.getHeaderBox().hide();
-        _deleteUserDialog.getFooterBox().hide();
+        _deleteUserDialog.getHeaderBox().addPad().addText(
+            "Are you sure you want to \n remove this user?");
+        _deleteUserDialog.getBodyBox().hide();
         _deleteUserDialog.setBodyHeight(125);
 
-        ScBox body = _deleteUserDialog.getBodyBox();
+        ScBox footer;
+        footer = _deleteUserDialog.getFooterBox().addPad();
 
-        ScGroup group;
-        group = body.addGroup("Are you sure you want to \n remove this user?");
+        ScBox buttonBox;
+        buttonBox = footer.addButtonBoxRight();
 
-        ScDiv footer;
-        footer = group.addButtonBoxRight();
+        ScActionButton cancelButton;
+        cancelButton = buttonBox.addButton("Cancel", newCloseAction());
+        cancelButton.setImage(MyButtonUrls.cancel());
+        cancelButton.setFlavorNegative();
 
-        ScActionButton button1;
-        button1 = footer.addButton("Go Back", newCloseAction());
-        button1.setImage(MyButtonUrls.cancel());
-        button1.setFlavorNegative();
-
-        ScActionButton button2;
-        button2 = footer.addButton("Delete", newDeleteUserAction());
-        button2.setImage(MyButtonUrls.primary());
-        button2.setFlavorPositive();
+        ScActionButton deleteButton;
+        deleteButton = buttonBox.addButton("Delete", newDeleteUserAction());
+        deleteButton.setImage(MyButtonUrls.primary());
+        deleteButton.setFlavorPositive();
     }
 
     private void installAccountsDropdownOn(ScContainer root)
@@ -267,14 +243,13 @@ public class MyManageAccountsPage
         group.addDivider();
 
         _viewAccountFooter = group.addButtonBoxRight();
+
         _viewAccountFooter.addButton("Edit", newShowEditAccountBoxAction());
-
         _transferButton = _viewAccountFooter.addButton("Transfer", newShowTransferBoxAction());
-        _transferButton.hide();
-
         _viewAccountFooter.addButton("Invite", newShowInviteUserBoxAction());
-
         _deleteButton = _viewAccountFooter.addButton("Delete", newShowDeleteAccountBoxAction());
+
+        _transferButton.hide();
 
         _viewAccountChild = frameChild;
     }
@@ -413,14 +388,9 @@ public class MyManageAccountsPage
         form = frameChild.addForm();
         form.setDefaultAction(saveAction);
         form.onEscape().run(cancelAction);
+        form.css().colorRed();
 
         _deleteGroup = form.addGroup();
-
-        /**
-         * review_steve (valerie) trying to make this stand out more than the
-         * others
-         */
-        // todo_valerie add red background somewhere in here
 
         ScBox body;
         body = _deleteGroup.addBox();
@@ -469,7 +439,6 @@ public class MyManageAccountsPage
         body = _transferGroup.addBox();
         body.css().pad();
 
-        // review_steve AUTO COMPLETE FIELD
         _transferEmailAutoComplete = new ScAutoCompleteField();
         _transferEmailAutoComplete.setLabel("Email ");
         _transferEmailAutoComplete.setCallback(newTransferEmailCallback());
@@ -523,7 +492,6 @@ public class MyManageAccountsPage
 
     private KmList<String> getAutoCompleteTransferEmailOptions(String term)
     {
-        // review_steve AUTO COMPLETE FIELD
         MyMetaUser x = MyUser.Meta;
         MyAccount account = getPageSession().getAccount();
 
@@ -559,7 +527,7 @@ public class MyManageAccountsPage
 
         ScGrid<MyAccountUser> grid;
         grid = group.addGrid();
-        grid.trackAll(_accountDropdown);
+        grid.track(getPageSession().getAccountUidHolder());
         grid.setFilterFactory(newFetcher());
         grid.addLinkColumn(x.UserName, newViewUserAction(), x.Uid);
         grid.addColumn(userEmail);
@@ -607,7 +575,7 @@ public class MyManageAccountsPage
         f.sortAscending();
 
         String accountUid;
-        accountUid = _accountDropdown.getStringValue();
+        accountUid = getPageSession().getAccountUidHolder().getValue();
 
         if ( accountUid == null )
             accountUid = getServerSession().getAccount().getUid();
@@ -651,9 +619,8 @@ public class MyManageAccountsPage
         header = group.getHeader().addFloatRight();
         header.css().pad5();
 
-        ScActionButton editButton;
-        editButton = header.addButton("Edit", newShowEditUserBoxAction());
-        editButton.setImage(MyButtonUrls.edit());
+        _editButton = header.addButton("Edit", newShowEditUserBoxAction());
+        _editButton.setImage(MyButtonUrls.edit());
 
         ScBox body;
         body = group.addBox();
@@ -679,10 +646,9 @@ public class MyManageAccountsPage
 
         group.addDivider();
 
-        ScDiv footer;
-        footer = group.addButtonBoxRight();
-        footer.addCancelButton(cancelAction);
-        footer.addSubmitButton("Remove from Account");
+        _viewUserFooter = group.addButtonBoxRight();
+        _viewUserFooter.addCancelButton(cancelAction);
+        _viewUserFooter.addSubmitButton("Remove from Account");
 
         _viewUserChild = frameChild;
     }
@@ -1055,7 +1021,7 @@ public class MyManageAccountsPage
         super.start();
 
         setDropdownOptions();
-        updateViewAccount(true);
+        refreshAll(true);
     }
 
     //##################################################
@@ -1070,7 +1036,7 @@ public class MyManageAccountsPage
         _deleteGroup.setTitle("Delete %s Account", name);
 
         MyAccount a;
-        a = getAccountDao().findName(name);
+        a = getPageSession().getAccount();
 
         if ( a != null )
         {
@@ -1097,12 +1063,13 @@ public class MyManageAccountsPage
         ajax().toast("Deleted account %s", a.getName());
 
         setDropdownOptions();
-        refreshAll(true);
+        refreshFlipViewAccount();
+        _userGrid.ajaxReload();
     }
 
     private void handleDeleteAccountCancel()
     {
-        refreshAll(true);
+        refreshFlipViewAccount();
     }
 
     private void handleDeleteUser()
@@ -1122,13 +1089,11 @@ public class MyManageAccountsPage
     private void handleClose()
     {
         _deleteUserDialog.ajaxClose();
-
-        refreshAll(false);
     }
 
     private void handleUpdateValues()
     {
-        updateViewAccount(false);
+        refreshAll(false);
     }
 
     private void handleShowAddAccountBox()
@@ -1140,7 +1105,7 @@ public class MyManageAccountsPage
     private void handleShowEditAccountBox()
     {
         MyAccount a;
-        a = getAccountDao().findName(_viewAccountName.getValue());
+        a = getPageSession().getAccount();
 
         if ( a != null )
             _editAccountName.setValue(a.getName());
@@ -1183,7 +1148,7 @@ public class MyManageAccountsPage
 
     private void handleCancelTransferRequest()
     {
-        refreshAll(true);
+        refreshFlipViewAccount();
     }
 
     private void handleEditAccountSave()
@@ -1203,13 +1168,15 @@ public class MyManageAccountsPage
         a.saveDao();
 
         setDropdownOptions();
-        refreshAll(true);
+        _accountDropdown.ajaxSetValue(a.getUid());
+        refreshFlipViewAccount();
+        _userGrid.ajaxReload();
     }
 
     private void handleEditAccountCancel()
     {
         setDropdownOptions();
-        refreshAll(true);
+        refreshFlipViewAccount();
     }
 
     private void handleAddAccountSave()
@@ -1230,16 +1197,16 @@ public class MyManageAccountsPage
         MyAccount a;
         a = getAccountDao().createNewAccount(name, type, user);
         getPageSession().setAccount(a);
-        setDropdownOptions();
 
+        setDropdownOptions();
         _accountDropdown.ajaxSetValue(a.getUid());
-        MyPageLayout.getInstance().refreshDropdown();
-        refreshAll(true);
+        refreshFlipViewAccount();
+        _userGrid.ajaxReload();
     }
 
     private void handleAddAccountCancel()
     {
-        refreshAll(true);
+        refreshFlipViewAccount();
     }
 
     private void handleShowInviteUserBox()
@@ -1253,7 +1220,7 @@ public class MyManageAccountsPage
     private void handleViewUser()
     {
         MyAccountUser au;
-        au = getAccountUserDao().findWithUid(getStringArgument());
+        au = getAccountUserDao().findUid(getStringArgument());
 
         if ( au == null )
             au = getPageSession().getAccountUser();
@@ -1268,6 +1235,13 @@ public class MyManageAccountsPage
         _viewUserEmail.setValue(u.getEmail());
         _viewUserRole.setValue(au.getRoleName());
 
+        if ( au.isRoleOwner() )
+        {
+            _editButton.hide();
+            _viewUserFooter.hide();
+            _viewUserChild.ajax().replace();
+        }
+
         _userFrame.ajaxPrint(_viewUserChild);
     }
 
@@ -1275,34 +1249,34 @@ public class MyManageAccountsPage
     {
         _editUserChild.validate();
 
-        MyAccountUser au;
-        au = getPageSession().getAccountUser();
+        MyAccountUser pageSessionAU;
+        pageSessionAU = getPageSession().getAccountUser();
 
         String roleCode = _editRoleDropdown.getStringValue();
 
         MyAccountUser owner;
-        owner = getAccountUserDao().findCurrentOwner(au.getAccount());
+        owner = getAccountUserDao().findCurrentOwner(pageSessionAU.getAccount());
 
         boolean hasOwner = owner != null;
-        boolean setOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
+        boolean settingOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
 
-        if ( hasOwner && setOwner )
+        if ( hasOwner && settingOwner )
             ajax().alert("Looks like this account already has an owner.");
         else
-            au.setRoleCode(roleCode);
+            pageSessionAU.setRoleCode(roleCode);
 
-        au.saveDao();
+        pageSessionAU.saveDao();
 
         MyUser u;
-        u = au.getUser();
+        u = pageSessionAU.getUser();
 
         _viewUserName.setValue(u.getName());
         _viewUserEmail.setValue(u.getEmail());
-        _viewUserRole.setValue(au.getRoleName());
+        _viewUserRole.setValue(pageSessionAU.getRoleName());
 
         _userFrame.ajaxPrint(_viewUserChild);
 
-        refreshAll(false);
+        _userGrid.ajaxReload();
     }
 
     private void handleEditUserCancel()
@@ -1330,7 +1304,7 @@ public class MyManageAccountsPage
 
     private void handleInviteUserCancel()
     {
-        refreshAll(true);
+        refreshFlipViewAccount();
     }
 
     private void handleShowEditUserBox()
@@ -1354,8 +1328,6 @@ public class MyManageAccountsPage
     private void handleViewUserCancel()
     {
         _userFrame.ajaxClear();
-
-        refreshAll(false);
     }
 
     private void handleShowDeleteAccountUserDialog()
@@ -1367,17 +1339,20 @@ public class MyManageAccountsPage
     {
         ajax().toast("Your request has been sent to: " + e);
 
-        refreshAll(true);
+        refreshFlipViewAccount();
     }
 
     //##################################################
     //# convenience
     //##################################################
 
-    private void refreshAll(boolean flipView)
+    private void refreshViewAccount()
     {
         MyAccount a;
         a = getPageSession().getAccount();
+
+        MyAccountUser owner;
+        owner = getAccountUserDao().findCurrentOwner(a);
 
         MyUser u;
         u = MyGlobals.getServerSession().getUser();
@@ -1391,67 +1366,42 @@ public class MyManageAccountsPage
         _viewAccountName.setValue(a.getName());
         _viewAccountType.setValue(a.getType().getName());
 
+        boolean isPersonalAccount = a.getName().equalsIgnoreCase("Personal");
+        boolean hasOwner = owner != null;
+        boolean isOwner = isOwner(owner, u);
+
+        if ( isPersonalAccount )
+            _deleteButton.hide();
+
         /**
          * review_steve (wyatt) discuss name
          */
-        MyAccountUser owner;
-        owner = getAccountUserDao().findCurrentOwner(a);
 
-        if ( getDropdownList().isEmpty() )
-            _viewAccountFooter.hide();
-
-        /*
-         * review_steve (wyatt) discuss
-         *      if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
-         */
-        /**
-         * ask_valerie preference on footer print vs flipView
-         * can implement a footer print only maybe
-         */
-        if ( owner != null && owner.getUser().isSame(u) )
+        if ( hasOwner && isOwner )
             _transferButton.show();
 
-        /**
-         * review_steve review_valerie this condition is not working as intended
-         * 
-         * review_steve (wyatt)
-         */
-        if ( a.getName().equalsIgnoreCase("Personal") )
-            _deleteButton.hide();
-
+        _viewAccountFooter.ajax().replace();
         _viewAccountChild.ajaxUpdateValues();
-
-        if ( flipView )
-            _accountFrame.ajaxPrint(_viewAccountChild);
-
-        _userGrid.ajaxReload();
     }
 
-    private void updateViewAccount(boolean isStart)
+    private void refreshFlipViewAccount()
     {
-        MyAccount a;
-        a = getPageSession().getAccount();
+        refreshViewAccount();
+        _accountFrame.ajaxPrint(_viewAccountChild);
+    }
 
+    private void refreshAll(boolean isStart)
+    {
         MyAccount da;
         da = getDropdownAccount();
-
-        /**
-         * (steve) this is ugly and probably not too readable
-         * 
-         * review_valerie (steve)
-         * 
-         * review_steve (wyatt) discuss
-         */
-        if ( a == null || !da.equals(a) )
-        {
-            a = da;
-            getPageSession().setAccount(a);
-        }
+        getPageSession().setAccount(da);
 
         if ( isStart )
-            refreshAll(false);
+            refreshViewAccount();
         else
-            refreshAll(true);
+            refreshFlipViewAccount();
+
+        _userGrid.ajaxReload();
     }
 
     /**
@@ -1530,5 +1480,10 @@ public class MyManageAccountsPage
     private MyAccountUserDao getAccountUserDao()
     {
         return getAccess().getAccountUserDao();
+    }
+
+    private boolean isOwner(MyAccountUser owner, MyUser u)
+    {
+        return owner.getUser().isSame(u);
     }
 }
