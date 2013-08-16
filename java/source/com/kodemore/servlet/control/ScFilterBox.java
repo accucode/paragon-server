@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2011 www.kodemore.com
+  Copyright (c) 2005-2013 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -75,6 +75,8 @@ public class ScFilterBox
 
         _body = _group.addPad();
 
+        // review_aaron: add filler by default above bottom buttons
+        _group.addFiller();
         _group.addDivider();
 
         ScBox buttons;

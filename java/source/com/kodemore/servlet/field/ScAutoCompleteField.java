@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2011 www.kodemore.com
+  Copyright (c) 2005-2013 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -213,7 +213,6 @@ public class ScAutoCompleteField
 
     public void track(ScEncodedValueIF e)
     {
-        System.out.println("    tracking: " + e.toString());
         _trackedValues.add(e);
     }
 
@@ -364,9 +363,6 @@ public class ScAutoCompleteField
     private String getSourceCallback()
     {
         // review_steve AUTO COMPLETE FIELD
-        /**
-         *  review_wyatt (steve) autoComplete field tracked values
-         */
         ScServletCallbackRegistry r = ScServletCallbackRegistry.getInstance();
         ScServletCallback c = r.getAutoCompleteCallback();
 
@@ -438,10 +434,6 @@ public class ScAutoCompleteField
     private void _handleServletCallback()
     {
         // review_steve AUTO COMPLETE FIELD
-        /**
-         *  review_wyatt (steve) autoComplete field tracked values
-         */
-
         ScServletData data = getData();
         String term = data.getParameter("term");
         applyTrackedValuesFor(data);

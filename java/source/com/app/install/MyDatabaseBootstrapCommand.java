@@ -6,10 +6,7 @@ import com.kodemore.patch.KmPatch;
 import com.kodemore.patch.KmPatchBridge;
 
 import com.app.dao.base.MyDaoRegistry;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
 import com.app.model.MyPatch;
-import com.app.model.MyUser;
 import com.app.utility.MyGlobals;
 
 public class MyDatabaseBootstrapCommand
@@ -30,27 +27,7 @@ public class MyDatabaseBootstrapCommand
 
     private void installRootUser()
     {
-        MyUser u;
-        u = new MyUser();
-        u.setUid(MyUser.ROOT_UID);
-        u.setRoleDeveloper();
-        u.setEmail("root");
-        u.setPassword(null);
-        u.setName("Root");
-        u.setVerified(true);
-        u.saveDao();
-
-        MyAccount a;
-        a = new MyAccount();
-        a.setUid(MyAccount.ROOT_UID);
-        a.setName("Personal");
-        a.setTypePersonal();
-        a.saveDao();
-
-        MyAccountUser au;
-        au = a.addAccountUser();
-        au.setUser(u);
-        au.setRoleOwner();
+        getAccess().getUserDao().createRootUser();
     }
 
     private void installExistingPatches()
@@ -70,5 +47,4 @@ public class MyDatabaseBootstrapCommand
     {
         return MyGlobals.getAccess();
     }
-
 }

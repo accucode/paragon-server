@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2011 www.kodemore.com
+  Copyright (c) 2005-2013 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -52,10 +52,18 @@ import com.kodemore.utility.Kmu;
 import com.kodemore.validator.KmRequiredValidator;
 import com.kodemore.validator.KmValidator;
 
+// todo_wyatt: fix chosen styling in page header
+
 public class ScDropdown
     extends ScField<Object>
     implements ScElementIF
 {
+    //##################################################
+    //# constants
+    //##################################################//
+
+    private static final boolean USE_CHOOSER = false;
+
     //##################################################
     //# variables
     //##################################################
@@ -64,27 +72,26 @@ public class ScDropdown
      * If not null, refetch the options from the filter
      * each time render is executed.
      */
-    private KmFilter<ScOption> _optionFilter;
+    private KmFilter<ScOption>   _optionFilter;
 
-    private ScLocalOptionList  _options;
-    private ScLocalOptionList  _prefixes;
+    private ScLocalOptionList    _options;
+    private ScLocalOptionList    _prefixes;
 
-    private ScLocalObject      _value;
-    private ScLocalAdaptor     _optionLabelAdaptor;
-    private ScLocalAdaptor     _optionValueAdaptor;
+    private ScLocalObject        _value;
+    private ScLocalAdaptor       _optionLabelAdaptor;
+    private ScLocalAdaptor       _optionValueAdaptor;
 
-    private ScLocalBoolean     _disabled;
+    private ScLocalBoolean       _disabled;
 
     @SuppressWarnings("rawtypes")
-    private KmValidator        _validator;
+    private KmValidator          _validator;
 
-    private ScLocalCss         _css;
-    private ScLocalStyle       _style;
+    private ScLocalCss           _css;
+    private ScLocalStyle         _style;
 
-    private ScActionIF         _action;
+    private ScActionIF           _action;
 
-    // fixme_wyatt: local
-    private boolean            _usesChosen;
+    private ScLocalBoolean       _usesChosen;
 
     //##################################################
     //# init
@@ -104,6 +111,8 @@ public class ScDropdown
 
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
+
+        _usesChosen = new ScLocalBoolean(USE_CHOOSER);
     }
 
     //##################################################
@@ -151,22 +160,18 @@ public class ScDropdown
         return _style.toBuilder();
     }
 
-    /**
-     * review_wyatt: (aaron) CHOSEN - Simple boolean determines if chosen should be used
-     * on the dropdown.
-     */
     //##################################################
     //# chosen
     //##################################################
 
     public boolean usesChosen()
     {
-        return _usesChosen;
+        return _usesChosen.getValue();
     }
 
     public void setUsesChosen(boolean e)
     {
-        _usesChosen = e;
+        _usesChosen.setValue(e);
     }
 
     public void setUsesChosen()

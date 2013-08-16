@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2011 www.kodemore.com
+  Copyright (c) 2005-2013 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -50,12 +50,6 @@ public class ScToggleScript
         return "slideToggle";
     }
 
-    /**
-     * review_wyatt: (aaron) FLIP - This is where we must implement the flip function
-     * for the ScToggleScript.  I don't know what to do here.
-     * 
-     * For now it just does a 180 flip.
-     */
     @Override
     protected String getFlipFunction()
     {

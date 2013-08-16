@@ -13,7 +13,6 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyAccount;
@@ -212,15 +211,15 @@ public class MyHandleJoinInvitationActivity
         String key;
         key = getAccessKey();
 
-        MyInvitation i;
-        i = getAccess().getInvitationDao().findAccessKey(key);
+        MyInvitation inv;
+        inv = getAccess().getInvitationDao().findAccessKey(key);
 
         String email;
-        email = i.getEmail();
+        email = inv.getEmail();
 
-        MyUser user = getAccess().getUserDao().findEmail(email);
+        MyUser u = getAccess().getUserDao().findEmail(email);
 
-        if ( user == null )
+        if ( u == null )
         {
             _password1Field.show();
             _password2Field.show();
@@ -230,11 +229,11 @@ public class MyHandleJoinInvitationActivity
             _password2ErrorBox.show();
         }
 
-        MyAccount account;
-        account = i.getAccount();
+        MyAccount a;
+        a = inv.getAccount();
 
-        _emailText.setValue(i.getEmail());
-        _accountText.setValue(account.getName());
+        _emailText.setValue(inv.getEmail());
+        _accountText.setValue(a.getName());
 
         ajax().printMain(_root);
         ajax().focus();
@@ -251,43 +250,53 @@ public class MyHandleJoinInvitationActivity
 
         String key = getAccessKey();
 
-        MyInvitation i;
-        i = getAccess().getInvitationDao().findAccessKey(key);
-        i.setStatusAccepted();
-        i.setClosedUtcTs(getNowUtc());
+        MyInvitation inv;
+        inv = getAccess().getInvitationDao().findAccessKey(key);
+        inv.setStatusAccepted();
+        inv.setClosedUtcTs(getNowUtc());
 
         String email;
-        email = i.getEmail();
+        email = inv.getEmail();
 
-        MyUser user;
-        user = getAccess().getUserDao().findEmail(email);
+        MyUser u;
+        u = getAccess().getUserDao().findEmail(email);
 
-        MyAccount account;
-        account = i.getAccount();
-
-        MyAccountUser accountUser;
-        accountUser = getAccess().getAccountUserDao().findAccountUserFor(user, account);
+        MyAccount a;
+        a = inv.getAccount();
 
         String roleCode;
-        roleCode = i.getRoleCode();
+        roleCode = inv.getRoleCode();
 
-        if ( user == null )
+        if ( u == null )
         {
             _form.validate();
-            user = createUser(email);
+            u = createUser(email, a);
         }
 
-        if ( accountUser == null )
-            accountUser = createAccountUser(user, account);
+        // fixme_steve use the user methods to join to the account
+        System.out.println("    a: " + a.getName());
+        System.out.println("    u: " + u.getName());
 
-        accountUser.setRoleCode(roleCode);
-        accountUser.saveDao();
+        MyAccountUser au;
+        au = getAccess().getAccountUserDao().findAccountUserFor(u, a);
+
+        if ( au == null )
+        {
+            au = new MyAccountUser();
+            au.setAccount(a);
+            au.setUser(u);
+        }
+
+        System.out.println("    au: " + au);
+
+        au.setRoleCode(roleCode);
+        au.saveDao();
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
     }
 
-    private MyUser createUser(String email)
+    private MyUser createUser(String email, MyAccount a)
     {
         _password1Field.ajax().clearValue();
         _password2Field.ajax().clearValue();
@@ -298,32 +307,10 @@ public class MyHandleJoinInvitationActivity
         if ( Kmu.isNotEqual(p1, p2) )
             _password1Field.error("Passwords did not match.");
 
-        KmEmailParser p;
-        p = new KmEmailParser();
-        p.setEmail(email);
-
-        String name;
-        name = p.getName();
-
         MyUser u;
-        u = new MyUser();
-        u.setName(name);
-        u.setEmail(email);
-        u.setPassword(p1);
-        u.setVerified(true);
-        u.saveDao();
+        u = getAccess().getUserDao().createNewUserWithAccount(email, p1, a);
 
         return u;
-    }
-
-    private MyAccountUser createAccountUser(MyUser user, MyAccount account)
-    {
-        MyAccountUser accountUser;
-        accountUser = new MyAccountUser();
-        accountUser.setAccount(account);
-        accountUser.setUser(user);
-
-        return accountUser;
     }
 
     //##################################################

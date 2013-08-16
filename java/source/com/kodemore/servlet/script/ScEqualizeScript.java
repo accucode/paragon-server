@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2011 www.kodemore.com
+  Copyright (c) 2005-2013 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -157,12 +157,15 @@ public class ScEqualizeScript
     //##################################################
 
     /**
-     * review_wyatt: (aaron) EQUALIZE - I addressed everything we discussed earlier about
+     * (aaron) EQUALIZE - I addressed everything we discussed earlier about
      * the equalize function.  I added booleans to determine the 'mode' of the
      * function, but made it default to both height and width if not specifically
      * stated otherwise.
      * 
      * See the function in KmUtility.js for additional changes.
+     * 
+     * review_aaron (wyatt) discuss.
+     *      Nice.  Need to discuss the guard.
      */
 
     @Override
@@ -171,16 +174,16 @@ public class ScEqualizeScript
         if ( !getEqualizeHeight() && !getEqualizeWidth() )
             setEqualizeBoth();
 
-        KmJsonObject options;
-        options = new KmJsonObject();
-        options.setString("selector", getSelector());
-        options.setBoolean("height", getEqualizeHeight());
-        options.setBoolean("width", getEqualizeWidth());
-        options.setInteger("minWidth", getMinWidth());
-        options.setInteger("maxWidth", getMaxWidth());
-        options.setInteger("minHeight", getMinHeight());
-        options.setInteger("maxHeight", getMaxHeight());
+        KmJsonObject e;
+        e = new KmJsonObject();
+        e.setString("selector", getSelector());
+        e.setBoolean("height", getEqualizeHeight());
+        e.setBoolean("width", getEqualizeWidth());
+        e.setInteger("minWidth", getMinWidth());
+        e.setInteger("maxWidth", getMaxWidth());
+        e.setInteger("minHeight", getMinHeight());
+        e.setInteger("maxHeight", getMaxHeight());
 
-        out.printf("Kmu.equalize(%s);", options);
+        out.printf("Kmu.equalize(%s);", e);
     }
 }

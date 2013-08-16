@@ -1,10 +1,5 @@
 package com.app.ui.activity.login;
 
-import com.app.model.MyInvitation;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.utility.MyUrls;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -19,6 +14,10 @@ import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
+
+import com.app.model.MyInvitation;
+import com.app.ui.activity.MyActivity;
+import com.app.utility.MyUrls;
 
 public class MyHandleNewUserInvitationActivity
     extends MyActivity
@@ -209,13 +208,13 @@ public class MyHandleNewUserInvitationActivity
 
         String key = getAccessKey();
 
-        MyInvitation i;
-        i = getAccess().getInvitationDao().findAccessKey(key);
-        i.setStatusAccepted();
-        i.setClosedUtcTs(getNowUtc());
+        MyInvitation inv;
+        inv = getAccess().getInvitationDao().findAccessKey(key);
+        inv.setStatusAccepted();
+        inv.setClosedUtcTs(getNowUtc());
 
         String email;
-        email = i.getEmail();
+        email = inv.getEmail();
 
         createUser(email);
 
@@ -228,10 +227,10 @@ public class MyHandleNewUserInvitationActivity
         _password1Field.ajax().clearValue();
         _password2Field.ajax().clearValue();
 
-        String p1 = _password1Field.getValue();
-        String p2 = _password2Field.getValue();
+        String pw1 = _password1Field.getValue();
+        String pw2 = _password2Field.getValue();
 
-        if ( Kmu.isNotEqual(p1, p2) )
+        if ( Kmu.isNotEqual(pw1, pw2) )
             _password1Field.error("Passwords did not match.");
 
         KmEmailParser p;
@@ -241,13 +240,7 @@ public class MyHandleNewUserInvitationActivity
         String name;
         name = p.getName();
 
-        MyUser u;
-        u = new MyUser();
-        u.setName(name);
-        u.setEmail(email);
-        u.setPassword(p1);
-        u.setVerified(true);
-        u.saveDao();
+        getAccess().getUserDao().createNewUser(name, email, pw1);
     }
 
     //##################################################

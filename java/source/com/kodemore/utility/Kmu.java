@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2011 www.kodemore.com
+  Copyright (c) 2005-2013 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -125,6 +125,8 @@ public class Kmu
     private static final String  STRING_CRLF          = "" + CHAR_CR + CHAR_LF;
 
     private static final String  CHARSET_UTF_8        = "UTF-8";
+
+    private static final String  LIST_SEPARATOR       = ", ";
 
     //##################################################
     //# parse integer
@@ -816,6 +818,11 @@ public class Kmu
             out.append(s);
 
         return out.toString();
+    }
+
+    public static String dashes(int n)
+    {
+        return repeat('-', n);
     }
 
     /**
@@ -2518,10 +2525,10 @@ public class Kmu
 
     public static <E> String formatList(Iterable<E> v)
     {
-        return formatList(v, (KmAdaptorIF<E,?>)null, ", ");
+        return formatList(v, (KmAdaptorIF<E,?>)null, LIST_SEPARATOR);
     }
 
-    public static <E> String formatList(Iterable<E> v, KmAdaptorIF<E,?> adaptor, Object separator)
+    public static <E> String formatList(Iterable<E> v, KmAdaptorIF<E,?> adapter, Object separator)
     {
         if ( v == null )
             return "";
@@ -2534,8 +2541,8 @@ public class Kmu
             E e = i.next();
 
             Object o = e;
-            if ( adaptor != null )
-                o = adaptor.getValue(e);
+            if ( adapter != null )
+                o = adapter.getValue(e);
 
             out.append(o);
 
@@ -2544,6 +2551,16 @@ public class Kmu
         }
 
         return out.toString();
+    }
+
+    public static <E> String formatList(Iterable<E> v, KmAdaptorIF<E,?> adapter)
+    {
+        return formatList(v, adapter, LIST_SEPARATOR);
+    }
+
+    public static <E> String formatList(Iterable<E> v, Object separator)
+    {
+        return formatList(v, (KmAdaptorIF<E,?>)null, separator);
     }
 
     public static <E> String formatList(Iterable<E> v, KmMetaAttribute<E,?> attr, Object separator)

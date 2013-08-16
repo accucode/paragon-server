@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2011 www.kodemore.com
+  Copyright (c) 2005-2013 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,10 @@ import com.kodemore.servlet.utility.ScEasing;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
+/**
+ * review_aaron (wyatt) discuss flip
+ *      Good start.
+ */
 public abstract class ScAbstractVisibilityScript
     extends ScAbstractScript
 {
@@ -177,14 +181,6 @@ public abstract class ScAbstractVisibilityScript
         return Kmu.format("$(%s).%s();", sel, fn);
     }
 
-    /**
-     * review_wyatt: (aaron) FLIP - I moved the switch statement here where
-     * the effect is formatted here, the original method is commented out below.
-     * 
-     * The switch statement used to be in the getFunction method, also commented
-     * out below.  I had to refactor becuase the flip effect uses different function
-     * structure.
-     */
     private String formatEffect()
     {
         ScEffect e = getEffect();
@@ -207,17 +203,6 @@ public abstract class ScAbstractVisibilityScript
         return null;
     }
 
-    // remove_aaron: original formatEffect method
-    //    private String formatEffect()
-    //    {
-    //        String sel = json(getTarget());
-    //        String fn = getFunction();
-    //        Integer ms = getSpeedMs();
-    //        String ease = json(getEasing().name());
-    //
-    //        return Kmu.format("$(%s).%s(%s,%s);", sel, fn, ms, ease);
-    //    }
-
     private String formatNormalEffect(String function)
     {
         String sel = json(getSelector());
@@ -234,26 +219,6 @@ public abstract class ScAbstractVisibilityScript
 
         return Kmu.format("$(%s).%s;", sel, function);
     }
-
-    // remove_aaron: original getFunction method
-    //    private String getFunction()
-    //    {
-    //        ScEffect e = getEffect();
-    //
-    //        if ( e == null )
-    //            return getInstantFunction();
-    //
-    //        switch ( e )
-    //        {
-    //            case fade:
-    //                return getFadeFunction();
-    //
-    //            case slide:
-    //                return getSlideFunction();
-    //        }
-    //
-    //        return null;
-    //    }
 
     protected abstract String getInstantFunction();
 

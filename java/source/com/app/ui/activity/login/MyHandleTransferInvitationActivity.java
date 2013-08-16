@@ -1,13 +1,5 @@
 package com.app.ui.activity.login;
 
-import com.app.dao.MyAccountUserDao;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyInvitation;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.utility.MyUrls;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -21,8 +13,15 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
+
+import com.app.dao.MyAccountUserDao;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyInvitation;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyActivity;
+import com.app.utility.MyUrls;
 
 public class MyHandleTransferInvitationActivity
     extends MyActivity
@@ -214,15 +213,15 @@ public class MyHandleTransferInvitationActivity
         String key;
         key = getAccessKey();
 
-        MyInvitation i;
-        i = getAccess().getInvitationDao().findAccessKey(key);
+        MyInvitation inv;
+        inv = getAccess().getInvitationDao().findAccessKey(key);
 
         String email;
-        email = i.getEmail();
+        email = inv.getEmail();
 
-        MyUser user = getAccess().getUserDao().findEmail(email);
+        MyUser u = getAccess().getUserDao().findEmail(email);
 
-        if ( user == null )
+        if ( u == null )
         {
             _password1Field.show();
             _password2Field.show();
@@ -232,11 +231,11 @@ public class MyHandleTransferInvitationActivity
             _password2ErrorBox.show();
         }
 
-        MyAccount account;
-        account = i.getAccount();
+        MyAccount a;
+        a = inv.getAccount();
 
-        _emailText.setValue(i.getEmail());
-        _accountText.setValue(account.getName());
+        _emailText.setValue(inv.getEmail());
+        _accountText.setValue(a.getName());
 
         ajax().printMain(_root);
         ajax().focus();
@@ -255,50 +254,43 @@ public class MyHandleTransferInvitationActivity
 
         String key = getAccessKey();
 
-        MyInvitation i;
-        i = getAccess().getInvitationDao().findAccessKey(key);
-        i.setStatusAccepted();
-        i.setClosedUtcTs(getNowUtc());
+        MyInvitation inv;
+        inv = getAccess().getInvitationDao().findAccessKey(key);
+        inv.setStatusAccepted();
+        inv.setClosedUtcTs(getNowUtc());
 
         String email;
-        email = i.getEmail();
+        email = inv.getEmail();
 
         MyUser user = getAccess().getUserDao().findEmail(email);
 
+        MyAccount a;
+        a = inv.getAccount();
+
         if ( user == null )
-            user = createUser(email);
+            user = createUser(email, a);
 
-        MyAccount account;
-        account = i.getAccount();
-
-        MyAccountUserDao accountUserDao;
-        accountUserDao = getAccess().getAccountUserDao();
+        MyAccountUserDao auDao;
+        auDao = getAccess().getAccountUserDao();
 
         MyAccountUser newOwner;
-        newOwner = accountUserDao.findAccountUserFor(user, account);
-
-        if ( newOwner == null )
-        {
-            newOwner = new MyAccountUser();
-            newOwner.setUser(user);
-            newOwner.setAccount(account);
-        }
-
-        newOwner.saveDao();
+        newOwner = auDao.findAccountUserFor(user, a);
 
         MyAccountUser oldOwner;
-        oldOwner = accountUserDao.findCurrentOwner(account);
+        oldOwner = auDao.findCurrentOwner(a);
 
         /**
-         * review_wyatt (valerie) use of transfer ownership
+         * (valerie) use of transfer ownership
+         * 
+         * review_valerie (wyatt) discuss
          */
-        accountUserDao.transferOwnership(oldOwner, newOwner);
+        auDao.transferOwnership(oldOwner, newOwner);
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
     }
 
-    private MyUser createUser(String email)
+    private MyUser createUser(String email, MyAccount a)
     {
         _password1Field.ajax().clearValue();
         _password2Field.ajax().clearValue();
@@ -309,20 +301,8 @@ public class MyHandleTransferInvitationActivity
         if ( Kmu.isNotEqual(p1, p2) )
             _password1Field.error("Passwords did not match.");
 
-        KmEmailParser p;
-        p = new KmEmailParser();
-        p.setEmail(email);
-
-        String name;
-        name = p.getName();
-
         MyUser u;
-        u = new MyUser();
-        u.setName(name);
-        u.setEmail(email);
-        u.setPassword(p1);
-        u.setVerified(true);
-        u.saveDao();
+        u = getAccess().getUserDao().createNewUserWithAccount(email, p1, a);
 
         return u;
     }
