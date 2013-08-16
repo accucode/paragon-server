@@ -60,6 +60,8 @@ public class MyHandleTransferInvitationActivity
     private ScErrorBox      _password1ErrorBox;
     private ScErrorBox      _password2ErrorBox;
 
+    private boolean         _newUser;
+
     //##################################################
     //# install
     //##################################################
@@ -79,6 +81,8 @@ public class MyHandleTransferInvitationActivity
     {
         _accessKey = new ScLocalString();
         _accessKey.setAutoSave();
+
+        _newUser = false;
 
         ScGroup group;
         group = new ScGroup();
@@ -108,6 +112,8 @@ public class MyHandleTransferInvitationActivity
         ScForm form;
         form = root.addForm();
         form.setDefaultAction(newAcceptAction());
+        // remove_steve
+        //        form.setDefaultAction(newTestAction());
         form.css().pad10();
         _form = form;
 
@@ -192,6 +198,21 @@ public class MyHandleTransferInvitationActivity
         };
     }
 
+    // remove_steve testing
+    private ScActionIF newTestAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            protected void handle()
+            {
+                // remove_steve: print
+                System.out.println("MyHandleTransferInvitationActivity.newTestAction().new ScAction() {...}.handle");
+                System.out.print("_(&^$%(@*#&$^(@#*&^#(*&@#^$(*@#&^(%*&^@#($*&^#@$(*&@#^$(*&");
+            }
+        };
+    }
+
     //##################################################
     //# start
     //##################################################
@@ -223,6 +244,8 @@ public class MyHandleTransferInvitationActivity
 
         if ( u == null )
         {
+            _newUser = true;
+
             _password1Field.show();
             _password2Field.show();
             _chooseLabel.show();
@@ -250,7 +273,15 @@ public class MyHandleTransferInvitationActivity
         ajax().hideAllErrors();
         ajax().focus();
 
-        _form.validate();
+        /**
+         * review_wyatt (steve)
+         * the 
+         */
+        if ( _newUser )
+            _form.validate();
+
+        // remove_steve: print
+        System.out.println("    XFER ownership!!!:::::::::::::::::::::::::::::: ");
 
         String key = getAccessKey();
 
@@ -276,9 +307,20 @@ public class MyHandleTransferInvitationActivity
         MyAccountUser newOwner;
         newOwner = auDao.findAccountUserFor(user, a);
 
+        // this check is here incase you xfer to someone who is not on the account but does is a user
+        if ( newOwner == null )
+        {
+            newOwner = new MyAccountUser();
+            newOwner.setUser(user);
+            newOwner.setAccount(a);
+            newOwner.saveDao();
+        }
+
         MyAccountUser oldOwner;
         oldOwner = auDao.findCurrentOwner(a);
-
+        // remove_steve
+        System.out.println("    ########### newOwner: " + newOwner);
+        System.out.println("    ########### oldOwner: " + oldOwner);
         /**
          * (valerie) use of transfer ownership
          * 
