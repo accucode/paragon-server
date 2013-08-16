@@ -85,10 +85,10 @@ public abstract class ScBlockScript
      *
      *      ScTextField field = ...
      *      
-     *      ScScriptBuilder out;
-     *      out = new ScScriptBuilder();
-     *      out.showSlide(field);
-     *      out.pushDeferredUntil(field);
+     *      ScScript out;
+     *      out = new ScScript();
+     *      out.show(field).slide();
+     *      out.pushDeferUntil(field);
      *      out.focus(field);
      *      out.pop();
      *      
@@ -99,9 +99,9 @@ public abstract class ScBlockScript
      * 
      *      ScTextField field = ...
      *      
-     *      ScScriptBuilder out;
-     *      out = new ScScriptBuilder();
-     *      out.showSlide(field);
+     *      ScScript out;
+     *      out = new ScScript();
+     *      out.show(field).slide();
      *      out.deferUntil(field);
      *      out.focus(field);
      * 
