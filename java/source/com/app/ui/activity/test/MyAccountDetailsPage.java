@@ -360,8 +360,8 @@ public class MyAccountDetailsPage
          * fixme_steve we need to either figure out how to add a filter
          * that filteres by  account type or we need to remove the dropdowns
          */
-        if ( _searchTypeDropdown.hasValue() )
-            f.setRoleCode(_searchRoleDropdown.getStringValue());
+        //        if ( _searchTypeDropdown.hasValue() )
+        //            f.setRoleCode(_searchRoleDropdown.getStringValue());
 
         return f;
     }
