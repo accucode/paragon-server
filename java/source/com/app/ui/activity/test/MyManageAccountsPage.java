@@ -1369,10 +1369,7 @@ public class MyManageAccountsPage
         /**
          * review_steve (wyatt) discuss name
          */
-        /*
-         * review_steve (wyatt) discuss
-         *      if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
-         */
+
         if ( hasOwner && isOwner )
             _transferButton.show();
 
@@ -1390,20 +1387,6 @@ public class MyManageAccountsPage
     {
         MyAccount da;
         da = getDropdownAccount();
-
-        /**
-         * (steve) this is ugly and probably not too readable
-         * 
-         * review_valerie (steve)
-         * 
-         * review_steve (valerie) discuss
-         */
-        //        if ( psa == null || !da.equals(psa) )
-        //        {
-        //            psa = da;
-        //            getPageSession().setAccount(psa);
-        //        }
-
         getPageSession().setAccount(da);
 
         if ( isStart )

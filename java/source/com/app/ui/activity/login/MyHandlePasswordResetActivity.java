@@ -95,7 +95,6 @@ public class MyHandlePasswordResetActivity
         form = root.addForm();
         form.setDefaultAction(newAcceptAction());
         form.css().pad10();
-        //review_steve (question) what does this hide do?
         form.hide();
         _form = form;
 

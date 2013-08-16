@@ -27,11 +27,7 @@ public class MyJoinAccountUtility
 
         boolean isNewUser = user == null;
 
-        //fixme_steve we could probably just pass the isNewUser directly 
-        if ( isNewUser )
-            sendJoinInvitation(email, account, true, roleCode);
-        else
-            sendJoinInvitation(email, account, false, roleCode);
+        sendJoinInvitation(email, account, isNewUser, roleCode);
     }
 
     private void sendJoinInvitation(
