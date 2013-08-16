@@ -68,7 +68,6 @@ public class KmStringTokenizer
     public void addDelimiter(char c)
     {
         addDelimiter("" + c);
-
     }
 
     public void addDelimiter(String e)
@@ -173,8 +172,17 @@ public class KmStringTokenizer
                 out.setLength(0);
             }
 
-            while ( !atEnd(source, i) && isDelimiter(source, i) )
-                i++;
+            while ( true )
+            {
+                if ( atEnd(source, i) )
+                    break;
+
+                String del = getDelimiter(source, i);
+                if ( del == null )
+                    break;
+
+                i += del.length();
+            }
         }
 
         return v;
@@ -185,20 +193,30 @@ public class KmStringTokenizer
         return i >= source.length();
     }
 
+    private String getDelimiter(String source, int i)
+    {
+        for ( String s : _delimiters )
+            if ( isDelimiter(source, i, s) )
+                return s;
+
+        return null;
+    }
+
     private boolean isDelimiter(String source, int i)
     {
         for ( String s : _delimiters )
             if ( isDelimiter(source, i, s) )
                 return true;
+
         return false;
     }
 
-    private boolean isDelimiter(String source, int i, String s)
+    private boolean isDelimiter(String source, int i, String del)
     {
-        if ( i + s.length() > source.length() )
+        if ( i + del.length() > source.length() )
             return false;
 
-        return source.indexOf(s, i) == i;
+        return source.indexOf(del, i) == i;
     }
 
     //##################################################
