@@ -273,15 +273,8 @@ public class MyHandleTransferInvitationActivity
         ajax().hideAllErrors();
         ajax().focus();
 
-        /**
-         * review_wyatt (steve)
-         * the 
-         */
         if ( _newUser )
             _form.validate();
-
-        // remove_steve: print
-        System.out.println("    XFER ownership!!!:::::::::::::::::::::::::::::: ");
 
         String key = getAccessKey();
 
@@ -307,7 +300,10 @@ public class MyHandleTransferInvitationActivity
         MyAccountUser newOwner;
         newOwner = auDao.findAccountUserFor(user, a);
 
-        // this check is here incase you xfer to someone who is not on the account but does is a user
+        /**
+         *  this check is here incase you transfer to someone 
+         *  who is not on the account but does is a user
+         */
         if ( newOwner == null )
         {
             newOwner = new MyAccountUser();
@@ -318,9 +314,6 @@ public class MyHandleTransferInvitationActivity
 
         MyAccountUser oldOwner;
         oldOwner = auDao.findCurrentOwner(a);
-        // remove_steve
-        System.out.println("    ########### newOwner: " + newOwner);
-        System.out.println("    ########### oldOwner: " + oldOwner);
         /**
          * (valerie) use of transfer ownership
          * 
