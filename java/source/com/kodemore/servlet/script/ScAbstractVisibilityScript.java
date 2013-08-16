@@ -216,10 +216,7 @@ public abstract class ScAbstractVisibilityScript
 
     private String formatFlipEffect()
     {
-        String sel = json(getSelector());
-        String function = getFlipFunction();
-
-        return Kmu.format("$(%s).%s;", sel, function);
+        return getFlipFunction();
     }
 
     protected abstract String getInstantFunction();
