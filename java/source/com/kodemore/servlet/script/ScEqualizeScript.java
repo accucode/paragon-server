@@ -25,10 +25,6 @@ package com.kodemore.servlet.script;
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.string.KmStringBuilder;
 
-/**
- * wyatt: (aaron) here is the Equalize script wrapper.  The actual
- * javascrip function is at the bottom of KmUtility.js
- */
 public class ScEqualizeScript
     extends ScAbstractScript
 {
@@ -39,7 +35,7 @@ public class ScEqualizeScript
     /**
      * The jquery selector for the elements to be equalized.
      */
-    private String  selector;
+    private String  _selector;
 
     private boolean _equalizeHeight;
     private boolean _equalizeWidth;
@@ -60,12 +56,12 @@ public class ScEqualizeScript
 
     public String getSelector()
     {
-        return selector;
+        return _selector;
     }
 
-    public void setSelector(String target)
+    public void setSelector(String e)
     {
-        selector = target;
+        _selector = e;
     }
 
     //##################################################

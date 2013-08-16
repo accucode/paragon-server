@@ -32,8 +32,8 @@ package com.kodemore.servlet.script;
  * directly compose their own script, then those clients
  * are responsible for manually including any appropriate
  * whitespace or terminators.  The basic add/run methods
- * do NOT automatically add any spaced, linefeeds, or
- * semi-colons.
+ * do NOT automatically add any spaces, linefeeds, or
+ * semicolons.
  */
 public class ScScript
     extends ScBlockScript

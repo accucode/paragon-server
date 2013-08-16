@@ -988,6 +988,11 @@ public class KmList<T>
         return Kmu.formatList(this, separator);
     }
 
+    public String formatLines()
+    {
+        return Kmu.formatLines(this);
+    }
+
     //##################################################
     //# copying
     //##################################################
