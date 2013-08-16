@@ -112,8 +112,6 @@ public class MyHandleTransferInvitationActivity
         ScForm form;
         form = root.addForm();
         form.setDefaultAction(newAcceptAction());
-        // remove_steve
-        //        form.setDefaultAction(newTestAction());
         form.css().pad10();
         _form = form;
 
@@ -194,21 +192,6 @@ public class MyHandleTransferInvitationActivity
             protected void handle()
             {
                 handleAccept();
-            }
-        };
-    }
-
-    // remove_steve testing
-    private ScActionIF newTestAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                // remove_steve: print
-                System.out.println("MyHandleTransferInvitationActivity.newTestAction().new ScAction() {...}.handle");
-                System.out.print("_(&^$%(@*#&$^(@#*&^#(*&@#^$(*@#&^(%*&^@#($*&^#@$(*&@#^$(*&");
             }
         };
     }
