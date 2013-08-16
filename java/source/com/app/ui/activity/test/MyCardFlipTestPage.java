@@ -7,7 +7,6 @@ import com.kodemore.servlet.control.ScFrame;
 import com.kodemore.servlet.control.ScFrameChild;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.utility.ScEasing;
 
 public class MyCardFlipTestPage
     extends MyAbstractTestPage
@@ -56,9 +55,7 @@ public class MyCardFlipTestPage
         _flipFrame = root.addFrame();
         _flipFrame.style().floatLeft().width(300);
         _flipFrame.setHideFlip();
-        _flipFrame.setHideEasing(ScEasing.easeInOutQuad);
         _flipFrame.setShowFlip();
-        _flipFrame.setShowEasing(ScEasing.easeInOutQuad);
 
         _fadeFrame = root.addFrame();
         _fadeFrame.style().floatLeft().width(300);

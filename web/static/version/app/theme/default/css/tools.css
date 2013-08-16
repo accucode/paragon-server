@@ -495,6 +495,13 @@
     margin-left: 20px;
 }
 
+/**
+ * See the ScFiller Class fot additional details
+ */
+.filler
+{
+}
+
 /*******************************************************************
  ** easy boxes (border, background)
  *******************************************************************/
@@ -558,4 +565,5 @@
     border: thin solid saddlebrown;
     background-color: sandybrown;
 }
+
 

@@ -60,6 +60,8 @@ public class MyHandleTransferInvitationActivity
     private ScErrorBox      _password1ErrorBox;
     private ScErrorBox      _password2ErrorBox;
 
+    private boolean         _newUser;
+
     //##################################################
     //# install
     //##################################################
@@ -79,6 +81,8 @@ public class MyHandleTransferInvitationActivity
     {
         _accessKey = new ScLocalString();
         _accessKey.setAutoSave();
+
+        _newUser = false;
 
         ScGroup group;
         group = new ScGroup();
@@ -223,6 +227,8 @@ public class MyHandleTransferInvitationActivity
 
         if ( u == null )
         {
+            _newUser = true;
+
             _password1Field.show();
             _password2Field.show();
             _chooseLabel.show();
@@ -250,7 +256,8 @@ public class MyHandleTransferInvitationActivity
         ajax().hideAllErrors();
         ajax().focus();
 
-        _form.validate();
+        if ( _newUser )
+            _form.validate();
 
         String key = getAccessKey();
 
@@ -276,9 +283,20 @@ public class MyHandleTransferInvitationActivity
         MyAccountUser newOwner;
         newOwner = auDao.findAccountUserFor(user, a);
 
+        /**
+         *  this check is here incase you transfer to someone 
+         *  who is not on the account but does is a user
+         */
+        if ( newOwner == null )
+        {
+            newOwner = new MyAccountUser();
+            newOwner.setUser(user);
+            newOwner.setAccount(a);
+            newOwner.saveDao();
+        }
+
         MyAccountUser oldOwner;
         oldOwner = auDao.findCurrentOwner(a);
-
         /**
          * (valerie) use of transfer ownership
          * 

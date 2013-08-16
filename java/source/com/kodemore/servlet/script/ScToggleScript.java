@@ -55,11 +55,11 @@ public class ScToggleScript
     {
         KmJsonObject options;
         options = new KmJsonObject();
-        options.setInteger("rotateY", 180);
+        options.setString("selector", getSelector());
         options.setInteger("duration", getSpeedMs());
         options.setString("easing", getEasing().name());
 
-        return Kmu.format("transition(%s);", options);
+        return Kmu.format("Kmu.flipToggle(%s);", options);
     }
 
     //##################################################

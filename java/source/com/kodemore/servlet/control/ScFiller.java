@@ -25,6 +25,7 @@ package com.kodemore.servlet.control;
 import com.kodemore.html.KmHtmlBuilder;
 
 /**
+ * todo_aaron finish  this comment
  * This is a simple div designed to fill the remaining available
  * space when a containter 
  */
@@ -35,7 +36,7 @@ public class ScFiller
     //# constants
     //##################################################
 
-    private static final String CLASS = "filler";
+    private static final String CSS = "filler";
 
     //##################################################
     //# render 
@@ -44,10 +45,7 @@ public class ScFiller
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        out.openDiv();
-        out.printAttribute("class", CLASS);
-        out.close();
+        out.beginDivCss(CSS);
         out.endDiv();
     }
-
 }

@@ -152,29 +152,23 @@ public class ScEqualizeScript
     //# format
     //##################################################
 
-    /**
-     * (aaron) EQUALIZE - I addressed everything we discussed earlier about
-     * the equalize function.  I added booleans to determine the 'mode' of the
-     * function, but made it default to both height and width if not specifically
-     * stated otherwise.
-     * 
-     * See the function in KmUtility.js for additional changes.
-     * 
-     * review_aaron (wyatt) discuss.
-     *      Nice.  Need to discuss the guard.
-     */
-
     @Override
     public void formatScriptOn(KmStringBuilder out)
     {
+        boolean height = getEqualizeHeight();
+        boolean width = getEqualizeWidth();
+
         if ( !getEqualizeHeight() && !getEqualizeWidth() )
-            setEqualizeBoth();
+        {
+            height = true;
+            width = true;
+        }
 
         KmJsonObject e;
         e = new KmJsonObject();
         e.setString("selector", getSelector());
-        e.setBoolean("height", getEqualizeHeight());
-        e.setBoolean("width", getEqualizeWidth());
+        e.setBoolean("height", height);
+        e.setBoolean("width", width);
         e.setInteger("minWidth", getMinWidth());
         e.setInteger("maxWidth", getMaxWidth());
         e.setInteger("minHeight", getMinHeight());
