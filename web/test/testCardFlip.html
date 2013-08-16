@@ -47,43 +47,32 @@
         
         function flipHide()
         {
-            var selector = '#card';
-            
-            $(selector).transition(
+            Kmu.flipHide(
             {
-                rotateY: 90, 
-                duration: ms, 
+                selector: '#card',
+                duration: ms,
                 easing: 'easeInQuad'
-            });
-            
-            $(selector).promise().done(function()
-            {
-                $(selector).hide();
             });
         }
         
         function flipShow()
         {
-            var selector = '#card';
-            
-            $(selector).show();
-            
-            $(selector).transition(
+            Kmu.flipShow(
             {
-                rotateY: 0, 
-                duration: ms, 
+                selector: '#card',
+                duration: ms,
                 easing: 'easeInQuad'
             });
         }
         
         function flipToggle()
         {
-            var selector = '#card';
-        
-            if( $(selector).is(':visible') )
-                flipHide();
-            else
-                flipShow();
+            Kmu.flipToggle(
+            {
+                selector: '#card',
+                duration: ms,
+                easing: 'easeInQuad'
+            });
         }
 
         function beginFlip(card)

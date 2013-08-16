@@ -1084,16 +1084,45 @@ Kmu.equalize = function(options)
 Kmu.flipHide = function(options)
 {
     var selector = options.selector;
+    var duration = options.duration;
     var easing = options.easing;
-    var duration = options.durationMs;
     
     $(selector).transition(
     {
-        rotateY: '90',
-        duration: duration,
+        rotateY: 90, 
+        duration: duration, 
         easing: easing
     });
     
+    $(selector).promise().done(function()
+    {
+        $(selector).hide();
+    });
+}
 
+Kmu.flipShow = function(options)
+{
+    var selector = options.selector;
+    var duration = options.duration;
+    var easing = options.easing;
+    
+    $(selector).show();
+    
+    $(selector).transition(
+    {
+        rotateY: 0, 
+        duration: duration, 
+        easing: easing
+    });
+}
+
+Kmu.flipToggle = function(options)
+{
+    var selector = options.selector;
+
+    if( $(selector).is(':visible') )
+        Kmu.flipHide(options);
+    else
+        Kmu.flipShow(options);
 }
 
