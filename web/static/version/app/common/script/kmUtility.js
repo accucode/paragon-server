@@ -1076,3 +1076,24 @@ Kmu.equalize = function(options)
         });
     }
 }
+
+//**********************************************************
+//** flip
+//**********************************************************
+
+Kmu.flipHide = function(options)
+{
+    var selector = options.selector;
+    var easing = options.easing;
+    var duration = options.durationMs;
+    
+    $(selector).transition(
+    {
+        rotateY: '90',
+        duration: duration,
+        easing: easing
+    });
+    
+
+}
+

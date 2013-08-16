@@ -44,6 +44,47 @@
                 endFlip(card);
             });
         }
+        
+        function flipHide()
+        {
+            var selector = '#card';
+            
+            $(selector).transition(
+            {
+                rotateY: 90, 
+                duration: ms, 
+                easing: 'easeInQuad'
+            });
+            
+            $(selector).promise().done(function()
+            {
+                $(selector).hide();
+            });
+        }
+        
+        function flipShow()
+        {
+            var selector = '#card';
+            
+            $(selector).show();
+            
+            $(selector).transition(
+            {
+                rotateY: 0, 
+                duration: ms, 
+                easing: 'easeInQuad'
+            });
+        }
+        
+        function flipToggle()
+        {
+            var selector = '#card';
+        
+            if( $(selector).is(':visible') )
+                flipHide();
+            else
+                flipShow();
+        }
 
         function beginFlip(card)
         {
@@ -102,6 +143,9 @@
 
     <button onclick='location.reload();'>reload</button>
     <button onclick='testFlip();'>flip</button>
+    <button onclick='flipHide();'>hide</button>
+    <button onclick='flipShow();'>show</button>
+    <button onclick='flipToggle();'>toggle</button>
     <br>
     <br>
     
