@@ -102,6 +102,7 @@ public class MyManageAccountsPage
 
     private ScActionButton        _transferButton;
     private ScActionButton        _deleteButton;
+    private ScActionButton        _editButton;
 
     private ScLocalString         _accountName;
 
@@ -110,6 +111,7 @@ public class MyManageAccountsPage
     private ScGroup               _transferGroup;
 
     private ScDiv                 _viewAccountFooter;
+    private ScDiv                 _viewUserFooter;
 
     //##################################################
     //# install
@@ -617,9 +619,8 @@ public class MyManageAccountsPage
         header = group.getHeader().addFloatRight();
         header.css().pad5();
 
-        ScActionButton editButton;
-        editButton = header.addButton("Edit", newShowEditUserBoxAction());
-        editButton.setImage(MyButtonUrls.edit());
+        _editButton = header.addButton("Edit", newShowEditUserBoxAction());
+        _editButton.setImage(MyButtonUrls.edit());
 
         ScBox body;
         body = group.addBox();
@@ -645,10 +646,9 @@ public class MyManageAccountsPage
 
         group.addDivider();
 
-        ScDiv footer;
-        footer = group.addButtonBoxRight();
-        footer.addCancelButton(cancelAction);
-        footer.addSubmitButton("Remove from Account");
+        _viewUserFooter = group.addButtonBoxRight();
+        _viewUserFooter.addCancelButton(cancelAction);
+        _viewUserFooter.addSubmitButton("Remove from Account");
 
         _viewUserChild = frameChild;
     }
@@ -1235,6 +1235,13 @@ public class MyManageAccountsPage
         _viewUserEmail.setValue(u.getEmail());
         _viewUserRole.setValue(au.getRoleName());
 
+        if ( au.isRoleOwner() )
+        {
+            _editButton.hide();
+            _viewUserFooter.hide();
+            _viewUserChild.ajax().replace();
+        }
+
         _userFrame.ajaxPrint(_viewUserChild);
     }
 
@@ -1361,7 +1368,7 @@ public class MyManageAccountsPage
 
         boolean isPersonalAccount = a.getName().equalsIgnoreCase("Personal");
         boolean hasOwner = owner != null;
-        boolean isOwner = owner.getUser().isSame(u);
+        boolean isOwner = isOwner(owner, u);
 
         if ( isPersonalAccount )
             _deleteButton.hide();
@@ -1473,5 +1480,10 @@ public class MyManageAccountsPage
     private MyAccountUserDao getAccountUserDao()
     {
         return getAccess().getAccountUserDao();
+    }
+
+    private boolean isOwner(MyAccountUser owner, MyUser u)
+    {
+        return owner.getUser().isSame(u);
     }
 }
