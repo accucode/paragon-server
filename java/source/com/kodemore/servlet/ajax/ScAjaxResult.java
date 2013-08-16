@@ -25,7 +25,7 @@ package com.kodemore.servlet.ajax;
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.result.ScAbstractResult;
-import com.kodemore.servlet.script.ScScript;
+import com.kodemore.servlet.script.ScRootScript;
 
 public class ScAjaxResult
     extends ScAbstractResult
@@ -37,7 +37,7 @@ public class ScAjaxResult
     /**
      * The script to execute.
      */
-    private ScScript _script;
+    private ScRootScript _script;
 
     /**
      * The length of the http output.  This is not set until
@@ -57,7 +57,7 @@ public class ScAjaxResult
 
     public ScAjaxResult()
     {
-        _script = new ScScript();
+        _script = new ScRootScript();
         _autoUpdatePageSession = true;
     }
 
@@ -104,7 +104,7 @@ public class ScAjaxResult
     //# accessing
     //##################################################
 
-    public ScScript getScript()
+    public ScRootScript getScript()
     {
         return _script;
     }

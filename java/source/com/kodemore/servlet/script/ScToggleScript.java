@@ -29,6 +29,15 @@ public class ScToggleScript
     extends ScAbstractVisibilityScript
 {
     //##################################################
+    //# constructor
+    //##################################################
+
+    public ScToggleScript(ScRootScript e)
+    {
+        super(e);
+    }
+
+    //##################################################
     //# overrides
     //##################################################
 

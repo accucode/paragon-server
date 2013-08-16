@@ -5,7 +5,7 @@ import com.kodemore.log.KmLog;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.script.ScScript;
+import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.servlet.utility.ScUrls;
@@ -216,9 +216,9 @@ public abstract class ScActivity
     //# convenience
     //##################################################
 
-    protected ScScript ajax()
+    protected ScRootScript ajax()
     {
-        return getData().getAjaxResult().getScript();
+        return getData().ajax();
     }
 
     protected ScFormatter getFormatter()

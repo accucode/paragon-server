@@ -313,8 +313,8 @@ public class ScReplaceContentsScript
 
     private void formatCallOn(KmStringBuilder out, String fn)
     {
-        ScScript s;
-        s = new ScScript();
+        ScRootScript s;
+        s = new ScRootScript();
         s.run("%s(%s);", fn, composeJson());
         s.formatScriptOn(out);
     }

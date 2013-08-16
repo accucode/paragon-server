@@ -26,6 +26,10 @@ import com.kodemore.string.KmStringBuilder;
 
 public interface ScScriptIF
 {
+    //##################################################
+    //# format
+    //##################################################
+
     String formatScript();
 
     void formatScriptOn(KmStringBuilder out);

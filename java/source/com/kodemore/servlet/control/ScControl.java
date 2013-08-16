@@ -40,7 +40,7 @@ import com.kodemore.servlet.field.ScAbstractTextField;
 import com.kodemore.servlet.field.ScControlVisitorIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.field.ScStoppableControlVisitorIF;
-import com.kodemore.servlet.script.ScScript;
+import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.servlet.utility.ScKeyIF;
@@ -106,7 +106,7 @@ public abstract class ScControl
      * the script can contains ScScriptIFs that will be evaluated
      * upon request.
      */
-    private ScScript                           _postDomScript;
+    private ScRootScript                           _postDomScript;
 
     //##################################################
     //# constructor
@@ -607,7 +607,7 @@ public abstract class ScControl
         return data.hasParameter(_key);
     }
 
-    protected final ScScript _ajax()
+    protected final ScRootScript _ajax()
     {
         return getData().ajax();
     }
@@ -743,10 +743,10 @@ public abstract class ScControl
     //# script
     //##################################################
 
-    public ScScript getPostDomScript()
+    public ScRootScript getPostDomScript()
     {
         if ( _postDomScript == null )
-            _postDomScript = new ScScript();
+            _postDomScript = new ScRootScript();
 
         return _postDomScript;
     }

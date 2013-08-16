@@ -34,6 +34,20 @@ import com.kodemore.string.KmStringBuilder;
 public class ScCallbackScript
     extends ScBlockScript
 {
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public ScCallbackScript(ScRootScript e)
+    {
+        super(e);
+    }
+
+    //##################################################
+    //# format
+    //##################################################
+
+    // todo_wyatt: format multiline?
     @Override
     public void formatScriptOn(KmStringBuilder out)
     {

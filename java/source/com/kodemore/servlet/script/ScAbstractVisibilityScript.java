@@ -39,18 +39,21 @@ public abstract class ScAbstractVisibilityScript
     //# variables
     //##################################################
 
+    // todo_wyatt: comment
+    private ScRootScript _root;
+
     /**
      * The target selector.  This can be any valid jquery
      * selector, and may match zero, one, or many elements. 
      */
-    private String   _selector;
+    private String       _selector;
 
     /**
      * The optional animation effect to use.  By default,
      * the target is shown instantly.  This attribute allows
      * effects such as fade and slide.
      */
-    private ScEffect _effect;
+    private ScEffect     _effect;
 
     /**
      * The optional easing to control the animation effect.
@@ -59,24 +62,35 @@ public abstract class ScAbstractVisibilityScript
      * to the use of the jquery ui effects library.  See...
      *      http://jqueryui.com/resources/demos/effect/easing.html
      */
-    private ScEasing _easing;
+    private ScEasing     _easing;
 
     /**
      * The speed to be used if an easing function is specified.
      * This is ignored if no easing method is used.
      */
-    private Integer  _speedMs;
+    private Integer      _speedMs;
 
     //##################################################
     //# constructor
     //##################################################
 
-    public ScAbstractVisibilityScript()
+    public ScAbstractVisibilityScript(ScRootScript root)
     {
+        _root = root;
+
         _selector = null;
         _effect = ScConstantsIF.DEFAULT_EFFECT;
         _easing = ScConstantsIF.DEFAULT_EASING;
         _speedMs = ScConstantsIF.DEFAULT_SPEED_MS;
+    }
+
+    //##################################################
+    //# hierarchy
+    //##################################################
+
+    protected ScRootScript getRoot()
+    {
+        return _root;
     }
 
     //##################################################
@@ -262,17 +276,7 @@ public abstract class ScAbstractVisibilityScript
 
     public ScAbstractVisibilityScript defer()
     {
-        ajax().deferUntil(getSelector());
+        getRoot().deferUntil(getSelector());
         return this;
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private ScScript ajax()
-    {
-        return getData().ajax();
-    }
-
 }

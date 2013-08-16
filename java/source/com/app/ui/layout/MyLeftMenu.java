@@ -7,7 +7,7 @@ import com.kodemore.servlet.ScActivityRegistry;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScSimpleContainer;
-import com.kodemore.servlet.script.ScScript;
+import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
@@ -264,7 +264,7 @@ public class MyLeftMenu
     //# support
     //##################################################
 
-    private ScScript ajax()
+    private ScRootScript ajax()
     {
         return getData().ajax();
     }

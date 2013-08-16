@@ -1,7 +1,7 @@
 package com.kodemore.servlet.action;
 
 import com.kodemore.servlet.ScServletData;
-import com.kodemore.servlet.script.ScScript;
+import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScControlRegistry;
 
 public abstract class ScAbstractAction
@@ -104,7 +104,7 @@ public abstract class ScAbstractAction
         return ScServletData.getLocal();
     }
 
-    protected ScScript ajax()
+    protected ScRootScript ajax()
     {
         return getData().ajax();
     }

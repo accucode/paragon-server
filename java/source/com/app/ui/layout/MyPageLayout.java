@@ -14,7 +14,7 @@ import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScTopMenu;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
-import com.kodemore.servlet.script.ScScript;
+import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
@@ -509,9 +509,9 @@ public class MyPageLayout
         return MyGlobals.getNowUtc();
     }
 
-    private ScScript ajax()
+    private ScRootScript ajax()
     {
-        return getData().getAjaxResult().getScript();
+        return getData().ajax();
     }
 
     protected MyDaoRegistry getAccess()

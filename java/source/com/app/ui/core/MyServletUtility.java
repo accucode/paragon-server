@@ -1,6 +1,6 @@
 package com.app.ui.core;
 
-import com.kodemore.servlet.script.ScScript;
+import com.kodemore.servlet.script.ScRootScript;
 
 import com.app.model.MyAutoSignIn;
 import com.app.utility.MyGlobals;
@@ -44,9 +44,9 @@ public final class MyServletUtility
     //# support
     //##################################################
 
-    private static ScScript ajax()
+    private static ScRootScript ajax()
     {
-        return getData().getAjaxResult().getScript();
+        return getData().ajax();
     }
 
     private static MyServletData getData()

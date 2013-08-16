@@ -22,9 +22,11 @@
 
 package com.kodemore.servlet.script;
 
+import com.kodemore.collection.KmList;
+
 /**
  * I manage a list of scripts, roughly representing the
- * contents of a "block".  That is, the lines _between_
+ * contents of a "block".  That is, the code _between_
  * matching braces {...}.
  * 
  * NOTE: In many cases, clients will simply use my helper
@@ -35,8 +37,43 @@ package com.kodemore.servlet.script;
  * do NOT automatically add any spaces, linefeeds, or
  * semicolons.
  */
-public class ScScript
-    extends ScBlockScript
+public class ScWrapperScript
+    extends ScAbstractBlockScript
 {
-    // see super
+    //##################################################
+    //# variables
+    //##################################################
+
+    // todo_wyatt: comments
+    private ScBlockScript _inner;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public ScWrapperScript(ScBlockScript e)
+    {
+        _inner = e;
+    }
+
+    //##################################################
+    //# inner
+    //##################################################
+
+    protected ScBlockScript getInner()
+    {
+        return _inner;
+    }
+
+    @Override
+    protected ScRootScript getRoot()
+    {
+        return _inner.getRoot();
+    }
+
+    @Override
+    protected KmList<ScScriptIF> getScripts()
+    {
+        return _inner.getScripts();
+    }
 }

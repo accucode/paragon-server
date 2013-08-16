@@ -29,7 +29,7 @@ import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.action.ScActions;
-import com.kodemore.servlet.script.ScScript;
+import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.utility.Kmu;
 
@@ -276,7 +276,7 @@ public class ScSimpleDialogBuilder
         return ScServletData.getLocal();
     }
 
-    private ScScript ajax()
+    private ScRootScript ajax()
     {
         return getData().ajax();
     }

@@ -33,9 +33,9 @@ public class ScHideScript
     //# constructor
     //##################################################
 
-    public ScHideScript()
+    public ScHideScript(ScRootScript e)
     {
-        super();
+        super(e);
 
         setEasing(ScConstantsIF.DEFAULT_HIDE_EASING);
     }

@@ -26,8 +26,10 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.script.ScActionScript;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
-import com.kodemore.servlet.script.ScScript;
+import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalCss;
@@ -114,7 +116,7 @@ public abstract class ScContainerElement
     //# on control-enter
     //##################################################
 
-    public ScScript onControlEnter()
+    public ScBlockScript onControlEnter()
     {
         return getPostDomScript().onControlEnter(this);
     }
@@ -200,17 +202,15 @@ public abstract class ScContainerElement
 
     public void setOnClick(ScActionIF e)
     {
-        ScScript script;
-        script = new ScScript();
-        script.run(e);
-
+        ScActionScript script = ScActionScript.create(e);
         setOnClick(script);
     }
 
     public void setOnClickHash(String hash)
     {
-        ScScript script;
-        script = new ScScript();
+        // todo_wyatt: review
+        ScRootScript script;
+        script = new ScRootScript();
         script.gotoHash(hash);
 
         setOnClick(script);
@@ -220,14 +220,9 @@ public abstract class ScContainerElement
     //# on escape
     //##################################################
 
-    public ScScript onEscape()
+    public ScBlockScript onEscape()
     {
-        ScScript script;
-        script = new ScScript();
-
-        getPostDomScript().onEscape(this, script);
-
-        return script;
+        return getPostDomScript().onEscape(this);
     }
 
     //##################################################

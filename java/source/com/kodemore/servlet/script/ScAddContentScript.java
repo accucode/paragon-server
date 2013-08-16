@@ -179,8 +179,8 @@ public class ScAddContentScript
         String sel = json(getSelector());
         String html = json(c.formatHtml());
 
-        ScScript s;
-        s = new ScScript();
+        ScRootScript s;
+        s = new ScRootScript();
         s.run("$(%s).%s(%s);", sel, fn, html);
         s.run(c.getPostDom());
         s.run(c.getPostRender());

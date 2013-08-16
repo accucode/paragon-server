@@ -39,6 +39,15 @@ public class ScDeferredScript
     private String _selector;
 
     //##################################################
+    //# constructor
+    //##################################################
+
+    public ScDeferredScript(ScRootScript e)
+    {
+        super(e);
+    }
+
+    //##################################################
     //# accessing
     //##################################################
 
