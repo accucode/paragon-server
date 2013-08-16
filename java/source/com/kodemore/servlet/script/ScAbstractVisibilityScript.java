@@ -28,12 +28,6 @@ import com.kodemore.servlet.utility.ScEasing;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
-/**
- * todo_aaron (wyatt) discuss flip
- *      Good start.
- *      
- *      make new method in kmutilities.js, delegate flip there.
- */
 public abstract class ScAbstractVisibilityScript
     extends ScAbstractScript
 {
