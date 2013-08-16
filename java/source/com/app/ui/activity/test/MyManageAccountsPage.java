@@ -1251,9 +1251,9 @@ public class MyManageAccountsPage
         owner = getAccountUserDao().findCurrentOwner(pageSessionAU.getAccount());
 
         boolean hasOwner = owner != null;
-        boolean setOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
+        boolean settingOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
 
-        if ( hasOwner && setOwner )
+        if ( hasOwner && settingOwner )
             ajax().alert("Looks like this account already has an owner.");
         else
             pageSessionAU.setRoleCode(roleCode);
