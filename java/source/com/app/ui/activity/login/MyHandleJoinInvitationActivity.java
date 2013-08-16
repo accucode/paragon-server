@@ -290,7 +290,7 @@ public class MyHandleJoinInvitationActivity
             _password1Field.error("Passwords did not match.");
 
         MyUser u;
-        u = getAccess().getUserDao().createNewUserWithAccount(email, p1, a);
+        u = getAccess().getUserDao().createNewUser(email, p1, a);
 
         return u;
     }

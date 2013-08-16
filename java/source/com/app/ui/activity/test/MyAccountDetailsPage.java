@@ -60,7 +60,6 @@ public class MyAccountDetailsPage
     private ScDialog              _deleteDialog;
 
     private ScAutoCompleteField   _searchUserNameField;
-    private ScAutoCompleteField   _addUserNameField;
     private ScAutoCompleteField   _searchAccountNameField;
     private ScAutoCompleteField   _addAccountNameField;
 
@@ -437,10 +436,6 @@ public class MyAccountDetailsPage
         body = group.addBox();
         body.css().pad();
 
-        _addUserNameField = new ScAutoCompleteField();
-        _addUserNameField.setLabel("User name ");
-        _addUserNameField.setCallback(newUserNameCallback());
-
         _addUserEmailField = new ScTextField();
         _addUserEmailField.setLabel("User's email ");
 
@@ -452,16 +447,15 @@ public class MyAccountDetailsPage
         _addAccountNameField.setCallback(newAccountNameCallback());
 
         _addTypeDropdown = MyAccount.Tools.newTypeDropdown();
+        _addTypeDropdown.setAction(newTypeChangeAction());
         _addTypeDropdown.setLabel("Account type ");
-        _addTypeDropdown.addNullAnyPrefix();
+        _addTypeDropdown.setValue(MyAccountType.Business);
 
         _addRoleDropdown = MyAccountUser.Tools.newRoleDropdown();
         _addRoleDropdown.setLabel("User role ");
-        _addRoleDropdown.addNullAnyPrefix();
 
         ScFieldTable fields;
         fields = body.addFields();
-        fields.add(_addUserNameField);
         fields.add(_addUserEmailField);
         fields.add(_password1Field);
         fields.add(_addAccountNameField);
@@ -607,6 +601,18 @@ public class MyAccountDetailsPage
             public void handle()
             {
                 handleShowEditAccountUserBox();
+            }
+        };
+    }
+
+    private ScActionIF newTypeChangeAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleTypeChange();
             }
         };
     }
@@ -771,65 +777,53 @@ public class MyAccountDetailsPage
         _accountUserFrame.ajax().defer();
     }
 
-    // fixme_valerie: too long
+    private void handleTypeChange()
+    {
+        String typeCode = _addTypeDropdown.getStringValue();
+
+        if ( typeCode != null )
+            if ( typeCode.equals(MyAccountType.Personal.getCode()) )
+                _addRoleDropdown.disable();
+
+        _addAccountUserChild.ajax().replace();
+    }
+
     private void handleAddAccountUserSave()
     {
-        _addAccountUserChild.validate();
-
-        if ( !_addUserNameField.hasValue() )
-        {
-            ajax().toast("Please enter a user name");
-            return;
-        }
-
         if ( !_addUserEmailField.hasValue() )
-        {
-            ajax().toast("Please enter the user's email");
-            return;
-        }
+            error("Please enter the user's email");
+
+        if ( _password1Field.isEmpty() )
+            error("Please enter an initial password for new user");
 
         String accountName = _addAccountNameField.getValue();
-        String userName = _addUserNameField.getValue();
         String userEmail = _addUserEmailField.getValue();
-        String p1 = _password1Field.getValue();
+        String password = _password1Field.getValue();
+        String roleCode = _addTypeDropdown.getStringValue();
+        boolean typePersonal = _addTypeDropdown.getStringValue().equals(
+            MyAccountType.Personal.getCode());
+        boolean typeBusiness = _addTypeDropdown.getStringValue().equals(
+            MyAccountType.Business.getCode());
 
-        if ( accountName == null )
-            accountName = "Personal";
-
-        MyUser u;
-        u = getUserDao().findEmail(userEmail);
-
-        if ( u == null && _password1Field.isEmpty() )
+        if ( getUserDao().findEmail(userEmail) != null )
         {
-            ajax().alert("Please enter an initial password for new user");
+            error("A user with the email %s already exists", userEmail);
             return;
         }
 
-        u = getUserDao().createNewUser(userName, userEmail, p1, accountName);
-        u.setName(userName);
-        u.setEmail(userEmail);
-        u.saveDao();
+        MyUser u;
+        u = getUserDao().createNewUser(userEmail, password);
 
-        MyAccount a;
-        a = getAccountDao().createNewAccount(accountName, MyAccountType.Personal, u);
-        a.setName(accountName);
-        a.saveDao();
-
-        MyAccountUser au;
-        au = getAccess().getAccountUserDao().findAccountUserFor(u, a);
-
-        if ( au == null )
-            au = getAccess().getAccountUserDao().getNewAccountUser(u, a);
-
-        au.setAccount(a);
-        au.setUser(u);
-        au.saveDao();
-
-        if ( _addTypeDropdown.hasValue() )
-            a.setTypeCode(_addTypeDropdown.getStringValue());
-
-        if ( _addRoleDropdown.hasValue() )
-            au.setRoleCode(_addRoleDropdown.getStringValue());
+        if ( _addAccountNameField.hasValue() )
+            if ( typePersonal )
+                u.addPersonalAccount(accountName, roleCode);
+            else
+                u.addBusinessAccount(accountName, roleCode);
+        else
+            if ( typeBusiness )
+                error("Please enter a name for the business account.");
+            else
+                u.addPersonalAccount();
 
         _accountUserGrid.ajaxReload();
     }

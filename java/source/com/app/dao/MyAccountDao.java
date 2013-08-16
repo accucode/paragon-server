@@ -18,10 +18,6 @@ public class MyAccountDao
     //# find
     //##################################################
 
-    /**
-     * review_valerie (wyatt) discuss
-     * needs to return a list or use a uid if returning only one
-     */
     public KmList<MyAccount> findName(String name)
     {
         MyAccountCriteria c;

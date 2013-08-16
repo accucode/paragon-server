@@ -79,8 +79,4 @@ public class MyAccountUserDao
         return au;
     }
 
-    public void createNewAccountUser(MyUser u, MyAccount a)
-    {
-        createNewAccountUser(u, a, MyAccountUserRole.User);
-    }
 }
