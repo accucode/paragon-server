@@ -96,7 +96,6 @@ public class MyHandleNewUserInvitationActivity
         form = root.addForm();
         form.setDefaultAction(newAcceptAction());
         form.css().pad10();
-        //review_steve (question) what does this hide do?
         _form = form;
 
         form.addLabel("Email");
