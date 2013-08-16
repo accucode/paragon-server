@@ -1127,6 +1127,9 @@ public class MyManageAccountsPage
         _transferChild.ajax().focus();
     }
 
+    /**
+     * review_wyatt (valerie) transferOwnership error check
+     */
     private void handleSendTransferRequest()
     {
         MyAccount account;
@@ -1138,6 +1141,9 @@ public class MyManageAccountsPage
 
         if ( !isValid )
             _transferEmailAutoComplete.error("Invalid");
+
+        MyUser to = getAccess().getUserDao().findEmail(email);
+        account.transferOwnership(getCurrentUser(), to);
 
         MyTransferAccountUtility utility;
         utility = new MyTransferAccountUtility();

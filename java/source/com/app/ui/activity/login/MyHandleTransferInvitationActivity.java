@@ -13,11 +13,8 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.Kmu;
 
-import com.app.dao.MyAccountUserDao;
 import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
 import com.app.model.MyInvitation;
 import com.app.model.MyUser;
 import com.app.ui.activity.MyActivity;
@@ -273,56 +270,13 @@ public class MyHandleTransferInvitationActivity
 
         MyAccount a;
         a = inv.getAccount();
-
-        if ( user == null )
-            user = createUser(email, a);
-
-        MyAccountUserDao auDao;
-        auDao = getAccess().getAccountUserDao();
-
-        MyAccountUser newOwner;
-        newOwner = auDao.findAccountUserFor(user, a);
-
         /**
-         *  this check is here incase you transfer to someone 
-         *  who is not on the account but does is a user
+         * review_wyatt (valerie) set new owner
          */
-        if ( newOwner == null )
-        {
-            newOwner = new MyAccountUser();
-            newOwner.setUser(user);
-            newOwner.setAccount(a);
-            newOwner.saveDao();
-        }
-
-        MyAccountUser oldOwner;
-        oldOwner = auDao.findCurrentOwner(a);
-        /**
-         * (valerie) use of transfer ownership
-         * 
-         * review_valerie (wyatt) discuss
-         */
-        auDao.transferOwnership(oldOwner, newOwner);
+        a.setOwnerTo(user);
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
-    }
-
-    private MyUser createUser(String email, MyAccount a)
-    {
-        _password1Field.ajax().clearValue();
-        _password2Field.ajax().clearValue();
-
-        String p1 = _password1Field.getValue();
-        String p2 = _password2Field.getValue();
-
-        if ( Kmu.isNotEqual(p1, p2) )
-            _password1Field.error("Passwords did not match.");
-
-        MyUser u;
-        u = getAccess().getUserDao().createNewUser(email, p1, a);
-
-        return u;
     }
 
     //##################################################
