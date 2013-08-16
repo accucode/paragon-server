@@ -1373,7 +1373,6 @@ public class MyManageAccountsPage
          * review_steve (wyatt) discuss
          *      if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
          */
-
         if ( hasOwner && isOwner )
             _transferButton.show();
 
