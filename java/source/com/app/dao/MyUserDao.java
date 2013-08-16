@@ -1,5 +1,6 @@
 package com.app.dao;
 
+import com.kodemore.collection.KmList;
 import com.kodemore.utility.KmEmailParser;
 
 import com.app.criteria.MyUserCriteria;
@@ -33,19 +34,19 @@ public class MyUserDao
         MyUserCriteria c;
         c = createCriteria();
         c.whereEmail().is(email);
-        return c.findFirst();
+        return c.findUnique();
     }
 
     /**
      * review_steve (wyatt)   discuss
      * review_valerie (wyatt) discuss
      */
-    public MyUser findName(String s)
+    public KmList<MyUser> findName(String s)
     {
         MyUserCriteria c;
         c = createCriteria();
         c.whereName().is(s);
-        return c.findFirst();
+        return c.findAll();
     }
 
     public MyUser createRootUser()

@@ -28,7 +28,6 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
-import com.kodemore.servlet.variable.ScLocalString;
 
 import com.app.dao.MyAccountDao;
 import com.app.dao.MyUserDao;
@@ -97,10 +96,6 @@ public class MyAccountDetailsPage
 
     private ScPasswordField       _password1Field;
 
-    private ScLocalString         _userName;
-    private ScLocalString         _userEmail;
-    private ScLocalString         _accountName;
-
     //##################################################
     //# install
     //##################################################
@@ -108,15 +103,6 @@ public class MyAccountDetailsPage
     @Override
     protected ScPageRoot installRoot()
     {
-        _userName = new ScLocalString();
-        _userName.setAutoSave();
-
-        _userEmail = new ScLocalString();
-        _userEmail.setAutoSave();
-
-        _accountName = new ScLocalString();
-        _accountName.setAutoSave();
-
         ScPageRoot root;
         root = newPageRoot();
         root.css().padSpaced();
@@ -352,14 +338,18 @@ public class MyAccountDetailsPage
 
         if ( _searchUserNameField.hasValue() )
         {
-            MyUser u = getUserDao().findName(userName);
-            f.setUserUid(u.getUid());
+            KmList<MyUser> users = getUserDao().findName(userName);
+
+            for ( MyUser u : users )
+                f.setUserUid(u.getUid());
         }
 
         if ( _searchAccountNameField.hasValue() )
         {
-            MyAccount a = getAccountDao().findName(accountName);
-            f.setAccountUid(a.getUid());
+            KmList<MyAccount> accounts = getAccountDao().findName(accountName);
+
+            for ( MyAccount a : accounts )
+                f.setAccountUid(a.getUid());
         }
 
         if ( _searchRoleDropdown.hasValue() )
@@ -798,21 +788,16 @@ public class MyAccountDetailsPage
             return;
         }
 
-        setUserName(_addUserNameField.getValue());
-        setUserEmail(_addUserEmailField.getValue());
-        setAccountName(_addAccountNameField.getValue());
-
-        String accountName = getAccountName();
-        MyAccount findAccount = getAccountDao().findName(accountName);
-        String userName = getUserName();
-        String userEmail = getUserEmail();
+        String accountName = _addAccountNameField.getValue();
+        String userName = _addUserNameField.getValue();
+        String userEmail = _addUserEmailField.getValue();
         String p1 = _password1Field.getValue();
 
-        if ( getAccountName() == null )
-            setAccountName("Personal");
+        if ( accountName == null )
+            accountName = "Personal";
 
         MyUser u;
-        u = getUserDao().findName(getUserName());
+        u = getUserDao().findEmail(userEmail);
 
         if ( u == null && _password1Field.isEmpty() )
         {
@@ -820,25 +805,14 @@ public class MyAccountDetailsPage
             return;
         }
 
-        if ( accountName == null )
-            u = getUserDao().getNewUser(userName, userEmail, p1);
-        else
-            if ( findAccount == null )
-                u = getUserDao().createNewUser(userName, userEmail, p1, accountName);
-            else
-                u = getUserDao().createNewUser(userName, userEmail, p1, findAccount);
-
-        u.setName(getUserName());
-        u.setEmail(getUserEmail());
+        u = getUserDao().createNewUser(userName, userEmail, p1, accountName);
+        u.setName(userName);
+        u.setEmail(userEmail);
         u.saveDao();
 
         MyAccount a;
-        a = getAccountDao().findName(getAccountName());
-
-        if ( a == null )
-            a = getAccountDao().createNewAccount(getAccountName(), MyAccountType.Personal, u);
-
-        a.setName(getAccountName());
+        a = getAccountDao().createNewAccount(accountName, MyAccountType.Personal, u);
+        a.setName(accountName);
         a.saveDao();
 
         MyAccountUser au;
@@ -956,35 +930,5 @@ public class MyAccountDetailsPage
     private MyAccountDao getAccountDao()
     {
         return getAccess().getAccountDao();
-    }
-
-    private String getUserName()
-    {
-        return _userName.getValue();
-    }
-
-    private void setUserName(String e)
-    {
-        _userName.setValue(e);
-    }
-
-    private String getUserEmail()
-    {
-        return _userEmail.getValue();
-    }
-
-    private void setUserEmail(String e)
-    {
-        _userEmail.setValue(e);
-    }
-
-    private String getAccountName()
-    {
-        return _accountName.getValue();
-    }
-
-    private void setAccountName(String e)
-    {
-        _accountName.setValue(e);
     }
 }

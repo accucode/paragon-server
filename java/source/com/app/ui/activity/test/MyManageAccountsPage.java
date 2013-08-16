@@ -1036,7 +1036,7 @@ public class MyManageAccountsPage
         _deleteGroup.setTitle("Delete %s Account", name);
 
         MyAccount a;
-        a = getAccountDao().findName(name);
+        a = getPageSession().getAccount();
 
         if ( a != null )
         {
@@ -1105,7 +1105,7 @@ public class MyManageAccountsPage
     private void handleShowEditAccountBox()
     {
         MyAccount a;
-        a = getAccountDao().findName(_viewAccountName.getValue());
+        a = getPageSession().getAccount();
 
         if ( a != null )
             _editAccountName.setValue(a.getName());
@@ -1168,6 +1168,7 @@ public class MyManageAccountsPage
         a.saveDao();
 
         setDropdownOptions();
+        _accountDropdown.ajaxSetValue(a.getUid());
         refreshFlipViewAccount();
         _userGrid.ajaxReload();
     }
@@ -1196,10 +1197,9 @@ public class MyManageAccountsPage
         MyAccount a;
         a = getAccountDao().createNewAccount(name, type, user);
         getPageSession().setAccount(a);
-        setDropdownOptions();
 
+        setDropdownOptions();
         _accountDropdown.ajaxSetValue(a.getUid());
-        MyPageLayout.getInstance().refreshDropdown();
         refreshFlipViewAccount();
         _userGrid.ajaxReload();
     }
@@ -1220,7 +1220,7 @@ public class MyManageAccountsPage
     private void handleViewUser()
     {
         MyAccountUser au;
-        au = getAccountUserDao().findWithUid(getStringArgument());
+        au = getAccountUserDao().findUid(getStringArgument());
 
         if ( au == null )
             au = getPageSession().getAccountUser();
