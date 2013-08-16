@@ -44,6 +44,36 @@
                 endFlip(card);
             });
         }
+        
+        function flipHide()
+        {
+            Kmu.flipHide(
+            {
+                selector: '#card',
+                duration: ms,
+                easing: 'easeInQuad'
+            });
+        }
+        
+        function flipShow()
+        {
+            Kmu.flipShow(
+            {
+                selector: '#card',
+                duration: ms,
+                easing: 'easeInQuad'
+            });
+        }
+        
+        function flipToggle()
+        {
+            Kmu.flipToggle(
+            {
+                selector: '#card',
+                duration: ms,
+                easing: 'easeInQuad'
+            });
+        }
 
         function beginFlip(card)
         {
@@ -102,6 +132,9 @@
 
     <button onclick='location.reload();'>reload</button>
     <button onclick='testFlip();'>flip</button>
+    <button onclick='flipHide();'>hide</button>
+    <button onclick='flipShow();'>show</button>
+    <button onclick='flipToggle();'>toggle</button>
     <br>
     <br>
     

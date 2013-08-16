@@ -102,6 +102,7 @@ public class MyManageAccountsPage
 
     private ScActionButton        _transferButton;
     private ScActionButton        _deleteButton;
+    private ScActionButton        _editButton;
 
     private ScLocalString         _accountName;
 
@@ -110,6 +111,7 @@ public class MyManageAccountsPage
     private ScGroup               _transferGroup;
 
     private ScDiv                 _viewAccountFooter;
+    private ScDiv                 _viewUserFooter;
 
     //##################################################
     //# install
@@ -617,9 +619,8 @@ public class MyManageAccountsPage
         header = group.getHeader().addFloatRight();
         header.css().pad5();
 
-        ScActionButton editButton;
-        editButton = header.addButton("Edit", newShowEditUserBoxAction());
-        editButton.setImage(MyButtonUrls.edit());
+        _editButton = header.addButton("Edit", newShowEditUserBoxAction());
+        _editButton.setImage(MyButtonUrls.edit());
 
         ScBox body;
         body = group.addBox();
@@ -645,10 +646,9 @@ public class MyManageAccountsPage
 
         group.addDivider();
 
-        ScDiv footer;
-        footer = group.addButtonBoxRight();
-        footer.addCancelButton(cancelAction);
-        footer.addSubmitButton("Remove from Account");
+        _viewUserFooter = group.addButtonBoxRight();
+        _viewUserFooter.addCancelButton(cancelAction);
+        _viewUserFooter.addSubmitButton("Remove from Account");
 
         _viewUserChild = frameChild;
     }
@@ -1036,7 +1036,7 @@ public class MyManageAccountsPage
         _deleteGroup.setTitle("Delete %s Account", name);
 
         MyAccount a;
-        a = getAccountDao().findName(name);
+        a = getPageSession().getAccount();
 
         if ( a != null )
         {
@@ -1105,7 +1105,7 @@ public class MyManageAccountsPage
     private void handleShowEditAccountBox()
     {
         MyAccount a;
-        a = getAccountDao().findName(_viewAccountName.getValue());
+        a = getPageSession().getAccount();
 
         if ( a != null )
             _editAccountName.setValue(a.getName());
@@ -1168,6 +1168,7 @@ public class MyManageAccountsPage
         a.saveDao();
 
         setDropdownOptions();
+        _accountDropdown.ajaxSetValue(a.getUid());
         refreshFlipViewAccount();
         _userGrid.ajaxReload();
     }
@@ -1196,10 +1197,9 @@ public class MyManageAccountsPage
         MyAccount a;
         a = getAccountDao().createNewAccount(name, type, user);
         getPageSession().setAccount(a);
-        setDropdownOptions();
 
+        setDropdownOptions();
         _accountDropdown.ajaxSetValue(a.getUid());
-        MyPageLayout.getInstance().refreshDropdown();
         refreshFlipViewAccount();
         _userGrid.ajaxReload();
     }
@@ -1220,7 +1220,7 @@ public class MyManageAccountsPage
     private void handleViewUser()
     {
         MyAccountUser au;
-        au = getAccountUserDao().findWithUid(getStringArgument());
+        au = getAccountUserDao().findUid(getStringArgument());
 
         if ( au == null )
             au = getPageSession().getAccountUser();
@@ -1234,6 +1234,13 @@ public class MyManageAccountsPage
         _viewUserName.setValue(u.getName());
         _viewUserEmail.setValue(u.getEmail());
         _viewUserRole.setValue(au.getRoleName());
+
+        if ( au.isRoleOwner() )
+        {
+            _editButton.hide();
+            _viewUserFooter.hide();
+            _viewUserChild.ajax().replace();
+        }
 
         _userFrame.ajaxPrint(_viewUserChild);
     }
@@ -1251,9 +1258,9 @@ public class MyManageAccountsPage
         owner = getAccountUserDao().findCurrentOwner(pageSessionAU.getAccount());
 
         boolean hasOwner = owner != null;
-        boolean setOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
+        boolean settingOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
 
-        if ( hasOwner && setOwner )
+        if ( hasOwner && settingOwner )
             ajax().alert("Looks like this account already has an owner.");
         else
             pageSessionAU.setRoleCode(roleCode);
@@ -1361,7 +1368,7 @@ public class MyManageAccountsPage
 
         boolean isPersonalAccount = a.getName().equalsIgnoreCase("Personal");
         boolean hasOwner = owner != null;
-        boolean isOwner = owner.getUser().isSame(u);
+        boolean isOwner = isOwner(owner, u);
 
         if ( isPersonalAccount )
             _deleteButton.hide();
@@ -1473,5 +1480,10 @@ public class MyManageAccountsPage
     private MyAccountUserDao getAccountUserDao()
     {
         return getAccess().getAccountUserDao();
+    }
+
+    private boolean isOwner(MyAccountUser owner, MyUser u)
+    {
+        return owner.getUser().isSame(u);
     }
 }

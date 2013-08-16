@@ -334,25 +334,37 @@ public class ScDropdown
             out.getPostRender().run(formatChosenScript());
     }
 
-    /**
-     * (aaron) CHOSEN - the chosen script, there are several options
-     * that can be passed in, examples are commented out below.
-     * 
-     * review_aaron (wyatt) discuss comments
-     */
     private String formatChosenScript()
     {
-        /**
-         * review_aaron: options:
-         *      disable_search_threshold - don't show search if below this many options 
-         *      no_results_text - text to show when nothing is found in search
-         */
+        Integer disableSearchThreshold = getDisableSearchThreshold();
+        String noResultsText = getNoResultsFoundText();
+
         KmJsonObject options;
         options = new KmJsonObject();
-        //        options.setInteger("disable_search_threshold", 10);
-        //        options.setString("no_results_text", "No results found");
+
+        if ( disableSearchThreshold != null )
+            options.setInteger("disable_search_threshold", disableSearchThreshold);
+
+        if ( noResultsText != null )
+            options.setString("no_results_text", noResultsText);
 
         return Kmu.format("%s.chosen(%s);", formatJqueryReference(), options);
+    }
+
+    /**
+     * don't show search if below this many options
+     */
+    private Integer getDisableSearchThreshold()
+    {
+        return null;
+    }
+
+    /**
+     * text to show when nothing is found in search
+     */
+    private String getNoResultsFoundText()
+    {
+        return null;
     }
 
     @Override
