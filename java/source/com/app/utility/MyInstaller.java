@@ -1,5 +1,6 @@
 package com.app.utility;
 
+import com.kodemore.file.KmFile;
 import com.kodemore.log.KmLogger;
 import com.kodemore.servlet.action.ScActions;
 import com.kodemore.servlet.action.ScGlobalContext;
@@ -225,7 +226,7 @@ public class MyInstaller
             return;
 
         String path = MyFilePaths.getAjaxLogFile();
-        Kmu.deleteFile(path);
+        new KmFile(path).write("");
     }
 
     private static void _installJobs()
