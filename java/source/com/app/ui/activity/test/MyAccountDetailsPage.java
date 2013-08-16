@@ -262,6 +262,8 @@ public class MyAccountDetailsPage
         ScGrid<MyAccountUser> grid;
         grid = group.addGrid();
         grid.trackAll(_accountUserSearchBox);
+        // review_steve tracking
+        grid.trackAll(_searchTypeDropdown);
         grid.setFilterFactory(newAccountUserFetcher());
         grid.addColumn(x.UserName).setCharacterWidth(8);
         grid.addColumn(userEmail).setCharacterWidth(13);
@@ -352,6 +354,13 @@ public class MyAccountDetailsPage
         }
 
         if ( _searchRoleDropdown.hasValue() )
+            f.setRoleCode(_searchRoleDropdown.getStringValue());
+
+        /**
+         * fixme_steve we need to either figure out how to add a filter
+         * that filteres by  account type or we need to remove the dropdowns
+         */
+        if ( _searchTypeDropdown.hasValue() )
             f.setRoleCode(_searchRoleDropdown.getStringValue());
 
         return f;
