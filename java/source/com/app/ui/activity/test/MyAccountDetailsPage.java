@@ -870,22 +870,24 @@ public class MyAccountDetailsPage
         if ( Kmu.isNotEqual(p1, p2) )
             _password1Field.error("Passwords did not match.");
 
-        MyAccount findAccount;
-        findAccount = getAccountDao().findName(getAccountName());
+        String accountName = getAccountName();
+        MyAccount findAccount = getAccountDao().findName(accountName);
+        String userName = getUserName();
+        String userEmail = getUserEmail();
 
         MyUser u;
 
         // fixme_valerie: come back to this
-        if ( getAccountName() == null )
-            u = getUserDao().getNewUser(getUserName(), getUserEmail(), p1);
+        if ( accountName == null )
+            u = getUserDao().getNewUser(userName, userEmail, p1);
         else
             if ( findAccount == null )
-                u = getUserDao().createNewUser(getUserName(), getUserEmail(), p1, getAccountName());
+                u = getUserDao().createNewUser(userName, userEmail, p1, accountName);
             else
-                u = getUserDao().createNewUser(getUserName(), getUserEmail(), p1, findAccount);
+                u = getUserDao().createNewUser(userName, userEmail, p1, findAccount);
 
         MyAccount a;
-        a = getAccountDao().findName(getAccountName());
+        a = getAccountDao().findName(accountName);
         a.saveDao();
 
         MyAccountUser au;
@@ -935,6 +937,7 @@ public class MyAccountDetailsPage
         _equalizeBox.ajax().equalizeDecendentGroups();
     }
 
+    // fixme_valerie: too long
     private void handleAddAccountUserSave()
     {
         _addAccountUserChild.validate();

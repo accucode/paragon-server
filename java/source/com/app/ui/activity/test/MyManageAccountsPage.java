@@ -241,14 +241,13 @@ public class MyManageAccountsPage
         group.addDivider();
 
         _viewAccountFooter = group.addButtonBoxRight();
+
         _viewAccountFooter.addButton("Edit", newShowEditAccountBoxAction());
-
         _transferButton = _viewAccountFooter.addButton("Transfer", newShowTransferBoxAction());
-        _transferButton.hide();
-
         _viewAccountFooter.addButton("Invite", newShowInviteUserBoxAction());
-
         _deleteButton = _viewAccountFooter.addButton("Delete", newShowDeleteAccountBoxAction());
+
+        _transferButton.hide();
 
         _viewAccountChild = frameChild;
     }
@@ -387,14 +386,9 @@ public class MyManageAccountsPage
         form = frameChild.addForm();
         form.setDefaultAction(saveAction);
         form.onEscape().run(cancelAction);
+        form.css().colorRed();
 
         _deleteGroup = form.addGroup();
-
-        /**
-         * review_steve (valerie) trying to make this stand out more than the
-         * others
-         */
-        // todo_valerie add red background somewhere in here
 
         ScBox body;
         body = _deleteGroup.addBox();
@@ -1027,7 +1021,7 @@ public class MyManageAccountsPage
         super.start();
 
         setDropdownOptions();
-        updateViewAccount(true);
+        refreshAll(true);
     }
 
     //##################################################
@@ -1069,14 +1063,13 @@ public class MyManageAccountsPage
         ajax().toast("Deleted account %s", a.getName());
 
         setDropdownOptions();
-        refreshAll(true);
+        refreshFlipViewAccount();
+        _userGrid.ajaxReload();
     }
 
     private void handleDeleteAccountCancel()
     {
-        // remove_steve: print
-        System.out.println("MyManageAccountsPage.handleDeleteAccountCancel");
-        refreshAll(true);
+        refreshFlipViewAccount();
     }
 
     private void handleDeleteUser()
@@ -1096,13 +1089,11 @@ public class MyManageAccountsPage
     private void handleClose()
     {
         _deleteUserDialog.ajaxClose();
-
-        refreshAll(false);
     }
 
     private void handleUpdateValues()
     {
-        updateViewAccount(false);
+        refreshAll(false);
     }
 
     private void handleShowAddAccountBox()
@@ -1157,7 +1148,7 @@ public class MyManageAccountsPage
 
     private void handleCancelTransferRequest()
     {
-        refreshAll(true);
+        refreshFlipViewAccount();
     }
 
     private void handleEditAccountSave()
@@ -1177,13 +1168,14 @@ public class MyManageAccountsPage
         a.saveDao();
 
         setDropdownOptions();
-        refreshAll(true);
+        refreshFlipViewAccount();
+        _userGrid.ajaxReload();
     }
 
     private void handleEditAccountCancel()
     {
         setDropdownOptions();
-        refreshAll(true);
+        refreshFlipViewAccount();
     }
 
     private void handleAddAccountSave()
@@ -1208,12 +1200,13 @@ public class MyManageAccountsPage
 
         _accountDropdown.ajaxSetValue(a.getUid());
         MyPageLayout.getInstance().refreshDropdown();
-        refreshAll(true);
+        refreshFlipViewAccount();
+        _userGrid.ajaxReload();
     }
 
     private void handleAddAccountCancel()
     {
-        refreshAll(true);
+        refreshFlipViewAccount();
     }
 
     private void handleShowInviteUserBox()
@@ -1249,13 +1242,13 @@ public class MyManageAccountsPage
     {
         _editUserChild.validate();
 
-        MyAccountUser au;
-        au = getPageSession().getAccountUser();
+        MyAccountUser pageSessionAU;
+        pageSessionAU = getPageSession().getAccountUser();
 
         String roleCode = _editRoleDropdown.getStringValue();
 
         MyAccountUser owner;
-        owner = getAccountUserDao().findCurrentOwner(au.getAccount());
+        owner = getAccountUserDao().findCurrentOwner(pageSessionAU.getAccount());
 
         boolean hasOwner = owner != null;
         boolean setOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
@@ -1263,20 +1256,20 @@ public class MyManageAccountsPage
         if ( hasOwner && setOwner )
             ajax().alert("Looks like this account already has an owner.");
         else
-            au.setRoleCode(roleCode);
+            pageSessionAU.setRoleCode(roleCode);
 
-        au.saveDao();
+        pageSessionAU.saveDao();
 
         MyUser u;
-        u = au.getUser();
+        u = pageSessionAU.getUser();
 
         _viewUserName.setValue(u.getName());
         _viewUserEmail.setValue(u.getEmail());
-        _viewUserRole.setValue(au.getRoleName());
+        _viewUserRole.setValue(pageSessionAU.getRoleName());
 
         _userFrame.ajaxPrint(_viewUserChild);
 
-        refreshAll(false);
+        _userGrid.ajaxReload();
     }
 
     private void handleEditUserCancel()
@@ -1304,7 +1297,7 @@ public class MyManageAccountsPage
 
     private void handleInviteUserCancel()
     {
-        refreshAll(true);
+        refreshFlipViewAccount();
     }
 
     private void handleShowEditUserBox()
@@ -1328,8 +1321,6 @@ public class MyManageAccountsPage
     private void handleViewUserCancel()
     {
         _userFrame.ajaxClear();
-
-        refreshAll(false);
     }
 
     private void handleShowDeleteAccountUserDialog()
@@ -1341,19 +1332,20 @@ public class MyManageAccountsPage
     {
         ajax().toast("Your request has been sent to: " + e);
 
-        refreshAll(true);
+        refreshFlipViewAccount();
     }
 
     //##################################################
     //# convenience
     //##################################################
 
-    private void refreshAll(boolean flipView)
+    private void refreshViewAccount()
     {
         MyAccount a;
         a = getPageSession().getAccount();
 
-        System.out.println("    @@@@@@@@@@@@@a: " + a);
+        MyAccountUser owner;
+        owner = getAccountUserDao().findCurrentOwner(a);
 
         MyUser u;
         u = MyGlobals.getServerSession().getUser();
@@ -1367,43 +1359,35 @@ public class MyManageAccountsPage
         _viewAccountName.setValue(a.getName());
         _viewAccountType.setValue(a.getType().getName());
 
+        boolean isPersonalAccount = a.getName().equalsIgnoreCase("Personal");
+        boolean hasOwner = owner != null;
+        boolean isOwner = owner.getUser().isSame(u);
+
+        if ( isPersonalAccount )
+            _deleteButton.hide();
+
         /**
          * review_steve (wyatt) discuss name
          */
-        MyAccountUser owner;
-        owner = getAccountUserDao().findCurrentOwner(a);
-
-        if ( getDropdownList().isEmpty() )
-            _viewAccountFooter.hide();
-
         /*
          * review_steve (wyatt) discuss
          *      if ( findCurrentOwner != null && findCurrentOwner.getUser() == user )
          */
-        /**
-         * ask_valerie preference on footer print vs flipView
-         * can implement a footer print only maybe
-         */
-        if ( owner != null && owner.getUser().isSame(u) )
+
+        if ( hasOwner && isOwner )
             _transferButton.show();
 
-        /**
-         * review_steve review_valerie this condition is not working as intended
-         * 
-         * review_steve (wyatt)
-         */
-        if ( a.getName().equalsIgnoreCase("Personal") )
-            _deleteButton.hide();
-
+        _viewAccountFooter.ajax().replace();
         _viewAccountChild.ajaxUpdateValues();
-
-        if ( flipView )
-            _accountFrame.ajaxPrint(_viewAccountChild);
-
-        _userGrid.ajaxReload();
     }
 
-    private void updateViewAccount(boolean isStart)
+    private void refreshFlipViewAccount()
+    {
+        refreshViewAccount();
+        _accountFrame.ajaxPrint(_viewAccountChild);
+    }
+
+    private void refreshAll(boolean isStart)
     {
         MyAccount da;
         da = getDropdownAccount();
@@ -1423,13 +1407,12 @@ public class MyManageAccountsPage
 
         getPageSession().setAccount(da);
 
-        boolean flipView = !isStart;
-        refreshAll(flipView);
+        if ( isStart )
+            refreshViewAccount();
+        else
+            refreshFlipViewAccount();
 
-        //        if ( isStart )
-        //            refreshAll(false);
-        //        else
-        //            refreshAll(true);
+        _userGrid.ajaxReload();
     }
 
     /**
