@@ -251,7 +251,7 @@ public class ScGrid<T>
     @Override
     public ScHtmlIdAjax ajax()
     {
-        return new ScHtmlIdAjax(this);
+        return new ScHtmlIdAjax(getRootScript(), this);
     }
 
     //##################################################
@@ -1087,7 +1087,7 @@ public class ScGrid<T>
 
     public void ajaxDownloadCsv(String name)
     {
-        _ajax().download(name, renderCsv());
+        getRootScript().download(name, renderCsv());
     }
 
 }

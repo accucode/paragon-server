@@ -109,7 +109,7 @@ public abstract class ScContainerElement
     @Override
     public ScHtmlIdAjax ajax()
     {
-        return new ScHtmlIdAjax(this);
+        return new ScHtmlIdAjax(getRootScript(), this);
     }
 
     //##################################################
@@ -276,7 +276,7 @@ public abstract class ScContainerElement
 
     public void ajaxClearText()
     {
-        _ajax().clearText(this);
+        getRootScript().clearText(this);
     }
 
     public void ajaxSetHtml(String value)

@@ -30,7 +30,7 @@ import com.kodemore.utility.Kmu;
  * Defer my children until the target's promise is done.
  */
 public class ScDeferredScript
-    extends ScBlockScript
+    extends ScSimpleBlockScript
 {
     //##################################################
     //# variables
@@ -74,6 +74,7 @@ public class ScDeferredScript
     public void formatScriptOn(KmStringBuilder out)
     {
         out.print(begin());
+        out.print("{");
         super.formatScriptOn(out);
         out.print(end());
     }
@@ -82,13 +83,14 @@ public class ScDeferredScript
     public void formatMultilineScriptOn(KmStringBuilder out)
     {
         out.println(begin());
+        out.println("{");
         super.formatMultilineScriptOn(out);
         out.println(end());
     }
 
     private String begin()
     {
-        return Kmu.format("$(%s).promise().done(function(){", json(getSelector()));
+        return Kmu.format("$(%s).promise().done(function()", json(getSelector()));
     }
 
     private String end()

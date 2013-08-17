@@ -60,7 +60,7 @@ public class ScTopMenu
     @Override
     public ScHtmlIdAjax ajax()
     {
-        return new ScHtmlIdAjax(this);
+        return new ScHtmlIdAjax(getRootScript(), this);
     }
 
     //##################################################

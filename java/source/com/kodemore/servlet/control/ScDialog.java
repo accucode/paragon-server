@@ -217,7 +217,7 @@ public class ScDialog
     @Override
     public ScHtmlIdAjax ajax()
     {
-        return new ScHtmlIdAjax(this);
+        return new ScHtmlIdAjax(getRootScript(), this);
     }
 
     //##################################################
@@ -299,12 +299,12 @@ public class ScDialog
         style = options.setObject("containerCss");
         style.setString("border", "4px solid #000");
 
-        _ajax().openDialogTarget(this, options);
+        getRootScript().openDialogTarget(this, options);
     }
 
     public void ajaxClose()
     {
-        _ajax().closeDialog();
+        getRootScript().closeDialog();
     }
 
     //##################################################

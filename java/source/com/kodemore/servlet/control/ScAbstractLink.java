@@ -158,7 +158,7 @@ public abstract class ScAbstractLink
 
     public void ajaxSetText(String value)
     {
-        _ajax().setText(this, value);
+        getRootScript().setText(this, value);
     }
 
 }

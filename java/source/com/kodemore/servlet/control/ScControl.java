@@ -106,7 +106,7 @@ public abstract class ScControl
      * the script can contains ScScriptIFs that will be evaluated
      * upon request.
      */
-    private ScRootScript                           _postDomScript;
+    private ScRootScript                       _postDomScript;
 
     //##################################################
     //# constructor
@@ -607,7 +607,7 @@ public abstract class ScControl
         return data.hasParameter(_key);
     }
 
-    protected final ScRootScript _ajax()
+    protected final ScRootScript getRootScript()
     {
         return getData().ajax();
     }

@@ -32,7 +32,7 @@ import com.kodemore.string.KmStringBuilder;
  * The contents of my block are managed by my superclass.
  */
 public class ScCallbackScript
-    extends ScBlockScript
+    extends ScSimpleBlockScript
 {
     //##################################################
     //# constructor
@@ -47,7 +47,6 @@ public class ScCallbackScript
     //# format
     //##################################################
 
-    // todo_wyatt: format multiline?
     @Override
     public void formatScriptOn(KmStringBuilder out)
     {
@@ -56,5 +55,16 @@ public class ScCallbackScript
         super.formatScriptOn(out);
 
         out.print("}");
+    }
+
+    @Override
+    public void formatMultilineScriptOn(KmStringBuilder out)
+    {
+        out.println("function()");
+        out.println("{");
+
+        super.formatMultilineScriptOn(out);
+
+        out.println("}");
     }
 }

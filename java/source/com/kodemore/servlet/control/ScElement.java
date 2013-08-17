@@ -95,7 +95,7 @@ public abstract class ScElement
     @Override
     public ScHtmlIdAjax ajax()
     {
-        return new ScHtmlIdAjax(this);
+        return new ScHtmlIdAjax(getRootScript(), this);
     }
 
     //##################################################

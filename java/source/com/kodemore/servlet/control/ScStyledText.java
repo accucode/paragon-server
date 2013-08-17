@@ -106,6 +106,6 @@ public class ScStyledText
 
     public void ajaxSetText(String value)
     {
-        _ajax().setText(this, value);
+        getRootScript().setText(this, value);
     }
 }

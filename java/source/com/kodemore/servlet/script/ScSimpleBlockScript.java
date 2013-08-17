@@ -37,43 +37,65 @@ import com.kodemore.collection.KmList;
  * do NOT automatically add any spaces, linefeeds, or
  * semicolons.
  */
-public class ScWrapperScript
+public class ScSimpleBlockScript
     extends ScBlockScript
 {
     //##################################################
     //# variables
     //##################################################
 
-    // todo_wyatt: comments
-    private ScBlockScript _inner;
+    // todo_wyatt: comment
+    private ScRootScript       _root;
+
+    /**
+     * The list of scripts to be executed.  Scripts
+     * are composed as ScScriptIF and the actual string
+     * value is deferred until the script is subsequently
+     * composed (e.g.: by toString).  This also means that
+     * given the following:
+     * 
+     *      ScScriptBuilder out;
+     *      out = new ScScriptBuilder();
+     *      out.run(...)
+     * 
+     *      String a = out.toString();
+     *      String b = out.toString();
+     * 
+     * Then, a and b cannot be assumed to be the same.
+     * If any of the scripts added to the builder use
+     * dynamic/deferred binding then the values may be
+     * different.
+     */
+    private KmList<ScScriptIF> _list;
 
     //##################################################
     //# constructor
     //##################################################
 
-    public ScWrapperScript(ScBlockScript e)
+    public ScSimpleBlockScript(ScRootScript root)
     {
-        _inner = e;
+        _list = new KmList<ScScriptIF>();
+        _root = root;
     }
 
     //##################################################
-    //# inner
+    //# root
     //##################################################
-
-    protected ScBlockScript getInner()
-    {
-        return _inner;
-    }
 
     @Override
     protected ScRootScript getRoot()
     {
-        return _inner.getRoot();
+        return _root;
     }
+
+    //##################################################
+    //# scripts
+    //##################################################
 
     @Override
     protected KmList<ScScriptIF> getScripts()
     {
-        return _inner.getScripts();
+        return _list;
     }
+
 }

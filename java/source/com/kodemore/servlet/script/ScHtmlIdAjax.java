@@ -30,11 +30,20 @@ import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.utility.Kmu;
 
 /**
- * A block script that knows about a specific element.
- * This allows for a variety of concise convenience methods.
+ * I manage a list of scripts, roughly representing the
+ * contents of a "block".  That is, the code _between_
+ * matching braces {...}.
+ * 
+ * NOTE: In many cases, clients will simply use my helper
+ * methods such as toast(...).  However, when clients 
+ * directly compose their own script, then those clients
+ * are responsible for manually including any appropriate
+ * whitespace or terminators.  The basic add/run methods
+ * do NOT automatically add any spaces, linefeeds, or
+ * semicolons.
  */
 public class ScHtmlIdAjax
-    extends ScAjaxWrapper
+    extends ScWrapperScript
 {
     //##################################################
     //# variables
@@ -46,9 +55,11 @@ public class ScHtmlIdAjax
     //# constructor
     //##################################################
 
-    public ScHtmlIdAjax(ScHtmlIdIF e)
+    public ScHtmlIdAjax(ScBlockScript delegate, ScHtmlIdIF target)
     {
-        _target = e;
+        super(delegate);
+
+        _target = target;
     }
 
     //##################################################
@@ -76,7 +87,7 @@ public class ScHtmlIdAjax
 
     public void printMain()
     {
-        ajax().printMain(getTarget());
+        printMain(getTarget());
     }
 
     //##################################################
@@ -85,17 +96,17 @@ public class ScHtmlIdAjax
 
     public ScShowScript show()
     {
-        return ajax().show(getTarget());
+        return show(getTarget());
     }
 
     public ScHideScript hide()
     {
-        return ajax().hide(getTarget());
+        return hide(getTarget());
     }
 
     public ScToggleScript toggle()
     {
-        return ajax().toggle(getTarget());
+        return toggle(getTarget());
     }
 
     //##################################################
@@ -104,22 +115,22 @@ public class ScHtmlIdAjax
 
     public void setContents(ScControl contents)
     {
-        ajax().setContents(getTarget(), contents);
+        setContents(getTarget(), contents);
     }
 
     public void setContents(KmHtmlBuilder out)
     {
-        ajax().setContents(getTarget(), out);
+        setContents(getTarget(), out);
     }
 
     public void clearContents()
     {
-        ajax().clearContents(getTarget());
+        clearContents(getTarget());
     }
 
     public ScAddContentScript addContents()
     {
-        return ajax().addContentsTo(getTarget());
+        return addContentsTo(getTarget());
     }
 
     //##################################################
@@ -128,7 +139,7 @@ public class ScHtmlIdAjax
 
     public void replace()
     {
-        ajax().replace(getTarget());
+        replace(getTarget());
     }
 
     //##################################################
@@ -137,12 +148,12 @@ public class ScHtmlIdAjax
 
     public void setText(String e)
     {
-        ajax().setText(getTarget(), e);
+        setText(getTarget(), e);
     }
 
     public void clearText()
     {
-        ajax().clearText(getTarget());
+        clearText(getTarget());
     }
 
     //##################################################
@@ -151,30 +162,32 @@ public class ScHtmlIdAjax
 
     public void setHtml(String value)
     {
-        ajax().setHtml(getTarget(), value);
+        setHtml(getTarget(), value);
     }
 
-    public void clearHtml(ScHtmlIdIF target)
+    public void clearHtml()
     {
-        ajax().clearHtml(getTarget());
+        clearHtml(getTarget());
     }
 
     //##################################################
     //# misc
     //##################################################
 
-    public void hideAllErrors()
-    {
-        String target = formatJquerySelector();
-        String error = KmCssDefaultConstantsIF.error;
+    // todo_wyatt: review.super...
+    //    public void hideAllErrors()
+    //    {
+    //        String target = formatJquerySelector();
+    //        String error = KmCssDefaultConstantsIF.error;
+    //
+    //        run("$('%s .%s').hide();", target, error);
+    //    }
 
-        run("$('%s .%s').hide();", target, error);
-    }
-
-    public void focus()
-    {
-        ajax().focus(getTarget());
-    }
+    // todo_wyatt: review super.focus
+    //    public void focus()
+    //    {
+    //        getInner().focus(getTarget());
+    //    }
 
     //##################################################
     //# value
@@ -182,31 +195,26 @@ public class ScHtmlIdAjax
 
     public void setValue(String e)
     {
-        ajax().setValue(getTarget(), e);
+        setValue(getTarget(), e);
     }
 
     public void clearValue()
     {
-        ajax().clearValue(getTarget());
+        clearValue(getTarget());
     }
 
     //##################################################
     //# stack
     //##################################################
 
-    public void pop()
-    {
-        ajax().pop();
-    }
-
     public void pushDefer()
     {
-        ajax().pushDeferUntil(getTarget());
+        pushDeferUntil(getTarget());
     }
 
     public void defer()
     {
-        ajax().deferUntil(getTarget());
+        deferUntil(getTarget());
     }
 
     //##################################################
@@ -215,17 +223,17 @@ public class ScHtmlIdAjax
 
     public void onEscape(ScActionIF action)
     {
-        ajax().onEscape(getTarget(), action);
+        onEscape(getTarget(), action);
     }
 
     public void onEscape(String script)
     {
-        ajax().onEscape(getTarget(), script);
+        onEscape(getTarget(), script);
     }
 
     public void onEscape(ScScriptIF script)
     {
-        ajax().onEscape(getTarget(), script);
+        onEscape(getTarget(), script);
     }
 
     //##################################################
@@ -234,17 +242,17 @@ public class ScHtmlIdAjax
 
     public void onControlEnter(ScScriptIF script)
     {
-        ajax().onControlEnter(getTarget(), script);
+        onControlEnter(getTarget(), script);
     }
 
-    public void onControlEnter(ScHtmlIdIF target, String e)
+    public void onControlEnter(String e)
     {
-        ajax().onControlEnter(getTarget(), e);
+        onControlEnter(getTarget(), e);
     }
 
-    public void onControlEnter(ScHtmlIdIF target, ScActionIF e)
+    public void onControlEnter(ScActionIF e)
     {
-        ajax().onControlEnter(getTarget(), e);
+        onControlEnter(getTarget(), e);
     }
 
     //##################################################
@@ -253,27 +261,12 @@ public class ScHtmlIdAjax
 
     public void block()
     {
-        ajax().blockControl(getTarget());
+        blockControl(getTarget());
     }
 
     public void unblock()
     {
-        ajax().unblockControl(getTarget());
-    }
-
-    //##################################################
-    //# hack
-    //##################################################
-
-    // todo_wyatt: toast kludge 
-    public void toast(String msg, Object... args)
-    {
-        ajax().toast(msg, args);
-    }
-
-    public void alert(String msg, Object... args)
-    {
-        ajax().alert(msg, args);
+        unblockControl(getTarget());
     }
 
     //##################################################
@@ -282,10 +275,8 @@ public class ScHtmlIdAjax
 
     public ScEqualizeScript equalizeChildren()
     {
-        String selector;
-        selector = Kmu.format("%s > *", formatJquerySelector());
-
-        return runEqualizeScript(selector);
+        String sel = Kmu.format("%s > *", formatJquerySelector());
+        return runEqualizeScript(sel);
     }
 
     public ScEqualizeScript equalizeChildrenGroups()
@@ -295,10 +286,8 @@ public class ScHtmlIdAjax
 
     public ScEqualizeScript equalizeChildrenClass(String childClass)
     {
-        String selector;
-        selector = Kmu.format("%s > .%s", formatJquerySelector(), childClass);
-
-        return runEqualizeScript(selector);
+        String sel = Kmu.format("%s > .%s", formatJquerySelector(), childClass);
+        return runEqualizeScript(sel);
     }
 
     public ScEqualizeScript equalizeDecendentGroups()
@@ -308,17 +297,15 @@ public class ScHtmlIdAjax
 
     public ScEqualizeScript equalizeDecendentClass(String childClass)
     {
-        String selector;
-        selector = Kmu.format("%s .%s", formatJquerySelector(), childClass);
-
-        return runEqualizeScript(selector);
+        String sel = Kmu.format("%s .%s", formatJquerySelector(), childClass);
+        return runEqualizeScript(sel);
     }
 
-    private ScEqualizeScript runEqualizeScript(String selector)
+    private ScEqualizeScript runEqualizeScript(String sel)
     {
         ScEqualizeScript e;
         e = new ScEqualizeScript();
-        e.setSelector(selector);
+        e.setSelector(sel);
 
         run(e);
         return e;

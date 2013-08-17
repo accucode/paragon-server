@@ -41,6 +41,12 @@ import com.kodemore.utility.Kmu;
  * I am a 'group box' container that surrounds my contents with a
  * shaded/colored area.  I also display a title bar.
  */
+
+/**
+ * todo_wyatt groups 
+ * review the Group Test page.
+ * Groups are not rendering correctly.
+ */
 public class ScGroup
     extends ScContainer
     implements ScHtmlIdIF
@@ -167,7 +173,7 @@ public class ScGroup
     @Override
     public ScHtmlIdAjax ajax()
     {
-        return new ScHtmlIdAjax(this);
+        return new ScHtmlIdAjax(getRootScript(), this);
     }
 
     //##################################################

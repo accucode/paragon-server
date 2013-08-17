@@ -22,6 +22,7 @@
 
 package com.kodemore.servlet.script;
 
+import com.kodemore.collection.KmStack;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -38,7 +39,7 @@ import com.kodemore.utility.Kmu;
  * semicolons.
  */
 public class ScRootScript
-    extends ScBlockScript
+    extends ScSimpleBlockScript
 {
     //##################################################
     //# variables
@@ -80,7 +81,7 @@ public class ScRootScript
      *      field.ajax().show().slide().defer();
      *      field.ajax().focus();
      */
-    private ScBlockScript _stack;
+    private KmStack<ScBlockScript> _stack;
 
     //##################################################
     //# constructor
@@ -90,6 +91,8 @@ public class ScRootScript
     {
         // todo_wyatt: review
         super(null);
+
+        _stack = new KmStack<ScBlockScript>();
     }
 
     //##################################################
@@ -99,9 +102,7 @@ public class ScRootScript
     @Override
     public ScRootScript getRoot()
     {
-        /**
-         * Ignores the _root ivar.
-         */
+        // ignore the _root ivar.
         return this;
     }
 
@@ -113,42 +114,44 @@ public class ScRootScript
     public void clearScript()
     {
         super.clearScript();
-        _stack = null;
+        _stack.clear();
     }
 
-    @Override
-    public boolean hasStack()
+    public KmStack<ScBlockScript> getStack()
     {
-        return _stack != null;
+        return _stack;
     }
 
     @Override
     public void pushDeferUntil(String sel)
     {
-        if ( _stack != null )
-        {
-            _stack.pushDeferUntil(sel);
-            return;
-        }
+        // remove_wyatt: print
+        System.out.println("ScRootScript.pushDeferUntil");
+        _push(sel);
+    }
 
+    protected void _push(String sel)
+    {
+        // remove_wyatt: print
+        System.out.println("ScRootScript._push");
         ScDeferredScript promise;
         promise = new ScDeferredScript(this);
         promise.setSelector(sel);
 
         _add(promise);
-        _stack = promise;
+        _stack.push(promise);
+
+        // remove_wyatt: print
+        System.out.println("ScRootScript._push.end: " + _stack.size());
     }
 
     @Override
     public void pop()
     {
-        if ( _stack == null )
+        if ( _stack.isEmpty() )
             Kmu.fatal("Cannot pop empty stack.");
 
-        if ( _stack.hasStack() )
-            _stack.pop();
-        else
-            _stack = null;
+        _stack.pop();
     }
 
     //##################################################
@@ -158,9 +161,9 @@ public class ScRootScript
     @Override
     protected void _add(ScScriptIF e)
     {
-        if ( _stack == null )
+        if ( _stack.isEmpty() )
             super._add(e);
         else
-            _stack._add(e);
+            _stack.peek()._add(e);
     }
 }
