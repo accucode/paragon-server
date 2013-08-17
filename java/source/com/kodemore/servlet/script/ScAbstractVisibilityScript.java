@@ -28,10 +28,6 @@ import com.kodemore.servlet.utility.ScEasing;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
-/**
- * review_aaron (wyatt) discuss flip
- *      Good start.
- */
 public abstract class ScAbstractVisibilityScript
     extends ScAbstractScript
 {
@@ -228,10 +224,7 @@ public abstract class ScAbstractVisibilityScript
 
     private String formatFlipEffect()
     {
-        String sel = json(getSelector());
-        String function = getFlipFunction();
-
-        return Kmu.format("$(%s).%s;", sel, function);
+        return getFlipFunction();
     }
 
     protected abstract String getInstantFunction();

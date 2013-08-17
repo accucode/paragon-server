@@ -1,16 +1,14 @@
 package com.app.dao;
 
+import com.kodemore.collection.KmList;
 import com.kodemore.utility.KmEmailParser;
 
 import com.app.criteria.MyUserCriteria;
 import com.app.dao.base.MyDaoRegistry;
 import com.app.dao.base.MyUserDaoBase;
 import com.app.model.MyAccount;
-import com.app.model.MyAccountType;
 import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
 import com.app.model.MyUser;
-import com.app.model.MyUserRole;
 import com.app.utility.MyGlobals;
 
 /**
@@ -18,7 +16,9 @@ import com.app.utility.MyGlobals;
  * hope I didn't get too carried away with the refactoring, still working
  * on the right balance
  * 
- * review_valerie (wyatt) discuss
+ * (wyatt) discuss
+ * 
+ * review_wyatt (valerie) Eh?
  */
 
 public class MyUserDao
@@ -33,19 +33,15 @@ public class MyUserDao
         MyUserCriteria c;
         c = createCriteria();
         c.whereEmail().is(email);
-        return c.findFirst();
+        return c.findUnique();
     }
 
-    /**
-     * review_steve (wyatt)   discuss
-     * review_valerie (wyatt) discuss
-     */
-    public MyUser findName(String s)
+    public KmList<MyUser> findName(String s)
     {
         MyUserCriteria c;
         c = createCriteria();
         c.whereName().is(s);
-        return c.findFirst();
+        return c.findAll();
     }
 
     public MyUser createRootUser()
@@ -86,50 +82,13 @@ public class MyUserDao
         u.setRoleUser();
         u.setName(name);
         u.setEmail(email);
+        u.addPersonalAccount();
         u.setRandomPassword();
         u.saveDao();
-
-        MyAccount a;
-        a = new MyAccount();
-        a.setName("Personal");
-        a.setTypePersonal();
-        a.saveDao();
-
-        MyAccountUser au;
-        au = a.addAccountUser();
-        au.setUser(u);
-        au.setRoleOwner();
-
         return u;
     }
 
-    public void createNewUser(String name, String email, String password)
-    {
-        MyUser u = createNewUser(MyUserRole.User, email, password, name);
-        MyAccount a = getAccess().getAccountDao().createNewAccount(
-            "Personal",
-            MyAccountType.Personal);
-        getAccess().getAccountUserDao().createNewAccountUser(u, a, MyAccountUserRole.Owner);
-    }
-
-    /**
-     * (valerie)
-     * Not sure about the naming here. If it is ok here, I know I'll need to match others.
-     * 
-     * review_valerie (wyatt) discuss
-     */
-    public MyUser getNewUser(String name, String email, String password)
-    {
-        MyUser u = createNewUser(MyUserRole.User, email, password, name);
-        MyAccount a = getAccess().getAccountDao().createNewAccount(
-            "Personal",
-            MyAccountType.Personal);
-        getAccess().getAccountUserDao().createNewAccountUser(u, a, MyAccountUserRole.Owner);
-
-        return u;
-    }
-
-    public MyUser createNewUserWithAccount(String email, String password, MyAccount account)
+    public MyUser createNewUser(String email, String password)
     {
         KmEmailParser p;
         p = new KmEmailParser();
@@ -138,50 +97,35 @@ public class MyUserDao
         String name;
         name = p.getName();
 
-        MyUser u = createNewUser(MyUserRole.User, email, password, name);
-
-        MyAccount a = account;
-        a.saveDao();
-
-        getAccess().getAccountUserDao().createNewAccountUser(u, a);
-
-        return u;
-    }
-
-    public MyUser createNewUser(String name, String email, String password, MyAccount account)
-    {
-        MyUser u = createNewUser(MyUserRole.Admin, email, password, name);
-
-        MyAccount a = account;
-        a.saveDao();
-
-        getAccess().getAccountUserDao().createNewAccountUser(u, a);
-
-        return u;
-    }
-
-    public MyUser createNewUser(String name, String email, String password, String accountName)
-    {
-        MyUser u = createNewUser(MyUserRole.Admin, email, password, name);
-
-        MyAccount a = getAccess().getAccountDao().createNewAccount(
-            accountName,
-            MyAccountType.Personal,
-            u);
-
-        getAccess().getAccountUserDao().createNewAccountUser(u, a);
-
-        return u;
-    }
-
-    private MyUser createNewUser(MyUserRole userRole, String email, String password, String userName)
-    {
         MyUser u;
         u = new MyUser();
-        u.setRole(userRole);
+        u.setRoleUser();
+        u.setName(name);
         u.setEmail(email);
+        u.addPersonalAccount();
         u.setPassword(password);
-        u.setName(userName);
+        u.setVerified(true);
+        u.saveDao();
+        return u;
+    }
+
+    public MyUser createNewUser(String email, String password, MyAccount account)
+    {
+        KmEmailParser p;
+        p = new KmEmailParser();
+        p.setEmail(email);
+
+        String name;
+        name = p.getName();
+
+        MyUser u;
+        u = new MyUser();
+        u.setRoleUser();
+        u.setName(name);
+        u.setEmail(email);
+        u.addPersonalAccount();
+        u.setPassword(password);
+        u.joinAccount(account);
         u.setVerified(true);
         u.saveDao();
         return u;
@@ -200,5 +144,4 @@ public class MyUserDao
     {
         return findUid(MyUser.ROOT_UID);
     }
-
 }

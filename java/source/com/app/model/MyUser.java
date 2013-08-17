@@ -131,6 +131,17 @@ public class MyUser
         return _addAccount(a);
     }
 
+    public MyAccount addBusinessAccount(String name, String roleCode)
+    {
+        MyAccount a;
+        a = new MyAccount();
+        a.setName(name);
+        a.setTypeBusiness();
+        a.saveDao();
+
+        return _addAccount(a, roleCode);
+    }
+
     public MyAccount addPersonalAccount()
     {
         MyAccount a;
@@ -142,11 +153,33 @@ public class MyUser
         return _addAccount(a);
     }
 
+    public MyAccount addPersonalAccount(String name, String roleCode)
+    {
+        MyAccount a;
+        a = new MyAccount();
+        a.setName(name);
+        a.setTypeBusiness();
+        a.saveDao();
+
+        return _addAccount(a, roleCode);
+    }
+
     public MyAccountUser joinAccount(MyAccount a)
     {
         MyAccountUser au;
         au = a.addAccountUser();
         au.setRoleUser();
+
+        addAccountUser(au);
+
+        return au;
+    }
+
+    public MyAccountUser joinAccount(MyAccount a, String roleCode)
+    {
+        MyAccountUser au;
+        au = a.addAccountUser();
+        au.setRoleCode(roleCode);
 
         addAccountUser(au);
 
@@ -162,6 +195,14 @@ public class MyUser
         MyAccountUser au;
         au = joinAccount(a);
         au.setRoleOwner();
+        return a;
+    }
+
+    private MyAccount _addAccount(MyAccount a, String roleCode)
+    {
+        MyAccountUser au;
+        au = joinAccount(a);
+        au.setRoleCode(roleCode);
         return a;
     }
 

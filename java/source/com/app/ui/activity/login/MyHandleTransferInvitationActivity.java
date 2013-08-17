@@ -13,11 +13,8 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.Kmu;
 
-import com.app.dao.MyAccountUserDao;
 import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
 import com.app.model.MyInvitation;
 import com.app.model.MyUser;
 import com.app.ui.activity.MyActivity;
@@ -60,6 +57,8 @@ public class MyHandleTransferInvitationActivity
     private ScErrorBox      _password1ErrorBox;
     private ScErrorBox      _password2ErrorBox;
 
+    private boolean         _newUser;
+
     //##################################################
     //# install
     //##################################################
@@ -79,6 +78,8 @@ public class MyHandleTransferInvitationActivity
     {
         _accessKey = new ScLocalString();
         _accessKey.setAutoSave();
+
+        _newUser = false;
 
         ScGroup group;
         group = new ScGroup();
@@ -223,6 +224,8 @@ public class MyHandleTransferInvitationActivity
 
         if ( u == null )
         {
+            _newUser = true;
+
             _password1Field.show();
             _password2Field.show();
             _chooseLabel.show();
@@ -250,7 +253,8 @@ public class MyHandleTransferInvitationActivity
         ajax().hideAllErrors();
         ajax().focus();
 
-        _form.validate();
+        if ( _newUser )
+            _form.validate();
 
         String key = getAccessKey();
 
@@ -266,45 +270,13 @@ public class MyHandleTransferInvitationActivity
 
         MyAccount a;
         a = inv.getAccount();
-
-        if ( user == null )
-            user = createUser(email, a);
-
-        MyAccountUserDao auDao;
-        auDao = getAccess().getAccountUserDao();
-
-        MyAccountUser newOwner;
-        newOwner = auDao.findAccountUserFor(user, a);
-
-        MyAccountUser oldOwner;
-        oldOwner = auDao.findCurrentOwner(a);
-
         /**
-         * (valerie) use of transfer ownership
-         * 
-         * review_valerie (wyatt) discuss
+         * review_wyatt (valerie) set new owner
          */
-        auDao.transferOwnership(oldOwner, newOwner);
+        a.setOwnerTo(user);
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
-    }
-
-    private MyUser createUser(String email, MyAccount a)
-    {
-        _password1Field.ajax().clearValue();
-        _password2Field.ajax().clearValue();
-
-        String p1 = _password1Field.getValue();
-        String p2 = _password2Field.getValue();
-
-        if ( Kmu.isNotEqual(p1, p2) )
-            _password1Field.error("Passwords did not match.");
-
-        MyUser u;
-        u = getAccess().getUserDao().createNewUserWithAccount(email, p1, a);
-
-        return u;
     }
 
     //##################################################

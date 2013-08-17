@@ -12,7 +12,6 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyInvitation;
@@ -96,7 +95,6 @@ public class MyHandleNewUserInvitationActivity
         form = root.addForm();
         form.setDefaultAction(newAcceptAction());
         form.css().pad10();
-        //review_steve (question) what does this hide do?
         _form = form;
 
         form.addLabel("Email");
@@ -233,14 +231,7 @@ public class MyHandleNewUserInvitationActivity
         if ( Kmu.isNotEqual(pw1, pw2) )
             _password1Field.error("Passwords did not match.");
 
-        KmEmailParser p;
-        p = new KmEmailParser();
-        p.setEmail(email);
-
-        String name;
-        name = p.getName();
-
-        getAccess().getUserDao().createNewUser(name, email, pw1);
+        getAccess().getUserDao().createNewUser(email, pw1);
     }
 
     //##################################################

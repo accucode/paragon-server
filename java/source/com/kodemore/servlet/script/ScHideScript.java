@@ -67,11 +67,11 @@ public class ScHideScript
     {
         KmJsonObject options;
         options = new KmJsonObject();
-        options.setInteger("rotateY", 90);
+        options.setString("selector", getSelector());
         options.setInteger("duration", getSpeedMs());
         options.setString("easing", getEasing().name());
 
-        return Kmu.format("transition(%s);", options);
+        return Kmu.format("Kmu.flipHide(%s);", options);
     }
 
     //##################################################

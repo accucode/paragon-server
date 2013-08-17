@@ -26,7 +26,9 @@ import com.kodemore.html.KmHtmlBuilder;
 
 /**
  * This is a simple div designed to fill the remaining available
- * space when a containter 
+ * space when equalize is called on the parent container.  This is
+ * useful if there is content that should always remain at the bottom
+ * after the height of the container is changed.
  */
 public class ScFiller
     extends ScControl
@@ -35,7 +37,7 @@ public class ScFiller
     //# constants
     //##################################################
 
-    private static final String CLASS = "filler";
+    private static final String CSS = "filler";
 
     //##################################################
     //# render 
@@ -44,10 +46,7 @@ public class ScFiller
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        out.openDiv();
-        out.printAttribute("class", CLASS);
-        out.close();
+        out.beginDivCss(CSS);
         out.endDiv();
     }
-
 }

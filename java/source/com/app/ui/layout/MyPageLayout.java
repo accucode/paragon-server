@@ -25,7 +25,7 @@ import com.app.model.MyAccountUser;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
-import com.app.ui.activity.MyActivityRegistry;
+import com.app.ui.activity.test.MyWelcomePage;
 import com.app.ui.core.MyActions;
 import com.app.ui.core.MyServletData;
 import com.app.ui.servlet.MyServletConstantsIF;
@@ -179,9 +179,8 @@ public class MyPageLayout
 
     private void handleSetAccount()
     {
-        //review_valerie review_steve (steve) why is this not going to the welcome screen anymore?
         setServerSessionAccount();
-        MyActivityRegistry.getInstance().getHomeActivity();
+        MyWelcomePage.instance.start();
     }
 
     private void setServerSessionAccount()
