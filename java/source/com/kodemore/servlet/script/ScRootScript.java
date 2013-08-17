@@ -125,24 +125,17 @@ public class ScRootScript
     @Override
     public void pushDeferUntil(String sel)
     {
-        // remove_wyatt: print
-        System.out.println("ScRootScript.pushDeferUntil");
         _push(sel);
     }
 
     protected void _push(String sel)
     {
-        // remove_wyatt: print
-        System.out.println("ScRootScript._push");
         ScDeferredScript promise;
         promise = new ScDeferredScript(this);
         promise.setSelector(sel);
 
         _add(promise);
         _stack.push(promise);
-
-        // remove_wyatt: print
-        System.out.println("ScRootScript._push.end: " + _stack.size());
     }
 
     @Override

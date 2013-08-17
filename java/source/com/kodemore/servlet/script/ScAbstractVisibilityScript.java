@@ -276,8 +276,6 @@ public abstract class ScAbstractVisibilityScript
 
     public ScAbstractVisibilityScript defer()
     {
-        // remove_wyatt: print
-        System.out.println("ScAbstractVisibilityScript.defer");
         getRoot().deferUntil(getSelector());
         return this;
     }

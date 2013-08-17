@@ -76,4 +76,10 @@ public class ScWrapperScript
     {
         return _inner.getScripts();
     }
+
+    @Override
+    protected void _add(ScScriptIF e)
+    {
+        _inner._add(e);
+    }
 }

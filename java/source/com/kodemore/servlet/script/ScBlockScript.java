@@ -132,8 +132,6 @@ public abstract class ScBlockScript
 
     public void deferUntil(String sel)
     {
-        // remove_wyatt: print
-        System.out.println("ScBlockScript.deferUntil");
         pushDeferUntil(sel);
     }
 
@@ -152,8 +150,6 @@ public abstract class ScBlockScript
 
     public void pushDeferUntil(String sel)
     {
-        // remove_wyatt: print
-        System.out.println("ScBlockScript.pushDeferUntil");
         getRoot().pushDeferUntil(sel);
     }
 

@@ -2,7 +2,6 @@ package sandbox.wlove;
 
 import com.kodemore.servlet.field.ScFakeHtmlId;
 import com.kodemore.servlet.script.ScRootScript;
-import com.kodemore.utility.Kmu;
 
 public class JkTest
 {
@@ -21,35 +20,16 @@ public class JkTest
 
     private void run()
     {
-        int n;
-
         ScRootScript root;
         root = new ScRootScript();
 
-        // remove_wyatt: print
-        n = root.getStack().size();
-
-        System.out.println("init: " + n);
-
         ScFakeHtmlId a = new ScFakeHtmlId("a", root);
-        //        ScFakeHtmlId b = new ScFakeHtmlId("b", root);
-
-        root.run(Kmu.dashes());
-
-        System.out.println("b: " + n);
+        ScFakeHtmlId b = new ScFakeHtmlId("b", root);
+        ScFakeHtmlId c = new ScFakeHtmlId("c", root);
 
         a.ajax().toggle().slide().defer();
-
-        System.out.println("c: " + n);
-
-        //        root.run("after a");
-        //
-        //        // fails
-        //        b.ajax().toggle().slide().defer();
-        //
-        //        // ok
-        //        //        root.toggle(b).slide().defer();
-        //        root.run("after b");
+        b.ajax().toggle().slide().defer();
+        c.ajax().toggle().slide().defer();
 
         System.out.println(root.formatMultilineScript());
     }
