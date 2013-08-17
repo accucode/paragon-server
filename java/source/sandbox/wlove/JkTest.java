@@ -1,8 +1,8 @@
 package sandbox.wlove;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.file.KmFile;
-import com.kodemore.string.KmStringTokenizer;
+import com.kodemore.servlet.field.ScFakeHtmlId;
+import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.utility.Kmu;
 
 public class JkTest
 {
@@ -16,52 +16,41 @@ public class JkTest
     }
 
     //##################################################
-    //# constants
-    //##################################################
-
-    private static final String IN  = "/temp/in.txt";
-    private static final String OUT = "/temp/out.txt";
-
-    //##################################################
     //# run
     //##################################################
 
     private void run()
     {
-        KmList<String> v;
-        v = new KmList<String>();
-        v.addAll(read(IN));
-        v.addAll(read(OUT));
-        v.removeDuplicates();
-        v.sort();
+        int n;
 
-        System.out.println("Words: " + v.size());
+        ScRootScript root;
+        root = new ScRootScript();
 
-        new KmFile(OUT).write(v.formatLines());
-    }
+        // remove_wyatt: print
+        n = root.getStack().size();
 
-    private KmList<String> read(String path)
-    {
-        KmFile f = new KmFile(path);
-        String in = f.readString().toLowerCase();
+        System.out.println("init: " + n);
 
-        KmStringTokenizer t;
-        t = new KmStringTokenizer();
-        t.setIgnoreEmptyValues();
-        t.setTrimValues();
-        t.addWhitespaceDelimiters();
-        t.addDelimiter(',');
-        t.addDelimiter(';');
-        t.addDelimiter(':');
-        t.addDelimiter('.');
-        t.addDelimiter('?');
-        t.addDelimiter('!');
-        t.addDelimiter('"');
-        t.addDelimiter("--");
+        ScFakeHtmlId a = new ScFakeHtmlId("a", root);
+        //        ScFakeHtmlId b = new ScFakeHtmlId("b", root);
 
-        KmList<String> words;
-        words = t.split(in);
-        words.removeDuplicates();
-        return words;
+        root.run(Kmu.dashes());
+
+        System.out.println("b: " + n);
+
+        a.ajax().toggle().slide().defer();
+
+        System.out.println("c: " + n);
+
+        //        root.run("after a");
+        //
+        //        // fails
+        //        b.ajax().toggle().slide().defer();
+        //
+        //        // ok
+        //        //        root.toggle(b).slide().defer();
+        //        root.run("after b");
+
+        System.out.println(root.formatMultilineScript());
     }
 }

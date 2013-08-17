@@ -102,6 +102,7 @@ public abstract class ScAbstractScript
     public void formatMultilineScriptOn(KmStringBuilder out)
     {
         formatScriptOn(out);
+        out.println();
     }
 
     //##################################################

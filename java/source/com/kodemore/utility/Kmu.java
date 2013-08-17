@@ -820,6 +820,11 @@ public class Kmu
         return out.toString();
     }
 
+    public static String dashes()
+    {
+        return dashes(80);
+    }
+
     public static String dashes(int n)
     {
         return repeat('-', n);

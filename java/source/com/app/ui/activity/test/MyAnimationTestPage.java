@@ -27,8 +27,7 @@ public class MyAnimationTestPage
     //# variables
     //##################################################
 
-    private KmList<ScBox> _groupOneBoxes;
-    private KmList<ScBox> _groupTwoBoxes;
+    private KmList<ScBox> _group;
 
     //##################################################
     //# install
@@ -48,17 +47,12 @@ public class MyAnimationTestPage
         ScGroup group;
         ScDiv right;
 
-        group = groups.addGroup("Asynchronous");
+        group = groups.addGroup("Group");
         right = group.getHeader().addFloatRight();
         right.css().padSpaced5();
-        right.addButton("Toggle", newToggleGroupOneAction());
-        _groupOneBoxes = addBoxesTo(group);
-
-        group = groups.addGroup("Synchronous");
-        right = group.getHeader().addFloatRight();
-        right.css().padSpaced5();
-        right.addButton("Toggle", newToggleGroupTwoAction());
-        _groupTwoBoxes = addBoxesTo(group);
+        right.addButton("Async", newAsyncToggleAction());
+        right.addButton("Sync", newSyncToggleAction());
+        _group = addBoxesTo(group);
 
         return root;
     }
@@ -92,26 +86,26 @@ public class MyAnimationTestPage
         return e;
     }
 
-    private ScActionIF newToggleGroupOneAction()
+    private ScActionIF newAsyncToggleAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleToggleGroupOne();
+                handleAsyncToggle();
             }
         };
     }
 
-    private ScActionIF newToggleGroupTwoAction()
+    private ScActionIF newSyncToggleAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleToggleGroupTwo();
+                handleSyncToggle();
             }
         };
     }
@@ -120,16 +114,16 @@ public class MyAnimationTestPage
     //# handle
     //##################################################
 
-    private void handleToggleGroupOne()
+    private void handleAsyncToggle()
     {
-        KmList<ScBox> v = _groupOneBoxes;
+        KmList<ScBox> v = _group;
         for ( ScBox e : v )
             e.ajax().toggle().slide();
     }
 
-    private void handleToggleGroupTwo()
+    private void handleSyncToggle()
     {
-        KmList<ScBox> v = _groupTwoBoxes;
+        KmList<ScBox> v = _group;
         for ( ScBox e : v )
             e.ajax().toggle().slide().defer();
     }
