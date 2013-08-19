@@ -228,6 +228,14 @@ public class MyAccountsPage
         ScGroup group;
         group = form.addGroup("View Account");
 
+        ScDiv header;
+        header = group.getHeader().addFloatRight();
+        header.css().pad5();
+
+        ScActionButton editButton;
+        editButton = header.addButton("Edit", newShowEditAccountBoxAction());
+        editButton.setImage(MyButtonUrls.edit());
+
         ScBox body;
         body = group.addBox();
         body.css().pad();
@@ -249,7 +257,6 @@ public class MyAccountsPage
 
         _viewAccountFooter = group.addButtonBoxRight();
 
-        _viewAccountFooter.addButton("Edit", newShowEditAccountBoxAction());
         _transferButton = _viewAccountFooter.addButton("Transfer", newShowTransferBoxAction());
         _viewAccountFooter.addButton("Invite", newShowInviteUserBoxAction());
         _deleteButton = _viewAccountFooter.addButton("Delete", newShowDeleteAccountBoxAction());
