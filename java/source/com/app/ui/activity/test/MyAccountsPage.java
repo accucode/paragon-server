@@ -26,7 +26,7 @@ import com.kodemore.servlet.field.ScAutoCompleteField;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
-import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.utility.KmEmailParser;
 
 import com.app.dao.MyAccountDao;
@@ -120,14 +120,14 @@ public class MyAccountsPage
     private ScActionButton        _cancelButton;
     private ScSubmitButton        _removeButton;
 
-    private ScLocalString         _accountName;
-
     private ScGroup               _deleteGroup;
 
     private ScDiv                 _viewAccountFooter;
     private ScDiv                 _viewUserFooter;
 
     private ScBox                 _dialogBody;
+
+    private ScLocalBoolean        _isEditing;
 
     //##################################################
     //# install
@@ -136,8 +136,8 @@ public class MyAccountsPage
     @Override
     protected ScPageRoot installRoot()
     {
-        _accountName = new ScLocalString();
-        _accountName.setAutoSave();
+        _isEditing = new ScLocalBoolean();
+        _isEditing.setAutoSave();
 
         ScPageRoot root;
         root = newPageRoot();
@@ -1148,6 +1148,8 @@ public class MyAccountsPage
 
     private void handleShowEditAccountBox()
     {
+        setIsEditing(true);
+
         MyAccount a;
         a = getPageSession().getAccount();
 
@@ -1406,6 +1408,8 @@ public class MyAccountsPage
 
     private void refreshViewAccount()
     {
+        setIsEditing(false);
+
         MyAccount a;
         a = getPageSession().getAccount();
 
@@ -1543,5 +1547,17 @@ public class MyAccountsPage
     private boolean isOwner(MyAccountUser owner, MyUser u)
     {
         return owner.getUser().isSame(u);
+    }
+
+    // fixme_valerie: start here
+    @SuppressWarnings("unused")
+    private boolean getIsEditing()
+    {
+        return _isEditing.getValue();
+    }
+
+    private void setIsEditing(boolean isEditing)
+    {
+        _isEditing.setValue(isEditing);
     }
 }
