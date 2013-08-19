@@ -45,16 +45,16 @@ import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyButtonUrls;
 import com.app.utility.MyGlobals;
 
-public class MyManageAccountsPage
+public class MyAccountsPage
     extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManageAccountsPage instance = new MyManageAccountsPage();
+    public static final MyAccountsPage instance = new MyAccountsPage();
 
-    private MyManageAccountsPage()
+    private MyAccountsPage()
     {
         // singleton
     }
@@ -179,7 +179,7 @@ public class MyManageAccountsPage
         form = root.addForm();
 
         ScGroup group;
-        group = form.addGroup("Manage Accounts");
+        group = form.addGroup("My Accounts");
 
         ScBox body;
         body = group.addPadSpaced();

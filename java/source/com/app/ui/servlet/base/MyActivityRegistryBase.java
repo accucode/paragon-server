@@ -60,7 +60,7 @@ public abstract class MyActivityRegistryBase
         add(MyHideErrorsTestPage.instance);
         add(MyHomePage.instance);
         add(MyLocalValueTestPage.instance);
-        add(MyManageAccountsPage.instance);
+        add(MyAccountsPage.instance);
         add(MyMemoryLeakTestPage.instance);
         add(MyNotebookTestPage.instance);
         add(MyOpenWindowTestPage.instance);
