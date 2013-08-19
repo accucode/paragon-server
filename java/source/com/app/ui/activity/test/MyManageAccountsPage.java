@@ -578,6 +578,7 @@ public class MyManageAccountsPage
         accountUid = getPageSession().getAccountUidHolder().getValue();
 
         if ( accountUid == null )
+            // fixme_valerie: null pointer exception
             accountUid = getServerSession().getAccount().getUid();
 
         f.setAccountUid(accountUid);
@@ -1199,9 +1200,13 @@ public class MyManageAccountsPage
         String typeCode = _addAccountType.getStringValue();
         MyAccountType type = MyAccountType.findCode(typeCode);
         MyUser user = getCurrentUser();
-
         MyAccount a;
-        a = getAccountDao().createNewAccount(name, type, user);
+
+        if ( type == MyAccountType.Personal )
+            a = user.addPersonalAccount(name);
+        else
+            a = user.addBusinessAccount(name);
+
         getPageSession().setAccount(a);
 
         setDropdownOptions();
