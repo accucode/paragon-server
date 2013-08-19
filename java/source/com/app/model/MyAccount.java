@@ -77,16 +77,12 @@ public class MyAccount
         fromAU.setRoleUser();
 
         MyAccountUser toAU;
-        // fixme_valerie: null pointer
-        //        toAU = findAccountUserUid(to.getUid());
         toAU = getAccess().getAccountUserDao().findAccountUserFor(to, this);
         toAU.setRoleOwner();
     }
 
     private boolean isNotMember(MyUser to)
     {
-        // fixme_valerie: findAccountUserUid(to.getUid()) returning null
-        //        return findAccountUserUid(to.getUid()) == null;
         MyAccountUser toAU;
         toAU = getAccess().getAccountUserDao().findAccountUserFor(to, this);
         return toAU == null;

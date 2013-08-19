@@ -1012,10 +1012,6 @@ public class MyManageAccountsPage
     //# start
     //##################################################
 
-    /**
-     * review_valerie (wyatt) discuss start
-     * review_steve   (wyatt) discuss start
-     */
     @Override
     public void start()
     {
@@ -1109,10 +1105,10 @@ public class MyManageAccountsPage
         a = getPageSession().getAccount();
 
         if ( a != null )
+        {
             _editAccountName.setValue(a.getName());
-
-        if ( a != null )
             _editTypeDropdown.setValue(a.getType());
+        }
 
         _accountFrame.ajaxPrint(_editAccountChild);
     }
@@ -1263,7 +1259,8 @@ public class MyManageAccountsPage
         MyAccountUser pageSessionAU;
         pageSessionAU = getPageSession().getAccountUser();
 
-        String roleCode = _editRoleDropdown.getStringValue();
+        String roleCode;
+        roleCode = _editRoleDropdown.getStringValue();
 
         MyAccountUser owner;
         owner = getAccountUserDao().findCurrentOwner(pageSessionAU.getAccount());
