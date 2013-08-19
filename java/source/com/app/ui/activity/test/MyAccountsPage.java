@@ -1100,6 +1100,7 @@ public class MyAccountsPage
 
     private void handleUpdateValues()
     {
+        _userFrame.ajaxClear();
         refreshAll(false);
     }
 
