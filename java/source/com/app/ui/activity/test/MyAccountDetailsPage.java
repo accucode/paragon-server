@@ -332,6 +332,9 @@ public class MyAccountDetailsPage
     {
         String userName = _searchUserNameField.getValue();
         String accountName = _searchAccountNameField.getValue();
+        // remove_valerie: cleanup
+        //        String accountTypeCode = _searchTypeDropdown.getStringValue();
+        //        MyAccountType type = MyAccountType.findCode(accountTypeCode);
 
         MyAccountUserFilter f;
         f = new MyAccountUserFilter();
@@ -362,6 +365,18 @@ public class MyAccountDetailsPage
          */
         //        if ( _searchTypeDropdown.hasValue() )
         //            f.setRoleCode(_searchRoleDropdown.getStringValue());
+        //        
+        //        if ( _searchTypeDropdown.hasValue() )
+        //        {
+        //            KmList<MyAccount> accounts = getAccountDao().findType(type);
+        //
+        //            for ( MyAccount a : accounts )
+        //            {
+        //                f.setAccountUid(a.getUid());
+        //                //remove_valerie: println
+        //                System.out.println("    a.getName(): " + a.getName());
+        //            }
+        //        }
 
         return f;
     }
