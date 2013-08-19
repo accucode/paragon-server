@@ -332,9 +332,8 @@ public class MyAccountDetailsPage
     {
         String userName = _searchUserNameField.getValue();
         String accountName = _searchAccountNameField.getValue();
-        // remove_valerie: cleanup
-        //        String accountTypeCode = _searchTypeDropdown.getStringValue();
-        //        MyAccountType type = MyAccountType.findCode(accountTypeCode);
+        String roleCode = _searchRoleDropdown.getStringValue();
+        String accountTypeCode = _searchTypeDropdown.getStringValue();
 
         MyAccountUserFilter f;
         f = new MyAccountUserFilter();
@@ -347,10 +346,10 @@ public class MyAccountDetailsPage
             f.setAccountNameSubstring(accountName);
 
         if ( _searchRoleDropdown.hasValue() )
-            f.setRoleCode(_searchRoleDropdown.getStringValue());
+            f.setRoleCode(roleCode);
 
         if ( _searchTypeDropdown.hasValue() )
-            f.setAccountTypeCode(_searchTypeDropdown.getStringValue());
+            f.setAccountTypeCode(accountTypeCode);
 
         return f;
     }
