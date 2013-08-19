@@ -61,6 +61,18 @@ public class MyAccountsPage
     }
 
     //##################################################
+    //# constants
+    //##################################################
+
+    /**
+     * review_wyatt (valerie) added these to frame bodies
+     */
+    private static final String   TRANSFER_TEXT = "Enter email address of user you with to transfer ownership to."
+                                                    + "  User must accept ownership.  There can be only one owner per account.";
+    private static final String   INVITE_TEXT   = "Enter email address of user you wish to invite to this account."
+                                                    + "  User must accept invitation to be added.";
+
+    //##################################################
     //# variables
     //##################################################
 
@@ -371,6 +383,17 @@ public class MyAccountsPage
         body = group.addBox();
         body.css().pad();
 
+        ScBox box;
+        box = body.addBox();
+        box.addText(INVITE_TEXT);
+        box.css().centerText();
+
+        /**
+         * review_wyatt (valerie) 
+         * Where can we add a new width constant to the css file?
+         */
+        box.css().width200();
+
         _addUserEmail = new ScTextField();
         _addUserEmail.setLabel("Email ");
 
@@ -378,6 +401,7 @@ public class MyAccountsPage
 
         ScFieldTable fields;
         fields = body.addFields();
+        fields.addSpace();
         fields.add(_addUserEmail);
         fields.add(_addRoleDropdown);
 
@@ -454,6 +478,12 @@ public class MyAccountsPage
         body = group.addBox();
         body.css().pad();
 
+        ScBox box;
+        box = body.addBox();
+        box.addText(TRANSFER_TEXT);
+        box.css().centerText();
+        box.css().width200();
+
         _transferEmailAutoComplete = new ScAutoCompleteField();
         _transferEmailAutoComplete.setLabel("Email ");
         _transferEmailAutoComplete.setCallback(newTransferEmailCallback());
@@ -461,6 +491,7 @@ public class MyAccountsPage
 
         ScFieldTable fields;
         fields = body.addFields();
+        fields.addSpace();
         fields.add(_transferEmailAutoComplete);
 
         group.addDivider();
@@ -1092,7 +1123,7 @@ public class MyAccountsPage
 
         _deleteUserDialog.ajaxClose();
 
-        ajax().toast("Deleted user %s from %s", au.getUserName(), au.getAccountName());
+        ajax().toast("Deleted user %s from account %s", au.getUserName(), au.getAccountName());
 
         _userFrame.ajaxClear();
         _userGrid.ajaxReload();
