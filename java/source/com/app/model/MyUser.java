@@ -175,11 +175,19 @@ public class MyUser
         return _addAccount(a, roleCode);
     }
 
+    /**
+     * review_wyatt (valerie)
+     * removed addedAccountUser(au) and added au.setUser(this)
+     * the first method was adding an accountUser twice
+     * wasn't setting the user to the accountUser
+     */
     public MyAccountUser joinAccount(MyAccount a)
     {
         MyAccountUser au;
         au = a.addAccountUser();
         au.setRoleUser();
+        au.setUser(this);
+
         return au;
     }
 
@@ -188,6 +196,8 @@ public class MyUser
         MyAccountUser au;
         au = a.addAccountUser();
         au.setRoleCode(roleCode);
+        au.setUser(this);
+
         return au;
     }
 
