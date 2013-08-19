@@ -193,7 +193,7 @@ public class MyManageAccountsPage
 
     //==================================================
     //= install : account frame
-    //==================================================//
+    //==================================================
 
     private void installAccountFrameOn(ScContainer root)
     {
@@ -237,7 +237,6 @@ public class MyManageAccountsPage
         ScFieldTable fields;
         fields = body.addFields();
         fields.add(_viewAccountName);
-        fields.addSpace();
         fields.add(_viewAccountType);
 
         group.addDivider();
@@ -283,7 +282,6 @@ public class MyManageAccountsPage
         ScFieldTable fields;
         fields = body.addFields();
         fields.add(_editAccountName);
-        fields.addSpace();
         fields.add(_editTypeDropdown);
 
         group.addDivider();
@@ -407,7 +405,6 @@ public class MyManageAccountsPage
         ScFieldTable fields;
         fields = body.addFields();
         fields.add(_deleteAccountName);
-        fields.addSpace();
         fields.add(_deleteAccountType);
 
         _deleteGroup.addDivider();
