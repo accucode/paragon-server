@@ -5,6 +5,9 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
+import com.app.ui.activity.admin.MyEmailListPage;
+import com.app.ui.activity.admin.MyUsersPage;
+
 public class MyToolsPage
     extends MyAbstractToolsPage
 {
@@ -49,6 +52,8 @@ public class MyToolsPage
         links.addLink(MySharedFileBrowserPage.instance);
         links.addLink(MySystemLogListPage.instance);
         links.addLink(MyPropertiesPage.instance);
+        links.addLink(MyUsersPage.instance);
+        links.addLink(MyEmailListPage.instance);
 
         return root;
     }

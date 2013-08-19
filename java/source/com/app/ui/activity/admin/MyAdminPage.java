@@ -1,13 +1,11 @@
 package com.app.ui.activity.admin;
 
-import com.app.ui.activity.test.MyAccountDetailsPage;
-import com.app.ui.activity.test.MyAccountsPage;
-import com.app.ui.activity.test.MyWelcomePage;
-
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
+
+import com.app.ui.activity.test.MyAccountsPage;
 
 public class MyAdminPage
     extends MyAbstractAdminPage
@@ -43,11 +41,7 @@ public class MyAdminPage
 
         ScBox links;
         links = group.addLinkBox();
-        links.addLink(MyUsersPage.instance);
-        links.addLink(MyEmailListPage.instance);
-        links.addLink(MyWelcomePage.instance);
         links.addLink(MyAccountsPage.instance);
-        links.addLink(MyAccountDetailsPage.instance);
 
         return root;
     }
