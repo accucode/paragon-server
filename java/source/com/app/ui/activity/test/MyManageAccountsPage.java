@@ -1023,10 +1023,7 @@ public class MyManageAccountsPage
 
     private void handleShowDeleteAccountBox()
     {
-        String name;
-        name = _viewAccountName.getValue();
-
-        _deleteGroup.setTitle("Delete %s Account", name);
+        _deleteGroup.setTitle("Delete Account");
 
         MyAccount a;
         a = getPageSession().getAccount();
@@ -1111,10 +1108,7 @@ public class MyManageAccountsPage
 
     private void handleShowTransferBox()
     {
-        String name;
-        name = _viewAccountName.getValue();
-
-        _transferGroup.setTitle("Transfer Ownership \n of %s", name);
+        _transferGroup.setTitle("Transfer Ownership");
 
         _accountFrame.ajaxPrint(_transferChild);
         _transferChild.ajax().focus();
@@ -1214,7 +1208,7 @@ public class MyManageAccountsPage
 
     private void handleShowInviteUserBox()
     {
-        _inviteGroup.setTitle("Invite User to %s", _viewAccountName.getValue());
+        _inviteGroup.setTitle("Invite User");
 
         _accountFrame.ajaxPrint(_inviteUserChild);
         _inviteUserChild.ajax().focus();
