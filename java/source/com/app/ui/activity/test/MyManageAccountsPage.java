@@ -227,11 +227,11 @@ public class MyManageAccountsPage
         body.css().pad();
 
         _viewAccountName = new ScTextField();
-        _viewAccountName.setLabel("Account name is ");
+        _viewAccountName.setLabel("Name  ");
         _viewAccountName.setReadOnly();
 
         _viewAccountType = new ScTextField();
-        _viewAccountType.setLabel("Account type is ");
+        _viewAccountType.setLabel("Type ");
         _viewAccountType.setReadOnly();
 
         ScFieldTable fields;
@@ -275,10 +275,10 @@ public class MyManageAccountsPage
         body.css().pad();
 
         _editAccountName = new ScTextField();
-        _editAccountName.setLabel("Account name is ");
+        _editAccountName.setLabel("Name ");
 
         _editTypeDropdown = MyAccount.Tools.newTypeDropdown();
-        _editTypeDropdown.setLabel("Account type is ");
+        _editTypeDropdown.setLabel("Type ");
 
         ScFieldTable fields;
         fields = body.addFields();
@@ -317,10 +317,10 @@ public class MyManageAccountsPage
         body.css().pad();
 
         _addAccountName = new ScTextField();
-        _addAccountName.setLabel("Account name is ");
+        _addAccountName.setLabel("Name ");
 
         _addAccountType = MyAccount.Tools.newTypeDropdown();
-        _addAccountType.setLabel("Account type is ");
+        _addAccountType.setLabel("Type ");
 
         ScFieldTable fields;
         fields = body.addFields();
@@ -388,20 +388,20 @@ public class MyManageAccountsPage
         form = frameChild.addForm();
         form.setDefaultAction(saveAction);
         form.onEscape().run(cancelAction);
-        form.css().colorRed();
 
         _deleteGroup = form.addGroup();
+        _deleteGroup.setFlavorError();
 
         ScBox body;
         body = _deleteGroup.addBox();
         body.css().pad();
 
         _deleteAccountName = new ScTextField();
-        _deleteAccountName.setLabel("Account name is ");
+        _deleteAccountName.setLabel("Name ");
         _deleteAccountName.setReadOnly();
 
         _deleteAccountType = new ScTextField();
-        _deleteAccountType.setLabel("Account type is ");
+        _deleteAccountType.setLabel("Type ");
         _deleteAccountType.setReadOnly();
 
         ScFieldTable fields;
@@ -506,7 +506,7 @@ public class MyManageAccountsPage
 
     //==================================================
     //= install : grid
-    //==================================================//
+    //==================================================
 
     private void installUserGrid(ScContainer root)
     {
@@ -514,7 +514,7 @@ public class MyManageAccountsPage
 
         ScGroup group;
         group = root.addGroup();
-        group.setTitle("Users on this Account");
+        group.setTitle("Account Users");
 
         ScDiv right;
         right = group.getHeader().addFloatRight();
