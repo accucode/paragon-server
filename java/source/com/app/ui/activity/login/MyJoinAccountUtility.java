@@ -86,7 +86,6 @@ public class MyJoinAccountUtility
         msg.printfln("Hi %s", name);
         msg.printfln();
         msg.printf("Welcome to %s! ", app);
-        msg.printf("A new user account has been created for the email %s. ", email);
         msg.printf("You have been asked to join %s! ", accountName);
         msg.printfln();
         msg.printf("To join %s and to activate your new user account "
