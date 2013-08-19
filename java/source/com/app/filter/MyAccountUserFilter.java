@@ -1,9 +1,9 @@
 package com.app.filter;
 
+import com.kodemore.utility.KmNamedEnumIF;
+
 import com.app.criteria.MyAccountUserCriteria;
 import com.app.filter.base.MyAccountUserFilterBase;
-
-import com.kodemore.utility.KmNamedEnumIF;
 
 public class MyAccountUserFilter
     extends MyAccountUserFilterBase
@@ -45,8 +45,17 @@ public class MyAccountUserFilter
     private String  _userUid;
     private boolean _usesUserUid;
 
+    private String  _userNameSubstring;
+    private boolean _usesUserNameSubstring;
+
     private String  _role;
     private boolean _usesRole;
+
+    private String  _accountNameSubstring;
+    private boolean _usesAccountNameSubstring;
+
+    private String  _accountType;
+    private boolean _usesAccountType;
 
     //##################################################
     //# account uid
@@ -89,6 +98,26 @@ public class MyAccountUserFilter
     }
 
     //##################################################
+    //# user name
+    //##################################################
+
+    public String getUserNameSubstring()
+    {
+        return _userNameSubstring;
+    }
+
+    public void setUserNameSubstring(String e)
+    {
+        _userNameSubstring = e;
+        _usesUserNameSubstring = true;
+    }
+
+    public boolean usesUserNameSubstring()
+    {
+        return _usesUserNameSubstring;
+    }
+
+    //##################################################
     //# role
     //##################################################
 
@@ -106,6 +135,46 @@ public class MyAccountUserFilter
     public boolean usesRoleCode()
     {
         return _usesRole;
+    }
+
+    //##################################################
+    //# account name substring
+    //##################################################
+
+    public String getAccountNameSubstring()
+    {
+        return _accountNameSubstring;
+    }
+
+    public void setAccountNameSubstring(String e)
+    {
+        _accountNameSubstring = e;
+        _usesAccountNameSubstring = true;
+    }
+
+    public boolean usesAccountNameSubstring()
+    {
+        return _usesAccountNameSubstring;
+    }
+
+    //##################################################
+    //# account type
+    //##################################################
+
+    public String getAccountTypeCode()
+    {
+        return _accountType;
+    }
+
+    public void setAccountTypeCode(String e)
+    {
+        _accountType = e;
+        _usesAccountType = true;
+    }
+
+    public boolean usesAccountTypeCode()
+    {
+        return _usesAccountType;
     }
 
     //##################################################
@@ -168,13 +237,24 @@ public class MyAccountUserFilter
         if ( usesUserUid() )
             c.whereUserUid().is(getUserUid());
 
+        if ( usesUserNameSubstring() )
+            c.joinToUser().whereName().hasSubstring(getUserNameSubstring());
+
         if ( usesRoleCode() )
             c.whereRoleCode().is(getRoleCode());
+
+        if ( usesAccountNameSubstring() )
+            c.joinToAccount().whereName().hasSubstring(getAccountNameSubstring());
+
+        if ( usesAccountTypeCode() )
+            c.joinToAccount().whereTypeCode().is(getAccountTypeCode());
     }
 
     @Override
     protected void applySortsTo(MyAccountUserCriteria c)
     {
+        //fixme_steve make some sorts
+
         if ( !usesSort() )
             return;
 

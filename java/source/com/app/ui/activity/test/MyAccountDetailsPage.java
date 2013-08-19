@@ -29,7 +29,6 @@ import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
 
-import com.app.dao.MyAccountDao;
 import com.app.dao.MyUserDao;
 import com.app.filter.MyAccountUserFilter;
 import com.app.model.MyAccount;
@@ -332,37 +331,24 @@ public class MyAccountDetailsPage
     {
         String userName = _searchUserNameField.getValue();
         String accountName = _searchAccountNameField.getValue();
+        String roleCode = _searchRoleDropdown.getStringValue();
+        String accountTypeCode = _searchTypeDropdown.getStringValue();
 
         MyAccountUserFilter f;
         f = new MyAccountUserFilter();
         f.sortAscending();
 
         if ( _searchUserNameField.hasValue() )
-        {
-            KmList<MyUser> users = getUserDao().findName(userName);
-
-            for ( MyUser u : users )
-                f.setUserUid(u.getUid());
-        }
+            f.setUserNameSubstring(userName);
 
         if ( _searchAccountNameField.hasValue() )
-        {
-            KmList<MyAccount> accounts = getAccountDao().findName(accountName);
-
-            for ( MyAccount a : accounts )
-                f.setAccountUid(a.getUid());
-        }
+            f.setAccountNameSubstring(accountName);
 
         if ( _searchRoleDropdown.hasValue() )
-            f.setRoleCode(_searchRoleDropdown.getStringValue());
+            f.setRoleCode(roleCode);
 
-        /**
-         * fixme_steve we need to either figure out how to add a filter
-         * that filteres by  account type or we need to remove the dropdowns
-         */
-        //        if ( _searchTypeDropdown.hasValue() )
-        //            f.setRoleCode(_searchRoleDropdown.getStringValue());
-        //        
+        if ( _searchTypeDropdown.hasValue() )
+            f.setAccountTypeCode(accountTypeCode);
 
         return f;
     }
@@ -932,10 +918,5 @@ public class MyAccountDetailsPage
     private MyUserDao getUserDao()
     {
         return getAccess().getUserDao();
-    }
-
-    private MyAccountDao getAccountDao()
-    {
-        return getAccess().getAccountDao();
     }
 }
