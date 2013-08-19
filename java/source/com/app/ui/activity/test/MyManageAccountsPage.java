@@ -578,7 +578,6 @@ public class MyManageAccountsPage
         accountUid = getPageSession().getAccountUidHolder().getValue();
 
         if ( accountUid == null )
-            // fixme_valerie: null pointer exception
             accountUid = getServerSession().getAccount().getUid();
 
         f.setAccountUid(accountUid);
@@ -588,7 +587,7 @@ public class MyManageAccountsPage
 
     //==================================================
     //= install : user frame
-    //==================================================//
+    //==================================================
 
     private void installUserFrameOn(ScContainer root)
     {

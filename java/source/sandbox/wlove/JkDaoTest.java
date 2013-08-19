@@ -200,7 +200,6 @@ public class JkDaoTest
     //# utility
     //##################################################
 
-    // review_valerie: start here
     private MyUser createUser(String name)
     {
         String email = name + "@acme.com";
