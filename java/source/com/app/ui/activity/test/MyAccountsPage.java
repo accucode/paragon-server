@@ -112,6 +112,7 @@ public class MyAccountsPage
 
     private ScDiv                 _viewAccountFooter;
     private ScDiv                 _viewUserFooter;
+    private ScBox                 _dialogBody;
 
     //##################################################
     //# install
@@ -148,10 +149,10 @@ public class MyAccountsPage
     private void installDeleteUserDialog(ScPageRoot root)
     {
         _deleteUserDialog = root.addDialog();
-        _deleteUserDialog.getHeaderBox().addPad().addText(
-            "Are you sure you want to \n remove this user?");
-        _deleteUserDialog.getBodyBox().hide();
+        _deleteUserDialog.getHeaderBox().addPad().addText("Remove User?");
         _deleteUserDialog.setBodyHeight(125);
+
+        _dialogBody = _deleteUserDialog.getBodyBox();
 
         ScBox footer;
         footer = _deleteUserDialog.getFooterBox().addPad();
@@ -1330,6 +1331,15 @@ public class MyAccountsPage
 
     private void handleShowDeleteAccountUserDialog()
     {
+        String userName = getPageSession().getUser().getName();
+        String accountName = getPageSession().getAccount().getName();
+
+        _dialogBody.addPad().addText(
+            "Are you sure you want to remove %s from %s?",
+            userName,
+            accountName);
+
+        _deleteUserDialog.ajax().replace();
         _deleteUserDialog.ajaxOpen();
     }
 

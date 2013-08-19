@@ -37,6 +37,7 @@ import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
+import com.kodemore.utility.Kmu;
 
 /**
  * I am used for controls that contain children.
@@ -426,6 +427,17 @@ public abstract class ScContainer
         e = addText();
         e.setValue(s);
         return e;
+    }
+
+    /**
+     * review_wyatt (valerie)
+     * added this convenience method for dialogs
+     */
+    public ScText addText(String msg, Object... args)
+    {
+        String s = Kmu.format(msg, args);
+
+        return addText(s);
     }
 
     public ScText addText(KmMetaProperty<?,?> attr)
