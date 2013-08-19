@@ -823,7 +823,7 @@ public class MyAccountDetailsPage
         String accountName = _addAccountNameField.getValue();
         String userEmail = _addUserEmailField.getValue();
         String password = _password1Field.getValue();
-        String roleCode = _addTypeDropdown.getStringValue();
+        String roleCode = _addRoleDropdown.getStringValue();
         boolean typePersonal = _addTypeDropdown.getStringValue().equals(
             MyAccountType.Personal.getCode());
         boolean typeBusiness = _addTypeDropdown.getStringValue().equals(
@@ -831,7 +831,8 @@ public class MyAccountDetailsPage
 
         if ( getUserDao().findEmail(userEmail) != null )
         {
-            error("A user with the email %s already exists", userEmail);
+            error("A user with the email %s already exists. To invite the user to"
+                + "an existing account, use the MyManageAccountsPage.", userEmail);
             return;
         }
 
@@ -849,6 +850,8 @@ public class MyAccountDetailsPage
             else
                 u.addPersonalAccount();
 
+        ajax().toast("%s was added.", u.getName());
+        _accountUserFrame.ajaxClear();
         _accountUserGrid.ajaxReload();
     }
 

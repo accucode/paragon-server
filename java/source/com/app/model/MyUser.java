@@ -216,5 +216,4 @@ public class MyUser
         au.setRoleCode(roleCode);
         return a;
     }
-
 }
