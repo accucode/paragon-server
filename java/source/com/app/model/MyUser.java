@@ -153,6 +153,17 @@ public class MyUser
         return _addAccount(a);
     }
 
+    public MyAccount addPersonalAccount(String name)
+    {
+        MyAccount a;
+        a = new MyAccount();
+        a.setName(name);
+        a.setTypePersonal();
+        a.saveDao();
+
+        return _addAccount(a);
+    }
+
     public MyAccount addPersonalAccount(String name, String roleCode)
     {
         MyAccount a;
@@ -205,5 +216,4 @@ public class MyUser
         au.setRoleCode(roleCode);
         return a;
     }
-
 }

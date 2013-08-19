@@ -587,7 +587,7 @@ public class MyManageAccountsPage
 
     //==================================================
     //= install : user frame
-    //==================================================//
+    //==================================================
 
     private void installUserFrameOn(ScContainer root)
     {
@@ -1011,10 +1011,6 @@ public class MyManageAccountsPage
     //# start
     //##################################################
 
-    /**
-     * review_valerie (wyatt) discuss start
-     * review_steve   (wyatt) discuss start
-     */
     @Override
     public void start()
     {
@@ -1108,10 +1104,10 @@ public class MyManageAccountsPage
         a = getPageSession().getAccount();
 
         if ( a != null )
+        {
             _editAccountName.setValue(a.getName());
-
-        if ( a != null )
             _editTypeDropdown.setValue(a.getType());
+        }
 
         _accountFrame.ajaxPrint(_editAccountChild);
     }
@@ -1199,9 +1195,13 @@ public class MyManageAccountsPage
         String typeCode = _addAccountType.getStringValue();
         MyAccountType type = MyAccountType.findCode(typeCode);
         MyUser user = getCurrentUser();
-
         MyAccount a;
-        a = getAccountDao().createNewAccount(name, type, user);
+
+        if ( type == MyAccountType.Personal )
+            a = user.addPersonalAccount(name);
+        else
+            a = user.addBusinessAccount(name);
+
         getPageSession().setAccount(a);
 
         setDropdownOptions();
@@ -1258,7 +1258,8 @@ public class MyManageAccountsPage
         MyAccountUser pageSessionAU;
         pageSessionAU = getPageSession().getAccountUser();
 
-        String roleCode = _editRoleDropdown.getStringValue();
+        String roleCode;
+        roleCode = _editRoleDropdown.getStringValue();
 
         MyAccountUser owner;
         owner = getAccountUserDao().findCurrentOwner(pageSessionAU.getAccount());

@@ -66,7 +66,7 @@ public class MyAccount
         fromAU.setRoleUser();
 
         MyAccountUser toAU;
-        toAU = findAccountUserUid(to.getUid());
+        toAU = getAccess().getAccountUserDao().findAccountUserFor(to, this);
         toAU.setRoleOwner();
     }
 
@@ -77,12 +77,14 @@ public class MyAccount
         fromAU.setRoleUser();
 
         MyAccountUser toAU;
-        toAU = findAccountUserUid(to.getUid());
+        toAU = getAccess().getAccountUserDao().findAccountUserFor(to, this);
         toAU.setRoleOwner();
     }
 
     private boolean isNotMember(MyUser to)
     {
-        return findAccountUserUid(to.getUid()) == null;
+        MyAccountUser toAU;
+        toAU = getAccess().getAccountUserDao().findAccountUserFor(to, this);
+        return toAU == null;
     }
 }
