@@ -20,6 +20,7 @@ import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.field.ScAutoCompleteCallbackIF;
 import com.kodemore.servlet.field.ScAutoCompleteField;
 import com.kodemore.servlet.field.ScDropdown;
@@ -103,6 +104,9 @@ public class MyAccountsPage
     private ScActionButton        _transferButton;
     private ScActionButton        _deleteButton;
     private ScActionButton        _editButton;
+    private ScActionButton        _closeButton;
+    private ScActionButton        _cancelButton;
+    private ScSubmitButton        _removeButton;
 
     private ScLocalString         _accountName;
 
@@ -112,6 +116,7 @@ public class MyAccountsPage
 
     private ScDiv                 _viewAccountFooter;
     private ScDiv                 _viewUserFooter;
+
     private ScBox                 _dialogBody;
 
     //##################################################
@@ -645,8 +650,12 @@ public class MyAccountsPage
         group.addDivider();
 
         _viewUserFooter = group.addButtonBoxRight();
-        _viewUserFooter.addCancelButton(cancelAction);
-        _viewUserFooter.addSubmitButton("Remove from Account");
+
+        _closeButton = _viewUserFooter.addButton("Close", cancelAction);
+        _cancelButton = _viewUserFooter.addCancelButton(cancelAction);
+        _removeButton = _viewUserFooter.addSubmitButton("Remove from Account");
+
+        _closeButton.hide();
 
         _viewUserChild = frameChild;
     }
@@ -1234,8 +1243,10 @@ public class MyAccountsPage
 
         if ( au.isRoleOwner() )
         {
+            _closeButton.show();
             _editButton.hide();
-            _viewUserFooter.hide();
+            _cancelButton.hide();
+            _removeButton.hide();
             _viewUserChild.ajax().replace();
         }
 
