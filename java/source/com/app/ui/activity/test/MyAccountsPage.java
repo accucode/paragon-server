@@ -110,9 +110,7 @@ public class MyAccountsPage
 
     private ScLocalString         _accountName;
 
-    private ScGroup               _inviteGroup;
     private ScGroup               _deleteGroup;
-    private ScGroup               _transferGroup;
 
     private ScDiv                 _viewAccountFooter;
     private ScDiv                 _viewUserFooter;
@@ -144,6 +142,11 @@ public class MyAccountsPage
         ScContainer right;
         right = row.addColumn();
         installAccountFrameOn(right);
+
+        /**
+         * review_aaron review_valerie remind me to get your help here
+         * to make the bottom of the user frame line up with the grid
+         */
         installUserFrameOn(right);
 
         installDeleteUserDialog(root);
@@ -361,10 +364,11 @@ public class MyAccountsPage
         form.setDefaultAction(sendAction);
         form.onEscape().run(cancelAction);
 
-        _inviteGroup = form.addGroup();
+        ScGroup group = form.addGroup();
+        group.setTitle("Invite User");
 
         ScBox body;
-        body = _inviteGroup.addBox();
+        body = group.addBox();
         body.css().pad();
 
         _addUserEmail = new ScTextField();
@@ -377,10 +381,10 @@ public class MyAccountsPage
         fields.add(_addUserEmail);
         fields.add(_addRoleDropdown);
 
-        _inviteGroup.addDivider();
+        group.addDivider();
 
         ScDiv footer;
-        footer = _inviteGroup.addButtonBoxRight();
+        footer = group.addButtonBoxRight();
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Send Request");
 
@@ -443,10 +447,11 @@ public class MyAccountsPage
         form.setDefaultAction(sendAction);
         form.onEscape().run(cancelAction);
 
-        _transferGroup = form.addGroup();
+        ScGroup group = form.addGroup();
+        group.setTitle("Transfer Ownership");
 
         ScBox body;
-        body = _transferGroup.addBox();
+        body = group.addBox();
         body.css().pad();
 
         _transferEmailAutoComplete = new ScAutoCompleteField();
@@ -458,10 +463,10 @@ public class MyAccountsPage
         fields = body.addFields();
         fields.add(_transferEmailAutoComplete);
 
-        _transferGroup.addDivider();
+        group.addDivider();
 
         ScDiv footer;
-        footer = _transferGroup.addButtonBoxRight();
+        footer = group.addButtonBoxRight();
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Send Request");
 
@@ -1126,8 +1131,6 @@ public class MyAccountsPage
 
     private void handleShowTransferBox()
     {
-        _transferGroup.setTitle("Transfer Ownership");
-
         _accountFrame.ajaxPrint(_transferChild);
         _transferChild.ajax().focus();
     }
@@ -1225,8 +1228,6 @@ public class MyAccountsPage
 
     private void handleShowInviteUserBox()
     {
-        _inviteGroup.setTitle("Invite User");
-
         _accountFrame.ajaxPrint(_inviteUserChild);
         _inviteUserChild.ajax().focus();
     }
