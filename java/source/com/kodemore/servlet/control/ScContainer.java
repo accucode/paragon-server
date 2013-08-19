@@ -774,6 +774,27 @@ public abstract class ScContainer
         return add(new ScDiv());
     }
 
+    public ScParagraph addParagraph()
+    {
+        return add(new ScParagraph());
+    }
+
+    public ScParagraph addParagraph(String text)
+    {
+        ScParagraph e;
+        e = addParagraph();
+        e.addText(text);
+        return e;
+    }
+
+    public ScSpan addClearfix()
+    {
+        ScSpan e;
+        e = addSpan();
+        e.css().clearfix();
+        return e;
+    }
+
     public ScDialog addDialog()
     {
         return add(new ScDialog());

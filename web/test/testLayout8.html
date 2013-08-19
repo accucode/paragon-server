@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="">
+
+    <div class="boxGray padSpaced">
+        <p>
+        	Test 
+       	</p>
+        <button onclick="location.reload();">reload</button>
+    </div>
+
+    <div class="boxPurple pad clearBoth">
+        <p>clear both</p>
+    </div>
+    
+    <div class="boxBlue floatLeft pad">
+        <p>1) float left</p>
+        <p>1) float left</p>
+        <p>1) float left</p>
+    </div>
+    
+    <div class="boxBlue pad floatRight">
+        <p>2) float right</p>
+        <p>2) float right</p>
+        <p>2) float right</p>
+    </div>
+
+    <div class="boxRed">
+    	<div class="boxGreen">
+	    	<p>test</p>
+	    	<p>test</p>
+	    	<p>test</p>
+	    	<p>test</p>
+	    	<p>test</p>
+	    	<p>test</p>
+	    	<p>test</p>
+	    	<p>test</p>
+	    	<p>test</p>
+	    	<p>test</p>
+	    	<p>test</p>
+	    	<p>test</p>
+    	</div>
+    </div>
+
+    <div class="boxPurple pad clearBoth">
+        <p>clear both</p>
+    </div>
+
+</div>
+</body>
+</html>

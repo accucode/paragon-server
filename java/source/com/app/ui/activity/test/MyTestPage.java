@@ -59,6 +59,7 @@ public class MyTestPage
         links.addLink(MyNotebookTestPage.instance);
         links.addLink(MyTabbedTestPage.instance);
         links.addLink(MyEqualizeTestPage.instance);
+        links.addLink(MyPaddingTestPage.instance);
 
         group = groups.addGroup("Fields");
         links = group.addLinkBox();

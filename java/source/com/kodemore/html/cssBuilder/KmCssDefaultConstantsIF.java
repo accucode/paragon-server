@@ -159,6 +159,7 @@ public interface KmCssDefaultConstantsIF
     String displayBlock = "displayBlock";
     String displayInline = "displayInline";
     String displayNone = "displayNone";
+    String filler = "filler";
     String floatLeft = "floatLeft";
     String floatLeftChildren = "floatLeftChildren";
     String floatNone = "floatNone";
@@ -239,10 +240,12 @@ public interface KmCssDefaultConstantsIF
     String pad5 = "pad5";
     String pad50 = "pad50";
     String padHorizontal = "padHorizontal";
+    String padInner = "padInner";
     String padLeft = "padLeft";
     String padLeft5 = "padLeft5";
     String padLeft5Children = "padLeft5Children";
     String padLeftChildren = "padLeftChildren";
+    String padOuter = "padOuter";
     String padRight = "padRight";
     String padRight5 = "padRight5";
     String padRight5Children = "padRight5Children";

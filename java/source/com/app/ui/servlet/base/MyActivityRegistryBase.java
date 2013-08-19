@@ -64,6 +64,7 @@ public abstract class MyActivityRegistryBase
         add(MyMemoryLeakTestPage.instance);
         add(MyNotebookTestPage.instance);
         add(MyOpenWindowTestPage.instance);
+        add(MyPaddingTestPage.instance);
         add(MyPerformanceLogPage.instance);
         add(MyPlaceholderTestPage.instance);
         add(MyPropertiesPage.instance);

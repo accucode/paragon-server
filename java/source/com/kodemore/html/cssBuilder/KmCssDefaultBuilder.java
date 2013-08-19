@@ -825,6 +825,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.displayNone);
     }
     
+    public KmCssDefaultBuilder filler()
+    {
+        return apply(KmCssDefaultConstantsIF.filler);
+    }
+    
     public KmCssDefaultBuilder floatLeft()
     {
         return apply(KmCssDefaultConstantsIF.floatLeft);
@@ -1225,6 +1230,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.padHorizontal);
     }
     
+    public KmCssDefaultBuilder padInner()
+    {
+        return apply(KmCssDefaultConstantsIF.padInner);
+    }
+    
     public KmCssDefaultBuilder padLeft()
     {
         return apply(KmCssDefaultConstantsIF.padLeft);
@@ -1243,6 +1253,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder padLeftChildren()
     {
         return apply(KmCssDefaultConstantsIF.padLeftChildren);
+    }
+    
+    public KmCssDefaultBuilder padOuter()
+    {
+        return apply(KmCssDefaultConstantsIF.padOuter);
     }
     
     public KmCssDefaultBuilder padRight()

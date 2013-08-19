@@ -36,8 +36,10 @@ public class MyGroupTestPage
         root.add(newGroup("bbb", "normal"));
 
         root.add(newLeftGroup("ccc", "floatLeft fixedWidth"));
-        root.add(newLeftGroup("ddd", "floatLeft fixedWidth"));
-        root.add(newGroup("eee", "eagle"));
+        root.add(newRightGroup("ddd", "floatRight fixedWidth"));
+
+        root.add(newGroup("eee", "normal followed by clearfix"));
+        root.addClearfix();
 
         root.add(newLeftGroup("fff", "floatLeft fixedWidth"));
         root.add(newRightGroup("ggg", "floatRight fixedWidth"));
