@@ -338,30 +338,16 @@ public class MyAccountDetailsPage
         f.sortAscending();
 
         if ( _searchUserNameField.hasValue() )
-        {
-            KmList<MyUser> users = getUserDao().findName(userName);
-
-            for ( MyUser u : users )
-                f.setUserUid(u.getUid());
-        }
+            f.setUserNameSubstring(userName);
 
         if ( _searchAccountNameField.hasValue() )
-        {
-            KmList<MyAccount> accounts = getAccountDao().findName(accountName);
-
-            for ( MyAccount a : accounts )
-                f.setAccountUid(a.getUid());
-        }
+            f.setAccountNameSubstring(accountName);
 
         if ( _searchRoleDropdown.hasValue() )
             f.setRoleCode(_searchRoleDropdown.getStringValue());
 
-        /**
-         * fixme_steve we need to either figure out how to add a filter
-         * that filteres by  account type or we need to remove the dropdowns
-         */
-        //        if ( _searchTypeDropdown.hasValue() )
-        //            f.setRoleCode(_searchRoleDropdown.getStringValue());
+        if ( _searchTypeDropdown.hasValue() )
+            f.setAccountTypeCode(_searchTypeDropdown.getStringValue());
 
         return f;
     }
