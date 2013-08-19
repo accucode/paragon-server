@@ -269,16 +269,16 @@ public class MyHandleJoinInvitationActivity
         if ( u == null )
         {
             _form.validate();
-            u = createUser(email, a);
+            u = createUser(email, a, roleCode);
         }
-
-        u.joinAccount(a, roleCode);
+        else
+            u.joinAccount(a, roleCode);
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
     }
 
-    private MyUser createUser(String email, MyAccount a)
+    private MyUser createUser(String email, MyAccount a, String roleCode)
     {
         _password1Field.ajax().clearValue();
         _password2Field.ajax().clearValue();
@@ -290,7 +290,7 @@ public class MyHandleJoinInvitationActivity
             _password1Field.error("Passwords did not match.");
 
         MyUser u;
-        u = getAccess().getUserDao().createNewUser(email, p1, a);
+        u = getAccess().getUserDao().createNewUser(email, p1, a, roleCode);
 
         return u;
     }

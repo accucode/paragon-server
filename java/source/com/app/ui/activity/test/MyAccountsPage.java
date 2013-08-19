@@ -1169,7 +1169,6 @@ public class MyAccountsPage
 
     private void handleEditAccountCancel()
     {
-        setDropdownOptions();
         refreshFlipViewAccount();
     }
 

@@ -131,6 +131,28 @@ public class MyUserDao
         return u;
     }
 
+    public MyUser createNewUser(String email, String password, MyAccount account, String roleCode)
+    {
+        KmEmailParser p;
+        p = new KmEmailParser();
+        p.setEmail(email);
+
+        String name;
+        name = p.getName();
+
+        MyUser u;
+        u = new MyUser();
+        u.setRoleUser();
+        u.setName(name);
+        u.setEmail(email);
+        u.addPersonalAccount();
+        u.setPassword(password);
+        u.joinAccount(account, roleCode);
+        u.setVerified(true);
+        u.saveDao();
+        return u;
+    }
+
     //##################################################
     //# convenience
     //##################################################
