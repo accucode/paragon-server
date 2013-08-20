@@ -61,18 +61,6 @@ public class MyAccountsPage
     }
 
     //##################################################
-    //# constants
-    //##################################################
-
-    /**
-     * review_wyatt (valerie) added these to frame bodies
-     */
-    private static final String   TRANSFER_TEXT = "Enter email address of user you with to transfer ownership to."
-                                                    + "  User must accept ownership.  There can be only one owner per account.";
-    private static final String   INVITE_TEXT   = "Enter email address of user you wish to invite to this account."
-                                                    + "  User must accept invitation to be added.";
-
-    //##################################################
     //# variables
     //##################################################
 
@@ -385,12 +373,15 @@ public class MyAccountsPage
 
         ScBox box;
         box = body.addBox();
-        box.addText(INVITE_TEXT);
+        box.addText(getInviteText());
         box.css().centerText();
 
         /**
-         * review_wyatt (valerie) 
+         * (valerie) 
          * Where can we add a new width constant to the css file?
+         * 
+         * review_valerie (wyatt)
+         *      You can add generic (non-theme specific) styles to "tools.css".
          */
         box.css().width200();
 
@@ -480,7 +471,7 @@ public class MyAccountsPage
 
         ScBox box;
         box = body.addBox();
-        box.addText(TRANSFER_TEXT);
+        box.addText(getTransferText());
         box.css().centerText();
         box.css().width200();
 
@@ -1169,7 +1160,11 @@ public class MyAccountsPage
     }
 
     /**
-     * review_wyatt (valerie) transferOwnership error check
+     * (valerie) transferOwnership error check
+     * 
+     * review_valerie (wyatt) discuss
+     *      This appears to be performing the transfer
+     *      rather than just performing an error check.
      */
     private void handleSendTransferRequest()
     {
@@ -1559,5 +1554,23 @@ public class MyAccountsPage
     private void setIsEditing(boolean isEditing)
     {
         _isEditing.setValue(isEditing);
+    }
+
+    //##################################################
+    //# messages
+    //##################################################
+
+    private String getTransferText()
+    {
+        return ""
+            + "Enter email address of user you with to transfer ownership to. "
+            + "User must accept ownership.  There can be only one owner per account.";
+    }
+
+    private String getInviteText()
+    {
+        return ""
+            + "Enter email address of user you wish to invite to this account. "
+            + "User must accept invitation to be added.";
     }
 }

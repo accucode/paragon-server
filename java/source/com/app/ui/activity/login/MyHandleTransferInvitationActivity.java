@@ -270,9 +270,6 @@ public class MyHandleTransferInvitationActivity
 
         MyAccount a;
         a = inv.getAccount();
-        /**
-         * review_wyatt (valerie) set new owner
-         */
         a.setOwnerTo(user);
 
         _form.ajax().hide();

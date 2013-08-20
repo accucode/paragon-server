@@ -4,12 +4,10 @@ import com.kodemore.collection.KmList;
 import com.kodemore.utility.KmEmailParser;
 
 import com.app.criteria.MyUserCriteria;
-import com.app.dao.base.MyDaoRegistry;
 import com.app.dao.base.MyUserDaoBase;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
 import com.app.model.MyUser;
-import com.app.utility.MyGlobals;
 
 /**
  * (valerie)
@@ -18,7 +16,9 @@ import com.app.utility.MyGlobals;
  * 
  * (wyatt) discuss
  * 
- * review_wyatt (valerie) Eh?
+ * (valerie) Eh?
+ * 
+ * review_valerie (wyatt) discuss
  */
 
 public class MyUserDao
@@ -156,11 +156,6 @@ public class MyUserDao
     //##################################################
     //# convenience
     //##################################################
-
-    protected MyDaoRegistry getAccess()
-    {
-        return MyGlobals.getAccess();
-    }
 
     public MyUser findRoot()
     {
