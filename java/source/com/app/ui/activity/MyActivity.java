@@ -147,7 +147,7 @@ public abstract class MyActivity
 
     //##################################################
     //# account user
-    //##################################################//
+    //##################################################
 
     public MyAccountUser getCurrentAccountUser()
     {
@@ -155,9 +155,7 @@ public abstract class MyActivity
         MyUser u = getCurrentUser();
         MyAccount a = getCurrentAccount();
 
-        MyAccountUser accountUser = getAccess().getAccountUserDao().findAccountUserFor(u, a);
-
-        return accountUser;
+        return a.getAccountUserFor(u);
     }
 
     public String getCurrentAccountUserUid()

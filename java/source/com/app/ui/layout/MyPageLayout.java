@@ -1,5 +1,6 @@
 package com.app.ui.layout;
 
+import com.kodemore.collection.KmCollection;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonObject;
@@ -135,8 +136,8 @@ public class MyPageLayout
         KmList<ScOption> list;
         list = new KmList<ScOption>();
 
-        KmList<MyAccountUser> accountUsers;
-        accountUsers = getAccess().getAccountUserDao().findAccountUsersFor(u);
+        KmCollection<MyAccountUser> accountUsers;
+        accountUsers = u.getAccountUsers();
 
         for ( MyAccountUser e : accountUsers )
         {

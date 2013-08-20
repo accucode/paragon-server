@@ -270,7 +270,7 @@ public class MyHandleTransferInvitationActivity
 
         MyAccount a;
         a = inv.getAccount();
-        a.setOwnerTo(user);
+        a.transferOwnerTo(user);
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
