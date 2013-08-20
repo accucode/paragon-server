@@ -1375,14 +1375,20 @@ public class MyAccountsPage
 
     private void handleSendJoinRequest()
     {
+        //review_steve VALIDATE EMAIL FIELD
+
         MyAccount account = getPageSession().getAccount();
         String email = _addUserEmail.getValue();
         String roleCode = _addRoleDropdown.getStringValue();
 
         boolean isValid = KmEmailParser.validate(email);
 
+        //review_wyatt (steve) error message is not displaying.
         if ( !isValid )
+        {
+            System.out.println("========!isValid");
             _addUserEmail.error("Invalid");
+        }
 
         MyJoinAccountUtility utility;
         utility = new MyJoinAccountUtility();
@@ -1561,13 +1567,13 @@ public class MyAccountsPage
         }
 
         //fixme_steve remove this when we have garunteed that the accounts list will never be empty.
-        if ( list.isEmpty() )
-        {
-            _accountDropdown.ajaxAddOption("None", null);
-            getServerSession().setAccount(null);
-            MyPageLayout.getInstance().refreshDropdown();
-            return;
-        }
+        //        if ( list.isEmpty() )
+        //        {
+        //            _accountDropdown.ajaxAddOption("None", null);
+        //            getServerSession().setAccount(null);
+        //            MyPageLayout.getInstance().refreshDropdown();
+        //            return;
+        //        }
 
         _accountDropdown.ajax().replace();
     }
