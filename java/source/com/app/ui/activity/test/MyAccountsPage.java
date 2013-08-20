@@ -744,6 +744,7 @@ public class MyAccountsPage
         _deleteUserDialog.setBodyHeight(125);
 
         _dialogBody = _deleteUserDialog.getBodyBox();
+        _dialogBody.addPad().addText("Are you sure you want to remove this user from the account?");
 
         ScBox footer;
         footer = _deleteUserDialog.getFooterBox().addPad();
@@ -1420,13 +1421,17 @@ public class MyAccountsPage
 
     private void handleShowDeleteAccountUserDialog()
     {
-        String userName = getPageSession().getUser().getName();
-        String accountName = getPageSession().getAccount().getName();
+        //        String userName = getPageSession().getUser().getName();
+        //        String accountName = getPageSession().getAccount().getName();
 
-        _dialogBody.addPad().addText(
-            "Are you sure you want to remove %s from %s?",
-            userName,
-            accountName);
+        /**
+         * review_wyatt (valerie) This method is not working as intended,
+         * what am I missing?
+         */
+        //        _dialogBody.addPad().addText(
+        //            "Are you sure you want to remove %s from %s?",
+        //            userName,
+        //            accountName);
 
         _deleteUserDialog.ajax().replace();
         _deleteUserDialog.ajaxOpen();
