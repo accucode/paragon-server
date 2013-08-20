@@ -28,7 +28,7 @@ import com.kodemore.servlet.utility.ScEasing;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
-public abstract class ScAbstractVisibilityScript
+public abstract class ScVisibilityScript
     extends ScAbstractScript
 {
     //##################################################
@@ -70,7 +70,7 @@ public abstract class ScAbstractVisibilityScript
     //# constructor
     //##################################################
 
-    public ScAbstractVisibilityScript(ScRootScript root)
+    public ScVisibilityScript(ScRootScript root)
     {
         _root = root;
 
@@ -239,35 +239,35 @@ public abstract class ScAbstractVisibilityScript
     //# chaining
     //##################################################
 
-    protected ScAbstractVisibilityScript fade()
+    protected ScVisibilityScript fade()
     {
         setEffect(ScEffect.fade);
         return this;
     }
 
-    protected ScAbstractVisibilityScript fade(int ms)
+    protected ScVisibilityScript fade(int ms)
     {
         return fade().speed(ms);
     }
 
-    protected ScAbstractVisibilityScript slide()
+    protected ScVisibilityScript slide()
     {
         setEffect(ScEffect.slide);
         return this;
     }
 
-    protected ScAbstractVisibilityScript slide(int ms)
+    protected ScVisibilityScript slide(int ms)
     {
         return slide().speed(ms);
     }
 
-    protected ScAbstractVisibilityScript speed(int ms)
+    protected ScVisibilityScript speed(int ms)
     {
         setSpeedMs(ms);
         return this;
     }
 
-    public ScAbstractVisibilityScript defer()
+    public ScVisibilityScript defer()
     {
         getRoot().deferUntil(getSelector());
         return this;

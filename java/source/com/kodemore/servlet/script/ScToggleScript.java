@@ -26,7 +26,7 @@ import com.kodemore.json.KmJsonObject;
 import com.kodemore.utility.Kmu;
 
 public class ScToggleScript
-    extends ScAbstractVisibilityScript
+    extends ScVisibilityScript
 {
     //##################################################
     //# constructor
