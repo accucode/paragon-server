@@ -1580,6 +1580,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.width20p);
     }
     
+    public KmCssDefaultBuilder width250()
+    {
+        return apply(KmCssDefaultConstantsIF.width250);
+    }
+    
     public KmCssDefaultBuilder width25p()
     {
         return apply(KmCssDefaultConstantsIF.width25p);
