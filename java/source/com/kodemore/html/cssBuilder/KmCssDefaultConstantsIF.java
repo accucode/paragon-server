@@ -310,6 +310,7 @@ public interface KmCssDefaultConstantsIF
     String width100p = "width100p";
     String width200 = "width200";
     String width20p = "width20p";
+    String width250 = "width250";
     String width25p = "width25p";
     String width300 = "width300";
     String width30p = "width30p";

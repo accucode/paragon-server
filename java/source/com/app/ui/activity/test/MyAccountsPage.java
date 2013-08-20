@@ -357,10 +357,10 @@ public class MyAccountsPage
          * (valerie) 
          * Where can we add a new width constant to the css file?
          * 
-         * review_valerie (wyatt)
+         * review_valerie review_steve (wyatt)
          *      You can add generic (non-theme specific) styles to "tools.css".
          */
-        box.css().width200();
+        box.css().width250();
 
         _addUserEmail = new ScTextField();
         _addUserEmail.setLabel("Email ");
@@ -450,7 +450,7 @@ public class MyAccountsPage
         box = body.addBox();
         box.addText(getTransferText());
         box.css().centerText();
-        box.css().width200();
+        box.css().width250();
 
         _transferEmailAutoComplete = new ScAutoCompleteField();
         _transferEmailAutoComplete.setLabel("Email ");
