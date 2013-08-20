@@ -110,6 +110,7 @@ public class MyAccountsPage
     private ScFrame               _userFrame;
 
     private ScDialog              _deleteUserDialog;
+    private ScDialog              _editingDialog;
 
     private ScGrid<MyAccountUser> _userGrid;
 
@@ -162,33 +163,9 @@ public class MyAccountsPage
         installUserFrameOn(right);
 
         installDeleteUserDialog(root);
+        installEditingDialog(root);
 
         return root;
-    }
-
-    private void installDeleteUserDialog(ScPageRoot root)
-    {
-        _deleteUserDialog = root.addDialog();
-        _deleteUserDialog.getHeaderBox().addPad().addText("Remove User?");
-        _deleteUserDialog.setBodyHeight(125);
-
-        _dialogBody = _deleteUserDialog.getBodyBox();
-
-        ScBox footer;
-        footer = _deleteUserDialog.getFooterBox().addPad();
-
-        ScBox buttonBox;
-        buttonBox = footer.addButtonBoxRight();
-
-        ScActionButton cancelButton;
-        cancelButton = buttonBox.addButton("Cancel", newCloseAction());
-        cancelButton.setImage(MyButtonUrls.cancel());
-        cancelButton.setFlavorNegative();
-
-        ScActionButton deleteButton;
-        deleteButton = buttonBox.addButton("Delete", newDeleteUserAction());
-        deleteButton.setImage(MyButtonUrls.primary());
-        deleteButton.setFlavorPositive();
     }
 
     private void installAccountsDropdownOn(ScContainer root)
@@ -765,6 +742,64 @@ public class MyAccountsPage
         _editRoleDropdown.setLabel("Role ");
     }
 
+    //==================================================
+    //= install : delete user dialog
+    //==================================================
+
+    private void installDeleteUserDialog(ScPageRoot root)
+    {
+        _deleteUserDialog = root.addDialog();
+        _deleteUserDialog.getHeaderBox().addPad().addText("Remove User?");
+        _deleteUserDialog.setBodyHeight(125);
+
+        _dialogBody = _deleteUserDialog.getBodyBox();
+
+        ScBox footer;
+        footer = _deleteUserDialog.getFooterBox().addPad();
+
+        ScBox buttonBox;
+        buttonBox = footer.addButtonBoxRight();
+
+        ScActionButton cancelButton;
+        cancelButton = buttonBox.addButton("Cancel", newCloseAction());
+        cancelButton.setImage(MyButtonUrls.cancel());
+        cancelButton.setFlavorNegative();
+
+        ScActionButton deleteButton;
+        deleteButton = buttonBox.addButton("Delete", newDeleteUserAction());
+        deleteButton.setImage(MyButtonUrls.primary());
+        deleteButton.setFlavorPositive();
+    }
+
+    //==================================================
+    //= install : editing dialog
+    //==================================================
+
+    private void installEditingDialog(ScPageRoot root)
+    {
+        _editingDialog = root.addDialog();
+        _editingDialog.getHeaderBox().addPad().addText("Lose changes?");
+        _editingDialog.setBodyHeight(125);
+
+        _dialogBody = _editingDialog.getBodyBox();
+        // fixme_valerie: left off here
+        ScBox footer;
+        footer = _editingDialog.getFooterBox().addPad();
+
+        ScBox buttonBox;
+        buttonBox = footer.addButtonBoxRight();
+
+        ScActionButton cancelButton;
+        cancelButton = buttonBox.addButton("Cancel", newCloseAction());
+        cancelButton.setImage(MyButtonUrls.cancel());
+        cancelButton.setFlavorNegative();
+
+        ScActionButton deleteButton;
+        deleteButton = buttonBox.addButton("Delete", newDeleteUserAction());
+        deleteButton.setImage(MyButtonUrls.primary());
+        deleteButton.setFlavorPositive();
+    }
+
     //##################################################
     //# action
     //##################################################
@@ -1106,6 +1141,11 @@ public class MyAccountsPage
         ajax().toast("Deleted account %s", a.getName());
 
         setDropdownOptions();
+
+        MyAccount da;
+        da = getDropdownAccount();
+        getPageSession().setAccount(da);
+
         refreshFlipViewAccount();
         _userGrid.ajaxReload();
     }
@@ -1136,7 +1176,9 @@ public class MyAccountsPage
 
     private void handleUpdateValues()
     {
-        _userFrame.ajaxClear();
+        if ( isEditing() )
+            // fixme_valerie: 
+            _userFrame.ajaxClear();
         refreshAll(false);
     }
 
@@ -1549,8 +1591,11 @@ public class MyAccountsPage
         return owner.getUser().isSame(u);
     }
 
-    // fixme_valerie: start here
-    @SuppressWarnings("unused")
+    private boolean isEditing()
+    {
+        return getIsEditing() == true;
+    }
+
     private boolean getIsEditing()
     {
         return _isEditing.getValue();
