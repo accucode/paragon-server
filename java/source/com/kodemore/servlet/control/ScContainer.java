@@ -429,10 +429,6 @@ public abstract class ScContainer
         return e;
     }
 
-    /**
-     * review_wyatt (valerie)
-     * added this convenience method for dialogs
-     */
     public ScText addText(String msg, Object... args)
     {
         String s = Kmu.format(msg, args);

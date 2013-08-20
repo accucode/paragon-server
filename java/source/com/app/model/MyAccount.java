@@ -47,7 +47,9 @@ public class MyAccount
     //##################################################
 
     /**
-     * review_wyatt (valerie) to replace transferOwnership in MyAccountUserDao
+     * (valerie) to replace transferOwnership in MyAccountUserDao
+     * 
+     * review_valerie (wyatt) discuss
      */
     public void transferOwnership(MyUser from, MyUser to)
     {
@@ -70,6 +72,9 @@ public class MyAccount
         toAU.setRoleOwner();
     }
 
+    /**
+     * review_valerie (wyatt) discuss
+     */
     public void setOwnerTo(MyUser to)
     {
         MyAccountUser fromAU;
