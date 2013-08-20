@@ -27,7 +27,7 @@ import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.utility.Kmu;
 
 public class ScShowScript
-    extends ScAbstractVisibilityScript
+    extends ScVisibilityScript
 {
     //##################################################
     //# constructor
