@@ -51,7 +51,7 @@ public class MyAccount
      * 
      * review_valerie (wyatt) discuss
      */
-    public void transferOwnership(MyUser from, MyUser to)
+    public void transferOwnershipValidate(MyUser from, MyUser to)
     {
         MyAccountUser fromAU;
         fromAU = getAccess().getAccountUserDao().findCurrentOwner(this);
@@ -64,12 +64,6 @@ public class MyAccount
 
         if ( from.equals(to) )
             error("You are already the account owner.");
-
-        fromAU.setRoleUser();
-
-        MyAccountUser toAU;
-        toAU = getAccess().getAccountUserDao().findAccountUserFor(to, this);
-        toAU.setRoleOwner();
     }
 
     /**

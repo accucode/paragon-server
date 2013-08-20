@@ -27,6 +27,7 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.variable.ScLocalBoolean;
+import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
 
 import com.app.dao.MyAccountDao;
@@ -117,6 +118,7 @@ public class MyAccountsPage
     private ScBox                 _dialogBody;
 
     private ScLocalBoolean        _isEditing;
+    private ScLocalString         _accountUid;
 
     //##################################################
     //# install
@@ -127,6 +129,9 @@ public class MyAccountsPage
     {
         _isEditing = new ScLocalBoolean();
         _isEditing.setAutoSave();
+
+        _accountUid = new ScLocalString();
+        _accountUid.setAutoSave();
 
         ScPageRoot root;
         root = newPageRoot();
@@ -773,8 +778,10 @@ public class MyAccountsPage
         _editingDialog.getHeaderBox().addPad().addText("Lose changes?");
         _editingDialog.setBodyHeight(125);
 
-        _dialogBody = _editingDialog.getBodyBox();
-        // fixme_valerie: left off here
+        ScBox box = _editingDialog.getBodyBox();
+        box.addPad().addText(
+            "You seem to be editing an account or user.  If you change"
+                + " accounts now, you will lose your changes.");
         ScBox footer;
         footer = _editingDialog.getFooterBox().addPad();
 
@@ -782,12 +789,12 @@ public class MyAccountsPage
         buttonBox = footer.addButtonBoxRight();
 
         ScActionButton cancelButton;
-        cancelButton = buttonBox.addButton("Cancel", newCloseAction());
+        cancelButton = buttonBox.addButton("Cancel", newCloseEditingDialogAction());
         cancelButton.setImage(MyButtonUrls.cancel());
         cancelButton.setFlavorNegative();
 
         ScActionButton deleteButton;
-        deleteButton = buttonBox.addButton("Delete", newDeleteUserAction());
+        deleteButton = buttonBox.addButton("Go Ahead", newChangeAccountAction());
         deleteButton.setImage(MyButtonUrls.primary());
         deleteButton.setFlavorPositive();
     }
@@ -852,6 +859,30 @@ public class MyAccountsPage
             public void handle()
             {
                 handleClose();
+            }
+        };
+    }
+
+    private ScActionIF newCloseEditingDialogAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleCloseEditingDialog();
+            }
+        };
+    }
+
+    private ScActionIF newChangeAccountAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleChangeAccount();
             }
         };
     }
@@ -1103,6 +1134,8 @@ public class MyAccountsPage
 
     private void handleShowDeleteAccountBox()
     {
+        setIsEditing();
+
         _deleteGroup.setTitle("Delete Account");
 
         MyAccount a;
@@ -1166,23 +1199,47 @@ public class MyAccountsPage
         _deleteUserDialog.ajaxClose();
     }
 
+    private void handleCloseEditingDialog()
+    {
+        _accountDropdown.setValue(getPageSession().getAccount().getUid());
+        _accountDropdown.ajaxUpdateValue();
+        _editingDialog.ajaxClose();
+    }
+
+    private void handleChangeAccount()
+    {
+        _accountDropdown.setValue(getAccountUid());
+        _accountDropdown.ajaxUpdateValue();
+
+        _userFrame.ajaxClear();
+        refreshAll(false);
+        _editingDialog.ajaxClose();
+    }
+
     private void handleUpdateValues()
     {
+        setAccountUid(getDropdownAccount().getUid());
+
         if ( isEditing() )
-            // fixme_valerie: 
-            _userFrame.ajaxClear();
+        {
+            _editingDialog.ajaxOpen();
+            return;
+        }
+
+        _userFrame.ajaxClear();
         refreshAll(false);
     }
 
     private void handleShowAddAccountBox()
     {
+        setIsEditing();
         _accountFrame.ajaxPrint(_addAccountChild);
         _addAccountChild.ajax().focus();
     }
 
     private void handleShowEditAccountBox()
     {
-        setIsEditing(true);
+        setIsEditing();
 
         MyAccount a;
         a = getPageSession().getAccount();
@@ -1198,6 +1255,7 @@ public class MyAccountsPage
 
     private void handleShowTransferBox()
     {
+        setIsEditing();
         _accountFrame.ajaxPrint(_transferChild);
         _transferChild.ajax().focus();
     }
@@ -1222,7 +1280,7 @@ public class MyAccountsPage
             _transferEmailAutoComplete.error("Invalid");
 
         MyUser to = getAccess().getUserDao().findEmail(email);
-        account.transferOwnership(getCurrentUser(), to);
+        account.transferOwnershipValidate(getCurrentUser(), to);
 
         MyTransferAccountUtility utility;
         utility = new MyTransferAccountUtility();
@@ -1299,6 +1357,7 @@ public class MyAccountsPage
 
     private void handleShowInviteUserBox()
     {
+        setIsEditing();
         _accountFrame.ajaxPrint(_inviteUserChild);
         _inviteUserChild.ajax().focus();
     }
@@ -1370,6 +1429,7 @@ public class MyAccountsPage
 
     private void handleEditUserCancel()
     {
+        setDoneEditing();
         handleViewUser();
     }
 
@@ -1398,6 +1458,8 @@ public class MyAccountsPage
 
     private void handleShowEditUserBox()
     {
+        setIsEditing();
+
         MyAccountUser au;
         au = getPageSession().getAccountUser();
 
@@ -1450,7 +1512,7 @@ public class MyAccountsPage
 
     private void refreshViewAccount()
     {
-        setIsEditing(false);
+        setDoneEditing();
 
         MyAccount a;
         a = getPageSession().getAccount();
@@ -1498,6 +1560,7 @@ public class MyAccountsPage
     {
         MyAccount da;
         da = getDropdownAccount();
+
         getPageSession().setAccount(da);
 
         if ( isStart )
@@ -1591,6 +1654,20 @@ public class MyAccountsPage
         return owner.getUser().isSame(u);
     }
 
+    private String getAccountUid()
+    {
+        return _accountUid.getValue();
+    }
+
+    private void setAccountUid(String accountUid)
+    {
+        _accountUid.setValue(accountUid);
+    }
+
+    //==================================================
+    //= convenience :: editing
+    //==================================================
+
     private boolean isEditing()
     {
         return getIsEditing() == true;
@@ -1599,6 +1676,16 @@ public class MyAccountsPage
     private boolean getIsEditing()
     {
         return _isEditing.getValue();
+    }
+
+    private void setIsEditing()
+    {
+        setIsEditing(true);
+    }
+
+    private void setDoneEditing()
+    {
+        setIsEditing(false);
     }
 
     private void setIsEditing(boolean isEditing)
@@ -1610,6 +1697,7 @@ public class MyAccountsPage
     //# messages
     //##################################################
 
+    //    review_steve(valerie) Wyatt moved these down here.
     private String getTransferText()
     {
         return ""
