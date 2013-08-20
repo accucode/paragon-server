@@ -1465,7 +1465,7 @@ public class MyAccountsPage
         MyUser user;
         user = getAccess().getUserDao().findEmail(email);
 
-        MyAccountUser accountUser = getAccountUserDao().findAccountUserFor(user, account);
+        MyAccountUser accountUser = account.getAccountUserFor(user);
 
         return accountUser != null;
 
