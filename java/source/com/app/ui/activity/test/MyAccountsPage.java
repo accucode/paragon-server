@@ -1,6 +1,7 @@
 package com.app.ui.activity.test;
 
 import com.kodemore.adaptor.KmAdaptorIF;
+import com.kodemore.collection.KmCollection;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
@@ -149,10 +150,6 @@ public class MyAccountsPage
         right = row.addColumn();
         installAccountFrameOn(right);
 
-        /**
-         * review_aaron review_valerie remind me to get your help here
-         * to make the bottom of the user frame line up with the grid
-         */
         installUserFrameOn(right);
 
         installDeleteUserDialog(root);
@@ -1156,7 +1153,7 @@ public class MyAccountsPage
         a = getPageSession().getAccount();
 
         MyAccountUser au;
-        au = getAccountUserDao().findAccountUserFor(getCurrentUser(), a);
+        au = a.getAccountUserFor(getCurrentUser());
 
         a.deleteDao();
         au.deleteDao();
@@ -1260,13 +1257,6 @@ public class MyAccountsPage
         _transferChild.ajax().focus();
     }
 
-    /**
-     * (valerie) transferOwnership error check
-     * 
-     * review_valerie (wyatt) discuss
-     *      This appears to be performing the transfer
-     *      rather than just performing an error check.
-     */
     private void handleSendTransferRequest()
     {
         MyAccount account;
@@ -1279,8 +1269,11 @@ public class MyAccountsPage
         if ( !isValid )
             _transferEmailAutoComplete.error("Invalid");
 
+        MyUser from = getCurrentUser();
         MyUser to = getAccess().getUserDao().findEmail(email);
-        account.transferOwnershipValidate(getCurrentUser(), to);
+
+        if ( !account.validateTransferOwnership(from, to) )
+            error("You cannot transfer ownership of this account.");
 
         MyTransferAccountUtility utility;
         utility = new MyTransferAccountUtility();
@@ -1402,8 +1395,8 @@ public class MyAccountsPage
         String roleCode;
         roleCode = _editRoleDropdown.getStringValue();
 
-        MyAccountUser owner;
-        owner = getAccountUserDao().findCurrentOwner(pageSessionAU.getAccount());
+        MyUser owner;
+        owner = pageSessionAU.getAccount().getOwner();
 
         boolean hasOwner = owner != null;
         boolean settingOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
@@ -1544,9 +1537,6 @@ public class MyAccountsPage
         MyAccount a;
         a = getPageSession().getAccount();
 
-        MyAccountUser owner;
-        owner = getAccountUserDao().findCurrentOwner(a);
-
         MyUser u;
         u = MyGlobals.getServerSession().getUser();
 
@@ -1560,8 +1550,8 @@ public class MyAccountsPage
         _viewAccountType.setValue(a.getType().getName());
 
         boolean isPersonalAccount = a.getName().equalsIgnoreCase("Personal");
-        boolean hasOwner = owner != null;
-        boolean isOwner = isOwner(owner, u);
+        boolean hasOwner = a.getOwner() != null;
+        boolean isOwner = isOwner(a.getOwner(), u);
 
         if ( isPersonalAccount )
             _deleteButton.hide();
@@ -1616,8 +1606,8 @@ public class MyAccountsPage
         KmList<ScOption> v;
         v = new KmList<ScOption>();
 
-        KmList<MyAccountUser> accountUsers;
-        accountUsers = getAccountUserDao().findAccountUsersFor(u);
+        KmCollection<MyAccountUser> accountUsers;
+        accountUsers = u.getAccountUsers();
 
         for ( MyAccountUser au : accountUsers )
         {
@@ -1676,9 +1666,9 @@ public class MyAccountsPage
         return getAccess().getAccountUserDao();
     }
 
-    private boolean isOwner(MyAccountUser owner, MyUser u)
+    private boolean isOwner(MyUser owner, MyUser u)
     {
-        return owner.getUser().isSame(u);
+        return owner.isSame(u);
     }
 
     private String getAccountUid()

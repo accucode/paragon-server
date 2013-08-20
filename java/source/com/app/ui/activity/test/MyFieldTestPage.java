@@ -209,6 +209,27 @@ public class MyFieldTestPage
         fields.addTextField().setLabel("Home");
         fields.addTextField().setLabel("Work");
         fields.addTextField().setLabel("Cell");
+
+        box = body.addFieldset("Read Only");
+        box.css().floatLeft().pad();
+
+        fields = box.addFields();
+
+        // fixme_valerie: 
+        ScTextField lgtGrayTextField;
+        lgtGrayTextField = new ScTextField();
+        lgtGrayTextField.setLabel("Light Gray");
+        lgtGrayTextField.setReadOnly();
+        lgtGrayTextField.css().backgroundGray();
+
+        ScTextField drkGrayTextField;
+        drkGrayTextField = new ScTextField();
+        drkGrayTextField.setLabel("Background");
+        drkGrayTextField.setReadOnly();
+        drkGrayTextField.css().backgroundGray();
+
+        fields.add(lgtGrayTextField);
+        fields.add(drkGrayTextField);
     }
 
     //##################################################

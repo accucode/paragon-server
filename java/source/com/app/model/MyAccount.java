@@ -46,44 +46,52 @@ public class MyAccount
     //# transfer ownership
     //##################################################
 
-    /**
-     * (valerie) to replace transferOwnership in MyAccountUserDao
-     * 
-     * review_valerie (wyatt) discuss
-     */
-    public void transferOwnershipValidate(MyUser from, MyUser to)
+    public boolean validateTransferOwnership(MyUser from, MyUser to)
     {
-        MyAccountUser fromAU;
-        fromAU = getAccess().getAccountUserDao().findCurrentOwner(this);
-
-        if ( from != fromAU.getUser() )
-            error("Sorry, you do not have permission to transfer ownership of this account.");
+        if ( from != getOwner() )
+            return false;
 
         if ( isNotMember(to) )
-            error("%s is not yet a member of %s.", to.getName(), getName());
+            return false;
 
         if ( from.equals(to) )
-            error("You are already the account owner.");
+            return false;
+
+        return true;
     }
 
-    /**
-     * review_valerie (wyatt) discuss
-     */
-    public void setOwnerTo(MyUser to)
+    public MyUser getOwner()
     {
-        MyAccountUser fromAU;
-        fromAU = getAccess().getAccountUserDao().findCurrentOwner(this);
-        fromAU.setRoleUser();
+        KmCollection<MyAccountUser> v = getAccountUsers();
+        for ( MyAccountUser e : v )
+            if ( e.isRoleOwner() )
+                return e.getUser();
 
-        MyAccountUser toAU;
-        toAU = getAccess().getAccountUserDao().findAccountUserFor(to, this);
-        toAU.setRoleOwner();
+        return null;
     }
 
-    private boolean isNotMember(MyUser to)
+    public void transferOwnerTo(MyUser to)
     {
-        MyAccountUser toAU;
-        toAU = getAccess().getAccountUserDao().findAccountUserFor(to, this);
-        return toAU == null;
+        MyUser from = getOwner();
+
+        validateTransferOwnership(from, to);
+
+        getAccountUserFor(from).setRoleUser();
+        getAccountUserFor(to).setRoleOwner();
+    }
+
+    public MyAccountUser getAccountUserFor(MyUser user)
+    {
+        KmCollection<MyAccountUser> v = getAccountUsers();
+        for ( MyAccountUser e : v )
+            if ( e.hasUser(user) )
+                return e;
+
+        return null;
+    }
+
+    private boolean isNotMember(MyUser user)
+    {
+        return getAccountUserFor(user) == null;
     }
 }
