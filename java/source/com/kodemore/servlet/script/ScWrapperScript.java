@@ -25,17 +25,12 @@ package com.kodemore.servlet.script;
 import com.kodemore.collection.KmList;
 
 /**
- * I manage a list of scripts, roughly representing the
- * contents of a "block".  That is, the code _between_
- * matching braces {...}.
+ * I provide the basis for extending someone else's block script.
+ * Although I extend from BlockScript, I delegate all options to
+ * my "inner" script rather than implementing the operations directly.
  * 
- * NOTE: In many cases, clients will simply use my helper
- * methods such as toast(...).  However, when clients 
- * directly compose their own script, then those clients
- * are responsible for manually including any appropriate
- * whitespace or terminators.  The basic add/run methods
- * do NOT automatically add any spaces, linefeeds, or
- * semicolons.
+ * This allows my subclasses to enhance, or extend, the functionality
+ * of another block script without affecting the class hierarchy.
  */
 public class ScWrapperScript
     extends ScBlockScript
@@ -44,7 +39,10 @@ public class ScWrapperScript
     //# variables
     //##################################################
 
-    // todo_wyatt: comments
+    /**
+     * My inner script, to which all operations are delegated.
+     * This is required and must be provided on the constructor.
+     */
     private ScBlockScript _inner;
 
     //##################################################

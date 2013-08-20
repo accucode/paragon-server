@@ -44,7 +44,10 @@ public class ScSimpleBlockScript
     //# variables
     //##################################################
 
-    // todo_wyatt: comment
+    /**
+     * I provide access to the root script, which is needed to implement
+     * deferred actions.  
+     */
     private ScRootScript       _root;
 
     /**
