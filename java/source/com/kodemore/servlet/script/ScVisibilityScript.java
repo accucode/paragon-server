@@ -28,6 +28,11 @@ import com.kodemore.servlet.utility.ScEasing;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
+/**
+ * I implement common functional to show, hide, or toggle
+ * the visibility of elements.  I can operate on any valid
+ * jquery selector, and provide various transition effects.
+ */
 public abstract class ScVisibilityScript
     extends ScAbstractScript
 {
@@ -35,7 +40,10 @@ public abstract class ScVisibilityScript
     //# variables
     //##################################################
 
-    // todo_wyatt: comment
+    /**
+     * A reference to the root script.   This is primarily used to implement
+     * convenient access to the defer() method.
+     */
     private ScRootScript _root;
 
     /**

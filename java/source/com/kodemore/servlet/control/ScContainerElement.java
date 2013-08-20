@@ -208,7 +208,6 @@ public abstract class ScContainerElement
 
     public void setOnClickHash(String hash)
     {
-        // todo_wyatt: root?
         ScRootScript script;
         script = new ScRootScript();
         script.gotoHash(hash);

@@ -89,7 +89,6 @@ public class ScRootScript
 
     public ScRootScript()
     {
-        // todo_wyatt: review
         super(null);
 
         _stack = new KmStack<ScBlockScript>();
