@@ -253,8 +253,6 @@ public class MyAccountUserFilter
     @Override
     protected void applySortsTo(MyAccountUserCriteria c)
     {
-        //fixme_steve make some sorts
-
         if ( !usesSort() )
             return;
 
