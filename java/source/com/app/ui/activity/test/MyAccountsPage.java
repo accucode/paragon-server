@@ -1450,11 +1450,32 @@ public class MyAccountsPage
             _addUserEmail.error("Invalid");
         }
 
-        MyJoinAccountUtility utility;
-        utility = new MyJoinAccountUtility();
-        utility.start(account, email, roleCode);
+        if ( !checkAccountUserExists(email, account) )
+        {
+            MyJoinAccountUtility utility;
+            utility = new MyJoinAccountUtility();
+            utility.start(account, email, roleCode);
 
-        showSentMessage(email);
+            showSentMessage(email);
+        }
+        else
+            //fixme_steve maybe place an error message instead?            
+            ajax().toast(
+                "the email address "
+                    + email
+                    + " is already associated with this account"
+                    + account.getName());
+    }
+
+    private boolean checkAccountUserExists(String email, MyAccount account)
+    {
+        MyUser user;
+        user = getAccess().getUserDao().findEmail(email);
+
+        MyAccountUser accountUser = getAccountUserDao().findAccountUserFor(user, account);
+
+        return accountUser != null;
+
     }
 
     private void handleInviteUserCancel()
