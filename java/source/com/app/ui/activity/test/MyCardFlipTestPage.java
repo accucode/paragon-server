@@ -62,11 +62,11 @@ public class MyCardFlipTestPage
         _fadeFrame.setHideFade();
         _fadeFrame.setShowFade();
 
-        _flipFront = _flipFrame.createChild();
-        _flipBack = _flipFrame.createChild();
+        _flipFront = _flipFrame.addChild();
+        _flipBack = _flipFrame.addChild();
 
-        _fadeFront = _fadeFrame.createChild();
-        _fadeBack = _fadeFrame.createChild();
+        _fadeFront = _fadeFrame.addChild();
+        _fadeBack = _fadeFrame.addChild();
 
         _flipFrame.setDefaultChild(_flipFront);
         _fadeFrame.setDefaultChild(_fadeFront);

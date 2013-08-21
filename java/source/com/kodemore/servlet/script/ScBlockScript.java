@@ -416,25 +416,23 @@ public abstract class ScBlockScript
     //# focus
     //##################################################
 
-    public void focus()
+    /**
+     * Focus on the first enabled field found on the page.
+     */
+    public void focusPage()
     {
-        _focus(null);
+        run("Kmu.focus();");
     }
 
     public void focus(ScHtmlIdIF e)
     {
-        _focus(e.formatJquerySelector());
+        focus(e.formatJquerySelector());
     }
 
     public void focus(String sel)
     {
-        _focus(sel);
-    }
-
-    private void _focus(String sel)
-    {
-        if ( sel == null )
-            run("Kmu.focus();");
+        if ( Kmu.isEmpty(sel) )
+            focusPage();
         else
             run("Kmu.focus(%s);", json(sel));
     }

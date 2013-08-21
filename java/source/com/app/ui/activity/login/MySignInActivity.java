@@ -234,7 +234,7 @@ public class MySignInActivity
         _emailField.setValue(email);
 
         ajax().printMain(_root);
-        ajax().focus();
+        ajax().focusPage();
     }
 
     private boolean startAuto()
@@ -281,7 +281,7 @@ public class MySignInActivity
         MyServletUtility.ajaxClearAutoSignIn();
 
         ajax().hideAllErrors();
-        ajax().focus();
+        ajax().focusPage();
 
         _form.validate();
 

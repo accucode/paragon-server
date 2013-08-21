@@ -50,7 +50,7 @@ public class MyUserFrame
         MyMetaUser x = MyUser.Meta;
 
         ScFrameChild child;
-        child = createChild();
+        child = addChild();
 
         ScGroup group;
         group = child.addGroup("View");
@@ -103,7 +103,7 @@ public class MyUserFrame
         roleField.css().widthFull();
 
         ScFrameChild child;
-        child = createChild();
+        child = addChild();
 
         ScForm form;
         form = child.addForm();
@@ -145,7 +145,7 @@ public class MyUserFrame
         ScActionIF cancelAction = newAddCancelAction();
 
         ScFrameChild child;
-        child = createChild();
+        child = addChild();
 
         ScForm form;
         form = child.addForm();

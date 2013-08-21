@@ -202,7 +202,7 @@ public class MyAccountsPage
     private void installViewAccountFrame()
     {
         ScFrameChild frameChild;
-        frameChild = _accountFrame.createChild();
+        frameChild = _accountFrame.addChild();
 
         ScForm form;
         form = frameChild.addForm();
@@ -254,7 +254,7 @@ public class MyAccountsPage
         ScActionIF cancelAction = newEditAccountCancelAction();
 
         ScFrameChild child;
-        child = _accountFrame.createChild();
+        child = _accountFrame.addChild();
 
         ScForm form;
         form = child.addForm();
@@ -295,7 +295,7 @@ public class MyAccountsPage
         ScActionIF cancelAction = newAddAccountCancelAction();
 
         ScFrameChild frameChild;
-        frameChild = _accountFrame.createChild();
+        frameChild = _accountFrame.addChild();
 
         ScForm form;
         form = frameChild.addForm();
@@ -336,7 +336,7 @@ public class MyAccountsPage
         ScActionIF cancelAction = newInviteUserCancelAction();
 
         ScFrameChild frameChild;
-        frameChild = _accountFrame.createChild();
+        frameChild = _accountFrame.addChild();
 
         ScForm form;
         form = frameChild.addForm();
@@ -391,7 +391,7 @@ public class MyAccountsPage
         ScActionIF cancelAction = newDeleteAccountCancelAction();
 
         ScFrameChild frameChild;
-        frameChild = _accountFrame.createChild();
+        frameChild = _accountFrame.addChild();
 
         ScForm form;
         form = frameChild.addForm();
@@ -434,7 +434,7 @@ public class MyAccountsPage
         ScActionIF cancelAction = newCancelTransferRequestAction();
 
         ScFrameChild frameChild;
-        frameChild = _accountFrame.createChild();
+        frameChild = _accountFrame.addChild();
 
         ScForm form;
         form = frameChild.addForm();
@@ -621,7 +621,7 @@ public class MyAccountsPage
         ScActionIF cancelAction = newViewUserCancelAction();
 
         ScFrameChild frameChild;
-        frameChild = _userFrame.createChild();
+        frameChild = _userFrame.addChild();
 
         ScForm form;
         form = frameChild.addForm();
@@ -679,7 +679,7 @@ public class MyAccountsPage
         ScActionIF cancelAction = newEditUserCancelAction();
 
         ScFrameChild frameChild;
-        frameChild = _userFrame.createChild();
+        frameChild = _userFrame.addChild();
 
         ScForm form;
         form = frameChild.addForm();
@@ -1436,12 +1436,19 @@ public class MyAccountsPage
 
         boolean isValid = KmEmailParser.validate(email);
 
-        //review_wyatt (steve) error message is not displaying.
+        //(steve) error message is not displaying.
+
+        /**
+         * review_steve (wyatt)
+         *      Use multiline comments for review tags.
+         *      Fix spacing on comments.
+         *      
+         *      There was a problem with message propagation through Frame/FrameChildren.
+         *      The problem should be fixed.
+         */
+
         if ( !isValid )
-        {
-            System.out.println("========!isValid");
             _addUserEmail.error("Invalid");
-        }
 
         if ( !checkAccountUserExists(email, account) )
         {
@@ -1505,8 +1512,13 @@ public class MyAccountsPage
         //        String accountName = getPageSession().getAccount().getName();
 
         /**
-         * review_wyatt (valerie) This method is not working as intended,
+         * (valerie) This method is not working as intended,
          * what am I missing?
+         * 
+         * review_valerie (wyatt)
+         *      I don't know.
+         *      What did you intend?
+         *      What did you experience?
          */
         //        _dialogBody.addPad().addText(
         //            "Are you sure you want to remove %s from %s?",
@@ -1555,7 +1567,7 @@ public class MyAccountsPage
             _deleteButton.hide();
 
         /**
-         * review_steve (wyatt) discuss name
+         * review_steve (wyatt) discuss
          */
 
         if ( hasOwner && isOwner )

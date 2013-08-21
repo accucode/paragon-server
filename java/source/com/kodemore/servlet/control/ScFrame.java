@@ -22,6 +22,10 @@
 
 package com.kodemore.servlet.control;
 
+import java.util.Iterator;
+
+import com.kodemore.collection.KmCompositeIterator;
+import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.script.ScEffect;
@@ -41,17 +45,24 @@ public class ScFrame
     //##################################################
 
     /**
+     * The children to be displayed in this frame.  Only 
+     * one child is displayed at a time.  We need to explicitly
+     * store this list so that we can implement getComponents().
+     */
+    private KmList<ScFrameChild> _children;
+
+    /**
      * If set, then render this child when rendering this frame.
      */
-    private ScFrameChild _defaultChild;
+    private ScFrameChild         _defaultChild;
 
-    private ScEffect     _showEffect;
-    private ScEasing     _showEasing;
-    private Integer      _showSpeed;
+    private ScEffect             _showEffect;
+    private ScEasing             _showEasing;
+    private Integer              _showSpeed;
 
-    private ScEffect     _hideEffect;
-    private ScEasing     _hideEasing;
-    private Integer      _hideSpeed;
+    private ScEffect             _hideEffect;
+    private ScEasing             _hideEasing;
+    private Integer              _hideSpeed;
 
     //##################################################
     //# init
@@ -61,6 +72,8 @@ public class ScFrame
     protected void install()
     {
         super.install();
+
+        _children = new KmList<ScFrameChild>();
 
         _showEffect = ScConstantsIF.DEFAULT_EFFECT;
         _showEasing = ScConstantsIF.DEFAULT_EASING;
@@ -72,8 +85,28 @@ public class ScFrame
     }
 
     //##################################################
-    //# child
+    //# children
     //##################################################
+
+    /**
+     * The list of children associated with this frame;
+     * clients should NOT manipulate this list directly.
+     */
+    public KmList<ScFrameChild> getChildren()
+    {
+        return _children;
+    }
+
+    public ScFrameChild addChild()
+    {
+        ScFrameChild e;
+        e = new ScFrameChild();
+        e.setParent(this);
+
+        _children.add(e);
+
+        return e;
+    }
 
     public ScFrameChild getDefaultChild()
     {
@@ -88,14 +121,6 @@ public class ScFrame
     public boolean hasDefaultChild()
     {
         return _defaultChild != null;
-    }
-
-    public ScFrameChild createChild()
-    {
-        ScFrameChild e;
-        e = new ScFrameChild();
-        e.setParent(this);
-        return e;
     }
 
     //##################################################
@@ -252,6 +277,22 @@ public class ScFrame
             getDefaultChild().renderOn(out);
 
         out.endDiv();
+    }
+
+    //##################################################
+    //# components
+    //##################################################
+
+    @Override
+    public Iterator<ScControl> getComponents()
+    {
+        KmCompositeIterator<ScControl> i;
+        i = new KmCompositeIterator<ScControl>();
+
+        i.addAll(super.getComponents());
+        i.addAll(getChildren());
+
+        return i;
     }
 
     //##################################################
