@@ -519,7 +519,6 @@ public class MyPageLayout
         return MyGlobals.getAccess();
     }
 
-    //  review_steve(valerie) broken
     public void refreshDropdown()
     {
         setDropdownOptions();

@@ -1434,24 +1434,11 @@ public class MyAccountsPage
 
     private void handleSendJoinRequest()
     {
-        //review_steve VALIDATE EMAIL FIELD
-
         MyAccount account = getPageSession().getAccount();
         String email = _inviteUserEmail.getValue();
         String roleCode = _inviteRoleDropdown.getStringValue();
 
         boolean isValid = KmEmailParser.validate(email);
-
-        //(steve) error message is not displaying.
-
-        /**
-         * review_steve (wyatt)
-         *      Use multiline comments for review tags.
-         *      Fix spacing on comments.
-         *      
-         *      There was a problem with message propagation through Frame/FrameChildren.
-         *      The problem should be fixed.
-         */
 
         if ( !isValid )
             _inviteUserEmail.error("Invalid");
@@ -1656,15 +1643,6 @@ public class MyAccountsPage
             _accountDropdown.ajaxUpdateValue();
         }
 
-        //fixme_steve remove this when we have garunteed that the accounts list will never be empty.
-        //        if ( list.isEmpty() )
-        //        {
-        //            _accountDropdown.ajaxAddOption("None", null);
-        //            getServerSession().setAccount(null);
-        //            MyPageLayout.getInstance().refreshDropdown();
-        //            return;
-        //        }
-
         _accountDropdown.ajax().replace();
     }
 
@@ -1730,7 +1708,6 @@ public class MyAccountsPage
     //# messages
     //##################################################
 
-    //    review_steve(valerie) Wyatt moved these down here.
     private String getTransferText()
     {
         return ""

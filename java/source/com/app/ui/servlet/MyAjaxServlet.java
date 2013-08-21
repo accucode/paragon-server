@@ -11,6 +11,7 @@ import com.kodemore.utility.Kmu;
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
+import com.app.model.MyServerSession;
 import com.app.ui.activity.login.MyHandleJoinInvitationActivity;
 import com.app.ui.activity.login.MyHandleNewUserInvitationActivity;
 import com.app.ui.activity.login.MyHandlePasswordResetActivity;
@@ -145,7 +146,25 @@ public class MyAjaxServlet
 
     private void handleNavigate()
     {
+        if ( !hasCurrentUser() )
+        {
+            MySignInActivity.instance.start();
+            return;
+        }
+
         MyLeftMenu.getInstance().gotoWindowLocation();
+    }
+
+    /**
+     * review_wyatt 
+     */
+    private boolean hasCurrentUser()
+    {
+        MyServerSession ss = MyGlobals.getServerSession();
+        if ( ss == null )
+            return false;
+
+        return ss.isFresh() && ss.hasUser();
     }
 
     //##################################################
