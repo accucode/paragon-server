@@ -183,11 +183,10 @@ public class ScHtmlIdAjax
     //        run("$('%s .%s').hide();", target, error);
     //    }
 
-    // todo_wyatt: review super.focus
-    //    public void focus()
-    //    {
-    //        getInner().focus(getTarget());
-    //    }
+    public void focus()
+    {
+        getInner().focus(getTarget());
+    }
 
     //##################################################
     //# value
