@@ -18,6 +18,7 @@ import com.kodemore.utility.Kmu;
 
 import com.app.model.MyAccount;
 import com.app.model.MyInvitation;
+import com.app.model.MyPasswordReset;
 import com.app.model.MyUser;
 import com.app.ui.activity.MyActivity;
 import com.app.utility.MyUrls;
@@ -55,6 +56,7 @@ public class MyHandleJoinInvitationActivity
     private ScBox           _messageBox;
     private ScBox           _chooseLabel;
     private ScBox           _reEnterLabel;
+    private ScBox           _joinedMessageBox;
 
     private ScErrorBox      _password1ErrorBox;
     private ScErrorBox      _password2ErrorBox;
@@ -88,6 +90,7 @@ public class MyHandleJoinInvitationActivity
 
         installForm(body);
         installMessageBox(body);
+        installJoinedMessageBox(body);
 
         _root = group;
     }
@@ -174,6 +177,15 @@ public class MyHandleJoinInvitationActivity
         link.css().link();
     }
 
+    private void installJoinedMessageBox(ScContainer root)
+    {
+        ScBox box = root.addBox();
+        box.hide();
+        box.css().pad10();
+        _joinedMessageBox = box;
+
+    }
+
     //##################################################
     //# actions
     //##################################################
@@ -222,10 +234,17 @@ public class MyHandleJoinInvitationActivity
         MyAccount a;
         a = inv.getAccount();
 
+        /**
+         * review_wyatt (valerie) start invitation activity fix
+         */
         if ( a.getAccountUserFor(u) != null )
         {
-            //  review_steve (valerie) this is still throwing an unhandled exception?
-            error("The email %s is already registered with the account %s.", email, a.getName());
+            buildJoinedMessageBox(email, u, a);
+
+            _form.hide();
+            _joinedMessageBox.show();
+            ajax().printMain(_root);
+            ajax().focus();
             return;
         }
 
@@ -246,6 +265,32 @@ public class MyHandleJoinInvitationActivity
 
         ajax().printMain(_root);
         ajax().focus();
+    }
+
+    private void buildJoinedMessageBox(String email, MyUser u, MyAccount a)
+    {
+        MyPasswordReset r;
+        r = new MyPasswordReset();
+        r.setUser(u);
+        r.saveDao();
+
+        ScStyledText text;
+        text = _joinedMessageBox.addStyledText();
+        text.style().bold().italic().size(16);
+        text.setValue("A request was made to join the email "
+            + email
+            + " to the account "
+            + a.getName()
+            + "."
+            + "  However, this email is already joined to the account. "
+            + "If you are having difficulty accessing your account, you may use "
+            + "the link below to reset your password.");
+
+        _joinedMessageBox.addBreaks(2);
+
+        ScUrlLink link;
+        link = _joinedMessageBox.addUrlLink("Reset My Password", MyUrls.getPasswordResetUrl(r));
+        link.css().link();
     }
 
     //##################################################

@@ -14,6 +14,7 @@ import com.kodemore.servlet.variable.ScLocalString;
 
 import com.app.model.MyAccount;
 import com.app.model.MyInvitation;
+import com.app.model.MyPasswordReset;
 import com.app.model.MyUser;
 import com.app.ui.activity.MyActivity;
 import com.app.utility.MyUrls;
@@ -46,6 +47,7 @@ public class MyHandleTransferInvitationActivity
     private ScForm        _form;
 
     private ScBox         _messageBox;
+    private ScBox         _ownerMessageBox;
 
     //##################################################
     //# install
@@ -77,6 +79,7 @@ public class MyHandleTransferInvitationActivity
 
         installForm(body);
         installMessageBox(body);
+        installOwnerMessageBox(body);
 
         _root = group;
     }
@@ -138,6 +141,15 @@ public class MyHandleTransferInvitationActivity
         link.css().link();
     }
 
+    private void installOwnerMessageBox(ScContainer root)
+    {
+        ScBox box;
+        box = root.addBox();
+        box.hide();
+        box.css().pad10();
+        _ownerMessageBox = box;
+    }
+
     //##################################################
     //# actions
     //##################################################
@@ -187,8 +199,21 @@ public class MyHandleTransferInvitationActivity
         MyAccount a;
         a = inv.getAccount();
 
+        /**
+         * review_wyatt (valerie) start invitation activity fix
+         */
+        if ( a.getOwner() == u )
+        {
+            buildOwnedMessageBox(email, u, a);
+            _form.hide();
+            _ownerMessageBox.show();
+            ajax().printMain(_root);
+            ajax().focus();
+            return;
+        }
+
         if ( u == null )
-            error("You cannot transfer ownership of this account.");
+            error("You cannot take ownership of this account.");
         else
             getPageSession().setUser(u);
 
@@ -197,6 +222,32 @@ public class MyHandleTransferInvitationActivity
 
         ajax().printMain(_root);
         ajax().focus();
+    }
+
+    private void buildOwnedMessageBox(String email, MyUser u, MyAccount a)
+    {
+        MyPasswordReset r;
+        r = new MyPasswordReset();
+        r.setUser(u);
+        r.saveDao();
+
+        ScStyledText text;
+        text = _ownerMessageBox.addStyledText();
+        text.style().bold().italic().size(16);
+        text.setValue("A request was made for "
+            + email
+            + " to take ownership of the account "
+            + a.getName()
+            + "."
+            + "  However, this email already owns the account. "
+            + "If you are having difficulty accessing your account, you may use "
+            + "the link below to reset your password.");
+
+        _ownerMessageBox.addBreaks(2);
+
+        ScUrlLink link;
+        link = _ownerMessageBox.addUrlLink("Reset My Password", MyUrls.getPasswordResetUrl(r));
+        link.css().link();
     }
 
     //##################################################
