@@ -1,10 +1,18 @@
 package com.app.ui.servlet;
 
+import com.kodemore.collection.KmMap;
+import com.kodemore.command.KmDaoCommand;
+import com.kodemore.exception.KmApplicationException;
+import com.kodemore.exception.KmRoleViolationException;
+import com.kodemore.log.KmLog;
+import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.utility.Kmu;
+
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
-import com.app.ui.activity.login.MyHandleNewUserInvitationActivity;
 import com.app.ui.activity.login.MyHandleJoinInvitationActivity;
+import com.app.ui.activity.login.MyHandleNewUserInvitationActivity;
 import com.app.ui.activity.login.MyHandlePasswordResetActivity;
 import com.app.ui.activity.login.MyHandleTransferInvitationActivity;
 import com.app.ui.activity.login.MySignInActivity;
@@ -13,14 +21,6 @@ import com.app.ui.layout.MyLeftMenu;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyUrls;
-
-import com.kodemore.collection.KmMap;
-import com.kodemore.command.KmDaoCommand;
-import com.kodemore.exception.KmApplicationException;
-import com.kodemore.exception.KmRoleViolationException;
-import com.kodemore.log.KmLog;
-import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.utility.Kmu;
 
 public class MyAjaxServlet
     extends MyServlet
@@ -222,6 +222,14 @@ public class MyAjaxServlet
 
         MyInvitation inv;
         inv = getAccess().getInvitationDao().findAccessKey(value);
+
+        /**
+         * review_wyatt (valerie) put the invalid invitation check here. Would you rather
+         * me return false or create a new activity that shows an invalid invitation message
+         * box to take them to?
+         */
+        if ( inv == null )
+            return false;
 
         MyInvitationType type;
         type = inv.getType();
