@@ -52,8 +52,6 @@ import com.kodemore.utility.Kmu;
 import com.kodemore.validator.KmRequiredValidator;
 import com.kodemore.validator.KmValidator;
 
-// todo_wyatt: fix chosen styling in page header
-
 public class ScDropdown
     extends ScField<Object>
     implements ScElementIF
@@ -91,6 +89,16 @@ public class ScDropdown
 
     private ScActionIF           _action;
 
+    /**
+     * Enabling this option will cause the field to be rendered
+     * using the "Chosen" jquery utility.  This provides a much
+     * more elegant dropdown.  However, the Chosen utility currently
+     * does NOT play nicely with the DOM if either the dropdown is
+     * ever hidden.  For this reason we are currently not enabling
+     * it by default. 
+     * 
+     * http://harvesthq.github.io/chosen/
+     */
     private ScLocalBoolean       _usesChosen;
 
     //##################################################
