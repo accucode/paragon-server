@@ -160,11 +160,11 @@ public class MyEqualizeTestPage
 
     private void handleEqualize()
     {
-        _groups.ajax().equalizeDecendentGroups();
+        _groups.ajax().equalizeGroups();
     }
 
     private void handleEqualizeButtons()
     {
-        _root.ajax().equalizeDecendentClass("button");
+        _root.ajax().equalizeClasses("button");
     }
 }

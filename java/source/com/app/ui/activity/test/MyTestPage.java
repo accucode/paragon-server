@@ -36,7 +36,6 @@ public class MyTestPage
         root = newPageRoot();
         root.css().gap();
 
-        // todo_wyatt: eq groups
         // root.getPostDomScript().equalizeGroups();
 
         _box = root.addBox();
@@ -96,18 +95,5 @@ public class MyTestPage
         links.addLink(MyQuickTestPage.instance);
 
         return root;
-    }
-
-    //##################################################
-    //# start
-    //##################################################
-
-    @Override
-    protected void postPrint()
-    {
-        super.postPrint();
-
-        // todo_wyatt: move to postDomScript?
-        getRoot().ajax().equalizeDecendentGroups();
     }
 }
