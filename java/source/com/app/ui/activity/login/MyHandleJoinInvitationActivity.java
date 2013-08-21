@@ -13,6 +13,7 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyAccount;
@@ -227,6 +228,8 @@ public class MyHandleJoinInvitationActivity
             _password1ErrorBox.show();
             _password2ErrorBox.show();
         }
+        else
+            getPageSession().setUser(u);
 
         MyAccount a;
         a = inv.getAccount();
@@ -258,7 +261,7 @@ public class MyHandleJoinInvitationActivity
         email = inv.getEmail();
 
         MyUser u;
-        u = getAccess().getUserDao().findEmail(email);
+        u = getPageSession().getUser();
 
         MyAccount a;
         a = inv.getAccount();
@@ -289,8 +292,17 @@ public class MyHandleJoinInvitationActivity
         if ( Kmu.isNotEqual(p1, p2) )
             _password1Field.error("Passwords did not match.");
 
+        KmEmailParser p;
+        p = new KmEmailParser();
+        p.setEmail(email);
+
+        String name;
+        name = p.getName();
+
         MyUser u;
-        u = getAccess().getUserDao().createNewUser(email, p1, a, roleCode);
+        u = getAccess().getUserDao().createUser(name, email);
+        u.setPassword(p1);
+        u.joinAccount(a, roleCode);
 
         return u;
     }

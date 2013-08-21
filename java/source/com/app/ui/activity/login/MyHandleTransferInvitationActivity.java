@@ -4,14 +4,12 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
-import com.kodemore.servlet.control.ScErrorBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScStyledText;
 import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
-import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
 
 import com.app.model.MyAccount;
@@ -38,26 +36,16 @@ public class MyHandleTransferInvitationActivity
     //# variables
     //##################################################
 
-    private ScLocalString   _accessKey;
+    private ScLocalString _accessKey;
 
-    private ScContainer     _root;
+    private ScContainer   _root;
 
-    private ScText          _emailText;
-    private ScText          _accountText;
+    private ScText        _emailText;
+    private ScText        _accountText;
 
-    private ScForm          _form;
+    private ScForm        _form;
 
-    private ScPasswordField _password1Field;
-    private ScPasswordField _password2Field;
-
-    private ScBox           _messageBox;
-    private ScBox           _chooseLabel;
-    private ScBox           _reEnterLabel;
-
-    private ScErrorBox      _password1ErrorBox;
-    private ScErrorBox      _password2ErrorBox;
-
-    private boolean         _newUser;
+    private ScBox         _messageBox;
 
     //##################################################
     //# install
@@ -79,8 +67,6 @@ public class MyHandleTransferInvitationActivity
         _accessKey = new ScLocalString();
         _accessKey.setAutoSave();
 
-        _newUser = false;
-
         ScGroup group;
         group = new ScGroup();
 
@@ -97,15 +83,6 @@ public class MyHandleTransferInvitationActivity
 
     private void installForm(ScContainer root)
     {
-        _password1Field = new ScPasswordField();
-        _password1Field.style().width(270);
-        _password1Field.setRequired();
-        _password1Field.hide();
-
-        _password2Field = new ScPasswordField();
-        _password2Field.style().width(270);
-        _password2Field.hide();
-
         ScForm form;
         form = root.addForm();
         form.setDefaultAction(newAcceptAction());
@@ -128,22 +105,6 @@ public class MyHandleTransferInvitationActivity
         accountBox.css().fieldValue();
 
         _accountText = accountBox.addText();
-
-        _chooseLabel = form.addLabel("Choose a Password");
-        _chooseLabel.css().padTop();
-        _chooseLabel.hide();
-
-        _password1ErrorBox = form.addErrorBox();
-        _password1ErrorBox.add(_password1Field);
-        _password1ErrorBox.hide();
-
-        _reEnterLabel = form.addLabel("Re-enter Password");
-        _reEnterLabel.css().padTop();
-        _reEnterLabel.hide();
-
-        _password2ErrorBox = form.addErrorBox();
-        _password2ErrorBox.add(_password2Field);
-        _password2ErrorBox.hide();
 
         ScBox buttons;
         buttons = form.addButtonBoxRight();
@@ -220,22 +181,16 @@ public class MyHandleTransferInvitationActivity
         String email;
         email = inv.getEmail();
 
-        MyUser u = getAccess().getUserDao().findEmail(email);
-
-        if ( u == null )
-        {
-            _newUser = true;
-
-            _password1Field.show();
-            _password2Field.show();
-            _chooseLabel.show();
-            _reEnterLabel.show();
-            _password1ErrorBox.show();
-            _password2ErrorBox.show();
-        }
+        MyUser u;
+        u = getAccess().getUserDao().findEmail(email);
 
         MyAccount a;
         a = inv.getAccount();
+
+        if ( u == null )
+            error("You cannot transfer ownership of this account.");
+        else
+            getPageSession().setUser(u);
 
         _emailText.setValue(inv.getEmail());
         _accountText.setValue(a.getName());
@@ -253,9 +208,6 @@ public class MyHandleTransferInvitationActivity
         ajax().hideAllErrors();
         ajax().focus();
 
-        if ( _newUser )
-            _form.validate();
-
         String key = getAccessKey();
 
         MyInvitation inv;
@@ -263,14 +215,9 @@ public class MyHandleTransferInvitationActivity
         inv.setStatusAccepted();
         inv.setClosedUtcTs(getNowUtc());
 
-        String email;
-        email = inv.getEmail();
-
-        MyUser user = getAccess().getUserDao().findEmail(email);
-
         MyAccount a;
         a = inv.getAccount();
-        a.transferOwnerTo(user);
+        a.transferOwnerTo(getPageSession().getUser());
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
