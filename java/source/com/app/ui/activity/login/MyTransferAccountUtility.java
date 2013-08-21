@@ -72,8 +72,10 @@ public class MyTransferAccountUtility
     }
 
     /**
-     * review_wyatt (valerie) we have put in errors that should ensure that this
+     * (valerie) we have put in errors that should ensure that this
      * message never gets sent.  Should I pull it or leave it in for an edge case?
+     * 
+     * review_valerie (wyatt) discuss
      */
     private KmHtmlBuilder formatNewUserMsg(String email, MyAccount account, MyInvitation i)
     {
@@ -94,7 +96,8 @@ public class MyTransferAccountUtility
         msg.printf("Welcome to %s! ", app);
         msg.printf("You have been asked to acquire the account %s. ", accountName);
         msg.printfln();
-        msg.printf("To take ownership of this account and to activate your new user account "
+        msg.printf(""
+            + "To take ownership of this account and to activate your new user account "
             + "click the following link.");
         msg.printfln();
         msg.printfln();
