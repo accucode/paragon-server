@@ -62,7 +62,6 @@ public class MyUserDao
      * Create a new user.  
      * Automatically creates the user's personal account.
      */
-
     public MyUser createUser(String name, String email)
     {
         MyUser u;

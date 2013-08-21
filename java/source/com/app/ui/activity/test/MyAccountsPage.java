@@ -1459,10 +1459,11 @@ public class MyAccountsPage
             showSentMessage(email);
         }
         else
-            error("the email address "
+            error("The email address "
                 + email
                 + " is already associated with the account "
-                + account.getName());
+                + account.getName()
+                + ".");
     }
 
     private boolean checkAccountUserExists(String email, MyAccount account)
