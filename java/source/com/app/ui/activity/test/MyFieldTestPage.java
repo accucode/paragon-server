@@ -66,7 +66,7 @@ public class MyFieldTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         installFieldGroup(root);
         installFieldsets(root);

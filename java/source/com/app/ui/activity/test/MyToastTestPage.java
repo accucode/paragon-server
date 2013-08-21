@@ -34,7 +34,7 @@ public class MyToastTestPage
 
         ScForm form;
         form = root.addForm();
-        form.css().padSpaced();
+        form.css().gap();
 
         ScGroupArray groups;
         groups = form.addGroupArray(150, 200);

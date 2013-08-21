@@ -40,7 +40,7 @@ public class MyFilterTableRowTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         installBuildingSearchBox(root);
 

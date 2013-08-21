@@ -38,7 +38,7 @@ public class MyAnimationTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         ScGroupArray groups;
         groups = root.addGroupArray();
@@ -49,7 +49,7 @@ public class MyAnimationTestPage
 
         group = groups.addGroup("Group");
         right = group.getHeader().addFloatRight();
-        right.css().padSpaced5();
+        right.css().gap();
         right.addButton("Async", newAsyncToggleAction());
         right.addButton("Sync", newSyncToggleAction());
         _group = addBoxesTo(group);

@@ -31,7 +31,7 @@ public class MyPaddingTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padOuter();
+        root.css().gapOuter();
 
         ScDiv box;
         box = addBlueBox(root, "one");

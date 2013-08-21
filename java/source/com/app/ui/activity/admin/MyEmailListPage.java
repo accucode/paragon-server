@@ -54,7 +54,7 @@ public class MyEmailListPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         addFilter(root);
         addGrid(root);

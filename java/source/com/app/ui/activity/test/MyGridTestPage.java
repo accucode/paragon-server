@@ -52,7 +52,7 @@ public class MyGridTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         installFilter(root);
         installGrid(root);
@@ -79,7 +79,9 @@ public class MyGridTestPage
         group.setTitle("Users");
 
         ScDiv buttons;
-        buttons = group.getHeader().addFloatRight().addSmallPadSpaced();
+        buttons = group.getHeader().addBox();
+        buttons.css().floatRight().gap5();
+
         buttons.addButton("Add Sample Users", newAddUsersAction());
         buttons.addButton("Export CSV", newExportAction());
 

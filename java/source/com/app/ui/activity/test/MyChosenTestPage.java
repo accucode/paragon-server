@@ -30,7 +30,7 @@ public class MyChosenTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         ScGroup group;
         group = root.addGroup("Chosen Dropdown");

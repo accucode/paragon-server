@@ -55,7 +55,7 @@ public class MyLocalValueTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         installFieldGroup(root);
         installListGroup(root);

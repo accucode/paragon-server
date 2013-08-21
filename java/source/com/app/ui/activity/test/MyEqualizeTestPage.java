@@ -39,7 +39,7 @@ public class MyEqualizeTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced10();
+        root.css().gap();
 
         ScGroup info;
         info = root.addGroup("Equalize Test");

@@ -42,7 +42,7 @@ public class MyHideErrorsTestPage
         ScForm form;
         form = root.addForm();
         form.setDefaultAction(newSubmitAction());
-        form.css().padSpaced();
+        form.css().gap();
 
         ScGroupArray groups;
         groups = form.addGroupArray();

@@ -136,7 +136,7 @@ public class MyAccountsPage
 
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         ScArray row;
         row = root.addRow();

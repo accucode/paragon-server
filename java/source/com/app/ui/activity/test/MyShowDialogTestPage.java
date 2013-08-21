@@ -39,7 +39,7 @@ public class MyShowDialogTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         installDialog(root);
 

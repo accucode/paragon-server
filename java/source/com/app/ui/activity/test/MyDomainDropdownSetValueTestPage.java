@@ -46,7 +46,7 @@ public class MyDomainDropdownSetValueTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         installDialog(root);
 

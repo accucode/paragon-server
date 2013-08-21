@@ -47,7 +47,7 @@ public class MyScriptTestPage
         ScForm form;
         form = root.addForm();
         form.setDefaultAction(newRunAction());
-        form.css().padSpaced();
+        form.css().gap();
 
         installScript(form);
         installSamples(form);

@@ -31,7 +31,7 @@ public class MyToolsPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         ScGroupArray groups;
         groups = root.addGroupArray(150, 300);

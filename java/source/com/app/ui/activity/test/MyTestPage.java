@@ -34,13 +34,13 @@ public class MyTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced10();
+        root.css().gap();
 
         // todo_wyatt: eq groups
         // root.getPostDomScript().equalizeGroups();
 
         _box = root.addBox();
-        _box.css().padSpaced();
+        _box.css().gap();
 
         ScGroupArray groups;
         groups = _box.addGroupArray();

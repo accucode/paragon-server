@@ -260,119 +260,52 @@
  ** gapOuter
  *******************************************************************/
 
-.gapFull          { padding: 10px  0px  0px 10px }
-.gapFull > *      { margin:   0px 10px 10px  0px }
+.gapOuter          { padding: 10px  0px  0px 10px }
+.gapOuter5         { padding:  5px  0px  0px  5px }
+.gapOuter10        { padding: 10px  0px  0px 10px }
+.gapOuter10x3      { padding: 10px  7px  7px 10px }
+.gapOuter10x2      { padding: 10px  8px  8px 10px }
+.gapOuter20        { padding: 20px  0px  0px 20px }
+.gapOuter20x5      { padding: 20px 15px 15px 20px }
 
-.gapFull5         { padding: 5px 0px 0px 5px }
-.gapFull5 > *     { margin:  0px 5px 5px 0px }
+/*******************************************************************
+ ** gapInner
+ *******************************************************************/
 
-.gapFull10        { padding: 10px  0px  0px 10px }
-.gapFull10 > *    { margin:   0px 10px 10px  0   }
-
-.gapFull10x3      { padding: 10px  7px  7px 10px }
-.gapFull10x3 > *  { margin:   0px  3px  3px  0px }
-
-.gapFull10x2      { padding: 10px  8px  8px 10px }
-.gapFull10x2 > *  { margin:   0px  2px  2px  0px }
-
-.gapFull20        { padding: 20px  0px  0px 20px }
-.gapFull20 > *    { margin:   0px 20px 20px  0px }
-
-.gapFull20x5      { padding: 20px 15px 15px 20px }
-.gapFull20x5 > *  { margin:   0px  5px  5px  0px }
+.gapInner       > * { margin:   0px 10px 10px  0px }
+.gapInner5      > * { margin:   0px  5px  5px  0px }
+.gapInner10     > * { margin:   0px 10px 10px  0px }
+.gapInner10x3   > * { margin:   0px  3px  3px  0px }
+.gapInner10x2   > * { margin:   0px  2px  2px  0px }
+.gapInner20     > * { margin:   0px 20px 20px  0px }
+.gapInner20x5   > * { margin:   0px  5px  5px  0px }
 
 
 /*******************************************************************
- ** gapFull
+ ** gap (full, both inner and outer)
  *******************************************************************/
 
-.gapFull          { padding: 10px  0px  0px 10px }
-.gapFull > *      { margin:   0px 10px 10px  0px }
+.gap          { padding: 10px  0px  0px 10px }
+.gap > *      { margin:   0px 10px 10px  0px }
 
-.gapFull5         { padding: 5px 0px 0px 5px }
-.gapFull5 > *     { margin:  0px 5px 5px 0px }
+.gap5         { padding: 5px   0px  0px  5px }
+.gap5 > *     { margin:  0px   5px  5px  0px }
 
-.gapFull10        { padding: 10px  0px  0px 10px }
-.gapFull10 > *    { margin:   0px 10px 10px  0   }
+.gap10        { padding: 10px  0px  0px 10px }
+.gap10 > *    { margin:   0px 10px 10px  0   }
 
-.gapFull10x3      { padding: 10px  7px  7px 10px }
-.gapFull10x3 > *  { margin:   0px  3px  3px  0px }
+.gap10x3      { padding: 10px  7px  7px 10px }
+.gap10x3 > *  { margin:   0px  3px  3px  0px }
 
-.gapFull10x2      { padding: 10px  8px  8px 10px }
-.gapFull10x2 > *  { margin:   0px  2px  2px  0px }
+.gap10x2      { padding: 10px  8px  8px 10px }
+.gap10x2 > *  { margin:   0px  2px  2px  0px }
 
-.gapFull20        { padding: 20px  0px  0px 20px }
-.gapFull20 > *    { margin:   0px 20px 20px  0px }
+.gap20        { padding: 20px  0px  0px 20px }
+.gap20 > *    { margin:   0px 20px 20px  0px }
 
-.gapFull20x5      { padding: 20px 15px 15px 20px }
-.gapFull20x5 > *  { margin:   0px  5px  5px  0px }
+.gap20x5      { padding: 20px 15px 15px 20px }
+.gap20x5 > *  { margin:   0px  5px  5px  0px }
 
-
-/*******************************************************************
- ** padSpaced
- *******************************************************************/
-
-.padSpaced          { padding: 10px  0px  0px 10px }
-.padSpaced > *      { margin:   0px 10px 10px  0px }
-
-.smallPadSpaced     { padding:  5px  0px  0px  5px }
-.smallPadSpaced > * { margin:   0px  5px  5px  0px }
-
-.padSpaced5         { padding: 5px 0px 0px 5px }
-.padSpaced5 > *     { margin:  0px 5px 5px 0px }
-
-.padSpaced10        { padding: 10px  0px  0px 10px }
-.padSpaced10 > *    { margin:   0px 10px 10px  0   }
-
-.padSpaced10x3      { padding: 10px  7px  7px 10px }
-.padSpaced10x3 > *  { margin:   0px  3px  3px  0px }
-
-.padSpaced10x2      { padding: 10px  8px  8px 10px }
-.padSpaced10x2 > *  { margin:   0px  2px  2px  0px }
-
-.padSpaced20        { padding: 20px  0px  0px 20px }
-.padSpaced20 > *    { margin:   0px 20px 20px  0px }
-
-.padSpaced20x5      { padding: 20px 15px 15px 20px }
-.padSpaced20x5 > *  { margin:   0px  5px  5px  0px }
-
-/*******************************************************************
- ** vPadSpaced
- *******************************************************************/
-
-.vPadSpaced      { padding-top:   10px; }
-.vPadSpaced > *  { margin-bottom: 10px; }
-
-.vPadSpaced5     { padding-top:   5px; }
-.vPadSpaced5 > * { margin-bottom: 5px; }
-
-.vPadSpaced10     { padding-top:   10px; }
-.vPadSpaced10 > * { margin-bottom: 10px; }
-
-.vPadSpaced20     { padding-top:   20px; }
-.vPadSpaced20 > * { margin-bottom: 20px; }
-
-.vPadSpaced30     { padding-top:   30px; }
-.vPadSpaced30 > * { margin-bottom: 30px; }
-
-/*******************************************************************
- ** hPadSpaced
- *******************************************************************/
-
-.hPadSpaced      { padding-left: 10px; }
-.hPadSpaced > *  { margin-right: 10px; }
-
-.hPadSpaced5     { padding-left: 5px; }
-.hPadSpaced5 > * { margin-right: 5px; }
-
-.hPadSpaced10     { padding-left: 10px; }
-.hPadSpaced10 > * { margin-right: 10px; }
-
-.hPadSpaced20     { padding-left: 20px; }
-.hPadSpaced20 > * { margin-right: 20px; }
-
-.hPadSpaced30     { padding-left: 30px; }
-.hPadSpaced30 > * { margin-right: 30px; }
 
 /*******************************************************************
  ** display

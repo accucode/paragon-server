@@ -32,7 +32,7 @@ public class MyHomePage
 
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         ScGroupArray groups;
         groups = root.addGroupArray();

@@ -70,7 +70,7 @@ public class MyPropertiesPage
 
         ScBox root;
         root = new ScBox();
-        root.css().padSpaced();
+        root.css().gap();
 
         ScGroupArray groups;
         groups = root.addGroupArray();

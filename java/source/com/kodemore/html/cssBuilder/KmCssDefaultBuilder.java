@@ -935,29 +935,109 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.fontSerif);
     }
     
-    public KmCssDefaultBuilder hPadSpaced()
+    public KmCssDefaultBuilder gap()
     {
-        return apply(KmCssDefaultConstantsIF.hPadSpaced);
+        return apply(KmCssDefaultConstantsIF.gap);
     }
     
-    public KmCssDefaultBuilder hPadSpaced10()
+    public KmCssDefaultBuilder gap10()
     {
-        return apply(KmCssDefaultConstantsIF.hPadSpaced10);
+        return apply(KmCssDefaultConstantsIF.gap10);
     }
     
-    public KmCssDefaultBuilder hPadSpaced20()
+    public KmCssDefaultBuilder gap10x2()
     {
-        return apply(KmCssDefaultConstantsIF.hPadSpaced20);
+        return apply(KmCssDefaultConstantsIF.gap10x2);
     }
     
-    public KmCssDefaultBuilder hPadSpaced30()
+    public KmCssDefaultBuilder gap10x3()
     {
-        return apply(KmCssDefaultConstantsIF.hPadSpaced30);
+        return apply(KmCssDefaultConstantsIF.gap10x3);
     }
     
-    public KmCssDefaultBuilder hPadSpaced5()
+    public KmCssDefaultBuilder gap20()
     {
-        return apply(KmCssDefaultConstantsIF.hPadSpaced5);
+        return apply(KmCssDefaultConstantsIF.gap20);
+    }
+    
+    public KmCssDefaultBuilder gap20x5()
+    {
+        return apply(KmCssDefaultConstantsIF.gap20x5);
+    }
+    
+    public KmCssDefaultBuilder gap5()
+    {
+        return apply(KmCssDefaultConstantsIF.gap5);
+    }
+    
+    public KmCssDefaultBuilder gapInner()
+    {
+        return apply(KmCssDefaultConstantsIF.gapInner);
+    }
+    
+    public KmCssDefaultBuilder gapInner10()
+    {
+        return apply(KmCssDefaultConstantsIF.gapInner10);
+    }
+    
+    public KmCssDefaultBuilder gapInner10x2()
+    {
+        return apply(KmCssDefaultConstantsIF.gapInner10x2);
+    }
+    
+    public KmCssDefaultBuilder gapInner10x3()
+    {
+        return apply(KmCssDefaultConstantsIF.gapInner10x3);
+    }
+    
+    public KmCssDefaultBuilder gapInner20()
+    {
+        return apply(KmCssDefaultConstantsIF.gapInner20);
+    }
+    
+    public KmCssDefaultBuilder gapInner20x5()
+    {
+        return apply(KmCssDefaultConstantsIF.gapInner20x5);
+    }
+    
+    public KmCssDefaultBuilder gapInner5()
+    {
+        return apply(KmCssDefaultConstantsIF.gapInner5);
+    }
+    
+    public KmCssDefaultBuilder gapOuter()
+    {
+        return apply(KmCssDefaultConstantsIF.gapOuter);
+    }
+    
+    public KmCssDefaultBuilder gapOuter10()
+    {
+        return apply(KmCssDefaultConstantsIF.gapOuter10);
+    }
+    
+    public KmCssDefaultBuilder gapOuter10x2()
+    {
+        return apply(KmCssDefaultConstantsIF.gapOuter10x2);
+    }
+    
+    public KmCssDefaultBuilder gapOuter10x3()
+    {
+        return apply(KmCssDefaultConstantsIF.gapOuter10x3);
+    }
+    
+    public KmCssDefaultBuilder gapOuter20()
+    {
+        return apply(KmCssDefaultConstantsIF.gapOuter20);
+    }
+    
+    public KmCssDefaultBuilder gapOuter20x5()
+    {
+        return apply(KmCssDefaultConstantsIF.gapOuter20x5);
+    }
+    
+    public KmCssDefaultBuilder gapOuter5()
+    {
+        return apply(KmCssDefaultConstantsIF.gapOuter5);
     }
     
     public KmCssDefaultBuilder height100()
@@ -1230,11 +1310,6 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.padHorizontal);
     }
     
-    public KmCssDefaultBuilder padInner()
-    {
-        return apply(KmCssDefaultConstantsIF.padInner);
-    }
-    
     public KmCssDefaultBuilder padLeft()
     {
         return apply(KmCssDefaultConstantsIF.padLeft);
@@ -1255,11 +1330,6 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.padLeftChildren);
     }
     
-    public KmCssDefaultBuilder padOuter()
-    {
-        return apply(KmCssDefaultConstantsIF.padOuter);
-    }
-    
     public KmCssDefaultBuilder padRight()
     {
         return apply(KmCssDefaultConstantsIF.padRight);
@@ -1278,41 +1348,6 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder padRightChildren()
     {
         return apply(KmCssDefaultConstantsIF.padRightChildren);
-    }
-    
-    public KmCssDefaultBuilder padSpaced()
-    {
-        return apply(KmCssDefaultConstantsIF.padSpaced);
-    }
-    
-    public KmCssDefaultBuilder padSpaced10()
-    {
-        return apply(KmCssDefaultConstantsIF.padSpaced10);
-    }
-    
-    public KmCssDefaultBuilder padSpaced10x2()
-    {
-        return apply(KmCssDefaultConstantsIF.padSpaced10x2);
-    }
-    
-    public KmCssDefaultBuilder padSpaced10x3()
-    {
-        return apply(KmCssDefaultConstantsIF.padSpaced10x3);
-    }
-    
-    public KmCssDefaultBuilder padSpaced20()
-    {
-        return apply(KmCssDefaultConstantsIF.padSpaced20);
-    }
-    
-    public KmCssDefaultBuilder padSpaced20x5()
-    {
-        return apply(KmCssDefaultConstantsIF.padSpaced20x5);
-    }
-    
-    public KmCssDefaultBuilder padSpaced5()
-    {
-        return apply(KmCssDefaultConstantsIF.padSpaced5);
     }
     
     public KmCssDefaultBuilder padTop()
@@ -1398,11 +1433,6 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder smallPad()
     {
         return apply(KmCssDefaultConstantsIF.smallPad);
-    }
-    
-    public KmCssDefaultBuilder smallPadSpaced()
-    {
-        return apply(KmCssDefaultConstantsIF.smallPadSpaced);
     }
     
     public KmCssDefaultBuilder spaced()
@@ -1508,31 +1538,6 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder top()
     {
         return apply(KmCssDefaultConstantsIF.top);
-    }
-    
-    public KmCssDefaultBuilder vPadSpaced()
-    {
-        return apply(KmCssDefaultConstantsIF.vPadSpaced);
-    }
-    
-    public KmCssDefaultBuilder vPadSpaced10()
-    {
-        return apply(KmCssDefaultConstantsIF.vPadSpaced10);
-    }
-    
-    public KmCssDefaultBuilder vPadSpaced20()
-    {
-        return apply(KmCssDefaultConstantsIF.vPadSpaced20);
-    }
-    
-    public KmCssDefaultBuilder vPadSpaced30()
-    {
-        return apply(KmCssDefaultConstantsIF.vPadSpaced30);
-    }
-    
-    public KmCssDefaultBuilder vPadSpaced5()
-    {
-        return apply(KmCssDefaultConstantsIF.vPadSpaced5);
     }
     
     public KmCssDefaultBuilder visibilityHidden()

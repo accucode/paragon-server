@@ -30,7 +30,7 @@ public class MyGradientTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         addBoxDownTo(root, "white", "black");
         addBoxDownTo(root, "white", "blue");

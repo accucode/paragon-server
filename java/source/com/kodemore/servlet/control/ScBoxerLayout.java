@@ -138,7 +138,7 @@ public class ScBoxerLayout
 
     public ScBoxerLayout padSpaced()
     {
-        css().padSpaced();
+        css().gap();
         return this;
     }
 

@@ -130,7 +130,7 @@ public class MySignInActivity
 
         ScBox box;
         box = group.addBox();
-        box.css().padSpaced10x2();
+        box.css().gap10x2();
         box.addLabel("Email");
         box.addErrorBox().add(_emailField);
 

@@ -45,7 +45,7 @@ public class MyCardFlipTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         ScBox buttons;
         buttons = root.addButtonBox();

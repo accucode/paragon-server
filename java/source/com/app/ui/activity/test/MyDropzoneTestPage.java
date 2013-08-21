@@ -37,7 +37,7 @@ public class MyDropzoneTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         ScDropzone dz;
         dz = new ScDropzone();

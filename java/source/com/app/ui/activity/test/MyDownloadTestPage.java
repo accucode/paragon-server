@@ -32,7 +32,7 @@ public class MyDownloadTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         root.addButton("Download", newDownloadAction());
 

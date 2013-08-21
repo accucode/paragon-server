@@ -45,7 +45,7 @@ public class MyGroupIconHeaderTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         ScForm form = root.addForm();
 

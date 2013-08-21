@@ -48,7 +48,7 @@ public class MyPlaceholderTestPage
         ScForm form;
         form = root.addForm();
         form.setDefaultAction(newSubmitAction());
-        form.css().padSpaced();
+        form.css().gap();
 
         ScGroup group;
         group = form.addGroup("Placeholder Test");

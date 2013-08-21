@@ -30,7 +30,7 @@ public class MyGroupTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         root.add(newGroup("aaa", "the gaps between children are provided the class padSpaced"));
         root.add(newGroup("bbb", "normal"));

@@ -34,7 +34,7 @@ public class MyOpenWindowTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         root.addButton("Open Window", newTestAction());
 

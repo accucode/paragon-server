@@ -713,7 +713,7 @@ public abstract class ScContainer
     {
         ScBox e;
         e = addBox();
-        e.css().padSpaced();
+        e.css().gap();
         return e;
     }
 
@@ -729,7 +729,7 @@ public abstract class ScContainer
     {
         ScBox e;
         e = addBox();
-        e.css().smallPadSpaced();
+        e.css().gap5();
         return e;
     }
 

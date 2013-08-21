@@ -83,7 +83,7 @@ public class MyPerformanceLogPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         installFilter(root);
         installGrid(root);

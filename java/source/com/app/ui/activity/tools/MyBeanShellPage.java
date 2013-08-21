@@ -62,7 +62,7 @@ public class MyBeanShellPage
         group.addButtonBox().addSubmitButton();
 
         _resultsBox = root.addBox();
-        _resultsBox.css().padSpaced();
+        _resultsBox.css().gap();
 
         return root;
     }

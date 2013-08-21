@@ -241,3 +241,72 @@ $(function(){setTimeout("Kmu.ajaxRequest(null,'pXR','n,');", 250);});
 setTimeout("Kmu.ajaxRequest(null,'pXR','n,');", 250);
 
 
+
+
+
+/*******************************************************************
+ ** padSpaced
+ *******************************************************************/
+
+.padSpaced          { padding: 10px  0px  0px 10px }
+.padSpaced > *      { margin:   0px 10px 10px  0px }
+
+.smallPadSpaced     { padding:  5px  0px  0px  5px }
+.smallPadSpaced > * { margin:   0px  5px  5px  0px }
+
+.padSpaced5         { padding: 5px 0px 0px 5px }
+.padSpaced5 > *     { margin:  0px 5px 5px 0px }
+
+.padSpaced10        { padding: 10px  0px  0px 10px }
+.padSpaced10 > *    { margin:   0px 10px 10px  0   }
+
+.padSpaced10x3      { padding: 10px  7px  7px 10px }
+.padSpaced10x3 > *  { margin:   0px  3px  3px  0px }
+
+.padSpaced10x2      { padding: 10px  8px  8px 10px }
+.padSpaced10x2 > *  { margin:   0px  2px  2px  0px }
+
+.padSpaced20        { padding: 20px  0px  0px 20px }
+.padSpaced20 > *    { margin:   0px 20px 20px  0px }
+
+.padSpaced20x5      { padding: 20px 15px 15px 20px }
+.padSpaced20x5 > *  { margin:   0px  5px  5px  0px }
+
+/*******************************************************************
+ ** vPadSpaced
+ *******************************************************************/
+
+.vPadSpaced      { padding-top:   10px; }
+.vPadSpaced > *  { margin-bottom: 10px; }
+
+.vPadSpaced5     { padding-top:   5px; }
+.vPadSpaced5 > * { margin-bottom: 5px; }
+
+.vPadSpaced10     { padding-top:   10px; }
+.vPadSpaced10 > * { margin-bottom: 10px; }
+
+.vPadSpaced20     { padding-top:   20px; }
+.vPadSpaced20 > * { margin-bottom: 20px; }
+
+.vPadSpaced30     { padding-top:   30px; }
+.vPadSpaced30 > * { margin-bottom: 30px; }
+
+/*******************************************************************
+ ** hPadSpaced
+ *******************************************************************/
+
+.hPadSpaced      { padding-left: 10px; }
+.hPadSpaced > *  { margin-right: 10px; }
+
+.hPadSpaced5     { padding-left: 5px; }
+.hPadSpaced5 > * { margin-right: 5px; }
+
+.hPadSpaced10     { padding-left: 10px; }
+.hPadSpaced10 > * { margin-right: 10px; }
+
+.hPadSpaced20     { padding-left: 20px; }
+.hPadSpaced20 > * { margin-right: 20px; }
+
+.hPadSpaced30     { padding-left: 30px; }
+.hPadSpaced30 > * { margin-right: 30px; }
+

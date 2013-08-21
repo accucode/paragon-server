@@ -38,7 +38,7 @@ public class MyBarcodeTestPage
     {
         ScPageRoot root;
         root = newPageRoot();
-        root.css().padSpaced();
+        root.css().gap();
 
         ScGroup group;
         group = root.addGroup("ScBarcodeCode39");
