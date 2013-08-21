@@ -72,6 +72,7 @@ public class MyUserDao
         u.setEmail(email);
         u.addPersonalAccount();
         u.setRandomPassword();
+        u.setVerified(true);
         u.saveDao();
         return u;
     }
