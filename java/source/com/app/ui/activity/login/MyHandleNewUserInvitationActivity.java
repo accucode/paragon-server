@@ -12,9 +12,11 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyInvitation;
+import com.app.model.MyUser;
 import com.app.ui.activity.MyActivity;
 import com.app.utility.MyUrls;
 
@@ -231,7 +233,16 @@ public class MyHandleNewUserInvitationActivity
         if ( Kmu.isNotEqual(pw1, pw2) )
             _password1Field.error("Passwords did not match.");
 
-        getAccess().getUserDao().createNewUser(email, pw1);
+        KmEmailParser p;
+        p = new KmEmailParser();
+        p.setEmail(email);
+
+        String name;
+        name = p.getName();
+
+        MyUser u;
+        u = getAccess().getUserDao().createUser(name, email);
+        u.setPassword(pw1);
     }
 
     //##################################################
