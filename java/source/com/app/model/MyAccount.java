@@ -94,4 +94,29 @@ public class MyAccount
     {
         return getAccountUserFor(user) == null;
     }
+
+    //##################################################
+    //# dao
+    //##################################################
+
+    @Override
+    public void deleteDao()
+    {
+        _removeAllUsers();
+
+        super.deleteDao();
+    }
+
+    /**
+     * Remove ALL users from this account, including the owner.
+     * This is typically only used when deleting the account,
+     * and is necessary only because of the many-to-many relationship
+     * between accounts and users.
+     */
+    private void _removeAllUsers()
+    {
+        KmCollection<MyAccountUser> v = getAccountUsers();
+        for ( MyAccountUser e : v )
+            e.getUser()._removeAccount(this);
+    }
 }

@@ -235,7 +235,10 @@ public class MyHandleJoinInvitationActivity
         a = inv.getAccount();
 
         /**
-         * review_wyatt (valerie) start invitation activity fix
+         * (valerie) start invitation activity fix
+         * 
+         * review_valerie (wyatt) discuss
+         *      
          */
         if ( a.getAccountUserFor(u) != null )
         {

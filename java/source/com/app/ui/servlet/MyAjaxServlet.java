@@ -243,16 +243,16 @@ public class MyAjaxServlet
         inv = getAccess().getInvitationDao().findAccessKey(value);
 
         /**
-         * review_wyatt (valerie) put the invalid invitation check here. Would you rather
+         * (valerie) put the invalid invitation check here. Would you rather
          * me return false or create a new activity that shows an invalid invitation message
          * box to take them to?
+         * 
+         * review_valerie (wyatt) discuss
          */
         if ( inv == null )
             return false;
 
-        MyInvitationType type;
-        type = inv.getType();
-
+        MyInvitationType type = inv.getType();
         switch ( type )
         {
             case Join:
