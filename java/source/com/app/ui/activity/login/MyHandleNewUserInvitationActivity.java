@@ -51,7 +51,6 @@ public class MyHandleNewUserInvitationActivity
 
     private ScBox           _messageBox;
     private ScBox           _registeredMessageBox;
-
     private ScBox           _box;
 
     //##################################################
@@ -222,7 +221,7 @@ public class MyHandleNewUserInvitationActivity
         u = getAccess().getUserDao().findEmail(email);
 
         /**
-         *  fixme_valerie: use message boxes to show message instead of error here
+         * review_wyatt (valerie) start invitation activity fix
          */
         if ( u != null )
         {
