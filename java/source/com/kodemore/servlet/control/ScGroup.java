@@ -33,6 +33,7 @@ import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalBoolean;
+import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.servlet.variable.ScLocalStyle;
 import com.kodemore.utility.Kmu;
@@ -42,11 +43,6 @@ import com.kodemore.utility.Kmu;
  * shaded/colored area.  I also display a title bar.
  */
 
-/**
- * todo_wyatt groups 
- * review the Group Test page.
- * Groups are not rendering correctly.
- */
 public class ScGroup
     extends ScContainer
     implements ScHtmlIdIF
@@ -81,6 +77,14 @@ public class ScGroup
      * above.
      */
     private ScLocalString       _flavor;
+
+    /**
+     * This style is applied to the outer wrapper.  Clients typically use
+     * this to adjust layout attributes such as margins and size.  Attemping
+     * to use this to modify the flavor will have unpredicable results based
+     * on the css classes defined in the theme.css files.
+     */
+    private ScLocalCss          _css;
 
     /**
      * This style is applied to the outer wrapper.  Clients typically use
@@ -129,6 +133,7 @@ public class ScGroup
         _flavor = new ScLocalString();
         setFlavorDefault();
 
+        _css = new ScLocalCss();
         _style = new ScLocalStyle();
 
         _header = new ScBox();
@@ -202,6 +207,35 @@ public class ScGroup
 
     //##################################################
     //# css
+    //##################################################
+
+    public String getCss()
+    {
+        return _css.getValue();
+    }
+
+    public void setCss(String e)
+    {
+        _css.setValue(e);
+    }
+
+    public KmCssDefaultBuilder css()
+    {
+        return _css.toBuilder();
+    }
+
+    private KmCssDefaultBuilder formatCss()
+    {
+        KmCssDefaultBuilder css;
+        css = css().getCopy();
+        css.add(PREFIX);
+        css.add(PREFIX, PART_WRAPPER, getFlavor());
+        css.clearfix();
+        return css;
+    }
+
+    //##################################################
+    //# style
     //##################################################
 
     public String getStyle()
@@ -367,16 +401,9 @@ public class ScGroup
          *      Added clearfix to group class to fix bug caused by setting overflow to visible
          */
 
-        KmCssDefaultBuilder css;
-        //        css = newCssBuilder().add(PREFIX, PART_WRAPPER, getFlavor());
-        css = newCssBuilder();
-        css.add(PREFIX);
-        css.add(PREFIX, PART_WRAPPER, getFlavor());
-        css.add(KmCssDefaultConstantsIF.clearfix);
-
         out.openDiv();
         out.printAttribute("id", getHtmlId());
-        out.printAttribute(css);
+        out.printAttribute(formatCss());
         out.printAttribute(formatStyle());
         out.close();
 

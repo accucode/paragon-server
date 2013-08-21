@@ -32,20 +32,19 @@ public class MyGroupTestPage
         root = newPageRoot();
         root.css().gap();
 
-        root.add(newGroup("aaa", "the gaps between children are provided the class padSpaced"));
+        root.add(newGroup("aaa", "the gaps between children are provided the css 'gap'."));
         root.add(newGroup("bbb", "normal"));
 
         root.add(newLeftGroup("ccc", "floatLeft fixedWidth"));
-        root.add(newRightGroup("ddd", "floatRight fixedWidth"));
+        root.add(newLeftGroup("ddd", "floatLeft fixedWidth"));
+        root.add(newRightGroup("eee", "floatRight fixedWidth"));
 
-        root.add(newGroup("eee", "normal followed by clearfix"));
-        root.addClearfix();
-
-        root.add(newLeftGroup("fff", "floatLeft fixedWidth"));
+        root.add(newLeftClearGroup("fff", "floatLeft fixedWidth clearBoth"));
         root.add(newRightGroup("ggg", "floatRight fixedWidth"));
-        root.add(newGroup("hhh", "normal, the padSpaced class doesn't seem to work correctly here"));
+        root.add(newRightGroup("hhh", "floatRight fixedWidth"));
 
-        root.add(newGroup("iii", "normal"));
+        root.add(newClearGroup("iii", "normal, clearBoth"));
+        root.add(newGroup("jjj", "normal"));
 
         return root;
     }
@@ -61,11 +60,27 @@ public class MyGroupTestPage
         return e;
     }
 
+    private ScGroup newClearGroup(String title, String msg)
+    {
+        ScGroup e;
+        e = newGroup(title, msg);
+        e.css().clearBoth();
+        return e;
+    }
+
     private ScGroup newLeftGroup(String title, String msg)
     {
         ScGroup e;
         e = newGroup(title, msg);
-        e.style().floatLeft().width(200);
+        e.css().floatLeft().width200();
+        return e;
+    }
+
+    private ScGroup newLeftClearGroup(String title, String msg)
+    {
+        ScGroup e;
+        e = newLeftGroup(title, msg);
+        e.css().clearBoth();
         return e;
     }
 
