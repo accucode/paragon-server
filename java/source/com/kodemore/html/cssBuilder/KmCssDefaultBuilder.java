@@ -515,11 +515,6 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.textField);
     }
     
-    public KmCssDefaultBuilder textFieldFieldsetReadOnly()
-    {
-        return apply(KmCssDefaultConstantsIF.textFieldFieldsetReadOnly);
-    }
-    
     public KmCssDefaultBuilder textFieldReadOnly()
     {
         return apply(KmCssDefaultConstantsIF.textFieldReadOnly);

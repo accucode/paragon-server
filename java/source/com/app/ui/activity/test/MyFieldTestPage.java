@@ -200,7 +200,12 @@ public class MyFieldTestPage
         fields = box.addFields();
         fields.addTextField().setLabel("First");
         fields.addTextField().setLabel("Middle");
-        fields.addTextField().setLabel("Last");
+
+        ScTextField field;
+        field = fields.addTextField();
+        field.setLabel("Last");
+        field.setValue("readonly");
+        field.setReadOnly();
 
         box = body.addFieldset("Phone");
         box.css().floatLeft().pad();
@@ -209,30 +214,6 @@ public class MyFieldTestPage
         fields.addTextField().setLabel("Home");
         fields.addTextField().setLabel("Work");
         fields.addTextField().setLabel("Cell");
-
-        box = body.addFieldset("Read Only");
-        box.css().floatLeft().pad();
-
-        fields = box.addFields();
-
-        ScTextField lgtGrayTextField;
-        lgtGrayTextField = new ScTextField();
-        lgtGrayTextField.setLabel("Light Gray");
-        lgtGrayTextField.setReadOnly();
-        lgtGrayTextField.css().backgroundGray();
-
-        /**
-         * review_wyatt (valerie) fieldset readOnly background added
-         * to theme.css as .textFieldFieldsetReadOnly
-         */
-        ScTextField drkGrayTextField;
-        drkGrayTextField = new ScTextField();
-        drkGrayTextField.setLabel("Dark Gray");
-        drkGrayTextField.setReadOnly();
-        drkGrayTextField.setFlavorFieldset();
-
-        fields.add(lgtGrayTextField);
-        fields.add(drkGrayTextField);
     }
 
     //##################################################

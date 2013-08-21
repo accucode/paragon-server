@@ -97,7 +97,6 @@ public interface KmCssDefaultConstantsIF
     String tabx = "tabx";
     String text = "text";
     String textField = "textField";
-    String textFieldFieldsetReadOnly = "textFieldFieldsetReadOnly";
     String textFieldReadOnly = "textFieldReadOnly";
     String textFieldWrapper = "textFieldWrapper";
     String backgroundBlack = "backgroundBlack";
