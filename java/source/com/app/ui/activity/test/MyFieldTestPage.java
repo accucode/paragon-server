@@ -215,18 +215,21 @@ public class MyFieldTestPage
 
         fields = box.addFields();
 
-        // fixme_valerie: 
         ScTextField lgtGrayTextField;
         lgtGrayTextField = new ScTextField();
         lgtGrayTextField.setLabel("Light Gray");
         lgtGrayTextField.setReadOnly();
         lgtGrayTextField.css().backgroundGray();
 
+        /**
+         * review_wyatt (valerie) fieldset readOnly background added
+         * to theme.css as .textFieldFieldsetReadOnly
+         */
         ScTextField drkGrayTextField;
         drkGrayTextField = new ScTextField();
-        drkGrayTextField.setLabel("Background");
+        drkGrayTextField.setLabel("Dark Gray");
         drkGrayTextField.setReadOnly();
-        drkGrayTextField.css().backgroundGray();
+        drkGrayTextField.setFlavorFieldset();
 
         fields.add(lgtGrayTextField);
         fields.add(drkGrayTextField);

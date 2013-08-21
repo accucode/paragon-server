@@ -29,6 +29,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScElementIF;
 import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.servlet.variable.ScLocalCss;
+import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.servlet.variable.ScLocalStyle;
 
 public abstract class ScInputField<T>
@@ -39,8 +40,9 @@ public abstract class ScInputField<T>
     //# variables
     //##################################################
 
-    private ScLocalCss   _css;
-    private ScLocalStyle _style;
+    private ScLocalCss    _css;
+    private ScLocalString _flavor;
+    private ScLocalStyle  _style;
 
     //##################################################
     //# init
@@ -53,6 +55,7 @@ public abstract class ScInputField<T>
 
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
+        _flavor = new ScLocalString();
     }
 
     //##################################################
@@ -95,6 +98,28 @@ public abstract class ScInputField<T>
     public void hide()
     {
         css().hide();
+    }
+
+    /**
+     * review_wyatt (valerie) added flavor here
+     */
+    //##################################################
+    //# flavor
+    //##################################################
+
+    public String getFlavor()
+    {
+        return _flavor.getValue();
+    }
+
+    public void setFlavor(String e)
+    {
+        _flavor.setValue(e);
+    }
+
+    public void setFlavorFieldset()
+    {
+        css().textFieldFieldsetReadOnly();
     }
 
     //##################################################

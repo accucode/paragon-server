@@ -83,6 +83,23 @@
     box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
+.textFieldFieldsetReadOnly
+{
+    margin: 0;
+    padding: 5px;
+    font: normal 15px sans-serif;
+    background-color: #ddd;
+    
+    border-top:    1px solid #999;
+    border-left:   1px solid #999;
+    border-bottom: 1px solid #bbb;
+    border-right:  1px solid #bbb;
+    
+    -moz-transition:    border 200ms;
+    -webkit-transition: border 200ms;
+    transition:         border 200ms;
+}
+
 /*******************************************************************
  ** dropdown
  *******************************************************************/
