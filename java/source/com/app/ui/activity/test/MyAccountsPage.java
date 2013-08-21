@@ -354,14 +354,6 @@ public class MyAccountsPage
         box = body.addBox();
         box.addText(getInviteText());
         box.css().centerText();
-
-        /**
-         * (valerie) 
-         * Where can we add a new width constant to the css file?
-         * 
-         * review_valerie review_steve (wyatt)
-         *      You can add generic (non-theme specific) styles to "tools.css".
-         */
         box.css().width250();
 
         _inviteUserEmail = new ScTextField();
