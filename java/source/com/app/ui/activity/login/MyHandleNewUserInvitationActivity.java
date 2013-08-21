@@ -220,9 +220,6 @@ public class MyHandleNewUserInvitationActivity
         MyUser u;
         u = getAccess().getUserDao().findEmail(email);
 
-        /**
-         * review_wyatt (valerie) start invitation activity fix
-         */
         if ( u != null )
         {
             MyPasswordReset r;

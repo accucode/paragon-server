@@ -1147,12 +1147,17 @@ public class MyAccountsPage
         au = a.getAccountUserFor(getCurrentUser());
 
         /**
-         * review_steve review_wyatt review_valerie (steve) 
+         * review_steve review_valerie (steve) 
          * this method was crashing the program and not actually deleting 
          * the account. I figure that it was because the relationship between 
          * the user and the accountUser was not removed
          * 
-         * see the next comment: 
+         * see the next comment:
+         * 
+         * review_steve (wyatt) fixed?
+         *      Steve, I believe this has been fixed.
+         *      Please retest and confirm.
+         *      Let me know if you have further problems, or would like to discuss.
          */
         a.deleteDao();
 
@@ -1160,7 +1165,8 @@ public class MyAccountsPage
         /**
          * the above line was removed and replaced with the two below.
          */
-        MyUser u = getCurrentUser();
+        MyUser u;
+        u = getCurrentUser();
         u.removeAccountUser(au);
 
         MyPageLayout.getInstance().refreshDropdown();
