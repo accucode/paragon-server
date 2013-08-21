@@ -18,6 +18,12 @@ import com.app.utility.MyUrls;
 public class MyTransferAccountUtility
 {
     //##################################################
+    //# variables
+    //##################################################
+
+    private MyUser _user;
+
+    //##################################################
     //# start
     //##################################################
 
@@ -26,6 +32,9 @@ public class MyTransferAccountUtility
         MyUser user = getAccess().getUserDao().findEmail(email);
 
         boolean isNewUser = user == null;
+
+        if ( !isNewUser )
+            _user = user;
 
         sendTransferInvitation(email, account, isNewUser);
     }
@@ -43,14 +52,12 @@ public class MyTransferAccountUtility
         inv.setEmail(email);
         inv.saveDao();
 
-        MyUser user = getAccess().getUserDao().findEmail(email);
-
         KmHtmlBuilder msg;
 
         if ( isNewUser )
             msg = formatNewUserMsg(email, account, inv);
         else
-            msg = formatExistingUserMsg(user, account, inv);
+            msg = formatExistingUserMsg(_user, account, inv);
 
         String subject = Kmu.format("%s Account Transfer Invitation", accountName);
 
@@ -64,6 +71,10 @@ public class MyTransferAccountUtility
         e.saveDao();
     }
 
+    /**
+     * review_wyatt (valerie) we have put in errors that should ensure that this
+     * message never gets sent.  Should I pull it or leave it in for an edge case?
+     */
     private KmHtmlBuilder formatNewUserMsg(String email, MyAccount account, MyInvitation i)
     {
         KmEmailParser parser;

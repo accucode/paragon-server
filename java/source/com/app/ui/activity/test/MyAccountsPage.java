@@ -1558,7 +1558,7 @@ public class MyAccountsPage
         boolean hasOwner = a.getOwner() != null;
         boolean isOwner = isOwner(a.getOwner(), u);
 
-        if ( isPersonalAccount )
+        if ( isPersonalAccount || !isOwner )
             _deleteButton.hide();
 
         /**
