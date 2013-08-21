@@ -238,7 +238,7 @@ public class MyHandleJoinInvitationActivity
         _accountText.setValue(a.getName());
 
         ajax().printMain(_root);
-        ajax().focusPage();
+        ajax().focus();
     }
 
     //##################################################
@@ -248,7 +248,7 @@ public class MyHandleJoinInvitationActivity
     private void handleAccept()
     {
         ajax().hideAllErrors();
-        ajax().focusPage();
+        ajax().focus();
 
         String key = getAccessKey();
 

@@ -196,7 +196,7 @@ public class MyHandleTransferInvitationActivity
         _accountText.setValue(a.getName());
 
         ajax().printMain(_root);
-        ajax().focusPage();
+        ajax().focus();
     }
 
     //##################################################
@@ -206,7 +206,7 @@ public class MyHandleTransferInvitationActivity
     private void handleAccept()
     {
         ajax().hideAllErrors();
-        ajax().focusPage();
+        ajax().focus();
 
         String key = getAccessKey();
 

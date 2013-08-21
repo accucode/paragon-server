@@ -192,7 +192,7 @@ public class MyHandleNewUserInvitationActivity
         _emailText.setValue(inv.getEmail());
 
         ajax().printMain(_root);
-        ajax().focusPage();
+        ajax().focus();
     }
 
     //##################################################
@@ -202,7 +202,7 @@ public class MyHandleNewUserInvitationActivity
     private void handleAccept()
     {
         ajax().hideAllErrors();
-        ajax().focusPage();
+        ajax().focus();
 
         _form.validate();
 

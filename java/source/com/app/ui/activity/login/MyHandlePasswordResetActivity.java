@@ -221,7 +221,7 @@ public class MyHandlePasswordResetActivity
         _password2Field.ajax().clearValue();
 
         ajax().hideAllErrors();
-        ajax().focusPage();
+        ajax().focus();
 
         _form.validate();
 
