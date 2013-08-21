@@ -1512,8 +1512,13 @@ public class MyAccountsPage
         //        String accountName = getPageSession().getAccount().getName();
 
         /**
-         * review_wyatt (valerie) This method is not working as intended,
+         * (valerie) This method is not working as intended,
          * what am I missing?
+         * 
+         * review_valerie (wyatt)
+         *      I don't know.
+         *      What did you intend?
+         *      What did you experience?
          */
         //        _dialogBody.addPad().addText(
         //            "Are you sure you want to remove %s from %s?",
