@@ -93,9 +93,6 @@ public class MyAjaxServlet
 
     private void checkServerSession(MyServletData data)
     {
-        if ( !usesDaoSession() )
-            return;
-
         if ( touchServerSession() )
             return;
 
@@ -126,14 +123,6 @@ public class MyAjaxServlet
 
     private void runNavigate()
     {
-        if ( usesDaoSession() )
-            runNavigateDao();
-        else
-            handleNavigate();
-    }
-
-    private void runNavigateDao()
-    {
         new KmDaoCommand()
         {
             @Override
@@ -146,18 +135,12 @@ public class MyAjaxServlet
 
     private void handleNavigate()
     {
-        if ( !hasCurrentUser() )
-        {
+        if ( hasCurrentUser() )
+            MyLeftMenu.getInstance().gotoWindowLocation();
+        else
             MySignInActivity.instance.start();
-            return;
-        }
-
-        MyLeftMenu.getInstance().gotoWindowLocation();
     }
 
-    /**
-     * review_wyatt 
-     */
     private boolean hasCurrentUser()
     {
         MyServerSession ss = MyGlobals.getServerSession();
@@ -172,14 +155,6 @@ public class MyAjaxServlet
     //##################################################
 
     private void runEnter()
-    {
-        if ( usesDaoSession() )
-            runEnterDao();
-        else
-            handleEnter();
-    }
-
-    private void runEnterDao()
     {
         new KmDaoCommand()
         {
@@ -291,10 +266,7 @@ public class MyAjaxServlet
     {
         try
         {
-            if ( usesDaoSession() )
-                runActionDao(e);
-            else
-                handleAction(e);
+            runActionDao(e);
         }
         catch ( KmApplicationException ex )
         {
@@ -327,10 +299,7 @@ public class MyAjaxServlet
     {
         try
         {
-            if ( usesDaoSession() )
-                printErrorDao(ex);
-            else
-                printErrorNonDao(ex);
+            printErrorDao(ex);
         }
         catch ( KmApplicationException ex2 )
         {
@@ -367,11 +336,6 @@ public class MyAjaxServlet
     private MyPageLayout getPageStructure()
     {
         return MyPageLayout.getInstance();
-    }
-
-    protected boolean usesDaoSession()
-    {
-        return true;
     }
 
     private void printErrorMessage(String s)

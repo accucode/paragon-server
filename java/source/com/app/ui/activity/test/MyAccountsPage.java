@@ -1519,7 +1519,9 @@ public class MyAccountsPage
          *      What did you intend?
          *      What did you experience?
          *      
-         * review_wyatt (valerie) disregard, it appears to be working correctly now
+         * (valerie) disregard, it appears to be working correctly now
+         * 
+         * review_valerie (wyatt) ok.
          */
         _dialogBody.addPad().addText(
             "Are you sure you want to remove %s from %s?",
