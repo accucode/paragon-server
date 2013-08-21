@@ -40,6 +40,7 @@ import com.kodemore.servlet.field.ScAbstractTextField;
 import com.kodemore.servlet.field.ScControlVisitorIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.field.ScStoppableControlVisitorIF;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.utility.ScFormatter;
@@ -743,7 +744,7 @@ public abstract class ScControl
     //# script
     //##################################################
 
-    public ScRootScript getPostDomScript()
+    public ScBlockScript getPostDomScript()
     {
         if ( _postDomScript == null )
             _postDomScript = new ScRootScript();

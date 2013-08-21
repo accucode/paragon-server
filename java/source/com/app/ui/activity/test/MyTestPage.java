@@ -35,8 +35,7 @@ public class MyTestPage
         ScPageRoot root;
         root = newPageRoot();
         root.css().gap();
-
-        // root.getPostDomScript().equalizeGroups();
+        root.getPostDomScript().equalizeGroups();
 
         _box = root.addBox();
         _box.css().gap();
