@@ -216,4 +216,16 @@ public class MyUser
         au.setRoleCode(roleCode);
         return a;
     }
+
+    public void _removeAccount(MyAccount a)
+    {
+        KmCollection<MyAccountUser> v = getAccountUsers();
+        for ( MyAccountUser e : v )
+            if ( e.hasAccount(a) )
+            {
+                removeAccountUser(e);
+                break;
+            }
+    }
+
 }
