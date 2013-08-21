@@ -1,6 +1,7 @@
 package com.app.model;
 
 import com.kodemore.collection.KmCollection;
+import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyAccountBase;
 import com.app.model.meta.MyMetaAccountUser;
@@ -68,6 +69,11 @@ public class MyAccount
                 return e.getUser();
 
         return null;
+    }
+
+    public boolean hasOwner(MyUser u)
+    {
+        return Kmu.isEqual(getOwner(), u);
     }
 
     public void transferOwnerTo(MyUser to)

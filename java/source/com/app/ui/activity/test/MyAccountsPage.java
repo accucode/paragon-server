@@ -738,7 +738,6 @@ public class MyAccountsPage
         _deleteUserDialog.setBodyHeight(125);
 
         _dialogBody = _deleteUserDialog.getBodyBox();
-        _dialogBody.addPad().addText("Are you sure you want to remove this user from the account?");
 
         ScBox footer;
         footer = _deleteUserDialog.getFooterBox().addPad();
@@ -1440,24 +1439,11 @@ public class MyAccountsPage
 
     private void handleSendJoinRequest()
     {
-        //review_steve VALIDATE EMAIL FIELD
-
         MyAccount account = getPageSession().getAccount();
         String email = _inviteUserEmail.getValue();
         String roleCode = _inviteRoleDropdown.getStringValue();
 
         boolean isValid = KmEmailParser.validate(email);
-
-        //(steve) error message is not displaying.
-
-        /**
-         * review_steve (wyatt)
-         *      Use multiline comments for review tags.
-         *      Fix spacing on comments.
-         *      
-         *      There was a problem with message propagation through Frame/FrameChildren.
-         *      The problem should be fixed.
-         */
 
         if ( !isValid )
             _inviteUserEmail.error("Invalid");
@@ -1521,22 +1507,24 @@ public class MyAccountsPage
 
     private void handleShowDeleteAccountUserDialog()
     {
-        //        String userName = getPageSession().getUser().getName();
-        //        String accountName = getPageSession().getAccount().getName();
+        String userName = getPageSession().getUser().getName();
+        String accountName = getPageSession().getAccount().getName();
 
         /**
          * (valerie) This method is not working as intended,
          * what am I missing?
          * 
-         * review_valerie (wyatt)
+         * (wyatt)
          *      I don't know.
          *      What did you intend?
          *      What did you experience?
+         *      
+         * review_wyatt (valerie) disregard, it appears to be working correctly now
          */
-        //        _dialogBody.addPad().addText(
-        //            "Are you sure you want to remove %s from %s?",
-        //            userName,
-        //            accountName);
+        _dialogBody.addPad().addText(
+            "Are you sure you want to remove %s from %s?",
+            userName,
+            accountName);
 
         _deleteUserDialog.ajax().replace();
         _deleteUserDialog.ajaxOpen();
@@ -1662,15 +1650,6 @@ public class MyAccountsPage
             _accountDropdown.ajaxUpdateValue();
         }
 
-        //fixme_steve remove this when we have garunteed that the accounts list will never be empty.
-        //        if ( list.isEmpty() )
-        //        {
-        //            _accountDropdown.ajaxAddOption("None", null);
-        //            getServerSession().setAccount(null);
-        //            MyPageLayout.getInstance().refreshDropdown();
-        //            return;
-        //        }
-
         _accountDropdown.ajax().replace();
     }
 
@@ -1736,7 +1715,6 @@ public class MyAccountsPage
     //# messages
     //##################################################
 
-    //    review_steve(valerie) Wyatt moved these down here.
     private String getTransferText()
     {
         return ""

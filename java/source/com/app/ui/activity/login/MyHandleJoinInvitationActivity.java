@@ -241,6 +241,7 @@ public class MyHandleJoinInvitationActivity
          *      
          */
         if ( a.getAccountUserFor(u) != null )
+        //        if ( a.hasMember(u) )
         {
             buildJoinedMessageBox(email, u, a);
 
