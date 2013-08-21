@@ -1155,8 +1155,22 @@ public class MyAccountsPage
         MyAccountUser au;
         au = a.getAccountUserFor(getCurrentUser());
 
+        /**
+         * review_steve review_wyatt review_valerie (steve) 
+         * this method was crashing the program and not actually deleting 
+         * the account. I figure that it was because the relationship between 
+         * the user and the accountUser was not removed
+         * 
+         * see the next comment: 
+         */
         a.deleteDao();
-        au.deleteDao();
+
+        //        au.deleteDao();
+        /**
+         * the above line was removed and replaced with the two below.
+         */
+        MyUser u = getCurrentUser();
+        u.removeAccountUser(au);
 
         MyPageLayout.getInstance().refreshDropdown();
 
@@ -1459,10 +1473,11 @@ public class MyAccountsPage
             showSentMessage(email);
         }
         else
-            error("the email address "
+            error("The email address "
                 + email
                 + " is already associated with the account "
-                + account.getName());
+                + account.getName()
+                + ".");
     }
 
     private boolean checkAccountUserExists(String email, MyAccount account)

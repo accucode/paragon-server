@@ -9,6 +9,7 @@ import com.app.model.MyAccount;
 import com.app.model.MyEmail;
 import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
+import com.app.model.MyPasswordReset;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
 import com.app.utility.MyConstantsIF;
@@ -62,7 +63,10 @@ public class MyJoinAccountUtility
         if ( isNewUser )
             msg = formatNewUserMsg(email, account, inv);
         else
-            msg = formatExistingUserMsg(_user, account, inv);
+            if ( account.getAccountUserFor(_user) != null )
+                msg = formatExistingAccountUserMsg(_user, account, inv);
+            else
+                msg = formatExistingUserMsg(_user, account, inv);
 
         String subject = Kmu.format("%s Join Account Invitation", accountName);
 
@@ -102,6 +106,35 @@ public class MyJoinAccountUtility
         msg.printLink(
             "Activate My Account and Join " + accountName + ".",
             MyUrls.getInvitationUrl(i));
+        msg.printfln();
+        return msg;
+    }
+
+    private KmHtmlBuilder formatExistingAccountUserMsg(
+        MyUser user,
+        MyAccount account,
+        MyInvitation i)
+    {
+        MyPasswordReset a;
+        a = new MyPasswordReset();
+        a.setUser(user);
+        a.saveDao();
+
+        KmHtmlBuilder msg;
+        msg = new KmHtmlBuilder();
+        msg.printfln("Hi %s", user.getName());
+        msg.printfln();
+        msg.printf(
+            "A request was made to join the email %s to the account %s. ",
+            user.getEmail(),
+            account);
+        msg.printf("However, this email is already joined to the account. ");
+        msg.printf("If you did not initiate this request, please ignore this email. ");
+        msg.printf("If you are having difficulty accessing your account, you may use ");
+        msg.printf("the link below to reset your password.");
+        msg.printfln();
+        msg.printfln();
+        msg.printLink("Reset My Password", MyUrls.getPasswordResetUrl(a));
         msg.printfln();
         return msg;
     }

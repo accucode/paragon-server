@@ -191,6 +191,22 @@ public class MyHandleNewUserInvitationActivity
 
         _emailText.setValue(inv.getEmail());
 
+        String email;
+        email = inv.getEmail();
+
+        MyUser user;
+        user = getAccess().getUserDao().findEmail(email);
+
+        if ( user != null )
+        {
+            /**
+             *  ask_valerie: another unhandled exception thrown here - because of using
+             *  error in an activity?
+             */
+            error("The email %s is already registered.", email);
+            return;
+        }
+
         ajax().printMain(_root);
         ajax().focus();
     }
