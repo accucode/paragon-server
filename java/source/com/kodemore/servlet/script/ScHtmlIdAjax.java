@@ -174,15 +174,16 @@ public class ScHtmlIdAjax
     //# misc
     //##################################################
 
-    // todo_wyatt: review.super...
-    //    public void hideAllErrors()
-    //    {
-    //        String target = formatJquerySelector();
-    //        String error = KmCssDefaultConstantsIF.error;
-    //
-    //        run("$('%s .%s').hide();", target, error);
-    //    }
+    @Override
+    public void hideAllErrors()
+    {
+        String target = formatJquerySelector();
+        String error = KmCssDefaultConstantsIF.error;
 
+        run("$('%s .%s').hide();", target, error);
+    }
+
+    @Override
     public void focus()
     {
         getInner().focus(getTarget());

@@ -419,7 +419,7 @@ public abstract class ScBlockScript
     /**
      * Focus on the first enabled field found on the page.
      */
-    public void focusPage()
+    public void focus()
     {
         run("Kmu.focus();");
     }
@@ -432,7 +432,7 @@ public abstract class ScBlockScript
     public void focus(String sel)
     {
         if ( Kmu.isEmpty(sel) )
-            focusPage();
+            focus();
         else
             run("Kmu.focus(%s);", json(sel));
     }
