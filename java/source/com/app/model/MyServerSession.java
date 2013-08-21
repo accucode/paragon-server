@@ -33,6 +33,11 @@ public class MyServerSession
         setLastTouchedUtcTs(getNowUtc());
     }
 
+    public boolean isFresh()
+    {
+        return !isStale();
+    }
+
     public boolean isStale()
     {
         if ( isNotActive() )
