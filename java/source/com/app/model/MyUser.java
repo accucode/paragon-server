@@ -180,7 +180,8 @@ public class MyUser
         MyAccountUser au;
         au = a.addAccountUser();
         au.setRoleUser();
-        au.setUser(this);
+
+        addAccountUser(au);
 
         return au;
     }
@@ -190,7 +191,8 @@ public class MyUser
         MyAccountUser au;
         au = a.addAccountUser();
         au.setRoleCode(roleCode);
-        au.setUser(this);
+
+        addAccountUser(au);
 
         return au;
     }

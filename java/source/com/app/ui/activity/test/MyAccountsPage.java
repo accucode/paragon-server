@@ -1318,7 +1318,7 @@ public class MyAccountsPage
     {
         _addAccountChild.validate();
 
-        if ( !_addAccountName.hasValue() )
+        if ( _addAccountName.isEmpty() )
         {
             ajax().toast("Please enter an account name");
             return;
@@ -1328,9 +1328,9 @@ public class MyAccountsPage
         String typeCode = _addAccountType.getStringValue();
         MyAccountType type = MyAccountType.findCode(typeCode);
         MyUser user = getCurrentUser();
-        MyAccount a;
 
-        if ( type == MyAccountType.Personal )
+        MyAccount a;
+        if ( type.isPersonal() )
             a = user.addPersonalAccount(name);
         else
             a = user.addBusinessAccount(name);
@@ -1596,8 +1596,7 @@ public class MyAccountsPage
 
     private KmList<ScOption> getDropdownList()
     {
-        MyUser u = MyGlobals.getServerSession().getUser();
-
+        MyUser u = getCurrentUser();
         if ( u == null )
             return null;
 
