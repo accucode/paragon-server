@@ -16,6 +16,7 @@ import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyInvitation;
+import com.app.model.MyPasswordReset;
 import com.app.model.MyUser;
 import com.app.ui.activity.MyActivity;
 import com.app.utility.MyUrls;
@@ -49,6 +50,9 @@ public class MyHandleNewUserInvitationActivity
     private ScPasswordField _password2Field;
 
     private ScBox           _messageBox;
+    private ScBox           _registeredMessageBox;
+
+    private ScBox           _box;
 
     //##################################################
     //# install
@@ -80,6 +84,7 @@ public class MyHandleNewUserInvitationActivity
 
         installForm(body);
         installMessageBox(body);
+        installRegisteredMessageBox(body);
 
         _root = group;
     }
@@ -149,6 +154,25 @@ public class MyHandleNewUserInvitationActivity
         link.css().link();
     }
 
+    private void installRegisteredMessageBox(ScContainer root)
+    {
+        _box = root.addBox();
+        _box.hide();
+        _box.css().pad10();
+        _registeredMessageBox = _box;
+
+        ScStyledText text;
+        text = _box.addStyledText();
+        text.style().bold().italic().size(16);
+        text.setValue("A request was made to create a new user for this email."
+            + "  However, this email is already registered with our system. "
+            + "If you did not initiate this request, please ignore this message.  "
+            + "If you are having difficulty accessing your account, you may use "
+            + "the link below to reset your password.");
+
+        _box.addBreaks(2);
+    }
+
     //##################################################
     //# actions
     //##################################################
@@ -194,17 +218,25 @@ public class MyHandleNewUserInvitationActivity
         String email;
         email = inv.getEmail();
 
-        MyUser user;
-        user = getAccess().getUserDao().findEmail(email);
+        MyUser u;
+        u = getAccess().getUserDao().findEmail(email);
 
-        if ( user != null )
+        /**
+         *  fixme_valerie: use message boxes to show message instead of error here
+         */
+        if ( u != null )
         {
-            /**
-             *  ask_valerie: another unhandled exception thrown here - because of using
-             *  error in an activity?
-             */
-            error("The email %s is already registered.", email);
-            return;
+            MyPasswordReset r;
+            r = new MyPasswordReset();
+            r.setUser(u);
+            r.saveDao();
+
+            ScUrlLink link;
+            link = _box.addUrlLink("Reset My Password", MyUrls.getPasswordResetUrl(r));
+            link.css().link();
+
+            _form.hide();
+            _registeredMessageBox.show();
         }
 
         ajax().printMain(_root);
@@ -274,5 +306,4 @@ public class MyHandleNewUserInvitationActivity
     {
         _accessKey.setValue(e);
     }
-
 }

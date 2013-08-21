@@ -70,7 +70,7 @@ public class MyAccountsPage
     private ScDropdown            _editTypeDropdown;
     private ScDropdown            _addAccountType;
     private ScDropdown            _editRoleDropdown;
-    private ScDropdown            _addRoleDropdown;
+    private ScDropdown            _inviteRoleDropdown;
 
     private ScTextField           _viewAccountName;
     private ScTextField           _viewAccountType;
@@ -81,7 +81,7 @@ public class MyAccountsPage
     private ScTextField           _viewUserRole;
     private ScTextField           _editUserName;
     private ScTextField           _editUserEmail;
-    private ScTextField           _addUserEmail;
+    private ScTextField           _inviteUserEmail;
     private ScTextField           _deleteAccountName;
     private ScTextField           _deleteAccountType;
 
@@ -364,16 +364,16 @@ public class MyAccountsPage
          */
         box.css().width250();
 
-        _addUserEmail = new ScTextField();
-        _addUserEmail.setLabel("Email ");
+        _inviteUserEmail = new ScTextField();
+        _inviteUserEmail.setLabel("Email ");
 
         populateAddRoleDropdown();
 
         ScFieldTable fields;
         fields = body.addFields();
         fields.addSpace();
-        fields.add(_addUserEmail);
-        fields.add(_addRoleDropdown);
+        fields.add(_inviteUserEmail);
+        fields.add(_inviteRoleDropdown);
 
         group.addDivider();
 
@@ -484,10 +484,10 @@ public class MyAccountsPage
         manager.setText("Manager");
         manager.setValue(MyAccountUserRole.Manager.getCode());
 
-        _addRoleDropdown = new ScDropdown();
-        _addRoleDropdown.addOption(user);
-        _addRoleDropdown.addOption(manager);
-        _addRoleDropdown.setLabel("Role ");
+        _inviteRoleDropdown = new ScDropdown();
+        _inviteRoleDropdown.addOption(user);
+        _inviteRoleDropdown.addOption(manager);
+        _inviteRoleDropdown.setLabel("Role ");
     }
 
     //==================================================
@@ -1445,8 +1445,8 @@ public class MyAccountsPage
         //review_steve VALIDATE EMAIL FIELD
 
         MyAccount account = getPageSession().getAccount();
-        String email = _addUserEmail.getValue();
-        String roleCode = _addRoleDropdown.getStringValue();
+        String email = _inviteUserEmail.getValue();
+        String roleCode = _inviteRoleDropdown.getStringValue();
 
         boolean isValid = KmEmailParser.validate(email);
 
@@ -1462,7 +1462,7 @@ public class MyAccountsPage
          */
 
         if ( !isValid )
-            _addUserEmail.error("Invalid");
+            _inviteUserEmail.error("Invalid");
 
         if ( !checkAccountUserExists(email, account) )
         {

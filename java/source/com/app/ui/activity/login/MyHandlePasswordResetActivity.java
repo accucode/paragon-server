@@ -126,6 +126,7 @@ public class MyHandlePasswordResetActivity
         ScBox box;
         box = root.addBox();
         box.hide();
+        box.css().pad10();
         _messageBox = box;
 
         ScStyledText text;
@@ -143,13 +144,14 @@ public class MyHandlePasswordResetActivity
         ScBox box;
         box = root.addBox();
         box.hide();
+        box.css().pad10();
         _invalidKeyBox = box;
 
         ScStyledText text;
         text = box.addStyledText();
         text.style().bold().italic().size(16);
         text.setValue(""
-            + "This request is invalid for expired. If you still need "
+            + "This request is invalid or expired. If you still need "
             + "to reset your password, please return to the Sign In page and "
             + "request a new password reset.");
 
