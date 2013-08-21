@@ -204,7 +204,7 @@ public class MyHandleTransferInvitationActivity
          * 
          * review_valerie (wyatt) discuss
          */
-        if ( a.getOwner() == u )
+        if ( a.hasOwner(u) )
         {
             buildOwnedMessageBox(email, u, a);
             _form.hide();
