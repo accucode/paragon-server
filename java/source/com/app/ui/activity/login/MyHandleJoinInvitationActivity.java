@@ -219,6 +219,16 @@ public class MyHandleJoinInvitationActivity
 
         MyUser u = getAccess().getUserDao().findEmail(email);
 
+        MyAccount a;
+        a = inv.getAccount();
+
+        if ( a.getAccountUserFor(u) != null )
+        {
+            //  review_steve (valerie) this is still throwing an unhandled exception?
+            error("The email %s is already registered with the account %s.", email, a.getName());
+            return;
+        }
+
         if ( u == null )
         {
             _password1Field.show();
@@ -230,9 +240,6 @@ public class MyHandleJoinInvitationActivity
         }
         else
             getPageSession().setUser(u);
-
-        MyAccount a;
-        a = inv.getAccount();
 
         _emailText.setValue(inv.getEmail());
         _accountText.setValue(a.getName());

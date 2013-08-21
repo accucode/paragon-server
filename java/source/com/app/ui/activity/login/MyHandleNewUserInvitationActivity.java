@@ -216,7 +216,13 @@ public class MyHandleNewUserInvitationActivity
         String email;
         email = inv.getEmail();
 
-        createUser(email);
+        MyUser user;
+        user = getAccess().getUserDao().findEmail(email);
+
+        if ( user != null )
+            error("The email %s is already registered.", email);
+        else
+            createUser(email);
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
