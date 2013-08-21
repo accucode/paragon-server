@@ -18,6 +18,12 @@ import com.app.utility.MyUrls;
 public class MyJoinAccountUtility
 {
     //##################################################
+    //# variables
+    //##################################################
+
+    private MyUser _user;
+
+    //##################################################
     //# start
     //##################################################
 
@@ -26,6 +32,9 @@ public class MyJoinAccountUtility
         MyUser user = getAccess().getUserDao().findEmail(email);
 
         boolean isNewUser = user == null;
+
+        if ( !isNewUser )
+            _user = user;
 
         sendJoinInvitation(email, account, isNewUser, roleCode);
     }
@@ -48,14 +57,12 @@ public class MyJoinAccountUtility
         inv.setRoleCode(roleCode);
         inv.saveDao();
 
-        MyUser user = getAccess().getUserDao().findEmail(email);
-
         KmHtmlBuilder msg;
 
         if ( isNewUser )
             msg = formatNewUserMsg(email, account, inv);
         else
-            msg = formatExistingUserMsg(user, account, inv);
+            msg = formatExistingUserMsg(_user, account, inv);
 
         String subject = Kmu.format("%s Join Account Invitation", accountName);
 
