@@ -204,7 +204,7 @@ public class MyFieldTestPage
         ScTextField field;
         field = fields.addTextField();
         field.setLabel("Last");
-        field.setValue("Readonly");
+        field.setValue("readonly");
         field.setReadOnly();
 
         box = body.addFieldset("Phone");
