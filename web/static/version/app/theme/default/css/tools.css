@@ -257,13 +257,56 @@
 .spacedLeft20 > *  { margin-left: 20px; }
 
 /*******************************************************************
- ** pad outer
+ ** gapOuter
  *******************************************************************/
 
-.padOuter			{ padding: 10px  0px  0px 10px }
-.padOuter > *       { margin:   0px 10px 10px  0px }
+.gapFull          { padding: 10px  0px  0px 10px }
+.gapFull > *      { margin:   0px 10px 10px  0px }
 
-.padInner			{ padding: 10px  0px  0px 10px }
+.gapFull5         { padding: 5px 0px 0px 5px }
+.gapFull5 > *     { margin:  0px 5px 5px 0px }
+
+.gapFull10        { padding: 10px  0px  0px 10px }
+.gapFull10 > *    { margin:   0px 10px 10px  0   }
+
+.gapFull10x3      { padding: 10px  7px  7px 10px }
+.gapFull10x3 > *  { margin:   0px  3px  3px  0px }
+
+.gapFull10x2      { padding: 10px  8px  8px 10px }
+.gapFull10x2 > *  { margin:   0px  2px  2px  0px }
+
+.gapFull20        { padding: 20px  0px  0px 20px }
+.gapFull20 > *    { margin:   0px 20px 20px  0px }
+
+.gapFull20x5      { padding: 20px 15px 15px 20px }
+.gapFull20x5 > *  { margin:   0px  5px  5px  0px }
+
+
+/*******************************************************************
+ ** gapFull
+ *******************************************************************/
+
+.gapFull          { padding: 10px  0px  0px 10px }
+.gapFull > *      { margin:   0px 10px 10px  0px }
+
+.gapFull5         { padding: 5px 0px 0px 5px }
+.gapFull5 > *     { margin:  0px 5px 5px 0px }
+
+.gapFull10        { padding: 10px  0px  0px 10px }
+.gapFull10 > *    { margin:   0px 10px 10px  0   }
+
+.gapFull10x3      { padding: 10px  7px  7px 10px }
+.gapFull10x3 > *  { margin:   0px  3px  3px  0px }
+
+.gapFull10x2      { padding: 10px  8px  8px 10px }
+.gapFull10x2 > *  { margin:   0px  2px  2px  0px }
+
+.gapFull20        { padding: 20px  0px  0px 20px }
+.gapFull20 > *    { margin:   0px 20px 20px  0px }
+
+.gapFull20x5      { padding: 20px 15px 15px 20px }
+.gapFull20x5 > *  { margin:   0px  5px  5px  0px }
+
 
 /*******************************************************************
  ** padSpaced

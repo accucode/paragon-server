@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+    </script>
+
+    <style type="text/css">
+        .xBefore
+        {
+            padding: 10px 0 0 10px;
+        }
+        
+        .xAfter > *
+        {
+            margin: 0px 10px 10px 0px;
+        }
+        
+        .xAll
+        {
+            padding: 10px 0 0 10px;
+        }
+        .xAll > *
+        {
+            margin: 0px 10px 10px 0px;
+        }
+        
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="">
+
+    <div class="boxGray padSpaced">
+        <p>Demonstrate equidistant spacing around and between a series of childen</p>
+        <button onclick="location.reload();">reload</button>
+    </div>
+
+
+    <div class="boxPurple clearBoth pad">
+        <p>
+            <b>gapBefore.</b>
+            This places a gap before the children.
+            A top-left padding is applied to the parent. 
+        </p>
+    </div>
+    <div class="boxBlue floatLeft clearfix xBefore">
+        <div class="boxBrown pad floatLeft">child</div>
+        <div class="boxBrown pad floatLeft">child</div>
+        <div class="boxBrown pad floatLeft">child</div>
+        <div class="boxBrown pad floatLeft clearBoth">child</div>
+        <div class="boxBrown pad floatLeft">child</div>
+        <div class="boxBrown pad floatLeft">child</div>
+    </div>
+
+
+    <div class="boxPurple clearBoth pad">
+        <p>
+            <b>gapAfter.</b>
+            This places a gap after and <i>between</i> each of the children.
+            A bottom-right margin is applied to each of the parent's children. 
+        </p>
+    </div>
+    <div class="boxBlue floatLeft clearfix xAfter">
+        <div class="boxBrown pad floatLeft">child</div>
+        <div class="boxBrown pad floatLeft">child</div>
+        <div class="boxBrown pad floatLeft">child</div>
+        <div class="boxBrown pad floatLeft clearBoth">child</div>
+        <div class="boxBrown pad floatLeft">child</div>
+        <div class="boxBrown pad floatLeft">child</div>
+    </div>
+    
+    <div class="boxPurple clearBoth pad">
+        <p>
+            <b>gapFull.</b>
+            This places a gap around an between all of the children.
+            This is simple a composite of gapBefore and gapAfter.
+            In many simple cases, using gapFull provides a clean layout with minimal effort.
+        </p>
+    </div>
+    <div class="boxBlue floatLeft clearfix xAll">
+        <div class="boxBrown pad floatLeft">child</div>
+        <div class="boxBrown pad floatLeft">child</div>
+        <div class="boxBrown pad floatLeft">child</div>
+        <div class="boxBrown pad floatLeft clearBoth">child</div>
+        <div class="boxBrown pad floatLeft">child</div>
+        <div class="boxBrown pad floatLeft">child</div>
+    </div>
+    
+    <div class="boxPurple clearBoth pad">
+        <p>
+            <b>Mixed.</b>
+            For slightly more complex layouts with nested parents, we can combine
+            the user of gapOuter and gapInner to create equidistant spacing between
+            nested children.  This can be useful in cases like the following, but 
+            where the green boxes have transparent background and borders.
+        </p>
+    </div>
+    <div class="boxBlue floatLeft clearfix xBefore">
+        <div class="boxGreen clearBoth clearfix xAfter">
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft clearBoth">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+        </div>
+        <div class="boxGreen clearBoth clearfix xAfter">
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft clearBoth">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+        </div>
+    </div>
+
+    <div class="boxRed clearBoth pad">
+        <p>
+            <b>Failure.</b>
+            There is still no simple way to apply consistent gaps for more complex layouts.
+            The following is a simple example for which there is no simple solution
+            for a dynamic layout.  The only solution for cases like this is to resort
+            to setting custom padding and/or margins on individual children.
+        </p>
+    </div>
+    <div class="boxBlue floatLeft clearfix xBefore">
+        <div class="boxGreen clearBoth clearfix xAfter">
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft clearBoth">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+        </div>
+        <div class="boxGreen clearBoth clearfix xAfter">
+            <div class="boxRed floatLeft clearfix xAfter">
+                <div class="boxBrown pad floatLeft">child</div>
+                <div class="boxBrown pad floatLeft">child</div>
+            </div>
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft clearBoth">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+            <div class="boxBrown pad floatLeft">child</div>
+        </div>
+    </div>
+
+</div>    
+</body>
+</html>
