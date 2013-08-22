@@ -268,6 +268,11 @@ public abstract class ScControl
         return _parent != null;
     }
 
+    public boolean hasParent(ScControl e)
+    {
+        return Kmu.isEqual(getParent(), e);
+    }
+
     /**
      * This method provides child controls the opportunity to perform
      * some action after they have been added to a container.  

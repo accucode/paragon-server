@@ -80,4 +80,9 @@ public class ScCard
     {
         getFrame().setDefaultCard(this);
     }
+
+    public boolean isDefault()
+    {
+        return getFrame().isDefaultCard(this);
+    }
 }

@@ -126,6 +126,11 @@ public class ScCardFrame
         return _defaultCard != null;
     }
 
+    public boolean isDefaultCard(ScCard e)
+    {
+        return hasDefaultCard() && getDefaultCard() == e;
+    }
+
     //##################################################
     //# show effect
     //##################################################
@@ -340,13 +345,41 @@ public class ScCardFrame
     //# navigation
     //##################################################
 
+    public void printDefault()
+    {
+        print(getDefaultCard());
+    }
+
     public void print(ScCard e)
     {
-        if ( e.getParent() != this )
-            Kmu.fatal("Child does not belong to this frame.");
+        check(e);
 
-        e.prePrint();
+        if ( e != null )
+            e.prePrint();
+
         ajaxPrint(e);
     }
 
+    public void close(ScCard e)
+    {
+        check(e);
+
+        if ( e.isDefault() )
+            ajaxPrint(null);
+        else
+            printDefault();
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private void check(ScCard e)
+    {
+        if ( e == null )
+            return;
+
+        if ( !e.hasParent(this) )
+            Kmu.fatal("Child does not belong to this frame.");
+    }
 }

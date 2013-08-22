@@ -189,20 +189,19 @@ public class MyAccountsPage
         _accountFrame.setHideFlip();
         _accountFrame.setShowFlip();
 
-        installViewAccountFrame();
-        installEditAccountFrame();
-        installAddAccountFrame();
-        installInviteUserFrame();
-        installDeleteAccountFrame();
-        installTransferAccountFrame();
-
-        _viewAccountCard.beDefault();
+        installViewAccountCard();
+        installEditAccountCard();
+        installAddAccountCard();
+        installInviteUserCard();
+        installDeleteAccountCard();
+        installTransferAccountCard();
     }
 
-    private void installViewAccountFrame()
+    private void installViewAccountCard()
     {
         ScCard card;
         card = _accountFrame.addCard();
+        card.beDefault();
 
         ScForm form;
         form = card.addForm();
@@ -248,8 +247,14 @@ public class MyAccountsPage
         _viewAccountCard = card;
     }
 
-    private void installEditAccountFrame()
+    private void installEditAccountCard()
     {
+        _editAccountNameField = new ScTextField();
+        _editAccountNameField.setLabel("Name ");
+
+        _editTypeDropdown = MyAccount.Tools.newTypeDropdown();
+        _editTypeDropdown.setLabel("Type ");
+
         ScActionIF saveAction = newEditAccountSaveAction();
         ScActionIF cancelAction = newEditAccountCancelAction();
 
@@ -264,18 +269,8 @@ public class MyAccountsPage
         ScGroup group;
         group = form.addGroup("Edit Account");
 
-        ScBox body;
-        body = group.addBox();
-        body.css().pad();
-
-        _editAccountNameField = new ScTextField();
-        _editAccountNameField.setLabel("Name ");
-
-        _editTypeDropdown = MyAccount.Tools.newTypeDropdown();
-        _editTypeDropdown.setLabel("Type ");
-
         ScFieldTable fields;
-        fields = body.addFields();
+        fields = group.addPad().addFields();
         fields.add(_editAccountNameField);
         fields.add(_editTypeDropdown);
 
@@ -289,7 +284,7 @@ public class MyAccountsPage
         _editAccountCard = card;
     }
 
-    private void installAddAccountFrame()
+    private void installAddAccountCard()
     {
         ScActionIF saveAction = newAddAccountSaveAction();
         ScActionIF cancelAction = newAddAccountCancelAction();
@@ -330,7 +325,7 @@ public class MyAccountsPage
         _addAccountCard = card;
     }
 
-    private void installInviteUserFrame()
+    private void installInviteUserCard()
     {
         ScActionIF sendAction = newSendJoinRequestAction();
         ScActionIF cancelAction = newInviteUserCancelAction();
@@ -377,7 +372,7 @@ public class MyAccountsPage
         _inviteUserCard = card;
     }
 
-    private void installDeleteAccountFrame()
+    private void installDeleteAccountCard()
     {
         ScActionIF saveAction = newDeleteAccountAction();
         ScActionIF cancelAction = newDeleteAccountCancelAction();
@@ -420,7 +415,7 @@ public class MyAccountsPage
         _deleteAccountCard = card;
     }
 
-    private void installTransferAccountFrame()
+    private void installTransferAccountCard()
     {
         ScActionIF sendAction = newSendTransferRequestAction();
         ScActionIF cancelAction = newCancelTransferRequestAction();
