@@ -3,8 +3,8 @@ package com.app.ui.activity.test;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScCard;
+import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
@@ -26,15 +26,15 @@ public class MyCardFlipTestPage
     //# variables
     //##################################################
 
-    private ScCardFrame      _flipFrame;
+    private ScCardFrame _flipFrame;
 
-    private ScCard _flipFront;
-    private ScCard _flipBack;
+    private ScCard      _flipFront;
+    private ScCard      _flipBack;
 
-    private ScCardFrame      _fadeFrame;
+    private ScCardFrame _fadeFrame;
 
-    private ScCard _fadeFront;
-    private ScCard _fadeBack;
+    private ScCard      _fadeFront;
+    private ScCard      _fadeBack;
 
     //##################################################
     //# install
@@ -126,13 +126,13 @@ public class MyCardFlipTestPage
 
     private void handleShowFront()
     {
-        _flipFrame.ajaxPrint(_flipFront);
-        _fadeFrame.ajaxPrint(_fadeFront);
+        _flipFront.print();
+        _fadeFront.print();
     }
 
     private void handleShowBack()
     {
-        _flipFrame.ajaxPrint(_flipBack);
-        _fadeFrame.ajaxPrint(_fadeBack);
+        _flipBack.print();
+        _fadeBack.print();
     }
 }

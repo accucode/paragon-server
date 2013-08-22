@@ -437,6 +437,18 @@ public abstract class ScBlockScript
             run("Kmu.focus(%s);", json(sel));
     }
 
+    public void focusDeferred(ScHtmlIdIF e)
+    {
+        focusDeferred(e.formatJquerySelector());
+    }
+
+    public void focusDeferred(String sel)
+    {
+        pushDeferUntil(sel);
+        focus(sel);
+        pop();
+    }
+
     //##################################################
     //# show
     //##################################################

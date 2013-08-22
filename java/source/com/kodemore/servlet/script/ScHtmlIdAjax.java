@@ -188,6 +188,11 @@ public class ScHtmlIdAjax
         getInner().focus(getTarget());
     }
 
+    public void focusDeferred()
+    {
+        getInner().focusDeferred(getTarget());
+    }
+
     //##################################################
     //# value
     //##################################################

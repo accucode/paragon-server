@@ -4,10 +4,10 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.field.ScColorField;
 import com.kodemore.servlet.field.ScDropdown;
@@ -25,11 +25,11 @@ public class MyUserFrame
     //# variables
     //##################################################
 
-    private ScCard _viewChild;
-    private ScCard _editChild;
-    private ScCard _addChild;
+    private ScCard     _viewChild;
+    private ScCard     _editChild;
+    private ScCard     _addChild;
 
-    private ScActionIF   _onChangeAction;
+    private ScActionIF _onChangeAction;
 
     //##################################################
     //# install
@@ -332,7 +332,7 @@ public class MyUserFrame
         MyUser user = getUser();
 
         _viewChild.applyFromModel(user);
-        _viewChild.ajaxPrint();
+        _viewChild.print();
     }
 
     private void renderEdit()
@@ -341,8 +341,7 @@ public class MyUserFrame
         user = getPageSession().getUser();
 
         _editChild.applyFromModel(user);
-        _editChild.ajaxPrint();
-        _editChild.ajax().focus();
+        _editChild.print();
     }
 
     //##################################################
@@ -358,7 +357,7 @@ public class MyUserFrame
     public void ajaxPrintAddUser()
     {
         clearUser();
-        _addChild.ajaxPrint();
+        _addChild.print();
     }
 
 }

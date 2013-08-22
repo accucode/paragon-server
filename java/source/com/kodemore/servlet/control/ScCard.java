@@ -39,6 +39,25 @@ public class ScCard
     }
 
     //##################################################
+    //# navigation
+    //##################################################
+
+    /**
+     * I am called immediately before this card is printed.
+     * I am called each (every) time the card is printed.
+     * Subclasses are generally NOT required to call super.
+     */
+    public void prePrint()
+    {
+        // subclass 
+    }
+
+    public void print()
+    {
+        getFrame().print(this);
+    }
+
+    //##################################################
     //# accessing
     //##################################################
 
@@ -59,16 +78,6 @@ public class ScCard
 
     public void beDefault()
     {
-        getParent().setDefaultCard(this);
+        getFrame().setDefaultCard(this);
     }
-
-    //##################################################
-    //# ajax
-    //##################################################
-
-    public void ajaxPrint()
-    {
-        getParent().ajaxPrint(this);
-    }
-
 }

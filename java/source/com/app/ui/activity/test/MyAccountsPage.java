@@ -1135,7 +1135,7 @@ public class MyAccountsPage
             _deleteAccountType.setValue(a.getType().getName());
         }
 
-        _accountFrame.ajaxPrint(_deleteAccountCard);
+        _deleteAccountCard.print();
     }
 
     private void handleDeleteAccount()
@@ -1241,8 +1241,7 @@ public class MyAccountsPage
     private void handleShowAddAccountBox()
     {
         setIsEditing();
-        _accountFrame.ajaxPrint(_addAccountCard);
-        _addAccountCard.ajax().focus();
+        _addAccountCard.print();
     }
 
     private void handleShowEditAccountBox()
@@ -1258,14 +1257,13 @@ public class MyAccountsPage
             _editTypeDropdown.setValue(a.getType());
         }
 
-        _accountFrame.ajaxPrint(_editAccountCard);
+        _editAccountCard.print();
     }
 
     private void handleShowTransferBox()
     {
         setIsEditing();
-        _accountFrame.ajaxPrint(_transferCard);
-        _transferCard.ajax().focus();
+        _transferCard.print();
     }
 
     private void handleSendTransferRequest()
@@ -1362,8 +1360,7 @@ public class MyAccountsPage
     private void handleShowInviteUserBox()
     {
         setIsEditing();
-        _accountFrame.ajaxPrint(_inviteUserCard);
-        _inviteUserCard.ajax().focus();
+        _inviteUserCard.print();
     }
 
     private void handleViewUser()
@@ -1393,7 +1390,7 @@ public class MyAccountsPage
             _viewUserCard.ajax().replace();
         }
 
-        _userFrame.ajaxPrint(_viewUserCard);
+        _viewUserCard.print();
     }
 
     private void handleEditUserSave()
@@ -1426,7 +1423,7 @@ public class MyAccountsPage
         _viewUserEmail.setValue(u.getEmail());
         _viewUserRole.setValue(pageSessionAU.getRoleName());
 
-        _userFrame.ajaxPrint(_viewUserCard);
+        _viewUserCard.print();
 
         _userGrid.ajaxReload();
     }
@@ -1497,7 +1494,7 @@ public class MyAccountsPage
         }
 
         _editRoleDropdown.setValue(au.getRole());
-        _userFrame.ajaxPrint(_editUserCard);
+        _editUserCard.print();
     }
 
     private void handleViewUserCancel()
@@ -1583,7 +1580,7 @@ public class MyAccountsPage
     private void refreshFlipViewAccount()
     {
         refreshViewAccount();
-        _accountFrame.ajaxPrint(_viewAccountCard);
+        _viewAccountCard.print();
     }
 
     private void refreshAll(boolean isStart)
