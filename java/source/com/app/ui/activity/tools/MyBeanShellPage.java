@@ -14,7 +14,7 @@ import com.app.file.MyResourceFiles;
 import com.app.ui.activity.MyActivity;
 
 public class MyBeanShellPage
-    extends MyAbstractToolsPage
+    extends MyToolsPage
 {
     //##################################################
     //# singleton

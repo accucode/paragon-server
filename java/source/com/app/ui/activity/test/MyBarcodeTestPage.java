@@ -9,7 +9,7 @@ import com.kodemore.servlet.control.ScPageRoot;
  * Test the various form fields.
  */
 public class MyBarcodeTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

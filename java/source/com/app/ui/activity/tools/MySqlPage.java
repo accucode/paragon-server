@@ -16,7 +16,7 @@ import com.kodemore.utility.Kmu;
 import com.app.ui.activity.MyActivity;
 
 public class MySqlPage
-    extends MyAbstractToolsPage
+    extends MyToolsPage
 {
     //##################################################
     //# singleton

@@ -10,7 +10,7 @@ import com.kodemore.servlet.field.ScTextField;
 import com.app.ui.activity.MyActivity;
 
 public class MyFormTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

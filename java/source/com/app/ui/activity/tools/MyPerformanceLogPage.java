@@ -23,7 +23,7 @@ import com.app.model.meta.MyMetaPerformanceLogSummaryVo;
 import com.app.ui.activity.MyActivity;
 
 public class MyPerformanceLogPage
-    extends MyAbstractToolsPage
+    extends MyToolsPage
 {
     //##################################################
     //# singleton

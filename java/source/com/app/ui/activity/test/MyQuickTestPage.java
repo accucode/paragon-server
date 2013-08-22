@@ -6,7 +6,7 @@ import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyQuickTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

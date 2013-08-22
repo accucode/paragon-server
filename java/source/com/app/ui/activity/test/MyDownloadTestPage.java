@@ -10,7 +10,7 @@ import com.kodemore.time.KmTimestamp;
  * Test the layout and usage of the groups.
  */
 public class MyDownloadTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

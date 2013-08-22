@@ -20,7 +20,7 @@ import com.app.model.meta.MyMetaEmail;
 import com.app.model.meta.MyMetaEmailPart;
 
 public class MyEmailViewPage
-    extends MyAbstractAdminPage
+    extends MyAdminPage
 {
     //##################################################
     //# singleton

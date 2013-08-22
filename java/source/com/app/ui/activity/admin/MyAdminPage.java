@@ -1,48 +1,20 @@
 package com.app.ui.activity.admin;
 
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
-import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.exception.KmRoleViolationException;
 
-import com.app.ui.activity.test.MyAccountsPage;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyPage;
 
-public class MyAdminPage
-    extends MyAbstractAdminPage
+public abstract class MyAdminPage
+    extends MyPage
 {
-    //##################################################
-    //# singleton
-    //##################################################
-
-    public static final MyAdminPage instance = new MyAdminPage();
-
-    private MyAdminPage()
-    {
-        // singleton
-    }
-
-    //##################################################
-    //# install
-    //##################################################
-
     @Override
-    protected ScPageRoot installRoot()
+    public void checkSecurity()
     {
-        ScPageRoot root;
-        root = newPageRoot();
-        root.css().gap();
+        super.checkSecurity();
 
-        ScGroupArray groups;
-        groups = root.addGroupArray();
-        groups.style().width(150).height(200);
-
-        ScGroup group;
-        group = groups.addGroup("Admin");
-
-        ScBox links;
-        links = group.addLinkBox();
-        links.addLink(MyAccountsPage.instance);
-
-        return root;
+        MyUser u = getServerSession().getUser();
+        if ( !u.allowsAdmin() )
+            throw new KmRoleViolationException("Must be admin");
     }
 }

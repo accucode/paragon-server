@@ -12,10 +12,10 @@ import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
 import com.app.ui.activity.MyActivityRegistry;
-import com.app.ui.activity.admin.MyAdminPage;
+import com.app.ui.activity.admin.MyAdminMenuPage;
 import com.app.ui.activity.general.MyHomePage;
-import com.app.ui.activity.test.MyTestPage;
-import com.app.ui.activity.tools.MyToolsPage;
+import com.app.ui.activity.test.MyTestMenuPage;
+import com.app.ui.activity.tools.MyToolsMenuPage;
 import com.app.ui.core.MyServletData;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyHashBridge;
@@ -67,9 +67,9 @@ public class MyLeftMenu
         v = new KmList<ScActivity>();
 
         v.add(MyHomePage.instance);
-        v.add(MyAdminPage.instance);
-        v.add(MyToolsPage.instance);
-        v.add(MyTestPage.instance);
+        v.add(MyAdminMenuPage.instance);
+        v.add(MyToolsMenuPage.instance);
+        v.add(MyTestMenuPage.instance);
 
         return v;
     }

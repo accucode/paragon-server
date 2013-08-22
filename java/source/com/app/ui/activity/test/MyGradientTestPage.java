@@ -8,7 +8,7 @@ import com.kodemore.utility.Kmu;
  * Simple html5 gradients.
  */
 public class MyGradientTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

@@ -11,7 +11,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.app.utility.MyButtonUrls;
 
 public class MyShowDialogTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

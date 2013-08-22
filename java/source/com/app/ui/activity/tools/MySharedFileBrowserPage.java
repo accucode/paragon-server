@@ -16,7 +16,7 @@ import com.kodemore.utility.Kmu;
 import com.app.file.MySharedFiles;
 
 public class MySharedFileBrowserPage
-    extends MyAbstractToolsPage
+    extends MyToolsPage
 {
     //##################################################
     //# singleton

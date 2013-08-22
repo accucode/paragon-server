@@ -1,4 +1,4 @@
-package com.app.ui.activity.test;
+package com.app.ui.activity.admin;
 
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmCollection;
@@ -49,7 +49,7 @@ import com.app.utility.MyButtonUrls;
 import com.app.utility.MyGlobals;
 
 public class MyAccountsPage
-    extends MyAbstractTestPage
+    extends MyAdminPage
 {
     //##################################################
     //# singleton
@@ -240,10 +240,10 @@ public class MyAccountsPage
         _viewAccountFooter = group.addButtonBoxRight();
 
         _transferButton = _viewAccountFooter.addButton("Transfer", newShowTransferBoxAction());
+        _transferButton.hide();
+
         _viewAccountFooter.addButton("Invite", newShowInviteUserBoxAction());
         _deleteButton = _viewAccountFooter.addButton("Delete", newShowDeleteAccountBoxAction());
-
-        _transferButton.hide();
 
         _viewAccountCard = card;
     }

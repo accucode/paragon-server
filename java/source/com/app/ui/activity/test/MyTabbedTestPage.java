@@ -4,7 +4,7 @@ import com.kodemore.servlet.control.ScNotebook;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyTabbedTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

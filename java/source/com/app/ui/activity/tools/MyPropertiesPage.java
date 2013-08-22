@@ -15,7 +15,7 @@ import com.app.property.base.MyPropertyDefinitions;
 import com.app.ui.activity.MyActivity;
 
 public class MyPropertiesPage
-    extends MyAbstractToolsPage
+    extends MyToolsPage
 {
     //##################################################
     //# singleton

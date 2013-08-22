@@ -23,7 +23,7 @@ import com.app.model.meta.MyMetaEmail;
 import com.app.model.meta.MyMetaEmailRecipient;
 
 public class MyEmailEditPage
-    extends MyAbstractAdminPage
+    extends MyAdminPage
 {
     //##################################################
     //# singleton

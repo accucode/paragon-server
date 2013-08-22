@@ -14,7 +14,7 @@ import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
 
 public class MyDomainDropdownSetValueTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton
