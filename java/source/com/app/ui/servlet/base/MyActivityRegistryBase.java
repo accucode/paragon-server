@@ -59,6 +59,7 @@ public abstract class MyActivityRegistryBase
         add(MyHandleTransferInvitationActivity.instance);
         add(MyHideErrorsTestPage.instance);
         add(MyHomePage.instance);
+        add(MyInvalidInvitationPage.instance);
         add(MyLocalValueTestPage.instance);
         add(MyMemoryLeakTestPage.instance);
         add(MyNotebookTestPage.instance);

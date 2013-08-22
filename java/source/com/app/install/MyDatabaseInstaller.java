@@ -62,7 +62,6 @@ public class MyDatabaseInstaller
 
     private void resetSchema()
     {
-
         KmDatabaseTool u;
         u = new KmDatabaseTool();
         u.setOpenDefaultSchema(false);

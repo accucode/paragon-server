@@ -16,6 +16,7 @@ import com.app.ui.activity.login.MyHandleJoinInvitationActivity;
 import com.app.ui.activity.login.MyHandleNewUserInvitationActivity;
 import com.app.ui.activity.login.MyHandlePasswordResetActivity;
 import com.app.ui.activity.login.MyHandleTransferInvitationActivity;
+import com.app.ui.activity.login.MyInvalidInvitationPage;
 import com.app.ui.activity.login.MySignInActivity;
 import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyLeftMenu;
@@ -222,10 +223,15 @@ public class MyAjaxServlet
          * me return false or create a new activity that shows an invalid invitation message
          * box to take them to?
          * 
-         * review_valerie (wyatt) discuss
+         * (wyatt) discuss
+         * 
+         * review_wyatt (valerie) fixed
          */
         if ( inv == null )
-            return false;
+        {
+            MyInvalidInvitationPage.instance.start();
+            return true;
+        }
 
         MyInvitationType type = inv.getType();
         switch ( type )

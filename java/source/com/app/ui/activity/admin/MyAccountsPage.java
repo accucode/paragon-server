@@ -1476,19 +1476,6 @@ public class MyAccountsPage
         String userName = getPageSession().getUser().getName();
         String accountName = getPageSession().getAccount().getName();
 
-        /**
-         * (valerie) This method is not working as intended,
-         * what am I missing?
-         * 
-         * (wyatt)
-         *      I don't know.
-         *      What did you intend?
-         *      What did you experience?
-         *      
-         * (valerie) disregard, it appears to be working correctly now
-         * 
-         * review_valerie (wyatt) ok.
-         */
         _dialogBody.addPad().addText(
             "Are you sure you want to remove %s from %s?",
             userName,
