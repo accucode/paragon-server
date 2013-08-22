@@ -68,36 +68,36 @@ public class MyAccountsPage
 
     private ScDropdown            _accountDropdown;
     private ScDropdown            _editTypeDropdown;
-    private ScDropdown            _addAccountType;
+    private ScDropdown            _addAccountTypeDropdown;
     private ScDropdown            _editRoleDropdown;
     private ScDropdown            _inviteRoleDropdown;
 
-    private ScTextField           _viewAccountName;
-    private ScTextField           _viewAccountType;
-    private ScTextField           _editAccountName;
-    private ScTextField           _addAccountName;
-    private ScTextField           _viewUserName;
-    private ScTextField           _viewUserEmail;
-    private ScTextField           _viewUserRole;
-    private ScTextField           _editUserName;
-    private ScTextField           _editUserEmail;
-    private ScTextField           _inviteUserEmail;
-    private ScTextField           _deleteAccountName;
-    private ScTextField           _deleteAccountType;
+    private ScTextField           _viewAccountNameField;
+    private ScTextField           _viewAccountTypeField;
+    private ScTextField           _editAccountNameField;
+    private ScTextField           _addAccountNameField;
+    private ScTextField           _viewUserNameField;
+    private ScTextField           _viewUserEmailField;
+    private ScTextField           _viewUserRoleField;
+    private ScTextField           _editUserNameField;
+    private ScTextField           _editUserEmailField;
+    private ScTextField           _inviteUserEmailField;
+    private ScTextField           _deleteAccountNameField;
+    private ScTextField           _deleteAccountTypeField;
 
     private ScAutoCompleteField   _transferEmailAutoComplete;
 
+    private ScCardFrame           _accountFrame;
     private ScCard                _viewAccountCard;
     private ScCard                _editAccountCard;
     private ScCard                _addAccountCard;
+    private ScCard                _inviteUserCard;
+    private ScCard                _deleteAccountCard;
+    private ScCard                _transferCard;
+
+    private ScCardFrame           _userFrame;
     private ScCard                _viewUserCard;
     private ScCard                _editUserCard;
-    private ScCard                _inviteUserCard;
-    private ScCard                _transferCard;
-    private ScCard                _deleteAccountCard;
-
-    private ScCardFrame           _accountFrame;
-    private ScCardFrame           _userFrame;
 
     private ScDialog              _deleteUserDialog;
     private ScDialog              _editingDialog;
@@ -196,7 +196,7 @@ public class MyAccountsPage
         installDeleteAccountFrame();
         installTransferAccountFrame();
 
-        _accountFrame.setDefaultCard(_viewAccountCard);
+        _viewAccountCard.beDefault();
     }
 
     private void installViewAccountFrame()
@@ -222,18 +222,18 @@ public class MyAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        _viewAccountName = new ScTextField();
-        _viewAccountName.setLabel("Name  ");
-        _viewAccountName.setReadOnly();
+        _viewAccountNameField = new ScTextField();
+        _viewAccountNameField.setLabel("Name  ");
+        _viewAccountNameField.setReadOnly();
 
-        _viewAccountType = new ScTextField();
-        _viewAccountType.setLabel("Type ");
-        _viewAccountType.setReadOnly();
+        _viewAccountTypeField = new ScTextField();
+        _viewAccountTypeField.setLabel("Type ");
+        _viewAccountTypeField.setReadOnly();
 
         ScFieldTable fields;
         fields = body.addFields();
-        fields.add(_viewAccountName);
-        fields.add(_viewAccountType);
+        fields.add(_viewAccountNameField);
+        fields.add(_viewAccountTypeField);
 
         group.addDivider();
 
@@ -268,15 +268,15 @@ public class MyAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        _editAccountName = new ScTextField();
-        _editAccountName.setLabel("Name ");
+        _editAccountNameField = new ScTextField();
+        _editAccountNameField.setLabel("Name ");
 
         _editTypeDropdown = MyAccount.Tools.newTypeDropdown();
         _editTypeDropdown.setLabel("Type ");
 
         ScFieldTable fields;
         fields = body.addFields();
-        fields.add(_editAccountName);
+        fields.add(_editAccountNameField);
         fields.add(_editTypeDropdown);
 
         group.addDivider();
@@ -309,16 +309,16 @@ public class MyAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        _addAccountName = new ScTextField();
-        _addAccountName.setLabel("Name ");
+        _addAccountNameField = new ScTextField();
+        _addAccountNameField.setLabel("Name ");
 
-        _addAccountType = MyAccount.Tools.newTypeDropdown();
-        _addAccountType.setLabel("Type ");
+        _addAccountTypeDropdown = MyAccount.Tools.newTypeDropdown();
+        _addAccountTypeDropdown.setLabel("Type ");
 
         ScFieldTable fields;
         fields = body.addFields();
-        fields.add(_addAccountName);
-        fields.add(_addAccountType);
+        fields.add(_addAccountNameField);
+        fields.add(_addAccountTypeDropdown);
 
         group.addDivider();
 
@@ -356,15 +356,15 @@ public class MyAccountsPage
         box.css().centerText();
         box.css().width250();
 
-        _inviteUserEmail = new ScTextField();
-        _inviteUserEmail.setLabel("Email ");
+        _inviteUserEmailField = new ScTextField();
+        _inviteUserEmailField.setLabel("Email ");
 
         populateAddRoleDropdown();
 
         ScFieldTable fields;
         fields = body.addFields();
         fields.addSpace();
-        fields.add(_inviteUserEmail);
+        fields.add(_inviteUserEmailField);
         fields.add(_inviteRoleDropdown);
 
         group.addDivider();
@@ -397,18 +397,18 @@ public class MyAccountsPage
         body = _deleteGroup.addBox();
         body.css().pad();
 
-        _deleteAccountName = new ScTextField();
-        _deleteAccountName.setLabel("Name ");
-        _deleteAccountName.setReadOnly();
+        _deleteAccountNameField = new ScTextField();
+        _deleteAccountNameField.setLabel("Name ");
+        _deleteAccountNameField.setReadOnly();
 
-        _deleteAccountType = new ScTextField();
-        _deleteAccountType.setLabel("Type ");
-        _deleteAccountType.setReadOnly();
+        _deleteAccountTypeField = new ScTextField();
+        _deleteAccountTypeField.setLabel("Type ");
+        _deleteAccountTypeField.setReadOnly();
 
         ScFieldTable fields;
         fields = body.addFields();
-        fields.add(_deleteAccountName);
-        fields.add(_deleteAccountType);
+        fields.add(_deleteAccountNameField);
+        fields.add(_deleteAccountTypeField);
 
         _deleteGroup.addDivider();
 
@@ -634,23 +634,23 @@ public class MyAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        _viewUserName = new ScTextField();
-        _viewUserName.setLabel("Name ");
-        _viewUserName.setReadOnly();
+        _viewUserNameField = new ScTextField();
+        _viewUserNameField.setLabel("Name ");
+        _viewUserNameField.setReadOnly();
 
-        _viewUserEmail = new ScTextField();
-        _viewUserEmail.setLabel("Email ");
-        _viewUserEmail.setReadOnly();
+        _viewUserEmailField = new ScTextField();
+        _viewUserEmailField.setLabel("Email ");
+        _viewUserEmailField.setReadOnly();
 
-        _viewUserRole = new ScTextField();
-        _viewUserRole.setLabel("Role ");
-        _viewUserRole.setReadOnly();
+        _viewUserRoleField = new ScTextField();
+        _viewUserRoleField.setLabel("Role ");
+        _viewUserRoleField.setReadOnly();
 
         ScFieldTable fields;
         fields = body.addFields();
-        fields.add(_viewUserName);
-        fields.add(_viewUserEmail);
-        fields.add(_viewUserRole);
+        fields.add(_viewUserNameField);
+        fields.add(_viewUserEmailField);
+        fields.add(_viewUserRoleField);
 
         group.addDivider();
 
@@ -685,20 +685,20 @@ public class MyAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        _editUserName = new ScTextField();
-        _editUserName.setLabel("Name ");
-        _editUserName.setReadOnly();
+        _editUserNameField = new ScTextField();
+        _editUserNameField.setLabel("Name ");
+        _editUserNameField.setReadOnly();
 
-        _editUserEmail = new ScTextField();
-        _editUserEmail.setLabel("Email ");
-        _editUserEmail.setReadOnly();
+        _editUserEmailField = new ScTextField();
+        _editUserEmailField.setLabel("Email ");
+        _editUserEmailField.setReadOnly();
 
         populateEditRoleDropdown();
 
         ScFieldTable fields;
         fields = body.addFields();
-        fields.add(_editUserName);
-        fields.add(_editUserEmail);
+        fields.add(_editUserNameField);
+        fields.add(_editUserEmailField);
         fields.add(_editRoleDropdown);
 
         group.addDivider();
@@ -1131,8 +1131,8 @@ public class MyAccountsPage
 
         if ( a != null )
         {
-            _deleteAccountName.setValue(a.getName());
-            _deleteAccountType.setValue(a.getType().getName());
+            _deleteAccountNameField.setValue(a.getName());
+            _deleteAccountTypeField.setValue(a.getType().getName());
         }
 
         _deleteAccountCard.print();
@@ -1253,7 +1253,7 @@ public class MyAccountsPage
 
         if ( a != null )
         {
-            _editAccountName.setValue(a.getName());
+            _editAccountNameField.setValue(a.getName());
             _editTypeDropdown.setValue(a.getType());
         }
 
@@ -1300,7 +1300,7 @@ public class MyAccountsPage
     {
         _editAccountCard.validate();
 
-        if ( !_editAccountName.hasValue() )
+        if ( !_editAccountNameField.hasValue() )
         {
             ajax().toast("Please enter an account name");
             return;
@@ -1308,7 +1308,7 @@ public class MyAccountsPage
 
         MyAccount a;
         a = getPageSession().getAccount();
-        a.setName(_editAccountName.getValue());
+        a.setName(_editAccountNameField.getValue());
         a.setTypeCode(_editTypeDropdown.getStringValue());
         a.saveDao();
 
@@ -1327,14 +1327,14 @@ public class MyAccountsPage
     {
         _addAccountCard.validate();
 
-        if ( _addAccountName.isEmpty() )
+        if ( _addAccountNameField.isEmpty() )
         {
             ajax().toast("Please enter an account name");
             return;
         }
 
-        String name = _addAccountName.getValue();
-        String typeCode = _addAccountType.getStringValue();
+        String name = _addAccountNameField.getValue();
+        String typeCode = _addAccountTypeDropdown.getStringValue();
         MyAccountType type = MyAccountType.findCode(typeCode);
         MyUser user = getCurrentUser();
 
@@ -1377,9 +1377,9 @@ public class MyAccountsPage
         getPageSession().setUser(u);
         getPageSession().setAccountUser(au);
 
-        _viewUserName.setValue(u.getName());
-        _viewUserEmail.setValue(u.getEmail());
-        _viewUserRole.setValue(au.getRoleName());
+        _viewUserNameField.setValue(u.getName());
+        _viewUserEmailField.setValue(u.getEmail());
+        _viewUserRoleField.setValue(au.getRoleName());
 
         if ( au.isRoleOwner() )
         {
@@ -1419,9 +1419,9 @@ public class MyAccountsPage
         MyUser u;
         u = pageSessionAU.getUser();
 
-        _viewUserName.setValue(u.getName());
-        _viewUserEmail.setValue(u.getEmail());
-        _viewUserRole.setValue(pageSessionAU.getRoleName());
+        _viewUserNameField.setValue(u.getName());
+        _viewUserEmailField.setValue(u.getEmail());
+        _viewUserRoleField.setValue(pageSessionAU.getRoleName());
 
         _viewUserCard.print();
 
@@ -1437,13 +1437,13 @@ public class MyAccountsPage
     private void handleSendJoinRequest()
     {
         MyAccount account = getPageSession().getAccount();
-        String email = _inviteUserEmail.getValue();
+        String email = _inviteUserEmailField.getValue();
         String roleCode = _inviteRoleDropdown.getStringValue();
 
         boolean isValid = KmEmailParser.validate(email);
 
         if ( !isValid )
-            _inviteUserEmail.error("Invalid");
+            _inviteUserEmailField.error("Invalid");
 
         if ( !checkAccountUserExists(email, account) )
         {
@@ -1489,8 +1489,8 @@ public class MyAccountsPage
 
         if ( u != null )
         {
-            _editUserName.setValue(u.getName());
-            _editUserEmail.setValue(u.getEmail());
+            _editUserNameField.setValue(u.getName());
+            _editUserEmailField.setValue(u.getEmail());
         }
 
         _editRoleDropdown.setValue(au.getRole());
@@ -1556,8 +1556,8 @@ public class MyAccountsPage
             getPageSession().setAccount(a);
         }
 
-        _viewAccountName.setValue(a.getName());
-        _viewAccountType.setValue(a.getType().getName());
+        _viewAccountNameField.setValue(a.getName());
+        _viewAccountTypeField.setValue(a.getType().getName());
 
         boolean isPersonalAccount = a.getName().equalsIgnoreCase("Personal");
         boolean hasOwner = a.getOwner() != null;
