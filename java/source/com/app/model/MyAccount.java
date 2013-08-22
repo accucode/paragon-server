@@ -101,6 +101,11 @@ public class MyAccount
         return getAccountUserFor(user) == null;
     }
 
+    public boolean hasMember(MyUser u)
+    {
+        return getAccountUserFor(u) != null;
+    }
+
     //##################################################
     //# dao
     //##################################################

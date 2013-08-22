@@ -229,49 +229,28 @@ public class MyHandleJoinInvitationActivity
         String email;
         email = inv.getEmail();
 
-        MyUser u = getAccess().getUserDao().findEmail(email);
+        MyUser u;
+        u = getAccess().getUserDao().findEmail(email);
 
         MyAccount a;
         a = inv.getAccount();
 
-        /**
-         * (valerie) start invitation activity fix
-         * 
-         * review_valerie (wyatt) discuss
-         *      
-         */
-        if ( a.getAccountUserFor(u) != null )
-        //        if ( a.hasMember(u) )
+        if ( a.hasMember(u) )
         {
-            buildJoinedMessageBox(email, u, a);
-
-            _form.hide();
-            _joinedMessageBox.show();
-            ajax().printMain(_root);
-            ajax().focus();
+            displayMemberMsg(email, u, a);
             return;
         }
 
         if ( u == null )
         {
-            _password1Field.show();
-            _password2Field.show();
-            _chooseLabel.show();
-            _reEnterLabel.show();
-            _password1ErrorBox.show();
-            _password2ErrorBox.show();
+            promptForPassword(inv, a);
+            return;
         }
-        else
-            getPageSession().setUser(u);
 
-        _emailText.setValue(inv.getEmail());
-        _accountText.setValue(a.getName());
-
-        ajax().printMain(_root);
-        ajax().focus();
+        displayAcceptInvitation(inv, u, a);
     }
 
-    private void buildJoinedMessageBox(String email, MyUser u, MyAccount a)
+    private void displayMemberMsg(String email, MyUser u, MyAccount a)
     {
         MyPasswordReset r;
         r = new MyPasswordReset();
@@ -295,6 +274,39 @@ public class MyHandleJoinInvitationActivity
         ScUrlLink link;
         link = _joinedMessageBox.addUrlLink("Reset My Password", MyUrls.getPasswordResetUrl(r));
         link.css().link();
+
+        _form.hide();
+        _joinedMessageBox.show();
+
+        ajax().printMain(_root);
+        ajax().focus();
+    }
+
+    private void promptForPassword(MyInvitation inv, MyAccount a)
+    {
+        _password1Field.show();
+        _password2Field.show();
+        _chooseLabel.show();
+        _reEnterLabel.show();
+        _password1ErrorBox.show();
+        _password2ErrorBox.show();
+
+        _emailText.setValue(inv.getEmail());
+        _accountText.setValue(a.getName());
+
+        ajax().printMain(_root);
+        ajax().focus();
+    }
+
+    private void displayAcceptInvitation(MyInvitation inv, MyUser u, MyAccount a)
+    {
+        getPageSession().setUser(u);
+
+        _emailText.setValue(inv.getEmail());
+        _accountText.setValue(a.getName());
+
+        ajax().printMain(_root);
+        ajax().focus();
     }
 
     //##################################################
@@ -376,5 +388,4 @@ public class MyHandleJoinInvitationActivity
     {
         _accessKey.setValue(e);
     }
-
 }

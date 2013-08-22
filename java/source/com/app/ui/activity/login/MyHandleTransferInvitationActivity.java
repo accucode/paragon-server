@@ -199,34 +199,22 @@ public class MyHandleTransferInvitationActivity
         MyAccount a;
         a = inv.getAccount();
 
-        /**
-         * (valerie) start invitation activity fix
-         * 
-         * review_valerie (wyatt) discuss
-         */
         if ( a.hasOwner(u) )
         {
-            buildOwnedMessageBox(email, u, a);
-            _form.hide();
-            _ownerMessageBox.show();
-            ajax().printMain(_root);
-            ajax().focus();
+            displayOwnedMessage(email, u, a);
             return;
         }
 
         if ( u == null )
-            error("You cannot take ownership of this account.");
-        else
-            getPageSession().setUser(u);
+        {
+            displayNewUserMessage(email, a);
+            return;
+        }
 
-        _emailText.setValue(inv.getEmail());
-        _accountText.setValue(a.getName());
-
-        ajax().printMain(_root);
-        ajax().focus();
+        displayAcceptInvitation(inv, u, a);
     }
 
-    private void buildOwnedMessageBox(String email, MyUser u, MyAccount a)
+    private void displayOwnedMessage(String email, MyUser u, MyAccount a)
     {
         MyPasswordReset r;
         r = new MyPasswordReset();
@@ -250,6 +238,53 @@ public class MyHandleTransferInvitationActivity
         ScUrlLink link;
         link = _ownerMessageBox.addUrlLink("Reset My Password", MyUrls.getPasswordResetUrl(r));
         link.css().link();
+
+        _form.hide();
+        _ownerMessageBox.show();
+
+        ajax().printMain(_root);
+        ajax().focus();
+    }
+
+    private void displayNewUserMessage(String email, MyAccount a)
+    {
+        ScStyledText text;
+        text = _ownerMessageBox.addStyledText();
+        text.style().bold().italic().size(16);
+        text.setValue("A request was made for "
+            + email
+            + " to take ownership of the account "
+            + a.getName()
+            + "."
+            + "  However, this email is not a part of the account. "
+            + "To join an account someone on the account must send you an "
+            + "invitation. In the meantime, you can create an account by"
+            + "clicking the link below to go to the Sign In page.");
+
+        _ownerMessageBox.addBreaks(2);
+
+        String url = MyUrls.getEntryUrl();
+
+        ScUrlLink link;
+        link = _ownerMessageBox.addUrlLink("Sign In", url);
+        link.css().link();
+
+        _form.hide();
+        _ownerMessageBox.show();
+
+        ajax().printMain(_root);
+        ajax().focus();
+    }
+
+    private void displayAcceptInvitation(MyInvitation inv, MyUser u, MyAccount a)
+    {
+        getPageSession().setUser(u);
+
+        _emailText.setValue(inv.getEmail());
+        _accountText.setValue(a.getName());
+
+        ajax().printMain(_root);
+        ajax().focus();
     }
 
     //##################################################
