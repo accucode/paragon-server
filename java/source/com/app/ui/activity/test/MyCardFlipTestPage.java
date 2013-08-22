@@ -3,8 +3,8 @@ package com.app.ui.activity.test;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScFrame;
-import com.kodemore.servlet.control.ScFrameChild;
+import com.kodemore.servlet.control.ScCardFrame;
+import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
@@ -26,15 +26,15 @@ public class MyCardFlipTestPage
     //# variables
     //##################################################
 
-    private ScFrame      _flipFrame;
+    private ScCardFrame      _flipFrame;
 
-    private ScFrameChild _flipFront;
-    private ScFrameChild _flipBack;
+    private ScCard _flipFront;
+    private ScCard _flipBack;
 
-    private ScFrame      _fadeFrame;
+    private ScCardFrame      _fadeFrame;
 
-    private ScFrameChild _fadeFront;
-    private ScFrameChild _fadeBack;
+    private ScCard _fadeFront;
+    private ScCard _fadeBack;
 
     //##################################################
     //# install
@@ -62,14 +62,14 @@ public class MyCardFlipTestPage
         _fadeFrame.setHideFade();
         _fadeFrame.setShowFade();
 
-        _flipFront = _flipFrame.addChild();
-        _flipBack = _flipFrame.addChild();
+        _flipFront = _flipFrame.addCard();
+        _flipBack = _flipFrame.addCard();
 
-        _fadeFront = _fadeFrame.addChild();
-        _fadeBack = _fadeFrame.addChild();
+        _fadeFront = _fadeFrame.addCard();
+        _fadeBack = _fadeFrame.addCard();
 
-        _flipFrame.setDefaultChild(_flipFront);
-        _fadeFrame.setDefaultChild(_fadeFront);
+        _flipFrame.setDefaultCard(_flipFront);
+        _fadeFrame.setDefaultCard(_fadeFront);
 
         ScGroup front;
         front = _flipFront.addGroup("Front");

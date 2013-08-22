@@ -757,9 +757,9 @@ public abstract class ScContainer
     //# misc
     //##################################################
 
-    public ScFrame addFrame()
+    public ScCardFrame addFrame()
     {
-        return add(new ScFrame());
+        return add(new ScCardFrame());
     }
 
     public ScSpan addSpan()

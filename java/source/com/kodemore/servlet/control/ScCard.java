@@ -20,63 +20,55 @@
   THE SOFTWARE.
 */
 
-package com.app.ui.control;
-
-import com.kodemore.dao.KmDaoSession;
-import com.kodemore.servlet.control.ScFrame;
-import com.kodemore.time.KmDate;
-import com.kodemore.time.KmTimestamp;
-
-import com.app.dao.base.MyDaoRegistry;
-import com.app.model.MySettings;
-import com.app.property.MyPropertyRegistry;
-import com.app.ui.core.MyPageSession;
-import com.app.utility.MyGlobals;
+package com.kodemore.servlet.control;
 
 /**
- * Used to wrap dynamic ajax content.
+ * I am used in conjuction with the ScCardFrame.
  */
-public class MyFrame
-    extends ScFrame
+public class ScCard
+    extends ScDiv
 {
-    public MyPageSession getPageSession()
+    //##################################################
+    //# init
+    //##################################################
+
+    @Override
+    protected void install()
     {
-        return MyGlobals.getPageSession();
+        super.install();
     }
 
-    public static MyDaoRegistry getAccess()
+    //##################################################
+    //# accessing
+    //##################################################
+
+    @Override
+    public ScCardFrame getParent()
     {
-        return MyDaoRegistry.getInstance();
+        return (ScCardFrame)super.getParent();
     }
 
-    protected KmDate getTodayUtc()
+    public ScCardFrame getFrame()
     {
-        return getNowUtc().getDate();
+        return getParent();
     }
 
-    protected KmTimestamp getNowUtc()
+    //##################################################
+    //# abstract accessing
+    //##################################################
+
+    public void beDefault()
     {
-        return MyGlobals.getNowUtc();
+        getParent().setDefaultCard(this);
     }
 
-    protected MyPropertyRegistry getProperties()
-    {
-        return MyGlobals.getProperties();
-    }
+    //##################################################
+    //# ajax
+    //##################################################
 
-    protected MySettings getSettings()
+    public void ajaxPrint()
     {
-        return getAccess().getSettingsDao().getSettings();
-    }
-
-    protected KmDaoSession getDaoSession()
-    {
-        return MyGlobals.getDaoSession();
-    }
-
-    protected void flushDao()
-    {
-        getDaoSession().flush();
+        getParent().ajaxPrint(this);
     }
 
 }

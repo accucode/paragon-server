@@ -37,7 +37,7 @@ import com.kodemore.servlet.utility.ScEasing;
 /**
  * Used to wrap dynamic ajax content.
  */
-public class ScFrame
+public class ScCardFrame
     extends ScElement
 {
     //##################################################
@@ -45,24 +45,24 @@ public class ScFrame
     //##################################################
 
     /**
-     * The children to be displayed in this frame.  Only 
-     * one child is displayed at a time.  We need to explicitly
+     * The cards to be displayed in this frame.  Only 
+     * one card is displayed at a time.  We need to explicitly
      * store this list so that we can implement getComponents().
      */
-    private KmList<ScFrameChild> _children;
+    private KmList<ScCard> _cards;
 
     /**
-     * If set, then render this child when rendering this frame.
+     * If set, then render this card when rendering this frame.
      */
-    private ScFrameChild         _defaultChild;
+    private ScCard         _defaultCard;
 
-    private ScEffect             _showEffect;
-    private ScEasing             _showEasing;
-    private Integer              _showSpeed;
+    private ScEffect       _showEffect;
+    private ScEasing       _showEasing;
+    private Integer        _showSpeed;
 
-    private ScEffect             _hideEffect;
-    private ScEasing             _hideEasing;
-    private Integer              _hideSpeed;
+    private ScEffect       _hideEffect;
+    private ScEasing       _hideEasing;
+    private Integer        _hideSpeed;
 
     //##################################################
     //# init
@@ -73,7 +73,7 @@ public class ScFrame
     {
         super.install();
 
-        _children = new KmList<ScFrameChild>();
+        _cards = new KmList<ScCard>();
 
         _showEffect = ScConstantsIF.DEFAULT_EFFECT;
         _showEasing = ScConstantsIF.DEFAULT_EASING;
@@ -85,42 +85,42 @@ public class ScFrame
     }
 
     //##################################################
-    //# children
+    //# cards
     //##################################################
 
     /**
-     * The list of children associated with this frame;
+     * The list of cards associated with this frame;
      * clients should NOT manipulate this list directly.
      */
-    public KmList<ScFrameChild> getChildren()
+    public KmList<ScCard> getCards()
     {
-        return _children;
+        return _cards;
     }
 
-    public ScFrameChild addChild()
+    public ScCard addCard()
     {
-        ScFrameChild e;
-        e = new ScFrameChild();
+        ScCard e;
+        e = new ScCard();
         e.setParent(this);
 
-        _children.add(e);
+        _cards.add(e);
 
         return e;
     }
 
-    public ScFrameChild getDefaultChild()
+    public ScCard getDefaultCard()
     {
-        return _defaultChild;
+        return _defaultCard;
     }
 
-    public void setDefaultChild(ScFrameChild e)
+    public void setDefaultCard(ScCard e)
     {
-        _defaultChild = e;
+        _defaultCard = e;
     }
 
-    public boolean hasDefaultChild()
+    public boolean hasDefaultCard()
     {
-        return _defaultChild != null;
+        return _defaultCard != null;
     }
 
     //##################################################
@@ -273,8 +273,8 @@ public class ScFrame
         renderAttributesOn(out);
         out.close();
 
-        if ( hasDefaultChild() )
-            getDefaultChild().renderOn(out);
+        if ( hasDefaultCard() )
+            getDefaultCard().renderOn(out);
 
         out.endDiv();
     }
@@ -290,7 +290,7 @@ public class ScFrame
         i = new KmCompositeIterator<ScControl>();
 
         i.addAll(super.getComponents());
-        i.addAll(getChildren());
+        i.addAll(getCards());
 
         return i;
     }
@@ -306,10 +306,10 @@ public class ScFrame
 
     public void ajaxPrint()
     {
-        ajaxPrint(getDefaultChild());
+        ajaxPrint(getDefaultCard());
     }
 
-    public void ajaxPrint(ScFrameChild child)
+    public void ajaxPrint(ScCard card)
     {
         ScHtmlIdAjax ajax;
         ajax = ajax();
@@ -322,7 +322,7 @@ public class ScFrame
 
         ajax.pushDefer();
 
-        ajax.setContents(child);
+        ajax.setContents(card);
 
         ScShowScript show;
         show = ajax.show();
