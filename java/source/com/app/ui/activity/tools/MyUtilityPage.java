@@ -18,7 +18,7 @@ import com.app.ui.activity.MyActivity;
 import com.app.ui.core.MyServletData;
 
 public class MyUtilityPage
-    extends MyAbstractToolsPage
+    extends MyToolsPage
 {
     //##################################################
     //# singleton

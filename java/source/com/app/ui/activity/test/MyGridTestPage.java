@@ -19,7 +19,7 @@ import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
 
 public class MyGridTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

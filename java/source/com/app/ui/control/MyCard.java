@@ -23,7 +23,7 @@
 package com.app.ui.control;
 
 import com.kodemore.dao.KmDaoSession;
-import com.kodemore.servlet.control.ScFrame;
+import com.kodemore.servlet.control.ScCard;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 
@@ -36,8 +36,8 @@ import com.app.utility.MyGlobals;
 /**
  * Used to wrap dynamic ajax content.
  */
-public class MyFrame
-    extends ScFrame
+public class MyCard
+    extends ScCard
 {
     public MyPageSession getPageSession()
     {

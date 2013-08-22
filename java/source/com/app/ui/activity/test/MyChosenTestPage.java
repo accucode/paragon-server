@@ -10,7 +10,7 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.app.model.MyEmailStatus;
 
 public class MyChosenTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

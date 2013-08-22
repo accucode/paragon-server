@@ -10,7 +10,7 @@ import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyAnimationTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

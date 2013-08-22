@@ -160,11 +160,6 @@ public class MyPageLayout
         }
     }
 
-    /**
-     *  wyatt (steve) This is our quick fix to get the context
-     *      
-     * todo_wyatt global context
-     */
     private ScActionIF newSetAccountAction()
     {
         ScActionContextIF context = ScGlobalContext.getInstance();

@@ -15,7 +15,7 @@ import com.kodemore.servlet.field.ScTextField;
 import com.app.model.MyUser;
 
 public class MyScriptTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

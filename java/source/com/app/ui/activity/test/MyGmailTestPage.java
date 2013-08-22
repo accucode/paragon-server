@@ -15,7 +15,7 @@ import com.app.email.MyEmailGmailMethod;
 import com.app.ui.activity.MyActivity;
 
 public class MyGmailTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

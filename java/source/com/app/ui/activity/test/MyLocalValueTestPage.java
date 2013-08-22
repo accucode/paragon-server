@@ -19,7 +19,7 @@ import com.kodemore.utility.Kmu;
  * Test of the ScLocal pattern.
  */
 public class MyLocalValueTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

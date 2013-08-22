@@ -62,6 +62,7 @@ public abstract class MyActivity
         s = Kmu.removePrefix(s, "My");
         s = Kmu.removeSuffix(s, "Activity");
         s = Kmu.removeSuffix(s, "Page");
+        s = Kmu.removeSuffix(s, "Menu");
         return s;
     }
 

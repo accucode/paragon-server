@@ -1,60 +1,20 @@
 package com.app.ui.activity.tools;
 
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
-import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.exception.KmRoleViolationException;
 
-import com.app.ui.activity.admin.MyEmailListPage;
-import com.app.ui.activity.admin.MyUsersPage;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyPage;
 
-public class MyToolsPage
-    extends MyAbstractToolsPage
+public abstract class MyToolsPage
+    extends MyPage
 {
-    //##################################################
-    //# singleton
-    //##################################################
-
-    public static final MyToolsPage instance = new MyToolsPage();
-
-    private MyToolsPage()
-    {
-        // singleton
-    }
-
-    //##################################################
-    //# install
-    //##################################################
-
     @Override
-    protected ScPageRoot installRoot()
+    public void checkSecurity()
     {
-        ScPageRoot root;
-        root = newPageRoot();
-        root.css().gap();
+        super.checkSecurity();
 
-        ScGroupArray groups;
-        groups = root.addGroupArray(150, 300);
-
-        ScGroup group;
-        group = groups.addGroup("Tools");
-
-        ScBox links;
-        links = group.addLinkBox();
-        links.addLink(MyUtilityPage.instance);
-        links.addLink(MySqlPage.instance);
-
-        group.addDivider();
-
-        links = group.addLinkBox();
-        links.addLink(MyBeanShellPage.instance);
-        links.addLink(MyPerformanceLogPage.instance);
-        links.addLink(MySharedFileBrowserPage.instance);
-        links.addLink(MySystemLogListPage.instance);
-        links.addLink(MyPropertiesPage.instance);
-        links.addLink(MyUsersPage.instance);
-        links.addLink(MyEmailListPage.instance);
-
-        return root;
+        MyUser u = getServerSession().getUser();
+        if ( !u.allowsDeveloper() )
+            throw new KmRoleViolationException("Must be developer");
     }
 }

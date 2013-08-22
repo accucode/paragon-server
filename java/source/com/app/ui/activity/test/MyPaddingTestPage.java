@@ -9,7 +9,7 @@ import com.kodemore.servlet.control.ScPageRoot;
  * basic padding and margin styles.
  */
 public class MyPaddingTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

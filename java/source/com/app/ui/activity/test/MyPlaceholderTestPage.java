@@ -11,7 +11,7 @@ import com.kodemore.servlet.field.ScTextField;
 import com.app.ui.activity.MyActivity;
 
 public class MyPlaceholderTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

@@ -21,7 +21,7 @@ import com.app.model.MyEmailStatus;
 import com.app.model.meta.MyMetaEmail;
 
 public class MyEmailListPage
-    extends MyAbstractAdminPage
+    extends MyAdminPage
 {
     //##################################################
     //# singleton

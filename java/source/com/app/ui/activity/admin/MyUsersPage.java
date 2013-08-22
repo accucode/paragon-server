@@ -21,7 +21,7 @@ import com.app.model.meta.MyMetaUser;
 import com.app.utility.MyButtonUrls;
 
 public class MyUsersPage
-    extends MyAbstractAdminPage
+    extends MyAdminPage
 {
     //##################################################
     //# singleton

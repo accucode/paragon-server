@@ -23,9 +23,9 @@
 package com.kodemore.servlet.control;
 
 /**
- * Used to wrap dynamic ajax content.
+ * I am used in conjuction with the ScCardFrame.
  */
-public class ScFrameChild
+public class ScCard
     extends ScDiv
 {
     //##################################################
@@ -39,13 +39,37 @@ public class ScFrameChild
     }
 
     //##################################################
+    //# navigation
+    //##################################################
+
+    /**
+     * I am called immediately before this card is printed.
+     * I am called each (every) time the card is printed.
+     * Subclasses are generally NOT required to call super.
+     */
+    public void prePrint()
+    {
+        // subclass 
+    }
+
+    public void print()
+    {
+        getFrame().print(this);
+    }
+
+    //##################################################
     //# accessing
     //##################################################
 
     @Override
-    public ScFrame getParent()
+    public ScCardFrame getParent()
     {
-        return (ScFrame)super.getParent();
+        return (ScCardFrame)super.getParent();
+    }
+
+    public ScCardFrame getFrame()
+    {
+        return getParent();
     }
 
     //##################################################
@@ -54,16 +78,11 @@ public class ScFrameChild
 
     public void beDefault()
     {
-        getParent().setDefaultChild(this);
+        getFrame().setDefaultCard(this);
     }
 
-    //##################################################
-    //# ajax
-    //##################################################
-
-    public void ajaxPrint()
+    public boolean isDefault()
     {
-        getParent().ajaxPrint(this);
+        return getFrame().isDefaultCard(this);
     }
-
 }

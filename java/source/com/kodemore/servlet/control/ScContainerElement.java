@@ -112,6 +112,12 @@ public abstract class ScContainerElement
         return new ScHtmlIdAjax(getRootScript(), this);
     }
 
+    @Override
+    public ScHtmlIdAjax getPostDomScript()
+    {
+        return new ScHtmlIdAjax(super.getPostDomScript(), this);
+    }
+
     //##################################################
     //# on control-enter
     //##################################################

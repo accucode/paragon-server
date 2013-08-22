@@ -27,7 +27,6 @@ import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.field.ScHtmlIdIF;
-import com.kodemore.utility.Kmu;
 
 /**
  * I manage a list of scripts, roughly representing the
@@ -189,6 +188,11 @@ public class ScHtmlIdAjax
         getInner().focus(getTarget());
     }
 
+    public void focusDeferred()
+    {
+        getInner().focusDeferred(getTarget());
+    }
+
     //##################################################
     //# value
     //##################################################
@@ -270,44 +274,21 @@ public class ScHtmlIdAjax
     }
 
     //##################################################
-    //# equalize children
+    //# equalize
     //##################################################
 
     public ScEqualizeScript equalizeChildren()
     {
-        String sel = Kmu.format("%s > *", formatJquerySelector());
-        return runEqualizeScript(sel);
+        return equalizeChildrenOf(getTarget());
     }
 
-    public ScEqualizeScript equalizeChildrenGroups()
+    public ScEqualizeScript equalizeClasses(String klass)
     {
-        return equalizeChildrenClass(KmCssDefaultConstantsIF.group_prefix);
+        return equalizeClassIn(getTarget(), klass);
     }
 
-    public ScEqualizeScript equalizeChildrenClass(String childClass)
+    public ScEqualizeScript equalizeGroups()
     {
-        String sel = Kmu.format("%s > .%s", formatJquerySelector(), childClass);
-        return runEqualizeScript(sel);
-    }
-
-    public ScEqualizeScript equalizeDecendentGroups()
-    {
-        return equalizeDecendentClass(KmCssDefaultConstantsIF.group_prefix);
-    }
-
-    public ScEqualizeScript equalizeDecendentClass(String childClass)
-    {
-        String sel = Kmu.format("%s .%s", formatJquerySelector(), childClass);
-        return runEqualizeScript(sel);
-    }
-
-    private ScEqualizeScript runEqualizeScript(String sel)
-    {
-        ScEqualizeScript e;
-        e = new ScEqualizeScript();
-        e.setSelector(sel);
-
-        run(e);
-        return e;
+        return equalizeGroupsIn(getTarget());
     }
 }

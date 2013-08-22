@@ -1,4 +1,4 @@
-package com.app.ui.activity.test;
+package com.app.ui.activity.admin;
 
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmCollection;
@@ -10,13 +10,13 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScCard;
+import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDialog;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScFrame;
-import com.kodemore.servlet.control.ScFrameChild;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScGroup;
@@ -44,11 +44,12 @@ import com.app.model.meta.MyMetaAccountUser;
 import com.app.model.meta.MyMetaUser;
 import com.app.ui.activity.login.MyJoinAccountUtility;
 import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.ui.core.MyPageSession;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyButtonUrls;
 
 public class MyAccountsPage
-    extends MyAbstractTestPage
+    extends MyAdminPage
 {
     //##################################################
     //# singleton
@@ -67,36 +68,36 @@ public class MyAccountsPage
 
     private ScDropdown            _accountDropdown;
     private ScDropdown            _editTypeDropdown;
-    private ScDropdown            _addAccountType;
+    private ScDropdown            _addAccountTypeDropdown;
     private ScDropdown            _editRoleDropdown;
     private ScDropdown            _inviteRoleDropdown;
 
-    private ScTextField           _viewAccountName;
-    private ScTextField           _viewAccountType;
-    private ScTextField           _editAccountName;
-    private ScTextField           _addAccountName;
-    private ScTextField           _viewUserName;
-    private ScTextField           _viewUserEmail;
-    private ScTextField           _viewUserRole;
-    private ScTextField           _editUserName;
-    private ScTextField           _editUserEmail;
-    private ScTextField           _inviteUserEmail;
-    private ScTextField           _deleteAccountName;
-    private ScTextField           _deleteAccountType;
+    private ScTextField           _viewAccountNameField;
+    private ScTextField           _viewAccountTypeField;
+    private ScTextField           _editAccountNameField;
+    private ScTextField           _addAccountNameField;
+    private ScTextField           _viewUserNameField;
+    private ScTextField           _viewUserEmailField;
+    private ScTextField           _viewUserRoleField;
+    private ScTextField           _editUserNameField;
+    private ScTextField           _editUserEmailField;
+    private ScTextField           _inviteUserEmailField;
+    private ScTextField           _deleteAccountNameField;
+    private ScTextField           _deleteAccountTypeField;
 
     private ScAutoCompleteField   _transferEmailAutoComplete;
 
-    private ScFrameChild          _viewAccountChild;
-    private ScFrameChild          _editAccountChild;
-    private ScFrameChild          _addAccountChild;
-    private ScFrameChild          _viewUserChild;
-    private ScFrameChild          _editUserChild;
-    private ScFrameChild          _inviteUserChild;
-    private ScFrameChild          _transferChild;
-    private ScFrameChild          _deleteAccountChild;
+    private ScCardFrame           _accountFrame;
+    private ScCard                _viewAccountCard;
+    private ScCard                _editAccountCard;
+    private ScCard                _addAccountCard;
+    private ScCard                _inviteUserCard;
+    private ScCard                _deleteAccountCard;
+    private ScCard                _transferCard;
 
-    private ScFrame               _accountFrame;
-    private ScFrame               _userFrame;
+    private ScCardFrame           _userFrame;
+    private ScCard                _viewUserCard;
+    private ScCard                _editUserCard;
 
     private ScDialog              _deleteUserDialog;
     private ScDialog              _editingDialog;
@@ -188,23 +189,22 @@ public class MyAccountsPage
         _accountFrame.setHideFlip();
         _accountFrame.setShowFlip();
 
-        installViewAccountFrame();
-        installEditAccountFrame();
-        installAddAccountFrame();
-        installInviteUserFrame();
-        installDeleteAccountFrame();
-        installTransferAccountFrame();
-
-        _accountFrame.setDefaultChild(_viewAccountChild);
+        installViewAccountCard();
+        installEditAccountCard();
+        installAddAccountCard();
+        installInviteUserCard();
+        installDeleteAccountCard();
+        installTransferAccountCard();
     }
 
-    private void installViewAccountFrame()
+    private void installViewAccountCard()
     {
-        ScFrameChild frameChild;
-        frameChild = _accountFrame.addChild();
+        ScCard card;
+        card = _accountFrame.addCard();
+        card.beDefault();
 
         ScForm form;
-        form = frameChild.addForm();
+        form = card.addForm();
 
         ScGroup group;
         group = form.addGroup("View Account");
@@ -221,61 +221,57 @@ public class MyAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        _viewAccountName = new ScTextField();
-        _viewAccountName.setLabel("Name  ");
-        _viewAccountName.setReadOnly();
+        _viewAccountNameField = new ScTextField();
+        _viewAccountNameField.setLabel("Name  ");
+        _viewAccountNameField.setReadOnly();
 
-        _viewAccountType = new ScTextField();
-        _viewAccountType.setLabel("Type ");
-        _viewAccountType.setReadOnly();
+        _viewAccountTypeField = new ScTextField();
+        _viewAccountTypeField.setLabel("Type ");
+        _viewAccountTypeField.setReadOnly();
 
         ScFieldTable fields;
         fields = body.addFields();
-        fields.add(_viewAccountName);
-        fields.add(_viewAccountType);
+        fields.add(_viewAccountNameField);
+        fields.add(_viewAccountTypeField);
 
         group.addDivider();
 
         _viewAccountFooter = group.addButtonBoxRight();
 
         _transferButton = _viewAccountFooter.addButton("Transfer", newShowTransferBoxAction());
+        _transferButton.hide();
+
         _viewAccountFooter.addButton("Invite", newShowInviteUserBoxAction());
         _deleteButton = _viewAccountFooter.addButton("Delete", newShowDeleteAccountBoxAction());
 
-        _transferButton.hide();
-
-        _viewAccountChild = frameChild;
+        _viewAccountCard = card;
     }
 
-    private void installEditAccountFrame()
+    private void installEditAccountCard()
     {
+        _editAccountNameField = new ScTextField();
+        _editAccountNameField.setLabel("Name ");
+
+        _editTypeDropdown = MyAccount.Tools.newTypeDropdown();
+        _editTypeDropdown.setLabel("Type ");
+
         ScActionIF saveAction = newEditAccountSaveAction();
         ScActionIF cancelAction = newEditAccountCancelAction();
 
-        ScFrameChild child;
-        child = _accountFrame.addChild();
+        ScCard card;
+        card = _accountFrame.addCard();
 
         ScForm form;
-        form = child.addForm();
+        form = card.addForm();
         form.setDefaultAction(saveAction);
         form.onEscape().run(cancelAction);
 
         ScGroup group;
         group = form.addGroup("Edit Account");
 
-        ScBox body;
-        body = group.addBox();
-        body.css().pad();
-
-        _editAccountName = new ScTextField();
-        _editAccountName.setLabel("Name ");
-
-        _editTypeDropdown = MyAccount.Tools.newTypeDropdown();
-        _editTypeDropdown.setLabel("Type ");
-
         ScFieldTable fields;
-        fields = body.addFields();
-        fields.add(_editAccountName);
+        fields = group.addPad().addFields();
+        fields.add(_editAccountNameField);
         fields.add(_editTypeDropdown);
 
         group.addDivider();
@@ -285,19 +281,19 @@ public class MyAccountsPage
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Save");
 
-        _editAccountChild = child;
+        _editAccountCard = card;
     }
 
-    private void installAddAccountFrame()
+    private void installAddAccountCard()
     {
         ScActionIF saveAction = newAddAccountSaveAction();
         ScActionIF cancelAction = newAddAccountCancelAction();
 
-        ScFrameChild frameChild;
-        frameChild = _accountFrame.addChild();
+        ScCard card;
+        card = _accountFrame.addCard();
 
         ScForm form;
-        form = frameChild.addForm();
+        form = card.addForm();
         form.setDefaultAction(saveAction);
         form.onEscape().run(cancelAction);
 
@@ -308,16 +304,16 @@ public class MyAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        _addAccountName = new ScTextField();
-        _addAccountName.setLabel("Name ");
+        _addAccountNameField = new ScTextField();
+        _addAccountNameField.setLabel("Name ");
 
-        _addAccountType = MyAccount.Tools.newTypeDropdown();
-        _addAccountType.setLabel("Type ");
+        _addAccountTypeDropdown = MyAccount.Tools.newTypeDropdown();
+        _addAccountTypeDropdown.setLabel("Type ");
 
         ScFieldTable fields;
         fields = body.addFields();
-        fields.add(_addAccountName);
-        fields.add(_addAccountType);
+        fields.add(_addAccountNameField);
+        fields.add(_addAccountTypeDropdown);
 
         group.addDivider();
 
@@ -326,19 +322,19 @@ public class MyAccountsPage
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Save");
 
-        _addAccountChild = frameChild;
+        _addAccountCard = card;
     }
 
-    private void installInviteUserFrame()
+    private void installInviteUserCard()
     {
         ScActionIF sendAction = newSendJoinRequestAction();
         ScActionIF cancelAction = newInviteUserCancelAction();
 
-        ScFrameChild frameChild;
-        frameChild = _accountFrame.addChild();
+        ScCard card;
+        card = _accountFrame.addCard();
 
         ScForm form;
-        form = frameChild.addForm();
+        form = card.addForm();
         form.setDefaultAction(sendAction);
         form.onEscape().run(cancelAction);
 
@@ -355,15 +351,15 @@ public class MyAccountsPage
         box.css().centerText();
         box.css().width250();
 
-        _inviteUserEmail = new ScTextField();
-        _inviteUserEmail.setLabel("Email ");
+        _inviteUserEmailField = new ScTextField();
+        _inviteUserEmailField.setLabel("Email ");
 
         populateAddRoleDropdown();
 
         ScFieldTable fields;
         fields = body.addFields();
         fields.addSpace();
-        fields.add(_inviteUserEmail);
+        fields.add(_inviteUserEmailField);
         fields.add(_inviteRoleDropdown);
 
         group.addDivider();
@@ -373,19 +369,19 @@ public class MyAccountsPage
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Send Request");
 
-        _inviteUserChild = frameChild;
+        _inviteUserCard = card;
     }
 
-    private void installDeleteAccountFrame()
+    private void installDeleteAccountCard()
     {
         ScActionIF saveAction = newDeleteAccountAction();
         ScActionIF cancelAction = newDeleteAccountCancelAction();
 
-        ScFrameChild frameChild;
-        frameChild = _accountFrame.addChild();
+        ScCard card;
+        card = _accountFrame.addCard();
 
         ScForm form;
-        form = frameChild.addForm();
+        form = card.addForm();
         form.setDefaultAction(saveAction);
         form.onEscape().run(cancelAction);
 
@@ -396,18 +392,18 @@ public class MyAccountsPage
         body = _deleteGroup.addBox();
         body.css().pad();
 
-        _deleteAccountName = new ScTextField();
-        _deleteAccountName.setLabel("Name ");
-        _deleteAccountName.setReadOnly();
+        _deleteAccountNameField = new ScTextField();
+        _deleteAccountNameField.setLabel("Name ");
+        _deleteAccountNameField.setReadOnly();
 
-        _deleteAccountType = new ScTextField();
-        _deleteAccountType.setLabel("Type ");
-        _deleteAccountType.setReadOnly();
+        _deleteAccountTypeField = new ScTextField();
+        _deleteAccountTypeField.setLabel("Type ");
+        _deleteAccountTypeField.setReadOnly();
 
         ScFieldTable fields;
         fields = body.addFields();
-        fields.add(_deleteAccountName);
-        fields.add(_deleteAccountType);
+        fields.add(_deleteAccountNameField);
+        fields.add(_deleteAccountTypeField);
 
         _deleteGroup.addDivider();
 
@@ -416,19 +412,19 @@ public class MyAccountsPage
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Delete");
 
-        _deleteAccountChild = frameChild;
+        _deleteAccountCard = card;
     }
 
-    private void installTransferAccountFrame()
+    private void installTransferAccountCard()
     {
         ScActionIF sendAction = newSendTransferRequestAction();
         ScActionIF cancelAction = newCancelTransferRequestAction();
 
-        ScFrameChild frameChild;
-        frameChild = _accountFrame.addChild();
+        ScCard card;
+        card = _accountFrame.addCard();
 
         ScForm form;
-        form = frameChild.addForm();
+        form = card.addForm();
         form.setDefaultAction(sendAction);
         form.onEscape().run(cancelAction);
 
@@ -462,7 +458,7 @@ public class MyAccountsPage
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Send Request");
 
-        _transferChild = frameChild;
+        _transferCard = card;
     }
 
     private void populateAddRoleDropdown()
@@ -611,11 +607,11 @@ public class MyAccountsPage
         ScActionIF sendAction = newShowDeleteAccountUserDialogAction();
         ScActionIF cancelAction = newViewUserCancelAction();
 
-        ScFrameChild frameChild;
-        frameChild = _userFrame.addChild();
+        ScCard card;
+        card = _userFrame.addCard();
 
         ScForm form;
-        form = frameChild.addForm();
+        form = card.addForm();
         form.setDefaultAction(sendAction);
         form.onEscape().run(cancelAction);
 
@@ -633,23 +629,23 @@ public class MyAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        _viewUserName = new ScTextField();
-        _viewUserName.setLabel("Name ");
-        _viewUserName.setReadOnly();
+        _viewUserNameField = new ScTextField();
+        _viewUserNameField.setLabel("Name ");
+        _viewUserNameField.setReadOnly();
 
-        _viewUserEmail = new ScTextField();
-        _viewUserEmail.setLabel("Email ");
-        _viewUserEmail.setReadOnly();
+        _viewUserEmailField = new ScTextField();
+        _viewUserEmailField.setLabel("Email ");
+        _viewUserEmailField.setReadOnly();
 
-        _viewUserRole = new ScTextField();
-        _viewUserRole.setLabel("Role ");
-        _viewUserRole.setReadOnly();
+        _viewUserRoleField = new ScTextField();
+        _viewUserRoleField.setLabel("Role ");
+        _viewUserRoleField.setReadOnly();
 
         ScFieldTable fields;
         fields = body.addFields();
-        fields.add(_viewUserName);
-        fields.add(_viewUserEmail);
-        fields.add(_viewUserRole);
+        fields.add(_viewUserNameField);
+        fields.add(_viewUserEmailField);
+        fields.add(_viewUserRoleField);
 
         group.addDivider();
 
@@ -661,7 +657,7 @@ public class MyAccountsPage
 
         _closeButton.hide();
 
-        _viewUserChild = frameChild;
+        _viewUserCard = card;
     }
 
     private void installEditUserFrame()
@@ -669,11 +665,11 @@ public class MyAccountsPage
         ScActionIF saveAction = newEditUserSaveAction();
         ScActionIF cancelAction = newEditUserCancelAction();
 
-        ScFrameChild frameChild;
-        frameChild = _userFrame.addChild();
+        ScCard card;
+        card = _userFrame.addCard();
 
         ScForm form;
-        form = frameChild.addForm();
+        form = card.addForm();
         form.setDefaultAction(saveAction);
         form.onEscape().run(cancelAction);
 
@@ -684,20 +680,20 @@ public class MyAccountsPage
         body = group.addBox();
         body.css().pad();
 
-        _editUserName = new ScTextField();
-        _editUserName.setLabel("Name ");
-        _editUserName.setReadOnly();
+        _editUserNameField = new ScTextField();
+        _editUserNameField.setLabel("Name ");
+        _editUserNameField.setReadOnly();
 
-        _editUserEmail = new ScTextField();
-        _editUserEmail.setLabel("Email ");
-        _editUserEmail.setReadOnly();
+        _editUserEmailField = new ScTextField();
+        _editUserEmailField.setLabel("Email ");
+        _editUserEmailField.setReadOnly();
 
         populateEditRoleDropdown();
 
         ScFieldTable fields;
         fields = body.addFields();
-        fields.add(_editUserName);
-        fields.add(_editUserEmail);
+        fields.add(_editUserNameField);
+        fields.add(_editUserEmailField);
         fields.add(_editRoleDropdown);
 
         group.addDivider();
@@ -707,7 +703,7 @@ public class MyAccountsPage
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Save");
 
-        _editUserChild = frameChild;
+        _editUserCard = card;
     }
 
     private void populateEditRoleDropdown()
@@ -1130,11 +1126,11 @@ public class MyAccountsPage
 
         if ( a != null )
         {
-            _deleteAccountName.setValue(a.getName());
-            _deleteAccountType.setValue(a.getType().getName());
+            _deleteAccountNameField.setValue(a.getName());
+            _deleteAccountTypeField.setValue(a.getType().getName());
         }
 
-        _accountFrame.ajaxPrint(_deleteAccountChild);
+        _deleteAccountCard.print();
     }
 
     private void handleDeleteAccount()
@@ -1213,8 +1209,7 @@ public class MyAccountsPage
     private void handleShowAddAccountBox()
     {
         setIsEditing();
-        _accountFrame.ajaxPrint(_addAccountChild);
-        _addAccountChild.ajax().focus();
+        _addAccountCard.print();
     }
 
     private void handleShowEditAccountBox()
@@ -1226,18 +1221,17 @@ public class MyAccountsPage
 
         if ( a != null )
         {
-            _editAccountName.setValue(a.getName());
+            _editAccountNameField.setValue(a.getName());
             _editTypeDropdown.setValue(a.getType());
         }
 
-        _accountFrame.ajaxPrint(_editAccountChild);
+        _editAccountCard.print();
     }
 
     private void handleShowTransferBox()
     {
         setIsEditing();
-        _accountFrame.ajaxPrint(_transferChild);
-        _transferChild.ajax().focus();
+        _transferCard.print();
     }
 
     private void handleSendTransferRequest()
@@ -1272,9 +1266,9 @@ public class MyAccountsPage
 
     private void handleEditAccountSave()
     {
-        _editAccountChild.validate();
+        _editAccountCard.validate();
 
-        if ( !_editAccountName.hasValue() )
+        if ( !_editAccountNameField.hasValue() )
         {
             ajax().toast("Please enter an account name");
             return;
@@ -1282,7 +1276,7 @@ public class MyAccountsPage
 
         MyAccount a;
         a = getPageSession().getAccount();
-        a.setName(_editAccountName.getValue());
+        a.setName(_editAccountNameField.getValue());
         a.setTypeCode(_editTypeDropdown.getStringValue());
         a.saveDao();
 
@@ -1299,16 +1293,16 @@ public class MyAccountsPage
 
     private void handleAddAccountSave()
     {
-        _addAccountChild.validate();
+        _addAccountCard.validate();
 
-        if ( _addAccountName.isEmpty() )
+        if ( _addAccountNameField.isEmpty() )
         {
             ajax().toast("Please enter an account name");
             return;
         }
 
-        String name = _addAccountName.getValue();
-        String typeCode = _addAccountType.getStringValue();
+        String name = _addAccountNameField.getValue();
+        String typeCode = _addAccountTypeDropdown.getStringValue();
         MyAccountType type = MyAccountType.findCode(typeCode);
         MyUser user = getCurrentUser();
 
@@ -1334,8 +1328,7 @@ public class MyAccountsPage
     private void handleShowInviteUserBox()
     {
         setIsEditing();
-        _accountFrame.ajaxPrint(_inviteUserChild);
-        _inviteUserChild.ajax().focus();
+        _inviteUserCard.print();
     }
 
     private void handleViewUser()
@@ -1343,18 +1336,19 @@ public class MyAccountsPage
         MyAccountUser au;
         au = getAccountUserDao().findUid(getStringArgument());
 
+        MyPageSession ps = getPageSession();
         if ( au == null )
-            au = getPageSession().getAccountUser();
+            au = ps.getAccountUser();
 
         MyUser u;
         u = au.getUser();
 
-        getPageSession().setUser(u);
-        getPageSession().setAccountUser(au);
+        ps.setUser(u);
+        ps.setAccountUser(au);
 
-        _viewUserName.setValue(u.getName());
-        _viewUserEmail.setValue(u.getEmail());
-        _viewUserRole.setValue(au.getRoleName());
+        _viewUserNameField.setValue(u.getName());
+        _viewUserEmailField.setValue(u.getEmail());
+        _viewUserRoleField.setValue(au.getRoleName());
 
         if ( au.isRoleOwner() )
         {
@@ -1362,15 +1356,15 @@ public class MyAccountsPage
             _editButton.hide();
             _cancelButton.hide();
             _removeButton.hide();
-            _viewUserChild.ajax().replace();
+            _viewUserCard.ajax().replace();
         }
 
-        _userFrame.ajaxPrint(_viewUserChild);
+        _viewUserCard.print();
     }
 
     private void handleEditUserSave()
     {
-        _editUserChild.validate();
+        _editUserCard.validate();
 
         MyAccountUser pageSessionAU;
         pageSessionAU = getPageSession().getAccountUser();
@@ -1394,11 +1388,11 @@ public class MyAccountsPage
         MyUser u;
         u = pageSessionAU.getUser();
 
-        _viewUserName.setValue(u.getName());
-        _viewUserEmail.setValue(u.getEmail());
-        _viewUserRole.setValue(pageSessionAU.getRoleName());
+        _viewUserNameField.setValue(u.getName());
+        _viewUserEmailField.setValue(u.getEmail());
+        _viewUserRoleField.setValue(pageSessionAU.getRoleName());
 
-        _userFrame.ajaxPrint(_viewUserChild);
+        _viewUserCard.print();
 
         _userGrid.ajaxReload();
     }
@@ -1412,13 +1406,13 @@ public class MyAccountsPage
     private void handleSendJoinRequest()
     {
         MyAccount account = getPageSession().getAccount();
-        String email = _inviteUserEmail.getValue();
+        String email = _inviteUserEmailField.getValue();
         String roleCode = _inviteRoleDropdown.getStringValue();
 
         boolean isValid = KmEmailParser.validate(email);
 
         if ( !isValid )
-            _inviteUserEmail.error("Invalid");
+            _inviteUserEmailField.error("Invalid");
 
         if ( !checkAccountUserExists(email, account) )
         {
@@ -1464,12 +1458,12 @@ public class MyAccountsPage
 
         if ( u != null )
         {
-            _editUserName.setValue(u.getName());
-            _editUserEmail.setValue(u.getEmail());
+            _editUserNameField.setValue(u.getName());
+            _editUserEmailField.setValue(u.getEmail());
         }
 
         _editRoleDropdown.setValue(au.getRole());
-        _userFrame.ajaxPrint(_editUserChild);
+        _editUserCard.print();
     }
 
     private void handleViewUserCancel()
@@ -1491,7 +1485,9 @@ public class MyAccountsPage
          *      What did you intend?
          *      What did you experience?
          *      
-         * review_wyatt (valerie) disregard, it appears to be working correctly now
+         * (valerie) disregard, it appears to be working correctly now
+         * 
+         * review_valerie (wyatt) ok.
          */
         _dialogBody.addPad().addText(
             "Are you sure you want to remove %s from %s?",
@@ -1529,8 +1525,8 @@ public class MyAccountsPage
             getPageSession().setAccount(a);
         }
 
-        _viewAccountName.setValue(a.getName());
-        _viewAccountType.setValue(a.getType().getName());
+        _viewAccountNameField.setValue(a.getName());
+        _viewAccountTypeField.setValue(a.getType().getName());
 
         boolean isPersonalAccount = a.isTypePersonal();
         boolean isOwner = a.hasOwner(u);
@@ -1542,13 +1538,13 @@ public class MyAccountsPage
             _transferButton.show();
 
         _viewAccountFooter.ajax().replace();
-        _viewAccountChild.ajaxUpdateValues();
+        _viewAccountCard.ajaxUpdateValues();
     }
 
     private void refreshFlipViewAccount()
     {
         refreshViewAccount();
-        _accountFrame.ajaxPrint(_viewAccountChild);
+        _viewAccountCard.print();
     }
 
     private void refreshAll(boolean isStart)

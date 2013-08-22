@@ -4,10 +4,10 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScFrameChild;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.field.ScColorField;
 import com.kodemore.servlet.field.ScDropdown;
@@ -15,21 +15,21 @@ import com.kodemore.servlet.field.ScTextField;
 
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
-import com.app.ui.control.MyFrame;
+import com.app.ui.control.MyCardFrame;
 import com.app.utility.MyButtonUrls;
 
 public class MyUserFrame
-    extends MyFrame
+    extends MyCardFrame
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScFrameChild _viewChild;
-    private ScFrameChild _editChild;
-    private ScFrameChild _addChild;
+    private ScCard     _viewChild;
+    private ScCard     _editChild;
+    private ScCard     _addChild;
 
-    private ScActionIF   _onChangeAction;
+    private ScActionIF _onChangeAction;
 
     //##################################################
     //# install
@@ -45,12 +45,12 @@ public class MyUserFrame
         _addChild = createAddFrame();
     }
 
-    private ScFrameChild createViewChild()
+    private ScCard createViewChild()
     {
         MyMetaUser x = MyUser.Meta;
 
-        ScFrameChild child;
-        child = addChild();
+        ScCard child;
+        child = addCard();
 
         ScGroup group;
         group = child.addGroup("View");
@@ -78,7 +78,7 @@ public class MyUserFrame
         return child;
     }
 
-    private ScFrameChild createEditChild()
+    private ScCard createEditChild()
     {
         MyMetaUser x = MyUser.Meta;
 
@@ -102,8 +102,8 @@ public class MyUserFrame
         roleField.setValueAdaptor(x.RoleCode);
         roleField.css().widthFull();
 
-        ScFrameChild child;
-        child = addChild();
+        ScCard child;
+        child = addCard();
 
         ScForm form;
         form = child.addForm();
@@ -137,15 +137,15 @@ public class MyUserFrame
         return child;
     }
 
-    private ScFrameChild createAddFrame()
+    private ScCard createAddFrame()
     {
         MyMetaUser x = MyUser.Meta;
 
         ScActionIF saveAction = newAddSaveAction();
         ScActionIF cancelAction = newAddCancelAction();
 
-        ScFrameChild child;
-        child = addChild();
+        ScCard child;
+        child = addCard();
 
         ScForm form;
         form = child.addForm();
@@ -332,7 +332,7 @@ public class MyUserFrame
         MyUser user = getUser();
 
         _viewChild.applyFromModel(user);
-        _viewChild.ajaxPrint();
+        _viewChild.print();
     }
 
     private void renderEdit()
@@ -341,8 +341,7 @@ public class MyUserFrame
         user = getPageSession().getUser();
 
         _editChild.applyFromModel(user);
-        _editChild.ajaxPrint();
-        _editChild.ajax().focus();
+        _editChild.print();
     }
 
     //##################################################
@@ -358,7 +357,7 @@ public class MyUserFrame
     public void ajaxPrintAddUser()
     {
         clearUser();
-        _addChild.ajaxPrint();
+        _addChild.print();
     }
 
 }

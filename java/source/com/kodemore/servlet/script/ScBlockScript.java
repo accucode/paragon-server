@@ -437,6 +437,18 @@ public abstract class ScBlockScript
             run("Kmu.focus(%s);", json(sel));
     }
 
+    public void focusDeferred(ScHtmlIdIF e)
+    {
+        focusDeferred(e.formatJquerySelector());
+    }
+
+    public void focusDeferred(String sel)
+    {
+        pushDeferUntil(sel);
+        focus(sel);
+        pop();
+    }
+
     //##################################################
     //# show
     //##################################################
@@ -873,6 +885,74 @@ public abstract class ScBlockScript
         out.endHtml();
 
         return out.toString();
+    }
+
+    //##################################################
+    //# equalize
+    //##################################################
+
+    /**
+     * Equalize the sizes of all elements that match the selector.
+     */
+    public ScEqualizeScript equalize(String sel)
+    {
+        ScEqualizeScript e;
+        e = new ScEqualizeScript();
+        e.setSelector(sel);
+
+        run(e);
+        return e;
+    }
+
+    /**
+     * Equalize the immediate children of the target.
+     */
+    public ScEqualizeScript equalizeChildrenOf(ScHtmlIdIF target)
+    {
+        return equalizeChildrenOf(target.formatJquerySelector());
+    }
+
+    /**
+     * Equalize the immediate children of the target.
+     */
+    public ScEqualizeScript equalizeChildrenOf(String sel)
+    {
+        sel += " > *";
+        return equalize(sel);
+    }
+
+    /**
+     * Equalize all groups contained in the target.
+     */
+    public ScEqualizeScript equalizeGroupsIn(ScHtmlIdIF target)
+    {
+        return equalizeGroupsIn(target.formatJquerySelector());
+    }
+
+    /**
+     * Equalize all groups contained in the target.
+     */
+    public ScEqualizeScript equalizeGroupsIn(String sel)
+    {
+        String klass = KmCssDefaultConstantsIF.group_prefix;
+        return equalizeClassIn(sel, klass);
+    }
+
+    /**
+     * Equalize all elements with a matching class, contained in the target. 
+     */
+    public ScEqualizeScript equalizeClassIn(ScHtmlIdIF target, String klass)
+    {
+        return equalizeClassIn(target.formatJquerySelector(), klass);
+    }
+
+    /**
+     * Equalize all elements with a matching class, contained in the target. 
+     */
+    public ScEqualizeScript equalizeClassIn(String sel, String klass)
+    {
+        sel += " ." + klass;
+        return equalize(sel);
     }
 
     //##################################################

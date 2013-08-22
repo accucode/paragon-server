@@ -12,7 +12,7 @@ import com.kodemore.utility.Kmu;
  * Test the layout and usage of the groups.
  */
 public class MyOpenWindowTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton

@@ -10,7 +10,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.string.KmStringBuilder;
 
 public class MyEqualizeTestPage
-    extends MyAbstractTestPage
+    extends MyTestPage
 {
     //##################################################
     //# singleton
@@ -160,11 +160,11 @@ public class MyEqualizeTestPage
 
     private void handleEqualize()
     {
-        _groups.ajax().equalizeDecendentGroups();
+        _groups.ajax().equalizeGroups();
     }
 
     private void handleEqualizeButtons()
     {
-        _root.ajax().equalizeDecendentClass("button");
+        _root.ajax().equalizeClasses("button");
     }
 }

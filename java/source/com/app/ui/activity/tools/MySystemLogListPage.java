@@ -25,7 +25,7 @@ import com.app.model.meta.MyMetaSystemLog;
 import com.app.ui.activity.MyActivity;
 
 public class MySystemLogListPage
-    extends MyAbstractToolsPage
+    extends MyToolsPage
 {
     //##################################################
     //# singleton
