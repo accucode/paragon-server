@@ -46,7 +46,6 @@ import com.app.ui.activity.login.MyJoinAccountUtility;
 import com.app.ui.activity.login.MyTransferAccountUtility;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyButtonUrls;
-import com.app.utility.MyGlobals;
 
 public class MyAccountsPage
     extends MyAbstractTestPage
@@ -1142,37 +1141,10 @@ public class MyAccountsPage
     {
         MyAccount a;
         a = getPageSession().getAccount();
-
-        MyAccountUser au;
-        au = a.getAccountUserFor(getCurrentUser());
-
-        /**
-         * review_steve review_valerie (steve) 
-         * this method was crashing the program and not actually deleting 
-         * the account. I figure that it was because the relationship between 
-         * the user and the accountUser was not removed
-         * 
-         * see the next comment:
-         * 
-         * review_steve (wyatt) fixed?
-         *      Steve, I believe this has been fixed.
-         *      Please retest and confirm.
-         *      Let me know if you have further problems, or would like to discuss.
-         */
         a.deleteDao();
 
-        //        au.deleteDao();
-        /**
-         * the above line was removed and replaced with the two below.
-         */
-        MyUser u;
-        u = getCurrentUser();
-        u.removeAccountUser(au);
-
         MyPageLayout.getInstance().refreshDropdown();
-
         ajax().toast("Deleted account %s", a.getName());
-
         setDropdownOptions();
 
         MyAccount da;
@@ -1549,7 +1521,7 @@ public class MyAccountsPage
         a = getPageSession().getAccount();
 
         MyUser u;
-        u = MyGlobals.getServerSession().getUser();
+        u = getCurrentUser();
 
         if ( a == null )
         {
@@ -1560,18 +1532,13 @@ public class MyAccountsPage
         _viewAccountName.setValue(a.getName());
         _viewAccountType.setValue(a.getType().getName());
 
-        boolean isPersonalAccount = a.getName().equalsIgnoreCase("Personal");
-        boolean hasOwner = a.getOwner() != null;
-        boolean isOwner = isOwner(a.getOwner(), u);
+        boolean isPersonalAccount = a.isTypePersonal();
+        boolean isOwner = a.hasOwner(u);
 
         if ( isPersonalAccount || !isOwner )
             _deleteButton.hide();
 
-        /**
-         * review_steve (wyatt) discuss
-         */
-
-        if ( hasOwner && isOwner )
+        if ( isOwner )
             _transferButton.show();
 
         _viewAccountFooter.ajax().replace();
@@ -1599,9 +1566,6 @@ public class MyAccountsPage
         _userGrid.ajaxReload();
     }
 
-    /**
-     * review_steve (wyatt) discuss
-     */
     private MyAccount getDropdownAccount()
     {
         return getAccountDao().findUid(_accountDropdown.getStringValue());
@@ -1665,11 +1629,6 @@ public class MyAccountsPage
     private MyAccountUserDao getAccountUserDao()
     {
         return getAccess().getAccountUserDao();
-    }
-
-    private boolean isOwner(MyUser owner, MyUser u)
-    {
-        return owner.isSame(u);
     }
 
     private String getAccountUid()
