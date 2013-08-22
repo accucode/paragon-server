@@ -44,6 +44,7 @@ import com.app.model.meta.MyMetaAccountUser;
 import com.app.model.meta.MyMetaUser;
 import com.app.ui.activity.login.MyJoinAccountUtility;
 import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.ui.core.MyPageSession;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyButtonUrls;
 import com.app.utility.MyGlobals;
@@ -1363,14 +1364,15 @@ public class MyAccountsPage
         MyAccountUser au;
         au = getAccountUserDao().findUid(getStringArgument());
 
+        MyPageSession ps = getPageSession();
         if ( au == null )
-            au = getPageSession().getAccountUser();
+            au = ps.getAccountUser();
 
         MyUser u;
         u = au.getUser();
 
-        getPageSession().setUser(u);
-        getPageSession().setAccountUser(au);
+        ps.setUser(u);
+        ps.setAccountUser(au);
 
         _viewUserNameField.setValue(u.getName());
         _viewUserEmailField.setValue(u.getEmail());
