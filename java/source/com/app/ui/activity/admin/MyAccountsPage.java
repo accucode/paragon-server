@@ -1316,6 +1316,11 @@ public class MyAccountsPage
 
         setDropdownOptions();
         _accountDropdown.ajaxSetValue(a.getUid());
+
+        MyPageLayout pageLayout;
+        pageLayout = MyPageLayout.getInstance();
+        pageLayout.ajaxRefreshHeader();
+
         refreshFlipViewAccount();
         _userGrid.ajaxReload();
     }
