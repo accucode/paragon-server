@@ -112,7 +112,7 @@ public abstract class MyPerformanceLogBase
 
     public boolean hasName(String e)
     {
-        return Kmu.isEqual(getName(), e);
+        return Kmu.isEqualIgnoreCase(getName(), e);
     }
 
     public void truncateName()
@@ -222,7 +222,7 @@ public abstract class MyPerformanceLogBase
 
     public boolean hasCreatedLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getCreatedLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getCreatedLocalTsMessage(), e);
     }
 
     //##################################################
@@ -312,7 +312,7 @@ public abstract class MyPerformanceLogBase
         if ( !(o instanceof MyPerformanceLogBase) )
             return false;
 
-        MyPerformanceLogBase e = (MyPerformanceLogBase) o;
+        MyPerformanceLogBase e = (MyPerformanceLogBase)o;
         return Kmu.isEqual(getId(), e.getId());
     }
 
@@ -324,30 +324,30 @@ public abstract class MyPerformanceLogBase
 
     public boolean isSame(MyPerformanceLog e)
     {
-        if ( ! Kmu.isEqual(getId(), e.getId()) ) return false;
+        if ( !Kmu.isEqual(getId(), e.getId()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyPerformanceLog e)
     {
-        if ( ! Kmu.isEqual(getName(), e.getName()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getDurationMs(), e.getDurationMs()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getDurationMs(), e.getDurationMs()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyPerformanceLog e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyPerformanceLog e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

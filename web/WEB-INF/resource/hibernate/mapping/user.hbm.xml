@@ -79,12 +79,6 @@
             type="string"
             />
 
-        <property
-            name="favoriteColor"
-            column="favoriteColor"
-            type="com.kodemore.hibernate.KmHibernateHtmlColorType"
-            />
-
         <bag
             name="accountUsers"
             inverse="false"
@@ -93,20 +87,6 @@
                 <cache usage="read-write"/>
                 <key column="userUid"/>
                 <one-to-many class="com.app.model.MyAccountUser"/>
-        </bag>
-
-        <bag
-            name="pets"
-            table="user_pet"
-            >
-                <key
-                    column="uid"
-                    />
-                <element
-                    type="string"
-                    column="pet"
-                    not-null="true"
-                    />
         </bag>
 
     </class>

@@ -84,7 +84,7 @@ public abstract class MyAutoSignInBase
 
     public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getUid(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
     }
 
     public void truncateUid()
@@ -225,7 +225,7 @@ public abstract class MyAutoSignInBase
 
     public boolean hasCreatedLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getCreatedLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getCreatedLocalTsMessage(), e);
     }
 
     //##################################################
@@ -301,7 +301,7 @@ public abstract class MyAutoSignInBase
 
     public boolean hasLastLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getLastLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getLastLocalTsMessage(), e);
     }
 
     //##################################################
@@ -427,7 +427,7 @@ public abstract class MyAutoSignInBase
         if ( !(o instanceof MyAutoSignInBase) )
             return false;
 
-        MyAutoSignInBase e = (MyAutoSignInBase) o;
+        MyAutoSignInBase e = (MyAutoSignInBase)o;
         return Kmu.isEqual(getUid(), e.getUid());
     }
 
@@ -439,34 +439,34 @@ public abstract class MyAutoSignInBase
 
     public boolean isSame(MyAutoSignIn e)
     {
-        if ( ! Kmu.isEqual(getUid(), e.getUid()) ) return false;
+        if ( !Kmu.isEqual(getUid(), e.getUid()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyAutoSignIn e)
     {
-        if ( ! Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getLastUtcTs(), e.getLastUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
-        if ( ! Kmu.isEqual(getLastLocalTs(), e.getLastLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getLastLocalTsMessage(), e.getLastLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getLastLocalDate(), e.getLastLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getLastLocalTime(), e.getLastLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getLastUtcTs(), e.getLastUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getLastLocalTs(), e.getLastLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getLastLocalTsMessage(), e.getLastLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getLastLocalDate(), e.getLastLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getLastLocalTime(), e.getLastLocalTime()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyAutoSignIn e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyAutoSignIn e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

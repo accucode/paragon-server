@@ -83,7 +83,7 @@ public abstract class MyDownloadBase
 
     public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getUid(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
     }
 
     public void truncateUid()
@@ -124,7 +124,7 @@ public abstract class MyDownloadBase
 
     public boolean hasName(String e)
     {
-        return Kmu.isEqual(getName(), e);
+        return Kmu.isEqualIgnoreCase(getName(), e);
     }
 
     public void truncateName()
@@ -234,7 +234,7 @@ public abstract class MyDownloadBase
 
     public boolean hasCreatedLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getCreatedLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getCreatedLocalTsMessage(), e);
     }
 
     //##################################################
@@ -360,7 +360,7 @@ public abstract class MyDownloadBase
         if ( !(o instanceof MyDownloadBase) )
             return false;
 
-        MyDownloadBase e = (MyDownloadBase) o;
+        MyDownloadBase e = (MyDownloadBase)o;
         return Kmu.isEqual(getUid(), e.getUid());
     }
 
@@ -372,30 +372,30 @@ public abstract class MyDownloadBase
 
     public boolean isSame(MyDownload e)
     {
-        if ( ! Kmu.isEqual(getUid(), e.getUid()) ) return false;
+        if ( !Kmu.isEqual(getUid(), e.getUid()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyDownload e)
     {
-        if ( ! Kmu.isEqual(getName(), e.getName()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyDownload e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyDownload e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

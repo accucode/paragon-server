@@ -240,18 +240,9 @@ CREATE TABLE user
     passwordHash varchar(40),
     timeZoneCode char(5),
     roleCode char(1),
-    favoriteColor char(7),
     lockVersion int,
     primary key (uid)
 ) ENGINE = INNODB;
 create unique index email on user (email);
 
-
-DROP TABLE IF EXISTS user_pet;
-CREATE TABLE user_pet
-(
-    uid varchar(30),
-    pet varchar(30),
-    primary key (uid,pet)
-) ENGINE = INNODB;
 

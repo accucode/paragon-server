@@ -68,18 +68,6 @@ attributes
             value(#U User)
             value(#D Developer)
 
-    valueCollection
-    : name      = pet
-    : comment   = The user's pets.
-    : type      = name
-
-    field
-    : name      = favoriteColor
-    : comment   = The user's favorite color.  Used to test the custom htmlColor type.
-    : type      = htmlColor
-    : required  = false
-    : default   =  
-
     collection
     : name          = accountUser
     : comment       = The many-to-many relationship to this user's accounts.

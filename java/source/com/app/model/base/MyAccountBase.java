@@ -84,7 +84,7 @@ public abstract class MyAccountBase
 
     public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getUid(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
     }
 
     public void truncateUid()
@@ -125,7 +125,7 @@ public abstract class MyAccountBase
 
     public boolean hasName(String e)
     {
-        return Kmu.isEqual(getName(), e);
+        return Kmu.isEqualIgnoreCase(getName(), e);
     }
 
     public void truncateName()
@@ -166,7 +166,7 @@ public abstract class MyAccountBase
 
     public boolean hasTypeCode(String e)
     {
-        return Kmu.isEqual(getTypeCode(), e);
+        return Kmu.isEqualIgnoreCase(getTypeCode(), e);
     }
 
     public void truncateTypeCode()
@@ -279,7 +279,7 @@ public abstract class MyAccountBase
 
     public boolean hasTypeName(String e)
     {
-        return Kmu.isEqual(getTypeName(), e);
+        return Kmu.isEqualIgnoreCase(getTypeName(), e);
     }
 
 
@@ -403,7 +403,7 @@ public abstract class MyAccountBase
         if ( !(o instanceof MyAccountBase) )
             return false;
 
-        MyAccountBase e = (MyAccountBase) o;
+        MyAccountBase e = (MyAccountBase)o;
         return Kmu.isEqual(getUid(), e.getUid());
     }
 
@@ -415,27 +415,27 @@ public abstract class MyAccountBase
 
     public boolean isSame(MyAccount e)
     {
-        if ( ! Kmu.isEqual(getUid(), e.getUid()) ) return false;
+        if ( !Kmu.isEqual(getUid(), e.getUid()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyAccount e)
     {
-        if ( ! Kmu.isEqual(getName(), e.getName()) ) return false;
-        if ( ! Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
-        if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( ! Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
+        if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyAccount e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyAccount e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

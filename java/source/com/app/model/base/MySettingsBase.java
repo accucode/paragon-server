@@ -110,7 +110,7 @@ public abstract class MySettingsBase
 
     public boolean hasSomeMessage(String e)
     {
-        return Kmu.isEqual(getSomeMessage(), e);
+        return Kmu.isEqualIgnoreCase(getSomeMessage(), e);
     }
 
     public void truncateSomeMessage()
@@ -203,7 +203,7 @@ public abstract class MySettingsBase
         if ( !(o instanceof MySettingsBase) )
             return false;
 
-        MySettingsBase e = (MySettingsBase) o;
+        MySettingsBase e = (MySettingsBase)o;
         return Kmu.isEqual(getCode(), e.getCode());
     }
 
@@ -215,25 +215,25 @@ public abstract class MySettingsBase
 
     public boolean isSame(MySettings e)
     {
-        if ( ! Kmu.isEqual(getCode(), e.getCode()) ) return false;
+        if ( !Kmu.isEqual(getCode(), e.getCode()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MySettings e)
     {
-        if ( ! Kmu.isEqual(getSomeMessage(), e.getSomeMessage()) ) return false;
-        if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getSomeMessage(), e.getSomeMessage()) ) return false;
+        if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MySettings e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MySettings e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

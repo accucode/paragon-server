@@ -78,7 +78,7 @@ public abstract class MyNamedCountVoBase
 
     public boolean hasName(String e)
     {
-        return Kmu.isEqual(getName(), e);
+        return Kmu.isEqualIgnoreCase(getName(), e);
     }
 
     public void truncateName()
@@ -171,7 +171,7 @@ public abstract class MyNamedCountVoBase
         if ( !(o instanceof MyNamedCountVoBase) )
             return false;
 
-        MyNamedCountVoBase e = (MyNamedCountVoBase) o;
+        MyNamedCountVoBase e = (MyNamedCountVoBase)o;
         return Kmu.isEqual(getName(), e.getName());
     }
 
@@ -183,24 +183,24 @@ public abstract class MyNamedCountVoBase
 
     public boolean isSame(MyNamedCountVo e)
     {
-        if ( ! Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyNamedCountVo e)
     {
-        if ( ! Kmu.isEqual(getCount(), e.getCount()) ) return false;
+        if ( !Kmu.isEqual(getCount(), e.getCount()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyNamedCountVo e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyNamedCountVo e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

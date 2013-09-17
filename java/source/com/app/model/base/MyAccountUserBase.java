@@ -83,7 +83,7 @@ public abstract class MyAccountUserBase
 
     public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getUid(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
     }
 
     public void truncateUid()
@@ -124,7 +124,7 @@ public abstract class MyAccountUserBase
 
     public boolean hasRoleCode(String e)
     {
-        return Kmu.isEqual(getRoleCode(), e);
+        return Kmu.isEqualIgnoreCase(getRoleCode(), e);
     }
 
     public void truncateRoleCode()
@@ -252,7 +252,7 @@ public abstract class MyAccountUserBase
 
     public boolean hasRoleName(String e)
     {
-        return Kmu.isEqual(getRoleName(), e);
+        return Kmu.isEqualIgnoreCase(getRoleName(), e);
     }
 
     //##################################################
@@ -444,7 +444,7 @@ public abstract class MyAccountUserBase
         if ( !(o instanceof MyAccountUserBase) )
             return false;
 
-        MyAccountUserBase e = (MyAccountUserBase) o;
+        MyAccountUserBase e = (MyAccountUserBase)o;
         return Kmu.isEqual(getUid(), e.getUid());
     }
 
@@ -456,26 +456,26 @@ public abstract class MyAccountUserBase
 
     public boolean isSame(MyAccountUser e)
     {
-        if ( ! Kmu.isEqual(getUid(), e.getUid()) ) return false;
+        if ( !Kmu.isEqual(getUid(), e.getUid()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyAccountUser e)
     {
-        if ( ! Kmu.isEqual(getRoleCode(), e.getRoleCode()) ) return false;
-        if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( ! Kmu.isEqual(getRoleName(), e.getRoleName()) ) return false;
+        if ( !Kmu.isEqual(getRoleCode(), e.getRoleCode()) ) return false;
+        if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getRoleName(), e.getRoleName()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyAccountUser e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyAccountUser e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

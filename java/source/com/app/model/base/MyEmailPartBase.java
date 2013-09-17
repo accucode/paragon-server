@@ -85,7 +85,7 @@ public abstract class MyEmailPartBase
 
     public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getUid(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
     }
 
     public void truncateUid()
@@ -159,7 +159,7 @@ public abstract class MyEmailPartBase
 
     public boolean hasTypeCode(String e)
     {
-        return Kmu.isEqual(getTypeCode(), e);
+        return Kmu.isEqualIgnoreCase(getTypeCode(), e);
     }
 
     public void truncateTypeCode()
@@ -268,7 +268,7 @@ public abstract class MyEmailPartBase
 
     public boolean hasAttachmentName(String e)
     {
-        return Kmu.isEqual(getAttachmentName(), e);
+        return Kmu.isEqualIgnoreCase(getAttachmentName(), e);
     }
 
     public void truncateAttachmentName()
@@ -359,7 +359,7 @@ public abstract class MyEmailPartBase
 
     public boolean hasTypeName(String e)
     {
-        return Kmu.isEqual(getTypeName(), e);
+        return Kmu.isEqualIgnoreCase(getTypeName(), e);
     }
 
     //##################################################
@@ -448,7 +448,7 @@ public abstract class MyEmailPartBase
         if ( !(o instanceof MyEmailPartBase) )
             return false;
 
-        MyEmailPartBase e = (MyEmailPartBase) o;
+        MyEmailPartBase e = (MyEmailPartBase)o;
         return Kmu.isEqual(getUid(), e.getUid());
     }
 
@@ -460,29 +460,29 @@ public abstract class MyEmailPartBase
 
     public boolean isSame(MyEmailPart e)
     {
-        if ( ! Kmu.isEqual(getUid(), e.getUid()) ) return false;
+        if ( !Kmu.isEqual(getUid(), e.getUid()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyEmailPart e)
     {
-        if ( ! Kmu.isEqual(getSequence(), e.getSequence()) ) return false;
-        if ( ! Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
-        if ( ! Kmu.isEqual(getAttachmentName(), e.getAttachmentName()) ) return false;
-        if ( ! Kmu.isEqual(getData(), e.getData()) ) return false;
-        if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( ! Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
+        if ( !Kmu.isEqual(getSequence(), e.getSequence()) ) return false;
+        if ( !Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
+        if ( !Kmu.isEqual(getAttachmentName(), e.getAttachmentName()) ) return false;
+        if ( !Kmu.isEqual(getData(), e.getData()) ) return false;
+        if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyEmailPart e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyEmailPart e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

@@ -80,7 +80,7 @@ public abstract class MyPatchBase
 
     public boolean hasName(String e)
     {
-        return Kmu.isEqual(getName(), e);
+        return Kmu.isEqualIgnoreCase(getName(), e);
     }
 
     public void truncateName()
@@ -152,7 +152,7 @@ public abstract class MyPatchBase
 
     public boolean hasSource(String e)
     {
-        return Kmu.isEqual(getSource(), e);
+        return Kmu.isEqualIgnoreCase(getSource(), e);
     }
 
     public void truncateSource()
@@ -200,7 +200,7 @@ public abstract class MyPatchBase
 
     public boolean hasInstalledLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getInstalledLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getInstalledLocalTsMessage(), e);
     }
 
     //##################################################
@@ -290,7 +290,7 @@ public abstract class MyPatchBase
         if ( !(o instanceof MyPatchBase) )
             return false;
 
-        MyPatchBase e = (MyPatchBase) o;
+        MyPatchBase e = (MyPatchBase)o;
         return Kmu.isEqual(getName(), e.getName());
     }
 
@@ -302,29 +302,29 @@ public abstract class MyPatchBase
 
     public boolean isSame(MyPatch e)
     {
-        if ( ! Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyPatch e)
     {
-        if ( ! Kmu.isEqual(getInstalledUtcTs(), e.getInstalledUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getSource(), e.getSource()) ) return false;
-        if ( ! Kmu.isEqual(getInstalledLocalTs(), e.getInstalledLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getInstalledLocalTsMessage(), e.getInstalledLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getInstalledLocalDate(), e.getInstalledLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getInstalledLocalTime(), e.getInstalledLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getInstalledUtcTs(), e.getInstalledUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getSource(), e.getSource()) ) return false;
+        if ( !Kmu.isEqual(getInstalledLocalTs(), e.getInstalledLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getInstalledLocalTsMessage(), e.getInstalledLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getInstalledLocalDate(), e.getInstalledLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getInstalledLocalTime(), e.getInstalledLocalTime()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyPatch e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyPatch e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

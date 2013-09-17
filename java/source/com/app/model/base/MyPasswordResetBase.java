@@ -86,7 +86,7 @@ public abstract class MyPasswordResetBase
 
     public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getUid(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
     }
 
     public void truncateUid()
@@ -127,7 +127,7 @@ public abstract class MyPasswordResetBase
 
     public boolean hasStatusCode(String e)
     {
-        return Kmu.isEqual(getStatusCode(), e);
+        return Kmu.isEqualIgnoreCase(getStatusCode(), e);
     }
 
     public void truncateStatusCode()
@@ -251,7 +251,7 @@ public abstract class MyPasswordResetBase
 
     public boolean hasAccessKey(String e)
     {
-        return Kmu.isEqual(getAccessKey(), e);
+        return Kmu.isEqualIgnoreCase(getAccessKey(), e);
     }
 
     public void truncateAccessKey()
@@ -373,7 +373,7 @@ public abstract class MyPasswordResetBase
 
     public boolean hasStatusName(String e)
     {
-        return Kmu.isEqual(getStatusName(), e);
+        return Kmu.isEqualIgnoreCase(getStatusName(), e);
     }
 
     //##################################################
@@ -411,7 +411,7 @@ public abstract class MyPasswordResetBase
 
     public boolean hasCreatedLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getCreatedLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getCreatedLocalTsMessage(), e);
     }
 
     //##################################################
@@ -487,7 +487,7 @@ public abstract class MyPasswordResetBase
 
     public boolean hasClosedLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getClosedLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getClosedLocalTsMessage(), e);
     }
 
     //##################################################
@@ -635,7 +635,7 @@ public abstract class MyPasswordResetBase
         if ( !(o instanceof MyPasswordResetBase) )
             return false;
 
-        MyPasswordResetBase e = (MyPasswordResetBase) o;
+        MyPasswordResetBase e = (MyPasswordResetBase)o;
         return Kmu.isEqual(getUid(), e.getUid());
     }
 
@@ -647,37 +647,37 @@ public abstract class MyPasswordResetBase
 
     public boolean isSame(MyPasswordReset e)
     {
-        if ( ! Kmu.isEqual(getUid(), e.getUid()) ) return false;
+        if ( !Kmu.isEqual(getUid(), e.getUid()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyPasswordReset e)
     {
-        if ( ! Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
-        if ( ! Kmu.isEqual(getAccessKey(), e.getAccessKey()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getClosedUtcTs(), e.getClosedUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( ! Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
-        if ( ! Kmu.isEqual(getClosedLocalTs(), e.getClosedLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getClosedLocalTsMessage(), e.getClosedLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getClosedLocalDate(), e.getClosedLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getClosedLocalTime(), e.getClosedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
+        if ( !Kmu.isEqual(getAccessKey(), e.getAccessKey()) ) return false;
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getClosedUtcTs(), e.getClosedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getClosedLocalTs(), e.getClosedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getClosedLocalTsMessage(), e.getClosedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getClosedLocalDate(), e.getClosedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getClosedLocalTime(), e.getClosedLocalTime()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyPasswordReset e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyPasswordReset e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

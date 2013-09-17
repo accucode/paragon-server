@@ -92,13 +92,6 @@ public class MySignInActivity
         _root = root;
     }
 
-    private void installLogo(ScArray root)
-    {
-        ScImage e;
-        e = root.addImage();
-        e.setSource(getThemeImageUrl("logo300.png"));
-    }
-
     private void installForm(ScArray root)
     {
         _staySignedInField = new ScCheckboxField();
@@ -117,6 +110,18 @@ public class MySignInActivity
         group.addDivider();
 
         installFormFooter(group);
+    }
+
+    private void installLogo(ScArray root)
+    {
+        ScBox box;
+        box = root.addBox();
+        box.style().width(300).padTop(75);
+        box.css().middle();
+
+        ScImage e;
+        e = box.addImage();
+        e.setSource(getThemeImageUrl("logo300.png"));
     }
 
     private void installFormFields(ScGroup group)

@@ -46,10 +46,8 @@ public abstract class MyUserBase
     private String passwordHash;
     private String timeZoneCode;
     private String roleCode;
-    private KmHtmlColor favoriteColor;
     private Integer lockVersion;
     private List<MyAccountUser> accountUsers;
-    private List<String> pets;
 
     //##################################################
     //# constructor
@@ -93,7 +91,7 @@ public abstract class MyUserBase
 
     public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getUid(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
     }
 
     public void truncateUid()
@@ -134,7 +132,7 @@ public abstract class MyUserBase
 
     public boolean hasName(String e)
     {
-        return Kmu.isEqual(getName(), e);
+        return Kmu.isEqualIgnoreCase(getName(), e);
     }
 
     public void truncateName()
@@ -175,7 +173,7 @@ public abstract class MyUserBase
 
     public boolean hasEmail(String e)
     {
-        return Kmu.isEqual(getEmail(), e);
+        return Kmu.isEqualIgnoreCase(getEmail(), e);
     }
 
     public void truncateEmail()
@@ -269,7 +267,7 @@ public abstract class MyUserBase
 
     public boolean hasPasswordSalt(String e)
     {
-        return Kmu.isEqual(getPasswordSalt(), e);
+        return Kmu.isEqualIgnoreCase(getPasswordSalt(), e);
     }
 
     public void truncatePasswordSalt()
@@ -310,7 +308,7 @@ public abstract class MyUserBase
 
     public boolean hasPasswordHash(String e)
     {
-        return Kmu.isEqual(getPasswordHash(), e);
+        return Kmu.isEqualIgnoreCase(getPasswordHash(), e);
     }
 
     public void truncatePasswordHash()
@@ -351,7 +349,7 @@ public abstract class MyUserBase
 
     public boolean hasTimeZoneCode(String e)
     {
-        return Kmu.isEqual(getTimeZoneCode(), e);
+        return Kmu.isEqualIgnoreCase(getTimeZoneCode(), e);
     }
 
     public void truncateTimeZoneCode()
@@ -392,7 +390,7 @@ public abstract class MyUserBase
 
     public boolean hasRoleCode(String e)
     {
-        return Kmu.isEqual(getRoleCode(), e);
+        return Kmu.isEqualIgnoreCase(getRoleCode(), e);
     }
 
     public void truncateRoleCode()
@@ -459,37 +457,6 @@ public abstract class MyUserBase
     }
 
     //##################################################
-    //# field (favoriteColor)
-    //##################################################
-
-    public KmHtmlColor getFavoriteColor()
-    {
-        return favoriteColor;
-    }
-
-    public void setFavoriteColor(KmHtmlColor e)
-    {
-        checkReadOnly();
-        e = Validator.getFavoriteColorValidator().convertOnly(e);
-        favoriteColor = e;
-    }
-
-    public void clearFavoriteColor()
-    {
-        setFavoriteColor(null);
-    }
-
-    public boolean hasFavoriteColor()
-    {
-        return getFavoriteColor() != null;
-    }
-
-    public boolean hasFavoriteColor(KmHtmlColor e)
-    {
-        return Kmu.isEqual(getFavoriteColor(), e);
-    }
-
-    //##################################################
     //# field (lockVersion)
     //##################################################
 
@@ -536,7 +503,7 @@ public abstract class MyUserBase
 
     public boolean hasRoleName(String e)
     {
-        return Kmu.isEqual(getRoleName(), e);
+        return Kmu.isEqualIgnoreCase(getRoleName(), e);
     }
 
 
@@ -608,30 +575,6 @@ public abstract class MyUserBase
     }
 
     //##################################################
-    //# Pets (value collection)
-    //##################################################
-
-    public KmCollection<String> getPets()
-    {
-        return new KmCollection<String>(getBasePets());
-    }
-
-    public List<String> getBasePets()
-    {
-        return pets;
-    }
-
-    public void addPet(String e)
-    {
-        pets.add(e);
-    }
-
-    public void removePet(String e)
-    {
-        pets.remove(e);
-    }
-
-    //##################################################
     //# validate
     //##################################################
 
@@ -669,11 +612,6 @@ public abstract class MyUserBase
         uid = null;
 
         accountUsers = new ArrayList<MyAccountUser>();
-
-        List<String> old_pets = pets;
-        pets = new ArrayList<String>();
-        for ( String e : old_pets )
-            addPet(e);
     }
 
     //##################################################
@@ -686,7 +624,7 @@ public abstract class MyUserBase
         if ( !(o instanceof MyUserBase) )
             return false;
 
-        MyUserBase e = (MyUserBase) o;
+        MyUserBase e = (MyUserBase)o;
         return Kmu.isEqual(getUid(), e.getUid());
     }
 
@@ -698,33 +636,32 @@ public abstract class MyUserBase
 
     public boolean isSame(MyUser e)
     {
-        if ( ! Kmu.isEqual(getUid(), e.getUid()) ) return false;
+        if ( !Kmu.isEqual(getUid(), e.getUid()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyUser e)
     {
-        if ( ! Kmu.isEqual(getName(), e.getName()) ) return false;
-        if ( ! Kmu.isEqual(getEmail(), e.getEmail()) ) return false;
-        if ( ! Kmu.isEqual(getVerified(), e.getVerified()) ) return false;
-        if ( ! Kmu.isEqual(getPasswordSalt(), e.getPasswordSalt()) ) return false;
-        if ( ! Kmu.isEqual(getPasswordHash(), e.getPasswordHash()) ) return false;
-        if ( ! Kmu.isEqual(getTimeZoneCode(), e.getTimeZoneCode()) ) return false;
-        if ( ! Kmu.isEqual(getRoleCode(), e.getRoleCode()) ) return false;
-        if ( ! Kmu.isEqual(getFavoriteColor(), e.getFavoriteColor()) ) return false;
-        if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( ! Kmu.isEqual(getRoleName(), e.getRoleName()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getEmail(), e.getEmail()) ) return false;
+        if ( !Kmu.isEqual(getVerified(), e.getVerified()) ) return false;
+        if ( !Kmu.isEqual(getPasswordSalt(), e.getPasswordSalt()) ) return false;
+        if ( !Kmu.isEqual(getPasswordHash(), e.getPasswordHash()) ) return false;
+        if ( !Kmu.isEqual(getTimeZoneCode(), e.getTimeZoneCode()) ) return false;
+        if ( !Kmu.isEqual(getRoleCode(), e.getRoleCode()) ) return false;
+        if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getRoleName(), e.getRoleName()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyUser e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyUser e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################
@@ -828,7 +765,6 @@ public abstract class MyUserBase
         System.out.println("    PasswordHash = " + passwordHash);
         System.out.println("    TimeZoneCode = " + timeZoneCode);
         System.out.println("    RoleCode = " + roleCode);
-        System.out.println("    FavoriteColor = " + favoriteColor);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

@@ -83,11 +83,6 @@ public class MyUserJunction
         return new KmStringCriteria(context(), fullName(ROLE_CODE));
     }
 
-    public KmPropertyCriteria<KmHtmlColor> whereFavoriteColor()
-    {
-        return new KmPropertyCriteria<KmHtmlColor>(context(), fullName(FAVORITE_COLOR));
-    }
-
     public KmIntegerCriteria whereLockVersion()
     {
         return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));

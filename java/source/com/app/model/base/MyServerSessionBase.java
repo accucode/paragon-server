@@ -90,7 +90,7 @@ public abstract class MyServerSessionBase
 
     public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getUid(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
     }
 
     public void truncateUid()
@@ -277,7 +277,7 @@ public abstract class MyServerSessionBase
 
     public boolean hasVersion(String e)
     {
-        return Kmu.isEqual(getVersion(), e);
+        return Kmu.isEqualIgnoreCase(getVersion(), e);
     }
 
     public void truncateVersion()
@@ -356,7 +356,7 @@ public abstract class MyServerSessionBase
 
     public boolean hasCreatedLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getCreatedLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getCreatedLocalTsMessage(), e);
     }
 
     //##################################################
@@ -432,7 +432,7 @@ public abstract class MyServerSessionBase
 
     public boolean hasClosedLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getClosedLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getClosedLocalTsMessage(), e);
     }
 
     //##################################################
@@ -508,7 +508,7 @@ public abstract class MyServerSessionBase
 
     public boolean hasLastTouchedLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getLastTouchedLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getLastTouchedLocalTsMessage(), e);
     }
 
     //##################################################
@@ -706,7 +706,7 @@ public abstract class MyServerSessionBase
         if ( !(o instanceof MyServerSessionBase) )
             return false;
 
-        MyServerSessionBase e = (MyServerSessionBase) o;
+        MyServerSessionBase e = (MyServerSessionBase)o;
         return Kmu.isEqual(getUid(), e.getUid());
     }
 
@@ -718,41 +718,41 @@ public abstract class MyServerSessionBase
 
     public boolean isSame(MyServerSession e)
     {
-        if ( ! Kmu.isEqual(getUid(), e.getUid()) ) return false;
+        if ( !Kmu.isEqual(getUid(), e.getUid()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyServerSession e)
     {
-        if ( ! Kmu.isEqual(getActive(), e.getActive()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getClosedUtcTs(), e.getClosedUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getLastTouchedUtcTs(), e.getLastTouchedUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getVersion(), e.getVersion()) ) return false;
-        if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
-        if ( ! Kmu.isEqual(getClosedLocalTs(), e.getClosedLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getClosedLocalTsMessage(), e.getClosedLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getClosedLocalDate(), e.getClosedLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getClosedLocalTime(), e.getClosedLocalTime()) ) return false;
-        if ( ! Kmu.isEqual(getLastTouchedLocalTs(), e.getLastTouchedLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getLastTouchedLocalTsMessage(), e.getLastTouchedLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getLastTouchedLocalDate(), e.getLastTouchedLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getLastTouchedLocalTime(), e.getLastTouchedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getActive(), e.getActive()) ) return false;
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getClosedUtcTs(), e.getClosedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getLastTouchedUtcTs(), e.getLastTouchedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getVersion(), e.getVersion()) ) return false;
+        if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getClosedLocalTs(), e.getClosedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getClosedLocalTsMessage(), e.getClosedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getClosedLocalDate(), e.getClosedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getClosedLocalTime(), e.getClosedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getLastTouchedLocalTs(), e.getLastTouchedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getLastTouchedLocalTsMessage(), e.getLastTouchedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getLastTouchedLocalDate(), e.getLastTouchedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getLastTouchedLocalTime(), e.getLastTouchedLocalTime()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyServerSession e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyServerSession e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

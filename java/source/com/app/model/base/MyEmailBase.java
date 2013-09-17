@@ -90,7 +90,7 @@ public abstract class MyEmailBase
 
     public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getUid(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
     }
 
     public void truncateUid()
@@ -193,7 +193,7 @@ public abstract class MyEmailBase
 
     public boolean hasSubject(String e)
     {
-        return Kmu.isEqual(getSubject(), e);
+        return Kmu.isEqualIgnoreCase(getSubject(), e);
     }
 
     public void truncateSubject()
@@ -234,7 +234,7 @@ public abstract class MyEmailBase
 
     public boolean hasFromAddress(String e)
     {
-        return Kmu.isEqual(getFromAddress(), e);
+        return Kmu.isEqualIgnoreCase(getFromAddress(), e);
     }
 
     public void truncateFromAddress()
@@ -275,7 +275,7 @@ public abstract class MyEmailBase
 
     public boolean hasStatusCode(String e)
     {
-        return Kmu.isEqual(getStatusCode(), e);
+        return Kmu.isEqualIgnoreCase(getStatusCode(), e);
     }
 
     public void truncateStatusCode()
@@ -429,7 +429,7 @@ public abstract class MyEmailBase
 
     public boolean hasErrorNotes(String e)
     {
-        return Kmu.isEqual(getErrorNotes(), e);
+        return Kmu.isEqualIgnoreCase(getErrorNotes(), e);
     }
 
     public void truncateErrorNotes()
@@ -455,7 +455,7 @@ public abstract class MyEmailBase
 
     public boolean hasRecipientSummary(String e)
     {
-        return Kmu.isEqual(getRecipientSummary(), e);
+        return Kmu.isEqualIgnoreCase(getRecipientSummary(), e);
     }
 
     //##################################################
@@ -471,7 +471,7 @@ public abstract class MyEmailBase
 
     public boolean hasToAddressesLabel(String e)
     {
-        return Kmu.isEqual(getToAddressesLabel(), e);
+        return Kmu.isEqualIgnoreCase(getToAddressesLabel(), e);
     }
 
     //##################################################
@@ -487,7 +487,7 @@ public abstract class MyEmailBase
 
     public boolean hasCcAddressesLabel(String e)
     {
-        return Kmu.isEqual(getCcAddressesLabel(), e);
+        return Kmu.isEqualIgnoreCase(getCcAddressesLabel(), e);
     }
 
     //##################################################
@@ -537,7 +537,7 @@ public abstract class MyEmailBase
 
     public boolean hasStatusName(String e)
     {
-        return Kmu.isEqual(getStatusName(), e);
+        return Kmu.isEqualIgnoreCase(getStatusName(), e);
     }
 
     //##################################################
@@ -575,7 +575,7 @@ public abstract class MyEmailBase
 
     public boolean hasCreatedLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getCreatedLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getCreatedLocalTsMessage(), e);
     }
 
     //##################################################
@@ -651,7 +651,7 @@ public abstract class MyEmailBase
 
     public boolean hasSentLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getSentLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getSentLocalTsMessage(), e);
     }
 
     //##################################################
@@ -894,7 +894,7 @@ public abstract class MyEmailBase
         if ( !(o instanceof MyEmailBase) )
             return false;
 
-        MyEmailBase e = (MyEmailBase) o;
+        MyEmailBase e = (MyEmailBase)o;
         return Kmu.isEqual(getUid(), e.getUid());
     }
 
@@ -906,42 +906,42 @@ public abstract class MyEmailBase
 
     public boolean isSame(MyEmail e)
     {
-        if ( ! Kmu.isEqual(getUid(), e.getUid()) ) return false;
+        if ( !Kmu.isEqual(getUid(), e.getUid()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyEmail e)
     {
-        if ( ! Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getSentUtcTs(), e.getSentUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getSubject(), e.getSubject()) ) return false;
-        if ( ! Kmu.isEqual(getFromAddress(), e.getFromAddress()) ) return false;
-        if ( ! Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
-        if ( ! Kmu.isEqual(getErrorNotes(), e.getErrorNotes()) ) return false;
-        if ( ! Kmu.isEqual(getRecipientSummary(), e.getRecipientSummary()) ) return false;
-        if ( ! Kmu.isEqual(getToAddressesLabel(), e.getToAddressesLabel()) ) return false;
-        if ( ! Kmu.isEqual(getCcAddressesLabel(), e.getCcAddressesLabel()) ) return false;
-        if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( ! Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
-        if ( ! Kmu.isEqual(getSentLocalTs(), e.getSentLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getSentLocalTsMessage(), e.getSentLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getSentLocalDate(), e.getSentLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getSentLocalTime(), e.getSentLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getSentUtcTs(), e.getSentUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getSubject(), e.getSubject()) ) return false;
+        if ( !Kmu.isEqual(getFromAddress(), e.getFromAddress()) ) return false;
+        if ( !Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
+        if ( !Kmu.isEqual(getErrorNotes(), e.getErrorNotes()) ) return false;
+        if ( !Kmu.isEqual(getRecipientSummary(), e.getRecipientSummary()) ) return false;
+        if ( !Kmu.isEqual(getToAddressesLabel(), e.getToAddressesLabel()) ) return false;
+        if ( !Kmu.isEqual(getCcAddressesLabel(), e.getCcAddressesLabel()) ) return false;
+        if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getSentLocalTs(), e.getSentLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getSentLocalTsMessage(), e.getSentLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getSentLocalDate(), e.getSentLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getSentLocalTime(), e.getSentLocalTime()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyEmail e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyEmail e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

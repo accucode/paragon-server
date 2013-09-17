@@ -136,11 +136,6 @@ public class MyUserCriteria
             whereRoleIsNotDeveloper();
     }
 
-    public KmPropertyCriteria<KmHtmlColor> whereFavoriteColor()
-    {
-        return new KmPropertyCriteria<KmHtmlColor>(context(), fullName(FAVORITE_COLOR));
-    }
-
     public KmIntegerCriteria whereLockVersion()
     {
         return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
@@ -292,24 +287,6 @@ public class MyUserCriteria
             sortOnRoleCode();
         else
             sortOnRoleCodeDescending();
-    }
-
-    public void sortOnFavoriteColor()
-    {
-        parent().sortAscending(FAVORITE_COLOR);
-    }
-
-    public void sortOnFavoriteColorDescending()
-    {
-        parent().sortDescending(FAVORITE_COLOR);
-    }
-
-    public void sortOnFavoriteColor(boolean asc)
-    {
-        if ( asc )
-            sortOnFavoriteColor();
-        else
-            sortOnFavoriteColorDescending();
     }
 
     public void sortOnLockVersion()
@@ -680,50 +657,6 @@ public class MyUserCriteria
     public void groupByRoleCode()
     {
         groupBy(ROLE_CODE);
-    }
-
-    //##################################################
-    //# projections (favoriteColor)
-    //##################################################
-
-    public void selectFavoriteColor()
-    {
-        select(FAVORITE_COLOR);
-    }
-
-    public void selectDistinctFavoriteColor()
-    {
-        selectDistinct(FAVORITE_COLOR);
-    }
-
-    public void selectCountDistinctFavoriteColor()
-    {
-        selectCountDistinct(FAVORITE_COLOR);
-    }
-
-    public void selectMinimumFavoriteColor()
-    {
-        selectMinimum(FAVORITE_COLOR);
-    }
-
-    public void selectMaximumFavoriteColor()
-    {
-        selectMaximum(FAVORITE_COLOR);
-    }
-
-    public void selectAverageFavoriteColor()
-    {
-        selectAverage(FAVORITE_COLOR);
-    }
-
-    public void selectSumFavoriteColor()
-    {
-        selectSum(FAVORITE_COLOR);
-    }
-
-    public void groupByFavoriteColor()
-    {
-        groupBy(FAVORITE_COLOR);
     }
 
     //##################################################

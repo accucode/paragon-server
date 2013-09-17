@@ -150,7 +150,7 @@ public abstract class MySystemLogBase
 
     public boolean hasLoggerName(String e)
     {
-        return Kmu.isEqual(getLoggerName(), e);
+        return Kmu.isEqualIgnoreCase(getLoggerName(), e);
     }
 
     public void truncateLoggerName()
@@ -191,7 +191,7 @@ public abstract class MySystemLogBase
 
     public boolean hasContext(String e)
     {
-        return Kmu.isEqual(getContext(), e);
+        return Kmu.isEqualIgnoreCase(getContext(), e);
     }
 
     public void truncateContext()
@@ -232,7 +232,7 @@ public abstract class MySystemLogBase
 
     public boolean hasMessage(String e)
     {
-        return Kmu.isEqual(getMessage(), e);
+        return Kmu.isEqualIgnoreCase(getMessage(), e);
     }
 
     public void truncateMessage()
@@ -273,7 +273,7 @@ public abstract class MySystemLogBase
 
     public boolean hasLevelName(String e)
     {
-        return Kmu.isEqual(getLevelName(), e);
+        return Kmu.isEqualIgnoreCase(getLevelName(), e);
     }
 
     public void truncateLevelName()
@@ -345,7 +345,7 @@ public abstract class MySystemLogBase
 
     public boolean hasThreadName(String e)
     {
-        return Kmu.isEqual(getThreadName(), e);
+        return Kmu.isEqualIgnoreCase(getThreadName(), e);
     }
 
     public void truncateThreadName()
@@ -386,7 +386,7 @@ public abstract class MySystemLogBase
 
     public boolean hasExceptionText(String e)
     {
-        return Kmu.isEqual(getExceptionText(), e);
+        return Kmu.isEqualIgnoreCase(getExceptionText(), e);
     }
 
     public void truncateExceptionText()
@@ -412,7 +412,7 @@ public abstract class MySystemLogBase
 
     public boolean hasFullTrace(String e)
     {
-        return Kmu.isEqual(getFullTrace(), e);
+        return Kmu.isEqualIgnoreCase(getFullTrace(), e);
     }
 
     //##################################################
@@ -428,7 +428,7 @@ public abstract class MySystemLogBase
 
     public boolean hasLevelCodeName(String e)
     {
-        return Kmu.isEqual(getLevelCodeName(), e);
+        return Kmu.isEqualIgnoreCase(getLevelCodeName(), e);
     }
 
     //##################################################
@@ -466,7 +466,7 @@ public abstract class MySystemLogBase
 
     public boolean hasCreatedLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getCreatedLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getCreatedLocalTsMessage(), e);
     }
 
     //##################################################
@@ -637,7 +637,7 @@ public abstract class MySystemLogBase
         if ( !(o instanceof MySystemLogBase) )
             return false;
 
-        MySystemLogBase e = (MySystemLogBase) o;
+        MySystemLogBase e = (MySystemLogBase)o;
         return Kmu.isEqual(getId(), e.getId());
     }
 
@@ -649,37 +649,37 @@ public abstract class MySystemLogBase
 
     public boolean isSame(MySystemLog e)
     {
-        if ( ! Kmu.isEqual(getId(), e.getId()) ) return false;
+        if ( !Kmu.isEqual(getId(), e.getId()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MySystemLog e)
     {
-        if ( ! Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getLoggerName(), e.getLoggerName()) ) return false;
-        if ( ! Kmu.isEqual(getContext(), e.getContext()) ) return false;
-        if ( ! Kmu.isEqual(getMessage(), e.getMessage()) ) return false;
-        if ( ! Kmu.isEqual(getLevelName(), e.getLevelName()) ) return false;
-        if ( ! Kmu.isEqual(getLevelCode(), e.getLevelCode()) ) return false;
-        if ( ! Kmu.isEqual(getThreadName(), e.getThreadName()) ) return false;
-        if ( ! Kmu.isEqual(getExceptionText(), e.getExceptionText()) ) return false;
-        if ( ! Kmu.isEqual(getFullTrace(), e.getFullTrace()) ) return false;
-        if ( ! Kmu.isEqual(getLevelCodeName(), e.getLevelCodeName()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getLoggerName(), e.getLoggerName()) ) return false;
+        if ( !Kmu.isEqual(getContext(), e.getContext()) ) return false;
+        if ( !Kmu.isEqual(getMessage(), e.getMessage()) ) return false;
+        if ( !Kmu.isEqual(getLevelName(), e.getLevelName()) ) return false;
+        if ( !Kmu.isEqual(getLevelCode(), e.getLevelCode()) ) return false;
+        if ( !Kmu.isEqual(getThreadName(), e.getThreadName()) ) return false;
+        if ( !Kmu.isEqual(getExceptionText(), e.getExceptionText()) ) return false;
+        if ( !Kmu.isEqual(getFullTrace(), e.getFullTrace()) ) return false;
+        if ( !Kmu.isEqual(getLevelCodeName(), e.getLevelCodeName()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MySystemLog e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MySystemLog e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

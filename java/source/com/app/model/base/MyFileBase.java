@@ -116,7 +116,7 @@ public abstract class MyFileBase
 
     public boolean hasName(String e)
     {
-        return Kmu.isEqual(getName(), e);
+        return Kmu.isEqualIgnoreCase(getName(), e);
     }
 
     public void truncateName()
@@ -157,7 +157,7 @@ public abstract class MyFileBase
 
     public boolean hasPath(String e)
     {
-        return Kmu.isEqual(getPath(), e);
+        return Kmu.isEqualIgnoreCase(getPath(), e);
     }
 
     public void truncatePath()
@@ -229,7 +229,7 @@ public abstract class MyFileBase
 
     public boolean hasStatusCode(String e)
     {
-        return Kmu.isEqual(getStatusCode(), e);
+        return Kmu.isEqualIgnoreCase(getStatusCode(), e);
     }
 
     public void truncateStatusCode()
@@ -434,7 +434,7 @@ public abstract class MyFileBase
 
     public boolean hasStatusName(String e)
     {
-        return Kmu.isEqual(getStatusName(), e);
+        return Kmu.isEqualIgnoreCase(getStatusName(), e);
     }
 
     //##################################################
@@ -472,7 +472,7 @@ public abstract class MyFileBase
 
     public boolean hasCreatedLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getCreatedLocalTsMessage(), e);
+        return Kmu.isEqualIgnoreCase(getCreatedLocalTsMessage(), e);
     }
 
     //##################################################
@@ -562,7 +562,7 @@ public abstract class MyFileBase
         if ( !(o instanceof MyFileBase) )
             return false;
 
-        MyFileBase e = (MyFileBase) o;
+        MyFileBase e = (MyFileBase)o;
         return Kmu.isEqual(getId(), e.getId());
     }
 
@@ -574,35 +574,35 @@ public abstract class MyFileBase
 
     public boolean isSame(MyFile e)
     {
-        if ( ! Kmu.isEqual(getId(), e.getId()) ) return false;
+        if ( !Kmu.isEqual(getId(), e.getId()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyFile e)
     {
-        if ( ! Kmu.isEqual(getName(), e.getName()) ) return false;
-        if ( ! Kmu.isEqual(getPath(), e.getPath()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( ! Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
-        if ( ! Kmu.isEqual(getSize(), e.getSize()) ) return false;
-        if ( ! Kmu.isEqual(getPartialSize(), e.getPartialSize()) ) return false;
-        if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( ! Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
-        if ( ! Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getPath(), e.getPath()) ) return false;
+        if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
+        if ( !Kmu.isEqual(getSize(), e.getSize()) ) return false;
+        if ( !Kmu.isEqual(getPartialSize(), e.getPartialSize()) ) return false;
+        if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyFile e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyFile e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

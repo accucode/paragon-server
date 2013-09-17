@@ -101,7 +101,11 @@ $utility.protocol("field (${field.Name})")
 
     public boolean ${field.f_hasMethod}(${field.f_Type} e)
     {
+#if ( $field.isString() )
+        return Kmu.isEqualIgnoreCase(${field.f_getMethod}(), e);
+#else
         return Kmu.isEqual(${field.f_getMethod}(), e);
+#end
     }
 
 #if ( $field.isBoolean() )
@@ -442,7 +446,7 @@ $utility.protocol("compare")
         if ( !(o instanceof ${model.f_BaseClass}) )
             return false;
 
-        ${model.f_BaseClass} e = (${model.f_BaseClass}) o;
+        ${model.f_BaseClass} e = (${model.f_BaseClass})o;
         return Kmu.isEqual(${model.primaryKeyField.f_getMethod}(), e.${model.primaryKeyField.f_getMethod}());
     }
 
@@ -456,7 +460,7 @@ $utility.protocol("compare")
     public boolean isSame(${model.f_Class} e)
     {
 #foreach ( $field in ${model.primaryKeyFields} )
-        if ( ! Kmu.isEqual(${field.f_getMethod}(), e.${field.f_getMethod}()) ) return false;
+        if ( !Kmu.isEqual(${field.f_getMethod}(), e.${field.f_getMethod}()) ) return false;
 #end
         return isSameIgnoringKey(e);
     }
@@ -464,19 +468,19 @@ $utility.protocol("compare")
     public boolean isSameIgnoringKey(${model.f_Class} e)
     {
 #foreach ( $field in ${model.nonPrimaryKeyFields} )
-        if ( ! Kmu.isEqual(${field.f_getMethod}(), e.${field.f_getMethod}()) ) return false;
+        if ( !Kmu.isEqual(${field.f_getMethod}(), e.${field.f_getMethod}()) ) return false;
 #end
         return true;
     }
 
     public boolean isDifferent(${model.f_Class} e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(${model.f_Class} e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
 $utility.protocol("property")

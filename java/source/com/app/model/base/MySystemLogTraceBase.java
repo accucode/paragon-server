@@ -145,7 +145,7 @@ public abstract class MySystemLogTraceBase
 
     public boolean hasValue(String e)
     {
-        return Kmu.isEqual(getValue(), e);
+        return Kmu.isEqualIgnoreCase(getValue(), e);
     }
 
     public void truncateValue()
@@ -244,7 +244,7 @@ public abstract class MySystemLogTraceBase
         if ( !(o instanceof MySystemLogTraceBase) )
             return false;
 
-        MySystemLogTraceBase e = (MySystemLogTraceBase) o;
+        MySystemLogTraceBase e = (MySystemLogTraceBase)o;
         return Kmu.isEqual(getId(), e.getId());
     }
 
@@ -256,25 +256,25 @@ public abstract class MySystemLogTraceBase
 
     public boolean isSame(MySystemLogTrace e)
     {
-        if ( ! Kmu.isEqual(getId(), e.getId()) ) return false;
+        if ( !Kmu.isEqual(getId(), e.getId()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MySystemLogTrace e)
     {
-        if ( ! Kmu.isEqual(getSequence(), e.getSequence()) ) return false;
-        if ( ! Kmu.isEqual(getValue(), e.getValue()) ) return false;
+        if ( !Kmu.isEqual(getSequence(), e.getSequence()) ) return false;
+        if ( !Kmu.isEqual(getValue(), e.getValue()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MySystemLogTrace e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MySystemLogTrace e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

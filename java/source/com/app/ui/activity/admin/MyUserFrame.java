@@ -9,7 +9,6 @@ import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.field.ScColorField;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
 
@@ -68,7 +67,6 @@ public class MyUserFrame
         fields.addText(x.Uid);
         fields.addText(x.Email);
         fields.addText(x.Name);
-        fields.addText(x.FavoriteColor);
         fields.addText(x.RoleName);
 
         return child;
@@ -88,10 +86,6 @@ public class MyUserFrame
         ScTextField nameField;
         nameField = x.Name.newField();
         nameField.setWidthFull();
-
-        ScColorField colorField;
-        colorField = x.FavoriteColor.newField();
-        colorField.setWidthFull();
 
         ScDropdown roleField;
         roleField = x.RoleCode.newDropdown();
@@ -116,7 +110,6 @@ public class MyUserFrame
         fields.addText(x.Uid);
         fields.add(emailField);
         fields.add(nameField);
-        fields.add(colorField);
         fields.add(roleField);
 
         group.addDivider();

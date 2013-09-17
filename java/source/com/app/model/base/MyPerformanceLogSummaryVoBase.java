@@ -82,7 +82,7 @@ public abstract class MyPerformanceLogSummaryVoBase
 
     public boolean hasName(String e)
     {
-        return Kmu.isEqual(getName(), e);
+        return Kmu.isEqualIgnoreCase(getName(), e);
     }
 
     public void truncateName()
@@ -299,23 +299,23 @@ public abstract class MyPerformanceLogSummaryVoBase
 
     public boolean isSameIgnoringKey(MyPerformanceLogSummaryVo e)
     {
-        if ( ! Kmu.isEqual(getName(), e.getName()) ) return false;
-        if ( ! Kmu.isEqual(getCount(), e.getCount()) ) return false;
-        if ( ! Kmu.isEqual(getMinimumMs(), e.getMinimumMs()) ) return false;
-        if ( ! Kmu.isEqual(getMaximumMs(), e.getMaximumMs()) ) return false;
-        if ( ! Kmu.isEqual(getAverageMs(), e.getAverageMs()) ) return false;
-        if ( ! Kmu.isEqual(getTotalMs(), e.getTotalMs()) ) return false;
+        if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getCount(), e.getCount()) ) return false;
+        if ( !Kmu.isEqual(getMinimumMs(), e.getMinimumMs()) ) return false;
+        if ( !Kmu.isEqual(getMaximumMs(), e.getMaximumMs()) ) return false;
+        if ( !Kmu.isEqual(getAverageMs(), e.getAverageMs()) ) return false;
+        if ( !Kmu.isEqual(getTotalMs(), e.getTotalMs()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyPerformanceLogSummaryVo e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyPerformanceLogSummaryVo e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################

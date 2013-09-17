@@ -82,7 +82,7 @@ public abstract class MyEmailRecipientBase
 
     public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getUid(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
     }
 
     public void truncateUid()
@@ -123,7 +123,7 @@ public abstract class MyEmailRecipientBase
 
     public boolean hasAddress(String e)
     {
-        return Kmu.isEqual(getAddress(), e);
+        return Kmu.isEqualIgnoreCase(getAddress(), e);
     }
 
     public void truncateAddress()
@@ -164,7 +164,7 @@ public abstract class MyEmailRecipientBase
 
     public boolean hasTypeCode(String e)
     {
-        return Kmu.isEqual(getTypeCode(), e);
+        return Kmu.isEqualIgnoreCase(getTypeCode(), e);
     }
 
     public void truncateTypeCode()
@@ -277,7 +277,7 @@ public abstract class MyEmailRecipientBase
 
     public boolean hasTypeName(String e)
     {
-        return Kmu.isEqual(getTypeName(), e);
+        return Kmu.isEqualIgnoreCase(getTypeName(), e);
     }
 
     //##################################################
@@ -366,7 +366,7 @@ public abstract class MyEmailRecipientBase
         if ( !(o instanceof MyEmailRecipientBase) )
             return false;
 
-        MyEmailRecipientBase e = (MyEmailRecipientBase) o;
+        MyEmailRecipientBase e = (MyEmailRecipientBase)o;
         return Kmu.isEqual(getUid(), e.getUid());
     }
 
@@ -378,27 +378,27 @@ public abstract class MyEmailRecipientBase
 
     public boolean isSame(MyEmailRecipient e)
     {
-        if ( ! Kmu.isEqual(getUid(), e.getUid()) ) return false;
+        if ( !Kmu.isEqual(getUid(), e.getUid()) ) return false;
         return isSameIgnoringKey(e);
     }
 
     public boolean isSameIgnoringKey(MyEmailRecipient e)
     {
-        if ( ! Kmu.isEqual(getAddress(), e.getAddress()) ) return false;
-        if ( ! Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
-        if ( ! Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( ! Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
+        if ( !Kmu.isEqual(getAddress(), e.getAddress()) ) return false;
+        if ( !Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
+        if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
+        if ( !Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
         return true;
     }
 
     public boolean isDifferent(MyEmailRecipient e)
     {
-        return ! isSame(e);
+        return !isSame(e);
     }
 
     public boolean isDifferentIgnoringKey(MyEmailRecipient e)
     {
-        return ! isSameIgnoringKey(e);
+        return !isSameIgnoringKey(e);
     }
 
     //##################################################
