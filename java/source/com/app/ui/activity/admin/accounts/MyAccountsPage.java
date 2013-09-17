@@ -1570,7 +1570,7 @@ public class MyAccountsPage
      */
     private void setDropdownOptions()
     {
-        _accountDropdown.ajaxClearOptions();
+        _accountDropdown.clearOptions();
 
         KmList<ScOption> list = getDropdownList();
 
@@ -1578,8 +1578,8 @@ public class MyAccountsPage
          * ask_valerie if this dropdown should use a label when there's
          * only one like MyPageLayout uses
          */
-        for ( ScOption e : list )
-            _accountDropdown.addOption(e.getValue(), e.getText());
+
+        _accountDropdown.setOptions(list);
 
         if ( list.isNotEmpty() && getServerSession().hasAccount() )
         {
@@ -1588,7 +1588,7 @@ public class MyAccountsPage
             _accountDropdown.ajaxUpdateValue();
         }
 
-        _accountDropdown.ajax().replace();
+        _accountDropdown.ajaxUpdateOptions();
     }
 
     //##################################################

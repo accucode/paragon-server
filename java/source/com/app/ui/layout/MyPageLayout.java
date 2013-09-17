@@ -379,13 +379,13 @@ public class MyPageLayout
             return;
         }
 
-        ajaxSetDropdownOptions();
+        setDropdownOptions();
         setServerSessionAccount();
         _dropdown.ajaxShow();
-        _dropdown.ajaxRefreshBootstrap();
+        _dropdown.ajaxUpdateOptions();
     }
 
-    private void ajaxSetDropdownOptions()
+    private void setDropdownOptions()
     {
         KmList<ScOption> list = getDropdownList();
 
@@ -398,7 +398,6 @@ public class MyPageLayout
         }
 
         _dropdown.setOptions(list);
-        _dropdown.ajaxUpdateOptions();
     }
 
     //==================================================

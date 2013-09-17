@@ -1596,12 +1596,11 @@ public class MyAccounts2Page
      */
     private void setDropdownOptions()
     {
-        _accountDropdown.ajaxClearOptions();
+        _accountDropdown.clearOptions();
 
         KmList<ScOption> list = getDropdownList();
 
-        for ( ScOption e : list )
-            _accountDropdown.addOption(e.getValue(), e.getText());
+        _accountDropdown.setOptions(list);
 
         if ( list.isNotEmpty() && getServerSession().hasAccount() )
         {
@@ -1610,7 +1609,7 @@ public class MyAccounts2Page
             _accountDropdown.ajaxUpdateValue();
         }
 
-        _accountDropdown.ajax().replace();
+        _accountDropdown.ajaxUpdateOptions();
     }
 
     //##################################################

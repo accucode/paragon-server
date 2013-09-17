@@ -795,6 +795,9 @@ public class ScDropdown
         options.addAll(getOptions());
 
         ajaxSetOptions(options);
+
+        if ( usesBootstrapSelect() )
+            ajaxRefreshBootstrapSelect();
     }
 
     public void ajaxAddOption(String text, Object value)
@@ -822,7 +825,7 @@ public class ScDropdown
         ajax().run(formatBootstrapSelectShowScript());
     }
 
-    public void ajaxRefreshBootstrap()
+    public void ajaxRefreshBootstrapSelect()
     {
         ajax().run(formatBootstrapSelectRefreshScript());
     }
