@@ -26,12 +26,10 @@ public class MyHomePage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
         String msg = "Welcome to " + MyConstantsIF.APPLICATION_NAME;
 
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         ScGroupArray groups;
@@ -41,8 +39,6 @@ public class MyHomePage
         ScGroup group;
         group = groups.addGroup("Home");
         group.addPad().addText(msg);
-
-        return root;
     }
 
 }

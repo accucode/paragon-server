@@ -38,7 +38,7 @@ public class MyDateFieldTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
         _nameField = new ScTextField();
         _nameField.setLabel("Name");
@@ -49,8 +49,6 @@ public class MyDateFieldTestPage
         _endField = new ScDateField();
         _endField.setLabel("End Date");
 
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().pad();
 
         ScForm form;
@@ -68,8 +66,6 @@ public class MyDateFieldTestPage
 
         group.addDivider();
         group.addButtonBox().addSubmitButton();
-
-        return root;
     }
 
     //##################################################

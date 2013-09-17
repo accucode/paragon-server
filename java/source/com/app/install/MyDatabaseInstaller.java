@@ -132,7 +132,7 @@ public class MyDatabaseInstaller
             try
             {
                 println("Close Connection...");
-                u.close();
+                u.closeSafely();
                 println("ok.");
                 println();
             }

@@ -3,7 +3,7 @@ package com.app.ui.servlet;
 import com.kodemore.collection.KmMap;
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.exception.KmApplicationException;
-import com.kodemore.exception.KmRoleViolationException;
+import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.utility.Kmu;
@@ -34,7 +34,7 @@ public class MyAjaxServlet
     @Override
     protected void doGet()
     {
-        printErrorMessage("GET is not allowed for HTTP AJAX requests.  Use POST.");
+        toastFatal("GET is not allowed for HTTP AJAX requests.  Use POST.");
     }
 
     @Override
@@ -64,20 +64,20 @@ public class MyAjaxServlet
             ScActionIF action = getAction(data);
             if ( action == null )
             {
-                printErrorMessage("Invalid Action Key.");
+                toastFatal("Invalid Action Key.");
                 return;
             }
 
             runAction(action);
         }
-        catch ( KmRoleViolationException ex )
+        catch ( KmSecurityException ex )
         {
-            printErrorMessage("Security Violation.");
+            toastFatal(ex.formatDisplayMessage());
         }
         catch ( RuntimeException ex )
         {
             KmLog.fatal(ex);
-            printErrorMessage("Unhandled exception: " + ex.getMessage());
+            toastFatal("Unhandled exception: " + ex.getMessage());
         }
     }
 
@@ -218,15 +218,6 @@ public class MyAjaxServlet
         MyInvitation inv;
         inv = getAccess().getInvitationDao().findAccessKey(value);
 
-        /**
-         * (valerie) put the invalid invitation check here. Would you rather
-         * me return false or create a new activity that shows an invalid invitation message
-         * box to take them to?
-         * 
-         * (wyatt) discuss
-         * 
-         * review_wyatt (valerie) fixed
-         */
         if ( inv == null )
         {
             MyInvalidInvitationPage.instance.start();
@@ -309,7 +300,7 @@ public class MyAjaxServlet
         }
         catch ( KmApplicationException ex2 )
         {
-            printErrorMessage(ex2.getMessage());
+            toastFatal(ex2.getMessage());
         }
     }
 
@@ -344,7 +335,7 @@ public class MyAjaxServlet
         return MyPageLayout.getInstance();
     }
 
-    private void printErrorMessage(String s)
+    private void toastFatal(String s)
     {
         ajax().toast(s).error().sticky();
     }

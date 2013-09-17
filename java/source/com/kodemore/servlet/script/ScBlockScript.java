@@ -30,6 +30,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.utility.ScPageLayoutBridge;
 import com.kodemore.servlet.utility.ScUrlBridge;
 import com.kodemore.string.KmStringBuilder;
@@ -953,6 +954,121 @@ public abstract class ScBlockScript
     {
         sel += " ." + klass;
         return equalize(sel);
+    }
+
+    //##################################################
+    //# sort
+    //##################################################
+
+    /**
+     * Allows children to be sorted.
+     */
+    public void sortable(String sel)
+    {
+        run("$('%s').sortable();", sel);
+    }
+
+    public void sortable(ScHtmlIdIF target)
+    {
+        sortable(target.formatJquerySelector());
+    }
+
+    public void sortableByHandle(ScHtmlIdIF target)
+    {
+        String dragHandle;
+        dragHandle = ScJquery.formatCssSelector(KmCssDefaultConstantsIF.dragHandle);
+
+        String ref;
+        ref = target.formatJqueryReference();
+
+        run("%s.sortable({handle: '%s'});", ref, dragHandle);
+    }
+
+    public void sortableUpdate(ScHtmlIdIF target, String childPath, String attr, ScActionIF action)
+    {
+        String parentSelector = target.formatJquerySelector();
+        String actionId = action.getKey();
+
+        run(
+            "Kmu.registerDragUpdate('%s','%s','%s','%s');",
+            parentSelector,
+            childPath,
+            attr,
+            actionId);
+    }
+
+    //##################################################
+    //# accordion
+    //##################################################
+
+    /**
+     * Allows children to be expanded/collapsible.
+     */
+    public void accordion(String sel, String options)
+    {
+        run("$('%s').accordion(%s);", sel, options);
+    }
+
+    public void accordion(String sel)
+    {
+        accordion(sel, "");
+    }
+
+    
+    public void accordionCollapsible(String sel)
+    {
+        KmJsonObject options;
+        options = new KmJsonObject();
+        options.setBoolean("collapsible", true);
+
+        accordion(sel, options.formatJson());
+    }
+
+    public void accordion(ScHtmlIdIF target)
+    {
+        accordion(target.formatJquerySelector());
+    }
+
+    public void accordionCollapsible(ScHtmlIdIF target)
+    {
+        accordionCollapsible(target.formatJquerySelector());
+    }
+
+    //##################################################
+    //# scrollTo
+    //##################################################
+
+    /**
+     * Allows children to be expanded/collapsible.
+     */
+    public void scrollTo(String containerRef, String targetRef, int duration)
+    {
+        run("%s.scrollTo(%s, %s);", containerRef, targetRef, duration);
+    }
+
+    public void scrollTo(ScHtmlIdIF container, ScHtmlIdIF target, int duration)
+    {
+        scrollTo(container.formatJqueryReference(), target.formatJqueryReference(), duration);
+    }
+
+  
+
+    //##################################################
+    //# tooltip
+    //##################################################
+
+    /**
+     * jQuery toolip which uses title (hover) but is much prettier
+     * and easier to see.
+     */
+    public void tooltip(String sel)
+    {
+        run("$('%s').tooltip();", sel);
+    }
+
+    public void tooltip(ScHtmlIdIF target)
+    {
+        tooltip(target.formatJquerySelector());
     }
 
     //##################################################

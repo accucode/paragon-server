@@ -5,7 +5,6 @@ import com.kodemore.collection.KmList;
 import com.app.criteria.MyUserCriteria;
 import com.app.dao.base.MyUserDaoBase;
 import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
 import com.app.model.MyUser;
 
 public class MyUserDao
@@ -34,27 +33,10 @@ public class MyUserDao
     public MyUser createRootUser()
     {
         MyUser u;
-        u = new MyUser();
-        u.setUid(MyUser.ROOT_UID);
+        u = createUser("Root", "root");
         u.setRoleDeveloper();
-        u.setEmail("root");
-        u.setPassword(null);
-        u.setName("Root");
-        u.setVerified(true);
-        u.saveDao();
-
-        MyAccount a;
-        a = new MyAccount();
-        a.setUid(MyAccount.ROOT_UID);
-        a.setName("Root");
-        a.setTypePersonal();
-        a.saveDao();
-
-        MyAccountUser au;
-        au = a.addAccountUser();
-        au.setUser(u);
-        au.setRoleOwner();
-
+        u.clearPassword();
+        u.getAccounts().getFirst().setName("Root-Inc");
         return u;
     }
 
@@ -75,13 +57,5 @@ public class MyUserDao
         u.saveDao();
         return u;
     }
-
-    //##################################################
-    //# convenience
-    //##################################################
-
-    public MyUser findRoot()
-    {
-        return findUid(MyUser.ROOT_UID);
-    }
+   
 }

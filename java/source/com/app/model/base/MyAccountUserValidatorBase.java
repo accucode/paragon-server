@@ -40,6 +40,7 @@ public class MyAccountUserValidatorBase
     private KmIntegerValidator lockVersionValidator;
     private KmStringValidator accountNameValidator;
     private KmStringValidator userNameValidator;
+    private KmStringValidator userEmailValidator;
 
     //##################################################
     //# constructor
@@ -53,6 +54,7 @@ public class MyAccountUserValidatorBase
         lockVersionValidator = newLockVersionValidator();
         accountNameValidator = newAccountNameValidator();
         userNameValidator = newUserNameValidator();
+        userEmailValidator = newUserEmailValidator();
     }
 
     //##################################################
@@ -82,6 +84,11 @@ public class MyAccountUserValidatorBase
     public KmStringValidator getUserNameValidator()
     {
         return userNameValidator;
+    }
+
+    public KmStringValidator getUserEmailValidator()
+    {
+        return userEmailValidator;
     }
 
     //##################################################
@@ -163,6 +170,18 @@ public class MyAccountUserValidatorBase
         e.setAllowsPrintable(true);
         e.setModel("accountUser");
         e.setField("userName");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newUserEmailValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModel("accountUser");
+        e.setField("userEmail");
         e.setRequired();
         return e;
     }

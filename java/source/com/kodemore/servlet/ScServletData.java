@@ -405,7 +405,6 @@ public class ScServletData
         return _request.getRemoteAddr();
     }
 
-   
     @SuppressWarnings("unchecked")
     public KmList<FileItem> getUploadedFiles()
     {
@@ -1423,6 +1422,7 @@ public class ScServletData
         {
             if ( hasArgument() )
                 return (Integer)_argument;
+
             return def;
         }
         catch ( Exception ex )
@@ -1442,6 +1442,7 @@ public class ScServletData
         {
             if ( hasArgument() )
                 return (Boolean)_argument;
+
             return def;
         }
         catch ( Exception ex )
@@ -1454,7 +1455,7 @@ public class ScServletData
     //# extra value
     //##################################################
 
-    public String _getExtraValue()
+    public String getExtraParameter()
     {
         return getParameter(PARAMETER_EXTRA_VALUE);
     }

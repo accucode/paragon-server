@@ -1120,9 +1120,78 @@ Kmu.flipToggle = function(options)
 {
     var selector = options.selector;
 
-    if( $(selector).is(':visible') )
+    if ( $(selector).is(':visible') )
         Kmu.flipHide(options);
     else
         Kmu.flipShow(options);
 }
 
+//**********************************************************
+//** dom traversal
+//**********************************************************
+
+Kmu.getIdsFor = function(sel)
+{
+    return getAttributesFor(sel, 'id');
+}
+
+Kmu.formatIdsFor = function(sel)
+{
+    return formatAttributesFor(sel, 'id');
+}
+
+/**
+ * Find all elements that match the selector.
+ * For each element, collect the corresponding attribute into an array. 
+ */
+Kmu.getAttributesFor = function(sel, attr)
+{
+    var result = [];
+    var arr = $(sel).toArray();
+
+    for ( var i in arr )
+        result.push($(arr[i]).attr(attr));
+
+    return result;
+}
+
+/**
+ * Find all elements that match the selector.
+ * For each element, collect the corresponding attribute into a comma delimited string. 
+ */
+Kmu.formatAttributesFor = function(sel, attr)
+{
+    var s = '';
+    var arr = Kmu.getAttributesFor(sel, attr);
+
+    for ( var i in arr )
+        s += arr[i] + ',';
+
+    var n = s.length;
+    if ( n == 0 )
+        return s;
+        
+    return s.substring(0, n-1);
+}
+
+//**********************************************************
+//** drag
+//**********************************************************
+
+Kmu.registerDragUpdate = function(parentSelector, childPath, attr, actionId)
+{
+    $(parentSelector).sortable(
+    {
+        update: function(event, ui) 
+        {
+            var fullChildPath = parentSelector + childPath;
+            var attributes = Kmu.formatAttributesFor(fullChildPath, attr);
+             
+            Kmu.ajax(
+            {
+                action: actionId,
+                extra: attributes
+            });
+        }
+    });
+}

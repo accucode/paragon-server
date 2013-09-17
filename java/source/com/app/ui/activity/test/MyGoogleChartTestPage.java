@@ -26,11 +26,8 @@ public class MyGoogleChartTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
-
         ScArray arr;
         arr = new ScArray();
         arr.setColumnCount(3);
@@ -42,8 +39,6 @@ public class MyGoogleChartTestPage
         addPie1(arr);
         addPie2(arr);
         addLine1(arr);
-
-        return root;
     }
 
     private void addBar1(ScContainer root)

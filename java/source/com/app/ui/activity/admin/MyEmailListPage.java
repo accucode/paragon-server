@@ -50,17 +50,13 @@ public class MyEmailListPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         addFilter(root);
         addGrid(root);
         addButtons(root);
-
-        return root;
     }
 
     private void addFilter(ScContainer root)

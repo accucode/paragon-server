@@ -51,6 +51,8 @@ public abstract class ScElement
     private ScLocalCss    _css;
     private ScLocalStyle  _style;
 
+    private ScLocalString _title;
+
     //##################################################
     //# init
     //##################################################
@@ -63,6 +65,7 @@ public abstract class ScElement
         _htmlId = new ScLocalString(getKey());
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
+        _title = new ScLocalString();
     }
 
     //##################################################
@@ -159,6 +162,25 @@ public abstract class ScElement
     }
 
     //##################################################
+    //# title
+    //##################################################
+
+    public void setTitle(String e)
+    {
+        _title.setValue(e);
+    }
+
+    public String getTitle()
+    {
+        return _title.getValue();
+    }
+
+    public boolean hasTitle()
+    {
+        return _title.hasValue();
+    }
+
+    //##################################################
     //# render
     //##################################################
 
@@ -170,6 +192,10 @@ public abstract class ScElement
         out.printAttribute("id", getHtmlId());
         out.printAttribute(formatCss());
         out.printAttribute(formatStyle());
+
+       
+        if ( hasTitle() )
+            out.printAttribute("title", getTitle());
     }
 
 }

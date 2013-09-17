@@ -5,6 +5,9 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
+import com.app.ui.activity.admin.accounts.MyAccounts2Page;
+import com.app.ui.activity.admin.accounts.MyAccountsPage;
+
 public class MyAdminMenuPage
     extends MyAdminPage
 {
@@ -24,10 +27,8 @@ public class MyAdminMenuPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         ScGroupArray groups;
@@ -40,7 +41,7 @@ public class MyAdminMenuPage
         ScBox links;
         links = group.addLinkBox();
         links.addLink(MyAccountsPage.instance);
-
-        return root;
+        links.addLink(MyAccounts2Page.instance);
+        links.addLink(MyProfilePage.instance);
     }
 }

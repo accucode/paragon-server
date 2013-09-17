@@ -33,13 +33,10 @@ public class MyColorFieldTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
         _colorField = new ScColorField();
         _colorField.setLabel("Color");
-
-        ScPageRoot root;
-        root = newPageRoot();
 
         ScForm form;
         form = root.addForm();
@@ -55,8 +52,6 @@ public class MyColorFieldTestPage
 
         group.addDivider();
         group.addButtonBox().addSubmitButton();
-
-        return root;
     }
 
     private ScActionIF newSubmitAction()

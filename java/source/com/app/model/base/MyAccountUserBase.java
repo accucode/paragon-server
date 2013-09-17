@@ -371,6 +371,28 @@ public abstract class MyAccountUserBase
         return hasUser() && getUser().hasName(e);
     }
 
+    public String getUserEmail()
+    {
+        if ( hasUser() )
+            return getUser().getEmail();
+        return null;
+    }
+
+    public void setUserEmail(String e)
+    {
+        getUser().setEmail(e);
+    }
+
+    public boolean hasUserEmail()
+    {
+        return hasUser() && getUser().hasEmail();
+    }
+
+    public boolean hasUserEmail(String e)
+    {
+        return hasUser() && getUser().hasEmail(e);
+    }
+
 
     //##################################################
     //# validate

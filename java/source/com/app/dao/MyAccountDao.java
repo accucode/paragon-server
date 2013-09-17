@@ -20,9 +20,4 @@ public class MyAccountDao
         c.whereName().is(name);
         return c.findAll();
     }
-
-    public MyAccount findRoot()
-    {
-        return findUid(MyAccount.ROOT_UID);
-    }
 }

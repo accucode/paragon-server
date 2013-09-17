@@ -14,16 +14,16 @@ import com.app.property.MyPropertyRegistry;
 import com.app.property.base.MyPropertyDefinitions;
 import com.app.ui.activity.MyActivity;
 
-public class MyPropertiesPage
+public class MyApplicationPropertiesPage
     extends MyToolsPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MyPropertiesPage();
+    public static final MyActivity instance = new MyApplicationPropertiesPage();
 
-    private MyPropertiesPage()
+    private MyApplicationPropertiesPage()
     {
         // singleton
     }
@@ -39,28 +39,17 @@ public class MyPropertiesPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
-
         _literal = root.addLiteral();
-
-        return root;
     }
 
     //##################################################
-    //# start
+    //# prePrint
     //##################################################
 
     @Override
-    public void start()
-    {
-        preRender();
-        print();
-    }
-
-    private void preRender()
+    protected void prePrint()
     {
         MyPropertyRegistry p = getProperties();
 

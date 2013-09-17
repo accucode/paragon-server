@@ -26,10 +26,8 @@ public class MyGradientTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         addBoxDownTo(root, "white", "black");
@@ -37,8 +35,6 @@ public class MyGradientTestPage
         addBoxDownTo(root, "white", "yellow", "blue");
         addBoxDownTo(root, "white", "yellow", "blue", "red");
         addBoxDownTo(root, "white", "yellow", "blue", "red", "black");
-
-        return root;
     }
 
     private ScBox addBoxDownTo(ScBox root, String... colors)

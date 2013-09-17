@@ -27,10 +27,8 @@ public class MyPaddingTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gapOuter();
 
         ScDiv box;
@@ -47,8 +45,6 @@ public class MyPaddingTestPage
 
         box = addBox(root, "no float");
         box.css().pad().boxPurple();
-
-        return root;
     }
 
     public ScDiv addBlueBox(ScBox root, String msg)

@@ -42,17 +42,12 @@ public class MyBlockTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
-
         installTestGroup(root);
         installFormGroup1(root);
         installFormGroup2(root);
         installFormGroup3(root);
-
-        return root;
     }
 
     private void installTestGroup(ScBox root)

@@ -249,6 +249,11 @@ public abstract class ScActivity
         ajax().openDialogError(ex);
     }
 
+    protected void throwSecurityError(String msg, Object... args)
+    {
+        Kmu.throwSecurityError(msg, args);
+    }
+
     //##################################################
     //# display
     //##################################################

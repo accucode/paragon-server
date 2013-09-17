@@ -11,6 +11,7 @@ package com.app.ui.servlet.base;
 import com.kodemore.servlet.*;
 
 import com.app.ui.activity.admin.*;
+import com.app.ui.activity.admin.accounts.*;
 import com.app.ui.activity.general.*;
 import com.app.ui.activity.login.*;
 import com.app.ui.activity.test.*;
@@ -25,20 +26,25 @@ public abstract class MyActivityRegistryBase
     {
         super.registerActivities();
         
+        add(MyAccordionTestPage.instance);
+        add(MyAccounts2Page.instance);
         add(MyAccountsPage.instance);
         add(MyAdminMenuPage.instance);
         add(MyAnimationTestPage.instance);
+        add(MyApplicationPropertiesPage.instance);
         add(MyAutoCompleteTestPage.instance);
         add(MyBarcodeTestPage.instance);
         add(MyBeanShellPage.instance);
         add(MyBlankTestPage.instance);
         add(MyBlockTestPage.instance);
+        add(MyBorderTestPage.instance);
         add(MyCardFlipTestPage.instance);
         add(MyChosenTestPage.instance);
         add(MyColorFieldTestPage.instance);
         add(MyDateFieldTestPage.instance);
         add(MyDomainDropdownSetValueTestPage.instance);
         add(MyDownloadTestPage.instance);
+        add(MyDragScrollToTestPage.instance);
         add(MyDropzoneTestPage.instance);
         add(MyEmailEditPage.instance);
         add(MyEmailListPage.instance);
@@ -56,9 +62,11 @@ public abstract class MyActivityRegistryBase
         add(MyHandleJoinInvitationActivity.instance);
         add(MyHandleNewUserInvitationActivity.instance);
         add(MyHandlePasswordResetActivity.instance);
+        add(MyHandleSortTestPage.instance);
         add(MyHandleTransferInvitationActivity.instance);
         add(MyHideErrorsTestPage.instance);
         add(MyHomePage.instance);
+        add(MyHoverTestPage.instance);
         add(MyInvalidInvitationPage.instance);
         add(MyLocalValueTestPage.instance);
         add(MyMemoryLeakTestPage.instance);
@@ -67,8 +75,9 @@ public abstract class MyActivityRegistryBase
         add(MyPaddingTestPage.instance);
         add(MyPerformanceLogPage.instance);
         add(MyPlaceholderTestPage.instance);
-        add(MyPropertiesPage.instance);
-        add(MyQuickTestPage.instance);
+        add(MyPopupMenuTestPage.instance);
+        add(MyProfilePage.instance);
+        add(MyRadioButtonTestPage.instance);
         add(MyScriptTestPage.instance);
         add(MySharedFileBrowserPage.instance);
         add(MyShowDialogTestPage.instance);
@@ -78,6 +87,7 @@ public abstract class MyActivityRegistryBase
         add(MySqlPage.instance);
         add(MyStaticIncludeTestPage.instance);
         add(MySystemLogListPage.instance);
+        add(MySystemPropertiesPage.instance);
         add(MyTabbedTestPage.instance);
         add(MyTestMenuPage.instance);
         add(MyTimeoutPage.instance);

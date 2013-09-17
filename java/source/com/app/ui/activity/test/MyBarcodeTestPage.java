@@ -34,10 +34,8 @@ public class MyBarcodeTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         ScGroup group;
@@ -64,7 +62,5 @@ public class MyBarcodeTestPage
         code.setValue(INVALID_CODE);
 
         body.add(code);
-
-        return root;
     }
 }

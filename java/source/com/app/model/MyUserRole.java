@@ -21,7 +21,6 @@ public enum MyUserRole
     //##################################################
 
     User("U", "User"),
-    Admin("R", "Admin"),
     Developer("D", "Developer"),
     ;
 
@@ -92,11 +91,6 @@ public enum MyUserRole
     public boolean isUser()
     {
         return this == User;
-    }
-
-    public boolean isAdmin()
-    {
-        return this == Admin;
     }
 
     public boolean isDeveloper()

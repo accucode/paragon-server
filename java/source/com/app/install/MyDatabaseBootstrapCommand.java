@@ -12,6 +12,10 @@ import com.app.utility.MyGlobals;
 public class MyDatabaseBootstrapCommand
     extends KmDaoCommand
 {
+    //##################################################
+    //# handle
+    //##################################################
+
     @Override
     public void handle()
     {
@@ -42,6 +46,10 @@ public class MyDatabaseBootstrapCommand
             p.saveDao();
         }
     }
+
+    //##################################################
+    //# support
+    //##################################################
 
     private MyDaoRegistry getAccess()
     {

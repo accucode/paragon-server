@@ -40,6 +40,9 @@ attributes
         delegate
         : fieldName = name
 
+        delegate
+        : fieldName = email
+
     field
     : name      = roleCode
     : label     = Role

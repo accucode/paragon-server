@@ -30,15 +30,10 @@ public class MyOpenWindowTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
-
         root.addButton("Open Window", newTestAction());
-
-        return root;
     }
 
     private ScActionIF newTestAction()

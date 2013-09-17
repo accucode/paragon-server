@@ -57,6 +57,14 @@ var MyResourceLoader =
             "static/{version}/jquery/chosen-1.0.0/chosen.min.css",
             "static/{version}/jquery/chosen-1.0.0/chosen.jquery.min.js",
             
+            // Twitter Bootstrap
+            "static/{version}/bootstrap-2.3.2/css/bootstrap.min.css",
+            "static/{version}/bootstrap-2.3.2/js/bootstrap.min.js",
+            
+            // Bootstap-select
+            "static/{version}/bootstrap-select-1.3.1/bootstrap-select.min.css",
+            "static/{version}/bootstrap-select-1.3.1/bootstrap-select.min.js",
+            
             // Dropzone
             "static/{version}/dropzone-3.6.1/dropzone.js",
             "static/{version}/dropzone-3.6.1/dropzone.css",
@@ -66,6 +74,9 @@ var MyResourceLoader =
             
             // Code39 Azalea
             "static/{version}/azaleaCode39/Code39Azalea.min.css", 
+            
+            // ScrollTo
+            "static/{version}/jquery/scrollto-1.4.3.1/jquery.scrollTo-1.4.3.1-min.js", 
             
             // Kodemore
             "static/{version}/app/common/script/kmExtensions.js",

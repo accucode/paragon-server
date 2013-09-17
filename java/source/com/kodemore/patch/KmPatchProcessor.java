@@ -114,14 +114,7 @@ public class KmPatchProcessor
         }
         finally
         {
-            try
-            {
-                _databaseTool.close();
-            }
-            catch ( RuntimeException ex )
-            {
-                // ignore
-            }
+            _databaseTool.closeSafely();
         }
     }
 

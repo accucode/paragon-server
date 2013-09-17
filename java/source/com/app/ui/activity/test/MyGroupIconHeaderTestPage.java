@@ -41,10 +41,8 @@ public class MyGroupIconHeaderTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         ScForm form = root.addForm();
@@ -56,7 +54,7 @@ public class MyGroupIconHeaderTestPage
 
         _dropdown = new ScDropdown();
         _dropdown.setOptions(list);
-        _dropdown.setAction(newChangeIconAction());
+        _dropdown.setOnChangeAction(newChangeIconAction());
 
         ScGroup group;
         group = form.addGroup();
@@ -67,8 +65,6 @@ public class MyGroupIconHeaderTestPage
         body = group.addPad();
         body.addButton("change Icon", newChangeIconAction());
         body.add(_dropdown);
-
-        return root;
     }
 
     //##################################################
@@ -89,7 +85,7 @@ public class MyGroupIconHeaderTestPage
 
     //##################################################
     //# start
-    //##################################################//
+    //##################################################
 
     @Override
     public void start()

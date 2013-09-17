@@ -36,15 +36,11 @@ public class MyFilterTableRowTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         installBuildingSearchBox(root);
-
-        return root;
     }
 
     private void installBuildingSearchBox(ScBox root)

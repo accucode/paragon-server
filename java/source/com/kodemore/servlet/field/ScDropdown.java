@@ -87,7 +87,7 @@ public class ScDropdown
     private ScLocalCss           _css;
     private ScLocalStyle         _style;
 
-    private ScActionIF           _action;
+    private ScActionIF           _onChangeAction;
 
     /**
      * Enabling this option will cause the field to be rendered
@@ -423,22 +423,22 @@ public class ScDropdown
     }
 
     //##################################################
-    //# action
+    //# on change
     //##################################################
 
-    public ScActionIF getAction()
+    public ScActionIF getOnChangeAction()
     {
-        return _action;
+        return _onChangeAction;
     }
 
-    public void setAction(ScActionIF e)
+    public void setOnChangeAction(ScActionIF e)
     {
-        _action = e;
+        _onChangeAction = e;
     }
 
-    public boolean hasAction()
+    public boolean hasOnChangeAction()
     {
-        return _action != null;
+        return _onChangeAction != null;
     }
 
     //##################################################
@@ -720,7 +720,7 @@ public class ScDropdown
 
     protected String formatOnChange()
     {
-        if ( !hasAction() )
+        if ( !hasOnChangeAction() )
             return null;
 
         ScForm form = findFormWrapper();
@@ -728,7 +728,7 @@ public class ScDropdown
 
         ScActionScript s;
         s = new ScActionScript();
-        s.setAction(getAction());
+        s.setAction(getOnChangeAction());
         s.setForm(form);
         s.setModel(getModel());
         s.setBlockTarget(block);

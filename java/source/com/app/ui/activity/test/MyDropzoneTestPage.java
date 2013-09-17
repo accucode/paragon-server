@@ -33,10 +33,8 @@ public class MyDropzoneTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         ScDropzone dz;
@@ -48,8 +46,6 @@ public class MyDropzoneTestPage
         ScGroup group;
         group = root.addGroup("Dropzone");
         group.add(dz);
-
-        return root;
     }
 
     //##################################################

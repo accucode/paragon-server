@@ -28,15 +28,10 @@ public class MyDownloadTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
-
         root.addButton("Download", newDownloadAction());
-
-        return root;
     }
 
     private ScActionIF newDownloadAction()

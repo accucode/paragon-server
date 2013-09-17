@@ -56,10 +56,8 @@ public class MyUsersPage
     }
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         installFilter(root);
@@ -69,8 +67,6 @@ public class MyUsersPage
 
         installGrid(row);
         installFrame(row);
-
-        return root;
     }
 
     private void installFilter(ScContainer root)

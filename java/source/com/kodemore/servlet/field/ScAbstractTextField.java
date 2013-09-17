@@ -42,6 +42,7 @@ public abstract class ScAbstractTextField<T>
 
     private ScLocalString  _text;
     private ScLocalString  _placeholder;
+    private ScLocalString  _title;
     private ScLocalBoolean _readOnly;
     private ScLocalBoolean _disabled;
     private ScLocalBoolean _fullWrapper;
@@ -59,6 +60,7 @@ public abstract class ScAbstractTextField<T>
 
         _text = new ScLocalString("");
         _placeholder = new ScLocalString("");
+        _title = new ScLocalString("");
         _readOnly = new ScLocalBoolean(false);
         _disabled = new ScLocalBoolean(false);
         _fullWrapper = new ScLocalBoolean(false);
@@ -218,6 +220,9 @@ public abstract class ScAbstractTextField<T>
 
         if ( hasPlaceholder() )
             out.printAttribute("placeholder", getPlaceholder());
+
+        if ( hasTitle() )
+            out.printAttribute("title", getTitle());
 
         out.printAttribute("value", getText());
     }
@@ -431,6 +436,25 @@ public abstract class ScAbstractTextField<T>
     public boolean hasPlaceholder()
     {
         return _placeholder.hasValue();
+    }
+
+    //##################################################
+    //# title
+    //##################################################
+
+    public void setTitle(String e)
+    {
+        _title.setValue(e);
+    }
+
+    public String getTitle()
+    {
+        return _title.getValue();
+    }
+
+    public boolean hasTitle()
+    {
+        return _title.hasValue();
     }
 
     //##################################################

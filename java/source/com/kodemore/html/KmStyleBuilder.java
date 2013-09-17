@@ -237,6 +237,14 @@ public class KmStyleBuilder
         return this;
     }
 
+    
+    public KmStyleBuilder scroll()
+    {
+        addValue("overflow", "scroll");
+
+        return this;
+    }
+
     //##################################################
     //# width
     //##################################################

@@ -27,10 +27,8 @@ public class MyToolsMenuPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         ScGroupArray groups;
@@ -51,10 +49,9 @@ public class MyToolsMenuPage
         links.addLink(MyPerformanceLogPage.instance);
         links.addLink(MySharedFileBrowserPage.instance);
         links.addLink(MySystemLogListPage.instance);
-        links.addLink(MyPropertiesPage.instance);
+        links.addLink(MyApplicationPropertiesPage.instance);
+        links.addLink(MySystemPropertiesPage.instance);
         links.addLink(MyUsersPage.instance);
         links.addLink(MyEmailListPage.instance);
-
-        return root;
     }
 }

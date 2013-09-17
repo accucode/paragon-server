@@ -42,10 +42,16 @@ public abstract class MyPage
     @Override
     protected final void install()
     {
-        _root = installRoot();
+        _root = newPageRoot();
+        installRoot(_root);
     }
 
-    protected abstract ScPageRoot installRoot();
+    protected abstract void installRoot(ScPageRoot root);
+
+    protected ScPageRoot newPageRoot()
+    {
+        return new ScPageRoot(this);
+    }
 
     //##################################################
     //# start
@@ -67,11 +73,13 @@ public abstract class MyPage
     //##################################################
 
     /**
-     * A convenience method that displays the root control
-     * in the layout's main area, then attempts to set focus
-     * on the root.
-     * 
-     * This method is most commonly called from start();
+     * A convenience method that:
+     *      - peforms the generic security,
+     *      - displays the root control in the layout's main area, 
+     *      - attempts to set focus on the root.
+     *      
+     * Subclasses can use prePrint and postPrint to hook into
+     * the print process.
      */
     protected final void print()
     {
@@ -80,6 +88,8 @@ public abstract class MyPage
 
     protected final void print(boolean focus)
     {
+        checkSecurity();
+
         if ( !hasRoot() )
         {
             ajax().clearMain();
@@ -149,11 +159,6 @@ public abstract class MyPage
     //##################################################
     //# convenience
     //##################################################
-
-    protected ScPageRoot newPageRoot()
-    {
-        return new ScPageRoot(this);
-    }
 
     protected void validate()
     {

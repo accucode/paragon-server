@@ -30,10 +30,8 @@ public class MyTestMenuPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
         root.getPostDomScript().equalizeGroups();
 
@@ -49,15 +47,18 @@ public class MyTestMenuPage
 
         group = groups.addGroup("Layout");
         links = group.addLinkBox();
+        links.addLink(MyAccordionTestPage.instance);
+        links.addLink(MyBorderTestPage.instance);
         links.addLink(MyBlankTestPage.instance);
-        links.addLink(MyFormTestPage.instance);
-        links.addLink(MyPlaceholderTestPage.instance);
-        links.addLink(MyGroupTestPage.instance);
-        links.addLink(MyGroupIconHeaderTestPage.instance);
-        links.addLink(MyNotebookTestPage.instance);
-        links.addLink(MyTabbedTestPage.instance);
         links.addLink(MyEqualizeTestPage.instance);
+        links.addLink(MyFormTestPage.instance);
+        links.addLink(MyGroupIconHeaderTestPage.instance);
+        links.addLink(MyGroupTestPage.instance);
+        links.addLink(MyNotebookTestPage.instance);
         links.addLink(MyPaddingTestPage.instance);
+        links.addLink(MyPlaceholderTestPage.instance);
+        links.addLink(MyPopupMenuTestPage.instance);
+        links.addLink(MyTabbedTestPage.instance);
 
         group = groups.addGroup("Fields");
         links = group.addLinkBox();
@@ -70,6 +71,7 @@ public class MyTestMenuPage
         links.addLink(MyGridTestPage.instance);
         links.addLink(MyDropzoneTestPage.instance);
         links.addLink(MyChosenTestPage.instance);
+        links.addLink(MyRadioButtonTestPage.instance);
 
         group = groups.addGroup("Misc");
         links = group.addLinkBox();
@@ -91,8 +93,8 @@ public class MyTestMenuPage
         links.addLink(MyMemoryLeakTestPage.instance);
         links.addLink(MyGmailTestPage.instance);
         links.addLink(MyStaticIncludeTestPage.instance);
-        links.addLink(MyQuickTestPage.instance);
-
-        return root;
+        links.addLink(MyHandleSortTestPage.instance);
+        links.addLink(MyHoverTestPage.instance);
+        links.addLink(MyDragScrollToTestPage.instance);
     }
 }

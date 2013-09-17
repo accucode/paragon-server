@@ -28,6 +28,7 @@ import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.variable.ScLocalAction;
 import com.kodemore.servlet.variable.ScLocalHtmlId;
 import com.kodemore.servlet.variable.ScLocalObject;
+import com.kodemore.servlet.variable.ScLocalString;
 
 /**
  * The typical button that we use to run an action.
@@ -41,6 +42,7 @@ public class ScActionButton
 
     private ScLocalAction _action;
     private ScLocalObject _argument;
+    private ScLocalString _extra;
     private ScLocalHtmlId _blockTarget;
 
     //##################################################
@@ -54,6 +56,7 @@ public class ScActionButton
 
         _action = new ScLocalAction();
         _argument = new ScLocalObject();
+        _extra = new ScLocalString();
         _blockTarget = new ScLocalHtmlId();
     }
 
@@ -92,14 +95,24 @@ public class ScActionButton
         return _action.hasValue();
     }
 
+    public Object getArgument()
+    {
+        return _argument.getValue();
+    }
+
     public void setArgument(Object e)
     {
         _argument.setValue(e);
     }
 
-    public Object getArgument()
+    public String getExtra()
     {
-        return _argument.getValue();
+        return _extra.getValue();
+    }
+
+    public void setExtra(String e)
+    {
+        _extra.setValue(e);
     }
 
     //##################################################
@@ -142,6 +155,7 @@ public class ScActionButton
         s = new ScActionScript();
         s.setAction(getAction());
         s.setArgument(getArgument());
+        s.setExtra(getExtra());
         s.setForm(form);
         s.setModel(getModel());
         s.setBlockTarget(block);

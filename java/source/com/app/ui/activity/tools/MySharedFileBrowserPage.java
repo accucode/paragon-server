@@ -42,11 +42,8 @@ public class MySharedFileBrowserPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
-
         ScForm form;
         form = root.addForm();
         form.setDefaultAction(newFindDirectoryAction());
@@ -58,8 +55,6 @@ public class MySharedFileBrowserPage
 
         installFolders(row);
         installFiles(row);
-
-        return root;
     }
 
     private void installPath(ScForm root)

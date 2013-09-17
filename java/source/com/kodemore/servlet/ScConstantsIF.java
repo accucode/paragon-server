@@ -83,8 +83,8 @@ public interface ScConstantsIF
     /**
      * An alternate value that is not encoded.  We use
      * the PARAMETER_ARGUMENT most of the time, but use
-     * the VALUE for special cases where encoding is not
-     * appropriate.
+     * the this extra unencoded value for special cases 
+     * where encoding is not appropriate.
      */
     String   PARAMETER_EXTRA_VALUE           = "_extraValue";
 

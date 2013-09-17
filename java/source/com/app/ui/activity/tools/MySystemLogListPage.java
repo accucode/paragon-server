@@ -58,11 +58,8 @@ public class MySystemLogListPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
-
         ScArray arr;
         arr = root.addArray();
 
@@ -74,8 +71,6 @@ public class MySystemLogListPage
 
         installGrid(arr);
         installTrace(arr);
-
-        return root;
     }
 
     private void installFilter(ScContainer root)

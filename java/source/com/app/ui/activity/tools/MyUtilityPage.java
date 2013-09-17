@@ -47,10 +47,8 @@ public class MyUtilityPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         ScGroupArray groups;
@@ -61,8 +59,6 @@ public class MyUtilityPage
         installExceptionGroup(groups);
         installTimeGroup(groups);
         installRequestGroup(groups);
-
-        return root;
     }
 
     private void installMiscellaneousGroup(ScGroupArray root)

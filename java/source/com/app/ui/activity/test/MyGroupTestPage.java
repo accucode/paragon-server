@@ -26,10 +26,8 @@ public class MyGroupTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         root.add(newGroup("aaa", "the gaps between children are provided the css 'gap'."));
@@ -45,8 +43,6 @@ public class MyGroupTestPage
 
         root.add(newClearGroup("iii", "normal, clearBoth"));
         root.add(newGroup("jjj", "normal"));
-
-        return root;
     }
 
     private ScGroup newGroup(String title, String msg)

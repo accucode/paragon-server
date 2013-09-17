@@ -29,10 +29,8 @@ public class MyInvalidInvitationPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         ScGroup group;
@@ -43,8 +41,6 @@ public class MyInvalidInvitationPage
         ScContainer body = group.getBody();
 
         installMessageBox(body);
-
-        return root;
     }
 
     private void installMessageBox(ScContainer root)

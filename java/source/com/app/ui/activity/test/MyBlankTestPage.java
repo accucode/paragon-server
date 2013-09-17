@@ -21,8 +21,8 @@ public class MyBlankTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        return null;
+        // none
     }
 }

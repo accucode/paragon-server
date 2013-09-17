@@ -5,6 +5,7 @@ import org.hibernate.StaleObjectStateException;
 import com.kodemore.dao.KmDaoSession;
 import com.kodemore.dao.KmDaoSessionManager;
 import com.kodemore.exception.KmApplicationException;
+import com.kodemore.exception.KmSecurityException;
 import com.kodemore.hibernate.lock.KmDaoLockException;
 import com.kodemore.hibernate.lock.KmDaoOptimisticLockException;
 import com.kodemore.log.KmLogger;
@@ -87,18 +88,18 @@ public abstract class KmDaoCommand
         {
             throw ex;
         }
+        catch ( KmSecurityException ex )
+        {
+            throw ex;
+        }
+        catch ( KmApplicationException ex )
+        {
+            throw ex;
+        }
         catch ( RuntimeException ex )
         {
-            handleError(ex);
+            throw withContext(ex);
         }
-    }
-
-    protected void handleError(RuntimeException ex)
-    {
-        if ( ex instanceof KmApplicationException )
-            throw ex;
-
-        throw withContext(ex);
     }
 
     private void runInOpenTransaction()

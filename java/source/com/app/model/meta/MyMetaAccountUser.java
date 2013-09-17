@@ -66,6 +66,7 @@ public class MyMetaAccountUser
     public static final MyMetaAccountUser_RoleName RoleName = new MyMetaAccountUser_RoleName();
     public static final MyMetaAccountUser_AccountName AccountName = new MyMetaAccountUser_AccountName();
     public static final MyMetaAccountUser_UserName UserName = new MyMetaAccountUser_UserName();
+    public static final MyMetaAccountUser_UserEmail UserEmail = new MyMetaAccountUser_UserEmail();
 
     //##################################################
     //# associations

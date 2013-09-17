@@ -30,6 +30,7 @@ import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.Kmu;
 
 public class ScActionScript
     extends ScAbstractScript
@@ -88,6 +89,13 @@ public class ScActionScript
      * to submitting the ajax request.
      */
     private ScHtmlIdIF _blockTarget;
+
+    /**
+     * The optional 'extra' parameter.  This value will be resubmitted
+     * along with the action and the argument; but this extra value
+     * is NOT encoded or evaluated using the model.
+     */
+    private String     _extra;
 
     //##################################################
     //# constructor
@@ -150,6 +158,25 @@ public class ScActionScript
         }
 
         return e;
+    }
+
+    //##################################################
+    //# extra
+    //##################################################
+
+    public String getExtra()
+    {
+        return _extra;
+    }
+
+    public void setExtra(String e)
+    {
+        _extra = e;
+    }
+
+    public boolean hasExtra()
+    {
+        return Kmu.hasValue(getExtra());
     }
 
     //##################################################
@@ -222,6 +249,9 @@ public class ScActionScript
         Object arg = evalArgument();
         if ( arg != null )
             args.setString("argument", ScEncoder.staticEncode(arg));
+
+        if ( hasExtra() )
+            args.setString("extra", getExtra());
 
         if ( hasForm() )
             args.setString("form", getForm().formatJquerySelector());

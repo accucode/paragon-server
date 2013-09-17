@@ -4,15 +4,16 @@ import com.kodemore.collection.KmCollection;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonObject;
-import com.kodemore.servlet.ScMenuItem;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.action.ScGlobalContext;
+import com.kodemore.servlet.control.ScActivityLink;
+import com.kodemore.servlet.control.ScArray;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScTopMenu;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScOption;
 import com.kodemore.servlet.script.ScRootScript;
@@ -27,7 +28,7 @@ import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.activity.general.MyHomePage;
-import com.app.ui.core.MyActions;
+import com.app.ui.activity.general.MySignOutPage;
 import com.app.ui.core.MyServletData;
 import com.app.ui.servlet.MyServletConstantsIF;
 import com.app.utility.MyConstantsIF;
@@ -92,9 +93,14 @@ public class MyPageLayout
     //# variables
     //##################################################
 
-    private ScTopMenu  _menu;
-    private ScDiv      _topRightDiv;
-    private ScDropdown _dropdown;
+    private ScDiv          _topRightDiv;
+    private ScDropdown     _dropdown;
+    private ScActivityLink _link;
+
+    private ScBox          _userNameLabel;
+    private ScBox          _hiLabel;
+    private ScBox          _accountLabel;
+    private ScBox          _singleAccountName;
 
     //##################################################
     //# constructor
@@ -106,23 +112,46 @@ public class MyPageLayout
     }
 
     //##################################################
-    //# install: menu
+    //# install
     //##################################################
+
+    //==================================================
+    //= install :: menu
+    //==================================================
 
     private void installMenu()
     {
-        _menu = new ScTopMenu();
+        _link = new ScActivityLink();
+        _link.hide();
+        _link.setText("Logout");
+        _link.css().bold();
+        _link.setActivity(MySignOutPage.instance);
+
+        _hiLabel = new ScBox();
+        _hiLabel.css().label();
+        _hiLabel.hide();
+
+        _userNameLabel = new ScBox();
+        _userNameLabel.css().label();
+
+        _accountLabel = new ScBox();
+        _accountLabel.css().label();
+        _accountLabel.hide();
+
+        _singleAccountName = new ScBox();
+        _singleAccountName.css().label();
+        _singleAccountName.hide();
     }
 
-    //##################################################
-    //# install: dropdown
-    //##################################################
+    //==================================================
+    //= install :: dropdown
+    //==================================================
 
     private void installDropdown()
     {
         _dropdown = new ScDropdown();
         _dropdown.hide();
-        _dropdown.setAction(newSetAccountAction());
+        _dropdown.setOnChangeAction(newSetAccountAction());
     }
 
     private KmList<ScOption> getDropdownList()
@@ -177,19 +206,24 @@ public class MyPageLayout
     {
         setServerSessionAccount();
         MyHomePage.instance.start();
+        MyLeftMenu.getInstance().gotoDefault();
     }
 
     private void setServerSessionAccount()
     {
         String uid = _dropdown.getStringValue();
 
+       
+        if ( !_dropdown.hasValue() )
+            uid = getDropdownList().getFirst().getValue().toString();
+
         MyAccount e = getAccess().findAccountUid(uid);
         MyGlobals.getServerSession().setAccount(e);
     }
 
-    //##################################################
-    //# install: top right div
-    //##################################################
+    //==================================================
+    //= install :: top right div
+    //==================================================
 
     private void installTopRightDiv()
     {
@@ -200,9 +234,15 @@ public class MyPageLayout
         _topRightDiv.css().pad10();
 
         ScForm form = _topRightDiv.addForm();
-        form.add(_dropdown);
-        form.add(_menu);
-
+        ScArray row = form.addRow();
+        row.add(_hiLabel);
+        row.add(_userNameLabel);
+        row.addSpaces(3);
+        row.add(_accountLabel);
+        row.add(_singleAccountName);
+        row.add(_dropdown);
+        row.addSpaces(3);
+        row.add(_link);
     }
 
     //##################################################
@@ -255,8 +295,16 @@ public class MyPageLayout
     public void ajaxRefreshHeader()
     {
         printHeaderLogo();
+        printHeaderLabels();
         printHeaderDropdown();
-        printHeaderMenu();
+        printHeaderLink();
+    }
+
+    public void ajaxHideRightDiv()
+    {
+        printHeaderLogo();
+        _topRightDiv.hide();
+        _topRightDiv.ajax().replace();
     }
 
     private void printHeaderLogo()
@@ -288,39 +336,24 @@ public class MyPageLayout
         return out;
     }
 
-    //##################################################
-    //# header: menu
-    //##################################################
+    //==================================================
+    //= header :: menu
+    //==================================================
 
-    private void printHeaderMenu()
-    {
-        _menu.ajaxRender(getMenu());
-    }
-
-    private ScMenuItem getMenu()
+    private void printHeaderLink()
     {
         MyServerSession ss = MyGlobals.getServerSession();
         MyUser u = ss.getUser();
 
         if ( u == null )
-            return null;
+            return;
 
-        MyActions actions = MyActions.getInstance();
-
-        ScMenuItem root;
-        root = new ScMenuItem();
-
-        ScMenuItem m;
-        m = root.addChild(u.getName());
-        m.addChild("Settings", actions.getSettingsAction());
-        m.addChild("Sign Out", actions.getSignOutAction());
-
-        return root;
+        _link.ajax().show();
     }
 
-    //##################################################
-    //# header: dropdown
-    //##################################################
+    //==================================================
+    //= header :: dropdown
+    //==================================================
 
     private void printHeaderDropdown()
     {
@@ -330,6 +363,19 @@ public class MyPageLayout
         if ( u == null )
         {
             _dropdown.ajax().hide();
+            return;
+        }
+
+       
+        if ( getDropdownList().size() == 1 )
+        {
+            _dropdown.ajax().hide();
+
+            _singleAccountName.addText(getDropdownList().getFirst().getText());
+            _singleAccountName.ajax().replace();
+            _singleAccountName.ajax().show();
+
+            setServerSessionAccount();
             return;
         }
 
@@ -353,6 +399,29 @@ public class MyPageLayout
             _dropdown.addOption(e.getValue(), e.getText());
 
         _dropdown.setValue(list.getFirst().getValue());
+    }
+
+    //==================================================
+    //= header :: name
+    //==================================================
+
+    private void printHeaderLabels()
+    {
+        MyServerSession ss = MyGlobals.getServerSession();
+        MyUser u = ss.getUser();
+
+        if ( u == null )
+            return;
+
+       
+        _hiLabel.ajaxSetText("Hi");
+        _hiLabel.ajax().show();
+
+        _userNameLabel.ajaxSetText(u.getName());
+        _userNameLabel.ajax().show();
+
+        _accountLabel.ajaxSetText("Account: ");
+        _accountLabel.ajax().show();
     }
 
     //##################################################
@@ -516,10 +585,6 @@ public class MyPageLayout
 
     public void refreshDropdown()
     {
-        setDropdownOptions();
-        setServerSessionAccount();
-        _dropdown.ajax().replace();
-        _dropdown.ajax().show();
-        _dropdown.ajaxUpdateValues();
+        printHeaderDropdown();
     }
 }

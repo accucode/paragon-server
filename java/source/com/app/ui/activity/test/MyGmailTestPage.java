@@ -42,7 +42,7 @@ public class MyGmailTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
         _toField = new ScTextField();
         _toField.setLabel("To");
@@ -59,9 +59,6 @@ public class MyGmailTestPage
         _messageField = new ScTextArea();
         _messageField.setLabel("Message");
         _messageField.setRequired();
-
-        ScPageRoot root;
-        root = newPageRoot();
 
         ScForm form;
         form = root.addForm();
@@ -85,8 +82,6 @@ public class MyGmailTestPage
 
         group.addDivider();
         group.addButtonBox().addSubmitButton("Send");
-
-        return root;
     }
 
     //##################################################

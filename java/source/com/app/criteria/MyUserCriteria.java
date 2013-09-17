@@ -118,24 +118,6 @@ public class MyUserCriteria
             whereRoleIsNotUser();
     }
 
-    public void whereRoleIsAdmin()
-    {
-        whereRoleIs(MyUserRole.Admin);
-    }
-
-    public void whereRoleIsNotAdmin()
-    {
-        whereRoleIsNot(MyUserRole.Admin);
-    }
-
-    public void whereRoleIsAdmin(boolean e)
-    {
-        if ( e )
-            whereRoleIsAdmin();
-        else
-            whereRoleIsNotAdmin();
-    }
-
     public void whereRoleIsDeveloper()
     {
         whereRoleIs(MyUserRole.Developer);

@@ -63,12 +63,8 @@ public class MyUserFrame
         button = header.addButton("Edit", newEditAction());
         button.setImage(MyButtonUrls.edit());
 
-        ScBox body;
-        body = group.addBox();
-        body.css().pad();
-
         ScFieldTable fields;
-        fields = body.addFields();
+        fields = group.addPad().addFields();
         fields.addText(x.Uid);
         fields.addText(x.Email);
         fields.addText(x.Name);
@@ -114,12 +110,8 @@ public class MyUserFrame
         group = form.addGroup("Edit");
         group.style().minWidth(300);
 
-        ScBox body;
-        body = group.addBox();
-        body.css().pad();
-
         ScFieldTable fields;
-        fields = body.addFields();
+        fields = group.addPad().addFields();
         fields.css().widthFull();
         fields.addText(x.Uid);
         fields.add(emailField);

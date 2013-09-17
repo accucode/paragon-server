@@ -39,11 +39,8 @@ public class MyScriptTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
-
         ScForm form;
         form = root.addForm();
         form.setDefaultAction(newRunAction());
@@ -51,8 +48,6 @@ public class MyScriptTestPage
 
         installScript(form);
         installSamples(form);
-
-        return root;
     }
 
     private void installScript(ScForm root)

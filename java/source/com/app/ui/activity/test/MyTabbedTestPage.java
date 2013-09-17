@@ -22,17 +22,13 @@ public class MyTabbedTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().pad();
 
         ScNotebook book;
         book = root.addNotebook();
         book.add(new MyFirstTab());
         book.add(new MySecondTab());
-
-        return root;
     }
 }

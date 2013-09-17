@@ -34,10 +34,8 @@ public class MyAnimationTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         ScGroupArray groups;
@@ -53,8 +51,6 @@ public class MyAnimationTestPage
         right.addButton("Async", newAsyncToggleAction());
         right.addButton("Sync", newSyncToggleAction());
         _group = addBoxesTo(group);
-
-        return root;
     }
 
     private KmList<ScBox> addBoxesTo(ScGroup group)

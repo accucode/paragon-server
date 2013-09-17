@@ -1,7 +1,7 @@
 package com.app.ui.servlet;
 
 import com.kodemore.command.KmDaoCommand;
-import com.kodemore.exception.KmRoleViolationException;
+import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
 
 import com.app.ui.core.MyServerSessionManager;
@@ -65,9 +65,9 @@ public class MyCallbackServlet
                 }
             }.run();
         }
-        catch ( KmRoleViolationException ex )
+        catch ( KmSecurityException ex )
         {
-            printErrorMessage("Security Violation.");
+            printErrorMessage(ex.formatDisplayMessage());
         }
         catch ( RuntimeException ex )
         {

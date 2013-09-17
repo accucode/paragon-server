@@ -46,13 +46,10 @@ public class MyMemoryLeakTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
         _field = new ScDateField();
         _field.setLabel("Some field");
-
-        ScPageRoot root;
-        root = newPageRoot();
 
         ScForm form;
         form = root.addForm();
@@ -65,8 +62,6 @@ public class MyMemoryLeakTestPage
         form.add(newUserGrid());
 
         _loopAction = newLoopAction();
-
-        return root;
     }
 
     private ScGrid<MyUser> newUserGrid()

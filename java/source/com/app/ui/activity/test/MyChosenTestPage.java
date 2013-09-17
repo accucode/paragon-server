@@ -36,10 +36,8 @@ public class MyChosenTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         ScGroup group;
@@ -87,8 +85,6 @@ public class MyChosenTestPage
 
         fields = root.addPad().addFields();
         fields.add(chosenOut);
-
-        return root;
     }
 
     //##################################################

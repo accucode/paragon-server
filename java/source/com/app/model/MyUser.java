@@ -15,8 +15,6 @@ public class MyUser
     //# constants
     //##################################################
 
-    public static final String     ROOT_UID          = "root";
-
     public static final MyTimeZone DEFAULT_TIME_ZONE = MyTimeZone.MSTD;
 
     //##################################################
@@ -53,6 +51,11 @@ public class MyUser
         setPassword(Kmu.newUid());
     }
 
+    public void clearPassword()
+    {
+        setPassword(null);
+    }
+
     public boolean hasPassword()
     {
         return hasPasswordHash();
@@ -86,11 +89,6 @@ public class MyUser
     //##################################################
     //# roles
     //##################################################
-
-    public boolean allowsAdmin()
-    {
-        return isRoleAdmin() || isRoleDeveloper();
-    }
 
     public boolean allowsDeveloper()
     {
@@ -131,7 +129,7 @@ public class MyUser
         return _addAccount(a);
     }
 
-    public MyAccount addBusinessAccount(String name, String roleCode)
+    public MyAccount addBusinessAccount(String name, MyAccountUserRole role)
     {
         MyAccount a;
         a = new MyAccount();
@@ -139,7 +137,7 @@ public class MyUser
         a.setTypeBusiness();
         a.saveDao();
 
-        return _addAccount(a, roleCode);
+        return _addAccount(a, role);
     }
 
     public MyAccount addPersonalAccount()
@@ -164,7 +162,7 @@ public class MyUser
         return _addAccount(a);
     }
 
-    public MyAccount addPersonalAccount(String name, String roleCode)
+    public MyAccount addPersonalAccount(String name, MyAccountUserRole role)
     {
         MyAccount a;
         a = new MyAccount();
@@ -172,7 +170,7 @@ public class MyUser
         a.setTypeBusiness();
         a.saveDao();
 
-        return _addAccount(a, roleCode);
+        return _addAccount(a, role);
     }
 
     public MyAccountUser joinAccount(MyAccount a)
@@ -186,11 +184,11 @@ public class MyUser
         return au;
     }
 
-    public MyAccountUser joinAccount(MyAccount a, String roleCode)
+    public MyAccountUser joinAccount(MyAccount a, MyAccountUserRole role)
     {
         MyAccountUser au;
         au = a.addAccountUser();
-        au.setRoleCode(roleCode);
+        au.setRoleCode(role.getCode());
 
         addAccountUser(au);
 
@@ -209,11 +207,11 @@ public class MyUser
         return a;
     }
 
-    private MyAccount _addAccount(MyAccount a, String roleCode)
+    private MyAccount _addAccount(MyAccount a, MyAccountUserRole role)
     {
         MyAccountUser au;
         au = joinAccount(a);
-        au.setRoleCode(roleCode);
+        au.setRoleCode(role.getCode());
         return a;
     }
 
@@ -228,4 +226,8 @@ public class MyUser
             }
     }
 
+    public boolean hasSingleAccount()
+    {
+        return getAccountUserCount() == 1;
+    }
 }

@@ -104,7 +104,7 @@ public class MyJoinAccountUtility
         msg.printfln();
         msg.printfln();
         msg.printLink(
-            "Activate My Account and Join " + accountName + ".",
+            "Activate My account and join " + accountName + ".",
             MyUrls.getInvitationUrl(i));
         msg.printfln();
         return msg;

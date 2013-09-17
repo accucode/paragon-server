@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+            myTooltip();
+        }
+        
+        function myTooltip()
+        {
+            $("#form").tooltip(
+            {
+                position: 
+                {
+                    my: "center bottom-20",
+                    at: "center top",
+                    using: function( position, feedback ) 
+                    {
+                        $( this ).css( position );
+                        $( "<div>" )
+                            .addClass( "arrow" )
+                            .addClass( feedback.vertical )
+                            .addClass( feedback.horizontal )
+                            .appendTo( this );
+                    }
+                }
+            });
+        }
+
+        function myClear()
+        {
+            $(":input").val('');
+        }
+        
+    </script>
+
+    <style type="text/css">
+    
+    .ui-tooltip 
+    {
+        padding: 10px 20px;
+        color: white;
+        border-radius: 20px;
+        font: bold 14px "Helvetica Neue", Sans-Serif;
+        text-transform: uppercase;
+        box-shadow: 0 0 7px black;
+    }
+    .ui-tooltip, .arrow:after 
+    {
+        background: black;
+        border: 2px solid white;
+    }
+    .arrow 
+    {
+        width: 70px;
+        height: 16px;
+        overflow: hidden;
+        position: absolute;
+        left: 50%;
+        margin-left: -35px;
+        bottom: -16px;
+    }
+    .arrow.top 
+    {
+        top: -16px;
+        bottom: auto;
+    }
+    .arrow.left 
+    {
+        
+    }
+    .arrow:after 
+    {
+        content: "";
+        position: absolute;
+        left: 20px;
+        top: -20px;
+        width: 25px;
+        height: 25px;
+        box-shadow: 6px 5px 9px -9px black;
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        tranform: rotate(45deg);
+    }
+    .arrow.top:after 
+    {
+        bottom: -20px;
+        top: auto;
+    }
+        
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="gap10">
+
+    <div class="boxGray gap10">
+    
+        <p>This test shows some options available for customizing jQuery's tooltip.
+            </p>
+            
+    </div> 
+
+    <form class="boxBlue gap10" id="form">
+        <p><input id="name"  name="name"  type="text" class="myInput" placeholder="Name" 
+            title="Please enter whatever you'd like us to call you."></p>
+        <p><input id="phone" name="phone" type="text" class="myInput" placeholder="Phone" 
+            title="Please enter wherever you'd like to be called."></p>
+        <p><input id="email" name="email" type="text" class="myInput" placeholder="Email" 
+            title="Or maybe you're like me, you'd rather be emailed so that you can get back to us whenever."></p>
+        <p><button type="button" onclick="myClear();">Clear</button></p>
+    </form>
+    
+</div>
+</body>
+</html>

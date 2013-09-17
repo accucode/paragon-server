@@ -461,6 +461,11 @@ public abstract class ScControl
         return out;
     }
 
+    public final String renderHtml()
+    {
+        return render().formatHtml();
+    }
+
     /**
      * This is the method that everyone should generally call
      * when they want to render this control.  This provides

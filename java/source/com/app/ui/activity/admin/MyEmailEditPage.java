@@ -52,18 +52,13 @@ public class MyEmailEditPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
-
         ScGroupArray row;
         row = root.addGroupArray();
 
         addSummaryGroup(row);
         addRecipientGroup(row);
-
-        return root;
     }
 
     private void addSummaryGroup(ScGroupArray arr)

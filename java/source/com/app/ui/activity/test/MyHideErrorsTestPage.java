@@ -34,11 +34,8 @@ public class MyHideErrorsTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
-
         ScForm form;
         form = root.addForm();
         form.setDefaultAction(newSubmitAction());
@@ -69,8 +66,6 @@ public class MyHideErrorsTestPage
         buttons = group.addButtonBox();
         buttons.addSubmitButton("Validate");
         buttons.addButton("Hide All Errors", newHideAllErrorsAction());
-
-        return root;
     }
 
     private ScActionIF newSubmitAction()

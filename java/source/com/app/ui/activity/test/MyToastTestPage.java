@@ -27,11 +27,8 @@ public class MyToastTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
-
         ScForm form;
         form = root.addForm();
         form.css().gap();
@@ -66,8 +63,6 @@ public class MyToastTestPage
         links.addBreak();
         links.addLink("Text (default)", newTextMessageAction());
         links.addLink("Html", newHtmlMessageAction());
-
-        return root;
     }
 
     private ScActionIF newDefaultAction()

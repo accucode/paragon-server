@@ -46,11 +46,8 @@ public class MyEmailViewPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
-
         ScArray arr;
         arr = root.addArray();
 
@@ -64,8 +61,6 @@ public class MyEmailViewPage
 
         _editButton = arr.addRow().addButton("Edit", newEditAction());
         _editButton.hide();
-
-        return root;
     }
 
     private void installSummaryGroup(ScGroupArray root)

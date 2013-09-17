@@ -27,7 +27,6 @@ public class MyEqualizeTestPage
     //# variables
     //##################################################
 
-    private ScBox _root;
     private ScBox _groups;
 
     //##################################################
@@ -35,10 +34,8 @@ public class MyEqualizeTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         ScGroup info;
@@ -97,23 +94,11 @@ public class MyEqualizeTestPage
         links.addLink(MyShowDialogTestPage.instance);
         links.addLink(MyBarcodeTestPage.instance);
 
-        // fixme_aaron: 
-        //        group = groups.addGroup("Group 4");
-        //        links = group.addLinkBox();
-        //        links.addLink(MyScriptTestPage.instance);
-        //        links.addLink(MyMemoryLeakTestPage.instance);
-        //        links.addLink(MyGmailTestPage.instance);
-        //        links.addLink(MyStaticIncludeTestPage.instance);
-        //        links.addLink(MyQuickTestPage.instance);
-
         group = root.addGroup("Here's more content");
 
         buttons = group.addButtonBox();
         buttons.addButton("Button");
         buttons.addButton("One more button with lots of text");
-
-        _root = root;
-        return root;
     }
 
     private String infoMessage()
@@ -165,6 +150,6 @@ public class MyEqualizeTestPage
 
     private void handleEqualizeButtons()
     {
-        _root.ajax().equalizeClasses("button");
+        getRoot().ajax().equalizeClasses("button");
     }
 }

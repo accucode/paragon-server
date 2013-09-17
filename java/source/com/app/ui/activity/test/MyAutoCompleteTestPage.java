@@ -36,7 +36,7 @@ public class MyAutoCompleteTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
         _staticField = new ScAutoCompleteField();
         _staticField.setLabel("Static");
@@ -54,8 +54,6 @@ public class MyAutoCompleteTestPage
         _dynamicField.setLabel("Dynamic");
         _dynamicField.setCallback(newCallback());
 
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().pad();
 
         ScForm form;
@@ -72,8 +70,6 @@ public class MyAutoCompleteTestPage
 
         group.addDivider();
         group.addButtonBox().addSubmitButton();
-
-        return root;
     }
 
     private ScAutoCompleteCallbackIF newCallback()

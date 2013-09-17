@@ -27,10 +27,8 @@ public class MyNotebookTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().pad();
 
         ScNotebook book;
@@ -50,8 +48,6 @@ public class MyNotebookTestPage
         ScActionButton tab3;
         tab3 = book.addButton("Test", newTestAction());
         tab3.setLabel("Three");
-
-        return root;
     }
 
     //##################################################

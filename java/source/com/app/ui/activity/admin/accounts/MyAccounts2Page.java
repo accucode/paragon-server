@@ -1,4 +1,4 @@
-package com.app.ui.activity.admin;
+package com.app.ui.activity.admin.accounts;
 
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmCollection;
@@ -21,7 +21,6 @@ import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.field.ScAutoCompleteCallbackIF;
 import com.kodemore.servlet.field.ScAutoCompleteField;
 import com.kodemore.servlet.field.ScDropdown;
@@ -31,8 +30,6 @@ import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
 
-import com.app.dao.MyAccountDao;
-import com.app.dao.MyAccountUserDao;
 import com.app.filter.MyAccountUserFilter;
 import com.app.filter.MyUserFilter;
 import com.app.model.MyAccount;
@@ -42,22 +39,23 @@ import com.app.model.MyAccountUserRole;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
 import com.app.model.meta.MyMetaUser;
+import com.app.ui.activity.admin.MyAdminPage;
 import com.app.ui.activity.login.MyJoinAccountUtility;
 import com.app.ui.activity.login.MyTransferAccountUtility;
 import com.app.ui.core.MyPageSession;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyButtonUrls;
 
-public class MyAccountsPage
+public class MyAccounts2Page
     extends MyAdminPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyAccountsPage instance = new MyAccountsPage();
+    public static final MyAccounts2Page instance = new MyAccounts2Page();
 
-    private MyAccountsPage()
+    private MyAccounts2Page()
     {
         // singleton
     }
@@ -108,10 +106,7 @@ public class MyAccountsPage
     private ScActionButton        _deleteButton;
     private ScActionButton        _editButton;
     private ScActionButton        _closeButton;
-    private ScActionButton        _cancelButton;
-    private ScSubmitButton        _removeButton;
-
-    private ScGroup               _deleteGroup;
+    private ScActionButton        _removeButton;
 
     private ScDiv                 _viewAccountFooter;
     private ScDiv                 _viewUserFooter;
@@ -122,11 +117,21 @@ public class MyAccountsPage
     private ScLocalString         _accountUid;
 
     //##################################################
+    //# security
+    //##################################################
+
+    @Override
+    protected boolean requiresAccountOwner()
+    {
+        return true;
+    }
+
+    //##################################################
     //# install
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
         _isEditing = new ScLocalBoolean();
         _isEditing.setAutoSave();
@@ -134,8 +139,6 @@ public class MyAccountsPage
         _accountUid = new ScLocalString();
         _accountUid.setAutoSave();
 
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         ScArray row;
@@ -154,14 +157,12 @@ public class MyAccountsPage
 
         installDeleteUserDialog(root);
         installEditingDialog(root);
-
-        return root;
     }
 
     private void installAccountsDropdownOn(ScContainer root)
     {
         _accountDropdown = new ScDropdown();
-        _accountDropdown.setAction(newUpdateValuesAction());
+        _accountDropdown.setOnChangeAction(newAccountOnChangeAction());
 
         ScForm form;
         form = root.addForm();
@@ -172,10 +173,14 @@ public class MyAccountsPage
         ScBox body;
         body = group.addPadSpaced();
         body.add(_accountDropdown);
-        body.addSpaces(3);
+        body.style().padBottom(10);
+
+        ScDiv right;
+        right = group.getHeader().addFloatRight();
+        right.css().pad5();
 
         ScActionButton button;
-        button = body.addButton("Add Account", newShowAddAccountBoxAction());
+        button = right.addButton("Add Account", newShowAddAccountBoxAction());
         button.setImage(MyButtonUrls.add());
     }
 
@@ -193,8 +198,8 @@ public class MyAccountsPage
         installEditAccountCard();
         installAddAccountCard();
         installInviteUserCard();
-        installDeleteAccountCard();
         installTransferAccountCard();
+        installDeleteAccountCard();
     }
 
     private void installViewAccountCard()
@@ -238,10 +243,11 @@ public class MyAccountsPage
 
         _viewAccountFooter = group.addButtonBoxRight();
 
+        _viewAccountFooter.addButton("Invite", newShowInviteUserBoxAction());
+
         _transferButton = _viewAccountFooter.addButton("Transfer", newShowTransferBoxAction());
         _transferButton.hide();
 
-        _viewAccountFooter.addButton("Invite", newShowInviteUserBoxAction());
         _deleteButton = _viewAccountFooter.addButton("Delete", newShowDeleteAccountBoxAction());
 
         _viewAccountCard = card;
@@ -348,7 +354,6 @@ public class MyAccountsPage
         ScBox box;
         box = body.addBox();
         box.addText(getInviteText());
-        box.css().centerText();
         box.css().width250();
 
         _inviteUserEmailField = new ScTextField();
@@ -385,11 +390,12 @@ public class MyAccountsPage
         form.setDefaultAction(saveAction);
         form.onEscape().run(cancelAction);
 
-        _deleteGroup = form.addGroup();
-        _deleteGroup.setFlavorError();
+        ScGroup group = form.addGroup();
+        group.setTitle("Delete Account");
+        group.setFlavorError();
 
         ScBox body;
-        body = _deleteGroup.addBox();
+        body = group.addBox();
         body.css().pad();
 
         _deleteAccountNameField = new ScTextField();
@@ -405,10 +411,10 @@ public class MyAccountsPage
         fields.add(_deleteAccountNameField);
         fields.add(_deleteAccountTypeField);
 
-        _deleteGroup.addDivider();
+        group.addDivider();
 
         ScDiv footer;
-        footer = _deleteGroup.addButtonBoxRight();
+        footer = group.addButtonBoxRight();
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Delete");
 
@@ -438,7 +444,6 @@ public class MyAccountsPage
         ScBox box;
         box = body.addBox();
         box.addText(getTransferText());
-        box.css().centerText();
         box.css().width250();
 
         _transferEmailAutoComplete = new ScAutoCompleteField();
@@ -548,6 +553,7 @@ public class MyAccountsPage
             {
                 if ( model.getUser() != null )
                     return model.getUser().getEmail();
+
                 return "";
             }
 
@@ -604,15 +610,14 @@ public class MyAccountsPage
 
     private void installViewUserFrame()
     {
-        ScActionIF sendAction = newShowDeleteAccountUserDialogAction();
         ScActionIF cancelAction = newViewUserCancelAction();
+        ScActionIF removeAction = newShowDeleteAccountUserDialogAction();
 
         ScCard card;
         card = _userFrame.addCard();
 
         ScForm form;
         form = card.addForm();
-        form.setDefaultAction(sendAction);
         form.onEscape().run(cancelAction);
 
         ScGroup group;
@@ -652,10 +657,7 @@ public class MyAccountsPage
         _viewUserFooter = group.addButtonBoxRight();
 
         _closeButton = _viewUserFooter.addButton("Close", cancelAction);
-        _cancelButton = _viewUserFooter.addCancelButton(cancelAction);
-        _removeButton = _viewUserFooter.addSubmitButton("Remove from Account");
-
-        _closeButton.hide();
+        _removeButton = _viewUserFooter.addButton("Remove", removeAction);
 
         _viewUserCard = card;
     }
@@ -870,14 +872,14 @@ public class MyAccountsPage
         };
     }
 
-    private ScActionIF newUpdateValuesAction()
+    private ScActionIF newAccountOnChangeAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleUpdateValues();
+                handleAccountOnChange();
             }
         };
     }
@@ -1119,8 +1121,6 @@ public class MyAccountsPage
     {
         setIsEditing();
 
-        _deleteGroup.setTitle("Delete Account");
-
         MyAccount a;
         a = getPageSession().getAccount();
 
@@ -1137,10 +1137,19 @@ public class MyAccountsPage
     {
         MyAccount a;
         a = getPageSession().getAccount();
+
+        MyUser u;
+        u = getCurrentUser();
+
+        if ( !a.validateDeletePermissions(u) )
+            error("Sorry, you cannot delete this account.");
+
         a.deleteDao();
 
         MyPageLayout.getInstance().refreshDropdown();
+
         ajax().toast("Deleted account %s", a.getName());
+
         setDropdownOptions();
 
         MyAccount da;
@@ -1192,9 +1201,10 @@ public class MyAccountsPage
         _editingDialog.ajaxClose();
     }
 
-    private void handleUpdateValues()
+    private void handleAccountOnChange()
     {
-        setAccountUid(getDropdownAccount().getUid());
+        String accountUid = getDropdownAccount().getUid();
+        setAccountUid(accountUid);
 
         if ( isEditing() )
         {
@@ -1236,8 +1246,8 @@ public class MyAccountsPage
 
     private void handleSendTransferRequest()
     {
-        MyAccount account;
-        account = getPageSession().getAccount();
+        MyAccount a;
+        a = getPageSession().getAccount();
 
         String email = _transferEmailAutoComplete.getValue();
 
@@ -1249,12 +1259,12 @@ public class MyAccountsPage
         MyUser from = getCurrentUser();
         MyUser to = getAccess().getUserDao().findEmail(email);
 
-        if ( !account.validateTransferOwnership(from, to) )
+        if ( !a.validateTransferOwnership(from, to) )
             error("You cannot transfer ownership of this account.");
 
         MyTransferAccountUtility utility;
         utility = new MyTransferAccountUtility();
-        utility.start(account, email);
+        utility.start(a, email);
 
         showSentMessage(email);
     }
@@ -1269,10 +1279,7 @@ public class MyAccountsPage
         _editAccountCard.validate();
 
         if ( !_editAccountNameField.hasValue() )
-        {
-            ajax().toast("Please enter an account name");
-            return;
-        }
+            error("Please enter an account name");
 
         MyAccount a;
         a = getPageSession().getAccount();
@@ -1282,6 +1289,11 @@ public class MyAccountsPage
 
         setDropdownOptions();
         _accountDropdown.ajaxSetValue(a.getUid());
+
+        MyPageLayout pageLayout;
+        pageLayout = MyPageLayout.getInstance();
+        pageLayout.ajaxRefreshHeader();
+
         refreshFlipViewAccount();
         _userGrid.ajaxReload();
     }
@@ -1296,10 +1308,7 @@ public class MyAccountsPage
         _addAccountCard.validate();
 
         if ( _addAccountNameField.isEmpty() )
-        {
-            ajax().toast("Please enter an account name");
-            return;
-        }
+            error("Please enter an account name");
 
         String name = _addAccountNameField.getValue();
         String typeCode = _addAccountTypeDropdown.getStringValue();
@@ -1339,7 +1348,7 @@ public class MyAccountsPage
     private void handleViewUser()
     {
         MyAccountUser au;
-        au = getAccountUserDao().findUid(getStringArgument());
+        au = getAccess().findAccountUserUid(getStringArgument());
 
         MyPageSession ps = getPageSession();
         if ( au == null )
@@ -1359,7 +1368,6 @@ public class MyAccountsPage
         {
             _closeButton.show();
             _editButton.hide();
-            _cancelButton.hide();
             _removeButton.hide();
             _viewUserCard.ajax().replace();
         }
@@ -1384,7 +1392,7 @@ public class MyAccountsPage
         boolean settingOwner = roleCode.equals(MyAccountUserRole.Owner.getCode());
 
         if ( hasOwner && settingOwner )
-            ajax().alert("Looks like this account already has an owner.");
+            error("Looks like this account already has an owner.");
         else
             pageSessionAU.setRoleCode(roleCode);
 
@@ -1443,7 +1451,6 @@ public class MyAccountsPage
         MyAccountUser accountUser = account.getAccountUserFor(user);
 
         return accountUser != null;
-
     }
 
     private void handleInviteUserCancel()
@@ -1520,13 +1527,13 @@ public class MyAccountsPage
         _viewAccountNameField.setValue(a.getName());
         _viewAccountTypeField.setValue(a.getType().getName());
 
-        boolean isPersonalAccount = a.isTypePersonal();
         boolean isOwner = a.hasOwner(u);
+        boolean isOnlyAccount = u.getAccountUserCount() == 1;
 
-        if ( isPersonalAccount || !isOwner )
+        if ( isOnlyAccount || !isOwner )
             _deleteButton.hide();
 
-        if ( isOwner )
+        if ( isOwner && !isOnlyAccount )
             _transferButton.show();
 
         _viewAccountFooter.ajax().replace();
@@ -1556,7 +1563,8 @@ public class MyAccountsPage
 
     private MyAccount getDropdownAccount()
     {
-        return getAccountDao().findUid(_accountDropdown.getStringValue());
+        String uid = _accountDropdown.getStringValue();
+        return getAccess().findAccountUid(uid);
     }
 
     private KmList<ScOption> getDropdownList()
@@ -1609,16 +1617,6 @@ public class MyAccountsPage
     //# convenience
     //##################################################
 
-    private MyAccountDao getAccountDao()
-    {
-        return getAccess().getAccountDao();
-    }
-
-    private MyAccountUserDao getAccountUserDao()
-    {
-        return getAccess().getAccountUserDao();
-    }
-
     private String getAccountUid()
     {
         return _accountUid.getValue();
@@ -1633,14 +1631,19 @@ public class MyAccountsPage
     //= convenience :: editing
     //==================================================
 
-    private boolean isEditing()
-    {
-        return getIsEditing() == true;
-    }
-
     private boolean getIsEditing()
     {
         return _isEditing.getValue();
+    }
+
+    private void setIsEditing(boolean e)
+    {
+        _isEditing.setValue(e);
+    }
+
+    private boolean isEditing()
+    {
+        return getIsEditing() == true;
     }
 
     private void setIsEditing()
@@ -1651,11 +1654,6 @@ public class MyAccountsPage
     private void setDoneEditing()
     {
         setIsEditing(false);
-    }
-
-    private void setIsEditing(boolean isEditing)
-    {
-        _isEditing.setValue(isEditing);
     }
 
     //##################################################

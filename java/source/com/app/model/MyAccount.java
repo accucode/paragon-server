@@ -11,12 +11,6 @@ public class MyAccount
     extends MyAccountBase
 {
     //##################################################
-    //# constants
-    //##################################################
-
-    public static final String ROOT_UID = "root";
-
-    //##################################################
     //# constructor
     //##################################################
 
@@ -49,17 +43,43 @@ public class MyAccount
 
     public boolean validateTransferOwnership(MyUser from, MyUser to)
     {
+        if ( from.hasSingleAccount() )
+            return false;
+
         if ( from != getOwner() )
             return false;
 
         if ( isNotMember(to) )
             return false;
 
-        if ( from.equals(to) )
+        return !from.equals(to);
+    }
+
+    public void transferOwnerTo(MyUser to)
+    {
+        MyUser from = getOwner();
+
+        validateTransferOwnership(from, to);
+
+        getAccountUserFor(from).setRoleUser();
+        getAccountUserFor(to).setRoleOwner();
+    }
+
+    //##################################################
+    //# delete
+    //##################################################
+
+    public boolean validateDeletePermissions(MyUser user)
+    {
+        if ( user.hasSingleAccount() )
             return false;
 
-        return true;
+        return hasOwner(user);
     }
+
+    //##################################################
+    //# support
+    //##################################################
 
     public MyUser getOwner()
     {
@@ -74,16 +94,6 @@ public class MyAccount
     public boolean hasOwner(MyUser u)
     {
         return Kmu.isEqual(getOwner(), u);
-    }
-
-    public void transferOwnerTo(MyUser to)
-    {
-        MyUser from = getOwner();
-
-        validateTransferOwnership(from, to);
-
-        getAccountUserFor(from).setRoleUser();
-        getAccountUserFor(to).setRoleOwner();
     }
 
     public MyAccountUser getAccountUserFor(MyUser user)

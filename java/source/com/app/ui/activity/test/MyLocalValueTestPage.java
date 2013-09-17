@@ -51,16 +51,12 @@ public class MyLocalValueTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         installFieldGroup(root);
         installListGroup(root);
-
-        return root;
     }
 
     private void installFieldGroup(ScBox root)

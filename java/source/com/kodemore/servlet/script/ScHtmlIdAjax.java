@@ -291,4 +291,41 @@ public class ScHtmlIdAjax
     {
         return equalizeGroupsIn(getTarget());
     }
+
+    //##################################################
+    //# drag
+    //##################################################
+
+    public void sortableByHandle()
+    {
+        sortableByHandle(getTarget());
+    }
+
+    public void sortableUpdate(String childPath, String attr, ScActionIF action)
+    {
+        sortableUpdate(getTarget(), childPath, attr, action);
+    }
+
+    //##################################################
+    //# accordion
+    //##################################################
+
+    public void accordion()
+    {
+        accordion(getTarget());
+    }
+
+    public void accordionCollapsible()
+    {
+        accordionCollapsible(getTarget());
+    }
+
+    //##################################################
+    //# tooltip
+    //##################################################
+
+    public void tooltip()
+    {
+        tooltip(getTarget());
+    }
 }

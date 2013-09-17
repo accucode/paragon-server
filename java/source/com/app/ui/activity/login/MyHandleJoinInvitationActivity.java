@@ -17,6 +17,7 @@ import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyAccount;
+import com.app.model.MyAccountUserRole;
 import com.app.model.MyInvitation;
 import com.app.model.MyPasswordReset;
 import com.app.model.MyUser;
@@ -104,6 +105,7 @@ public class MyHandleJoinInvitationActivity
 
         _password2Field = new ScPasswordField();
         _password2Field.style().width(270);
+        _password2Field.setRequired();
         _password2Field.hide();
 
         ScForm form;
@@ -183,7 +185,6 @@ public class MyHandleJoinInvitationActivity
         box.hide();
         box.css().pad10();
         _joinedMessageBox = box;
-
     }
 
     //##################################################
@@ -334,22 +335,22 @@ public class MyHandleJoinInvitationActivity
         MyAccount a;
         a = inv.getAccount();
 
-        String roleCode;
-        roleCode = inv.getRoleCode();
+        MyAccountUserRole role;
+        role = inv.getRole();
 
         if ( u == null )
         {
             _form.validate();
-            u = createUser(email, a, roleCode);
+            u = createUser(email, a, role);
         }
         else
-            u.joinAccount(a, roleCode);
+            u.joinAccount(a, role);
 
         _form.ajax().hide();
         _messageBox.ajax().show().slide();
     }
 
-    private MyUser createUser(String email, MyAccount a, String roleCode)
+    private MyUser createUser(String email, MyAccount a, MyAccountUserRole role)
     {
         _password1Field.ajax().clearValue();
         _password2Field.ajax().clearValue();
@@ -358,7 +359,7 @@ public class MyHandleJoinInvitationActivity
         String p2 = _password2Field.getValue();
 
         if ( Kmu.isNotEqual(p1, p2) )
-            _password1Field.error("Passwords did not match.");
+            _password2Field.error("Passwords did not match.");
 
         KmEmailParser p;
         p = new KmEmailParser();
@@ -370,7 +371,7 @@ public class MyHandleJoinInvitationActivity
         MyUser u;
         u = getAccess().getUserDao().createUser(name, email);
         u.setPassword(p1);
-        u.joinAccount(a, roleCode);
+        u.joinAccount(a, role);
 
         return u;
     }
@@ -388,4 +389,5 @@ public class MyHandleJoinInvitationActivity
     {
         _accessKey.setValue(e);
     }
+
 }

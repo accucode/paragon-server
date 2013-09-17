@@ -1,6 +1,5 @@
 package com.app.ui.activity.general;
 
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
@@ -49,28 +48,19 @@ public class MySignOutPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
-
         ScGroup group;
         group = root.addGroup();
         group.style().width(300).marginTop(100).marginCenter();
 
         _titleText = group.setTitle(getDefaultTitle());
 
-        ScBox box;
-        box = group.addBox();
-        box.css().pad();
+        _messageText = group.addPad().addText(getDefaultMessage());
 
-        _messageText = box.addText(getDefaultMessage());
-
-        box.addBreak();
-        box.addBreak();
-        box.addUrlLink("Sign In", MyUrls.getEntryUrl());
-
-        return root;
+        group.addBreak();
+        group.addBreak();
+        group.addPad().addUrlLink("Sign In", MyUrls.getEntryUrl());
     }
 
     //##################################################
@@ -126,7 +116,7 @@ public class MySignOutPage
         e = getPageLayout();
         e.ajaxHideLeft();
         e.ajaxHideRight();
-        e.ajaxRefreshHeader();
+        e.ajaxHideRightDiv();
         e.ajaxRefreshFooter();
         e.ajaxClearCenterCss();
     }

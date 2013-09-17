@@ -39,16 +39,13 @@ public class MyBeanShellPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
         ScActionIF submitAction = newSubmitAction();
 
         _scriptField = new ScTextArea();
         _scriptField.style().height(100);
         _scriptField.setWidthFull();
-
-        ScPageRoot root;
-        root = newPageRoot();
 
         ScForm form;
         form = root.addForm();
@@ -63,8 +60,6 @@ public class MyBeanShellPage
 
         _resultsBox = root.addBox();
         _resultsBox.css().gap();
-
-        return root;
     }
 
     private ScActionIF newSubmitAction()

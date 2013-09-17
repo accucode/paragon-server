@@ -66,7 +66,7 @@ import com.kodemore.collection.KmMap;
 import com.kodemore.collection.KmSetImpl;
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.exception.KmCancelException;
-import com.kodemore.exception.KmRoleViolationException;
+import com.kodemore.exception.KmSecurityException;
 import com.kodemore.file.KmFileUtility;
 import com.kodemore.log.KmLog;
 import com.kodemore.meta.KmMetaAttribute;
@@ -4933,9 +4933,9 @@ public class Kmu
         throw new KmCancelException();
     }
 
-    public static void accessError(String msg, Object... args)
+    public static void throwSecurityError(String msg, Object... args)
     {
-        throw new KmRoleViolationException(msg, args);
+        throw new KmSecurityException(msg, args);
     }
 
     public static Throwable getRootCause(Throwable ex)

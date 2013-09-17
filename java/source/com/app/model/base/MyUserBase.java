@@ -443,21 +443,6 @@ public abstract class MyUserBase
         return !isRoleUser();
     }
 
-    public void setRoleAdmin()
-    {
-        setRole(MyUserRole.Admin);
-    }
-
-    public boolean isRoleAdmin()
-    {
-        return hasRole(MyUserRole.Admin);
-    }
-
-    public boolean isNotRoleAdmin()
-    {
-        return !isRoleAdmin();
-    }
-
     public void setRoleDeveloper()
     {
         setRole(MyUserRole.Developer);

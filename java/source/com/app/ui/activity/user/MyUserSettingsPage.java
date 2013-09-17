@@ -25,18 +25,13 @@ public class MyUserSettingsPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
-
         ScGroup group;
         group = root.addGroup("User Settings");
 
         ScBox body;
         body = group.addLinkBox();
         body.addLink(MyUserPasswordPage.instance);
-
-        return root;
     }
 }

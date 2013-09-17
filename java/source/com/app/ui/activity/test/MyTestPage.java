@@ -5,5 +5,13 @@ import com.app.ui.activity.MyPage;
 public abstract class MyTestPage
     extends MyPage
 {
-    // extension point
+    //##################################################
+    //# security 
+    //##################################################
+
+    @Override
+    protected boolean requiresDeveloper()
+    {
+        return true;
+    }
 }

@@ -79,16 +79,12 @@ public class MyPerformanceLogPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         installFilter(root);
         installGrid(root);
-
-        return root;
     }
 
     private void installFilter(ScContainer root)

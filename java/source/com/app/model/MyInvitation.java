@@ -15,4 +15,18 @@ public class MyInvitation
 
         setStatusNew();
     }
+
+    //##################################################
+    //# role
+    //##################################################
+
+    public MyAccountUserRole getRole()
+    {
+        return MyAccountUserRole.findCode(getRoleCode());
+    }
+
+    public void setRole(MyAccountUserRole e)
+    {
+        setRoleCode(getCodeFor(e));
+    }
 }

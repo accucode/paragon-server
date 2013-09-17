@@ -1,7 +1,10 @@
 package com.app.ui.activity.tools;
 
+import com.kodemore.collection.KmList;
+import com.kodemore.database.KmDatabaseTool;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
@@ -14,6 +17,7 @@ import com.kodemore.sql.formatter.KmSqlResultComposer;
 import com.kodemore.utility.Kmu;
 
 import com.app.ui.activity.MyActivity;
+import com.app.utility.MyButtonUrls;
 
 public class MySqlPage
     extends MyToolsPage
@@ -48,12 +52,14 @@ public class MySqlPage
     private ScTextArea          _sqlField;
     private ScBox               _results;
 
+    private ScDropdown          _tableDropdown;
+
     //##################################################
     //# install
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
         _schemaField = new ScTextField();
         _schemaField.setLabel("Schema");
@@ -73,8 +79,6 @@ public class MySqlPage
 
         _results = new ScBox();
 
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().pad();
 
         ScForm form;
@@ -92,6 +96,7 @@ public class MySqlPage
         fields.css().widthFull();
         fields.rightCss().widthFull();
         fields.add(_schemaField);
+        fields.add(createQuickActionBox());
         fields.add(_formatField);
         fields.add(_sqlField);
 
@@ -103,8 +108,29 @@ public class MySqlPage
 
         root.addBreak();
         root.add(_results);
+    }
 
-        return root;
+    private ScBox createQuickActionBox()
+    {
+        _tableDropdown = new ScDropdown();
+        _tableDropdown.css().floatLeft();
+
+        ScBox box;
+        box = new ScBox();
+        box.setLabel("Quick");
+        box.css().marginRightChildren5();
+        box.add(_tableDropdown);
+
+        ScActionButton b;
+        b = box.addButton();
+        b.setImage(MyButtonUrls.refresh());
+        b.setAction(newRefreshTablesAction());
+
+        box.addButton("select *", newSelectAllAction());
+        box.addButton("count", newCountAction());
+        box.addButton("describe", newDescribeTableAction());
+
+        return box;
     }
 
     //##################################################
@@ -123,6 +149,54 @@ public class MySqlPage
         };
     }
 
+    private ScActionIF newRefreshTablesAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleRefreshTables();
+            }
+        };
+    }
+
+    private ScActionIF newSelectAllAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleSelectAll();
+            }
+        };
+    }
+
+    private ScActionIF newCountAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleCount();
+            }
+        };
+    }
+
+    private ScActionIF newDescribeTableAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleDescribeTable();
+            }
+        };
+    }
+
     //##################################################
     //# start
     //##################################################
@@ -134,6 +208,8 @@ public class MySqlPage
 
         print(false);
         _sqlField.ajax().focus();
+
+        refreshTables();
     }
 
     private void preRender()
@@ -151,8 +227,14 @@ public class MySqlPage
 
     private void handleSubmit()
     {
-        String schema = updateSchemaName();
         String sql = _sqlField.getValue();
+
+        submitSql(sql);
+    }
+
+    private void submitSql(String sql)
+    {
+        String schema = updateSchemaName();
 
         KmSqlResultComposer c;
         c = new KmSqlResultComposer();
@@ -204,4 +286,71 @@ public class MySqlPage
         return schemaName;
     }
 
+    private void handleRefreshTables()
+    {
+        refreshTables();
+    }
+
+    private void handleSelectAll()
+    {
+        handleQuickAction("select * from %s limit 10;");
+    }
+
+    private void handleCount()
+    {
+        handleQuickAction("select count(*) from %s;");
+    }
+
+    private void handleDescribeTable()
+    {
+        handleQuickAction("describe %s;");
+    }
+
+    private void handleQuickAction(String template)
+    {
+        String table = _tableDropdown.getStringValue();
+
+        if ( table == null )
+        {
+            ajax().toast("Please select a table.").warn();
+            return;
+        }
+
+        String sql = Kmu.format(template, table);
+        _sqlField.ajax().setValue(sql);
+        submitSql(sql);
+    }
+
+    //##################################################
+    //# utility
+    //##################################################
+
+   
+    private KmList<String> getTableNames()
+    {
+        KmDatabaseTool tool = new KmDatabaseTool();
+        try
+        {
+            tool.open();
+            tool.useSchema(_schemaField.getValue());
+
+            KmList<String> v;
+            v = tool.getTableNames();
+            v.sort();
+            return v;
+        }
+        finally
+        {
+            tool.closeSafely();
+        }
+    }
+
+    private void refreshTables()
+    {
+        _tableDropdown.ajaxClearOptions();
+        _tableDropdown.ajaxAddOption("<select a table>", null);
+
+        for ( String e : getTableNames() )
+            _tableDropdown.ajaxAddOption(e, e);
+    }
 }

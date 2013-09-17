@@ -41,17 +41,12 @@ public class MyUserPasswordPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
-
         ScArray arr;
         arr = root.addArray();
 
         installPasswordGroup(arr);
-
-        return root;
     }
 
     private void installPasswordGroup(ScContainer root)

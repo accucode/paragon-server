@@ -169,7 +169,7 @@ public abstract class MyActivity
     }
 
     //##################################################
-    //# action context 
+    //# security 
     //##################################################
 
     @Override
@@ -177,19 +177,83 @@ public abstract class MyActivity
     {
         super.checkSecurity();
 
-        if ( requiresUser() )
-            if ( !getServerSession().hasUser() )
-                throwUserAccessError();
+        checkUser();
+        checkDeveloper();
+        checkAccountMember();
+        checkAccountOwner();
     }
 
-    protected void throwUserAccessError()
+    private void checkUser()
     {
-        Kmu.accessError("User Access Security Error");
+        if ( !requiresUser() )
+            return;
+
+        if ( hasCurrentUser() )
+            return;
+
+        throwSecurityError("User sign in required.");
     }
+
+    private void checkDeveloper()
+    {
+        if ( !requiresDeveloper() )
+            return;
+
+        if ( hasCurrentUser() && getCurrentUser().allowsDeveloper() )
+            return;
+
+        throwSecurityError("Developer access required.");
+    }
+
+    private void checkAccountMember()
+    {
+        if ( !requiresAccountMember() )
+            return;
+
+        if ( hasCurrentAccount() && getCurrentAccount().hasMember(getCurrentUser()) )
+            return;
+
+        throwSecurityError("Account member required.");
+    }
+
+    private void checkAccountOwner()
+    {
+        if ( !requiresAccountOwner() )
+            return;
+
+        if ( hasCurrentAccount() && getCurrentAccount().hasOwner(getCurrentUser()) )
+            return;
+
+        throwSecurityError("Account owner required.");
+    }
+
+    //==================================================
+    //= security overrides
+    //==================================================
 
     protected boolean requiresUser()
     {
         return true;
+    }
+
+    protected boolean requiresCsr()
+    {
+        return false;
+    }
+
+    protected boolean requiresDeveloper()
+    {
+        return false;
+    }
+
+    protected boolean requiresAccountMember()
+    {
+        return false;
+    }
+
+    protected boolean requiresAccountOwner()
+    {
+        return false;
     }
 
     //##################################################

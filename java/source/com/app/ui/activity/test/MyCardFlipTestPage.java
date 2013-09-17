@@ -41,10 +41,8 @@ public class MyCardFlipTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         ScBox buttons;
@@ -88,8 +86,6 @@ public class MyCardFlipTestPage
         back = _fadeBack.addGroup("Back");
         back.addPad().addText("THIS IS THE BACK!");
         back.style().height(400);
-
-        return root;
     }
 
     //##################################################

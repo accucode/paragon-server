@@ -53,7 +53,7 @@ public class MyMonitorServletJdbcQueryCommand
         finally
         {
             if ( tool != null )
-                tool.close();
+                tool.closeSafely();
         }
     }
 

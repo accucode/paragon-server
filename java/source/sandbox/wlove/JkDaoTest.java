@@ -213,16 +213,6 @@ public class JkDaoTest
         return u;
     }
 
-    private MyUser findRootUser()
-    {
-        return getAccess().getUserDao().findRoot();
-    }
-
-    private MyAccount findRootAccount()
-    {
-        return getAccess().getAccountDao().findRoot();
-    }
-
     private KmList<MyAccount> findAccounts(String name)
     {
         return getAccess().getAccountDao().findName(name);

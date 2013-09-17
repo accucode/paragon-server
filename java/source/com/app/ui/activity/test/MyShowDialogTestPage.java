@@ -35,10 +35,8 @@ public class MyShowDialogTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         installDialog(root);
@@ -49,8 +47,6 @@ public class MyShowDialogTestPage
         ScBox body;
         body = group.addPad();
         body.addButton("Show Dialog", newOpenAction());
-
-        return root;
     }
 
     private void installDialog(ScBox root)

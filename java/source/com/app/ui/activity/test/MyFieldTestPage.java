@@ -19,6 +19,7 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.servlet.field.ScListField;
 import com.kodemore.servlet.field.ScLongField;
+import com.kodemore.servlet.field.ScRadioField;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.model.MyUser;
@@ -55,6 +56,9 @@ public class MyFieldTestPage
     private ScAutoCompleteField _autoCompleteField;
     private ScDropdown          _dropdown;
     private ScCheckboxField     _checkboxField;
+    private ScRadioField        _radio1Field;
+    private ScRadioField        _radio2Field;
+    private ScRadioField        _radio3Field;
     private ScListField         _listField;
 
     //##################################################
@@ -62,16 +66,12 @@ public class MyFieldTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         installFieldGroup(root);
         installFieldsets(root);
-
-        return root;
     }
 
     private void installFieldGroup(ScBox root)
@@ -116,6 +116,21 @@ public class MyFieldTestPage
         _checkboxField = new ScCheckboxField();
         _checkboxField.setLabel("Checkbox");
 
+        _radio1Field = new ScRadioField();
+        _radio1Field.setLabel("Radio1");
+        _radio1Field.setValue("Radio1");
+        _radio1Field.setHtmlName("radioField");
+
+        _radio2Field = new ScRadioField();
+        _radio2Field.setLabel("Radio2");
+        _radio2Field.setValue("Radio2");
+        _radio2Field.setHtmlName("radioField");
+
+        _radio3Field = new ScRadioField();
+        _radio3Field.setLabel("Radio3");
+        _radio3Field.setValue("Radio3");
+        _radio3Field.setHtmlName("radioField");
+
         _listField = new ScListField();
         _listField.setLabel("List");
         _listField.addOption("1", "one");
@@ -145,6 +160,11 @@ public class MyFieldTestPage
         fields.add(_autoCompleteField);
         fields.add(_dropdown);
         fields.add(_checkboxField);
+        fields.addSpace();
+        fields.add(_radio1Field);
+        fields.add(_radio2Field);
+        fields.add(_radio3Field);
+        fields.addSpace();
         fields.add(_listField);
 
         group.addDivider();
@@ -253,6 +273,16 @@ public class MyFieldTestPage
         ajax().hideAllErrors();
 
         _fieldGroup.validate();
+
+        
+        if ( _radio1Field.isChecked() )
+            ajax().toast(_radio1Field.getValue());
+
+        if ( _radio2Field.isChecked() )
+            ajax().toast(_radio2Field.getValue());
+
+        if ( _radio3Field.isChecked() )
+            ajax().toast(_radio3Field.getValue());
 
         ajax().toast("Ok").success();
     }

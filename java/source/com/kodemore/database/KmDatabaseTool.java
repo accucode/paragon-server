@@ -97,7 +97,7 @@ public class KmDatabaseTool
         }
     }
 
-    public void close()
+    public void closeSafely()
     {
         try
         {

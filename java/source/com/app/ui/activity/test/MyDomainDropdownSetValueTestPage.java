@@ -42,10 +42,8 @@ public class MyDomainDropdownSetValueTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().gap();
 
         installDialog(root);
@@ -79,8 +77,6 @@ public class MyDomainDropdownSetValueTestPage
         group = root.addGroup("Updated Dropdown");
         fields = group.addPad().addFields();
         fields.add(_toDropdown);
-
-        return root;
     }
 
     private void installDialog(ScBox root)

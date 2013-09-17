@@ -26,6 +26,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.exception.error.KmDatabaseLockError;
 import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.utility.KmGeneralError;
+import com.kodemore.utility.Kmu;
 
 /**
  * I am used to politely abort the current thread, notifing
@@ -91,6 +92,11 @@ public class KmApplicationException
     public String getMessage()
     {
         return formatMultiLineMessage();
+    }
+
+    public boolean hasMessage()
+    {
+        return Kmu.hasValue(getMessage());
     }
 
     /**

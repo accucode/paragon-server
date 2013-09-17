@@ -36,4 +36,14 @@ public class MyUserTools
         return e;
     }
 
+    public ScDropdown newUserRoleDropdown()
+    {
+        ScDropdown e;
+        e = new ScDropdown();
+        e.setLabel("Role");
+        e.setValueAdaptor(Meta.RoleCode);
+        e.addOptions(MyUserRole.values());
+        return e;
+    }
+
 }

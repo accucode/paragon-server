@@ -38,12 +38,9 @@ public class MyTimeoutPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
         String href = MyUrls.getEntryUrl();
-
-        ScPageRoot root;
-        root = newPageRoot();
 
         ScForm form;
         form = root.addForm();
@@ -61,7 +58,5 @@ public class MyTimeoutPage
         button = buttons.addGeneralButton();
         button.setText("Login >>");
         button.setHref(href);
-
-        return root;
     }
 }

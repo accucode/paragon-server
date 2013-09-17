@@ -28,10 +28,8 @@ public class MySlowTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
-        ScPageRoot root;
-        root = newPageRoot();
         root.css().pad();
 
         ScGroup group;
@@ -63,8 +61,6 @@ public class MySlowTestPage
         buttons.add(newButton(2000));
         buttons.add(newButton(5000));
         buttons.add(newButton(10000));
-
-        return root;
     }
 
     private ScButton newButton(int ms)

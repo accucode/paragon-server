@@ -35,15 +35,12 @@ public class MyPlaceholderTestPage
     //##################################################
 
     @Override
-    protected ScPageRoot installRoot()
+    protected void installRoot(ScPageRoot root)
     {
         _textField = new ScTextField();
         _textField.setLabel("Field");
         _textField.setPlaceholder("Enter a name");
         _textField.css().padLeft5();
-
-        ScPageRoot root;
-        root = newPageRoot();
 
         ScForm form;
         form = root.addForm();
@@ -60,8 +57,6 @@ public class MyPlaceholderTestPage
         box.addFields().add(_textField);
         group.addDivider();
         group.addButtonBox().addSubmitButton();
-
-        return root;
     }
 
     //##################################################
