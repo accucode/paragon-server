@@ -113,11 +113,18 @@ public interface KmCssDefaultConstantsIF
     String borderBlack = "borderBlack";
     String borderBlue = "borderBlue";
     String borderCollapse = "borderCollapse";
+    String borderDashed = "borderDashed";
+    String borderDotted = "borderDotted";
+    String borderDouble = "borderDouble";
     String borderGray = "borderGray";
     String borderGreen = "borderGreen";
+    String borderGroove = "borderGroove";
+    String borderInset = "borderInset";
     String borderNone = "borderNone";
+    String borderOutset = "borderOutset";
     String borderPurple = "borderPurple";
     String borderRed = "borderRed";
+    String borderRidge = "borderRidge";
     String borderRounded = "borderRounded";
     String borderRounded10 = "borderRounded10";
     String borderRoundedBottom = "borderRoundedBottom";
@@ -125,6 +132,7 @@ public interface KmCssDefaultConstantsIF
     String borderRoundedTop = "borderRoundedTop";
     String borderRoundedTop10 = "borderRoundedTop10";
     String borderSeparate = "borderSeparate";
+    String borderSolid = "borderSolid";
     String bottom = "bottom";
     String box = "box";
     String boxBlue = "boxBlue";
@@ -159,6 +167,7 @@ public interface KmCssDefaultConstantsIF
     String displayBlock = "displayBlock";
     String displayInline = "displayInline";
     String displayNone = "displayNone";
+    String dragHandle = "dragHandle";
     String filler = "filler";
     String floatLeft = "floatLeft";
     String floatLeftChildren = "floatLeftChildren";
@@ -252,6 +261,7 @@ public interface KmCssDefaultConstantsIF
     String pad0 = "pad0";
     String pad10 = "pad10";
     String pad20 = "pad20";
+    String pad3 = "pad3";
     String pad30 = "pad30";
     String pad5 = "pad5";
     String pad50 = "pad50";
@@ -320,6 +330,11 @@ public interface KmCssDefaultConstantsIF
     String width500 = "width500";
     String width50p = "width50p";
     String widthFull = "widthFull";
+    String wordBreakAll = "wordBreakAll";
+    String wordBreakKeep = "wordBreakKeep";
+    String wordBreakNormal = "wordBreakNormal";
+    String wordWrapBreak = "wordWrapBreak";
+    String wordWrapNormal = "wordWrapNormal";
     String button = "button";
     String button_element_default = "button-element-default";
     String button_element_disabled = "button-element-disabled";

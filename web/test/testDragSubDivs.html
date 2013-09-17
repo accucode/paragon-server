@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').fadeIn();
+        }
+        
+        function fSortable()
+        {
+            $('#sortable').sortable();
+            Kmu.toast('sortable');
+        }
+        
+        function fEnableSelection()
+        {
+            $('#sortable').enableSelection();
+            Kmu.toast('enableSelection');
+        }
+        
+        function fDisableSelection()
+        {
+            $("#sortable").disableSelection();
+            Kmu.toast("disableSelection");
+        }
+        
+        function fEnable()
+        {
+            $("#sortable").sortable("enable");
+            Kmu.toast("enable");
+        }
+        
+        function fDisable()
+        {
+            $("#sortable").sortable("disable");
+            Kmu.toast("disable");
+        }
+        
+        function fRegisterUpdate()
+        {
+            $("#sortable").sortable(
+            {
+                update: function(ev, ui) 
+                {
+                    Kmu.toast("Updated");
+                }
+            });
+            Kmu.toast("register update");
+        }
+        
+    </script>
+
+    <style type="text/css">
+        li
+        {
+            vertical-align: middle;
+            height: 30px;
+        }
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id='main' style='display:none' class='gap'>
+
+    <div class='boxGreen pad'>
+        Drag divs within a parent div.
+    </div>
+    
+    
+    <div class='boxBlue gap'>
+        <div>
+            <button onclick='fSortable();'>Sortable</button>
+            <button onclick='fEnable();'>Enable</button>
+            <button onclick='fDisable();'>Disable</button>
+            <button onclick='fEnableSelection();'>Enable Selection</button>
+            <button onclick='fDisableSelection();'>Disable Selection</button>
+            <button onclick='fRegisterUpdate();'>Register Update</button>
+        </div>
+        <br>
+                
+        <div id="sortable">
+          <div class='boxGray pad'><span>aaaaa</span></div>
+          <div class='boxGray pad'><span>bbbbb</span></div>
+          <div class='boxGray pad'><span>ccccc</span></div>
+          <div class='boxGray pad'><span>ddddd</span></div>
+          <div class='boxGray pad'><span>eeeee</span></div>
+        </div>    
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+    
+    
+    <script type="text/javascript">
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').fadeIn();
+            mySetupDraggable();
+            myAccordion();
+        }
+        
+        function mySetupDraggable()
+        {
+            $("#draggable").sortable(
+            {
+                handle: ".dragHandle",
+                update: function(event, ui) 
+                {
+                     var s = Kmu.formatAttributesFor('#draggable > li', 'id');
+                     Kmu.toast(s);
+                }
+            });
+        }
+        
+        function myAccordion()
+        {
+            $("#draggable").accordion();
+        }
+        
+    </script>
+    
+    <style type="text/css">
+        .dragHandle
+        {
+            cursor: move;
+            width: 50px;
+            border: thin solid #aaa;
+            background-color: #ccc;
+        }
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id='main' style='display:none' class='gap'>
+
+    <div class='boxGreen pad'>
+        Use foo labels to drag and expand.
+    </div>
+    
+    
+    <div class='boxBlue gap'>
+        <br>
+                
+        <ul id="draggable">
+        
+          <li id='foo1' class='boxGray pad'>
+            <div class='dragHandle'><p>foo1</p></div>
+            <p>aaaaa</p>
+          </li>
+          
+          <li id='foo2' class='boxGray pad'>
+             <div class='dragHandle'><p>foo2</p></div>
+             <p>bbbbb</p>
+          </li>
+          
+          <li id='foo3' class='boxGray pad'>
+             <div class='dragHandle'><p>foo3</p></div>
+             <p>ccccc</p>
+          </li>
+          
+          <li id='foo4' class='boxGray pad'>
+             <div class='dragHandle'><p>foo4</p></div>
+             <p>ddddd</p>
+          </li>
+          
+          <li id='foo5' class='boxGray pad'>
+             <div class='dragHandle'><p>foo5</p></div>
+             <p>eeeee</p>
+          </li>
+          
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

@@ -595,6 +595,21 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.borderCollapse);
     }
     
+    public KmCssDefaultBuilder borderDashed()
+    {
+        return apply(KmCssDefaultConstantsIF.borderDashed);
+    }
+    
+    public KmCssDefaultBuilder borderDotted()
+    {
+        return apply(KmCssDefaultConstantsIF.borderDotted);
+    }
+    
+    public KmCssDefaultBuilder borderDouble()
+    {
+        return apply(KmCssDefaultConstantsIF.borderDouble);
+    }
+    
     public KmCssDefaultBuilder borderGray()
     {
         return apply(KmCssDefaultConstantsIF.borderGray);
@@ -605,9 +620,24 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.borderGreen);
     }
     
+    public KmCssDefaultBuilder borderGroove()
+    {
+        return apply(KmCssDefaultConstantsIF.borderGroove);
+    }
+    
+    public KmCssDefaultBuilder borderInset()
+    {
+        return apply(KmCssDefaultConstantsIF.borderInset);
+    }
+    
     public KmCssDefaultBuilder borderNone()
     {
         return apply(KmCssDefaultConstantsIF.borderNone);
+    }
+    
+    public KmCssDefaultBuilder borderOutset()
+    {
+        return apply(KmCssDefaultConstantsIF.borderOutset);
     }
     
     public KmCssDefaultBuilder borderPurple()
@@ -618,6 +648,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder borderRed()
     {
         return apply(KmCssDefaultConstantsIF.borderRed);
+    }
+    
+    public KmCssDefaultBuilder borderRidge()
+    {
+        return apply(KmCssDefaultConstantsIF.borderRidge);
     }
     
     public KmCssDefaultBuilder borderRounded()
@@ -653,6 +688,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder borderSeparate()
     {
         return apply(KmCssDefaultConstantsIF.borderSeparate);
+    }
+    
+    public KmCssDefaultBuilder borderSolid()
+    {
+        return apply(KmCssDefaultConstantsIF.borderSolid);
     }
     
     public KmCssDefaultBuilder bottom()
@@ -823,6 +863,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder displayNone()
     {
         return apply(KmCssDefaultConstantsIF.displayNone);
+    }
+    
+    public KmCssDefaultBuilder dragHandle()
+    {
+        return apply(KmCssDefaultConstantsIF.dragHandle);
     }
     
     public KmCssDefaultBuilder filler()
@@ -1290,6 +1335,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.pad20);
     }
     
+    public KmCssDefaultBuilder pad3()
+    {
+        return apply(KmCssDefaultConstantsIF.pad3);
+    }
+    
     public KmCssDefaultBuilder pad30()
     {
         return apply(KmCssDefaultConstantsIF.pad30);
@@ -1628,6 +1678,31 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder widthFull()
     {
         return apply(KmCssDefaultConstantsIF.widthFull);
+    }
+    
+    public KmCssDefaultBuilder wordBreakAll()
+    {
+        return apply(KmCssDefaultConstantsIF.wordBreakAll);
+    }
+    
+    public KmCssDefaultBuilder wordBreakKeep()
+    {
+        return apply(KmCssDefaultConstantsIF.wordBreakKeep);
+    }
+    
+    public KmCssDefaultBuilder wordBreakNormal()
+    {
+        return apply(KmCssDefaultConstantsIF.wordBreakNormal);
+    }
+    
+    public KmCssDefaultBuilder wordWrapBreak()
+    {
+        return apply(KmCssDefaultConstantsIF.wordWrapBreak);
+    }
+    
+    public KmCssDefaultBuilder wordWrapNormal()
+    {
+        return apply(KmCssDefaultConstantsIF.wordWrapNormal);
     }
     
     public KmCssDefaultBuilder button()

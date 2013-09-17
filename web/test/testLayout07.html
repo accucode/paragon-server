@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="">
+
+    <div class="boxGray gap">
+        <p>
+        	Test left and right floats.  Show the use of clear:left
+        	and clear:right.  Also demonstrates the use of clearfix
+        	with the re-flowed text in the green boxes.  Try resizing
+        	the browser window to see how the width affects the layout.
+       	</p>
+        <button onclick="location.reload();">reload</button>
+    </div>
+
+    <div class="boxPurple pad clearBoth">
+        <p>clear both</p>
+    </div>
+    
+    <div class="boxBlue floatLeft pad">
+        <p>1) float left</p>
+        <p>1) float left</p>
+        <p>1) float left</p>
+    </div>
+    
+    <div class="boxBlue pad floatLeft">
+        <p>2) float left</p>
+        <p>2) float left</p>
+        <p>2) float left</p>
+    </div>
+
+    <div class="boxBlue pad floatRight">
+        <p>3) float right</p>
+        <p>3) float right</p>
+        <p>3) float right</p>
+        <p>3) float right</p>
+        <p>3) float right</p>
+        <p>3) float right</p>
+    </div>
+
+    <div class="boxBlue pad floatLeft clearLeft">
+        <p>4) <b>clear left</b></p>
+        <p>4) float left</p>
+        <p>4) float left</p>
+        <p>4) float left</p>
+    </div>
+
+    <div class="boxBlue pad floatRight clearRight">
+        <p>5) <b>clear right</b></p>
+        <p>5) float right</p>
+        <p>5) float right</p>
+        <p>5) float right</p>
+        <p>5) float right</p>
+        <p>5) float right</p>
+        <p>5) float right</p>
+    </div>
+
+    <p class="boxGreen">
+    	<b>without clearfix</b><br>
+    	This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test.
+    </p>
+
+    <div class="boxPurple pad clearBoth">
+        <p>clear both</p>
+    </div>
+
+    <div class="boxBlue floatLeft pad">
+        <p>1) float left</p>
+        <p>1) float left</p>
+        <p>1) float left</p>
+    </div>
+    
+    <div class="boxBlue pad floatLeft">
+        <p>2) float left</p>
+        <p>2) float left</p>
+        <p>2) float left</p>
+    </div>
+
+    <div class="boxBlue pad floatRight">
+        <p>3) float right</p>
+        <p>3) float right</p>
+        <p>3) float right</p>
+        <p>3) float right</p>
+        <p>3) float right</p>
+        <p>3) float right</p>
+    </div>
+
+    <div class="boxBlue pad floatLeft clearLeft">
+        <p>4) <b>clear left</b></p>
+        <p>4) float left</p>
+        <p>4) float left</p>
+        <p>4) float left</p>
+    </div>
+
+    <div class="boxBlue pad floatRight clearRight">
+        <p>5) <b>clear right</b></p>
+        <p>5) float right</p>
+        <p>5) float right</p>
+        <p>5) float right</p>
+        <p>5) float right</p>
+        <p>5) float right</p>
+        <p>5) float right</p>
+    </div>
+
+    <p class="boxGreen clearfix">
+    	<b>clearfix</b><br>
+    	This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test. This is a test.
+    </p>
+
+    <div class="boxPurple pad clearBoth">
+        <p>clear both</p>
+    </div>
+
+
+</div>
+</body>
+</html>

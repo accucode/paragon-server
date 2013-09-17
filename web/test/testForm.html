@@ -20,6 +20,13 @@
         function myInstall()
         {
             Kmu.show('#main');
+            myRadioClick();
+        }
+        
+        function myRadioClick()
+        {
+            var s = $('input[name=group]:checked', '#form').val();
+            Kmu.toast(s);
         }
         
     </script>
@@ -59,9 +66,9 @@
 </head>
 
 <body onload="myLoad()">
-<div id="main" style="display:none" class="padSpaced10">
+<div id="main" style="display:none" class="gap10">
 
-    <form class="boxBlue padSpaced10">
+    <form class="boxBlue gap10">
         <p>Some text in a form.</p>
         
         <p>Styling can be applied directly to the form (the blue box).
@@ -71,7 +78,7 @@
 
     </form>
     
-    <form class="boxGray padSpaced10 clearfix">
+    <form class="boxGray gap10 clearfix" id="form">
 
         <div>
             Another form with samples of various input elements.
@@ -100,9 +107,9 @@
 
         
         <div>
-            <p><input type="radio" name="group" checked> Radio 1</p>
-            <p><input type="radio" name="group"> Radio 2</p>
-            <p><input type="radio" name="group"> Radio 3</p>
+            <p><input type="radio" name="group" value="radio1" checked> Radio 1</p>
+            <p><input type="radio" name="group" value="radio2"> Radio 2</p>
+            <p><input type="radio" name="group" value="radio3"> Radio 3</p>
         </div>
 
         <div>
@@ -140,6 +147,9 @@
                 Disabled
             </button>
             
+             <button type="button" class="button button-element-default" onclick="myRadioClick();">
+                Radio
+            </button>
         </div>
         
     </form>

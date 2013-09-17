@@ -89,6 +89,15 @@
 .borderGray     { border: 1px solid gray;   }
 .borderPurple   { border: 1px solid purple; }
 
+.borderDotted   { border: 1px dotted black; }
+.borderDashed   { border: 1px dashed black; }
+.borderSolid    { border: 1px solid black;  }
+.borderDouble   { border: 3px double gray; }
+.borderGroove   { border: 3px groove gray; }
+.borderRidge    { border: 3px ridge gray;  }
+.borderInset    { border: 3px inset gray;  }
+.borderOutset   { border: 3px outset gray; }
+
 /*******************************************************************
  ** border collapse
  *******************************************************************/
@@ -161,7 +170,8 @@
 .pad        { padding: 10px;        }
 .smallPad   { padding: 5px;         }
 
-.pad0       { padding: 0;           }
+.pad0       { padding: 0px;         }
+.pad3       { padding: 3px;         }
 .pad5       { padding: 5px;         }
 .pad10      { padding: 10px;        }
 .pad20      { padding: 20px;        }
@@ -381,6 +391,17 @@
 .whiteSpaceNormal   { white-space: normal;  }
 
 /*******************************************************************
+ ** words
+ *******************************************************************/
+ 
+.wordWrapNormal     { word-wrap: normal;        }
+.wordWrapBreak      { word-wrap: break-word;    }
+
+.wordBreakNormal    { word-break: normal;       }
+.wordBreakAll       { word-break: break-all;    }
+.wordBreakKeep      { word-break: keep-all;     }
+
+/*******************************************************************
  ** color
  *******************************************************************/
 
@@ -551,4 +572,10 @@
     background-color: sandybrown;
 }
 
-
+/*******************************************************************
+ ** dragging
+ *******************************************************************/
+ 
+.dragHandle
+{
+}

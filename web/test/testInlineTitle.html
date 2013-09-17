@@ -108,7 +108,7 @@
         }
         .myInlineTitleActive
         {
-            color: gray;
+            color: grey;
         }
 
         .myInput
@@ -127,9 +127,17 @@
 </head>
 
 <body onload="myLoad()">
-<div id="main" style="display:none" class="padSpaced10">
+<div id="main" style="display:none" class="gap10">
 
-    <div class="boxGray padSpaced10">
+    <div class="boxRed gap10" title="Warning">
+    
+        <p>An easier way to accomplish nearly the same thing is to use placeholder.
+            The placeholder shows a hint until the user enters a value.
+            </p>
+        
+    </div> 
+    
+    <div class="boxGray gap10">
     
         <p>It has become more popular to display a field's title (aka label)
             within the field itself.
@@ -139,10 +147,15 @@
             display an example value for fields that do not receive default
             focus.
             </p>
+            
+        <p>All fields upon install and on blur: set css to input, set value, set text color to grey.
+            </br>
+            All fields on focus: remove css, remove value.
+            </p>
              
     </div> 
 
-    <form class="boxBlue padSpaced10">
+    <form class="boxBlue gap10">
         <p><input id="name"  name="name"  type="text" class="myInput" title="Name" /></p>
         <p><input id="phone" name="phone" type="text" class="myInput" title="Phone"></p>
         <p><input id="email" name="email" type="text" class="myInput" title="Email"></p>

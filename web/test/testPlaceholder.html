@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+
+        function myClear()
+        {
+            $(":input").val('');
+        }
+        
+    </script>
+
+    <style type="text/css">
+
+        .myInput
+        {
+            padding: 2px;
+            width: 200px;
+        }
+        .myInput:focus
+        {
+            color: #000;
+            background-color: yellow;
+        } 
+        
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="gap10">
+
+    <div class="boxRed gap10">
+    
+        <p>Note: The placeholder attribute of the input tag is 
+            not supported in Internet Explorer 9 and earlier versions.
+            </p>
+        
+    </div> 
+    
+    <div class="boxGray gap10">
+    
+        <p>A short hint is displayed in an input field before the user enters a value.
+            </p>
+            
+        <p>The testInlineTitle.html shows an example of a hint before focus is given to a field.
+            </p>
+        
+    </div> 
+
+    <form class="boxBlue gap10">
+        <p><input id="name"  name="name"  type="text" class="myInput" placeholder="Name"></p>
+        <p><input id="phone" name="phone" type="text" class="myInput" placeholder="Phone"></p>
+        <p><input id="email" name="email" type="text" class="myInput" placeholder="Email"></p>
+        <p><button type="button" onclick="myClear();">Clear</button></p>
+    </form>
+    
+</div>
+</body>
+</html>

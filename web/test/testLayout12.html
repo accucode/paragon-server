@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+    </script>
+
+    <style type="text/css">
+        .myTable
+        {
+            border: thin solid yellow;
+        }
+        .myTable td
+        {
+            padding: 3px;
+        }
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="">
+
+    <div class="boxGreen gap">
+        <p>Test explicitly sized gaps.</p>
+        <button onclick="location.reload();">reload</button>
+    </div>
+
+    <div class='boxBrown pad clearfix'>
+        <p>The following demonstrate horizontal spacers of specific sizes.</p>
+        <p>Note that the use of non-breaking-spaces.</p>
+        
+        <div class='boxBlue floatLeft'>no spacer...</div>
+        
+        <div class='boxBlue floatLeft'>spacer 0...</div>
+        <div class='floatLeft' style='width:0px'>&nbsp;</div>
+        
+        <div class='boxBlue floatLeft'>spacer 1...</div>
+        <div class='floatLeft' style='width:1px'>&nbsp;</div>
+        
+        <div class='boxBlue floatLeft'>spacer 2...</div>
+        <div class='floatLeft' style='width:2px'>&nbsp;</div>
+        
+        <div class='boxBlue floatLeft'>spacer 5...</div>
+        <div class='floatLeft' style='width:5px'>&nbsp;</div>
+        
+        <div class='boxBlue floatLeft'>spacer 10...</div>
+        <div class='floatLeft' style='width:10px'>&nbsp;</div>
+        
+        <div class='boxBlue floatLeft'>end.</div>
+    </div>
+
+    <div class='boxBrown pad clearfix'>
+        <p>In many cases, we can simply use the margin instead.</p>
+        <p>Using the margin creates a simpler layout.</p>
+        <p>However, parent's often apply margins to their children.</p>
+        
+        <div class='boxBlue floatLeft'>no margin...</div>
+        <div class='boxBlue floatLeft' style='margin-right:0px;'>margin 0...</div>
+        <div class='boxBlue floatLeft' style='margin-right:1px;'>margin 1...</div>
+        <div class='boxBlue floatLeft' style='margin-right:2px;'>margin 2...</div>
+        <div class='boxBlue floatLeft' style='margin-right:5px;'>margin 5...</div>
+        <div class='boxBlue floatLeft' style='margin-right:10px;'>margin 10...</div>
+        <div class='boxBlue floatLeft'>end.</div>
+    </div>
+
+
+</div>    
+</body>
+</html>
