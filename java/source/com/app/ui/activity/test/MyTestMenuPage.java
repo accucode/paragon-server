@@ -70,7 +70,6 @@ public class MyTestMenuPage
         links.addLink(MyGoogleChartTestPage.instance);
         links.addLink(MyGridTestPage.instance);
         links.addLink(MyDropzoneTestPage.instance);
-        links.addLink(MyChosenTestPage.instance);
         links.addLink(MyRadioButtonTestPage.instance);
 
         group = groups.addGroup("Misc");

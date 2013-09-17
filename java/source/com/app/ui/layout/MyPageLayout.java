@@ -362,7 +362,7 @@ public class MyPageLayout
 
         if ( u == null )
         {
-            _dropdown.ajax().hide();
+            _dropdown.ajaxHide();
             return;
         }
 
@@ -379,15 +379,17 @@ public class MyPageLayout
             return;
         }
 
-        setDropdownOptions();
-        _dropdown.ajax().replace();
+        ajaxSetDropdownOptions();
         setServerSessionAccount();
-        _dropdown.ajax().show();
+        _dropdown.ajaxShow();
+        _dropdown.ajaxRefreshBootstrap();
     }
 
-    private void setDropdownOptions()
+    private void ajaxSetDropdownOptions()
     {
         KmList<ScOption> list = getDropdownList();
+
+        _dropdown.clearOptions();
 
         if ( list.isEmpty() )
         {
@@ -395,10 +397,8 @@ public class MyPageLayout
             return;
         }
 
-        for ( ScOption e : list )
-            _dropdown.addOption(e.getValue(), e.getText());
-
-        _dropdown.setValue(list.getFirst().getValue());
+        _dropdown.setOptions(list);
+        _dropdown.ajaxUpdateOptions();
     }
 
     //==================================================

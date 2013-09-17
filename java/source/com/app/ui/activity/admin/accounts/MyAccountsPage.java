@@ -262,7 +262,6 @@ public class MyAccountsPage
         _editAccountNameField.setLabel("Name ");
 
         _editTypeDropdown = MyAccount.Tools.newTypeDropdown();
-        _editTypeDropdown.setLabel("Type ");
 
         ScActionIF saveAction = newEditAccountSaveAction();
         ScActionIF cancelAction = newEditAccountCancelAction();
@@ -313,7 +312,6 @@ public class MyAccountsPage
         _addAccountNameField.setLabel("Name ");
 
         _addAccountTypeDropdown = MyAccount.Tools.newTypeDropdown();
-        _addAccountTypeDropdown.setLabel("Type ");
 
         ScFieldTable fields;
         fields = group.addPad().addFields();

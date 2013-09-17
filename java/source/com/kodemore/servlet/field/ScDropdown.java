@@ -60,7 +60,7 @@ public class ScDropdown
     //# constants
     //##################################################//
 
-    private static final boolean USE_CHOOSER = false;
+    private static final boolean USE_BOOTSTRAP_SELECT = true;
 
     //##################################################
     //# variables
@@ -90,16 +90,10 @@ public class ScDropdown
     private ScActionIF           _onChangeAction;
 
     /**
-     * Enabling this option will cause the field to be rendered
-     * using the "Chosen" jquery utility.  This provides a much
-     * more elegant dropdown.  However, the Chosen utility currently
-     * does NOT play nicely with the DOM if either the dropdown is
-     * ever hidden.  For this reason we are currently not enabling
-     * it by default. 
-     * 
-     * http://harvesthq.github.io/chosen/
+     * If true, dropdowns will be rendered using the boostrap
+     * select library.
      */
-    private ScLocalBoolean       _usesChosen;
+    private ScLocalBoolean       _usesBootstrapSelect;
 
     //##################################################
     //# init
@@ -120,7 +114,7 @@ public class ScDropdown
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
 
-        _usesChosen = new ScLocalBoolean(USE_CHOOSER);
+        _usesBootstrapSelect = new ScLocalBoolean(USE_BOOTSTRAP_SELECT);
     }
 
     //##################################################
@@ -169,22 +163,22 @@ public class ScDropdown
     }
 
     //##################################################
-    //# chosen
+    //# bootstrap select
     //##################################################
 
-    public boolean usesChosen()
+    public boolean usesBootstrapSelect()
     {
-        return _usesChosen.getValue();
+        return _usesBootstrapSelect.getValue();
     }
 
-    public void setUsesChosen(boolean e)
+    public void setUsesBootstrapSelect(boolean e)
     {
-        _usesChosen.setValue(e);
+        _usesBootstrapSelect.setValue(e);
     }
 
-    public void setUsesChosen()
+    public void setUsesBootstrapSelect()
     {
-        setUsesChosen(true);
+        setUsesBootstrapSelect(true);
     }
 
     //##################################################
@@ -338,41 +332,8 @@ public class ScDropdown
 
         out.end("select");
 
-        if ( usesChosen() )
-            out.getPostRender().run(formatChosenScript());
-    }
-
-    private String formatChosenScript()
-    {
-        Integer disableSearchThreshold = getDisableSearchThreshold();
-        String noResultsText = getNoResultsFoundText();
-
-        KmJsonObject options;
-        options = new KmJsonObject();
-
-        if ( disableSearchThreshold != null )
-            options.setInteger("disable_search_threshold", disableSearchThreshold);
-
-        if ( noResultsText != null )
-            options.setString("no_results_text", noResultsText);
-
-        return Kmu.format("%s.chosen(%s);", formatJqueryReference(), options);
-    }
-
-    /**
-     * don't show search if below this many options
-     */
-    private Integer getDisableSearchThreshold()
-    {
-        return null;
-    }
-
-    /**
-     * text to show when nothing is found in search
-     */
-    private String getNoResultsFoundText()
-    {
-        return null;
+        if ( usesBootstrapSelect() )
+            out.getPostRender().run(formatBootstrapSelectScript());
     }
 
     @Override
@@ -380,9 +341,15 @@ public class ScDropdown
     {
         super.renderAttributesOn(out);
 
-        out.printAttribute("size", 1);
-        out.printAttribute(formatCss());
-        out.printAttribute(formatStyle());
+        if ( usesBootstrapSelect() )
+            renderBootstrapAttributesOn(out);
+        else
+        {
+            out.printAttribute("size", 1);
+            out.printAttribute(formatCss());
+            out.printAttribute(formatStyle());
+        }
+
         out.printAttribute("onchange", formatOnChange());
 
         if ( isDisabled() )
@@ -420,6 +387,57 @@ public class ScDropdown
             out.print(e.getText());
             out.end("option");
         }
+    }
+
+    //##################################################
+    //# bootstrap select
+    //##################################################
+
+    private String formatBootstrapSelectScript()
+    {
+        return Kmu.format("%s.selectpicker();", formatJqueryReference());
+    }
+
+    private void renderBootstrapAttributesOn(KmHtmlBuilder out)
+    {
+        out.printAttribute("data-width", "auto");
+
+        if ( showTickMark() )
+            out.printAttribute("class", "show-tick");
+
+        if ( showSearchField() )
+            out.printAttribute("data-live-search", "true");
+    }
+
+    /**
+     * If true, the search field will be displayed at the top of the dropdown. 
+     */
+    private boolean showSearchField()
+    {
+        return false;
+    }
+
+    /**
+     * If true, a check icon will be displayed next to the selected item. 
+     */
+    private boolean showTickMark()
+    {
+        return true;
+    }
+
+    private String formatBootstrapSelectHideScript()
+    {
+        return Kmu.format("%s.selectpicker('hide');", formatJqueryReference());
+    }
+
+    private String formatBootstrapSelectShowScript()
+    {
+        return Kmu.format("%s.selectpicker('show');", formatJqueryReference());
+    }
+
+    private String formatBootstrapSelectRefreshScript()
+    {
+        return Kmu.format("%s.selectpicker('refresh');", formatJqueryReference());
     }
 
     //##################################################
@@ -561,6 +579,11 @@ public class ScDropdown
     public void setOptions(List<?> v)
     {
         _options.set(v, _optionValueAdaptor.getValue(), _optionLabelAdaptor.getValue());
+    }
+
+    public void setOptions(KmList<ScOption> v)
+    {
+        _options._setValue(v);
     }
 
     public ScOption getOption(Object value)
@@ -759,6 +782,21 @@ public class ScDropdown
         ajax().run("Kmu.setSelectOptions(%s,%s);", json(formatJquerySelector()), options);
     }
 
+    public void ajaxSetOptions(KmList<ScOption> options)
+    {
+        ajaxSetOptions(getJsonListFrom(options));
+    }
+
+    public void ajaxUpdateOptions()
+    {
+        KmList<ScOption> options;
+        options = new KmList<ScOption>();
+        options.addAll(getPrefixes());
+        options.addAll(getOptions());
+
+        ajaxSetOptions(options);
+    }
+
     public void ajaxAddOption(String text, Object value)
     {
         String encoded = encode(value);
@@ -774,4 +812,42 @@ public class ScDropdown
         ajax().run("Kmu.clearSelectOptions(%s);", json(formatJquerySelector()));
     }
 
+    public void ajaxHide()
+    {
+        ajax().run(formatBootstrapSelectHideScript());
+    }
+
+    public void ajaxShow()
+    {
+        ajax().run(formatBootstrapSelectShowScript());
+    }
+
+    public void ajaxRefreshBootstrap()
+    {
+        ajax().run(formatBootstrapSelectRefreshScript());
+    }
+
+    //##################################################
+    //# utility
+    //##################################################
+
+    private KmJsonList getJsonListFrom(KmList<ScOption> v)
+    {
+        KmJsonList e;
+        e = new KmJsonList();
+
+        for ( ScOption option : v )
+            e.addObject(getJsonObjectFrom(option));
+
+        return e;
+    }
+
+    private KmJsonObject getJsonObjectFrom(ScOption e)
+    {
+        KmJsonObject json;
+        json = new KmJsonObject();
+        json.setString("text", e.getText());
+        json.setString("value", encode(e.getValue()));
+        return json;
+    }
 }

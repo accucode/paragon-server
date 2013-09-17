@@ -33,9 +33,11 @@
             $('#mySelect').selectpicker('show');
         }
         
-        function myRender()
+        function myChange()
         {
-            $('#mySelect').selectpicker('render');
+            var sel;
+            sel = $('#mySelect').val();
+            Kmu.toast(sel);
         }
         
     </script>
@@ -51,16 +53,14 @@
     <button onclick='location.reload();'>reload</button>
     <button onclick='myHide();'>hide</button>
     <button onclick='myShow();'>show</button>
-    <button onclick='myRender();'>render</button>
-    <br>
     <br>
     
     <div class='boxBlue gap'>
         <p>
             This is a test of the 'boostrap-select' library for creating fancier select boxes.
             <br>
-            The select box has live search and show tick enabled.  There is also a heart icon
-            by Colorado to demonstrate option specific icons.
+            The select box has live search and show tick enabled.  There are also 2 optgroups,
+            with heart icons in the first group. onchange will fire a toast action.
         </p>
     </div>
     
@@ -69,14 +69,26 @@
         Pick a state:
         <br>
          
-        <select id='mySelect' class='show-tick' data-live-search='true'>
+        <select id='mySelect' class='show-tick' data-live-search='true' onchange='myChange()' style='display: none;'>
             <option></option>
+            
+            <optgroup label="Favorite States">
+            
+            <option value='Colorado' data-icon="icon-heart">Colorado</option> 
+            <option value='Tennessee' data-icon="icon-heart">Tennessee</option>         
+            <option value='Texas' data-icon="icon-heart">Texas</option>        
+            <option value='Washington' data-icon="icon-heart">Washington</option>        
+            
+            </optgroup>
+            
+            <optgroup label="All States">
+            
             <option value='Alabama'>Alabama</option>        
             <option value='Alaska'>Alaska</option>        
             <option value='Arizona'>Arizona</option>        
             <option value='Arkansas'>Arkansas</option>        
-            <option value='California'>California</option>        
-            <option value='Colorado' data-icon="icon-heart">Colorado</option>        
+            <option value='California'>California</option>
+            <option value='Colorado'>Colorado</option>       
             <option value='Connecticut'>Connecticut</option>        
             <option value='Delaware'>Delaware</option>        
             <option value='Florida'>Florida</option>        
@@ -112,15 +124,18 @@
             <option value='Rhode Island'>Rhode Island</option>        
             <option value='South Carolina'>South Carolina</option>        
             <option value='South Dakota'>South Dakota</option>        
-            <option value='Tennessee'>Tennessee</option>        
-            <option value='Texas'>Texas</option>        
+            <option value='Tennessee'>Tennessee</option>  
+            <option value='Texas'>Texas</option>      
             <option value='Utah'>Utah</option>        
             <option value='Vermont'>Vermont</option>        
-            <option value='Virginia'>Virginia</option>        
+            <option value='Virginia'>Virginia</option>
             <option value='Washington'>Washington</option>        
             <option value='West Virginia'>West Virginia</option>        
             <option value='Wisconsin'>Wisconsin</option>        
-            <option value='Wyoming'>Wyoming</option>    
+            <option value='Wyoming'>Wyoming</option>   
+                        
+            </optgroup>
+             
         </select>
         
     </form>

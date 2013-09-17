@@ -53,10 +53,6 @@ var MyResourceLoader =
             // Transit
             "static/{version}/jquery/transit-0.9.9/jquery.transit-0.9.9.min.js",
             
-            // Chosen
-            "static/{version}/jquery/chosen-1.0.0/chosen.min.css",
-            "static/{version}/jquery/chosen-1.0.0/chosen.jquery.min.js",
-            
             // Twitter Bootstrap
             "static/{version}/bootstrap-2.3.2/css/bootstrap.min.css",
             "static/{version}/bootstrap-2.3.2/js/bootstrap.min.js",
