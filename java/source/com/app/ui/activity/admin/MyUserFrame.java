@@ -3,7 +3,6 @@ package com.app.ui.activity.admin;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -26,7 +25,6 @@ public class MyUserFrame
 
     private ScCard     _viewChild;
     private ScCard     _editChild;
-    private ScCard     _addChild;
 
     private ScActionIF _onChangeAction;
 
@@ -41,7 +39,6 @@ public class MyUserFrame
 
         _viewChild = createViewChild();
         _editChild = createEditChild();
-        _addChild = createAddFrame();
     }
 
     private ScCard createViewChild()
@@ -122,43 +119,6 @@ public class MyUserFrame
         return child;
     }
 
-    private ScCard createAddFrame()
-    {
-        MyMetaUser x = MyUser.Meta;
-
-        ScActionIF saveAction = newAddSaveAction();
-        ScActionIF cancelAction = newAddCancelAction();
-
-        ScCard child;
-        child = addCard();
-
-        ScForm form;
-        form = child.addForm();
-        form.setDefaultAction(saveAction);
-        form.onEscape().run(cancelAction);
-
-        ScGroup group;
-        group = form.addGroup("Add");
-
-        ScBox body;
-        body = group.addBox();
-        body.css().pad();
-
-        ScFieldTable fields;
-        fields = body.addFields();
-        fields.addField(x.Email);
-        fields.addField(x.Name);
-
-        group.addDivider();
-
-        ScDiv footer;
-        footer = group.addButtonBoxRight();
-        footer.addCancelButton(cancelAction);
-        footer.addSubmitButton("Save");
-
-        return child;
-    }
-
     //##################################################
     //# actions
     //##################################################
@@ -171,30 +131,6 @@ public class MyUserFrame
             public void handle()
             {
                 handleEdit();
-            }
-        };
-    }
-
-    private ScActionIF newAddSaveAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleAddSave();
-            }
-        };
-    }
-
-    private ScActionIF newAddCancelAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleAddCancel();
             }
         };
     }
@@ -271,28 +207,6 @@ public class MyUserFrame
         fireOnChangeAction();
     }
 
-    private void handleAddCancel()
-    {
-        ajaxClear();
-    }
-
-    private void handleAddSave()
-    {
-        _addChild.ajax().hideAllErrors();
-        _addChild.ajax().focus();
-        _addChild.validate();
-
-        MyUser e;
-        e = new MyUser();
-        e.applyFrom(_addChild);
-        e.saveDao();
-
-        flushDao();
-
-        ajaxPrintViewUser(e);
-        fireOnChangeAction();
-    }
-
     //##################################################
     //# support
     //##################################################
@@ -305,11 +219,6 @@ public class MyUserFrame
     private void setUser(MyUser e)
     {
         getPageSession().setUser(e);
-    }
-
-    private void clearUser()
-    {
-        getPageSession().clearUser();
     }
 
     private void renderView()
@@ -337,12 +246,6 @@ public class MyUserFrame
     {
         setUser(e);
         renderView();
-    }
-
-    public void ajaxPrintAddUser()
-    {
-        clearUser();
-        _addChild.print();
     }
 
 }

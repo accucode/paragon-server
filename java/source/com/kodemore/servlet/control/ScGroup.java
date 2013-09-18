@@ -395,12 +395,6 @@ public class ScGroup
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        /**
-         * review_aaron: Talk with Wyatt:
-         *      Added extra 'group' to class, so groups can be easily targeted for equalize
-         *      Added clearfix to group class to fix bug caused by setting overflow to visible
-         */
-
         out.openDiv();
         out.printAttribute("id", getHtmlId());
         out.printAttribute(formatCss());

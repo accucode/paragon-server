@@ -75,7 +75,6 @@ public class ScFilterBox
 
         _body = _group.addPad();
 
-        // review_aaron: add filler by default above bottom buttons
         _group.addFiller();
         _group.addDivider();
 

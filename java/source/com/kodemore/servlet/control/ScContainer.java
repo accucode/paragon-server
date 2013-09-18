@@ -849,7 +849,6 @@ public abstract class ScContainer
         return e;
     }
 
-    // review_aaron: convenience method for filler
     public ScFiller addFiller()
     {
         return add(new ScFiller());

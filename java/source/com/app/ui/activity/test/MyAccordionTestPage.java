@@ -3,10 +3,6 @@ package com.app.ui.activity.test;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
 
-/**
- * review_wyatt (valerie, aaron)
- * added accordion test page
- */
 public class MyAccordionTestPage
     extends MyTestPage
 {

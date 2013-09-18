@@ -175,10 +175,6 @@ public class MyAccountsPage
         ScBox body;
         body = group.addPadSpaced();
 
-        /**
-         * (steve) should the accountDropdown have a label of some kind?
-         * review_steve (wyatt) yes.
-         */
         body.add(_accountDropdown);
         body.style().padBottom(10);
 
@@ -1573,11 +1569,6 @@ public class MyAccountsPage
         _accountDropdown.clearOptions();
 
         KmList<ScOption> list = getDropdownList();
-
-        /**
-         * ask_valerie if this dropdown should use a label when there's
-         * only one like MyPageLayout uses
-         */
 
         _accountDropdown.setOptions(list);
 

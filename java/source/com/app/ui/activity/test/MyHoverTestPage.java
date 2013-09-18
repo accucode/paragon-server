@@ -10,10 +10,6 @@ import com.kodemore.servlet.control.ScImage;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
-/**
- * review_wyatt (valerie, aaron)
- * added hover test page
- */
 public class MyHoverTestPage
     extends MyTestPage
 {

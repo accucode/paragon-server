@@ -19,10 +19,6 @@ import com.app.model.MyUser;
 import com.app.ui.activity.MyActivity;
 import com.app.utility.MyButtonUrls;
 
-/**
- * review_wyatt (valerie, aaron)
- * added profile page
- */
 public class MyProfilePage
     extends MyAdminPage
 {

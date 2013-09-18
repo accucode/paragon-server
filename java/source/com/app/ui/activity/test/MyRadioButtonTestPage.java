@@ -135,23 +135,16 @@ public class MyRadioButtonTestPage
     //# handle
     //##################################################
 
-    // remove_valerie: testing
     private void handleSubmit()
     {
         ajax().hideAllErrors();
 
         for ( ScRadioField button : _buttons )
         {
-            //remove_valerie: println
             System.out.println("    button.getValue(): " + button.getValue());
 
-            /**
-             * review_wyatt (valerie) button.isChecked() is not working in this
-             * test class, but is working fine in MyFieldTestPage.handleValidate().
-             */
             if ( button.isChecked() )
             {
-                //remove_valerie: println
                 System.out.println("    button.getValue(): " + button.getValue());
                 ajax().toast(button.getValue());
             }

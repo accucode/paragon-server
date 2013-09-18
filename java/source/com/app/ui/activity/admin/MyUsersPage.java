@@ -4,10 +4,8 @@ import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScContainer;
-import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
@@ -18,7 +16,6 @@ import com.kodemore.servlet.field.ScTextField;
 import com.app.filter.MyUserFilter;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
-import com.app.utility.MyButtonUrls;
 
 public class MyUsersPage
     extends MyAdminPage
@@ -94,20 +91,9 @@ public class MyUsersPage
     {
         MyMetaUser x = MyUser.Meta;
 
-        ScActionIF addAction;
-        addAction = newAddAction();
-
         ScGroup group;
         group = root.addGroup();
         group.setTitle("Users");
-
-        ScDiv right;
-        right = group.getHeader().addFloatRight();
-        right.css().pad5();
-
-        ScActionButton button;
-        button = right.addButton("Add", addAction);
-        button.setImage(MyButtonUrls.add());
 
         ScGrid<MyUser> grid;
         grid = group.addGrid();
@@ -185,18 +171,6 @@ public class MyUsersPage
         };
     }
 
-    private ScActionIF newAddAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleAdd();
-            }
-        };
-    }
-
     private ScActionIF newOnChangeAction()
     {
         return new ScAction(this)
@@ -219,11 +193,6 @@ public class MyUsersPage
         MyUser user = getAccess().findUserUid(uid);
 
         _frame.ajaxPrintViewUser(user);
-    }
-
-    private void handleAdd()
-    {
-        _frame.ajaxPrintAddUser();
     }
 
     private void handleSearch()
