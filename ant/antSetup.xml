@@ -32,6 +32,10 @@
     		todir="${env.CATALINA_HOME}/conf/Catalina/localhost"
     	    overwrite="true"
     		verbose="true"/>
+        <delete 
+             file="${env.CATALINA_HOME}/conf/Catalina/localhost/ROOT.xml"
+             verbose="false"
+             failonerror="false" />
     </target>
 
     <target
