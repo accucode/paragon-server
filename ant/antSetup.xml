@@ -18,16 +18,6 @@
         depends="init"
         description="Configure the local development tomcat.">
     	<copy
-    		file="${resource}/webInstall/index.html"
-    		todir="${env.CATALINA_HOME}/webapps/ROOT"
-    	    overwrite="true"
-            verbose="true"/>
-    	<copy
-    		file="${resource}/webInstall/favicon.ico"
-    		todir="${env.CATALINA_HOME}/webapps/ROOT"
-    	    overwrite="true"
-            verbose="true"/>
-    	<copy
     		file="${resource}/webInstall/ROOT.xml"
     		todir="${env.CATALINA_HOME}/conf/Catalina/localhost"
     	    overwrite="true"
