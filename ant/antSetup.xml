@@ -28,12 +28,12 @@
     	    overwrite="true"
             verbose="true"/>
     	<copy
-    		file="${resource}/webInstall/app.xml"
+    		file="${resource}/webInstall/ROOT.xml"
     		todir="${env.CATALINA_HOME}/conf/Catalina/localhost"
     	    overwrite="true"
     		verbose="true"/>
         <delete 
-             file="${env.CATALINA_HOME}/conf/Catalina/localhost/ROOT.xml"
+             file="${env.CATALINA_HOME}/conf/Catalina/localhost/app.xml"
              verbose="false"
              failonerror="false" />
     </target>
@@ -61,8 +61,8 @@
     	    overwrite="true"
             verbose="true"/>
         <copy
-            file="${resource}/settings/${settingName}/_app.xml"
-            tofile="${resource}/webInstall/app.xml"
+            file="${resource}/settings/${settingName}/_ROOT.xml"
+            tofile="${resource}/webInstall/ROOT.xml"
             overwrite="true"
             verbose="true"/>
     </target>
@@ -92,25 +92,9 @@
             overwrite="true"
             verbose="true"/>
         <copy
-            file="${resource}/webInstall/app.xml"
-            tofile="${resource}/settings/${settingName}/_app.xml"
+            file="${resource}/webInstall/ROOT.xml"
+            tofile="${resource}/settings/${settingName}/_ROOT.xml"
             overwrite="true"
             verbose="true"/>
     </target>
-
-    <target
-        name="makeWar"
-        depends="init"
-        description="Make the war file.">
-        <mkdir
-            dir="${output}"/>
-        <delete
-            file="${output}/app.war"
-            quiet="true"/>            
-        <war
-            destfile="${output}/app.war"
-            basedir="${web}"
-            />
-    </target>
-
 </project>

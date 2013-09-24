@@ -2,9 +2,9 @@
 ## servlet
 #######################################
 
-servletScheme                               = http
-servletHost                                 = paragon.elasticbeanstalk.com
-servletPort                                 = 80
+servletScheme                               = https
+servletHost                                 = paragon.accucode-apps.com
+servletPort                                 = 443
                                             
 servletRedirect                             = y
                                             

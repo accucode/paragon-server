@@ -80,7 +80,8 @@ public class MyUrls
 
     public static String formatServletPath(String servlet)
     {
-        return Kmu.joinUrlPath(SERVLET_ROOT, SERVLET_CONTEXT, SERVLET_PATH, servlet);
+        //Assumes ROOT (implied) context
+        return Kmu.joinUrlPath(SERVLET_ROOT, SERVLET_PATH, servlet);
     }
 
     private static String formatServletUrl(String servlet)

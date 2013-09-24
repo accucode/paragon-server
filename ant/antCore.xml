@@ -154,5 +154,19 @@
             <arg line="${javaArgs}"/>
         </java>
     </target>
+	
+    <!--
+    ****************************************
+    ** WAR
+    ****************************************
+    -->
+    <target name = "makeWar" depends="compile">
+        <war destfile="${temp}/paragon.war" webxml="${web}/WEB-INF/web.xml">
+            <fileset dir="${web}">
+                <exclude name="ajaxLog.txt"/>
+                <exclude name="last.html"/>
+            </fileset>
+        </war>
+    </target>
 
 </project>

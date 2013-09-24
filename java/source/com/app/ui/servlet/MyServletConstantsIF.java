@@ -6,8 +6,8 @@ public interface MyServletConstantsIF
     //# misc
     //##################################################
 
+    //Assumes ROOT (implied) context
     String SERVLET_ROOT                = "/";
-    String SERVLET_CONTEXT             = "app";
     String SERVLET_PATH                = "servlet";
 
     int    LAYOUT_SIDE_WIDTH           = 200;

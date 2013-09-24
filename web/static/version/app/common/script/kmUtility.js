@@ -215,11 +215,12 @@ Kmu.installDateField = function(sel)
     });
     
     /*
+    //Assumes ROOT (implied) context
     $(sel).datepicker(
     {
         showOn: 'button',
         showAnim: 'slideDown',
-        buttonImage: '/app/static/version/led-icons/calendar_1.png',
+        buttonImage: '/static/version/led-icons/calendar_1.png',
         buttonImageOnly: true,   
         contrainInput: false
     });
@@ -344,10 +345,11 @@ Kmu.ajax = function(options)
 
     onSuccessArr.push(Kmu.ajaxSuccess);
 
+    //Assumes ROOT (implied) context 
     $.ajax(
     {
     	type:   	'POST',
-    	url: 		'/app/servlet/ajax',
+    	url: 		'/servlet/ajax',
     	data: 		data,
     	success: 	onSuccessArr,
     	error: 		Kmu.ajaxError,

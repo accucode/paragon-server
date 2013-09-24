@@ -105,7 +105,8 @@ var MyResourceLoader =
      */
     loadAppResources: function(userOptions, version)
     {
-        var prefix = "/app/";
+        //Assumes ROOT (implied) context
+        var prefix = "/";
         return this._loadAppResources(userOptions, version, prefix);
     },
 

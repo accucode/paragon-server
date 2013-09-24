@@ -31,7 +31,6 @@ import com.app.model.MyDownload;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
-import com.app.ui.servlet.MyServletConstantsIF;
 
 public class MyUrlBridge
     extends ScUrlBridge
@@ -73,9 +72,8 @@ public class MyUrlBridge
     @Override
     public String getWeb(String... path)
     {
-        String context = MyServletConstantsIF.SERVLET_CONTEXT;
-
-        return join("/", context, join(path));
+        //Assumes ROOT (implied) context
+        return join("/", join(path));
     }
 
     @Override

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kodemore.utility.KmConstantsIF;
-import com.kodemore.utility.Kmu;
 
 import com.app.utility.MyUrlBridge;
 
@@ -59,9 +58,8 @@ public class MyServletFilter
             return;
         }
 
-        String fwd = removeContext(newUri);
-
-        req.getRequestDispatcher(fwd).forward(req, res);
+        //Assumes ROOT (implied) context
+        req.getRequestDispatcher(newUri).forward(req, res);
     }
 
     //##################################################
@@ -73,14 +71,4 @@ public class MyServletFilter
         return MyUrlBridge.getInstance().fixRequestUri(uri);
     }
 
-    private String removeContext(String s)
-    {
-        String prefix = SLASH + MyServletConstantsIF.SERVLET_CONTEXT;
-        String fullPrefix = prefix + SLASH;
-
-        if ( s.startsWith(fullPrefix) )
-            s = Kmu.removePrefix(s, prefix);
-
-        return s;
-    }
 }
