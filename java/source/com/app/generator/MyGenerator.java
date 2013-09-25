@@ -233,6 +233,7 @@ public class MyGenerator
         String prefix = "web/static/version/app/theme/default/css/";
 
         String themePath = prefix + "theme.css";
+        String spicePath = prefix + "spice.css";
         String toolsPath = prefix + "tools.css";
         String buttonPath = prefix + "button.css";
 
@@ -242,8 +243,13 @@ public class MyGenerator
         KmgCssBundle e;
         e = root.addCssBundle("default");
         e.addSelectors(getCssSelectors(themePath));
+        e.addSelectors(getCssSelectors(spicePath));
         e.addSelectors(getCssSelectors(toolsPath));
         e.addSelectors(getCssSelectors(buttonPath));
+        e.installComposites();
+
+        e = root.addCssBundle("spice");
+        e.addSelectors(getCssSelectors(spicePath));
         e.installComposites();
 
         _installedCss = true;

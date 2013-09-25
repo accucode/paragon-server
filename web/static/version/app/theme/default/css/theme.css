@@ -1,4 +1,52 @@
 /*******************************************************************
+ ** common spacing 
+ *******************************************************************/
+
+.pad        
+{ 
+	padding: 10px;
+}
+
+.padVertical
+{
+    padding-top:    10px;
+    padding-bottom: 10px;
+}
+
+.padHorizontal
+{
+    padding-left:  10px;
+    padding-right: 10px;
+}
+
+.padTop                 { padding-top: 10px;    }
+.padTopChildren > *     { padding-top: 10px;    }
+
+.padLeft                { padding-left: 10px;   }
+.padLeftChildren > *    { padding-left: 10px;   }
+
+.padRight               { padding-right: 10px;  }
+.padRightChildren > *   { padding-right: 10px;  }
+
+.margin         		{ margin:        10px;  }
+.marginLeft     		{ margin-left:   10px;  }
+.marginRight    		{ margin-right:  10px;  }
+.marginTop      		{ margin-top:    10px;  }
+.marginBottom   		{ margin-bottom: 10px;	}
+
+.spaced       > *   	{ margin-bottom: 10px; margin-right: 10px;  }
+.spacedBottom > *   	{ margin-bottom: 10px;                      }
+.spacedRight  > *   	{ margin-right:  10px;                      }
+.spacedLeft   > *   	{ margin-left:   10px;                      }
+
+.gapOuter          	 	{ padding: 10px  0px  0px 10px }
+.gapInner > *			{ margin:   0px 10px 10px  0px }
+
+.gap          			{ padding: 10px  0px  0px 10px }
+.gap > *      			{ margin:   0px 10px 10px  0px }
+
+
+/*******************************************************************
  ** text field 
  *******************************************************************/
 

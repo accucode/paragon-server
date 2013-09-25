@@ -717,22 +717,6 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScBox addSmallPad()
-    {
-        ScBox e;
-        e = addBox();
-        e.css().smallPad();
-        return e;
-    }
-
-    public ScBox addSmallPadSpaced()
-    {
-        ScBox e;
-        e = addBox();
-        e.css().gap5();
-        return e;
-    }
-
     //##################################################
     //# float
     //##################################################

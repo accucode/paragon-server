@@ -118,7 +118,6 @@ public class MySqlPage
         ScBox box;
         box = new ScBox();
         box.setLabel("Quick");
-        box.css().marginRightChildren5();
         box.add(_tableDropdown);
 
         ScActionButton b;
@@ -325,7 +324,6 @@ public class MySqlPage
     //# utility
     //##################################################
 
-   
     private KmList<String> getTableNames()
     {
         KmDatabaseTool tool = new KmDatabaseTool();
