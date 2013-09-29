@@ -2,6 +2,12 @@ package com.app.ui.activity.tools;
 
 import org.apache.log4j.Level;
 
+import com.app.filter.MySystemLogFilter;
+import com.app.model.MySystemLog;
+import com.app.model.MySystemLogTools;
+import com.app.model.meta.MyMetaSystemLog;
+import com.app.ui.activity.MyActivity;
+
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.action.ScAction;
@@ -17,12 +23,6 @@ import com.kodemore.servlet.field.ScDateField;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.variable.ScLocalInteger;
-
-import com.app.filter.MySystemLogFilter;
-import com.app.model.MySystemLog;
-import com.app.model.MySystemLogTools;
-import com.app.model.meta.MyMetaSystemLog;
-import com.app.ui.activity.MyActivity;
 
 public class MySystemLogListPage
     extends MyToolsPage

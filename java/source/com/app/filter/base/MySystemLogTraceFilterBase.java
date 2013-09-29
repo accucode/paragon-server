@@ -8,17 +8,14 @@
 
 package com.app.filter.base;
 
-import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.app.criteria.MySystemLogTraceCriteria;
+import com.app.dao.MySystemLogTraceDao;
+import com.app.dao.base.MySystemLogTraceDaoConstantsIF;
+import com.app.filter.core.MyBasicFilter;
+import com.app.model.MySystemLogTrace;
+import com.app.model.meta.MyMetaSystemLogTrace;
 
-import com.app.command.base.*;
-import com.app.criteria.*;
-import com.app.dao.*;
-import com.app.dao.base.*;
-import com.app.filter.*;
-import com.app.filter.core.*;
-import com.app.model.*;
-import com.app.model.meta.*;
+import com.kodemore.hibernate.criteria.KmModelCriteria;
 
 public abstract class MySystemLogTraceFilterBase
     extends MyBasicFilter<MySystemLogTrace>

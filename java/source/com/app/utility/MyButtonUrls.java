@@ -1,8 +1,8 @@
 package com.app.utility;
 
-import com.kodemore.servlet.utility.ScUrls;
-
 import com.app.ui.servlet.MyServletConstantsIF;
+
+import com.kodemore.servlet.utility.ScUrls;
 
 public class MyButtonUrls
     implements MyServletConstantsIF

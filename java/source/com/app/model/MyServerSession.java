@@ -1,10 +1,10 @@
 package com.app.model;
 
-import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.Kmu;
-
 import com.app.model.base.MyServerSessionBase;
 import com.app.utility.MyConstantsIF;
+
+import com.kodemore.time.KmTimestamp;
+import com.kodemore.utility.Kmu;
 
 public class MyServerSession
     extends MyServerSessionBase

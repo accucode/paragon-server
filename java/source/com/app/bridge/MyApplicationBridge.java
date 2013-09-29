@@ -1,8 +1,8 @@
 package com.app.bridge;
 
-import com.kodemore.utility.KmApplicationBridge;
-
 import com.app.utility.MyConstantsIF;
+
+import com.kodemore.utility.KmApplicationBridge;
 
 public class MyApplicationBridge
     extends KmApplicationBridge

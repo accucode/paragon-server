@@ -3,13 +3,13 @@ package com.app.install;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.database.KmDatabaseTool;
-import com.kodemore.file.KmFile;
-
 import com.app.file.MyResourceFiles;
 import com.app.utility.MyEnvironment;
 import com.app.utility.MyInstaller;
+
+import com.kodemore.collection.KmList;
+import com.kodemore.database.KmDatabaseTool;
+import com.kodemore.file.KmFile;
 
 /**
  * Install the database from scratch.

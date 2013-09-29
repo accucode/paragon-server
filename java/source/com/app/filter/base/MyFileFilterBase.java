@@ -8,17 +8,14 @@
 
 package com.app.filter.base;
 
-import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.app.criteria.MyFileCriteria;
+import com.app.dao.MyFileDao;
+import com.app.dao.base.MyFileDaoConstantsIF;
+import com.app.filter.core.MyBasicFilter;
+import com.app.model.MyFile;
+import com.app.model.meta.MyMetaFile;
 
-import com.app.command.base.*;
-import com.app.criteria.*;
-import com.app.dao.*;
-import com.app.dao.base.*;
-import com.app.filter.*;
-import com.app.filter.core.*;
-import com.app.model.*;
-import com.app.model.meta.*;
+import com.kodemore.hibernate.criteria.KmModelCriteria;
 
 public abstract class MyFileFilterBase
     extends MyBasicFilter<MyFile>

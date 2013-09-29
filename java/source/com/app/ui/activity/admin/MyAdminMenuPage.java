@@ -1,12 +1,12 @@
 package com.app.ui.activity.admin;
 
+import com.app.ui.activity.admin.accounts.MyAccounts2Page;
+import com.app.ui.activity.admin.accounts.MyAccountsPage;
+
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
-
-import com.app.ui.activity.admin.accounts.MyAccounts2Page;
-import com.app.ui.activity.admin.accounts.MyAccountsPage;
 
 public class MyAdminMenuPage
     extends MyAdminPage

@@ -1,11 +1,11 @@
 package com.app.command;
 
+import com.app.filter.MyServerSessionFilter;
+import com.app.model.MyServerSession;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.time.KmTimestamp;
-
-import com.app.filter.MyServerSessionFilter;
-import com.app.model.MyServerSession;
 
 public class MyDeleteOldServerSessionsCommand
     extends KmDaoCommand

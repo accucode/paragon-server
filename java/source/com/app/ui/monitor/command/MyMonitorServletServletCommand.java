@@ -1,8 +1,8 @@
 package com.app.ui.monitor.command;
 
-import com.kodemore.servlet.ScAbstractServlet;
-
 import com.app.ui.monitor.MyMonitorServletData;
+
+import com.kodemore.servlet.ScAbstractServlet;
 
 public class MyMonitorServletServletCommand
     implements MyMonitorServletCommandIF

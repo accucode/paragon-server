@@ -1,11 +1,11 @@
 package sandbox.wlove;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.command.KmDaoCommand;
-
 import com.app.dao.base.MyDaoRegistry;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
+
+import com.kodemore.collection.KmList;
+import com.kodemore.command.KmDaoCommand;
 
 public class JkHqlTest
 {

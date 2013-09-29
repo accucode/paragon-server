@@ -1,5 +1,7 @@
 package com.app.utility;
 
+import com.app.property.MyPropertyRegistry;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.servlet.field.ScDropdown;
@@ -7,8 +9,6 @@ import com.kodemore.types.KmMoney;
 import com.kodemore.utility.KmRandom;
 import com.kodemore.utility.KmSha1;
 import com.kodemore.utility.Kmu;
-
-import com.app.property.MyPropertyRegistry;
 
 public class MyUtility
 {

@@ -1,8 +1,8 @@
 package com.app.model;
 
-import com.kodemore.servlet.field.ScDropdown;
-
 import com.app.model.base.MyUserToolsBase;
+
+import com.kodemore.servlet.field.ScDropdown;
 
 public class MyUserTools
     extends MyUserToolsBase

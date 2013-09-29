@@ -1,12 +1,12 @@
 package com.app.ui.activity.tools;
 
+import com.app.ui.activity.admin.MyEmailListPage;
+import com.app.ui.activity.admin.MyUsersPage;
+
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
-
-import com.app.ui.activity.admin.MyEmailListPage;
-import com.app.ui.activity.admin.MyUsersPage;
 
 public class MyToolsMenuPage
     extends MyToolsPage

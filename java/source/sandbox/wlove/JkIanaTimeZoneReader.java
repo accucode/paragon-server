@@ -1,12 +1,12 @@
 package sandbox.wlove;
 
+import com.app.utility.MyInstaller;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
 import com.kodemore.file.KmFileRoot;
 import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
-
-import com.app.utility.MyInstaller;
 
 /**
  * Reads Iana time zone data files from:

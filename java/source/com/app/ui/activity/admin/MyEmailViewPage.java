@@ -1,5 +1,10 @@
 package com.app.ui.activity.admin;
 
+import com.app.model.MyEmail;
+import com.app.model.MyEmailPart;
+import com.app.model.meta.MyMetaEmail;
+import com.app.model.meta.MyMetaEmailPart;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.action.ScAction;
@@ -13,11 +18,6 @@ import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScLiteral;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScStyledText;
-
-import com.app.model.MyEmail;
-import com.app.model.MyEmailPart;
-import com.app.model.meta.MyMetaEmail;
-import com.app.model.meta.MyMetaEmailPart;
 
 public class MyEmailViewPage
     extends MyAdminPage

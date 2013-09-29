@@ -1,5 +1,10 @@
 package com.app.ui.activity.tools;
 
+import com.app.property.MyPropertyDefinition;
+import com.app.property.MyPropertyRegistry;
+import com.app.property.base.MyPropertyDefinitions;
+import com.app.ui.activity.MyActivity;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -8,11 +13,6 @@ import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScLiteral;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
-
-import com.app.property.MyPropertyDefinition;
-import com.app.property.MyPropertyRegistry;
-import com.app.property.base.MyPropertyDefinitions;
-import com.app.ui.activity.MyActivity;
 
 public class MyApplicationPropertiesPage
     extends MyToolsPage

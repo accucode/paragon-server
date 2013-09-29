@@ -1,10 +1,10 @@
 package com.app.model;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.utility.Kmu;
-
 import com.app.model.base.MySystemLogBase;
 import com.app.model.meta.MyMetaSystemLogTrace;
+
+import com.kodemore.collection.KmList;
+import com.kodemore.utility.Kmu;
 
 public class MySystemLog
     extends MySystemLogBase

@@ -1,5 +1,14 @@
 package com.app.ui.activity.login;
 
+import com.app.model.MyAutoSignIn;
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyActivity;
+import com.app.ui.core.MyServerSessionManager;
+import com.app.ui.core.MyServletUtility;
+import com.app.ui.layout.MyLeftMenu;
+import com.app.ui.layout.MyPageLayout;
+
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
@@ -14,15 +23,6 @@ import com.kodemore.servlet.control.ScSimpleContainer;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
-
-import com.app.model.MyAutoSignIn;
-import com.app.model.MyServerSession;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.ui.core.MyServerSessionManager;
-import com.app.ui.core.MyServletUtility;
-import com.app.ui.layout.MyLeftMenu;
-import com.app.ui.layout.MyPageLayout;
 
 public class MySignInActivity
     extends MyActivity

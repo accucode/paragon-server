@@ -1,11 +1,11 @@
 package sandbox.wlove;
 
-import com.kodemore.command.KmDaoCommand;
-import com.kodemore.utility.KmTimer;
-
 import com.app.dao.base.MyDaoRegistry;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
+
+import com.kodemore.command.KmDaoCommand;
+import com.kodemore.utility.KmTimer;
 
 public class JkDatabaseTest
     extends KmDaoCommand

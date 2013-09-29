@@ -1,5 +1,7 @@
 package com.app.bridge;
 
+import com.app.file.MyResourceFiles;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.database.KmDatabaseConnectionFactory;
 import com.kodemore.file.KmFile;
@@ -13,8 +15,6 @@ import com.kodemore.sql.KmSqlSelect;
 import com.kodemore.sql.KmSqlStatement;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
-
-import com.app.file.MyResourceFiles;
 
 /**
  * The application specific hooks for the Patch toolkit.

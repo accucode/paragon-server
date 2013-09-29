@@ -1,13 +1,13 @@
 package sandbox.wlove;
 
-import com.kodemore.command.KmDaoCommand;
-import com.kodemore.hibernate.lock.KmDaoLockException;
-import com.kodemore.utility.Kmu;
-
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyUser;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
+
+import com.kodemore.command.KmDaoCommand;
+import com.kodemore.hibernate.lock.KmDaoLockException;
+import com.kodemore.utility.Kmu;
 
 public class JkLockTest
 {

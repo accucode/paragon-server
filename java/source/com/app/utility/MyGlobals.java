@@ -1,11 +1,5 @@
 package com.app.utility;
 
-import com.kodemore.dao.KmDaoSessionManager;
-import com.kodemore.servlet.utility.ScControlRegistry;
-import com.kodemore.servlet.utility.ScFormatter;
-import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.KmClock;
-
 import com.app.dao.base.MyDaoRegistry;
 import com.app.dao.core.MyDaoSession;
 import com.app.model.MyServerSession;
@@ -15,6 +9,12 @@ import com.app.ui.core.MyCookieSession;
 import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.core.MyServletData;
+
+import com.kodemore.dao.KmDaoSessionManager;
+import com.kodemore.servlet.utility.ScControlRegistry;
+import com.kodemore.servlet.utility.ScFormatter;
+import com.kodemore.time.KmTimestamp;
+import com.kodemore.utility.KmClock;
 
 public class MyGlobals
 {

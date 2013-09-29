@@ -1,13 +1,13 @@
 package com.app.ui.activity.general;
 
+import com.app.ui.activity.MyPage;
+import com.app.utility.MyUrls;
+
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGeneralButton;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
-
-import com.app.ui.activity.MyPage;
-import com.app.utility.MyUrls;
 
 public class MyTimeoutPage
     extends MyPage

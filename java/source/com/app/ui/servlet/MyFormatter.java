@@ -1,5 +1,7 @@
 package com.app.ui.servlet;
 
+import com.app.ui.core.MyServletData;
+
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.time.KmDate;
@@ -8,8 +10,6 @@ import com.kodemore.time.KmTimestamp;
 import com.kodemore.types.KmWeight;
 import com.kodemore.types.KmWeightUnit;
 import com.kodemore.utility.Kmu;
-
-import com.app.ui.core.MyServletData;
 
 public class MyFormatter
     extends ScFormatter

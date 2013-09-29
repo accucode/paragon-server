@@ -1,5 +1,7 @@
 package com.app.ui.activity.test;
 
+import com.app.model.MyUser;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
@@ -21,8 +23,6 @@ import com.kodemore.servlet.field.ScListField;
 import com.kodemore.servlet.field.ScLongField;
 import com.kodemore.servlet.field.ScRadioField;
 import com.kodemore.servlet.field.ScTextField;
-
-import com.app.model.MyUser;
 
 /**
  * Test the various form fields.

@@ -1,5 +1,9 @@
 package com.app.generator;
 
+import com.app.file.MyDevelopmentFiles;
+import com.app.utility.MyConstantsIF;
+import com.app.utility.MyEnvironment;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
 import com.kodemore.file.KmFileTraverser;
@@ -10,10 +14,6 @@ import com.kodemore.html.KmCssParser;
 import com.kodemore.javaParser.KmJavaParser;
 import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
-
-import com.app.file.MyDevelopmentFiles;
-import com.app.utility.MyConstantsIF;
-import com.app.utility.MyEnvironment;
 
 public class MyGenerator
     implements KmConstantsIF
