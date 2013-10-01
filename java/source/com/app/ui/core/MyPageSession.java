@@ -1,8 +1,8 @@
 package com.app.ui.core;
 
-import com.kodemore.servlet.ScPageSession;
-
 import com.app.ui.servlet.base.MyPageSessionBase;
+
+import com.kodemore.servlet.ScPageSession;
 
 public class MyPageSession
     extends MyPageSessionBase

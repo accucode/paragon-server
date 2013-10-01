@@ -8,17 +8,14 @@
 
 package com.app.filter.base;
 
-import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.app.criteria.MyEmailRecipientCriteria;
+import com.app.dao.MyEmailRecipientDao;
+import com.app.dao.base.MyEmailRecipientDaoConstantsIF;
+import com.app.filter.core.MyBasicFilter;
+import com.app.model.MyEmailRecipient;
+import com.app.model.meta.MyMetaEmailRecipient;
 
-import com.app.command.base.*;
-import com.app.criteria.*;
-import com.app.dao.*;
-import com.app.dao.base.*;
-import com.app.filter.*;
-import com.app.filter.core.*;
-import com.app.model.*;
-import com.app.model.meta.*;
+import com.kodemore.hibernate.criteria.KmModelCriteria;
 
 public abstract class MyEmailRecipientFilterBase
     extends MyBasicFilter<MyEmailRecipient>

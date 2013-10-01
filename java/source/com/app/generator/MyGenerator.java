@@ -1,5 +1,9 @@
 package com.app.generator;
 
+import com.app.file.MyDevelopmentFiles;
+import com.app.utility.MyConstantsIF;
+import com.app.utility.MyEnvironment;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
 import com.kodemore.file.KmFileTraverser;
@@ -10,10 +14,6 @@ import com.kodemore.html.KmCssParser;
 import com.kodemore.javaParser.KmJavaParser;
 import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
-
-import com.app.file.MyDevelopmentFiles;
-import com.app.utility.MyConstantsIF;
-import com.app.utility.MyEnvironment;
 
 public class MyGenerator
     implements KmConstantsIF
@@ -233,6 +233,7 @@ public class MyGenerator
         String prefix = "web/static/version/app/theme/default/css/";
 
         String themePath = prefix + "theme.css";
+        String spicePath = prefix + "spice.css";
         String toolsPath = prefix + "tools.css";
         String buttonPath = prefix + "button.css";
 
@@ -242,8 +243,13 @@ public class MyGenerator
         KmgCssBundle e;
         e = root.addCssBundle("default");
         e.addSelectors(getCssSelectors(themePath));
+        e.addSelectors(getCssSelectors(spicePath));
         e.addSelectors(getCssSelectors(toolsPath));
         e.addSelectors(getCssSelectors(buttonPath));
+        e.installComposites();
+
+        e = root.addCssBundle("spice");
+        e.addSelectors(getCssSelectors(spicePath));
         e.installComposites();
 
         _installedCss = true;

@@ -1,8 +1,8 @@
 package com.app.model;
 
-import com.kodemore.servlet.field.ScDropdown;
-
 import com.app.model.base.MyAccountToolsBase;
+
+import com.kodemore.servlet.field.ScDropdown;
 
 /**
  * Miscellaneous tools for use with the model.

@@ -81,10 +81,11 @@ var MyResourceLoader =
             "static/{version}/app/common/script/kmBorderLayout.js",
             
             // App
-            "static/{version}/app/theme/default/css/tools.css",
             "static/{version}/app/theme/default/css/topMenu.css",
             "static/{version}/app/theme/default/css/button.css",
-            "static/{version}/app/theme/default/css/theme.css"
+            "static/{version}/app/theme/default/css/theme.css",
+            "static/{version}/app/theme/default/css/spice.css",
+            "static/{version}/app/theme/default/css/tools.css"
         ],
 
     //**********************************************************
@@ -105,7 +106,7 @@ var MyResourceLoader =
      */
     loadAppResources: function(userOptions, version)
     {
-        //Assumes ROOT (implied) context
+        // Assumes ROOT (implied) context
         var prefix = "/";
         return this._loadAppResources(userOptions, version, prefix);
     },

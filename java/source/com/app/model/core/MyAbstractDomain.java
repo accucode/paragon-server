@@ -2,6 +2,12 @@ package com.app.model.core;
 
 import java.io.Serializable;
 
+import com.app.dao.base.MyDaoRegistry;
+import com.app.dao.core.MyDaoSession;
+import com.app.dao.core.MyDaoSessionCache;
+import com.app.property.MyPropertyRegistry;
+import com.app.utility.MyGlobals;
+
 import com.kodemore.servlet.ScModelApplicatorIF;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.time.KmDate;
@@ -12,12 +18,6 @@ import com.kodemore.utility.KmCopyIF;
 import com.kodemore.utility.KmReadOnlyException;
 import com.kodemore.utility.KmReadOnlyIF;
 import com.kodemore.utility.Kmu;
-
-import com.app.dao.base.MyDaoRegistry;
-import com.app.dao.core.MyDaoSession;
-import com.app.dao.core.MyDaoSessionCache;
-import com.app.property.MyPropertyRegistry;
-import com.app.utility.MyGlobals;
 
 public abstract class MyAbstractDomain
     implements KmConstantsIF, KmReadOnlyIF, KmCopyIF, Serializable, Cloneable

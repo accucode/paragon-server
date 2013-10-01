@@ -8,16 +8,11 @@
 
 package com.app.dao.base;
 
-import com.kodemore.collection.*;
-import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.app.criteria.MyPerformanceLogCriteria;
+import com.app.model.MyPerformanceLog;
+import com.app.model.meta.MyMetaPerformanceLog;
 
-import com.app.criteria.*;
-import com.app.dao.core.*;
-import com.app.filter.*;
-import com.app.model.*;
-import com.app.model.meta.*;
+import com.kodemore.dao.KmAbstractDao;
 
 public abstract class MyPerformanceLogDaoBase
     extends KmAbstractDao<MyPerformanceLog,Integer>

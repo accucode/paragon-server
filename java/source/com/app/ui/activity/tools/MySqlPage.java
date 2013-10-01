@@ -1,5 +1,8 @@
 package com.app.ui.activity.tools;
 
+import com.app.ui.activity.MyActivity;
+import com.app.utility.MyButtonUrls;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.database.KmDatabaseTool;
 import com.kodemore.servlet.action.ScAction;
@@ -15,9 +18,6 @@ import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.sql.formatter.KmSqlResultComposer;
 import com.kodemore.utility.Kmu;
-
-import com.app.ui.activity.MyActivity;
-import com.app.utility.MyButtonUrls;
 
 public class MySqlPage
     extends MyToolsPage
@@ -118,7 +118,6 @@ public class MySqlPage
         ScBox box;
         box = new ScBox();
         box.setLabel("Quick");
-        box.css().marginRightChildren5();
         box.add(_tableDropdown);
 
         ScActionButton b;
@@ -325,7 +324,6 @@ public class MySqlPage
     //# utility
     //##################################################
 
-   
     private KmList<String> getTableNames()
     {
         KmDatabaseTool tool = new KmDatabaseTool();

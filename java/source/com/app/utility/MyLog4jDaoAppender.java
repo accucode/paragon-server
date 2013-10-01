@@ -4,13 +4,13 @@ import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ThrowableInformation;
 
+import com.app.model.MySystemLog;
+import com.app.model.MySystemLogTrace;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.log.KmLog;
 import com.kodemore.utility.Kmu;
-
-import com.app.model.MySystemLog;
-import com.app.model.MySystemLogTrace;
 
 public class MyLog4jDaoAppender
     extends AppenderSkeleton

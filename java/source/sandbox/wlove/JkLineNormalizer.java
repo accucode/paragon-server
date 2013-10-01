@@ -3,13 +3,13 @@ package sandbox.wlove;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import com.app.file.MyDevelopmentFiles;
+import com.app.utility.MyInstaller;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
 import com.kodemore.file.KmFileTraverser;
 import com.kodemore.utility.Kmu;
-
-import com.app.file.MyDevelopmentFiles;
-import com.app.utility.MyInstaller;
 
 public class JkLineNormalizer
     extends KmFileTraverser

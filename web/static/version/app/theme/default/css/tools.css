@@ -167,9 +167,6 @@
  ** padding
  *******************************************************************/
  
-.pad        { padding: 10px;        }
-.smallPad   { padding: 5px;         }
-
 .pad0       { padding: 0px;         }
 .pad3       { padding: 3px;         }
 .pad5       { padding: 5px;         }
@@ -177,27 +174,6 @@
 .pad20      { padding: 20px;        }
 .pad30      { padding: 30px;        }
 .pad50      { padding: 50px;        }
-
-.padVertical
-{
-    padding-top:    10px;
-    padding-bottom: 10px;
-}
-
-.padHorizontal
-{
-    padding-left:  10px;
-    padding-right: 10px;
-}
-
-.padTop                 { padding-top: 10px;    }
-.padTopChildren > *     { padding-top: 10px;    }
-
-.padLeft                { padding-left: 10px;   }
-.padLeftChildren > *    { padding-left: 10px;   }
-
-.padRight               { padding-right: 10px;  }
-.padRightChildren > *   { padding-right: 10px;  }
 
 .padLeft5               { padding-left: 5px;    }
 .padLeft5Children > *   { padding-left: 5px;    }
@@ -209,12 +185,6 @@
 /*******************************************************************
  ** margin
  *******************************************************************/
-
-.margin         { margin:        10px;  }
-.marginLeft     { margin-left:   10px;  }
-.marginRight    { margin-right:  10px;  }
-.marginTop      { margin-top:    10px;  }
-.marginBottom   { margin-bottom: 10px;  }
 
 .margin5        { margin: 5px;          }
 .marginLeft5    { margin-left: 5px;     }
@@ -231,11 +201,6 @@
 .centerMargins  { margin-left: auto; margin-right: auto; }
 .marginCenter   { margin-left: auto; margin-right: auto; }
 
-.marginTopChildren     > *   { margin-top:    10px; }
-.marginBottomChildren  > *   { margin-bottom: 10px; }
-.marginLeftChildren    > *   { margin-left:   10px; }
-.marginRightChildren   > *   { margin-right:  10px; }
-
 .marginTopChildren5    > *   { margin-top:    5px; }
 .marginBottomChildren5 > *   { margin-bottom: 5px; }
 .marginLeftChildren5   > *   { margin-left:   5px; }
@@ -244,11 +209,6 @@
 /*******************************************************************
  ** spaced
  *******************************************************************/
-
-.spaced       > *   { margin-bottom: 10px; margin-right: 10px;  }
-.spacedBottom > *   { margin-bottom: 10px;                      }
-.spacedRight  > *   { margin-right:  10px;                      }
-.spacedLeft   > *   { margin-left:   10px;                      }
 
 .spaced5  > *   { margin-bottom:  5px; margin-right:  5px;  }
 .spaced10 > *   { margin-bottom: 10px; margin-right: 10px;  }
@@ -270,7 +230,6 @@
  ** gapOuter
  *******************************************************************/
 
-.gapOuter          { padding: 10px  0px  0px 10px }
 .gapOuter5         { padding:  5px  0px  0px  5px }
 .gapOuter10        { padding: 10px  0px  0px 10px }
 .gapOuter10x3      { padding: 10px  7px  7px 10px }
@@ -278,11 +237,11 @@
 .gapOuter20        { padding: 20px  0px  0px 20px }
 .gapOuter20x5      { padding: 20px 15px 15px 20px }
 
+
 /*******************************************************************
  ** gapInner
  *******************************************************************/
 
-.gapInner       > * { margin:   0px 10px 10px  0px }
 .gapInner5      > * { margin:   0px  5px  5px  0px }
 .gapInner10     > * { margin:   0px 10px 10px  0px }
 .gapInner10x3   > * { margin:   0px  3px  3px  0px }
@@ -294,9 +253,6 @@
 /*******************************************************************
  ** gap (full, both inner and outer)
  *******************************************************************/
-
-.gap          { padding: 10px  0px  0px 10px }
-.gap > *      { margin:   0px 10px 10px  0px }
 
 .gap5         { padding: 5px   0px  0px  5px }
 .gap5 > *     { margin:  0px   5px  5px  0px }
@@ -489,20 +445,8 @@
  ** misc
  *******************************************************************/
 
-.shadow
-{
-    -moz-box-shadow:    5px 5px 5px #ccc;
-    -webkit-box-shadow: 5px 5px 5px #ccc;
-    box-shadow:         5px 5px 5px #ccc;
-}
-
-.indent
-{
-    margin-left: 20px;
-}
-
 /**
- * See the ScFiller Class fot additional details
+ * See the ScFiller Class for additional details
  */
 .filler
 {

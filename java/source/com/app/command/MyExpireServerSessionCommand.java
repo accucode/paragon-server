@@ -1,9 +1,9 @@
 package com.app.command;
 
-import com.kodemore.command.KmDaoCommand;
-
 import com.app.dao.base.MyDaoRegistry;
 import com.app.utility.MyGlobals;
+
+import com.kodemore.command.KmDaoCommand;
 
 public class MyExpireServerSessionCommand
     extends KmDaoCommand

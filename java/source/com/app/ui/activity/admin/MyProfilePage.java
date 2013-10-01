@@ -1,5 +1,9 @@
 package com.app.ui.activity.admin;
 
+import com.app.model.MyUser;
+import com.app.ui.activity.MyActivity;
+import com.app.utility.MyButtonUrls;
+
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
@@ -14,10 +18,6 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
-
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.utility.MyButtonUrls;
 
 public class MyProfilePage
     extends MyAdminPage

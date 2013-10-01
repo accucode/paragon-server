@@ -1,5 +1,10 @@
 package com.app.ui.activity.login;
 
+import com.app.model.MyPasswordReset;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyActivity;
+import com.app.utility.MyUrls;
+
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -11,11 +16,6 @@ import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
-
-import com.app.model.MyPasswordReset;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.utility.MyUrls;
 
 public class MyHandlePasswordResetActivity
     extends MyActivity

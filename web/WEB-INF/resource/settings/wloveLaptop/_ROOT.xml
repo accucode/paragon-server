@@ -2,7 +2,7 @@
 
 <Context
     path="/"
-    docBase="c:/projects/paragon/web/"
+    docBase="c:/wlove/projects/paragon-server/web/"
     crossContext="false"
     debug="0"
     reloadable="false"/>

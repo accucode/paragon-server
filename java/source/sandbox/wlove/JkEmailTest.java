@@ -1,13 +1,13 @@
 package sandbox.wlove;
 
+import com.app.utility.MyInstaller;
+
 import com.kodemore.email.KmEmail;
 import com.kodemore.email.method.KmEmailMethod;
 import com.kodemore.email.method.KmEmailNoopMethod;
 import com.kodemore.email.method.KmEmailPrintMethod;
 import com.kodemore.email.method.KmEmailSmtpMethod;
 import com.kodemore.utility.KmTimer;
-
-import com.app.utility.MyInstaller;
 
 public class JkEmailTest
 {

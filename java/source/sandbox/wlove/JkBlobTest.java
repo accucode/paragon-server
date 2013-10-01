@@ -1,12 +1,12 @@
 package sandbox.wlove;
 
-import com.kodemore.command.KmDaoResultCommand;
-import com.kodemore.utility.KmRandom;
-
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyEmail;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
+
+import com.kodemore.command.KmDaoResultCommand;
+import com.kodemore.utility.KmRandom;
 
 public class JkBlobTest
 {

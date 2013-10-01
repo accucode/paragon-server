@@ -1,14 +1,14 @@
 package sandbox.wlove;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.command.KmDaoCommand;
-import com.kodemore.utility.Kmu;
-
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAccount;
 import com.app.model.MyUser;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
+
+import com.kodemore.collection.KmList;
+import com.kodemore.command.KmDaoCommand;
+import com.kodemore.utility.Kmu;
 
 @SuppressWarnings("unused")
 public class JkDaoTest

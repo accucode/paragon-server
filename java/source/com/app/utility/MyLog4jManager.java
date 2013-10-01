@@ -10,11 +10,11 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.xml.DOMConfigurator;
 
+import com.app.file.MyResourceFiles;
+
 import com.kodemore.file.KmFile;
 import com.kodemore.log.KmLog;
 import com.kodemore.log.KmLogger;
-
-import com.app.file.MyResourceFiles;
 
 public class MyLog4jManager
 {

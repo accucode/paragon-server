@@ -1,8 +1,8 @@
 package com.app.model;
 
-import com.kodemore.collection.KmBlob;
-
 import com.app.model.base.MyEmailPartBase;
+
+import com.kodemore.collection.KmBlob;
 
 public class MyEmailPart
     extends MyEmailPartBase

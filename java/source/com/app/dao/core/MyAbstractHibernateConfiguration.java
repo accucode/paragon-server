@@ -6,12 +6,12 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.classic.Session;
 
-import com.kodemore.file.KmFile;
-import com.kodemore.utility.Kmu;
-
 import com.app.file.MyResourceFiles;
 import com.app.property.MyPropertyRegistry;
 import com.app.utility.MyGlobals;
+
+import com.kodemore.file.KmFile;
+import com.kodemore.utility.Kmu;
 
 public abstract class MyAbstractHibernateConfiguration
 {

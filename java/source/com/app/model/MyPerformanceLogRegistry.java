@@ -1,8 +1,8 @@
 package com.app.model;
 
-import com.kodemore.collection.KmList;
-
 import com.app.utility.MyGlobals;
+
+import com.kodemore.collection.KmList;
 
 public class MyPerformanceLogRegistry
 {

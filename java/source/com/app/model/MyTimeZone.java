@@ -2,14 +2,14 @@ package com.app.model;
 
 import java.util.EnumSet;
 
+import com.app.model.meta.MyMetaTimeZone;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.time.KmTimeZoneIF;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
-
-import com.app.model.meta.MyMetaTimeZone;
 
 public enum MyTimeZone
     implements KmTimeZoneIF

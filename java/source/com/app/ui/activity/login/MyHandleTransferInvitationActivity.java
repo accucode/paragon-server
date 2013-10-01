@@ -1,5 +1,12 @@
 package com.app.ui.activity.login;
 
+import com.app.model.MyAccount;
+import com.app.model.MyInvitation;
+import com.app.model.MyPasswordReset;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyActivity;
+import com.app.utility.MyUrls;
+
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -11,13 +18,6 @@ import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.variable.ScLocalString;
-
-import com.app.model.MyAccount;
-import com.app.model.MyInvitation;
-import com.app.model.MyPasswordReset;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.utility.MyUrls;
 
 public class MyHandleTransferInvitationActivity
     extends MyActivity

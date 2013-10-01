@@ -1,9 +1,9 @@
 package com.app.ui.core;
 
-import com.kodemore.servlet.script.ScRootScript;
-
 import com.app.model.MyAutoSignIn;
 import com.app.utility.MyGlobals;
+
+import com.kodemore.servlet.script.ScRootScript;
 
 public final class MyServletUtility
 {

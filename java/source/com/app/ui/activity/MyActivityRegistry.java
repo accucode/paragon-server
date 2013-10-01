@@ -1,9 +1,9 @@
 package com.app.ui.activity;
 
-import com.kodemore.servlet.ScActivityRegistry;
-
 import com.app.ui.activity.general.MyHomePage;
 import com.app.ui.servlet.base.MyActivityRegistryBase;
+
+import com.kodemore.servlet.ScActivityRegistry;
 
 public class MyActivityRegistry
     extends MyActivityRegistryBase

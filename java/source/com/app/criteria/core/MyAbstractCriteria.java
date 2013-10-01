@@ -1,13 +1,13 @@
 package com.app.criteria.core;
 
+import com.app.model.MyNamedCountVo;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.hibernate.criteria.KmAbstractCriteria;
 import com.kodemore.hibernate.criteria.KmCriteria;
 import com.kodemore.hibernate.criteria.KmModelCriteria;
 import com.kodemore.hibernate.criteria.KmProjectionResult;
 import com.kodemore.hibernate.criteria.KmProjectionRow;
-
-import com.app.model.MyNamedCountVo;
 
 public abstract class MyAbstractCriteria<T>
     extends KmModelCriteria<T>

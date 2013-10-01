@@ -1,10 +1,10 @@
 package com.app.ui.activity.test;
 
-import com.kodemore.servlet.control.ScLiteral;
-import com.kodemore.utility.Kmu;
-
 import com.app.file.MyFilePaths;
 import com.app.ui.activity.MyActivity;
+
+import com.kodemore.servlet.control.ScLiteral;
+import com.kodemore.utility.Kmu;
 
 /**
  * Include the content found at /web/test/staticInclude.html

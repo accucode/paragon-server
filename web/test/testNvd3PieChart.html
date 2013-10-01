@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+    
+    <link href="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/nv.d3.css" rel="stylesheet" type="text/css">
+    
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/lib/d3.v3.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/nv.d3.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/tooltip.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/utils.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/interactiveLayer.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/legend.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/axis.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/pie.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/pieChart.js"></script>
+    
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $("#main").show();
+            
+            installPieChart();
+            installDonutChart();
+        }
+        
+        function installPieChart()
+        {
+            nv.addGraph(function() 
+            {
+                var chart = nv.models.pieChart()
+                    .x(function(d) { return d.key })
+                    .y(function(d) { return d.y })
+                    .color(d3.scale.category10().range())
+                    .labelType("percent");
+            
+                d3.select("#pieChart svg")
+                    .datum(pieChartData())
+                    .transition().duration(1200)
+                    .call(chart);
+                
+                nv.utils.windowResize(chart.update);
+            
+                return chart;
+            });            
+        }
+        
+        function installDonutChart()
+        {
+            nv.addGraph(function() 
+            {
+                var chart = nv.models.pieChart()
+                    .x(function(d) { return d.key })
+                    .y(function(d) { return d.y })
+                    .color(d3.scale.category10().range())
+                    .labelType("percent")
+                    .donut(true);
+            
+                d3.select("#donutChart svg")
+                    .datum(pieChartData())
+                    .transition().duration(1200)
+                    .call(chart);
+                
+                nv.utils.windowResize(chart.update);
+            
+                return chart;
+            });            
+        }
+        
+        function pieChartData() 
+        {
+            return [
+                {
+                    key : "Pi",
+                    y: 3.14159
+                },
+                
+                {
+                    key : "Phi",
+                    y: 1.618
+                },
+                
+                {
+                    key : "Gamma",
+                    y: 1.4
+                },
+                
+                {
+                    key : "e",
+                    y: 2.718
+                },
+                
+                {
+                    key : "1",
+                    y: 1
+                }
+            ];
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload='myLoad();'>
+<div id="main" style="display:none" class="gap">
+
+    <button onclick='location.reload();'>reload</button>
+    <br>
+    
+    <div class='boxBlue gap'>
+        <p>
+            This is a test of the NVD3 javascript chart tool. Specifically the Pie chart and
+            Donut chart.
+        </p>
+    </div>
+    
+    <div id="pieChart" style="float:left; width: 400px;">
+        <svg style="height: 400px;"></svg>
+    </div>
+    
+    <div id="donutChart" style="float:left; width: 400px;">
+        <svg style="height: 400px;"></svg>
+    </div>
+    
+</body>
+
+</html>

@@ -1,11 +1,11 @@
 package com.app.filter;
 
-import com.kodemore.utility.KmNamedEnumIF;
-
 import com.app.criteria.MyUserCriteria;
 import com.app.criteria.MyUserJunction;
 import com.app.filter.base.MyUserFilterBase;
 import com.app.model.MyAccount;
+
+import com.kodemore.utility.KmNamedEnumIF;
 
 public class MyUserFilter
     extends MyUserFilterBase

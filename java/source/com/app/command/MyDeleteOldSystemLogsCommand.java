@@ -1,11 +1,11 @@
 package com.app.command;
 
+import com.app.filter.MySystemLogFilter;
+import com.app.model.MySystemLog;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.time.KmTimestamp;
-
-import com.app.filter.MySystemLogFilter;
-import com.app.model.MySystemLog;
 
 public class MyDeleteOldSystemLogsCommand
     extends KmDaoCommand

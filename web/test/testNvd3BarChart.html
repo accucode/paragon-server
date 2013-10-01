@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+    
+    <link href="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/nv.d3.css" rel="stylesheet" type="text/css">
+    
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/lib/d3.v3.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/nv.d3.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/tooltip.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/utils.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/interactiveLayer.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/legend.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/axis.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/discreteBar.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/discreteBarChart.js"></script>
+    
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $("#main").show();
+            
+            installBarChart();
+        }
+
+        function installBarChart()
+        {
+            nv.addGraph(function() 
+            {
+                var chart;
+                chart = nv.models.discreteBarChart();
+                
+                chart
+                    .x(function(d) { return d.label })
+                    .y(function(d) { return d.value })
+                    .staggerLabels(true)
+                    .tooltips(true)
+                    .transitionDuration(100);
+                    
+                d3.select('#barChart svg')
+                    .datum(barChartData())
+                    .call(chart);
+
+                nv.utils.windowResize(chart.update);
+
+                return chart;
+            });
+        }
+        
+        function barChartData() 
+        {
+            return [
+                {
+                    key: "Cumulative Return",
+                    values: [
+                        { 
+                          "label" : "Pi" ,
+                          "value" : 3.14159
+                        },
+                         
+                        { 
+                          "label" : "Phi" , 
+                          "value" : 1.618
+                        }, 
+                        
+                        { 
+                          "label" : "e" , 
+                          "value" : 2.718
+                        },
+                         
+                        { 
+                          "label" : "-1" , 
+                          "value" : -1
+                        }, 
+                         
+                        { 
+                          "label" : "0" , 
+                          "value" : 0
+                        },
+                         
+                        { 
+                          "label" : "1" , 
+                          "value" : 1
+                        } 
+                    ]
+                }
+            ];
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload='myLoad();'>
+<div id="main" style="display:none" class="gap">
+
+    <button onclick='location.reload();'>reload</button>
+    <br>
+    
+    <div class='boxBlue gap'>
+        <p>
+            This is a test of the NVD3 javascript chart tool. Specifically the Bar Chart.
+        </p>
+    </div>
+    
+    <div id="barChart" style="float:left; width: 50%;">
+        <svg style="height: 400px;"></svg>
+    </div>
+    
+</body>
+
+</html>

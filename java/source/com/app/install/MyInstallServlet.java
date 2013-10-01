@@ -4,10 +4,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.app.utility.MyConstantsIF;
+
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.utility.Kmu;
-
-import com.app.utility.MyConstantsIF;
 
 public class MyInstallServlet
     extends HttpServlet

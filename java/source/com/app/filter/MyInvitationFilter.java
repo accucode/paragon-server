@@ -1,9 +1,9 @@
 package com.app.filter;
 
-import com.kodemore.utility.KmNamedEnumIF;
-
 import com.app.criteria.MyInvitationCriteria;
 import com.app.filter.base.MyInvitationFilterBase;
+
+import com.kodemore.utility.KmNamedEnumIF;
 
 public class MyInvitationFilter
     extends MyInvitationFilterBase

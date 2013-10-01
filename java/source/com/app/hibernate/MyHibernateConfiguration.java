@@ -2,10 +2,10 @@ package com.app.hibernate;
 
 import org.hibernate.cfg.Configuration;
 
-import com.kodemore.utility.Kmu;
-
 import com.app.hibernate.base.MyHibernateConfigurationBase;
 import com.app.property.MyPropertyRegistry;
+
+import com.kodemore.utility.Kmu;
 
 public class MyHibernateConfiguration
     extends MyHibernateConfigurationBase

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+    
+    <link href="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/nv.d3.css" rel="stylesheet" type="text/css">
+    
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/lib/d3.v3.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/nv.d3.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/tooltip.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/utils.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/interactiveLayer.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/legend.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/axis.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/line.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/lineChart.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/historicalBar.js"></script>
+    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/lineWithFocusChart.js"></script>
+    
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $("#main").show();
+            
+            installLineChart();
+        }
+
+        function installLineChart()
+        {
+            nv.addGraph(function() 
+            {
+                var chart;
+                chart = nv.models.linePlusBarWithFocusChart();
+            
+                chart.xAxis
+                    .tickFormat(d3.format(',f'));
+                chart.x2Axis
+                    .tickFormat(d3.format(',f'));
+            
+                chart.y1Axis
+                    .tickFormat(d3.format(',f'));
+                chart.y2Axis
+                    .tickFormat(d3.format(',f'));
+                chart.y3Axis
+                    .tickFormat(d3.format(',f'));
+                chart.y4Axis
+                    .tickFormat(d3.format(',f'));
+                
+                d3.select('#lineChart svg')
+                    .datum(lineChartData())
+                    .transition().duration(500)
+                    .call(chart);
+                
+                nv.utils.windowResize(chart.update);
+                
+                return chart;
+            });
+        }
+        
+        function lineChartData() 
+        {
+            var sin = [],
+                randCos = [];
+        
+            for (var i = 0; i < 300; i++) 
+            {
+                sin.push({x: i, y: Math.sin(i/10) + Math.cos(i/6) + Math.random() }); 
+                randCos.push({x: i, y: Math.cos(i/10) + Math.sin(i/6) + Math.random() });
+            }
+            
+            return [
+                {
+                    bar: true,
+                    values: sin,
+                    key: "A Bit Random",
+                },
+                
+                {
+                    values: randCos,
+                    key: "More Random",
+                    color: "#667711"
+                }
+            ];
+        }   
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload='myLoad();'>
+<div id="main" style="display:none" class="gap">
+
+    <button onclick='location.reload();'>reload</button>
+    <br>
+    
+    <div class='boxBlue gap'>
+        <p>
+            This is a test of the NVD3 javascript chart tool. Specifically the Line and Bar chart
+            combination with a Zoom/Focus function.
+        </p>
+    </div>
+    
+    <div id="lineChart" style="float:left; width: 100%;">
+        <svg style="height: 400px;"></svg>
+    </div>
+    
+</body>
+
+</html>

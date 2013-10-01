@@ -1,13 +1,13 @@
 package com.app.filter;
 
+import com.app.criteria.MyEmailCriteria;
+import com.app.filter.base.MyEmailFilterBase;
+import com.app.model.MyEmailStatus;
+
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.KmNamedEnumIF;
 import com.kodemore.utility.Kmu;
-
-import com.app.criteria.MyEmailCriteria;
-import com.app.filter.base.MyEmailFilterBase;
-import com.app.model.MyEmailStatus;
 
 public class MyEmailFilter
     extends MyEmailFilterBase

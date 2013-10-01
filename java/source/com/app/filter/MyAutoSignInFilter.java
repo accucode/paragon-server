@@ -1,9 +1,9 @@
 package com.app.filter;
 
-import com.kodemore.utility.KmNamedEnumIF;
-
 import com.app.criteria.MyAutoSignInCriteria;
 import com.app.filter.base.MyAutoSignInFilterBase;
+
+import com.kodemore.utility.KmNamedEnumIF;
 
 public class MyAutoSignInFilter
     extends MyAutoSignInFilterBase

@@ -2,15 +2,15 @@ package com.app.utility;
 
 import java.util.Iterator;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.collection.KmMap;
-import com.kodemore.utility.Kmu;
-
 import com.app.model.MyDownload;
 import com.app.model.MyInvitation;
 import com.app.model.MyPasswordReset;
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.servlet.MyServletConstantsIF;
+
+import com.kodemore.collection.KmList;
+import com.kodemore.collection.KmMap;
+import com.kodemore.utility.Kmu;
 
 public class MyUrls
     implements MyServletConstantsIF

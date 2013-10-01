@@ -1,13 +1,5 @@
 package com.app.utility;
 
-import com.kodemore.file.KmFile;
-import com.kodemore.log.KmLogger;
-import com.kodemore.servlet.action.ScActions;
-import com.kodemore.servlet.action.ScGlobalContext;
-import com.kodemore.servlet.utility.ScControlRegistry;
-import com.kodemore.time.KmTimeZoneBridge;
-import com.kodemore.utility.Kmu;
-
 import com.app.bridge.MyApplicationBridge;
 import com.app.bridge.MyDaoBridge;
 import com.app.bridge.MyDatabaseConnectionFactory;
@@ -29,6 +21,14 @@ import com.app.ui.layout.MyPageLayout;
 import com.app.ui.layout.MyPageLayoutBridge;
 import com.app.ui.servlet.MyFormatter;
 import com.app.ui.servlet.ScServletCallbackRegistry;
+
+import com.kodemore.file.KmFile;
+import com.kodemore.log.KmLogger;
+import com.kodemore.servlet.action.ScActions;
+import com.kodemore.servlet.action.ScGlobalContext;
+import com.kodemore.servlet.utility.ScControlRegistry;
+import com.kodemore.time.KmTimeZoneBridge;
+import com.kodemore.utility.Kmu;
 
 /**
  * I install the application when the servlet container initially

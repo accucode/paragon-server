@@ -2,12 +2,12 @@ package com.app.filter.core;
 
 import java.io.Serializable;
 
+import com.app.command.base.MyFilterBase;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.dao.KmAbstractDao;
 import com.kodemore.hibernate.criteria.KmCriteria;
 import com.kodemore.hibernate.criteria.KmModelCriteria;
-
-import com.app.command.base.MyFilterBase;
 
 public abstract class MyBasicFilter<T>
     extends MyFilterBase<T>
