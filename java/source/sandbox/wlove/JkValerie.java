@@ -24,7 +24,7 @@ public class JkValerie
         e = new KmHttpGet();
         e.setHost("graph.facebook.com");
         e.setPort(80);
-        e.setPath("1608414795");
+        e.setPath("cocacola");
         e.setContentType("text/html");
         e.submit();
         System.out.println("------------------------------------------------------------");
