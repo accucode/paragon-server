@@ -1,7 +1,12 @@
 package sandbox.wlove;
 
-import com.kodemore.servlet.field.ScFakeHtmlId;
-import com.kodemore.servlet.script.ScRootScript;
+import twitter4j.ResponseList;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.User;
+import twitter4j.UserList;
+import twitter4j.conf.ConfigurationBuilder;
 
 public class JkTest
 {
@@ -20,17 +25,36 @@ public class JkTest
 
     private void run()
     {
-        ScRootScript root;
-        root = new ScRootScript();
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true).setOAuthConsumerKey("Udran5zmhShyr5etGhFRgg").setOAuthConsumerSecret(
+            "ggtZ1KzsoGYlid6CBXk7327NgRfZsUsi8w68p1WpBw").setOAuthAccessToken(
+            "1927388761-AULOl5HVWeOoQztUF0hPsyo6SmOkz17lfuQ7Cau").setOAuthAccessTokenSecret(
+            "4jVUX0UXulgHBSeX2SJBhUuBJB3IZAFljGSwLPtnsE");
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
 
-        ScFakeHtmlId a = new ScFakeHtmlId("a", root);
-        ScFakeHtmlId b = new ScFakeHtmlId("b", root);
-        ScFakeHtmlId c = new ScFakeHtmlId("c", root);
+        ResponseList<UserList> users = null;
+        try
+        {
+            users = twitter.getUserLists(0);
+        }
+        catch ( TwitterException ex )
+        {
+            // todo_steve Auto-generated catch block
+            ex.printStackTrace();
+        }
+        if ( users != null )
+            for ( UserList ul : users )
+            {
+                User u = ul.getUser();
 
-        a.ajax().toggle().slide().defer();
-        b.ajax().toggle().slide().defer();
-        c.ajax().toggle().slide().defer();
+                System.out.println("name: " + u.getName());
+                System.out.println("ID: " + u.getId());
+                System.out.println("Access Level: " + u.getAccessLevel());
+                System.out.println("favorites count: " + u.getFavouritesCount());
+                System.out.println("friends count: " + u.getFriendsCount());
 
-        System.out.println(root.formatMultilineScript());
+            }
+
     }
 }
