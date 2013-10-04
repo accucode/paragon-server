@@ -85,6 +85,7 @@ public class MyTestMenuPage
         links.addLink(MyBarcodeTestPage.instance);
         links.addLink(MyGradientTestPage.instance);
         links.addLink(MyCardFlipTestPage.instance);
+        links.addLink(MyChartTestPage.instance);
 
         group = groups.addGroup("Tools");
         links = group.addLinkBox();

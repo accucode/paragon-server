@@ -44,11 +44,11 @@
                 chart = nv.models.lineChart().useInteractiveGuideline(true);
                 
                 chart
-                    .margin( {left:100} )
                     .x( function(d,i) { return d.x });
+                    .margin( {left:100} )
             
                 chart.xAxis
-                    .axisLabel("Time (s)")
+                    .axisLabel('Time (s)')
                     .tickFormat(d3.format(',.1f'));
                 
                 chart.yAxis
@@ -128,8 +128,8 @@
         </p>
     </div>
     
-    <div id="lineChart" style="float:left; width: 50%;">
-        <svg style="height: 400px;"></svg>
+    <div id="lineChart" style="float:left; width: 50%; height: 400px;">
+        <svg></svg>
     </div>
     
 </body>
