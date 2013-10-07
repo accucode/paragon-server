@@ -1,9 +1,10 @@
 package com.app.ui.activity.test;
 
 import com.kodemore.json.KmJsonObject;
-import com.kodemore.servlet.control.ScChart;
-import com.kodemore.servlet.control.ScChartSeries;
+import com.kodemore.servlet.control.ScBarChart;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScLineChart;
+import com.kodemore.servlet.control.ScChartSeries;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.types.KmHtmlColor;
 import com.kodemore.utility.KmRandomUtility;
@@ -29,7 +30,8 @@ public class MyChartTestPage
     //# constants
     //##################################################
 
-    private static final int POINTS = 100;
+    private static final int LINE_POINTS = 100;
+    private static final int BAR_POINTS  = 20;
 
     //##################################################
     //# install
@@ -43,13 +45,14 @@ public class MyChartTestPage
         ScGroup group;
         group = root.addGroup("Chart Test");
         group.addPad().addText("This is a test of the ScChart");
-        root.add(createChart());
+        root.add(createLineChart());
+        root.add(createBarChart());
     }
 
-    private ScChart createChart()
+    private ScLineChart createLineChart()
     {
-        ScChart chart;
-        chart = new ScChart();
+        ScLineChart chart;
+        chart = new ScLineChart();
         chart.css().borderBlack();
 
         ScChartSeries s;
@@ -57,16 +60,48 @@ public class MyChartTestPage
         s.setKey("Blue");
         s.setColor(KmHtmlColor.createBlue());
         s.setArea();
-        generateData(s);
+        generateData(s, LINE_POINTS);
 
         s = chart.addSeries();
         s.setKey("Green");
         s.setColor(KmHtmlColor.createGreen());
         s.setArea();
-        generateData(s);
+        generateData(s, LINE_POINTS);
 
-        chart.setXAxisLabel("Time (s)");
-        chart.setYAxisLabel("Voltage (V)");
+        chart.setXAxisLabel("X Axis");
+        chart.setYAxisLabel("Y Axis");
+        chart.setWidth(800);
+
+        return chart;
+    }
+
+    private ScBarChart createBarChart()
+    {
+        ScBarChart chart;
+        chart = new ScBarChart();
+        chart.css().borderBlack();
+
+        ScChartSeries s;
+        s = chart.addSeries();
+        s.setKey("Blue");
+        s.setColor(KmHtmlColor.createBlue());
+        s.setArea();
+        generateData(s, BAR_POINTS);
+
+        s = chart.addSeries();
+        s.setKey("Black");
+        s.setColor(KmHtmlColor.createBlack());
+        s.setArea();
+        generateData(s, BAR_POINTS);
+
+        s = chart.addSeries();
+        s.setKey("Green");
+        s.setColor(KmHtmlColor.createGreen());
+        s.setArea();
+        generateData(s, BAR_POINTS);
+
+        chart.setXAxisLabel("X Axis");
+        chart.setYAxisLabel("Y Axis");
         chart.setWidth(800);
 
         return chart;
@@ -76,9 +111,9 @@ public class MyChartTestPage
     //# utility
     //##################################################
 
-    private void generateData(ScChartSeries s)
+    private void generateData(ScChartSeries s, int number)
     {
-        int n = POINTS;
+        int n = number;
         for ( int i = 0; i < n; i++ )
             s.addPoint(createRandomDataPoint(i));
     }

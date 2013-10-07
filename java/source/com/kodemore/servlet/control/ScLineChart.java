@@ -29,24 +29,25 @@ import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
-public class ScChart
+public class ScLineChart
     extends ScDiv
 {
     //##################################################
     //# constants
     //##################################################
 
-    private static final int      Y_LABEL_MARGIN = 100;
+    private static final int          Y_LABEL_MARGIN = 85;
 
     //##################################################
     //# variables
     //##################################################
 
-    private int                   _height;
-    private int                   _width;
+    private int                       _height;
+    private int                       _width;
+    private int                       _transitionDuration;
 
-    private String                _xAxisLabel;
-    private String                _yAxisLabel;
+    private String                    _xAxisLabel;
+    private String                    _yAxisLabel;
 
     private KmList<ScChartSeries> _dataSeries;
 
@@ -64,6 +65,7 @@ public class ScChart
         // review_aaron: need good defaults
         _height = 400;
         _width = 400;
+        _transitionDuration = 500;
     }
 
     //##################################################
@@ -88,6 +90,20 @@ public class ScChart
     public void setWidth(int e)
     {
         _width = e;
+    }
+
+    //##################################################
+    //# transition duration
+    //##################################################
+
+    public int getTransitionDuration()
+    {
+        return _transitionDuration;
+    }
+
+    public void setTransitionDuration(int e)
+    {
+        _transitionDuration = e;
     }
 
     //##################################################
@@ -133,9 +149,9 @@ public class ScChart
         return _dataSeries;
     }
 
-    public void setDataSeries(KmList<ScChartSeries> dataSeries)
+    public void setDataSeries(KmList<ScChartSeries> e)
     {
-        _dataSeries = dataSeries;
+        _dataSeries = e;
     }
 
     public ScChartSeries addSeries()
@@ -220,9 +236,10 @@ public class ScChart
     private void finalizeChart(KmStringBuilder out)
     {
         out.printf(
-            "d3.select('#%s svg').datum(%s).transition().duration(500).call(chart);",
+            "d3.select('#%s svg').datum(%s).transition().duration(%s).call(chart);",
             getHtmlId(),
-            formatData());
+            formatData(),
+            getTransitionDuration());
         out.print("nv.utils.windowResize(chart.update);");
         out.print("return chart;");
     }
