@@ -25,7 +25,6 @@ package com.kodemore.servlet.control;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonList;
-import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
@@ -51,13 +50,6 @@ public class ScChart
 
     private KmList<ScChartSeries> _dataSeries;
 
-    /**
-     *  review_aaron: data points are currently strings. Need to
-     *  be in the following format:
-     *      { x: 1, y: 2 } 
-     */
-    private KmJsonList            _dataPoints;
-
     //##################################################
     //# constructor
     //##################################################
@@ -72,25 +64,6 @@ public class ScChart
         // review_aaron: need good defaults
         _height = 400;
         _width = 400;
-    }
-
-    //##################################################
-    //# data
-    //##################################################
-
-    public KmJsonList getDataPoints()
-    {
-        return _dataPoints;
-    }
-
-    public void setDataPoints(KmJsonList e)
-    {
-        _dataPoints = e;
-    }
-
-    public void addDataPoint(KmJsonObject e)
-    {
-        getDataPoints().addObject(e);
     }
 
     //##################################################
@@ -267,29 +240,4 @@ public class ScChart
 
         return arr;
     }
-
-    // remove_aaron: 
-    //    private String formatData()
-    //    {
-    //        KmStringBuilder out;
-    //        out = new KmStringBuilder();
-    //
-    //        out.print(formatChartData());
-    //
-    //        return out.toString();
-    //    }
-    //
-    //    private KmJsonList formatChartData()
-    //    {
-    //        KmJsonList arr;
-    //        arr = new KmJsonList();
-    //
-    //        KmJsonObject out;
-    //        out = arr.addObject();
-    //        out.setList("values", getDataPoints());
-    //        out.setString("key", "Sample Data");
-    //        out.setBoolean("area", false);
-    //
-    //        return arr;
-    //    }
 }
