@@ -74,6 +74,18 @@ var MyResourceLoader =
             // ScrollTo
             "static/{version}/jquery/scrollto-1.4.3.1/jquery.scrollTo-1.4.3.1-min.js", 
             
+            //NVD3
+            "static/{version}/nvd3-1.1.10/src/nv.d3.css", 
+            "static/{version}/nvd3-1.1.10/lib/d3.v3.js", 
+            "static/{version}/nvd3-1.1.10/nv.d3.js", 
+            "static/{version}/nvd3-1.1.10/src/tooltip.js", 
+            "static/{version}/nvd3-1.1.10/src/utils.js", 
+            "static/{version}/nvd3-1.1.10/src/interactiveLayer.js", 
+            "static/{version}/nvd3-1.1.10/src/models/legend.js", 
+            "static/{version}/nvd3-1.1.10/src/models/axis.js", 
+            "static/{version}/nvd3-1.1.10/src/models/line.js", 
+            "static/{version}/nvd3-1.1.10/src/models/lineChart.js", 
+            
             // Kodemore
             "static/{version}/app/common/script/kmExtensions.js",
             "static/{version}/app/common/script/kmUtility.js",
