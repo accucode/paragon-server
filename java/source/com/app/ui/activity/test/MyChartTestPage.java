@@ -2,10 +2,11 @@ package com.app.ui.activity.test;
 
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.control.ScBarChart;
+import com.kodemore.servlet.control.ScChartSeries;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLineChart;
-import com.kodemore.servlet.control.ScChartSeries;
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.control.ScPieChart;
 import com.kodemore.types.KmHtmlColor;
 import com.kodemore.utility.KmRandomUtility;
 
@@ -47,6 +48,7 @@ public class MyChartTestPage
         group.addPad().addText("This is a test of the ScChart");
         root.add(createLineChart());
         root.add(createBarChart());
+        root.add(createPieChart());
     }
 
     private ScLineChart createLineChart()
@@ -107,6 +109,18 @@ public class MyChartTestPage
         return chart;
     }
 
+    private ScPieChart createPieChart()
+    {
+        ScPieChart pie;
+        pie = new ScPieChart();
+        pie.setDonut(false);
+        pie.css().borderBlack();
+
+        generatePieChartData(pie);
+
+        return pie;
+    }
+
     //##################################################
     //# utility
     //##################################################
@@ -127,5 +141,14 @@ public class MyChartTestPage
         point.setInteger("x", x);
         point.setInteger("y", y);
         return point;
+    }
+
+    private void generatePieChartData(ScPieChart pie)
+    {
+        pie.addSlice("pi", 3.14);
+        pie.addSlice("phi", 1.618);
+        pie.addSlice("gamma", 1.4);
+        pie.addSlice("e", 2.72);
+        pie.addSlice("1", 1);
     }
 }
