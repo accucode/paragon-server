@@ -50,11 +50,9 @@ public class MyChartTestPage
     {
         ScChart chart;
         chart = new ScChart();
-
-        //        chart.setDataPoints(generateData());
+        chart.css().borderBlack();
 
         ScChartSeries s;
-
         s = chart.addSeries();
         s.setKey("Blue");
         s.setColor(KmHtmlColor.createBlue());

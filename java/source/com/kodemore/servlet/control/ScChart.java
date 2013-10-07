@@ -161,6 +161,7 @@ public class ScChart
         out.openDiv();
         out.printAttribute("id", getHtmlId());
         out.printAttribute("style", style);
+        out.printAttribute(formatCss());
         out.close();
 
         out.begin("svg");
