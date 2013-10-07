@@ -1,10 +1,11 @@
 package com.app.ui.activity.test;
 
-import com.kodemore.json.KmJsonList;
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.control.ScChart;
+import com.kodemore.servlet.control.ScChartSeries;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.types.KmHtmlColor;
 import com.kodemore.utility.KmRandomUtility;
 
 /**
@@ -50,7 +51,22 @@ public class MyChartTestPage
         ScChart chart;
         chart = new ScChart();
 
-        chart.setDataPoints(generateData());
+        //        chart.setDataPoints(generateData());
+
+        ScChartSeries s;
+
+        s = chart.addSeries();
+        s.setKey("Blue");
+        s.setColor(KmHtmlColor.createBlue());
+        s.setArea();
+        generateData(s);
+
+        s = chart.addSeries();
+        s.setKey("Green");
+        s.setColor(KmHtmlColor.createGreen());
+        s.setArea();
+        generateData(s);
+
         chart.setXAxisLabel("Time (s)");
         chart.setYAxisLabel("Voltage (V)");
         chart.setWidth(800);
@@ -62,28 +78,11 @@ public class MyChartTestPage
     //# utility
     //##################################################
 
-    //    private KmList<String> generateData()
-    //    {
-    //        KmList<String> data;
-    //        data = new KmList<String>();
-    //
-    //        int n = POINTS;
-    //        for ( int i = 0; i < n; i++ )
-    //            data.add(createRandomDataPoint(i));
-    //
-    //        return data;
-    //    }
-
-    private KmJsonList generateData()
+    private void generateData(ScChartSeries s)
     {
-        KmJsonList data;
-        data = new KmJsonList();
-
         int n = POINTS;
         for ( int i = 0; i < n; i++ )
-            data.addObject(createRandomDataPoint(i));
-
-        return data;
+            s.addPoint(createRandomDataPoint(i));
     }
 
     private KmJsonObject createRandomDataPoint(int x)

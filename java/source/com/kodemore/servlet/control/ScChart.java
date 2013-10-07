@@ -22,6 +22,7 @@
 
 package com.kodemore.servlet.control;
 
+import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonList;
 import com.kodemore.json.KmJsonObject;
@@ -36,26 +37,26 @@ public class ScChart
     //# constants
     //##################################################
 
-    private static final int Y_LABEL_MARGIN = 100;
+    private static final int      Y_LABEL_MARGIN = 100;
 
     //##################################################
     //# variables
     //##################################################
 
-    private int              _height;
-    private int              _width;
+    private int                   _height;
+    private int                   _width;
 
-    private String           _xAxisLabel;
-    private String           _yAxisLabel;
+    private String                _xAxisLabel;
+    private String                _yAxisLabel;
 
-    //    private KmList<KmJsonList>   _data;
+    private KmList<ScChartSeries> _dataSeries;
 
     /**
      *  review_aaron: data points are currently strings. Need to
      *  be in the following format:
      *      { x: 1, y: 2 } 
      */
-    private KmJsonList       _dataPoints;
+    private KmJsonList            _dataPoints;
 
     //##################################################
     //# constructor
@@ -65,6 +66,8 @@ public class ScChart
     protected void install()
     {
         super.install();
+
+        _dataSeries = new KmList<ScChartSeries>();
 
         // review_aaron: need good defaults
         _height = 400;
@@ -149,6 +152,31 @@ public class ScChart
     }
 
     //##################################################
+    //# series
+    //##################################################
+
+    public KmList<ScChartSeries> getDataSeries()
+    {
+        return _dataSeries;
+    }
+
+    public void setDataSeries(KmList<ScChartSeries> dataSeries)
+    {
+        _dataSeries = dataSeries;
+    }
+
+    public ScChartSeries addSeries()
+    {
+        String key = Kmu.format("Series %s", getDataSeries().size() + 1);
+
+        ScChartSeries e;
+        e = new ScChartSeries();
+        e.setKey(key);
+        getDataSeries().add(e);
+        return e;
+    }
+
+    //##################################################
     //# print
     //##################################################
 
@@ -229,27 +257,39 @@ public class ScChart
     //# format data
     //##################################################
 
-    private String formatData()
-    {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-
-        out.print(formatChartData());
-
-        return out.toString();
-    }
-
-    private KmJsonList formatChartData()
+    private KmJsonList formatData()
     {
         KmJsonList arr;
         arr = new KmJsonList();
 
-        KmJsonObject out;
-        out = arr.addObject();
-        out.setList("values", getDataPoints());
-        out.setString("key", "Sample Data");
-        out.setBoolean("area", false);
+        for ( ScChartSeries e : getDataSeries() )
+            arr.addObject(e.formatJson());
 
         return arr;
     }
+
+    // remove_aaron: 
+    //    private String formatData()
+    //    {
+    //        KmStringBuilder out;
+    //        out = new KmStringBuilder();
+    //
+    //        out.print(formatChartData());
+    //
+    //        return out.toString();
+    //    }
+    //
+    //    private KmJsonList formatChartData()
+    //    {
+    //        KmJsonList arr;
+    //        arr = new KmJsonList();
+    //
+    //        KmJsonObject out;
+    //        out = arr.addObject();
+    //        out.setList("values", getDataPoints());
+    //        out.setString("key", "Sample Data");
+    //        out.setBoolean("area", false);
+    //
+    //        return arr;
+    //    }
 }
