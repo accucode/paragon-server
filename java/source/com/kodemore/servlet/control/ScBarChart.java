@@ -41,6 +41,7 @@ public class ScBarChart
     //##################################################
 
     private static final int      DEFAULT_TRANSITION_DURATION = 300;
+    private static final int      DEFAULT_DELAY               = 600;
 
     private static final int      Y_LABEL_MARGIN              = 85;
 
@@ -48,7 +49,16 @@ public class ScBarChart
     //# variables
     //##################################################
 
+    /**
+     * The time it takes for the chart to appear on the page.
+     */
     private int                   _transitionDuration;
+
+    /**
+     * The time delay between animating individual bars, or groups
+     * or bars.
+     */
+    private int                   _delay;
 
     private boolean               _staggerLabels;
 
@@ -67,6 +77,7 @@ public class ScBarChart
         super.install();
 
         _transitionDuration = DEFAULT_TRANSITION_DURATION;
+        _delay = DEFAULT_DELAY;
 
         _dataSeries = new KmList<ScChartSeries>();
     }
@@ -83,6 +94,20 @@ public class ScBarChart
     public void setTransitionDuration(int e)
     {
         _transitionDuration = e;
+    }
+
+    //##################################################
+    //# delay
+    //##################################################
+
+    public int getDelay()
+    {
+        return _delay;
+    }
+
+    public void setDelay(int e)
+    {
+        _delay = e;
     }
 
     //##################################################
@@ -197,7 +222,7 @@ public class ScBarChart
         out.print("var chart;");
         out.print("chart = nv.models.multiBarChart();");
         out.printf("chart.transitionDuration(%s);", getTransitionDuration());
-        out.printf("chart.delay(%s);", getTransitionDuration());
+        out.printf("chart.delay(%s);", getDelay());
 
         if ( hasYAxisLabel() )
             out.printf("chart.margin({left:%s});", Y_LABEL_MARGIN);

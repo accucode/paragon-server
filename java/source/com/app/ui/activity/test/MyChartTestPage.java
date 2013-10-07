@@ -32,7 +32,7 @@ public class MyChartTestPage
     //##################################################
 
     private static final int LINE_POINTS = 100;
-    private static final int BAR_POINTS  = 20;
+    private static final int BAR_POINTS  = 50;
 
     //##################################################
     //# install

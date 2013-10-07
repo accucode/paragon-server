@@ -48,6 +48,9 @@ public class ScLineChart
     //# variables
     //##################################################
 
+    /**
+     * The time it takes for the chart to appear on the page.
+     */
     private int                   _transitionDuration;
 
     private String                _xAxisLabel;
