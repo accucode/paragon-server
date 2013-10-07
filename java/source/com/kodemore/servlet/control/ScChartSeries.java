@@ -38,8 +38,23 @@ public class ScChartSeries
      * not be null.  Doubles as the series label.
      */
     private String      _key;
+
+    /**
+     * Optional value to determine the color of the data
+     * series.
+     */
     private KmHtmlColor _color;
+
+    /**
+     * On line charts, this attribute determines if the
+     * area below the line is filled in or not.
+     */
     private Boolean     _area;
+
+    /**
+     * The data points to be charted.  Each point has an
+     * "x" and a "y".
+     */
     private KmJsonList  _points;
 
     //##################################################

@@ -29,6 +29,10 @@ import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
 
+/**
+ * review_aaron Options to consider:
+ *      Label format, percent / key 
+ */
 public class ScPieChart
     extends ScDiv
 {
@@ -36,6 +40,11 @@ public class ScPieChart
     //# constants
     //##################################################
 
+    /**
+     * There is no instance variable for transition duration on the
+     * pie chart because while it is required for the chart to function
+     * changing this value has no apparent effect.
+     */
     private static final int     DEFAULT_TRANSITION_DURATION = 500;
 
     //##################################################
@@ -121,10 +130,8 @@ public class ScPieChart
         out.printAttribute(formatCss());
         out.printAttribute(formatStyle());
         out.close();
-
         out.begin("svg");
         out.end("svg");
-
         out.endDiv();
 
         ScRootScript ajax;

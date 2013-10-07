@@ -56,8 +56,7 @@ public class MyChartTestPage
         ScLineChart chart;
         chart = new ScLineChart();
         chart.css().borderBlack();
-        chart.style().floatLeft();
-        chart.style().width(400);
+        chart.style().height(400);
 
         ScChartSeries s;
         s = chart.addSeries();
@@ -83,8 +82,7 @@ public class MyChartTestPage
         ScBarChart chart;
         chart = new ScBarChart();
         chart.css().borderBlack();
-        chart.style().floatLeft();
-        chart.style().width(400);
+        chart.style().height(400);
 
         ScChartSeries s;
         s = chart.addSeries();
@@ -117,8 +115,7 @@ public class MyChartTestPage
         chart = new ScPieChart();
         chart.setDonut(true);
         chart.css().borderBlack();
-        chart.style().floatLeft();
-        chart.style().width(400);
+        chart.style().height(400);
 
         generatePieChartData(chart);
 

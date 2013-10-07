@@ -29,6 +29,10 @@ import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
+/**
+ * review_aaron Options to consider:
+ *      Axis format, precision. 
+ */
 public class ScBarChart
     extends ScDiv
 {
@@ -162,10 +166,8 @@ public class ScBarChart
         out.printAttribute(formatCss());
         out.printAttribute(formatStyle());
         out.close();
-
         out.begin("svg");
         out.end("svg");
-
         out.endDiv();
 
         ScRootScript ajax;
