@@ -234,12 +234,12 @@ public class ScChart
         KmStringBuilder out;
         out = new KmStringBuilder();
 
-        out.print(formatDataSeries());
+        out.print(formatChartData());
 
         return out.toString();
     }
 
-    private KmJsonList formatDataSeries()
+    private KmJsonList formatChartData()
     {
         KmJsonList arr;
         arr = new KmJsonList();
@@ -252,19 +252,4 @@ public class ScChart
 
         return arr;
     }
-
-    // remove_aaron: 
-    //    private String formatDataSeries()
-    //    {
-    //        KmStringBuilder out;
-    //        out = new KmStringBuilder();
-    //        out.print("[{");
-    //        out.print("key: 'Sample Data',");
-    //        out.print("area: false,");
-    //        out.print("values : [");
-    //        out.print(Kmu.formatList(getDataPoints()));
-    //        out.print("]");
-    //        out.print("}]");
-    //        return out.toString();
-    //    }
 }
