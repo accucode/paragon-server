@@ -22,8 +22,9 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.json.KmJsonList;
+import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
@@ -47,13 +48,14 @@ public class ScChart
     private String           _xAxisLabel;
     private String           _yAxisLabel;
 
-    private KmList<String>   _data;
+    //    private KmList<KmJsonList>   _data;
+
     /**
      *  review_aaron: data points are currently strings. Need to
      *  be in the following format:
      *      { x: 1, y: 2 } 
      */
-    private KmList<String>   _dataPoints;
+    private KmJsonList       _dataPoints;
 
     //##################################################
     //# constructor
@@ -73,19 +75,19 @@ public class ScChart
     //# data
     //##################################################
 
-    public KmList<String> getDataPoints()
+    public KmJsonList getDataPoints()
     {
         return _dataPoints;
     }
 
-    public void setDataPoints(KmList<String> e)
+    public void setDataPoints(KmJsonList e)
     {
         _dataPoints = e;
     }
 
-    public void addDataPoint(String e)
+    public void addDataPoint(KmJsonObject e)
     {
-        getDataPoints().add(e);
+        getDataPoints().addObject(e);
     }
 
     //##################################################
@@ -237,17 +239,32 @@ public class ScChart
         return out.toString();
     }
 
-    private String formatDataSeries()
+    private KmJsonList formatDataSeries()
     {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.print("[{");
-        out.print("key: 'Sample Data',");
-        out.print("area: false,");
-        out.print("values : [");
-        out.print(Kmu.formatList(getDataPoints()));
-        out.print("]");
-        out.print("}]");
-        return out.toString();
+        KmJsonList arr;
+        arr = new KmJsonList();
+
+        KmJsonObject out;
+        out = arr.addObject();
+        out.setList("values", getDataPoints());
+        out.setString("key", "Sample Data");
+        out.setBoolean("area", false);
+
+        return arr;
     }
+
+    // remove_aaron: 
+    //    private String formatDataSeries()
+    //    {
+    //        KmStringBuilder out;
+    //        out = new KmStringBuilder();
+    //        out.print("[{");
+    //        out.print("key: 'Sample Data',");
+    //        out.print("area: false,");
+    //        out.print("values : [");
+    //        out.print(Kmu.formatList(getDataPoints()));
+    //        out.print("]");
+    //        out.print("}]");
+    //        return out.toString();
+    //    }
 }

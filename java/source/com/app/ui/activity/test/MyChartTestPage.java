@@ -1,11 +1,11 @@
 package com.app.ui.activity.test;
 
-import com.kodemore.collection.KmList;
+import com.kodemore.json.KmJsonList;
+import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.control.ScChart;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.KmRandomUtility;
-import com.kodemore.utility.Kmu;
 
 /**
  * Test the layout and usage of the groups.
@@ -62,22 +62,38 @@ public class MyChartTestPage
     //# utility
     //##################################################
 
-    private KmList<String> generateData()
+    //    private KmList<String> generateData()
+    //    {
+    //        KmList<String> data;
+    //        data = new KmList<String>();
+    //
+    //        int n = POINTS;
+    //        for ( int i = 0; i < n; i++ )
+    //            data.add(createRandomDataPoint(i));
+    //
+    //        return data;
+    //    }
+
+    private KmJsonList generateData()
     {
-        KmList<String> data;
-        data = new KmList<String>();
+        KmJsonList data;
+        data = new KmJsonList();
 
         int n = POINTS;
         for ( int i = 0; i < n; i++ )
-            data.add(createRandomDataPoint(i));
+            data.addObject(createRandomDataPoint(i));
 
         return data;
     }
 
-    private String createRandomDataPoint(int x)
+    private KmJsonObject createRandomDataPoint(int x)
     {
-        double y = KmRandomUtility.getInteger(100);
+        int y = KmRandomUtility.getInteger(100);
 
-        return Kmu.format("{x: %s, y: %s}", x, y);
+        KmJsonObject point;
+        point = new KmJsonObject();
+        point.setInteger("x", x);
+        point.setInteger("y", y);
+        return point;
     }
 }
