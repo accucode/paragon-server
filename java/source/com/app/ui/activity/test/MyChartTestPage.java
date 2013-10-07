@@ -56,6 +56,8 @@ public class MyChartTestPage
         ScLineChart chart;
         chart = new ScLineChart();
         chart.css().borderBlack();
+        chart.style().floatLeft();
+        chart.style().width(400);
 
         ScChartSeries s;
         s = chart.addSeries();
@@ -72,7 +74,6 @@ public class MyChartTestPage
 
         chart.setXAxisLabel("X Axis");
         chart.setYAxisLabel("Y Axis");
-        chart.setWidth(800);
 
         return chart;
     }
@@ -82,6 +83,8 @@ public class MyChartTestPage
         ScBarChart chart;
         chart = new ScBarChart();
         chart.css().borderBlack();
+        chart.style().floatLeft();
+        chart.style().width(400);
 
         ScChartSeries s;
         s = chart.addSeries();
@@ -104,21 +107,22 @@ public class MyChartTestPage
 
         chart.setXAxisLabel("X Axis");
         chart.setYAxisLabel("Y Axis");
-        chart.setWidth(800);
 
         return chart;
     }
 
     private ScPieChart createPieChart()
     {
-        ScPieChart pie;
-        pie = new ScPieChart();
-        pie.setDonut(false);
-        pie.css().borderBlack();
+        ScPieChart chart;
+        chart = new ScPieChart();
+        chart.setDonut(true);
+        chart.css().borderBlack();
+        chart.style().floatLeft();
+        chart.style().width(400);
 
-        generatePieChartData(pie);
+        generatePieChartData(chart);
 
-        return pie;
+        return chart;
     }
 
     //##################################################

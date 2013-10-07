@@ -28,20 +28,31 @@ import com.kodemore.json.KmJsonList;
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
-import com.kodemore.utility.Kmu;
 
 public class ScPieChart
     extends ScDiv
 {
     //##################################################
+    //# constants
+    //##################################################
+
+    private static final int     DEFAULT_TRANSITION_DURATION = 500;
+
+    //##################################################
     //# variables
     //##################################################
 
-    private int                  _height;
-    private int                  _width;
-    private int                  _transitionDuration;
+    /**
+     * Whether or not the chart should be represented as
+     * a "donut", with the center cut out.
+     */
     private boolean              _donut;
 
+    /**
+     * This is the data to be represented in the chart.  
+     * Each "slice" must have a "key" (also the label)
+     * and a "value".
+     */
     private KmList<KmJsonObject> _slices;
 
     //##################################################
@@ -53,50 +64,7 @@ public class ScPieChart
     {
         super.install();
 
-        // review_aaron: need good defaults
-        _height = 400;
-        _width = 400;
-        _transitionDuration = 300;
-
         _slices = new KmList<KmJsonObject>();
-    }
-
-    //##################################################
-    //# height / width
-    //##################################################
-
-    public int getHeight()
-    {
-        return _height;
-    }
-
-    public void setHeight(int e)
-    {
-        _height = e;
-    }
-
-    public int getWidth()
-    {
-        return _width;
-    }
-
-    public void setWidth(int e)
-    {
-        _width = e;
-    }
-
-    //##################################################
-    //# transition duration
-    //##################################################
-
-    public int getTransitionDuration()
-    {
-        return _transitionDuration;
-    }
-
-    public void setTransitionDuration(int e)
-    {
-        _transitionDuration = e;
     }
 
     //##################################################
@@ -148,12 +116,10 @@ public class ScPieChart
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        String style = Kmu.format("height: %spx; width: %spx;", getHeight(), getWidth());
-
         out.openDiv();
         out.printAttribute("id", getHtmlId());
-        out.printAttribute("style", style);
         out.printAttribute(formatCss());
+        out.printAttribute(formatStyle());
         out.close();
 
         out.begin("svg");
@@ -197,7 +163,7 @@ public class ScPieChart
             "d3.select('#%s svg').datum(%s).transition().duration(%s).call(chart);",
             getHtmlId(),
             formatData(),
-            getTransitionDuration());
+            DEFAULT_TRANSITION_DURATION);
         out.print("nv.utils.windowResize(chart.update);");
         out.print("return chart;");
     }

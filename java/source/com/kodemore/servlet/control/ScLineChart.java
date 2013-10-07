@@ -36,18 +36,18 @@ public class ScLineChart
     //# constants
     //##################################################
 
-    private static final int          Y_LABEL_MARGIN = 85;
+    private static final int      DEFAULT_TRANSITION_DURATION = 500;
+
+    private static final int      Y_LABEL_MARGIN              = 85;
 
     //##################################################
     //# variables
     //##################################################
 
-    private int                       _height;
-    private int                       _width;
-    private int                       _transitionDuration;
+    private int                   _transitionDuration;
 
-    private String                    _xAxisLabel;
-    private String                    _yAxisLabel;
+    private String                _xAxisLabel;
+    private String                _yAxisLabel;
 
     private KmList<ScChartSeries> _dataSeries;
 
@@ -62,34 +62,7 @@ public class ScLineChart
 
         _dataSeries = new KmList<ScChartSeries>();
 
-        // review_aaron: need good defaults
-        _height = 400;
-        _width = 400;
-        _transitionDuration = 500;
-    }
-
-    //##################################################
-    //# height / width
-    //##################################################
-
-    public int getHeight()
-    {
-        return _height;
-    }
-
-    public void setHeight(int e)
-    {
-        _height = e;
-    }
-
-    public int getWidth()
-    {
-        return _width;
-    }
-
-    public void setWidth(int e)
-    {
-        _width = e;
+        _transitionDuration = DEFAULT_TRANSITION_DURATION;
     }
 
     //##################################################
@@ -172,12 +145,10 @@ public class ScLineChart
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        String style = Kmu.format("height: %spx; width: %spx;", getHeight(), getWidth());
-
         out.openDiv();
         out.printAttribute("id", getHtmlId());
-        out.printAttribute("style", style);
         out.printAttribute(formatCss());
+        out.printAttribute(formatStyle());
         out.close();
 
         out.begin("svg");
