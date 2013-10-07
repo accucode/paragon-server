@@ -5692,4 +5692,25 @@ public class Kmu
 
         return uri.substring(i + 1);
     }
+
+    /**
+     * review_wyatt: (aaron) I added these boolean utilities.  They
+     * exist in the Kmu in AO Bar Droid, but not here in Paragon.  Not sure
+     * why that is.
+     */
+    //##################################################
+    //# boolean 
+    //##################################################
+
+    public static boolean isTrue(Boolean e)
+    {
+        return isTrue(e, false);
+    }
+
+    public static boolean isTrue(Boolean e, boolean def)
+    {
+        return e == null
+            ? def
+            : e;
+    }
 }
