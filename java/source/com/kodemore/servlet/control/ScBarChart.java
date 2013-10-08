@@ -43,6 +43,9 @@ public class ScBarChart
     private static final int      DEFAULT_TRANSITION_DURATION = 300;
     private static final int      DEFAULT_DELAY               = 600;
 
+    private static final int      DEFAULT_X_AXIS_PRECISION    = 0;
+    private static final int      DEFAULT_Y_AXIS_PRECISION    = 0;
+
     private static final int      Y_LABEL_MARGIN              = 85;
 
     //##################################################
@@ -65,6 +68,19 @@ public class ScBarChart
     private String                _xAxisLabel;
     private String                _yAxisLabel;
 
+    private Integer               _yAxisMin;
+    private Integer               _yAxisMax;
+
+    /**
+     * how many digits after the deciman to show on the x axis labels
+     */
+    private int                   _xAxisPrecision;
+
+    /**
+     * how many digits after the deciman to show on the y axis labels
+     */
+    private int                   _yAxisPrecision;
+
     private KmList<ScChartSeries> _dataSeries;
 
     //##################################################
@@ -78,6 +94,9 @@ public class ScBarChart
 
         _transitionDuration = DEFAULT_TRANSITION_DURATION;
         _delay = DEFAULT_DELAY;
+
+        _xAxisPrecision = DEFAULT_X_AXIS_PRECISION;
+        _yAxisPrecision = DEFAULT_Y_AXIS_PRECISION;
 
         _dataSeries = new KmList<ScChartSeries>();
     }
@@ -111,8 +130,12 @@ public class ScBarChart
     }
 
     //##################################################
-    //# axis labels
+    //# axis
     //##################################################
+
+    //==================================================
+    //= axis :: labels
+    //==================================================
 
     public String getXAxisLabel()
     {
@@ -152,6 +175,54 @@ public class ScBarChart
     public void setStaggerLabels(boolean staggerLabels)
     {
         _staggerLabels = staggerLabels;
+    }
+
+    //==================================================
+    //= axis :: precision
+    //==================================================
+
+    public int getXAxisPrecision()
+    {
+        return _xAxisPrecision;
+    }
+
+    public void setxAxisPrecision(int e)
+    {
+        _xAxisPrecision = e;
+    }
+
+    public int getYAxisPrecision()
+    {
+        return _yAxisPrecision;
+    }
+
+    public void setyAxisPrecision(int e)
+    {
+        _yAxisPrecision = e;
+    }
+
+    //==================================================
+    //= axis :: min / max
+    //==================================================
+
+    public Integer getYAxisMin()
+    {
+        return _yAxisMin;
+    }
+
+    public void setYAxisMin(Integer e)
+    {
+        _yAxisMin = e;
+    }
+
+    public Integer getYAxisMax()
+    {
+        return _yAxisMax;
+    }
+
+    public void setYAxisMax(Integer e)
+    {
+        _yAxisMax = e;
     }
 
     //##################################################
@@ -230,7 +301,7 @@ public class ScBarChart
 
     private void formatXAxis(KmStringBuilder out)
     {
-        out.print("chart.xAxis.tickFormat(d3.format(',.1f'));");
+        out.printf("chart.xAxis.tickFormat(d3.format(',.%sf'));", getXAxisPrecision());
 
         if ( hasXAxisLabel() )
             out.printf("chart.xAxis.axisLabel('%s');", getXAxisLabel());
@@ -238,10 +309,12 @@ public class ScBarChart
 
     private void formatYAxis(KmStringBuilder out)
     {
-        out.print("chart.yAxis.tickFormat(d3.format(',.1f'));");
+        out.printf("chart.yAxis.tickFormat(d3.format(',.1%s'));", getYAxisPrecision());
 
         if ( hasYAxisLabel() )
             out.printf("chart.yAxis.axisLabel('%s');", getYAxisLabel());
+
+        out.printf("chart.forceY([%s,%s]);", getYAxisMin(), getYAxisMax());
     }
 
     private void finalizeChart(KmStringBuilder out)

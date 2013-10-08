@@ -29,13 +29,49 @@ import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
 
-/**
- * review_aaron Options to consider:
- *      Label format, percent / key 
- */
 public class ScPieChart
     extends ScDiv
 {
+    //##################################################
+    //# enum 
+    //##################################################
+
+    private enum LabelType
+    {
+        KEY("key"),
+        PERCENT("percent"),
+        VALUE("value");
+
+        //==================================================
+        //= enum :: variables
+        //==================================================
+
+        private String _stringValue;
+
+        //==================================================
+        //= enum :: constructor
+        //==================================================
+
+        private LabelType(String stringValue)
+        {
+            setStringValue(stringValue);
+        }
+
+        //==================================================
+        //= enum :: accessing
+        //==================================================
+
+        public String getStringValue()
+        {
+            return _stringValue;
+        }
+
+        public void setStringValue(String e)
+        {
+            _stringValue = e;
+        }
+    }
+
     //##################################################
     //# constants
     //##################################################
@@ -64,6 +100,8 @@ public class ScPieChart
      */
     private KmList<KmJsonObject> _slices;
 
+    private LabelType            _labelType;
+
     //##################################################
     //# constructor
     //##################################################
@@ -74,6 +112,7 @@ public class ScPieChart
         super.install();
 
         _slices = new KmList<KmJsonObject>();
+        _labelType = LabelType.KEY;
     }
 
     //##################################################
@@ -119,6 +158,45 @@ public class ScPieChart
     }
 
     //##################################################
+    //# label Type
+    //##################################################
+
+    public LabelType getLabelType()
+    {
+        return _labelType;
+    }
+
+    private void setLabelType(LabelType e)
+    {
+        _labelType = e;
+    }
+
+    /**
+     * Slices are labeled with the data point's key
+     */
+    public void setLabelTypeKey()
+    {
+        setLabelType(LabelType.KEY);
+    }
+
+    /**
+     * Slices are labeled with the data point's value
+     */
+    public void setLabelTypeValue()
+    {
+        setLabelType(LabelType.VALUE);
+    }
+
+    /**
+     * Slices are labeled with the data point's percentage 
+     * of the whole
+     */
+    public void setLabelTypePercent()
+    {
+        setLabelType(LabelType.PERCENT);
+    }
+
+    //##################################################
     //# print
     //##################################################
 
@@ -160,7 +238,7 @@ public class ScPieChart
         out.print("chart = nv.models.pieChart();");
         out.print("chart.x(function(d) { return d.key });");
         out.print("chart.y(function(d) { return d.value });");
-        out.print("chart.labelType('percent');");
+        out.printf("chart.labelType('%s');", getLabelType().getStringValue());
         out.printf("chart.donut(%s);", getDonut());
     }
 

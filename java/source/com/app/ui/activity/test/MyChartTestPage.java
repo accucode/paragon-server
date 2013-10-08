@@ -57,6 +57,10 @@ public class MyChartTestPage
         chart = new ScLineChart();
         chart.css().borderBlack();
         chart.style().height(400);
+        chart.setXAxisLabel("X Axis");
+        chart.setYAxisLabel("Y Axis");
+        chart.setYAxisMin(-75);
+        chart.setYAxisMax(75);
 
         ScChartSeries s;
         s = chart.addSeries();
@@ -71,9 +75,6 @@ public class MyChartTestPage
         s.setArea();
         generateData(s, LINE_POINTS);
 
-        chart.setXAxisLabel("X Axis");
-        chart.setYAxisLabel("Y Axis");
-
         return chart;
     }
 
@@ -83,6 +84,10 @@ public class MyChartTestPage
         chart = new ScBarChart();
         chart.css().borderBlack();
         chart.style().height(400);
+        chart.setXAxisLabel("X Axis");
+        chart.setYAxisLabel("Y Axis");
+        chart.setYAxisMin(-75);
+        chart.setYAxisMax(75);
 
         ScChartSeries s;
         s = chart.addSeries();
@@ -103,9 +108,6 @@ public class MyChartTestPage
         s.setArea();
         generateData(s, BAR_POINTS);
 
-        chart.setXAxisLabel("X Axis");
-        chart.setYAxisLabel("Y Axis");
-
         return chart;
     }
 
@@ -114,6 +116,7 @@ public class MyChartTestPage
         ScPieChart chart;
         chart = new ScPieChart();
         chart.setDonut(true);
+        chart.setLabelTypeKey();
         chart.css().borderBlack();
         chart.style().height(400);
 
@@ -135,12 +138,14 @@ public class MyChartTestPage
 
     private KmJsonObject createRandomDataPoint(int x)
     {
-        int y = KmRandomUtility.getInteger(100);
+        double y = KmRandomUtility.getInteger(50)
+            - KmRandomUtility.getInteger(50)
+            + KmRandomUtility.getDouble();
 
         KmJsonObject point;
         point = new KmJsonObject();
         point.setInteger("x", x);
-        point.setInteger("y", y);
+        point.setDouble("y", y);
         return point;
     }
 
