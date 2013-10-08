@@ -49,7 +49,6 @@ public class ScLineChart
 
     private static final int      DEFAULT_TRANSITION_DURATION = 500;
 
-    private static final int      DEFAULT_X_AXIS_PRECISION    = 0;
     private static final int      DEFAULT_Y_AXIS_PRECISION    = 0;
 
     private static final int      Y_LABEL_MARGIN              = 85;
@@ -89,11 +88,6 @@ public class ScLineChart
     private Integer               _yAxisMax;
 
     /**
-     * how many digits after the deciman to show on the x axis labels
-     */
-    private int                   _xAxisPrecision;
-
-    /**
      * how many digits after the deciman to show on the y axis labels
      */
     private int                   _yAxisPrecision;
@@ -111,7 +105,6 @@ public class ScLineChart
 
         _transitionDuration = DEFAULT_TRANSITION_DURATION;
 
-        _xAxisPrecision = DEFAULT_X_AXIS_PRECISION;
         _yAxisPrecision = DEFAULT_Y_AXIS_PRECISION;
 
         _dataSeries = new KmList<ScChartSeries>();
@@ -172,16 +165,6 @@ public class ScLineChart
     //==================================================
     //= axis :: precision
     //==================================================
-
-    public int getXAxisPrecision()
-    {
-        return _xAxisPrecision;
-    }
-
-    public void setXAxisPrecision(int e)
-    {
-        _xAxisPrecision = e;
-    }
 
     public int getYAxisPrecision()
     {
@@ -312,8 +295,6 @@ public class ScLineChart
 
     private void formatXAxis(KmStringBuilder out)
     {
-        out.printf("chart.xAxis.tickFormat(d3.format(',.%sf'));", getXAxisPrecision());
-
         if ( hasXAxisLabel() )
             out.printf("chart.xAxis.axisLabel('%s');", getXAxisLabel());
 

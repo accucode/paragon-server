@@ -50,7 +50,6 @@ public class ScBarChart
     private static final int      DEFAULT_TRANSITION_DURATION  = 300;
     private static final int      DEFAULT_DELAY                = 600;
 
-    private static final int      DEFAULT_X_AXIS_PRECISION     = 0;
     private static final int      DEFAULT_Y_AXIS_PRECISION     = 0;
 
     private static final double   DEFAULT_GROUP_SPACING        = 0.1;
@@ -90,11 +89,6 @@ public class ScBarChart
     private Integer               _yAxisMax;
 
     /**
-     * how many digits after the deciman to show on the x axis labels.
-     */
-    private int                   _xAxisPrecision;
-
-    /**
      * how many digits after the deciman to show on the y axis labels.
      */
     private int                   _yAxisPrecision;
@@ -111,6 +105,11 @@ public class ScBarChart
      */
     private int                   _rotateLabelsDegrees;
 
+    /**
+     * Determines whether or not the grouped / stacked buttons are shown.
+     */
+    private boolean               _showGroupStackControl;
+
     private KmList<ScChartSeries> _dataSeries;
 
     //##################################################
@@ -124,7 +123,6 @@ public class ScBarChart
 
         setTransitionDuration(DEFAULT_TRANSITION_DURATION);
         setDelay(DEFAULT_DELAY);
-        setXAxisPrecision(DEFAULT_X_AXIS_PRECISION);
         setYAxisPrecision(DEFAULT_Y_AXIS_PRECISION);
         setGroupSpacing(DEFAULT_GROUP_SPACING);
         setRotateLabelsDegrees(DEFAULT_ROTATE_LABEL_DEGREES);
@@ -202,16 +200,6 @@ public class ScBarChart
     //= axis :: precision
     //==================================================
 
-    public int getXAxisPrecision()
-    {
-        return _xAxisPrecision;
-    }
-
-    public void setXAxisPrecision(int e)
-    {
-        _xAxisPrecision = e;
-    }
-
     public int getYAxisPrecision()
     {
         return _yAxisPrecision;
@@ -272,6 +260,25 @@ public class ScBarChart
     public void setRotateLabelsDegrees(int e)
     {
         _rotateLabelsDegrees = e;
+    }
+
+    //##################################################
+    //# group stack control
+    //##################################################
+
+    public boolean getShowGroupStackControl()
+    {
+        return _showGroupStackControl;
+    }
+
+    public void setShowGroupStackControl(boolean e)
+    {
+        _showGroupStackControl = e;
+    }
+
+    public void showGroupStackControl()
+    {
+        setShowGroupStackControl(true);
     }
 
     //##################################################
@@ -345,6 +352,7 @@ public class ScBarChart
         out.printf("chart.delay(%s);", getDelay());
         out.printf("chart.groupSpacing(%s);", getGroupSpacing());
         out.printf("chart.rotateLabels(%s);", getRotateLabelsDegrees());
+        out.printf("chart.showControls(%s);", getShowGroupStackControl());
 
         if ( hasYAxisLabel() )
             out.printf("chart.margin({left:%s});", Y_LABEL_MARGIN);
@@ -352,7 +360,6 @@ public class ScBarChart
 
     private void formatXAxis(KmStringBuilder out)
     {
-        out.printf("chart.xAxis.tickFormat(d3.format(',.%sf'));", getXAxisPrecision());
         out.print("chart.xAxis.showMaxMin(true);");
 
         if ( hasXAxisLabel() )

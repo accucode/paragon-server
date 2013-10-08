@@ -59,9 +59,8 @@ public class MyChartTestPage
         chart.style().height(400);
         chart.setXAxisLabel("X Axis");
         chart.setYAxisLabel("Y Axis");
-        chart.setXAxisPrecision(3);
         chart.setYAxisPrecision(1);
-        chart.setYAxisMin(-75);
+        chart.setYAxisMin(-10);
         chart.setYAxisMax(75);
 
         ScChartSeries s;
@@ -96,10 +95,10 @@ public class MyChartTestPage
         chart.style().height(400);
         chart.setXAxisLabel("X Axis");
         chart.setYAxisLabel("Y Axis");
-        chart.setXAxisPrecision(5);
         chart.setYAxisPrecision(2);
         chart.setGroupSpacing(0.2);
         chart.setRotateLabelsDegrees(45);
+        chart.showGroupStackControl();
 
         ScChartSeries s;
         s = chart.addSeries();
@@ -148,15 +147,16 @@ public class MyChartTestPage
             s.addPoint(createRandomDataPoint(i));
     }
 
-    private KmJsonObject createRandomDataPoint(int x)
+    private KmJsonObject createRandomDataPoint(int i)
     {
+        double x = i;
         double y = KmRandomUtility.getInteger(60)
             - KmRandomUtility.getInteger(40)
             + KmRandomUtility.getDouble();
 
         KmJsonObject point;
         point = new KmJsonObject();
-        point.setInteger("x", x);
+        point.setDouble("x", x);
         point.setDouble("y", y);
         return point;
     }
