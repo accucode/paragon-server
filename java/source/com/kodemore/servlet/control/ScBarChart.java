@@ -63,8 +63,6 @@ public class ScBarChart
      */
     private int                   _delay;
 
-    private boolean               _staggerLabels;
-
     private String                _xAxisLabel;
     private String                _yAxisLabel;
 
@@ -167,16 +165,6 @@ public class ScBarChart
         return getYAxisLabel() != null;
     }
 
-    public boolean getStaggerLabels()
-    {
-        return _staggerLabels;
-    }
-
-    public void setStaggerLabels(boolean staggerLabels)
-    {
-        _staggerLabels = staggerLabels;
-    }
-
     //==================================================
     //= axis :: precision
     //==================================================
@@ -186,7 +174,7 @@ public class ScBarChart
         return _xAxisPrecision;
     }
 
-    public void setxAxisPrecision(int e)
+    public void setXAxisPrecision(int e)
     {
         _xAxisPrecision = e;
     }
