@@ -31,7 +31,7 @@ public class MyChartTestPage
     //# constants
     //##################################################
 
-    private static final int LINE_POINTS = 100;
+    private static final int LINE_POINTS = 80;
     private static final int BAR_POINTS  = 20;
 
     //##################################################
@@ -96,12 +96,10 @@ public class MyChartTestPage
         chart.style().height(400);
         chart.setXAxisLabel("X Axis");
         chart.setYAxisLabel("Y Axis");
-        chart.setYAxisMin(-75);
-        chart.setYAxisMax(75);
         chart.setXAxisPrecision(5);
         chart.setYAxisPrecision(2);
         chart.setGroupSpacing(0.2);
-        chart.setRotateLabelsDegrees(60);
+        chart.setRotateLabelsDegrees(45);
 
         ScChartSeries s;
         s = chart.addSeries();
@@ -152,8 +150,8 @@ public class MyChartTestPage
 
     private KmJsonObject createRandomDataPoint(int x)
     {
-        double y = KmRandomUtility.getInteger(50)
-            - KmRandomUtility.getInteger(60)
+        double y = KmRandomUtility.getInteger(60)
+            - KmRandomUtility.getInteger(40)
             + KmRandomUtility.getDouble();
 
         KmJsonObject point;
