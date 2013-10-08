@@ -164,7 +164,7 @@ public class ScLineChart
         return _xAxisPrecision;
     }
 
-    public void setxAxisPrecision(int e)
+    public void setXAxisPrecision(int e)
     {
         _xAxisPrecision = e;
     }
@@ -174,7 +174,7 @@ public class ScLineChart
         return _yAxisPrecision;
     }
 
-    public void setyAxisPrecision(int e)
+    public void setYAxisPrecision(int e)
     {
         _yAxisPrecision = e;
     }

@@ -196,7 +196,7 @@ public class ScBarChart
         return _yAxisPrecision;
     }
 
-    public void setyAxisPrecision(int e)
+    public void setYAxisPrecision(int e)
     {
         _yAxisPrecision = e;
     }

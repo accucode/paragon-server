@@ -59,6 +59,7 @@ public class MyChartTestPage
         chart.style().height(400);
         chart.setXAxisLabel("X Axis");
         chart.setYAxisLabel("Y Axis");
+        chart.setYAxisPrecision(3);
         chart.setYAxisMin(-75);
         chart.setYAxisMax(75);
 
