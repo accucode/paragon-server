@@ -5,8 +5,10 @@ import com.kodemore.servlet.control.ScBarChart;
 import com.kodemore.servlet.control.ScChartSeries;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLineChart;
+import com.kodemore.servlet.control.ScMultiBarChart;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScPieChart;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.types.KmHtmlColor;
 import com.kodemore.utility.KmRandomUtility;
 
@@ -45,10 +47,28 @@ public class MyChartTestPage
 
         ScGroup group;
         group = root.addGroup("Chart Test");
-        group.addPad().addText("This is a test of the ScChart");
+        group.addPad().addText(getDescription());
         root.add(createLineChart());
         root.add(createBarChart());
+        root.add(createMultiBarChart());
         root.add(createPieChart());
+    }
+
+    private String getDescription()
+    {
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.println("This is a test of the Various ScCharts.");
+        out.println();
+        out.println("The charts demonstated here are:");
+        out.println("ScLineChart");
+        out.println("ScBarChart");
+        out.println("ScMultiBarChart");
+        out.println("ScPieChart");
+        out.println();
+        out.println("Each chart has a variety of options set in order to demonstrate "
+            + "what options are available for each chart type.");
+        return out.toString();
     }
 
     private ScLineChart createLineChart()
@@ -91,6 +111,22 @@ public class MyChartTestPage
     {
         ScBarChart chart;
         chart = new ScBarChart();
+        chart.css().borderBlack();
+        chart.style().height(400);
+        chart.setXAxisLabel("Name");
+        chart.setYAxisLabel("Value");
+        chart.setYAxisMax(5);
+        chart.staggerLabels();
+
+        generateBarChartData(chart);
+
+        return chart;
+    }
+
+    private ScMultiBarChart createMultiBarChart()
+    {
+        ScMultiBarChart chart;
+        chart = new ScMultiBarChart();
         chart.css().borderBlack();
         chart.style().height(400);
         chart.setXAxisLabel("X Axis");
@@ -159,6 +195,18 @@ public class MyChartTestPage
         point.setDouble("x", x);
         point.setDouble("y", y);
         return point;
+    }
+
+    private void generateBarChartData(ScBarChart pie)
+    {
+        pie.addBar("pi (blue)", 3.14, KmHtmlColor.createBlue());
+        pie.addBar("phi (black)", 1.618, KmHtmlColor.createBlack());
+        pie.addBar("gamma (green)", 1.4, KmHtmlColor.createGreen());
+        pie.addBar("e", 2.72);
+        pie.addBar("1", 1);
+        pie.addBar("0 (This is Extra Text to denonstate a large label)", 0);
+        pie.addBar("-1 (Enabling Stagger Labels helps display large labels)", -1);
+        pie.addBar("Square Root of 2", 1.414);
     }
 
     private void generatePieChartData(ScPieChart pie)

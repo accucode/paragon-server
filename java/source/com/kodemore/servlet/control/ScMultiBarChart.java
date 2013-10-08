@@ -25,23 +25,38 @@ package com.kodemore.servlet.control;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonList;
-import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
-import com.kodemore.types.KmHtmlColor;
+import com.kodemore.utility.Kmu;
 
-public class ScBarChart
+/**
+ * review_aaron 
+ *      
+ *      Min / Max : 
+ *          chart.forceY([min, max]); Will expand the chart to show the min max values,
+ *              but the chart will still automatically expand to show data that is outside
+ *              this range.
+ *          chart.yDomain([min, max]); Will truncate the chart to only display the range
+ *              specified.  However the data will be drawn outside of the graph if it falls
+ *              outside of this range.
+ */
+public class ScMultiBarChart
     extends ScDiv
 {
     //##################################################
     //# constants
     //##################################################
 
-    private static final int     DEFAULT_TRANSITION_DURATION = 500;
-    private static final int     DEFAULT_Y_AXIS_MIN          = 0;
+    private static final int      DEFAULT_TRANSITION_DURATION  = 300;
+    private static final int      DEFAULT_DELAY                = 600;
 
-    private static final int     Y_LABEL_MARGIN              = 85;
-    private static final int     STAGGER_LABEL_MARGIN        = 65;
+    private static final int      DEFAULT_Y_AXIS_PRECISION     = 0;
+
+    private static final double   DEFAULT_GROUP_SPACING        = 0.1;
+
+    private static final int      DEFAULT_ROTATE_LABEL_DEGREES = 0;
+
+    private static final int      Y_LABEL_MARGIN               = 85;
 
     //##################################################
     //# variables
@@ -50,50 +65,52 @@ public class ScBarChart
     /**
      * The time it takes for the chart to appear on the page.
      */
-    private int                  _transitionDuration;
+    private int                   _transitionDuration;
 
-    private String               _xAxisLabel;
-    private String               _yAxisLabel;
+    /**
+     * The time delay between animating individual bars, or groups
+     * or bars.
+     */
+    private int                   _delay;
+
+    private String                _xAxisLabel;
+    private String                _yAxisLabel;
 
     /**
      * If set, the chart will expand to include this value.  However, the 
      * chart will not cut off data that exists outside of this range.  The
      * chart will always automatically expand to fit all data.
      */
-    private Integer              _xAxisMin;
+    private Integer               _yAxisMin;
 
     /**
-     * See _xAxisMin.
+     * See _yAxisMin.
      */
-    private Integer              _xAxisMax;
+    private Integer               _yAxisMax;
 
     /**
-     * See _xAxisMin.
+     * how many digits after the deciman to show on the y axis labels.
      */
-    private Integer              _yAxisMin;
+    private int                   _yAxisPrecision;
 
     /**
-     * See _xAxisMin.
+     * The spacing between groups.  Value seems to be the ratio of the
+     * size of the space to the size of the data.  Default is 0.1.
      */
-    private Integer              _yAxisMax;
+    private double                _groupSpacing;
 
     /**
-     * how many digits after the deciman to show on the y axis labels
+     * The X axis labels will be rotated by this many degrees.  Useful
+     * if x axis precision is high, or if labels are long.
      */
-    private int                  _yAxisPrecision;
+    private int                   _rotateLabelsDegrees;
 
     /**
-     * Determines if the individual bar labes should be staggered vertically.
+     * Determines whether or not the grouped / stacked buttons are shown.
      */
-    private boolean              _staggerLabels;
+    private boolean               _showGroupStackControl;
 
-    /**
-     * This is the data to be represented in the chart.  
-     * Each bar must have a "key" (also the label)
-     * and a "value", and may optionally have a color using the
-     * key "color".
-     */
-    private KmList<KmJsonObject> _bars;
+    private KmList<ScChartSeries> _dataSeries;
 
     //##################################################
     //# constructor
@@ -104,9 +121,13 @@ public class ScBarChart
     {
         super.install();
 
-        setYAxisMin(DEFAULT_Y_AXIS_MIN);
+        setTransitionDuration(DEFAULT_TRANSITION_DURATION);
+        setDelay(DEFAULT_DELAY);
+        setYAxisPrecision(DEFAULT_Y_AXIS_PRECISION);
+        setGroupSpacing(DEFAULT_GROUP_SPACING);
+        setRotateLabelsDegrees(DEFAULT_ROTATE_LABEL_DEGREES);
 
-        _bars = new KmList<KmJsonObject>();
+        _dataSeries = new KmList<ScChartSeries>();
     }
 
     //##################################################
@@ -121,6 +142,20 @@ public class ScBarChart
     public void setTransitionDuration(int e)
     {
         _transitionDuration = e;
+    }
+
+    //##################################################
+    //# delay
+    //##################################################
+
+    public int getDelay()
+    {
+        return _delay;
+    }
+
+    public void setDelay(int e)
+    {
+        _delay = e;
     }
 
     //##################################################
@@ -179,26 +214,6 @@ public class ScBarChart
     //= axis :: min / max
     //==================================================
 
-    public Integer getXAxisMin()
-    {
-        return _xAxisMin;
-    }
-
-    public void setXAxisMin(Integer e)
-    {
-        _xAxisMin = e;
-    }
-
-    public Integer getXAxisMax()
-    {
-        return _xAxisMax;
-    }
-
-    public void setXAxisMax(Integer e)
-    {
-        _xAxisMax = e;
-    }
-
     public Integer getYAxisMin()
     {
         return _yAxisMin;
@@ -220,60 +235,75 @@ public class ScBarChart
     }
 
     //##################################################
-    //# Stagger Labels 
+    //# group spacing
     //##################################################
 
-    public boolean getStaggerLabels()
+    public double getGroupSpacing()
     {
-        return _staggerLabels;
+        return _groupSpacing;
     }
 
-    public void setStaggerLabels(boolean e)
+    public void setGroupSpacing(double e)
     {
-        _staggerLabels = e;
-    }
-
-    public void staggerLabels()
-    {
-        setStaggerLabels(true);
+        _groupSpacing = e;
     }
 
     //##################################################
-    //# data (bars)
+    //# rotate labels
     //##################################################
 
-    public KmList<KmJsonObject> getBars()
+    public int getRotateLabelsDegrees()
     {
-        return _bars;
+        return _rotateLabelsDegrees;
     }
 
-    public void setBars(KmList<KmJsonObject> e)
+    public void setRotateLabelsDegrees(int e)
     {
-        _bars = e;
+        _rotateLabelsDegrees = e;
     }
 
-    public void addBar(KmJsonObject e)
+    //##################################################
+    //# group stack control
+    //##################################################
+
+    public boolean getShowGroupStackControl()
     {
-        getBars().add(e);
+        return _showGroupStackControl;
     }
 
-    public void addBar(String key, double value)
+    public void setShowGroupStackControl(boolean e)
     {
-        KmJsonObject slice;
-        slice = new KmJsonObject();
-        slice.setString("key", key);
-        slice.setDouble("value", value);
-        getBars().add(slice);
+        _showGroupStackControl = e;
     }
 
-    public void addBar(String key, double value, KmHtmlColor color)
+    public void showGroupStackControl()
     {
-        KmJsonObject slice;
-        slice = new KmJsonObject();
-        slice.setString("key", key);
-        slice.setDouble("value", value);
-        slice.setString("color", color.getValue());
-        getBars().add(slice);
+        setShowGroupStackControl(true);
+    }
+
+    //##################################################
+    //# series
+    //##################################################
+
+    public KmList<ScChartSeries> getDataSeries()
+    {
+        return _dataSeries;
+    }
+
+    public void setDataSeries(KmList<ScChartSeries> dataSeries)
+    {
+        _dataSeries = dataSeries;
+    }
+
+    public ScChartSeries addSeries()
+    {
+        String key = Kmu.format("Series %s", getDataSeries().size() + 1);
+
+        ScChartSeries e;
+        e = new ScChartSeries();
+        e.setKey(key);
+        getDataSeries().add(e);
+        return e;
     }
 
     //##################################################
@@ -317,27 +347,29 @@ public class ScBarChart
     private void initializeChart(KmStringBuilder out)
     {
         out.print("var chart;");
-        out.print("chart = nv.models.discreteBarChart();");
-        out.print("chart.x(function(d) { return d.key });");
-        out.print("chart.y(function(d) { return d.value });");
-        out.printf("chart.staggerLabels(%s);", getStaggerLabels());
-        out.print("chart.tooltips(true);");
+        out.print("chart = nv.models.multiBarChart();");
+        out.printf("chart.transitionDuration(%s);", getTransitionDuration());
+        out.printf("chart.delay(%s);", getDelay());
+        out.printf("chart.groupSpacing(%s);", getGroupSpacing());
+        out.printf("chart.rotateLabels(%s);", getRotateLabelsDegrees());
+        out.printf("chart.showControls(%s);", getShowGroupStackControl());
 
         if ( hasYAxisLabel() )
             out.printf("chart.margin({left:%s});", Y_LABEL_MARGIN);
-
-        if ( getStaggerLabels() )
-            out.printf("chart.margin({bottom:%s});", STAGGER_LABEL_MARGIN);
     }
 
     private void formatXAxis(KmStringBuilder out)
     {
+        out.print("chart.xAxis.showMaxMin(true);");
+
         if ( hasXAxisLabel() )
             out.printf("chart.xAxis.axisLabel('%s');", getXAxisLabel());
     }
 
     private void formatYAxis(KmStringBuilder out)
     {
+        out.printf("chart.yAxis.tickFormat(d3.format(',.%sf'));", getYAxisPrecision());
+
         if ( hasYAxisLabel() )
             out.printf("chart.yAxis.axisLabel('%s');", getYAxisLabel());
 
@@ -350,7 +382,7 @@ public class ScBarChart
             "d3.select('#%s svg').datum(%s).transition().duration(%s).call(chart);",
             getHtmlId(),
             formatData(),
-            DEFAULT_TRANSITION_DURATION);
+            getTransitionDuration());
         out.print("nv.utils.windowResize(chart.update);");
         out.print("return chart;");
     }
@@ -359,36 +391,14 @@ public class ScBarChart
     //# format data
     //##################################################
 
-    // review_aaron: 
-    //    private KmJsonList formatData()
-    //    {
-    //        KmJsonList bars;
-    //        bars = new KmJsonList();
-    //
-    //        for ( KmJsonObject e : getBars() )
-    //            bars.addObject(e);
-    //
-    //        KmJsonList arr;
-    //        arr = new KmJsonList();
-    //
-    //        KmJsonObject dataSet;
-    //        dataSet = arr.addObject();
-    //        dataSet.setList("values", bars);
-    //
-    //        return arr;
-    //    }
-
     private KmJsonList formatData()
     {
-        ScChartSeries s;
-        s = new ScChartSeries();
+        KmJsonList arr;
+        arr = new KmJsonList();
 
-        for ( KmJsonObject e : getBars() )
-            s.addPoint(e);
+        for ( ScChartSeries e : getDataSeries() )
+            arr.addObject(e.formatJson());
 
-        KmJsonList data;
-        data = new KmJsonList();
-        data.addObject(s.formatJson());
-        return data;
+        return arr;
     }
 }
