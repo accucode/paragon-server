@@ -30,8 +30,15 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 /**
- * review_aaron Options to consider:
- *      Axis format, precision. 
+ * review_aaron 
+ *      
+ *      Min / Max : 
+ *          chart.forceY([min, max]); Will expand the chart to show the min max values,
+ *              but the chart will still automatically expand to show data that is outside
+ *              this range.
+ *          chart.yDomain([min, max]); Will truncate the chart to only display the range
+ *              specified.  However the data will be drawn outside of the graph if it falls
+ *              outside of this range.
  */
 public class ScBarChart
     extends ScDiv
@@ -40,13 +47,17 @@ public class ScBarChart
     //# constants
     //##################################################
 
-    private static final int      DEFAULT_TRANSITION_DURATION = 300;
-    private static final int      DEFAULT_DELAY               = 600;
+    private static final int      DEFAULT_TRANSITION_DURATION  = 300;
+    private static final int      DEFAULT_DELAY                = 600;
 
-    private static final int      DEFAULT_X_AXIS_PRECISION    = 0;
-    private static final int      DEFAULT_Y_AXIS_PRECISION    = 0;
+    private static final int      DEFAULT_X_AXIS_PRECISION     = 0;
+    private static final int      DEFAULT_Y_AXIS_PRECISION     = 0;
 
-    private static final int      Y_LABEL_MARGIN              = 85;
+    private static final double   DEFAULT_GROUP_SPACING        = 0.1;
+
+    private static final int      DEFAULT_ROTATE_LABEL_DEGREES = 0;
+
+    private static final int      Y_LABEL_MARGIN               = 85;
 
     //##################################################
     //# variables
@@ -66,18 +77,39 @@ public class ScBarChart
     private String                _xAxisLabel;
     private String                _yAxisLabel;
 
+    /**
+     * If set, the chart will expand to include this value.  However, the 
+     * chart will not cut off data that exists outside of this range.  The
+     * chart will always automatically expand to fit all data.
+     */
     private Integer               _yAxisMin;
+
+    /**
+     * See _yAxisMin.
+     */
     private Integer               _yAxisMax;
 
     /**
-     * how many digits after the deciman to show on the x axis labels
+     * how many digits after the deciman to show on the x axis labels.
      */
     private int                   _xAxisPrecision;
 
     /**
-     * how many digits after the deciman to show on the y axis labels
+     * how many digits after the deciman to show on the y axis labels.
      */
     private int                   _yAxisPrecision;
+
+    /**
+     * The spacing between groups.  Value seems to be the ratio of the
+     * size of the space to the size of the data.  Default is 0.1.
+     */
+    private double                _groupSpacing;
+
+    /**
+     * The X axis labels will be rotated by this many degrees.  Useful
+     * if x axis precision is high, or if labels are long.
+     */
+    private int                   _rotateLabelsDegrees;
 
     private KmList<ScChartSeries> _dataSeries;
 
@@ -90,11 +122,12 @@ public class ScBarChart
     {
         super.install();
 
-        _transitionDuration = DEFAULT_TRANSITION_DURATION;
-        _delay = DEFAULT_DELAY;
-
-        _xAxisPrecision = DEFAULT_X_AXIS_PRECISION;
-        _yAxisPrecision = DEFAULT_Y_AXIS_PRECISION;
+        setTransitionDuration(DEFAULT_TRANSITION_DURATION);
+        setDelay(DEFAULT_DELAY);
+        setXAxisPrecision(DEFAULT_X_AXIS_PRECISION);
+        setYAxisPrecision(DEFAULT_Y_AXIS_PRECISION);
+        setGroupSpacing(DEFAULT_GROUP_SPACING);
+        setRotateLabelsDegrees(DEFAULT_ROTATE_LABEL_DEGREES);
 
         _dataSeries = new KmList<ScChartSeries>();
     }
@@ -214,6 +247,34 @@ public class ScBarChart
     }
 
     //##################################################
+    //# group spacing
+    //##################################################
+
+    public double getGroupSpacing()
+    {
+        return _groupSpacing;
+    }
+
+    public void setGroupSpacing(double e)
+    {
+        _groupSpacing = e;
+    }
+
+    //##################################################
+    //# rotate labels
+    //##################################################
+
+    public int getRotateLabelsDegrees()
+    {
+        return _rotateLabelsDegrees;
+    }
+
+    public void setRotateLabelsDegrees(int e)
+    {
+        _rotateLabelsDegrees = e;
+    }
+
+    //##################################################
     //# series
     //##################################################
 
@@ -282,6 +343,8 @@ public class ScBarChart
         out.print("chart = nv.models.multiBarChart();");
         out.printf("chart.transitionDuration(%s);", getTransitionDuration());
         out.printf("chart.delay(%s);", getDelay());
+        out.printf("chart.groupSpacing(%s);", getGroupSpacing());
+        out.printf("chart.rotateLabels(%s);", getRotateLabelsDegrees());
 
         if ( hasYAxisLabel() )
             out.printf("chart.margin({left:%s});", Y_LABEL_MARGIN);
@@ -290,6 +353,7 @@ public class ScBarChart
     private void formatXAxis(KmStringBuilder out)
     {
         out.printf("chart.xAxis.tickFormat(d3.format(',.%sf'));", getXAxisPrecision());
+        out.print("chart.xAxis.showMaxMin(true);");
 
         if ( hasXAxisLabel() )
             out.printf("chart.xAxis.axisLabel('%s');", getXAxisLabel());
@@ -297,7 +361,7 @@ public class ScBarChart
 
     private void formatYAxis(KmStringBuilder out)
     {
-        out.printf("chart.yAxis.tickFormat(d3.format(',.1%s'));", getYAxisPrecision());
+        out.printf("chart.yAxis.tickFormat(d3.format(',.%sf'));", getYAxisPrecision());
 
         if ( hasYAxisLabel() )
             out.printf("chart.yAxis.axisLabel('%s');", getYAxisLabel());

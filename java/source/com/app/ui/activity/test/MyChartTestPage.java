@@ -32,7 +32,7 @@ public class MyChartTestPage
     //##################################################
 
     private static final int LINE_POINTS = 100;
-    private static final int BAR_POINTS  = 50;
+    private static final int BAR_POINTS  = 20;
 
     //##################################################
     //# install
@@ -59,20 +59,29 @@ public class MyChartTestPage
         chart.style().height(400);
         chart.setXAxisLabel("X Axis");
         chart.setYAxisLabel("Y Axis");
-        chart.setYAxisPrecision(3);
+        chart.setXAxisPrecision(3);
+        chart.setYAxisPrecision(1);
         chart.setYAxisMin(-75);
         chart.setYAxisMax(75);
 
         ScChartSeries s;
         s = chart.addSeries();
-        s.setKey("Blue");
+        s.setKey("Blue Line");
         s.setColor(KmHtmlColor.createBlue());
+        generateData(s, LINE_POINTS);
+
+        s = chart.addSeries();
+        s.setKey("Green Area");
+        s.setColor(KmHtmlColor.createGreen());
         s.setArea();
         generateData(s, LINE_POINTS);
 
         s = chart.addSeries();
-        s.setKey("Green");
-        s.setColor(KmHtmlColor.createGreen());
+        s.setKey("No Color Set Line");
+        generateData(s, LINE_POINTS);
+
+        s = chart.addSeries();
+        s.setKey("No Color Set Area");
         s.setArea();
         generateData(s, LINE_POINTS);
 
@@ -89,24 +98,28 @@ public class MyChartTestPage
         chart.setYAxisLabel("Y Axis");
         chart.setYAxisMin(-75);
         chart.setYAxisMax(75);
+        chart.setXAxisPrecision(5);
+        chart.setYAxisPrecision(2);
+        chart.setGroupSpacing(0.2);
+        chart.setRotateLabelsDegrees(60);
 
         ScChartSeries s;
         s = chart.addSeries();
         s.setKey("Blue");
         s.setColor(KmHtmlColor.createBlue());
-        s.setArea();
-        generateData(s, BAR_POINTS);
-
-        s = chart.addSeries();
-        s.setKey("Black");
-        s.setColor(KmHtmlColor.createBlack());
-        s.setArea();
         generateData(s, BAR_POINTS);
 
         s = chart.addSeries();
         s.setKey("Green");
         s.setColor(KmHtmlColor.createGreen());
-        s.setArea();
+        generateData(s, BAR_POINTS);
+
+        s = chart.addSeries();
+        s.setKey("No Color Set 1");
+        generateData(s, BAR_POINTS);
+
+        s = chart.addSeries();
+        s.setKey("No Color Set 2");
         generateData(s, BAR_POINTS);
 
         return chart;
@@ -140,7 +153,7 @@ public class MyChartTestPage
     private KmJsonObject createRandomDataPoint(int x)
     {
         double y = KmRandomUtility.getInteger(50)
-            - KmRandomUtility.getInteger(50)
+            - KmRandomUtility.getInteger(60)
             + KmRandomUtility.getDouble();
 
         KmJsonObject point;

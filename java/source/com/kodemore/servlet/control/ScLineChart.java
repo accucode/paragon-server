@@ -30,9 +30,7 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 /**
- * review_aaron Options to consider:
- *      Axis format, precision. 
- *      min and max for axis
+ * review_aaron 
  *      
  *      Min / Max : 
  *          chart.forceY([min, max]); Will expand the chart to show the min max values,
@@ -68,10 +66,26 @@ public class ScLineChart
     private String                _xAxisLabel;
     private String                _yAxisLabel;
 
+    /**
+     * If set, the chart will expand to include this value.  However, the 
+     * chart will not cut off data that exists outside of this range.  The
+     * chart will always automatically expand to fit all data.
+     */
     private Integer               _xAxisMin;
+
+    /**
+     * See _xAxisMin.
+     */
     private Integer               _xAxisMax;
 
+    /**
+     * See _xAxisMin.
+     */
     private Integer               _yAxisMin;
+
+    /**
+     * See _xAxisMin.
+     */
     private Integer               _yAxisMax;
 
     /**
@@ -308,7 +322,7 @@ public class ScLineChart
 
     private void formatYAxis(KmStringBuilder out)
     {
-        out.printf("chart.yAxis.tickFormat(d3.format(',.1%s'));", getYAxisPrecision());
+        out.printf("chart.yAxis.tickFormat(d3.format(',.%sf'));", getYAxisPrecision());
 
         if ( hasYAxisLabel() )
             out.printf("chart.yAxis.axisLabel('%s');", getYAxisLabel());

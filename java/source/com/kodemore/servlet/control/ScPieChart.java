@@ -100,6 +100,9 @@ public class ScPieChart
      */
     private KmList<KmJsonObject> _slices;
 
+    /**
+     * The type of label on the slices.
+     */
     private LabelType            _labelType;
 
     //##################################################
@@ -111,8 +114,9 @@ public class ScPieChart
     {
         super.install();
 
+        setLabelType(LabelType.KEY);
+
         _slices = new KmList<KmJsonObject>();
-        _labelType = LabelType.KEY;
     }
 
     //##################################################
