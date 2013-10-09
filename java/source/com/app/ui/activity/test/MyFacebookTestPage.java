@@ -55,9 +55,8 @@ public class MyFacebookTestPage
         KmHttpGet e;
         e = new KmHttpGet();
         e.setHost("graph.facebook.com");
-        //        e.setPort(80);
         e.setPath("oauth/access_token");
-        // fixme_valerie: add in client_id from dashboard
+        // fixme_steve: add in client_id from dashboard
         //        e.setParameter("client_id", "");
         e.setParameter("redirect_uri", "https://www.facebook.com/connect/login_success.html");
         e.setContentType("text/html");
