@@ -1,8 +1,8 @@
 package com.app.utility;
 
-import com.app.ui.servlet.MyServletConstantsIF;
-
 import com.kodemore.servlet.utility.ScUrls;
+
+import com.app.ui.servlet.MyServletConstantsIF;
 
 public class MyButtonUrls
     implements MyServletConstantsIF
@@ -71,30 +71,4 @@ public class MyButtonUrls
     {
         return ScUrls.getThemeImage("buttonSearch.png");
     }
-// todo_wyatt
-    //        //##################################################
-    //        //# convenience
-    //        //##################################################
-    //
-    //        public static String getBlankImage()
-    //        {
-    //            return getThemeImage("b.gif");
-    //        }
-    //
-    //        public static String getPrimaryButtonImage()
-    //        {
-    //            return getThemeImage("buttonPrimary.png");
-    //        }
-    //
-    //        public static String getPositiveButtonImage()
-    //        {
-    //            return getThemeImage("buttonPositive.png");
-    //        }
-    //
-    //        public static String getNegativeButtonImage()
-    //        {
-    //            return getThemeImage("buttonNegative.png");
-    //        }
-    //
-    //
 }

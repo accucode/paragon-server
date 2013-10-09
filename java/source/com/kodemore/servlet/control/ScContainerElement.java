@@ -282,10 +282,7 @@ public abstract class ScContainerElement
         out.printAttribute("onclick", getOnClick());
         out.printAttribute(formatCss());
         out.printAttribute(formatStyle());
-
-// todo_wyatt
-        if ( hasHoverText() )
-            out.printAttribute("title", getHoverText());
+        out.printAttribute("title", getHoverText());
     }
 
     protected void renderChildrenOn(KmHtmlBuilder out)
