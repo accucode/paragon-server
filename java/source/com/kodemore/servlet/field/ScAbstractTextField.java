@@ -58,9 +58,9 @@ public abstract class ScAbstractTextField<T>
     {
         super.install();
 
-        _text = new ScLocalString("");
-        _placeholder = new ScLocalString("");
-        _hoverText = new ScLocalString("");
+        _text = new ScLocalString();
+        _placeholder = new ScLocalString();
+        _hoverText = new ScLocalString();
         _readOnly = new ScLocalBoolean(false);
         _disabled = new ScLocalBoolean(false);
         _fullWrapper = new ScLocalBoolean(false);
@@ -217,12 +217,9 @@ public abstract class ScAbstractTextField<T>
 
         if ( isReadOnly() )
             out.printAttribute("readonly", "readonly");
-// todo_wyatt
-        if ( hasPlaceholder() )
-            out.printAttribute("placeholder", getPlaceholder());
 
-        if ( hasHoverText() )
-            out.printAttribute("title", getHoverText());
+        out.printAttribute("placeholder", getPlaceholder());
+        out.printAttribute("title", getHoverText());
 
         out.printAttribute("value", getText());
     }

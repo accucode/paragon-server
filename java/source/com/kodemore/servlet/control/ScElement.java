@@ -192,9 +192,7 @@ public abstract class ScElement
         out.printAttribute("id", getHtmlId());
         out.printAttribute(formatCss());
         out.printAttribute(formatStyle());
-// todo_wyatt
-        if ( hasHoverText() )
-            out.printAttribute("title", getHoverText());
+        out.printAttribute("title", getHoverText());
     }
 
 }
