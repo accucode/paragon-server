@@ -966,8 +966,8 @@ public abstract class ScBlockScript
     public void sortable(String sel, KmJsonObject options)
     {
         /**
-         * review_aaron (valerie) ask guys if they know a classier kmu to replace
-         * if ( options == null)
+         * review_aaron (valerie) do you know of a classier kmu to replace
+         * if ( options == null)?
          */
         if ( options == null )
             run("$('%s').sortable();", sel);
@@ -1024,8 +1024,8 @@ public abstract class ScBlockScript
     public void accordion(String sel, KmJsonObject options)
     {
         /**
-         * review_aaron (valerie) ask guys if they know a classier kmu to replace
-         * if ( options == null)
+         * review_aaron (valerie) do you know of a classier kmu to replace
+         * if ( options == null)?
          */
         if ( options == null )
             run("$('%s').accordion();", sel);
