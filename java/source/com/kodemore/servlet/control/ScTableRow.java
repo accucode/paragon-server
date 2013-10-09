@@ -22,6 +22,9 @@
 
 package com.kodemore.servlet.control;
 
+import java.util.Iterator;
+
+import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.variable.ScLocalString;
@@ -131,6 +134,22 @@ public class ScTableRow
 
         out.printAttribute("align", _horizontalAlign.getValue());
         out.printAttribute("valign", _verticalAlign.getValue());
+    }
+
+    //##################################################
+    //# children
+    //##################################################
+
+    @Override
+    public Iterator<ScControl> getComponents()
+    {
+        KmCompositeIterator<ScControl> i;
+        i = new KmCompositeIterator<ScControl>();
+
+        i.addAll(super.getComponents());
+        i.addAll(getCells());
+
+        return i;
     }
 
     //##################################################

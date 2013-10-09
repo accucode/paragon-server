@@ -36,6 +36,7 @@ public class JkStfSetupConverter
 
     public void run()
     {
+// todo_wyatt
         String dir = "c:/projects/paragon/web/WEB-INF/resource/generator/templates";
         KmFile root = new KmFileRoot(dir).getFolder();
 

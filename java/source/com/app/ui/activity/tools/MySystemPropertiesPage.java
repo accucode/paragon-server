@@ -52,7 +52,7 @@ public class MySystemPropertiesPage
     //##################################################
 
     @Override
-    protected void prePrint()
+    protected void preRender()
     {
         String html = composeProperties();
         _literal.setValue(html);

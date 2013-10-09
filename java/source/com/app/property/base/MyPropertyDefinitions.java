@@ -8,12 +8,19 @@
 
 package com.app.property.base;
 
-import com.app.property.MyPropertyDefinition;
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.log.*;
+import com.kodemore.policy.date.*;
+import com.kodemore.policy.time.*;
+import com.kodemore.policy.weight.*;
+import com.kodemore.property.*;
+import com.kodemore.property.type.*;
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.collection.KmMap;
-import com.kodemore.log.KmLog;
-import com.kodemore.property.type.KmPropertyTypes;
+import com.app.model.*;
+import com.app.property.*;
 
 public class MyPropertyDefinitions
 {

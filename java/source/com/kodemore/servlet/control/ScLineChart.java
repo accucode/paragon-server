@@ -22,40 +22,77 @@
 
 package com.kodemore.servlet.control;
 
+import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonList;
-import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
-public class ScChart
+/**
+ * review_aaron 
+ *      
+ *      Min / Max : 
+ *          chart.forceY([min, max]); Will expand the chart to show the min max values,
+ *              but the chart will still automatically expand to show data that is outside
+ *              this range.
+ *          chart.yDomain([min, max]); Will truncate the chart to only display the range
+ *              specified.  However the data will be drawn outside of the graph if it falls
+ *              outside of this range.
+ */
+public class ScLineChart
     extends ScDiv
 {
     //##################################################
     //# constants
     //##################################################
 
-    private static final int Y_LABEL_MARGIN = 100;
+    private static final int      DEFAULT_TRANSITION_DURATION = 500;
+
+    private static final int      DEFAULT_Y_AXIS_PRECISION    = 0;
+
+    private static final int      Y_LABEL_MARGIN              = 85;
 
     //##################################################
     //# variables
     //##################################################
 
-    private int              _height;
-    private int              _width;
+    /**
+     * The time it takes for the chart to appear on the page.
+     */
+    private int                   _transitionDuration;
 
-    private String           _xAxisLabel;
-    private String           _yAxisLabel;
-
-    //    private KmList<KmJsonList>   _data;
+    private String                _xAxisLabel;
+    private String                _yAxisLabel;
 
     /**
-     *  review_aaron: data points are currently strings. Need to
-     *  be in the following format:
-     *      { x: 1, y: 2 } 
+     * If set, the chart will expand to include this value.  However, the 
+     * chart will not cut off data that exists outside of this range.  The
+     * chart will always automatically expand to fit all data.
      */
-    private KmJsonList       _dataPoints;
+    private Integer               _xAxisMin;
+
+    /**
+     * See _xAxisMin.
+     */
+    private Integer               _xAxisMax;
+
+    /**
+     * See _xAxisMin.
+     */
+    private Integer               _yAxisMin;
+
+    /**
+     * See _xAxisMin.
+     */
+    private Integer               _yAxisMax;
+
+    /**
+     * how many digits after the deciman to show on the y axis labels
+     */
+    private int                   _yAxisPrecision;
+
+    private KmList<ScChartSeries> _dataSeries;
 
     //##################################################
     //# constructor
@@ -66,57 +103,34 @@ public class ScChart
     {
         super.install();
 
-        // review_aaron: need good defaults
-        _height = 400;
-        _width = 400;
+        _transitionDuration = DEFAULT_TRANSITION_DURATION;
+
+        _yAxisPrecision = DEFAULT_Y_AXIS_PRECISION;
+
+        _dataSeries = new KmList<ScChartSeries>();
     }
 
     //##################################################
-    //# data
+    //# transition duration
     //##################################################
 
-    public KmJsonList getDataPoints()
+    public int getTransitionDuration()
     {
-        return _dataPoints;
+        return _transitionDuration;
     }
 
-    public void setDataPoints(KmJsonList e)
+    public void setTransitionDuration(int e)
     {
-        _dataPoints = e;
-    }
-
-    public void addDataPoint(KmJsonObject e)
-    {
-        getDataPoints().addObject(e);
+        _transitionDuration = e;
     }
 
     //##################################################
-    //# height / width
+    //# axis
     //##################################################
 
-    public int getHeight()
-    {
-        return _height;
-    }
-
-    public void setHeight(int e)
-    {
-        _height = e;
-    }
-
-    public int getWidth()
-    {
-        return _width;
-    }
-
-    public void setWidth(int e)
-    {
-        _width = e;
-    }
-
-    //##################################################
-    //# axis labels
-    //##################################################
+    //==================================================
+    //= axis :: labels
+    //==================================================
 
     public String getXAxisLabel()
     {
@@ -148,6 +162,89 @@ public class ScChart
         return getYAxisLabel() != null;
     }
 
+    //==================================================
+    //= axis :: precision
+    //==================================================
+
+    public int getYAxisPrecision()
+    {
+        return _yAxisPrecision;
+    }
+
+    public void setYAxisPrecision(int e)
+    {
+        _yAxisPrecision = e;
+    }
+
+    //==================================================
+    //= axis :: min / max
+    //==================================================
+
+    public Integer getXAxisMin()
+    {
+        return _xAxisMin;
+    }
+
+    public void setXAxisMin(Integer e)
+    {
+        _xAxisMin = e;
+    }
+
+    public Integer getXAxisMax()
+    {
+        return _xAxisMax;
+    }
+
+    public void setXAxisMax(Integer e)
+    {
+        _xAxisMax = e;
+    }
+
+    public Integer getYAxisMin()
+    {
+        return _yAxisMin;
+    }
+
+    public void setYAxisMin(Integer e)
+    {
+        _yAxisMin = e;
+    }
+
+    public Integer getYAxisMax()
+    {
+        return _yAxisMax;
+    }
+
+    public void setYAxisMax(Integer e)
+    {
+        _yAxisMax = e;
+    }
+
+    //##################################################
+    //# series
+    //##################################################
+
+    public KmList<ScChartSeries> getDataSeries()
+    {
+        return _dataSeries;
+    }
+
+    public void setDataSeries(KmList<ScChartSeries> e)
+    {
+        _dataSeries = e;
+    }
+
+    public ScChartSeries addSeries()
+    {
+        String key = Kmu.format("Series %s", getDataSeries().size() + 1);
+
+        ScChartSeries e;
+        e = new ScChartSeries();
+        e.setKey(key);
+        getDataSeries().add(e);
+        return e;
+    }
+
     //##################################################
     //# print
     //##################################################
@@ -155,16 +252,13 @@ public class ScChart
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        String style = Kmu.format("height: %spx; width: %spx;", getHeight(), getWidth());
-
         out.openDiv();
         out.printAttribute("id", getHtmlId());
-        out.printAttribute("style", style);
+        out.printAttribute(formatCss());
+        out.printAttribute(formatStyle());
         out.close();
-
         out.begin("svg");
         out.end("svg");
-
         out.endDiv();
 
         ScRootScript ajax;
@@ -201,26 +295,29 @@ public class ScChart
 
     private void formatXAxis(KmStringBuilder out)
     {
-        out.print("chart.xAxis.tickFormat(d3.format(',.1f'));");
-
         if ( hasXAxisLabel() )
             out.printf("chart.xAxis.axisLabel('%s');", getXAxisLabel());
+
+        out.printf("chart.forceX([%s,%s]);", getXAxisMin(), getXAxisMax());
     }
 
     private void formatYAxis(KmStringBuilder out)
     {
-        out.print("chart.yAxis.tickFormat(d3.format(',.1f'));");
+        out.printf("chart.yAxis.tickFormat(d3.format(',.%sf'));", getYAxisPrecision());
 
         if ( hasYAxisLabel() )
             out.printf("chart.yAxis.axisLabel('%s');", getYAxisLabel());
+
+        out.printf("chart.forceY([%s,%s]);", getYAxisMin(), getYAxisMax());
     }
 
     private void finalizeChart(KmStringBuilder out)
     {
         out.printf(
-            "d3.select('#%s svg').datum(%s).transition().duration(500).call(chart);",
+            "d3.select('#%s svg').datum(%s).transition().duration(%s).call(chart);",
             getHtmlId(),
-            formatData());
+            formatData(),
+            getTransitionDuration());
         out.print("nv.utils.windowResize(chart.update);");
         out.print("return chart;");
     }
@@ -229,26 +326,13 @@ public class ScChart
     //# format data
     //##################################################
 
-    private String formatData()
-    {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-
-        out.print(formatChartData());
-
-        return out.toString();
-    }
-
-    private KmJsonList formatChartData()
+    private KmJsonList formatData()
     {
         KmJsonList arr;
         arr = new KmJsonList();
 
-        KmJsonObject out;
-        out = arr.addObject();
-        out.setList("values", getDataPoints());
-        out.setString("key", "Sample Data");
-        out.setBoolean("area", false);
+        for ( ScChartSeries e : getDataSeries() )
+            arr.addObject(e.formatJson());
 
         return arr;
     }

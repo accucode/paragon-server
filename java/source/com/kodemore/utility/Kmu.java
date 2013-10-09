@@ -5692,4 +5692,20 @@ public class Kmu
 
         return uri.substring(i + 1);
     }
+
+    //##################################################
+    //# boolean 
+    //##################################################
+
+    public static boolean isTrue(Boolean e)
+    {
+        return isTrue(e, false);
+    }
+
+    public static boolean isTrue(Boolean e, boolean def)
+    {
+        return e == null
+            ? def
+            : e;
+    }
 }

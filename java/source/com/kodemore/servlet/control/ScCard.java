@@ -72,6 +72,11 @@ public class ScCard
         return getParent();
     }
 
+    protected void closeCard()
+    {
+        getFrame().close(this);
+    }
+
     //##################################################
     //# abstract accessing
     //##################################################

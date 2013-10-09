@@ -105,10 +105,17 @@ public class ScCardFrame
         return e;
     }
 
-    private void addCard(ScCard e)
+    public ScCard addCard(ScCard e)
     {
         e.setParent(this);
         _cards.add(e);
+        return e;
+    }
+
+    public void addDefaultCard(ScCard e)
+    {
+        addCard(e);
+        setDefaultCard(e);
     }
 
     public ScCard getDefaultCard()
@@ -353,9 +360,6 @@ public class ScCardFrame
     public void print(ScCard e)
     {
         check(e);
-
-        if ( e != null )
-            e.prePrint();
 
         ajaxPrint(e);
     }

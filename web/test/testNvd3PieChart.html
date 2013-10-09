@@ -43,7 +43,7 @@
             {
                 var chart = nv.models.pieChart()
                     .x(function(d) { return d.key })
-                    .y(function(d) { return d.y })
+                    .y(function(d) { return d.value })
                     .color(d3.scale.category10().range())
                     .labelType("percent");
             
@@ -64,14 +64,14 @@
             {
                 var chart = nv.models.pieChart()
                     .x(function(d) { return d.key })
-                    .y(function(d) { return d.y })
+                    .y(function(d) { return d.value })
                     .color(d3.scale.category10().range())
-                    .labelType("percent")
+                    .labelType('percent')
                     .donut(true);
             
                 d3.select("#donutChart svg")
                     .datum(pieChartData())
-                    .transition().duration(1200)
+                    .transition().duration(500)
                     .call(chart);
                 
                 nv.utils.windowResize(chart.update);
@@ -85,27 +85,27 @@
             return [
                 {
                     key : "Pi",
-                    y: 3.14159
+                    value: 3.14159
                 },
                 
                 {
                     key : "Phi",
-                    y: 1.618
+                    value: 1.618
                 },
                 
                 {
                     key : "Gamma",
-                    y: 1.4
+                    value: 1.4
                 },
                 
                 {
                     key : "e",
-                    y: 2.718
+                    value: 2.718
                 },
                 
                 {
                     key : "1",
-                    y: 1
+                    value: 1
                 }
             ];
         }

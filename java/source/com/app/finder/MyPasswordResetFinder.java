@@ -8,11 +8,13 @@
 
 package com.app.finder;
 
-import com.app.dao.MyPasswordResetDao;
-import com.app.finder.core.MyDaoKeyFinder;
-import com.app.model.MyPasswordReset;
+import com.kodemore.collection.*;
+import com.kodemore.utility.*;
 
-import com.kodemore.utility.KmKeyFinderIF;
+import com.app.dao.*;
+import com.app.dao.base.*;
+import com.app.finder.core.*;
+import com.app.model.*;
 
 public class MyPasswordResetFinder
     implements KmKeyFinderIF<MyPasswordReset,String>

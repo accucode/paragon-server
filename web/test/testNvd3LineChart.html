@@ -7,18 +7,6 @@
     <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
     <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
     
-    <link href="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/nv.d3.css" rel="stylesheet" type="text/css">
-    
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/lib/d3.v3.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/nv.d3.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/tooltip.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/utils.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/interactiveLayer.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/legend.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/axis.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/line.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/lineChart.js"></script>
-    
     <script type="text/javascript">
 
         function myLoad()
@@ -44,8 +32,8 @@
                 chart = nv.models.lineChart().useInteractiveGuideline(true);
                 
                 chart
-                    .x( function(d,i) { return d.x });
                     .margin( {left:100} )
+                    .x( function(d,i) { return d.x });
             
                 chart.xAxis
                     .axisLabel('Time (s)')

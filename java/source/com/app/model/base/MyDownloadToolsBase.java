@@ -8,13 +8,23 @@
 
 package com.app.model.base;
 
-import com.app.filter.MyDownloadFilter;
-import com.app.finder.MyDownloadFinder;
-import com.app.model.MyDownload;
-import com.app.model.core.MyAbstractDomainTools;
-import com.app.model.meta.MyMetaDownload;
+import java.util.*;
 
-import com.kodemore.servlet.field.ScDomainDropdownField;
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.servlet.action.*;
+import com.kodemore.servlet.control.*;
+import com.kodemore.servlet.field.*;
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
+import com.kodemore.validator.*;
+
+import com.app.filter.*;
+import com.app.finder.*;
+import com.app.model.*;
+import com.app.model.core.*;
+import com.app.model.meta.*;
+import com.app.utility.*;
 
 /**
  * Miscellaneous tools for use with the model.

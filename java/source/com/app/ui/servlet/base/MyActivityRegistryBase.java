@@ -12,6 +12,7 @@ import com.kodemore.servlet.*;
 
 import com.app.ui.activity.admin.*;
 import com.app.ui.activity.admin.accounts.*;
+import com.app.ui.activity.admin.userProfile.*;
 import com.app.ui.activity.general.*;
 import com.app.ui.activity.login.*;
 import com.app.ui.activity.test.*;
@@ -68,6 +69,7 @@ public abstract class MyActivityRegistryBase
         add(MyHideErrorsTestPage.instance);
         add(MyHomePage.instance);
         add(MyHoverTestPage.instance);
+        add(MyImageButtonTestPage.instance);
         add(MyInvalidInvitationPage.instance);
         add(MyLocalValueTestPage.instance);
         add(MyMemoryLeakTestPage.instance);
@@ -77,7 +79,6 @@ public abstract class MyActivityRegistryBase
         add(MyPerformanceLogPage.instance);
         add(MyPlaceholderTestPage.instance);
         add(MyPopupMenuTestPage.instance);
-        add(MyProfilePage.instance);
         add(MyRadioButtonTestPage.instance);
         add(MyScriptTestPage.instance);
         add(MySharedFileBrowserPage.instance);
@@ -95,6 +96,7 @@ public abstract class MyActivityRegistryBase
         add(MyToastTestPage.instance);
         add(MyToolsMenuPage.instance);
         add(MyUserPasswordPage.instance);
+        add(MyUserProfilePage.instance);
         add(MyUserSettingsPage.instance);
         add(MyUsersPage.instance);
         add(MyUtilityPage.instance);

@@ -467,17 +467,6 @@ public abstract class ScControl
     }
 
     /**
-     * This is the method that everyone should generally call
-     * when they want to render this control.  This provides
-     * a standard hook for framework intercepts.
-     */
-    @Override
-    public final void renderOn(KmHtmlBuilder out)
-    {
-        _renderOn(out);
-    }
-
-    /**
      * Convenience method to render this control into a literal control.
      */
     public final void renderOn(ScLiteral e)
@@ -489,10 +478,27 @@ public abstract class ScControl
         e.setValue(out);
     }
 
-    protected void _renderOn(KmHtmlBuilder out)
+    /**
+     * This is the method that everyone should generally call
+     * when they want to render this control.  This provides
+     * a standard hook for framework intercepts.
+     */
+    @Override
+    public final void renderOn(KmHtmlBuilder out)
     {
+        preRender();
         renderControlOn(out);
         renderPostDomOn(out);
+    }
+
+    /**
+     * I am called immediately before the control is rendered.
+     * This method is intended to provide a simple way for business logic
+     * specific subclasses to perform some setup before the control is rendered.
+     */
+    protected void preRender()
+    {
+        // subclass
     }
 
     /**

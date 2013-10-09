@@ -67,7 +67,7 @@ public abstract class ScContainerElement
     /**
      * Text that appears when hovering over an object.
      */
-    private ScLocalString _title;
+    private ScLocalString _hoverText;
 
     //##################################################
     //# init
@@ -82,7 +82,7 @@ public abstract class ScContainerElement
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
         _onClick = new ScLocalString();
-        _title = new ScLocalString();
+        _hoverText = new ScLocalString();
     }
 
     //##################################################
@@ -228,22 +228,22 @@ public abstract class ScContainerElement
     }
 
     //##################################################
-    //# title
+    //# hover text
     //##################################################
 
-    public void setTitle(String e)
+    public void setHoverText(String e)
     {
-        _title.setValue(e);
+        _hoverText.setValue(e);
     }
 
-    public String getTitle()
+    public String getHoverText()
     {
-        return _title.getValue();
+        return _hoverText.getValue();
     }
 
-    public boolean hasTitle()
+    public boolean hasHoverText()
     {
-        return _title.hasValue();
+        return _hoverText.hasValue();
     }
 
     //##################################################
@@ -283,9 +283,9 @@ public abstract class ScContainerElement
         out.printAttribute(formatCss());
         out.printAttribute(formatStyle());
 
-        
-        if ( hasTitle() )
-            out.printAttribute("title", getTitle());
+// todo_wyatt
+        if ( hasHoverText() )
+            out.printAttribute("title", getHoverText());
     }
 
     protected void renderChildrenOn(KmHtmlBuilder out)
