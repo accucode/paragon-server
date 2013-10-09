@@ -78,12 +78,17 @@ public abstract class MyPage
      *      - displays the root control in the layout's main area, 
      *      - attempts to set focus on the root.
      *      
-     * Subclasses can use prePrint and postPrint to hook into
+     * Subclasses can use preRender and postRender to hook into
      * the print process.
      */
     protected final void print()
     {
-        print(true);
+        print(getAutoFocus());
+    }
+
+    protected boolean getAutoFocus()
+    {
+        return true;
     }
 
     protected final void print(boolean focus)
@@ -98,21 +103,21 @@ public abstract class MyPage
 
         ScPageRoot root = getRoot();
 
-        prePrint();
+        preRender();
 
         ajax().printMain(root);
 
         if ( focus )
             root.ajax().focus();
 
-        postPrint();
+        postRender();
     }
 
     /**
      * I am called immediately BEFORE the page is printed.
      * I provide a hook for subclasses.
      */
-    protected void prePrint()
+    protected void preRender()
     {
         // subclass
     }
@@ -121,7 +126,7 @@ public abstract class MyPage
      * I am called immediately AFTER the page is printed.
      * I provide a hook for subclasses.
      */
-    protected void postPrint()
+    protected void postRender()
     {
         // subclass
     }

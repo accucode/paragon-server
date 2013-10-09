@@ -8,21 +8,20 @@
 
 package com.app.model.base;
 
-import com.app.model.MyDownload;
-import com.app.model.MyDownloadTools;
-import com.app.model.MyDownloadValidator;
-import com.app.model.MyUser;
-import com.app.model.core.MyAbstractDomain;
-import com.app.model.meta.MyMetaDownload;
+import java.util.*;
 
-import com.kodemore.collection.KmMap;
-import com.kodemore.servlet.utility.ScFormatter;
-import com.kodemore.time.KmDate;
-import com.kodemore.time.KmTime;
-import com.kodemore.time.KmTimestamp;
-import com.kodemore.time.KmTimestampUtility;
-import com.kodemore.utility.KmProperties;
-import com.kodemore.utility.Kmu;
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.servlet.encoder.*;
+import com.kodemore.servlet.utility.*;
+import com.kodemore.time.*;
+import com.kodemore.types.*;
+import com.kodemore.utility.*;
+
+import com.app.model.*;
+import com.app.model.core.*;
+import com.app.model.meta.*;
+import com.app.utility.*;
 
 public abstract class MyDownloadBase
     extends MyAbstractDomain

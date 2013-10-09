@@ -8,11 +8,10 @@
 
 package com.app.model;
 
-import java.util.EnumSet;
+import java.util.*;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.collection.KmMap;
-import com.kodemore.utility.KmCodedEnumIF;
+import com.kodemore.collection.*;
+import com.kodemore.utility.*;
 
 public enum MyInvitationType
     implements KmCodedEnumIF

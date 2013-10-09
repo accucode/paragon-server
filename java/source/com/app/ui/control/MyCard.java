@@ -22,16 +22,18 @@
 
 package com.app.ui.control;
 
-import com.app.dao.base.MyDaoRegistry;
-import com.app.model.MySettings;
-import com.app.property.MyPropertyRegistry;
-import com.app.ui.core.MyPageSession;
-import com.app.utility.MyGlobals;
-
 import com.kodemore.dao.KmDaoSession;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
+
+import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MyServerSession;
+import com.app.model.MySettings;
+import com.app.model.MyUser;
+import com.app.property.MyPropertyRegistry;
+import com.app.ui.core.MyPageSession;
+import com.app.utility.MyGlobals;
 
 /**
  * Used to wrap dynamic ajax content.
@@ -39,6 +41,11 @@ import com.kodemore.time.KmTimestamp;
 public class MyCard
     extends ScCard
 {
+    public MyServerSession getServerSession()
+    {
+        return MyGlobals.getServerSession();
+    }
+
     public MyPageSession getPageSession()
     {
         return MyGlobals.getPageSession();
@@ -77,6 +84,11 @@ public class MyCard
     protected void flushDao()
     {
         getDaoSession().flush();
+    }
+
+    protected MyUser getCurrentUser()
+    {
+        return getServerSession().getUser();
     }
 
 }

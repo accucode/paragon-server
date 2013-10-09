@@ -60,7 +60,7 @@ public class ScDropdown
     //# constants
     //##################################################//
 
-    private static final boolean USE_BOOTSTRAP_SELECT = true;
+    private static final boolean USE_BOOTSTRAP_SELECT = false;
 
     //##################################################
     //# variables
@@ -789,25 +789,29 @@ public class ScDropdown
 
     public void ajaxUpdateOptions()
     {
-        KmList<ScOption> options;
-        options = new KmList<ScOption>();
-        options.addAll(getPrefixes());
-        options.addAll(getOptions());
+        KmList<ScOption> v;
+        v = new KmList<ScOption>();
+        v.addAll(getPrefixes());
+        v.addAll(getOptions());
 
-        ajaxSetOptions(options);
+        ajaxUpdateOptions(v);
+    }
+
+    public void ajaxUpdateOptions(KmList<ScOption> v)
+    {
+        ajaxSetOptions(v);
 
         if ( usesBootstrapSelect() )
-            ajaxRefreshBootstrapSelect();
+            ajax().run(formatBootstrapSelectRefreshScript());
     }
 
     public void ajaxAddOption(String text, Object value)
     {
-        String encoded = encode(value);
         ajax().run(
             "Kmu.addSelectOptionTextValue(%s,%s,%s);",
             json(formatJquerySelector()),
             json(text),
-            json(encoded));
+            json(encode(value)));
     }
 
     public void ajaxClearOptions()
@@ -817,17 +821,18 @@ public class ScDropdown
 
     public void ajaxHide()
     {
-        ajax().run(formatBootstrapSelectHideScript());
+        if ( usesBootstrapSelect() )
+            ajax().run(formatBootstrapSelectHideScript());
+        else
+            ajax().hide();
     }
 
     public void ajaxShow()
     {
-        ajax().run(formatBootstrapSelectShowScript());
-    }
-
-    public void ajaxRefreshBootstrapSelect()
-    {
-        ajax().run(formatBootstrapSelectRefreshScript());
+        if ( usesBootstrapSelect() )
+            ajax().run(formatBootstrapSelectShowScript());
+        else
+            ajax().show();
     }
 
     //##################################################

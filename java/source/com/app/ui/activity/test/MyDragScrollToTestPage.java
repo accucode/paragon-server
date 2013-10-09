@@ -148,7 +148,7 @@ public class MyDragScrollToTestPage
         int dropdownValue = _dropdown.getIntegerValue();
         ScDiv div = (ScDiv)_blueDiv.getChildren().get(dropdownValue);
 
-        _blueDiv.ajax().scrollTo(_blueDiv.formatJqueryReference(), div.formatJqueryReference(), 100);
+        _blueDiv.ajax().scrollTo(_blueDiv, div, 100);
     }
 
     private void handleSort()

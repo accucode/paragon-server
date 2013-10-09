@@ -963,9 +963,22 @@ public abstract class ScBlockScript
     /**
      * Allows children to be sorted.
      */
+    public void sortable(String sel, KmJsonObject options)
+    {
+        /**
+         * ask_valerie ask guys if they know a classier kmu to replace
+         * if ( options == null)
+         */
+        if ( options == null )
+            run("$('%s').sortable();", sel);
+        else
+            run("$('%s').sortable(%s);", sel, options);
+    }
+
     public void sortable(String sel)
     {
-        run("$('%s').sortable();", sel);
+        KmJsonObject options = null;
+        sortable(sel, options);
     }
 
     public void sortable(ScHtmlIdIF target)
@@ -978,10 +991,14 @@ public abstract class ScBlockScript
         String dragHandle;
         dragHandle = ScJquery.formatCssSelector(KmCssDefaultConstantsIF.dragHandle);
 
-        String ref;
-        ref = target.formatJqueryReference();
+        String sel;
+        sel = target.formatJquerySelector();
 
-        run("%s.sortable({handle: '%s'});", ref, dragHandle);
+        KmJsonObject options;
+        options = new KmJsonObject();
+        options.setString("handle", dragHandle);
+
+        sortable(sel, options);
     }
 
     public void sortableUpdate(ScHtmlIdIF target, String childPath, String attr, ScActionIF action)
@@ -1004,24 +1021,31 @@ public abstract class ScBlockScript
     /**
      * Allows children to be expanded/collapsible.
      */
-    public void accordion(String sel, String options)
+    public void accordion(String sel, KmJsonObject options)
     {
-        run("$('%s').accordion(%s);", sel, options);
+        /**
+         * ask_valerie ask guys if they know a classier kmu to replace
+         * if ( options == null)
+         */
+        if ( options == null )
+            run("$('%s').accordion();", sel);
+        else
+            run("$('%s').accordion(%s);", sel, options);
     }
 
     public void accordion(String sel)
     {
-        accordion(sel, "");
+        KmJsonObject options = null;
+        accordion(sel, options);
     }
 
-    
     public void accordionCollapsible(String sel)
     {
         KmJsonObject options;
         options = new KmJsonObject();
         options.setBoolean("collapsible", true);
 
-        accordion(sel, options.formatJson());
+        accordion(sel, options);
     }
 
     public void accordion(ScHtmlIdIF target)
@@ -1039,26 +1063,43 @@ public abstract class ScBlockScript
     //##################################################
 
     /**
-     * Allows children to be expanded/collapsible.
+     * Scroll a container such that the target become visible.
+     * This function relies on:
+     *      jQuery.SerialScroll
+     *      by Ariel Flesler
+     *      http://flesler.blogspot.com/
      */
-    public void scrollTo(String containerRef, String targetRef, int duration)
+    public void scrollTo(String containerSel, String targetSel, Integer speedMs)
     {
-        run("%s.scrollTo(%s, %s);", containerRef, targetRef, duration);
+        if ( speedMs == null )
+            run("$('%s').scrollTo('%s');", containerSel, targetSel);
+        else
+            run("$('%s').scrollTo('%s',%s);", containerSel, targetSel, speedMs);
     }
 
-    public void scrollTo(ScHtmlIdIF container, ScHtmlIdIF target, int duration)
+    public void scrollTo(String containerSel, String targetSel)
     {
-        scrollTo(container.formatJqueryReference(), target.formatJqueryReference(), duration);
+        Integer speedMs = null;
+        scrollTo(containerSel, targetSel, speedMs);
     }
 
-  
+    public void scrollTo(ScHtmlIdIF container, ScHtmlIdIF target, Integer speedMs)
+    {
+        scrollTo(container.formatJquerySelector(), target.formatJquerySelector(), speedMs);
+    }
+
+    public void scrollTo(ScHtmlIdIF container, ScHtmlIdIF target)
+    {
+        Integer speedMs = null;
+        scrollTo(container, target, speedMs);
+    }
 
     //##################################################
     //# tooltip
     //##################################################
 
     /**
-     * jQuery toolip which uses title (hover) but is much prettier
+     * jQuery tooltip which uses title (hover) but is much prettier
      * and easier to see.
      */
     public void tooltip(String sel)

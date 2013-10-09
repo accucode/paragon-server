@@ -101,6 +101,7 @@ public class JkStfTypesConverter
 
     private KmFileRoot getFileRoot()
     {
+// todo_wyatt
         String dir = "c:/projects/paragon/web/WEB-INF/resource/generator/config";
         return new KmFileRoot(dir);
     }

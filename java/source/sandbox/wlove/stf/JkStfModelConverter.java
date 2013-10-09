@@ -229,6 +229,7 @@ public class JkStfModelConverter
 
     private KmFileRoot getFileRoot()
     {
+// todo_wyatt
         String dir = "c:/projects/paragon/web/WEB-INF/resource/generator/config/model/data";
         return new KmFileRoot(dir);
     }
