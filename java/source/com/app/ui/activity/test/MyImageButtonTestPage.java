@@ -39,9 +39,6 @@ public class MyImageButtonTestPage
     protected void installRoot(ScPageRoot root)
     {
         ScGroup group = root.addGroup();
-        // remove_valerie: testing
-        //        ScButton imgButton = group.addButton();
-        //        imgButton.setImage(e);
 
         ScImage image;
         image = group.addImage();

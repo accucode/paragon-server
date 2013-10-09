@@ -966,7 +966,7 @@ public abstract class ScBlockScript
     public void sortable(String sel, KmJsonObject options)
     {
         /**
-         * ask_valerie ask guys if they know a classier kmu to replace
+         * review_aaron (valerie) ask guys if they know a classier kmu to replace
          * if ( options == null)
          */
         if ( options == null )
@@ -1024,7 +1024,7 @@ public abstract class ScBlockScript
     public void accordion(String sel, KmJsonObject options)
     {
         /**
-         * ask_valerie ask guys if they know a classier kmu to replace
+         * review_aaron (valerie) ask guys if they know a classier kmu to replace
          * if ( options == null)
          */
         if ( options == null )
