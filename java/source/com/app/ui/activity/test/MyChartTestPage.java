@@ -203,10 +203,22 @@ public class MyChartTestPage
         pie.addBar("phi (black)", 1.618, KmHtmlColor.createBlack());
         pie.addBar("gamma (green)", 1.4, KmHtmlColor.createGreen());
         pie.addBar("e", 2.72);
-        pie.addBar("1", 1);
-        pie.addBar("0 (This is Extra Text to denonstate a large label)", 0);
-        pie.addBar("-1 (Enabling Stagger Labels helps display large labels)", -1);
+        pie.addBar("0", 0);
+        pie.addBar("-1", -1);
         pie.addBar("Square Root of 2", 1.414);
+        pie.addBar("Random 1", getRandomNumber());
+        pie.addBar("Random 2 (This is Extra Text to denonstate a large label)", getRandomNumber());
+        pie.addBar(
+            "Random 3 (Enabling Stagger Labels helps display large labels)",
+            getRandomNumber());
+        pie.addBar("Random 4", getRandomNumber());
+    }
+
+    private double getRandomNumber()
+    {
+        return KmRandomUtility.getDouble()
+            + KmRandomUtility.getInteger(3)
+            - KmRandomUtility.getInteger(3);
     }
 
     private void generatePieChartData(ScPieChart pie)
