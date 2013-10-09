@@ -1,20 +1,5 @@
 package com.app.ui.layout;
 
-import com.app.dao.base.MyDaoRegistry;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyServerSession;
-import com.app.model.MyUser;
-import com.app.property.MyPropertyRegistry;
-import com.app.ui.activity.general.MyHomePage;
-import com.app.ui.activity.general.MySignOutPage;
-import com.app.ui.core.MyServletData;
-import com.app.ui.servlet.MyServletConstantsIF;
-import com.app.utility.MyConstantsIF;
-import com.app.utility.MyGlobals;
-import com.app.utility.MyUrls;
-
-import com.kodemore.collection.KmCollection;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonObject;
@@ -34,6 +19,20 @@ import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
+
+import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.property.MyPropertyRegistry;
+import com.app.ui.activity.general.MyHomePage;
+import com.app.ui.activity.general.MySignOutPage;
+import com.app.ui.core.MyServletData;
+import com.app.ui.servlet.MyServletConstantsIF;
+import com.app.utility.MyConstantsIF;
+import com.app.utility.MyGlobals;
+import com.app.utility.MyUrls;
 
 public class MyPageLayout
     implements MyServletConstantsIF
@@ -315,7 +314,7 @@ public class MyPageLayout
 
         out.open("img");
         out.printAttribute("id", "pageHeaderLogoImage");
-        out.printAttribute("src", ScUrls.getThemeImage("smallAccuCode.png"));
+        out.printAttribute("src", ScUrls.getThemeImage("logo35.png"));
         out.close();
 
         out.beginSpanId("pageHeaderLogoText");
