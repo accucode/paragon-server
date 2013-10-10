@@ -9,6 +9,7 @@
     
     <script type="text/javascript">
 
+
         function myLoad()
         {
             MyResourceLoader.loadTestResources(
@@ -95,7 +96,24 @@
                     color: "#667711"
                 }
             ];
-        }   
+        }
+        
+        function myHide()
+        {
+            $('#lineChart').hide();
+        }
+        
+        function myShow()
+        {
+            $('#lineChart').show();
+        }
+        
+        function myUpdate()
+        {
+            var length = nv.graphs.length;
+            for ( var i = 0; i < length; i++)
+                nv.graphs[0].update();
+        }
         
     </script>
 
@@ -108,6 +126,9 @@
 <div id="main" style="display:none" class="gap">
 
     <button onclick='location.reload();'>reload</button>
+    <button onclick='myHide();'>Hide</button>
+    <button onclick='myShow();'>Show</button>
+    <button onclick='myUpdate();'>Update</button>
     <br>
     
     <div class='boxBlue gap'>
@@ -116,7 +137,7 @@
         </p>
     </div>
     
-    <div id="lineChart" style="float:left; width: 50%; height: 400px;">
+    <div id="lineChart" style="float:left; width: 50%; height: 400px; display: none;">
         <svg></svg>
     </div>
     

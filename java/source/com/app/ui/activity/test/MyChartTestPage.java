@@ -2,13 +2,14 @@ package com.app.ui.activity.test;
 
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.servlet.control.ScBarChart;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScChartSeries;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLineChart;
 import com.kodemore.servlet.control.ScMultiBarChart;
+import com.kodemore.servlet.control.ScNotebook;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScPieChart;
-import com.kodemore.string.KmStringBuilder;
 import com.kodemore.types.KmHtmlColor;
 import com.kodemore.utility.KmRandomUtility;
 
@@ -43,33 +44,107 @@ public class MyChartTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        //        root.css().gap();
+        //
+        //        ScGroup group;
+        //        group = root.addGroup("Chart Test");
+        //        root.add(createLineChart());
+        //        root.add(createBarChart());
+        //        root.add(createMultiBarChart());
+        //        root.add(createPieChart());
+
+        root.css().pad();
+
+        ScNotebook tabs;
+        tabs = root.addNotebook();
+
+        installLineTab(tabs);
+        installBarTab(tabs);
+        installMultiBarTab(tabs);
+        installPieTab(tabs);
+    }
+
+    private void installLineTab(ScNotebook tabs)
+    {
+        ScBox tab;
+        tab = tabs.addBox();
+        tab.setLabel("Line Chart");
+        tab.css().gap();
+
+        String message = "This demonstrates a line chart with multiple series.  Clicking on the "
+            + "labels in the legend will enable and disable the display of an individual "
+            + "series.";
 
         ScGroup group;
-        group = root.addGroup("Chart Test");
-        group.addPad().addText(getDescription());
-        root.add(createLineChart());
-        root.add(createBarChart());
-        root.add(createMultiBarChart());
-        root.add(createPieChart());
+        group = tab.addGroup();
+        group.setTitle("Line Chart");
+        group.addPad().addText(message);
+
+        tab.add(createLineChart());
     }
 
-    private String getDescription()
+    private void installBarTab(ScNotebook tabs)
     {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.println("This is a test of the Various ScCharts.");
-        out.println();
-        out.println("The charts demonstated here are:");
-        out.println("ScLineChart");
-        out.println("ScBarChart");
-        out.println("ScMultiBarChart");
-        out.println("ScPieChart");
-        out.println();
-        out.println("Each chart has a variety of options set in order to demonstrate "
-            + "what options are available for each chart type.");
-        return out.toString();
+        ScBox tab;
+        tab = tabs.addBox();
+        tab.setLabel("Bar Chart");
+        tab.css().gap();
+
+        String message = "This demonstrates a bar chart with several discrete data points.  "
+            + "Bar charts have the option to stagger the labels which can help accomodate "
+            + "longer labels.";
+
+        ScGroup group;
+        group = tab.addGroup();
+        group.setTitle("Bar Chart");
+        group.addPad().addText(message);
+
+        tab.add(createBarChart());
     }
+
+    private void installMultiBarTab(ScNotebook tabs)
+    {
+        ScBox tab;
+        tab = tabs.addBox();
+        tab.setLabel("Multi Bar Chart");
+        tab.css().gap();
+
+        String message = "This demonstrates a multi-bar chart, which is similar to a line chart "
+            + "but displays data as bars.  Clicking on the labels in the legend will enable or "
+            + "disable the display of idividual data series.  Additionally, this chart has the "
+            + "option between grouped and stacked display.";
+
+        ScGroup group;
+        group = tab.addGroup();
+        group.setTitle("Multi Bar Chart");
+        group.addPad().addText(message);
+
+        tab.add(createMultiBarChart());
+    }
+
+    private void installPieTab(ScNotebook tabs)
+    {
+        ScBox tab;
+        tab = tabs.addBox();
+        tab.setLabel("Pie Chart");
+        tab.css().gap();
+
+        String message = "This demonstrates a pie chat with several discrete data points.  "
+            + "Clicking on the label in the legend will toggle the display of individual "
+            + "slices.  The pie chart has the option be be displayed as a traditional pie, "
+            + "or as a 'donut'.";
+
+        ScGroup group;
+        group = tab.addGroup();
+        group.setTitle("Pie Chart");
+        group.addPad().addText(message);
+
+        tab.add(createPieChart());
+    }
+
+    //==================================================
+    //= install :: charts
+    //==================================================
 
     private ScLineChart createLineChart()
     {

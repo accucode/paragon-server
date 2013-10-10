@@ -23,75 +23,30 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonList;
-import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
-/**
- * review_aaron 
- *      
- *      Min / Max : 
- *          chart.forceY([min, max]); Will expand the chart to show the min max values,
- *              but the chart will still automatically expand to show data that is outside
- *              this range.
- *          chart.yDomain([min, max]); Will truncate the chart to only display the range
- *              specified.  However the data will be drawn outside of the graph if it falls
- *              outside of this range.
- */
 public class ScMultiBarChart
-    extends ScDiv
+    extends ScAbstractChart
 {
     //##################################################
     //# constants
     //##################################################
 
-    private static final int      DEFAULT_TRANSITION_DURATION  = 300;
     private static final int      DEFAULT_DELAY                = 600;
-
-    private static final int      DEFAULT_Y_AXIS_PRECISION     = 0;
-
     private static final double   DEFAULT_GROUP_SPACING        = 0.1;
-
     private static final int      DEFAULT_ROTATE_LABEL_DEGREES = 0;
-
-    private static final int      Y_LABEL_MARGIN               = 85;
 
     //##################################################
     //# variables
     //##################################################
 
     /**
-     * The time it takes for the chart to appear on the page.
-     */
-    private int                   _transitionDuration;
-
-    /**
      * The time delay between animating individual bars, or groups
      * or bars.
      */
     private int                   _delay;
-
-    private String                _xAxisLabel;
-    private String                _yAxisLabel;
-
-    /**
-     * If set, the chart will expand to include this value.  However, the 
-     * chart will not cut off data that exists outside of this range.  The
-     * chart will always automatically expand to fit all data.
-     */
-    private Integer               _yAxisMin;
-
-    /**
-     * See _yAxisMin.
-     */
-    private Integer               _yAxisMax;
-
-    /**
-     * how many digits after the deciman to show on the y axis labels.
-     */
-    private int                   _yAxisPrecision;
 
     /**
      * The spacing between groups.  Value seems to be the ratio of the
@@ -110,6 +65,9 @@ public class ScMultiBarChart
      */
     private boolean               _showGroupStackControl;
 
+    /**
+     * The list of data seried to be displayed in the chart
+     */
     private KmList<ScChartSeries> _dataSeries;
 
     //##################################################
@@ -131,20 +89,6 @@ public class ScMultiBarChart
     }
 
     //##################################################
-    //# transition duration
-    //##################################################
-
-    public int getTransitionDuration()
-    {
-        return _transitionDuration;
-    }
-
-    public void setTransitionDuration(int e)
-    {
-        _transitionDuration = e;
-    }
-
-    //##################################################
     //# delay
     //##################################################
 
@@ -156,82 +100,6 @@ public class ScMultiBarChart
     public void setDelay(int e)
     {
         _delay = e;
-    }
-
-    //##################################################
-    //# axis
-    //##################################################
-
-    //==================================================
-    //= axis :: labels
-    //==================================================
-
-    public String getXAxisLabel()
-    {
-        return _xAxisLabel;
-    }
-
-    public void setXAxisLabel(String e)
-    {
-        _xAxisLabel = e;
-    }
-
-    public boolean hasXAxisLabel()
-    {
-        return getXAxisLabel() != null;
-    }
-
-    public String getYAxisLabel()
-    {
-        return _yAxisLabel;
-    }
-
-    public void setYAxisLabel(String e)
-    {
-        _yAxisLabel = e;
-    }
-
-    public boolean hasYAxisLabel()
-    {
-        return getYAxisLabel() != null;
-    }
-
-    //==================================================
-    //= axis :: precision
-    //==================================================
-
-    public int getYAxisPrecision()
-    {
-        return _yAxisPrecision;
-    }
-
-    public void setYAxisPrecision(int e)
-    {
-        _yAxisPrecision = e;
-    }
-
-    //==================================================
-    //= axis :: min / max
-    //==================================================
-
-    public Integer getYAxisMin()
-    {
-        return _yAxisMin;
-    }
-
-    public void setYAxisMin(Integer e)
-    {
-        _yAxisMin = e;
-    }
-
-    public Integer getYAxisMax()
-    {
-        return _yAxisMax;
-    }
-
-    public void setYAxisMax(Integer e)
-    {
-        _yAxisMax = e;
     }
 
     //##################################################
@@ -306,45 +174,24 @@ public class ScMultiBarChart
         return e;
     }
 
-    //##################################################
-    //# print
-    //##################################################
-
     @Override
-    protected void renderControlOn(KmHtmlBuilder out)
+    protected KmJsonList formatData()
     {
-        out.openDiv();
-        out.printAttribute("id", getHtmlId());
-        out.printAttribute(formatCss());
-        out.printAttribute(formatStyle());
-        out.close();
-        out.begin("svg");
-        out.end("svg");
-        out.endDiv();
+        KmJsonList arr;
+        arr = new KmJsonList();
 
-        ScRootScript ajax;
-        ajax = out.getPostRender();
-        ajax.run(formatLineChartScript());
+        for ( ScChartSeries e : getDataSeries() )
+            arr.addObject(e.formatJson());
+
+        return arr;
     }
 
     //##################################################
     //# script
     //##################################################
 
-    private String formatLineChartScript()
-    {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.print("nv.addGraph(function(){");
-        initializeChart(out);
-        formatXAxis(out);
-        formatYAxis(out);
-        finalizeChart(out);
-        out.print("});");
-        return out.toString();
-    }
-
-    private void initializeChart(KmStringBuilder out)
+    @Override
+    protected void initializeChart(KmStringBuilder out)
     {
         out.print("var chart;");
         out.print("chart = nv.models.multiBarChart();");
@@ -358,7 +205,8 @@ public class ScMultiBarChart
             out.printf("chart.margin({left:%s});", Y_LABEL_MARGIN);
     }
 
-    private void formatXAxis(KmStringBuilder out)
+    @Override
+    protected void formatXAxis(KmStringBuilder out)
     {
         out.print("chart.xAxis.showMaxMin(true);");
 
@@ -366,7 +214,8 @@ public class ScMultiBarChart
             out.printf("chart.xAxis.axisLabel('%s');", getXAxisLabel());
     }
 
-    private void formatYAxis(KmStringBuilder out)
+    @Override
+    protected void formatYAxis(KmStringBuilder out)
     {
         out.printf("chart.yAxis.tickFormat(d3.format(',.%sf'));", getYAxisPrecision());
 
@@ -374,31 +223,5 @@ public class ScMultiBarChart
             out.printf("chart.yAxis.axisLabel('%s');", getYAxisLabel());
 
         out.printf("chart.forceY([%s,%s]);", getYAxisMin(), getYAxisMax());
-    }
-
-    private void finalizeChart(KmStringBuilder out)
-    {
-        out.printf(
-            "d3.select('#%s svg').datum(%s).transition().duration(%s).call(chart);",
-            getHtmlId(),
-            formatData(),
-            getTransitionDuration());
-        out.print("nv.utils.windowResize(chart.update);");
-        out.print("return chart;");
-    }
-
-    //##################################################
-    //# format data
-    //##################################################
-
-    private KmJsonList formatData()
-    {
-        KmJsonList arr;
-        arr = new KmJsonList();
-
-        for ( ScChartSeries e : getDataSeries() )
-            arr.addObject(e.formatJson());
-
-        return arr;
     }
 }

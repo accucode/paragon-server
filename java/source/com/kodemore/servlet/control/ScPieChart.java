@@ -23,14 +23,12 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonList;
 import com.kodemore.json.KmJsonObject;
-import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
 
 public class ScPieChart
-    extends ScDiv
+    extends ScAbstractChart
 {
     //##################################################
     //# enum 
@@ -71,17 +69,6 @@ public class ScPieChart
             _stringValue = e;
         }
     }
-
-    //##################################################
-    //# constants
-    //##################################################
-
-    /**
-     * There is no instance variable for transition duration on the
-     * pie chart because while it is required for the chart to function
-     * changing this value has no apparent effect.
-     */
-    private static final int     DEFAULT_TRANSITION_DURATION = 500;
 
     //##################################################
     //# variables
@@ -134,34 +121,6 @@ public class ScPieChart
     }
 
     //##################################################
-    //# data (slices)
-    //##################################################
-
-    public KmList<KmJsonObject> getSlices()
-    {
-        return _slices;
-    }
-
-    public void setSlices(KmList<KmJsonObject> e)
-    {
-        _slices = e;
-    }
-
-    public void addSlice(KmJsonObject e)
-    {
-        getSlices().add(e);
-    }
-
-    public void addSlice(String key, double value)
-    {
-        KmJsonObject slice;
-        slice = new KmJsonObject();
-        slice.setString("key", key);
-        slice.setDouble("value", value);
-        getSlices().add(slice);
-    }
-
-    //##################################################
     //# label Type
     //##################################################
 
@@ -201,42 +160,51 @@ public class ScPieChart
     }
 
     //##################################################
-    //# print
+    //# data (slices)
     //##################################################
 
-    @Override
-    protected void renderControlOn(KmHtmlBuilder out)
+    public KmList<KmJsonObject> getSlices()
     {
-        out.openDiv();
-        out.printAttribute("id", getHtmlId());
-        out.printAttribute(formatCss());
-        out.printAttribute(formatStyle());
-        out.close();
-        out.begin("svg");
-        out.end("svg");
-        out.endDiv();
+        return _slices;
+    }
 
-        ScRootScript ajax;
-        ajax = out.getPostRender();
-        ajax.run(formatLineChartScript());
+    public void setSlices(KmList<KmJsonObject> e)
+    {
+        _slices = e;
+    }
+
+    public void addSlice(KmJsonObject e)
+    {
+        getSlices().add(e);
+    }
+
+    public void addSlice(String key, double value)
+    {
+        KmJsonObject slice;
+        slice = new KmJsonObject();
+        slice.setString("key", key);
+        slice.setDouble("value", value);
+        getSlices().add(slice);
+    }
+
+    @Override
+    protected KmJsonList formatData()
+    {
+        KmJsonList arr;
+        arr = new KmJsonList();
+
+        for ( KmJsonObject e : getSlices() )
+            arr.addObject(e);
+
+        return arr;
     }
 
     //##################################################
     //# script
     //##################################################
 
-    private String formatLineChartScript()
-    {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.print("nv.addGraph(function(){");
-        initializeChart(out);
-        finalizeChart(out);
-        out.print("});");
-        return out.toString();
-    }
-
-    private void initializeChart(KmStringBuilder out)
+    @Override
+    protected void initializeChart(KmStringBuilder out)
     {
         out.print("var chart;");
         out.print("chart = nv.models.pieChart();");
@@ -246,29 +214,15 @@ public class ScPieChart
         out.printf("chart.donut(%s);", getDonut());
     }
 
-    private void finalizeChart(KmStringBuilder out)
+    @Override
+    protected void formatXAxis(KmStringBuilder out)
     {
-        out.printf(
-            "d3.select('#%s svg').datum(%s).transition().duration(%s).call(chart);",
-            getHtmlId(),
-            formatData(),
-            DEFAULT_TRANSITION_DURATION);
-        out.print("nv.utils.windowResize(chart.update);");
-        out.print("return chart;");
+        // none
     }
 
-    //##################################################
-    //# format data
-    //##################################################
-
-    private KmJsonList formatData()
+    @Override
+    protected void formatYAxis(KmStringBuilder out)
     {
-        KmJsonList arr;
-        arr = new KmJsonList();
-
-        for ( KmJsonObject e : getSlices() )
-            arr.addObject(e);
-
-        return arr;
+        // none
     }
 }
