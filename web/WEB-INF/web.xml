@@ -88,6 +88,7 @@
     </servlet-mapping>
 
     <!-- expires filter -->
+    <!-- 
     <filter>
         <filter-name>ExpiresFilter</filter-name>
         <filter-class>org.apache.catalina.filters.ExpiresFilter</filter-class>
@@ -104,4 +105,5 @@
        <dispatcher>ERROR</dispatcher>
        <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
+    -->
 </web-app>
