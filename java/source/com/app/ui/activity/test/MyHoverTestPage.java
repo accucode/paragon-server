@@ -40,12 +40,13 @@ public class MyHoverTestPage
     {
         _nameField = new ScTextField();
         _nameField.setLabel("Name");
-        _nameField.setTitle("Please enter a name here.");
+        _nameField.setHoverText("Please enter a name here.");
         _nameField.css().padLeft5();
 
         _form = root.addForm();
         _form.css().gap();
-        _form.setTitle("This is text that shows when hovering over the entire form.");
+        _form.setHoverText("This is text that shows when hovering over the entire form.");
+        _form.getPostDomScript().tooltip();
 
         ScGroup group;
         group = _form.addGroup("Hover/Title Test");
@@ -57,7 +58,7 @@ public class MyHoverTestPage
         ScImage image;
         image = left.addImage();
         image.setSource(getCommonImageUrl("smiley.png"));
-        image.setTitle("Smile!");
+        image.setHoverText("Smile!");
 
         group.addPad().addText(
             "Show hover text over the icon, form, field, and button using the title attribute");
@@ -66,23 +67,7 @@ public class MyHoverTestPage
 
         ScButton button;
         button = group.addButtonBox().addButton("Clear", newClearAction());
-        button.setTitle("This button is used for clearing the field.");
-    }
-
-    //##################################################
-    //# start
-    //##################################################
-
-    @Override
-    public void start()
-    {
-        super.start();
-        initializeTooltip();
-    }
-
-    private void initializeTooltip()
-    {
-        _form.ajax().tooltip();
+        button.setHoverText("This button is used for clearing the field.");
     }
 
     //##################################################

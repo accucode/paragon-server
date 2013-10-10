@@ -8,19 +8,19 @@
 
 package com.app.criteria;
 
-import com.app.criteria.core.MyAbstractCriteria;
-import com.app.dao.base.MyEmailPartDaoConstantsIF;
-import com.app.model.MyEmail;
-import com.app.model.MyEmailPart;
-import com.app.model.MyEmailPartType;
+import com.kodemore.collection.*;
+import com.kodemore.hibernate.*;
+import com.kodemore.hibernate.criteria.*;
+import com.kodemore.time.*;
+import com.kodemore.types.*;
 
-import com.kodemore.collection.KmBlob;
-import com.kodemore.hibernate.criteria.KmAbstractCriteria;
-import com.kodemore.hibernate.criteria.KmCriteria;
-import com.kodemore.hibernate.criteria.KmIntegerCriteria;
-import com.kodemore.hibernate.criteria.KmModelJunction;
-import com.kodemore.hibernate.criteria.KmPropertyCriteria;
-import com.kodemore.hibernate.criteria.KmStringCriteria;
+import com.app.criteria.core.*;
+import com.app.dao.*;
+import com.app.dao.base.*;
+import com.app.dao.core.*;
+import com.app.filter.*;
+import com.app.model.*;
+import com.app.model.meta.*;
 
 public class MyEmailPartCriteria
     extends MyAbstractCriteria<MyEmailPart>

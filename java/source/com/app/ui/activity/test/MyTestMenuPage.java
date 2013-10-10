@@ -96,5 +96,6 @@ public class MyTestMenuPage
         links.addLink(MyHandleSortTestPage.instance);
         links.addLink(MyHoverTestPage.instance);
         links.addLink(MyDragScrollToTestPage.instance);
+        links.addLink(MyFacebookTestPage.instance);
     }
 }

@@ -8,14 +8,17 @@
 
 package com.app.filter.base;
 
-import com.app.criteria.MyPerformanceLogCriteria;
-import com.app.dao.MyPerformanceLogDao;
-import com.app.dao.base.MyPerformanceLogDaoConstantsIF;
-import com.app.filter.core.MyBasicFilter;
-import com.app.model.MyPerformanceLog;
-import com.app.model.meta.MyMetaPerformanceLog;
+import com.kodemore.collection.*;
+import com.kodemore.hibernate.criteria.*;
 
-import com.kodemore.hibernate.criteria.KmModelCriteria;
+import com.app.command.base.*;
+import com.app.criteria.*;
+import com.app.dao.*;
+import com.app.dao.base.*;
+import com.app.filter.*;
+import com.app.filter.core.*;
+import com.app.model.*;
+import com.app.model.meta.*;
 
 public abstract class MyPerformanceLogFilterBase
     extends MyBasicFilter<MyPerformanceLog>

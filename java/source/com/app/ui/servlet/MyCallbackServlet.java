@@ -1,18 +1,18 @@
 package com.app.ui.servlet;
 
-import com.app.ui.core.MyServerSessionManager;
-import com.app.utility.MyUrls;
-
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
+
+import com.app.ui.core.MyServerSessionManager;
+import com.app.utility.MyUrls;
 
 /**
  * I am used by various tools to coordinate dynamic 
  * server side responses to client side requests.
  * 
  * Tools register a url path suffix, and a callback
- * function.  When a url is receiced matching the 
+ * function.  When a url is received matching the 
  * path suffix, the request is passed to the 
  * callback function.
  * 

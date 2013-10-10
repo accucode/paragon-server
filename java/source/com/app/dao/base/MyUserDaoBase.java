@@ -8,11 +8,16 @@
 
 package com.app.dao.base;
 
-import com.app.criteria.MyUserCriteria;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaUser;
+import com.kodemore.collection.*;
+import com.kodemore.dao.*;
+import com.kodemore.hibernate.*;
+import com.kodemore.hibernate.criteria.*;
 
-import com.kodemore.dao.KmAbstractDao;
+import com.app.criteria.*;
+import com.app.dao.core.*;
+import com.app.filter.*;
+import com.app.model.*;
+import com.app.model.meta.*;
 
 public abstract class MyUserDaoBase
     extends KmAbstractDao<MyUser,String>

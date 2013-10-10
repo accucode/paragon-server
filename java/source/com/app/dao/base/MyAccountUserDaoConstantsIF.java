@@ -8,6 +8,8 @@
 
 package com.app.dao.base;
 
+import com.kodemore.collection.*;
+import com.app.model.*;
 
 public interface MyAccountUserDaoConstantsIF
 {

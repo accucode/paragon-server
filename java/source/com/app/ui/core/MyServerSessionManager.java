@@ -118,12 +118,13 @@ public class MyServerSessionManager
 
     public static MyServerSession login(MyUser u)
     {
-        MyServerSession e;
-        e = getSession();
-        e.setUser(u);
-        e.validate();
+        MyServerSession ss;
+        ss = getSession();
+        ss.setUser(u);
+        ss.setDefaultAccount();
+        ss.validate();
 
-        return e;
+        return ss;
     }
 
     //##################################################

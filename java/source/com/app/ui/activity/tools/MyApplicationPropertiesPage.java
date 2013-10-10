@@ -49,7 +49,7 @@ public class MyApplicationPropertiesPage
     //##################################################
 
     @Override
-    protected void prePrint()
+    protected void preRender()
     {
         MyPropertyRegistry p = getProperties();
 

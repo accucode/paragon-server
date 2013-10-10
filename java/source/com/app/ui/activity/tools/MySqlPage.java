@@ -63,6 +63,7 @@ public class MySqlPage
     {
         _schemaField = new ScTextField();
         _schemaField.setLabel("Schema");
+        _schemaField.setValue(getProperties().getDatabaseSchema());
 
         _formatField = new ScDropdown();
         _formatField.setLabel("Format");
@@ -113,11 +114,13 @@ public class MySqlPage
     private ScBox createQuickActionBox()
     {
         _tableDropdown = new ScDropdown();
+        _tableDropdown.addNullSelectPrefix();
         _tableDropdown.css().floatLeft();
 
         ScBox box;
         box = new ScBox();
         box.setLabel("Quick");
+        box.css().marginRightChildren5();
         box.add(_tableDropdown);
 
         ScActionButton b;
@@ -201,23 +204,21 @@ public class MySqlPage
     //##################################################
 
     @Override
-    public void start()
+    protected boolean getAutoFocus()
     {
-        preRender();
+        return false;
+    }
 
-        print(false);
-        _sqlField.ajax().focus();
-
+    @Override
+    public void preRender()
+    {
         refreshTables();
     }
 
-    private void preRender()
+    @Override
+    public void postRender()
     {
-        if ( isOk() && _schemaField.isEmpty() )
-        {
-            String s = getProperties().getDatabaseSchema();
-            _schemaField.setValue(s);
-        }
+        _sqlField.ajax().focus();
     }
 
     //##################################################
@@ -233,7 +234,7 @@ public class MySqlPage
 
     private void submitSql(String sql)
     {
-        String schema = updateSchemaName();
+        String schema = _schemaField.getValue();
 
         KmSqlResultComposer c;
         c = new KmSqlResultComposer();
@@ -278,16 +279,10 @@ public class MySqlPage
             c.formatCsvSimple();
     }
 
-    private String updateSchemaName()
-    {
-        _schemaField.saveFieldValues();
-        String schemaName = _schemaField.getValue();
-        return schemaName;
-    }
-
     private void handleRefreshTables()
     {
         refreshTables();
+        _tableDropdown.ajaxUpdateOptions();
     }
 
     private void handleSelectAll()
@@ -321,16 +316,24 @@ public class MySqlPage
     }
 
     //##################################################
-    //# utility
+    //# table names
     //##################################################
+
+    private void refreshTables()
+    {
+        for ( String e : getTableNames() )
+            _tableDropdown.addOption(e);
+    }
 
     private KmList<String> getTableNames()
     {
         KmDatabaseTool tool = new KmDatabaseTool();
         try
         {
+            String schema = _schemaField.getValue();
+
             tool.open();
-            tool.useSchema(_schemaField.getValue());
+            tool.useSchema(schema);
 
             KmList<String> v;
             v = tool.getTableNames();
@@ -343,12 +346,4 @@ public class MySqlPage
         }
     }
 
-    private void refreshTables()
-    {
-        _tableDropdown.ajaxClearOptions();
-        _tableDropdown.ajaxAddOption("<select a table>", null);
-
-        for ( String e : getTableNames() )
-            _tableDropdown.ajaxAddOption(e, e);
-    }
 }

@@ -40,7 +40,7 @@ public class MyHandleSortTestPage
         green = root.addDiv();
         green.css().boxGreen().pad();
         green.addText("Drag divs within a parent div.");
-        green.setTitle("This is a green div.");
+        green.setHoverText("This is a green div.");
 
         _blueDiv = root.addDiv();
         _blueDiv.css().boxBlue().gap();

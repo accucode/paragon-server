@@ -12,11 +12,11 @@ Java JDK 1.6
     Required version: 1.6.x
 
 -----------------
-Tomcat
+Tomcat 7
 -----------------
 
     We use tomcat for the Servlet container.
-    Required Version: 5.5.x
+    Required Version: 7.x
 
     Install tomcat.
 

@@ -1,12 +1,12 @@
 package com.app.model;
 
+import com.kodemore.collection.KmCollection;
+import com.kodemore.utility.Kmu;
+
 import com.app.model.base.MyUserBase;
 import com.app.model.meta.MyMetaAccount;
 import com.app.model.meta.MyMetaAccountUser;
 import com.app.utility.MyUtility;
-
-import com.kodemore.collection.KmCollection;
-import com.kodemore.utility.Kmu;
 
 public class MyUser
     extends MyUserBase
@@ -111,6 +111,28 @@ public class MyUser
         return getAccountUsers().collect(x.Account);
     }
 
+    public KmCollection<MyAccount> getOwnedAccounts()
+    {
+        KmCollection<MyAccount> v = new KmCollection<MyAccount>();
+
+        for ( MyAccountUser e : getAccountUsers() )
+            if ( e.isRoleOwner() )
+                v.add(e.getAccount());
+
+        return v;
+    }
+
+    public MyAccount getDefaultAccount()
+    {
+        MyMetaAccount x = MyAccount.Meta;
+
+        KmCollection<MyAccount> v;
+        v = getOwnedAccounts();
+        v.toList().sortOn(x.Name);
+
+        return v.getFirst();
+    }
+
     public KmCollection<String> getAccountNames()
     {
         MyMetaAccount x = MyAccount.Meta;
@@ -195,6 +217,16 @@ public class MyUser
         return au;
     }
 
+    public boolean hasSingleAccount()
+    {
+        return getAccountUserCount() == 1;
+    }
+
+    public boolean hasMultipleAccounts()
+    {
+        return getAccountUsers().isMultiple();
+    }
+
     //##################################################
     //# support
     //##################################################
@@ -226,8 +258,4 @@ public class MyUser
             }
     }
 
-    public boolean hasSingleAccount()
-    {
-        return getAccountUserCount() == 1;
-    }
 }

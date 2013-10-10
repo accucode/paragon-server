@@ -22,6 +22,9 @@
 
 package com.kodemore.servlet.control;
 
+import java.util.Iterator;
+
+import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
@@ -161,4 +164,19 @@ public class ScTable
         super.renderAttributesOn(out);
     }
 
+    //##################################################
+    //# children
+    //##################################################
+
+    @Override
+    public Iterator<ScControl> getComponents()
+    {
+        KmCompositeIterator<ScControl> i;
+        i = new KmCompositeIterator<ScControl>();
+
+        i.addAll(super.getComponents());
+        i.addAll(getRows());
+
+        return i;
+    }
 }
