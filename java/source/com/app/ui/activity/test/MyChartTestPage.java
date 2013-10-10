@@ -47,15 +47,6 @@ public class MyChartTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        //        root.css().gap();
-        //
-        //        ScGroup group;
-        //        group = root.addGroup("Chart Test");
-        //        root.add(createLineChart());
-        //        root.add(createBarChart());
-        //        root.add(createMultiBarChart());
-        //        root.add(createPieChart());
-
         root.css().pad();
 
         ScNotebook tabs;
