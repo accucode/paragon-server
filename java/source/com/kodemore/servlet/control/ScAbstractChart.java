@@ -292,13 +292,17 @@ public abstract class ScAbstractChart
     //##################################################
 
     /**
-     * Ajax script to manually update all charts on the page.
+     * Manually update all charts on the page.
      */
     public void updateAllCharts()
     {
         ajax().run(getUpdateAllChartsScript());
     }
 
+    /**
+     * Static method returning the script to manually update
+     * all charts. 
+     */
     public static String getUpdateAllChartsScript()
     {
         KmStringBuilder out;
