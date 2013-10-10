@@ -25,6 +25,8 @@ package com.kodemore.servlet.control;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.script.ScActionScript;
 
 /**
  * I implement a tabbed notebook control using the jquery-ui toolkit.
@@ -46,6 +48,32 @@ public class ScNotebook
     protected void install()
     {
         super.install();
+    }
+
+    //##################################################
+    //# variables
+    //##################################################
+
+    // review_aaron: Tab Changed Action
+    private ScActionIF _tabChangedAction;
+
+    //##################################################
+    //# accessing
+    //##################################################
+
+    public ScActionIF getTabChangedAction()
+    {
+        return _tabChangedAction;
+    }
+
+    public void setTabChangedAction(ScActionIF e)
+    {
+        _tabChangedAction = e;
+    }
+
+    public boolean hasTabChangedAction()
+    {
+        return getTabChangedAction() != null;
     }
 
     //##################################################
@@ -123,6 +151,13 @@ public class ScNotebook
         String ref = formatJqueryReference();
 
         out.getPostDom().run("%s.tabs();", ref);
+
+        // review_aaron: Tab Changed Action
+        if ( hasTabChangedAction() )
+            out.getPostDom().run(
+                "%s.on('tabsactivate', function( event, ui ) { %s });",
+                ref,
+                getTabChangeActionScript().formatScript());
     }
 
     //##################################################
@@ -137,5 +172,11 @@ public class ScNotebook
     private KmCssDefaultBuilder formatContentCss()
     {
         return newCssBuilder().clearfix();
+    }
+
+    // review_aaron: Tab Changed Action
+    private ScActionScript getTabChangeActionScript()
+    {
+        return ScActionScript.create(getTabChangedAction());
     }
 }

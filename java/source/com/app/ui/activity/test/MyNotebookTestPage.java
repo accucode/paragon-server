@@ -33,6 +33,7 @@ public class MyNotebookTestPage
 
         ScNotebook book;
         book = root.addNotebook();
+        book.setTabChangedAction(newTabChangeAction());
 
         ScText tab1;
         tab1 = book.addText();
@@ -66,6 +67,18 @@ public class MyNotebookTestPage
         };
     }
 
+    private ScActionIF newTabChangeAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleTabChange();
+            }
+        };
+    }
+
     //##################################################
     //# handle
     //##################################################
@@ -73,5 +86,10 @@ public class MyNotebookTestPage
     private void handleTest()
     {
         ajax().toast("Test");
+    }
+
+    private void handleTabChange()
+    {
+        ajax().toast("Tab Changed");
     }
 }

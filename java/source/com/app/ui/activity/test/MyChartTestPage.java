@@ -1,6 +1,9 @@
 package com.app.ui.activity.test;
 
 import com.kodemore.json.KmJsonObject;
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScAbstractChart;
 import com.kodemore.servlet.control.ScBarChart;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScChartSeries;
@@ -57,6 +60,7 @@ public class MyChartTestPage
 
         ScNotebook tabs;
         tabs = root.addNotebook();
+        tabs.setTabChangedAction(newTabChangedAction());
 
         installLineTab(tabs);
         installBarTab(tabs);
@@ -303,5 +307,30 @@ public class MyChartTestPage
         pie.addSlice("gamma", 1.4);
         pie.addSlice("e", 2.72);
         pie.addSlice("1", 1);
+    }
+
+    //##################################################
+    //# action
+    //##################################################
+
+    private ScActionIF newTabChangedAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            protected void handle()
+            {
+                handleTabChanged();
+            }
+        };
+    }
+
+    //##################################################
+    //# handle
+    //##################################################
+
+    private void handleTabChanged()
+    {
+        ajax().run(ScAbstractChart.getUpdateAllChartsScript());
     }
 }

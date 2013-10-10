@@ -294,13 +294,18 @@ public abstract class ScAbstractChart
     /**
      * Ajax script to manually update all charts on the page.
      */
-    public void refreshCharts()
+    public void updateAllCharts()
+    {
+        ajax().run(getUpdateAllChartsScript());
+    }
+
+    public static String getUpdateAllChartsScript()
     {
         KmStringBuilder out;
         out = new KmStringBuilder();
         out.print("var length = nv.graphs.length;");
         out.print("for ( var i = 0; i < length; i++)");
-        out.print("nv.graphs[0].update();)");
-        ajax().run(out.toString());
+        out.print("nv.graphs[i].update();");
+        return out.toString();
     }
 }
