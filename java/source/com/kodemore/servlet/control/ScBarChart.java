@@ -28,6 +28,9 @@ import com.kodemore.json.KmJsonObject;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.types.KmHtmlColor;
 
+/**
+ * This is a simple bar chart that displays several discrete data points. 
+ */
 public class ScBarChart
     extends ScAbstractChart
 {

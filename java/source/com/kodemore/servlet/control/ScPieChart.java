@@ -27,6 +27,9 @@ import com.kodemore.json.KmJsonList;
 import com.kodemore.json.KmJsonObject;
 import com.kodemore.string.KmStringBuilder;
 
+/**
+ * This is a simple pie chart displaying several discrete data points. 
+ */
 public class ScPieChart
     extends ScAbstractChart
 {

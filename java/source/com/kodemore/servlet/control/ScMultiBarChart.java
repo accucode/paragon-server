@@ -27,6 +27,10 @@ import com.kodemore.json.KmJsonList;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
+/**
+ * This chart is similar to the ScLineChart, displaying several data sets
+ * with many points, but in the form of a bar chart.  
+ */
 public class ScMultiBarChart
     extends ScAbstractChart
 {

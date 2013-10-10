@@ -27,6 +27,15 @@ import com.kodemore.json.KmJsonList;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
 
+/**
+ * This implements the Nvd3 javascript chart library.
+ * 
+ * It should be noted that if a chart is placed in a div
+ * that is initially hidded, the chart will initialize with 
+ * a size of 0.  In order to display correctly, the chart(s)
+ * should be manually updated once shown using updateAllCharts()
+ * or getUpdateAllChartsScript().
+ */
 public abstract class ScAbstractChart
     extends ScDiv
 {

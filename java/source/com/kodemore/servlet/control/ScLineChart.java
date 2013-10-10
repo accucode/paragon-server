@@ -38,6 +38,11 @@ import com.kodemore.utility.Kmu;
  *              specified.  However the data will be drawn outside of the graph if it falls
  *              outside of this range.
  */
+
+/**
+ * This is a line chart useful for displaying several data sets with
+ * many data points.
+ */
 public class ScLineChart
     extends ScAbstractChart
 {
