@@ -42,7 +42,7 @@ public abstract class ScAbstractTextField<T>
 
     private ScLocalString  _text;
     private ScLocalString  _placeholder;
-    private ScLocalString  _title;
+    private ScLocalString  _hoverText;
     private ScLocalBoolean _readOnly;
     private ScLocalBoolean _disabled;
     private ScLocalBoolean _fullWrapper;
@@ -58,9 +58,9 @@ public abstract class ScAbstractTextField<T>
     {
         super.install();
 
-        _text = new ScLocalString("");
-        _placeholder = new ScLocalString("");
-        _title = new ScLocalString("");
+        _text = new ScLocalString();
+        _placeholder = new ScLocalString();
+        _hoverText = new ScLocalString();
         _readOnly = new ScLocalBoolean(false);
         _disabled = new ScLocalBoolean(false);
         _fullWrapper = new ScLocalBoolean(false);
@@ -218,11 +218,8 @@ public abstract class ScAbstractTextField<T>
         if ( isReadOnly() )
             out.printAttribute("readonly", "readonly");
 
-        if ( hasPlaceholder() )
-            out.printAttribute("placeholder", getPlaceholder());
-
-        if ( hasTitle() )
-            out.printAttribute("title", getTitle());
+        out.printAttribute("placeholder", getPlaceholder());
+        out.printAttribute("title", getHoverText());
 
         out.printAttribute("value", getText());
     }
@@ -439,22 +436,22 @@ public abstract class ScAbstractTextField<T>
     }
 
     //##################################################
-    //# title
+    //# hover text
     //##################################################
 
-    public void setTitle(String e)
+    public void setHoverText(String e)
     {
-        _title.setValue(e);
+        _hoverText.setValue(e);
     }
 
-    public String getTitle()
+    public String getHoverText()
     {
-        return _title.getValue();
+        return _hoverText.getValue();
     }
 
-    public boolean hasTitle()
+    public boolean hasHoverText()
     {
-        return _title.hasValue();
+        return _hoverText.hasValue();
     }
 
     //##################################################

@@ -67,4 +67,20 @@ public class MyServerSession
     {
         return !hasRightVersion();
     }
+
+    public void setDefaultAccount()
+    {
+        MyUser u = getUser();
+
+        if ( u == null )
+        {
+            clearAccount();
+            return;
+        }
+
+        if ( hasAccount() && getAccount().hasMember(u) )
+            return;
+
+        setAccount(u.getDefaultAccount());
+    }
 }

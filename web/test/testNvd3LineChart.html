@@ -7,19 +7,8 @@
     <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
     <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
     
-    <link href="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/nv.d3.css" rel="stylesheet" type="text/css">
-    
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/lib/d3.v3.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/nv.d3.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/tooltip.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/utils.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/interactiveLayer.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/legend.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/axis.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/line.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/lineChart.js"></script>
-    
     <script type="text/javascript">
+
 
         function myLoad()
         {
@@ -48,7 +37,7 @@
                     .x( function(d,i) { return d.x });
             
                 chart.xAxis
-                    .axisLabel("Time (s)")
+                    .axisLabel('Time (s)')
                     .tickFormat(d3.format(',.1f'));
                 
                 chart.yAxis
@@ -107,7 +96,24 @@
                     color: "#667711"
                 }
             ];
-        }   
+        }
+        
+        function myHide()
+        {
+            $('#lineChart').hide();
+        }
+        
+        function myShow()
+        {
+            $('#lineChart').show();
+        }
+        
+        function myUpdate()
+        {
+            var length = nv.graphs.length;
+            for ( var i = 0; i < length; i++)
+                nv.graphs[0].update();
+        }
         
     </script>
 
@@ -120,6 +126,9 @@
 <div id="main" style="display:none" class="gap">
 
     <button onclick='location.reload();'>reload</button>
+    <button onclick='myHide();'>Hide</button>
+    <button onclick='myShow();'>Show</button>
+    <button onclick='myUpdate();'>Update</button>
     <br>
     
     <div class='boxBlue gap'>
@@ -128,8 +137,8 @@
         </p>
     </div>
     
-    <div id="lineChart" style="float:left; width: 50%;">
-        <svg style="height: 400px;"></svg>
+    <div id="lineChart" style="float:left; width: 50%; height: 400px; display: none;">
+        <svg></svg>
     </div>
     
 </body>

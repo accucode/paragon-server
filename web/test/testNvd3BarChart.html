@@ -43,15 +43,14 @@
                 var chart;
                 chart = nv.models.discreteBarChart();
                 
-                chart
-                    .x(function(d) { return d.label })
-                    .y(function(d) { return d.value })
-                    .staggerLabels(true)
-                    .tooltips(true)
-                    .transitionDuration(100);
+                chart.x(function(d) { return d.label });
+                chart.y(function(d) { return d.value });
+                chart.staggerLabels(true);
+                chart.tooltips(true);
                     
                 d3.select('#barChart svg')
                     .datum(barChartData())
+                    .transition().duration(500)
                     .call(chart);
 
                 nv.utils.windowResize(chart.update);
@@ -64,7 +63,7 @@
         {
             return [
                 {
-                    key: "Cumulative Return",
+                    key: "Math",
                     values: [
                         { 
                           "label" : "Pi" ,

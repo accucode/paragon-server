@@ -116,20 +116,22 @@ public class MyFieldTestPage
         _checkboxField = new ScCheckboxField();
         _checkboxField.setLabel("Checkbox");
 
+        String radioName = "radioField";
+
         _radio1Field = new ScRadioField();
         _radio1Field.setLabel("Radio1");
         _radio1Field.setValue("Radio1");
-        _radio1Field.setHtmlName("radioField");
+        _radio1Field.setHtmlName(radioName);
 
         _radio2Field = new ScRadioField();
         _radio2Field.setLabel("Radio2");
         _radio2Field.setValue("Radio2");
-        _radio2Field.setHtmlName("radioField");
+        _radio2Field.setHtmlName(radioName);
 
         _radio3Field = new ScRadioField();
         _radio3Field.setLabel("Radio3");
         _radio3Field.setValue("Radio3");
-        _radio3Field.setHtmlName("radioField");
+        _radio3Field.setHtmlName(radioName);
 
         _listField = new ScListField();
         _listField.setLabel("List");

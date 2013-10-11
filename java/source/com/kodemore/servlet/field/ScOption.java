@@ -57,7 +57,7 @@ public class ScOption
     }
 
     //##################################################
-    //# accessing
+    //# value
     //##################################################
 
     public Object getValue()
@@ -79,6 +79,10 @@ public class ScOption
     {
         return Kmu.isEqual(_value, e);
     }
+
+    //##################################################
+    //# text
+    //##################################################
 
     public String getText()
     {

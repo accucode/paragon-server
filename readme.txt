@@ -27,7 +27,7 @@ License:
 Minimum requirements:
 
     Java 1.6
-    Tomcat 5.5
+    Tomcat 7
     Ant 1.8
 
 Third party libraries

@@ -205,18 +205,14 @@ public class MyUtilityPage
     }
 
     //##################################################
-    //# start
+    //# print
     //##################################################
 
     @Override
-    public void start()
+    public void preRender()
     {
-        preRender();
-        print();
-    }
+        super.preRender();
 
-    private void preRender()
-    {
         MyServletData data = getData();
 
         String userAgent = data.getUserAgent();
