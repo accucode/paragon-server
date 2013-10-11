@@ -51,7 +51,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.json.KmJsonObjectIF;
 import com.kodemore.json.KmJsonReader;
 import com.kodemore.log.KmLog;
@@ -141,7 +141,7 @@ public class ScServletData
      * server side http session.  Most session information should
      * be stored here.
      */
-    private KmJsonObject         _pageSessionEncodedValues;
+    private KmJsonMap         _pageSessionEncodedValues;
 
     //##################################################
     //# variables (response)
@@ -1339,14 +1339,14 @@ public class ScServletData
         return new ScPageSessionAccess(this);
     }
 
-    public KmJsonObject getPageSessionEncodedValues()
+    public KmJsonMap getPageSessionEncodedValues()
     {
         return _pageSessionEncodedValues;
     }
 
     private void installPageSession()
     {
-        KmJsonObject json = readPageSession();
+        KmJsonMap json = readPageSession();
 
         KmList<String> keys = json.getKeys();
         for ( String key : keys )
@@ -1356,14 +1356,14 @@ public class ScServletData
         _pageSessionEncodedValues = json;
     }
 
-    private KmJsonObject readPageSession()
+    private KmJsonMap readPageSession()
     {
         String s = getParameter(PARAMETER_PAGE_SESSION);
 
         if ( Kmu.isEmpty(s) )
-            return new KmJsonObject();
+            return new KmJsonMap();
 
-        return KmJsonReader.parseJsonObject(s);
+        return KmJsonReader.parseJsonMap(s);
     }
 
     public void clearPageSession()

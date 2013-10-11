@@ -13,7 +13,7 @@ import com.kodemore.utility.Kmu;
  * http://code.google.com/p/json-simple/
  * Apache License 2.0
  */
-public class KmJsonObject
+public class KmJsonMap
     implements KmJsonObjectIF
 {
     //##################################################
@@ -26,12 +26,12 @@ public class KmJsonObject
     //# constructor
     //##################################################
 
-    public KmJsonObject()
+    public KmJsonMap()
     {
         _inner = new JSONObject();
     }
 
-    public KmJsonObject(JSONObject e)
+    public KmJsonMap(JSONObject e)
     {
         _inner = e;
     }
@@ -99,19 +99,19 @@ public class KmJsonObject
     }
 
     //##################################################
-    //# object
+    //# map
     //##################################################
 
-    public KmJsonObject getObject(String key)
+    public KmJsonMap getMap(String key)
     {
         JSONObject e = (JSONObject)_get(key);
 
         return e == null
             ? null
-            : new KmJsonObject(e);
+            : new KmJsonMap(e);
     }
 
-    public void setObject(String key, KmJsonObject value)
+    public void setMap(String key, KmJsonMap value)
     {
         if ( value == null )
             _set(key, null);
@@ -119,27 +119,27 @@ public class KmJsonObject
             _set(key, value.getInner());
     }
 
-    public KmJsonObject setObject(String key)
+    public KmJsonMap setMap(String key)
     {
-        KmJsonObject e = new KmJsonObject();
-        setObject(key, e);
+        KmJsonMap e = new KmJsonMap();
+        setMap(key, e);
         return e;
     }
 
     //##################################################
-    //# list
+    //# array
     //##################################################
 
-    public KmJsonList getList(String key)
+    public KmJsonArray getArray(String key)
     {
         JSONArray e = (JSONArray)_get(key);
 
         return e == null
             ? null
-            : new KmJsonList(e);
+            : new KmJsonArray(e);
     }
 
-    public void setList(String key, KmJsonList value)
+    public void setArray(String key, KmJsonArray value)
     {
         if ( value == null )
             _set(key, null);
@@ -147,10 +147,10 @@ public class KmJsonObject
             _set(key, value.getInner());
     }
 
-    public KmJsonList setList(String key)
+    public KmJsonArray setArray(String key)
     {
-        KmJsonList v = new KmJsonList();
-        setList(key, v);
+        KmJsonArray v = new KmJsonArray();
+        setArray(key, v);
         return v;
     }
 

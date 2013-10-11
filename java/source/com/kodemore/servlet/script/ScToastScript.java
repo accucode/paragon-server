@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.script;
 
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
@@ -244,8 +244,8 @@ public class ScToastScript
     @Override
     public void formatScriptOn(KmStringBuilder out)
     {
-        KmJsonObject params;
-        params = new KmJsonObject();
+        KmJsonMap params;
+        params = new KmJsonMap();
         params.setString("text", getHtml());
         params.setBoolean("sticky", getSticky());
         params.setString("type", getFlavor());

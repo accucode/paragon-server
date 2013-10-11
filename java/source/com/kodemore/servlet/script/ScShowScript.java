@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.script;
 
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.utility.Kmu;
 
@@ -65,8 +65,8 @@ public class ScShowScript
     @Override
     protected String getFlipFunction()
     {
-        KmJsonObject options;
-        options = new KmJsonObject();
+        KmJsonMap options;
+        options = new KmJsonMap();
         options.setString("selector", getSelector());
         options.setInteger("duration", getSpeedMs());
         options.setString("easing", getEasing().name());

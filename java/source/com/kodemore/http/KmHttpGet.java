@@ -44,7 +44,7 @@ public class KmHttpGet
     @Override
     protected void _applyRequestValue()
     {
-        // gets to not use the request value.
+        // GETs to not use the request value.
     }
 
     //##################################################

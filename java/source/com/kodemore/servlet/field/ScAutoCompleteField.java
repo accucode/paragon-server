@@ -31,8 +31,8 @@ import com.app.ui.servlet.ScServletCallbackRegistry;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
-import com.kodemore.json.KmJsonList;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonArray;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScEncodedValueIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.control.ScControl;
@@ -325,7 +325,7 @@ public class ScAutoCompleteField
         out.close();
 
         String ref = formatJqueryReference();
-        KmJsonObject settings = formatSettings();
+        KmJsonMap settings = formatSettings();
         out.getPostDom().run("%s.autocomplete(%s);", ref, settings);
 
         // no end tag
@@ -346,16 +346,16 @@ public class ScAutoCompleteField
         return newCssBuilder().textField();
     }
 
-    private KmJsonObject formatSettings()
+    private KmJsonMap formatSettings()
     {
-        KmJsonObject map;
-        map = new KmJsonObject();
+        KmJsonMap map;
+        map = new KmJsonMap();
         map.setInteger("minLength", getTriggerLength());
 
         if ( hasCallback() )
             map.setString("source", getSourceCallback());
         else
-            map.setList("source", getSourceOptions());
+            map.setArray("source", getSourceOptions());
 
         return map;
     }
@@ -384,14 +384,14 @@ public class ScAutoCompleteField
         return result;
     }
 
-    private KmJsonList getSourceOptions()
+    private KmJsonArray getSourceOptions()
     {
         KmList<String> v;
         v = getOptionsCopy();
         v.sort();
 
-        KmJsonList json;
-        json = new KmJsonList();
+        KmJsonArray json;
+        json = new KmJsonArray();
         json.addStrings(v);
         return json;
     }
@@ -439,8 +439,8 @@ public class ScAutoCompleteField
         ScAutoCompleteCallbackIF c = getCallback();
         KmList<String> v = c.getOptionsFor(term);
 
-        KmJsonList json;
-        json = new KmJsonList();
+        KmJsonArray json;
+        json = new KmJsonArray();
         json.addStrings(v);
 
         data.setJsonResult(json);

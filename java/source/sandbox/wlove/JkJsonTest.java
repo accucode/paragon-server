@@ -1,7 +1,7 @@
 package sandbox.wlove;
 
-import com.kodemore.json.KmJsonList;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonArray;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.json.KmJsonUtility;
 
 public class JkJsonTest
@@ -13,16 +13,16 @@ public class JkJsonTest
 
     public void run()
     {
-        KmJsonObject e;
-        e = new KmJsonObject();
+        KmJsonMap e;
+        e = new KmJsonMap();
         e.setString("name", "foo");
         e.setInteger("num", 100);
         e.setDouble("balance", 1000.21);
         e.setBoolean("isVip", true);
         e.setNull("nickname");
 
-        KmJsonList v;
-        v = e.setList("list");
+        KmJsonArray v;
+        v = e.setArray("list");
         v.addBoolean(true);
         v.addInteger(1);
         v.addDouble(2.3);

@@ -13,7 +13,7 @@ import com.kodemore.collection.KmList;
  * http://code.google.com/p/json-simple/
  * Apache License 2.0
  */
-public class KmJsonList
+public class KmJsonArray
     implements KmJsonObjectIF, Iterable<Object>
 {
     //##################################################
@@ -26,12 +26,12 @@ public class KmJsonList
     //# constructor
     //##################################################
 
-    public KmJsonList()
+    public KmJsonArray()
     {
         _inner = new JSONArray();
     }
 
-    public KmJsonList(JSONArray e)
+    public KmJsonArray(JSONArray e)
     {
         _inner = e;
     }
@@ -202,19 +202,24 @@ public class KmJsonList
     }
 
     //##################################################
-    //# object
+    //# map
     //##################################################
 
-    public KmJsonObject getObjectAt(int index)
+    public KmJsonMap getFirstMap()
+    {
+        return getMapAt(0);
+    }
+
+    public KmJsonMap getMapAt(int index)
     {
         JSONObject e = (JSONObject)_getObjectAt(index);
 
         return e == null
             ? null
-            : new KmJsonObject(e);
+            : new KmJsonMap(e);
     }
 
-    public void setObjectAt(int index, KmJsonObject value)
+    public void setMapAt(int index, KmJsonMap value)
     {
         JSONObject inner = value == null
             ? null
@@ -223,7 +228,7 @@ public class KmJsonList
         _setObjectAt(index, inner);
     }
 
-    public void addObject(KmJsonObject value)
+    public void addMap(KmJsonMap value)
     {
         JSONObject inner = value == null
             ? null
@@ -232,27 +237,27 @@ public class KmJsonList
         _addObject(inner);
     }
 
-    public KmJsonObject addObject()
+    public KmJsonMap addMap()
     {
-        KmJsonObject e = new KmJsonObject();
-        addObject(e);
+        KmJsonMap e = new KmJsonMap();
+        addMap(e);
         return e;
     }
 
     //##################################################
-    //# list
+    //# array
     //##################################################
 
-    public KmJsonList getList(int index)
+    public KmJsonArray getArray(int index)
     {
         JSONArray e = (JSONArray)_getObjectAt(index);
 
         return e == null
             ? null
-            : new KmJsonList(e);
+            : new KmJsonArray(e);
     }
 
-    public void setList(int index, KmJsonList value)
+    public void setArray(int index, KmJsonArray value)
     {
         if ( value == null )
             _setObjectAt(index, null);
@@ -260,7 +265,7 @@ public class KmJsonList
             _setObjectAt(index, value.getInner());
     }
 
-    public void addList(KmJsonList value)
+    public void addArray(KmJsonArray value)
     {
         if ( value == null )
             _addObject(null);

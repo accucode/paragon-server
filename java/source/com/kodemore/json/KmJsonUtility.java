@@ -16,8 +16,8 @@ public abstract class KmJsonUtility
         if ( e == null )
             return formatNull();
 
-        KmJsonList v;
-        v = new KmJsonList();
+        KmJsonArray v;
+        v = new KmJsonArray();
         v.addString(e.toString());
 
         return withoutBrackets(v);
@@ -25,8 +25,8 @@ public abstract class KmJsonUtility
 
     public static String format(Integer e)
     {
-        KmJsonList v;
-        v = new KmJsonList();
+        KmJsonArray v;
+        v = new KmJsonArray();
         v.addInteger(e);
 
         return withoutBrackets(v);
@@ -34,8 +34,8 @@ public abstract class KmJsonUtility
 
     public static String format(Long e)
     {
-        KmJsonList v;
-        v = new KmJsonList();
+        KmJsonArray v;
+        v = new KmJsonArray();
         v.addLong(e);
 
         return withoutBrackets(v);
@@ -43,8 +43,8 @@ public abstract class KmJsonUtility
 
     public static String format(Double e)
     {
-        KmJsonList v;
-        v = new KmJsonList();
+        KmJsonArray v;
+        v = new KmJsonArray();
         v.addDouble(e);
 
         return withoutBrackets(v);
@@ -59,7 +59,7 @@ public abstract class KmJsonUtility
     //# support
     //##################################################
 
-    private static String withoutBrackets(KmJsonList v)
+    private static String withoutBrackets(KmJsonArray v)
     {
         return v.toString().substring(1, v.toString().length() - 1);
     }

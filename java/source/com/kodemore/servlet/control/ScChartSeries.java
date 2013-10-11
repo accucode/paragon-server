@@ -22,8 +22,8 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.json.KmJsonList;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonArray;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.types.KmHtmlColor;
 import com.kodemore.utility.Kmu;
 
@@ -55,7 +55,7 @@ public class ScChartSeries
      * The data points to be charted.  Each point has an
      * "x" and a "y".
      */
-    private KmJsonList  _points;
+    private KmJsonArray  _points;
 
     //##################################################
     //# constructor
@@ -63,7 +63,7 @@ public class ScChartSeries
 
     public ScChartSeries()
     {
-        _points = new KmJsonList();
+        _points = new KmJsonArray();
     }
 
     //##################################################
@@ -127,25 +127,25 @@ public class ScChartSeries
     //# points
     //##################################################
 
-    public KmJsonList getPoints()
+    public KmJsonArray getPoints()
     {
         return _points;
     }
 
-    public void setPoints(KmJsonList points)
+    public void setPoints(KmJsonArray points)
     {
         _points = points;
     }
 
-    public void addPoint(KmJsonObject e)
+    public void addPoint(KmJsonMap e)
     {
-        getPoints().addObject(e);
+        getPoints().addMap(e);
     }
 
     public void addPoint(double x, double y)
     {
-        KmJsonObject point;
-        point = new KmJsonObject();
+        KmJsonMap point;
+        point = new KmJsonMap();
         point.setDouble("x", x);
         point.setDouble("y", y);
         addPoint(point);
@@ -155,17 +155,17 @@ public class ScChartSeries
     //# convenience
     //##################################################
 
-    public KmJsonObject formatJson()
+    public KmJsonMap formatJson()
     {
-        KmJsonObject out;
-        out = new KmJsonObject();
+        KmJsonMap out;
+        out = new KmJsonMap();
         out.setString("key", getKey());
 
         if ( hasColor() )
             out.setString("color", getColor().getValue());
 
         out.setBoolean("area", isArea());
-        out.setList("values", getPoints());
+        out.setArray("values", getPoints());
         return out;
     }
 }

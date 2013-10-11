@@ -33,8 +33,8 @@ import com.kodemore.csv.KmCsvBuilder;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.filter.KmFilterIF;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.json.KmJsonList;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonArray;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScEncodedValueIF;
@@ -409,7 +409,7 @@ public class ScGrid<T>
     private void renderScript(KmHtmlBuilder out)
     {
         String ref = formatJqueryReference();
-        KmJsonObject setup = setupJson();
+        KmJsonMap setup = setupJson();
 
         out.getPostDom().run("%s.flexigrid(%s);", ref, setup);
     }
@@ -418,10 +418,10 @@ public class ScGrid<T>
     //# setup json
     //##################################################
 
-    private KmJsonObject setupJson()
+    private KmJsonMap setupJson()
     {
-        KmJsonObject map;
-        map = new KmJsonObject();
+        KmJsonMap map;
+        map = new KmJsonMap();
 
         setupGeneral(map);
         setupRequestUrl(map);
@@ -432,15 +432,15 @@ public class ScGrid<T>
         return map;
     }
 
-    private void setupColumns(KmJsonObject map)
+    private void setupColumns(KmJsonMap map)
     {
-        KmJsonList cells = map.setList("colModel");
+        KmJsonArray cells = map.setArray("colModel");
 
         for ( ScGridColumn<T> col : getColumns() )
             col.addCellDefinitionTo(cells);
     }
 
-    private void setupSorting(KmJsonObject map)
+    private void setupSorting(KmJsonMap map)
     {
         ScGridColumn<T> sortedCol = getSortedColumn();
         if ( sortedCol != null )
@@ -450,7 +450,7 @@ public class ScGrid<T>
         }
     }
 
-    private void setupGeneral(KmJsonObject map)
+    private void setupGeneral(KmJsonMap map)
     {
         map.setString("title", getHeader());
         map.setBoolean("showTableToggleBtn", getAllowsToggleGrid());
@@ -468,7 +468,7 @@ public class ScGrid<T>
             map.setInteger("height", getHeight());
     }
 
-    private void setupPager(KmJsonObject map)
+    private void setupPager(KmJsonMap map)
     {
         if ( getUsesPager() )
         {
@@ -478,7 +478,7 @@ public class ScGrid<T>
         }
     }
 
-    private void setupRequestUrl(KmJsonObject map)
+    private void setupRequestUrl(KmJsonMap map)
     {
         map.setString("url", formatRequestUrl());
         map.setString("method", "POST");
@@ -492,17 +492,17 @@ public class ScGrid<T>
         return c.getPath(getKey());
     }
 
-    private void setupRequestParameters(KmJsonObject map)
+    private void setupRequestParameters(KmJsonMap map)
     {
-        KmJsonList params;
-        params = map.setList("params");
+        KmJsonArray params;
+        params = map.setArray("params");
 
-        KmJsonObject param;
-        param = params.addObject();
+        KmJsonMap param;
+        param = params.addMap();
 
         if ( _cacheTotalCount.isTrue() )
         {
-            param = params.addObject();
+            param = params.addMap();
             param.setString("name", PARAMETER_TOTAL_COUNT);
             param.setInteger("value", getTotalCount());
         }
@@ -510,7 +510,7 @@ public class ScGrid<T>
         KmList<?> values = getTrackedValues();
         if ( values.isNotEmpty() )
         {
-            param = params.addObject();
+            param = params.addMap();
             param.setString("name", PARAMETER_TRACKED_VALUES);
             param.setString("value", ScEncoder.staticEncode(values));
         }
@@ -983,27 +983,27 @@ public class ScGrid<T>
         int count = reqRows;
         KmList<T> results = filter.findBatch(index, count);
 
-        KmJsonObject json = composeJsonFor(results, page, total);
+        KmJsonMap json = composeJsonFor(results, page, total);
         data.setJsonResult(json);
     }
 
-    private KmJsonObject composeJsonFor(KmList<T> results, Integer page, int total)
+    private KmJsonMap composeJsonFor(KmList<T> results, Integer page, int total)
     {
-        KmJsonObject json;
-        json = new KmJsonObject();
+        KmJsonMap json;
+        json = new KmJsonMap();
         json.setInteger("total", total);
         json.setInteger("page", page);
 
-        KmJsonList rows;
-        rows = json.setList("rows");
+        KmJsonArray rows;
+        rows = json.setArray("rows");
 
         for ( T model : results )
         {
-            KmJsonObject row;
-            row = rows.addObject();
+            KmJsonMap row;
+            row = rows.addMap();
 
-            KmJsonList cells;
-            cells = row.setList("cell");
+            KmJsonArray cells;
+            cells = row.setArray("cell");
 
             KmList<ScGridColumn<T>> cols = getColumns();
             for ( ScGridColumn<T> col : cols )
@@ -1071,7 +1071,7 @@ public class ScGrid<T>
     {
         String ref = formatJqueryReference();
 
-        KmJsonObject map = new KmJsonObject();
+        KmJsonMap map = new KmJsonMap();
         setupRequestParameters(map);
         String options = map.formatJson();
 

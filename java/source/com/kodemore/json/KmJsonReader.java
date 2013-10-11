@@ -18,28 +18,28 @@ public abstract class KmJsonReader
     //# read
     //##################################################
 
-    public static KmJsonObject readJsonMap(String file)
+    public static KmJsonMap readJsonMap(String file)
     {
         String json = Kmu.readTextFile(file);
-        return parseJsonObject(json);
+        return parseJsonMap(json);
     }
 
-    public static KmJsonList readJsonList(String file)
+    public static KmJsonArray readJsonArray(String file)
     {
         String json = Kmu.readTextFile(file);
-        return parseJsonList(json);
+        return parseJsonArray(json);
     }
 
     //##################################################
     //# parse
     //##################################################
 
-    public static KmJsonObject parseJsonObject(String json)
+    public static KmJsonMap parseJsonMap(String json)
     {
         try
         {
             Object e = new JSONParser().parse(json);
-            return new KmJsonObject((JSONObject)e);
+            return new KmJsonMap((JSONObject)e);
         }
         catch ( ParseException ex )
         {
@@ -47,12 +47,12 @@ public abstract class KmJsonReader
         }
     }
 
-    public static KmJsonList parseJsonList(String json)
+    public static KmJsonArray parseJsonArray(String json)
     {
         try
         {
             Object e = new JSONParser().parse(json);
-            return new KmJsonList((JSONArray)e);
+            return new KmJsonArray((JSONArray)e);
         }
         catch ( ParseException ex )
         {

@@ -1,8 +1,8 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.adaptor.KmAdaptorIF;
-import com.kodemore.json.KmJsonList;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonArray;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.utility.ScControlRegistry;
@@ -393,10 +393,10 @@ public class ScGridColumn<T>
     //# compose 
     //##################################################
 
-    public void addCellDefinitionTo(KmJsonList cells)
+    public void addCellDefinitionTo(KmJsonArray cells)
     {
-        KmJsonObject map;
-        map = cells.addObject();
+        KmJsonMap map;
+        map = cells.addMap();
         map.setString("name", getKey());
 
         map.setString("display", formatHeader());
@@ -411,7 +411,7 @@ public class ScGridColumn<T>
         map.setString("align", getAlignment());
     }
 
-    public void addCellDataTo(KmJsonList cells, T model)
+    public void addCellDataTo(KmJsonArray cells, T model)
     {
         if ( !hasDisplayRenderer() )
         {

@@ -25,7 +25,7 @@ package com.kodemore.servlet.script;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.control.ScForm;
@@ -556,7 +556,7 @@ public abstract class ScBlockScript
      */
     public void updatePageSession()
     {
-        KmJsonObject json = getData().getPageSessionEncodedValues();
+        KmJsonMap json = getData().getPageSessionEncodedValues();
         run("Kmu.updatePageSession(%s);", json);
     }
 
@@ -630,7 +630,7 @@ public abstract class ScBlockScript
      * This is typically used on a target that is otherwise hidden.
      * See ScDialog for a convenient wrapper.
      */
-    public void openDialogTarget(ScHtmlIdIF target, KmJsonObject options)
+    public void openDialogTarget(ScHtmlIdIF target, KmJsonMap options)
     {
         if ( options == null )
             run("Kmu.openDialogTarget(%s);", json(target));
@@ -645,8 +645,8 @@ public abstract class ScBlockScript
 
     public void openDialogTargetSample(ScHtmlIdIF target)
     {
-        KmJsonObject css;
-        css = new KmJsonObject();
+        KmJsonMap css;
+        css = new KmJsonMap();
         css.setString("color", "black");
         css.setString("backgroundColor", "#fcc");
         css.setString("borderColor", "#f00");
@@ -654,9 +654,9 @@ public abstract class ScBlockScript
         css.setString("height", "400px");
         css.setString("padding", "0px");
 
-        KmJsonObject options;
-        options = new KmJsonObject();
-        options.setObject("containerCss", css);
+        KmJsonMap options;
+        options = new KmJsonMap();
+        options.setMap("containerCss", css);
 
         openDialogTarget(target, options);
     }
@@ -670,7 +670,7 @@ public abstract class ScBlockScript
         openDialogHtml(html, null);
     }
 
-    public void openDialogHtml(CharSequence html, KmJsonObject options)
+    public void openDialogHtml(CharSequence html, KmJsonMap options)
     {
         if ( options == null )
             run("Kmu.openDialogHtml(%s);", json(html));
@@ -678,7 +678,7 @@ public abstract class ScBlockScript
             run("Kmu.openDialogHtml(%s,%s);", json(html), options);
     }
 
-    public void openDialogHtml(KmHtmlBuilder html, KmJsonObject options)
+    public void openDialogHtml(KmHtmlBuilder html, KmJsonMap options)
     {
         openDialogHtml(html.toString(), options);
     }
@@ -694,8 +694,8 @@ public abstract class ScBlockScript
         out.print(Kmu.formatStackTrace(ex));
         out.endDiv();
 
-        KmJsonObject css;
-        css = new KmJsonObject();
+        KmJsonMap css;
+        css = new KmJsonMap();
         css.setString("color", "black");
         css.setString("backgroundColor", "#fcc");
         css.setString("borderColor", "#f00");
@@ -703,9 +703,9 @@ public abstract class ScBlockScript
         css.setString("height", "400px");
         css.setString("padding", "0px");
 
-        KmJsonObject options;
-        options = new KmJsonObject();
-        options.setObject("containerCss", css);
+        KmJsonMap options;
+        options = new KmJsonMap();
+        options.setMap("containerCss", css);
 
         openDialogHtml(out, options);
     }
@@ -963,7 +963,7 @@ public abstract class ScBlockScript
     /**
      * Allows children to be sorted.
      */
-    public void sortable(String sel, KmJsonObject options)
+    public void sortable(String sel, KmJsonMap options)
     {
         /**
          * review_aaron (valerie) do you know of a classier kmu to replace
@@ -977,7 +977,7 @@ public abstract class ScBlockScript
 
     public void sortable(String sel)
     {
-        KmJsonObject options = null;
+        KmJsonMap options = null;
         sortable(sel, options);
     }
 
@@ -994,8 +994,8 @@ public abstract class ScBlockScript
         String sel;
         sel = target.formatJquerySelector();
 
-        KmJsonObject options;
-        options = new KmJsonObject();
+        KmJsonMap options;
+        options = new KmJsonMap();
         options.setString("handle", dragHandle);
 
         sortable(sel, options);
@@ -1021,7 +1021,7 @@ public abstract class ScBlockScript
     /**
      * Allows children to be expanded/collapsible.
      */
-    public void accordion(String sel, KmJsonObject options)
+    public void accordion(String sel, KmJsonMap options)
     {
         /**
          * review_aaron (valerie) do you know of a classier kmu to replace
@@ -1035,14 +1035,14 @@ public abstract class ScBlockScript
 
     public void accordion(String sel)
     {
-        KmJsonObject options = null;
+        KmJsonMap options = null;
         accordion(sel, options);
     }
 
     public void accordionCollapsible(String sel)
     {
-        KmJsonObject options;
-        options = new KmJsonObject();
+        KmJsonMap options;
+        options = new KmJsonMap();
         options.setBoolean("collapsible", true);
 
         accordion(sel, options);

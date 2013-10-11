@@ -23,8 +23,8 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.json.KmJsonList;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonArray;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.string.KmStringBuilder;
 
 /**
@@ -88,7 +88,7 @@ public class ScPieChart
      * Each "slice" must have a "key" (also the label)
      * and a "value".
      */
-    private KmList<KmJsonObject> _slices;
+    private KmList<KmJsonMap> _slices;
 
     /**
      * The type of label on the slices.
@@ -106,7 +106,7 @@ public class ScPieChart
 
         setLabelType(LabelType.KEY);
 
-        _slices = new KmList<KmJsonObject>();
+        _slices = new KmList<KmJsonMap>();
     }
 
     //##################################################
@@ -166,38 +166,38 @@ public class ScPieChart
     //# data (slices)
     //##################################################
 
-    public KmList<KmJsonObject> getSlices()
+    public KmList<KmJsonMap> getSlices()
     {
         return _slices;
     }
 
-    public void setSlices(KmList<KmJsonObject> e)
+    public void setSlices(KmList<KmJsonMap> e)
     {
         _slices = e;
     }
 
-    public void addSlice(KmJsonObject e)
+    public void addSlice(KmJsonMap e)
     {
         getSlices().add(e);
     }
 
     public void addSlice(String key, double value)
     {
-        KmJsonObject slice;
-        slice = new KmJsonObject();
+        KmJsonMap slice;
+        slice = new KmJsonMap();
         slice.setString("key", key);
         slice.setDouble("value", value);
         getSlices().add(slice);
     }
 
     @Override
-    protected KmJsonList formatData()
+    protected KmJsonArray formatData()
     {
-        KmJsonList arr;
-        arr = new KmJsonList();
+        KmJsonArray arr;
+        arr = new KmJsonArray();
 
-        for ( KmJsonObject e : getSlices() )
-            arr.addObject(e);
+        for ( KmJsonMap e : getSlices() )
+            arr.addMap(e);
 
         return arr;
     }

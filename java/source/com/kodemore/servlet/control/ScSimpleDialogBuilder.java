@@ -25,7 +25,7 @@ package com.kodemore.servlet.control;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.action.ScActions;
@@ -257,11 +257,11 @@ public class ScSimpleDialogBuilder
     {
         String html = render();
 
-        KmJsonObject options;
-        options = new KmJsonObject();
+        KmJsonMap options;
+        options = new KmJsonMap();
 
-        KmJsonObject css;
-        css = options.setObject("containerCss");
+        KmJsonMap css;
+        css = options.setMap("containerCss");
         css.setString("border", "4px solid #44f");
 
         ajax().openDialogHtml(html, options);

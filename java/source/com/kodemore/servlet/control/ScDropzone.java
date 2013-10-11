@@ -33,7 +33,7 @@ import com.app.ui.servlet.ScServletCallbackRegistry;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
@@ -172,10 +172,10 @@ public class ScDropzone
     //# dropzone options
     //##################################################
 
-    private KmJsonObject formatOptions()
+    private KmJsonMap formatOptions()
     {
-        KmJsonObject map;
-        map = new KmJsonObject();
+        KmJsonMap map;
+        map = new KmJsonMap();
 
         setupRequestUrl(map);
         setupOptions(map);
@@ -183,13 +183,13 @@ public class ScDropzone
         return map;
     }
 
-    private void setupRequestUrl(KmJsonObject map)
+    private void setupRequestUrl(KmJsonMap map)
     {
         map.setString("url", formatRequestUrl());
         map.setString("method", "post");
     }
 
-    private void setupOptions(KmJsonObject map)
+    private void setupOptions(KmJsonMap map)
     {
         if ( getShowsRemoveLinks() )
             map.setString("addRemoveLinks", "true");

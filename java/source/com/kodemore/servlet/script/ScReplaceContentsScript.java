@@ -23,7 +23,7 @@
 package com.kodemore.servlet.script;
 
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScTransition;
 import com.kodemore.servlet.field.ScHtmlIdIF;
@@ -319,10 +319,10 @@ public class ScReplaceContentsScript
         s.formatScriptOn(out);
     }
 
-    private KmJsonObject composeJson()
+    private KmJsonMap composeJson()
     {
-        KmJsonObject e;
-        e = new KmJsonObject();
+        KmJsonMap e;
+        e = new KmJsonMap();
 
         e.setString("html", getContents());
         e.setString("inner", getInnerSelector());

@@ -29,6 +29,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.kodemore.collection.KmMap;
 import com.kodemore.collection.KmOrderedMap;
@@ -107,9 +108,20 @@ public abstract class KmHttpRequest
         _headers.put(key, value);
     }
 
+    public KmOrderedMap<String,String> getParameters()
+    {
+        return _parameters;
+    }
+
     public void setParameter(String key, String value)
     {
         _parameters.put(key, value);
+    }
+
+    public void setParameters(Map<String,String> m)
+    {
+        for ( Entry<String,String> e : m.entrySet() )
+            setParameter(e.getKey(), e.getValue());
     }
 
     public boolean getHttps()
@@ -122,6 +134,15 @@ public abstract class KmHttpRequest
         _https = true;
     }
 
+    public boolean isOk()
+    {
+        return _exception == null;
+    }
+
+    //==================================================
+    //= exception
+    //==================================================
+
     public Exception getException()
     {
         return _exception;
@@ -132,14 +153,15 @@ public abstract class KmHttpRequest
         _exception = e;
     }
 
-    public boolean isOk()
-    {
-        return _exception == null;
-    }
-
     public boolean hasException()
     {
         return _exception != null;
+    }
+
+    public void checkException()
+    {
+        if ( hasException() )
+            throw Kmu.toRuntime(getException());
     }
 
     //##################################################
@@ -176,6 +198,14 @@ public abstract class KmHttpRequest
     public void setContentTypeText()
     {
         setContentType("text/plain");
+    }
+
+    /**
+     * This content type may be used when communicating with a web service.
+     */
+    public void setContentTypeHtml()
+    {
+        setContentType("text/html");
     }
 
     /**
@@ -353,4 +383,5 @@ public abstract class KmHttpRequest
     {
         return _connection;
     }
+
 }

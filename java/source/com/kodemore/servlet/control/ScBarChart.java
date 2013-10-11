@@ -23,8 +23,8 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.json.KmJsonList;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonArray;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.types.KmHtmlColor;
 
@@ -56,7 +56,7 @@ public class ScBarChart
      * and a "value", and may optionally have a color using the
      * key "color".
      */
-    private KmList<KmJsonObject> _bars;
+    private KmList<KmJsonMap> _bars;
 
     //##################################################
     //# constructor
@@ -69,7 +69,7 @@ public class ScBarChart
 
         setYAxisMin(DEFAULT_Y_AXIS_MIN);
 
-        _bars = new KmList<KmJsonObject>();
+        _bars = new KmList<KmJsonMap>();
     }
 
     //##################################################
@@ -95,25 +95,25 @@ public class ScBarChart
     //# data (bars)
     //##################################################
 
-    public KmList<KmJsonObject> getBars()
+    public KmList<KmJsonMap> getBars()
     {
         return _bars;
     }
 
-    public void setBars(KmList<KmJsonObject> e)
+    public void setBars(KmList<KmJsonMap> e)
     {
         _bars = e;
     }
 
-    public void addBar(KmJsonObject e)
+    public void addBar(KmJsonMap e)
     {
         getBars().add(e);
     }
 
     public void addBar(String key, double value)
     {
-        KmJsonObject slice;
-        slice = new KmJsonObject();
+        KmJsonMap slice;
+        slice = new KmJsonMap();
         slice.setString("key", key);
         slice.setDouble("value", value);
         getBars().add(slice);
@@ -121,8 +121,8 @@ public class ScBarChart
 
     public void addBar(String key, double value, KmHtmlColor color)
     {
-        KmJsonObject slice;
-        slice = new KmJsonObject();
+        KmJsonMap slice;
+        slice = new KmJsonMap();
         slice.setString("key", key);
         slice.setDouble("value", value);
         slice.setString("color", color.getValue());
@@ -130,17 +130,17 @@ public class ScBarChart
     }
 
     @Override
-    protected KmJsonList formatData()
+    protected KmJsonArray formatData()
     {
         ScChartSeries s;
         s = new ScChartSeries();
 
-        for ( KmJsonObject e : getBars() )
+        for ( KmJsonMap e : getBars() )
             s.addPoint(e);
 
-        KmJsonList data;
-        data = new KmJsonList();
-        data.addObject(s.formatJson());
+        KmJsonArray data;
+        data = new KmJsonArray();
+        data.addMap(s.formatJson());
         return data;
     }
 

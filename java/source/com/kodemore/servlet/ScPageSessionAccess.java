@@ -1,6 +1,6 @@
 package com.kodemore.servlet;
 
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
 
@@ -51,7 +51,7 @@ public class ScPageSessionAccess
     //# support
     //##################################################
 
-    private KmJsonObject _getJson()
+    private KmJsonMap _getJson()
     {
         return _data.getPageSessionEncodedValues();
     }

@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.ajax;
 
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.result.ScAbstractResult;
 import com.kodemore.servlet.script.ScRootScript;
@@ -111,8 +111,8 @@ public class ScAjaxResult
 
     public String formatJson()
     {
-        KmJsonObject map;
-        map = new KmJsonObject();
+        KmJsonMap map;
+        map = new KmJsonMap();
         map.setString("script", getScript().formatScript());
         return map.toString();
     }

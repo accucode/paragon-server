@@ -2,7 +2,7 @@ package com.app.ui.layout;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
@@ -240,8 +240,8 @@ public class MyPageLayout
 
     public void ajaxCreateLayout()
     {
-        KmJsonObject json;
-        json = new KmJsonObject();
+        KmJsonMap json;
+        json = new KmJsonMap();
 
         json.setString("parent", "body");
         json.setString("idPrefix", "pageLayout");

@@ -28,7 +28,7 @@ import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
@@ -291,12 +291,12 @@ public class ScDialog
      */
     public void ajaxOpen()
     {
-        KmJsonObject options;
-        options = new KmJsonObject();
+        KmJsonMap options;
+        options = new KmJsonMap();
         options.setBoolean("persist", true);
 
-        KmJsonObject style;
-        style = options.setObject("containerCss");
+        KmJsonMap style;
+        style = options.setMap("containerCss");
         style.setString("border", "4px solid #000");
 
         getRootScript().openDialogTarget(this, options);

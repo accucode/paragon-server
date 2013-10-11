@@ -23,7 +23,7 @@
 package com.kodemore.servlet.script;
 
 import com.kodemore.adaptor.KmAdaptorIF;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScForm;
@@ -241,8 +241,8 @@ public class ScActionScript
         if ( !hasAction() )
             return;
 
-        KmJsonObject args;
-        args = new KmJsonObject();
+        KmJsonMap args;
+        args = new KmJsonMap();
 
         args.setString("action", getAction().getKey());
 

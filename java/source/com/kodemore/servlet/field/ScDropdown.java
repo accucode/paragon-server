@@ -32,8 +32,8 @@ import com.kodemore.html.KmCssBuilder;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
-import com.kodemore.json.KmJsonList;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonArray;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScActionIF;
@@ -777,7 +777,7 @@ public class ScDropdown
     /**
      * Each option must have a "text" and "value".
      */
-    public void ajaxSetOptions(KmJsonList options)
+    public void ajaxSetOptions(KmJsonArray options)
     {
         ajax().run("Kmu.setSelectOptions(%s,%s);", json(formatJquerySelector()), options);
     }
@@ -839,21 +839,21 @@ public class ScDropdown
     //# utility
     //##################################################
 
-    private KmJsonList getJsonListFrom(KmList<ScOption> v)
+    private KmJsonArray getJsonListFrom(KmList<ScOption> v)
     {
-        KmJsonList e;
-        e = new KmJsonList();
+        KmJsonArray e;
+        e = new KmJsonArray();
 
         for ( ScOption option : v )
-            e.addObject(getJsonObjectFrom(option));
+            e.addMap(getJsonObjectFrom(option));
 
         return e;
     }
 
-    private KmJsonObject getJsonObjectFrom(ScOption e)
+    private KmJsonMap getJsonObjectFrom(ScOption e)
     {
-        KmJsonObject json;
-        json = new KmJsonObject();
+        KmJsonMap json;
+        json = new KmJsonMap();
         json.setString("text", e.getText());
         json.setString("value", encode(e.getValue()));
         return json;

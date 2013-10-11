@@ -23,7 +23,7 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.json.KmJsonList;
+import com.kodemore.json.KmJsonArray;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
@@ -93,13 +93,13 @@ public class ScLineChart
     }
 
     @Override
-    protected KmJsonList formatData()
+    protected KmJsonArray formatData()
     {
-        KmJsonList arr;
-        arr = new KmJsonList();
+        KmJsonArray arr;
+        arr = new KmJsonArray();
 
         for ( ScChartSeries e : getDataSeries() )
-            arr.addObject(e.formatJson());
+            arr.addMap(e.formatJson());
 
         return arr;
     }

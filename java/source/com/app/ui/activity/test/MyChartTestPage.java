@@ -1,6 +1,6 @@
 package com.app.ui.activity.test;
 
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScAbstractChart;
@@ -253,15 +253,15 @@ public class MyChartTestPage
             s.addPoint(createRandomDataPoint(i));
     }
 
-    private KmJsonObject createRandomDataPoint(int i)
+    private KmJsonMap createRandomDataPoint(int i)
     {
         double x = i;
         double y = KmRandomUtility.getInteger(60)
             - KmRandomUtility.getInteger(40)
             + KmRandomUtility.getDouble();
 
-        KmJsonObject point;
-        point = new KmJsonObject();
+        KmJsonMap point;
+        point = new KmJsonMap();
         point.setDouble("x", x);
         point.setDouble("y", y);
         return point;

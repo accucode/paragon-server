@@ -23,7 +23,7 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.json.KmJsonList;
+import com.kodemore.json.KmJsonArray;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
 
@@ -294,7 +294,7 @@ public abstract class ScAbstractChart
     /**
      * Where the data is formatted into the Json list when finalizing the chart.
      */
-    protected abstract KmJsonList formatData();
+    protected abstract KmJsonArray formatData();
 
     //##################################################
     //# convenience

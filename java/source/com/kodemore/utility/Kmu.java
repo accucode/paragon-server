@@ -5327,7 +5327,19 @@ public class Kmu
      */
     public static String newJavaUid()
     {
-        return UUID.randomUUID().toString();
+        return newJavaUid(true);
+    }
+
+    /**
+     * Return a (random) uuid using the standard java routine. 
+     */
+    public static String newJavaUid(boolean dashes)
+    {
+        String s = UUID.randomUUID().toString();
+
+        return dashes
+            ? s
+            : stripDashes(s);
     }
 
     //##################################################

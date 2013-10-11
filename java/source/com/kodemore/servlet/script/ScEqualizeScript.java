@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.script;
 
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.string.KmStringBuilder;
 
 public class ScEqualizeScript
@@ -173,8 +173,8 @@ public class ScEqualizeScript
             width = true;
         }
 
-        KmJsonObject e;
-        e = new KmJsonObject();
+        KmJsonMap e;
+        e = new KmJsonMap();
         e.setString("selector", getSelector());
         e.setBoolean("height", height);
         e.setBoolean("width", width);

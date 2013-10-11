@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.script;
 
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
@@ -155,8 +155,8 @@ public class ScOpenWindowScript
     @Override
     public void formatScriptOn(KmStringBuilder out)
     {
-        KmJsonObject args;
-        args = new KmJsonObject();
+        KmJsonMap args;
+        args = new KmJsonMap();
 
         if ( hasUrl() )
             args.setString("url", getUrl());

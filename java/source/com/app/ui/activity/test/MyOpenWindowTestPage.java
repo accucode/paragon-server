@@ -1,7 +1,7 @@
 package com.app.ui.activity.test;
 
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.json.KmJsonObject;
+import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -72,8 +72,8 @@ public class MyOpenWindowTestPage
         String html;
         html = out.toString();
 
-        KmJsonObject args;
-        args = new KmJsonObject();
+        KmJsonMap args;
+        args = new KmJsonMap();
         args.setString("name", "myWindow");
         args.setString("html", html);
 
