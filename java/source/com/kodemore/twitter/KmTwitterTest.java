@@ -17,22 +17,25 @@ public class KmTwitterTest
 {
     public static void main(String[] args)
     {
-        KmTwitterConnection con;
-        con = new KmTwitterConnection();
+
+        /**
+         * review_wyatt (steve) please look at this. it is working.
+         */
+
+        KmTwitterTweetsRequest req;
+        req = new KmTwitterTweetsRequest();
 
         // You need to enter valid keys...
-        con.setConsumerKey("");
-        con.setConsumerSecret("");
-        con.setAuthToken("");
-        con.setAuthSecret("");
+        req.setConsumerKey("");
+        req.setConsumerSecret("");
+        req.setAuthToken("");
+        req.setAuthSecret("");
 
-        con.setPath("/1.1/search/tweets.json");
-        con.setParameter("q", "bob marley");
-        con.setParameter("lang", "en");
-        con.setParameter("result_type", "mixed");
-        con.submit();
+        req.setQuery("bacon");
+        req.setResultType(KmTwitterResultType.Popular);
+        req.submit();
 
-        KmJsonMap json = con.getResponseJson();
+        KmJsonMap json = req.getResponseJson();
         String firstText = json.getArray("statuses").getFirstMap().getString("text");
 
         System.out.println("Response");
