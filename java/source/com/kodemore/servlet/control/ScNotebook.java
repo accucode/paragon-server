@@ -54,7 +54,10 @@ public class ScNotebook
     //# variables
     //##################################################
 
-    // review_aaron: Tab Changed Action
+    /**
+     * review_wyatt: (aaron) this is the optional tab changed action,
+     * appropirate getters/setters are below.
+     */
     private ScActionIF _tabChangedAction;
 
     //##################################################
@@ -152,7 +155,11 @@ public class ScNotebook
 
         out.getPostDom().run("%s.tabs();", ref);
 
-        // review_aaron: Tab Changed Action
+        /**
+         * review_wyatt: (aaron) if there is a tab changed action, the
+         * action will be attached to tabs after they are initialized
+         * by jquery.
+         */
         if ( hasTabChangedAction() )
             out.getPostDom().run(
                 "%s.on('tabsactivate', function( event, ui ) { %s });",
@@ -174,7 +181,6 @@ public class ScNotebook
         return newCssBuilder().clearfix();
     }
 
-    // review_aaron: Tab Changed Action
     private ScActionScript getTabChangeActionScript()
     {
         return ScActionScript.create(getTabChangedAction());

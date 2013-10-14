@@ -28,6 +28,10 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 /**
+ * review_wyatt: (aaron) The Bar chart subclass
+ */
+
+/**
  * This chart is similar to the ScLineChart, displaying several data sets
  * with many points, but in the form of a bar chart.  
  */

@@ -28,6 +28,10 @@ import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
 
 /**
+ * review_wyatt: (aaron) Abstract chart superclass.
+ */
+
+/**
  * This implements the Nvd3 javascript chart library.
  * 
  * It should be noted that if a chart is placed in a div

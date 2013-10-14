@@ -28,15 +28,7 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 /**
- * review_aaron 
- *      
- *      Min / Max : 
- *          chart.forceY([min, max]); Will expand the chart to show the min max values,
- *              but the chart will still automatically expand to show data that is outside
- *              this range.
- *          chart.yDomain([min, max]); Will truncate the chart to only display the range
- *              specified.  However the data will be drawn outside of the graph if it falls
- *              outside of this range.
+ * review_wyatt: (aaron) The Bar chart subclass
  */
 
 /**

@@ -28,6 +28,10 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.string.KmStringBuilder;
 
 /**
+ * review_wyatt: (aaron) The Bar chart subclass
+ */
+
+/**
  * This is a simple pie chart displaying several discrete data points. 
  */
 public class ScPieChart
@@ -81,7 +85,7 @@ public class ScPieChart
      * Whether or not the chart should be represented as
      * a "donut", with the center cut out.
      */
-    private boolean              _donut;
+    private boolean           _donut;
 
     /**
      * This is the data to be represented in the chart.  
@@ -93,7 +97,7 @@ public class ScPieChart
     /**
      * The type of label on the slices.
      */
-    private LabelType            _labelType;
+    private LabelType         _labelType;
 
     //##################################################
     //# constructor

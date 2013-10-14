@@ -29,6 +29,10 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.types.KmHtmlColor;
 
 /**
+ * review_wyatt: (aaron) The Bar chart subclass
+ */
+
+/**
  * This is a simple bar chart that displays several discrete data points. 
  */
 public class ScBarChart
@@ -38,8 +42,8 @@ public class ScBarChart
     //# constants
     //##################################################
 
-    private static final int     DEFAULT_Y_AXIS_MIN   = 0;
-    private static final int     STAGGER_LABEL_MARGIN = 65;
+    private static final int  DEFAULT_Y_AXIS_MIN   = 0;
+    private static final int  STAGGER_LABEL_MARGIN = 65;
 
     //##################################################
     //# variables
@@ -48,7 +52,7 @@ public class ScBarChart
     /**
      * Determines if the individual bar labes should be staggered vertically.
      */
-    private boolean              _staggerLabels;
+    private boolean           _staggerLabels;
 
     /**
      * This is the data to be represented in the chart.  
