@@ -11,6 +11,7 @@ import org.apache.commons.codec.binary.Base64;
 import com.kodemore.collection.KmOrderedMap;
 import com.kodemore.http.KmHttpGet;
 import com.kodemore.http.KmHttpRequest;
+import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.json.KmJsonReader;
 import com.kodemore.string.KmStringBuilder;
@@ -213,10 +214,16 @@ public class KmTwitterConnection
         return _request.getResponseString();
     }
 
-    public KmJsonMap getResponseJson()
+    public KmJsonMap getResponseJsonMap()
     {
         String s = getResponseString();
         return KmJsonReader.parseJsonMap(s);
+    }
+
+    public KmJsonArray getResponseJsonArray()
+    {
+        String s = getResponseString();
+        return KmJsonReader.parseJsonArray(s);
     }
 
     //##################################################

@@ -3,9 +3,11 @@ package com.kodemore.twitter;
 import com.kodemore.json.KmJsonMap;
 
 /**
- * I am used connect to Twitter make various requests.
+ * I am used search for tweets.
+ * 
+ * api documentation https://dev.twitter.com/docs/api/1.1/get/search/tweets
  */
-public class KmTwitterTweetsRequest
+public class KmTwitterSearchTweetsRequest
 {
     //##################################################
     //# constants
@@ -21,7 +23,7 @@ public class KmTwitterTweetsRequest
     //# constructor
     //##################################################
 
-    public KmTwitterTweetsRequest()
+    public KmTwitterSearchTweetsRequest()
     {
         _connection = new KmTwitterConnection();
         _connection.setParameter("lang", "en");
@@ -52,6 +54,10 @@ public class KmTwitterTweetsRequest
         getConnection().setParameter("result_type", s.getType());
     }
 
+    //##################################################
+    //# oauth
+    //##################################################//
+
     protected void setConsumerKey(String s)
     {
         getConnection().setConsumerKey(s);
@@ -72,9 +78,13 @@ public class KmTwitterTweetsRequest
         getConnection().setAuthSecret(s);
     }
 
+    //##################################################
+    //# response
+    //##################################################//
+
     protected KmJsonMap getResponseJson()
     {
-        return getConnection().getResponseJson();
+        return getConnection().getResponseJsonMap();
     }
 
     //##################################################

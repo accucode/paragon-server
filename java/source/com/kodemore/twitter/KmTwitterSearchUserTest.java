@@ -1,7 +1,5 @@
 package com.kodemore.twitter;
 
-import com.kodemore.json.KmJsonMap;
-
 /**
  * I am used connect to Twitter make various requests.
  * 
@@ -13,12 +11,17 @@ import com.kodemore.json.KmJsonMap;
  *          and access token (secret auth token secret) from the application information page.
  *      5.  Update the main method with the token and screts from the previous step.
  */
-public class KmTwitterTest
+public class KmTwitterSearchUserTest
 {
     public static void main(String[] args)
     {
-        KmTwitterSearchTweetsRequest req;
-        req = new KmTwitterSearchTweetsRequest();
+
+        /**
+         * review_wyatt (steve) please look at this. it is working.
+         */
+
+        KmTwitterSearchUsersRequest req;
+        req = new KmTwitterSearchUsersRequest();
 
         // You need to enter valid keys...
         req.setConsumerKey("");
@@ -26,17 +29,12 @@ public class KmTwitterTest
         req.setAuthToken("");
         req.setAuthSecret("");
 
-        req.setQuery("bacon");
-        req.setResultType(KmTwitterResultType.Popular);
+        req.setQuery("@accucodeSteve");
         req.submit();
-
-        KmJsonMap json = req.getResponseJson();
-        String firstText = json.getArray("statuses").getFirstMap().getString("text");
 
         System.out.println("Response");
         System.out.println(req.getResponseJson());
-
-        System.out.println("text");
-        System.out.println(firstText);
+        System.out.println("description");
+        System.out.println(req.getResponseUsers().getFirst().getDescription());
     }
 }
