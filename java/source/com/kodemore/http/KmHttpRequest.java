@@ -295,7 +295,11 @@ public abstract class KmHttpRequest
 
     private void _openConnection() throws IOException
     {
+        // fixme_aaron: including the port breaks the facebook
+        //        _url = new URL(getScheme(), _host, getNormalizedFullPath());
+
         _url = new URL(getScheme(), _host, _port, getNormalizedFullPath());
+
         _connection = (HttpURLConnection)_url.openConnection();
         if ( hasContentType() )
             _connection.setRequestProperty("Content-Type", getContentType());
