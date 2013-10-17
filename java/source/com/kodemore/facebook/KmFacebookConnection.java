@@ -20,8 +20,6 @@ public class KmFacebookConnection
     private String                      _path;
     private KmOrderedMap<String,String> _parameters;
 
-    private Exception                   _exception;
-
     //##################################################
     //# variables (private)
     //##################################################
@@ -65,25 +63,6 @@ public class KmFacebookConnection
     }
 
     //##################################################
-    //# exception
-    //##################################################
-
-    public Exception getException()
-    {
-        return _exception;
-    }
-
-    private void setException(Exception e)
-    {
-        _exception = e;
-    }
-
-    public boolean hasException()
-    {
-        return _exception != null;
-    }
-
-    //##################################################
     //# public
     //##################################################
 
@@ -92,21 +71,14 @@ public class KmFacebookConnection
         _request = new KmHttpGet();
         _request.setHost(HOST);
         _request.setHttps();
+        _request.setPort(443);
         _request.setPath(getPath());
         _request.setParameters(getRequestParameters());
         _request.submit();
 
         System.out.println("    _request.getUrl().toString(): " + _request.getUrl().toString());
 
-        // review_aaron: I don't like this, it seems like a hack
-        try
-        {
-            _request.checkException();
-        }
-        catch ( RuntimeException ex )
-        {
-            setException(ex);
-        }
+        _request.checkException();
     }
 
     //##################################################

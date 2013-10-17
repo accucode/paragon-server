@@ -1,6 +1,6 @@
 package com.kodemore.facebook;
 
-import com.kodemore.collection.KmList;
+import com.kodemore.facebook.model.KmFacebookUser;
 
 public class KmFacebookTest
 {
@@ -14,53 +14,87 @@ public class KmFacebookTest
          *  review_aaron this expires after about an hour, to generate a new one
          *  go to https://developers.facebook.com/tools/explorer
          */
-        String accessToken = "CAACEdEose0cBAAuEmR6UXOeZBT4rXcQEMKuZCGqkz9roiGCZCZB8AgoqSujZAN6RjrrOZAPxuwjPqRkD38ZBKVNUYH1OG44R1vssqrX3H4XnALq5thGJin4tUUPGLIyPoPW7Hk7QiwKsZAQN7xLeePvZAT0ZA4ZCIJSEqTk1EcDRo29eCVhbFhYia9aACVErvmHvAgZD";
+        String accessToken = "CAACEdEose0cBAMSZCMCqtyMXJuD44SHErCQOQHnatOzypJuDHZCE0cLnxUbMCOyo4e2ElZCZBUYEwmzyhIIwZAGIzZAZBKybLFSiY07ZBwfudhOBcIpE3N84z4REZAZBwIOXnT0Os41YhbxghK9H4fOqAMZCafRbWbai8uyGsxcDhNF6erXUN8AQcuygQ4cwf0uF7YZD";
 
-        /**
-         *  review_aaron: This will not work unless you omit the port from the 
-         *  request url,  fix this in KmHttpRequest in _openConnection() 
-         */
-        KmFacebookUserSearchRequest req;
-        req = new KmFacebookUserSearchRequest();
-        req.setSearch("aaron ledbetter");
+        // review_aaron: search request, requires access token
+        //        KmFacebookUserSearchRequest req;
+        //        req = new KmFacebookUserSearchRequest();
+        //        req.setSearch("aaron ledbetter");
+        //
+        //        req.setAccessToken(accessToken);
+        //        req.submit();
+        //
+        //        KmList<KmFacebookUser> users;
+        //        users = req.getResponseUsers();
+        //
+        //        if ( users == null )
+        //        {
+        //            System.out.println("Users is null");
+        //            return;
+        //        }
+        //
+        //        if ( users.isEmpty() )
+        //        {
+        //            System.out.println("Users is empty");
+        //            return;
+        //        }
+        //
+        //        System.out.println("    users.size(): " + users.size());
+        //
+        //        for ( KmFacebookUser e : users )
+        //        {
+        //            String id = e.getId();
+        //            String username = e.getUsername();
+        //            String name = e.getName();
+        //            String firstName = e.getFirstName();
+        //            String middleName = e.getMiddleName();
+        //            String lastName = e.getLastName();
+        //            String link = e.getLink();
+        //            String locale = e.getLocale();
+        //
+        //            System.out.println("id: " + id);
+        //            System.out.println("username: " + username);
+        //            System.out.println("name: " + name);
+        //            System.out.println("firstName: " + firstName);
+        //            System.out.println("middleName: " + middleName);
+        //            System.out.println("lastName: " + lastName);
+        //            System.out.println("link: " + link);
+        //            System.out.println("locale: " + locale);
+        //            System.out.println();
+        //        }
+
+        KmFacebookIdRequest req;
+        req = new KmFacebookIdRequest();
+        req.setQuery("steveganado12");
         req.setAccessToken(accessToken);
         req.submit();
 
-        KmList<KmFacebookUser> users;
-        users = req.getResponseUsers();
+        KmFacebookUser e;
+        e = req.getResponseUser();
 
-        if ( users == null )
+        if ( e == null )
         {
-            System.out.println("Users is null");
+            System.out.println("User is Null");
             return;
         }
 
-        if ( users.isEmpty() )
-        {
-            System.out.println("Users is empty");
-            return;
-        }
+        String id = e.getId();
+        String username = e.getUsername();
+        String name = e.getName();
+        String firstName = e.getFirstName();
+        String middleName = e.getMiddleName();
+        String lastName = e.getLastName();
+        String link = e.getLink();
+        String locale = e.getLocale();
 
-        System.out.println("    users.size(): " + users.size());
-
-        for ( KmFacebookUser e : users )
-        {
-            String id = e.getId();
-            //            String username = e.getUsername();
-            String name = e.getName();
-            //            String firstName = e.getFisrtName();
-            //            String lastName = e.getLastName();
-            //            String link = e.getLink();
-            //            String locale = e.getLocale();
-
-            //            System.out.println("user: " + users);
-            System.out.println("id: " + id);
-            //            System.out.println("username: " + username);
-            System.out.println("name: " + name);
-            //            System.out.println("firstName: " + firstName);
-            //            System.out.println("lastName: " + lastName);
-            //            System.out.println("link: " + link);
-            //            System.out.println("locale: " + locale);
-        }
+        System.out.println("id: " + id);
+        System.out.println("username: " + username);
+        System.out.println("name: " + name);
+        System.out.println("firstName: " + firstName);
+        System.out.println("middleName: " + middleName);
+        System.out.println("lastName: " + lastName);
+        System.out.println("link: " + link);
+        System.out.println("locale: " + locale);
+        System.out.println();
     }
 }

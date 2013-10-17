@@ -1,9 +1,14 @@
 package com.kodemore.facebook;
 
+import com.kodemore.facebook.model.KmFacebookUser;
 import com.kodemore.json.KmJsonMap;
 
 /**
- * I am used to request objects from facebook by id.
+ * I am used to request objects from facebook by id.  This does not
+ * require an access token.  If an access token is not present, the
+ * call to the graph api will return only public information.  If an
+ * access token is present, the api will return all informations 
+ * allowed by the permissions granted by the user.
  */
 public class KmFacebookIdRequest
 {
@@ -49,16 +54,16 @@ public class KmFacebookIdRequest
 
     public KmFacebookUser getResponseUser()
     {
-        if ( _connection.hasException() )
-            return null;
-
         KmJsonMap response;
         response = _connection.getResponseJson();
+
+        // remove_aaron: print
+        System.out.println("    response.formatJson(): " + response.formatJson());
 
         if ( response.hasKey("error") )
             return null;
 
-        return createFacebookUser(response);
+        return KmFacebookUser.createWith(response);
     }
 
     //##################################################
@@ -88,25 +93,5 @@ public class KmFacebookIdRequest
     private KmFacebookConnection getConnection()
     {
         return _connection;
-    }
-
-    //##################################################
-    //# facebook user
-    //##################################################
-
-    private KmFacebookUser createFacebookUser(KmJsonMap e)
-    {
-        KmFacebookUser user;
-        user = new KmFacebookUser();
-        user.setId(e.getString("id"));
-        user.setName(e.getString("name"));
-        user.setFisrtName(e.getString("first_name"));
-        user.setLastName(e.getString("last_name"));
-        user.setLink(e.getString("link"));
-        user.setUsername(e.getString("username"));
-        user.setGender(e.getString("gender"));
-        user.setLocale(e.getString("locale"));
-
-        return user;
     }
 }
