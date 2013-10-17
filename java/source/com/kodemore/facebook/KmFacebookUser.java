@@ -12,6 +12,67 @@ public class KmFacebookUser
     extends Object
 {
     //##################################################
+    //# constants
+    //##################################################
+
+    //==================================================
+    //= constants :: user info
+    //==================================================
+
+    public static final String ID_KEY                  = "id";
+    public static final String USERNAME_KEY            = "username";
+    public static final String LINK_KEY                = "link";
+    public static final String VERIFIED_KEY            = "verified";
+    public static final String UPDATED_TIME_KEY        = "updated_time";
+    public static final String LOCALE_KEY              = "locale";
+    public static final String TIMEZONE_KEY            = "timezone";
+    public static final String DEVICES_KEY             = "devices";
+
+    //==================================================
+    //= constants :: personal info
+    //==================================================
+
+    public static final String NAME_KEY                = "name";
+    public static final String FIRST_NAME_KEY          = "first_name";
+    public static final String MIDDLE_NAME_KEY         = "last_name";
+    public static final String LAST_NAME_KEY           = "middle_name";
+
+    public static final String GENDER_KEY              = "gender";
+    public static final String BIRTHDAY_KEY            = "birthday";
+    public static final String EMAIL_KEY               = "email";
+    public static final String WEBSITE_KEY             = "website";
+    public static final String LOCATION_KEY            = "location";
+    public static final String HOMETOWN_KEY            = "hometown";
+    public static final String POLITICAL_KEY           = "political";
+    public static final String RELIGION_KEY            = "religion";
+    public static final String LANGUAGES_KEY           = "languages";
+
+    public static final String RELATIONSHIP_STATUS_KEY = "relationship_status";
+    public static final String SIGNIFICANT_OTHER_KEY   = "significant_other";
+
+    public static final String BIO_KEY                 = "bio";
+    public static final String QUOTES_KEY              = "quotes";
+
+    public static final String PICTURE_KEY             = "picture";
+
+    public static final String EDUCATION_KEY           = "education";
+    public static final String WORK_KEY                = "work";
+
+    //==================================================
+    //= constants :: Interests
+    //==================================================
+
+    public static final String INTERESTED_IN_KEY       = "interested_in";
+    public static final String FAVORITE_ATHLETES_KEY   = "favorite_athletes";
+    public static final String FAVORITE_TEAMS_KEY      = "favorite_teams";
+
+    //==================================================
+    //= constants ::  Connections
+    //==================================================
+
+    // todo_aaron:  
+
+    //##################################################
     //# variables 
     //##################################################
 
@@ -19,52 +80,52 @@ public class KmFacebookUser
     //= variables :: user info
     //==================================================
 
-    private String         _id;
-    private String         _username;
-    private String         _link;
-    private Boolean        _verified;
-    private String         _updatedTime;
-    private String         _locale;
-    private String         _timeZone;
-    private KmJsonArray    _languages;
-    private KmJsonArray    _devices;
+    private String             _id;
+    private String             _username;
+    private String             _link;
+    private Boolean            _verified;
+    private String             _updatedTime;
+    private String             _locale;
+    private String             _timezone;
+    private KmJsonArray        _devices;
 
     //==================================================
     //= variables :: personal info
     //==================================================
 
-    private String         _name;
-    private String         _fisrtName;
-    private String         _middleName;
-    private String         _lastName;
+    private String             _name;
+    private String             _fisrtName;
+    private String             _middleName;
+    private String             _lastName;
 
-    private String         _gender;
-    private KmDate         _birthday;
-    private String         _email;
-    private String         _website;
-    private KmJsonMap      _location;
-    private KmJsonMap      _hometown;
-    private String         _political;
-    private String         _religion;
+    private String             _gender;
+    private KmDate             _birthday;
+    private String             _email;
+    private String             _website;
+    private KmJsonMap          _location;
+    private KmJsonMap          _hometown;
+    private String             _political;
+    private String             _religion;
+    private KmJsonArray        _languages;
 
-    private String         _relationshipSatus;
-    private KmJsonMap      _significantOther;
+    private String             _relationshipSatus;
+    private KmJsonMap          _significantOther;
 
-    private String         _bio;
-    private String         _quotes;
+    private String             _bio;
+    private String             _quotes;
 
-    private KmJsonMap      _picture;
+    private KmJsonMap          _picture;
 
-    private KmJsonArray    _education;
-    private KmJsonArray    _work;
+    private KmJsonArray        _education;
+    private KmJsonArray        _work;
 
     //==================================================
     //= variables :: interests
     //==================================================
 
-    private KmList<String> _interestedIn;
-    private KmJsonArray    _favoriteAthletes;
-    private KmJsonArray    _favoriteTeams;
+    private KmList<String>     _interestedIn;
+    private KmJsonArray        _favoriteAthletes;
+    private KmJsonArray        _favoriteTeams;
 
     //==================================================
     //= variables :: connections
@@ -140,24 +201,14 @@ public class KmFacebookUser
         _locale = e;
     }
 
-    public String getTimeZone()
+    public String getTimezone()
     {
-        return _timeZone;
+        return _timezone;
     }
 
-    public void setTimeZone(String e)
+    public void setTimezone(String e)
     {
-        _timeZone = e;
-    }
-
-    public KmJsonArray getLanguages()
-    {
-        return _languages;
-    }
-
-    public void setLanguages(KmJsonArray e)
-    {
-        _languages = e;
+        _timezone = e;
     }
 
     public KmJsonArray getDevices()
@@ -292,6 +343,16 @@ public class KmFacebookUser
     public void setReligion(String e)
     {
         _religion = e;
+    }
+
+    public KmJsonArray getLanguages()
+    {
+        return _languages;
+    }
+
+    public void setLanguages(KmJsonArray e)
+    {
+        _languages = e;
     }
 
     public String getRelationshipSatus()
