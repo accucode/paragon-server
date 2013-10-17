@@ -4,11 +4,17 @@ import com.kodemore.facebook.model.KmFacebookUser;
 import com.kodemore.json.KmJsonMap;
 
 /**
- * I am used to request objects from facebook by id.  This does not
- * require an access token.  If an access token is not present, the
- * call to the graph api will return only public information.  If an
- * access token is present, the api will return all informations 
- * allowed by the permissions granted by the user.
+ * review_wyatt (aaron)
+ * 
+ * I am used to request objects from facebook by id. Users can also
+ * be found via their username as well as their id.  This does not 
+ * require and access token.
+ * 
+ * If an access token is not included, the call to the graph api will 
+ * return only public information.  
+ * 
+ * If an access token is included, the api will return all information 
+ * allowed by the permissions granted to the app by the user.
  */
 public class KmFacebookIdRequest
 {

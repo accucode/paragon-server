@@ -7,7 +7,11 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.json.KmJsonReader;
 
 /**
- * I am used connect to Twitter make various requests.
+ * review_wyatt (aaron)
+ * 
+ * I am used connect to Facebook to make various requests.
+ * 
+ * Facebook Graph Api documentation: http://goo.gl/cj4rBE
  */
 public class KmFacebookConnection
 {
@@ -76,6 +80,7 @@ public class KmFacebookConnection
         _request.setParameters(getRequestParameters());
         _request.submit();
 
+        // remove_aaron: 
         System.out.println("    _request.getUrl().toString(): " + _request.getUrl().toString());
 
         _request.checkException();

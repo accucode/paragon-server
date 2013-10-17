@@ -6,7 +6,12 @@ import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 
 /**
- * I am used to search for users.
+ * review_wyatt (aaron)
+ * 
+ * I am used to search for facebook users.  This action requires
+ * an access token.  
+ * 
+ * Search documentation: http://goo.gl/CPc9Ii
  */
 public class KmFacebookUserSearchRequest
 {
