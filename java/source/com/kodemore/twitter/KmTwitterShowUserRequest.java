@@ -27,22 +27,6 @@ public class KmTwitterShowUserRequest
     public KmTwitterShowUserRequest()
     {
         _connection = new KmTwitterConnection();
-        //        {
-        //            @Override
-        //            public KmJsonMap getResponseJson()
-        //            {
-        //                String s = getResponseString();
-        //                /**
-        //                 * review_steve hax
-        //                 * 
-        //                 * review_wyatt (steve) this is totoal hax!
-        //                 * looks like the kmTwitterSearchUsersRequest is returning an array, so i wrapped it in a 
-        //                 * json object so the parser wouldn't break.
-        //                 */
-        //                return KmJsonReader.parseJsonMap("{\"RESPONSE\":" + s + "}");
-        //                //        return KmJsonReader.parseJsonMap(s);
-        //            }
-        //        };
         _connection.setPath("/1.1/users/show.json");
 
     }

@@ -1,5 +1,8 @@
 package com.kodemore.twitter;
 
+import com.kodemore.collection.KmList;
+import com.kodemore.json.KmJsonArray;
+
 /**
  * I am used connect to Twitter make various requests.
  * 
@@ -24,17 +27,27 @@ public class KmTwitterSearchUserTest
         req = new KmTwitterSearchUsersRequest();
 
         // You need to enter valid keys...
-        req.setConsumerKey("");
-        req.setConsumerSecret("");
-        req.setAuthToken("");
-        req.setAuthSecret("");
+        req.setConsumerKey("8r0G5xBFcYdckiP2DCuNA");
+        req.setConsumerSecret("tBkfioOW8d3TosIzvqBzywQBu74ffRi2R0nwpssZvU");
+        req.setAuthToken("1935624583-W4xwK2jYMbr4mx5g02KqiGoLAjgYvp29d3S4FKr");
+        req.setAuthSecret("KuSse3LKnuV0vkgs57bHxgcqtjNzixd0SlwP5TPI0");
 
         req.setQuery("@accucodeSteve");
         req.submit();
 
+        KmJsonArray responseJson = req.getResponseJson();
+
+        KmList<KmTwitterUser> responseUsers = req.getResponseUsers();
+
         System.out.println("Response");
-        System.out.println(req.getResponseJson());
-        System.out.println("description");
-        System.out.println(req.getResponseUsers().getFirst().getDescription());
+        System.out.println(responseJson);
+
+        System.out.println("LIST OF USERS");
+        System.out.println("==================================");
+        for ( KmTwitterUser u : responseUsers )
+            System.out.println(u.getName());
+        System.out.println("==================================");
+        System.out.println(responseUsers.getFirst().getStatus());
+        System.out.println(responseUsers.getFirst().getStatus().getPlace().getBoundingbox());
     }
 }

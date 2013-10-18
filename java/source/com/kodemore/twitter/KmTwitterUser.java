@@ -1,9 +1,11 @@
 package com.kodemore.twitter;
 
-import com.kodemore.json.KmJsonMap;
-
 /**
  * I am and object with values for all the returned paramaters of a twitter user.
+ * 
+ * https://dev.twitter.com/docs/platform-objects/users
+ * 
+ * review_steve KmTwitterUser
  */
 public class KmTwitterUser
     extends Object
@@ -13,492 +15,421 @@ public class KmTwitterUser
     //# variables 
     //##################################################
 
-    private String  _location;
-    private Boolean _defaultProfile;
-    private Boolean _profileBackgroundTitle;
-    private Integer _statusesCount;
-    private String  _profileLinkColor;
-    private String  _language;
-    /**
-     * id is returned as an int, so we need to remember to change it into a string in the getters
-     * 
-     * use the id_str parameter
-     */
-    private String  _id;
-    private Boolean _following;
-    private Boolean _protected;
-    private Integer _favoritesCount;
-    private String  _profileTextColor;
-    private String  _description;
-    private Boolean _verified;
-    private Boolean _contributorsEnabled;
-    private String  _profileSidebarBoraderColor;
-    private String  _name;
-    private String  _profileBackgroundColor;
-    private String  _createdAt;
-    private Boolean _defaultProflieImage;
-    private Integer _followersCount;
-    private String  _profileImageUrlHttps;
-    private Boolean _geoEmbed;
-    /**
-     * create a KmTwitterStatus
-     */
-    private String  _status;
-    private String  _profileBackgroundImageUrl;
-    private String  _profileBackgroundImageUrlHttps;
-    private Boolean _followRequestSent;
-    /**
-     * create KmUserEntities class
-     */
-    private String  _entities;
-    /**
-     * i don't know what data type the url is.
-     */
-    private String  _url;
-    private Integer _utcOffset;
-    private String  _timeZone;
-    private Boolean _notifications;
-    private Boolean _profileUseBackgroundImage;
-    private Integer _friendsCount;
-    private String  _profileSidebarFillColor;
-    private String  _screenName;
+    private String          _id;
+    private String          _name;
+    private String          _location;
+    private String          _language;
+    private String          _description;
+    private String          _createdAt;
+    private String          _screenName;
+    private String          _url;
+    private KmTwitterStatus _status;
 
-    private String  _profileImageUrl;
-    private Integer _listedCount;
-    private Boolean _isTranslator;
+    private Integer         _statusesCount;
+    private Integer         _favoritesCount;
+    private Integer         _friendsCount;
+    private Integer         _followersCount;
+    private Integer         _listedCount;
 
-    //##################################################
-    //# constructor
-    //##################################################//
+    private Boolean         _following;
+    private Boolean         _protected;
+    private Boolean         _verified;
+    private Boolean         _defaultProfile;
+    private Boolean         _isTranslator;
+    private Boolean         _contributorsEnabled;
+    private Boolean         _geoEmbed;
+    private Boolean         _followRequestSent;
+    private Boolean         _notifications;
 
-    public KmTwitterUser(KmJsonMap user)
-    {
-        setTwitterUser(user);
-    }
+    private Boolean         _defaultProflieImage;
+    private Boolean         _profileUseBackgroundImage;
+    private Boolean         _profileBackgroundTitle;
+
+    private String          _profileSidebarFillColor;
+    private String          _profileLinkColor;
+    private String          _profileSidebarBoraderColor;
+    private String          _profileBackgroundColor;
+    private String          _profileTextColor;
+    private String          _profileBackgroundImageUrl;
+    private String          _profileBackgroundImageUrlHttps;
+    private String          _profileImageUrl;
+    private String          _profileImageUrlHttps;
+
+    private Integer         _utcOffset;
+    private String          _timeZone;
 
     //##################################################
     //# access
     //##################################################//
 
-    protected String getLocation()
-    {
-        return _location;
-    }
-
-    protected void setLocation(String location)
-    {
-        _location = location;
-    }
-
-    protected Boolean getDefaultProfile()
-    {
-        return _defaultProfile;
-    }
-
-    protected void setDefaultProfile(Boolean defaultProfile)
-    {
-        _defaultProfile = defaultProfile;
-    }
-
-    protected Boolean getProfileBackgroundTitle()
-    {
-        return _profileBackgroundTitle;
-    }
-
-    protected void setProfileBackgroundTitle(Boolean profileBackgroundTitle)
-    {
-        _profileBackgroundTitle = profileBackgroundTitle;
-    }
-
-    protected int getStatusesCount()
-    {
-        return _statusesCount;
-    }
-
-    protected void setStatusesCount(int statusesCount)
-    {
-        _statusesCount = statusesCount;
-    }
-
-    protected String getProfileLinkColor()
-    {
-        return _profileLinkColor;
-    }
-
-    protected void setProfileLinkColor(String profileLinkColor)
-    {
-        _profileLinkColor = profileLinkColor;
-    }
-
-    protected String getLanguage()
-    {
-        return _language;
-    }
-
-    protected void setLanguage(String profileLinkColor)
-    {
-        _language = profileLinkColor;
-    }
-
-    protected String getId()
+    public String getId()
     {
         return _id;
     }
 
-    protected void setId(String id)
+    public void setId(String e)
     {
-        _id = id;
+        _id = e;
     }
 
-    protected Boolean getFollowing()
-    {
-        return _following;
-    }
-
-    protected void setFollowing(Boolean following)
-    {
-        _following = following;
-    }
-
-    protected Boolean getProtected()
-    {
-        return _protected;
-    }
-
-    protected void setProtected(Boolean protected1)
-    {
-        _protected = protected1;
-    }
-
-    protected int getFavoritesCount()
-    {
-        return _favoritesCount;
-    }
-
-    protected void setFavoritesCount(int favoritesCount)
-    {
-        _favoritesCount = favoritesCount;
-    }
-
-    protected String getProfileTextColor()
-    {
-        return _profileTextColor;
-    }
-
-    protected void setProfileTextColor(String profileTextColor)
-    {
-        _profileTextColor = profileTextColor;
-    }
-
-    protected String getDescription()
-    {
-        return _description;
-    }
-
-    protected void setDescription(String description)
-    {
-        _description = description;
-    }
-
-    protected Boolean getVerified()
-    {
-        return _verified;
-    }
-
-    protected void setVerified(Boolean verified)
-    {
-        _verified = verified;
-    }
-
-    protected Boolean getContributorsEnabled()
-    {
-        return _contributorsEnabled;
-    }
-
-    protected void setContributorsEnabled(Boolean contributorsEnabled)
-    {
-        _contributorsEnabled = contributorsEnabled;
-    }
-
-    protected String getProfileSidebarBoraderColor()
-    {
-        return _profileSidebarBoraderColor;
-    }
-
-    protected void setProfileSidebarBoraderColor(String profileSidebarBoraderColor)
-    {
-        _profileSidebarBoraderColor = profileSidebarBoraderColor;
-    }
-
-    protected String getName()
+    public String getName()
     {
         return _name;
     }
 
-    protected void setName(String profileSidebarBoraderColor)
+    public void setName(String e)
     {
-        _name = profileSidebarBoraderColor;
+        _name = e;
     }
 
-    protected String getProfileBackgroundColor()
+    public String getLocation()
     {
-        return _profileBackgroundColor;
+        return _location;
     }
 
-    protected void setProfileBackgroundColor(String profileSidebarBoraderColor)
+    public void setLocation(String e)
     {
-        _profileBackgroundColor = profileSidebarBoraderColor;
+        _location = e;
     }
 
-    protected String getCreatedAt()
+    public String getLanguage()
+    {
+        return _language;
+    }
+
+    public void setLanguage(String e)
+    {
+        _language = e;
+    }
+
+    public String getDescription()
+    {
+        return _description;
+    }
+
+    public void setDescription(String e)
+    {
+        _description = e;
+    }
+
+    public String getCreatedAt()
     {
         return _createdAt;
     }
 
-    protected void setCreatedAt(String createdAt)
+    public void setCreatedAt(String e)
     {
-        _createdAt = createdAt;
+        _createdAt = e;
     }
 
-    protected Boolean getDefaultProflieImage()
-    {
-        return _defaultProflieImage;
-    }
-
-    protected void setDefaultProflieImage(Boolean defaultProflieImage)
-    {
-        _defaultProflieImage = defaultProflieImage;
-    }
-
-    protected int getFollowersCount()
-    {
-        return _followersCount;
-    }
-
-    protected void setFollowersCount(int followersCount)
-    {
-        _followersCount = followersCount;
-    }
-
-    protected String getProfileImageUrlHttps()
-    {
-        return _profileImageUrlHttps;
-    }
-
-    protected void setProfileImageUrlHttps(String profileImageUrlHttps)
-    {
-        _profileImageUrlHttps = profileImageUrlHttps;
-    }
-
-    protected Boolean getGeoEmbed()
-    {
-        return _geoEmbed;
-    }
-
-    protected void setGeoEmbed(Boolean geoEmbed)
-    {
-        _geoEmbed = geoEmbed;
-    }
-
-    protected String getStatus()
-    {
-        return _status;
-    }
-
-    protected void setStatus(String status)
-    {
-        _status = status;
-    }
-
-    protected String getProfileBackgroundImageUrl()
-    {
-        return _profileBackgroundImageUrl;
-    }
-
-    protected void setProfileBackgroundImageUrl(String profileBackgroundImageUrl)
-    {
-        _profileBackgroundImageUrl = profileBackgroundImageUrl;
-    }
-
-    protected String getProfileBackgroundImageUrlHttps()
-    {
-        return _profileBackgroundImageUrlHttps;
-    }
-
-    protected void setProfileBackgroundImageUrlHttps(String profileBackgroundImageUrlHttps)
-    {
-        _profileBackgroundImageUrlHttps = profileBackgroundImageUrlHttps;
-    }
-
-    protected Boolean getFollowRequestSent()
-    {
-        return _followRequestSent;
-    }
-
-    protected void setFollowRequestSent(Boolean followRequestSent)
-    {
-        _followRequestSent = followRequestSent;
-    }
-
-    protected String getEntities()
-    {
-        return _entities;
-    }
-
-    protected void setEntities(String entities)
-    {
-        _entities = entities;
-    }
-
-    protected String getUrl()
-    {
-        return _url;
-    }
-
-    protected void setUrl(String url)
-    {
-        _url = url;
-    }
-
-    protected int getUtcOffset()
-    {
-        return _utcOffset;
-    }
-
-    protected void setUtcOffset(int utcOffset)
-    {
-        _utcOffset = utcOffset;
-    }
-
-    protected String getTimeZone()
-    {
-        return _timeZone;
-    }
-
-    protected void setTimeZone(String timeZone)
-    {
-        _timeZone = timeZone;
-    }
-
-    protected Boolean getNotifications()
-    {
-        return _notifications;
-    }
-
-    protected void setNotifications(Boolean notifications)
-    {
-        _notifications = notifications;
-    }
-
-    protected Boolean getProfileUseBackgroundImage()
-    {
-        return _profileUseBackgroundImage;
-    }
-
-    protected void setProfileUseBackgroundImage(Boolean profileUseBackgroundImage)
-    {
-        _profileUseBackgroundImage = profileUseBackgroundImage;
-    }
-
-    protected int getFriendsCount()
-    {
-        return _friendsCount;
-    }
-
-    protected void setFriendsCount(int friendsCount)
-    {
-        _friendsCount = friendsCount;
-    }
-
-    protected String getProfileSidebarFillColor()
-    {
-        return _profileSidebarFillColor;
-    }
-
-    protected void setProfileSidebarFillColor(String profileSidebarFillColor)
-    {
-        _profileSidebarFillColor = profileSidebarFillColor;
-    }
-
-    protected String getScreenName()
+    public String getScreenName()
     {
         return _screenName;
     }
 
-    protected void setScreenName(String screenName)
+    public void setScreenName(String e)
     {
-        _screenName = screenName;
+        _screenName = e;
     }
 
-    protected String getProfileImageUrl()
+    public KmTwitterStatus getStatus()
     {
-        return _profileImageUrl;
+        return _status;
     }
 
-    protected void setProfileImageUrl(String profileImageUrl)
+    public void setStatus(KmTwitterStatus e)
     {
-        _profileImageUrl = profileImageUrl;
+        _status = e;
     }
 
-    protected int getListedCount()
+    public String getUrl()
+    {
+        return _url;
+    }
+
+    public void setUrl(String e)
+    {
+        _url = e;
+    }
+
+    public Integer getStatusesCount()
+    {
+        return _statusesCount;
+    }
+
+    public void setStatusesCount(Integer e)
+    {
+        _statusesCount = e;
+    }
+
+    public Integer getFavoritesCount()
+    {
+        return _favoritesCount;
+    }
+
+    public void setFavoritesCount(Integer e)
+    {
+        _favoritesCount = e;
+    }
+
+    public Integer getFriendsCount()
+    {
+        return _friendsCount;
+    }
+
+    public void setFriendsCount(Integer e)
+    {
+        _friendsCount = e;
+    }
+
+    public Integer getFollowersCount()
+    {
+        return _followersCount;
+    }
+
+    public void setFollowersCount(Integer e)
+    {
+        _followersCount = e;
+    }
+
+    public Integer getListedCount()
     {
         return _listedCount;
     }
 
-    protected void setListedCount(int listedCount)
+    public void setListedCount(Integer e)
     {
-        _listedCount = listedCount;
+        _listedCount = e;
     }
 
-    protected Boolean getIsTranslator()
+    public Boolean getFollowing()
+    {
+        return _following;
+    }
+
+    public void setFollowing(Boolean e)
+    {
+        _following = e;
+    }
+
+    public Boolean getProtected()
+    {
+        return _protected;
+    }
+
+    public void setProtected(Boolean e)
+    {
+        _protected = e;
+    }
+
+    public Boolean getVerified()
+    {
+        return _verified;
+    }
+
+    public void setVerified(Boolean e)
+    {
+        _verified = e;
+    }
+
+    public Boolean getDefaultProfile()
+    {
+        return _defaultProfile;
+    }
+
+    public void setDefaultProfile(Boolean e)
+    {
+        _defaultProfile = e;
+    }
+
+    public Boolean getIsTranslator()
     {
         return _isTranslator;
     }
 
-    protected void setIsTranslator(Boolean isTranslator)
+    public void setIsTranslator(Boolean e)
     {
-        _isTranslator = isTranslator;
+        _isTranslator = e;
     }
 
-    protected void setTwitterUser(KmJsonMap user)
+    public Boolean getContributorsEnabled()
     {
-        setLocation(user.getString("location"));
-        setDefaultProfile(user.getBoolean("default_profile"));
-        setProfileBackgroundTitle(user.getBoolean("profile_background_tile"));
-        setStatusesCount(user.getInteger("statuses_count"));
-        setLanguage(user.getString("lang"));
-        setProfileLinkColor(user.getString("profile_link_color"));
-        setId(user.getString("id_str"));
-        setFollowing(user.getBoolean("following"));
-        setProtected(user.getBoolean("protected"));
-        setFavoritesCount(user.getInteger("favourites_count"));
-        setProfileTextColor(user.getString("profile_text_color"));
-        setDescription(user.getString("description"));
-        setVerified(user.getBoolean("verified"));
-        setContributorsEnabled(user.getBoolean("contributors_enabled"));
-        setProfileSidebarBoraderColor(user.getString("profile_sidebar_border_color"));
-        setName(user.getString("name"));
-        setProfileBackgroundColor(user.getString("profile_background_color"));
-        setCreatedAt(user.getString("created_at"));
-        setDefaultProflieImage(user.getBoolean("default_profile_image"));
-        setFollowersCount(user.getInteger("followers_count"));
-        setProfileImageUrlHttps(user.getString("profile_image_url_https"));
-        setGeoEmbed(user.getBoolean("geo_enabled"));
-        //        setStatus(user.getString("status"));
-        setProfileBackgroundImageUrl(user.getString("profile_background_image_url"));
-        setProfileBackgroundImageUrlHttps(user.getString("profile_background_image_url_https"));
-        setFollowRequestSent(user.getBoolean("follow_request_sent"));
-        //        setEntities(user.getString("location"));
-        setUrl(user.getString("url"));
-        setUtcOffset(user.getInteger("utc_offset"));
-        setTimeZone(user.getString("time_zone"));
-        setNotifications(user.getBoolean("notifications"));
-        setProfileUseBackgroundImage(user.getBoolean("profile_use_background_image"));
-        setFriendsCount(user.getInteger("friends_count"));
-        setProfileSidebarFillColor(user.getString("profile_sidebar_fill_color"));
-        setScreenName(user.getString("screen_name"));
-        setProfileImageUrl(user.getString("profile_image_url"));
-        setListedCount(user.getInteger("listed_count"));
-        setIsTranslator(user.getBoolean("is_translator"));
+        return _contributorsEnabled;
     }
+
+    public void setContributorsEnabled(Boolean e)
+    {
+        _contributorsEnabled = e;
+    }
+
+    public Boolean getGeoEmbed()
+    {
+        return _geoEmbed;
+    }
+
+    public void setGeoEmbed(Boolean e)
+    {
+        _geoEmbed = e;
+    }
+
+    public Boolean getFollowRequestSent()
+    {
+        return _followRequestSent;
+    }
+
+    public void setFollowRequestSent(Boolean e)
+    {
+        _followRequestSent = e;
+    }
+
+    public Boolean getNotifications()
+    {
+        return _notifications;
+    }
+
+    public void setNotifications(Boolean e)
+    {
+        _notifications = e;
+    }
+
+    public Boolean getDefaultProflieImage()
+    {
+        return _defaultProflieImage;
+    }
+
+    public void setDefaultProflieImage(Boolean e)
+    {
+        _defaultProflieImage = e;
+    }
+
+    public Boolean getProfileUseBackgroundImage()
+    {
+        return _profileUseBackgroundImage;
+    }
+
+    public void setProfileUseBackgroundImage(Boolean e)
+    {
+        _profileUseBackgroundImage = e;
+    }
+
+    public Boolean getProfileBackgroundTitle()
+    {
+        return _profileBackgroundTitle;
+    }
+
+    public void setProfileBackgroundTitle(Boolean e)
+    {
+        _profileBackgroundTitle = e;
+    }
+
+    public String getProfileSidebarFillColor()
+    {
+        return _profileSidebarFillColor;
+    }
+
+    public void setProfileSidebarFillColor(String e)
+    {
+        _profileSidebarFillColor = e;
+    }
+
+    public String getProfileLinkColor()
+    {
+        return _profileLinkColor;
+    }
+
+    public void setProfileLinkColor(String e)
+    {
+        _profileLinkColor = e;
+    }
+
+    public String getProfileSidebarBoraderColor()
+    {
+        return _profileSidebarBoraderColor;
+    }
+
+    public void setProfileSidebarBoraderColor(String e)
+    {
+        _profileSidebarBoraderColor = e;
+    }
+
+    public String getProfileBackgroundColor()
+    {
+        return _profileBackgroundColor;
+    }
+
+    public void setProfileBackgroundColor(String e)
+    {
+        _profileBackgroundColor = e;
+    }
+
+    public String getProfileTextColor()
+    {
+        return _profileTextColor;
+    }
+
+    public void setProfileTextColor(String e)
+    {
+        _profileTextColor = e;
+    }
+
+    public String getProfileBackgroundImageUrl()
+    {
+        return _profileBackgroundImageUrl;
+    }
+
+    public void setProfileBackgroundImageUrl(String e)
+    {
+        _profileBackgroundImageUrl = e;
+    }
+
+    public String getProfileBackgroundImageUrlHttps()
+    {
+        return _profileBackgroundImageUrlHttps;
+    }
+
+    public void setProfileBackgroundImageUrlHttps(String e)
+    {
+        _profileBackgroundImageUrlHttps = e;
+    }
+
+    public String getProfileImageUrl()
+    {
+        return _profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String e)
+    {
+        _profileImageUrl = e;
+    }
+
+    public String getProfileImageUrlHttps()
+    {
+        return _profileImageUrlHttps;
+    }
+
+    public void setProfileImageUrlHttps(String e)
+    {
+        _profileImageUrlHttps = e;
+    }
+
+    public Integer getUtcOffset()
+    {
+        return _utcOffset;
+    }
+
+    public void setUtcOffset(Integer e)
+    {
+        _utcOffset = e;
+    }
+
+    public String getTimeZone()
+    {
+        return _timeZone;
+    }
+
+    public void setTimeZone(String e)
+    {
+        _timeZone = e;
+    }
+
 }
