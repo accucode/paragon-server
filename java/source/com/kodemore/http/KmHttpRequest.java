@@ -296,6 +296,7 @@ public abstract class KmHttpRequest
     private void _openConnection() throws IOException
     {
         _url = new URL(getScheme(), _host, _port, getNormalizedFullPath());
+
         _connection = (HttpURLConnection)_url.openConnection();
         if ( hasContentType() )
             _connection.setRequestProperty("Content-Type", getContentType());
@@ -360,9 +361,26 @@ public abstract class KmHttpRequest
     private void _readResponseValue() throws IOException
     {
         InputStream in = null;
+
         try
         {
-            in = _connection.getInputStream();
+            /**
+             * review_wyatt: (aaron) I figured out why the exception was being 
+             * thrown.  The documentation for HttpURLConnection.getErrorStream
+             * says that if the server responds with a 404, a FileNotFoundException 
+             * will be thrown during connect.  
+             * 
+             * It is possible however to check the result code before trying connect
+             * using the getResponseMessage method.  So below I implemented a simple
+             * check to see if the result code is OK, and it it isn't, it grabs the 
+             * error stream which contains the error information.  This seems to 
+             * solve the problem.
+             */
+            if ( _connection.getResponseMessage().equals("OK") )
+                in = _connection.getInputStream();
+            else
+                in = _connection.getErrorStream();
+
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             while ( true )
             {
