@@ -13,6 +13,8 @@ import com.kodemore.json.KmJsonArray;
  *      4.  Retrieve the consumer key, consumer secret, access token (auth token) 
  *          and access token (secret auth token secret) from the application information page.
  *      5.  Update the main method with the token and screts from the previous step.
+
+ * review_wyatt (steve) 
  */
 public class KmTwitterSearchUserTest
 {
@@ -27,10 +29,10 @@ public class KmTwitterSearchUserTest
         req = new KmTwitterSearchUsersRequest();
 
         // You need to enter valid keys...
-        req.setConsumerKey("8r0G5xBFcYdckiP2DCuNA");
-        req.setConsumerSecret("tBkfioOW8d3TosIzvqBzywQBu74ffRi2R0nwpssZvU");
-        req.setAuthToken("1935624583-W4xwK2jYMbr4mx5g02KqiGoLAjgYvp29d3S4FKr");
-        req.setAuthSecret("KuSse3LKnuV0vkgs57bHxgcqtjNzixd0SlwP5TPI0");
+        req.setConsumerKey("");
+        req.setConsumerSecret("");
+        req.setAuthToken("");
+        req.setAuthSecret("");
 
         req.setQuery("@accucodeSteve");
         req.submit();

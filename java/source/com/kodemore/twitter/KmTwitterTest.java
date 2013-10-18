@@ -12,6 +12,8 @@ import com.kodemore.json.KmJsonMap;
  *      4.  Retrieve the consumer key, consumer secret, access token (auth token) 
  *          and access token (secret auth token secret) from the application information page.
  *      5.  Update the main method with the token and screts from the previous step.
+ *      
+ * review_wyatt (steve) 
  */
 public class KmTwitterTest
 {

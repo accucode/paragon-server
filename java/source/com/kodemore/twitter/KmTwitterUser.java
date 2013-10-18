@@ -6,6 +6,7 @@ package com.kodemore.twitter;
  * https://dev.twitter.com/docs/platform-objects/users
  * 
  * review_steve KmTwitterUser
+ * review_wyatt (steve) 
  */
 public class KmTwitterUser
     extends Object

@@ -8,6 +8,7 @@ import com.kodemore.collection.KmList;
  * https://dev.twitter.com/docs/tweet-entities
  * 
  * review_steve KmTwitterStatus
+ * review_wyatt (steve) 
  */
 public class KmTwitterStatus
     extends Object
@@ -32,11 +33,6 @@ public class KmTwitterStatus
     private Integer           _favoriteCount;
     private KmTwitterPlace    _place;
     private KmTwitterEntities _entities;
-
-    //make a kmTwitterPlace
-
-    //make a kmTwitterCoordinates
-    //    private String         _coordinates;
 
     //##################################################
     //# access

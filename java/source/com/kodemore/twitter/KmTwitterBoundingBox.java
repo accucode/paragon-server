@@ -8,6 +8,7 @@ import com.kodemore.collection.KmList;
  * https://dev.twitter.com/docs/tweet-entities
  * 
  * review_steve KmTwitterBoundingBox
+ * review_wyatt (steve) 
  */
 public class KmTwitterBoundingBox
     extends Object
