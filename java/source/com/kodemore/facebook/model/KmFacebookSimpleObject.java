@@ -1,5 +1,7 @@
 package com.kodemore.facebook.model;
 
+import com.kodemore.collection.KmList;
+import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 
 /**
@@ -57,5 +59,17 @@ public class KmFacebookSimpleObject
         e.setId(map.getString(ID_KEY));
         e.setName(map.getString(NAME_KEY));
         return e;
+    }
+
+    public static KmList<KmFacebookSimpleObject> createObjectListWith(KmJsonArray arr)
+    {
+        KmList<KmFacebookSimpleObject> v;
+        v = new KmList<KmFacebookSimpleObject>();
+
+        int n = arr.size();
+        for ( int i = 0; i < n; i++ )
+            v.add(KmFacebookSimpleObject.createWith(arr.getMapAt(i)));
+
+        return v;
     }
 }

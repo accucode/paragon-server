@@ -117,7 +117,7 @@ public class KmFacebookUser
 
     private KmFacebookPicture              _picture;
 
-    private KmJsonArray                    _education;
+    private KmList<KmFacebookEducation>    _education;
     private KmJsonArray                    _work;
 
     //==================================================
@@ -141,6 +141,8 @@ public class KmFacebookUser
     public KmFacebookUser()
     {
         _devices = new KmList<KmFacebookDevice>();
+        _languages = new KmList<KmFacebookSimpleObject>();
+        _interestedIn = new KmList<String>();
     }
 
     //##################################################
@@ -415,12 +417,12 @@ public class KmFacebookUser
         _picture = e;
     }
 
-    public KmJsonArray getEducation()
+    public KmList<KmFacebookEducation> getEducation()
     {
         return _education;
     }
 
-    public void setEducation(KmJsonArray e)
+    public void setEducation(KmList<KmFacebookEducation> e)
     {
         _education = e;
     }
@@ -499,7 +501,7 @@ public class KmFacebookUser
         user.setHometown(KmFacebookSimpleObject.createWith(e.getMap(HOMETOWN_KEY)));
         user.setPolitical(e.getString(POLITICAL_KEY));
         user.setReligion(e.getString(RELIGION_KEY));
-        user.setLanguages(createSimpleObjectList(e.getArray(LANGUAGES_KEY)));
+        user.setLanguages(KmFacebookSimpleObject.createObjectListWith(e.getArray(LANGUAGES_KEY)));
 
         user.setRelationshipSatus(e.getString(RELATIONSHIP_STATUS_KEY));
         user.setSignificantOther(KmFacebookSimpleObject.createWith(e.getMap(SIGNIFICANT_OTHER_KEY)));
@@ -509,7 +511,7 @@ public class KmFacebookUser
 
         user.setPicture(KmFacebookPicture.createWith(e.getMap(PICTURE_KEY)));
 
-        user.setEducation(e.getArray(EDUCATION_KEY));
+        user.setEducation(KmFacebookEducation.createEducationListWith(e.getArray(EDUCATION_KEY)));
         user.setWork(e.getArray(WORK_KEY));
 
         return user;
@@ -525,21 +527,6 @@ public class KmFacebookUser
         {
             KmJsonMap e = devices.getMapAt(i);
             v.add(KmFacebookDevice.createWith(e));
-        }
-
-        return v;
-    }
-
-    private static KmList<KmFacebookSimpleObject> createSimpleObjectList(KmJsonArray e)
-    {
-        KmList<KmFacebookSimpleObject> v;
-        v = new KmList<KmFacebookSimpleObject>();
-
-        int n = e.size();
-        for ( int i = 0; i < n; i++ )
-        {
-            KmJsonMap map = e.getMapAt(i);
-            v.add(KmFacebookSimpleObject.createWith(map));
         }
 
         return v;
