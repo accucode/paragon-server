@@ -7,22 +7,22 @@ import com.kodemore.json.KmJsonMap;
 /**
  * I am a simple facebook object with an id and a name.
  */
-public class KmFacebookSimpleObject
+public class KmFacebookIdName
     extends Object
 {
     //##################################################
     //# constants
     //##################################################
 
-    public static final String ID_KEY   = "id";
-    public static final String NAME_KEY = "name";
+    private static final String ID_KEY   = "id";
+    private static final String NAME_KEY = "name";
 
     //##################################################
     //# variables 
     //##################################################
 
-    private String             _id;
-    private String             _name;
+    private String              _id;
+    private String              _name;
 
     //##################################################
     //# accessing
@@ -52,23 +52,23 @@ public class KmFacebookSimpleObject
     //# convenience
     //##################################################
 
-    public static KmFacebookSimpleObject createWith(KmJsonMap map)
+    public static KmFacebookIdName createWith(KmJsonMap map)
     {
-        KmFacebookSimpleObject e;
-        e = new KmFacebookSimpleObject();
+        KmFacebookIdName e;
+        e = new KmFacebookIdName();
         e.setId(map.getString(ID_KEY));
         e.setName(map.getString(NAME_KEY));
         return e;
     }
 
-    public static KmList<KmFacebookSimpleObject> createObjectListWith(KmJsonArray arr)
+    public static KmList<KmFacebookIdName> createListWith(KmJsonArray arr)
     {
-        KmList<KmFacebookSimpleObject> v;
-        v = new KmList<KmFacebookSimpleObject>();
+        KmList<KmFacebookIdName> v;
+        v = new KmList<KmFacebookIdName>();
 
         int n = arr.size();
         for ( int i = 0; i < n; i++ )
-            v.add(KmFacebookSimpleObject.createWith(arr.getMapAt(i)));
+            v.add(KmFacebookIdName.createWith(arr.getMapAt(i)));
 
         return v;
     }
