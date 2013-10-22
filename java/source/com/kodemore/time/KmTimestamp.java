@@ -800,5 +800,4 @@ public class KmTimestamp
         double d = 20101201011500.0;
         createMySqlGoofy(d);
     }
-
 }

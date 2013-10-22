@@ -14,25 +14,25 @@ public class KmFacebookEducation
     //# constants
     //##################################################
 
-    public static final String             SCHOOL_KEY       = "school";
-    public static final String             DEGREE_KEY       = "degree";
-    public static final String             YEAR_KEY         = "year";
-    public static final String             CONCENTATION_KEY = "concentration";
-    public static final String             TYPE_KEY         = "type";
-    public static final String             WITH_KEY         = "with";
-    public static final String             CLASSES_KEY      = "classes";
+    private static final String      SCHOOL_KEY       = "school";
+    private static final String      DEGREE_KEY       = "degree";
+    private static final String      YEAR_KEY         = "year";
+    private static final String      CONCENTATION_KEY = "concentration";
+    private static final String      TYPE_KEY         = "type";
+    private static final String      WITH_KEY         = "with";
+    private static final String      CLASSES_KEY      = "classes";
 
     //##################################################
     //# variables 
     //##################################################
 
-    private KmFacebookSimpleObject         _school;
-    private KmFacebookSimpleObject         _degree;
-    private KmFacebookSimpleObject         _year;
-    private KmFacebookSimpleObject         _concentration;
-    private KmFacebookSimpleObject         _type;
-    private KmList<KmFacebookSimpleObject> _with;
-    private KmList<KmFacebookClass>        _classes;
+    private KmFacebookIdName         _school;
+    private KmFacebookIdName         _degree;
+    private KmFacebookIdName         _year;
+    private KmFacebookIdName         _concentration;
+    private KmFacebookIdName         _type;
+    private KmList<KmFacebookIdName> _with;
+    private KmList<KmFacebookClass>  _classes;
 
     //##################################################
     //# constructors
@@ -40,7 +40,7 @@ public class KmFacebookEducation
 
     public KmFacebookEducation()
     {
-        _with = new KmList<KmFacebookSimpleObject>();
+        _with = new KmList<KmFacebookIdName>();
         _classes = new KmList<KmFacebookClass>();
     }
 
@@ -48,62 +48,62 @@ public class KmFacebookEducation
     //# accessing
     //##################################################
 
-    public KmFacebookSimpleObject getSchool()
+    public KmFacebookIdName getSchool()
     {
         return _school;
     }
 
-    public void setSchool(KmFacebookSimpleObject e)
+    public void setSchool(KmFacebookIdName e)
     {
         _school = e;
     }
 
-    public KmFacebookSimpleObject getDegree()
+    public KmFacebookIdName getDegree()
     {
         return _degree;
     }
 
-    public void setDegree(KmFacebookSimpleObject e)
+    public void setDegree(KmFacebookIdName e)
     {
         _degree = e;
     }
 
-    public KmFacebookSimpleObject getYear()
+    public KmFacebookIdName getYear()
     {
         return _year;
     }
 
-    public void setYear(KmFacebookSimpleObject e)
+    public void setYear(KmFacebookIdName e)
     {
         _year = e;
     }
 
-    public KmFacebookSimpleObject getConcentration()
+    public KmFacebookIdName getConcentration()
     {
         return _concentration;
     }
 
-    public void setConcentration(KmFacebookSimpleObject e)
+    public void setConcentration(KmFacebookIdName e)
     {
         _concentration = e;
     }
 
-    public KmFacebookSimpleObject getType()
+    public KmFacebookIdName getType()
     {
         return _type;
     }
 
-    public void setType(KmFacebookSimpleObject e)
+    public void setType(KmFacebookIdName e)
     {
         _type = e;
     }
 
-    public KmList<KmFacebookSimpleObject> getWith()
+    public KmList<KmFacebookIdName> getWith()
     {
         return _with;
     }
 
-    public void setWith(KmList<KmFacebookSimpleObject> e)
+    public void setWith(KmList<KmFacebookIdName> e)
     {
         _with = e;
     }
@@ -126,17 +126,17 @@ public class KmFacebookEducation
     {
         KmFacebookEducation e;
         e = new KmFacebookEducation();
-        e.setSchool(KmFacebookSimpleObject.createWith(map.getMap(SCHOOL_KEY)));
-        e.setDegree(KmFacebookSimpleObject.createWith(map.getMap(DEGREE_KEY)));
-        e.setYear(KmFacebookSimpleObject.createWith(map.getMap(YEAR_KEY)));
-        e.setConcentration(KmFacebookSimpleObject.createWith(map.getMap(CONCENTATION_KEY)));
-        e.setType(KmFacebookSimpleObject.createWith(map.getMap(TYPE_KEY)));
-        e.setWith(KmFacebookSimpleObject.createObjectListWith(map.getArray(WITH_KEY)));
+        e.setSchool(KmFacebookIdName.createWith(map.getMap(SCHOOL_KEY)));
+        e.setDegree(KmFacebookIdName.createWith(map.getMap(DEGREE_KEY)));
+        e.setYear(KmFacebookIdName.createWith(map.getMap(YEAR_KEY)));
+        e.setConcentration(KmFacebookIdName.createWith(map.getMap(CONCENTATION_KEY)));
+        e.setType(KmFacebookIdName.createWith(map.getMap(TYPE_KEY)));
+        e.setWith(KmFacebookIdName.createListWith(map.getArray(WITH_KEY)));
         e.setClasses(KmFacebookClass.createClassListWith(map.getArray(CLASSES_KEY)));
         return e;
     }
 
-    public static KmList<KmFacebookEducation> createEducationListWith(KmJsonArray arr)
+    public static KmList<KmFacebookEducation> createListWith(KmJsonArray arr)
     {
         KmList<KmFacebookEducation> v;
         v = new KmList<KmFacebookEducation>();

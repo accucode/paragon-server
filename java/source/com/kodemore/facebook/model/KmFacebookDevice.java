@@ -1,5 +1,7 @@
 package com.kodemore.facebook.model;
 
+import com.kodemore.collection.KmList;
+import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 
 public class KmFacebookDevice
@@ -9,15 +11,15 @@ public class KmFacebookDevice
     //# constants
     //##################################################
 
-    public static final String OS_KEY       = "os";
-    public static final String HARDWARE_KEY = "username";
+    private static final String OS_KEY       = "os";
+    private static final String HARDWARE_KEY = "username";
 
     //##################################################
     //# variables 
     //##################################################
 
-    private String             _os;
-    private String             _hardware;
+    private String              _os;
+    private String              _hardware;
 
     //##################################################
     //# accessing
@@ -54,5 +56,20 @@ public class KmFacebookDevice
         e.setOs(map.getString(KmFacebookDevice.OS_KEY));
         e.setHardware(map.getString(KmFacebookDevice.HARDWARE_KEY));
         return e;
+    }
+
+    public static KmList<KmFacebookDevice> createListWith(KmJsonArray devices)
+    {
+        KmList<KmFacebookDevice> v;
+        v = new KmList<KmFacebookDevice>();
+
+        int n = devices.size();
+        for ( int i = 0; i < n; i++ )
+        {
+            KmJsonMap e = devices.getMapAt(i);
+            v.add(KmFacebookDevice.createWith(e));
+        }
+
+        return v;
     }
 }

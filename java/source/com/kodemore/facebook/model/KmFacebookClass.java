@@ -27,8 +27,8 @@ public class KmFacebookClass
     private String                         _id;
     private String                         _name;
     private String                         _description;
-    private KmList<KmFacebookSimpleObject> _with;
-    private KmFacebookSimpleObject         _from;
+    private KmList<KmFacebookIdName> _with;
+    private KmFacebookIdName         _from;
 
     //##################################################
     //# constructors
@@ -36,7 +36,7 @@ public class KmFacebookClass
 
     public KmFacebookClass()
     {
-        _with = new KmList<KmFacebookSimpleObject>();
+        _with = new KmList<KmFacebookIdName>();
     }
 
     //##################################################
@@ -73,22 +73,22 @@ public class KmFacebookClass
         _description = e;
     }
 
-    public KmList<KmFacebookSimpleObject> getWith()
+    public KmList<KmFacebookIdName> getWith()
     {
         return _with;
     }
 
-    public void setWith(KmList<KmFacebookSimpleObject> e)
+    public void setWith(KmList<KmFacebookIdName> e)
     {
         _with = e;
     }
 
-    public KmFacebookSimpleObject getFrom()
+    public KmFacebookIdName getFrom()
     {
         return _from;
     }
 
-    public void setFrom(KmFacebookSimpleObject e)
+    public void setFrom(KmFacebookIdName e)
     {
         _from = e;
     }
@@ -103,9 +103,9 @@ public class KmFacebookClass
         e = new KmFacebookClass();
         e.setId(map.getString(ID_KEY));
         e.setName(map.getString(NAME_KEY));
-        e.setWith(KmFacebookSimpleObject.createObjectListWith(map.getArray(WITH_KEY)));
+        e.setWith(KmFacebookIdName.createListWith(map.getArray(WITH_KEY)));
         e.setDescription(map.getString(DESCRIPTION_KEY));
-        e.setFrom(KmFacebookSimpleObject.createWith(map.getMap(FROM_KEY)));
+        e.setFrom(KmFacebookIdName.createWith(map.getMap(FROM_KEY)));
         return e;
     }
 

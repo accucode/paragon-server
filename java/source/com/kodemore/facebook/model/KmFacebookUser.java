@@ -5,6 +5,8 @@ import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmDateParser;
+import com.kodemore.time.KmTimestamp;
+import com.kodemore.time.KmTimestampParser;
 
 /**
  * I am and object with values for all the returned paramaters of a twitter user.
@@ -20,58 +22,58 @@ public class KmFacebookUser
     //= constants :: user info
     //==================================================
 
-    public static final String             ID_KEY                  = "id";
-    public static final String             USERNAME_KEY            = "username";
-    public static final String             LINK_KEY                = "link";
-    public static final String             VERIFIED_KEY            = "verified";
-    public static final String             UPDATED_TIME_KEY        = "updated_time";
-    public static final String             LOCALE_KEY              = "locale";
-    public static final String             TIMEZONE_KEY            = "timezone";
-    public static final String             DEVICES_KEY             = "devices";
+    private static final String         ID_KEY                  = "id";
+    private static final String         USERNAME_KEY            = "username";
+    private static final String         LINK_KEY                = "link";
+    private static final String         VERIFIED_KEY            = "verified";
+    private static final String         UPDATED_TIME_KEY        = "updated_time";
+    private static final String         LOCALE_KEY              = "locale";
+    private static final String         TIMEZONE_KEY            = "timezone";
+    private static final String         DEVICES_KEY             = "devices";
 
     //==================================================
     //= constants :: personal info
     //==================================================
 
-    public static final String             NAME_KEY                = "name";
-    public static final String             FIRST_NAME_KEY          = "first_name";
-    public static final String             MIDDLE_NAME_KEY         = "middle_name";
-    public static final String             LAST_NAME_KEY           = "last_name";
+    private static final String         NAME_KEY                = "name";
+    private static final String         FIRST_NAME_KEY          = "first_name";
+    private static final String         MIDDLE_NAME_KEY         = "middle_name";
+    private static final String         LAST_NAME_KEY           = "last_name";
 
-    public static final String             GENDER_KEY              = "gender";
-    public static final String             BIRTHDAY_KEY            = "birthday";
-    public static final String             EMAIL_KEY               = "email";
-    public static final String             WEBSITE_KEY             = "website";
-    public static final String             LOCATION_KEY            = "location";
-    public static final String             HOMETOWN_KEY            = "hometown";
-    public static final String             POLITICAL_KEY           = "political";
-    public static final String             RELIGION_KEY            = "religion";
-    public static final String             LANGUAGES_KEY           = "languages";
+    private static final String         GENDER_KEY              = "gender";
+    private static final String         BIRTHDAY_KEY            = "birthday";
+    private static final String         EMAIL_KEY               = "email";
+    private static final String         WEBSITE_KEY             = "website";
+    private static final String         LOCATION_KEY            = "location";
+    private static final String         HOMETOWN_KEY            = "hometown";
+    private static final String         POLITICAL_KEY           = "political";
+    private static final String         RELIGION_KEY            = "religion";
+    private static final String         LANGUAGES_KEY           = "languages";
 
-    public static final String             RELATIONSHIP_STATUS_KEY = "relationship_status";
-    public static final String             SIGNIFICANT_OTHER_KEY   = "significant_other";
+    private static final String         RELATIONSHIP_STATUS_KEY = "relationship_status";
+    private static final String         SIGNIFICANT_OTHER_KEY   = "significant_other";
 
-    public static final String             BIO_KEY                 = "bio";
-    public static final String             QUOTES_KEY              = "quotes";
+    private static final String         BIO_KEY                 = "bio";
+    private static final String         QUOTES_KEY              = "quotes";
 
-    public static final String             PICTURE_KEY             = "picture";
+    private static final String         PICTURE_KEY             = "picture";
 
-    public static final String             EDUCATION_KEY           = "education";
-    public static final String             WORK_KEY                = "work";
+    private static final String         EDUCATION_KEY           = "education";
+    private static final String         WORK_KEY                = "work";
 
     //==================================================
     //= constants :: Interests
     //==================================================
 
-    public static final String             INTERESTED_IN_KEY       = "interested_in";
-    public static final String             FAVORITE_ATHLETES_KEY   = "favorite_athletes";
-    public static final String             FAVORITE_TEAMS_KEY      = "favorite_teams";
+    private static final String         INTERESTED_IN_KEY       = "interested_in";
+    private static final String         FAVORITE_ATHLETES_KEY   = "favorite_athletes";
+    private static final String         FAVORITE_TEAMS_KEY      = "favorite_teams";
 
     //==================================================
     //= constants ::  Connections
     //==================================================
 
-    // todo_aaron:  
+    // todo_aaron: add connections
 
     //##################################################
     //# variables 
@@ -81,52 +83,52 @@ public class KmFacebookUser
     //= variables :: user info
     //==================================================
 
-    private String                         _id;
-    private String                         _username;
-    private String                         _link;
-    private Boolean                        _verified;
-    private String                         _updatedTime;
-    private String                         _locale;
-    private Integer                        _timezone;
-    private KmList<KmFacebookDevice>       _devices;
+    private String                      _id;
+    private String                      _username;
+    private String                      _link;
+    private Boolean                     _verified;
+    private KmTimestamp                 _updatedTimestamp;
+    private String                      _locale;
+    private Integer                     _timezone;
+    private KmList<KmFacebookDevice>    _devices;
 
     //==================================================
     //= variables :: personal info
     //==================================================
 
-    private String                         _name;
-    private String                         _firstName;
-    private String                         _middleName;
-    private String                         _lastName;
+    private String                      _name;
+    private String                      _firstName;
+    private String                      _middleName;
+    private String                      _lastName;
 
-    private String                         _gender;
-    private KmDate                         _birthday;
-    private String                         _email;
-    private String                         _website;
-    private KmFacebookSimpleObject         _location;
-    private KmFacebookSimpleObject         _hometown;
-    private String                         _political;
-    private String                         _religion;
-    private KmList<KmFacebookSimpleObject> _languages;
+    private String                      _gender;
+    private KmDate                      _birthday;
+    private String                      _email;
+    private String                      _website;
+    private KmFacebookIdName            _location;
+    private KmFacebookIdName            _hometown;
+    private String                      _political;
+    private String                      _religion;
+    private KmList<KmFacebookIdName>    _languages;
 
-    private String                         _relationshipSatus;
-    private KmFacebookSimpleObject         _significantOther;
+    private String                      _relationshipSatus;
+    private KmFacebookIdName            _significantOther;
 
-    private String                         _bio;
-    private String                         _quotes;
+    private String                      _bio;
+    private String                      _quotes;
 
-    private KmFacebookPicture              _picture;
+    private KmFacebookPicture           _picture;
 
-    private KmList<KmFacebookEducation>    _education;
-    private KmJsonArray                    _work;
+    private KmList<KmFacebookEducation> _education;
+    private KmList<KmFacebookWork>      _work;
 
     //==================================================
     //= variables :: interests
     //==================================================
 
-    private KmList<String>                 _interestedIn;
-    private KmJsonArray                    _favoriteAthletes;
-    private KmJsonArray                    _favoriteTeams;
+    private KmList<String>              _interestedIn;
+    private KmList<KmFacebookIdName>    _favoriteAthletes;
+    private KmList<KmFacebookIdName>    _favoriteTeams;
 
     //==================================================
     //= variables :: connections
@@ -141,7 +143,7 @@ public class KmFacebookUser
     public KmFacebookUser()
     {
         _devices = new KmList<KmFacebookDevice>();
-        _languages = new KmList<KmFacebookSimpleObject>();
+        _languages = new KmList<KmFacebookIdName>();
         _interestedIn = new KmList<String>();
     }
 
@@ -193,14 +195,14 @@ public class KmFacebookUser
         _verified = e;
     }
 
-    public String getUpdatedTime()
+    public KmTimestamp getUpdatedTimestamp()
     {
-        return _updatedTime;
+        return _updatedTimestamp;
     }
 
-    public void setUpdatedTime(String e)
+    public void setUpdatedTimestamp(KmTimestamp e)
     {
-        _updatedTime = e;
+        _updatedTimestamp = e;
     }
 
     public String getLocale()
@@ -317,22 +319,22 @@ public class KmFacebookUser
         _website = e;
     }
 
-    public KmFacebookSimpleObject getLocation()
+    public KmFacebookIdName getLocation()
     {
         return _location;
     }
 
-    public void setLocation(KmFacebookSimpleObject e)
+    public void setLocation(KmFacebookIdName e)
     {
         _location = e;
     }
 
-    public KmFacebookSimpleObject getHometown()
+    public KmFacebookIdName getHometown()
     {
         return _hometown;
     }
 
-    public void setHometown(KmFacebookSimpleObject e)
+    public void setHometown(KmFacebookIdName e)
     {
         _hometown = e;
     }
@@ -357,12 +359,12 @@ public class KmFacebookUser
         _religion = e;
     }
 
-    public KmList<KmFacebookSimpleObject> getLanguages()
+    public KmList<KmFacebookIdName> getLanguages()
     {
         return _languages;
     }
 
-    public void setLanguages(KmList<KmFacebookSimpleObject> e)
+    public void setLanguages(KmList<KmFacebookIdName> e)
     {
         _languages = e;
     }
@@ -377,12 +379,12 @@ public class KmFacebookUser
         _relationshipSatus = e;
     }
 
-    public KmFacebookSimpleObject getSignificantOther()
+    public KmFacebookIdName getSignificantOther()
     {
         return _significantOther;
     }
 
-    public void setSignificantOther(KmFacebookSimpleObject e)
+    public void setSignificantOther(KmFacebookIdName e)
     {
         _significantOther = e;
     }
@@ -427,12 +429,12 @@ public class KmFacebookUser
         _education = e;
     }
 
-    public KmJsonArray getWork()
+    public KmList<KmFacebookWork> getWork()
     {
         return _work;
     }
 
-    public void setWork(KmJsonArray e)
+    public void setWork(KmList<KmFacebookWork> e)
     {
         _work = e;
     }
@@ -451,22 +453,22 @@ public class KmFacebookUser
         _interestedIn = e;
     }
 
-    public KmJsonArray getFavoriteAthletes()
+    public KmList<KmFacebookIdName> getFavoriteAthletes()
     {
         return _favoriteAthletes;
     }
 
-    public void setFavoriteAthletes(KmJsonArray e)
+    public void setFavoriteAthletes(KmList<KmFacebookIdName> e)
     {
         _favoriteAthletes = e;
     }
 
-    public KmJsonArray getFavoriteTeams()
+    public KmList<KmFacebookIdName> getFavoriteTeams()
     {
         return _favoriteTeams;
     }
 
-    public void setFavoriteTeams(KmJsonArray e)
+    public void setFavoriteTeams(KmList<KmFacebookIdName> e)
     {
         _favoriteTeams = e;
     }
@@ -483,10 +485,10 @@ public class KmFacebookUser
         user.setUsername(e.getString(USERNAME_KEY));
         user.setLink(e.getString(LINK_KEY));
         user.setVerified(e.getBoolean(VERIFIED_KEY));
-        user.setUpdatedTime(e.getString(UPDATED_TIME_KEY));
+        user.setUpdatedTimestamp(parseTime(e.getString(UPDATED_TIME_KEY)));
         user.setLocale(e.getString(LOCALE_KEY));
         user.setTimezone(e.getInteger(TIMEZONE_KEY));
-        user.setDevices(createDeviceList(e.getArray(DEVICES_KEY)));
+        user.setDevices(createDevices(e.getArray(DEVICES_KEY)));
 
         user.setName(e.getString(NAME_KEY));
         user.setFirstName(e.getString(FIRST_NAME_KEY));
@@ -497,37 +499,70 @@ public class KmFacebookUser
         user.setBirthday(KmDateParser.parseDate(e.getString(BIRTHDAY_KEY)));
         user.setEmail(e.getString(EMAIL_KEY));
         user.setWebsite(e.getString(WEBSITE_KEY));
-        user.setLocation(KmFacebookSimpleObject.createWith(e.getMap(LOCATION_KEY)));
-        user.setHometown(KmFacebookSimpleObject.createWith(e.getMap(HOMETOWN_KEY)));
+        user.setLocation(createIdName(e.getMap(LOCATION_KEY)));
+        user.setHometown(createIdName(e.getMap(HOMETOWN_KEY)));
         user.setPolitical(e.getString(POLITICAL_KEY));
         user.setReligion(e.getString(RELIGION_KEY));
-        user.setLanguages(KmFacebookSimpleObject.createObjectListWith(e.getArray(LANGUAGES_KEY)));
+        user.setLanguages(createIdNames(e.getArray(LANGUAGES_KEY)));
 
         user.setRelationshipSatus(e.getString(RELATIONSHIP_STATUS_KEY));
-        user.setSignificantOther(KmFacebookSimpleObject.createWith(e.getMap(SIGNIFICANT_OTHER_KEY)));
+        user.setSignificantOther(createIdName(e.getMap(SIGNIFICANT_OTHER_KEY)));
 
         user.setBio(e.getString(BIO_KEY));
         user.setQuotes(e.getString(QUOTES_KEY));
 
         user.setPicture(KmFacebookPicture.createWith(e.getMap(PICTURE_KEY)));
 
-        user.setEducation(KmFacebookEducation.createEducationListWith(e.getArray(EDUCATION_KEY)));
-        user.setWork(e.getArray(WORK_KEY));
+        user.setEducation(createEducations(e.getArray(EDUCATION_KEY)));
+        user.setWork(createWorks(e.getArray(WORK_KEY)));
+
+        user.setInterestedIn(createInterestedInList(e.getArray(INTERESTED_IN_KEY)));
+        user.setFavoriteAthletes(createIdNames(e.getArray(FAVORITE_ATHLETES_KEY)));
+        user.setFavoriteTeams(createIdNames(e.getArray(FAVORITE_TEAMS_KEY)));
 
         return user;
     }
 
-    private static KmList<KmFacebookDevice> createDeviceList(KmJsonArray devices)
+    private static KmFacebookIdName createIdName(KmJsonMap map)
     {
-        KmList<KmFacebookDevice> v;
-        v = new KmList<KmFacebookDevice>();
+        return KmFacebookIdName.createWith(map);
+    }
 
-        int n = devices.size();
+    private static KmList<KmFacebookIdName> createIdNames(KmJsonArray arr)
+    {
+        return KmFacebookIdName.createListWith(arr);
+    }
+
+    private static KmList<KmFacebookDevice> createDevices(KmJsonArray arr)
+    {
+        return KmFacebookDevice.createListWith(arr);
+    }
+
+    private static KmList<KmFacebookEducation> createEducations(KmJsonArray arr)
+    {
+        return KmFacebookEducation.createListWith(arr);
+    }
+
+    private static KmList<KmFacebookWork> createWorks(KmJsonArray arr)
+    {
+        return KmFacebookWork.createListWith(arr);
+    }
+
+    private static KmTimestamp parseTime(String s)
+    {
+        // todo_aaron: parse time
+
+        return new KmTimestampParser().parse(s);
+    }
+
+    private static KmList<String> createInterestedInList(KmJsonArray arr)
+    {
+        KmList<String> v;
+        v = new KmList<String>();
+
+        int n = arr.size();
         for ( int i = 0; i < n; i++ )
-        {
-            KmJsonMap e = devices.getMapAt(i);
-            v.add(KmFacebookDevice.createWith(e));
-        }
+            v.add(arr.getStringAt(i));
 
         return v;
     }

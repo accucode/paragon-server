@@ -4,6 +4,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.time.KmDate;
+import com.kodemore.time.KmDateParser;
 
 /**
  * I am a facebook work object.
@@ -15,80 +16,80 @@ public class KmFacebookWork
     //# constants
     //##################################################
 
-    public static final String             EMPLOYER_KEY    = "employer";
-    public static final String             LOCATION_KEY    = "location";
-    public static final String             POSITION_KEY    = "position";
-    public static final String             FROM_KEY        = "from";
-    public static final String             WITH_KEY        = "with";
-    public static final String             DESCRIPTION_KEY = "description";
-    public static final String             START_DATE_KEY  = "start_date";
-    public static final String             END_DATE_KEY    = "end_date";
-    public static final String             PROJECTS_KEY    = "projects";
+    private static final String       EMPLOYER_KEY    = "employer";
+    private static final String       LOCATION_KEY    = "location";
+    private static final String       POSITION_KEY    = "position";
+    private static final String       FROM_KEY        = "from";
+    private static final String       WITH_KEY        = "with";
+    private static final String       DESCRIPTION_KEY = "description";
+    private static final String       START_DATE_KEY  = "start_date";
+    private static final String       END_DATE_KEY    = "end_date";
+    private static final String       PROJECTS_KEY    = "projects";
 
     //##################################################
     //# variables 
     //##################################################
 
-    private KmFacebookSimpleObject         _employer;
-    private KmFacebookSimpleObject         _location;
-    private KmFacebookSimpleObject         _position;
-    private KmFacebookSimpleObject         _from;
-    private KmList<KmFacebookSimpleObject> _with;
-    private String                         _description;
-    private KmDate                         _startDate;
-    private KmDate                         _endDate;
-    private KmList<KmFacebookSimpleObject> _projects;
+    private KmFacebookIdName          _employer;
+    private KmFacebookIdName          _location;
+    private KmFacebookIdName          _position;
+    private KmFacebookIdName          _from;
+    private KmList<KmFacebookIdName>  _with;
+    private String                    _description;
+    private KmDate                    _startDate;
+    private KmDate                    _endDate;
+    private KmList<KmFacebookProject> _projects;
 
     //##################################################
     //# accessing
     //##################################################
 
-    public KmFacebookSimpleObject getEmployer()
+    public KmFacebookIdName getEmployer()
     {
         return _employer;
     }
 
-    public void setEmployer(KmFacebookSimpleObject employer)
+    public void setEmployer(KmFacebookIdName employer)
     {
         _employer = employer;
     }
 
-    public KmFacebookSimpleObject getLocation()
+    public KmFacebookIdName getLocation()
     {
         return _location;
     }
 
-    public void setLocation(KmFacebookSimpleObject location)
+    public void setLocation(KmFacebookIdName location)
     {
         _location = location;
     }
 
-    public KmFacebookSimpleObject getPosition()
+    public KmFacebookIdName getPosition()
     {
         return _position;
     }
 
-    public void setPosition(KmFacebookSimpleObject position)
+    public void setPosition(KmFacebookIdName position)
     {
         _position = position;
     }
 
-    public KmFacebookSimpleObject getFrom()
+    public KmFacebookIdName getFrom()
     {
         return _from;
     }
 
-    public void setFrom(KmFacebookSimpleObject from)
+    public void setFrom(KmFacebookIdName from)
     {
         _from = from;
     }
 
-    public KmList<KmFacebookSimpleObject> getWith()
+    public KmList<KmFacebookIdName> getWith()
     {
         return _with;
     }
 
-    public void setWith(KmList<KmFacebookSimpleObject> with)
+    public void setWith(KmList<KmFacebookIdName> with)
     {
         _with = with;
     }
@@ -123,12 +124,12 @@ public class KmFacebookWork
         _endDate = endDate;
     }
 
-    public KmList<KmFacebookSimpleObject> getProjects()
+    public KmList<KmFacebookProject> getProjects()
     {
         return _projects;
     }
 
-    public void setProjects(KmList<KmFacebookSimpleObject> projects)
+    public void setProjects(KmList<KmFacebookProject> projects)
     {
         _projects = projects;
     }
@@ -141,11 +142,39 @@ public class KmFacebookWork
     {
         KmFacebookWork e;
         e = new KmFacebookWork();
-        // todo_aaron:  
+        e.setEmployer(createIdName(map.getMap(EMPLOYER_KEY)));
+        e.setLocation(createIdName(map.getMap(LOCATION_KEY)));
+        e.setPosition(createIdName(map.getMap(POSITION_KEY)));
+        e.setFrom(createIdName(map.getMap(FROM_KEY)));
+        e.setWith(createIdNames(map.getArray(WITH_KEY)));
+        e.setDescription(map.getString(DESCRIPTION_KEY));
+        e.setStartDate(parseDate(map.getString(START_DATE_KEY)));
+        e.setEndDate(parseDate(map.getString(END_DATE_KEY)));
+        e.setProjects(createProjects(map.getArray(PROJECTS_KEY)));
         return e;
     }
 
-    public static KmList<KmFacebookWork> createWorkListWith(KmJsonArray arr)
+    private static KmFacebookIdName createIdName(KmJsonMap map)
+    {
+        return KmFacebookIdName.createWith(map);
+    }
+
+    private static KmList<KmFacebookIdName> createIdNames(KmJsonArray arr)
+    {
+        return KmFacebookIdName.createListWith(arr);
+    }
+
+    private static KmDate parseDate(String s)
+    {
+        return KmDateParser.parseDate(s);
+    }
+
+    private static KmList<KmFacebookProject> createProjects(KmJsonArray arr)
+    {
+        return KmFacebookProject.createListWith(arr);
+    }
+
+    public static KmList<KmFacebookWork> createListWith(KmJsonArray arr)
     {
         KmList<KmFacebookWork> v;
         v = new KmList<KmFacebookWork>();
