@@ -1,4 +1,4 @@
-package com.kodemore.flickr;
+package com.kodemore.tumblr;
 
 /**
  * I am used connect to Twitter make various requests.
@@ -13,11 +13,11 @@ package com.kodemore.flickr;
  *      
  * review_wyatt (steve) 
  */
-public class KmFlickrTest
+public class KmTumblrTest
 {
     public static void main(String[] args)
     {
-        KmFlickrConnection c = new KmFlickrConnection();
+        KmTumblrConnection c = new KmTumblrConnection();
         c.setPath("services/rest");
 
         // You need to enter valid keys...
