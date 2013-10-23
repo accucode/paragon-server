@@ -41,7 +41,7 @@ public class KmTumblrConnection
     //# constants
     //##################################################
 
-    private static String               HOST                 = "api.flickr.com";
+    private static String               HOST                 = "api.tumblr.com";
     private static String               HTTP_METHOD          = "GET";
     private static String               OAUTH_VERSION        = "1.0";
 
@@ -216,6 +216,10 @@ public class KmTumblrConnection
         _request.setPath(getPath());
         _request.setParameters(getRequestParameters());
         _request.setHeader("Authorization", getAuthorizationHeader());
+
+        // remove_steve: print
+        System.out.println("KmTumblrConnection.submit");
+
         _request.submit();
         _request.checkException();
     }
@@ -249,10 +253,18 @@ public class KmTumblrConnection
     {
         KmStringBuilder out = new KmStringBuilder();
 
+        // remove_steve: print
+        System.out.println("KmTumblrConnection.getAuthorizationHeader");
         KmOrderedMap<String,String> m = getAuthorizationParameters();
         for ( String key : m.keySet() )
         {
             String value = m.get(key);
+
+            System.out.println("****************");
+            System.out.println(key);
+            System.out.println(value);
+            System.out.println("****************");
+
             appendAuthorizationParameter(out, key, value);
         }
 
@@ -369,7 +381,11 @@ public class KmTumblrConnection
 
     private String getSignatureKey()
     {
-        return encode(getConsumerSecret()) + "&" + encode(getAuthSecret());
+        String string = encode(getConsumerSecret()) + "&" + encode(getAuthSecret());
+        // remove_steve: print
+        System.out.println("KmTumblrConnection.getSignatureKey");
+        System.out.println(string);
+        return string;
     }
 
     //##################################################

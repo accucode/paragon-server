@@ -1,15 +1,8 @@
 package com.kodemore.flickr;
 
 /**
- * I am used connect to Twitter make various requests.
+ * I am used connect to Flickr make various requests.
  * 
- * You will need to do the following to use this class:
- *      1.  Sign up for a Twitter account.
- *      2.  Visit dev.twitter.com and sign in as your user.
- *      3.  Create a new application for testing.
- *      4.  Retrieve the consumer key, consumer secret, access token (auth token) 
- *          and access token (secret auth token secret) from the application information page.
- *      5.  Update the main method with the token and screts from the previous step.
  *      
  * review_wyatt (steve) 
  */
