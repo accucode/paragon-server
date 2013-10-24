@@ -8,6 +8,7 @@ package com.kodemore.yelp;
 /**
  * fixme_steve (steve) so this isn't working for some reason. there is very little documentation
  * and it should just work with standard oAuth signatures....
+ * http://www.yelp.com/developers/documentation/v2/authentication
  */
 public class KmYelpTest
 {
