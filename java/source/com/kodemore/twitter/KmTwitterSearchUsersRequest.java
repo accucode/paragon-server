@@ -11,7 +11,6 @@ import com.kodemore.utility.Kmu;
  * api documentation https://dev.twitter.com/docs/api/1.1/get/users/search
  * 
  * review_steve KmTwitterSearchUserRequest
- * review_wyatt (steve) 
  */
 public class KmTwitterSearchUsersRequest
 {
@@ -51,11 +50,18 @@ public class KmTwitterSearchUsersRequest
 
     protected void setPage(int i)
     {
+        /**
+         * review_steve (wyatt) better...
+         *      getConnection().setParameter("page", i);
+         */
         getConnection().setParameter("page", Kmu.toStringSafe(i));
     }
 
     protected void setCount(int i)
     {
+        /**
+         * review_steve (wyatt) ditto
+         */
         getConnection().setParameter("count", Kmu.toStringSafe(i));
     }
 
@@ -94,9 +100,8 @@ public class KmTwitterSearchUsersRequest
 
     protected KmList<KmTwitterUser> getResponseUsers()
     {
-        KmJsonArray resp = getResponseJson();
-
         KmList<KmTwitterUser> v = new KmList<KmTwitterUser>();
+        KmJsonArray resp = getResponseJson();
 
         int n = resp.size();
         for ( int i = 0; i < n; i++ )
@@ -104,6 +109,7 @@ public class KmTwitterSearchUsersRequest
             KmJsonMap jsonObject = resp.getMapAt(i);
             v.add(createTwitterUser(jsonObject));
         }
+
         return v;
     }
 
@@ -120,6 +126,10 @@ public class KmTwitterSearchUsersRequest
     {
         KmTwitterUser u = new KmTwitterUser();
 
+        /**
+         * review_steve (wyatt) discuss
+         *      guards
+         */
         if ( json != null )
         {
             u.setLocation(json.getString("location"));

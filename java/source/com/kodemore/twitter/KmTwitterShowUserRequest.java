@@ -7,15 +7,9 @@ import com.kodemore.utility.Kmu;
  * I am used to search for users.
  * 
  * api documentation https://dev.twitter.com/docs/api/1.1/get/users/show
- * 
- * review_wyatt (steve) 
  */
 public class KmTwitterShowUserRequest
 {
-    //##################################################
-    //# constants
-    //##################################################
-
     //##################################################
     //# variables 
     //##################################################
@@ -30,7 +24,6 @@ public class KmTwitterShowUserRequest
     {
         _connection = new KmTwitterConnection();
         _connection.setPath("/1.1/users/show.json");
-
     }
 
     //##################################################

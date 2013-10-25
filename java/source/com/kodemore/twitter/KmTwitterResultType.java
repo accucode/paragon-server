@@ -2,8 +2,6 @@ package com.kodemore.twitter;
 
 /**
  * I am used connect to Twitter make various requests.
- * 
- * review_wyatt (steve) 
  */
 public enum KmTwitterResultType
 {

@@ -2,13 +2,12 @@ package com.kodemore.facebook;
 
 import com.kodemore.facebook.model.KmFacebookUser;
 import com.kodemore.json.KmJsonMap;
+import com.kodemore.utility.Kmu;
 
 /**
- * review_wyatt (aaron)
- * 
  * I am used to request objects from facebook by id. Users can also
  * be found via their username as well as their id.  This does not 
- * require and access token.
+ * require an access token.
  * 
  * If an access token is not included, the call to the graph api will 
  * return only public information.  
@@ -22,9 +21,12 @@ public class KmFacebookIdRequest
     //# variables 
     //##################################################
 
-    private KmFacebookConnection _connection;
+    private String _accessToken;
 
-    private String               _accessToken;
+    /**
+     * This is the specific object's username or id. 
+     */
+    private String _query;
 
     //##################################################
     //# constructor
@@ -32,7 +34,7 @@ public class KmFacebookIdRequest
 
     public KmFacebookIdRequest()
     {
-        _connection = new KmFacebookConnection();
+        // none
     }
 
     //##################################################
@@ -54,50 +56,62 @@ public class KmFacebookIdRequest
         return getAccessToken() != null;
     }
 
-    //##################################################
-    //# response
-    //##################################################//
-
-    public KmFacebookUser getResponseUser()
+    public String getQuery()
     {
-        KmJsonMap response;
-        response = _connection.getResponseJson();
+        return _query;
+    }
 
-        // remove_aaron: print
-        System.out.println("    response.formatJson(): " + response.formatJson());
-
-        if ( response.hasKey("error") )
-            return null;
-
-        return KmFacebookUser.createWith(response);
+    public void setQuery(String e)
+    {
+        _query = e;
     }
 
     //##################################################
-    //# query
-    //##################################################
+    //# find
+    //##################################################//
 
-    /**
-     * This is the specific object's username or id. 
-     */
-    public void setQuery(String s)
+    public KmFacebookUser findUser()
     {
-        _connection.setPath(s);
+        KmJsonMap resp = submit();
+        checkError(resp);
+
+        return KmFacebookUser.createWith(resp);
     }
 
     //##################################################
     //# submit
     //##################################################//
 
-    public void submit()
+    private KmJsonMap submit()
     {
-        if ( hasAccessToken() )
-            getConnection().setParameter("access_token", getAccessToken());
+        KmFacebookConnection con;
+        con = new KmFacebookConnection();
+        con.setPath(getQuery());
 
-        getConnection().submit();
+        if ( hasAccessToken() )
+            con.setParameter("access_token", getAccessToken());
+
+        con.submit();
+        return con.getResponseJsonMap();
     }
 
-    private KmFacebookConnection getConnection()
+    private void checkError(KmJsonMap resp)
     {
-        return _connection;
+        String errorKey = "error";
+
+        if ( !resp.hasKey(errorKey) )
+            return;
+
+        KmJsonMap map = resp.getMap(errorKey);
+        error(map.getString("message"));
+    }
+
+    //##################################################
+    //# utility
+    //##################################################
+
+    private void error(String msg, Object... args)
+    {
+        Kmu.error(msg, args);
     }
 }

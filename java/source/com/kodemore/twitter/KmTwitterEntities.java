@@ -8,7 +8,6 @@ import com.kodemore.collection.KmList;
  * https://dev.twitter.com/docs/platform-objects/entities
  * 
  * review_steve KmTwitterEntities
- * review_wyatt (steve) 
  */
 public class KmTwitterEntities
     extends Object

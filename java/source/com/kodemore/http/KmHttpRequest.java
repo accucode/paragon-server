@@ -22,7 +22,6 @@
 
 package com.kodemore.http;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -358,38 +357,28 @@ public abstract class KmHttpRequest
         return sb.toString();
     }
 
+    /**
+     * The documentation for HttpURLConnection.getErrorStream
+     * says that if the server responds with a 404, a FileNotFoundException 
+     * will be thrown during connect.  
+     * 
+     * It is possible however to check the result code before trying connect
+     * using the getResponseMessage method.  So below I implemented a simple
+     * check to see if the result code is OK, and it it isn't, it grabs the 
+     * error stream which contains the error information.  This seems to 
+     * solve the problem.
+     */
     private void _readResponseValue() throws IOException
     {
         InputStream in = null;
-
         try
         {
-            /**
-             * review_wyatt: (aaron) I figured out why the exception was being 
-             * thrown.  The documentation for HttpURLConnection.getErrorStream
-             * says that if the server responds with a 404, a FileNotFoundException 
-             * will be thrown during connect.  
-             * 
-             * It is possible however to check the result code before trying connect
-             * using the getResponseMessage method.  So below I implemented a simple
-             * check to see if the result code is OK, and it it isn't, it grabs the 
-             * error stream which contains the error information.  This seems to 
-             * solve the problem.
-             */
             if ( _connection.getResponseMessage().equals("OK") )
                 in = _connection.getInputStream();
             else
                 in = _connection.getErrorStream();
 
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            while ( true )
-            {
-                int i = in.read();
-                if ( i < 0 )
-                    break;
-                buffer.write(i);
-            }
-            _responseValue = buffer.toByteArray();
+            _responseValue = Kmu.readBytesFrom(in);
         }
         finally
         {

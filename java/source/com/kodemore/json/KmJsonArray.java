@@ -219,6 +219,18 @@ public class KmJsonArray
             : new KmJsonMap(e);
     }
 
+    public KmList<KmJsonMap> getMaps()
+    {
+        KmList<KmJsonMap> v;
+        v = new KmList<KmJsonMap>();
+
+        int n = size();
+        for ( int i = 0; i < n; i++ )
+            v.add(getMapAt(i));
+
+        return v;
+    }
+
     public void setMapAt(int index, KmJsonMap value)
     {
         JSONObject inner = value == null

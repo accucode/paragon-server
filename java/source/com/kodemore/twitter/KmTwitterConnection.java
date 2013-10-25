@@ -50,12 +50,31 @@ public class KmTwitterConnection
     //# variables (public)
     //##################################################
 
+    /**
+     * The consumer key/secret are the ~permanent tokens associated with
+     * a particular user (or app). 
+     */
     private String                      _consumerKey;
     private String                      _consumerSecret;
+
+    /**
+     * The auth tokens are typically transient and client may need to 
+     * get new credentials fairly frequently.
+     */
     private String                      _authToken;
     private String                      _authSecret;
 
+    /**
+     * The uri path.  In general, don't encode parameters into the path;
+     * set the parameters separately.
+     */
     private String                      _path;
+
+    /**
+     * The list of parameters.  Parameters are generally stored and used
+     * in the sequence that they are set.  Changing the value of a parameter
+     * preserves the initial sequence.
+     */
     private KmOrderedMap<String,String> _parameters;
 
     //##################################################
@@ -154,6 +173,11 @@ public class KmTwitterConnection
     public void setParameter(String key, String value)
     {
         _parameters.put(key, value);
+    }
+
+    public void setParameter(String key, int value)
+    {
+        _parameters.put(key, value + "");
     }
 
     //##################################################

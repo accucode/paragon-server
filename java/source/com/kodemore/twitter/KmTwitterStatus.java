@@ -8,12 +8,10 @@ import com.kodemore.collection.KmList;
  * https://dev.twitter.com/docs/tweet-entities
  * 
  * review_steve KmTwitterStatus
- * review_wyatt (steve) 
  */
 public class KmTwitterStatus
     extends Object
 {
-
     //##################################################
     //# variables 
     //##################################################

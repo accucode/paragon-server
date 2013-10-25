@@ -29,10 +29,6 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.types.KmHtmlColor;
 
 /**
- * review_wyatt: (aaron) The Bar chart subclass
- */
-
-/**
  * This is a simple bar chart that displays several discrete data points. 
  */
 public class ScBarChart
@@ -120,6 +116,7 @@ public class ScBarChart
         slice = new KmJsonMap();
         slice.setString("key", key);
         slice.setDouble("value", value);
+
         getBars().add(slice);
     }
 
@@ -130,6 +127,7 @@ public class ScBarChart
         slice.setString("key", key);
         slice.setDouble("value", value);
         slice.setString("color", color.getValue());
+
         getBars().add(slice);
     }
 

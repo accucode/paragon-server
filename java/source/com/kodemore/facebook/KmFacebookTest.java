@@ -67,25 +67,22 @@ public class KmFacebookTest
         req = new KmFacebookIdRequest();
         req.setQuery("steveganado12");
         req.setAccessToken(accessToken);
-        req.submit();
 
-        KmFacebookUser e;
-        e = req.getResponseUser();
-
-        if ( e == null )
+        KmFacebookUser u = req.findUser();
+        if ( u == null )
         {
             System.out.println("User is Null");
             return;
         }
 
-        String id = e.getId();
-        String username = e.getUsername();
-        String name = e.getName();
-        String firstName = e.getFirstName();
-        String middleName = e.getMiddleName();
-        String lastName = e.getLastName();
-        String link = e.getLink();
-        String locale = e.getLocale();
+        String id = u.getId();
+        String username = u.getUsername();
+        String name = u.getName();
+        String firstName = u.getFirstName();
+        String middleName = u.getMiddleName();
+        String lastName = u.getLastName();
+        String link = u.getLink();
+        String locale = u.getLocale();
 
         System.out.println("id: " + id);
         System.out.println("username: " + username);

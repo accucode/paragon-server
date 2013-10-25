@@ -28,10 +28,6 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.string.KmStringBuilder;
 
 /**
- * review_wyatt: (aaron) The Bar chart subclass
- */
-
-/**
  * This is a simple pie chart displaying several discrete data points. 
  */
 public class ScPieChart
@@ -47,33 +43,16 @@ public class ScPieChart
         PERCENT("percent"),
         VALUE("value");
 
-        //==================================================
-        //= enum :: variables
-        //==================================================
+        private String _value;
 
-        private String _stringValue;
-
-        //==================================================
-        //= enum :: constructor
-        //==================================================
-
-        private LabelType(String stringValue)
+        private LabelType(String e)
         {
-            setStringValue(stringValue);
+            _value = e;
         }
 
-        //==================================================
-        //= enum :: accessing
-        //==================================================
-
-        public String getStringValue()
+        public String getValue()
         {
-            return _stringValue;
-        }
-
-        public void setStringValue(String e)
-        {
-            _stringValue = e;
+            return _value;
         }
     }
 
@@ -217,7 +196,7 @@ public class ScPieChart
         out.print("chart = nv.models.pieChart();");
         out.print("chart.x(function(d) { return d.key });");
         out.print("chart.y(function(d) { return d.value });");
-        out.printf("chart.labelType('%s');", getLabelType().getStringValue());
+        out.printf("chart.labelType('%s');", getLabelType().getValue());
         out.printf("chart.donut(%s);", getDonut());
     }
 

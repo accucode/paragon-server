@@ -28,10 +28,6 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 /**
- * review_wyatt: (aaron) The Bar chart subclass
- */
-
-/**
  * This chart is similar to the ScLineChart, displaying several data sets
  * with many points, but in the form of a bar chart.  
  */
@@ -89,7 +85,7 @@ public class ScMultiBarChart
 
         setTransitionDuration(DEFAULT_TRANSITION_DURATION);
         setDelay(DEFAULT_DELAY);
-        setYAxisPrecision(DEFAULT_Y_AXIS_PRECISION);
+        setYAxisScale(DEFAULT_Y_AXIS_SCALE);
         setGroupSpacing(DEFAULT_GROUP_SPACING);
         setRotateLabelsDegrees(DEFAULT_ROTATE_LABEL_DEGREES);
 
@@ -225,7 +221,7 @@ public class ScMultiBarChart
     @Override
     protected void formatYAxis(KmStringBuilder out)
     {
-        out.printf("chart.yAxis.tickFormat(d3.format(',.%sf'));", getYAxisPrecision());
+        out.printf("chart.yAxis.tickFormat(d3.format(',.%sf'));", getYAxisScale());
 
         if ( hasYAxisLabel() )
             out.printf("chart.yAxis.axisLabel('%s');", getYAxisLabel());

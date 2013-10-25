@@ -13,18 +13,11 @@ import com.kodemore.json.KmJsonArray;
  *      4.  Retrieve the consumer key, consumer secret, access token (auth token) 
  *          and access token (secret auth token secret) from the application information page.
  *      5.  Update the main method with the token and screts from the previous step.
-
- * review_wyatt (steve) 
  */
 public class KmTwitterSearchUserTest
 {
     public static void main(String[] args)
     {
-
-        /**
-         * review_wyatt (steve) please look at this. it is working.
-         */
-
         KmTwitterSearchUsersRequest req;
         req = new KmTwitterSearchUsersRequest();
 
@@ -46,10 +39,15 @@ public class KmTwitterSearchUserTest
 
         System.out.println("LIST OF USERS");
         System.out.println("==================================");
+
         for ( KmTwitterUser u : responseUsers )
             System.out.println(u.getName());
+
         System.out.println("==================================");
-        System.out.println(responseUsers.getFirst().getStatus());
-        System.out.println(responseUsers.getFirst().getStatus().getPlace().getBoundingbox());
+
+        KmTwitterUser first = responseUsers.getFirst();
+
+        System.out.println(first.getStatus());
+        System.out.println(first.getStatus().getPlace().getBoundingbox());
     }
 }

@@ -7,8 +7,6 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.json.KmJsonReader;
 
 /**
- * review_wyatt (aaron)
- * 
  * I am used connect to Facebook to make various requests.
  * 
  * Facebook Graph Api documentation: http://goo.gl/cj4rBE
@@ -20,6 +18,10 @@ public class KmFacebookConnection
     //##################################################
 
     private static String               HOST = "graph.facebook.com";
+
+    //##################################################
+    //# variables
+    //##################################################
 
     private String                      _path;
     private KmOrderedMap<String,String> _parameters;
@@ -79,10 +81,6 @@ public class KmFacebookConnection
         _request.setPath(getPath());
         _request.setParameters(getRequestParameters());
         _request.submit();
-
-        // remove_aaron: 
-        System.out.println("    _request.getUrl().toString(): " + _request.getUrl().toString());
-
         _request.checkException();
     }
 
@@ -95,7 +93,7 @@ public class KmFacebookConnection
         return _request.getResponseString();
     }
 
-    public KmJsonMap getResponseJson()
+    public KmJsonMap getResponseJsonMap()
     {
         String s = getResponseString();
         return KmJsonReader.parseJsonMap(s);

@@ -11,15 +11,14 @@ import com.kodemore.json.KmJsonMap;
  *      3.  Create a new application for testing.
  *      4.  Retrieve the consumer key, consumer secret, access token (auth token) 
  *          and access token (secret auth token secret) from the application information page.
- *      5.  Update the main method with the token and screts from the previous step.
- *      
- * review_wyatt (steve) 
+ *      5.  Update the main method with the token and secrets from the previous step.
  */
 public class KmLinkedInTest
 {
     public static void main(String[] args)
     {
-        KmLinkedInConnection c = new KmLinkedInConnection();
+        KmLinkedInConnection c;
+        c = new KmLinkedInConnection();
         //        c.setParameter("lang", "en");
         c.setPath("v1/people-search");
 

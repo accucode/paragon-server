@@ -1,10 +1,14 @@
 package com.kodemore.flickr;
 
 /**
- * I am used connect to Flickr make various requests.
+ * (steve)
  * 
- *      
- * review_wyatt (steve) 
+ * review_steve (wyatt)
+ *      I'm not sure what you want me to review here. 
+ */
+
+/**
+ * I am used connect to Flickr make various requests.
  */
 public class KmFlickrTest
 {
@@ -16,9 +20,8 @@ public class KmFlickrTest
         // You need to enter valid keys...
         c.setConsumerKey("");
         c.setConsumerSecret("");
-        /**
-         * auth token/secret should both be empty strings, because flickr doesn't use them
-         */
+
+        // The auth token/secret should be empty string; flickr doesn't use them.
         c.setAuthToken("");
         c.setAuthSecret("");
 

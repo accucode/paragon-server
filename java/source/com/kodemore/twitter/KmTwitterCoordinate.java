@@ -6,12 +6,10 @@ package com.kodemore.twitter;
  * https://dev.twitter.com/docs/platform-objects/users
  * 
  * review_steve KmTwitterCoordinates
- * review_wyatt (steve) 
  */
 public class KmTwitterCoordinate
     extends Object
 {
-
     //##################################################
     //# variables 
     //##################################################

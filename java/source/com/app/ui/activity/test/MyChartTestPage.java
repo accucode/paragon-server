@@ -149,7 +149,7 @@ public class MyChartTestPage
         chart.style().height(400);
         chart.setXAxisLabel("X Axis");
         chart.setYAxisLabel("Y Axis");
-        chart.setYAxisPrecision(1);
+        chart.setYAxisScale(1);
         chart.setYAxisMin(-10);
         chart.setYAxisMax(75);
 
@@ -201,7 +201,7 @@ public class MyChartTestPage
         chart.style().height(400);
         chart.setXAxisLabel("X Axis");
         chart.setYAxisLabel("Y Axis");
-        chart.setYAxisPrecision(2);
+        chart.setYAxisScale(2);
         chart.setGroupSpacing(0.2);
         chart.setRotateLabelsDegrees(45);
         chart.showGroupStackControl();

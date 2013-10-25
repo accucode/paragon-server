@@ -28,10 +28,6 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 /**
- * review_wyatt: (aaron) The Bar chart subclass
- */
-
-/**
  * This is a line chart useful for displaying several data sets with
  * many data points.
  */
@@ -114,7 +110,7 @@ public class ScLineChart
     @Override
     protected void formatXAxis(KmStringBuilder out)
     {
-        out.printf("chart.xAxis.tickFormat(d3.format(',.%sf'));", getXAxisPrecision());
+        out.printf("chart.xAxis.tickFormat(d3.format(',.%sf'));", getXAxisScale());
 
         if ( hasXAxisLabel() )
             out.printf("chart.xAxis.axisLabel('%s');", getXAxisLabel());
@@ -125,7 +121,7 @@ public class ScLineChart
     @Override
     protected void formatYAxis(KmStringBuilder out)
     {
-        out.printf("chart.yAxis.tickFormat(d3.format(',.%sf'));", getYAxisPrecision());
+        out.printf("chart.yAxis.tickFormat(d3.format(',.%sf'));", getYAxisScale());
 
         if ( hasYAxisLabel() )
             out.printf("chart.yAxis.axisLabel('%s');", getYAxisLabel());

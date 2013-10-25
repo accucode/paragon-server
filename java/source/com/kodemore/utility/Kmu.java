@@ -3572,6 +3572,7 @@ public class Kmu
         {
             ByteArrayOutputStream out;
             out = new ByteArrayOutputStream();
+
             in = toBufferedInputStream(in);
 
             while ( true )

@@ -28,11 +28,8 @@ import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.string.KmStringBuilder;
 
 /**
- * review_wyatt: (aaron) Abstract chart superclass.
- */
-
-/**
  * This implements the Nvd3 javascript chart library.
+ * http://nvd3.org/
  * 
  * It should be noted that if a chart is placed in a div
  * that is initially hidded, the chart will initialize with 
@@ -49,7 +46,7 @@ public abstract class ScAbstractChart
 
     protected static final int DEFAULT_TRANSITION_DURATION = 500;
 
-    protected static final int DEFAULT_Y_AXIS_PRECISION    = 0;
+    protected static final int DEFAULT_Y_AXIS_SCALE        = 0;
 
     protected static final int Y_LABEL_MARGIN              = 85;
 
@@ -88,14 +85,14 @@ public abstract class ScAbstractChart
     private Integer            _yAxisMax;
 
     /**
-     * how many digits after the deciman to show on the x axis labels
+     * The number of decimal digits, for x axis labels
      */
-    private int                _xAxisPrecision;
+    private int                _xAxisScale;
 
     /**
-     * how many digits after the deciman to show on the y axis labels
+     * The number of decimal digits, for y axis labels
      */
-    private int                _yAxisPrecision;
+    private int                _yAxisScale;
 
     //##################################################
     //# constructor
@@ -107,7 +104,7 @@ public abstract class ScAbstractChart
         super.install();
 
         setTransitionDuration(DEFAULT_TRANSITION_DURATION);
-        setYAxisPrecision(DEFAULT_Y_AXIS_PRECISION);
+        setYAxisScale(DEFAULT_Y_AXIS_SCALE);
     }
 
     //##################################################
@@ -163,27 +160,27 @@ public abstract class ScAbstractChart
     }
 
     //==================================================
-    //= axis :: precision
+    //= axis :: scale
     //==================================================
 
-    public int getXAxisPrecision()
+    public int getXAxisScale()
     {
-        return _xAxisPrecision;
+        return _xAxisScale;
     }
 
-    public void setXAxisPrecision(int e)
+    public void setXAxisScale(int e)
     {
-        _xAxisPrecision = e;
+        _xAxisScale = e;
     }
 
-    public int getYAxisPrecision()
+    public int getYAxisScale()
     {
-        return _yAxisPrecision;
+        return _yAxisScale;
     }
 
-    public void setYAxisPrecision(int e)
+    public void setYAxisScale(int e)
     {
-        _yAxisPrecision = e;
+        _yAxisScale = e;
     }
 
     //==================================================

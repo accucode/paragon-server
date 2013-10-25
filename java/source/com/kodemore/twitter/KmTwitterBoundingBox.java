@@ -8,18 +8,14 @@ import com.kodemore.collection.KmList;
  * https://dev.twitter.com/docs/tweet-entities
  * 
  * review_steve KmTwitterBoundingBox
- * review_wyatt (steve) 
  */
 public class KmTwitterBoundingBox
     extends Object
 {
-
     //##################################################
     //# variables 
     //##################################################
-    /**
-     * this is only a list of strings for now because we didn't create an attributes object yet
-     */
+
     private KmList<KmTwitterCoordinate> _coordinates;
     private String                      _type;
 

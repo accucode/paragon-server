@@ -10,18 +10,11 @@ package com.kodemore.twitter;
  *      4.  Retrieve the consumer key, consumer secret, access token (auth token) 
  *          and access token (secret auth token secret) from the application information page.
  *      5.  Update the main method with the token and screts from the previous step.
- *      
- * review_wyatt (steve) 
  */
 public class KmTwitterUserRequestTest
 {
     public static void main(String[] args)
     {
-
-        /**
-         * review_wyatt (steve) please look at this. it is working.
-         */
-
         KmTwitterShowUserRequest req;
         req = new KmTwitterShowUserRequest();
 

@@ -4,8 +4,6 @@ package com.kodemore.twitter;
  * I am and object representing a user that has been mentioned in a tweet.
  * 
  * https://dev.twitter.com/docs/platform-objects/places
- * 
- * review_wyatt (steve) 
  */
 public class KmTwitterPlace
     extends Object
