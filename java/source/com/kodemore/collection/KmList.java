@@ -241,12 +241,20 @@ public class KmList<T>
         return v;
     }
 
+    /**
+     * Shuffle the contents in place.
+     * Uses the Fisher-Yates Shuffle.
+     * http://en.wikipedia.org/wiki/Fisher-Yates
+     * http://bost.ocks.org/mike/shuffle/
+     * http://bost.ocks.org/mike/shuffle/compare.html
+     */
     public void shuffle()
     {
-        int n = size();
-        for ( int i = 0; i < n; i++ )
+        int i = size();
+        while ( i > 1 )
         {
-            int j = KmRandom.getInteger(n);
+            int j = KmRandom.getInteger(i);
+            i--;
             swap(i, j);
         }
     }
@@ -1369,5 +1377,4 @@ public class KmList<T>
             v.addAll(this);
         return v;
     }
-
 }
