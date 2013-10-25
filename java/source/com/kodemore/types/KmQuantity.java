@@ -129,24 +129,4 @@ public class KmQuantity
         return ZERO;
     }
 
-    //##################################################
-    //# main
-    //##################################################
-
-    public static void main(String... args)
-    {
-        // throws exception
-        //System.out.println(new KmQuantity(10000000.0));
-
-        // now throws exception because of the KmFixedDecimal change. - good
-        //System.out.println(new KmQuantity(Integer.MAX_VALUE));
-
-        // now throws exception because of the KmFixedDecimal change. - good
-        //BigDecimal bd = new BigDecimal(Long.MAX_VALUE);
-        //System.out.println(new KmQuantity(bd));
-
-        double d = -1.0;
-        System.out.println(new KmQuantity(d));
-    }
-
 }

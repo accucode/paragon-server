@@ -1,17 +1,7 @@
 package com.kodemore.linkedIn;
 
-import com.kodemore.json.KmJsonMap;
-
 /**
- * I am used connect to Twitter make various requests.
- * 
- * You will need to do the following to use this class:
- *      1.  Sign up for a Twitter account.
- *      2.  Visit dev.twitter.com and sign in as your user.
- *      3.  Create a new application for testing.
- *      4.  Retrieve the consumer key, consumer secret, access token (auth token) 
- *          and access token (secret auth token secret) from the application information page.
- *      5.  Update the main method with the token and secrets from the previous step.
+ * I am used connect to LinkedIn and make various requests.
  */
 public class KmLinkedInTest
 {
@@ -28,13 +18,13 @@ public class KmLinkedInTest
         c.setAuthToken("");
         c.setAuthSecret("");
 
-        c.setParameter("id", "293851867");
+        c.setParameter("id", "xxxxxxxxxx");
 
         c.submit();
 
-        KmJsonMap json = c.getResponseJsonMap();
+        String s = c.getResponseString();
 
         System.out.println("Response");
-        System.out.println(json.formatJson());
+        System.out.println(s);
     }
 }
