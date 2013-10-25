@@ -26,7 +26,7 @@ public class KmProtoMoney
     @Override
     public String getDatabaseType(KmgModelType e)
     {
-        return Kmu.format("decimal(%s,%s)", KmMoney.PRECISION, KmMoney.SCALE);
+        return Kmu.format("decimal(%s,%s)", KmMoney.DATABASE_PRECISION, KmMoney.SCALE);
     }
 
     @Override

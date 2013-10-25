@@ -199,7 +199,7 @@ public class ScFormatter
         if ( e == null )
             return formatNull();
 
-        return e.getDisplayString();
+        return e.format();
     }
 
     public KmMoney parseMoney(String s)
@@ -376,7 +376,7 @@ public class ScFormatter
     {
         if ( e == null )
             return formatNull();
-        return e.getDisplayString(2);
+        return e.format(2);
     }
 
     public KmKilogram parseKilogram(String s)
@@ -406,7 +406,7 @@ public class ScFormatter
             return formatNull();
 
         String s;
-        s = e.getDisplayString();
+        s = e.format();
         s = Kmu.stripTrailingCharacters(s, '0');
         s = Kmu.stripTrailingCharacters(s, '.');
         return s;
@@ -435,7 +435,7 @@ public class ScFormatter
         if ( e == null )
             return formatNull();
 
-        return e.getDisplayString();
+        return e.format();
     }
 
     public KmRate parseRate(String s)
@@ -464,7 +464,7 @@ public class ScFormatter
         if ( e == null )
             return formatNull();
 
-        return e.getDisplayString();
+        return e.format();
     }
 
     public KmCost parseCost(String s)

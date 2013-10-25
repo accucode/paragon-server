@@ -25,7 +25,7 @@ public class KmProtoQuantity
     @Override
     public String getDatabaseType(KmgModelType e)
     {
-        return Kmu.format("decimal(%s,%s)", KmQuantity.PRECISION, KmQuantity.SCALE);
+        return Kmu.format("decimal(%s,%s)", KmQuantity.DATABASE_PRECISION, KmQuantity.SCALE);
     }
 
     @Override

@@ -31,10 +31,10 @@ public class KmRate
     //# constants
     //##################################################
 
-    public static final int    PRECISION = 20;
-    public static final int    SCALE     = 8;
+    public static final KmRate ZERO               = new KmRate(0);
 
-    public static final KmRate ZERO      = new KmRate(0);
+    public static final int    DATABASE_PRECISION = 20;
+    public static final int    SCALE              = 8;
 
     //##################################################
     //# constructor
@@ -58,12 +58,6 @@ public class KmRate
     //##################################################
     //# policy
     //##################################################
-
-    @Override
-    public int getPrecision()
-    {
-        return PRECISION;
-    }
 
     @Override
     public int getScale()

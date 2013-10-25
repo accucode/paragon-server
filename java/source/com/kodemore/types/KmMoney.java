@@ -41,10 +41,10 @@ public class KmMoney
     //# constants (database)
     //##################################################
 
-    public static final int     PRECISION = 20;
-    public static final int     SCALE     = 2;
+    public static final KmMoney ZERO               = new KmMoney(0);
 
-    public static final KmMoney ZERO      = new KmMoney(0);
+    public static final int     DATABASE_PRECISION = 20;
+    public static final int     SCALE              = 2;
 
     //##################################################
     //# constructor
@@ -70,12 +70,6 @@ public class KmMoney
     //##################################################
 
     @Override
-    public int getPrecision()
-    {
-        return PRECISION;
-    }
-
-    @Override
     public int getScale()
     {
         return SCALE;
@@ -96,4 +90,5 @@ public class KmMoney
     {
         return ZERO;
     }
+
 }

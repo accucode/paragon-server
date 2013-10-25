@@ -25,18 +25,18 @@ package com.kodemore.types;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
+import com.kodemore.collection.KmList;
 import com.kodemore.utility.Kmu;
 
 /**
- * I represent weight in kilograms. I provide utility methods for
- * displaying weights at the proper scale and formatting weight to
- * a database scale (independent of the display scale).
+ * I represent decimal values with fixed scale, but unlimited
+ * precision.
  *
  * IMPORTANT: This class should NOT be used when running calculations
  * against large sets of data, as I wrap the KmDecimal. See KmDecimal
  * for more details.
- *
  */
 public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
     implements Comparable<KmFixedDecimal<?>>, Cloneable, Serializable
@@ -45,9 +45,7 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
     //# constants (template keys)
     //##################################################
 
-    public static final String VALUE_KEY          = "value";
-    public static final String DATABASE_SCALE_KEY = "databaseScale";
-    public static final String DISPLAY_SCALE_KEY  = "displayScale";
+    public static final String VALUE_KEY = "value";
 
     //##################################################
     //# variables
@@ -104,15 +102,7 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
 
     private BigDecimal newBigDecimal(BigDecimal value)
     {
-        BigDecimal e = scale(value);
-        validate(e);
-        return e;
-    }
-
-    private void validate(BigDecimal e)
-    {
-        if ( e.precision() > getPrecision() )
-            Kmu.fatal("%s exceeds maximum precision of %s.", e.toPlainString(), getPrecision());
+        return scale(value);
     }
 
     private BigDecimal scale(BigDecimal e)
@@ -123,8 +113,6 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
     //##################################################
     //# policy
     //##################################################
-
-    public abstract int getPrecision();
 
     public abstract int getScale();
 
@@ -394,63 +382,138 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
     @Override
     public String toString()
     {
-        return getDisplayString(getScale());
+        return format(getScale());
     }
 
     public String getDatabaseString()
     {
-        return getDisplayString(getScale(), false);
+        return format(getScale(), false);
     }
 
-    public String getDisplayString()
+    //##################################################
+    //# format
+    //##################################################
+
+    public String format()
     {
-        return getDisplayString(getDisplayScale());
+        return format(getDisplayScale());
     }
 
-    public String getDisplayString(int displayScale)
+    public String format(int scale)
     {
-        return getDisplayString(displayScale, true);
+        return format(scale, true);
     }
 
-    public String getDisplayString(int displayScale, boolean commas)
-    {
-        return format(displayScale, commas);
-    }
-
-    /**
-     * Returns the display string for this decimal using the internal
-     * scale, formated with commas.
-     */
     public String format(int scale, boolean commas)
     {
-        BigDecimal d = _value.setScale(scale, getRoundingMode());
-        String s = d.toPlainString();
-        int i = s.indexOf(".");
-
-        if ( i <= 0 )
-            return s;
-
-        if ( !commas )
-            return s;
-
-        boolean isNegative = s.startsWith("-");
-        String prefix = isNegative
-            ? s.substring(1, i)
-            : s.substring(0, i);
-        StringBuilder sb = new StringBuilder(prefix);
-        sb.reverse();
-        int x = 3;
-        while ( x < sb.length() )
-        {
-            sb.insert(x, ',');
-            x += 4;
-        }
-        sb.reverse();
-
-        s = sb.toString() + s.substring(i);
-        if ( isNegative )
-            s = "-" + s;
-        return s;
+        return _format(_value, scale, commas);
     }
 
+    //##################################################
+    //# short format
+    //##################################################
+
+    /**
+     * Format a short version of this value.
+     * If the value is less than a 1000 use the standard scale.
+     * Otherwise, attempt to reduce the value to thousands, millions,
+     * etc; with the associated abbreviation.
+     * Examples:
+     *      12.3 >> 12.3
+     *      1,234.56 >> 1.2 K
+     *      12,234,567.89 >> 1.2 M  
+     */
+    public String formatShort()
+    {
+        BigDecimal K = new BigDecimal("1000");
+        BigDecimal temp = getRoundedValue();
+
+        if ( isLessThan(temp.abs(), K) )
+            return _format(temp, getScale());
+
+        for ( String suffix : getSuffixes() )
+        {
+            temp = temp.divide(K);
+
+            if ( isLessThan(temp.abs(), K) )
+                return _format(temp, 1) + " " + suffix;
+        }
+
+        return "Overflow";
+    }
+
+    private KmList<String> getSuffixes()
+    {
+        KmList<String> v;
+        v = new KmList<String>();
+        v.add("K"); // thousand
+        v.add("M"); // million
+        v.add("B"); // billion
+        v.add("T"); // trillion
+        v.add("Q"); // quadrillion
+        return v;
+    }
+
+    //##################################################
+    //# utility
+    //##################################################
+
+    private String _format(BigDecimal source, int scale)
+    {
+        return _format(source, scale, true);
+    }
+
+    private String _format(BigDecimal source, int scale, boolean commas)
+    {
+        BigDecimal rounded;
+        rounded = source.setScale(scale, getRoundingMode());
+
+        String pattern;
+        pattern = _getPattern(scale, commas);
+
+        DecimalFormat format;
+        format = new DecimalFormat(pattern);
+
+        return format.format(rounded);
+    }
+
+    private String _getPattern(int scale, boolean commas)
+    {
+        String s = commas
+            ? ",##0"
+            : "0";
+
+        if ( scale > 0 )
+            s += ".";
+
+        return s + Kmu.repeat('0', scale);
+    }
+
+    private boolean isLessThan(BigDecimal a, BigDecimal b)
+    {
+        return a.compareTo(b) < 0;
+    }
+
+    private BigDecimal getRoundedValue()
+    {
+        return getRoundedValue(getScale());
+    }
+
+    private BigDecimal getRoundedValue(int scale)
+    {
+        return _value.setScale(scale, getRoundingMode());
+    }
+
+    //##################################################
+    //# main
+    //##################################################
+
+    public static void main(String[] args)
+    {
+        KmMoney m;
+        m = new KmMoney(19999999284.34);
+
+        System.out.println(m.format());
+        System.out.println(m.formatShort());
+    }
 }

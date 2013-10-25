@@ -25,7 +25,7 @@ public class KmProtoKilogram
     @Override
     public String getDatabaseType(KmgModelType e)
     {
-        return Kmu.format("decimal(%s,%s)", KmKilogram.PRECISION, KmKilogram.SCALE);
+        return Kmu.format("decimal(%s,%s)", KmKilogram.DATABASE_PRECISION, KmKilogram.SCALE);
     }
 
     @Override

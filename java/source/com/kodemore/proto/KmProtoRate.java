@@ -25,7 +25,7 @@ public class KmProtoRate
     @Override
     public String getDatabaseType(KmgModelType e)
     {
-        return Kmu.format("decimal(%s,%s)", KmRate.PRECISION, KmRate.SCALE);
+        return Kmu.format("decimal(%s,%s)", KmRate.DATABASE_PRECISION, KmRate.SCALE);
     }
 
     @Override

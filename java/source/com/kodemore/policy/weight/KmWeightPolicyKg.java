@@ -40,7 +40,7 @@ public class KmWeightPolicyKg
     @Override
     public String format(KmKilogram kg, int displayScale)
     {
-        return Kmu.format("%s %s", kg.getDisplayString(displayScale, true), getUnit());
+        return Kmu.format("%s %s", kg.format(displayScale, true), getUnit());
     }
 
     @Override
@@ -60,11 +60,11 @@ public class KmWeightPolicyKg
         KmWeightPolicyKg p = new KmWeightPolicyKg();
 
         System.out.println("parse: ");
-        System.out.println("  10:   " + p.parse("10").getDisplayString(3));
+        System.out.println("  10:   " + p.parse("10").format(3));
 
-        System.out.println("  2832.33: " + p.parse("2832.33").getDisplayString(3));
+        System.out.println("  2832.33: " + p.parse("2832.33").format(3));
 
-        System.out.println("  123.546789:      " + p.parse("123.546789").getDisplayString(3));
+        System.out.println("  123.546789:      " + p.parse("123.546789").format(3));
     }
 
 }

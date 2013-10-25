@@ -25,7 +25,7 @@ public class KmProtoCost
     @Override
     public String getDatabaseType(KmgModelType e)
     {
-        return Kmu.format("decimal(%s,%s)", KmCost.PRECISION, KmCost.SCALE);
+        return Kmu.format("decimal(%s,%s)", KmCost.DATABASE_PRECISION, KmCost.SCALE);
     }
 
     @Override
