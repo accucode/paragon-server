@@ -116,6 +116,9 @@ public class Kmu
     private static final String  BASE_20_STRING       = "BCDFGHJKLMNPQRSTWXZ";
     private static final char[]  BASE_20_ARRAY        = BASE_20_STRING.toCharArray();
 
+    private static final String  BASE_16_STRING       = HEX_CHAR_STRING;
+    private static final char[]  BASE_16_ARRAY        = BASE_16_STRING.toCharArray();
+
     private static final char    CHAR_CR              = (char)13;
     private static final char    CHAR_LF              = (char)10;
     private static final char    CHAR_NON_PRINTABLE   = '?';
@@ -263,6 +266,20 @@ public class Kmu
     public static long parse_long(String s, long def)
     {
         return parseLong(s, def);
+    }
+
+    public static Long toLong(Object e)
+    {
+        if ( e == null )
+            return null;
+
+        if ( e instanceof Integer )
+            return ((Integer)e).longValue();
+
+        if ( e instanceof Long )
+            return (Long)e;
+
+        throw new RuntimeException("Invalid type: " + e.getClass().getName());
     }
 
     //##################################################
@@ -5181,6 +5198,16 @@ public class Kmu
     public static long parseBase20(String s)
     {
         return parseRadixString(s, BASE_20_ARRAY);
+    }
+
+    public static String formatBase16(long i)
+    {
+        return formatRadixString(i, BASE_16_ARRAY);
+    }
+
+    public static long parseBase16(String s)
+    {
+        return parseRadixString(s, BASE_16_ARRAY);
     }
 
     //##################################################

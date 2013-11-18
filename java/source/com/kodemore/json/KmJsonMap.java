@@ -42,60 +42,64 @@ public class KmJsonMap
 
     public String getString(String key)
     {
-        return (String)_get(key);
+        return (String)getObject(key);
     }
 
-    public void setString(String key, CharSequence value)
+    public void setString(String key, String value)
     {
-        if ( value == null )
-            _set(key, null);
-        else
-            _set(key, value.toString());
+        setObject(key, value);
     }
 
     public Boolean getBoolean(String key)
     {
-        return (Boolean)_get(key);
+        return (Boolean)getObject(key);
     }
 
     public void setBoolean(String key, Boolean value)
     {
-        _set(key, value);
-    }
-
-    public Integer getInteger(String key)
-    {
-        return Kmu.toInteger(_get(key));
-    }
-
-    public void setInteger(String key, Integer value)
-    {
-        _set(key, value);
+        setObject(key, value);
     }
 
     public Long getLong(String key)
     {
-        return (Long)_get(key);
+        return (Long)getObject(key);
     }
 
     public void setLong(String key, Long value)
     {
-        _set(key, value);
+        setObject(key, value);
     }
 
     public Double getDouble(String key)
     {
-        return (Double)_get(key);
+        return (Double)getObject(key);
     }
 
     public void setDouble(String key, Double value)
     {
-        _set(key, value);
+        setObject(key, value);
     }
 
     public void setNull(String key)
     {
-        _set(key, null);
+        setObject(key, null);
+    }
+
+    //##################################################
+    //# basics :: convenience
+    //##################################################
+
+    /**
+     * cast integer values to longs.
+     */
+    public Integer getInteger(String key)
+    {
+        return Kmu.toInteger(getObject(key));
+    }
+
+    public void setInteger(String key, Integer value)
+    {
+        setObject(key, Kmu.toLong(value));
     }
 
     //##################################################
@@ -104,19 +108,12 @@ public class KmJsonMap
 
     public KmJsonMap getMap(String key)
     {
-        JSONObject e = (JSONObject)_get(key);
-
-        return e == null
-            ? null
-            : new KmJsonMap(e);
+        return (KmJsonMap)getObject(key);
     }
 
     public void setMap(String key, KmJsonMap value)
     {
-        if ( value == null )
-            _set(key, null);
-        else
-            _set(key, value.getInner());
+        setObject(key, value);
     }
 
     public KmJsonMap setMap(String key)
@@ -132,19 +129,12 @@ public class KmJsonMap
 
     public KmJsonArray getArray(String key)
     {
-        JSONArray e = (JSONArray)_get(key);
-
-        return e == null
-            ? null
-            : new KmJsonArray(e);
+        return (KmJsonArray)getObject(key);
     }
 
     public void setArray(String key, KmJsonArray value)
     {
-        if ( value == null )
-            _set(key, null);
-        else
-            _set(key, value.getInner());
+        setObject(key, value);
     }
 
     public KmJsonArray setArray(String key)
@@ -158,13 +148,58 @@ public class KmJsonMap
     //# value
     //##################################################
 
-    public Object getValue(String key)
+    public Object getObject(String key)
     {
-        return _get(key);
+        if ( !hasKey(key) )
+            return null;
+
+        Object e = getInner().get(key);
+
+        if ( e instanceof JSONArray )
+            return new KmJsonArray((JSONArray)e);
+
+        if ( e instanceof JSONObject )
+            return new KmJsonMap((JSONObject)e);
+
+        return e;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setObject(String key, Object e)
+    {
+        if ( e instanceof KmJsonArray )
+            e = ((KmJsonArray)e).getInner();
+
+        if ( e instanceof KmJsonMap )
+            e = ((KmJsonMap)e).getInner();
+
+        getInner().put(key, e);
     }
 
     //##################################################
-    //# misc 
+    //# size
+    //##################################################
+
+    @Override
+    public int size()
+    {
+        return getInner().size();
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+        return size() == 0;
+    }
+
+    @Override
+    public boolean isNotEmpty()
+    {
+        return !isEmpty();
+    }
+
+    //##################################################
+    //# keys
     //##################################################
 
     public KmList<String> getKeys()
@@ -176,6 +211,14 @@ public class KmJsonMap
         for ( Object key : keys )
             v.add((String)key);
 
+        return v;
+    }
+
+    public KmList<String> getSortedKeys()
+    {
+        KmList<String> v;
+        v = getKeys();
+        v.sort();
         return v;
     }
 
@@ -194,21 +237,6 @@ public class KmJsonMap
         getInner().clear();
     }
 
-    public int size()
-    {
-        return getInner().size();
-    }
-
-    public boolean isEmpty()
-    {
-        return size() == 0;
-    }
-
-    public boolean isNotEmpty()
-    {
-        return !isEmpty();
-    }
-
     //##################################################
     //# support
     //##################################################
@@ -216,19 +244,6 @@ public class KmJsonMap
     public JSONObject getInner()
     {
         return _inner;
-    }
-
-    private Object _get(String key)
-    {
-        return hasKey(key)
-            ? getInner().get(key)
-            : null;
-    }
-
-    @SuppressWarnings("unchecked")
-    private void _set(String key, Object value)
-    {
-        getInner().put(key, value);
     }
 
     //##################################################
@@ -248,6 +263,12 @@ public class KmJsonMap
     public String formatJson()
     {
         return getInner().toJSONString();
+    }
+
+    @Override
+    public String prettyPrint()
+    {
+        return KmJsonPrettyPrinter.format(this);
     }
 
     //##################################################

@@ -257,7 +257,7 @@ public class KmTwitterSearchUsersRequest
 
         if ( json != null )
         {
-            KmJsonArray coordinatesArray = json.getArray("coordinates").getArray(0);
+            KmJsonArray coordinatesArray = json.getArray("coordinates").getArrayAt(0);
             u.setCoordinates(createCoordinates(coordinatesArray));
             u.setType(json.getString("type"));
         }
@@ -345,7 +345,7 @@ public class KmTwitterSearchUsersRequest
             int n = json.size();
             for ( int i = 0; i < n; i++ )
             {
-                json = json.getArray(i);
+                json = json.getArrayAt(i);
 
                 KmTwitterCoordinate coord = new KmTwitterCoordinate();
                 coord.setLongitude(json.getDoubleAt(0));

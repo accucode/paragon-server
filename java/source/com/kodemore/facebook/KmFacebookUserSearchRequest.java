@@ -59,7 +59,7 @@ public class KmFacebookUserSearchRequest
     public KmList<KmFacebookUser> findUsers()
     {
         KmJsonMap response = submit();
-        KmList<KmJsonMap> maps = response.getArray("data").getMaps();
+        KmList<KmJsonMap> maps = response.getArray("data").getAllAsMaps();
 
         return toUsers(maps);
     }

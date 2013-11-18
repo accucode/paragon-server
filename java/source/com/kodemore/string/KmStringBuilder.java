@@ -84,6 +84,16 @@ public class KmStringBuilder
         newLine();
     }
 
+    public void printSpaces(int n)
+    {
+        printRepeat(SPACE, n);
+    }
+
+    public void printTabs(int n)
+    {
+        printRepeat(TAB, n);
+    }
+
     public void printRepeat(Object e, int n)
     {
         for ( int i = 0; i < n; i++ )

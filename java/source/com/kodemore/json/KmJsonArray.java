@@ -7,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.utility.Kmu;
 
 /**
  * Wraps the json-simple library.
@@ -37,18 +38,66 @@ public class KmJsonArray
     }
 
     //##################################################
-    //# accessing
+    //# size
     //##################################################
 
+    @Override
     public int size()
     {
         return getInner().size();
     }
 
     @Override
-    public Iterator<Object> iterator()
+    public boolean isEmpty()
     {
-        return toObjectList().iterator();
+        return size() == 0;
+    }
+
+    @Override
+    public boolean isNotEmpty()
+    {
+        return !isEmpty();
+    }
+
+    //##################################################
+    //# objects
+    //##################################################
+
+    public Object getObjectAt(int index)
+    {
+        Object e = getInner().get(index);
+
+        if ( e instanceof JSONArray )
+            return new KmJsonArray((JSONArray)e);
+
+        if ( e instanceof JSONObject )
+            return new KmJsonMap((JSONObject)e);
+
+        return e;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setObjectAt(int index, Object e)
+    {
+        if ( e instanceof KmJsonArray )
+            e = ((KmJsonArray)e).getInner();
+
+        if ( e instanceof KmJsonMap )
+            e = ((KmJsonMap)e).getInner();
+
+        getInner().set(index, e);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void addObject(Object e)
+    {
+        if ( e instanceof KmJsonArray )
+            e = ((KmJsonArray)e).getInner();
+
+        if ( e instanceof KmJsonMap )
+            e = ((KmJsonMap)e).getInner();
+
+        getInner().add(e);
     }
 
     public KmList<Object> toObjectList()
@@ -57,9 +106,15 @@ public class KmJsonArray
 
         int n = size();
         for ( int i = 0; i < n; i++ )
-            v.add(_getObjectAt(i));
+            v.add(getObjectAt(i));
 
         return v;
+    }
+
+    @Override
+    public Iterator<Object> iterator()
+    {
+        return toObjectList().iterator();
     }
 
     //##################################################
@@ -68,17 +123,17 @@ public class KmJsonArray
 
     public boolean isNullAt(int index)
     {
-        return _getObjectAt(index) == null;
+        return getObjectAt(index) == null;
     }
 
     public void setNullAt(int index)
     {
-        _setObjectAt(index, null);
+        setObjectAt(index, null);
     }
 
     public void addNull()
     {
-        _addObject(null);
+        addObject(null);
     }
 
     //##################################################
@@ -87,17 +142,17 @@ public class KmJsonArray
 
     public String getStringAt(int index)
     {
-        return (String)_getObjectAt(index);
+        return (String)getObjectAt(index);
     }
 
     public void setStringAt(int index, String value)
     {
-        _setObjectAt(index, value);
+        setObjectAt(index, value);
     }
 
     public void addString(String value)
     {
-        _addObject(value);
+        addObject(value);
     }
 
     public void addStrings(String... arr)
@@ -131,17 +186,17 @@ public class KmJsonArray
 
     public Boolean getBooleanAt(int index)
     {
-        return (Boolean)_getObjectAt(index);
+        return (Boolean)getObjectAt(index);
     }
 
     public void setBooleanAt(int index, Boolean value)
     {
-        _setObjectAt(index, value);
+        setObjectAt(index, value);
     }
 
     public void addBoolean(Boolean value)
     {
-        _addObject(value);
+        addObject(value);
     }
 
     //##################################################
@@ -150,17 +205,17 @@ public class KmJsonArray
 
     public Integer getIntegerAt(int index)
     {
-        return (Integer)_getObjectAt(index);
+        return Kmu.toInteger(getLongAt(index));
     }
 
     public void setIntegerAt(int index, Integer value)
     {
-        _setObjectAt(index, value);
+        setLongAt(index, Kmu.toLong(value));
     }
 
     public void addInteger(Integer value)
     {
-        _addObject(value);
+        addLong(Kmu.toLong(value));
     }
 
     //##################################################
@@ -169,17 +224,17 @@ public class KmJsonArray
 
     public Long getLongAt(int index)
     {
-        return (Long)_getObjectAt(index);
+        return (Long)getObjectAt(index);
     }
 
     public void setLongAt(int index, Long value)
     {
-        _setObjectAt(index, value);
+        setObjectAt(index, value);
     }
 
     public void addLong(Long value)
     {
-        _addObject(value);
+        addObject(value);
     }
 
     //##################################################
@@ -188,65 +243,31 @@ public class KmJsonArray
 
     public Double getDoubleAt(int index)
     {
-        return (Double)_getObjectAt(index);
+        return (Double)getObjectAt(index);
     }
 
     public void setDoubleAt(int index, Double value)
     {
-        _setObjectAt(index, value);
+        setObjectAt(index, value);
     }
 
     public void addDouble(Double value)
     {
-        _addObject(value);
+        addObject(value);
     }
 
     //##################################################
     //# map
     //##################################################
 
-    public KmJsonMap getFirstMap()
-    {
-        return getMapAt(0);
-    }
-
     public KmJsonMap getMapAt(int index)
     {
-        JSONObject e = (JSONObject)_getObjectAt(index);
-
-        return e == null
-            ? null
-            : new KmJsonMap(e);
-    }
-
-    public KmList<KmJsonMap> getMaps()
-    {
-        KmList<KmJsonMap> v;
-        v = new KmList<KmJsonMap>();
-
-        int n = size();
-        for ( int i = 0; i < n; i++ )
-            v.add(getMapAt(i));
-
-        return v;
+        return (KmJsonMap)getObjectAt(index);
     }
 
     public void setMapAt(int index, KmJsonMap value)
     {
-        JSONObject inner = value == null
-            ? null
-            : value.getInner();
-
-        _setObjectAt(index, inner);
-    }
-
-    public void addMap(KmJsonMap value)
-    {
-        JSONObject inner = value == null
-            ? null
-            : value.getInner();
-
-        _addObject(inner);
+        setObjectAt(index, value);
     }
 
     public KmJsonMap addMap()
@@ -256,33 +277,50 @@ public class KmJsonArray
         return e;
     }
 
+    public void addMap(KmJsonMap value)
+    {
+        addObject(value);
+    }
+
+    public KmJsonMap getFirstMap()
+    {
+        return getMapAt(0);
+    }
+
+    public KmList<KmJsonMap> getAllAsMaps()
+    {
+        KmList<KmJsonMap> v = new KmList<KmJsonMap>();
+
+        for ( Object e : toObjectList() )
+            v.add((KmJsonMap)e);
+
+        return v;
+    }
+
     //##################################################
     //# array
     //##################################################
 
-    public KmJsonArray getArray(int index)
+    public KmJsonArray getArrayAt(int index)
     {
-        JSONArray e = (JSONArray)_getObjectAt(index);
-
-        return e == null
-            ? null
-            : new KmJsonArray(e);
+        return (KmJsonArray)getObjectAt(index);
     }
 
-    public void setArray(int index, KmJsonArray value)
+    public void setArrayAt(int index, KmJsonArray value)
     {
-        if ( value == null )
-            _setObjectAt(index, null);
-        else
-            _setObjectAt(index, value.getInner());
+        setObjectAt(index, value);
+    }
+
+    public KmJsonArray addArray()
+    {
+        KmJsonArray e = new KmJsonArray();
+        addArray(e);
+        return e;
     }
 
     public void addArray(KmJsonArray value)
     {
-        if ( value == null )
-            _addObject(null);
-        else
-            _addObject(value.getInner());
+        addObject(value);
     }
 
     //##################################################
@@ -292,23 +330,6 @@ public class KmJsonArray
     public JSONArray getInner()
     {
         return _inner;
-    }
-
-    private Object _getObjectAt(int index)
-    {
-        return getInner().get(index);
-    }
-
-    @SuppressWarnings("unchecked")
-    private void _setObjectAt(int index, Object value)
-    {
-        getInner().set(index, value);
-    }
-
-    @SuppressWarnings("unchecked")
-    private void _addObject(Object value)
-    {
-        getInner().add(value);
     }
 
     //##################################################
@@ -328,6 +349,12 @@ public class KmJsonArray
     public String formatJson()
     {
         return getInner().toJSONString();
+    }
+
+    @Override
+    public String prettyPrint()
+    {
+        return KmJsonPrettyPrinter.format(this);
     }
 
     //##################################################
