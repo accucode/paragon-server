@@ -22,17 +22,13 @@
 
 package com.kodemore.http;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.Map;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 import java.util.Map.Entry;
 
-import com.kodemore.collection.KmMap;
-import com.kodemore.collection.KmOrderedMap;
-import com.kodemore.utility.Kmu;
+import com.kodemore.collection.*;
+import com.kodemore.utility.*;
 
 public abstract class KmHttpRequest
 {
@@ -40,6 +36,7 @@ public abstract class KmHttpRequest
     //# variables
     //##################################################
 
+    private String                      _method;
     private String                      _host;
     private int                         _port;
     private String                      _path;
@@ -59,6 +56,7 @@ public abstract class KmHttpRequest
 
     public KmHttpRequest()
     {
+        setMethodGet();
         _host = "";
         _port = 80;
         _path = "";
@@ -138,6 +136,54 @@ public abstract class KmHttpRequest
         return _exception == null;
     }
 
+    //##################################################
+    //# method
+    //##################################################//
+    public String getMethod()
+    {
+        return _method;
+    }
+
+    public void setMethod(String method)
+    {
+        _method = method;
+    }
+
+    public void setMethodGet()
+    {
+        _method = "GET";
+    }
+
+    public void setMethodHead()
+    {
+        _method = "HEAD";
+    }
+
+    public void setMethodPost()
+    {
+        _method = "POST";
+    }
+
+    public void setMethodPut()
+    {
+        _method = "PUT";
+    }
+
+    public void setMethodDelete()
+    {
+        _method = "DELETE";
+    }
+
+    public void setMethodTrace()
+    {
+        _method = "TRACE";
+    }
+
+    public void setMethodConnect()
+    {
+        _method = "CONNECT";
+    }
+
     //==================================================
     //= exception
     //==================================================
@@ -213,6 +259,13 @@ public abstract class KmHttpRequest
     public void setContentTypeFormPost()
     {
         setContentType("application/x-www-form-urlencoded");
+
+    }
+
+    public void setContentTypeJson()
+    {
+        setContentType("application/json");
+
     }
 
     //##################################################
@@ -272,8 +325,10 @@ public abstract class KmHttpRequest
     {
         try
         {
+
             _reset();
             _openConnection();
+            _setMethod();
             _applyHeaders();
             _applyRequestValue();
             _readResponseValue();
@@ -299,6 +354,21 @@ public abstract class KmHttpRequest
         _connection = (HttpURLConnection)_url.openConnection();
         if ( hasContentType() )
             _connection.setRequestProperty("Content-Type", getContentType());
+    }
+
+    private void _setMethod()
+    {
+
+        try
+        {
+            getConnection().setRequestMethod(_method);
+        }
+        catch ( ProtocolException ex )
+        {
+            _exception = ex;
+
+        }
+
     }
 
     private String getScheme()
@@ -373,7 +443,7 @@ public abstract class KmHttpRequest
         InputStream in = null;
         try
         {
-            if ( _connection.getResponseMessage().equals("OK") )
+            if ( isSuccessfullResponse(_connection.getResponseMessage()) )
                 in = _connection.getInputStream();
             else
                 in = _connection.getErrorStream();
@@ -384,6 +454,11 @@ public abstract class KmHttpRequest
         {
             Kmu.closeSafely(in);
         }
+    }
+
+    protected boolean isSuccessfullResponse(String responseMessage)
+    {
+        return responseMessage.equals("OK");
     }
 
     protected HttpURLConnection getConnection()

@@ -2,6 +2,7 @@ package com.kodemore.zendesk;
 
 import com.kodemore.collection.*;
 import com.kodemore.io.*;
+import com.kodemore.json.*;
 
 /**
  * I am a ticket object
@@ -371,5 +372,71 @@ public class KmZendeskTicket
         out.println("created_at: " + _createdAt);
         out.println("updated_at: " + _updatedAt);
 
+    }
+
+    //##################################################
+    //# json
+    //##################################################//
+    public KmJsonMap toJson()
+    {
+        //        KmJsonMap m = new KmJsonMap();
+        //        m.setInteger("id: " + _id);
+        //        m.setString("url: " + _url;
+        //        "id: " + _id;
+        //        "url: " + _url;
+        //        "external_id: " + _externalId;
+        //        "type: " + _type;
+        //        "subject: " + _subject;
+        //        "description: " + _description;
+        //        "priority: " + _priority;
+        //        "status: " + _status;
+        //        "recipient: " + _recipient;
+        //        "requester_id: " + _requesterId;
+        //        "submitter_id: " + _submitterId;
+        //        "assignee_id: " + _assigneeId;
+        //        "organization_id: " + _organizationId;
+        //        "group_id: " + _groupId;
+        //        "collaborator_ids: " + _collaboratorIds.format();
+        //        "forum_topic_id: " + _forumTopicId;
+        //        "problem_id: " + _problemId;
+        //        "has_incidents: " + _hasIncidents;
+        //        "due_at: " + _dueAt;
+        //        "tags: " + _tags.format();
+        //        "via: " + _via.format();
+        //        "custom_fields: " + _customFields.format();
+        //        "satisfaction_rating: " + _satisfactionRating;
+        //        "sharing_agreement_ids: " + _sharingAgreementIds.format();
+        //        "followup_ids:" + _followupIds.format();
+        //        "ticket_form_id: " + _ticketFormId;
+        //        "created_at: " + _createdAt;
+        //        "updated_at: " + _updatedAt;
+        //        "external_id: " + _externalId;
+        //        "type: " + _type;
+        //        "subject: " + _subject;
+        //        "description: " + _description;
+        //        "priority: " + _priority;
+        //        "status: " + _status;
+        //        "recipient: " + _recipient;
+        //        "requester_id: " + _requesterId;
+        //        "submitter_id: " + _submitterId;
+        //        "assignee_id: " + _assigneeId;
+        //        "organization_id: " + _organizationId;
+        //        "group_id: " + _groupId;
+        //        "collaborator_ids: " + _collaboratorIds.format();
+        //        "forum_topic_id: " + _forumTopicId;
+        //        "problem_id: " + _problemId;
+        //        "has_incidents: " + _hasIncidents;
+        //        "due_at: " + _dueAt;
+        //        "tags: " + _tags.format();
+        //        "via: " + _via.format();
+        //        "custom_fields: " + _customFields.format();
+        //        "satisfaction_rating: " + _satisfactionRating;
+        //        "sharing_agreement_ids: " + _sharingAgreementIds.format();
+        //        "followup_ids:" + _followupIds.format();
+        //        "ticket_form_id: " + _ticketFormId;
+        //        "created_at: " + _createdAt;
+        //        ("updated_at: " + _updatedAt);
+
+        return null;
     }
 }

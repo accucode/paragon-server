@@ -7,6 +7,7 @@ import org.apache.http.*;
 import org.apache.http.client.utils.*;
 
 import com.kodemore.collection.*;
+import com.kodemore.io.*;
 import com.kodemore.json.*;
 
 /**
@@ -149,6 +150,9 @@ public class KmZendeskListTickets
     private void processTickets(KmList<KmZendeskTicket> v)
     {
         KmJsonArray tickets = getTickets();
+        if ( tickets == null )
+            return;
+
         int n = tickets.size();
         for ( int i = 0; i < n; i++ )
             v.add(createTicket(tickets.getMapAt(i)));
@@ -273,5 +277,39 @@ public class KmZendeskListTickets
         for ( int i = 0; i < n; i++ )
             v.add(array.getStringAt(i));
         return v;
+    }
+
+    //##################################################
+    //# main
+    //##################################################//
+
+    public static void main(String[] args)
+    {
+        KmZendeskListTickets req;
+        req = new KmZendeskListTickets();
+
+        // You need to enter valid keys...
+        req.setZendeskUserid("[zendesk Login]");
+        req.setApiToken("[API Token]");
+
+        KmList<KmZendeskTicket> v = req.getAllTickets();
+
+        System.out.println("Total Number of Tickets: " + v.size());
+
+        KmIndentPrintWriter out = new KmIndentPrintWriter(System.out);
+        int n = 1;
+        for ( KmZendeskTicket ticket : v )
+        {
+            out.println("-----------------------------------------------------");
+            out.println("Ticket # " + n);
+            out.println("-----------------------------------------------------");
+            out.indent();
+            ticket.print(out);
+            out.println();
+            out.undent();
+            out.println();
+            n++;
+        }
+        out.flush();
     }
 }

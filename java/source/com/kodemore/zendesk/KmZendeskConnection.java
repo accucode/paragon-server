@@ -29,6 +29,7 @@ public class KmZendeskConnection
     private String                      _host;
     private String                      _apiToken;
     private String                      _userId;
+    private String                      _data;
 
     /**
      * The list of parameters.  Parameters are generally stored and used
@@ -115,20 +116,58 @@ public class KmZendeskConnection
         _host = host;
     }
 
+    public String getData()
+    {
+        return _data;
+    }
+
+    public void setData(String data)
+    {
+        _data = data;
+    }
+
     //##################################################
     //# public
     //##################################################
-
     public void submitGet()
     {
         _request = new KmHttpGet();
-        _request.setHost(HOST);
+        _request.setHost(_host);
         _request.setHttps();
         _request.setPort(443);
         _request.setContentTypeHtml();
         _request.setPath(getPath());
         _request.setParameters(_parameters);
         _request.setHeader("Authorization", getAuthorizationHeader());
+        _request.submit();
+        _request.checkException();
+    }
+
+    public void submitPost()
+    {
+        _request = new KmZendeskHttpPost();
+        _request.setHost(_host);
+        _request.setHttps();
+        _request.setPort(443);
+        _request.setPath(getPath());
+        ((KmZendeskHttpPost)_request).setData(_data);
+        _request.setHeader("Authorization", getAuthorizationHeader());
+
+        _request.submit();
+        _request.checkException();
+
+    }
+
+    public void submitPut()
+    {
+        _request = new KmZendeskHttpPut();
+        _request.setHost(_host);
+        _request.setHttps();
+        _request.setPort(443);
+        _request.setPath(getPath());
+        ((KmZendeskHttpPut)_request).setData(_data);
+        _request.setHeader("Authorization", getAuthorizationHeader());
+
         _request.submit();
         _request.checkException();
     }
