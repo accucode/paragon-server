@@ -308,6 +308,11 @@ public class MyPropertyRegistryBase
        return MyPropertyDefinitions.getDatabaseRowLockFailureRetryMs().getIntegerFor(this);
     }
 
+    public Boolean getSyncDatabaseOnStartup()
+    {
+       return MyPropertyDefinitions.getSyncDatabaseOnStartup().getBooleanFor(this);
+    }
+
     //##################################################
     //# jobs
     //##################################################

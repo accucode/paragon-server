@@ -96,6 +96,7 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_DATABASE_POOLING_RETRY_COUNT = "databasePoolingRetryCount";
     public static final String PROPERTY_DATABASE_ROW_LOCK_FAILURE_RETRY_COUNT = "databaseRowLockFailureRetryCount";
     public static final String PROPERTY_DATABASE_ROW_LOCK_FAILURE_RETRY_MS = "databaseRowLockFailureRetryMs";
+    public static final String PROPERTY_SYNC_DATABASE_ON_STARTUP = "syncDatabaseOnStartup";
 
     public static final String GROUP_JOBS = "jobs";
     public static final String PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ACTIVE_SECONDS = "csvUploadProcessorJobActiveSeconds";
@@ -231,6 +232,7 @@ public class MyPropertyDefinitions
         install(m, newDatabasePoolingRetryCount());
         install(m, newDatabaseRowLockFailureRetryCount());
         install(m, newDatabaseRowLockFailureRetryMs());
+        install(m, newSyncDatabaseOnStartup());
 
         // jobs
         install(m, newCsvUploadProcessorJobActiveSeconds());
@@ -985,6 +987,19 @@ public class MyPropertyDefinitions
         e.setComment("The amount of time to wait between retries.");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
         e.setDefaultValue("50");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newSyncDatabaseOnStartup()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DATABASE_OTHER);
+        e.setKey(PROPERTY_SYNC_DATABASE_ON_STARTUP);
+        e.setComment("Normally the application will sync the database patches upon startup. Set this to false to disable.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
         e.postInstall();
         return e;
     }
@@ -1918,6 +1933,11 @@ public class MyPropertyDefinitions
     public static MyPropertyDefinition getDatabaseRowLockFailureRetryMs()
     {
         return get(PROPERTY_DATABASE_ROW_LOCK_FAILURE_RETRY_MS);
+    }
+
+    public static MyPropertyDefinition getSyncDatabaseOnStartup()
+    {
+        return get(PROPERTY_SYNC_DATABASE_ON_STARTUP);
     }
 
     public static MyPropertyDefinition getCsvUploadProcessorJobActiveSeconds()

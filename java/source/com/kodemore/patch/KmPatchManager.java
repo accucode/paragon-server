@@ -1,11 +1,12 @@
 package com.kodemore.patch;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.collection.KmMap;
-import com.kodemore.file.KmFile;
-import com.kodemore.string.KmStringBuilder;
-import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.KmClock;
+import com.kodemore.collection.*;
+import com.kodemore.database.*;
+import com.kodemore.file.*;
+import com.kodemore.log.*;
+import com.kodemore.string.*;
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
 
 /**
  * I provide programatic access to the patch functions.
@@ -31,6 +32,8 @@ public class KmPatchManager
     //# variables
     //##################################################
 
+    private static final String   DATABASE_PATCH_MANAGER_LOCK = "DATABASE.PATCH_MANAGER";
+
     /**
      * The patches available on the local file system.
      */
@@ -41,13 +44,36 @@ public class KmPatchManager
      */
     private KmMap<String,KmPatch> _installedPatches;
 
+    /*
+     * Allows logging  to be specified, default is to console
+     */
+    private KmLogPrinter          _log;
+
+    private KmDatabaseTool        _dbTools;
+
     //##################################################
     //# constructor
     //##################################################
 
     public KmPatchManager()
     {
+        _log = new KmConsolePrinter();
+
         refresh();
+    }
+
+    //##################################################
+    //# accessing
+    //##################################################//
+
+    public KmLogPrinter getLog()
+    {
+        return _log;
+    }
+
+    public void setLog(KmLogPrinter log)
+    {
+        _log = log;
     }
 
     //##################################################
@@ -60,40 +86,199 @@ public class KmPatchManager
         _installedPatches = getInstalledPatches();
     }
 
+    //##################################################
+    //# public
+    //##################################################//
+
     public boolean sync()
     {
-        System.out.println("Sync");
-        if ( !downgradeAll() )
-            return false;
-
-        if ( upgradeAll() )
-            return false;
-
-        return true;
+        return new doLockDb()
+        {
+            @Override
+            public boolean handle()
+            {
+                return _sync();
+            }
+        }.run();
     }
 
     public boolean test()
     {
-        System.out.println("Test");
+        return new doLockDb()
+        {
+            @Override
+            public boolean handle()
+            {
+                return _test();
+            }
+        }.run();
 
-        System.out.println("Downgrade Candidates...");
-        for ( KmPatch e : getDowngradeCandidates() )
-            System.out.println("    " + e.getName());
-
-        System.out.println("Upgrade Candidates...");
-        for ( KmPatch e : getUpgradeCandidates() )
-            System.out.println("    " + e.getName());
-
-        return true;
     }
 
     public boolean upgradeAll()
     {
-        System.out.println("Upgrade All");
+        return new doLockDb()
+        {
+            @Override
+            public boolean handle()
+            {
+                return _upgradeAll();
+            }
+        }.run();
+    }
+
+    public boolean upgrade(final String name)
+    {
+        return new doLockDb()
+        {
+            @Override
+            public boolean handle()
+            {
+                return _upgrade(name);
+            }
+        }.run();
+    }
+
+    public boolean upgrade(final KmPatch patch)
+    {
+        return new doLockDb()
+        {
+            @Override
+            public boolean handle()
+            {
+                return _upgrade(patch);
+            }
+        }.run();
+    }
+
+    public boolean downgradeAll()
+    {
+        return new doLockDb()
+        {
+            @Override
+            public boolean handle()
+            {
+                return _downgradeAll();
+            }
+        }.run();
+    }
+
+    public boolean downgrade(final String name)
+    {
+        return new doLockDb()
+        {
+            @Override
+            public boolean handle()
+            {
+                return _downgrade(name);
+            }
+        }.run();
+    }
+
+    public boolean downgrade(final KmPatch patch)
+    {
+        return new doLockDb()
+        {
+            @Override
+            public boolean handle()
+            {
+                return _downgrade(patch);
+            }
+        }.run();
+
+    }
+
+    public boolean repeat(final String name)
+    {
+        return new doLockDb()
+        {
+            @Override
+            public boolean handle()
+            {
+                return _repeat(name);
+            }
+        }.run();
+
+    }
+
+    public boolean repeatLast()
+    {
+        return new doLockDb()
+        {
+            @Override
+            public boolean handle()
+            {
+                return _repeatLast();
+            }
+        }.run();
+    }
+
+    public boolean rerepeatLast()
+    {
+
+        return new doLockDb()
+        {
+            @Override
+            public boolean handle()
+            {
+                return _rerepeatLast();
+            }
+        }.run();
+
+    }
+
+    public void create()
+    {
+        try
+        {
+            lockDatabase();
+            _create();
+        }
+        finally
+        {
+            unlockDatabase();
+        }
+    }
+
+    //##################################################
+    //# private
+    //##################################################//
+
+    private boolean _sync()
+    {
+
+        printLog("Sync");
+        if ( !_downgradeAll() )
+            return false;
+
+        if ( _upgradeAll() )
+            return false;
+
+        return true;
+    }
+
+    private boolean _test()
+    {
+        printLog("Test");
+
+        printLog("Downgrade Candidates...");
+        for ( KmPatch e : getDowngradeCandidates() )
+            printLog("    " + e.getName());
+
+        printLog("Upgrade Candidates...");
+        for ( KmPatch e : getUpgradeCandidates() )
+            printLog("    " + e.getName());
+
+        return true;
+    }
+
+    private boolean _upgradeAll()
+    {
+        printLog("Upgrade All");
 
         KmList<KmPatch> v = getUpgradeCandidates();
         for ( KmPatch e : v )
-            if ( !upgrade(e) )
+            if ( !_upgrade(e) )
                 return false;
 
         return true;
@@ -108,25 +293,25 @@ public class KmPatchManager
         return v;
     }
 
-    public boolean upgrade(String name)
+    private boolean _upgrade(String name)
     {
         KmPatch e = _localPatches.get(name);
         if ( e == null )
         {
-            System.out.println(name + " : Unknown patch");
+            printLog(name + " : Unknown patch");
             return false;
         }
-        return upgrade(e);
+        return _upgrade(e);
     }
 
-    public boolean upgrade(KmPatch patch)
+    private boolean _upgrade(KmPatch patch)
     {
         String name = patch.getName();
-        System.out.println(name + " : Upgrade");
+        printLog(name + " : Upgrade");
 
         if ( hasInstalledPatch(patch) )
         {
-            System.out.println(name + " : Already installed");
+            printLog(name + " : Already installed");
             return false;
         }
 
@@ -137,13 +322,13 @@ public class KmPatchManager
         return true;
     }
 
-    public boolean downgradeAll()
+    private boolean _downgradeAll()
     {
-        System.out.println("Downgrade All");
+        printLog("Downgrade All");
 
         KmList<KmPatch> v = getDowngradeCandidates();
         for ( KmPatch e : v )
-            if ( !downgrade(e) )
+            if ( !_downgrade(e) )
                 return false;
 
         return true;
@@ -159,21 +344,21 @@ public class KmPatchManager
         return v;
     }
 
-    public boolean downgrade(final String name)
+    private boolean _downgrade(final String name)
     {
         KmPatch e = _installedPatches.get(name);
         if ( e == null )
         {
-            System.out.println(name + " : Not Installed");
+            printLog(name + " : Not Installed");
             return false;
         }
-        return downgrade(e);
+        return _downgrade(e);
     }
 
-    public boolean downgrade(final KmPatch patch)
+    private boolean _downgrade(final KmPatch patch)
     {
         String name = patch.getName();
-        System.out.println(name + " : Downgrade");
+        printLog(name + " : Downgrade");
 
         KmPatchProcessor.downgrade(patch);
 
@@ -182,36 +367,36 @@ public class KmPatchManager
         return true;
     }
 
-    public boolean repeat(String name)
+    private boolean _repeat(String name)
     {
-        System.out.println(name + " : Repeat");
-        if ( !downgrade(name) )
+        printLog(name + " : Repeat");
+        if ( !_downgrade(name) )
             return false;
 
-        return upgrade(name);
+        return _upgrade(name);
     }
 
-    public boolean repeatLast()
+    private boolean _repeatLast()
     {
-        System.out.println("Repeat Last");
+        printLog("Repeat Last");
         if ( _localPatches.isEmpty() )
         {
-            System.out.println("No patches available");
+            printLog("No patches available");
             return false;
         }
-        return repeat(getLastLocalPatchName());
+        return _repeat(getLastLocalPatchName());
     }
 
-    public boolean rerepeatLast()
+    private boolean _rerepeatLast()
     {
-        return repeatLast() && repeatLast();
+        return _repeatLast() && _repeatLast();
     }
 
-    public void create()
+    private void _create()
     {
-        System.out.println("Create");
+        printLog("Create");
         generateDefaultPatch();
-        upgrade(getLastLocalPatchName());
+        _upgrade(getLastLocalPatchName());
     }
 
     //##################################################
@@ -306,7 +491,7 @@ public class KmPatchManager
         e.setSource(source);
         _localPatches.put(name, e);
 
-        System.out.println(name + " : Created");
+        printLog(name + " : Created");
     }
 
     private KmMap<String,KmPatch> toMap(KmList<KmPatch> v)
@@ -315,6 +500,67 @@ public class KmPatchManager
         for ( KmPatch e : v )
             m.put(e.getName(), e);
         return m;
+    }
+
+    //##################################################
+    //# logging
+    //##################################################//
+
+    private void printLog(String s)
+    {
+        _log.println(s);
+    }
+
+    //##################################################
+    //# locking
+    //##################################################//
+    private void lockDatabase()
+    {
+        printLog("Trying to obtain lock on database before managing patches.");
+        while ( true )
+        {
+            //try for db lock every 5 seconds for up to 60 seconds
+            if ( getDbTools().lock(DATABASE_PATCH_MANAGER_LOCK, 5, 12, 0) )
+                return;
+
+            printLog("Another Patch Manager process is already running, waiting...");
+        }
+    }
+
+    private void unlockDatabase()
+    {
+        getDbTools().unlock(DATABASE_PATCH_MANAGER_LOCK);
+        getDbTools().closeSafely();
+    }
+
+    private KmDatabaseTool getDbTools()
+    {
+        if ( _dbTools == null )
+        {
+            _dbTools = new KmDatabaseTool();
+            _dbTools.open();
+        }
+        return _dbTools;
+    }
+
+    private abstract class doLockDb
+    {
+        public boolean run()
+        {
+            try
+            {
+                lockDatabase();
+                printLog("Database lock obtained.");
+                return handle();
+            }
+            finally
+            {
+                unlockDatabase();
+                printLog("Lock released.");
+            }
+        }
+
+        public abstract boolean handle();
     }
 
 }

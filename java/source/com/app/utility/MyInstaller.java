@@ -1,34 +1,21 @@
 package com.app.utility;
 
-import com.app.bridge.MyApplicationBridge;
-import com.app.bridge.MyDaoBridge;
-import com.app.bridge.MyDatabaseConnectionFactory;
-import com.app.bridge.MyPatchBridge;
-import com.app.bridge.MyTimeZoneBridge;
-import com.app.dao.core.MyDaoSessionManager;
-import com.app.file.MyFilePaths;
-import com.app.file.MyResourceFiles;
-import com.app.file.MySharedFiles;
-import com.app.hibernate.MyHibernateConfiguration;
-import com.app.job.MyMasterJob;
-import com.app.property.MyPropertyManager;
-import com.app.ui.activity.MyActivityRegistry;
-import com.app.ui.core.MyActions;
-import com.app.ui.core.MyCookieSession;
-import com.app.ui.core.MyPageSession;
-import com.app.ui.layout.MyLeftMenu;
-import com.app.ui.layout.MyPageLayout;
-import com.app.ui.layout.MyPageLayoutBridge;
-import com.app.ui.servlet.MyFormatter;
-import com.app.ui.servlet.ScServletCallbackRegistry;
-
-import com.kodemore.file.KmFile;
-import com.kodemore.log.KmLogger;
-import com.kodemore.servlet.action.ScActions;
-import com.kodemore.servlet.action.ScGlobalContext;
-import com.kodemore.servlet.utility.ScControlRegistry;
-import com.kodemore.time.KmTimeZoneBridge;
-import com.kodemore.utility.Kmu;
+import com.app.bridge.*;
+import com.app.dao.core.*;
+import com.app.file.*;
+import com.app.hibernate.*;
+import com.app.job.*;
+import com.app.property.*;
+import com.app.ui.activity.*;
+import com.app.ui.core.*;
+import com.app.ui.layout.*;
+import com.app.ui.servlet.*;
+import com.kodemore.file.*;
+import com.kodemore.patch.*;
+import com.kodemore.servlet.action.*;
+import com.kodemore.servlet.utility.*;
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
 
 /**
  * I install the application when the servlet container initially
@@ -42,9 +29,9 @@ public class MyInstaller
     //# logger
     //##################################################
 
-    private static final KmLogger _logger    = KmLogger.create(MyInstaller.class);
+    private static final MyInstallerLog _logger    = new MyInstallerLog(MyInstaller.class);
 
-    private static boolean        _installed = false;
+    private static boolean              _installed = false;
 
     //##################################################
     //# public
@@ -60,6 +47,8 @@ public class MyInstaller
         _installCore();
 
         _installJdbc();
+        _syncDatabasePatches();
+
         _installHibernate();
         _installLog4j();
 
@@ -135,6 +124,21 @@ public class MyInstaller
     //##################################################
     //# private
     //##################################################
+    private static void _syncDatabasePatches()
+    {
+
+        boolean sync = MyGlobals.getProperties().getSyncDatabaseOnStartup();
+        if ( !sync )
+            return;
+
+        printfHeader("Database Patch Sync");
+
+        KmPatchManager mgr = new KmPatchManager();
+        mgr.setLog(_logger);
+        mgr.sync();
+        printOk();
+
+    }
 
     private static void _installCore()
     {
@@ -455,12 +459,12 @@ public class MyInstaller
 
     private static void _println()
     {
-        _logger.info();
+        _logger.println("");
     }
 
     private static void _printfln(String s, Object... args)
     {
-        _logger.info(s, args);
+        _logger.printfln(s, args);
     }
 
     //##################################################

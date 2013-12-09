@@ -1,7 +1,7 @@
 package com.kodemore.patch;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.console.KmConsoleInput;
+import com.kodemore.collection.*;
+import com.kodemore.console.*;
 
 /**
  * I provide the majority of functionality for a command line
@@ -28,7 +28,7 @@ public abstract class KmPatchConsole
     //# run
     //##################################################
 
-    protected void run(String[] args)
+    public void run(String[] args)
     {
         _manager = new KmPatchManager();
         _arguments = new KmList<String>();

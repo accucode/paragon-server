@@ -1,14 +1,11 @@
 package com.kodemore.database;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.file.KmFile;
-import com.kodemore.log.KmLog;
-import com.kodemore.utility.Kmu;
+import com.kodemore.collection.*;
+import com.kodemore.file.*;
+import com.kodemore.log.*;
+import com.kodemore.utility.*;
 
 /**
  * Some utility methods for specialized database manipulation.
@@ -317,6 +314,139 @@ public class KmDatabaseTool
         {
             KmLog.error(ex, "Cannot close statement.");
         }
+    }
+
+    //##################################################
+    //# lock (connection)
+    //##################################################
+
+    /**
+     * Attempt to lock the specified key and return an immediate
+     * response indicating if the lock was successful or not.
+     */
+    public boolean lock(String key)
+    {
+        return lock(key, 0, 0, 0);
+    }
+
+    /**
+     * Key: the key that is used to coordinate the database lock.
+     *
+     * RetryCount: the number of RE-tries when attempting to get a lock.
+     * A count of zero means 1 try total.
+     *
+     * RetryDelayMs: If the retry count is > 0, this is the number of ms to
+     * wait between each try.
+     *
+     * TimeoutSeconds: This value is passed to the database and control how
+     * long the database itself waits when attempting to get the lock.  Zero
+     * is a valid value.
+     *
+     * The return value is true to indicate that the lock has been successfully
+     * acquired, or false to indicate that the lock was already in use by some
+     * other connection.
+     *
+     * A non-specialized RuntimeException is thrown for low level database
+     * problems such as: no connection, or malformed sql syntax.  RuntimeExceptions
+     * are also generated for problems such as an attempt to lock on an empty key,
+     * or an attempt to lock the key that is already locked by this connection.
+     */
+    public boolean lock(String key, int timeoutSeconds, int retryCount, int retryDelayMs)
+    {
+        if ( Kmu.isEmpty(key) )
+            Kmu.fatal("Cannot create lock on empty key.");
+
+        String sql = Kmu.format("select get_lock('%s', %s)", key, timeoutSeconds);
+
+        int i = 0;
+        while ( true )
+        {
+            if ( _lock(sql) )
+                return true;
+
+            if ( i >= retryCount )
+                return false;
+
+            i++;
+            Kmu.sleepMs(retryDelayMs);
+        }
+    }
+
+    private boolean _lock(String sql)
+    {
+        Integer x = _executeLockCommand(sql);
+        if ( x == null )
+            Kmu.fatal("Locking error; database error for: %s", sql);
+
+        // success
+        if ( x == 1 )
+            return true;
+
+        // timeout
+        if ( x == 0 )
+            return false;
+
+        Kmu.fatal("Locking error; unhandled result(%s) for: %s", x, sql);
+        return false;
+    }
+
+    @SuppressWarnings("deprecation")
+    private Integer _executeLockCommand(String sql)
+    {
+        Statement st = null;
+        try
+        {
+            st = getConnection().createStatement();
+            boolean isResultSet = st.execute(sql);
+            if ( !isResultSet )
+                Kmu.fatal("Locking error; no result set for: %s", sql);
+
+            ResultSet rs = st.getResultSet();
+            if ( !rs.next() )
+                Kmu.fatal("Locking error; empty result set for: %s", sql);
+
+            return rs.getInt(1);
+        }
+        catch ( Exception ex )
+        {
+            Kmu.fatal(ex, "Locking error; %s", sql);
+            return null;
+        }
+        finally
+        {
+            try
+            {
+                if ( st != null )
+                    st.close();
+            }
+            catch ( Exception ex )
+            {
+                KmLog.error(ex, "Unable to close connection, continuing...");
+            }
+        }
+    }
+
+    /**
+     * Release the database lock.
+     */
+    public void unlock(String key)
+    {
+        if ( key == null )
+            Kmu.fatal("Cannot unlock; no current lock.");
+
+        String sql = Kmu.format("select release_lock('%s')", key);
+        Integer x = _executeLockCommand(sql);
+
+        if ( x == null )
+            Kmu.fatal("Cannot release lock(%s); lock does not exist.", key);
+
+        if ( x == 0 )
+            Kmu.fatal("Cannot release lock(%s); lock is held by another connection.", key);
+
+        if ( x == 1 )
+            return;
+
+        Kmu.fatal("Cannot release lock(%s); unknown response code(%s).", key, x);
     }
 
     //##################################################

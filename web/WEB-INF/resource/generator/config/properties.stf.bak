@@ -331,13 +331,6 @@ group
     : type      = string
     : default   = databasePassword
     : comment   = The password used for aes encryption. The password must be exactly 16 characters long. This should be overriden in production.
-    
-    property
-    : name      = syncDatabaseOnStartup
-    : type      = boolean
-    : default   = true
-    : comment   = Normally the application will sync the database patches upon startup.  Set this to false to disable.
-    
 
 group
 : name      = Jobs
