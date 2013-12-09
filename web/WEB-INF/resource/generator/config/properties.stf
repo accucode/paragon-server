@@ -179,6 +179,12 @@ group
     : type      = string
     : default   = 
     : comment   = Connecting to smtp.
+    
+    property
+    : name      = smtpUseSsl
+    : type      = boolean
+    : default   = false
+    : comment   = Use SSL when connecting to smtp.
 
 group
 : name      = Servlet

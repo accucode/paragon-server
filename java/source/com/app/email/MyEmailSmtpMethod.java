@@ -1,9 +1,8 @@
 package com.app.email;
 
-import com.app.property.MyPropertyRegistry;
-import com.app.utility.MyGlobals;
-
-import com.kodemore.email.method.KmEmailSmtpMethod;
+import com.app.property.*;
+import com.app.utility.*;
+import com.kodemore.email.method.*;
 
 /**
  * I extend the generic framework method to provide 
@@ -21,5 +20,6 @@ public class MyEmailSmtpMethod
         setSmtpPort(p.getSmtpPort());
         setSmtpUser(p.getSmtpUser());
         setSmtpPassword(p.getSmtpPassword());
+        setSmtpSsl(p.getSmtpUseSsl());
     }
 }

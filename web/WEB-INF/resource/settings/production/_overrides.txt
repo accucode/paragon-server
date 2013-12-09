@@ -48,10 +48,11 @@ sendEmailJobActiveSeconds                   = 1
 sendEmailJobIdleSeconds                     = 1
 
 smtpScheme                                  = smtp
-smtpHost                                    = email.smtp.us-east-1.amazonaws.com
+smtpHost                                    = smtp
 smtpPort                                    = 25
-smtpUser                                    = AKIAICHE56HHWPVULTEQ
-smtpPassword                                = Amwga9hPolCz/WbCKafzocTQOj822xMGfbajppl7ImjT
+smtpUser                                    = 
+smtpPassword                                = 
+smtpUseSsl                                  = 
 
 
 #######################################

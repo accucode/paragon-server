@@ -86,6 +86,7 @@ public abstract class MyActivityRegistryBase
         add(MySignInActivity.instance);
         add(MySignOutPage.instance);
         add(MySlowTestPage.instance);
+        add(MySmtpTestPage.instance);
         add(MySqlPage.instance);
         add(MyStaticIncludeTestPage.instance);
         add(MySystemLogListPage.instance);

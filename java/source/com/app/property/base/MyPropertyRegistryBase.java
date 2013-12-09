@@ -173,6 +173,11 @@ public class MyPropertyRegistryBase
        return MyPropertyDefinitions.getSmtpScheme().getStringFor(this);
     }
 
+    public Boolean getSmtpUseSsl()
+    {
+       return MyPropertyDefinitions.getSmtpUseSsl().getBooleanFor(this);
+    }
+
     public String getSmtpUser()
     {
        return MyPropertyDefinitions.getSmtpUser().getStringFor(this);

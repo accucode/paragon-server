@@ -63,6 +63,7 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_SMTP_PASSWORD = "smtpPassword";
     public static final String PROPERTY_SMTP_PORT = "smtpPort";
     public static final String PROPERTY_SMTP_SCHEME = "smtpScheme";
+    public static final String PROPERTY_SMTP_USE_SSL = "smtpUseSsl";
     public static final String PROPERTY_SMTP_USER = "smtpUser";
 
     public static final String GROUP_SERVLET = "servlet";
@@ -199,6 +200,7 @@ public class MyPropertyDefinitions
         install(m, newSmtpPassword());
         install(m, newSmtpPort());
         install(m, newSmtpScheme());
+        install(m, newSmtpUseSsl());
         install(m, newSmtpUser());
 
         // servlet
@@ -668,6 +670,19 @@ public class MyPropertyDefinitions
         e.setComment("Connecting to smtp.");
         e.setType(KmPropertyTypes.TYPE_STRING);
         e.setDefaultValue("smtp");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newSmtpUseSsl()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_EMAIL);
+        e.setKey(PROPERTY_SMTP_USE_SSL);
+        e.setComment("Use SSL when connecting to smtp.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
         e.postInstall();
         return e;
     }
@@ -1818,6 +1833,11 @@ public class MyPropertyDefinitions
     public static MyPropertyDefinition getSmtpScheme()
     {
         return get(PROPERTY_SMTP_SCHEME);
+    }
+
+    public static MyPropertyDefinition getSmtpUseSsl()
+    {
+        return get(PROPERTY_SMTP_USE_SSL);
     }
 
     public static MyPropertyDefinition getSmtpUser()

@@ -1,9 +1,6 @@
 package com.app.ui.activity.test;
 
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
-import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.control.*;
 
 public class MyTestMenuPage
     extends MyTestPage
@@ -92,6 +89,7 @@ public class MyTestMenuPage
         links.addLink(MyScriptTestPage.instance);
         links.addLink(MyMemoryLeakTestPage.instance);
         links.addLink(MyGmailTestPage.instance);
+        links.addLink(MySmtpTestPage.instance);
         links.addLink(MyStaticIncludeTestPage.instance);
         links.addLink(MyHandleSortTestPage.instance);
         links.addLink(MyHoverTestPage.instance);
