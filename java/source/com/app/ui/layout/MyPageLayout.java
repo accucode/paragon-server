@@ -7,14 +7,9 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.action.ScGlobalContext;
-import com.kodemore.servlet.control.ScActivityLink;
-import com.kodemore.servlet.control.ScArray;
-import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
-import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.field.ScDropdown;
-import com.kodemore.servlet.field.ScOption;
+import com.kodemore.servlet.field.ScDropdownMenu;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.time.KmTimestamp;
@@ -22,12 +17,11 @@ import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
-import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
-import com.app.ui.activity.general.MyHomePage;
+import com.app.ui.activity.admin.userProfile.MyUserProfilePage;
 import com.app.ui.activity.general.MySignOutPage;
+import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServletData;
 import com.app.ui.servlet.MyServletConstantsIF;
 import com.app.utility.MyConstantsIF;
@@ -94,14 +88,10 @@ public class MyPageLayout
 
     private ScDiv          _topRightDiv;
 
-    private ScBox          _accountTextBox;
-    private ScDropdown     _accountDropdown;
-
-    private ScActivityLink _logoutLink;
-
-    private ScBox          _userNameLabel;
-    private ScBox          _helloLabel;
-    private ScBox          _accountLabel;
+    private ScDropdownMenu _userMenu;
+    private ScDropdownMenu _accountMenu;
+    private ScActionIF     _selectAccountAction;
+    private ScActionIF     _manageAccountsAction;
 
     //##################################################
     //# constructor
@@ -109,75 +99,73 @@ public class MyPageLayout
 
     public MyPageLayout()
     {
+        installSelectAccountAction();
+        installAccountMenu();
+        installUserMenu();
         installTopRightDiv();
     }
 
-    //##################################################
-    //# install
-    //##################################################
-
     //==================================================
-    //= install :: menu
+    //= install :: user menu
     //==================================================
 
-    private void installMenu()
+    private void installUserMenu()
     {
-        _logoutLink = new ScActivityLink();
-        _logoutLink.hide();
-        _logoutLink.setText("Logout");
-        _logoutLink.css().bold();
-        _logoutLink.setActivity(MySignOutPage.instance);
+        _userMenu = new ScDropdownMenu();
+        _userMenu.setTitle("User");
+        _userMenu.hide();
+        _userMenu.addItem("Profile", newEditUserProfileAction());
+        _userMenu.addItem("Log out", newLogoutAction());
+    }
 
-        _helloLabel = new ScBox();
-        _helloLabel.css().label();
-        _helloLabel.hide();
+    private ScActionIF newEditUserProfileAction()
+    {
+        ScActionContextIF context = ScGlobalContext.getInstance();
+        return new ScAction(context)
+        {
+            @Override
+            public void handle()
+            {
+                handleEditUserProfile();
+            }
+        };
+    }
 
-        _userNameLabel = new ScBox();
-        _userNameLabel.css().label();
+    private ScActionIF newLogoutAction()
+    {
+        ScActionContextIF context = ScGlobalContext.getInstance();
+        return new ScAction(context)
+        {
+            @Override
+            public void handle()
+            {
+                handleLogout();
+            }
+        };
+    }
 
-        _accountLabel = new ScBox();
-        _accountLabel.css().label();
-        _accountLabel.hide();
+    private void handleEditUserProfile()
+    {
+        MyUserProfilePage.instance.start();
+    }
 
-        _accountTextBox = new ScBox();
-        _accountTextBox.css().label();
-        _accountTextBox.hide();
+    private void handleLogout()
+    {
+        MySignOutPage.instance.start();
     }
 
     //==================================================
-    //= install :: dropdown
+    //= install :: select account
     //==================================================
 
-    private void installAccountDropdown()
+    private void installSelectAccountAction()
     {
-        _accountDropdown = new ScDropdown();
-        _accountDropdown.hide();
-        _accountDropdown.setOnChangeAction(newSelectAccountAction());
+        _selectAccountAction = newSelectAccountAction();
     }
 
-    private KmList<ScOption> getAccountOptions()
+    private ScActionIF getSelectAccountAction()
     {
-        MyUser u = getCurrentUser();
-        if ( u == null )
-            return new KmList<ScOption>();
-
-        KmList<ScOption> v = new KmList<ScOption>();
-
-        for ( MyAccountUser e : u.getAccountUsers() )
-            v.add(newAccountOption(e));
-
-        return v;
-    }
-
-    private ScOption newAccountOption(MyAccountUser au)
-    {
-        MyAccount a = au.getAccount();
-
-        ScOption e;
-        e = new ScOption();
-        e.setText(a.getName());
-        e.setValue(a.getUid());
-        return e;
+        return _selectAccountAction;
     }
 
     private ScActionIF newSelectAccountAction()
@@ -193,45 +181,66 @@ public class MyPageLayout
         };
     }
 
+    // todo_wyatt: select account
     private void handleSelectAccount()
     {
-        setServerSessionAccount();
-        MyHomePage.instance.start();
-        MyLeftMenu.getInstance().gotoDefault();
+        String uid = getData().getStringArgument();
+
+        ajax().toast("select account: " + uid);
+        // MyNavigation.selectAccount(uid);
     }
 
-    private void setServerSessionAccount()
+    //==================================================
+    //= install :: account menu
+    //==================================================
+
+    private void installAccountMenu()
     {
-        String uid = _accountDropdown.getStringValue();
+        _manageAccountsAction = newManageAccountsAction();
 
-        MyAccount e = getAccess().findAccountUid(uid);
-        MyGlobals.getServerSession().setAccount(e);
-
-        refreshAccountHeader();
+        _accountMenu = new ScDropdownMenu();
+        _accountMenu.setTitle("Account");
+        _accountMenu.hide();
     }
 
-    //==================================================
-    //= install :: top right div
-    //==================================================
+    private ScActionIF getManageAccountsAction()
+    {
+        return _manageAccountsAction;
+    }
+
+    private ScActionIF newManageAccountsAction()
+    {
+        ScActionContextIF context = ScGlobalContext.getInstance();
+        return new ScAction(context)
+        {
+            @Override
+            public void handle()
+            {
+                handleManageAccounts();
+            }
+        };
+    }
+
+    private void handleManageAccounts()
+    {
+        // fixme_wyatt: navigate to left menu
+        // MyAllAccountsPage.instance.start();
+        ajax().toast("accounts");
+    }
+
+    //##################################################
+    //# install :: top right
+    //##################################################
 
     private void installTopRightDiv()
     {
-        installMenu();
-        installAccountDropdown();
+        _userMenu.css().floatRight().marginLeft();
+        _accountMenu.css().floatRight();
 
         _topRightDiv = new ScDiv();
-        _topRightDiv.css().pad10();
-
-        ScForm form = _topRightDiv.addForm();
-        ScArray row = form.addRow();
-        row.add(_helloLabel);
-        row.add(_userNameLabel);
-        row.addSpaces(3);
-        row.add(_accountLabel);
-        row.add(_accountTextBox);
-        row.add(_accountDropdown);
-        row.addSpaces(3);
-        row.add(_logoutLink);
+        _topRightDiv.css().pad3();
+        _topRightDiv.add(_userMenu);
+        _topRightDiv.add(_accountMenu);
     }
 
     //##################################################
@@ -262,7 +271,7 @@ public class MyPageLayout
 
         json.setBoolean("leftVisible", false);
         json.setBoolean("leftResizable", false);
-        json.setInteger("leftSize", 100);
+        json.setInteger("leftSize", 150);
 
         json.setBoolean("rightVisible", false);
         json.setBoolean("rightResizable", false);
@@ -279,118 +288,6 @@ public class MyPageLayout
         ajax().addCss(FOOTER_SELECTOR, FOOTER_ID);
 
         ajax().setContents(HEADER_RIGHT_SELECTOR, _topRightDiv);
-    }
-
-    public void ajaxRefreshHeader()
-    {
-        refreshHeaderLogo();
-        refreshHeaderLabels();
-        refreshAccountHeader();
-        refreshLogoutLink();
-    }
-
-    public void ajaxHideRightDiv()
-    {
-        refreshHeaderLogo();
-        _topRightDiv.hide();
-        _topRightDiv.ajax().replace();
-    }
-
-    private void refreshHeaderLogo()
-    {
-        ajax().setContents(HEADER_LEFT_SELECTOR, renderHeaderLogo());
-    }
-
-    private KmHtmlBuilder renderHeaderLogo()
-    {
-        String url = MyUrls.getEntryUrl();
-
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
-        out.open("a");
-        out.printAttribute("id", "pageHeaderLink");
-        out.printAttribute("href", url);
-        out.close();
-
-        out.open("img");
-        out.printAttribute("id", "pageHeaderLogoImage");
-        out.printAttribute("src", ScUrls.getThemeImage("logo35.png"));
-        out.close();
-
-        out.beginSpanId("pageHeaderLogoText");
-        out.print(MyConstantsIF.APPLICATION_NAME);
-        out.endSpan();
-
-        out.end("a");
-        return out;
-    }
-
-    //==================================================
-    //= header :: menu
-    //==================================================
-
-    private void refreshLogoutLink()
-    {
-        MyUser u = getCurrentUser();
-
-        if ( u == null )
-            return;
-
-        _logoutLink.ajax().show();
-    }
-
-    //==================================================
-    //= header :: dropdown
-    //==================================================
-
-    private void refreshAccountHeader()
-    {
-        _accountDropdown.ajaxHide();
-        _accountTextBox.ajax().hide();
-
-        MyUser u = getCurrentUser();
-        if ( u == null )
-            return;
-
-        if ( u.hasSingleAccount() )
-            refreshAccountText();
-        else
-            refreshAccountDropdown();
-    }
-
-    private void refreshAccountDropdown()
-    {
-        _accountDropdown.ajaxUpdateOptions(getAccountOptions());
-        _accountDropdown.ajaxSetValue(getCurrentAccount().getUid());
-        _accountDropdown.ajaxShow();
-    }
-
-    private void refreshAccountText()
-    {
-        _accountTextBox.ajax().setText(getCurrentAccount().getName());
-        _accountTextBox.ajax().show();
-    }
-
-    //==================================================
-    //= header :: name
-    //==================================================
-
-    private void refreshHeaderLabels()
-    {
-        MyServerSession ss = MyGlobals.getServerSession();
-        MyUser u = ss.getUser();
-
-        if ( u == null )
-            return;
-
-        _helloLabel.ajaxSetText("Hi");
-        _helloLabel.ajax().show();
-
-        _userNameLabel.ajaxSetText(u.getName());
-        _userNameLabel.ajax().show();
-
-        _accountLabel.ajaxSetText("Account: ");
-        _accountLabel.ajax().show();
     }
 
     //##################################################
@@ -524,6 +421,109 @@ public class MyPageLayout
     }
 
     //##################################################
+    //# refresh
+    //##################################################
+
+    public void ajaxRefreshHeader()
+    {
+        ajaxRefreshHeaderLogo();
+        ajaxRefreshUserMenu();
+        ajaxRefreshAccountMenu();
+    }
+
+    //==================================================
+    //= refresh :: logo
+    //==================================================
+
+    private void ajaxRefreshHeaderLogo()
+    {
+        ajax().setContents(HEADER_LEFT_SELECTOR, renderHeaderLogo());
+    }
+
+    private KmHtmlBuilder renderHeaderLogo()
+    {
+        String url = MyUrls.getEntryUrl();
+
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.open("a");
+        out.printAttribute("id", "pageHeaderLink");
+        out.printAttribute("href", url);
+        out.close();
+
+        out.open("img");
+        out.printAttribute("id", "pageHeaderLogoImage");
+        out.printAttribute("src", ScUrls.getThemeImage("logo35.png"));
+        out.printAttribute("width", 35);
+        out.printAttribute("height", 35);
+        out.close();
+
+        out.beginSpanId("pageHeaderLogoText");
+        out.print(MyConstantsIF.APPLICATION_NAME);
+        out.endSpan();
+
+        out.end("a");
+        return out;
+    }
+
+    //==================================================
+    //= refresh :: user
+    //==================================================
+
+    private void ajaxRefreshUserMenu()
+    {
+        MyUser u = getCurrentUser();
+
+        if ( u == null )
+        {
+            _userMenu.ajax().hide();
+            return;
+        }
+
+        _userMenu.show();
+        _userMenu.setTitle(u.getName());
+        _userMenu.ajax().replace();
+    }
+
+    //==================================================
+    //= refresh :: account
+    //==================================================
+
+    private void ajaxRefreshAccountMenu()
+    {
+        MyAccount a = getCurrentAccount();
+
+        if ( a == null )
+        {
+            _accountMenu.ajax().hide();
+            return;
+        }
+
+        _accountMenu.show();
+        _accountMenu.setTitle(a.getName());
+        _accountMenu.clearItems();
+
+        KmList<MyAccount> v = getAccountOptions();
+        for ( MyAccount e : v )
+            _accountMenu.addItem(e.getName(), getSelectAccountAction(), e.getUid());
+
+        _accountMenu.addItem("Manage Accounts", getManageAccountsAction());
+        _accountMenu.ajax().replace();
+    }
+
+    private KmList<MyAccount> getAccountOptions()
+    {
+        MyUser u = getCurrentUser();
+        if ( u == null )
+            return new KmList<MyAccount>();
+
+        KmList<MyAccount> v;
+        v = u.getAccounts().toList();
+        v.sortOn(MyAccount.Meta.Name);
+        return v;
+    }
+
+    //##################################################
     //# support 
     //##################################################
 
@@ -552,9 +552,9 @@ public class MyPageLayout
         return MyGlobals.getAccess();
     }
 
-    public void refreshDropdown()
+    private MyPageSession getPageSession()
     {
-        refreshAccountHeader();
+        return MyGlobals.getPageSession();
     }
 
     private MyUser getCurrentUser()
@@ -564,7 +564,7 @@ public class MyPageLayout
 
     private MyAccount getCurrentAccount()
     {
-        return MyGlobals.getServerSession().getAccount();
+        return getPageSession().getCurrentAccount();
     }
 
 }

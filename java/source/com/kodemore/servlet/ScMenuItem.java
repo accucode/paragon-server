@@ -106,24 +106,28 @@ public class ScMenuItem
     {
         if ( _parent == null )
             return this;
+
         return _parent.getRoot();
     }
 
     public KmList<ScMenuItem> getMenuPath()
     {
-        KmList<ScMenuItem> v;
-        if ( isRoot() )
-            v = new KmList<ScMenuItem>();
-        else
-            v = getParent().getMenuPath();
-        v.add(this);
-        return v;
+        return getParentMenuPath().with(this);
+    }
+
+    private KmList<ScMenuItem> getParentMenuPath()
+    {
+        if ( hasParent() )
+            return getParent().getMenuPath();
+
+        return new KmList<ScMenuItem>();
     }
 
     public int getDepth()
     {
         if ( isRoot() )
             return 0;
+
         return getParent().getDepth() + 1;
     }
 

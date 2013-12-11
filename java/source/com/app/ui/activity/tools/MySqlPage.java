@@ -77,6 +77,7 @@ public class MySqlPage
         _sqlField.setLabel("Sql");
         _sqlField.setWidthFull();
         _sqlField.style().height(150);
+        _sqlField.getPostDomScript().focus();
 
         _results = new ScBox();
 
@@ -213,12 +214,6 @@ public class MySqlPage
     public void preRender()
     {
         refreshTables();
-    }
-
-    @Override
-    public void postRender()
-    {
-        _sqlField.ajax().focus();
     }
 
     //##################################################

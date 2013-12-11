@@ -37,6 +37,7 @@
 .width100p  { width: 100%;  }
 .widthFull  { width: 100%;  }
 
+.width50    { width: 50px;  }
 .width100   { width: 100px; }
 .width200   { width: 200px; }
 .width250   { width: 250px; }
@@ -168,7 +169,10 @@
  *******************************************************************/
  
 .pad0       { padding: 0px;         }
+.pad1       { padding: 1px;         }
+.pad2       { padding: 2px;         }
 .pad3       { padding: 3px;         }
+.pad4       { padding: 4px;         }
 .pad5       { padding: 5px;         }
 .pad10      { padding: 10px;        }
 .pad20      { padding: 20px;        }
@@ -281,6 +285,10 @@
 .displayBlock   { display: block;           }
 .displayInline  { display: inline;          }
 
+.displayTable   { display: table;           }
+.displayRow     { display: table-row;       }
+.displayCell    { display: table-cell;      }
+
 .hide           { display: none;            }
 .block          { display: block;           }
 .inline         { display: inline;          }
@@ -329,7 +337,7 @@
 .overflowHidden     { overflow: hidden;     }
 
 /*******************************************************************
- ** white space
+ ** text - white space
  *******************************************************************/
 
 .centerText         { text-align: center;   }
@@ -339,7 +347,7 @@
 .textAlignRight     { text-align: right;    }
 
 /*******************************************************************
- ** white space
+ ** text - white space
  *******************************************************************/
 
 .noWrap             { white-space: nowrap;  }
@@ -347,7 +355,7 @@
 .whiteSpaceNormal   { white-space: normal;  }
 
 /*******************************************************************
- ** words
+ ** text - words
  *******************************************************************/
  
 .wordWrapNormal     { word-wrap: normal;        }

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+            bindStateChange();
+        }
+
+        //----------
+        //- push n pop
+        //----------
+
+        function push(url)
+        {
+            History.pushState({}, '', url);
+        }
+        
+        function pop()
+        {
+            History.back();
+        }
+        
+        function replaceUrl(url)
+        {
+            History.replaceState({}, '', url);
+        }
+        
+        function replaceState(e)
+        {
+            History.replaceState({value:e}, '', 'xxx');
+        }
+
+        //----------
+        //- silent
+        //----------
+        
+        function pushSilent(url)
+        {
+            unbindStateChange();
+            push(url);
+            bindStateChange();
+        }
+        
+        function replaceStateSilent(e)
+        {
+            unbindStateChange();
+            replaceState(e);
+            bindStateChange();
+        }
+
+        //----------
+        //- bind
+        //----------
+                
+        function bindStateChange()
+        {
+            $(window).bind('statechange', handleStateChanged);
+        }
+        
+        function unbindStateChange()
+        {
+            $(window).unbind('statechange', handleStateChanged);
+        }
+
+        function handleStateChanged()
+        { 
+            var state = History.getState();
+            Kmu.log('STATE CHANGED: ' + state.url + ', ' + JSON.stringify(state.data));
+        }
+        
+        //----------
+        //- test
+        //----------
+                
+        function test()
+        {
+            Kmu.log('test');
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad();">
+
+<div id="main" style="display:none" class="gap">
+
+    <div class='boxGray pad'>
+        Test the use of History.js.  See output in console.
+    </div>
+    
+    <div class='boxGray pad'>
+        <button onclick="pop();">back</button>
+        <br><br>
+        
+        <b>Push</b><br>
+        <button onclick="push('one');">one</button>
+        <button onclick="push('two');">two</button>
+        <button onclick="push('three');">three</button>
+        <button onclick="push('/four');">/four</button>
+        <button onclick="push('?five=5');">?five=4</button>
+        <button onclick="push('?five=6');">?five=6</button>
+        <button onclick="push('?');">?</button>
+        <br><br>
+        
+        <b>Push (silent)</b><br>
+        <button onclick="pushSilent('one');">one</button>
+        <button onclick="pushSilent('two');">two</button>
+        <button onclick="pushSilent('three');">three</button>
+        <button onclick="pushSilent('/');">/</button>
+        <button onclick="pushSilent('testHistory.html');">testHistory.html</button>
+        
+        <br><br>
+        <b>Replace Url</b><br>
+        <button onclick="replaceUrl('one');">one</button>
+        <button onclick="replaceUrl('two');">two</button>
+        
+        <br><br>
+        <b>Replace State</b><br>
+        <button onclick="replaceState('a');">a</button>
+        <button onclick="replaceState('b');">b</button>
+        
+        <br><br>
+        <b>Replace State (silent)</b></br>
+        <button onclick="replaceStateSilent('a');">a</button>
+        <button onclick="replaceStateSilent('b');">b</button>
+
+        <br><br>
+        <b>Test</b></br>
+        <button onclick="test();">test</button>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -71,6 +71,9 @@ var MyResourceLoader =
             // Code39 Azalea
             "static/{version}/azaleaCode39/Code39Azalea.min.css", 
             
+            // History
+            "static/{version}/jquery/history-1.8.6/scripts/bundled-uncompressed/html5/jquery.history.js", 
+            
             // ScrollTo
             "static/{version}/jquery/scrollto-1.4.3.1/jquery.scrollTo-1.4.3.1-min.js", 
             
@@ -91,10 +94,12 @@ var MyResourceLoader =
             "static/{version}/app/common/script/kmUtility.js",
             "static/{version}/app/common/script/kmHistory.js",
             "static/{version}/app/common/script/kmBorderLayout.js",
+            "static/{version}/app/common/script/kmDropdownMenu.js",
             
             // App
             "static/{version}/app/theme/default/css/topMenu.css",
             "static/{version}/app/theme/default/css/button.css",
+            "static/{version}/app/theme/default/css/dropdownMenu.css",
             "static/{version}/app/theme/default/css/theme.css",
             "static/{version}/app/theme/default/css/spice.css",
             "static/{version}/app/theme/default/css/tools.css"

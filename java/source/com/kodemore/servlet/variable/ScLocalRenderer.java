@@ -44,7 +44,7 @@ public class ScLocalRenderer
     //# convenience
     //##################################################
 
-    public ScRenderer setValue(String e)
+    public ScRenderer setValue(CharSequence e)
     {
         return setFormattable(e);
     }

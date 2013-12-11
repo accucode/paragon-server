@@ -2,6 +2,22 @@
 == To Do
 =======================================
 
+Move currentAccount to pageSession
+
+MyServletUtility vs MySignInUtility
+
+Review myInstallerLog
+
+Ryan
+    eclipse warnings, import *'s
+    
+kmHistory.js
+kmNavigation.js    
+myResourceLoader.js
+    
+    
+---
+
 Test on tablets and phones.
     apple and android.
     

@@ -42,6 +42,10 @@ public class MyTestMenuPage
         ScGroup group;
         ScBox links;
 
+        group = groups.addGroup("Personal");
+        links = group.addLinkBox();
+        links.addLink(MyWyattTestPage.instance);
+
         group = groups.addGroup("Layout");
         links = group.addLinkBox();
         links.addLink(MyAccordionTestPage.instance);

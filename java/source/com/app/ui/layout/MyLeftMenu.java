@@ -1,14 +1,5 @@
 package com.app.ui.layout;
 
-import com.app.ui.activity.MyActivityRegistry;
-import com.app.ui.activity.admin.MyAdminMenuPage;
-import com.app.ui.activity.general.MyHomePage;
-import com.app.ui.activity.test.MyTestMenuPage;
-import com.app.ui.activity.tools.MyToolsMenuPage;
-import com.app.ui.core.MyServletData;
-import com.app.utility.MyGlobals;
-import com.app.utility.MyHashBridge;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.ScActivity;
@@ -19,6 +10,15 @@ import com.kodemore.servlet.control.ScSimpleContainer;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
+
+import com.app.ui.activity.MyActivityRegistry;
+import com.app.ui.activity.admin.MyAdminMenuPage;
+import com.app.ui.activity.general.MyHomePage;
+import com.app.ui.activity.test.MyTestMenuPage;
+import com.app.ui.activity.tools.MyToolsMenuPage;
+import com.app.ui.core.MyServletData;
+import com.app.utility.MyGlobals;
+import com.app.utility.MyHashBridge;
 
 public class MyLeftMenu
 {

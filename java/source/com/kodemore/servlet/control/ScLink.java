@@ -27,6 +27,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.variable.ScLocalAction;
 import com.kodemore.servlet.variable.ScLocalObject;
+import com.kodemore.servlet.variable.ScLocalString;
 
 /**
  * The typical link that we use to run an action.
@@ -40,6 +41,7 @@ public class ScLink
 
     private ScLocalAction _action;
     private ScLocalObject _argument;
+    private ScLocalString _confirmationMessage;
 
     //##################################################
     //# init
@@ -52,6 +54,7 @@ public class ScLink
 
         _action = new ScLocalAction();
         _argument = new ScLocalObject();
+        _confirmationMessage = new ScLocalString();
     }
 
     //##################################################
@@ -89,6 +92,16 @@ public class ScLink
         return _argument.getValue();
     }
 
+    public String getConfirmationMessage()
+    {
+        return _confirmationMessage.getValue();
+    }
+
+    public void setConfirmationMessage(String e)
+    {
+        _confirmationMessage.setValue(e);
+    }
+
     //##################################################
     //# override
     //##################################################
@@ -119,6 +132,7 @@ public class ScLink
         s.setAction(getAction());
         s.setArgument(getArgument());
         s.setModel(getModel());
+        s.setConfirmationMessage(getConfirmationMessage());
 
         String prefix;
         prefix = s.formatScript();

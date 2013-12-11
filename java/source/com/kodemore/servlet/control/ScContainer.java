@@ -31,9 +31,11 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScColorField;
 import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScDropdownMenu;
 import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScHiddenField;
 import com.kodemore.servlet.field.ScIntegerField;
+import com.kodemore.servlet.field.ScLinkList;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
@@ -145,6 +147,11 @@ public abstract class ScContainer
         return add(new ScDropdown());
     }
 
+    public ScDropdownMenu addDropdownMenu()
+    {
+        return add(new ScDropdownMenu());
+    }
+
     public ScCheckboxField addCheckboxField()
     {
         return add(new ScCheckboxField());
@@ -253,6 +260,11 @@ public abstract class ScContainer
     public ScLink addLink(KmMetaProperty<?,?> title, ScActionIF action, Object arg)
     {
         return addLink(title.getAdaptor(), action, arg);
+    }
+
+    public ScLinkList addLinkList()
+    {
+        return add(new ScLinkList());
     }
 
     //##################################################
@@ -467,6 +479,14 @@ public abstract class ScContainer
     public ScStyledText addStyledText()
     {
         return add(new ScStyledText());
+    }
+
+    public ScStyledText addStyledText(CharSequence text)
+    {
+        ScStyledText e;
+        e = addStyledText();
+        e.setValue(text);
+        return e;
     }
 
     public ScStyledText addStyledText(KmMetaProperty<?,?> attr)

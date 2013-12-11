@@ -75,7 +75,7 @@ public class KmList<T>
         return new KmList<T>(v);
     }
 
-    public static <T> KmList<T> with(T... a)
+    public static <T> KmList<T> createWith(T... a)
     {
         KmList<T> v;
         v = new KmList<T>();
@@ -375,6 +375,15 @@ public class KmList<T>
     {
         clear();
         addAll(e);
+    }
+
+    /**
+     * Add the element, but return myself instead of a boolean.
+     */
+    public KmList<T> with(T e)
+    {
+        add(e);
+        return this;
     }
 
     //##################################################

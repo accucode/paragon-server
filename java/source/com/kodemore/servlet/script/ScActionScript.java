@@ -97,6 +97,12 @@ public class ScActionScript
      */
     private String     _extra;
 
+    /**
+     * The optional confirmation message.  If set, the browser will prompt
+     * the user with an ok/cancel dialog before submitting the request.
+     */
+    private String     _confirmationMessage;
+
     //##################################################
     //# constructor
     //##################################################
@@ -232,6 +238,25 @@ public class ScActionScript
     }
 
     //##################################################
+    //# confirmation
+    //##################################################
+
+    public String getConfirmationMessage()
+    {
+        return _confirmationMessage;
+    }
+
+    public void setConfirmationMessage(String e)
+    {
+        _confirmationMessage = e;
+    }
+
+    public boolean hasConfirmationMessage()
+    {
+        return Kmu.hasValue(getConfirmationMessage());
+    }
+
+    //##################################################
     //# format
     //##################################################
 
@@ -258,6 +283,9 @@ public class ScActionScript
 
         if ( hasBlockTarget() )
             args.setString("block", getBlockTarget().formatJquerySelector());
+
+        if ( hasConfirmationMessage() )
+            args.setString("confirmation", getConfirmationMessage());
 
         out.printf("Kmu.ajax(%s);", args);
     }

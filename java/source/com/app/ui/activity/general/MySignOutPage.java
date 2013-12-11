@@ -1,16 +1,16 @@
 package com.app.ui.activity.general;
 
+import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.control.ScText;
+import com.kodemore.utility.Kmu;
+
 import com.app.ui.activity.MyPage;
 import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.core.MyServletUtility;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyUrls;
-
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.control.ScText;
-import com.kodemore.utility.Kmu;
 
 public class MySignOutPage
     extends MyPage
@@ -116,7 +116,7 @@ public class MySignOutPage
         e = getPageLayout();
         e.ajaxHideLeft();
         e.ajaxHideRight();
-        e.ajaxHideRightDiv();
+        e.ajaxRefreshHeader();
         e.ajaxRefreshFooter();
         e.ajaxClearCenterCss();
     }

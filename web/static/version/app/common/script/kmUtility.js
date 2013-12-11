@@ -20,8 +20,7 @@ var Kmu = {};
  * Used to manage page session state for apps.
  * Client side application scripts will generally NOT access
  * pageSession variables.  Instead, this state is used by
- * the server to coordinate application state without 
- * 
+ * the server to coordinate application state. 
  */
 Kmu.pageSession = {};
 
@@ -110,6 +109,19 @@ Kmu.merge = function(a, b)
     return r;
 }
 
+/**
+ * Create a shallow copy.
+ */
+Kmu.shallowCopy = function(value)
+{
+    var copy = {};
+
+    for ( var key in value ) 
+        if ( value.hasOwnProperty(key) )
+		    copy[key] = value[key];
+    
+    return copy;
+}
 
 /**
  * Print the objects attributes onto the console.log.
@@ -120,7 +132,16 @@ Kmu.logAttributes = function(o)
 	    return;
 	    
 	for ( var e in o )
-	    console.log(e + " => " + o[e]);
+	    if ( o.hasOwnProperty(e) )
+		    console.log(e + " => " + o[e]);
+}
+
+/**
+ * Log the object with JSON.stringify.
+ */
+Kmu.logJson = function(o)
+{
+    Kmu.log(JSON.stringify(o));
 }
 
 //**********************************************************
@@ -162,6 +183,11 @@ Kmu.log = function(s)
         s = '.';
         
     console.log(s.toString());
+}
+
+Kmu.print = function(s)
+{
+    Kmu.log(s);
 }
 
 //**********************************************************
@@ -285,14 +311,43 @@ Kmu.ajaxNavigate = function()
 
 /*
  * options
- *     form:        submit the fields from the optional form.
- *     action:      the action key, typically required.
- *     argument:    the optional argument (uses application specific encoding).
- *     extra:       the optional extra value (no encoding).
- *     block:       optionally block the ui component BEFORE the ajax request.
+ *     action
+ *     		Required string.
+ *     		The action key that identifies the server side function to execute.		
+ *     
+ *     form
+ *     		Optional string selector.
+ *     		Identifies the parameters to be submitted with this request.
+ *     
+ *     argument
+ *     		Optional string.
+ *     		The server expects this to be encoded.
+ *     		See ScEncoder.
+ *     
+ *     extra
+ *     		Optional string.
+ *			If set, pass this value without any encoding.
+ *     
+ *     block
+ *     		Optional string.
+ *     		If set, block the ui component BEFORE the ajax request.
+ *     		This should be a valid css selector.
+ *     
+ *     confirmation
+ *     		Optional string
+ *     		If set, prompt the user to confirm (Ok/Cancel) before submitting.
+ *     		Confirmation is handled with a simple window.confirm() dialog. 
  */
 Kmu.ajax = function(options)
 {
+    if ( options.confirmation )
+    {
+        var msg = options.confirmation.toString();
+		var ok = confirm(msg);
+		if ( !ok )
+		    return;
+    }
+    
    	var extra = {};
    	
    	var onSuccessArr = [];
@@ -1197,3 +1252,27 @@ Kmu.registerDragUpdate = function(parentSelector, childPath, attr, actionId)
         }
     });
 }
+
+//**********************************************************
+//** dropdown menu
+//**********************************************************
+
+
+        function installDropdownMenuAutoClose()
+        {
+            $(document).click(function() 
+            {
+                $('.dropdownMenu').removeClass('open');
+            });
+        }
+        
+        function installDropdownMenu(e)
+        {
+            e = $(e);
+            e.on('click', function(ev)
+            {
+                e.toggleClass('open');
+                ev.stopPropagation();
+            }); 
+        }
+        

@@ -1,23 +1,5 @@
 package com.app.ui.activity.admin.accounts;
 
-import com.app.dao.MyAccountDao;
-import com.app.dao.MyAccountUserDao;
-import com.app.filter.MyAccountUserFilter;
-import com.app.filter.MyUserFilter;
-import com.app.model.MyAccount;
-import com.app.model.MyAccountType;
-import com.app.model.MyAccountUser;
-import com.app.model.MyAccountUserRole;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.model.meta.MyMetaUser;
-import com.app.ui.activity.admin.MyAdminPage;
-import com.app.ui.activity.login.MyJoinAccountUtility;
-import com.app.ui.activity.login.MyTransferAccountUtility;
-import com.app.ui.core.MyPageSession;
-import com.app.ui.layout.MyPageLayout;
-import com.app.utility.MyButtonUrls;
-
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmCollection;
 import com.kodemore.collection.KmList;
@@ -47,6 +29,24 @@ import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
+
+import com.app.dao.MyAccountDao;
+import com.app.dao.MyAccountUserDao;
+import com.app.filter.MyAccountUserFilter;
+import com.app.filter.MyUserFilter;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountType;
+import com.app.model.MyAccountUser;
+import com.app.model.MyAccountUserRole;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaAccountUser;
+import com.app.model.meta.MyMetaUser;
+import com.app.ui.activity.admin.MyAdminPage;
+import com.app.ui.activity.login.MyJoinAccountUtility;
+import com.app.ui.activity.login.MyTransferAccountUtility;
+import com.app.ui.core.MyPageSession;
+import com.app.ui.layout.MyPageLayout;
+import com.app.utility.MyButtonUrls;
 
 public class MyAccountsPage
     extends MyAdminPage
@@ -1118,7 +1118,7 @@ public class MyAccountsPage
 
         a.deleteDao();
 
-        MyPageLayout.getInstance().refreshDropdown();
+        MyPageLayout.getInstance().ajaxRefreshHeader();
 
         ajax().toast("Deleted account %s", a.getName());
 

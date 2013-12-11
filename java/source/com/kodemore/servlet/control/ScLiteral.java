@@ -95,6 +95,14 @@ public class ScLiteral
         _value.setValue(e);
     }
 
+    public void setValue(ScControl e)
+    {
+        if ( e == null )
+            clearValue();
+        else
+            setValue(e.render());
+    }
+
     public void setValue(KmHtmlBuilder out)
     {
         setValue(out.toString());
