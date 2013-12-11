@@ -1,16 +1,17 @@
 package com.app.ui.activity.test;
 
-import com.app.file.MyFilePaths;
-import com.app.ui.activity.MyActivity;
-
 import com.kodemore.servlet.control.ScLiteral;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
+
+import com.app.file.MyFilePaths;
+import com.app.ui.activity.MyPage;
 
 /**
  * Include the content found at /web/test/staticInclude.html
  */
 public class MyStaticIncludeTestPage
-    extends MyActivity
+    extends MyPage
 {
     //##################################################
     //# singleton
@@ -34,9 +35,9 @@ public class MyStaticIncludeTestPage
     //##################################################
 
     @Override
-    protected void install()
+    protected void installRoot(ScPageRoot root)
     {
-        _literal = new ScLiteral();
+        _literal = root.addLiteral();
     }
 
     //##################################################
@@ -44,12 +45,13 @@ public class MyStaticIncludeTestPage
     //##################################################
 
     @Override
-    public void start()
+    public void preRender()
     {
+        super.preRender();
+
         String path = MyFilePaths.getWebPath("test/staticInclude.html");
         String html = Kmu.readTextFile(path);
         _literal.setValue(html);
-
-        ajax().printMain(_literal);
     }
+
 }
