@@ -1,16 +1,16 @@
 package com.app.ui.activity.test;
 
-import com.app.model.MyServerSession;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.ui.core.MyActions;
-import com.app.utility.MyGlobals;
-
 import com.kodemore.servlet.ScMenuItem;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTopMenu;
+
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyActivity;
+import com.app.ui.core.MyActions;
+import com.app.utility.MyGlobals;
 
 public class MyPopupMenuTestPage
     extends MyTestPage
@@ -51,18 +51,18 @@ public class MyPopupMenuTestPage
     }
 
     //##################################################
-    //# start
+    //# print
     //##################################################
 
     @Override
-    public void start()
+    public void preRender()
     {
-        super.start();
+        super.preRender();
 
-        printMenu();
+        renderMenu();
     }
 
-    private void printMenu()
+    private void renderMenu()
     {
         _menu.ajaxRender(getMenu());
     }

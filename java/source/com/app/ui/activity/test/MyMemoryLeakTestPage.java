@@ -1,9 +1,5 @@
 package com.app.ui.activity.test;
 
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaUser;
-import com.app.property.MyPropertyRegistry;
-
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.log.KmLog;
@@ -15,6 +11,10 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDateField;
 import com.kodemore.servlet.script.ScDelayedScript;
+
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaUser;
+import com.app.property.MyPropertyRegistry;
 
 /**
  * Automatically, and repeatedly, loop through page content
@@ -108,14 +108,12 @@ public class MyMemoryLeakTestPage
     }
 
     //##################################################
-    //# start
+    //# print
     //##################################################
 
     @Override
-    public void start()
+    public void preRender()
     {
-        print();
-
         checkLoop();
     }
 

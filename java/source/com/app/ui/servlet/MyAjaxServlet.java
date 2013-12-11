@@ -19,7 +19,6 @@ import com.app.ui.activity.login.MyHandleTransferInvitationActivity;
 import com.app.ui.activity.login.MyInvalidInvitationPage;
 import com.app.ui.activity.login.MySignInActivity;
 import com.app.ui.core.MyServletData;
-import com.app.ui.layout.MyLeftMenu;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyUrls;
@@ -137,7 +136,7 @@ public class MyAjaxServlet
     private void handleNavigate()
     {
         if ( hasCurrentUser() )
-            MyLeftMenu.getInstance().gotoWindowLocation();
+            MyPageLayout.getInstance().getLeftMenu().gotoWindowLocation();
         else
             MySignInActivity.instance.start();
     }

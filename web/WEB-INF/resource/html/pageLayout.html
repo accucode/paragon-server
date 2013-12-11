@@ -57,14 +57,14 @@ Version: ${applicationVersion}
         KmNavigator.printState = function()
         {
             var state = History.getState();
-            History.log(state.data, state.title, state.url);
+            History.log(state.url, state.title, state.data);
         }
 
         KmNavigator.enterApp = function(params)
         {
             Kmu.ajax(
             {
-                action: "_enterApp",
+                action: "_enterPage",
                 argument: params
             });
         }

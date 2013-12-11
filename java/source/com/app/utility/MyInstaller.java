@@ -1,21 +1,33 @@
 package com.app.utility;
 
-import com.app.bridge.*;
-import com.app.dao.core.*;
-import com.app.file.*;
-import com.app.hibernate.*;
-import com.app.job.*;
-import com.app.property.*;
-import com.app.ui.activity.*;
-import com.app.ui.core.*;
-import com.app.ui.layout.*;
-import com.app.ui.servlet.*;
-import com.kodemore.file.*;
-import com.kodemore.patch.*;
-import com.kodemore.servlet.action.*;
-import com.kodemore.servlet.utility.*;
-import com.kodemore.time.*;
-import com.kodemore.utility.*;
+import com.kodemore.file.KmFile;
+import com.kodemore.patch.KmPatchManager;
+import com.kodemore.servlet.action.ScActions;
+import com.kodemore.servlet.action.ScGlobalContext;
+import com.kodemore.servlet.utility.ScControlRegistry;
+import com.kodemore.time.KmTimeZoneBridge;
+import com.kodemore.utility.Kmu;
+
+import com.app.bridge.MyApplicationBridge;
+import com.app.bridge.MyDaoBridge;
+import com.app.bridge.MyDatabaseConnectionFactory;
+import com.app.bridge.MyPatchBridge;
+import com.app.bridge.MyTimeZoneBridge;
+import com.app.dao.core.MyDaoSessionManager;
+import com.app.file.MyFilePaths;
+import com.app.file.MyResourceFiles;
+import com.app.file.MySharedFiles;
+import com.app.hibernate.MyHibernateConfiguration;
+import com.app.job.MyMasterJob;
+import com.app.property.MyPropertyManager;
+import com.app.ui.activity.MyActivityRegistry;
+import com.app.ui.core.MyActions;
+import com.app.ui.core.MyCookieSession;
+import com.app.ui.core.MyPageSession;
+import com.app.ui.layout.MyPageLayout;
+import com.app.ui.layout.MyPageLayoutBridge;
+import com.app.ui.servlet.MyFormatter;
+import com.app.ui.servlet.ScServletCallbackRegistry;
 
 /**
  * I install the application when the servlet container initially
@@ -292,7 +304,6 @@ public class MyInstaller
         _installFormatter();
         _installPageLayout();
         _installHashBridge();
-        _installLeftMenu();
         _installActivities();
 
         lockControlRegistry();
@@ -317,13 +328,6 @@ public class MyInstaller
     {
         printfHeader("Activities");
         MyActivityRegistry.install();
-        printOk();
-    }
-
-    private static void _installLeftMenu()
-    {
-        printfHeader("LeftMenu");
-        MyLeftMenu.install();
         printOk();
     }
 

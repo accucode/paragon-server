@@ -2,17 +2,16 @@
 == To Do
 =======================================
 
-http://localhost:8080/servlet/main?invitation=6DCJP5F-L4O2KG-OVFM7F-08GR5Q
+Refactor ScActivity
+    No more activities.  Just pages.
+    Change page.start to final.
+    Page.start should call reset() which can update the pageSession.
 
-
-Review myInstallerLog
-
-kmHistory.js
-kmNavigation.js    
-myResourceLoader.js
-    
-    
+    Change Navigation
+        Use History.pushState instead of url hashes.
+                
 ---
+Review myInstallerLog
 
 Test on tablets and phones.
     apple and android.

@@ -1,7 +1,5 @@
 package com.app.ui.activity.test;
 
-import com.app.model.MyUser;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -13,6 +11,8 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
+
+import com.app.model.MyUser;
 
 public class MyScriptTestPage
     extends MyTestPage
@@ -116,18 +116,22 @@ public class MyScriptTestPage
     }
 
     //##################################################
-    //# handle
+    //# print
     //##################################################
 
     @Override
-    public void start()
+    public void preRender()
     {
+        super.preRender();
+
         MyUser u;
         u = getAccess().getUserDao().findAll().getFirst();
         u.applyTo(this);
-
-        print();
     }
+
+    //##################################################
+    //# handle
+    //##################################################
 
     private void handleRun()
     {

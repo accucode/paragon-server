@@ -3,9 +3,15 @@ package com.app.ui.activity;
 import com.kodemore.servlet.ScModelApplicatorIF;
 import com.kodemore.servlet.control.ScPageRoot;
 
+import com.app.ui.layout.MyPageLayout;
+
 /**
- * Pages are specialized activities intended to display
- * their contents upon start.
+ * Pages are specialized activities.  Pages print their contents when started.
+ * 
+ * Pages represent a unit of work within the browser's history.
+ * Performing actions and updating the display within a page generally does NOT
+ * move forward in the browser's history.  But moving from one page to the next
+ * DOES generally add a page to the browser's history.
  */
 public abstract class MyPage
     extends MyActivity
@@ -63,9 +69,19 @@ public abstract class MyPage
      * to call super.start(). 
      */
     @Override
-    public void start()
+    public final void start()
     {
+        reset();
+        checkLayout();
         print();
+    }
+
+    /**
+     * Used to optionally reset state when a page starts.
+     */
+    public void reset()
+    {
+        // subclass
     }
 
     //##################################################
@@ -159,6 +175,29 @@ public abstract class MyPage
     {
         if ( hasRoot() )
             getRoot().applyToModel(model);
+    }
+
+    //##################################################
+    //# layout
+    //##################################################
+
+    private void checkLayout()
+    {
+        checkLeftMenu();
+    }
+
+    private void checkLeftMenu()
+    {
+        boolean shows = showsLeftMenu();
+        boolean visible = getData().isTopVisible();
+
+        if ( shows != visible )
+            MyPageLayout.getInstance().showLeftMenu(shows);
+    }
+
+    protected boolean showsLeftMenu()
+    {
+        return true;
     }
 
     //##################################################

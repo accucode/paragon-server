@@ -92,15 +92,16 @@ public class MySignOutPage
     }
 
     //##################################################
-    //# start
+    //# print
     //##################################################
 
     @Override
-    public void start()
+    public void preRender()
     {
+        super.preRender();
+
         signOut();
         resetPage();
-        print();
     }
 
     private void signOut()

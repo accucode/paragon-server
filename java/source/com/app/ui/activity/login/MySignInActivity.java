@@ -333,7 +333,7 @@ public class MySignInActivity
         layout.ajaxRefreshHeader();
 
         MyLeftMenu menu;
-        menu = MyLeftMenu.getInstance();
+        menu = MyPageLayout.getInstance().getLeftMenu();
         menu.ajaxRefreshMenu();
         menu.gotoWindowLocation();
     }

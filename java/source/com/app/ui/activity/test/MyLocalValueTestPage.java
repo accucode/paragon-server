@@ -232,15 +232,15 @@ public class MyLocalValueTestPage
     }
 
     //##################################################
-    //# start
+    //# print
     //##################################################
 
     @Override
-    public void start()
+    public void preRender()
     {
-        updateLists();
+        super.preRender();
 
-        print();
+        updateLists();
     }
 
     //##################################################

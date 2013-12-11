@@ -1,7 +1,5 @@
 package com.app.ui.activity.tools;
 
-import com.app.file.MySharedFiles;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
 import com.kodemore.servlet.action.ScAction;
@@ -14,6 +12,8 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScListField;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
+
+import com.app.file.MySharedFiles;
 
 public class MySharedFileBrowserPage
     extends MyToolsPage
@@ -146,15 +146,16 @@ public class MySharedFileBrowserPage
     }
 
     //##################################################
-    //# start
+    //# print
     //##################################################
 
     @Override
-    public void start()
+    public void preRender()
     {
+        super.preRender();
+
         preRenderFolders();
         preRenderFiles();
-        print();
     }
 
     private void preRenderFolders()

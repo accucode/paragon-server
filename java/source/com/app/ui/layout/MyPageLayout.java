@@ -88,6 +88,7 @@ public class MyPageLayout
 
     private ScDiv          _topRightDiv;
 
+    private MyLeftMenu     _leftMenu;
     private ScDropdownMenu _userMenu;
     private ScDropdownMenu _accountMenu;
     private ScActionIF     _selectAccountAction;
@@ -99,10 +100,31 @@ public class MyPageLayout
 
     public MyPageLayout()
     {
+        installLeftMenu();
         installSelectAccountAction();
         installAccountMenu();
         installUserMenu();
         installTopRightDiv();
+    }
+
+    //==================================================
+    //= install :: left menu
+    //==================================================
+
+    private void installLeftMenu()
+    {
+        _leftMenu = new MyLeftMenu();
+    }
+
+    public void showLeftMenu(boolean show)
+    {
+        if ( show )
+        {
+            ajaxRefreshLeftMenu();
+            ajaxShowLeft();
+        }
+        else
+            ajaxHideLeft();
     }
 
     //==================================================
@@ -303,6 +325,25 @@ public class MyPageLayout
         out.endSpan();
 
         ajax().setContents(FOOTER_SELECTOR, out);
+    }
+
+    //##################################################
+    //# left menu
+    //##################################################
+
+    public MyLeftMenu getLeftMenu()
+    {
+        return _leftMenu;
+    }
+
+    public void ajaxRefreshLeftMenu()
+    {
+        getLeftMenu().ajaxRefreshMenu();
+    }
+
+    public void gotoDefaultPage()
+    {
+        getLeftMenu().gotoDefault();
     }
 
     //##################################################

@@ -58,18 +58,14 @@ public class MyImageButtonTestPage
     }
 
     //##################################################
-    //# start
+    //# print
     //##################################################
 
     @Override
-    public void start()
+    public void preRender()
     {
-        super.start();
-        initializeTooltip();
-    }
+        super.preRender();
 
-    private void initializeTooltip()
-    {
         _form.ajax().tooltip();
     }
 

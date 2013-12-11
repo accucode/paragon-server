@@ -1,12 +1,5 @@
 package com.app.ui.activity.login;
 
-import com.app.model.MyEmail;
-import com.app.model.MyPasswordReset;
-import com.app.model.MyUser;
-import com.app.ui.control.MyDialog;
-import com.app.utility.MyConstantsIF;
-import com.app.utility.MyUrls;
-
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
@@ -14,6 +7,13 @@ import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
+
+import com.app.model.MyEmail;
+import com.app.model.MyPasswordReset;
+import com.app.model.MyUser;
+import com.app.ui.control.MyDialog;
+import com.app.utility.MyConstantsIF;
+import com.app.utility.MyUrls;
 
 public class MyRequestPasswordResetDialog
     extends MyDialog
@@ -69,6 +69,7 @@ public class MyRequestPasswordResetDialog
         ScBox box;
         box = root.addBox();
         box.addText(msg);
+        box.addBreak();
         box.addLabel("Email");
         box.addErrorBox().add(_emailField);
 

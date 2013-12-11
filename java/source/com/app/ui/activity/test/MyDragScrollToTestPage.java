@@ -92,18 +92,14 @@ public class MyDragScrollToTestPage
     }
 
     //##################################################
-    //# start
+    //# print
     //##################################################
 
     @Override
-    public void start()
+    protected void preRender()
     {
-        super.start();
-        initializeSort();
-    }
+        super.preRender();
 
-    private void initializeSort()
-    {
         _blueDiv.ajax().sortableByHandle();
         _blueDiv.ajax().sortableUpdate("> div", "id", _sortAction);
     }

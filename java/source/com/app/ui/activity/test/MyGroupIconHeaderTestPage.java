@@ -84,17 +84,16 @@ public class MyGroupIconHeaderTestPage
     }
 
     //##################################################
-    //# start
+    //# print
     //##################################################
 
     @Override
-    public void start()
+    protected void preRender()
     {
+        super.preRender();
+
         _groupHeader.setText("Welcome " + getCurrentUser().getName());
         _groupHeader.setImageSource(getCommonImageUrl("smiley.png"));
-        _groupHeader.ajaxUpdateValues();
-
-        super.start();
     }
 
     //##################################################

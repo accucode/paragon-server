@@ -1073,13 +1073,13 @@ public class MyAccountsPage
     }
 
     //##################################################
-    //# start
+    //# print
     //##################################################
 
     @Override
-    public void start()
+    protected void preRender()
     {
-        super.start();
+        super.preRender();
 
         setDropdownOptions();
         refreshAll(true);

@@ -9,7 +9,6 @@ import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScSimpleContainer;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.Kmu;
 
 import com.app.ui.activity.MyActivityRegistry;
 import com.app.ui.activity.admin.MyAdminMenuPage;
@@ -22,25 +21,6 @@ import com.app.utility.MyHashBridge;
 
 public class MyLeftMenu
 {
-    //##################################################
-    //# install
-    //##################################################
-
-    private static MyLeftMenu _instance;
-
-    public static void install()
-    {
-        if ( _instance != null )
-            Kmu.fatal("Already installed.");
-
-        _instance = new MyLeftMenu();
-    }
-
-    public static MyLeftMenu getInstance()
-    {
-        return _instance;
-    }
-
     //##################################################
     //# variables
     //##################################################
@@ -188,7 +168,7 @@ public class MyLeftMenu
         }
 
         MyLeftMenu mm;
-        mm = MyLeftMenu.getInstance();
+        mm = MyPageLayout.getInstance().getLeftMenu();
         mm.checkSelection(menuActivity, pageActivity);
 
         pageActivity.start();

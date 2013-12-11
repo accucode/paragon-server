@@ -22,12 +22,12 @@
 
 package com.app.utility;
 
-import com.app.ui.layout.MyLeftMenu;
-
 import com.kodemore.servlet.ScActivity;
 import com.kodemore.servlet.utility.ScHashBridge;
 import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
+
+import com.app.ui.layout.MyPageLayout;
 
 public class MyHashBridge
     extends ScHashBridge
@@ -63,7 +63,7 @@ public class MyHashBridge
     @Override
     public String formatFullHash(ScActivity e)
     {
-        ScActivity menu = MyLeftMenu.getInstance().getSelection();
+        ScActivity menu = MyPageLayout.getInstance().getLeftMenu().getSelection();
 
         if ( menu == null )
             return e.getNavigationHash();

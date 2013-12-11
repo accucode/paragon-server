@@ -7,7 +7,6 @@ import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.core.MyServletData;
-import com.app.ui.layout.MyLeftMenu;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyGlobals;
 
@@ -59,11 +58,8 @@ public class MySignInUtility
         layout = MyPageLayout.getInstance();
         layout.ajaxClearCenter();
         layout.ajaxRefreshHeader();
-
-        MyLeftMenu menu;
-        menu = MyLeftMenu.getInstance();
-        menu.ajaxRefreshMenu();
-        menu.gotoDefault();
+        layout.ajaxRefreshLeftMenu();
+        layout.gotoDefaultPage();
     }
 
     public static String getEmailCookie()

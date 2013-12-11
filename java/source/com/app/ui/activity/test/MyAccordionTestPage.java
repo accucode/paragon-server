@@ -66,18 +66,13 @@ public class MyAccordionTestPage
     }
 
     //##################################################
-    //# start
+    //# print
     //##################################################
 
     @Override
-    public void start()
+    protected void preRender()
     {
-        super.start();
-        initializeAccordion();
-    }
-
-    private void initializeAccordion()
-    {
+        super.preRender();
         _div.ajax().accordionCollapsible();
     }
 }
