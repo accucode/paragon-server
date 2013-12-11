@@ -1,12 +1,14 @@
 package com.kodemore.patch;
 
-import com.kodemore.collection.*;
-import com.kodemore.database.*;
-import com.kodemore.file.*;
-import com.kodemore.log.*;
-import com.kodemore.string.*;
-import com.kodemore.time.*;
-import com.kodemore.utility.*;
+import com.kodemore.collection.KmList;
+import com.kodemore.collection.KmMap;
+import com.kodemore.database.KmDatabaseTool;
+import com.kodemore.file.KmFile;
+import com.kodemore.log.KmConsolePrinter;
+import com.kodemore.log.KmLogPrinter;
+import com.kodemore.string.KmStringBuilder;
+import com.kodemore.time.KmTimestamp;
+import com.kodemore.utility.KmClock;
 
 /**
  * I provide programatic access to the patch functions.
