@@ -1,11 +1,14 @@
 package com.kodemore.database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import com.kodemore.collection.*;
-import com.kodemore.file.*;
-import com.kodemore.log.*;
-import com.kodemore.utility.*;
+import com.kodemore.collection.KmList;
+import com.kodemore.file.KmFile;
+import com.kodemore.log.KmLog;
+import com.kodemore.utility.Kmu;
 
 /**
  * Some utility methods for specialized database manipulation.
@@ -390,7 +393,6 @@ public class KmDatabaseTool
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     private Integer _executeLockCommand(String sql)
     {
         Statement st = null;
