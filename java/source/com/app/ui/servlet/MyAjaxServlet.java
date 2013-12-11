@@ -15,7 +15,7 @@ import com.app.model.MyServerSession;
 import com.app.ui.activity.login.MyAcceptJoinInvitationPage;
 import com.app.ui.activity.login.MyAcceptNewUserInvitationPage;
 import com.app.ui.activity.login.MyPasswordResetPage;
-import com.app.ui.activity.login.MyHandleTransferInvitationActivity;
+import com.app.ui.activity.login.MyAcceptTransferInvitationPage;
 import com.app.ui.activity.login.MyInvalidInvitationPage;
 import com.app.ui.activity.login.MySignInPage;
 import com.app.ui.core.MyServletData;
@@ -231,7 +231,7 @@ public class MyAjaxServlet
                 break;
 
             case Transfer:
-                MyHandleTransferInvitationActivity.instance.start(value);
+                MyAcceptTransferInvitationPage.instance.start(value);
                 break;
 
             case User:

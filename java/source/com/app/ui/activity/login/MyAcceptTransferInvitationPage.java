@@ -1,34 +1,36 @@
 package com.app.ui.activity.login;
 
-import com.app.model.MyAccount;
-import com.app.model.MyInvitation;
-import com.app.model.MyPasswordReset;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.utility.MyUrls;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScStyledText;
 import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.Kmu;
 
-public class MyHandleTransferInvitationActivity
-    extends MyActivity
+import com.app.model.MyAccount;
+import com.app.model.MyInvitation;
+import com.app.model.MyPasswordReset;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyPage;
+import com.app.utility.MyUrls;
+
+public class MyAcceptTransferInvitationPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyHandleTransferInvitationActivity instance = new MyHandleTransferInvitationActivity();
+    public static final MyAcceptTransferInvitationPage instance = new MyAcceptTransferInvitationPage();
 
-    private MyHandleTransferInvitationActivity()
+    private MyAcceptTransferInvitationPage()
     {
         // singleton
     }
@@ -39,8 +41,6 @@ public class MyHandleTransferInvitationActivity
 
     private ScLocalString _accessKey;
 
-    private ScContainer   _root;
-
     private ScText        _emailText;
     private ScText        _accountText;
 
@@ -50,7 +50,7 @@ public class MyHandleTransferInvitationActivity
     private ScBox         _ownerMessageBox;
 
     //##################################################
-    //# install
+    //# setup
     //##################################################
 
     @Override
@@ -64,13 +64,13 @@ public class MyHandleTransferInvitationActivity
     //##################################################
 
     @Override
-    protected void install()
+    protected void installRoot(ScPageRoot root)
     {
         _accessKey = new ScLocalString();
         _accessKey.setAutoSave();
 
         ScGroup group;
-        group = new ScGroup();
+        group = root.addGroup();
 
         group.setTitle("Transfer Account");
         group.style().width(300).marginTop(100).marginCenter();
@@ -80,8 +80,6 @@ public class MyHandleTransferInvitationActivity
         installForm(body);
         installMessageBox(body);
         installOwnerMessageBox(body);
-
-        _root = group;
     }
 
     private void installForm(ScContainer root)
@@ -173,19 +171,19 @@ public class MyHandleTransferInvitationActivity
     public void start(String accessKey)
     {
         setAccessKey(accessKey);
-        _start();
+        start();
     }
 
     @Override
-    public void start()
+    protected void preRender()
     {
-        fatal("Access Key Required");
-    }
+        super.preRender();
 
-    private void _start()
-    {
         String key;
         key = getAccessKey();
+
+        if ( Kmu.isEmpty(key) )
+            fatal("Access Key Required");
 
         MyInvitation inv;
         inv = getAccess().getInvitationDao().findAccessKey(key);
@@ -241,9 +239,6 @@ public class MyHandleTransferInvitationActivity
 
         _form.hide();
         _ownerMessageBox.show();
-
-        ajax().printMain(_root);
-        ajax().focus();
     }
 
     private void displayNewUserMessage(String email, MyAccount a)
@@ -271,9 +266,6 @@ public class MyHandleTransferInvitationActivity
 
         _form.hide();
         _ownerMessageBox.show();
-
-        ajax().printMain(_root);
-        ajax().focus();
     }
 
     private void displayAcceptInvitation(MyInvitation inv, MyUser u, MyAccount a)
@@ -282,9 +274,6 @@ public class MyHandleTransferInvitationActivity
 
         _emailText.setValue(inv.getEmail());
         _accountText.setValue(a.getName());
-
-        ajax().printMain(_root);
-        ajax().focus();
     }
 
     //##################################################
