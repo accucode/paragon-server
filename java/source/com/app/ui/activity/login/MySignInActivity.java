@@ -1,14 +1,5 @@
 package com.app.ui.activity.login;
 
-import com.app.model.MyAutoSignIn;
-import com.app.model.MyServerSession;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.ui.core.MyServerSessionManager;
-import com.app.ui.core.MyServletUtility;
-import com.app.ui.layout.MyLeftMenu;
-import com.app.ui.layout.MyPageLayout;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
@@ -24,6 +15,14 @@ import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
 
+import com.app.model.MyAutoSignIn;
+import com.app.model.MyServerSession;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyActivity;
+import com.app.ui.core.MyServerSessionManager;
+import com.app.ui.layout.MyLeftMenu;
+import com.app.ui.layout.MyPageLayout;
+
 public class MySignInActivity
     extends MyActivity
 {
@@ -37,12 +36,6 @@ public class MySignInActivity
     {
         // singleton
     }
-
-    //##################################################
-    //# constants
-    //##################################################
-
-    private static final String          COOKIE_EMAIL = "email";
 
     //##################################################
     //# variables
@@ -244,7 +237,7 @@ public class MySignInActivity
 
     private boolean startAuto()
     {
-        MyAutoSignIn auto = MyServletUtility.getAutoSignIn();
+        MyAutoSignIn auto = MySignInUtility.getAutoSignIn();
         if ( auto == null )
             return false;
 
@@ -283,7 +276,7 @@ public class MySignInActivity
     {
         _passwordField.ajax().clearValue();
 
-        MyServletUtility.ajaxClearAutoSignIn();
+        MySignInUtility.ajaxClearAutoSignIn();
 
         ajax().hideAllErrors();
         ajax().focus();
@@ -332,7 +325,7 @@ public class MySignInActivity
         ss = MyServerSessionManager.login(user);
         ss.setAutoSignIn(auto);
 
-        MyServletUtility.ajaxSetAutoSignIn(auto);
+        MySignInUtility.ajaxSetAutoSignIn(auto);
 
         MyPageLayout layout;
         layout = MyPageLayout.getInstance();
@@ -347,12 +340,12 @@ public class MySignInActivity
 
     private String getEmailCookie()
     {
-        return getData().getCookie(COOKIE_EMAIL);
+        return MySignInUtility.getEmailCookie();
     }
 
     public void setEmailCookie(String email)
     {
-        ajax().setCookie(COOKIE_EMAIL, email);
+        MySignInUtility.setEmailCookie(email);
     }
 
 }

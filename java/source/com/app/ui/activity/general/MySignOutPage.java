@@ -6,8 +6,8 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.utility.Kmu;
 
 import com.app.ui.activity.MyPage;
+import com.app.ui.activity.login.MySignInUtility;
 import com.app.ui.core.MyServerSessionManager;
-import com.app.ui.core.MyServletUtility;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyUrls;
@@ -105,7 +105,7 @@ public class MySignOutPage
 
     private void signOut()
     {
-        MyServletUtility.ajaxClearAutoSignIn();
+        MySignInUtility.ajaxClearAutoSignIn();
         MyServerSessionManager.beginSession();
         getData().clearPageSession();
     }

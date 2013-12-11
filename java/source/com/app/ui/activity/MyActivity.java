@@ -1,5 +1,12 @@
 package com.app.ui.activity;
 
+import com.kodemore.dao.KmDaoSession;
+import com.kodemore.servlet.ScActivity;
+import com.kodemore.servlet.control.ScControl;
+import com.kodemore.time.KmDate;
+import com.kodemore.time.KmTimestamp;
+import com.kodemore.utility.Kmu;
+
 import com.app.dao.base.MyDaoRegistry;
 import com.app.file.MyFilePaths;
 import com.app.model.MyAccount;
@@ -13,13 +20,6 @@ import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyGlobals;
-
-import com.kodemore.dao.KmDaoSession;
-import com.kodemore.servlet.ScActivity;
-import com.kodemore.servlet.control.ScControl;
-import com.kodemore.time.KmDate;
-import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.Kmu;
 
 public abstract class MyActivity
     extends ScActivity
@@ -125,11 +125,7 @@ public abstract class MyActivity
 
     public MyAccount getCurrentAccount()
     {
-        MyServerSession ss = getServerSession();
-        if ( ss == null )
-            return null;
-
-        return ss.getAccount();
+        return getPageSession().getCurrentAccount();
     }
 
     public String getCurrentAccountUid()

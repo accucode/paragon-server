@@ -89,5 +89,4 @@ public class MySignInUtility
     {
         return getData().ajax();
     }
-
 }

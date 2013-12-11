@@ -587,7 +587,7 @@ public class MyAccounts2Page
         accountUid = getPageSession().getAccountUidHolder().getValue();
 
         if ( accountUid == null )
-            accountUid = getServerSession().getAccount().getUid();
+            accountUid = getPageSession().getCurrentAccount().getUid();
 
         f.setAccountUid(accountUid);
 
@@ -1602,9 +1602,9 @@ public class MyAccounts2Page
 
         _accountDropdown.setOptions(list);
 
-        if ( list.isNotEmpty() && getServerSession().hasAccount() )
+        if ( list.isNotEmpty() && getPageSession().hasCurrentAccount() )
         {
-            String e = getServerSession().getAccount().getUid();
+            String e = getPageSession().getCurrentAccount().getUid();
             _accountDropdown.setValue(e);
             _accountDropdown.ajaxUpdateValue();
         }

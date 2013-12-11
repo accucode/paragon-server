@@ -101,5 +101,6 @@ public abstract class MyActivityRegistryBase
         add(MyUserSettingsPage.instance);
         add(MyUsersPage.instance);
         add(MyUtilityPage.instance);
+        add(MyWyattTestPage.instance);
     }
 }
