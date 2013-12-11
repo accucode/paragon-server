@@ -95,7 +95,7 @@ public class KmPatchManager
         return new doLockDb()
         {
             @Override
-            public boolean handle()
+            public boolean runLocked()
             {
                 return _sync();
             }
@@ -107,7 +107,7 @@ public class KmPatchManager
         return new doLockDb()
         {
             @Override
-            public boolean handle()
+            public boolean runLocked()
             {
                 return _test();
             }
@@ -120,7 +120,7 @@ public class KmPatchManager
         return new doLockDb()
         {
             @Override
-            public boolean handle()
+            public boolean runLocked()
             {
                 return _upgradeAll();
             }
@@ -132,7 +132,7 @@ public class KmPatchManager
         return new doLockDb()
         {
             @Override
-            public boolean handle()
+            public boolean runLocked()
             {
                 return _upgrade(name);
             }
@@ -144,7 +144,7 @@ public class KmPatchManager
         return new doLockDb()
         {
             @Override
-            public boolean handle()
+            public boolean runLocked()
             {
                 return _upgrade(patch);
             }
@@ -156,7 +156,7 @@ public class KmPatchManager
         return new doLockDb()
         {
             @Override
-            public boolean handle()
+            public boolean runLocked()
             {
                 return _downgradeAll();
             }
@@ -168,7 +168,7 @@ public class KmPatchManager
         return new doLockDb()
         {
             @Override
-            public boolean handle()
+            public boolean runLocked()
             {
                 return _downgrade(name);
             }
@@ -180,7 +180,7 @@ public class KmPatchManager
         return new doLockDb()
         {
             @Override
-            public boolean handle()
+            public boolean runLocked()
             {
                 return _downgrade(patch);
             }
@@ -193,7 +193,7 @@ public class KmPatchManager
         return new doLockDb()
         {
             @Override
-            public boolean handle()
+            public boolean runLocked()
             {
                 return _repeat(name);
             }
@@ -206,7 +206,7 @@ public class KmPatchManager
         return new doLockDb()
         {
             @Override
-            public boolean handle()
+            public boolean runLocked()
             {
                 return _repeatLast();
             }
@@ -219,7 +219,7 @@ public class KmPatchManager
         return new doLockDb()
         {
             @Override
-            public boolean handle()
+            public boolean runLocked()
             {
                 return _rerepeatLast();
             }
@@ -551,7 +551,7 @@ public class KmPatchManager
             {
                 lockDatabase();
                 printLog("Database lock obtained.");
-                return handle();
+                return runLocked();
             }
             finally
             {
@@ -560,7 +560,7 @@ public class KmPatchManager
             }
         }
 
-        public abstract boolean handle();
+        public abstract boolean runLocked();
     }
 
 }
