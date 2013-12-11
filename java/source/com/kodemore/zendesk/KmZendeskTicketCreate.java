@@ -1,6 +1,7 @@
 package com.kodemore.zendesk;
 
-import com.kodemore.json.*;
+import com.kodemore.json.KmJsonMap;
+import com.kodemore.json.KmJsonReader;
 
 public class KmZendeskTicketCreate
 {

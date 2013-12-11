@@ -1,10 +1,13 @@
 package com.kodemore.zendesk;
 
-import org.apache.commons.codec.binary.*;
+import org.apache.commons.codec.binary.Base64;
 
-import com.kodemore.collection.*;
-import com.kodemore.http.*;
-import com.kodemore.json.*;
+import com.kodemore.collection.KmOrderedMap;
+import com.kodemore.http.KmHttpGet;
+import com.kodemore.http.KmHttpRequest;
+import com.kodemore.json.KmJsonArray;
+import com.kodemore.json.KmJsonMap;
+import com.kodemore.json.KmJsonReader;
 
 /**
  * I am used connect to Zendesk; make various requests.

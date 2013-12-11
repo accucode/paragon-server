@@ -1,6 +1,6 @@
 package com.kodemore.zendesk;
 
-import com.kodemore.json.*;
+import com.kodemore.json.KmJsonMap;
 
 public class KmZendeskTicketUpdate
 {
