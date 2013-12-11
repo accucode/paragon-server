@@ -451,6 +451,18 @@ public class KmDatabaseTool
         Kmu.fatal("Cannot release lock(%s); unknown response code(%s).", key, x);
     }
 
+    public void unlockSafely(String key)
+    {
+        try
+        {
+            unlock(key);
+        }
+        catch ( Exception ex )
+        {
+            KmLog.error(ex, "Cannot unlock database.");
+        }
+    }
+
     //##################################################
     //# convenience
     //##################################################

@@ -1,12 +1,14 @@
 package com.kodemore.patch;
 
-import com.kodemore.collection.*;
-import com.kodemore.database.*;
-import com.kodemore.file.*;
-import com.kodemore.log.*;
-import com.kodemore.string.*;
-import com.kodemore.time.*;
-import com.kodemore.utility.*;
+import com.kodemore.collection.KmList;
+import com.kodemore.collection.KmMap;
+import com.kodemore.database.KmDatabaseTool;
+import com.kodemore.file.KmFile;
+import com.kodemore.log.KmConsolePrinter;
+import com.kodemore.log.KmLogPrinter;
+import com.kodemore.string.KmStringBuilder;
+import com.kodemore.time.KmTimestamp;
+import com.kodemore.utility.KmClock;
 
 /**
  * I provide programatic access to the patch functions.
@@ -92,10 +94,10 @@ public class KmPatchManager
 
     public boolean sync()
     {
-        return new doLockDb()
+        return new LockedRunnable()
         {
             @Override
-            public boolean runLocked()
+            public boolean handle()
             {
                 return _sync();
             }
@@ -104,10 +106,10 @@ public class KmPatchManager
 
     public boolean test()
     {
-        return new doLockDb()
+        return new LockedRunnable()
         {
             @Override
-            public boolean runLocked()
+            public boolean handle()
             {
                 return _test();
             }
@@ -117,10 +119,10 @@ public class KmPatchManager
 
     public boolean upgradeAll()
     {
-        return new doLockDb()
+        return new LockedRunnable()
         {
             @Override
-            public boolean runLocked()
+            public boolean handle()
             {
                 return _upgradeAll();
             }
@@ -129,10 +131,10 @@ public class KmPatchManager
 
     public boolean upgrade(final String name)
     {
-        return new doLockDb()
+        return new LockedRunnable()
         {
             @Override
-            public boolean runLocked()
+            public boolean handle()
             {
                 return _upgrade(name);
             }
@@ -141,10 +143,10 @@ public class KmPatchManager
 
     public boolean upgrade(final KmPatch patch)
     {
-        return new doLockDb()
+        return new LockedRunnable()
         {
             @Override
-            public boolean runLocked()
+            public boolean handle()
             {
                 return _upgrade(patch);
             }
@@ -153,10 +155,10 @@ public class KmPatchManager
 
     public boolean downgradeAll()
     {
-        return new doLockDb()
+        return new LockedRunnable()
         {
             @Override
-            public boolean runLocked()
+            public boolean handle()
             {
                 return _downgradeAll();
             }
@@ -165,10 +167,10 @@ public class KmPatchManager
 
     public boolean downgrade(final String name)
     {
-        return new doLockDb()
+        return new LockedRunnable()
         {
             @Override
-            public boolean runLocked()
+            public boolean handle()
             {
                 return _downgrade(name);
             }
@@ -177,10 +179,10 @@ public class KmPatchManager
 
     public boolean downgrade(final KmPatch patch)
     {
-        return new doLockDb()
+        return new LockedRunnable()
         {
             @Override
-            public boolean runLocked()
+            public boolean handle()
             {
                 return _downgrade(patch);
             }
@@ -190,10 +192,10 @@ public class KmPatchManager
 
     public boolean repeat(final String name)
     {
-        return new doLockDb()
+        return new LockedRunnable()
         {
             @Override
-            public boolean runLocked()
+            public boolean handle()
             {
                 return _repeat(name);
             }
@@ -203,10 +205,10 @@ public class KmPatchManager
 
     public boolean repeatLast()
     {
-        return new doLockDb()
+        return new LockedRunnable()
         {
             @Override
-            public boolean runLocked()
+            public boolean handle()
             {
                 return _repeatLast();
             }
@@ -215,11 +217,10 @@ public class KmPatchManager
 
     public boolean rerepeatLast()
     {
-
-        return new doLockDb()
+        return new LockedRunnable()
         {
             @Override
-            public boolean runLocked()
+            public boolean handle()
             {
                 return _rerepeatLast();
             }
@@ -227,6 +228,9 @@ public class KmPatchManager
 
     }
 
+    /**
+     * fixme_ryan: this uses a different locking pattern than the methods above.  
+     */
     public void create()
     {
         try
@@ -236,7 +240,7 @@ public class KmPatchManager
         }
         finally
         {
-            unlockDatabase();
+            unlockDatabaseSafely();
         }
     }
 
@@ -514,26 +518,27 @@ public class KmPatchManager
     //##################################################
     //# locking
     //##################################################//
+
     private void lockDatabase()
     {
         printLog("Trying to obtain lock on database before managing patches.");
         while ( true )
         {
-            //try for db lock every 5 seconds for up to 60 seconds
-            if ( getDbTools().lock(DATABASE_PATCH_MANAGER_LOCK, 5, 12, 0) )
+            // try for db lock every 5 seconds for up to 60 seconds
+            if ( getTool().lock(DATABASE_PATCH_MANAGER_LOCK, 5, 12, 0) )
                 return;
 
             printLog("Another Patch Manager process is already running, waiting...");
         }
     }
 
-    private void unlockDatabase()
+    private void unlockDatabaseSafely()
     {
-        getDbTools().unlock(DATABASE_PATCH_MANAGER_LOCK);
-        getDbTools().closeSafely();
+        getTool().unlockSafely(DATABASE_PATCH_MANAGER_LOCK);
+        getTool().closeSafely();
     }
 
-    private KmDatabaseTool getDbTools()
+    private KmDatabaseTool getTool()
     {
         if ( _dbTools == null )
         {
@@ -543,7 +548,7 @@ public class KmPatchManager
         return _dbTools;
     }
 
-    private abstract class doLockDb
+    private abstract class LockedRunnable
     {
         public boolean run()
         {
@@ -551,16 +556,16 @@ public class KmPatchManager
             {
                 lockDatabase();
                 printLog("Database lock obtained.");
-                return runLocked();
+                return handle();
             }
             finally
             {
-                unlockDatabase();
+                unlockDatabaseSafely();
                 printLog("Lock released.");
             }
         }
 
-        public abstract boolean runLocked();
+        public abstract boolean handle();
     }
 
 }
