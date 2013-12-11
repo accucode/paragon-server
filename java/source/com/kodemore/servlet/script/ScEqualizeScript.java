@@ -167,7 +167,7 @@ public class ScEqualizeScript
         boolean height = getEqualizeHeight();
         boolean width = getEqualizeWidth();
 
-        // fixme_wyatt: hack
+        // todo_wyatt: equalize hack
         if ( !getEqualizeHeight() && !getEqualizeWidth() )
         {
             height = true;

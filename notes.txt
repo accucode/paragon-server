@@ -2,6 +2,9 @@
 == To Do
 =======================================
 
+http://localhost:8080/servlet/main?invitation=6DCJP5F-L4O2KG-OVFM7F-08GR5Q
+
+
 Review myInstallerLog
 
 kmHistory.js

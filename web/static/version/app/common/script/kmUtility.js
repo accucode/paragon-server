@@ -340,30 +340,41 @@ Kmu.ajaxNavigate = function()
  */
 Kmu.ajax = function(options)
 {
-    if ( options.confirmation )
-    {
-        var msg = options.confirmation.toString();
-		var ok = confirm(msg);
-		if ( !ok )
-		    return;
-    }
+    if ( !Kmu.checkAjaxConfirmation(options) )
+        return;
+
+    var onSuccessArr;
+    onSuccessArr = Kmu.initAjaxBlocking(options);
+    onSuccessArr.push(Kmu.ajaxSuccess);
     
-   	var extra = {};
-   	
+    var data = Kmu.formatAjaxData(options);
+    
+    // Assumes ROOT servlet context 
+    $.ajax(
+    {
+    	type:   	'POST',
+    	url: 		'/servlet/ajax',
+    	dataType: 	'json',
+    	data: 		data,
+    	success: 	onSuccessArr,
+    	error: 		Kmu.ajaxError,
+    	complete: 	Kmu.ajaxComplete
+    });
+}
+
+Kmu.checkAjaxConfirmation = function(options)
+{
+    if ( !options.confirmation )
+        return true;
+        
+    var msg = options.confirmation.toString();
+	return confirm(msg);
+}
+
+Kmu.initAjaxBlocking = function(options)
+{
    	var onSuccessArr = [];
-
-    if ( options.form )
-        extra._form = options.form;
-
-    if ( options.action )
-        extra._action = options.action;
-
-    if ( options.argument )
-        extra._argument = options.argument;
-
-    if ( options.extra)
-        extra._extraValue = options.extra;
-
+   	
     if ( options.block )
     {
       	var sel = options.block;
@@ -381,44 +392,66 @@ Kmu.ajax = function(options)
         var fn = function() { Kmu.unblockPage(); };
         onSuccessArr.push(fn);
     }
-    
-    if ( Kmu.pageSession )
-        extra._session = JSON.stringify(Kmu.pageSession);
-        
-    extra._windowLocation = window.location.href;
 
-	var extraParams = $.param(extra);
-	
-	var formParams = '';
-    if ( options.form )
-    	formParams = $(options.form).serialize();
-
-    var data;
-	data = null;
-	data = Kmu.appendParams(data, formParams);
-	data = Kmu.appendParams(data, extraParams);
-
-    onSuccessArr.push(Kmu.ajaxSuccess);
-
-    //Assumes ROOT (implied) context 
-    $.ajax(
-    {
-    	type:   	'POST',
-    	url: 		'/servlet/ajax',
-    	data: 		data,
-    	success: 	onSuccessArr,
-    	error: 		Kmu.ajaxError,
-    	complete: 	Kmu.ajaxComplete,
-    	dataType: 	'json'
-    });
+    return onSuccessArr;
 }
 
-Kmu.appendParams = function(prefix, suffix)
+Kmu.formatAjaxData = function(options)
 {
-    if ( !prefix ) return suffix;
-    if ( !suffix ) return prefix;
-    
-    return prefix + "&" + suffix;
+	var baseParams = Kmu.formatAjaxBaseParams(options)
+	var formParams = Kmu.formatAjaxFormParams(options);
+	
+	return Kmu.concatAjaxParams(baseParams, formParams);
+}
+
+Kmu.formatAjaxBaseParams = function(options)
+{
+   	var e;
+   	e = {};
+    e._windowLocation 	= window.location.href;
+    e._isTopVisible   	= Kmu.isLayoutVisible('top');
+    e._isBottomVisible	= Kmu.isLayoutVisible('bottom');
+    e._isLeftVisible  	= Kmu.isLayoutVisible('left');
+    e._isRightVisible	= Kmu.isLayoutVisible('right');
+
+    if ( options.form )
+        e._form = options.form;
+
+    if ( options.action )
+        e._action = options.action;
+
+    if ( options.argument )
+        e._argument = options.argument;
+
+    if ( options.extra)
+        e._extraValue = options.extra;
+
+    if ( Kmu.pageSession )
+        e._session = JSON.stringify(Kmu.pageSession);
+        
+	return $.param(e);        
+}
+
+Kmu.formatAjaxFormParams = function(options)
+{
+    if ( !options.form )
+        return null;
+        
+    return $(options.form).serialize();
+}
+
+Kmu.concatAjaxParams = function(a, b)
+{
+   	if ( a && b )
+   		return a + "&" + b;
+   		
+   	if ( a )
+   	    return a;
+   	    
+   	if ( b )
+   	    return b;
+   	
+    return '';
 }
 
 Kmu.ajaxSuccess = function(result)
@@ -439,6 +472,23 @@ Kmu.ajaxError = function(req, status, error)
  */
 Kmu.ajaxComplete = function(jqXHR, textStatus)
 {
+}
+
+
+//**********************************************************
+//** layout
+//**********************************************************
+
+Kmu.isLayoutVisible = function(side)
+{
+	try
+	{
+		return $('body').data('borderLayout').getChild(side).isVisible();
+	}
+	catch (ex)
+	{
+	    return false;
+	}
 }
 
 //**********************************************************

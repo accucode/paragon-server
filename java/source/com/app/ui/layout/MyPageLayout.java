@@ -181,7 +181,7 @@ public class MyPageLayout
         };
     }
 
-    // todo_wyatt: select account
+    // todo_wyatt: header navigation
     private void handleSelectAccount()
     {
         String uid = getData().getStringArgument();
@@ -223,7 +223,7 @@ public class MyPageLayout
 
     private void handleManageAccounts()
     {
-        // fixme_wyatt: navigate to left menu
+        // todo_wyatt: left menu navigation
         // MyAllAccountsPage.instance.start();
         ajax().toast("accounts");
     }
