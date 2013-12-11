@@ -13,7 +13,7 @@ import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
 import com.app.model.MyServerSession;
 import com.app.ui.activity.login.MyAcceptJoinInvitationPage;
-import com.app.ui.activity.login.MyHandleNewUserInvitationActivity;
+import com.app.ui.activity.login.MyAcceptNewUserInvitationPage;
 import com.app.ui.activity.login.MyPasswordResetPage;
 import com.app.ui.activity.login.MyHandleTransferInvitationActivity;
 import com.app.ui.activity.login.MyInvalidInvitationPage;
@@ -235,7 +235,7 @@ public class MyAjaxServlet
                 break;
 
             case User:
-                MyHandleNewUserInvitationActivity.instance.start(value);
+                MyAcceptNewUserInvitationPage.instance.start(value);
                 break;
         }
 

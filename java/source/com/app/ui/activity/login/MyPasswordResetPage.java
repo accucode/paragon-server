@@ -38,8 +38,6 @@ public class MyPasswordResetPage
 
     private ScLocalString   _accessKey;
 
-    private ScGroup         _root;
-
     private ScBox           _emailBox;
 
     private ScForm          _form;
@@ -70,7 +68,7 @@ public class MyPasswordResetPage
         _accessKey.setAutoSave();
 
         ScGroup group;
-        group = new ScGroup();
+        group = root.addGroup();
         group.setTitle("Reset Password");
         group.style().width(300).marginTop(100).marginCenter();
 
@@ -79,8 +77,6 @@ public class MyPasswordResetPage
         installForm(body);
         installSuccessBox(body);
         installInvalidKeyBox(body);
-
-        _root = group;
     }
 
     private void installForm(ScContainer root)
@@ -254,11 +250,6 @@ public class MyPasswordResetPage
     private void setAccessKey(String e)
     {
         _accessKey.setValue(e);
-    }
-
-    private void clearAccessKey()
-    {
-        _accessKey.clearValue();
     }
 
 }

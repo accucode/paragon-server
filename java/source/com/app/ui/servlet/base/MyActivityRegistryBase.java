@@ -28,6 +28,7 @@ public abstract class MyActivityRegistryBase
         super.registerActivities();
         
         add(MyAcceptJoinInvitationPage.instance);
+        add(MyAcceptNewUserInvitationPage.instance);
         add(MyAccordionTestPage.instance);
         add(MyAccounts2Page.instance);
         add(MyAccountsPage.instance);
@@ -62,7 +63,6 @@ public abstract class MyActivityRegistryBase
         add(MyGridTestPage.instance);
         add(MyGroupIconHeaderTestPage.instance);
         add(MyGroupTestPage.instance);
-        add(MyHandleNewUserInvitationActivity.instance);
         add(MyHandleSortTestPage.instance);
         add(MyHandleTransferInvitationActivity.instance);
         add(MyHideErrorsTestPage.instance);
