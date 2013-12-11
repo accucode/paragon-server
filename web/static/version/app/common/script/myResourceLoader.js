@@ -92,7 +92,8 @@ var MyResourceLoader =
             // Kodemore
             "static/{version}/app/common/script/kmExtensions.js",
             "static/{version}/app/common/script/kmUtility.js",
-            "static/{version}/app/common/script/kmHistory.js",
+            "static/{version}/app/common/script/kmHashHistory.js",
+            "static/{version}/app/common/script/kmNavigator.js",
             "static/{version}/app/common/script/kmBorderLayout.js",
             "static/{version}/app/common/script/kmDropdownMenu.js",
             

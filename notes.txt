@@ -4,9 +4,6 @@
 
 Review myInstallerLog
 
-Ryan
-    eclipse warnings, import *'s
-    
 kmHistory.js
 kmNavigation.js    
 myResourceLoader.js

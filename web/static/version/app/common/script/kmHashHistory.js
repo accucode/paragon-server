@@ -12,7 +12,7 @@
 //**
 //**********************************************************
 
-var KmHistory = {};
+var KmHashHistory = {};
 
 //**********************************************************
 //** functions
@@ -23,7 +23,7 @@ var KmHistory = {};
  * be called each time the browser's window.location
  * changes.
  */
-KmHistory.register = function(fn)
+KmHashHistory.register = function(fn)
 {
     $(window).on('hashchange', fn); 
 }
@@ -34,7 +34,7 @@ KmHistory.register = function(fn)
  * The registered callback method will be executed after
  * the url changes.
  */
-KmHistory.goto = function(hash)
+KmHashHistory.goto = function(hash)
 {
     window.location.hash(hash);
 }
@@ -42,7 +42,7 @@ KmHistory.goto = function(hash)
 /*
  * Navigate to the previous view.
  */
-KmHistory.back = function()
+KmHashHistory.back = function()
 {
     window.history.back();
 }
