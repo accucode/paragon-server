@@ -83,7 +83,7 @@ public abstract class MyActivityRegistryBase
         add(MyScriptTestPage.instance);
         add(MySharedFileBrowserPage.instance);
         add(MyShowDialogTestPage.instance);
-        add(MySignInActivity.instance);
+        add(MySignInPage.instance);
         add(MySignOutPage.instance);
         add(MySlowTestPage.instance);
         add(MySmtpTestPage.instance);

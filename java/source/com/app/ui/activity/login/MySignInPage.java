@@ -10,29 +10,25 @@ import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScImage;
 import com.kodemore.servlet.control.ScLink;
-import com.kodemore.servlet.control.ScSimpleContainer;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.model.MyAutoSignIn;
-import com.app.model.MyServerSession;
 import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.ui.core.MyServerSessionManager;
-import com.app.ui.layout.MyLeftMenu;
-import com.app.ui.layout.MyPageLayout;
+import com.app.ui.activity.MyPage;
 
-public class MySignInActivity
-    extends MyActivity
+public class MySignInPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MySignInActivity instance = new MySignInActivity();
+    public static final MySignInPage instance = new MySignInPage();
 
-    private MySignInActivity()
+    private MySignInPage()
     {
         // singleton
     }
@@ -40,8 +36,6 @@ public class MySignInActivity
     //##################################################
     //# variables
     //##################################################
-
-    private ScContainer                  _root;
 
     private ScForm                       _form;
     private ScTextField                  _emailField;
@@ -61,16 +55,19 @@ public class MySignInActivity
         return false;
     }
 
+    @Override
+    protected boolean showsLeftMenu()
+    {
+        return false;
+    }
+
     //##################################################
     //# install
     //##################################################
 
     @Override
-    protected void install()
+    protected void installRoot(ScPageRoot root)
     {
-        ScContainer root;
-        root = new ScSimpleContainer();
-
         ScArray row;
         row = root.addRow();
         row.setGap(50);
@@ -78,11 +75,8 @@ public class MySignInActivity
 
         installForm(row);
         installLogo(row);
-
         installSignUpDialog(root);
         installPasswordResetDialog(root);
-
-        _root = root;
     }
 
     private void installForm(ScArray root)
@@ -115,6 +109,7 @@ public class MySignInActivity
         ScImage e;
         e = box.addImage();
         e.setSource(getThemeImageUrl("logo300.png"));
+        e.style().width(300).height(300);
     }
 
     private void installFormFields(ScGroup group)
@@ -219,36 +214,32 @@ public class MySignInActivity
     }
 
     //##################################################
-    //# start
+    //# print
     //##################################################
 
     @Override
-    public void start()
+    public void preRender()
     {
-        if ( startAuto() )
-            return;
+        super.preRender();
 
-        String email = getEmailCookie();
-        _emailField.setValue(email);
-
-        ajax().printMain(_root);
-        ajax().focus();
+        _emailField.setValue(getEmailCookie());
     }
 
-    private boolean startAuto()
-    {
-        MyAutoSignIn auto = MySignInUtility.getAutoSignIn();
-        if ( auto == null )
-            return false;
-
-        MyUser user = auto.getUser();
-        if ( !user.allowsLogin() )
-            return false;
-
-        signIn(user, auto);
-
-        return true;
-    }
+    // todo_wyatt: hook up auto login
+    //    private boolean startAuto()
+    //    {
+    //        MyAutoSignIn auto = MySignInUtility.getAutoSignIn();
+    //        if ( auto == null )
+    //            return false;
+    //
+    //        MyUser user = auto.getUser();
+    //        if ( !user.allowsLogin() )
+    //            return false;
+    //
+    //        signIn(user, auto);
+    //
+    //        return true;
+    //    }
 
     //##################################################
     //# handle
@@ -312,40 +303,20 @@ public class MySignInActivity
             auto.saveDao();
         }
 
-        signIn(user, auto);
+        MySignInUtility.signIn(user, auto);
     }
 
     //##################################################
     //# support
     //##################################################
 
-    private void signIn(MyUser user, MyAutoSignIn auto)
-    {
-        MyServerSession ss;
-        ss = MyServerSessionManager.login(user);
-        ss.setAutoSignIn(auto);
-
-        MySignInUtility.ajaxSetAutoSignIn(auto);
-
-        MyPageLayout layout;
-        layout = MyPageLayout.getInstance();
-        layout.ajaxClearCenter();
-        layout.ajaxRefreshHeader();
-
-        MyLeftMenu menu;
-        menu = MyPageLayout.getInstance().getLeftMenu();
-        menu.ajaxRefreshMenu();
-        menu.gotoWindowLocation();
-    }
-
     private String getEmailCookie()
     {
         return MySignInUtility.getEmailCookie();
     }
 
-    public void setEmailCookie(String email)
+    private void setEmailCookie(String email)
     {
         MySignInUtility.setEmailCookie(email);
     }
-
 }

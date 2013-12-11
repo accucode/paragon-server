@@ -9,6 +9,7 @@ import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyGlobals;
+import com.app.utility.MyNavigator;
 
 public class MySignInUtility
 {
@@ -57,9 +58,9 @@ public class MySignInUtility
         MyPageLayout layout;
         layout = MyPageLayout.getInstance();
         layout.ajaxClearCenter();
-        layout.ajaxRefreshHeader();
-        layout.ajaxRefreshLeftMenu();
-        layout.gotoDefaultPage();
+        layout.ajaxRefresh();
+
+        MyNavigator.startDefaultPage();
     }
 
     public static String getEmailCookie()

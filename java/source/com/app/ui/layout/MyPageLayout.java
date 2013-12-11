@@ -465,6 +465,14 @@ public class MyPageLayout
     //# refresh
     //##################################################
 
+    public void ajaxRefresh()
+    {
+        ajaxRefreshHeader();
+        ajaxRefreshFooter();
+        ajaxRefreshLeftMenu();
+
+    }
+
     public void ajaxRefreshHeader()
     {
         ajaxRefreshHeaderLogo();

@@ -17,7 +17,7 @@ import com.app.ui.activity.login.MyHandleNewUserInvitationActivity;
 import com.app.ui.activity.login.MyHandlePasswordResetActivity;
 import com.app.ui.activity.login.MyHandleTransferInvitationActivity;
 import com.app.ui.activity.login.MyInvalidInvitationPage;
-import com.app.ui.activity.login.MySignInActivity;
+import com.app.ui.activity.login.MySignInPage;
 import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyGlobals;
@@ -138,7 +138,7 @@ public class MyAjaxServlet
         if ( hasCurrentUser() )
             MyPageLayout.getInstance().getLeftMenu().gotoWindowLocation();
         else
-            MySignInActivity.instance.start();
+            MySignInPage.instance.start();
     }
 
     private boolean hasCurrentUser()
@@ -177,7 +177,7 @@ public class MyAjaxServlet
         if ( handleEntryParameters() )
             return;
 
-        MySignInActivity.instance.start();
+        MySignInPage.instance.start();
     }
 
     private boolean handleEntryParameters()

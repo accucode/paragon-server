@@ -199,7 +199,7 @@ public class MyRequestPasswordResetDialog
 
     private void setEmailCookie(String email)
     {
-        MySignInActivity.instance.setEmailCookie(email);
+        MySignInUtility.setEmailCookie(email);
     }
 
 }
