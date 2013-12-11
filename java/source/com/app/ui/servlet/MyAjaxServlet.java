@@ -12,9 +12,9 @@ import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
 import com.app.model.MyServerSession;
-import com.app.ui.activity.login.MyHandleJoinInvitationActivity;
+import com.app.ui.activity.login.MyAcceptJoinInvitationPage;
 import com.app.ui.activity.login.MyHandleNewUserInvitationActivity;
-import com.app.ui.activity.login.MyHandlePasswordResetActivity;
+import com.app.ui.activity.login.MyPasswordResetPage;
 import com.app.ui.activity.login.MyHandleTransferInvitationActivity;
 import com.app.ui.activity.login.MyInvalidInvitationPage;
 import com.app.ui.activity.login.MySignInPage;
@@ -227,7 +227,7 @@ public class MyAjaxServlet
         switch ( type )
         {
             case Join:
-                MyHandleJoinInvitationActivity.instance.start(value);
+                MyAcceptJoinInvitationPage.instance.start(value);
                 break;
 
             case Transfer:
@@ -250,7 +250,7 @@ public class MyAjaxServlet
 
         String value = params.get(key);
 
-        MyHandlePasswordResetActivity.instance.start(value);
+        MyPasswordResetPage.instance.start(value);
         return true;
     }
 

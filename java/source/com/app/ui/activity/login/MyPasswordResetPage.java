@@ -6,6 +6,7 @@ import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScStyledText;
 import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.field.ScPasswordField;
@@ -14,19 +15,19 @@ import com.kodemore.utility.Kmu;
 
 import com.app.model.MyPasswordReset;
 import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 import com.app.utility.MyUrls;
 
-public class MyHandlePasswordResetActivity
-    extends MyActivity
+public class MyPasswordResetPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyHandlePasswordResetActivity instance = new MyHandlePasswordResetActivity();
+    public static final MyPasswordResetPage instance = new MyPasswordResetPage();
 
-    private MyHandlePasswordResetActivity()
+    private MyPasswordResetPage()
     {
         // singleton
     }
@@ -63,7 +64,7 @@ public class MyHandlePasswordResetActivity
     //##################################################
 
     @Override
-    protected void install()
+    protected void installRoot(ScPageRoot root)
     {
         _accessKey = new ScLocalString();
         _accessKey.setAutoSave();
@@ -182,19 +183,13 @@ public class MyHandlePasswordResetActivity
     public void start(String key)
     {
         setAccessKey(key);
-        _start();
+        start();
     }
 
     @Override
-    public void start()
+    protected void preRender()
     {
-        clearAccessKey();
-        _start();
-    }
-
-    private void _start()
-    {
-        ajax().printMain(_root);
+        super.preRender();
 
         String key;
         key = getAccessKey();
@@ -204,13 +199,11 @@ public class MyHandlePasswordResetActivity
 
         if ( e == null || e.isNotStatusNew() )
         {
-            _invalidKeyBox.ajax().show();
+            _invalidKeyBox.show();
             return;
         }
 
         _emailBox.ajaxSetText(e.getUser().getEmail());
-        _form.ajax().show();
-        _form.ajax().focus();
     }
 
     //##################################################

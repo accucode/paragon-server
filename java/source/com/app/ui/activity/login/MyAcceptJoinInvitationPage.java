@@ -1,13 +1,5 @@
 package com.app.ui.activity.login;
 
-import com.app.model.MyAccount;
-import com.app.model.MyAccountUserRole;
-import com.app.model.MyInvitation;
-import com.app.model.MyPasswordReset;
-import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
-import com.app.utility.MyUrls;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -15,6 +7,7 @@ import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScErrorBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScStyledText;
 import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.control.ScText;
@@ -24,16 +17,24 @@ import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
-public class MyHandleJoinInvitationActivity
-    extends MyActivity
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUserRole;
+import com.app.model.MyInvitation;
+import com.app.model.MyPasswordReset;
+import com.app.model.MyUser;
+import com.app.ui.activity.MyPage;
+import com.app.utility.MyUrls;
+
+public class MyAcceptJoinInvitationPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyHandleJoinInvitationActivity instance = new MyHandleJoinInvitationActivity();
+    public static final MyAcceptJoinInvitationPage instance = new MyAcceptJoinInvitationPage();
 
-    private MyHandleJoinInvitationActivity()
+    private MyAcceptJoinInvitationPage()
     {
         // singleton
     }
@@ -43,8 +44,6 @@ public class MyHandleJoinInvitationActivity
     //##################################################
 
     private ScLocalString   _accessKey;
-
-    private ScContainer     _root;
 
     private ScText          _emailText;
     private ScText          _accountText;
@@ -56,14 +55,14 @@ public class MyHandleJoinInvitationActivity
 
     private ScBox           _messageBox;
     private ScBox           _chooseLabel;
-    private ScBox           _reEnterLabel;
+    private ScBox           _reenterLabel;
     private ScBox           _joinedMessageBox;
 
     private ScErrorBox      _password1ErrorBox;
     private ScErrorBox      _password2ErrorBox;
 
     //##################################################
-    //# install
+    //# setup
     //##################################################
 
     @Override
@@ -77,23 +76,22 @@ public class MyHandleJoinInvitationActivity
     //##################################################
 
     @Override
-    protected void install()
+    protected void installRoot(ScPageRoot root)
     {
         _accessKey = new ScLocalString();
         _accessKey.setAutoSave();
 
         ScGroup group;
-        group = new ScGroup();
+        group = root.addGroup();
         group.setTitle("Join Account");
         group.style().width(300).marginTop(100).marginCenter();
 
-        ScContainer body = group.getBody();
+        ScContainer body;
+        body = group.getBody();
 
         installForm(body);
         installMessageBox(body);
         installJoinedMessageBox(body);
-
-        _root = group;
     }
 
     private void installForm(ScContainer root)
@@ -139,9 +137,9 @@ public class MyHandleJoinInvitationActivity
         _password1ErrorBox.add(_password1Field);
         _password1ErrorBox.hide();
 
-        _reEnterLabel = form.addLabel("Re-enter Password");
-        _reEnterLabel.css().padTop();
-        _reEnterLabel.hide();
+        _reenterLabel = form.addLabel("Re-enter Password");
+        _reenterLabel.css().padTop();
+        _reenterLabel.hide();
 
         _password2ErrorBox = form.addErrorBox();
         _password2ErrorBox.add(_password2Field);
@@ -210,19 +208,23 @@ public class MyHandleJoinInvitationActivity
     public void start(String accessKey)
     {
         setAccessKey(accessKey);
-        _start();
+        start();
     }
+
+    //##################################################
+    //# print
+    //##################################################
 
     @Override
-    public void start()
+    public void preRender()
     {
-        fatal("Access Key Required");
-    }
+        super.preRender();
 
-    private void _start()
-    {
         String key;
         key = getAccessKey();
+
+        if ( Kmu.isEmpty(key) )
+            fatal("Access Key Required");
 
         MyInvitation inv;
         inv = getAccess().getInvitationDao().findAccessKey(key);
@@ -238,7 +240,7 @@ public class MyHandleJoinInvitationActivity
 
         if ( a.hasMember(u) )
         {
-            displayMemberMsg(email, u, a);
+            displayMemberMessage(email, u, a);
             return;
         }
 
@@ -251,7 +253,7 @@ public class MyHandleJoinInvitationActivity
         displayAcceptInvitation(inv, u, a);
     }
 
-    private void displayMemberMsg(String email, MyUser u, MyAccount a)
+    private void displayMemberMessage(String email, MyUser u, MyAccount a)
     {
         MyPasswordReset r;
         r = new MyPasswordReset();
@@ -278,25 +280,21 @@ public class MyHandleJoinInvitationActivity
 
         _form.hide();
         _joinedMessageBox.show();
-
-        ajax().printMain(_root);
-        ajax().focus();
     }
 
     private void promptForPassword(MyInvitation inv, MyAccount a)
     {
         _password1Field.show();
-        _password2Field.show();
-        _chooseLabel.show();
-        _reEnterLabel.show();
         _password1ErrorBox.show();
+
+        _password2Field.show();
         _password2ErrorBox.show();
+
+        _chooseLabel.show();
+        _reenterLabel.show();
 
         _emailText.setValue(inv.getEmail());
         _accountText.setValue(a.getName());
-
-        ajax().printMain(_root);
-        ajax().focus();
     }
 
     private void displayAcceptInvitation(MyInvitation inv, MyUser u, MyAccount a)
@@ -305,9 +303,6 @@ public class MyHandleJoinInvitationActivity
 
         _emailText.setValue(inv.getEmail());
         _accountText.setValue(a.getName());
-
-        ajax().printMain(_root);
-        ajax().focus();
     }
 
     //##################################################
@@ -389,5 +384,4 @@ public class MyHandleJoinInvitationActivity
     {
         _accessKey.setValue(e);
     }
-
 }

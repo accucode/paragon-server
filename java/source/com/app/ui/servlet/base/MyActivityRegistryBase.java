@@ -27,6 +27,7 @@ public abstract class MyActivityRegistryBase
     {
         super.registerActivities();
         
+        add(MyAcceptJoinInvitationPage.instance);
         add(MyAccordionTestPage.instance);
         add(MyAccounts2Page.instance);
         add(MyAccountsPage.instance);
@@ -61,9 +62,7 @@ public abstract class MyActivityRegistryBase
         add(MyGridTestPage.instance);
         add(MyGroupIconHeaderTestPage.instance);
         add(MyGroupTestPage.instance);
-        add(MyHandleJoinInvitationActivity.instance);
         add(MyHandleNewUserInvitationActivity.instance);
-        add(MyHandlePasswordResetActivity.instance);
         add(MyHandleSortTestPage.instance);
         add(MyHandleTransferInvitationActivity.instance);
         add(MyHideErrorsTestPage.instance);
@@ -76,6 +75,7 @@ public abstract class MyActivityRegistryBase
         add(MyNotebookTestPage.instance);
         add(MyOpenWindowTestPage.instance);
         add(MyPaddingTestPage.instance);
+        add(MyPasswordResetPage.instance);
         add(MyPerformanceLogPage.instance);
         add(MyPlaceholderTestPage.instance);
         add(MyPopupMenuTestPage.instance);
