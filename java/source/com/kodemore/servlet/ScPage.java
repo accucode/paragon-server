@@ -6,12 +6,11 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.script.ScRootScript;
-import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.utility.Kmu;
 
-public abstract class ScActivity
+public abstract class ScPage
     implements ScActionContextIF
 {
     //##################################################
@@ -25,9 +24,9 @@ public abstract class ScActivity
     //# constructor
     //##################################################
 
-    protected ScActivity()
+    protected ScPage()
     {
-        _key = ScControlRegistry.getInstance().getNextKey();
+        _key = newKey();
         _startAction = newStartAction();
     }
 
@@ -44,7 +43,17 @@ public abstract class ScActivity
 
     public boolean hasKey(String s)
     {
-        return Kmu.isEqual(_key, s);
+        return Kmu.isEqual(getKey(), s);
+    }
+
+    protected String newKey()
+    {
+        // return ScControlRegistry.getInstance().getNextKey();
+        String s;
+        s = getClass().getSimpleName();
+        s = Kmu.removePrefix(s, "My");
+        s = Kmu.lowercaseFirstLetter(s);
+        return s;
     }
 
     //##################################################
@@ -63,7 +72,7 @@ public abstract class ScActivity
             @Override
             protected void handle()
             {
-                ScActivity.this.start();
+                ScPage.this.start();
             }
         };
     }

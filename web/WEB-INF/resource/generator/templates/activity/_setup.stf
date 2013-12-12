@@ -1,9 +1,9 @@
 setup
-: name              = activityRegistryBase
-: template          = activityRegistryBase.vm
+: name              = pageRegistryBase
+: template          = pageRegistryBase.vm
 : targetDirectory   = java/source/${packagePath}/ui/servlet/base
 : fileMode          = oneFile
-: fileName          = ${Prefix}ActivityRegistryBase.java
+: fileName          = ${Prefix}PageRegistryBase.java
 : ifExists          = overwrite
 
 setup

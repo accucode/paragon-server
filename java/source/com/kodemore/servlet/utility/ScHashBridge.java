@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.utility;
 
-import com.kodemore.servlet.ScActivity;
+import com.kodemore.servlet.ScPage;
 
 public abstract class ScHashBridge
 {
@@ -49,6 +49,6 @@ public abstract class ScHashBridge
     //# general
     //##################################################
 
-    public abstract String formatFullHash(ScActivity e);
+    public abstract String formatFullHash(ScPage e);
 
 }

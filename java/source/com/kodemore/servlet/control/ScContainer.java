@@ -26,7 +26,7 @@ import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.meta.KmMetaProperty;
-import com.kodemore.servlet.ScActivity;
+import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScColorField;
@@ -216,12 +216,12 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScAbstractLink addLink(ScActivity e)
+    public ScAbstractLink addLink(ScPage e)
     {
         return addLink(e.getName(), e);
     }
 
-    public ScAbstractLink addLink(String text, ScActivity e)
+    public ScAbstractLink addLink(String text, ScPage e)
     {
         ScActivityLink link;
         link = new ScActivityLink();
@@ -286,12 +286,12 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScButton addButton(ScActivity e)
+    public ScButton addButton(ScPage e)
     {
         return addButton(e.getName(), e);
     }
 
-    public ScButton addButton(String text, ScActivity e)
+    public ScButton addButton(String text, ScPage e)
     {
         ScActivityButton b;
         b = new ScActivityButton();

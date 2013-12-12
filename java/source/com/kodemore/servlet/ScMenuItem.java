@@ -179,7 +179,7 @@ public class ScMenuItem
         return e;
     }
 
-    public ScMenuItem addChild(String text, ScActivity e)
+    public ScMenuItem addChild(String text, ScPage e)
     {
         return addChild(text, e.getStartAction());
     }

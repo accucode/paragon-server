@@ -1,12 +1,12 @@
 package com.app.ui.activity;
 
-import com.kodemore.servlet.ScActivityRegistry;
+import com.kodemore.servlet.ScPageRegistry;
 
 import com.app.ui.activity.general.MyHomePage;
-import com.app.ui.servlet.base.MyActivityRegistryBase;
+import com.app.ui.servlet.base.MyPageRegistryBase;
 
-public class MyActivityRegistry
-    extends MyActivityRegistryBase
+public class MyPageRegistry
+    extends MyPageRegistryBase
 {
     //##################################################
     //# install
@@ -14,19 +14,19 @@ public class MyActivityRegistry
 
     public static void install()
     {
-        ScActivityRegistry.install(new MyActivityRegistry());
+        ScPageRegistry.install(new MyPageRegistry());
     }
 
-    public static MyActivityRegistry getInstance()
+    public static MyPageRegistry getInstance()
     {
-        return (MyActivityRegistry)ScActivityRegistry.getInstance();
+        return (MyPageRegistry)ScPageRegistry.getInstance();
     }
 
     //##################################################
     //# constructor
     //##################################################
 
-    protected MyActivityRegistry()
+    protected MyPageRegistry()
     {
         // protected
     }

@@ -5,15 +5,15 @@ import com.kodemore.collection.KmMap;
 import com.kodemore.log.KmLog;
 import com.kodemore.utility.Kmu;
 
-public abstract class ScActivityRegistry
+public abstract class ScPageRegistry
 {
     //##################################################
     //# static
     //##################################################
 
-    private static ScActivityRegistry _instance;
+    private static ScPageRegistry _instance;
 
-    protected static synchronized void install(ScActivityRegistry e)
+    protected static synchronized void install(ScPageRegistry e)
     {
         if ( _instance != null )
             Kmu.fatal("Already installed.");
@@ -21,7 +21,7 @@ public abstract class ScActivityRegistry
         _instance = e;
     }
 
-    public static ScActivityRegistry getInstance()
+    public static ScPageRegistry getInstance()
     {
         if ( _instance == null )
             Kmu.fatal("Not installed.");
@@ -33,26 +33,26 @@ public abstract class ScActivityRegistry
     //# variables
     //##################################################
 
-    private KmMap<String,ScActivity> _activities;
+    private KmMap<String,ScPage> _pages;
 
     //##################################################
     //# constructor
     //##################################################
 
-    protected ScActivityRegistry()
+    protected ScPageRegistry()
     {
-        _activities = new KmMap<String,ScActivity>();
-        registerActivities();
-        installActivities();
+        _pages = new KmMap<String,ScPage>();
+        registerPages();
+        installPages();
     }
 
     //##################################################
     //# accessing
     //##################################################
 
-    public ScActivity findKey(String key)
+    public ScPage findKey(String key)
     {
-        ScActivity e = _activities.get(key);
+        ScPage e = _pages.get(key);
         if ( e != null )
             return e;
 
@@ -62,11 +62,11 @@ public abstract class ScActivityRegistry
         throw new ScSessionTimeoutException(msg);
     }
 
-    public ScActivity findNavigationHash(String hash)
+    public ScPage findNavigationHash(String hash)
     {
-        KmList<ScActivity> v = getActivities();
+        KmList<ScPage> v = getPages();
 
-        for ( ScActivity e : v )
+        for ( ScPage e : v )
             if ( e.hasNavigationHash(hash) )
                 return e;
 
@@ -75,45 +75,45 @@ public abstract class ScActivityRegistry
 
     public boolean hasKey(String key)
     {
-        return _activities.containsKey(key);
+        return _pages.containsKey(key);
     }
 
-    public KmList<String> getActivityKeys()
+    public KmList<String> getPageKeys()
     {
-        return _activities.getKeys();
+        return _pages.getKeys();
     }
 
-    public KmList<ScActivity> getActivities()
+    public KmList<ScPage> getPages()
     {
-        return _activities.getValues();
+        return _pages.getValues();
     }
 
-    public void add(ScActivity e)
+    public void add(ScPage e)
     {
         String key = e.getKey();
 
         if ( key == null )
             Kmu.fatal("Attempt to register null page key.");
 
-        if ( _activities.containsKey(key) )
+        if ( _pages.containsKey(key) )
             Kmu.fatal("Attempt to register duplicate page key (%s)", key);
 
-        _activities.put(key, e);
+        _pages.put(key, e);
     }
 
     //##################################################
     //# init
     //##################################################
 
-    protected void registerActivities()
+    protected void registerPages()
     {
         // subclass override
     }
 
-    private void installActivities()
+    private void installPages()
     {
-        KmList<ScActivity> v = _activities.getValues();
-        for ( ScActivity e : v )
+        KmList<ScPage> v = _pages.getValues();
+        for ( ScPage e : v )
             e.install();
     }
 

@@ -20,7 +20,7 @@ import com.app.file.MySharedFiles;
 import com.app.hibernate.MyHibernateConfiguration;
 import com.app.job.MyMasterJob;
 import com.app.property.MyPropertyManager;
-import com.app.ui.activity.MyActivityRegistry;
+import com.app.ui.activity.MyPageRegistry;
 import com.app.ui.core.MyActions;
 import com.app.ui.core.MyCookieSession;
 import com.app.ui.core.MyPageSession;
@@ -327,7 +327,7 @@ public class MyInstaller
     private static void _installActivities()
     {
         printfHeader("Activities");
-        MyActivityRegistry.install();
+        MyPageRegistry.install();
         printOk();
     }
 

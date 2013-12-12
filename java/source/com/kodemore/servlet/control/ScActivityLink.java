@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.servlet.ScActivity;
+import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.utility.ScHashBridge;
 
 /**
@@ -35,7 +35,7 @@ public class ScActivityLink
     //# variables
     //##################################################
 
-    private ScActivity _activity;
+    private ScPage _activity;
 
     //##################################################
     //# init
@@ -51,12 +51,12 @@ public class ScActivityLink
     //# accessing
     //##################################################
 
-    public ScActivity getActivity()
+    public ScPage getActivity()
     {
         return _activity;
     }
 
-    public void setActivity(ScActivity e)
+    public void setActivity(ScPage e)
     {
         _activity = e;
     }

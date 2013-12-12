@@ -157,9 +157,6 @@ public abstract class MyPage
             getRoot().applyFromModel(model);
     }
 
-    /**
-     * Copy some of the model's properties into myself.
-     */
     @Override
     public void applyFromModel(Object model, boolean skipFields)
     {
@@ -167,9 +164,6 @@ public abstract class MyPage
             getRoot().applyFromModel(model, skipFields);
     }
 
-    /**
-     * Copy some of my properties into the model.
-     */
     @Override
     public void applyToModel(Object model)
     {

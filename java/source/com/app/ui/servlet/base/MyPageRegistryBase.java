@@ -8,7 +8,7 @@
 
 package com.app.ui.servlet.base;
 
-import com.kodemore.servlet.ScActivityRegistry;
+import com.kodemore.servlet.ScPageRegistry;
 
 import com.app.ui.activity.admin.MyAdminMenuPage;
 import com.app.ui.activity.admin.MyEmailEditPage;
@@ -86,13 +86,13 @@ import com.app.ui.activity.tools.MyUtilityPage;
 import com.app.ui.activity.user.MyUserPasswordPage;
 import com.app.ui.activity.user.MyUserSettingsPage;
 
-public abstract class MyActivityRegistryBase
-    extends ScActivityRegistry
+public abstract class MyPageRegistryBase
+    extends ScPageRegistry
 {
     @Override
-    protected void registerActivities()
+    protected void registerPages()
     {
-        super.registerActivities();
+        super.registerPages();
         
         add(MyAcceptJoinInvitationPage.instance);
         add(MyAcceptNewUserInvitationPage.instance);

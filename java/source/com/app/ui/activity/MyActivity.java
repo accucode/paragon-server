@@ -1,7 +1,7 @@
 package com.app.ui.activity;
 
 import com.kodemore.dao.KmDaoSession;
-import com.kodemore.servlet.ScActivity;
+import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
@@ -22,7 +22,7 @@ import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyGlobals;
 
 public abstract class MyActivity
-    extends ScActivity
+    extends ScPage
 {
     //##################################################
     //# settings

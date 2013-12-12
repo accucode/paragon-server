@@ -2,15 +2,15 @@ package com.app.ui.layout;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
-import com.kodemore.servlet.ScActivity;
-import com.kodemore.servlet.ScActivityRegistry;
+import com.kodemore.servlet.ScPage;
+import com.kodemore.servlet.ScPageRegistry;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScSimpleContainer;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.variable.ScLocalString;
 
-import com.app.ui.activity.MyActivityRegistry;
+import com.app.ui.activity.MyPageRegistry;
 import com.app.ui.activity.admin.MyAdminMenuPage;
 import com.app.ui.activity.general.MyHomePage;
 import com.app.ui.activity.test.MyTestMenuPage;
@@ -41,10 +41,10 @@ public class MyLeftMenu
     //# basics
     //##################################################
 
-    private KmList<ScActivity> getList()
+    private KmList<ScPage> getList()
     {
-        KmList<ScActivity> v;
-        v = new KmList<ScActivity>();
+        KmList<ScPage> v;
+        v = new KmList<ScPage>();
 
         v.add(MyHomePage.instance);
         v.add(MyAdminMenuPage.instance);
@@ -54,9 +54,9 @@ public class MyLeftMenu
         return v;
     }
 
-    private ScActivity getDefault()
+    private ScPage getDefault()
     {
-        return MyActivityRegistry.getInstance().getHomeActivity();
+        return MyPageRegistry.getInstance().getHomeActivity();
     }
 
     //##################################################
@@ -72,7 +72,7 @@ public class MyLeftMenu
         ScSimpleContainer root;
         root = new ScSimpleContainer();
 
-        for ( ScActivity e : getList() )
+        for ( ScPage e : getList() )
             addMenuTo(root, e);
 
         String leftCss;
@@ -88,7 +88,7 @@ public class MyLeftMenu
         layout.ajaxSetCenterCss(centerCss);
     }
 
-    private void addMenuTo(ScContainer root, ScActivity e)
+    private void addMenuTo(ScContainer root, ScPage e)
     {
         ScDiv div;
         div = root.addDiv();
@@ -108,7 +108,7 @@ public class MyLeftMenu
      * 
      * (For now we simply refresh the _entire_ menu.)
      */
-    public void ajaxRefreshSelection(ScActivity e)
+    public void ajaxRefreshSelection(ScPage e)
     {
         setSelection(e);
 
@@ -124,7 +124,7 @@ public class MyLeftMenu
      * actual ui update will be managed during a subsequent callback
      * that is trigged when the url changes.
      */
-    public void gotoActivity(ScActivity e)
+    public void gotoActivity(ScPage e)
     {
         setSelection(e);
 
@@ -157,9 +157,9 @@ public class MyLeftMenu
         String menuHash = hh.parseMenuHash(fullHash);
         String pageHash = hh.parsePageHash(fullHash);
 
-        ScActivityRegistry rr = MyActivityRegistry.getInstance();
-        ScActivity menuActivity = rr.findNavigationHash(menuHash);
-        ScActivity pageActivity = rr.findNavigationHash(pageHash);
+        ScPageRegistry rr = MyPageRegistry.getInstance();
+        ScPage menuActivity = rr.findNavigationHash(menuHash);
+        ScPage pageActivity = rr.findNavigationHash(pageHash);
 
         if ( pageActivity == null )
         {
@@ -178,13 +178,13 @@ public class MyLeftMenu
     //# selection
     //##################################################
 
-    public ScActivity getSelection()
+    public ScPage getSelection()
     {
         String key = getSelectedKey();
         if ( key == null )
             return null;
 
-        return ScActivityRegistry.getInstance().findKey(key);
+        return ScPageRegistry.getInstance().findKey(key);
     }
 
     public String getSelectedKey()
@@ -192,12 +192,12 @@ public class MyLeftMenu
         return _selectedKey.getValue();
     }
 
-    private void setSelection(ScActivity e)
+    private void setSelection(ScPage e)
     {
         _selectedKey.setValue(e.getKey());
     }
 
-    private boolean isSelected(ScActivity e)
+    private boolean isSelected(ScPage e)
     {
         return e.hasKey(_selectedKey.getValue());
     }
@@ -206,7 +206,7 @@ public class MyLeftMenu
      * Update the selection and refresh the ui, but only if the
      * requested activity is part of the menu.
      */
-    public boolean checkSelection(ScActivity primary, ScActivity alternate)
+    public boolean checkSelection(ScPage primary, ScPage alternate)
     {
         if ( checkSelection(primary) )
             return true;
@@ -221,7 +221,7 @@ public class MyLeftMenu
      * Update the selection and refresh the ui, but only if the
      * requested activity is part of the menu.
      */
-    public boolean checkSelection(ScActivity e)
+    public boolean checkSelection(ScPage e)
     {
         if ( !isMenuItem(e) )
             return false;
@@ -231,9 +231,9 @@ public class MyLeftMenu
         return true;
     }
 
-    public boolean isMenuItem(ScActivity a)
+    public boolean isMenuItem(ScPage a)
     {
-        for ( ScActivity e : getList() )
+        for ( ScPage e : getList() )
             if ( e.equals(a) )
                 return true;
 
