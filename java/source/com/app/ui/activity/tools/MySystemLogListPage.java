@@ -22,7 +22,7 @@ import com.app.filter.MySystemLogFilter;
 import com.app.model.MySystemLog;
 import com.app.model.MySystemLogTools;
 import com.app.model.meta.MyMetaSystemLog;
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 
 public class MySystemLogListPage
     extends MyToolsPage
@@ -31,7 +31,7 @@ public class MySystemLogListPage
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MySystemLogListPage();
+    public static final MyPage instance = new MySystemLogListPage();
 
     private MySystemLogListPage()
     {

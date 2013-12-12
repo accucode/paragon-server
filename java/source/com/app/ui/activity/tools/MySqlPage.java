@@ -16,7 +16,7 @@ import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.sql.formatter.KmSqlResultComposer;
 import com.kodemore.utility.Kmu;
 
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 import com.app.utility.MyButtonUrls;
 
 public class MySqlPage
@@ -26,7 +26,7 @@ public class MySqlPage
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MySqlPage();
+    public static final MyPage instance = new MySqlPage();
 
     private MySqlPage()
     {

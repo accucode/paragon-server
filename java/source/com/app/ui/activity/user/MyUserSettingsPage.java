@@ -4,10 +4,10 @@ import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
-import com.app.ui.activity.MyPage;
+import com.app.ui.activity.MySubPage;
 
 public class MyUserSettingsPage
-    extends MyPage
+    extends MySubPage
 {
     //##################################################
     //# singleton

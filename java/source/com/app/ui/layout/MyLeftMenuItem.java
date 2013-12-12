@@ -3,7 +3,7 @@ package com.app.ui.layout;
 import com.kodemore.collection.KmList;
 
 import com.app.model.MyAccount;
-import com.app.ui.activity.MyPage;
+import com.app.ui.activity.MySubPage;
 import com.app.ui.activity.general.MyHomePage;
 import com.app.ui.activity.test.MyTestMenuPage;
 import com.app.ui.activity.tools.MyToolsMenuPage;
@@ -87,7 +87,7 @@ public enum MyLeftMenuItem
     }
 
     // todo menu pages: 
-    public MyPage getPage()
+    public MySubPage getPage()
     {
         MyLeftMenuItem item = this;
         switch ( item )

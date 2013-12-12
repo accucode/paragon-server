@@ -5,7 +5,7 @@ import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScGoogleChart;
 import com.kodemore.servlet.control.ScPageRoot;
 
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 
 public class MyGoogleChartTestPage
     extends MyTestPage
@@ -14,7 +14,7 @@ public class MyGoogleChartTestPage
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MyGoogleChartTestPage();
+    public static final MyPage instance = new MyGoogleChartTestPage();
 
     private MyGoogleChartTestPage()
     {

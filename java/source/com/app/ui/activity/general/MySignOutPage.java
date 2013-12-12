@@ -5,7 +5,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.utility.Kmu;
 
-import com.app.ui.activity.MyPage;
+import com.app.ui.activity.MySubPage;
 import com.app.ui.activity.login.MySignInUtility;
 import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.layout.MyPageLayout;
@@ -13,7 +13,7 @@ import com.app.utility.MyConstantsIF;
 import com.app.utility.MyUrls;
 
 public class MySignOutPage
-    extends MyPage
+    extends MySubPage
 {
     //##################################################
     //# singleton

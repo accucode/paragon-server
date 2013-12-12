@@ -8,7 +8,7 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 
 public class MyPlaceholderTestPage
     extends MyTestPage
@@ -17,7 +17,7 @@ public class MyPlaceholderTestPage
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MyPlaceholderTestPage();
+    public static final MyPage instance = new MyPlaceholderTestPage();
 
     private MyPlaceholderTestPage()
     {

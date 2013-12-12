@@ -4,11 +4,11 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
-import com.app.ui.activity.MyPage;
+import com.app.ui.activity.MySubPage;
 import com.app.utility.MyConstantsIF;
 
 public class MyHomePage
-    extends MyPage
+    extends MySubPage
 {
     //##################################################
     //# singleton

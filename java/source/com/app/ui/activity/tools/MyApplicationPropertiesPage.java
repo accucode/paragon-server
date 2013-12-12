@@ -12,7 +12,7 @@ import com.kodemore.servlet.control.ScText;
 import com.app.property.MyPropertyDefinition;
 import com.app.property.MyPropertyRegistry;
 import com.app.property.base.MyPropertyDefinitions;
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 
 public class MyApplicationPropertiesPage
     extends MyToolsPage
@@ -21,7 +21,7 @@ public class MyApplicationPropertiesPage
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MyApplicationPropertiesPage();
+    public static final MyPage instance = new MyApplicationPropertiesPage();
 
     private MyApplicationPropertiesPage()
     {

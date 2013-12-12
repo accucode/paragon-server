@@ -35,7 +35,7 @@ public class MyPageRegistry
     //# accessing
     //##################################################
 
-    public MyActivity getHomeActivity()
+    public MyPage getHomeActivity()
     {
         return MyHomePage.instance;
     }

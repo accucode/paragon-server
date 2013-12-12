@@ -11,7 +11,7 @@ import com.kodemore.servlet.script.ScAddContentScript;
 import com.kodemore.utility.KmBeanShell;
 
 import com.app.file.MyResourceFiles;
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 
 public class MyBeanShellPage
     extends MyToolsPage
@@ -20,7 +20,7 @@ public class MyBeanShellPage
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MyBeanShellPage();
+    public static final MyPage instance = new MyBeanShellPage();
 
     private MyBeanShellPage()
     {

@@ -10,7 +10,7 @@ import com.kodemore.servlet.control.ScTable;
 import com.kodemore.servlet.control.ScTableCell;
 import com.kodemore.servlet.control.ScTableRow;
 
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 
 public class MySystemPropertiesPage
     extends MyToolsPage
@@ -25,7 +25,7 @@ public class MySystemPropertiesPage
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MySystemPropertiesPage();
+    public static final MyPage instance = new MySystemPropertiesPage();
 
     private MySystemPropertiesPage()
     {

@@ -15,11 +15,11 @@ import com.kodemore.utility.Kmu;
 
 import com.app.model.MyPasswordReset;
 import com.app.model.MyUser;
-import com.app.ui.activity.MyPage;
+import com.app.ui.activity.MySubPage;
 import com.app.utility.MyUrls;
 
 public class MyPasswordResetPage
-    extends MyPage
+    extends MySubPage
 {
     //##################################################
     //# singleton

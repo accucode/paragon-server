@@ -20,7 +20,7 @@ import com.kodemore.utility.KmNamedEnumIF;
 
 import com.app.model.MyPerformanceLogSummaryVo;
 import com.app.model.meta.MyMetaPerformanceLogSummaryVo;
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 
 public class MyPerformanceLogPage
     extends MyToolsPage
@@ -29,7 +29,7 @@ public class MyPerformanceLogPage
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MyPerformanceLogPage();
+    public static final MyPage instance = new MyPerformanceLogPage();
 
     private MyPerformanceLogPage()
     {

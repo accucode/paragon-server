@@ -12,7 +12,7 @@ import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.email.MyEmailGmailMethod;
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 
 public class MyGmailTestPage
     extends MyTestPage
@@ -21,7 +21,7 @@ public class MyGmailTestPage
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MyGmailTestPage();
+    public static final MyPage instance = new MyGmailTestPage();
 
     private MyGmailTestPage()
     {

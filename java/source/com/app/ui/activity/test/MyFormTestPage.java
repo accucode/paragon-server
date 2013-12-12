@@ -7,7 +7,7 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 
 public class MyFormTestPage
     extends MyTestPage
@@ -16,7 +16,7 @@ public class MyFormTestPage
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MyFormTestPage();
+    public static final MyPage instance = new MyFormTestPage();
 
     private MyFormTestPage()
     {

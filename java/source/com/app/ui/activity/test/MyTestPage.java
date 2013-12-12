@@ -1,9 +1,9 @@
 package com.app.ui.activity.test;
 
-import com.app.ui.activity.MyPage;
+import com.app.ui.activity.MySubPage;
 
 public abstract class MyTestPage
-    extends MyPage
+    extends MySubPage
 {
     //##################################################
     //# security 

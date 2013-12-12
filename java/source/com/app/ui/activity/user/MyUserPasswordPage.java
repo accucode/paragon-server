@@ -12,10 +12,10 @@ import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyUser;
-import com.app.ui.activity.MyPage;
+import com.app.ui.activity.MySubPage;
 
 public class MyUserPasswordPage
-    extends MyPage
+    extends MySubPage
 {
     //##################################################
     //# singleton

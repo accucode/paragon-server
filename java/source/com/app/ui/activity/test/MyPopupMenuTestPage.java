@@ -8,7 +8,7 @@ import com.kodemore.servlet.control.ScTopMenu;
 
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 import com.app.ui.core.MyActions;
 import com.app.utility.MyGlobals;
 
@@ -19,7 +19,7 @@ public class MyPopupMenuTestPage
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MyPopupMenuTestPage();
+    public static final MyPage instance = new MyPopupMenuTestPage();
 
     private MyPopupMenuTestPage()
     {

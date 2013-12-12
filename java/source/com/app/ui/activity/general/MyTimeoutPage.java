@@ -6,11 +6,11 @@ import com.kodemore.servlet.control.ScGeneralButton;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
-import com.app.ui.activity.MyPage;
+import com.app.ui.activity.MySubPage;
 import com.app.utility.MyUrls;
 
 public class MyTimeoutPage
-    extends MyPage
+    extends MySubPage
 {
     //##################################################
     //# singleton

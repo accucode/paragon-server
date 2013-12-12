@@ -2,7 +2,7 @@ package com.app.ui.activity.admin.userProfile;
 
 import com.kodemore.servlet.control.ScPageRoot;
 
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 import com.app.ui.activity.admin.MyAdminPage;
 
 public class MyUserProfilePage
@@ -12,7 +12,7 @@ public class MyUserProfilePage
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MyUserProfilePage();
+    public static final MyPage instance = new MyUserProfilePage();
 
     private MyUserProfilePage()
     {

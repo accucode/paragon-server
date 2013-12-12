@@ -14,7 +14,7 @@ import com.kodemore.utility.Kmu;
 
 import com.app.model.MyTimeZone;
 import com.app.property.MyPropertyManager;
-import com.app.ui.activity.MyActivity;
+import com.app.ui.activity.MyPage;
 import com.app.ui.core.MyServletData;
 
 public class MyUtilityPage
@@ -24,7 +24,7 @@ public class MyUtilityPage
     //# singleton
     //##################################################
 
-    public static final MyActivity instance = new MyUtilityPage();
+    public static final MyPage instance = new MyUtilityPage();
 
     private MyUtilityPage()
     {
