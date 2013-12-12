@@ -19,7 +19,6 @@ import com.kodemore.utility.Kmu;
  */
 public abstract class ScPage
     implements ScActionContextIF, ScModelApplicatorIF
-
 {
     //##################################################
     //# variables
@@ -387,6 +386,7 @@ public abstract class ScPage
         s = getClass().getSimpleName();
         s = Kmu.removePrefix(s, "My");
         s = Kmu.removeSuffix(s, "Page");
+        s = Kmu.removeSuffix(s, "Menu");
         s = Kmu.formatAsCapitalizedNames(s);
         return s;
     }
