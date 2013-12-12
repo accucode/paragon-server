@@ -8,7 +8,17 @@
 
 package com.app.property.base;
 
-import com.kodemore.property.KmPropertyRegistry;
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.log.*;
+import com.kodemore.policy.date.*;
+import com.kodemore.policy.time.*;
+import com.kodemore.policy.weight.*;
+import com.kodemore.property.*;
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
+
+import com.app.model.*;
 
 public class MyPropertyRegistryBase
     extends KmPropertyRegistry

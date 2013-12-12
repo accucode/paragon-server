@@ -8,11 +8,26 @@
 
 package com.app.model.meta;
 
-import com.kodemore.comparator.KmCompareUtility;
-import com.kodemore.meta.KmMetaDateProperty;
-import com.kodemore.time.KmDate;
+import java.util.*;
 
-import com.app.model.MySystemLog;
+import com.kodemore.adaptor.*;
+import com.kodemore.collection.*;
+import com.kodemore.comparator.*;
+import com.kodemore.exception.*;
+import com.kodemore.match.*;
+import com.kodemore.meta.*;
+import com.kodemore.servlet.encoder.*;
+import com.kodemore.servlet.field.*;
+import com.kodemore.time.*;
+import com.kodemore.types.*;
+import com.kodemore.utility.*;
+import com.kodemore.validator.*;
+
+import com.app.dao.*;
+import com.app.dao.base.*;
+import com.app.model.*;
+import com.app.model.core.*;
+import com.app.utility.*;
 
 public class MyMetaSystemLog_CreatedLocalDate
     extends KmMetaDateProperty<MySystemLog>

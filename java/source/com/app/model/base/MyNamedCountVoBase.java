@@ -8,16 +8,20 @@
 
 package com.app.model.base;
 
-import com.kodemore.collection.KmMap;
-import com.kodemore.servlet.utility.ScFormatter;
-import com.kodemore.utility.KmProperties;
-import com.kodemore.utility.Kmu;
+import java.util.*;
 
-import com.app.model.MyNamedCountVo;
-import com.app.model.MyNamedCountVoTools;
-import com.app.model.MyNamedCountVoValidator;
-import com.app.model.core.MyAbstractDomain;
-import com.app.model.meta.MyMetaNamedCountVo;
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.servlet.encoder.*;
+import com.kodemore.servlet.utility.*;
+import com.kodemore.time.*;
+import com.kodemore.types.*;
+import com.kodemore.utility.*;
+
+import com.app.model.*;
+import com.app.model.core.*;
+import com.app.model.meta.*;
+import com.app.utility.*;
 
 public abstract class MyNamedCountVoBase
     extends MyAbstractDomain

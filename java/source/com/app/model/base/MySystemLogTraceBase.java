@@ -8,18 +8,20 @@
 
 package com.app.model.base;
 
-import com.kodemore.collection.KmMap;
-import com.kodemore.servlet.utility.ScFormatter;
-import com.kodemore.utility.KmProperties;
-import com.kodemore.utility.KmSequenceIF;
-import com.kodemore.utility.Kmu;
+import java.util.*;
 
-import com.app.model.MySystemLog;
-import com.app.model.MySystemLogTrace;
-import com.app.model.MySystemLogTraceTools;
-import com.app.model.MySystemLogTraceValidator;
-import com.app.model.core.MyAbstractDomain;
-import com.app.model.meta.MyMetaSystemLogTrace;
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.servlet.encoder.*;
+import com.kodemore.servlet.utility.*;
+import com.kodemore.time.*;
+import com.kodemore.types.*;
+import com.kodemore.utility.*;
+
+import com.app.model.*;
+import com.app.model.core.*;
+import com.app.model.meta.*;
+import com.app.utility.*;
 
 public abstract class MySystemLogTraceBase
     extends MyAbstractDomain

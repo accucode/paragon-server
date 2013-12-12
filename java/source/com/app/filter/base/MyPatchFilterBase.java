@@ -8,14 +8,17 @@
 
 package com.app.filter.base;
 
-import com.kodemore.hibernate.criteria.KmModelCriteria;
+import com.kodemore.collection.*;
+import com.kodemore.hibernate.criteria.*;
 
-import com.app.criteria.MyPatchCriteria;
-import com.app.dao.MyPatchDao;
-import com.app.dao.base.MyPatchDaoConstantsIF;
-import com.app.filter.core.MyBasicFilter;
-import com.app.model.MyPatch;
-import com.app.model.meta.MyMetaPatch;
+import com.app.command.base.*;
+import com.app.criteria.*;
+import com.app.dao.*;
+import com.app.dao.base.*;
+import com.app.filter.*;
+import com.app.filter.core.*;
+import com.app.model.*;
+import com.app.model.meta.*;
 
 public abstract class MyPatchFilterBase
     extends MyBasicFilter<MyPatch>

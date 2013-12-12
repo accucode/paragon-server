@@ -8,23 +8,20 @@
 
 package com.app.model.base;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import com.kodemore.collection.KmCollection;
-import com.kodemore.collection.KmHibernateCollection;
-import com.kodemore.collection.KmMap;
-import com.kodemore.servlet.utility.ScFormatter;
-import com.kodemore.utility.KmProperties;
-import com.kodemore.utility.Kmu;
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.servlet.encoder.*;
+import com.kodemore.servlet.utility.*;
+import com.kodemore.time.*;
+import com.kodemore.types.*;
+import com.kodemore.utility.*;
 
-import com.app.model.MyAccount;
-import com.app.model.MyAccountTools;
-import com.app.model.MyAccountType;
-import com.app.model.MyAccountUser;
-import com.app.model.MyAccountValidator;
-import com.app.model.core.MyAbstractDomain;
-import com.app.model.meta.MyMetaAccount;
+import com.app.model.*;
+import com.app.model.core.*;
+import com.app.model.meta.*;
+import com.app.utility.*;
 
 public abstract class MyAccountBase
     extends MyAbstractDomain

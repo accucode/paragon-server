@@ -8,11 +8,13 @@
 
 package com.app.finder;
 
-import com.kodemore.utility.KmKeyFinderIF;
+import com.kodemore.collection.*;
+import com.kodemore.utility.*;
 
-import com.app.dao.MyFileDao;
-import com.app.finder.core.MyDaoKeyFinder;
-import com.app.model.MyFile;
+import com.app.dao.*;
+import com.app.dao.base.*;
+import com.app.finder.core.*;
+import com.app.model.*;
 
 public class MyFileFinder
     implements KmKeyFinderIF<MyFile,Integer>
