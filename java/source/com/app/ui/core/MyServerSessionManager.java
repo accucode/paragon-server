@@ -20,7 +20,7 @@ public class MyServerSessionManager
     //##################################################
 
     /**
-     * Install a new session.
+     * Start a new session.
      * If a session already exists, close it first.
      */
     public static void beginSession()

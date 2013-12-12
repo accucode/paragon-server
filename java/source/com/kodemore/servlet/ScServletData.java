@@ -1073,9 +1073,9 @@ public class ScServletData
         out.beginHtml();
 
         out.beginHead();
-        out.printTitle("Loading...");
         out.printMetaCharsetUtf8();
         out.printMetaNoCache();
+        out.printTitle("Loading...");
         out.endHead();
 
         out.openBody();

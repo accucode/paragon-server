@@ -46,6 +46,7 @@ Version: ${applicationVersion}
         {
             KmNavigator.printState();
 
+            var state = History.getState();
             var ps = state.data.pageSession;
             if ( ps === undefined )
                 ps = {};
@@ -60,32 +61,51 @@ Version: ${applicationVersion}
             History.log(state.url, state.title, state.data);
         }
 
-        KmNavigator.enterApp = function(params)
+        /**
+         * Push a page on the history stack.
+         * The options parameter supports the following attributes:
+         *
+         *      url
+         *          The url to be pushed. 
+         *          This is the only required attribute, and is pushed 'as is'.
+         *
+         *      title
+         *          Although this may be used to update the browser's title, it is
+         *          not well supported.  If no value is specified, we use an empty string. 
+         *
+         *      silent
+         *          By defualt, a push normally triggers the statechange event.  
+         *          If silent is set to true, the statechange event is temporarily disabled.
+         */
+        KmNavigator.pushPage = function(options)
         {
-            Kmu.ajax(
-            {
-                action: "_enterPage",
-                argument: params
-            });
-        }
-
-        KmNavigator.enterPage = function(pageToken)
-        {
+            var url = options.url;
+            
+            var title = options.title;
+            if ( !title )
+                title = '';
+            
             var data = 
             {
                 pageSession: Kmu.pageSession
             };
             
-            var title = '';
-            var url = '?page=' + pageToken;
-                        
-            History.pushState(data, title, url);
-            
-            Kmu.ajax(
+            var silent = options.silent;
+            if ( silent )
+            { 
+                KmNavigator.unbind();
+                History.pushState(data, title, url);
+                KmNavigator.bind();
+            }
+            else
             {
-                action: "_enterPage",
-                extra: pageToken
-            });
+                History.pushState(data, title, url);
+            }
+        }
+        
+        KmNavigator.pushUrl = function(url)
+        {
+            KmNavigator.pushPage({url: url});
         }
 
         KmNavigator.printCurrentPage = function()

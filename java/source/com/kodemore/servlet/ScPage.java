@@ -1,14 +1,18 @@
 package com.kodemore.servlet;
 
+import com.kodemore.collection.KmList;
+import com.kodemore.collection.KmOrderedMap;
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.servlet.utility.ScUrls;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -80,8 +84,51 @@ public abstract class ScPage
         String s;
         s = getClass().getSimpleName();
         s = Kmu.removePrefix(s, "My");
+        s = Kmu.removeSuffix(s, "Page");
         s = Kmu.lowercaseFirstLetter(s);
         return s;
+    }
+
+    //##################################################
+    //# url
+    //##################################################
+
+    public String formatUrlParameters()
+    {
+        KmOrderedMap<String,Object> params;
+        params = new KmOrderedMap<String,Object>();
+
+        encodeParameters(params);
+
+        return formatUrlParameters(params);
+
+    }
+
+    private String formatUrlParameters(KmOrderedMap<String,Object> params)
+    {
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.print("?");
+
+        KmList<String> keys = params.getKeys();
+        for ( String key : keys )
+        {
+            Object value = params.get(key);
+            String encodedValue = ScEncoder.staticEncode(value);
+
+            out.print(key);
+            out.print("=");
+            out.print(encodedValue);
+            out.print("&");
+        }
+
+        out.removeSuffix("&");
+        return out.toString();
+    }
+
+    private void encodeParameters(KmOrderedMap<String,Object> params)
+    {
+        params.put("page", getKey());
     }
 
     //##################################################
@@ -120,55 +167,36 @@ public abstract class ScPage
     }
 
     //##################################################
-    //# model
-    //##################################################
-
-    protected void applyFromModel(Object model)
-    {
-        if ( hasRoot() )
-            getRoot().applyFromModel(model);
-    }
-
-    @Override
-    public void applyFromModel(Object model, boolean skipFields)
-    {
-        if ( hasRoot() )
-            getRoot().applyFromModel(model, skipFields);
-    }
-
-    @Override
-    public void applyToModel(Object model)
-    {
-        if ( hasRoot() )
-            getRoot().applyToModel(model);
-    }
-
-    //##################################################
-    //# navigation
+    //# start
     //##################################################
 
     /**
-     * Return a hash that can be used as part of the application
-     * url to control navigation with the browser's back button.
+     * By default, simply call print(), to display the root control.
+     * Subclasses may freely override this method and do NOT need
+     * to call super.start(). 
      */
-    public String getNavigationHash()
+    public final void start()
     {
-        return getKey();
-    }
-
-    public boolean hasNavigationHash(String e)
-    {
-        return Kmu.isEqual(getNavigationHash(), e);
+        reset();
+        checkLayout();
+        print();
     }
 
     /**
-     * If true, various tools (e.g.: buttons and links)
-     * will default to browser-url navigation rather than
-     * direct ajax requests.
+     * Allow subclasses to reset state when the page is started.
      */
-    public boolean usesNavigation()
+    protected void reset()
     {
-        return true;
+        // subclass
+    }
+
+    /**
+     * Allow subclasses perform appropriate updates to the page layout when the
+     * page starts.
+     */
+    protected void checkLayout()
+    {
+        // subclass
     }
 
     //##################################################
@@ -187,11 +215,6 @@ public abstract class ScPage
     protected final void print()
     {
         print(getAutoFocus());
-    }
-
-    protected boolean getAutoFocus()
-    {
-        return true;
     }
 
     protected final void print(boolean focus)
@@ -217,6 +240,15 @@ public abstract class ScPage
     }
 
     /**
+     * If true (the default), we will attempt to automatically set
+     * focus on the first field on the page.
+     */
+    protected boolean getAutoFocus()
+    {
+        return true;
+    }
+
+    /**
      * I am called immediately BEFORE the page is printed.
      * I provide a hook for subclasses.
      */
@@ -232,6 +264,48 @@ public abstract class ScPage
     protected void postRender()
     {
         // subclass
+    }
+
+    //##################################################
+    //# navigation
+    //##################################################
+
+    /**
+     * Return a hash that can be used as part of the application
+     * url to control navigation with the browser's back button.
+     */
+    public String getNavigationHash()
+    {
+        return getKey();
+    }
+
+    public boolean hasNavigationHash(String e)
+    {
+        return Kmu.isEqual(getNavigationHash(), e);
+    }
+
+    //##################################################
+    //# model
+    //##################################################
+
+    protected void applyFromModel(Object model)
+    {
+        if ( hasRoot() )
+            getRoot().applyFromModel(model);
+    }
+
+    @Override
+    public void applyFromModel(Object model, boolean skipFields)
+    {
+        if ( hasRoot() )
+            getRoot().applyFromModel(model, skipFields);
+    }
+
+    @Override
+    public void applyToModel(Object model)
+    {
+        if ( hasRoot() )
+            getRoot().applyToModel(model);
     }
 
     //##################################################
@@ -322,58 +396,6 @@ public abstract class ScPage
     }
 
     //##################################################
-    //# errors
-    //##################################################
-
-    protected void cancel()
-    {
-        Kmu.cancel();
-    }
-
-    protected void error(String msg, Object... args)
-    {
-        Kmu.error(msg, args);
-    }
-
-    protected void fatal(String msg, Object... args)
-    {
-        Kmu.fatal(msg, args);
-    }
-
-    //##################################################
-    //# start
-    //##################################################
-
-    /**
-     * By default, simply call print(), to display the root control.
-     * Subclasses may freely override this method and do NOT need
-     * to call super.start(). 
-     */
-    public final void start()
-    {
-        reset();
-        checkLayout();
-        print();
-    }
-
-    /**
-     * Allow subclasses to reset state when the page is started.
-     */
-    protected void reset()
-    {
-        // subclass
-    }
-
-    /**
-     * Allow subclasses perform appropriate updates to the page layout when the
-     * page starts.
-     */
-    protected void checkLayout()
-    {
-        // subclass
-    }
-
-    //##################################################
     //# display
     //##################################################
 
@@ -405,6 +427,25 @@ public abstract class ScPage
     {
         if ( hasRoot() )
             getRoot().validate();
+    }
+
+    //##################################################
+    //# errors
+    //##################################################
+
+    protected void cancel()
+    {
+        Kmu.cancel();
+    }
+
+    protected void error(String msg, Object... args)
+    {
+        Kmu.error(msg, args);
+    }
+
+    protected void fatal(String msg, Object... args)
+    {
+        Kmu.fatal(msg, args);
     }
 
     //##################################################

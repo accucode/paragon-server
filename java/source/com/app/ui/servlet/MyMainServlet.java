@@ -18,7 +18,7 @@ import com.app.utility.MyUrls;
  * from an HTTP GET.  
  * 
  * -- Redirect to a standard url.      
- * -- Redirect the GET with a POST.
+ * -- Redirect the GET with a POST (to avoid caching).
  * -- Begin the server session and register the cookie.
  * -- Generate the minimal html page, just enough to bootstrap the first ajax request.
  */
@@ -44,10 +44,18 @@ public class MyMainServlet
     @Override
     protected void doPost()
     {
+        String url = getData().getFullRequestUrl();
+        // remove_wyatt: print
+        System.out.println("MyMainServlet.doPost: " + url);
+
         beginServerSession();
         String html = formatHtml();
         getData().setHtmlResult(html);
     }
+
+    //##################################################
+    //# redirect
+    //##################################################
 
     /**
      * Redirect the client to a standard url.
