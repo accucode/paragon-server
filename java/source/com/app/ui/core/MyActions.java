@@ -6,7 +6,7 @@ import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.script.ScRootScript;
 
-import com.app.ui.activity.general.MySignOutPage;
+import com.app.ui.page.general.MySignOutPage;
 
 public class MyActions
     implements ScActionContextIF

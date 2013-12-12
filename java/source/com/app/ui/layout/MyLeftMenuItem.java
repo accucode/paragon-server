@@ -3,11 +3,11 @@ package com.app.ui.layout;
 import com.kodemore.collection.KmList;
 
 import com.app.model.MyAccount;
-import com.app.ui.activity.MySubPage;
-import com.app.ui.activity.general.MyHomePage;
-import com.app.ui.activity.test.MyTestMenuPage;
-import com.app.ui.activity.tools.MyToolsMenuPage;
 import com.app.ui.core.MyPageSession;
+import com.app.ui.page.MySubPage;
+import com.app.ui.page.general.MyHomePage;
+import com.app.ui.page.test.MyTestMenuPage;
+import com.app.ui.page.tools.MyToolsMenuPage;
 import com.app.utility.MyGlobals;
 
 public enum MyLeftMenuItem

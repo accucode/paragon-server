@@ -1,6 +1,6 @@
 package com.app.utility;
 
-import com.app.ui.activity.general.MyHomePage;
+import com.app.ui.page.general.MyHomePage;
 
 public class MyNavigator
 {

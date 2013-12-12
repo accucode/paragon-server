@@ -295,7 +295,7 @@ public class MyGenerator
 
         String pkg = APPLICATION_PACKAGE;
         String pkgPrefix = Kmu.replaceAll(pkg, DOT, SLASH);
-        String pkgSuffix = "ui/activity";
+        String pkgSuffix = "ui/page";
 
         String path;
         path = MyDevelopmentFiles.getJavaSourcePath(pkgPrefix, pkgSuffix);

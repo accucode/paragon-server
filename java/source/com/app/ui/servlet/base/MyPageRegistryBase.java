@@ -10,14 +10,14 @@ package com.app.ui.servlet.base;
 
 import com.kodemore.servlet.*;
 
-import com.app.ui.activity.admin.*;
-import com.app.ui.activity.admin.accounts.*;
-import com.app.ui.activity.admin.userProfile.*;
-import com.app.ui.activity.general.*;
-import com.app.ui.activity.login.*;
-import com.app.ui.activity.test.*;
-import com.app.ui.activity.tools.*;
-import com.app.ui.activity.user.*;
+import com.app.ui.page.admin.*;
+import com.app.ui.page.admin.accounts.*;
+import com.app.ui.page.admin.userProfile.*;
+import com.app.ui.page.general.*;
+import com.app.ui.page.login.*;
+import com.app.ui.page.test.*;
+import com.app.ui.page.tools.*;
+import com.app.ui.page.user.*;
 
 public abstract class MyPageRegistryBase
     extends ScPageRegistry

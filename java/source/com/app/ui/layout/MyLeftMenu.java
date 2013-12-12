@@ -10,12 +10,12 @@ import com.kodemore.servlet.control.ScSimpleContainer;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.variable.ScLocalString;
 
-import com.app.ui.activity.MyPageRegistry;
-import com.app.ui.activity.admin.MyAdminMenuPage;
-import com.app.ui.activity.general.MyHomePage;
-import com.app.ui.activity.test.MyTestMenuPage;
-import com.app.ui.activity.tools.MyToolsMenuPage;
 import com.app.ui.core.MyServletData;
+import com.app.ui.page.MyPageRegistry;
+import com.app.ui.page.admin.MyAdminMenuPage;
+import com.app.ui.page.general.MyHomePage;
+import com.app.ui.page.test.MyTestMenuPage;
+import com.app.ui.page.tools.MyToolsMenuPage;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyHashBridge;
 
