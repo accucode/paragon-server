@@ -1,9 +1,9 @@
 package com.app.ui.page.tools;
 
-import com.app.ui.page.MySubPage;
+import com.app.ui.page.MyPage;
 
 public abstract class MyToolsPage
-    extends MySubPage
+    extends MyPage
 {
     //##################################################
     //# security

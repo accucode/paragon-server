@@ -2,12 +2,14 @@ package com.app.utility;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
+import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.types.KmMoney;
 import com.kodemore.utility.KmRandom;
 import com.kodemore.utility.KmSha1;
 import com.kodemore.utility.Kmu;
 
+import com.app.file.MyFilePaths;
 import com.app.property.MyPropertyRegistry;
 
 public class MyUtility
@@ -258,5 +260,17 @@ public class MyUtility
         s = Kmu.removeSuffix(s, "Page");
         s = Kmu.removeSuffix(s, "Portlet");
         return s;
+    }
+
+    //##################################################
+    //# files
+    //##################################################
+
+    protected void writeTempWebFile(String file, ScControl c)
+    {
+        String path = MyFilePaths.getWebPath(file);
+        String html = c.render().formatHtml();
+
+        Kmu.writeFile(path, html);
     }
 }

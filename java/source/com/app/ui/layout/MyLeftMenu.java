@@ -93,7 +93,7 @@ public class MyLeftMenu
         ScDiv div;
         div = root.addDiv();
         div.setOnClickHash(e.getNavigationHash());
-        div.addText(e.getName());
+        div.addText(e.getTitle());
 
         if ( isSelected(e) )
             div.css().appMenu_selectedItem();

@@ -5,13 +5,21 @@ import com.kodemore.log.KmLog;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.utility.Kmu;
 
+/**
+ * Pages represent a unit of work within the browser's history.
+ * Performing actions and updating the display within a page generally does NOT
+ * move forward in the browser's history.  But moving from one page to the next
+ * DOES generally add a page to the browser's history.
+ */
 public abstract class ScPage
-    implements ScActionContextIF
+    implements ScActionContextIF, ScModelApplicatorIF
+
 {
     //##################################################
     //# variables
@@ -19,6 +27,12 @@ public abstract class ScPage
 
     private String     _key;
     private ScActionIF _startAction;
+
+    /**
+     * Each page is assumed to have a single root.
+     * The root may be null, which will result in a blank page.
+     */
+    private ScPageRoot _root;
 
     //##################################################
     //# constructor
@@ -30,7 +44,22 @@ public abstract class ScPage
         _startAction = newStartAction();
     }
 
-    protected abstract void install();
+    //##################################################
+    //# install
+    //##################################################
+
+    public final void install()
+    {
+        _root = newPageRoot();
+        installRoot(_root);
+    }
+
+    protected abstract void installRoot(ScPageRoot root);
+
+    protected ScPageRoot newPageRoot()
+    {
+        return new ScPageRoot(this);
+    }
 
     //##################################################
     //# key
@@ -78,6 +107,44 @@ public abstract class ScPage
     }
 
     //##################################################
+    //# root
+    //##################################################
+
+    public ScPageRoot getRoot()
+    {
+        return _root;
+    }
+
+    public boolean hasRoot()
+    {
+        return _root != null;
+    }
+
+    //##################################################
+    //# model
+    //##################################################
+
+    protected void applyFromModel(Object model)
+    {
+        if ( hasRoot() )
+            getRoot().applyFromModel(model);
+    }
+
+    @Override
+    public void applyFromModel(Object model, boolean skipFields)
+    {
+        if ( hasRoot() )
+            getRoot().applyFromModel(model, skipFields);
+    }
+
+    @Override
+    public void applyToModel(Object model)
+    {
+        if ( hasRoot() )
+            getRoot().applyToModel(model);
+    }
+
+    //##################################################
     //# navigation
     //##################################################
 
@@ -103,6 +170,69 @@ public abstract class ScPage
     public boolean usesNavigation()
     {
         return true;
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    /**
+     * A convenience method that:
+     *      - peforms the generic security,
+     *      - displays the root control in the layout's main area, 
+     *      - attempts to set focus on the root.
+     *      
+     * Subclasses can use preRender and postRender to hook into
+     * the print process.
+     */
+    protected final void print()
+    {
+        print(getAutoFocus());
+    }
+
+    protected boolean getAutoFocus()
+    {
+        return true;
+    }
+
+    protected final void print(boolean focus)
+    {
+        checkSecurity();
+
+        if ( !hasRoot() )
+        {
+            ajax().clearMain();
+            return;
+        }
+
+        ScPageRoot root = getRoot();
+
+        preRender();
+
+        ajax().printMain(root);
+
+        if ( focus )
+            root.ajax().focus();
+
+        postRender();
+    }
+
+    /**
+     * I am called immediately BEFORE the page is printed.
+     * I provide a hook for subclasses.
+     */
+    protected void preRender()
+    {
+        // subclass
+    }
+
+    /**
+     * I am called immediately AFTER the page is printed.
+     * I provide a hook for subclasses.
+     */
+    protected void postRender()
+    {
+        // subclass
     }
 
     //##################################################
@@ -216,23 +346,65 @@ public abstract class ScPage
     //##################################################
 
     /**
-     * Start the page.  This typically resets page
-     * state then displays the ui in an initial state.    
+     * By default, simply call print(), to display the root control.
+     * Subclasses may freely override this method and do NOT need
+     * to call super.start(). 
      */
-    public abstract void start();
-
-    //##################################################
-    //# convenience
-    //##################################################
-
-    protected ScRootScript ajax()
+    public final void start()
     {
-        return getData().ajax();
+        reset();
+        checkLayout();
+        print();
     }
 
-    protected ScFormatter getFormatter()
+    /**
+     * Allow subclasses to reset state when the page is started.
+     */
+    protected void reset()
     {
-        return ScFormatter.getInstance();
+        // subclass
+    }
+
+    /**
+     * Allow subclasses perform appropriate updates to the page layout when the
+     * page starts.
+     */
+    protected void checkLayout()
+    {
+        // subclass
+    }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    /**
+     * A short string that may be used in the browser's title bar and/or tab.
+     */
+    public String getTitle()
+    {
+        String s;
+        s = getClass().getSimpleName();
+        s = Kmu.removePrefix(s, "My");
+        s = Kmu.removeSuffix(s, "Page");
+        s = Kmu.formatAsCapitalizedNames(s);
+        return s;
+    }
+
+    @Override
+    public String toString()
+    {
+        return getTitle();
+    }
+
+    //##################################################
+    //# validate
+    //##################################################
+
+    protected void validate()
+    {
+        if ( hasRoot() )
+            getRoot().validate();
     }
 
     //##################################################
@@ -264,23 +436,17 @@ public abstract class ScPage
     }
 
     //##################################################
-    //# display
+    //# convenience
     //##################################################
 
-    /**
-     * The name is used for display purposes.  It is not 
-     * requried to be unique, nor to conform to any specific
-     * rules.  This is primarily used for tools
-     */
-    public String getName()
+    protected ScRootScript ajax()
     {
-        return getClass().getSimpleName();
+        return getData().ajax();
     }
 
-    @Override
-    public String toString()
+    protected ScFormatter getFormatter()
     {
-        return getName();
+        return ScFormatter.getInstance();
     }
 
 }

@@ -17,10 +17,10 @@ import com.kodemore.servlet.field.ScTextField;
 
 import com.app.model.MyAutoSignIn;
 import com.app.model.MyUser;
-import com.app.ui.page.MySubPage;
+import com.app.ui.page.MyPage;
 
 public class MySignInPage
-    extends MySubPage
+    extends MyPage
 {
     //##################################################
     //# singleton
