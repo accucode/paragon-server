@@ -1,11 +1,11 @@
 package com.app.job.application;
 
+import com.kodemore.collection.KmList;
+import com.kodemore.command.KmDaoCommand;
+
 import com.app.job.MyJob;
 import com.app.model.MyPerformanceLog;
 import com.app.model.MyPerformanceLogRegistry;
-
-import com.kodemore.collection.KmList;
-import com.kodemore.command.KmDaoCommand;
 
 public class MyPerformanceLogJob
     extends MyJob

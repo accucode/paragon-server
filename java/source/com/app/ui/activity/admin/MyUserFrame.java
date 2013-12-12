@@ -1,10 +1,5 @@
 package com.app.ui.activity.admin;
 
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaUser;
-import com.app.ui.control.MyCardFrame;
-import com.app.utility.MyButtonUrls;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
@@ -15,6 +10,11 @@ import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
+
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaUser;
+import com.app.ui.control.MyCardFrame;
+import com.app.utility.MyButtonUrls;
 
 public class MyUserFrame
     extends MyCardFrame

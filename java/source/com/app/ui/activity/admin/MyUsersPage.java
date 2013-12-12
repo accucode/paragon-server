@@ -1,9 +1,5 @@
 package com.app.ui.activity.admin;
 
-import com.app.filter.MyUserFilter;
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaUser;
-
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.action.ScAction;
@@ -16,6 +12,10 @@ import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
+
+import com.app.filter.MyUserFilter;
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaUser;
 
 public class MyUsersPage
     extends MyAdminPage

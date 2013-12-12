@@ -1,8 +1,5 @@
 package com.app.ui.activity.test;
 
-import com.app.model.MyUser;
-import com.app.model.meta.MyMetaUser;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -12,6 +9,9 @@ import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDomainDropdownField;
+
+import com.app.model.MyUser;
+import com.app.model.meta.MyMetaUser;
 
 public class MyDomainDropdownSetValueTestPage
     extends MyTestPage

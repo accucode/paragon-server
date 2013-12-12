@@ -1,11 +1,18 @@
 package com.app.ui.activity.test;
 
-import com.app.email.*;
-import com.app.ui.activity.*;
-import com.kodemore.email.*;
-import com.kodemore.servlet.action.*;
-import com.kodemore.servlet.control.*;
-import com.kodemore.servlet.field.*;
+import com.kodemore.email.KmEmail;
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScFieldTable;
+import com.kodemore.servlet.control.ScForm;
+import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.field.ScTextArea;
+import com.kodemore.servlet.field.ScTextField;
+
+import com.app.email.MyEmailSmtpMethod;
+import com.app.ui.activity.MyActivity;
 
 public class MySmtpTestPage
     extends MyTestPage

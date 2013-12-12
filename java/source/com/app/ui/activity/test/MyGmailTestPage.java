@@ -1,8 +1,5 @@
 package com.app.ui.activity.test;
 
-import com.app.email.MyEmailGmailMethod;
-import com.app.ui.activity.MyActivity;
-
 import com.kodemore.email.KmEmail;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
@@ -13,6 +10,9 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
+
+import com.app.email.MyEmailGmailMethod;
+import com.app.ui.activity.MyActivity;
 
 public class MyGmailTestPage
     extends MyTestPage

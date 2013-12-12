@@ -1,11 +1,11 @@
 package com.app.filter;
 
-import com.app.criteria.MySystemLogCriteria;
-import com.app.filter.base.MySystemLogFilterBase;
-
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.KmNamedEnumIF;
+
+import com.app.criteria.MySystemLogCriteria;
+import com.app.filter.base.MySystemLogFilterBase;
 
 public class MySystemLogFilter
     extends MySystemLogFilterBase

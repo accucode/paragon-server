@@ -1,8 +1,8 @@
 package com.kodemore.zendesk;
 
-import com.kodemore.collection.*;
-import com.kodemore.io.*;
-import com.kodemore.json.*;
+import com.kodemore.collection.KmList;
+import com.kodemore.io.KmPrintWriter;
+import com.kodemore.json.KmJsonMap;
 
 /**
  * I am a ticket object

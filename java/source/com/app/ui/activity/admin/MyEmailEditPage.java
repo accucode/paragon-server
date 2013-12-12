@@ -1,11 +1,5 @@
 package com.app.ui.activity.admin;
 
-import com.app.model.MyEmail;
-import com.app.model.MyEmailRecipient;
-import com.app.model.MyEmailRecipientType;
-import com.app.model.meta.MyMetaEmail;
-import com.app.model.meta.MyMetaEmailRecipient;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
@@ -21,6 +15,12 @@ import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
+
+import com.app.model.MyEmail;
+import com.app.model.MyEmailRecipient;
+import com.app.model.MyEmailRecipientType;
+import com.app.model.meta.MyMetaEmail;
+import com.app.model.meta.MyMetaEmailRecipient;
 
 public class MyEmailEditPage
     extends MyAdminPage

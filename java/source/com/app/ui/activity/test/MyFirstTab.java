@@ -1,9 +1,9 @@
 package com.app.ui.activity.test;
 
-import com.app.ui.control.MyBox;
-
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
+
+import com.app.ui.control.MyBox;
 
 public class MyFirstTab
     extends MyBox

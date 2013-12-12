@@ -1,10 +1,5 @@
 package com.app.ui.activity.admin;
 
-import com.app.filter.MyEmailFilter;
-import com.app.model.MyEmail;
-import com.app.model.MyEmailStatus;
-import com.app.model.meta.MyMetaEmail;
-
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.action.ScAction;
@@ -19,6 +14,11 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDateField;
 import com.kodemore.servlet.field.ScDropdown;
+
+import com.app.filter.MyEmailFilter;
+import com.app.model.MyEmail;
+import com.app.model.MyEmailStatus;
+import com.app.model.meta.MyMetaEmail;
 
 public class MyEmailListPage
     extends MyAdminPage

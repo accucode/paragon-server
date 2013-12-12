@@ -1,8 +1,5 @@
 package com.app.ui.activity.tools;
 
-import com.app.file.MyResourceFiles;
-import com.app.ui.activity.MyActivity;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -12,6 +9,9 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.script.ScAddContentScript;
 import com.kodemore.utility.KmBeanShell;
+
+import com.app.file.MyResourceFiles;
+import com.app.ui.activity.MyActivity;
 
 public class MyBeanShellPage
     extends MyToolsPage

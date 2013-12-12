@@ -1,9 +1,5 @@
 package com.app.property;
 
-import com.app.file.MyResourceFiles;
-import com.app.property.base.MyPropertyDefinitions;
-import com.app.utility.MyInstaller;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
 import com.kodemore.log.KmLogger;
@@ -11,6 +7,10 @@ import com.kodemore.servlet.control.ScGoogleChart;
 import com.kodemore.sql.KmSqlStatementWrapper;
 import com.kodemore.utility.KmContextFormatter;
 import com.kodemore.utility.Kmu;
+
+import com.app.file.MyResourceFiles;
+import com.app.property.base.MyPropertyDefinitions;
+import com.app.utility.MyInstaller;
 
 public class MyPropertyManager
 {

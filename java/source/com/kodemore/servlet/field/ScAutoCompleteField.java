@@ -25,9 +25,6 @@ package com.kodemore.servlet.field;
 import java.util.Iterator;
 import java.util.List;
 
-import com.app.ui.servlet.ScServletCallback;
-import com.app.ui.servlet.ScServletCallbackRegistry;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
@@ -43,6 +40,9 @@ import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.servlet.variable.ScLocalStringList;
 import com.kodemore.utility.Kmu;
+
+import com.app.ui.servlet.ScServletCallback;
+import com.app.ui.servlet.ScServletCallbackRegistry;
 
 /**
  * I am based on...

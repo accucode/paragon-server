@@ -1,9 +1,9 @@
 package com.app.filter;
 
+import com.kodemore.utility.KmNamedEnumIF;
+
 import com.app.criteria.MyPasswordResetCriteria;
 import com.app.filter.base.MyPasswordResetFilterBase;
-
-import com.kodemore.utility.KmNamedEnumIF;
 
 public class MyPasswordResetFilter
     extends MyPasswordResetFilterBase

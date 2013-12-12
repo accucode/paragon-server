@@ -5,11 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
 
-import com.app.job.MyMasterJob;
-
 import com.kodemore.log.KmLog;
 import com.kodemore.thread.KmThreadLocalCleaner;
 import com.kodemore.thread.KmThreadLocalManager;
+
+import com.app.job.MyMasterJob;
 
 /**
  * I coordinate the process of shutting down the tomcat JVM.

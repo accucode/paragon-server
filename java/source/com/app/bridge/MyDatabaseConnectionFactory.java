@@ -2,12 +2,12 @@ package com.app.bridge;
 
 import java.sql.Connection;
 
-import com.app.property.MyPropertyRegistry;
-import com.app.utility.MyGlobals;
-
 import com.kodemore.database.KmDatabaseConnectionFactory;
 import com.kodemore.sql.adaptor.KmSqlAdaptor;
 import com.kodemore.sql.adaptor.mySql.KmSqlMySqlAdaptor;
+
+import com.app.property.MyPropertyRegistry;
+import com.app.utility.MyGlobals;
 
 /**
  * I implement the override hooks that the kodemore tools

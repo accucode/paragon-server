@@ -1,11 +1,11 @@
 package com.app.ui.activity.test;
 
-import com.app.ui.activity.MyActivity;
-
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScGoogleChart;
 import com.kodemore.servlet.control.ScPageRoot;
+
+import com.app.ui.activity.MyActivity;
 
 public class MyGoogleChartTestPage
     extends MyTestPage

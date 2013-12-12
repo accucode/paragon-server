@@ -8,11 +8,42 @@
 
 package com.app.dao.base;
 
-import com.kodemore.collection.*;
+import com.kodemore.collection.KmList;
 
-import com.app.dao.*;
-import com.app.model.*;
-import com.app.model.meta.*;
+import com.app.dao.MyAccountDao;
+import com.app.dao.MyAccountUserDao;
+import com.app.dao.MyAutoSignInDao;
+import com.app.dao.MyDownloadDao;
+import com.app.dao.MyEmailDao;
+import com.app.dao.MyEmailPartDao;
+import com.app.dao.MyEmailRecipientDao;
+import com.app.dao.MyFileDao;
+import com.app.dao.MyInvitationDao;
+import com.app.dao.MyPasswordResetDao;
+import com.app.dao.MyPatchDao;
+import com.app.dao.MyPerformanceLogDao;
+import com.app.dao.MyServerSessionDao;
+import com.app.dao.MySettingsDao;
+import com.app.dao.MySystemLogDao;
+import com.app.dao.MySystemLogTraceDao;
+import com.app.dao.MyUserDao;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyAutoSignIn;
+import com.app.model.MyDownload;
+import com.app.model.MyEmail;
+import com.app.model.MyEmailPart;
+import com.app.model.MyEmailRecipient;
+import com.app.model.MyFile;
+import com.app.model.MyInvitation;
+import com.app.model.MyPasswordReset;
+import com.app.model.MyPatch;
+import com.app.model.MyPerformanceLog;
+import com.app.model.MyServerSession;
+import com.app.model.MySettings;
+import com.app.model.MySystemLog;
+import com.app.model.MySystemLogTrace;
+import com.app.model.MyUser;
 
 public class MyDaoRegistry
 {

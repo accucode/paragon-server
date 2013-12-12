@@ -1,14 +1,14 @@
 package com.app.job;
 
-import com.app.model.MyPerformanceLogRegistry;
-import com.app.property.MyPropertyRegistry;
-import com.app.utility.MyGlobals;
-import com.app.utility.MyUtility;
-
 import com.kodemore.job.KmJob;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.KmClock;
+
+import com.app.model.MyPerformanceLogRegistry;
+import com.app.property.MyPropertyRegistry;
+import com.app.utility.MyGlobals;
+import com.app.utility.MyUtility;
 
 public abstract class MyJob
     extends KmJob

@@ -1,8 +1,8 @@
 package com.app.job.application;
 
-import com.app.job.MyJob;
-
 import com.kodemore.log.KmLogger;
+
+import com.app.job.MyJob;
 
 public class MyMonitorJob
     extends MyJob

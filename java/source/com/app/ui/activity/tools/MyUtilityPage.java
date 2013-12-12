@@ -1,10 +1,5 @@
 package com.app.ui.activity.tools;
 
-import com.app.model.MyTimeZone;
-import com.app.property.MyPropertyManager;
-import com.app.ui.activity.MyActivity;
-import com.app.ui.core.MyServletData;
-
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -16,6 +11,11 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
+
+import com.app.model.MyTimeZone;
+import com.app.property.MyPropertyManager;
+import com.app.ui.activity.MyActivity;
+import com.app.ui.core.MyServletData;
 
 public class MyUtilityPage
     extends MyToolsPage

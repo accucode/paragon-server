@@ -1,5 +1,8 @@
 package com.app.ui.activity.login;
 
+import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.utility.Kmu;
+
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAccount;
 import com.app.model.MyEmail;
@@ -9,9 +12,6 @@ import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyUrls;
-
-import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.utility.Kmu;
 
 public class MyTransferAccountUtility
 {

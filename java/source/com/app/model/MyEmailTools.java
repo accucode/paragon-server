@@ -1,8 +1,8 @@
 package com.app.model;
 
-import com.app.model.base.MyEmailToolsBase;
-
 import com.kodemore.servlet.field.ScDropdown;
+
+import com.app.model.base.MyEmailToolsBase;
 
 /**
  * Miscellaneous tools for use with the model.

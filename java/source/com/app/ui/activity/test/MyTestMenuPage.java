@@ -1,6 +1,9 @@
 package com.app.ui.activity.test;
 
-import com.kodemore.servlet.control.*;
+import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyTestMenuPage
     extends MyTestPage

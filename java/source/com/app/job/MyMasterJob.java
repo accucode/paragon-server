@@ -1,10 +1,10 @@
 package com.app.job;
 
-import com.app.job.application.MyApplicationJobManager;
-import com.app.job.system.MySystemJobManager;
-
 import com.kodemore.job.KmJobManager;
 import com.kodemore.job.KmSimpleJobManager;
+
+import com.app.job.application.MyApplicationJobManager;
+import com.app.job.system.MySystemJobManager;
 
 public class MyMasterJob
     extends MyJob

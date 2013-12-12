@@ -24,9 +24,6 @@ package com.kodemore.servlet.control;
 
 import java.util.Iterator;
 
-import com.app.ui.servlet.ScServletCallback;
-import com.app.ui.servlet.ScServletCallbackRegistry;
-
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.csv.KmCsvBuilder;
@@ -49,6 +46,9 @@ import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
+
+import com.app.ui.servlet.ScServletCallback;
+import com.app.ui.servlet.ScServletCallbackRegistry;
 
 /**
  * A grid based on the JQuery Flexigrid tool.

@@ -1,10 +1,10 @@
 package com.app.ui.activity.user;
 
-import com.app.ui.activity.MyPage;
-
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
+
+import com.app.ui.activity.MyPage;
 
 public class MyUserSettingsPage
     extends MyPage

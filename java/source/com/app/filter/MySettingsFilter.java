@@ -1,9 +1,9 @@
 package com.app.filter;
 
+import com.kodemore.utility.KmNamedEnumIF;
+
 import com.app.criteria.MySettingsCriteria;
 import com.app.filter.base.MySettingsFilterBase;
-
-import com.kodemore.utility.KmNamedEnumIF;
 
 public class MySettingsFilter
     extends MySettingsFilterBase

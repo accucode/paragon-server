@@ -1,9 +1,9 @@
 package com.app.filter;
 
+import com.kodemore.utility.KmNamedEnumIF;
+
 import com.app.criteria.MySystemLogTraceCriteria;
 import com.app.filter.base.MySystemLogTraceFilterBase;
-
-import com.kodemore.utility.KmNamedEnumIF;
 
 public class MySystemLogTraceFilter
     extends MySystemLogTraceFilterBase

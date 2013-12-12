@@ -8,14 +8,30 @@
 
 package com.app.ui.servlet.base;
 
-import com.kodemore.servlet.*;
-import com.kodemore.servlet.variable.*;
-import com.kodemore.time.*;
+import com.kodemore.servlet.ScPageSession;
+import com.kodemore.servlet.variable.ScLocalInteger;
+import com.kodemore.servlet.variable.ScLocalString;
 
-import com.app.dao.base.*;
-import com.app.model.*;
-import com.app.ui.core.*;
-import com.app.utility.*;
+import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MyAccount;
+import com.app.model.MyAccountUser;
+import com.app.model.MyAutoSignIn;
+import com.app.model.MyDownload;
+import com.app.model.MyEmail;
+import com.app.model.MyEmailPart;
+import com.app.model.MyEmailRecipient;
+import com.app.model.MyFile;
+import com.app.model.MyInvitation;
+import com.app.model.MyPasswordReset;
+import com.app.model.MyPatch;
+import com.app.model.MyPerformanceLog;
+import com.app.model.MyServerSession;
+import com.app.model.MySettings;
+import com.app.model.MySystemLog;
+import com.app.model.MySystemLogTrace;
+import com.app.model.MyUser;
+import com.app.ui.core.MyServletData;
+import com.app.utility.MyGlobals;
 
 public class MyPageSessionBase
     extends ScPageSession

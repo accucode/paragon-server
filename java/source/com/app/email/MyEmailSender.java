@@ -1,13 +1,5 @@
 package com.app.email;
 
-import com.app.email.support.MyMarkEmailPendingCommand;
-import com.app.email.support.MyUpdateEmailResultsCommand;
-import com.app.model.MyEmail;
-import com.app.model.MyEmailPart;
-import com.app.model.MyEmailPartType;
-import com.app.property.MyPropertyRegistry;
-import com.app.utility.MyGlobals;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.email.KmEmail;
 import com.kodemore.email.KmEmailIF;
@@ -18,6 +10,14 @@ import com.kodemore.email.method.KmEmailNoopMethod;
 import com.kodemore.email.method.KmEmailPrintMethod;
 import com.kodemore.hibernate.lock.KmDaoLockException;
 import com.kodemore.utility.Kmu;
+
+import com.app.email.support.MyMarkEmailPendingCommand;
+import com.app.email.support.MyUpdateEmailResultsCommand;
+import com.app.model.MyEmail;
+import com.app.model.MyEmailPart;
+import com.app.model.MyEmailPartType;
+import com.app.property.MyPropertyRegistry;
+import com.app.utility.MyGlobals;
 
 /**
  * I send the email messages that are already queued in the 

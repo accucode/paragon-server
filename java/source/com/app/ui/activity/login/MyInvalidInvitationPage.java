@@ -1,14 +1,14 @@
 package com.app.ui.activity.login;
 
-import com.app.ui.activity.MyPage;
-import com.app.utility.MyUrls;
-
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScStyledText;
 import com.kodemore.servlet.control.ScUrlLink;
+
+import com.app.ui.activity.MyPage;
+import com.app.utility.MyUrls;
 
 public class MyInvalidInvitationPage
     extends MyPage

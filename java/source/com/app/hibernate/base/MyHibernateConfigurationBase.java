@@ -8,7 +8,7 @@
 
 package com.app.hibernate.base;
 
-import com.app.dao.core.*;
+import com.app.dao.core.MyAbstractHibernateConfiguration;
 
 public abstract class MyHibernateConfigurationBase
     extends MyAbstractHibernateConfiguration

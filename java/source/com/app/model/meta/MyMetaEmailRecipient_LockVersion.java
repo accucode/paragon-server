@@ -8,26 +8,16 @@
 
 package com.app.model.meta;
 
-import java.util.*;
+import com.kodemore.comparator.KmCompareUtility;
+import com.kodemore.meta.KmMetaDaoPropertyIF;
+import com.kodemore.meta.KmMetaIntegerProperty;
+import com.kodemore.validator.KmIntegerValidator;
 
-import com.kodemore.adaptor.*;
-import com.kodemore.collection.*;
-import com.kodemore.comparator.*;
-import com.kodemore.exception.*;
-import com.kodemore.match.*;
-import com.kodemore.meta.*;
-import com.kodemore.servlet.encoder.*;
-import com.kodemore.servlet.field.*;
-import com.kodemore.time.*;
-import com.kodemore.types.*;
-import com.kodemore.utility.*;
-import com.kodemore.validator.*;
-
-import com.app.dao.*;
-import com.app.dao.base.*;
-import com.app.model.*;
-import com.app.model.core.*;
-import com.app.utility.*;
+import com.app.dao.MyEmailRecipientDao;
+import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MyEmailRecipient;
+import com.app.model.MyEmailRecipientValidator;
+import com.app.utility.MyGlobals;
 
 public class MyMetaEmailRecipient_LockVersion
     extends KmMetaIntegerProperty<MyEmailRecipient>

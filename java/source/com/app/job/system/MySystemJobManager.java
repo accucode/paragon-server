@@ -1,8 +1,8 @@
 package com.app.job.system;
 
-import com.app.job.application.MyMonitorJob;
-
 import com.kodemore.job.KmSimpleJobManager;
+
+import com.app.job.application.MyMonitorJob;
 
 public class MySystemJobManager
     extends KmSimpleJobManager

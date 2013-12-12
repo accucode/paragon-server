@@ -8,8 +8,6 @@
 
 package com.kodemore.html.cssBuilder;
 
-import com.kodemore.html.KmCssBuilder;
-import com.kodemore.utility.KmValueHolderIF;
 
 public interface KmCssDefaultConstantsIF
 {

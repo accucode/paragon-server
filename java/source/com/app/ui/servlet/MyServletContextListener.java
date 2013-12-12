@@ -3,11 +3,11 @@ package com.app.ui.servlet;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import com.kodemore.log.KmLog;
+
 import com.app.utility.MyEnvironment;
 import com.app.utility.MyInstaller;
 import com.app.utility.MyShutdown;
-
-import com.kodemore.log.KmLog;
 
 /**
  * I am registered in the web.xml to provide convenient hooks

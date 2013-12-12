@@ -2,8 +2,6 @@ package com.app.ui.activity.tools;
 
 import java.util.Set;
 
-import com.app.ui.activity.MyActivity;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLiteral;
@@ -11,6 +9,8 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTable;
 import com.kodemore.servlet.control.ScTableCell;
 import com.kodemore.servlet.control.ScTableRow;
+
+import com.app.ui.activity.MyActivity;
 
 public class MySystemPropertiesPage
     extends MyToolsPage

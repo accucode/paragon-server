@@ -1,9 +1,9 @@
 package com.app.filter;
 
+import com.kodemore.utility.KmNamedEnumIF;
+
 import com.app.criteria.MyAccountCriteria;
 import com.app.filter.base.MyAccountFilterBase;
-
-import com.kodemore.utility.KmNamedEnumIF;
 
 public class MyAccountFilter
     extends MyAccountFilterBase

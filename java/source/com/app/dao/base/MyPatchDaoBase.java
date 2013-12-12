@@ -8,16 +8,11 @@
 
 package com.app.dao.base;
 
-import com.kodemore.collection.*;
-import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.dao.KmAbstractDao;
 
-import com.app.criteria.*;
-import com.app.dao.core.*;
-import com.app.filter.*;
-import com.app.model.*;
-import com.app.model.meta.*;
+import com.app.criteria.MyPatchCriteria;
+import com.app.model.MyPatch;
+import com.app.model.meta.MyMetaPatch;
 
 public abstract class MyPatchDaoBase
     extends KmAbstractDao<MyPatch,String>
