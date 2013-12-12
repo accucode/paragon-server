@@ -2,9 +2,9 @@ package com.app.model;
 
 import org.apache.log4j.Level;
 
-import com.app.model.base.MySystemLogToolsBase;
-
 import com.kodemore.servlet.field.ScDropdown;
+
+import com.app.model.base.MySystemLogToolsBase;
 
 /**
  * Miscellaneous tools for use with the model.

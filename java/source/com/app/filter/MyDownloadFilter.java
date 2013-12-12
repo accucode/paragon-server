@@ -1,9 +1,9 @@
 package com.app.filter;
 
+import com.kodemore.utility.KmNamedEnumIF;
+
 import com.app.criteria.MyDownloadCriteria;
 import com.app.filter.base.MyDownloadFilterBase;
-
-import com.kodemore.utility.KmNamedEnumIF;
 
 public class MyDownloadFilter
     extends MyDownloadFilterBase

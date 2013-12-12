@@ -141,7 +141,7 @@ public class ScServletData
      * server side http session.  Most session information should
      * be stored here.
      */
-    private KmJsonMap         _pageSessionEncodedValues;
+    private KmJsonMap            _pageSessionEncodedValues;
 
     //##################################################
     //# variables (response)
@@ -1492,6 +1492,34 @@ public class ScServletData
     public boolean hasWindowLocationHash(String hash)
     {
         return Kmu.isEqual(getWindowLocationHash(), hash);
+    }
+
+    //##################################################
+    //# layout visibility
+    //##################################################
+
+    public boolean isLeftVisible()
+    {
+        String s = getParameter(PARAMETER_IS_LEFT_VISIBLE);
+        return Kmu.parse_boolean(s);
+    }
+
+    public boolean isRightVisible()
+    {
+        String s = getParameter(PARAMETER_IS_RIGHT_VISIBLE);
+        return Kmu.parse_boolean(s);
+    }
+
+    public boolean isTopVisible()
+    {
+        String s = getParameter(PARAMETER_IS_TOP_VISIBLE);
+        return Kmu.parse_boolean(s);
+    }
+
+    public boolean isBottomVisible()
+    {
+        String s = getParameter(PARAMETER_IS_BOTTOM_VISIBLE);
+        return Kmu.parse_boolean(s);
     }
 
     //##################################################

@@ -17,6 +17,17 @@ public interface MyServletConstantsIF
     String RECOMMENDED_BROWSER_MESSAGE = "For best results, we recommend using FireFox 3.5 or later.";
 
     //##################################################
+    //# special actions 
+    //##################################################
+
+    /**
+     * Enter the application.
+     */
+    String ACTION_ENTER_APP                = "_enterApp";
+    String ACTION_ENTER_PAGE           = "_enterPage";
+    String ACTION_PRINT_PAGE           = "_printPage";
+
+    //##################################################
     //# libraries: kodemore
     //##################################################
 

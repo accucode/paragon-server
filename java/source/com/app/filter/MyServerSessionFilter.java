@@ -1,10 +1,10 @@
 package com.app.filter;
 
-import com.app.criteria.MyServerSessionCriteria;
-import com.app.filter.base.MyServerSessionFilterBase;
-
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.KmNamedEnumIF;
+
+import com.app.criteria.MyServerSessionCriteria;
+import com.app.filter.base.MyServerSessionFilterBase;
 
 public class MyServerSessionFilter
     extends MyServerSessionFilterBase

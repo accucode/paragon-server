@@ -7,7 +7,7 @@ public interface ScActionContextIF
     /**
      * Run any general security checks that apply to this context.
      * This is typically used to check things like the current user's
-     * access to all of the actions within a given activity.
+     * access to all of the actions within a given page.
      */
     void checkSecurity();
 

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+
+        function myInstall()
+        {
+            $('#main').show();
+            
+            KmDropdownMenu.installAutoClose();
+            KmDropdownMenu.installMenu('#userMenu1');
+            KmDropdownMenu.installMenu('#userMenu2');
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id='main' style='display:none'>
+
+    <div class="boxGray pad clearfix">
+        <p>Create a styled dropdown menu using an list, css, and javascript.</p>
+        <br>
+        
+        <div id="userMenu1" class="dropdownMenu floatLeft marginRight">John Doe
+            <ul>
+                <li onclick="alert('profile');">Profile</li>
+                <li onclick="alert('setting');">Settings</li>
+                <li onclick="alert('log out');">Log out</li>
+            </ul>
+        </div>            
+
+        <div id="userMenu2" class="dropdownMenu floatLeft">Jane Doe
+            <ul>
+                <li onclick="alert('profile');">Profile</li>
+                <li onclick="alert('setting');">Settings</li>
+                <li onclick="alert('log out');">Log out</li>
+            </ul>
+        </div>            
+    </div>
+    
+    <div class="boxGray pad clearfix">
+        <p>Just some fields for testing page clicks.</p>
+        <input><br>
+        <input type="checkbox"><br>
+    </div>
+    
+    
+</body>
+
+</html>

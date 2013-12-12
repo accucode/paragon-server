@@ -1,10 +1,10 @@
 package com.app.model;
 
-import com.app.model.base.MyServerSessionBase;
-import com.app.utility.MyConstantsIF;
-
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
+
+import com.app.model.base.MyServerSessionBase;
+import com.app.utility.MyConstantsIF;
 
 public class MyServerSession
     extends MyServerSessionBase
@@ -66,21 +66,5 @@ public class MyServerSession
     private boolean hasWrongVersion()
     {
         return !hasRightVersion();
-    }
-
-    public void setDefaultAccount()
-    {
-        MyUser u = getUser();
-
-        if ( u == null )
-        {
-            clearAccount();
-            return;
-        }
-
-        if ( hasAccount() && getAccount().hasMember(u) )
-            return;
-
-        setAccount(u.getDefaultAccount());
     }
 }

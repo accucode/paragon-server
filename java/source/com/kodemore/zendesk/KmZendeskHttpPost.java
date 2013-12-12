@@ -1,8 +1,8 @@
 package com.kodemore.zendesk;
 
-import java.io.*;
+import java.io.IOException;
 
-import com.kodemore.http.*;
+import com.kodemore.http.KmHttpRequest;
 
 public class KmZendeskHttpPost
     extends KmHttpRequest

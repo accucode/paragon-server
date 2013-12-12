@@ -1,10 +1,10 @@
 package com.app.bridge;
 
+import com.kodemore.command.KmDaoBridge;
+
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.core.MyServletData;
 import com.app.utility.MyGlobals;
-
-import com.kodemore.command.KmDaoBridge;
 
 public class MyDaoBridge
     extends KmDaoBridge

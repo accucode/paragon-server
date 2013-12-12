@@ -5733,6 +5733,45 @@ public class Kmu
         return uri.substring(i + 1);
     }
 
+    /**
+     * Parse a url and return the parameters and values.
+     */
+    public static KmMap<String,KmList<String>> parseUrlQueryParams(String url)
+    {
+        try
+        {
+            KmMap<String,KmList<String>> params = new KmMap<String,KmList<String>>();
+            String[] urlParts = url.split("\\?");
+
+            if ( urlParts.length <= 1 )
+                return new KmMap<String,KmList<String>>();
+
+            String query = urlParts[1];
+            for ( String param : query.split("&") )
+            {
+                String[] pair = param.split("=");
+                String key = URLDecoder.decode(pair[0], "UTF-8");
+                String value = "";
+                if ( pair.length > 1 )
+                    value = URLDecoder.decode(pair[1], "UTF-8");
+
+                KmList<String> values = params.get(key);
+                if ( values == null )
+                {
+                    values = new KmList<String>();
+                    params.put(key, values);
+                }
+                values.add(value);
+            }
+
+            return params;
+        }
+        catch ( Exception ex )
+        {
+            throw Kmu.toRuntime(ex);
+        }
+    }
+
     //##################################################
     //# boolean 
     //##################################################

@@ -1,10 +1,10 @@
 package com.app.filter;
 
-import com.app.criteria.MyPerformanceLogCriteria;
-import com.app.filter.base.MyPerformanceLogFilterBase;
-
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.KmNamedEnumIF;
+
+import com.app.criteria.MyPerformanceLogCriteria;
+import com.app.filter.base.MyPerformanceLogFilterBase;
 
 public class MyPerformanceLogFilter
     extends MyPerformanceLogFilterBase

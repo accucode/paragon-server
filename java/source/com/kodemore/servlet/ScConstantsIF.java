@@ -96,6 +96,26 @@ public interface ScConstantsIF
     String   PARAMETER_WINDOW_LOCATION       = "_windowLocation";
 
     /**
+     * Indicates if the border layout side is visible.
+     */
+    String   PARAMETER_IS_TOP_VISIBLE        = "_isTopVisible";
+
+    /**
+     * Indicates if the border layout side is visible.
+     */
+    String   PARAMETER_IS_BOTTOM_VISIBLE     = "_isBottomVisible";
+
+    /**
+     * Indicates if the border layout side is visible.
+     */
+    String   PARAMETER_IS_LEFT_VISIBLE       = "_isLeftVisible";
+
+    /**
+     * Indicates if the border layout side is visible.
+     */
+    String   PARAMETER_IS_RIGHT_VISIBLE      = "_isRightVisible";
+
+    /**
      * The key of the form that was submitted.
      */
     String   PARAMETER_FORM_KEY              = "_formKey";

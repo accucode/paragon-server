@@ -1,11 +1,11 @@
 package com.app.model;
 
+import com.kodemore.collection.KmCollection;
+import com.kodemore.utility.Kmu;
+
 import com.app.model.base.MyAccountBase;
 import com.app.model.meta.MyMetaAccountUser;
 import com.app.model.meta.MyMetaUser;
-
-import com.kodemore.collection.KmCollection;
-import com.kodemore.utility.Kmu;
 
 public class MyAccount
     extends MyAccountBase

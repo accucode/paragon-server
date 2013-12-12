@@ -96,13 +96,13 @@
     </target>
 
     <target
-        name="generateActivities"
+        name="generatePages"
         depends="compileGenerator"
         description="Generate dirty/missing classes.">
         <antcall
             target="runJavaClass">
             <param name="javaClass" value="com.app.generator.MyGenerator"/>
-            <param name="javaArgs" value="activities"/>
+            <param name="javaArgs" value="pages"/>
         </antcall>
     </target>
 

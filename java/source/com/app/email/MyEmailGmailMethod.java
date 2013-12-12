@@ -1,9 +1,9 @@
 package com.app.email;
 
+import com.kodemore.email.method.KmEmailSmtpMethod;
+
 import com.app.property.MyPropertyRegistry;
 import com.app.utility.MyGlobals;
-
-import com.kodemore.email.method.KmEmailSmtpMethod;
 
 /**
  * I extend the generic framework method to provide 

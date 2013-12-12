@@ -1,13 +1,13 @@
 package com.app.install;
 
-import com.app.dao.base.MyDaoRegistry;
-import com.app.model.MyPatch;
-import com.app.utility.MyGlobals;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.patch.KmPatch;
 import com.kodemore.patch.KmPatchBridge;
+
+import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MyPatch;
+import com.app.utility.MyGlobals;
 
 public class MyDatabaseBootstrapCommand
     extends KmDaoCommand

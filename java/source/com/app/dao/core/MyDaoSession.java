@@ -2,9 +2,9 @@ package com.app.dao.core;
 
 import org.hibernate.Session;
 
-import com.app.hibernate.MyHibernateConfiguration;
-
 import com.kodemore.dao.KmDaoSession;
+
+import com.app.hibernate.MyHibernateConfiguration;
 
 public class MyDaoSession
     extends KmDaoSession

@@ -1,10 +1,10 @@
 package com.app.dao;
 
+import com.kodemore.collection.KmList;
+
 import com.app.criteria.MyAccountCriteria;
 import com.app.dao.base.MyAccountDaoBase;
 import com.app.model.MyAccount;
-
-import com.kodemore.collection.KmList;
 
 public class MyAccountDao
     extends MyAccountDaoBase

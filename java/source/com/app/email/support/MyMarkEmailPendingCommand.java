@@ -1,12 +1,12 @@
 package com.app.email.support;
 
+import com.kodemore.collection.KmList;
+import com.kodemore.command.KmDaoCommand;
+
 import com.app.command.core.MyCommandLocksIF;
 import com.app.filter.MyEmailFilter;
 import com.app.model.MyEmail;
 import com.app.model.MyEmailStatus;
-
-import com.kodemore.collection.KmList;
-import com.kodemore.command.KmDaoCommand;
 
 public class MyMarkEmailPendingCommand
     extends KmDaoCommand

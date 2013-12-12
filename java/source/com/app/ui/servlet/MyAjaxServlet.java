@@ -1,21 +1,5 @@
 package com.app.ui.servlet;
 
-import com.app.dao.base.MyDaoRegistry;
-import com.app.model.MyInvitation;
-import com.app.model.MyInvitationType;
-import com.app.model.MyServerSession;
-import com.app.ui.activity.login.MyHandleJoinInvitationActivity;
-import com.app.ui.activity.login.MyHandleNewUserInvitationActivity;
-import com.app.ui.activity.login.MyHandlePasswordResetActivity;
-import com.app.ui.activity.login.MyHandleTransferInvitationActivity;
-import com.app.ui.activity.login.MyInvalidInvitationPage;
-import com.app.ui.activity.login.MySignInActivity;
-import com.app.ui.core.MyServletData;
-import com.app.ui.layout.MyLeftMenu;
-import com.app.ui.layout.MyPageLayout;
-import com.app.utility.MyGlobals;
-import com.app.utility.MyUrls;
-
 import com.kodemore.collection.KmMap;
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.exception.KmApplicationException;
@@ -23,6 +7,21 @@ import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.utility.Kmu;
+
+import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
+import com.app.model.MyServerSession;
+import com.app.ui.core.MyServletData;
+import com.app.ui.layout.MyPageLayout;
+import com.app.ui.page.login.MyAcceptJoinInvitationPage;
+import com.app.ui.page.login.MyAcceptNewUserInvitationPage;
+import com.app.ui.page.login.MyAcceptTransferInvitationPage;
+import com.app.ui.page.login.MyInvalidInvitationPage;
+import com.app.ui.page.login.MyPasswordResetPage;
+import com.app.ui.page.login.MySignInPage;
+import com.app.utility.MyGlobals;
+import com.app.utility.MyUrls;
 
 public class MyAjaxServlet
     extends MyServlet
@@ -137,9 +136,9 @@ public class MyAjaxServlet
     private void handleNavigate()
     {
         if ( hasCurrentUser() )
-            MyLeftMenu.getInstance().gotoWindowLocation();
+            MyPageLayout.getInstance().getLeftMenu().gotoWindowLocation();
         else
-            MySignInActivity.instance.start();
+            MySignInPage.instance.start();
     }
 
     private boolean hasCurrentUser()
@@ -178,7 +177,7 @@ public class MyAjaxServlet
         if ( handleEntryParameters() )
             return;
 
-        MySignInActivity.instance.start();
+        MySignInPage.instance.start();
     }
 
     private boolean handleEntryParameters()
@@ -228,15 +227,15 @@ public class MyAjaxServlet
         switch ( type )
         {
             case Join:
-                MyHandleJoinInvitationActivity.instance.start(value);
+                MyAcceptJoinInvitationPage.instance.start(value);
                 break;
 
             case Transfer:
-                MyHandleTransferInvitationActivity.instance.start(value);
+                MyAcceptTransferInvitationPage.instance.start(value);
                 break;
 
             case User:
-                MyHandleNewUserInvitationActivity.instance.start(value);
+                MyAcceptNewUserInvitationPage.instance.start(value);
                 break;
         }
 
@@ -251,7 +250,7 @@ public class MyAjaxServlet
 
         String value = params.get(key);
 
-        MyHandlePasswordResetActivity.instance.start(value);
+        MyPasswordResetPage.instance.start(value);
         return true;
     }
 

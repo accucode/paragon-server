@@ -1,14 +1,16 @@
 package com.kodemore.zendesk;
 
-import java.net.*;
-import java.util.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
 
-import org.apache.http.*;
-import org.apache.http.client.utils.*;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
 
-import com.kodemore.collection.*;
-import com.kodemore.io.*;
-import com.kodemore.json.*;
+import com.kodemore.collection.KmList;
+import com.kodemore.io.KmIndentPrintWriter;
+import com.kodemore.json.KmJsonArray;
+import com.kodemore.json.KmJsonMap;
 
 /**
  * I am used list all tickets

@@ -20,8 +20,7 @@ var Kmu = {};
  * Used to manage page session state for apps.
  * Client side application scripts will generally NOT access
  * pageSession variables.  Instead, this state is used by
- * the server to coordinate application state without 
- * 
+ * the server to coordinate application state. 
  */
 Kmu.pageSession = {};
 
@@ -110,6 +109,19 @@ Kmu.merge = function(a, b)
     return r;
 }
 
+/**
+ * Create a shallow copy.
+ */
+Kmu.shallowCopy = function(value)
+{
+    var copy = {};
+
+    for ( var key in value ) 
+        if ( value.hasOwnProperty(key) )
+		    copy[key] = value[key];
+    
+    return copy;
+}
 
 /**
  * Print the objects attributes onto the console.log.
@@ -120,7 +132,16 @@ Kmu.logAttributes = function(o)
 	    return;
 	    
 	for ( var e in o )
-	    console.log(e + " => " + o[e]);
+	    if ( o.hasOwnProperty(e) )
+		    console.log(e + " => " + o[e]);
+}
+
+/**
+ * Log the object with JSON.stringify.
+ */
+Kmu.logJson = function(o)
+{
+    Kmu.log(JSON.stringify(o));
 }
 
 //**********************************************************
@@ -162,6 +183,11 @@ Kmu.log = function(s)
         s = '.';
         
     console.log(s.toString());
+}
+
+Kmu.print = function(s)
+{
+    Kmu.log(s);
 }
 
 //**********************************************************
@@ -285,30 +311,70 @@ Kmu.ajaxNavigate = function()
 
 /*
  * options
- *     form:        submit the fields from the optional form.
- *     action:      the action key, typically required.
- *     argument:    the optional argument (uses application specific encoding).
- *     extra:       the optional extra value (no encoding).
- *     block:       optionally block the ui component BEFORE the ajax request.
+ *     action
+ *     		Required string.
+ *     		The action key that identifies the server side function to execute.		
+ *     
+ *     form
+ *     		Optional string selector.
+ *     		Identifies the parameters to be submitted with this request.
+ *     
+ *     argument
+ *     		Optional string.
+ *     		The server expects this to be encoded.
+ *     		See ScEncoder.
+ *     
+ *     extra
+ *     		Optional string.
+ *			If set, pass this value without any encoding.
+ *     
+ *     block
+ *     		Optional string.
+ *     		If set, block the ui component BEFORE the ajax request.
+ *     		This should be a valid css selector.
+ *     
+ *     confirmation
+ *     		Optional string
+ *     		If set, prompt the user to confirm (Ok/Cancel) before submitting.
+ *     		Confirmation is handled with a simple window.confirm() dialog. 
  */
 Kmu.ajax = function(options)
 {
-   	var extra = {};
-   	
+    if ( !Kmu.checkAjaxConfirmation(options) )
+        return;
+
+    var onSuccessArr;
+    onSuccessArr = Kmu.initAjaxBlocking(options);
+    onSuccessArr.push(Kmu.ajaxSuccess);
+    
+    var data = Kmu.formatAjaxData(options);
+    
+    // Assumes ROOT servlet context 
+    $.ajax(
+    {
+    	type:   	'POST',
+    	url: 		'/servlet/ajax',
+    	dataType: 	'json',
+    	data: 		data,
+    	success: 	onSuccessArr,
+    	error: 		Kmu.ajaxError,
+    	complete: 	Kmu.ajaxComplete
+    });
+}
+
+Kmu.checkAjaxConfirmation = function(options)
+{
+    if ( !options.confirmation )
+        return true;
+        
+    var msg = options.confirmation.toString();
+	return confirm(msg);
+}
+
+Kmu.initAjaxBlocking = function(options)
+{
    	var onSuccessArr = [];
-
-    if ( options.form )
-        extra._form = options.form;
-
-    if ( options.action )
-        extra._action = options.action;
-
-    if ( options.argument )
-        extra._argument = options.argument;
-
-    if ( options.extra)
-        extra._extraValue = options.extra;
-
+   	
     if ( options.block )
     {
       	var sel = options.block;
@@ -326,44 +392,66 @@ Kmu.ajax = function(options)
         var fn = function() { Kmu.unblockPage(); };
         onSuccessArr.push(fn);
     }
-    
-    if ( Kmu.pageSession )
-        extra._session = JSON.stringify(Kmu.pageSession);
-        
-    extra._windowLocation = window.location.href;
 
-	var extraParams = $.param(extra);
-	
-	var formParams = '';
-    if ( options.form )
-    	formParams = $(options.form).serialize();
-
-    var data;
-	data = null;
-	data = Kmu.appendParams(data, formParams);
-	data = Kmu.appendParams(data, extraParams);
-
-    onSuccessArr.push(Kmu.ajaxSuccess);
-
-    //Assumes ROOT (implied) context 
-    $.ajax(
-    {
-    	type:   	'POST',
-    	url: 		'/servlet/ajax',
-    	data: 		data,
-    	success: 	onSuccessArr,
-    	error: 		Kmu.ajaxError,
-    	complete: 	Kmu.ajaxComplete,
-    	dataType: 	'json'
-    });
+    return onSuccessArr;
 }
 
-Kmu.appendParams = function(prefix, suffix)
+Kmu.formatAjaxData = function(options)
 {
-    if ( !prefix ) return suffix;
-    if ( !suffix ) return prefix;
-    
-    return prefix + "&" + suffix;
+	var baseParams = Kmu.formatAjaxBaseParams(options)
+	var formParams = Kmu.formatAjaxFormParams(options);
+	
+	return Kmu.concatAjaxParams(baseParams, formParams);
+}
+
+Kmu.formatAjaxBaseParams = function(options)
+{
+   	var e;
+   	e = {};
+    e._windowLocation 	= window.location.href;
+    e._isTopVisible   	= Kmu.isLayoutVisible('top');
+    e._isBottomVisible	= Kmu.isLayoutVisible('bottom');
+    e._isLeftVisible  	= Kmu.isLayoutVisible('left');
+    e._isRightVisible	= Kmu.isLayoutVisible('right');
+
+    if ( options.form )
+        e._form = options.form;
+
+    if ( options.action )
+        e._action = options.action;
+
+    if ( options.argument )
+        e._argument = options.argument;
+
+    if ( options.extra)
+        e._extraValue = options.extra;
+
+    if ( Kmu.pageSession )
+        e._session = JSON.stringify(Kmu.pageSession);
+        
+	return $.param(e);        
+}
+
+Kmu.formatAjaxFormParams = function(options)
+{
+    if ( !options.form )
+        return null;
+        
+    return $(options.form).serialize();
+}
+
+Kmu.concatAjaxParams = function(a, b)
+{
+   	if ( a && b )
+   		return a + "&" + b;
+   		
+   	if ( a )
+   	    return a;
+   	    
+   	if ( b )
+   	    return b;
+   	
+    return '';
 }
 
 Kmu.ajaxSuccess = function(result)
@@ -384,6 +472,23 @@ Kmu.ajaxError = function(req, status, error)
  */
 Kmu.ajaxComplete = function(jqXHR, textStatus)
 {
+}
+
+
+//**********************************************************
+//** layout
+//**********************************************************
+
+Kmu.isLayoutVisible = function(side)
+{
+	try
+	{
+		return $('body').data('borderLayout').getChild(side).isVisible();
+	}
+	catch (ex)
+	{
+	    return false;
+	}
 }
 
 //**********************************************************
@@ -1197,3 +1302,27 @@ Kmu.registerDragUpdate = function(parentSelector, childPath, attr, actionId)
         }
     });
 }
+
+//**********************************************************
+//** dropdown menu
+//**********************************************************
+
+
+        function installDropdownMenuAutoClose()
+        {
+            $(document).click(function() 
+            {
+                $('.dropdownMenu').removeClass('open');
+            });
+        }
+        
+        function installDropdownMenu(e)
+        {
+            e = $(e);
+            e.on('click', function(ev)
+            {
+                e.toggleClass('open');
+                ev.stopPropagation();
+            }); 
+        }
+        

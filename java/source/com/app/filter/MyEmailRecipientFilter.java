@@ -1,9 +1,9 @@
 package com.app.filter;
 
+import com.kodemore.utility.KmNamedEnumIF;
+
 import com.app.criteria.MyEmailRecipientCriteria;
 import com.app.filter.base.MyEmailRecipientFilterBase;
-
-import com.kodemore.utility.KmNamedEnumIF;
 
 public class MyEmailRecipientFilter
     extends MyEmailRecipientFilterBase

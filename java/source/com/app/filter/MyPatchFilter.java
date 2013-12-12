@@ -1,9 +1,9 @@
 package com.app.filter;
 
+import com.kodemore.utility.KmNamedEnumIF;
+
 import com.app.criteria.MyPatchCriteria;
 import com.app.filter.base.MyPatchFilterBase;
-
-import com.kodemore.utility.KmNamedEnumIF;
 
 public class MyPatchFilter
     extends MyPatchFilterBase

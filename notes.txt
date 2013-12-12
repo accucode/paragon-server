@@ -2,6 +2,17 @@
 == To Do
 =======================================
 
+Refactor ScActivity
+    No more activities.  Just pages.
+    Change page.start to final.
+    Page.start should call reset() which can update the pageSession.
+
+    Change Navigation
+        Use History.pushState instead of url hashes.
+                
+---
+Review myInstallerLog
+
 Test on tablets and phones.
     apple and android.
     

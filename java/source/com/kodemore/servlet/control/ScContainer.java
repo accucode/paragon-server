@@ -26,14 +26,16 @@ import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.meta.KmMetaProperty;
-import com.kodemore.servlet.ScActivity;
+import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScColorField;
 import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.servlet.field.ScDropdownMenu;
 import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScHiddenField;
 import com.kodemore.servlet.field.ScIntegerField;
+import com.kodemore.servlet.field.ScLinkList;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
@@ -145,6 +147,11 @@ public abstract class ScContainer
         return add(new ScDropdown());
     }
 
+    public ScDropdownMenu addDropdownMenu()
+    {
+        return add(new ScDropdownMenu());
+    }
+
     public ScCheckboxField addCheckboxField()
     {
         return add(new ScCheckboxField());
@@ -209,17 +216,17 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScAbstractLink addLink(ScActivity e)
+    public ScAbstractLink addLink(ScPage e)
     {
         return addLink(e.getName(), e);
     }
 
-    public ScAbstractLink addLink(String text, ScActivity e)
+    public ScAbstractLink addLink(String text, ScPage e)
     {
-        ScActivityLink link;
-        link = new ScActivityLink();
+        ScPageLink link;
+        link = new ScPageLink();
         link.setText(text);
-        link.setActivity(e);
+        link.setPage(e);
         return add(link);
     }
 
@@ -255,6 +262,11 @@ public abstract class ScContainer
         return addLink(title.getAdaptor(), action, arg);
     }
 
+    public ScLinkList addLinkList()
+    {
+        return add(new ScLinkList());
+    }
+
     //##################################################
     //# buttons
     //##################################################
@@ -274,17 +286,17 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScButton addButton(ScActivity e)
+    public ScButton addButton(ScPage e)
     {
         return addButton(e.getName(), e);
     }
 
-    public ScButton addButton(String text, ScActivity e)
+    public ScButton addButton(String text, ScPage e)
     {
-        ScActivityButton b;
-        b = new ScActivityButton();
+        ScPageButton b;
+        b = new ScPageButton();
         b.setText(text);
-        b.setActivity(e);
+        b.setPage(e);
         return add(b);
     }
 
@@ -467,6 +479,14 @@ public abstract class ScContainer
     public ScStyledText addStyledText()
     {
         return add(new ScStyledText());
+    }
+
+    public ScStyledText addStyledText(CharSequence text)
+    {
+        ScStyledText e;
+        e = addStyledText();
+        e.setValue(text);
+        return e;
     }
 
     public ScStyledText addStyledText(KmMetaProperty<?,?> attr)

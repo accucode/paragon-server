@@ -121,7 +121,6 @@ public class MyServerSessionManager
         MyServerSession ss;
         ss = getSession();
         ss.setUser(u);
-        ss.setDefaultAccount();
         ss.validate();
 
         return ss;

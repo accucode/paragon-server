@@ -1,9 +1,5 @@
 package com.app.generator;
 
-import com.app.file.MyDevelopmentFiles;
-import com.app.utility.MyConstantsIF;
-import com.app.utility.MyEnvironment;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
 import com.kodemore.file.KmFileTraverser;
@@ -14,6 +10,10 @@ import com.kodemore.html.KmCssParser;
 import com.kodemore.javaParser.KmJavaParser;
 import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
+
+import com.app.file.MyDevelopmentFiles;
+import com.app.utility.MyConstantsIF;
+import com.app.utility.MyEnvironment;
 
 public class MyGenerator
     implements KmConstantsIF
@@ -67,7 +67,7 @@ public class MyGenerator
 
     private boolean             _installedModels;
     private boolean             _installedProperties;
-    private boolean             _installedActivities;
+    private boolean             _installedPages;
     private boolean             _installedCss;
 
     //##################################################
@@ -100,8 +100,8 @@ public class MyGenerator
         if ( hasArg("models") )
             generateModels();
 
-        if ( hasArg("activities") )
-            generateActivities();
+        if ( hasArg("pages") )
+            generatePages();
 
         if ( hasArg("properties") )
             generateProperties();
@@ -114,7 +114,7 @@ public class MyGenerator
     {
         generateModels();
         generateProperties();
-        generateActivities();
+        generatePages();
         generateCss();
 
         KmgGenerator.printCounts();
@@ -134,11 +134,11 @@ public class MyGenerator
         generate("property");
     }
 
-    private void generateActivities()
+    private void generatePages()
     {
         installModels();
-        installActivities();
-        generate("activity");
+        installPages();
+        generate("page");
     }
 
     private void generateCss()
@@ -285,32 +285,32 @@ public class MyGenerator
     }
 
     //##################################################
-    //# install activities
+    //# install pages
     //##################################################
 
-    private void installActivities()
+    private void installPages()
     {
-        if ( _installedActivities )
+        if ( _installedPages )
             return;
 
         String pkg = APPLICATION_PACKAGE;
         String pkgPrefix = Kmu.replaceAll(pkg, DOT, SLASH);
-        String pkgSuffix = "ui/activity";
+        String pkgSuffix = "ui/page";
 
         String path;
         path = MyDevelopmentFiles.getJavaSourcePath(pkgPrefix, pkgSuffix);
 
-        getActivityTraverser().processAll(path);
+        getPageTraverser().processAll(path);
 
         KmgRoot root;
         root = getRoot();
-        root.getActivityClassNames().sort();
-        root.getActivityPackageNames().sort();
+        root.getPageClassNames().sort();
+        root.getPagePackageNames().sort();
 
-        _installedActivities = true;
+        _installedPages = true;
     }
 
-    private KmFileTraverser getActivityTraverser()
+    private KmFileTraverser getPageTraverser()
     {
         return new KmFileTraverser()
         {
@@ -318,16 +318,13 @@ public class MyGenerator
             public void processFile(KmFile f)
             {
                 if ( isValid(f) )
-                    addActivity(f);
+                    addPage(f);
             }
 
             public boolean isValid(KmFile f)
             {
                 if ( f.getName().contains("Abstract") )
                     return false;
-
-                if ( f.hasSuffix("Activity.java") )
-                    return true;
 
                 if ( f.hasSuffix("Page.java") )
                     return true;
@@ -337,7 +334,7 @@ public class MyGenerator
         };
     }
 
-    private void addActivity(KmFile f)
+    private void addPage(KmFile f)
     {
         KmJavaParser jp;
         jp = new KmJavaParser();
@@ -361,8 +358,8 @@ public class MyGenerator
 
         KmgRoot root;
         root = getRoot();
-        root.getActivityClassNames().add(name);
-        root.getActivityPackageNames().addDistinct(pkg);
+        root.getPageClassNames().add(name);
+        root.getPagePackageNames().addDistinct(pkg);
     }
 
     //##################################################

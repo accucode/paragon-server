@@ -1,8 +1,8 @@
 package com.app.tools;
 
-import com.app.utility.MyInstaller;
-
 import com.kodemore.patch.KmPatchConsole;
+
+import com.app.utility.MyInstaller;
 
 public class MyPatchConsole
     extends KmPatchConsole

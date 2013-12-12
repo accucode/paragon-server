@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+        function myChange()
+        {
+            $('#x').val('1');
+        }
+        
+        
+    </script>
+
+    <style type="text/css">
+        .xSelect
+        {
+            background-color: yellow;
+            padding: 5px;
+            border: 2px solid green;
+            border-radius: 3px;
+            font: bold 24px sans-serif;
+        }
+        
+        .xOption
+        {
+            color: red;
+            background-color: white;
+        }
+    </style>
+
+</head>
+
+<body onload="myLoad();">
+<div id="main" style="display:none" class="gap">
+
+    <div class="boxGray gap">
+        <div class="borderBlue autoflowAuto pad">
+            <p>Default select, no size or height; works like a dropdown box.</p>
+            <p>The following applies a some custom styling.</p>
+            <p>Note that color is about the only thing we can override on the 'options'.</p>
+            <br>
+            
+            <span class="top">Select:</span>
+            <select id='x' class='xSelect' onchange='myChange(); return false;'>
+                <option value="1">one</option>
+                <option class='xOption' value="2">two</option>
+                <option value="3">three</option>
+                <option value="4">four</option>
+                <option value="5">five</option>
+                <option value="6">six</option>
+                <option value="7">seven</option>
+                <option value="8">eight</option>
+                <option value="9">nine</option>
+                <option value="10">ten</option>
+            </select>
+        </div>
+    
+</div>
+</body>
+</html>

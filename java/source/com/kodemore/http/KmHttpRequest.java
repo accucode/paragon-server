@@ -22,13 +22,18 @@
 
 package com.kodemore.http;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 
-import com.kodemore.collection.*;
-import com.kodemore.utility.*;
+import com.kodemore.collection.KmMap;
+import com.kodemore.collection.KmOrderedMap;
+import com.kodemore.utility.Kmu;
 
 public abstract class KmHttpRequest
 {

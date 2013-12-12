@@ -1,10 +1,10 @@
 package com.app.ui.monitor.command;
 
+import com.kodemore.database.KmDatabaseTool;
+
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.monitor.MyMonitorServletData;
 import com.app.utility.MyGlobals;
-
-import com.kodemore.database.KmDatabaseTool;
 
 public class MyMonitorServletJdbcQueryCommand
     implements MyMonitorServletCommandIF

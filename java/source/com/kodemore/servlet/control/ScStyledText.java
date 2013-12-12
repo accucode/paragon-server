@@ -64,7 +64,7 @@ public class ScStyledText
         return _value.getValue();
     }
 
-    public void setValue(String e)
+    public void setValue(CharSequence e)
     {
         _value.setValue(e);
     }

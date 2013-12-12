@@ -1,7 +1,7 @@
 package com.kodemore.patch;
 
-import com.kodemore.collection.*;
-import com.kodemore.console.*;
+import com.kodemore.collection.KmList;
+import com.kodemore.console.KmConsoleInput;
 
 /**
  * I provide the majority of functionality for a command line
