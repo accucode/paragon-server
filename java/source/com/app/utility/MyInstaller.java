@@ -304,7 +304,7 @@ public class MyInstaller
         _installFormatter();
         _installPageLayout();
         _installHashBridge();
-        _installActivities();
+        _installPages();
 
         lockControlRegistry();
     }
@@ -324,9 +324,9 @@ public class MyInstaller
         printOk();
     }
 
-    private static void _installActivities()
+    private static void _installPages()
     {
-        printfHeader("Activities");
+        printfHeader("Pages");
         MyPageRegistry.install();
         printOk();
     }

@@ -27,16 +27,16 @@ import com.kodemore.servlet.utility.ScHashBridge;
 import com.kodemore.utility.Kmu;
 
 /**
- * A button to navigate to an activity.
+ * A button to navigate to an page.
  */
-public class ScActivityButton
+public class ScPageButton
     extends ScButton
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScPage _activity;
+    private ScPage _page;
 
     //##################################################
     //# init
@@ -62,14 +62,14 @@ public class ScActivityButton
     //# accessing
     //##################################################
 
-    public ScPage getActivity()
+    public ScPage getPage()
     {
-        return _activity;
+        return _page;
     }
 
-    public void setActivity(ScPage e)
+    public void setPage(ScPage e)
     {
-        _activity = e;
+        _page = e;
     }
 
     //##################################################
@@ -80,7 +80,7 @@ public class ScActivityButton
     protected String formatOnClick()
     {
         ScHashBridge b = ScHashBridge.getInstance();
-        String hash = b.formatFullHash(getActivity());
+        String hash = b.formatFullHash(getPage());
         return Kmu.format("window.location.hash='%s';", hash);
     }
 

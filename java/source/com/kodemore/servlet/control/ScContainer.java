@@ -223,10 +223,10 @@ public abstract class ScContainer
 
     public ScAbstractLink addLink(String text, ScPage e)
     {
-        ScActivityLink link;
-        link = new ScActivityLink();
+        ScPageLink link;
+        link = new ScPageLink();
         link.setText(text);
-        link.setActivity(e);
+        link.setPage(e);
         return add(link);
     }
 
@@ -293,10 +293,10 @@ public abstract class ScContainer
 
     public ScButton addButton(String text, ScPage e)
     {
-        ScActivityButton b;
-        b = new ScActivityButton();
+        ScPageButton b;
+        b = new ScPageButton();
         b.setText(text);
-        b.setActivity(e);
+        b.setPage(e);
         return add(b);
     }
 

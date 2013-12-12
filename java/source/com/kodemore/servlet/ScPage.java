@@ -216,7 +216,7 @@ public abstract class ScPage
     //##################################################
 
     /**
-     * Start the activity.  This typically resets activity
+     * Start the page.  This typically resets page
      * state then displays the ui in an initial state.    
      */
     public abstract void start();

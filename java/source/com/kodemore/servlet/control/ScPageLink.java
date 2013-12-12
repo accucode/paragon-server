@@ -26,16 +26,16 @@ import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.utility.ScHashBridge;
 
 /**
- * A link to start an activity.
+ * A link to start an page.
  */
-public class ScActivityLink
+public class ScPageLink
     extends ScAbstractLink
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScPage _activity;
+    private ScPage _page;
 
     //##################################################
     //# init
@@ -51,14 +51,14 @@ public class ScActivityLink
     //# accessing
     //##################################################
 
-    public ScPage getActivity()
+    public ScPage getPage()
     {
-        return _activity;
+        return _page;
     }
 
-    public void setActivity(ScPage e)
+    public void setPage(ScPage e)
     {
-        _activity = e;
+        _page = e;
     }
 
     //##################################################
@@ -75,7 +75,7 @@ public class ScActivityLink
     protected String formatHref()
     {
         ScHashBridge b = ScHashBridge.getInstance();
-        String hash = b.formatFullHash(getActivity());
+        String hash = b.formatFullHash(getPage());
         return "#" + hash;
     }
 
