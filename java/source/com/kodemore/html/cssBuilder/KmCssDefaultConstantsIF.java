@@ -96,6 +96,7 @@ public interface KmCssDefaultConstantsIF
     String padTopChildren = "padTopChildren";
     String padVertical = "padVertical";
     String pageFooter = "pageFooter";
+    String pageHeader = "pageHeader";
     String pageTitle = "pageTitle";
     String pageTitleButton = "pageTitleButton";
     String pageTitleText = "pageTitleText";

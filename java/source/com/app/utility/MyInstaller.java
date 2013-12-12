@@ -303,7 +303,6 @@ public class MyInstaller
         _installCoders();
         _installFormatter();
         _installPageLayout();
-        _installHashBridge();
         _installPages();
 
         lockControlRegistry();
@@ -328,13 +327,6 @@ public class MyInstaller
     {
         printfHeader("Pages");
         MyPageRegistry.install();
-        printOk();
-    }
-
-    private static void _installHashBridge()
-    {
-        printfHeader("HashBridge");
-        MyHashBridge.install();
         printOk();
     }
 

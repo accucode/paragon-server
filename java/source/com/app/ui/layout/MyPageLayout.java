@@ -2,13 +2,12 @@ package com.app.ui.layout;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.json.KmJsonMap;
+import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.control.ScControl;
-import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.field.ScDropdownMenu;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScUrls;
@@ -35,33 +34,20 @@ public class MyPageLayout
     //# constants (border)
     //##################################################
 
-    public static final String  CENTER_ID             = "pageLayoutCenter";
-    public static final String  CENTER_SELECTOR       = "#" + CENTER_ID;
+    public static final String  CENTER_ID       = "pageLayoutCenter";
+    public static final String  CENTER_SELECTOR = "#" + CENTER_ID;
 
-    private static final String TOP_ID                = "pageLayoutTop";
-    private static final String TOP_SELECTOR          = "#" + TOP_ID;
+    private static final String TOP_ID          = "pageLayoutTop";
+    private static final String TOP_SELECTOR    = "#" + TOP_ID;
 
-    private static final String BOTTOM_ID             = "pageLayoutBottom";
-    private static final String BOTTOM_SELECTOR       = "#" + BOTTOM_ID;
+    private static final String BOTTOM_ID       = "pageLayoutBottom";
+    private static final String BOTTOM_SELECTOR = "#" + BOTTOM_ID;
 
-    private static final String FOOTER_ID             = "pageFooter";
-    private static final String FOOTER_SELECTOR       = "#" + FOOTER_ID;
+    private static final String LEFT_ID         = "pageLayoutLeft";
+    private static final String LEFT_SELECTOR   = "#" + LEFT_ID;
 
-    private static final String LEFT_ID               = "pageLayoutLeft";
-    private static final String LEFT_SELECTOR         = "#" + LEFT_ID;
-
-    private static final String RIGHT_ID              = "pageLayoutRight";
-    private static final String RIGHT_SELECTOR        = "#" + RIGHT_ID;
-
-    //##################################################
-    //# constants (header)
-    //##################################################
-
-    private static final String HEADER_LEFT_ID        = "pageHeaderLeft";
-    private static final String HEADER_LEFT_SELECTOR  = "#" + HEADER_LEFT_ID;
-
-    private static final String HEADER_RIGHT_ID       = "pageHeaderRight";
-    private static final String HEADER_RIGHT_SELECTOR = "#" + HEADER_RIGHT_ID;
+    private static final String RIGHT_ID        = "pageLayoutRight";
+    private static final String RIGHT_SELECTOR  = "#" + RIGHT_ID;
 
     //##################################################
     //# install
@@ -86,7 +72,7 @@ public class MyPageLayout
     //# variables
     //##################################################
 
-    private ScDiv          _topRightDiv;
+    // private ScDiv          _topRightDiv;
 
     private MyLeftMenu     _leftMenu;
     private ScDropdownMenu _userMenu;
@@ -104,7 +90,6 @@ public class MyPageLayout
         installSelectAccountAction();
         installAccountMenu();
         installUserMenu();
-        installTopRightDiv();
     }
 
     //==================================================
@@ -114,17 +99,6 @@ public class MyPageLayout
     private void installLeftMenu()
     {
         _leftMenu = new MyLeftMenu();
-    }
-
-    public void showLeftMenu(boolean show)
-    {
-        if ( show )
-        {
-            ajaxRefreshLeftMenu();
-            ajaxShowLeft();
-        }
-        else
-            ajaxHideLeft();
     }
 
     //==================================================
@@ -138,6 +112,7 @@ public class MyPageLayout
         _userMenu.hide();
         _userMenu.addItem("Profile", newEditUserProfileAction());
         _userMenu.addItem("Log out", newLogoutAction());
+        _userMenu.css().floatRight().marginLeft();
     }
 
     private ScActionIF newEditUserProfileAction()
@@ -223,6 +198,7 @@ public class MyPageLayout
         _accountMenu = new ScDropdownMenu();
         _accountMenu.setTitle("Account");
         _accountMenu.hide();
+        _accountMenu.css().floatRight();
     }
 
     private ScActionIF getManageAccountsAction()
@@ -251,84 +227,7 @@ public class MyPageLayout
     }
 
     //##################################################
-    //# install :: top right
-    //##################################################
-
-    private void installTopRightDiv()
-    {
-        _userMenu.css().floatRight().marginLeft();
-        _accountMenu.css().floatRight();
-
-        _topRightDiv = new ScDiv();
-        _topRightDiv.css().pad3();
-        _topRightDiv.add(_userMenu);
-        _topRightDiv.add(_accountMenu);
-    }
-
-    //##################################################
-    //# header
-    //##################################################
-
-    public void ajaxCreateLayout()
-    {
-        KmJsonMap json;
-        json = new KmJsonMap();
-
-        json.setString("parent", "body");
-        json.setString("idPrefix", "pageLayout");
-        json.setString("classPrefix", "pageLayout");
-
-        json.setBoolean("liveResize", true);
-        json.setBoolean("debugBorders", false);
-
-        json.setBoolean("topVisible", true);
-        json.setBoolean("topResizable", false);
-        json.setInteger("topSize", 50);
-        // show overflow for menus
-        json.setString("topOverflow", "visible");
-
-        json.setBoolean("bottomVisible", true);
-        json.setBoolean("bottomResizable", false);
-        json.setInteger("bottomSize", 25);
-
-        json.setBoolean("leftVisible", false);
-        json.setBoolean("leftResizable", false);
-        json.setInteger("leftSize", 150);
-
-        json.setBoolean("rightVisible", false);
-        json.setBoolean("rightResizable", false);
-        json.setInteger("rightSize", 200);
-
-        json.setString("centerOverflow", "auto");
-
-        ajax().run("new KmBorderLayout(%s);", json);
-
-        ajax().addDivIdTo(TOP_SELECTOR, HEADER_LEFT_ID);
-        ajax().addDivIdTo(TOP_SELECTOR, HEADER_RIGHT_ID);
-
-        ajax().addDivIdTo(BOTTOM_SELECTOR, FOOTER_ID);
-        ajax().addCss(FOOTER_SELECTOR, FOOTER_ID);
-
-        ajax().setContents(HEADER_RIGHT_SELECTOR, _topRightDiv);
-    }
-
-    //##################################################
-    //# footer
-    //##################################################
-
-    public void ajaxRefreshFooter()
-    {
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
-        out.beginSpan();
-        out.printLiteral(MyConstantsIF.COPYRIGHT_HTML);
-        out.endSpan();
-
-        ajax().setContents(FOOTER_SELECTOR, out);
-    }
-
-    //##################################################
-    //# left menu
+    //# accessing
     //##################################################
 
     public MyLeftMenu getLeftMenu()
@@ -336,14 +235,86 @@ public class MyPageLayout
         return _leftMenu;
     }
 
-    public void ajaxRefreshLeftMenu()
+    //##################################################
+    //# top
+    //##################################################
+
+    public void ajaxSetTopContents(KmHtmlBuilder out)
     {
-        getLeftMenu().ajaxRefreshMenu();
+        ajax().setContents(TOP_SELECTOR, out);
     }
 
-    public void gotoDefaultPage()
+    public void ajaxSetTopContents(ScControl e)
     {
-        getLeftMenu().gotoDefault();
+        ajax().setContents(TOP_SELECTOR, e);
+    }
+
+    public void ajaxShowTop(ScControl e)
+    {
+        ajaxSetTopContents(e);
+        ajaxShowTop();
+    }
+
+    public void ajaxShowTop(KmHtmlBuilder out)
+    {
+        ajaxSetTopContents(out);
+        ajaxShowTop();
+    }
+
+    public void ajaxShowTop()
+    {
+        ajaxShowSide("top");
+    }
+
+    public void ajaxHideTop()
+    {
+        ajaxHideSide("top");
+    }
+
+    public void ajaxSetTopCss(String css)
+    {
+        ajax().setCss(TOP_SELECTOR, css);
+    }
+
+    //##################################################
+    //# bottom
+    //##################################################
+
+    public void ajaxSetBottomContents(KmHtmlBuilder out)
+    {
+        ajax().setContents(BOTTOM_SELECTOR, out);
+    }
+
+    public void ajaxSetBottomContents(ScControl e)
+    {
+        ajax().setContents(BOTTOM_SELECTOR, e);
+    }
+
+    public void ajaxShowBottom(ScControl e)
+    {
+        ajaxSetBottomContents(e);
+        ajaxShowBottom();
+    }
+
+    public void ajaxShowBottom(KmHtmlBuilder out)
+    {
+        ajaxSetBottomContents(out);
+        ajaxShowBottom();
+    }
+
+    public void ajaxShowBottom()
+    {
+        ajaxShowSide("bottom");
+    }
+
+    public void ajaxHideBottom()
+    {
+        ajaxHideSide("bottom");
+    }
+
+    public void ajaxSetBottomCss(String css)
+    {
+        ajax().setCss(BOTTOM_SELECTOR, css);
     }
 
     //##################################################
@@ -360,16 +331,6 @@ public class MyPageLayout
         ajax().setContents(LEFT_SELECTOR, e);
     }
 
-    public void ajaxShowLeft()
-    {
-        ajax().run("$('body').data('borderLayout').showSide('left');");
-    }
-
-    public void ajaxHideLeft()
-    {
-        ajax().run("$('body').data('borderLayout').hideSide('left');");
-    }
-
     public void ajaxShowLeft(ScControl e)
     {
         ajaxSetLeftContents(e);
@@ -380,6 +341,16 @@ public class MyPageLayout
     {
         ajaxSetLeftContents(out);
         ajaxShowLeft();
+    }
+
+    public void ajaxShowLeft()
+    {
+        ajaxShowSide("left");
+    }
+
+    public void ajaxHideLeft()
+    {
+        ajaxHideSide("left");
     }
 
     public void ajaxSetLeftCss(String css)
@@ -401,16 +372,6 @@ public class MyPageLayout
         ajax().setContents(RIGHT_SELECTOR, e);
     }
 
-    public void ajaxShowRight()
-    {
-        ajax().run("$('body').data('borderLayout').showSide('right');");
-    }
-
-    public void ajaxHideRight()
-    {
-        ajax().run("$('body').data('borderLayout').hideSide('right');");
-    }
-
     public void ajaxShowRight(ScControl e)
     {
         ajaxSetRightContents(e);
@@ -421,6 +382,16 @@ public class MyPageLayout
     {
         ajaxSetRightContents(out);
         ajaxShowRight();
+    }
+
+    public void ajaxShowRight()
+    {
+        ajaxShowSide("right");
+    }
+
+    public void ajaxHideRight()
+    {
+        ajaxHideSide("right");
     }
 
     public void ajaxSetRightCss(String css)
@@ -462,6 +433,20 @@ public class MyPageLayout
     }
 
     //##################################################
+    //# show
+    //##################################################
+
+    private void ajaxShowSide(String side)
+    {
+        ajax().run("$('body').data('borderLayout').showSide('%s');", side);
+    }
+
+    private void ajaxHideSide(String side)
+    {
+        ajax().run("$('body').data('borderLayout').hideSide('%s');", side);
+    }
+
+    //##################################################
     //# refresh
     //##################################################
 
@@ -470,34 +455,45 @@ public class MyPageLayout
         ajaxRefreshHeader();
         ajaxRefreshFooter();
         ajaxRefreshLeftMenu();
-
-    }
-
-    public void ajaxRefreshHeader()
-    {
-        ajaxRefreshHeaderLogo();
-        ajaxRefreshUserMenu();
-        ajaxRefreshAccountMenu();
     }
 
     //==================================================
-    //= refresh :: logo
+    //= refresh :: header
     //==================================================
 
-    private void ajaxRefreshHeaderLogo()
+    public void ajaxShowHeader(boolean show)
     {
-        ajax().setContents(HEADER_LEFT_SELECTOR, renderHeaderLogo());
+        if ( show )
+        {
+            ajaxRefreshHeader();
+            ajaxShowTop();
+        }
+        else
+            ajaxHideTop();
     }
 
-    private KmHtmlBuilder renderHeaderLogo()
+    private void ajaxRefreshHeader()
     {
-        String url = MyUrls.getEntryUrl();
+        ajaxSetBottomCss(KmCssDefaultConstantsIF.pageHeader);
+        ajaxSetTopContents(renderHeader());
+    }
 
+    private KmHtmlBuilder renderHeader()
+    {
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
+
+        renderHeaderLogoOn(out);
+        renderHeaderDropdownsOn(out);
+
+        return out;
+    }
+
+    private void renderHeaderLogoOn(KmHtmlBuilder out)
+    {
         out.open("a");
         out.printAttribute("id", "pageHeaderLink");
-        out.printAttribute("href", url);
+        out.printAttribute("href", MyUrls.getEntryUrl());
         out.close();
 
         out.open("img");
@@ -512,14 +508,21 @@ public class MyPageLayout
         out.endSpan();
 
         out.end("a");
-        return out;
+    }
+
+    private void renderHeaderDropdownsOn(KmHtmlBuilder out)
+    {
+        out.render(_userMenu);
+        out.render(_accountMenu);
     }
 
     //==================================================
-    //= refresh :: user
+    //= refresh :: dropdowns
     //==================================================
 
-    private void ajaxRefreshUserMenu()
+    // todo_wyatt: refresh menu
+    @SuppressWarnings("unused")
+    private void ajaxRefreshUserDropdown()
     {
         MyUser u = getCurrentUser();
 
@@ -534,11 +537,9 @@ public class MyPageLayout
         _userMenu.ajax().replace();
     }
 
-    //==================================================
-    //= refresh :: account
-    //==================================================
-
-    private void ajaxRefreshAccountMenu()
+    // todo_wyatt: refresh menu
+    @SuppressWarnings("unused")
+    private void ajaxRefreshAccountDropdown()
     {
         MyAccount a = getCurrentAccount();
 
@@ -570,6 +571,63 @@ public class MyPageLayout
         v = u.getAccounts().toList();
         v.sortOn(MyAccount.Meta.Name);
         return v;
+    }
+
+    //==================================================
+    //= refresh :: footer
+    //==================================================
+
+    public void ajaxShowFooter(boolean show)
+    {
+        if ( show )
+        {
+            ajaxRefreshFooter();
+            ajaxShowBottom();
+        }
+        else
+            ajaxHideBottom();
+    }
+
+    private void ajaxRefreshFooter()
+    {
+        ajaxSetBottomCss(KmCssDefaultConstantsIF.pageFooter);
+        ajaxSetBottomContents(renderFooter());
+    }
+
+    private KmHtmlBuilder renderFooter()
+    {
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+
+        out.beginSpan();
+        out.printLiteral(MyConstantsIF.COPYRIGHT_HTML);
+        out.endSpan();
+
+        return out;
+    }
+
+    //==================================================
+    //= refresh :: left menu
+    //==================================================
+
+    public void ajaxShowLeftMenu(boolean show)
+    {
+        if ( show )
+        {
+            ajaxRefreshLeftMenu();
+            ajaxShowLeft();
+        }
+        else
+            ajaxHideLeft();
+    }
+
+    private void ajaxRefreshLeftMenu()
+    {
+        MyLeftMenu menu = getLeftMenu();
+
+        ajaxSetCenterCss(menu.getContentCss());
+        ajaxSetLeftCss(menu.getMenuCss());
+        ajaxSetLeftContents(menu.render());
     }
 
     //##################################################

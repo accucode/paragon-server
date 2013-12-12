@@ -59,7 +59,7 @@
 
     <servlet-mapping>
         <servlet-name>main</servlet-name>
-        <url-pattern>/servlet/main</url-pattern>
+        <url-pattern>/servlet/main/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

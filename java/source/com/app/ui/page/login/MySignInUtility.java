@@ -8,8 +8,8 @@ import com.app.model.MyUser;
 import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyPageLayout;
+import com.app.ui.page.general.MyHomePage;
 import com.app.utility.MyGlobals;
-import com.app.utility.MyNavigator;
 
 public class MySignInUtility
 {
@@ -60,7 +60,9 @@ public class MySignInUtility
         layout.ajaxClearCenter();
         layout.ajaxRefresh();
 
-        MyNavigator.startDefaultPage();
+        // todo_wyatt: default page
+        //  MyNavigator.startDefaultPage();
+        MyHomePage.instance.start();
     }
 
     public static String getEmailCookie()

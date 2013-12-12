@@ -1,25 +1,25 @@
 package com.app.ui.servlet;
 
+import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
+import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
-import com.app.model.MyServerSession;
 import com.app.ui.core.MyServletData;
-import com.app.ui.layout.MyPageLayout;
+import com.app.ui.page.MyPageRegistry;
 import com.app.ui.page.login.MyAcceptJoinInvitationPage;
 import com.app.ui.page.login.MyAcceptNewUserInvitationPage;
 import com.app.ui.page.login.MyAcceptTransferInvitationPage;
 import com.app.ui.page.login.MyInvalidInvitationPage;
 import com.app.ui.page.login.MyPasswordResetPage;
-import com.app.ui.page.login.MySignInPage;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyUrls;
 
@@ -110,102 +110,68 @@ public class MyAjaxServlet
     {
         String key = data.getActionKey();
 
-        if ( Kmu.isEmpty(key) || key.equals("_enter") )
-            runEnter();
-
-        if ( key.equals("_navigate") )
-            runNavigate();
+        if ( key.equals("_printCurrentPage") )
+            handlePrintCurrentPage();
     }
 
-    //##################################################
-    //# navigation (via url hash)
-    //##################################################
+    // todo_wyatt: move
 
-    private void runNavigate()
+    private void handlePrintCurrentPage()
+    {
+        String loc = getData().getWindowLocation();
+
+        KmMap<String,KmList<String>> params = Kmu.parseQueryString(loc);
+
+        KmList<String> pageKeys = params.get("page");
+        if ( pageKeys == null )
+        {
+            ajax().toast("No page parameter.");
+            return;
+        }
+
+        if ( pageKeys.isEmpty() )
+        {
+            ajax().toast("Empty page keys");
+            return;
+        }
+
+        if ( pageKeys.isMultiple() )
+        {
+            ajax().toast("Multiple page keys");
+            return;
+        }
+
+        MyPageRegistry registry = MyPageRegistry.getInstance();
+        String key = pageKeys.getFirst();
+        boolean hasKey = registry.hasKey(key);
+        if ( !hasKey )
+        {
+            ajax().toast("Unknown page, " + key);
+            return;
+        }
+
+        ScPage page = registry.findKey(key);
+        printPageDao(page);
+    }
+
+    private void printPageDao(final ScPage page)
     {
         new KmDaoCommand()
         {
             @Override
             protected void handle()
             {
-                handleNavigate();
+                page.print();
             }
         }.run();
-    }
-
-    private void handleNavigate()
-    {
-        if ( hasCurrentUser() )
-            MyPageLayout.getInstance().getLeftMenu().gotoWindowLocation();
-        else
-            MySignInPage.instance.start();
-    }
-
-    private boolean hasCurrentUser()
-    {
-        MyServerSession ss = MyGlobals.getServerSession();
-        if ( ss == null )
-            return false;
-
-        return ss.isFresh() && ss.hasUser();
     }
 
     //##################################################
     //# enter application
     //##################################################
 
-    private void runEnter()
-    {
-        new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                handleEnter();
-            }
-        }.run();
-    }
-
-    private void handleEnter()
-    {
-        MyPageLayout e;
-        e = getPageStructure();
-        e.ajaxCreateLayout();
-        e.ajaxRefreshHeader();
-        e.ajaxRefreshFooter();
-
-        if ( handleEntryParameters() )
-            return;
-
-        MySignInPage.instance.start();
-    }
-
-    private boolean handleEntryParameters()
-    {
-        KmMap<String,String> params = getEntryParameters();
-        if ( params == null )
-            return false;
-
-        if ( handleInvitation(params) )
-            return true;
-
-        if ( handlePasswordReset(params) )
-            return true;
-
-        return false;
-    }
-
-    @SuppressWarnings("unchecked")
-    private KmMap<String,String> getEntryParameters()
-    {
-        MyServletData data = getData();
-
-        if ( !data.hasArgument() )
-            return null;
-
-        return (KmMap<String,String>)data.getArgument();
-    }
-
+    // todo_wyatt: accept invitation
+    @SuppressWarnings("unused")
     private boolean handleInvitation(KmMap<String,String> params)
     {
         String key = MyUrls.PARAMETER_INVITATION;
@@ -242,6 +208,8 @@ public class MyAjaxServlet
         return true;
     }
 
+    // todo_wyatt: password reset
+    @SuppressWarnings("unused")
     private boolean handlePasswordReset(KmMap<String,String> params)
     {
         String key = MyUrls.PARAMETER_PASSWORD_RESET;
@@ -328,11 +296,6 @@ public class MyAjaxServlet
     //##################################################
     //# support
     //##################################################
-
-    private MyPageLayout getPageStructure()
-    {
-        return MyPageLayout.getInstance();
-    }
 
     private void toastFatal(String s)
     {

@@ -4,7 +4,6 @@ import com.kodemore.dao.KmDaoSession;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAccount;
@@ -23,24 +22,6 @@ public abstract class MyPage
     extends ScPage
 {
     //##################################################
-    //# accessing
-    //##################################################
-
-    // todo_wyatt: remove navigation hash
-    @Override
-    public String getNavigationHash()
-    {
-        String s;
-        s = getClass().getSimpleName();
-        s = Kmu.removePrefix(s, "My");
-        s = Kmu.removeSuffix(s, "Activity");
-        s = Kmu.removeSuffix(s, "Page");
-        s = Kmu.removeSuffix(s, "Menu");
-        s = Kmu.lowercaseFirstLetter(s);
-        return s;
-    }
-
-    //##################################################
     //# start
     //##################################################
 
@@ -58,16 +39,46 @@ public abstract class MyPage
     {
         super.checkLayout();
 
+        checkHeader();
+        checkFooter();
         checkLeftMenu();
+    }
+
+    private void checkHeader()
+    {
+        boolean shows = showsHeader();
+        boolean visible = getData().isTopVisible();
+
+        if ( shows != visible )
+            getPageLayout().ajaxShowHeader(shows);
+    }
+
+    private void checkFooter()
+    {
+        boolean shows = showsFooter();
+        boolean visible = getData().isBottomVisible();
+
+        if ( shows != visible )
+            getPageLayout().ajaxShowFooter(shows);
     }
 
     private void checkLeftMenu()
     {
         boolean shows = showsLeftMenu();
-        boolean visible = getData().isTopVisible();
+        boolean visible = getData().isLeftVisible();
 
         if ( shows != visible )
-            getPageLayout().showLeftMenu(shows);
+            getPageLayout().ajaxShowLeftMenu(shows);
+    }
+
+    protected boolean showsHeader()
+    {
+        return true;
+    }
+
+    protected boolean showsFooter()
+    {
+        return true;
     }
 
     protected boolean showsLeftMenu()

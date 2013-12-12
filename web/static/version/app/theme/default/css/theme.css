@@ -265,6 +265,10 @@
  ** page header
  *******************************************************************/
 
+.pageHeader
+{
+}
+
 #pageHeaderLink
 {
     text-decoration: none;

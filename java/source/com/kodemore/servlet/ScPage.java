@@ -1,6 +1,5 @@
 package com.kodemore.servlet;
 
-import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmOrderedMap;
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.log.KmLog;
@@ -8,11 +7,9 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.servlet.utility.ScUrls;
-import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -93,40 +90,15 @@ public abstract class ScPage
     //# url
     //##################################################
 
-    public String formatUrlParameters()
+    // todo_wyatt: rename
+    public String formatQueryString()
     {
-        KmOrderedMap<String,Object> params;
-        params = new KmOrderedMap<String,Object>();
-
+        KmOrderedMap<String,String> params = new KmOrderedMap<String,String>();
         encodeParameters(params);
-
-        return formatUrlParameters(params);
-
+        return Kmu.formatQueryString(params);
     }
 
-    private String formatUrlParameters(KmOrderedMap<String,Object> params)
-    {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.print("?");
-
-        KmList<String> keys = params.getKeys();
-        for ( String key : keys )
-        {
-            Object value = params.get(key);
-            String encodedValue = ScEncoder.staticEncode(value);
-
-            out.print(key);
-            out.print("=");
-            out.print(encodedValue);
-            out.print("&");
-        }
-
-        out.removeSuffix("&");
-        return out.toString();
-    }
-
-    private void encodeParameters(KmOrderedMap<String,Object> params)
+    private void encodeParameters(KmOrderedMap<String,String> params)
     {
         params.put("page", getKey());
     }
@@ -178,8 +150,7 @@ public abstract class ScPage
     public final void start()
     {
         reset();
-        checkLayout();
-        print();
+        ajax().pushPage(this);
     }
 
     /**
@@ -212,8 +183,9 @@ public abstract class ScPage
      * Subclasses can use preRender and postRender to hook into
      * the print process.
      */
-    protected final void print()
+    public final void print()
     {
+        checkLayout();
         print(getAutoFocus());
     }
 
@@ -264,24 +236,6 @@ public abstract class ScPage
     protected void postRender()
     {
         // subclass
-    }
-
-    //##################################################
-    //# navigation
-    //##################################################
-
-    /**
-     * Return a hash that can be used as part of the application
-     * url to control navigation with the browser's back button.
-     */
-    public String getNavigationHash()
-    {
-        return getKey();
-    }
-
-    public boolean hasNavigationHash(String e)
-    {
-        return Kmu.isEqual(getNavigationHash(), e);
     }
 
     //##################################################

@@ -2,14 +2,13 @@ package com.app.ui.servlet;
 
 import com.kodemore.collection.KmMap;
 import com.kodemore.file.KmFile;
-import com.kodemore.json.KmJsonUtility;
-import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.utility.Kmu;
 
 import com.app.file.MyResourceFiles;
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.core.MyServletData;
 import com.app.utility.MyConstantsIF;
+import com.app.utility.MyNavigator;
 import com.app.utility.MyUrlBridge;
 import com.app.utility.MyUrls;
 
@@ -44,10 +43,6 @@ public class MyMainServlet
     @Override
     protected void doPost()
     {
-        String url = getData().getFullRequestUrl();
-        // remove_wyatt: print
-        System.out.println("MyMainServlet.doPost: " + url);
-
         beginServerSession();
         String html = formatHtml();
         getData().setHtmlResult(html);
@@ -104,31 +99,25 @@ public class MyMainServlet
         String name = MyConstantsIF.APPLICATION_NAME;
         String version = MyConstantsIF.APPLICATION_VERSION;
         String versionFolder = MyUrlBridge.getInstance().getVersionFolder();
-        String params = formatParameters();
+
+        String query = formatQueryString();
 
         String s;
         s = file.readString();
         s = Kmu.replaceAll(s, "${applicationName}", name);
         s = Kmu.replaceAll(s, "${applicationVersion}", version);
         s = Kmu.replaceAll(s, "${versionFolder}", versionFolder);
-        s = Kmu.replaceAll(s, "${params}", params);
+        s = Kmu.replaceAll(s, "${query}", query);
         return s;
     }
 
-    /**
-     * Encode any parameters into the initial structure. 
-     */
-    private String formatParameters()
+    private String formatQueryString()
     {
-        MyServletData data = getData();
-        if ( !data.hasParameters() )
-            return "";
+        String s = getData().formatParametersAsQueryString();
 
-        KmMap<String,String> map = data.getParameterMap();
-        String encoded = ScEncoder.staticEncode(map);
-        String wrapped = KmJsonUtility.format(encoded);
+        if ( Kmu.isEmpty(s) )
+            s = MyNavigator.getDefaultPage().formatQueryString();
 
-        return wrapped;
+        return s;
     }
-
 }

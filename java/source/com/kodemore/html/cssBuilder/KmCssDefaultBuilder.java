@@ -510,6 +510,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.pageFooter);
     }
     
+    public KmCssDefaultBuilder pageHeader()
+    {
+        return apply(KmCssDefaultConstantsIF.pageHeader);
+    }
+    
     public KmCssDefaultBuilder pageTitle()
     {
         return apply(KmCssDefaultConstantsIF.pageTitle);

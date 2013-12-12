@@ -23,7 +23,7 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.servlet.ScPage;
-import com.kodemore.servlet.utility.ScHashBridge;
+import com.kodemore.servlet.script.ScRootScript;
 
 /**
  * A link to start an page.
@@ -74,9 +74,11 @@ public class ScPageLink
     @Override
     protected String formatHref()
     {
-        ScHashBridge b = ScHashBridge.getInstance();
-        String hash = b.formatFullHash(getPage());
-        return "#" + hash;
+        ScRootScript s;
+        s = new ScRootScript();
+        s.pushPage(getPage());
+
+        return "javascript:" + s.formatScript();
     }
 
     @Override

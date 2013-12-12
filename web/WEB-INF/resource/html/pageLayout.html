@@ -21,7 +21,7 @@ Version: ${applicationVersion}
     <script type="text/javascript">
 
         //**********************************************************
-        //** navigation
+        //** navigator
         //**********************************************************
         
         var KmNavigator = {};
@@ -73,6 +73,9 @@ Version: ${applicationVersion}
          *          Although this may be used to update the browser's title, it is
          *          not well supported.  If no value is specified, we use an empty string. 
          *
+         *      replace
+         *          If true, do a replaceState instead of a pushState.
+         *
          *      silent
          *          By defualt, a push normally triggers the statechange event.  
          *          If silent is set to true, the statechange event is temporarily disabled.
@@ -89,18 +92,30 @@ Version: ${applicationVersion}
             {
                 pageSession: Kmu.pageSession
             };
-            
+
+            var push = true;
+            if ( options.replace )
+                push = false;
+                
             var silent = options.silent;
             if ( silent )
             { 
                 KmNavigator.unbind();
-                History.pushState(data, title, url);
+                KmNavigator.pushOrReplace(data, title, url, push);
                 KmNavigator.bind();
             }
             else
             {
-                History.pushState(data, title, url);
+                KmNavigator.pushOrReplace(data, title, url, push);
             }
+        }
+
+        KmNavigator.pushOrReplace = function(data, title, url, push)
+        {
+            if ( push )
+                History.pushState(data, title, url);
+            else
+                History.replaceState(data, title, url);
         }
         
         KmNavigator.pushUrl = function(url)
@@ -136,34 +151,77 @@ Version: ${applicationVersion}
         }
 
         //**********************************************************
-        //** page load
+        //** init
         //**********************************************************
 
-        function myLoad()
+        function loadResources()
         {
             var version = "${versionFolder}";
             
             var options = 
             { 
                 title: "${applicationName}",
-                onComplete: myInstall,
+                onComplete: init,
                 delay: 0
             };
             
             MyResourceLoader.loadAppResources(options, version);
         }
-        
-        function myInstall()
+
+        function init()
         {
-			KmDropdownMenu.installAutoClose();	
-            KmHashHistory.register(Kmu.ajaxNavigate);
-            Kmu.ajaxEnter(${params});
+            initBorderLayout();
+            initDropdownMenus();
+            initNavigator();
+        }
+        
+        function initBorderLayout()
+        {
+            new KmBorderLayout(
+            {
+                parent:             "body",
+                idPrefix:           "pageLayout",
+                classPrefix:        "pageLayout",
+                
+                liveResize:         false,
+                debugBorders:       false,
+                
+                topVisible:         false,
+                topResizeable:      false,
+                topSize:            50,
+                topOverflow:        "visible",
+                
+                bottomVisible:      false,
+                bottomResizeable:   false,
+                bottomSize:         25,
+                
+                leftVisible:        false,
+                leftResizeable:     false,
+                leftSize:           150,
+                
+                rightVisible:       false,
+                rightResizeable:    false,
+                rightSize:          150,
+                
+                centerOverflow:     "auto"
+            });
+        }        
+        
+        function initDropdownMenus()
+        {
+            KmDropdownMenu.installAutoClose();  
+        }
+        
+        function initNavigator()
+        {
+            KmNavigator.init();
+            KmNavigator.pushUrl("${query}");
         }
         
     </script>
 
 </head>
 
-<body onload="myLoad();"></body>
+<body onload="loadResources();"></body>
 
 </html>

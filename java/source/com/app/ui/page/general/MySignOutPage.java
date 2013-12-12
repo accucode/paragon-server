@@ -117,8 +117,7 @@ public class MySignOutPage
         e = getPageLayout();
         e.ajaxHideLeft();
         e.ajaxHideRight();
-        e.ajaxRefreshHeader();
-        e.ajaxRefreshFooter();
+        e.ajaxRefresh();
         e.ajaxClearCenterCss();
     }
 }
