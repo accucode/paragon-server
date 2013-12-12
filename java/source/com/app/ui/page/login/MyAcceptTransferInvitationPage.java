@@ -18,11 +18,11 @@ import com.app.model.MyAccount;
 import com.app.model.MyInvitation;
 import com.app.model.MyPasswordReset;
 import com.app.model.MyUser;
-import com.app.ui.page.MySubPage;
+import com.app.ui.page.MyPage;
 import com.app.utility.MyUrls;
 
 public class MyAcceptTransferInvitationPage
-    extends MySubPage
+    extends MyPage
 {
     //##################################################
     //# singleton

@@ -218,7 +218,7 @@ public abstract class ScContainer
 
     public ScAbstractLink addLink(ScPage e)
     {
-        return addLink(e.getName(), e);
+        return addLink(e.getTitle(), e);
     }
 
     public ScAbstractLink addLink(String text, ScPage e)
@@ -288,7 +288,7 @@ public abstract class ScContainer
 
     public ScButton addButton(ScPage e)
     {
-        return addButton(e.getName(), e);
+        return addButton(e.getTitle(), e);
     }
 
     public ScButton addButton(String text, ScPage e)

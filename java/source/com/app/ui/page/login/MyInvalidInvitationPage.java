@@ -7,11 +7,11 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScStyledText;
 import com.kodemore.servlet.control.ScUrlLink;
 
-import com.app.ui.page.MySubPage;
+import com.app.ui.page.MyPage;
 import com.app.utility.MyUrls;
 
 public class MyInvalidInvitationPage
-    extends MySubPage
+    extends MyPage
 {
     //##################################################
     //# singleton

@@ -47,12 +47,6 @@ public class MyUsersPage
     //##################################################
 
     @Override
-    public String getName()
-    {
-        return "Users";
-    }
-
-    @Override
     protected void installRoot(ScPageRoot root)
     {
         root.css().gap();

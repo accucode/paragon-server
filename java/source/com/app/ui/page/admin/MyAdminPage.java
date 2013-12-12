@@ -1,9 +1,9 @@
 package com.app.ui.page.admin;
 
-import com.app.ui.page.MySubPage;
+import com.app.ui.page.MyPage;
 
 public abstract class MyAdminPage
-    extends MySubPage
+    extends MyPage
 {
     // none
 }
