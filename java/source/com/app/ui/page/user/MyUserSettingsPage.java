@@ -1,5 +1,6 @@
 package com.app.ui.page.user;
 
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -18,6 +19,22 @@ public class MyUserSettingsPage
     private MyUserSettingsPage()
     {
         // singleton
+    }
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
     }
 
     //##################################################

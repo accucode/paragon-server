@@ -1,5 +1,6 @@
 package com.app.ui.page.user;
 
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
@@ -35,6 +36,22 @@ public class MyUserPasswordPage
     private ScPasswordField _oldPasswordField;
     private ScPasswordField _newPasswordField;
     private ScPasswordField _confirmPasswordField;
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
+    }
 
     //##################################################
     //# install

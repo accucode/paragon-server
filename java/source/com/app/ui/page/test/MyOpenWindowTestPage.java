@@ -2,6 +2,7 @@ package com.app.ui.page.test;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonMap;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -23,6 +24,22 @@ public class MyOpenWindowTestPage
     private MyOpenWindowTestPage()
     {
         // singleton
+    }
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
     }
 
     //##################################################

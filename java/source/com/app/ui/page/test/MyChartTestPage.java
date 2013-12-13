@@ -1,6 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.json.KmJsonMap;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScAbstractChart;
@@ -39,6 +40,22 @@ public class MyChartTestPage
 
     private static final int LINE_POINTS = 80;
     private static final int BAR_POINTS  = 20;
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
+    }
 
     //##################################################
     //# install

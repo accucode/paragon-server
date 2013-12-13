@@ -1,5 +1,6 @@
 package com.app.ui.page.test;
 
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -30,6 +31,22 @@ public class MyFilterTableRowTestPage
     private ScIntegerField _searchMinSquareFootageField;
     private ScIntegerField _searchMaxSquareFootageField;
     private ScTextField    _searchRoomNumberField1;
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
+    }
 
     //##################################################
     //# install

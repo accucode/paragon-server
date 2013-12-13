@@ -1,6 +1,7 @@
 package com.app.ui.page.tools;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScGroup;
@@ -45,7 +46,23 @@ public class MyApplicationPropertiesPage
     }
 
     //##################################################
-    //# prePrint
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    //##################################################
+    //# print
     //##################################################
 
     @Override

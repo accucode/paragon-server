@@ -1,5 +1,6 @@
 package com.app.ui.page.login;
 
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -205,10 +206,23 @@ public class MyAcceptJoinInvitationPage
     //# start
     //##################################################
 
+    // todo_wyatt: start
     public void start(String accessKey)
     {
         setAccessKey(accessKey);
         start();
+    }
+
+    @Override
+    public void applyParametersToUrl(ScParameterList params)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList params)
+    {
+        // none
     }
 
     //##################################################

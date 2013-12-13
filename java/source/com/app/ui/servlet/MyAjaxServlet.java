@@ -141,7 +141,7 @@ public class MyAjaxServlet
 
         ScParameterList params = getData().getWindowParameters();
 
-        page.decodeParameters(params);
+        page.applyParametersFromUrl(params);
         page.print();
     }
 

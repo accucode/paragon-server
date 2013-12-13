@@ -4,6 +4,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.meta.KmMetaProperty;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
@@ -73,6 +74,22 @@ public class MyPerformanceLogPage
     private ScDateField                       _endDateField;
     private ScDropdown                        _sortField;
     private ScGrid<MyPerformanceLogSummaryVo> _grid;
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
+    }
 
     //##################################################
     //# install

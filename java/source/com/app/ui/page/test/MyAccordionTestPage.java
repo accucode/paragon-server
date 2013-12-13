@@ -1,5 +1,6 @@
 package com.app.ui.page.test;
 
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
 
@@ -63,6 +64,22 @@ public class MyAccordionTestPage
         grayDiv.css().gap();
         grayDiv.addParagraph(text);
         return grayDiv;
+    }
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
     }
 
     //##################################################

@@ -1,6 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -60,6 +61,22 @@ public class MyFieldTestPage
     private ScRadioField        _radio2Field;
     private ScRadioField        _radio3Field;
     private ScListField         _listField;
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
+    }
 
     //##################################################
     //# install
@@ -276,7 +293,6 @@ public class MyFieldTestPage
 
         _fieldGroup.validate();
 
-        
         if ( _radio1Field.isChecked() )
             ajax().toast(_radio1Field.getValue());
 

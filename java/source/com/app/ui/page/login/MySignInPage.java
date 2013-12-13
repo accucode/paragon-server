@@ -234,16 +234,14 @@ public class MySignInPage
     }
 
     @Override
-    protected void encodeParameters(ScParameterList params)
+    public void applyParametersToUrl(ScParameterList params)
     {
-        super.encodeParameters(params);
-
         if ( _queryTarget.hasValue() )
             params.setValue("q", _queryTarget.getValue());
     }
 
     @Override
-    public void decodeParameters(ScParameterList params)
+    public void applyParametersFromUrl(ScParameterList params)
     {
         _queryTarget.clearValue();
 

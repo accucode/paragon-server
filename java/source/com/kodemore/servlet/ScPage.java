@@ -86,54 +86,6 @@ public abstract class ScPage
     }
 
     //##################################################
-    //# url
-    //##################################################
-
-    // todo_wyatt: rename
-    public final String formatQueryString()
-    {
-        ScParameterList params;
-        params = new ScParameterList();
-        params.setValue("page", getKey());
-
-        encodeParameters(params);
-
-        return params.formatUrl();
-    }
-
-    protected void encodeParameters(ScParameterList params)
-    {
-        // todo_wyatt: change to abstract
-    }
-
-    // fixme_wyatt: called by?
-    public void decodeParameters(ScParameterList params)
-    {
-        // todo_wyatt: change to abstract
-    }
-
-    //##################################################
-    //# start action
-    //##################################################
-
-    public ScActionIF getStartAction()
-    {
-        return _startAction;
-    }
-
-    private ScActionIF newStartAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                ScPage.this.start();
-            }
-        };
-    }
-
-    //##################################################
     //# root
     //##################################################
 
@@ -177,6 +129,57 @@ public abstract class ScPage
     protected void checkLayout()
     {
         // subclass
+    }
+
+    //==================================================
+    //= start :: url
+    //==================================================
+
+    public final String formatQueryString()
+    {
+        ScParameterList params;
+        params = new ScParameterList();
+        params.setValue("page", getKey());
+
+        applyParametersToUrl(params);
+
+        return params.formatUrl();
+    }
+
+    /**
+     * Set entry parameters needed to define the url queryString
+     * that opens this page.  The "page" parameter is already populated
+     * and should now be overwritten.  Many, perhaps most, subclasses
+     * will implement this with an empty method.  Any parameters set here
+     * will need a management in the getEntryParameters method.
+     */
+    public abstract void applyParametersToUrl(ScParameterList params);
+
+    /**
+     * Get the entry parameters that were passed to the application as
+     * part of the query string.
+     */
+    public abstract void applyParametersFromUrl(ScParameterList params);
+
+    //==================================================
+    //= start :: actions
+    //==================================================
+
+    public ScActionIF getStartAction()
+    {
+        return _startAction;
+    }
+
+    private ScActionIF newStartAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            protected void handle()
+            {
+                ScPage.this.start();
+            }
+        };
     }
 
     //##################################################

@@ -3,6 +3,7 @@ package com.app.ui.page.tools;
 import java.util.Set;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLiteral;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -19,7 +20,7 @@ public class MySystemPropertiesPage
     //# variables
     //##################################################
 
-    private ScLiteral              _literal;
+    private ScLiteral          _literal;
 
     //##################################################
     //# singleton
@@ -30,6 +31,22 @@ public class MySystemPropertiesPage
     private MySystemPropertiesPage()
     {
         // singleton
+    }
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
     }
 
     //##################################################
@@ -48,7 +65,7 @@ public class MySystemPropertiesPage
     }
 
     //##################################################
-    //# prePrint
+    //# print
     //##################################################
 
     @Override

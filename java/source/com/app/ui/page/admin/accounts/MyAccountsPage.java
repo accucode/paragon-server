@@ -5,6 +5,7 @@ import com.kodemore.collection.KmCollection;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
@@ -119,13 +120,29 @@ public class MyAccountsPage
     private ScLocalString         _accountUid;
 
     //##################################################
-    //# security
+    //# setup
     //##################################################
 
     @Override
     protected boolean requiresAccountOwner()
     {
         return true;
+    }
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
     }
 
     //##################################################

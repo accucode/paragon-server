@@ -1,5 +1,6 @@
 package com.app.ui.page.admin.userProfile;
 
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.ui.page.MyPage;
@@ -20,13 +21,29 @@ public class MyUserProfilePage
     }
 
     //##################################################
-    //# security
+    //# setup
     //##################################################
 
     @Override
     protected boolean requiresAccountMember()
     {
         return true;
+    }
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
     }
 
     //##################################################

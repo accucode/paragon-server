@@ -1,5 +1,6 @@
 package com.app.ui.page.general;
 
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -30,6 +31,22 @@ public class MyHomePage
     public MyLeftMenuItem getMenuItem()
     {
         return MyLeftMenuItem.home;
+    }
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
     }
 
     //##################################################

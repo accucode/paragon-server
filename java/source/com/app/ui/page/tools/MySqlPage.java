@@ -2,6 +2,7 @@ package com.app.ui.page.tools;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.database.KmDatabaseTool;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
@@ -53,6 +54,22 @@ public class MySqlPage
     private ScBox               _results;
 
     private ScDropdown          _tableDropdown;
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
+    }
 
     //##################################################
     //# install

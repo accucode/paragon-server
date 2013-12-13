@@ -2,6 +2,7 @@ package com.app.ui.page.tools;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
@@ -36,6 +37,22 @@ public class MySharedFileBrowserPage
     private ScTextField _directoryField;
     private ScListField _folderList;
     private ScListField _fileList;
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
+    }
 
     //##################################################
     //# install

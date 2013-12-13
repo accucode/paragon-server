@@ -1,5 +1,6 @@
 package com.app.ui.page.general;
 
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
@@ -31,7 +32,7 @@ public class MySignOutPage
     private ScText _messageText;
 
     //##################################################
-    //# install
+    //# setup
     //##################################################
 
     @Override
@@ -44,6 +45,22 @@ public class MySignOutPage
     protected boolean showsLeftMenu()
     {
         return false;
+    }
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
     }
 
     //##################################################

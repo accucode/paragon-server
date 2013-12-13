@@ -1,5 +1,6 @@
 package com.app.ui.page.login;
 
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScGroup;
@@ -22,6 +23,22 @@ public class MyInvalidInvitationPage
     private MyInvalidInvitationPage()
     {
         // singleton
+    }
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
     }
 
     //##################################################

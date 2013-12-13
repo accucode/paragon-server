@@ -1,5 +1,6 @@
 package com.app.ui.page.general;
 
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGeneralButton;
@@ -24,13 +25,29 @@ public class MyTimeoutPage
     }
 
     //##################################################
-    //# install
+    //# setup
     //##################################################
 
     @Override
     public boolean requiresUser()
     {
         return false;
+    }
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
     }
 
     //##################################################

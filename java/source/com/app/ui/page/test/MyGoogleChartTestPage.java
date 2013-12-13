@@ -1,5 +1,6 @@
 package com.app.ui.page.test;
 
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScGoogleChart;
@@ -19,6 +20,22 @@ public class MyGoogleChartTestPage
     private MyGoogleChartTestPage()
     {
         // singleton
+    }
+
+    //##################################################
+    //# start
+    //##################################################
+
+    @Override
+    public void applyParametersToUrl(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyParametersFromUrl(ScParameterList v)
+    {
+        // none
     }
 
     //##################################################
