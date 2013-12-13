@@ -1,12 +1,12 @@
 package com.app.ui.servlet;
 
-import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.ScPage;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScActionIF;
 
 import com.app.dao.base.MyDaoRegistry;
@@ -117,29 +117,17 @@ public class MyAjaxServlet
 
     private void handlePrintCurrentPage()
     {
-        KmMap<String,KmList<String>> params = getData().getWindowParameters();
+        ScParameterList params = getData().getWindowParameters();
 
-        KmList<String> pageKeys = params.get("page");
-        if ( pageKeys == null )
+        String key = params.getValue("page");
+
+        if ( key == null )
         {
             ajax().toast("No page parameter.");
             return;
         }
 
-        if ( pageKeys.isEmpty() )
-        {
-            ajax().toast("Empty page keys");
-            return;
-        }
-
-        if ( pageKeys.isMultiple() )
-        {
-            ajax().toast("Multiple page keys");
-            return;
-        }
-
         MyPageRegistry registry = MyPageRegistry.getInstance();
-        String key = pageKeys.getFirst();
         boolean hasKey = registry.hasKey(key);
         if ( !hasKey )
         {
@@ -172,7 +160,7 @@ public class MyAjaxServlet
             return;
         }
 
-        KmMap<String,KmList<String>> params = getData().getWindowParameters();
+        ScParameterList params = getData().getWindowParameters();
 
         page.decodeParameters(params);
         page.print();

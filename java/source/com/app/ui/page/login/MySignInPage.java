@@ -1,9 +1,6 @@
 package com.app.ui.page.login;
 
-import java.util.Map;
-
-import com.kodemore.collection.KmList;
-import com.kodemore.collection.KmMap;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
@@ -20,6 +17,7 @@ import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.script.ScPushPageScript;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.Kmu;
 
 import com.app.model.MyAutoSignIn;
 import com.app.model.MyUser;
@@ -236,28 +234,24 @@ public class MySignInPage
     }
 
     @Override
-    protected void encodeParameters(Map<String,String> params)
+    protected void encodeParameters(ScParameterList params)
     {
         super.encodeParameters(params);
 
         if ( _queryTarget.hasValue() )
-            params.put("q", _queryTarget.getValue());
+            params.setValue("q", _queryTarget.getValue());
     }
 
     @Override
-    public void decodeParameters(KmMap<String,KmList<String>> params)
+    public void decodeParameters(ScParameterList params)
     {
         _queryTarget.clearValue();
 
-        KmList<String> qs = params.get("q");
-
-        if ( qs == null )
+        String s = params.getValue("q");
+        if ( Kmu.isEmpty(s) )
             return;
 
-        if ( qs.isNotSingleton() )
-            return;
-
-        _queryTarget.setValue(qs.getFirst());
+        _queryTarget.setValue(s);
     }
 
     //##################################################

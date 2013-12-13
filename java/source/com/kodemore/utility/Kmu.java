@@ -55,7 +55,6 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -5732,71 +5731,6 @@ public class Kmu
             return null;
 
         return uri.substring(i + 1);
-    }
-
-    /**
-     * Parse a url and return the parameters and values.
-     */
-    public static KmMap<String,KmList<String>> parseQueryString(String url)
-    {
-        try
-        {
-            KmMap<String,KmList<String>> params = new KmMap<String,KmList<String>>();
-            String[] urlParts = url.split("\\?");
-
-            if ( urlParts.length <= 1 )
-                return new KmMap<String,KmList<String>>();
-
-            String query = urlParts[1];
-            for ( String param : query.split("&") )
-            {
-                String[] pair = param.split("=");
-                String key = URLDecoder.decode(pair[0], "UTF-8");
-                String value = "";
-                if ( pair.length > 1 )
-                    value = URLDecoder.decode(pair[1], "UTF-8");
-
-                KmList<String> values = params.get(key);
-                if ( values == null )
-                {
-                    values = new KmList<String>();
-                    params.put(key, values);
-                }
-                values.add(value);
-            }
-
-            return params;
-        }
-        catch ( Exception ex )
-        {
-            throw Kmu.toRuntime(ex);
-        }
-    }
-
-    public static String formatQueryString(Map<String,String> params)
-    {
-        if ( params.isEmpty() )
-            return "";
-
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.print("?");
-
-        Iterator<String> keys = params.keySet().iterator();
-        while ( keys.hasNext() )
-        {
-            String key = keys.next();
-            String value = params.get(key);
-
-            out.print(Kmu.encodeUtf8(key));
-            out.print("=");
-            out.print(Kmu.encodeUtf8(value));
-
-            if ( keys.hasNext() )
-                out.print("&");
-        }
-
-        return out.toString();
     }
 
     //##################################################

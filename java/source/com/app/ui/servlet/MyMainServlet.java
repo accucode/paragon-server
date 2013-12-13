@@ -1,7 +1,7 @@
 package com.app.ui.servlet;
 
-import com.kodemore.collection.KmMap;
 import com.kodemore.file.KmFile;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.utility.Kmu;
 
 import com.app.file.MyResourceFiles;
@@ -72,7 +72,7 @@ public class MyMainServlet
         String requestScheme = data.getRequestScheme();
         String requestHost = data.getRequestServerName();
         String requestPath = data.getRequestUri();
-        KmMap<String,String> requestParams = data.getParameterMap();
+        ScParameterList requestParams = data.getParameterList();
 
         boolean schemeMatches = requestScheme.equalsIgnoreCase(scheme);
         boolean hostMatches = requestHost.equalsIgnoreCase(host);

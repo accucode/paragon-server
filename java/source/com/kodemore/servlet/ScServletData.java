@@ -224,7 +224,7 @@ public class ScServletData
             String value = _request.getParameter(key);
 
             value = _normalize(value);
-            _parameters.set(key, value);
+            _parameters.setValue(key, value);
         }
     }
 
@@ -537,7 +537,7 @@ public class ScServletData
 
     public String getParameter(String key)
     {
-        return _parameters.get(key);
+        return _parameters.getValue(key);
     }
 
     public boolean hasParameters()
@@ -547,17 +547,12 @@ public class ScServletData
 
     public boolean hasParameter(String key)
     {
-        return _parameters.has(key);
+        return _parameters.hasKey(key);
     }
 
     public ScParameterList getParameterList()
     {
         return _parameters;
-    }
-
-    public KmMap<String,String> getParameterMap()
-    {
-        return _parameters.getMap();
     }
 
     public KmList<String> getParameterKeys()
@@ -567,7 +562,7 @@ public class ScServletData
 
     public void setParameter(String key, String value)
     {
-        _parameters.set(key, value);
+        _parameters.setValue(key, value);
     }
 
     public KmList<String> getParameterKeysStartingWith(String prefix)
@@ -615,7 +610,7 @@ public class ScServletData
 
     public String formatParametersAsQueryString()
     {
-        return Kmu.formatQueryString(getParameterMap());
+        return getParameterList().formatUrl();
     }
 
     //##################################################
@@ -1066,10 +1061,10 @@ public class ScServletData
 
     public void redirectWithPost()
     {
-        redirectWithPost(getParameterMap());
+        redirectWithPost(getParameterList());
     }
 
-    public void redirectWithPost(KmMap<String,String> params)
+    public void redirectWithPost(ScParameterList params)
     {
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
@@ -1093,8 +1088,13 @@ public class ScServletData
         out.printAttribute("method", "post");
         out.close();
 
-        for ( String key : params.getKeys() )
-            out.printHiddenField(key, params.get(key));
+        KmList<String> keys = params.getKeys();
+        for ( String key : keys )
+        {
+            KmList<String> values = params.getValues(key);
+            for ( String value : values )
+                out.printHiddenField(key, value);
+        }
 
         out.endForm();
         out.endBody();
@@ -1482,10 +1482,10 @@ public class ScServletData
         return s.substring(i);
     }
 
-    public KmMap<String,KmList<String>> getWindowParameters()
+    public ScParameterList getWindowParameters()
     {
         String url = getWindowLocation();
-        return Kmu.parseQueryString(url);
+        return ScParameterList.createFromUrl(url);
     }
 
     /**
