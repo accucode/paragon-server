@@ -4,8 +4,6 @@ var MyResourceLoader =
     //** files
     //**********************************************************
 
-    library: "static/{version}/kodemore/loader",
-    
     files: 
         [
             // Reset
@@ -134,7 +132,6 @@ var MyResourceLoader =
         var localOptions = 
         {
             files: this.getFiles(prefix, version),
-			library: this.getFile(this.library, prefix, version)
         }; 
 
         return this.run(localOptions, userOptions);

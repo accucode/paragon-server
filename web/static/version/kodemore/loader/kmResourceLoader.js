@@ -62,8 +62,6 @@ KmResourceLoader.load = function(userOptions)
 		onComplete: 		null,          	// A function to call when all resources have been loaded.
 		width:				500,			// The width of the progress bar, in pixels
 		files: 				[],				// List of string file names to load; must end in ".js" or ".css".
-		delay: 				1,				// The delay between files.
-		library: 			null,			// The web path to the folder where this library lives.  Required to compose the "ready" files.
 		debug: 				false			// If true, some debug logs will be written to the console.
 	};
 	
@@ -74,9 +72,7 @@ KmResourceLoader.load = function(userOptions)
 	
     this.fileIndex = 0;
     this.installDom();
-    
-    this.ready = true;
-    this.nextLater();
+    this.next();
 }
 
 /**************************************
@@ -208,34 +204,19 @@ KmResourceLoader.getCurrentFile = function()
  * private: process files
  **************************************/
 
-/**
- * Update the visual status and load the next file.
- * Then recursively call myself until no more files are left. 
- */
 KmResourceLoader.next = function()
 {
-    if ( ! this.ready )
-    {
-    	this.nextLater();
-    	return;
-    }
-    
     if ( this.isDone() )
     {
-        this.completeLater();
+        this.complete();
         return;
     }
-
-    this.ready = false;
-    this.loadCurrentFile();
-    this.loadReadyFile();
     
-    this.fileIndex++;
-    
-    this.fileText.data = this.formatFile();
-    this.messageText.data = this.formatMessage();
-    this.updateProgressBar();
-    this.nextLater();
+	this.fileText.data = this.formatFile();
+	this.messageText.data = this.formatMessage();
+	this.updateProgressBar();
+	this.loadCurrentFile();
+	this.fileIndex++;
 }
 
 KmResourceLoader.updateProgressBar = function()
@@ -243,20 +224,6 @@ KmResourceLoader.updateProgressBar = function()
     var p = this.getPercent();
     var w = this.options.width * p / 100;
     this.innerProgressDiv.style.width = w.toString() + "px";
-}
-
-KmResourceLoader.nextLater = function()
-{
-    var fn = "KmResourceLoader.next();"
-    var delay = this.options.delay;
-    setTimeout(fn, delay);
-}
-
-KmResourceLoader.completeLater = function()
-{
-    var fn = "KmResourceLoader.complete();"
-    var delay = this.options.delay;
-    setTimeout(fn, delay);
 }
 
 KmResourceLoader.complete = function()
@@ -276,12 +243,6 @@ KmResourceLoader.loadCurrentFile = function()
     var f = this.getCurrentFile();
     if ( f )
         this.loadFile(f);
-}
-
-KmResourceLoader.loadReadyFile = function()
-{
-    var f = this.options.library + "/ready" + this.fileIndex + ".js";
-    this.loadFile(f);
 }
 
 KmResourceLoader.loadFile = function(file)
@@ -320,6 +281,28 @@ KmResourceLoader.loadCss = function(file)
 
 KmResourceLoader.appendToHead = function(e)
 {
+    e.onloadDone = false;
+    
+    e.onload = function()
+    {
+        if ( !e.onloadDone )
+        {
+            onloadDone = true;
+    		KmResourceLoader.next();
+        }
+    };
+    
+    e.onreadystatechange = function()
+    {
+        var state = e.readystate;
+        if ( state === "loaded" || state === "complete" )
+            if ( !e.onloadDone )
+            {
+                onloadDone = true;
+        		KmResourceLoader.next();
+            }
+    }
+    
     document.getElementsByTagName('head')[0].appendChild(e);
 }
 
