@@ -412,6 +412,43 @@ public class KmStringBuilder
     }
 
     //##################################################
+    //# testing
+    //##################################################
+
+    public boolean startsWith(CharSequence s)
+    {
+        return toString().startsWith(s.toString());
+    }
+
+    public boolean endsWith(CharSequence s)
+    {
+        return toString().endsWith(s.toString());
+    }
+
+    //##################################################
+    //# remove
+    //##################################################
+
+    public boolean removePrefix(CharSequence prefix)
+    {
+        if ( !startsWith(prefix) )
+            return false;
+
+        delete(0, prefix.length());
+        return true;
+    }
+
+    public boolean removeSuffix(CharSequence suffix)
+    {
+        if ( !endsWith(suffix) )
+            return false;
+
+        int n = length();
+        delete(n - suffix.length(), n);
+        return true;
+    }
+
+    //##################################################
     //# pad
     //##################################################
 

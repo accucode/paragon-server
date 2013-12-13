@@ -2,13 +2,10 @@ package com.app.ui.page;
 
 import com.kodemore.dao.KmDaoSession;
 import com.kodemore.servlet.ScPage;
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoRegistry;
-import com.app.file.MyFilePaths;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
 import com.app.model.MyServerSession;
@@ -25,71 +22,68 @@ public abstract class MyPage
     extends ScPage
 {
     //##################################################
-    //# settings
+    //# start
     //##################################################
 
-    public void defineRoles()
-    {
-        // none
-    }
-
-    //##################################################
-    //# accessing
-    //##################################################
-
+    /**
+     * Used to optionally reset state when a page starts.
+     */
     @Override
-    public String getName()
+    public void reset()
     {
-        String s;
-        s = getShortClassName();
-        s = Kmu.formatCamelCaseAsCapitalizedWords(s);
-        return s;
+        super.reset();
     }
 
     @Override
-    public String getNavigationHash()
+    protected void checkLayout()
     {
-        String s;
-        s = getShortClassName();
-        s = Kmu.lowercaseFirstLetter(s);
-        return s;
+        super.checkLayout();
+
+        checkHeader();
+        checkFooter();
+        checkLeftMenu();
     }
 
-    private String getShortClassName()
+    private void checkHeader()
     {
-        String s;
-        s = getClass().getSimpleName();
-        s = Kmu.removePrefix(s, "My");
-        s = Kmu.removeSuffix(s, "Activity");
-        s = Kmu.removeSuffix(s, "Page");
-        s = Kmu.removeSuffix(s, "Menu");
-        return s;
+        boolean shows = showsHeader();
+        boolean visible = getData().isTopVisible();
+
+        if ( shows != visible )
+            getPageLayout().ajaxShowHeader(shows);
     }
 
-    //##################################################
-    //# convenience
-    //##################################################
-
-    @Override
-    protected MyServletData getData()
+    private void checkFooter()
     {
-        return MyGlobals.getData();
+        boolean shows = showsFooter();
+        boolean visible = getData().isBottomVisible();
+
+        if ( shows != visible )
+            getPageLayout().ajaxShowFooter(shows);
     }
 
-    @Override
-    protected MyPageSession getPageSession()
+    private void checkLeftMenu()
     {
-        return MyGlobals.getPageSession();
+        boolean shows = showsLeftMenu();
+        boolean visible = getData().isLeftVisible();
+
+        if ( shows != visible )
+            getPageLayout().ajaxShowLeftMenu(shows);
     }
 
-    protected MyServerSession getServerSession()
+    protected boolean showsHeader()
     {
-        return MyGlobals.getServerSession();
+        return true;
     }
 
-    protected MyCookieSession getCookieSession()
+    protected boolean showsFooter()
     {
-        return MyGlobals.getCookieSession();
+        return true;
+    }
+
+    protected boolean showsLeftMenu()
+    {
+        return true;
     }
 
     //##################################################
@@ -148,7 +142,6 @@ public abstract class MyPage
 
     public MyAccountUser getCurrentAccountUser()
     {
-
         MyUser u = getCurrentUser();
         MyAccount a = getCurrentAccount();
 
@@ -253,8 +246,30 @@ public abstract class MyPage
     }
 
     //##################################################
-    //# convenience
+    //# utility
     //##################################################
+
+    @Override
+    protected MyServletData getData()
+    {
+        return MyGlobals.getData();
+    }
+
+    @Override
+    protected MyPageSession getPageSession()
+    {
+        return MyGlobals.getPageSession();
+    }
+
+    protected MyServerSession getServerSession()
+    {
+        return MyGlobals.getServerSession();
+    }
+
+    protected MyCookieSession getCookieSession()
+    {
+        return MyGlobals.getCookieSession();
+    }
 
     protected KmDate getTodayUtc()
     {
@@ -289,18 +304,6 @@ public abstract class MyPage
     protected MyDaoRegistry getAccess()
     {
         return MyGlobals.getAccess();
-    }
-
-    //##################################################
-    //# utility
-    //##################################################
-
-    protected void writeTempWebFile(String file, ScControl c)
-    {
-        String path = MyFilePaths.getWebPath(file);
-        String html = c.render().formatHtml();
-
-        Kmu.writeFile(path, html);
     }
 
     protected MyPageLayout getPageLayout()

@@ -7,13 +7,13 @@ import com.kodemore.utility.Kmu;
 
 import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.layout.MyPageLayout;
-import com.app.ui.page.MySubPage;
+import com.app.ui.page.MyPage;
 import com.app.ui.page.login.MySignInUtility;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyUrls;
 
 public class MySignOutPage
-    extends MySubPage
+    extends MyPage
 {
     //##################################################
     //# singleton
@@ -117,8 +117,7 @@ public class MySignOutPage
         e = getPageLayout();
         e.ajaxHideLeft();
         e.ajaxHideRight();
-        e.ajaxRefreshHeader();
-        e.ajaxRefreshFooter();
+        e.ajaxRefresh();
         e.ajaxClearCenterCss();
     }
 }

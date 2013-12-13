@@ -23,8 +23,7 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.servlet.ScPage;
-import com.kodemore.servlet.utility.ScHashBridge;
-import com.kodemore.utility.Kmu;
+import com.kodemore.servlet.script.ScRootScript;
 
 /**
  * A button to navigate to an page.
@@ -79,9 +78,10 @@ public class ScPageButton
     @Override
     protected String formatOnClick()
     {
-        ScHashBridge b = ScHashBridge.getInstance();
-        String hash = b.formatFullHash(getPage());
-        return Kmu.format("window.location.hash='%s';", hash);
+        ScRootScript s;
+        s = new ScRootScript();
+        s.pushPage(getPage());
+        return s.formatScript();
     }
 
 }

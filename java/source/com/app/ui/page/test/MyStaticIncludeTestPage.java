@@ -5,13 +5,13 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
 
 import com.app.file.MyFilePaths;
-import com.app.ui.page.MySubPage;
+import com.app.ui.page.MyPage;
 
 /**
  * Include the content found at /web/test/staticInclude.html
  */
 public class MyStaticIncludeTestPage
-    extends MySubPage
+    extends MyPage
 {
     //##################################################
     //# singleton

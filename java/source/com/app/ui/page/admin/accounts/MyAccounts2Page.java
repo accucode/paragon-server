@@ -1146,7 +1146,7 @@ public class MyAccounts2Page
 
         a.deleteDao();
 
-        MyPageLayout.getInstance().ajaxRefreshHeader();
+        MyPageLayout.getInstance().ajaxRefresh();
 
         ajax().toast("Deleted account %s", a.getName());
 
@@ -1292,7 +1292,7 @@ public class MyAccounts2Page
 
         MyPageLayout pageLayout;
         pageLayout = MyPageLayout.getInstance();
-        pageLayout.ajaxRefreshHeader();
+        pageLayout.ajaxRefresh();
 
         refreshFlipViewAccount();
         _userGrid.ajaxReload();
@@ -1328,7 +1328,7 @@ public class MyAccounts2Page
 
         MyPageLayout pageLayout;
         pageLayout = MyPageLayout.getInstance();
-        pageLayout.ajaxRefreshHeader();
+        pageLayout.ajaxRefresh();
 
         refreshFlipViewAccount();
         _userGrid.ajaxReload();

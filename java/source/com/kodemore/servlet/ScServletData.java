@@ -613,6 +613,11 @@ public class ScServletData
             System.out.printf("%s    %s = %s\n", prefix, key, getParameter(key));
     }
 
+    public String formatParametersAsQueryString()
+    {
+        return Kmu.formatQueryString(getParameterMap());
+    }
+
     //##################################################
     //# cookies
     //##################################################
@@ -1073,9 +1078,9 @@ public class ScServletData
         out.beginHtml();
 
         out.beginHead();
-        out.printTitle("Loading...");
         out.printMetaCharsetUtf8();
         out.printMetaNoCache();
+        out.printTitle("Loading...");
         out.endHead();
 
         out.openBody();
@@ -1088,8 +1093,6 @@ public class ScServletData
         out.printAttribute("method", "post");
         out.close();
 
-        out.printHiddenField(PARAMETER_REDIRECTED_POST, PARAMETER_REDIRECTED_POST_VALUE);
-
         for ( String key : params.getKeys() )
             out.printHiddenField(key, params.get(key));
 
@@ -1100,11 +1103,6 @@ public class ScServletData
         String html = out.toString();
         boolean noCache = true;
         setHtmlResult(html, noCache);
-    }
-
-    public boolean isRedirectedPost()
-    {
-        return Kmu.isEqual(getParameter(PARAMETER_REDIRECTED_POST), PARAMETER_REDIRECTED_POST_VALUE);
     }
 
     //##################################################
@@ -1498,18 +1496,6 @@ public class ScServletData
     //# layout visibility
     //##################################################
 
-    public boolean isLeftVisible()
-    {
-        String s = getParameter(PARAMETER_IS_LEFT_VISIBLE);
-        return Kmu.parse_boolean(s);
-    }
-
-    public boolean isRightVisible()
-    {
-        String s = getParameter(PARAMETER_IS_RIGHT_VISIBLE);
-        return Kmu.parse_boolean(s);
-    }
-
     public boolean isTopVisible()
     {
         String s = getParameter(PARAMETER_IS_TOP_VISIBLE);
@@ -1519,6 +1505,18 @@ public class ScServletData
     public boolean isBottomVisible()
     {
         String s = getParameter(PARAMETER_IS_BOTTOM_VISIBLE);
+        return Kmu.parse_boolean(s);
+    }
+
+    public boolean isLeftVisible()
+    {
+        String s = getParameter(PARAMETER_IS_LEFT_VISIBLE);
+        return Kmu.parse_boolean(s);
+    }
+
+    public boolean isRightVisible()
+    {
+        String s = getParameter(PARAMETER_IS_RIGHT_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 

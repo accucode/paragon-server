@@ -62,17 +62,6 @@ public abstract class ScPageRegistry
         throw new ScSessionTimeoutException(msg);
     }
 
-    public ScPage findNavigationHash(String hash)
-    {
-        KmList<ScPage> v = getPages();
-
-        for ( ScPage e : v )
-            if ( e.hasNavigationHash(hash) )
-                return e;
-
-        return null;
-    }
-
     public boolean hasKey(String key)
     {
         return _pages.containsKey(key);

@@ -55,6 +55,7 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -5736,7 +5737,7 @@ public class Kmu
     /**
      * Parse a url and return the parameters and values.
      */
-    public static KmMap<String,KmList<String>> parseUrlQueryParams(String url)
+    public static KmMap<String,KmList<String>> parseQueryString(String url)
     {
         try
         {
@@ -5770,6 +5771,32 @@ public class Kmu
         {
             throw Kmu.toRuntime(ex);
         }
+    }
+
+    public static String formatQueryString(Map<String,String> params)
+    {
+        if ( params.isEmpty() )
+            return "";
+
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.print("?");
+
+        Iterator<String> keys = params.keySet().iterator();
+        while ( keys.hasNext() )
+        {
+            String key = keys.next();
+            String value = params.get(key);
+
+            out.print(Kmu.encodeUtf8(key));
+            out.print("=");
+            out.print(Kmu.encodeUtf8(value));
+
+            if ( keys.hasNext() )
+                out.print("&");
+        }
+
+        return out.toString();
     }
 
     //##################################################
