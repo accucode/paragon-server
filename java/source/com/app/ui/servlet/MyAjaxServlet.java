@@ -22,6 +22,7 @@ import com.app.ui.page.login.MyInvalidInvitationPage;
 import com.app.ui.page.login.MyPasswordResetPage;
 import com.app.ui.page.login.MySignInPage;
 import com.app.utility.MyGlobals;
+import com.app.utility.MyNavigator;
 import com.app.utility.MyUrls;
 
 public class MyAjaxServlet
@@ -112,47 +113,25 @@ public class MyAjaxServlet
         String key = data.getActionKey();
 
         if ( key.equals("_printCurrentPage") )
-            handlePrintCurrentPage();
+            printCurrentPageDao();
     }
 
-    private void handlePrintCurrentPage()
-    {
-        ScParameterList params = getData().getWindowParameters();
-
-        String key = params.getValue("page");
-
-        if ( key == null )
-        {
-            ajax().toast("No page parameter.");
-            return;
-        }
-
-        MyPageRegistry registry = MyPageRegistry.getInstance();
-        boolean hasKey = registry.hasKey(key);
-        if ( !hasKey )
-        {
-            ajax().toast("Unknown page, " + key);
-            return;
-        }
-
-        ScPage page = registry.findKey(key);
-        printPageDao(page);
-    }
-
-    private void printPageDao(final ScPage page)
+    private void printCurrentPageDao()
     {
         new KmDaoCommand()
         {
             @Override
             protected void handle()
             {
-                printPage(page);
+                printCurrentPage();
             }
         }.run();
     }
 
-    private void printPage(ScPage page)
+    private void printCurrentPage()
     {
+        ScPage page = getCurrentPage();
+
         if ( requiresLoginFor(page) )
         {
             String q = getData().getWindowQuery();
@@ -164,6 +143,20 @@ public class MyAjaxServlet
 
         page.decodeParameters(params);
         page.print();
+    }
+
+    private ScPage getCurrentPage()
+    {
+        ScParameterList params = getData().getWindowParameters();
+        String key = params.getValue("page");
+
+        MyPageRegistry registry = MyPageRegistry.getInstance();
+
+        ScPage page = registry.findKey(key);
+        if ( page != null )
+            return page;
+
+        return MyNavigator.getDefaultPage();
     }
 
     private boolean requiresLoginFor(ScPage page)

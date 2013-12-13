@@ -2,7 +2,6 @@ package com.kodemore.servlet;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
-import com.kodemore.log.KmLog;
 import com.kodemore.utility.Kmu;
 
 public abstract class ScPageRegistry
@@ -52,14 +51,7 @@ public abstract class ScPageRegistry
 
     public ScPage findKey(String key)
     {
-        ScPage e = _pages.get(key);
-        if ( e != null )
-            return e;
-
-        String msg = Kmu.format("Invalid page key(%s).", key);
-
-        KmLog.warn(msg);
-        throw new ScSessionTimeoutException(msg);
+        return _pages.get(key);
     }
 
     public boolean hasKey(String key)
