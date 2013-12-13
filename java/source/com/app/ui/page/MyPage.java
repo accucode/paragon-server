@@ -220,16 +220,6 @@ public abstract class MyPage
     //= security overrides
     //==================================================
 
-    protected boolean requiresUser()
-    {
-        return true;
-    }
-
-    protected boolean requiresCsr()
-    {
-        return false;
-    }
-
     protected boolean requiresDeveloper()
     {
         return false;

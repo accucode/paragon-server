@@ -8,11 +8,11 @@ import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
+import com.app.model.MyUser;
 import com.app.ui.core.MyServletData;
 import com.app.ui.page.MyPageRegistry;
 import com.app.ui.page.login.MyAcceptJoinInvitationPage;
@@ -20,6 +20,7 @@ import com.app.ui.page.login.MyAcceptNewUserInvitationPage;
 import com.app.ui.page.login.MyAcceptTransferInvitationPage;
 import com.app.ui.page.login.MyInvalidInvitationPage;
 import com.app.ui.page.login.MyPasswordResetPage;
+import com.app.ui.page.login.MySignInPage;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyUrls;
 
@@ -118,9 +119,7 @@ public class MyAjaxServlet
 
     private void handlePrintCurrentPage()
     {
-        String loc = getData().getWindowLocation();
-
-        KmMap<String,KmList<String>> params = Kmu.parseQueryString(loc);
+        KmMap<String,KmList<String>> params = getData().getWindowParameters();
 
         KmList<String> pageKeys = params.get("page");
         if ( pageKeys == null )
@@ -161,9 +160,32 @@ public class MyAjaxServlet
             @Override
             protected void handle()
             {
-                page.print();
+                printPage(page);
             }
         }.run();
+    }
+
+    private void printPage(ScPage page)
+    {
+        if ( requiresLoginFor(page) )
+        {
+            String q = getData().getWindowQuery();
+            MySignInPage.instance.startForTarget(q);
+            return;
+        }
+
+        KmMap<String,KmList<String>> params = getData().getWindowParameters();
+
+        page.decodeParameters(params);
+        page.print();
+    }
+
+    private boolean requiresLoginFor(ScPage page)
+    {
+        boolean requiresUser = page.requiresUser();
+        MyUser user = MyGlobals.getServerSession().getUser();
+
+        return requiresUser && user == null;
     }
 
     //##################################################

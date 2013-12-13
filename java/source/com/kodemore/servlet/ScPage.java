@@ -1,5 +1,9 @@
 package com.kodemore.servlet;
 
+import java.util.Map;
+
+import com.kodemore.collection.KmList;
+import com.kodemore.collection.KmMap;
 import com.kodemore.collection.KmOrderedMap;
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.log.KmLog;
@@ -91,16 +95,26 @@ public abstract class ScPage
     //##################################################
 
     // todo_wyatt: rename
-    public String formatQueryString()
+    public final String formatQueryString()
     {
-        KmOrderedMap<String,String> params = new KmOrderedMap<String,String>();
+        KmOrderedMap<String,String> params;
+        params = new KmOrderedMap<String,String>();
+        params.put("page", getKey());
+
         encodeParameters(params);
+
         return Kmu.formatQueryString(params);
     }
 
-    private void encodeParameters(KmOrderedMap<String,String> params)
+    protected void encodeParameters(Map<String,String> params)
     {
-        params.put("page", getKey());
+        // todo_wyatt: change to abstract
+    }
+
+    // fixme_wyatt: called by?
+    public void decodeParameters(KmMap<String,KmList<String>> params)
+    {
+        // todo_wyatt: change to abstract
     }
 
     //##################################################
@@ -410,6 +424,11 @@ public abstract class ScPage
     public void checkSecurity()
     {
         // subclass
+    }
+
+    public boolean requiresUser()
+    {
+        return true;
     }
 
     @Override

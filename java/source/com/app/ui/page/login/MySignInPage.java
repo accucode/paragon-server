@@ -1,5 +1,9 @@
 package com.app.ui.page.login;
 
+import java.util.Map;
+
+import com.kodemore.collection.KmList;
+import com.kodemore.collection.KmMap;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
@@ -14,10 +18,13 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
+import com.kodemore.servlet.script.ScPushPageScript;
+import com.kodemore.servlet.variable.ScLocalString;
 
 import com.app.model.MyAutoSignIn;
 import com.app.model.MyUser;
 import com.app.ui.page.MyPage;
+import com.app.utility.MyNavigator;
 
 public class MySignInPage
     extends MyPage
@@ -37,6 +44,8 @@ public class MySignInPage
     //# variables
     //##################################################
 
+    private ScLocalString                _queryTarget;
+
     private ScForm                       _form;
     private ScTextField                  _emailField;
     private ScTextField                  _passwordField;
@@ -50,7 +59,7 @@ public class MySignInPage
     //##################################################
 
     @Override
-    protected boolean requiresUser()
+    public boolean requiresUser()
     {
         return false;
     }
@@ -68,6 +77,9 @@ public class MySignInPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
+        _queryTarget = new ScLocalString();
+        _queryTarget.setAutoSave();
+
         ScArray row;
         row = root.addRow();
         row.setGap(50);
@@ -214,6 +226,41 @@ public class MySignInPage
     }
 
     //##################################################
+    //# start
+    //##################################################
+
+    public void startForTarget(String e)
+    {
+        _queryTarget.setValue(e);
+        start();
+    }
+
+    @Override
+    protected void encodeParameters(Map<String,String> params)
+    {
+        super.encodeParameters(params);
+
+        if ( _queryTarget.hasValue() )
+            params.put("q", _queryTarget.getValue());
+    }
+
+    @Override
+    public void decodeParameters(KmMap<String,KmList<String>> params)
+    {
+        _queryTarget.clearValue();
+
+        KmList<String> qs = params.get("q");
+
+        if ( qs == null )
+            return;
+
+        if ( qs.isNotSingleton() )
+            return;
+
+        _queryTarget.setValue(qs.getFirst());
+    }
+
+    //##################################################
     //# print
     //##################################################
 
@@ -224,22 +271,6 @@ public class MySignInPage
 
         _emailField.setValue(getEmailCookie());
     }
-
-    // todo_wyatt: hook up auto login
-    //    private boolean startAuto()
-    //    {
-    //        MyAutoSignIn auto = MySignInUtility.getAutoSignIn();
-    //        if ( auto == null )
-    //            return false;
-    //
-    //        MyUser user = auto.getUser();
-    //        if ( !user.allowsLogin() )
-    //            return false;
-    //
-    //        signIn(user, auto);
-    //
-    //        return true;
-    //    }
 
     //##################################################
     //# handle
@@ -267,7 +298,7 @@ public class MySignInPage
     {
         _passwordField.ajax().clearValue();
 
-        MySignInUtility.ajaxClearAutoSignIn();
+        MySignInUtility.clearAutoSignIn();
 
         ajax().hideAllErrors();
         ajax().focus();
@@ -304,6 +335,17 @@ public class MySignInPage
         }
 
         MySignInUtility.signIn(user, auto);
+        getPageLayout().ajaxRefresh();
+
+        if ( _queryTarget.hasValue() )
+        {
+            ScPushPageScript script;
+            script = ajax().pushPage(_queryTarget.getValue());
+            script.setReplace();
+            return;
+        }
+
+        MyNavigator.startDefaultPage();
     }
 
     //##################################################

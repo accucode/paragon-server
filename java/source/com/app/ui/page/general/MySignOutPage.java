@@ -106,7 +106,7 @@ public class MySignOutPage
 
     private void signOut()
     {
-        MySignInUtility.ajaxClearAutoSignIn();
+        MySignInUtility.clearAutoSignIn();
         MyServerSessionManager.beginSession();
         getData().clearPageSession();
     }

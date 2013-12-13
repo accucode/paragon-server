@@ -8,16 +8,12 @@ import com.kodemore.servlet.ScPageRegistry;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScSimpleContainer;
-import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.variable.ScLocalString;
 
-import com.app.ui.core.MyServletData;
-import com.app.ui.page.MyPageRegistry;
 import com.app.ui.page.admin.MyAdminMenuPage;
 import com.app.ui.page.general.MyHomePage;
 import com.app.ui.page.test.MyTestMenuPage;
 import com.app.ui.page.tools.MyToolsMenuPage;
-import com.app.utility.MyGlobals;
 
 public class MyLeftMenu
 {
@@ -52,11 +48,6 @@ public class MyLeftMenu
         v.add(MyTestMenuPage.instance);
 
         return v;
-    }
-
-    private ScPage getDefault()
-    {
-        return MyPageRegistry.getInstance().getHomeActivity();
     }
 
     //##################################################
@@ -181,19 +172,4 @@ public class MyLeftMenu
 
         return false;
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private ScRootScript ajax()
-    {
-        return getData().ajax();
-    }
-
-    private MyServletData getData()
-    {
-        return MyGlobals.getData();
-    }
-
 }

@@ -364,6 +364,15 @@ public abstract class ScBlockScript
     //# push page
     //##################################################
 
+    public ScPushPageScript pushPage(String url)
+    {
+        ScPushPageScript e;
+        e = new ScPushPageScript();
+        e.setUrl(url);
+        run(e);
+        return e;
+    }
+
     public ScPushPageScript pushPage(ScPage page)
     {
         ScPushPageScript e;

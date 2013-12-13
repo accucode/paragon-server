@@ -1,7 +1,7 @@
 package com.app.utility;
 
 import com.app.ui.page.MyPage;
-import com.app.ui.page.login.MySignInPage;
+import com.app.ui.page.general.MyHomePage;
 
 public class MyNavigator
 {
@@ -10,10 +10,8 @@ public class MyNavigator
         getDefaultPage().start();
     }
 
-    // todo_wyatt: default page
     public static MyPage getDefaultPage()
     {
-        // return MyHomePage.instance;
-        return MySignInPage.instance;
+        return MyHomePage.instance;
     }
 }

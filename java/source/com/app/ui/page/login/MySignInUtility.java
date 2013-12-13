@@ -7,8 +7,6 @@ import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.core.MyServletData;
-import com.app.ui.layout.MyPageLayout;
-import com.app.ui.page.general.MyHomePage;
 import com.app.utility.MyGlobals;
 
 public class MySignInUtility
@@ -24,12 +22,12 @@ public class MySignInUtility
     //# public
     //##################################################
 
-    public static void ajaxClearAutoSignIn()
+    public static void clearAutoSignIn()
     {
-        ajaxSetAutoSignIn(null);
+        setAutoSignIn(null);
     }
 
-    public static void ajaxSetAutoSignIn(MyAutoSignIn e)
+    public static void setAutoSignIn(MyAutoSignIn e)
     {
         String key = COOKIE_AUTO_SIGN_IN;
 
@@ -42,9 +40,23 @@ public class MySignInUtility
     public static MyAutoSignIn getAutoSignIn()
     {
         String uid = getData().getCookie(COOKIE_AUTO_SIGN_IN);
-        MyAutoSignIn auto = MyGlobals.getAccess().findAutoSignInUid(uid);
+        return MyGlobals.getAccess().findAutoSignInUid(uid);
+    }
 
-        return auto;
+    public static void checkAutoSignIn()
+    {
+        MyAutoSignIn auto = getAutoSignIn();
+        if ( auto == null )
+            return;
+
+        if ( auto.isStale() )
+            return;
+
+        MyUser user = auto.getUser();
+        if ( !user.allowsLogin() )
+            return;
+
+        signIn(user, auto);
     }
 
     public static void signIn(MyUser user, MyAutoSignIn auto)
@@ -53,16 +65,10 @@ public class MySignInUtility
         ss = MyServerSessionManager.login(user);
         ss.setAutoSignIn(auto);
 
-        MySignInUtility.ajaxSetAutoSignIn(auto);
+        if ( auto != null )
+            auto.touch();
 
-        MyPageLayout layout;
-        layout = MyPageLayout.getInstance();
-        layout.ajaxClearCenter();
-        layout.ajaxRefresh();
-
-        // todo_wyatt: default page
-        //  MyNavigator.startDefaultPage();
-        MyHomePage.instance.start();
+        setAutoSignIn(auto);
     }
 
     public static String getEmailCookie()
@@ -88,4 +94,5 @@ public class MySignInUtility
     {
         return getData().ajax();
     }
+
 }

@@ -1459,7 +1459,7 @@ public class ScServletData
     }
 
     //##################################################
-    //# location
+    //# window location
     //##################################################
 
     /**
@@ -1469,6 +1469,23 @@ public class ScServletData
     public String getWindowLocation()
     {
         return getParameter(PARAMETER_WINDOW_LOCATION);
+    }
+
+    public String getWindowQuery()
+    {
+        String s = getWindowLocation();
+        int i = s.indexOf("?");
+
+        if ( i < 0 )
+            return null;
+
+        return s.substring(i);
+    }
+
+    public KmMap<String,KmList<String>> getWindowParameters()
+    {
+        String url = getWindowLocation();
+        return Kmu.parseQueryString(url);
     }
 
     /**
