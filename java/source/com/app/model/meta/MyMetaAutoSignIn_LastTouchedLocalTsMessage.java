@@ -29,8 +29,8 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaAutoSignIn_LastLocalDate
-    extends KmMetaDateProperty<MyAutoSignIn>
+public class MyMetaAutoSignIn_LastTouchedLocalTsMessage
+    extends KmMetaStringProperty<MyAutoSignIn>
 {
     //##################################################
     //# accessing
@@ -39,19 +39,19 @@ public class MyMetaAutoSignIn_LastLocalDate
     @Override
     public String getName()
     {
-        return "lastLocalDate";
+        return "lastTouchedLocalTsMessage";
     }
 
     @Override
     public String getLabel()
     {
-        return "Last";
+        return "Lasttouched";
     }
 
     @Override
     public int getColumnWidth()
     {
-        return 10;
+        return 20;
     }
 
     @Override
@@ -65,15 +65,15 @@ public class MyMetaAutoSignIn_LastLocalDate
     //##################################################
 
     @Override
-    public KmDate getValueFor(MyAutoSignIn model)
+    public String getValueFor(MyAutoSignIn model)
     {
-        return model.getLastLocalDate();
+        return model.getLastTouchedLocalTsMessage();
     }
     
     @Override
-    public boolean hasValueFor(MyAutoSignIn model, KmDate value)
+    public boolean hasValueFor(MyAutoSignIn model, String value)
     {
-        return model.hasLastLocalDate(value);
+        return model.hasLastTouchedLocalTsMessage(value);
     }
     
     @Override

@@ -29,8 +29,9 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaAutoSignIn_LastLocalTime
-    extends KmMetaTimeProperty<MyAutoSignIn>
+public class MyMetaAutoSignIn_LastTouchedUtcTs
+    extends KmMetaTimestampProperty<MyAutoSignIn>
+    implements KmMetaDaoPropertyIF<MyAutoSignIn,KmTimestamp>
 {
     //##################################################
     //# accessing
@@ -39,41 +40,74 @@ public class MyMetaAutoSignIn_LastLocalTime
     @Override
     public String getName()
     {
-        return "lastLocalTime";
+        return "lastTouchedUtcTs";
     }
 
     @Override
     public String getLabel()
     {
-        return "Last";
+        return "Last Touched Utc Ts";
     }
 
     @Override
     public int getColumnWidth()
     {
-        return 10;
+        return 16;
     }
 
     @Override
     public boolean isEditable()
     {
-        return false;
+        return true;
     }
 
+    @Override
+    public KmTimestampValidator getValidator()
+    {
+        return MyAutoSignInValidator.instance.getLastTouchedUtcTsValidator();
+    }
+
+    //##################################################
+    //# dao
+    //##################################################
+
+    @Override
+    public String getDaoPropertyName()
+    {
+        return "lastTouchedUtcTs";
+    }
+
+    @Override
+    public MyAutoSignInDao getDao()
+    {
+        return getAccess().getAutoSignInDao();
+    }
+
+    private MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
+    
     //##################################################
     //# value
     //##################################################
 
     @Override
-    public KmTime getValueFor(MyAutoSignIn model)
+    public KmTimestamp getValueFor(MyAutoSignIn model)
     {
-        return model.getLastLocalTime();
+        return model.getLastTouchedUtcTs();
     }
     
     @Override
-    public boolean hasValueFor(MyAutoSignIn model, KmTime value)
+    public void setValueFor(MyAutoSignIn model, KmTimestamp value)
     {
-        return model.hasLastLocalTime(value);
+        model.setLastTouchedUtcTs(value);
+    }
+    
+    @Override
+    public boolean hasValueFor(MyAutoSignIn model, KmTimestamp value)
+    {
+        return model.hasLastTouchedUtcTs(value);
     }
     
     @Override

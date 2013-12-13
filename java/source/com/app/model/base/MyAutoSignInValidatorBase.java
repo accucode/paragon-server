@@ -37,7 +37,7 @@ public class MyAutoSignInValidatorBase
 
     private KmStringValidator uidValidator;
     private KmTimestampValidator createdUtcTsValidator;
-    private KmTimestampValidator lastUtcTsValidator;
+    private KmTimestampValidator lastTouchedUtcTsValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -49,7 +49,7 @@ public class MyAutoSignInValidatorBase
         super();
         uidValidator = newUidValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
-        lastUtcTsValidator = newLastUtcTsValidator();
+        lastTouchedUtcTsValidator = newLastTouchedUtcTsValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -67,9 +67,9 @@ public class MyAutoSignInValidatorBase
         return createdUtcTsValidator;
     }
 
-    public KmTimestampValidator getLastUtcTsValidator()
+    public KmTimestampValidator getLastTouchedUtcTsValidator()
     {
-        return lastUtcTsValidator;
+        return lastTouchedUtcTsValidator;
     }
 
     public KmIntegerValidator getLockVersionValidator()
@@ -86,7 +86,7 @@ public class MyAutoSignInValidatorBase
     {
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
-        value.setLastUtcTs(lastUtcTsValidator.convertOnly(value.getLastUtcTs()));
+        value.setLastTouchedUtcTs(lastTouchedUtcTsValidator.convertOnly(value.getLastTouchedUtcTs()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
     }
 
@@ -95,7 +95,7 @@ public class MyAutoSignInValidatorBase
     {
         uidValidator.validateOnly(value.getUid(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
-        lastUtcTsValidator.validateOnly(value.getLastUtcTs(), errors);
+        lastTouchedUtcTsValidator.validateOnly(value.getLastTouchedUtcTs(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
     }
 
@@ -124,12 +124,12 @@ public class MyAutoSignInValidatorBase
         return e;
     }
 
-    public KmTimestampValidator newLastUtcTsValidator()
+    public KmTimestampValidator newLastTouchedUtcTsValidator()
     {
         KmTimestampValidator e;
         e = new KmTimestampValidator();
         e.setModel("autoSignIn");
-        e.setField("lastUtcTs");
+        e.setField("lastTouchedUtcTs");
         e.setRequired();
         return e;
     }

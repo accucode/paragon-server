@@ -115,8 +115,6 @@ public class MyAjaxServlet
             handlePrintCurrentPage();
     }
 
-    // todo_wyatt: move
-
     private void handlePrintCurrentPage()
     {
         KmMap<String,KmList<String>> params = getData().getWindowParameters();

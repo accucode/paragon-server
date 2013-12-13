@@ -29,7 +29,7 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaAutoSignIn_LastLocalTs
+public class MyMetaAutoSignIn_LastTouchedLocalTs
     extends KmMetaTimestampProperty<MyAutoSignIn>
 {
     //##################################################
@@ -39,13 +39,13 @@ public class MyMetaAutoSignIn_LastLocalTs
     @Override
     public String getName()
     {
-        return "lastLocalTs";
+        return "lastTouchedLocalTs";
     }
 
     @Override
     public String getLabel()
     {
-        return "Last";
+        return "Lasttouched";
     }
 
     @Override
@@ -67,13 +67,13 @@ public class MyMetaAutoSignIn_LastLocalTs
     @Override
     public KmTimestamp getValueFor(MyAutoSignIn model)
     {
-        return model.getLastLocalTs();
+        return model.getLastTouchedLocalTs();
     }
     
     @Override
     public boolean hasValueFor(MyAutoSignIn model, KmTimestamp value)
     {
-        return model.hasLastLocalTs(value);
+        return model.hasLastTouchedLocalTs(value);
     }
     
     @Override

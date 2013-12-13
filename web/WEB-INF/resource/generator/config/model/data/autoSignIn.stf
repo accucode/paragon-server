@@ -22,7 +22,7 @@ attributes
     : required      = true
                     
     field
-    : name          = lastUtcTs
+    : name          = lastTouchedUtcTs
     : comment       = The last time this token was used.
     : type          = timestamp
     : default       = getNowUtc()

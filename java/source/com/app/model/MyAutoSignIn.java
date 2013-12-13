@@ -22,8 +22,7 @@ public class MyAutoSignIn
 
     public void touch()
     {
-        // todo_wyatt: rename to last touched?
-        setLastUtcTs(getNowUtc());
+        setLastTouchedUtcTs(getNowUtc());
     }
 
     public boolean isFresh()
@@ -36,7 +35,7 @@ public class MyAutoSignIn
         // todo_wyatt: auto sign in timeout
         int timeoutDays = 1;
 
-        KmTimestamp lastTouch = getLastUtcTs();
+        KmTimestamp lastTouch = getLastTouchedUtcTs();
         KmTimestamp limit = lastTouch.addDays(timeoutDays);
         boolean isPast = getNowUtc().isAfter(limit);
 

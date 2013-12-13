@@ -62,16 +62,16 @@ public class MyMetaAutoSignIn
 
     public static final MyMetaAutoSignIn_Uid Uid = new MyMetaAutoSignIn_Uid();
     public static final MyMetaAutoSignIn_CreatedUtcTs CreatedUtcTs = new MyMetaAutoSignIn_CreatedUtcTs();
-    public static final MyMetaAutoSignIn_LastUtcTs LastUtcTs = new MyMetaAutoSignIn_LastUtcTs();
+    public static final MyMetaAutoSignIn_LastTouchedUtcTs LastTouchedUtcTs = new MyMetaAutoSignIn_LastTouchedUtcTs();
     public static final MyMetaAutoSignIn_LockVersion LockVersion = new MyMetaAutoSignIn_LockVersion();
     public static final MyMetaAutoSignIn_CreatedLocalTs CreatedLocalTs = new MyMetaAutoSignIn_CreatedLocalTs();
     public static final MyMetaAutoSignIn_CreatedLocalTsMessage CreatedLocalTsMessage = new MyMetaAutoSignIn_CreatedLocalTsMessage();
     public static final MyMetaAutoSignIn_CreatedLocalDate CreatedLocalDate = new MyMetaAutoSignIn_CreatedLocalDate();
     public static final MyMetaAutoSignIn_CreatedLocalTime CreatedLocalTime = new MyMetaAutoSignIn_CreatedLocalTime();
-    public static final MyMetaAutoSignIn_LastLocalTs LastLocalTs = new MyMetaAutoSignIn_LastLocalTs();
-    public static final MyMetaAutoSignIn_LastLocalTsMessage LastLocalTsMessage = new MyMetaAutoSignIn_LastLocalTsMessage();
-    public static final MyMetaAutoSignIn_LastLocalDate LastLocalDate = new MyMetaAutoSignIn_LastLocalDate();
-    public static final MyMetaAutoSignIn_LastLocalTime LastLocalTime = new MyMetaAutoSignIn_LastLocalTime();
+    public static final MyMetaAutoSignIn_LastTouchedLocalTs LastTouchedLocalTs = new MyMetaAutoSignIn_LastTouchedLocalTs();
+    public static final MyMetaAutoSignIn_LastTouchedLocalTsMessage LastTouchedLocalTsMessage = new MyMetaAutoSignIn_LastTouchedLocalTsMessage();
+    public static final MyMetaAutoSignIn_LastTouchedLocalDate LastTouchedLocalDate = new MyMetaAutoSignIn_LastTouchedLocalDate();
+    public static final MyMetaAutoSignIn_LastTouchedLocalTime LastTouchedLocalTime = new MyMetaAutoSignIn_LastTouchedLocalTime();
 
     //##################################################
     //# associations
