@@ -15,6 +15,7 @@ import com.app.property.MyPropertyRegistry;
 import com.app.ui.core.MyCookieSession;
 import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServletData;
+import com.app.ui.layout.MyLeftMenuItem;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyGlobals;
 
@@ -69,6 +70,9 @@ public abstract class MyPage
 
         if ( shows != visible )
             getPageLayout().ajaxShowLeftMenu(shows);
+
+        if ( shows )
+            getPageLayout().getLeftMenu().ajaxRefreshSelection(this);
     }
 
     protected boolean showsHeader()
@@ -84,6 +88,11 @@ public abstract class MyPage
     protected boolean showsLeftMenu()
     {
         return true;
+    }
+
+    public MyLeftMenuItem getMenuItem()
+    {
+        return null;
     }
 
     //##################################################

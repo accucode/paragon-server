@@ -823,12 +823,12 @@ a.tabx:hover
  ** app
  *******************************************************************/
  
-.appMenu-box
+.leftMenu-box
 {
     padding: 50px 0 0 10px;
 }
 
-.appMenu-item
+.leftMenu-item
 {
     cursor: pointer;
     font: normal 13px sans-serif;
@@ -840,7 +840,7 @@ a.tabx:hover
     border-right: none;
 }
 
-.appMenu-item:hover
+.leftMenu-item:hover
 {
     background-color: #cec;
     
@@ -856,7 +856,7 @@ a.tabx:hover
     box-shadow:             5px 5px 5px #ccc;
 }
 
-.appMenu-selectedItem
+.leftMenu-selected
 {
     color: #000;
     cursor: pointer;
@@ -879,24 +879,24 @@ a.tabx:hover
     box-shadow:             5px 5px 5px #ccc;
 }
 
-.appMenu-selectedItem:hover
+.leftMenu-selected:hover
 {
     color: #000;
 }
 
-.appMenu-link
+.leftMenu-link
 {
     font: inherit;
     color: inherit;
     text-decoration: inherit;
 }
-.appMenu-link:hover
+.leftMenu-link:hover
 {
     color: inherit;
     text-decoration: inherit;
 }
 
-.appMenu-content
+.leftMenu-content
 {
     border: 5px solid #080;
     border-right: none;

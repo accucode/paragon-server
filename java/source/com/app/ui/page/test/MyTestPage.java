@@ -1,12 +1,13 @@
 package com.app.ui.page.test;
 
+import com.app.ui.layout.MyLeftMenuItem;
 import com.app.ui.page.MyPage;
 
 public abstract class MyTestPage
     extends MyPage
 {
     //##################################################
-    //# security 
+    //# setup
     //##################################################
 
     @Override
@@ -14,4 +15,11 @@ public abstract class MyTestPage
     {
         return true;
     }
+
+    @Override
+    public MyLeftMenuItem getMenuItem()
+    {
+        return MyLeftMenuItem.tests;
+    }
+
 }

@@ -62,7 +62,7 @@ KmResourceLoader.load = function(userOptions)
 		onComplete: 		null,          	// A function to call when all resources have been loaded.
 		width:				500,			// The width of the progress bar, in pixels
 		files: 				[],				// List of string file names to load; must end in ".js" or ".css".
-		delay: 				0,				// The delay between files.
+		delay: 				1,				// The delay between files.
 		library: 			null,			// The web path to the folder where this library lives.  Required to compose the "ready" files.
 		debug: 				false			// If true, some debug logs will be written to the console.
 	};

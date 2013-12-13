@@ -28,7 +28,6 @@ Version: ${applicationVersion}
 
         KmNavigator.init = function()
         {
-            KmNavigator.printState();            
             KmNavigator.bind();            
         }
         
@@ -44,8 +43,6 @@ Version: ${applicationVersion}
         
         KmNavigator.handleStateChange = function()
         {
-            KmNavigator.printState();
-
             var state = History.getState();
             var ps = state.data.pageSession;
             if ( ps === undefined )

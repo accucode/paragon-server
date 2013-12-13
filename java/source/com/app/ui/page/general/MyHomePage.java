@@ -4,6 +4,7 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
+import com.app.ui.layout.MyLeftMenuItem;
 import com.app.ui.page.MyPage;
 import com.app.utility.MyConstantsIF;
 
@@ -19,6 +20,16 @@ public class MyHomePage
     private MyHomePage()
     {
         // singleton
+    }
+
+    //##################################################
+    //# setup
+    //##################################################
+
+    @Override
+    public MyLeftMenuItem getMenuItem()
+    {
+        return MyLeftMenuItem.home;
     }
 
     //##################################################

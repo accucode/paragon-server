@@ -165,6 +165,7 @@ public class MyServletData
         out = new KmStringBuilder();
         out.println(Kmu.dashes(80));
         out.println(KmClock.getNowUtc().format_m_d_yyyy_hh_mm_ss());
+        out.println("bytes: " + s.length());
         out.println(s);
         out.println();
 

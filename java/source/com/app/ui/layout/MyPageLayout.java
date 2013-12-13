@@ -626,7 +626,6 @@ public class MyPageLayout
         MyLeftMenu menu = getLeftMenu();
 
         ajaxSetCenterCss(menu.getContentCss());
-        ajaxSetLeftCss(menu.getMenuCss());
         ajaxSetLeftContents(menu.render());
     }
 

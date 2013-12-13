@@ -22,11 +22,6 @@ public interface KmCssDefaultConstantsIF
     String accordionEnabledTab = "accordionEnabledTab";
     String accordionOpenBody = "accordionOpenBody";
     String accordionOpenTab = "accordionOpenTab";
-    String appMenu_box = "appMenu-box";
-    String appMenu_content = "appMenu-content";
-    String appMenu_item = "appMenu-item";
-    String appMenu_link = "appMenu-link";
-    String appMenu_selectedItem = "appMenu-selectedItem";
     String blockMsg = "blockMsg";
     String checkbox = "checkbox";
     String content = "content";
@@ -73,6 +68,11 @@ public interface KmCssDefaultConstantsIF
     String headerUser = "headerUser";
     String importantText = "importantText";
     String label = "label";
+    String leftMenu_box = "leftMenu-box";
+    String leftMenu_content = "leftMenu-content";
+    String leftMenu_item = "leftMenu-item";
+    String leftMenu_link = "leftMenu-link";
+    String leftMenu_selected = "leftMenu-selected";
     String lineBox = "lineBox";
     String link = "link";
     String linkBox = "linkBox";

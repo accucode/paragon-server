@@ -1,54 +1,23 @@
 package com.app.ui.layout;
 
-import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
-import com.kodemore.servlet.ScPage;
-import com.kodemore.servlet.ScPageRegistry;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
-import com.kodemore.servlet.control.ScSimpleContainer;
-import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.utility.ScJquery;
 
-import com.app.ui.page.admin.MyAdminMenuPage;
-import com.app.ui.page.general.MyHomePage;
-import com.app.ui.page.test.MyTestMenuPage;
-import com.app.ui.page.tools.MyToolsMenuPage;
+import com.app.ui.core.MyServletData;
+import com.app.ui.page.MyPage;
+import com.app.utility.MyGlobals;
 
 public class MyLeftMenu
 {
     //##################################################
-    //# variables
+    //# constants
     //##################################################
 
-    private ScLocalString _selectedKey;
-
-    //##################################################
-    //# constructor
-    //##################################################
-
-    public MyLeftMenu()
-    {
-        _selectedKey = new ScLocalString();
-        _selectedKey.setAutoSave();
-    }
-
-    //##################################################
-    //# basics
-    //##################################################
-
-    private KmList<ScPage> getList()
-    {
-        KmList<ScPage> v;
-        v = new KmList<ScPage>();
-
-        v.add(MyHomePage.instance);
-        v.add(MyAdminMenuPage.instance);
-        v.add(MyToolsMenuPage.instance);
-        v.add(MyTestMenuPage.instance);
-
-        return v;
-    }
+    private static final String ID_PREFIX = "leftMenu";
 
     //##################################################
     //# ajax
@@ -60,116 +29,104 @@ public class MyLeftMenu
      */
     public KmHtmlBuilder render()
     {
-        ScSimpleContainer root;
-        root = new ScSimpleContainer();
+        ScDiv root;
+        root = new ScDiv();
+        root.setHtmlId(getWrapperId());
+        root.css().leftMenu_box();
 
-        for ( ScPage e : getList() )
-            addMenuTo(root, e);
+        for ( MyLeftMenuItem e : MyLeftMenuItem.getValues() )
+            renderItemOn(root, e);
 
         return root.render();
     }
 
-    public String getMenuCss()
-    {
-        return KmCssDefaultConstantsIF.appMenu_box;
-    }
-
-    public String getContentCss()
-    {
-        return KmCssDefaultConstantsIF.appMenu_content;
-    }
-
-    private void addMenuTo(ScContainer root, ScPage e)
+    private void renderItemOn(ScContainer root, MyLeftMenuItem e)
     {
         ScDiv div;
         div = root.addDiv();
+        div.setHtmlId(getItemId(e));
         div.addText(e.getTitle());
-        div.setOnClickPush(e);
-
-        if ( isSelected(e) )
-            div.css().appMenu_selectedItem();
-        else
-            div.css().appMenu_item();
+        div.setOnClick(e.getAction());
+        div.css().leftMenu_item();
     }
 
-    /**
-     * Refresh the current menu selection.  This assumes that the 
-     * menu is already installed and we need only to update the visual
-     * selection.
-     * 
-     * (For now we simply refresh the _entire_ menu.)
-     */
-    public void ajaxRefreshSelection(ScPage e)
-    {
-        setSelection(e);
+    //##################################################
+    //# ids
+    //##################################################
 
-        // todo_wyatt: menu refresh?
-        // ajaxRefreshMenu();
+    private String getWrapperId()
+    {
+        return ID_PREFIX;
+    }
+
+    private String getItemId(MyLeftMenuItem e)
+    {
+        return getWrapperId() + "-" + e.getKey();
+    }
+
+    //##################################################
+    //# css
+    //##################################################
+
+    public String getContentCss()
+    {
+        return KmCssDefaultConstantsIF.leftMenu_content;
     }
 
     //##################################################
     //# selection
     //##################################################
 
-    public ScPage getSelection()
+    /**
+     * Update the selection and refresh the ui.
+     */
+    public void ajaxRefreshSelection(MyPage page)
     {
-        String key = getSelectedKey();
-        if ( key == null )
-            return null;
-
-        return ScPageRegistry.getInstance().findKey(key);
-    }
-
-    public String getSelectedKey()
-    {
-        return _selectedKey.getValue();
-    }
-
-    private void setSelection(ScPage e)
-    {
-        _selectedKey.setValue(e.getKey());
-    }
-
-    private boolean isSelected(ScPage e)
-    {
-        return e.hasKey(_selectedKey.getValue());
+        _ajaxClearSelection();
+        _ajaxSetSelection(page);
     }
 
     /**
-     * Update the selection and refresh the ui, but only if the
-     * requested activity is part of the menu.
+     * Clear the selection css from all menu items.
      */
-    public boolean checkSelection(ScPage primary, ScPage alternate)
+    private void _ajaxClearSelection()
     {
-        if ( checkSelection(primary) )
-            return true;
+        String sel = ScJquery.formatCssSelector(KmCssDefaultConstantsIF.leftMenu_item);
+        String css = KmCssDefaultConstantsIF.leftMenu_selected;
 
-        if ( checkSelection(alternate) )
-            return true;
-
-        return false;
+        ajax().removeCss(sel, css);
     }
 
     /**
-     * Update the selection and refresh the ui, but only if the
-     * requested activity is part of the menu.
+     * Apply the selection css to the menu associated with this page.
      */
-    public boolean checkSelection(ScPage e)
+    private void _ajaxSetSelection(MyPage page)
     {
-        if ( !isMenuItem(e) )
-            return false;
+        if ( page == null )
+            return;
 
-        setSelection(e);
-        ajaxRefreshSelection(e);
-        return true;
+        MyLeftMenuItem item = page.getMenuItem();
+        if ( item == null )
+            return;
+
+        String sel = ScJquery.formatIdSelector(getItemId(item));
+        String css = KmCssDefaultConstantsIF.leftMenu_selected;
+
+        ajax().addCss(sel, css);
     }
 
-    public boolean isMenuItem(ScPage a)
-    {
-        for ( ScPage e : getList() )
-            if ( e.equals(a) )
-                return true;
+    //##################################################
+    //# support
+    //##################################################
 
-        return false;
+    private MyServletData getData()
+    {
+        return MyGlobals.getData();
     }
+
+    private ScRootScript ajax()
+    {
+        return getData().ajax();
+    }
+
 }

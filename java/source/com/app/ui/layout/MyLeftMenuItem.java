@@ -1,14 +1,12 @@
 package com.app.ui.layout;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.servlet.action.ScActionIF;
 
-import com.app.model.MyAccount;
-import com.app.ui.core.MyPageSession;
-import com.app.ui.page.MyPage;
+import com.app.ui.page.admin.MyAdminMenuPage;
 import com.app.ui.page.general.MyHomePage;
 import com.app.ui.page.test.MyTestMenuPage;
 import com.app.ui.page.tools.MyToolsMenuPage;
-import com.app.utility.MyGlobals;
 
 public enum MyLeftMenuItem
 {
@@ -17,8 +15,7 @@ public enum MyLeftMenuItem
     //##################################################
 
     home,
-    currentAccount,
-    allAccounts,
+    admin,
     tools,
     tests;
 
@@ -64,20 +61,14 @@ public enum MyLeftMenuItem
         MyLeftMenuItem item = this;
         switch ( item )
         {
-            case allAccounts:
-                return "All Accounts";
-
-            case currentAccount:
-                MyAccount a = getPageSession().getCurrentAccount();
-                if ( a == null )
-                    return "None";
-                return a.getName();
-
             case home:
                 return "Home";
 
             case tests:
                 return "Tests";
+
+            case admin:
+                return "Admin";
 
             case tools:
                 return "Tools";
@@ -86,38 +77,24 @@ public enum MyLeftMenuItem
         return name();
     }
 
-    // todo menu pages: 
-    public MyPage getPage()
+    public ScActionIF getAction()
     {
         MyLeftMenuItem item = this;
         switch ( item )
         {
-            case allAccounts:
-                return MyHomePage.instance;
-
-            case currentAccount:
-                return MyHomePage.instance;
-
             case home:
-                return MyHomePage.instance;
+                return MyHomePage.instance.getStartAction();
 
             case tests:
-                return MyTestMenuPage.instance;
+                return MyTestMenuPage.instance.getStartAction();
+
+            case admin:
+                return MyAdminMenuPage.instance.getStartAction();
 
             case tools:
-                return MyToolsMenuPage.instance;
+                return MyToolsMenuPage.instance.getStartAction();
         }
 
         return null;
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private MyPageSession getPageSession()
-    {
-        return MyGlobals.getPageSession();
-    }
-
 }

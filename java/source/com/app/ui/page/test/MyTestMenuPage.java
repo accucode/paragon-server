@@ -20,12 +20,6 @@ public class MyTestMenuPage
     }
 
     //##################################################
-    //# variable
-    //##################################################
-
-    private ScBox _box;
-
-    //##################################################
     //# install
     //##################################################
 
@@ -35,11 +29,8 @@ public class MyTestMenuPage
         root.css().gap();
         root.getPostDomScript().equalizeGroups();
 
-        _box = root.addBox();
-        _box.css().gap();
-
         ScGroupArray groups;
-        groups = _box.addGroupArray();
+        groups = root.addGroupArray();
         groups.style().floatLeft();
 
         ScGroup group;
