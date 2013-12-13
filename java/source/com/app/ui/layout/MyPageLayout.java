@@ -72,11 +72,9 @@ public class MyPageLayout
     //# variables
     //##################################################
 
-    // private ScDiv          _topRightDiv;
-
     private MyLeftMenu     _leftMenu;
-    private ScDropdownMenu _userMenu;
-    private ScDropdownMenu _accountMenu;
+    private ScDropdownMenu _userDropdown;
+    private ScDropdownMenu _accountDropdown;
     private ScActionIF     _selectAccountAction;
     private ScActionIF     _manageAccountsAction;
 
@@ -88,8 +86,8 @@ public class MyPageLayout
     {
         installLeftMenu();
         installSelectAccountAction();
-        installAccountMenu();
-        installUserMenu();
+        installUserDropdown();
+        installAccountDropdown();
     }
 
     //==================================================
@@ -102,17 +100,16 @@ public class MyPageLayout
     }
 
     //==================================================
-    //= install :: user menu
+    //= install :: user dropdown
     //==================================================
 
-    private void installUserMenu()
+    private void installUserDropdown()
     {
-        _userMenu = new ScDropdownMenu();
-        _userMenu.setTitle("User");
-        _userMenu.hide();
-        _userMenu.addItem("Profile", newEditUserProfileAction());
-        _userMenu.addItem("Log out", newLogoutAction());
-        _userMenu.css().floatRight().marginLeft();
+        _userDropdown = new ScDropdownMenu();
+        _userDropdown.setTitle("User");
+        _userDropdown.addItem("Profile", newEditUserProfileAction());
+        _userDropdown.addItem("Log out", newLogoutAction());
+        _userDropdown.css().floatRight().margin5();
     }
 
     private ScActionIF newEditUserProfileAction()
@@ -152,6 +149,44 @@ public class MyPageLayout
     }
 
     //==================================================
+    //= install :: account dropdown
+    //==================================================
+
+    private void installAccountDropdown()
+    {
+        _manageAccountsAction = newManageAccountsAction();
+
+        _accountDropdown = new ScDropdownMenu();
+        _accountDropdown.setTitle("Account");
+        _accountDropdown.css().floatRight().margin5();
+    }
+
+    private ScActionIF getManageAccountsAction()
+    {
+        return _manageAccountsAction;
+    }
+
+    private ScActionIF newManageAccountsAction()
+    {
+        ScActionContextIF context = ScGlobalContext.getInstance();
+        return new ScAction(context)
+        {
+            @Override
+            public void handle()
+            {
+                handleManageAccounts();
+            }
+        };
+    }
+
+    private void handleManageAccounts()
+    {
+        // todo_wyatt: left menu navigation
+        // MyAllAccountsPage.instance.start();
+        ajax().toast("accounts");
+    }
+
+    //==================================================
     //= install :: select account
     //==================================================
 
@@ -185,45 +220,6 @@ public class MyPageLayout
 
         ajax().toast("select account: " + uid);
         // MyNavigation.selectAccount(uid);
-    }
-
-    //==================================================
-    //= install :: account menu
-    //==================================================
-
-    private void installAccountMenu()
-    {
-        _manageAccountsAction = newManageAccountsAction();
-
-        _accountMenu = new ScDropdownMenu();
-        _accountMenu.setTitle("Account");
-        _accountMenu.hide();
-        _accountMenu.css().floatRight();
-    }
-
-    private ScActionIF getManageAccountsAction()
-    {
-        return _manageAccountsAction;
-    }
-
-    private ScActionIF newManageAccountsAction()
-    {
-        ScActionContextIF context = ScGlobalContext.getInstance();
-        return new ScAction(context)
-        {
-            @Override
-            public void handle()
-            {
-                handleManageAccounts();
-            }
-        };
-    }
-
-    private void handleManageAccounts()
-    {
-        // todo_wyatt: left menu navigation
-        // MyAllAccountsPage.instance.start();
-        ajax().toast("accounts");
     }
 
     //##################################################
@@ -474,7 +470,7 @@ public class MyPageLayout
 
     private void ajaxRefreshHeader()
     {
-        ajaxSetBottomCss(KmCssDefaultConstantsIF.pageHeader);
+        ajaxSetTopCss(KmCssDefaultConstantsIF.pageHeader);
         ajaxSetTopContents(renderHeader());
     }
 
@@ -483,13 +479,14 @@ public class MyPageLayout
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
 
-        renderHeaderLogoOn(out);
-        renderHeaderDropdownsOn(out);
+        renderLogoOn(out);
+        renderUserDropdownOn(out);
+        renderAccountDropdownsOn(out);
 
         return out;
     }
 
-    private void renderHeaderLogoOn(KmHtmlBuilder out)
+    private void renderLogoOn(KmHtmlBuilder out)
     {
         out.open("a");
         out.printAttribute("id", "pageHeaderLink");
@@ -510,55 +507,31 @@ public class MyPageLayout
         out.end("a");
     }
 
-    private void renderHeaderDropdownsOn(KmHtmlBuilder out)
-    {
-        out.render(_userMenu);
-        out.render(_accountMenu);
-    }
-
-    //==================================================
-    //= refresh :: dropdowns
-    //==================================================
-
-    // todo_wyatt: refresh menu
-    @SuppressWarnings("unused")
-    private void ajaxRefreshUserDropdown()
+    private void renderUserDropdownOn(KmHtmlBuilder out)
     {
         MyUser u = getCurrentUser();
-
         if ( u == null )
-        {
-            _userMenu.ajax().hide();
             return;
-        }
 
-        _userMenu.show();
-        _userMenu.setTitle(u.getName());
-        _userMenu.ajax().replace();
+        _userDropdown.setTitle(u.getName());
+        _userDropdown.renderOn(out);
     }
 
-    // todo_wyatt: refresh menu
-    @SuppressWarnings("unused")
-    private void ajaxRefreshAccountDropdown()
+    private void renderAccountDropdownsOn(KmHtmlBuilder out)
     {
         MyAccount a = getCurrentAccount();
-
         if ( a == null )
-        {
-            _accountMenu.ajax().hide();
             return;
-        }
 
-        _accountMenu.show();
-        _accountMenu.setTitle(a.getName());
-        _accountMenu.clearItems();
+        _accountDropdown.setTitle(a.getName());
+        _accountDropdown.clearItems();
 
         KmList<MyAccount> v = getAccountOptions();
         for ( MyAccount e : v )
-            _accountMenu.addItem(e.getName(), getSelectAccountAction(), e.getUid());
+            _accountDropdown.addItem(e.getName(), getSelectAccountAction(), e.getUid());
 
-        _accountMenu.addItem("Manage Accounts", getManageAccountsAction());
-        _accountMenu.ajax().replace();
+        _accountDropdown.addItem("Manage Accounts", getManageAccountsAction());
+        _accountDropdown.renderOn(out);
     }
 
     private KmList<MyAccount> getAccountOptions()
