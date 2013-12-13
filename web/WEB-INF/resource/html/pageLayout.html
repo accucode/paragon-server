@@ -211,7 +211,12 @@ Version: ${applicationVersion}
         function initNavigator()
         {
             KmNavigator.init();
-            KmNavigator.pushUrl("${query}");
+            KmNavigator.pushPage(
+            {
+                url: "${query}",
+                silent: true
+            });
+            KmNavigator.printCurrentPage();
         }
         
     </script>

@@ -4,7 +4,6 @@ import com.app.finder.MyServerSessionFinder;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
-import com.app.ui.page.login.MySignInUtility;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
 
@@ -34,8 +33,6 @@ public class MyServerSessionManager
         ss.saveDao();
 
         setCookieUid(ss.getUid());
-
-        MySignInUtility.checkAutoSignIn();
     }
 
     /**

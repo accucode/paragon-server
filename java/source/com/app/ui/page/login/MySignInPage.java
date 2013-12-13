@@ -337,6 +337,15 @@ public class MySignInPage
         MySignInUtility.signIn(user, auto);
         getPageLayout().ajaxRefresh();
 
+        startNextPage();
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private void startNextPage()
+    {
         if ( _queryTarget.hasValue() )
         {
             ScPushPageScript script;
@@ -347,10 +356,6 @@ public class MySignInPage
 
         MyNavigator.startDefaultPage();
     }
-
-    //##################################################
-    //# support
-    //##################################################
 
     private String getEmailCookie()
     {

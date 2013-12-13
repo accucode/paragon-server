@@ -5,10 +5,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.utility.Kmu;
 
-import com.app.ui.core.MyServerSessionManager;
-import com.app.ui.layout.MyPageLayout;
 import com.app.ui.page.MyPage;
-import com.app.ui.page.login.MySignInUtility;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyUrls;
 
@@ -39,6 +36,12 @@ public class MySignOutPage
 
     @Override
     public boolean requiresUser()
+    {
+        return false;
+    }
+
+    @Override
+    protected boolean showsLeftMenu()
     {
         return false;
     }
@@ -89,35 +92,5 @@ public class MySignOutPage
     private String getDefaultMessage()
     {
         return Kmu.format("You have successfully signed out of %s.", MyConstantsIF.APPLICATION_NAME);
-    }
-
-    //##################################################
-    //# print
-    //##################################################
-
-    @Override
-    public void preRender()
-    {
-        super.preRender();
-
-        signOut();
-        resetPage();
-    }
-
-    private void signOut()
-    {
-        MySignInUtility.clearAutoSignIn();
-        MyServerSessionManager.beginSession();
-        getData().clearPageSession();
-    }
-
-    private void resetPage()
-    {
-        MyPageLayout e;
-        e = getPageLayout();
-        e.ajaxHideLeft();
-        e.ajaxHideRight();
-        e.ajaxRefresh();
-        e.ajaxClearCenterCss();
     }
 }

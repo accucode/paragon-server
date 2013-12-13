@@ -10,6 +10,7 @@ import com.kodemore.servlet.ScAbstractServlet;
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.core.MyServletData;
+import com.app.ui.page.login.MySignInUtility;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
 
@@ -45,6 +46,7 @@ public abstract class MyServlet
             protected void handle()
             {
                 MyServerSessionManager.beginSession();
+                MySignInUtility.checkAutoSignIn();
             }
         }.run();
     }

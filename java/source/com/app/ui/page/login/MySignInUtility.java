@@ -19,15 +19,45 @@ public class MySignInUtility
     private static final String COOKIE_AUTO_SIGN_IN = "autoSignIn";
 
     //##################################################
-    //# public
+    //# sign in
+    //##################################################
+
+    public static void signIn(MyUser user, MyAutoSignIn auto)
+    {
+        MyServerSession ss;
+        ss = MyServerSessionManager.login(user);
+        ss.setAutoSignIn(auto);
+
+        if ( auto != null )
+            auto.touch();
+
+        ajaxSetAutoSignInCookie(auto);
+    }
+
+    public static void signOut()
+    {
+        clearAutoSignIn();
+        clearPageSession();
+        beginServerSession();
+    }
+
+    //##################################################
+    //# auto sign in
     //##################################################
 
     public static void clearAutoSignIn()
     {
-        setAutoSignIn(null);
+        MyServerSession ss = getServerSession();
+        if ( ss.hasAutoSignIn() )
+        {
+            ss.getAutoSignIn().deleteDao();
+            ss.clearAutoSignIn();
+        }
+
+        ajaxSetAutoSignInCookie(null);
     }
 
-    public static void setAutoSignIn(MyAutoSignIn e)
+    public static void ajaxSetAutoSignInCookie(MyAutoSignIn e)
     {
         String key = COOKIE_AUTO_SIGN_IN;
 
@@ -59,17 +89,9 @@ public class MySignInUtility
         signIn(user, auto);
     }
 
-    public static void signIn(MyUser user, MyAutoSignIn auto)
-    {
-        MyServerSession ss;
-        ss = MyServerSessionManager.login(user);
-        ss.setAutoSignIn(auto);
-
-        if ( auto != null )
-            auto.touch();
-
-        setAutoSignIn(auto);
-    }
+    //##################################################
+    //# email cookie
+    //##################################################
 
     public static String getEmailCookie()
     {
@@ -93,6 +115,21 @@ public class MySignInUtility
     private static ScRootScript ajax()
     {
         return getData().ajax();
+    }
+
+    private static void clearPageSession()
+    {
+        getData().clearPageSession();
+    }
+
+    private static MyServerSession getServerSession()
+    {
+        return MyGlobals.getServerSession();
+    }
+
+    private static void beginServerSession()
+    {
+        MyServerSessionManager.beginSession();
     }
 
 }

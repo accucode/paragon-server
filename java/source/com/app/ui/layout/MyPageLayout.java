@@ -22,6 +22,7 @@ import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServletData;
 import com.app.ui.page.admin.userProfile.MyUserProfilePage;
 import com.app.ui.page.general.MySignOutPage;
+import com.app.ui.page.login.MySignInUtility;
 import com.app.ui.servlet.MyServletConstantsIF;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
@@ -145,6 +146,8 @@ public class MyPageLayout
 
     private void handleLogout()
     {
+        MySignInUtility.signOut();
+        ajaxRefresh();
         MySignOutPage.instance.start();
     }
 
@@ -591,7 +594,10 @@ public class MyPageLayout
             ajaxShowLeft();
         }
         else
+        {
+            ajaxClearCenterCss();
             ajaxHideLeft();
+        }
     }
 
     private void ajaxRefreshLeftMenu()
