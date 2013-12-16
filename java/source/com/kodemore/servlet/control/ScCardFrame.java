@@ -344,7 +344,7 @@ public class ScCardFrame
         show.setEasing(getShowEasing());
         show.setSpeedMs(getShowSpeed());
 
-        ajax.pop();
+        ajax.popDefer();
         ajax.focusDeferred();
     }
 

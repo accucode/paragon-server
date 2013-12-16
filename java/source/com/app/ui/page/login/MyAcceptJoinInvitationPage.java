@@ -203,7 +203,7 @@ public class MyAcceptJoinInvitationPage
     }
 
     //##################################################
-    //# start
+    //# navigation
     //##################################################
 
     // todo_wyatt: start
@@ -214,13 +214,13 @@ public class MyAcceptJoinInvitationPage
     }
 
     @Override
-    public void applyParametersToUrl(ScParameterList params)
+    public void initUrlFromSession(ScParameterList params)
     {
         params.setValue("accessKey", getAccessKey());
     }
 
     @Override
-    public void applyParametersFromUrl(ScParameterList params)
+    public void initSessionFromUrl(ScParameterList params)
     {
         setAccessKey(params.getValue("accessKey"));
     }

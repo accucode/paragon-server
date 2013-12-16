@@ -187,7 +187,7 @@ public class MyAcceptNewUserInvitationPage
     }
 
     //##################################################
-    //# start
+    //# navigation
     //##################################################
 
     // todo_wyatt: start
@@ -198,13 +198,13 @@ public class MyAcceptNewUserInvitationPage
     }
 
     @Override
-    public void applyParametersToUrl(ScParameterList params)
+    public void initUrlFromSession(ScParameterList params)
     {
         // none
     }
 
     @Override
-    public void applyParametersFromUrl(ScParameterList params)
+    public void initSessionFromUrl(ScParameterList params)
     {
         // none
     }

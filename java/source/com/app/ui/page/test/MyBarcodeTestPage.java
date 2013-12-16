@@ -31,17 +31,17 @@ public class MyBarcodeTestPage
     private static String INVALID_CODE = "23jb8v 8e5i";
 
     //##################################################
-    //# start
+    //# navigation
     //##################################################
 
     @Override
-    public void applyParametersToUrl(ScParameterList v)
+    public void initUrlFromSession(ScParameterList v)
     {
         // none
     }
 
     @Override
-    public void applyParametersFromUrl(ScParameterList v)
+    public void initSessionFromUrl(ScParameterList v)
     {
         // none
     }

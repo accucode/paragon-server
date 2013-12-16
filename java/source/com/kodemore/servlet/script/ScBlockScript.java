@@ -155,9 +155,9 @@ public abstract class ScBlockScript
         getRoot().pushDeferUntil(sel);
     }
 
-    public void pop()
+    public void popDefer()
     {
-        getRoot().pop();
+        getRoot().popDefer();
     }
 
     //##################################################
@@ -167,25 +167,6 @@ public abstract class ScBlockScript
     public void call(String function)
     {
         run("%s();", function);
-    }
-
-    //##################################################
-    //# navigation
-    //##################################################
-
-    public void back()
-    {
-        run("window.history.back();");
-    }
-
-    public void gotoHash(String e)
-    {
-        run("window.location.hash=%s;", json(e));
-    }
-
-    public void gotoUrl(String uri)
-    {
-        run("window.location.href=%s;", json(uri));
     }
 
     //##################################################
@@ -361,7 +342,7 @@ public abstract class ScBlockScript
     }
 
     //##################################################
-    //# push page
+    //# navigation
     //##################################################
 
     public ScPushPageScript pushPage(String url)
@@ -380,6 +361,16 @@ public abstract class ScBlockScript
         e.setUrl(page);
         run(e);
         return e;
+    }
+
+    public void popPage()
+    {
+        run("window.history.back();");
+    }
+
+    public void gotoUrl(String uri)
+    {
+        run("window.location.href=%s;", json(uri));
     }
 
     //##################################################
@@ -470,7 +461,7 @@ public abstract class ScBlockScript
     {
         pushDeferUntil(sel);
         focus(sel);
-        pop();
+        popDefer();
     }
 
     //##################################################

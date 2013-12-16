@@ -42,17 +42,17 @@ public class MyChartTestPage
     private static final int BAR_POINTS  = 20;
 
     //##################################################
-    //# start
+    //# navigation
     //##################################################
 
     @Override
-    public void applyParametersToUrl(ScParameterList v)
+    public void initUrlFromSession(ScParameterList v)
     {
         // none
     }
 
     @Override
-    public void applyParametersFromUrl(ScParameterList v)
+    public void initSessionFromUrl(ScParameterList v)
     {
         // none
     }

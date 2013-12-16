@@ -141,7 +141,7 @@ public abstract class ScPage
         params = new ScParameterList();
         params.setValue("page", getKey());
 
-        applyParametersToUrl(params);
+        initUrlFromSession(params);
 
         return params.formatUrl();
     }
@@ -153,13 +153,13 @@ public abstract class ScPage
      * will implement this with an empty method.  Any parameters set here
      * will need a management in the getEntryParameters method.
      */
-    public abstract void applyParametersToUrl(ScParameterList params);
+    public abstract void initUrlFromSession(ScParameterList params);
 
     /**
      * Get the entry parameters that were passed to the application as
      * part of the query string.
      */
-    public abstract void applyParametersFromUrl(ScParameterList params);
+    public abstract void initSessionFromUrl(ScParameterList params);
 
     //==================================================
     //= start :: actions

@@ -224,7 +224,7 @@ public class MySignInPage
     }
 
     //##################################################
-    //# start
+    //# navigation
     //##################################################
 
     public void startForTarget(String e)
@@ -234,14 +234,14 @@ public class MySignInPage
     }
 
     @Override
-    public void applyParametersToUrl(ScParameterList params)
+    public void initUrlFromSession(ScParameterList params)
     {
         if ( _queryTarget.hasValue() )
             params.setValue("q", _queryTarget.getValue());
     }
 
     @Override
-    public void applyParametersFromUrl(ScParameterList params)
+    public void initSessionFromUrl(ScParameterList params)
     {
         _queryTarget.clearValue();
 

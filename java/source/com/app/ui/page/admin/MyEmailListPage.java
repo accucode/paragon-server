@@ -47,17 +47,17 @@ public class MyEmailListPage
     private ScButton    _addButton;
 
     //##################################################
-    //# start
+    //# navigation
     //##################################################
 
     @Override
-    public void applyParametersToUrl(ScParameterList v)
+    public void initUrlFromSession(ScParameterList v)
     {
         // none
     }
 
     @Override
-    public void applyParametersFromUrl(ScParameterList v)
+    public void initSessionFromUrl(ScParameterList v)
     {
         // none
     }

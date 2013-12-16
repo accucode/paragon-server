@@ -81,7 +81,7 @@ public class ScRootScript
      *      field.ajax().show().slide().defer();
      *      field.ajax().focus();
      */
-    private KmStack<ScBlockScript> _stack;
+    private KmStack<ScBlockScript> _deferStack;
 
     //##################################################
     //# constructor
@@ -91,7 +91,7 @@ public class ScRootScript
     {
         super(null);
 
-        _stack = new KmStack<ScBlockScript>();
+        _deferStack = new KmStack<ScBlockScript>();
     }
 
     //##################################################
@@ -113,37 +113,37 @@ public class ScRootScript
     public void clearScript()
     {
         super.clearScript();
-        _stack.clear();
+        _deferStack.clear();
     }
 
-    public KmStack<ScBlockScript> getStack()
+    public KmStack<ScBlockScript> getDeferStack()
     {
-        return _stack;
+        return _deferStack;
     }
 
     @Override
     public void pushDeferUntil(String sel)
     {
-        _push(sel);
+        _pushDefer(sel);
     }
 
-    protected void _push(String sel)
+    protected void _pushDefer(String sel)
     {
         ScDeferredScript promise;
         promise = new ScDeferredScript(this);
         promise.setSelector(sel);
 
         _add(promise);
-        _stack.push(promise);
+        _deferStack.push(promise);
     }
 
     @Override
-    public void pop()
+    public void popDefer()
     {
-        if ( _stack.isEmpty() )
+        if ( _deferStack.isEmpty() )
             Kmu.fatal("Cannot pop empty stack.");
 
-        _stack.pop();
+        _deferStack.pop();
     }
 
     //##################################################
@@ -153,9 +153,9 @@ public class ScRootScript
     @Override
     protected void _add(ScScriptIF e)
     {
-        if ( _stack.isEmpty() )
+        if ( _deferStack.isEmpty() )
             super._add(e);
         else
-            _stack.peek()._add(e);
+            _deferStack.peek()._add(e);
     }
 }
