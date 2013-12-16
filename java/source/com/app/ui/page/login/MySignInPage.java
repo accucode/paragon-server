@@ -237,7 +237,7 @@ public class MySignInPage
     }
 
     @Override
-    public ScParameterList composeUrlParameters()
+    public ScParameterList composeLocalQueryParameters()
     {
         ScParameterList v;
         v = new ScParameterList();
@@ -249,7 +249,7 @@ public class MySignInPage
     }
 
     @Override
-    public void applyUrlParameters(ScParameterList params)
+    public void applyLocalQueryParameters(ScParameterList params)
     {
         _queryTarget.clearValue();
 

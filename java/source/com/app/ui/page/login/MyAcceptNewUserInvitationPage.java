@@ -54,13 +54,44 @@ public class MyAcceptNewUserInvitationPage
     private ScBox           _box;
 
     //##################################################
-    //# install
+    //# setup
     //##################################################
 
     @Override
     public boolean requiresUser()
     {
         return false;
+    }
+
+    //##################################################
+    //# navigation
+    //##################################################
+
+    public void push(String accessKey)
+    {
+        setAccessKey(accessKey);
+        push();
+    }
+
+    public String formatEntryUrl(String accessKey)
+    {
+        setAccessKey(accessKey);
+        return formatEntryUrl();
+    }
+
+    @Override
+    public ScParameterList composeLocalQueryParameters()
+    {
+        ScParameterList v;
+        v = new ScParameterList();
+        v.setValue("accessKey", getAccessKey());
+        return v;
+    }
+
+    @Override
+    public void applyLocalQueryParameters(ScParameterList v)
+    {
+        setAccessKey(v.getValue("accessKey"));
     }
 
     //##################################################
@@ -184,31 +215,6 @@ public class MyAcceptNewUserInvitationPage
                 handleAccept();
             }
         };
-    }
-
-    //##################################################
-    //# navigation
-    //##################################################
-
-    public void push(String accessKey)
-    {
-        setAccessKey(accessKey);
-        push();
-    }
-
-    @Override
-    public ScParameterList composeUrlParameters()
-    {
-        ScParameterList v;
-        v = new ScParameterList();
-        v.setValue("accessKey", getAccessKey());
-        return v;
-    }
-
-    @Override
-    public void applyUrlParameters(ScParameterList v)
-    {
-        setAccessKey(v.getValue("accessKey"));
     }
 
     //##################################################

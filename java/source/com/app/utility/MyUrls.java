@@ -5,8 +5,10 @@ import com.kodemore.utility.Kmu;
 
 import com.app.model.MyDownload;
 import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
 import com.app.model.MyPasswordReset;
 import com.app.property.MyPropertyRegistry;
+import com.app.ui.page.login.MyAcceptNewUserInvitationPage;
 import com.app.ui.servlet.MyServletConstantsIF;
 
 public class MyUrls
@@ -28,23 +30,32 @@ public class MyUrls
         return formatUrl("");
     }
 
-    public static String getMainEntryUrl()
+    public static String getEntryUrl(ScParameterList params)
     {
-        return getMainEntryUrl(null);
-    }
+        if ( params == null || params.isEmpty() )
+            return formatUrl("");
 
-    public static String getMainEntryUrl(ScParameterList params)
-    {
         return formatServletUrl("main", params);
     }
 
     public static String getInvitationUrl(MyInvitation e)
     {
-        ScParameterList params;
-        params = new ScParameterList();
-        params.setValue(PARAMETER_INVITATION, e.getAccessKey());
+        MyInvitationType type = e.getType();
+        switch ( type )
+        {
+            case User:
+                return MyAcceptNewUserInvitationPage.instance.formatEntryUrl();
 
-        return getMainEntryUrl(params);
+            case Join:
+            case Transfer:
+                ScParameterList params;
+                params = new ScParameterList();
+                params.setValue(PARAMETER_INVITATION, e.getAccessKey());
+
+                return getEntryUrl(params);
+        }
+
+        return null;
     }
 
     public static String getPasswordResetUrl(MyPasswordReset e)
@@ -53,7 +64,7 @@ public class MyUrls
         params = new ScParameterList();
         params.setValue(PARAMETER_PASSWORD_RESET, e.getAccessKey());
 
-        return getMainEntryUrl(params);
+        return getEntryUrl(params);
     }
 
     public static String getCallbackUrl()

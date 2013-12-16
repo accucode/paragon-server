@@ -11,6 +11,8 @@ import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.utility.Kmu;
 
+import com.app.utility.MyUrls;
+
 /**
  * Pages represent a unit of work within the browser's history.
  * Performing actions and updating the display within a page generally does NOT
@@ -131,14 +133,24 @@ public abstract class ScPage
         // subclass
     }
 
-    //==================================================
-    //= start :: url
-    //==================================================
+    //##################################################
+    //# url
+    //##################################################
+
+    public final String formatEntryUrl()
+    {
+        return MyUrls.getEntryUrl(composeQueryParameters());
+    }
 
     public final String formatQueryString()
     {
+        return composeQueryParameters().formatUrl();
+    }
+
+    private ScParameterList composeQueryParameters()
+    {
         ScParameterList v;
-        v = composeUrlParameters();
+        v = composeLocalQueryParameters();
 
         if ( v == null )
             v = new ScParameterList();
@@ -149,8 +161,7 @@ public abstract class ScPage
             KmLog.warnTrace("Pages should NOT set a 'page' parameter; it is reserved.");
 
         v.setValue(pageKey, getKey());
-
-        return v.formatUrl();
+        return v;
     }
 
     /**
@@ -160,13 +171,13 @@ public abstract class ScPage
      * will implement this with an empty method.  Any parameters set here
      * will need a management in the getEntryParameters method.
      */
-    public abstract ScParameterList composeUrlParameters();
+    public abstract ScParameterList composeLocalQueryParameters();
 
     /**
      * Get the entry parameters that were passed to the application as
      * part of the query string.
      */
-    public abstract void applyUrlParameters(ScParameterList params);
+    public abstract void applyLocalQueryParameters(ScParameterList params);
 
     //==================================================
     //= start :: actions

@@ -134,13 +134,13 @@ public class MyAccountsPage
     //##################################################
 
     @Override
-    public ScParameterList composeUrlParameters()
+    public ScParameterList composeLocalQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyUrlParameters(ScParameterList v)
+    public void applyLocalQueryParameters(ScParameterList v)
     {
         // none
     }

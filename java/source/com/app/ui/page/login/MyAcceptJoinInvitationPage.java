@@ -214,7 +214,7 @@ public class MyAcceptJoinInvitationPage
     }
 
     @Override
-    public ScParameterList composeUrlParameters()
+    public ScParameterList composeLocalQueryParameters()
     {
         ScParameterList v;
         v = new ScParameterList();
@@ -223,7 +223,7 @@ public class MyAcceptJoinInvitationPage
     }
 
     @Override
-    public void applyUrlParameters(ScParameterList params)
+    public void applyLocalQueryParameters(ScParameterList params)
     {
         setAccessKey(params.getValue("accessKey"));
     }
