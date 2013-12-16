@@ -153,7 +153,7 @@ public class MyMemoryLeakTestPage
     private void handleLoop()
     {
         KmLog.info("MyMemoryLeakTestActivity.handleLoop");
-        start();
+        push();
     }
 
 }

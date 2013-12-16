@@ -171,7 +171,7 @@ public class MyEmailViewPage
     public void startEmail(String uid)
     {
         getPageSession().setEmailUid(uid);
-        start();
+        push();
     }
 
     //##################################################

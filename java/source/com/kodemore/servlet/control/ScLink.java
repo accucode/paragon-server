@@ -79,7 +79,7 @@ public class ScLink
 
     public void setAction(ScPage e)
     {
-        setAction(e.getStartAction());
+        setAction(e.getPushAction());
     }
 
     public void setArgument(Object e)

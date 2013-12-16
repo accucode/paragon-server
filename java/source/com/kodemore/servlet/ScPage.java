@@ -25,7 +25,7 @@ public abstract class ScPage
     //##################################################
 
     private String     _key;
-    private ScActionIF _startAction;
+    private ScActionIF _pushAction;
 
     /**
      * Each page is assumed to have a single root.
@@ -40,7 +40,7 @@ public abstract class ScPage
     protected ScPage()
     {
         _key = newKey();
-        _startAction = newStartAction();
+        _pushAction = newPushAction();
     }
 
     //##################################################
@@ -100,7 +100,7 @@ public abstract class ScPage
     }
 
     //##################################################
-    //# start
+    //# push
     //##################################################
 
     /**
@@ -108,7 +108,7 @@ public abstract class ScPage
      * Subclasses may freely override this method and do NOT need
      * to call super.start(). 
      */
-    public final void start()
+    public final void push()
     {
         reset();
         ajax().pushPage(this);
@@ -165,19 +165,19 @@ public abstract class ScPage
     //= start :: actions
     //==================================================
 
-    public ScActionIF getStartAction()
+    public ScActionIF getPushAction()
     {
-        return _startAction;
+        return _pushAction;
     }
 
-    private ScActionIF newStartAction()
+    private ScActionIF newPushAction()
     {
         return new ScAction(this)
         {
             @Override
             protected void handle()
             {
-                ScPage.this.start();
+                ScPage.this.push();
             }
         };
     }

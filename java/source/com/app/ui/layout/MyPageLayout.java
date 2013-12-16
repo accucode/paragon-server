@@ -141,14 +141,14 @@ public class MyPageLayout
 
     private void handleEditUserProfile()
     {
-        MyUserProfilePage.instance.start();
+        MyUserProfilePage.instance.push();
     }
 
     private void handleLogout()
     {
         MySignInUtility.signOut();
         ajaxRefresh();
-        MySignOutPage.instance.start();
+        MySignOutPage.instance.push();
     }
 
     //==================================================

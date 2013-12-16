@@ -7,7 +7,7 @@ public class MyNavigator
 {
     public static void startDefaultPage()
     {
-        getDefaultPage().start();
+        getDefaultPage().push();
     }
 
     public static MyPage getDefaultPage()

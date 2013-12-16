@@ -207,22 +207,22 @@ public class MyAcceptJoinInvitationPage
     //##################################################
 
     // todo_wyatt: start
-    public void start(String accessKey)
+    public void push(String accessKey)
     {
         setAccessKey(accessKey);
-        start();
+        push();
     }
 
     @Override
     public void applyParametersToUrl(ScParameterList params)
     {
-        // none
+        params.setValue("accessKey", getAccessKey());
     }
 
     @Override
     public void applyParametersFromUrl(ScParameterList params)
     {
-        // none
+        setAccessKey(params.getValue("accessKey"));
     }
 
     //##################################################

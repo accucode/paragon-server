@@ -196,7 +196,7 @@ public class MyPasswordResetPage
     public void start(String key)
     {
         setAccessKey(key);
-        start();
+        push();
     }
 
     @Override

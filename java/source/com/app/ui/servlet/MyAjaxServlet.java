@@ -186,7 +186,7 @@ public class MyAjaxServlet
 
         if ( inv == null )
         {
-            MyInvalidInvitationPage.instance.start();
+            MyInvalidInvitationPage.instance.push();
             return true;
         }
 
@@ -194,7 +194,7 @@ public class MyAjaxServlet
         switch ( type )
         {
             case Join:
-                MyAcceptJoinInvitationPage.instance.start(value);
+                MyAcceptJoinInvitationPage.instance.push(value);
                 break;
 
             case Transfer:

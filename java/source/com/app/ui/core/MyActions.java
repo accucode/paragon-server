@@ -119,7 +119,7 @@ public class MyActions
 
     private void handleSignOut()
     {
-        MySignOutPage.instance.start();
+        MySignOutPage.instance.push();
     }
 
     //##################################################

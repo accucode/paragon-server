@@ -230,7 +230,7 @@ public class MySignInPage
     public void startForTarget(String e)
     {
         _queryTarget.setValue(e);
-        start();
+        push();
     }
 
     @Override

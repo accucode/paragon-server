@@ -83,16 +83,16 @@ public enum MyLeftMenuItem
         switch ( item )
         {
             case home:
-                return MyHomePage.instance.getStartAction();
+                return MyHomePage.instance.getPushAction();
 
             case tests:
-                return MyTestMenuPage.instance.getStartAction();
+                return MyTestMenuPage.instance.getPushAction();
 
             case admin:
-                return MyAdminMenuPage.instance.getStartAction();
+                return MyAdminMenuPage.instance.getPushAction();
 
             case tools:
-                return MyToolsMenuPage.instance.getStartAction();
+                return MyToolsMenuPage.instance.getPushAction();
         }
 
         return null;

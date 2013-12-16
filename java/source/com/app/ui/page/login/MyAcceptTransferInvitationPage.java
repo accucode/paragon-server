@@ -172,7 +172,7 @@ public class MyAcceptTransferInvitationPage
     public void start(String accessKey)
     {
         setAccessKey(accessKey);
-        start();
+        push();
     }
 
     @Override

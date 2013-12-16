@@ -181,7 +181,7 @@ public class ScMenuItem
 
     public ScMenuItem addChild(String text, ScPage e)
     {
-        return addChild(text, e.getStartAction());
+        return addChild(text, e.getPushAction());
     }
 
     //##################################################
