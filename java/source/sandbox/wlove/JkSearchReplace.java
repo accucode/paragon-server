@@ -7,8 +7,8 @@ public class JkSearchReplace
 {
     public static void main(String[] args)
     {
-        String folder = "/projects/paragon/web/test";
-        String ext = "html";
+        String folder = "/projects/paragon-server";
+        String ext = "java";
         KmFile search = new KmFile("/temp/search.txt");
         KmFile replace = new KmFile("/temp/replace.txt");
 
@@ -18,8 +18,8 @@ public class JkSearchReplace
         e.setFileExtension(ext);
         e.setSearchText(search);
         e.setReplaceText(replace);
-        e.findAll();
 
-        // e.replaceAll();
+        e.findAll();
+        //e.replaceAll();
     }
 }
