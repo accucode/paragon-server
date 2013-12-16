@@ -214,13 +214,16 @@ public class MyAcceptJoinInvitationPage
     }
 
     @Override
-    public void initUrlFromSession(ScParameterList params)
+    public ScParameterList composeUrlParameters()
     {
-        params.setValue("accessKey", getAccessKey());
+        ScParameterList v;
+        v = new ScParameterList();
+        v.setValue("accessKey", getAccessKey());
+        return v;
     }
 
     @Override
-    public void initSessionFromUrl(ScParameterList params)
+    public void applyUrlParameters(ScParameterList params)
     {
         setAccessKey(params.getValue("accessKey"));
     }

@@ -31,13 +31,13 @@ public class MyOpenWindowTestPage
     //##################################################
 
     @Override
-    public void initUrlFromSession(ScParameterList v)
+    public ScParameterList composeUrlParameters()
     {
-        // none
+        return null;
     }
 
     @Override
-    public void initSessionFromUrl(ScParameterList v)
+    public void applyUrlParameters(ScParameterList v)
     {
         // none
     }

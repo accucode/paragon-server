@@ -78,6 +78,9 @@ public class MySignInPage
         _queryTarget = new ScLocalString();
         _queryTarget.setAutoSave();
 
+        // todo_wyatt: auto apply? 
+        // _queryTarget.autoApplyToUrl(this, "q");
+
         ScArray row;
         row = root.addRow();
         row.setGap(50);
@@ -227,21 +230,26 @@ public class MySignInPage
     //# navigation
     //##################################################
 
-    public void startForTarget(String e)
+    public void pushForTarget(String e)
     {
         _queryTarget.setValue(e);
         push();
     }
 
     @Override
-    public void initUrlFromSession(ScParameterList params)
+    public ScParameterList composeUrlParameters()
     {
+        ScParameterList v;
+        v = new ScParameterList();
+
         if ( _queryTarget.hasValue() )
-            params.setValue("q", _queryTarget.getValue());
+            v.setValue("q", _queryTarget.getValue());
+
+        return v;
     }
 
     @Override
-    public void initSessionFromUrl(ScParameterList params)
+    public void applyUrlParameters(ScParameterList params)
     {
         _queryTarget.clearValue();
 

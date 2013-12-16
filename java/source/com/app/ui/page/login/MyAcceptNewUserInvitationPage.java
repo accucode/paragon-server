@@ -190,23 +190,25 @@ public class MyAcceptNewUserInvitationPage
     //# navigation
     //##################################################
 
-    // todo_wyatt: start
-    public void start(String accessKey)
+    public void push(String accessKey)
     {
         setAccessKey(accessKey);
         push();
     }
 
     @Override
-    public void initUrlFromSession(ScParameterList params)
+    public ScParameterList composeUrlParameters()
     {
-        // none
+        ScParameterList v;
+        v = new ScParameterList();
+        v.setValue("accessKey", getAccessKey());
+        return v;
     }
 
     @Override
-    public void initSessionFromUrl(ScParameterList params)
+    public void applyUrlParameters(ScParameterList v)
     {
-        // none
+        setAccessKey(v.getValue("accessKey"));
     }
 
     //##################################################

@@ -137,13 +137,20 @@ public abstract class ScPage
 
     public final String formatQueryString()
     {
-        ScParameterList params;
-        params = new ScParameterList();
-        params.setValue("page", getKey());
+        ScParameterList v;
+        v = composeUrlParameters();
 
-        initUrlFromSession(params);
+        if ( v == null )
+            v = new ScParameterList();
 
-        return params.formatUrl();
+        // todo_wyatt: pageKey constant
+        String pageKey = "page";
+        if ( v.hasKey(pageKey) )
+            KmLog.warnTrace("Pages should NOT set a 'page' parameter; it is reserved.");
+
+        v.setValue(pageKey, getKey());
+
+        return v.formatUrl();
     }
 
     /**
@@ -153,13 +160,13 @@ public abstract class ScPage
      * will implement this with an empty method.  Any parameters set here
      * will need a management in the getEntryParameters method.
      */
-    public abstract void initUrlFromSession(ScParameterList params);
+    public abstract ScParameterList composeUrlParameters();
 
     /**
      * Get the entry parameters that were passed to the application as
      * part of the query string.
      */
-    public abstract void initSessionFromUrl(ScParameterList params);
+    public abstract void applyUrlParameters(ScParameterList params);
 
     //==================================================
     //= start :: actions

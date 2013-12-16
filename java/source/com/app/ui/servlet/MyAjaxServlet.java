@@ -135,13 +135,13 @@ public class MyAjaxServlet
         if ( requiresLoginFor(page) )
         {
             String q = getData().getWindowQuery();
-            MySignInPage.instance.startForTarget(q);
+            MySignInPage.instance.pushForTarget(q);
             return;
         }
 
         ScParameterList params = getData().getWindowParameters();
 
-        page.initSessionFromUrl(params);
+        page.applyUrlParameters(params);
         page.print();
     }
 
@@ -202,7 +202,7 @@ public class MyAjaxServlet
                 break;
 
             case User:
-                MyAcceptNewUserInvitationPage.instance.start(value);
+                MyAcceptNewUserInvitationPage.instance.push(value);
                 break;
         }
 
