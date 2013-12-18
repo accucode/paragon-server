@@ -17,7 +17,7 @@ import com.kodemore.utility.Kmu;
 import com.app.file.MySharedFiles;
 
 public class MySharedFileBrowserPage
-    extends MyToolsPage
+    extends MyAbstractToolsPage
 {
     //##################################################
     //# singleton
@@ -43,13 +43,13 @@ public class MySharedFileBrowserPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

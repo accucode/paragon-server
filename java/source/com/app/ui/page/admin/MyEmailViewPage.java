@@ -19,9 +19,10 @@ import com.app.model.MyEmail;
 import com.app.model.MyEmailPart;
 import com.app.model.meta.MyMetaEmail;
 import com.app.model.meta.MyMetaEmailPart;
+import com.app.ui.page.MyPage;
 
 public class MyEmailViewPage
-    extends MyAdminPage
+    extends MyPage
 {
     //##################################################
     //# singleton
@@ -46,16 +47,30 @@ public class MyEmailViewPage
     //# navigation
     //##################################################
 
-    @Override
-    public ScParameterList composeLocalQueryParameters()
+    public void pushEmail(String uid)
     {
-        return null;
+        getPageSession().setEmailUid(uid);
+
+        _push();
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public ScParameterList composeQueryParameters()
     {
-        // none
+        String uid = getPageSession().getEmailUid();
+
+        ScParameterList v;
+        v = new ScParameterList();
+        v.setValue("email", uid);
+        return v;
+    }
+
+    @Override
+    public void applyQueryParameters(ScParameterList v)
+    {
+        String uid = v.getValue("email");
+
+        getPageSession().setEmailUid(uid);
     }
 
     //##################################################
@@ -165,16 +180,6 @@ public class MyEmailViewPage
     }
 
     //##################################################
-    //# navigation
-    //##################################################
-
-    public void startEmail(String uid)
-    {
-        getPageSession().setEmailUid(uid);
-        push();
-    }
-
-    //##################################################
     //# print
     //##################################################
 
@@ -208,7 +213,6 @@ public class MyEmailViewPage
         out = new KmHtmlBuilder();
         out.render(root);
 
-        // todo_wyatt: null?
         return null;
     }
 

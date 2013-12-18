@@ -120,6 +120,11 @@ public interface ScConstantsIF
      */
     String   PARAMETER_FORM_KEY          = "_formKey";
 
+    /**
+     * The key used to identify the requested page.
+     */
+    String   PARAMETER_PAGE_KEY          = "page";
+
     //##################################################
     //# session keys
     //##################################################

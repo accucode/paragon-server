@@ -63,24 +63,32 @@ public class MyAcceptNewUserInvitationPage
         return false;
     }
 
+    @Override
+    protected boolean showsLeftMenu()
+    {
+        return false;
+    }
+
     //##################################################
     //# navigation
     //##################################################
 
-    public void push(String accessKey)
+    public void pushAccessKey(MyInvitation e)
     {
-        setAccessKey(accessKey);
-        push();
+        setAccessKey(e.getAccessKey());
+
+        _push();
     }
 
-    public String formatEntryUrl(String accessKey)
+    public String formatEntryUrl(MyInvitation e)
     {
-        setAccessKey(accessKey);
-        return formatEntryUrl();
+        setAccessKey(e.getAccessKey());
+
+        return _formatEntryUrl();
     }
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         ScParameterList v;
         v = new ScParameterList();
@@ -89,7 +97,7 @@ public class MyAcceptNewUserInvitationPage
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         setAccessKey(v.getValue("accessKey"));
     }

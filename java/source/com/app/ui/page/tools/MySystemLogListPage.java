@@ -23,16 +23,15 @@ import com.app.filter.MySystemLogFilter;
 import com.app.model.MySystemLog;
 import com.app.model.MySystemLogTools;
 import com.app.model.meta.MyMetaSystemLog;
-import com.app.ui.page.MyPage;
 
 public class MySystemLogListPage
-    extends MyToolsPage
+    extends MyAbstractToolsPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPage instance = new MySystemLogListPage();
+    public static final MySystemLogListPage instance = new MySystemLogListPage();
 
     private MySystemLogListPage()
     {
@@ -59,13 +58,13 @@ public class MySystemLogListPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

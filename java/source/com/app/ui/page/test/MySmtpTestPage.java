@@ -13,16 +13,15 @@ import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.email.MyEmailSmtpMethod;
-import com.app.ui.page.MyPage;
 
 public class MySmtpTestPage
-    extends MyTestPage
+    extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPage instance = new MySmtpTestPage();
+    public static final MySmtpTestPage instance = new MySmtpTestPage();
 
     private MySmtpTestPage()
     {
@@ -43,13 +42,13 @@ public class MySmtpTestPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

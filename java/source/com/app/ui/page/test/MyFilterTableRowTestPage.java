@@ -10,7 +10,7 @@ import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.servlet.field.ScTextField;
 
 public class MyFilterTableRowTestPage
-    extends MyTestPage
+    extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
@@ -37,13 +37,13 @@ public class MyFilterTableRowTestPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

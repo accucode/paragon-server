@@ -20,12 +20,14 @@ import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServletData;
+import com.app.ui.page.admin.accounts.MyAccountsPage;
 import com.app.ui.page.admin.userProfile.MyUserProfilePage;
 import com.app.ui.page.general.MySignOutPage;
 import com.app.ui.page.login.MySignInUtility;
 import com.app.ui.servlet.MyServletConstantsIF;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
+import com.app.utility.MyNavigator;
 import com.app.utility.MyUrls;
 
 public class MyPageLayout
@@ -184,9 +186,7 @@ public class MyPageLayout
 
     private void handleManageAccounts()
     {
-        // todo_wyatt: left menu navigation
-        // MyAllAccountsPage.instance.start();
-        ajax().toast("accounts");
+        MyAccountsPage.instance.push();
     }
 
     //==================================================
@@ -216,13 +216,10 @@ public class MyPageLayout
         };
     }
 
-    // todo_wyatt: header navigation
     private void handleSelectAccount()
     {
         String uid = getData().getStringArgument();
-
-        ajax().toast("select account: " + uid);
-        // MyNavigation.selectAccount(uid);
+        MyNavigator.selectAccount(uid);
     }
 
     //##################################################

@@ -2,9 +2,7 @@ package com.kodemore.servlet;
 
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.log.KmLog;
-import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionContextIF;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScFormatter;
@@ -27,7 +25,6 @@ public abstract class ScPage
     //##################################################
 
     private String     _key;
-    private ScActionIF _pushAction;
 
     /**
      * Each page is assumed to have a single root.
@@ -42,7 +39,6 @@ public abstract class ScPage
     protected ScPage()
     {
         _key = newKey();
-        _pushAction = newPushAction();
     }
 
     //##################################################
@@ -110,18 +106,9 @@ public abstract class ScPage
      * Subclasses may freely override this method and do NOT need
      * to call super.start(). 
      */
-    public final void push()
+    public final void _push()
     {
-        reset();
         ajax().pushPage(this);
-    }
-
-    /**
-     * Allow subclasses to reset state when the page is started.
-     */
-    protected void reset()
-    {
-        // subclass
     }
 
     /**
@@ -137,32 +124,17 @@ public abstract class ScPage
     //# url
     //##################################################
 
-    public final String formatEntryUrl()
-    {
-        return MyUrls.getEntryUrl(composeQueryParameters());
-    }
+    /*
+     * Subclasses should genrally implement the following methods:
+     * 
+     *      push(...)
+     *      formatEntryUrl(...)
+     *      formatQueryString(...)
+     */
 
-    public final String formatQueryString()
-    {
-        return composeQueryParameters().formatUrl();
-    }
-
-    private ScParameterList composeQueryParameters()
-    {
-        ScParameterList v;
-        v = composeLocalQueryParameters();
-
-        if ( v == null )
-            v = new ScParameterList();
-
-        // todo_wyatt: pageKey constant
-        String pageKey = "page";
-        if ( v.hasKey(pageKey) )
-            KmLog.warnTrace("Pages should NOT set a 'page' parameter; it is reserved.");
-
-        v.setValue(pageKey, getKey());
-        return v;
-    }
+    //==================================================
+    //= url :: abstract
+    //==================================================
 
     /**
      * Set entry parameters needed to define the url queryString
@@ -171,33 +143,42 @@ public abstract class ScPage
      * will implement this with an empty method.  Any parameters set here
      * will need a management in the getEntryParameters method.
      */
-    public abstract ScParameterList composeLocalQueryParameters();
+    public abstract ScParameterList composeQueryParameters();
 
     /**
      * Get the entry parameters that were passed to the application as
      * part of the query string.
      */
-    public abstract void applyLocalQueryParameters(ScParameterList params);
+    public abstract void applyQueryParameters(ScParameterList params);
 
     //==================================================
-    //= start :: actions
+    //= url :: protected 
     //==================================================
 
-    public ScActionIF getPushAction()
+    public final String _formatEntryUrl()
     {
-        return _pushAction;
+        return MyUrls.getEntryUrl(_composeQueryParameters());
     }
 
-    private ScActionIF newPushAction()
+    public final String _formatQueryString()
     {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                ScPage.this.push();
-            }
-        };
+        return _composeQueryParameters().formatUrl();
+    }
+
+    private ScParameterList _composeQueryParameters()
+    {
+        ScParameterList v;
+        v = composeQueryParameters();
+
+        if ( v == null )
+            v = new ScParameterList();
+
+        String pageKey = ScConstantsIF.PARAMETER_PAGE_KEY;
+        if ( v.hasKey(pageKey) )
+            KmLog.warnTrace("Pages should NOT set a 'page' parameter; it is reserved.");
+
+        v.setValue(pageKey, getKey());
+        return v;
     }
 
     //##################################################

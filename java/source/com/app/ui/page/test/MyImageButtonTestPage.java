@@ -12,7 +12,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
 public class MyImageButtonTestPage
-    extends MyTestPage
+    extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
@@ -37,13 +37,13 @@ public class MyImageButtonTestPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

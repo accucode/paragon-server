@@ -2,7 +2,6 @@ package com.app.ui.page.admin;
 
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
@@ -22,7 +21,7 @@ import com.app.model.MyEmailStatus;
 import com.app.model.meta.MyMetaEmail;
 
 public class MyEmailListPage
-    extends MyAdminPage
+    extends MyAbstractAdminPage
 {
     //##################################################
     //# singleton
@@ -45,22 +44,6 @@ public class MyEmailListPage
     private ScDropdown  _statusField;
 
     private ScButton    _addButton;
-
-    //##################################################
-    //# navigation
-    //##################################################
-
-    @Override
-    public ScParameterList composeLocalQueryParameters()
-    {
-        return null;
-    }
-
-    @Override
-    public void applyLocalQueryParameters(ScParameterList v)
-    {
-        // none
-    }
 
     //##################################################
     //# install
@@ -234,7 +217,7 @@ public class MyEmailListPage
 
     private void handleView()
     {
-        MyEmailViewPage.instance.startEmail(getStringArgument());
+        MyEmailViewPage.instance.pushEmail(getStringArgument());
     }
 
     //##################################################

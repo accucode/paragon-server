@@ -29,7 +29,7 @@ import com.app.model.MyUser;
  * Test the various form fields.
  */
 public class MyFieldTestPage
-    extends MyTestPage
+    extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
@@ -67,13 +67,13 @@ public class MyFieldTestPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

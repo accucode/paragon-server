@@ -22,7 +22,7 @@ import com.app.property.MyPropertyRegistry;
  * to see if a client browser memory leak manifests.
  */
 public class MyMemoryLeakTestPage
-    extends MyTestPage
+    extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
@@ -47,13 +47,13 @@ public class MyMemoryLeakTestPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }
@@ -153,7 +153,7 @@ public class MyMemoryLeakTestPage
     private void handleLoop()
     {
         KmLog.info("MyMemoryLeakTestActivity.handleLoop");
-        push();
+        print();
     }
 
 }

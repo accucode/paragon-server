@@ -9,16 +9,14 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
-import com.app.ui.page.MyPage;
-
 public class MyPlaceholderTestPage
-    extends MyTestPage
+    extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPage instance = new MyPlaceholderTestPage();
+    public static final MyPlaceholderTestPage instance = new MyPlaceholderTestPage();
 
     private MyPlaceholderTestPage()
     {
@@ -36,13 +34,13 @@ public class MyPlaceholderTestPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

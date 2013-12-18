@@ -67,6 +67,7 @@ public class MySignUpDialog
 
         _emailBox = root.addBox();
         _emailBox.addText(msg);
+        _emailBox.addBreak();
         _emailBox.addLabel("Email");
         _emailBox.addErrorBox().add(_emailField);
     }
@@ -132,15 +133,20 @@ public class MySignUpDialog
         if ( !isValid )
             _emailField.error("Invalid");
 
+        sendEmailInvitation(email);
+
+        showSentMessage(email);
+        setEmailCookie(email);
+    }
+
+    private void sendEmailInvitation(String email)
+    {
         MyUser user = getAccess().getUserDao().findEmail(email);
 
         if ( user == null )
             sendNewUserInvitation(email);
         else
             sendResetPasswordInvitation(user);
-
-        showSentMessage(email);
-        setEmailCookie(email);
     }
 
     private void sendNewUserInvitation(String email)

@@ -21,7 +21,7 @@ import com.kodemore.utility.KmRandomUtility;
  * Test the layout and usage of the groups.
  */
 public class MyChartTestPage
-    extends MyTestPage
+    extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
@@ -46,13 +46,13 @@ public class MyChartTestPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

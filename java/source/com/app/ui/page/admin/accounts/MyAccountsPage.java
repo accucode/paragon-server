@@ -5,7 +5,6 @@ import com.kodemore.collection.KmCollection;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
@@ -44,13 +43,13 @@ import com.app.model.meta.MyMetaAccountUser;
 import com.app.model.meta.MyMetaUser;
 import com.app.ui.core.MyPageSession;
 import com.app.ui.layout.MyPageLayout;
-import com.app.ui.page.admin.MyAdminPage;
+import com.app.ui.page.admin.MyAbstractAdminPage;
 import com.app.ui.page.login.MyJoinAccountUtility;
 import com.app.ui.page.login.MyTransferAccountUtility;
 import com.app.utility.MyButtonUrls;
 
 public class MyAccountsPage
-    extends MyAdminPage
+    extends MyAbstractAdminPage
 {
     //##################################################
     //# singleton
@@ -127,22 +126,6 @@ public class MyAccountsPage
     protected boolean requiresAccountOwner()
     {
         return true;
-    }
-
-    //##################################################
-    //# navigation
-    //##################################################
-
-    @Override
-    public ScParameterList composeLocalQueryParameters()
-    {
-        return null;
-    }
-
-    @Override
-    public void applyLocalQueryParameters(ScParameterList v)
-    {
-        // none
     }
 
     //##################################################
@@ -1669,4 +1652,5 @@ public class MyAccountsPage
             + "Enter email address of user you wish to invite to this account. "
             + "User must accept invitation to be added.";
     }
+
 }

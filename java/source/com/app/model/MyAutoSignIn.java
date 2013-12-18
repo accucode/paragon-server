@@ -3,6 +3,7 @@ package com.app.model;
 import com.kodemore.time.KmTimestamp;
 
 import com.app.model.base.MyAutoSignInBase;
+import com.app.utility.MyConstantsIF;
 
 public class MyAutoSignIn
     extends MyAutoSignInBase
@@ -32,8 +33,7 @@ public class MyAutoSignIn
 
     public boolean isStale()
     {
-        // todo_wyatt: auto sign in timeout
-        int timeoutDays = 1;
+        int timeoutDays = MyConstantsIF.AUTO_SIGN_IN_TIMEOUT_DAYS;
 
         KmTimestamp lastTouch = getLastTouchedUtcTs();
         KmTimestamp limit = lastTouch.addDays(timeoutDays);

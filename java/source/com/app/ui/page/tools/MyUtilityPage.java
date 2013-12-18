@@ -16,16 +16,15 @@ import com.kodemore.utility.Kmu;
 import com.app.model.MyTimeZone;
 import com.app.property.MyPropertyManager;
 import com.app.ui.core.MyServletData;
-import com.app.ui.page.MyPage;
 
 public class MyUtilityPage
-    extends MyToolsPage
+    extends MyAbstractToolsPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPage instance = new MyUtilityPage();
+    public static final MyUtilityPage instance = new MyUtilityPage();
 
     private MyUtilityPage()
     {
@@ -48,13 +47,13 @@ public class MyUtilityPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

@@ -2,7 +2,6 @@ package com.app.ui.page.admin;
 
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
@@ -19,7 +18,7 @@ import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
 
 public class MyUsersPage
-    extends MyAdminPage
+    extends MyAbstractAdminPage
 {
     //##################################################
     //# singleton
@@ -42,22 +41,6 @@ public class MyUsersPage
     private ScGrid<MyUser> _grid;
 
     private MyUserFrame    _frame;
-
-    //##################################################
-    //# navigation
-    //##################################################
-
-    @Override
-    public ScParameterList composeLocalQueryParameters()
-    {
-        return null;
-    }
-
-    @Override
-    public void applyLocalQueryParameters(ScParameterList v)
-    {
-        // none
-    }
 
     //##################################################
     //# install

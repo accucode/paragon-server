@@ -17,17 +17,16 @@ import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.sql.formatter.KmSqlResultComposer;
 import com.kodemore.utility.Kmu;
 
-import com.app.ui.page.MyPage;
 import com.app.utility.MyButtonUrls;
 
 public class MySqlPage
-    extends MyToolsPage
+    extends MyAbstractToolsPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPage instance = new MySqlPage();
+    public static final MySqlPage instance = new MySqlPage();
 
     private MySqlPage()
     {
@@ -60,13 +59,13 @@ public class MySqlPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

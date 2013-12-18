@@ -60,6 +60,45 @@ public class MyAcceptTransferInvitationPage
         return false;
     }
 
+    @Override
+    protected boolean showsLeftMenu()
+    {
+        return false;
+    }
+
+    //##################################################
+    //# navigation
+    //##################################################
+
+    public void pushAccessKey(MyInvitation e)
+    {
+        setAccessKey(e.getAccessKey());
+
+        _push();
+    }
+
+    public String formatEntryUrl(MyInvitation e)
+    {
+        setAccessKey(e.getAccessKey());
+
+        return _formatEntryUrl();
+    }
+
+    @Override
+    public ScParameterList composeQueryParameters()
+    {
+        ScParameterList v;
+        v = new ScParameterList();
+        v.setValue("accessKey", getAccessKey());
+        return v;
+    }
+
+    @Override
+    public void applyQueryParameters(ScParameterList v)
+    {
+        setAccessKey(v.getValue("accessKey"));
+    }
+
     //##################################################
     //# install
     //##################################################
@@ -163,28 +202,6 @@ public class MyAcceptTransferInvitationPage
                 handleAccept();
             }
         };
-    }
-
-    //##################################################
-    //# navigation
-    //##################################################
-
-    public void start(String accessKey)
-    {
-        setAccessKey(accessKey);
-        push();
-    }
-
-    @Override
-    public ScParameterList composeLocalQueryParameters()
-    {
-        return null;
-    }
-
-    @Override
-    public void applyLocalQueryParameters(ScParameterList v)
-    {
-        // none
     }
 
     //##################################################

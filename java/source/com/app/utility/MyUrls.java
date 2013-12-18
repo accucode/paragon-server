@@ -8,19 +8,15 @@ import com.app.model.MyInvitation;
 import com.app.model.MyInvitationType;
 import com.app.model.MyPasswordReset;
 import com.app.property.MyPropertyRegistry;
+import com.app.ui.page.login.MyAcceptJoinInvitationPage;
 import com.app.ui.page.login.MyAcceptNewUserInvitationPage;
+import com.app.ui.page.login.MyAcceptTransferInvitationPage;
+import com.app.ui.page.login.MyPasswordResetPage;
 import com.app.ui.servlet.MyServletConstantsIF;
 
 public class MyUrls
     implements MyServletConstantsIF
 {
-    //##################################################
-    //# constants
-    //##################################################
-
-    public static final String PARAMETER_INVITATION     = "invitation";
-    public static final String PARAMETER_PASSWORD_RESET = "passwordReset";
-
     //##################################################
     //# top urls
     //##################################################
@@ -44,15 +40,13 @@ public class MyUrls
         switch ( type )
         {
             case User:
-                return MyAcceptNewUserInvitationPage.instance.formatEntryUrl();
+                return MyAcceptNewUserInvitationPage.instance.formatEntryUrl(e);
 
             case Join:
-            case Transfer:
-                ScParameterList params;
-                params = new ScParameterList();
-                params.setValue(PARAMETER_INVITATION, e.getAccessKey());
+                return MyAcceptJoinInvitationPage.instance.formatEntryUrl(e);
 
-                return getEntryUrl(params);
+            case Transfer:
+                return MyAcceptTransferInvitationPage.instance.formatEntryUrl(e);
         }
 
         return null;
@@ -60,11 +54,7 @@ public class MyUrls
 
     public static String getPasswordResetUrl(MyPasswordReset e)
     {
-        ScParameterList params;
-        params = new ScParameterList();
-        params.setValue(PARAMETER_PASSWORD_RESET, e.getAccessKey());
-
-        return getEntryUrl(params);
+        return MyPasswordResetPage.instance.formatEntryUrl(e);
     }
 
     public static String getCallbackUrl()

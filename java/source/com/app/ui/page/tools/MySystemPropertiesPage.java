@@ -11,22 +11,20 @@ import com.kodemore.servlet.control.ScTable;
 import com.kodemore.servlet.control.ScTableCell;
 import com.kodemore.servlet.control.ScTableRow;
 
-import com.app.ui.page.MyPage;
-
 public class MySystemPropertiesPage
-    extends MyToolsPage
+    extends MyAbstractToolsPage
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScLiteral          _literal;
+    private ScLiteral                          _literal;
 
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPage instance = new MySystemPropertiesPage();
+    public static final MySystemPropertiesPage instance = new MySystemPropertiesPage();
 
     private MySystemPropertiesPage()
     {
@@ -38,13 +36,13 @@ public class MySystemPropertiesPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

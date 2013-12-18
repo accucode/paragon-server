@@ -6,16 +6,14 @@ import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScGoogleChart;
 import com.kodemore.servlet.control.ScPageRoot;
 
-import com.app.ui.page.MyPage;
-
 public class MyGoogleChartTestPage
-    extends MyTestPage
+    extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPage instance = new MyGoogleChartTestPage();
+    public static final MyGoogleChartTestPage instance = new MyGoogleChartTestPage();
 
     private MyGoogleChartTestPage()
     {
@@ -27,13 +25,13 @@ public class MyGoogleChartTestPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

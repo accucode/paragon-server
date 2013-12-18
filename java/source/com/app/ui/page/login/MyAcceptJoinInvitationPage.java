@@ -72,6 +72,45 @@ public class MyAcceptJoinInvitationPage
         return false;
     }
 
+    @Override
+    protected boolean showsLeftMenu()
+    {
+        return false;
+    }
+
+    //##################################################
+    //# navigation
+    //##################################################
+
+    public void pushAccessKey(MyInvitation e)
+    {
+        setAccessKey(e.getAccessKey());
+
+        _push();
+    }
+
+    public String formatEntryUrl(MyInvitation e)
+    {
+        setAccessKey(e.getAccessKey());
+
+        return _formatEntryUrl();
+    }
+
+    @Override
+    public ScParameterList composeQueryParameters()
+    {
+        ScParameterList v;
+        v = new ScParameterList();
+        v.setValue("accessKey", getAccessKey());
+        return v;
+    }
+
+    @Override
+    public void applyQueryParameters(ScParameterList v)
+    {
+        setAccessKey(v.getValue("accessKey"));
+    }
+
     //##################################################
     //# install
     //##################################################
@@ -200,32 +239,6 @@ public class MyAcceptJoinInvitationPage
                 handleAccept();
             }
         };
-    }
-
-    //##################################################
-    //# navigation
-    //##################################################
-
-    // todo_wyatt: start
-    public void push(String accessKey)
-    {
-        setAccessKey(accessKey);
-        push();
-    }
-
-    @Override
-    public ScParameterList composeLocalQueryParameters()
-    {
-        ScParameterList v;
-        v = new ScParameterList();
-        v.setValue("accessKey", getAccessKey());
-        return v;
-    }
-
-    @Override
-    public void applyLocalQueryParameters(ScParameterList params)
-    {
-        setAccessKey(params.getValue("accessKey"));
     }
 
     //##################################################

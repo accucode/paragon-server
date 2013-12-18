@@ -37,14 +37,24 @@ public class MyHomePage
     //# navigation
     //##################################################
 
+    public void push()
+    {
+        _push();
+    }
+
+    public String formatQueryString()
+    {
+        return _formatQueryString();
+    }
+
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

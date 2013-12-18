@@ -1,6 +1,5 @@
 package com.app.ui.page.user;
 
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
@@ -13,10 +12,10 @@ import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyUser;
-import com.app.ui.page.MyPage;
+import com.app.ui.page.admin.MyAbstractAdminPage;
 
 public class MyUserPasswordPage
-    extends MyPage
+    extends MyAbstractAdminPage
 {
     //##################################################
     //# singleton
@@ -36,22 +35,6 @@ public class MyUserPasswordPage
     private ScPasswordField _oldPasswordField;
     private ScPasswordField _newPasswordField;
     private ScPasswordField _confirmPasswordField;
-
-    //##################################################
-    //# navigation
-    //##################################################
-
-    @Override
-    public ScParameterList composeLocalQueryParameters()
-    {
-        return null;
-    }
-
-    @Override
-    public void applyLocalQueryParameters(ScParameterList v)
-    {
-        // none
-    }
 
     //##################################################
     //# install

@@ -6,13 +6,12 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
 
 import com.app.file.MyFilePaths;
-import com.app.ui.page.MyPage;
 
 /**
  * Include the content found at /web/test/staticInclude.html
  */
 public class MyStaticIncludeTestPage
-    extends MyPage
+    extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
@@ -36,13 +35,13 @@ public class MyStaticIncludeTestPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

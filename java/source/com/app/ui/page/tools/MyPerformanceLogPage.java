@@ -21,16 +21,15 @@ import com.kodemore.utility.KmNamedEnumIF;
 
 import com.app.model.MyPerformanceLogSummaryVo;
 import com.app.model.meta.MyMetaPerformanceLogSummaryVo;
-import com.app.ui.page.MyPage;
 
 public class MyPerformanceLogPage
-    extends MyToolsPage
+    extends MyAbstractToolsPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPage instance = new MyPerformanceLogPage();
+    public static final MyPerformanceLogPage instance = new MyPerformanceLogPage();
 
     private MyPerformanceLogPage()
     {
@@ -80,13 +79,13 @@ public class MyPerformanceLogPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

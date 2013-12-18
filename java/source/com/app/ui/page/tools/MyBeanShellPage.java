@@ -12,16 +12,15 @@ import com.kodemore.servlet.script.ScAddContentScript;
 import com.kodemore.utility.KmBeanShell;
 
 import com.app.file.MyResourceFiles;
-import com.app.ui.page.MyPage;
 
 public class MyBeanShellPage
-    extends MyToolsPage
+    extends MyAbstractToolsPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPage instance = new MyBeanShellPage();
+    public static final MyBeanShellPage instance = new MyBeanShellPage();
 
     private MyBeanShellPage()
     {
@@ -40,13 +39,13 @@ public class MyBeanShellPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

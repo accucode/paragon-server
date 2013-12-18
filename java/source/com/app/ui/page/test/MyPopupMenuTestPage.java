@@ -10,17 +10,16 @@ import com.kodemore.servlet.control.ScTopMenu;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
 import com.app.ui.core.MyActions;
-import com.app.ui.page.MyPage;
 import com.app.utility.MyGlobals;
 
 public class MyPopupMenuTestPage
-    extends MyTestPage
+    extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPage instance = new MyPopupMenuTestPage();
+    public static final MyPopupMenuTestPage instance = new MyPopupMenuTestPage();
 
     private MyPopupMenuTestPage()
     {
@@ -39,13 +38,13 @@ public class MyPopupMenuTestPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

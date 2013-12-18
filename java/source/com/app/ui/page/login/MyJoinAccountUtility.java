@@ -120,6 +120,9 @@ public class MyJoinAccountUtility
         a.setUser(user);
         a.saveDao();
 
+        String linkMsg = "Reset My Password";
+        String linkUrl = MyUrls.getPasswordResetUrl(a);
+
         KmHtmlBuilder msg;
         msg = new KmHtmlBuilder();
         msg.printfln("Hi %s", user.getName());
@@ -134,7 +137,7 @@ public class MyJoinAccountUtility
         msg.printf("the link below to reset your password.");
         msg.printfln();
         msg.printfln();
-        msg.printLink("Reset My Password", MyUrls.getPasswordResetUrl(a));
+        msg.printLink(linkMsg, linkUrl);
         msg.printfln();
         return msg;
     }
@@ -143,6 +146,9 @@ public class MyJoinAccountUtility
     {
         String userName = user.getName();
         String accountName = account.getName();
+
+        String linkMsg = "Join " + accountName + ".";
+        String linkUrl = MyUrls.getInvitationUrl(i);
 
         KmHtmlBuilder msg;
         msg = new KmHtmlBuilder();
@@ -153,7 +159,7 @@ public class MyJoinAccountUtility
         msg.printf("To join this account click the following link.");
         msg.printfln();
         msg.printfln();
-        msg.printLink("Join " + accountName + ".", MyUrls.getInvitationUrl(i));
+        msg.printLink(linkMsg, linkUrl);
         msg.printfln();
         return msg;
     }

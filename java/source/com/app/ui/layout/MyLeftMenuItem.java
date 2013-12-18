@@ -1,12 +1,14 @@
 package com.app.ui.layout;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.ScPage;
+import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.script.ScScriptIF;
 
-import com.app.ui.page.admin.MyAdminMenuPage;
+import com.app.ui.page.admin.MyAdminPage;
 import com.app.ui.page.general.MyHomePage;
-import com.app.ui.page.test.MyTestMenuPage;
-import com.app.ui.page.tools.MyToolsMenuPage;
+import com.app.ui.page.test.MyTestPage;
+import com.app.ui.page.tools.MyToolsPage;
 
 public enum MyLeftMenuItem
 {
@@ -77,24 +79,36 @@ public enum MyLeftMenuItem
         return name();
     }
 
-    public ScActionIF getAction()
+    public ScScriptIF getAction()
     {
         MyLeftMenuItem item = this;
         switch ( item )
         {
             case home:
-                return MyHomePage.instance.getPushAction();
+                return newPushScript(MyHomePage.instance);
 
             case tests:
-                return MyTestMenuPage.instance.getPushAction();
+                return newPushScript(MyTestPage.instance);
 
             case admin:
-                return MyAdminMenuPage.instance.getPushAction();
+                return newPushScript(MyAdminPage.instance);
 
             case tools:
-                return MyToolsMenuPage.instance.getPushAction();
+                return newPushScript(MyToolsPage.instance);
         }
 
         return null;
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private ScScriptIF newPushScript(ScPage e)
+    {
+        ScRootScript s;
+        s = new ScRootScript();
+        s.pushPage(e);
+        return s;
     }
 }

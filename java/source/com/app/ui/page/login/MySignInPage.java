@@ -42,7 +42,7 @@ public class MySignInPage
     //# variables
     //##################################################
 
-    private ScLocalString                _queryTarget;
+    private ScLocalString                _targetQuery;
 
     private ScForm                       _form;
     private ScTextField                  _emailField;
@@ -75,8 +75,8 @@ public class MySignInPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        _queryTarget = new ScLocalString();
-        _queryTarget.setAutoSave();
+        _targetQuery = new ScLocalString();
+        _targetQuery.setAutoSave();
 
         // todo_wyatt: auto apply? 
         // _queryTarget.autoApplyToUrl(this, "q");
@@ -230,34 +230,40 @@ public class MySignInPage
     //# navigation
     //##################################################
 
-    public void pushForTarget(String e)
+    public void pushForWindowQuery()
     {
-        _queryTarget.setValue(e);
-        push();
+        String q = getData().getWindowQuery();
+        pushForQuery(q);
+    }
+
+    public void pushForQuery(String e)
+    {
+        _targetQuery.setValue(e);
+        _push();
     }
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         ScParameterList v;
         v = new ScParameterList();
 
-        if ( _queryTarget.hasValue() )
-            v.setValue("q", _queryTarget.getValue());
+        if ( _targetQuery.hasValue() )
+            v.setValue("q", _targetQuery.getValue());
 
         return v;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList params)
+    public void applyQueryParameters(ScParameterList params)
     {
-        _queryTarget.clearValue();
+        _targetQuery.clearValue();
 
         String s = params.getValue("q");
         if ( Kmu.isEmpty(s) )
             return;
 
-        _queryTarget.setValue(s);
+        _targetQuery.setValue(s);
     }
 
     //##################################################
@@ -346,15 +352,15 @@ public class MySignInPage
 
     private void startNextPage()
     {
-        if ( _queryTarget.hasValue() )
+        if ( _targetQuery.hasValue() )
         {
             ScPushPageScript script;
-            script = ajax().pushPage(_queryTarget.getValue());
+            script = ajax().pushPage(_targetQuery.getValue());
             script.setReplace();
             return;
         }
 
-        MyNavigator.startDefaultPage();
+        MyNavigator.pushDefaultPage();
     }
 
     private String getEmailCookie()

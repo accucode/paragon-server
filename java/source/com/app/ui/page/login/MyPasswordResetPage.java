@@ -52,16 +52,33 @@ public class MyPasswordResetPage
     //# navigation
     //##################################################
 
-    @Override
-    public ScParameterList composeLocalQueryParameters()
+    public void push(MyPasswordReset e)
     {
-        return null;
+        setAccessKey(e.getAccessKey());
+
+        _push();
+    }
+
+    public String formatEntryUrl(MyPasswordReset e)
+    {
+        setAccessKey(e.getAccessKey());
+
+        return _formatEntryUrl();
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public ScParameterList composeQueryParameters()
     {
-        // none
+        ScParameterList v;
+        v = new ScParameterList();
+        v.setValue("accessKey", getAccessKey());
+        return v;
+    }
+
+    @Override
+    public void applyQueryParameters(ScParameterList v)
+    {
+        setAccessKey(v.getValue("accessKey"));
     }
 
     //##################################################
@@ -190,14 +207,8 @@ public class MyPasswordResetPage
     }
 
     //##################################################
-    //# navigation
+    //# print
     //##################################################
-
-    public void start(String key)
-    {
-        setAccessKey(key);
-        push();
-    }
 
     @Override
     protected void preRender()

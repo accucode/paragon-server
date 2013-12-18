@@ -1,19 +1,17 @@
 package com.app.ui.page.admin.userProfile;
 
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScPageRoot;
 
-import com.app.ui.page.MyPage;
-import com.app.ui.page.admin.MyAdminPage;
+import com.app.ui.page.admin.MyAbstractAdminPage;
 
 public class MyUserProfilePage
-    extends MyAdminPage
+    extends MyAbstractAdminPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPage instance = new MyUserProfilePage();
+    public static final MyUserProfilePage instance = new MyUserProfilePage();
 
     private MyUserProfilePage()
     {
@@ -28,22 +26,6 @@ public class MyUserProfilePage
     protected boolean requiresAccountMember()
     {
         return true;
-    }
-
-    //##################################################
-    //# navigation
-    //##################################################
-
-    @Override
-    public ScParameterList composeLocalQueryParameters()
-    {
-        return null;
-    }
-
-    @Override
-    public void applyLocalQueryParameters(ScParameterList v)
-    {
-        // none
     }
 
     //##################################################

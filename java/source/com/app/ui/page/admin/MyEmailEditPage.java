@@ -3,7 +3,6 @@ package com.app.ui.page.admin;
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
-import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
@@ -24,7 +23,7 @@ import com.app.model.meta.MyMetaEmail;
 import com.app.model.meta.MyMetaEmailRecipient;
 
 public class MyEmailEditPage
-    extends MyAdminPage
+    extends MyAbstractAdminPage
 {
     //##################################################
     //# singleton
@@ -47,22 +46,6 @@ public class MyEmailEditPage
     private ScDropdown               _recipientTypeField;
     private ScTextField              _recipientAddressField;
     private ScGrid<MyEmailRecipient> _recipientGrid;
-
-    //##################################################
-    //# navigation
-    //##################################################
-
-    @Override
-    public ScParameterList composeLocalQueryParameters()
-    {
-        return null;
-    }
-
-    @Override
-    public void applyLocalQueryParameters(ScParameterList v)
-    {
-        // none
-    }
 
     //##################################################
     //# install

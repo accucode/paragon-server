@@ -45,7 +45,7 @@ public class ScPushPageScript
      * one of the following forms:
      *      
      *      /rootPath
-     *      relativePath
+     *      relativePath/
      *      ?queryString
      */
     private String  _url;
@@ -60,7 +60,7 @@ public class ScPushPageScript
     /**
      * If true, do a replaceState instead of a pushState.  This replaces
      * the current state on the history stack.  Note: unless you also set
-     * silent=true, this WILL trigger a navigation.
+     * silent=true, this will still trigger a navigation.
      */
     private boolean _replace;
 
@@ -97,7 +97,7 @@ public class ScPushPageScript
 
     public void setUrl(ScPage page)
     {
-        String url = page.formatQueryString();
+        String url = page._formatQueryString();
         setUrl(url);
     }
 

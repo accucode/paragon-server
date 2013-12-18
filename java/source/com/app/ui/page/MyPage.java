@@ -26,15 +26,6 @@ public abstract class MyPage
     //# navigation
     //##################################################
 
-    /**
-     * Used to optionally reset state when a page starts.
-     */
-    @Override
-    public void reset()
-    {
-        super.reset();
-    }
-
     @Override
     protected void checkLayout()
     {

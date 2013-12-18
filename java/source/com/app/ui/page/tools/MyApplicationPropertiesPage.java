@@ -13,16 +13,15 @@ import com.kodemore.servlet.control.ScText;
 import com.app.property.MyPropertyDefinition;
 import com.app.property.MyPropertyRegistry;
 import com.app.property.base.MyPropertyDefinitions;
-import com.app.ui.page.MyPage;
 
 public class MyApplicationPropertiesPage
-    extends MyToolsPage
+    extends MyAbstractToolsPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPage instance = new MyApplicationPropertiesPage();
+    public static final MyApplicationPropertiesPage instance = new MyApplicationPropertiesPage();
 
     private MyApplicationPropertiesPage()
     {
@@ -50,13 +49,13 @@ public class MyApplicationPropertiesPage
     //##################################################
 
     @Override
-    public ScParameterList composeLocalQueryParameters()
+    public ScParameterList composeQueryParameters()
     {
         return null;
     }
 
     @Override
-    public void applyLocalQueryParameters(ScParameterList v)
+    public void applyQueryParameters(ScParameterList v)
     {
         // none
     }

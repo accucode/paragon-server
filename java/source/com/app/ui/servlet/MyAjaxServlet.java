@@ -1,25 +1,18 @@
 package com.app.ui.servlet;
 
-import com.kodemore.collection.KmMap;
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScActionIF;
 
 import com.app.dao.base.MyDaoRegistry;
-import com.app.model.MyInvitation;
-import com.app.model.MyInvitationType;
 import com.app.model.MyUser;
 import com.app.ui.core.MyServletData;
 import com.app.ui.page.MyPageRegistry;
-import com.app.ui.page.login.MyAcceptJoinInvitationPage;
-import com.app.ui.page.login.MyAcceptNewUserInvitationPage;
-import com.app.ui.page.login.MyAcceptTransferInvitationPage;
-import com.app.ui.page.login.MyInvalidInvitationPage;
-import com.app.ui.page.login.MyPasswordResetPage;
 import com.app.ui.page.login.MySignInPage;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyNavigator;
@@ -134,21 +127,20 @@ public class MyAjaxServlet
 
         if ( requiresLoginFor(page) )
         {
-            String q = getData().getWindowQuery();
-            MySignInPage.instance.pushForTarget(q);
+            MySignInPage.instance.pushForWindowQuery();
             return;
         }
 
         ScParameterList params = getData().getWindowParameters();
 
-        page.applyLocalQueryParameters(params);
+        page.applyQueryParameters(params);
         page.print();
     }
 
     private ScPage getCurrentPage()
     {
         ScParameterList params = getData().getWindowParameters();
-        String key = params.getValue("page");
+        String key = params.getValue(ScConstantsIF.PARAMETER_PAGE_KEY);
 
         MyPageRegistry registry = MyPageRegistry.getInstance();
 
@@ -165,62 +157,6 @@ public class MyAjaxServlet
         MyUser user = MyGlobals.getServerSession().getUser();
 
         return requiresUser && user == null;
-    }
-
-    //##################################################
-    //# enter application
-    //##################################################
-
-    // todo_wyatt: accept invitation
-    @SuppressWarnings("unused")
-    private boolean handleInvitation(KmMap<String,String> params)
-    {
-        String key = MyUrls.PARAMETER_INVITATION;
-        if ( !params.containsKey(key) )
-            return false;
-
-        String value = params.get(key);
-
-        MyInvitation inv;
-        inv = getAccess().getInvitationDao().findAccessKey(value);
-
-        if ( inv == null )
-        {
-            MyInvalidInvitationPage.instance.push();
-            return true;
-        }
-
-        MyInvitationType type = inv.getType();
-        switch ( type )
-        {
-            case Join:
-                MyAcceptJoinInvitationPage.instance.push(value);
-                break;
-
-            case Transfer:
-                MyAcceptTransferInvitationPage.instance.start(value);
-                break;
-
-            case User:
-                MyAcceptNewUserInvitationPage.instance.push(value);
-                break;
-        }
-
-        return true;
-    }
-
-    // todo_wyatt: password reset
-    @SuppressWarnings("unused")
-    private boolean handlePasswordReset(KmMap<String,String> params)
-    {
-        String key = MyUrls.PARAMETER_PASSWORD_RESET;
-        if ( !params.containsKey(key) )
-            return false;
-
-        String value = params.get(key);
-
-        MyPasswordResetPage.instance.start(value);
-        return true;
     }
 
     //##################################################
