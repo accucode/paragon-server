@@ -10,14 +10,9 @@ import com.kodemore.utility.KmEmailParser;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyEmail;
-import com.app.model.MyInvitation;
-import com.app.model.MyInvitationType;
-import com.app.model.MyPasswordReset;
-import com.app.model.MyUser;
-import com.app.property.MyPropertyRegistry;
+import com.app.model.MyUserActivation;
 import com.app.ui.control.MyDialog;
 import com.app.utility.MyConstantsIF;
-import com.app.utility.MyUrls;
 
 public class MySignUpDialog
     extends MyDialog
@@ -68,6 +63,7 @@ public class MySignUpDialog
         _emailBox = root.addBox();
         _emailBox.addText(msg);
         _emailBox.addBreak();
+        _emailBox.addBreak();
         _emailBox.addLabel("Email");
         _emailBox.addErrorBox().add(_emailField);
     }
@@ -92,11 +88,18 @@ public class MySignUpDialog
     //# start
     //##################################################
 
-    public void start(String email)
+    public void open(String email)
     {
-        _emailField.setValue(email);
-        _emailField.ajaxUpdateValue();
+        _emailBox.show();
 
+        _emailField.setValue(email);
+        _emailField.show();
+
+        _messageBox.show();
+
+        _sendButton.show();
+
+        ajaxReplace();
         ajaxOpen();
     }
 
@@ -133,110 +136,90 @@ public class MySignUpDialog
         if ( !isValid )
             _emailField.error("Invalid");
 
-        sendEmailInvitation(email);
+        MyUserActivation ua = createUserActivation(email);
 
+        sendEmail(ua);
         showSentMessage(email);
         setEmailCookie(email);
     }
 
-    private void sendEmailInvitation(String email)
-    {
-        MyUser user = getAccess().getUserDao().findEmail(email);
+    //==================================================
+    //= handle :: activation
+    //==================================================
 
-        if ( user == null )
-            sendNewUserInvitation(email);
-        else
-            sendResetPasswordInvitation(user);
+    private MyUserActivation createUserActivation(String email)
+    {
+        MyUserActivation e;
+        e = new MyUserActivation();
+        e.setEmail(email);
+        e.saveDao();
+        return e;
     }
 
-    private void sendNewUserInvitation(String email)
-    {
-        MyPropertyRegistry p = getProperties();
+    //==================================================
+    //= handle :: email
+    //==================================================
 
+    private void sendEmail(MyUserActivation ua)
+    {
+        String subject = formatSubject();
+        String msg = formatMessage(ua);
+
+        MyEmail e;
+        e = new MyEmail();
+        e.setSubject(subject);
+        e.addToRecipient(ua.getEmail());
+        e.setFromAddress(getFromAddress());
+        e.addHtmlPart(msg.toString());
+        e.markReady();
+        e.saveDao();
+    }
+
+    private String getFromAddress()
+    {
+        return getProperties().getSendEmailFromAddress();
+    }
+
+    private String formatSubject()
+    {
+        return Kmu.format("%s Invitation", MyConstantsIF.APPLICATION_NAME);
+    }
+
+    private String formatMessage(MyUserActivation ua)
+    {
         KmEmailParser parser;
         parser = new KmEmailParser();
-        parser.setEmail(email);
+        parser.setEmail(ua.getEmail());
 
         String name;
         name = parser.getName();
 
-        String app = MyConstantsIF.APPLICATION_NAME;
+        String linkText = "Activate My Account";
+        String linkUrl = ua.formatEntryUrl();
 
-        MyInvitation i;
-        i = new MyInvitation();
-        i.setEmail(email);
-        i.setType(MyInvitationType.User);
-        i.saveDao();
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.printfln("Hi %s", name);
+        out.printfln();
+        out.printf("Welcome to %s! ", MyConstantsIF.APPLICATION_NAME);
+        out.printfln("To set up your new account click the following link.");
+        out.printfln();
+        out.printLink(linkText, linkUrl);
+        out.printfln();
 
-        KmHtmlBuilder msg;
-        msg = new KmHtmlBuilder();
-        msg.printfln("Hi %s", name);
-        msg.printfln();
-        msg.printf("Welcome to %s! ", app);
-        msg.printf("To set up your new account click the following link.");
-        msg.printfln();
-        msg.printfln();
-        msg.printLink("Activate My Account", MyUrls.getInvitationUrl(i));
-        msg.printfln();
-
-        String subject = Kmu.format("%s Invitation", app);
-
-        MyEmail e;
-        e = new MyEmail();
-        e.setSubject(subject);
-        e.addToRecipient(email);
-        e.setFromAddress(p.getSendEmailFromAddress());
-        e.addHtmlPart(msg.toString());
-        e.markReady();
-        e.saveDao();
+        return out.toString();
     }
 
-    private void sendResetPasswordInvitation(MyUser user)
-    {
-        MyPropertyRegistry p = getProperties();
-        String name = user.getName();
-        String email = user.getEmail();
-        String app = MyConstantsIF.APPLICATION_NAME;
-
-        MyPasswordReset a;
-        a = new MyPasswordReset();
-        a.setUser(user);
-        a.saveDao();
-
-        String subject = Kmu.format("%s Password Reset", app);
-
-        KmHtmlBuilder msg;
-        msg = new KmHtmlBuilder();
-        msg.printfln("Hi %s", name);
-        msg.printfln();
-        msg.printf("A request was made to create a new %s user for the email %s. ", app, email);
-        msg.printf("However, this email is already registered with our system. ");
-        msg.printf("If you did not initiate this request, please ignore this email. ");
-        msg.printf("If you are having difficulty accessing your account, you may use ");
-        msg.printf("the link below to reset your password.");
-        msg.printfln();
-        msg.printfln();
-        msg.printLink("Reset My Password", MyUrls.getPasswordResetUrl(a));
-        msg.printfln();
-
-        MyEmail e;
-        e = new MyEmail();
-        e.setSubject(subject);
-        e.addToRecipient(email);
-        e.setFromAddress(p.getSendEmailFromAddress());
-        e.addHtmlPart(msg.toString());
-        e.markReady();
-        e.saveDao();
-    }
+    //##################################################
+    //# support
+    //##################################################
 
     private void showSentMessage(String email)
     {
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
-
         out.println("Your invitation has been sent to:");
         out.println();
-
         out.beginDivCss("indent");
         out.printBold(email);
         out.endDiv();

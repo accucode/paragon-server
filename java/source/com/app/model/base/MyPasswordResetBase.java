@@ -39,12 +39,11 @@ public abstract class MyPasswordResetBase
     //##################################################
 
     private String uid;
-    private String statusCode;
-    private String accessKey;
+    private String email;
+    private String token;
     private KmTimestamp createdUtcTs;
-    private KmTimestamp closedUtcTs;
+    private KmTimestamp expirationUtcTs;
     private Integer lockVersion;
-    private MyUser user;
 
     //##################################################
     //# constructor
@@ -54,7 +53,7 @@ public abstract class MyPasswordResetBase
     {
         super();
         setUid(newUid());
-        setAccessKey(newUid());
+        setToken(newUid());
         setCreatedUtcTs(getNowUtc());
     }
 
@@ -100,168 +99,85 @@ public abstract class MyPasswordResetBase
     }
 
     //##################################################
-    //# field (statusCode)
+    //# field (email)
     //##################################################
 
-    public String getStatusCode()
+    public String getEmail()
     {
-        return statusCode;
+        return email;
     }
 
-    public void setStatusCode(String e)
+    public void setEmail(String e)
     {
         checkReadOnly();
-        e = Validator.getStatusCodeValidator().convertOnly(e);
-        statusCode = e;
+        e = Validator.getEmailValidator().convertOnly(e);
+        email = e;
     }
 
-    public void clearStatusCode()
+    public void clearEmail()
     {
-        setStatusCode(null);
+        setEmail(null);
     }
 
-    public boolean hasStatusCode()
+    public boolean hasEmail()
     {
-        return Kmu.hasValue(getStatusCode());
+        return Kmu.hasValue(getEmail());
     }
 
-    public boolean hasStatusCode(String e)
+    public boolean hasEmail(String e)
     {
-        return Kmu.isEqualIgnoreCase(getStatusCode(), e);
+        return Kmu.isEqualIgnoreCase(getEmail(), e);
     }
 
-    public void truncateStatusCode()
+    public void truncateEmail()
     {
-        truncateStatusCode(false);
+        truncateEmail(false);
     }
 
-    public void truncateStatusCode(boolean ellipses)
+    public void truncateEmail(boolean ellipses)
     {
-        statusCode = Kmu.truncate(statusCode, 1, ellipses);
-    }
-
-    public MyPasswordResetStatus getStatus()
-    {
-        return MyPasswordResetStatus.findCode(getStatusCode());
-    }
-
-    public void setStatus(MyPasswordResetStatus e)
-    {
-        if ( e == null )
-            setStatusCode(null);
-        else
-            setStatusCode(e.getCode());
-    }
-
-    public boolean hasStatus()
-    {
-        return getStatus() != null;
-    }
-
-    public boolean hasStatus(MyPasswordResetStatus e)
-    {
-        return getStatus() == e;
-    }
-
-    public void setStatusNew()
-    {
-        setStatus(MyPasswordResetStatus.New);
-    }
-
-    public boolean isStatusNew()
-    {
-        return hasStatus(MyPasswordResetStatus.New);
-    }
-
-    public boolean isNotStatusNew()
-    {
-        return !isStatusNew();
-    }
-
-    public void setStatusAccepted()
-    {
-        setStatus(MyPasswordResetStatus.Accepted);
-    }
-
-    public boolean isStatusAccepted()
-    {
-        return hasStatus(MyPasswordResetStatus.Accepted);
-    }
-
-    public boolean isNotStatusAccepted()
-    {
-        return !isStatusAccepted();
-    }
-
-    public void setStatusRejected()
-    {
-        setStatus(MyPasswordResetStatus.Rejected);
-    }
-
-    public boolean isStatusRejected()
-    {
-        return hasStatus(MyPasswordResetStatus.Rejected);
-    }
-
-    public boolean isNotStatusRejected()
-    {
-        return !isStatusRejected();
-    }
-
-    public void setStatusCancelled()
-    {
-        setStatus(MyPasswordResetStatus.Cancelled);
-    }
-
-    public boolean isStatusCancelled()
-    {
-        return hasStatus(MyPasswordResetStatus.Cancelled);
-    }
-
-    public boolean isNotStatusCancelled()
-    {
-        return !isStatusCancelled();
+        email = Kmu.truncate(email, 50, ellipses);
     }
 
     //##################################################
-    //# field (accessKey)
+    //# field (token)
     //##################################################
 
-    public String getAccessKey()
+    public String getToken()
     {
-        return accessKey;
+        return token;
     }
 
-    public void setAccessKey(String e)
+    public void setToken(String e)
     {
         checkReadOnly();
-        e = Validator.getAccessKeyValidator().convertOnly(e);
-        accessKey = e;
+        e = Validator.getTokenValidator().convertOnly(e);
+        token = e;
     }
 
-    public void clearAccessKey()
+    public void clearToken()
     {
-        setAccessKey(null);
+        setToken(null);
     }
 
-    public boolean hasAccessKey()
+    public boolean hasToken()
     {
-        return Kmu.hasValue(getAccessKey());
+        return Kmu.hasValue(getToken());
     }
 
-    public boolean hasAccessKey(String e)
+    public boolean hasToken(String e)
     {
-        return Kmu.isEqualIgnoreCase(getAccessKey(), e);
+        return Kmu.isEqualIgnoreCase(getToken(), e);
     }
 
-    public void truncateAccessKey()
+    public void truncateToken()
     {
-        truncateAccessKey(false);
+        truncateToken(false);
     }
 
-    public void truncateAccessKey(boolean ellipses)
+    public void truncateToken(boolean ellipses)
     {
-        accessKey = Kmu.truncate(accessKey, 30, ellipses);
+        token = Kmu.truncate(token, 30, ellipses);
     }
 
     //##################################################
@@ -296,34 +212,34 @@ public abstract class MyPasswordResetBase
     }
 
     //##################################################
-    //# field (closedUtcTs)
+    //# field (expirationUtcTs)
     //##################################################
 
-    public KmTimestamp getClosedUtcTs()
+    public KmTimestamp getExpirationUtcTs()
     {
-        return closedUtcTs;
+        return expirationUtcTs;
     }
 
-    public void setClosedUtcTs(KmTimestamp e)
+    public void setExpirationUtcTs(KmTimestamp e)
     {
         checkReadOnly();
-        e = Validator.getClosedUtcTsValidator().convertOnly(e);
-        closedUtcTs = e;
+        e = Validator.getExpirationUtcTsValidator().convertOnly(e);
+        expirationUtcTs = e;
     }
 
-    public void clearClosedUtcTs()
+    public void clearExpirationUtcTs()
     {
-        setClosedUtcTs(null);
+        setExpirationUtcTs(null);
     }
 
-    public boolean hasClosedUtcTs()
+    public boolean hasExpirationUtcTs()
     {
-        return getClosedUtcTs() != null;
+        return getExpirationUtcTs() != null;
     }
 
-    public boolean hasClosedUtcTs(KmTimestamp e)
+    public boolean hasExpirationUtcTs(KmTimestamp e)
     {
-        return Kmu.isEqual(getClosedUtcTs(), e);
+        return Kmu.isEqual(getExpirationUtcTs(), e);
     }
 
     //##################################################
@@ -355,25 +271,6 @@ public abstract class MyPasswordResetBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
-    }
-
-    //##################################################
-    //# field (statusName)
-    //##################################################
-
-    public final String getStatusName()
-    {
-        return Kmu.getName(getStatus());
-    }
-
-    public boolean hasStatusName()
-    {
-        return Kmu.hasValue(getStatusName());
-    }
-
-    public boolean hasStatusName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getStatusName(), e);
     }
 
     //##################################################
@@ -453,137 +350,79 @@ public abstract class MyPasswordResetBase
     }
 
     //##################################################
-    //# field (closedLocalTs)
+    //# field (expirationLocalTs)
     //##################################################
 
-    public final KmTimestamp getClosedLocalTs()
+    public final KmTimestamp getExpirationLocalTs()
     {
-        return KmTimestampUtility.toLocal(getClosedUtcTs());
+        return KmTimestampUtility.toLocal(getExpirationUtcTs());
     }
 
-    public boolean hasClosedLocalTs()
+    public boolean hasExpirationLocalTs()
     {
-        return getClosedLocalTs() != null;
+        return getExpirationLocalTs() != null;
     }
 
-    public boolean hasClosedLocalTs(KmTimestamp e)
+    public boolean hasExpirationLocalTs(KmTimestamp e)
     {
-        return Kmu.isEqual(getClosedLocalTs(), e);
-    }
-
-    //##################################################
-    //# field (closedLocalTsMessage)
-    //##################################################
-
-    public final String getClosedLocalTsMessage()
-    {
-        return KmTimestampUtility.formatLocalMessage(getClosedUtcTs());
-    }
-
-    public boolean hasClosedLocalTsMessage()
-    {
-        return Kmu.hasValue(getClosedLocalTsMessage());
-    }
-
-    public boolean hasClosedLocalTsMessage(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getClosedLocalTsMessage(), e);
+        return Kmu.isEqual(getExpirationLocalTs(), e);
     }
 
     //##################################################
-    //# field (closedLocalDate)
+    //# field (expirationLocalTsMessage)
     //##################################################
 
-    public final KmDate getClosedLocalDate()
+    public final String getExpirationLocalTsMessage()
     {
-        return KmTimestampUtility.getDate(getClosedLocalTs());
+        return KmTimestampUtility.formatLocalMessage(getExpirationUtcTs());
     }
 
-    public boolean hasClosedLocalDate()
+    public boolean hasExpirationLocalTsMessage()
     {
-        return getClosedLocalDate() != null;
+        return Kmu.hasValue(getExpirationLocalTsMessage());
     }
 
-    public boolean hasClosedLocalDate(KmDate e)
+    public boolean hasExpirationLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getClosedLocalDate(), e);
-    }
-
-    //##################################################
-    //# field (closedLocalTime)
-    //##################################################
-
-    public final KmTime getClosedLocalTime()
-    {
-        return KmTimestampUtility.getTime(getClosedLocalTs());
-    }
-
-    public boolean hasClosedLocalTime()
-    {
-        return getClosedLocalTime() != null;
-    }
-
-    public boolean hasClosedLocalTime(KmTime e)
-    {
-        return Kmu.isEqual(getClosedLocalTime(), e);
+        return Kmu.isEqualIgnoreCase(getExpirationLocalTsMessage(), e);
     }
 
     //##################################################
-    //# user
+    //# field (expirationLocalDate)
     //##################################################
 
-    public MyUser getUser()
+    public final KmDate getExpirationLocalDate()
     {
-        return user;
+        return KmTimestampUtility.getDate(getExpirationLocalTs());
     }
 
-    public void setUser(MyUser e)
+    public boolean hasExpirationLocalDate()
     {
-        checkReadOnly();
-        user = e;
+        return getExpirationLocalDate() != null;
     }
 
-    public void _setUser(MyUser e)
+    public boolean hasExpirationLocalDate(KmDate e)
     {
-        checkReadOnly();
-        user = e;
+        return Kmu.isEqual(getExpirationLocalDate(), e);
     }
 
-    public void clearUser()
+    //##################################################
+    //# field (expirationLocalTime)
+    //##################################################
+
+    public final KmTime getExpirationLocalTime()
     {
-        setUser(null);
+        return KmTimestampUtility.getTime(getExpirationLocalTs());
     }
 
-    public boolean hasUser()
+    public boolean hasExpirationLocalTime()
     {
-        return getUser() != null;
+        return getExpirationLocalTime() != null;
     }
 
-    public boolean hasUser(MyUser e)
+    public boolean hasExpirationLocalTime(KmTime e)
     {
-        return Kmu.isEqual(getUser(), e);
-    }
-
-    public String getUserName()
-    {
-        if ( hasUser() )
-            return getUser().getName();
-        return null;
-    }
-
-    public void setUserName(String e)
-    {
-        getUser().setName(e);
-    }
-
-    public boolean hasUserName()
-    {
-        return hasUser() && getUser().hasName();
-    }
-
-    public boolean hasUserName(String e)
-    {
-        return hasUser() && getUser().hasName(e);
+        return Kmu.isEqual(getExpirationLocalTime(), e);
     }
 
 
@@ -653,20 +492,19 @@ public abstract class MyPasswordResetBase
 
     public boolean isSameIgnoringKey(MyPasswordReset e)
     {
-        if ( !Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
-        if ( !Kmu.isEqual(getAccessKey(), e.getAccessKey()) ) return false;
+        if ( !Kmu.isEqual(getEmail(), e.getEmail()) ) return false;
+        if ( !Kmu.isEqual(getToken(), e.getToken()) ) return false;
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getClosedUtcTs(), e.getClosedUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getExpirationUtcTs(), e.getExpirationUtcTs()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
-        if ( !Kmu.isEqual(getClosedLocalTs(), e.getClosedLocalTs()) ) return false;
-        if ( !Kmu.isEqual(getClosedLocalTsMessage(), e.getClosedLocalTsMessage()) ) return false;
-        if ( !Kmu.isEqual(getClosedLocalDate(), e.getClosedLocalDate()) ) return false;
-        if ( !Kmu.isEqual(getClosedLocalTime(), e.getClosedLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getExpirationLocalTs(), e.getExpirationLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getExpirationLocalTsMessage(), e.getExpirationLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getExpirationLocalDate(), e.getExpirationLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getExpirationLocalTime(), e.getExpirationLocalTime()) ) return false;
         return true;
     }
 
@@ -693,11 +531,11 @@ public abstract class MyPasswordResetBase
         if ( p.hasKey("uid") )
             setUid(p.getString("uid"));
 
-        if ( p.hasKey("statusCode") )
-            setStatusCode(p.getString("statusCode"));
+        if ( p.hasKey("email") )
+            setEmail(p.getString("email"));
 
-        if ( p.hasKey("accessKey") )
-            setAccessKey(p.getString("accessKey"));
+        if ( p.hasKey("token") )
+            setToken(p.getString("token"));
 
         if ( p.hasKey("lockVersion") )
             setLockVersion(p.getInteger("lockVersion"));
@@ -711,11 +549,11 @@ public abstract class MyPasswordResetBase
         if ( hasUid() )
             p.setString("uid", getUid());
 
-        if ( hasStatusCode() )
-            p.setString("statusCode", getStatusCode());
+        if ( hasEmail() )
+            p.setString("email", getEmail());
 
-        if ( hasAccessKey() )
-            p.setString("accessKey", getAccessKey());
+        if ( hasToken() )
+            p.setString("token", getToken());
 
         if ( hasLockVersion() )
             p.setInteger("lockVersion", getLockVersion());
@@ -744,10 +582,10 @@ public abstract class MyPasswordResetBase
     {
         System.out.println(this);
         System.out.println("    Uid = " + uid);
-        System.out.println("    StatusCode = " + statusCode);
-        System.out.println("    AccessKey = " + accessKey);
+        System.out.println("    Email = " + email);
+        System.out.println("    Token = " + token);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
-        System.out.println("    ClosedUtcTs = " + closedUtcTs);
+        System.out.println("    ExpirationUtcTs = " + expirationUtcTs);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

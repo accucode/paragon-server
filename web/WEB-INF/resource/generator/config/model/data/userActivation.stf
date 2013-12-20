@@ -1,0 +1,50 @@
+model
+: name      = userActivation
+: comment   = A request to activate a new user account via email.
+
+database
+: alias = ua
+
+    index
+    : name  = token
+    : on    = token
+
+    index
+    : name  = expiration
+    : on    = expirationUtcTs
+
+attributes
+
+    field
+    : name          = uid
+    : comment       = The unique key.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    field
+    : name      = email
+    : comment   = The email to be activated.
+    : type      = email
+    : required  = true
+
+    field
+    : name      = token
+    : comment   = A long unique code that allows access without a password.
+    : type      = uid
+    : default   = newUid()
+    : required  = true
+
+    field
+    : name      = createdUtcTs
+    : comment   = When the object was created.
+    : type      = timestamp
+    : default   = getNowUtc()
+    : required  = true
+
+    field
+    : name      = expirationUtcTs
+    : comment   = The time when this token expires.
+    : type      = timestamp
+    : required  = true

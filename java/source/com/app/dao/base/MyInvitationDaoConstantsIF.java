@@ -20,7 +20,7 @@ public interface MyInvitationDaoConstantsIF
     String UID = "uid";
     String STATUS_CODE = "statusCode";
     String TYPE_CODE = "typeCode";
-    String ACCESS_KEY = "accessKey";
+    String TOKEN = "token";
     String CREATED_UTC_TS = "createdUtcTs";
     String CLOSED_UTC_TS = "closedUtcTs";
     String EMAIL = "email";

@@ -29,8 +29,8 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaPasswordReset_ClosedLocalTime
-    extends KmMetaTimeProperty<MyPasswordReset>
+public class MyMetaPasswordReset_ExpirationLocalTs
+    extends KmMetaTimestampProperty<MyPasswordReset>
 {
     //##################################################
     //# accessing
@@ -39,19 +39,19 @@ public class MyMetaPasswordReset_ClosedLocalTime
     @Override
     public String getName()
     {
-        return "closedLocalTime";
+        return "expirationLocalTs";
     }
 
     @Override
     public String getLabel()
     {
-        return "Closed";
+        return "Expiration";
     }
 
     @Override
     public int getColumnWidth()
     {
-        return 10;
+        return 16;
     }
 
     @Override
@@ -65,15 +65,15 @@ public class MyMetaPasswordReset_ClosedLocalTime
     //##################################################
 
     @Override
-    public KmTime getValueFor(MyPasswordReset model)
+    public KmTimestamp getValueFor(MyPasswordReset model)
     {
-        return model.getClosedLocalTime();
+        return model.getExpirationLocalTs();
     }
     
     @Override
-    public boolean hasValueFor(MyPasswordReset model, KmTime value)
+    public boolean hasValueFor(MyPasswordReset model, KmTimestamp value)
     {
-        return model.hasClosedLocalTime(value);
+        return model.hasExpirationLocalTs(value);
     }
     
     @Override

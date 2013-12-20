@@ -29,8 +29,8 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaPasswordReset_ClosedLocalTs
-    extends KmMetaTimestampProperty<MyPasswordReset>
+public class MyMetaUserActivation_ExpirationLocalTsMessage
+    extends KmMetaStringProperty<MyUserActivation>
 {
     //##################################################
     //# accessing
@@ -39,19 +39,19 @@ public class MyMetaPasswordReset_ClosedLocalTs
     @Override
     public String getName()
     {
-        return "closedLocalTs";
+        return "expirationLocalTsMessage";
     }
 
     @Override
     public String getLabel()
     {
-        return "Closed";
+        return "Expiration";
     }
 
     @Override
     public int getColumnWidth()
     {
-        return 16;
+        return 20;
     }
 
     @Override
@@ -65,19 +65,19 @@ public class MyMetaPasswordReset_ClosedLocalTs
     //##################################################
 
     @Override
-    public KmTimestamp getValueFor(MyPasswordReset model)
+    public String getValueFor(MyUserActivation model)
     {
-        return model.getClosedLocalTs();
+        return model.getExpirationLocalTsMessage();
     }
     
     @Override
-    public boolean hasValueFor(MyPasswordReset model, KmTimestamp value)
+    public boolean hasValueFor(MyUserActivation model, String value)
     {
-        return model.hasClosedLocalTs(value);
+        return model.hasExpirationLocalTsMessage(value);
     }
     
     @Override
-    public int compareValues(MyPasswordReset o1, MyPasswordReset o2, boolean nullsOnTop)
+    public int compareValues(MyUserActivation o1, MyUserActivation o2, boolean nullsOnTop)
     {
         return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }

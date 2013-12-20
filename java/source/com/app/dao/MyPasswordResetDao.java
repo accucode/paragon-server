@@ -7,11 +7,11 @@ import com.app.model.MyPasswordReset;
 public class MyPasswordResetDao
     extends MyPasswordResetDaoBase
 {
-    public MyPasswordReset findAccessKey(String key)
+    public MyPasswordReset findToken(String s)
     {
         MyPasswordResetCriteria c;
         c = createCriteria();
-        c.whereAccessKey().is(key);
+        c.whereToken().is(s);
         return c.findFirst();
     }
 }

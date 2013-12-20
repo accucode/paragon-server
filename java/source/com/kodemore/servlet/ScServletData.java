@@ -602,7 +602,10 @@ public class ScServletData
         if ( prefix == null )
             prefix = "";
 
-        KmList<String> keys = getParameterKeys();
+        KmList<String> keys;
+        keys = getParameterKeys();
+        keys.sort();
+
         System.out.println(prefix + "Parameters: " + keys.size());
         for ( String key : keys )
             System.out.printf("%s    %s = %s\n", prefix, key, getParameter(key));

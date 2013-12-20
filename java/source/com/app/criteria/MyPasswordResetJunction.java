@@ -48,14 +48,14 @@ public class MyPasswordResetJunction
         return new KmStringCriteria(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereStatusCode()
+    public KmStringCriteria whereEmail()
     {
-        return new KmStringCriteria(context(), fullName(STATUS_CODE));
+        return new KmStringCriteria(context(), fullName(EMAIL));
     }
 
-    public KmStringCriteria whereAccessKey()
+    public KmStringCriteria whereToken()
     {
-        return new KmStringCriteria(context(), fullName(ACCESS_KEY));
+        return new KmStringCriteria(context(), fullName(TOKEN));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
@@ -63,9 +63,9 @@ public class MyPasswordResetJunction
         return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereClosedUtcTs()
+    public KmPropertyCriteria<KmTimestamp> whereExpirationUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CLOSED_UTC_TS));
+        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(EXPIRATION_UTC_TS));
     }
 
     public KmIntegerCriteria whereLockVersion()
@@ -76,21 +76,6 @@ public class MyPasswordResetJunction
     //##################################################
     //# associations
     //##################################################
-
-    public MyUserCriteria joinToUser()
-    {
-        return join(new MyUserCriteria(root().joinTo(USER)));
-    }
-
-    public MyUserCriteria leftJoinToUser()
-    {
-        return join(new MyUserCriteria(root().leftJoinTo(USER)));
-    }
-
-    public KmStringCriteria whereUserUid()
-    {
-        return new KmStringCriteria(context(), fullName(USER_UID));
-    }
 
     //##################################################
     //# junction

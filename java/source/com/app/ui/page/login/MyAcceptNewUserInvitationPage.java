@@ -41,7 +41,7 @@ public class MyAcceptNewUserInvitationPage
     //# variables
     //##################################################
 
-    private ScLocalString   _accessKey;
+    private ScLocalString   _token;
 
     private ScText          _emailText;
 
@@ -75,14 +75,14 @@ public class MyAcceptNewUserInvitationPage
 
     public void pushAccessKey(MyInvitation e)
     {
-        setAccessKey(e.getAccessKey());
+        setToken(e.getToken());
 
         _push();
     }
 
     public String formatEntryUrl(MyInvitation e)
     {
-        setAccessKey(e.getAccessKey());
+        setToken(e.getToken());
 
         return _formatEntryUrl();
     }
@@ -92,14 +92,14 @@ public class MyAcceptNewUserInvitationPage
     {
         ScParameterList v;
         v = new ScParameterList();
-        v.setValue("accessKey", getAccessKey());
+        v.setValue("accessKey", getToken());
         return v;
     }
 
     @Override
     public void applyQueryParameters(ScParameterList v)
     {
-        setAccessKey(v.getValue("accessKey"));
+        setToken(v.getValue("accessKey"));
     }
 
     //##################################################
@@ -109,8 +109,8 @@ public class MyAcceptNewUserInvitationPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        _accessKey = new ScLocalString();
-        _accessKey.setAutoSave();
+        _token = new ScLocalString();
+        _token.setAutoSave();
 
         ScGroup group;
         group = root.addGroup();
@@ -234,37 +234,31 @@ public class MyAcceptNewUserInvitationPage
     {
         super.preRender();
 
-        String key;
-        key = getAccessKey();
+        String token;
+        token = getToken();
 
-        if ( Kmu.isEmpty(key) )
-            fatal("Access Key is Required");
+        if ( Kmu.isEmpty(token) )
+            fatal("Token is Required");
 
         MyInvitation inv;
-        inv = getAccess().getInvitationDao().findAccessKey(key);
+        inv = getAccess().getInvitationDao().findToken(token);
 
         _emailText.setValue(inv.getEmail());
 
         String email;
         email = inv.getEmail();
 
-        MyUser u;
-        u = getAccess().getUserDao().findEmail(email);
+        MyPasswordReset r;
+        r = new MyPasswordReset();
+        r.setEmail(email);
+        r.saveDao();
 
-        if ( u != null )
-        {
-            MyPasswordReset r;
-            r = new MyPasswordReset();
-            r.setUser(u);
-            r.saveDao();
+        ScUrlLink link;
+        link = _box.addUrlLink("Reset My Password", MyUrls.getPasswordResetUrl(r));
+        link.css().link();
 
-            ScUrlLink link;
-            link = _box.addUrlLink("Reset My Password", MyUrls.getPasswordResetUrl(r));
-            link.css().link();
-
-            _form.hide();
-            _registeredMessageBox.show();
-        }
+        _form.hide();
+        _registeredMessageBox.show();
     }
 
     //##################################################
@@ -278,10 +272,8 @@ public class MyAcceptNewUserInvitationPage
 
         _form.validate();
 
-        String key = getAccessKey();
-
         MyInvitation inv;
-        inv = getAccess().getInvitationDao().findAccessKey(key);
+        inv = getAccess().getInvitationDao().findToken(getToken());
         inv.setStatusAccepted();
         inv.setClosedUtcTs(getNowUtc());
 
@@ -321,13 +313,13 @@ public class MyAcceptNewUserInvitationPage
     //# access key
     //##################################################
 
-    private String getAccessKey()
+    private String getToken()
     {
-        return _accessKey.getValue();
+        return _token.getValue();
     }
 
-    private void setAccessKey(String e)
+    private void setToken(String e)
     {
-        _accessKey.setValue(e);
+        _token.setValue(e);
     }
 }

@@ -38,7 +38,7 @@ public class MyInvitationValidatorBase
     private KmStringValidator uidValidator;
     private KmStringValidator statusCodeValidator;
     private KmStringValidator typeCodeValidator;
-    private KmStringValidator accessKeyValidator;
+    private KmStringValidator tokenValidator;
     private KmTimestampValidator createdUtcTsValidator;
     private KmTimestampValidator closedUtcTsValidator;
     private KmStringValidator emailValidator;
@@ -57,7 +57,7 @@ public class MyInvitationValidatorBase
         uidValidator = newUidValidator();
         statusCodeValidator = newStatusCodeValidator();
         typeCodeValidator = newTypeCodeValidator();
-        accessKeyValidator = newAccessKeyValidator();
+        tokenValidator = newTokenValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
         closedUtcTsValidator = newClosedUtcTsValidator();
         emailValidator = newEmailValidator();
@@ -86,9 +86,9 @@ public class MyInvitationValidatorBase
         return typeCodeValidator;
     }
 
-    public KmStringValidator getAccessKeyValidator()
+    public KmStringValidator getTokenValidator()
     {
-        return accessKeyValidator;
+        return tokenValidator;
     }
 
     public KmTimestampValidator getCreatedUtcTsValidator()
@@ -136,7 +136,7 @@ public class MyInvitationValidatorBase
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setStatusCode(statusCodeValidator.convertOnly(value.getStatusCode()));
         value.setTypeCode(typeCodeValidator.convertOnly(value.getTypeCode()));
-        value.setAccessKey(accessKeyValidator.convertOnly(value.getAccessKey()));
+        value.setToken(tokenValidator.convertOnly(value.getToken()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
         value.setClosedUtcTs(closedUtcTsValidator.convertOnly(value.getClosedUtcTs()));
         value.setEmail(emailValidator.convertOnly(value.getEmail()));
@@ -150,7 +150,7 @@ public class MyInvitationValidatorBase
         uidValidator.validateOnly(value.getUid(), errors);
         statusCodeValidator.validateOnly(value.getStatusCode(), errors);
         typeCodeValidator.validateOnly(value.getTypeCode(), errors);
-        accessKeyValidator.validateOnly(value.getAccessKey(), errors);
+        tokenValidator.validateOnly(value.getToken(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
         closedUtcTsValidator.validateOnly(value.getClosedUtcTs(), errors);
         emailValidator.validateOnly(value.getEmail(), errors);
@@ -202,14 +202,14 @@ public class MyInvitationValidatorBase
         return e;
     }
 
-    public KmStringValidator newAccessKeyValidator()
+    public KmStringValidator newTokenValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
         e.setMaximumLength(30);
         e.setAllowsPrintable(true);
         e.setModel("invitation");
-        e.setField("accessKey");
+        e.setField("token");
         e.setRequired();
         return e;
     }

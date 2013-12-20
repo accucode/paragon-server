@@ -1402,7 +1402,7 @@ public class MyAccountsPage
         {
             MyJoinAccountUtility utility;
             utility = new MyJoinAccountUtility();
-            utility.start(account, email, roleCode);
+            utility.sendInvitationTo(email, account, roleCode);
 
             showSentMessage(email);
         }

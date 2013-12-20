@@ -39,13 +39,13 @@ public class MyUrls
         MyInvitationType type = e.getType();
         switch ( type )
         {
-            case User:
+            case NewUser:
                 return MyAcceptNewUserInvitationPage.instance.formatEntryUrl(e);
 
-            case Join:
+            case JoinAccount:
                 return MyAcceptJoinInvitationPage.instance.formatEntryUrl(e);
 
-            case Transfer:
+            case TransferOwnership:
                 return MyAcceptTransferInvitationPage.instance.formatEntryUrl(e);
         }
 

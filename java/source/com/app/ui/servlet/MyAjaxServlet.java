@@ -44,7 +44,6 @@ public class MyAjaxServlet
     private void handle()
     {
         MyServletData data = getData();
-
         try
         {
             checkServerSession(data);

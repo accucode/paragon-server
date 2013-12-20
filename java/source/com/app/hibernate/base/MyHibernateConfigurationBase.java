@@ -37,6 +37,7 @@ public abstract class MyHibernateConfigurationBase
         addMapping("systemLog");
         addMapping("systemLogTrace");
         addMapping("user");
+        addMapping("userActivation");
     }
 
 }

@@ -29,9 +29,9 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaPasswordReset_ClosedUtcTs
-    extends KmMetaTimestampProperty<MyPasswordReset>
-    implements KmMetaDaoPropertyIF<MyPasswordReset,KmTimestamp>
+public class MyMetaUserActivation_Uid
+    extends KmMetaStringProperty<MyUserActivation>
+    implements KmMetaDaoPropertyIF<MyUserActivation,String>
 {
     //##################################################
     //# accessing
@@ -40,19 +40,19 @@ public class MyMetaPasswordReset_ClosedUtcTs
     @Override
     public String getName()
     {
-        return "closedUtcTs";
+        return "uid";
     }
 
     @Override
     public String getLabel()
     {
-        return "Closed Utc Ts";
+        return "Uid";
     }
 
     @Override
     public int getColumnWidth()
     {
-        return 16;
+        return 20;
     }
 
     @Override
@@ -62,9 +62,9 @@ public class MyMetaPasswordReset_ClosedUtcTs
     }
 
     @Override
-    public KmTimestampValidator getValidator()
+    public KmStringValidator getValidator()
     {
-        return MyPasswordResetValidator.instance.getClosedUtcTsValidator();
+        return MyUserActivationValidator.instance.getUidValidator();
     }
 
     //##################################################
@@ -74,13 +74,13 @@ public class MyMetaPasswordReset_ClosedUtcTs
     @Override
     public String getDaoPropertyName()
     {
-        return "closedUtcTs";
+        return "uid";
     }
 
     @Override
-    public MyPasswordResetDao getDao()
+    public MyUserActivationDao getDao()
     {
-        return getAccess().getPasswordResetDao();
+        return getAccess().getUserActivationDao();
     }
 
     private MyDaoRegistry getAccess()
@@ -93,25 +93,25 @@ public class MyMetaPasswordReset_ClosedUtcTs
     //##################################################
 
     @Override
-    public KmTimestamp getValueFor(MyPasswordReset model)
+    public String getValueFor(MyUserActivation model)
     {
-        return model.getClosedUtcTs();
+        return model.getUid();
     }
     
     @Override
-    public void setValueFor(MyPasswordReset model, KmTimestamp value)
+    public void setValueFor(MyUserActivation model, String value)
     {
-        model.setClosedUtcTs(value);
+        model.setUid(value);
     }
     
     @Override
-    public boolean hasValueFor(MyPasswordReset model, KmTimestamp value)
+    public boolean hasValueFor(MyUserActivation model, String value)
     {
-        return model.hasClosedUtcTs(value);
+        return model.hasUid(value);
     }
     
     @Override
-    public int compareValues(MyPasswordReset o1, MyPasswordReset o2, boolean nullsOnTop)
+    public int compareValues(MyUserActivation o1, MyUserActivation o2, boolean nullsOnTop)
     {
         return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }

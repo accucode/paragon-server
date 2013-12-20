@@ -35,7 +35,7 @@ public class MyTransferAccountUtility
 
         MyInvitation inv;
         inv = new MyInvitation();
-        inv.setType(MyInvitationType.Transfer);
+        inv.setType(MyInvitationType.TransferOwnership);
         inv.setAccount(account);
         inv.setEmail(email);
         inv.saveDao();

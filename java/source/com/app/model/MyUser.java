@@ -255,6 +255,11 @@ public class MyUser
         return getAccountUsers().isMultiple();
     }
 
+    public boolean isMemberOf(MyAccount e)
+    {
+        return e.hasMember(this);
+    }
+
     //##################################################
     //# support
     //##################################################

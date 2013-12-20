@@ -49,102 +49,14 @@ public class MyPasswordResetCriteria
         return new KmStringCriteria(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereStatusCode()
+    public KmStringCriteria whereEmail()
     {
-        return new KmStringCriteria(context(), fullName(STATUS_CODE));
+        return new KmStringCriteria(context(), fullName(EMAIL));
     }
 
-    public void whereStatusIs(MyPasswordResetStatus e)
+    public KmStringCriteria whereToken()
     {
-        if ( e == null )
-            whereStatusCode().isNull();
-        else
-            whereStatusCode().is(e.getCode());
-    }
-
-    public void whereStatusIsNot(MyPasswordResetStatus e)
-    {
-        if ( e == null )
-            whereStatusCode().isNull();
-        else
-            whereStatusCode().isNot(e.getCode());
-    }
-
-    public void whereStatusIsNew()
-    {
-        whereStatusIs(MyPasswordResetStatus.New);
-    }
-
-    public void whereStatusIsNotNew()
-    {
-        whereStatusIsNot(MyPasswordResetStatus.New);
-    }
-
-    public void whereStatusIsNew(boolean e)
-    {
-        if ( e )
-            whereStatusIsNew();
-        else
-            whereStatusIsNotNew();
-    }
-
-    public void whereStatusIsAccepted()
-    {
-        whereStatusIs(MyPasswordResetStatus.Accepted);
-    }
-
-    public void whereStatusIsNotAccepted()
-    {
-        whereStatusIsNot(MyPasswordResetStatus.Accepted);
-    }
-
-    public void whereStatusIsAccepted(boolean e)
-    {
-        if ( e )
-            whereStatusIsAccepted();
-        else
-            whereStatusIsNotAccepted();
-    }
-
-    public void whereStatusIsRejected()
-    {
-        whereStatusIs(MyPasswordResetStatus.Rejected);
-    }
-
-    public void whereStatusIsNotRejected()
-    {
-        whereStatusIsNot(MyPasswordResetStatus.Rejected);
-    }
-
-    public void whereStatusIsRejected(boolean e)
-    {
-        if ( e )
-            whereStatusIsRejected();
-        else
-            whereStatusIsNotRejected();
-    }
-
-    public void whereStatusIsCancelled()
-    {
-        whereStatusIs(MyPasswordResetStatus.Cancelled);
-    }
-
-    public void whereStatusIsNotCancelled()
-    {
-        whereStatusIsNot(MyPasswordResetStatus.Cancelled);
-    }
-
-    public void whereStatusIsCancelled(boolean e)
-    {
-        if ( e )
-            whereStatusIsCancelled();
-        else
-            whereStatusIsNotCancelled();
-    }
-
-    public KmStringCriteria whereAccessKey()
-    {
-        return new KmStringCriteria(context(), fullName(ACCESS_KEY));
+        return new KmStringCriteria(context(), fullName(TOKEN));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
@@ -152,9 +64,9 @@ public class MyPasswordResetCriteria
         return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereClosedUtcTs()
+    public KmPropertyCriteria<KmTimestamp> whereExpirationUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CLOSED_UTC_TS));
+        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(EXPIRATION_UTC_TS));
     }
 
     public KmIntegerCriteria whereLockVersion()
@@ -184,40 +96,40 @@ public class MyPasswordResetCriteria
             sortOnUidDescending();
     }
 
-    public void sortOnStatusCode()
+    public void sortOnEmail()
     {
-        parent().sortAscending(STATUS_CODE);
+        parent().sortAscending(EMAIL);
     }
 
-    public void sortOnStatusCodeDescending()
+    public void sortOnEmailDescending()
     {
-        parent().sortDescending(STATUS_CODE);
+        parent().sortDescending(EMAIL);
     }
 
-    public void sortOnStatusCode(boolean asc)
+    public void sortOnEmail(boolean asc)
     {
         if ( asc )
-            sortOnStatusCode();
+            sortOnEmail();
         else
-            sortOnStatusCodeDescending();
+            sortOnEmailDescending();
     }
 
-    public void sortOnAccessKey()
+    public void sortOnToken()
     {
-        parent().sortAscending(ACCESS_KEY);
+        parent().sortAscending(TOKEN);
     }
 
-    public void sortOnAccessKeyDescending()
+    public void sortOnTokenDescending()
     {
-        parent().sortDescending(ACCESS_KEY);
+        parent().sortDescending(TOKEN);
     }
 
-    public void sortOnAccessKey(boolean asc)
+    public void sortOnToken(boolean asc)
     {
         if ( asc )
-            sortOnAccessKey();
+            sortOnToken();
         else
-            sortOnAccessKeyDescending();
+            sortOnTokenDescending();
     }
 
     public void sortOnCreatedUtcTs()
@@ -238,22 +150,22 @@ public class MyPasswordResetCriteria
             sortOnCreatedUtcTsDescending();
     }
 
-    public void sortOnClosedUtcTs()
+    public void sortOnExpirationUtcTs()
     {
-        parent().sortAscending(CLOSED_UTC_TS);
+        parent().sortAscending(EXPIRATION_UTC_TS);
     }
 
-    public void sortOnClosedUtcTsDescending()
+    public void sortOnExpirationUtcTsDescending()
     {
-        parent().sortDescending(CLOSED_UTC_TS);
+        parent().sortDescending(EXPIRATION_UTC_TS);
     }
 
-    public void sortOnClosedUtcTs(boolean asc)
+    public void sortOnExpirationUtcTs(boolean asc)
     {
         if ( asc )
-            sortOnClosedUtcTs();
+            sortOnExpirationUtcTs();
         else
-            sortOnClosedUtcTsDescending();
+            sortOnExpirationUtcTsDescending();
     }
 
     public void sortOnLockVersion()
@@ -319,91 +231,91 @@ public class MyPasswordResetCriteria
     }
 
     //##################################################
-    //# projections (statusCode)
+    //# projections (email)
     //##################################################
 
-    public void selectStatusCode()
+    public void selectEmail()
     {
-        select(STATUS_CODE);
+        select(EMAIL);
     }
 
-    public void selectDistinctStatusCode()
+    public void selectDistinctEmail()
     {
-        selectDistinct(STATUS_CODE);
+        selectDistinct(EMAIL);
     }
 
-    public void selectCountDistinctStatusCode()
+    public void selectCountDistinctEmail()
     {
-        selectCountDistinct(STATUS_CODE);
+        selectCountDistinct(EMAIL);
     }
 
-    public void selectMinimumStatusCode()
+    public void selectMinimumEmail()
     {
-        selectMinimum(STATUS_CODE);
+        selectMinimum(EMAIL);
     }
 
-    public void selectMaximumStatusCode()
+    public void selectMaximumEmail()
     {
-        selectMaximum(STATUS_CODE);
+        selectMaximum(EMAIL);
     }
 
-    public void selectAverageStatusCode()
+    public void selectAverageEmail()
     {
-        selectAverage(STATUS_CODE);
+        selectAverage(EMAIL);
     }
 
-    public void selectSumStatusCode()
+    public void selectSumEmail()
     {
-        selectSum(STATUS_CODE);
+        selectSum(EMAIL);
     }
 
-    public void groupByStatusCode()
+    public void groupByEmail()
     {
-        groupBy(STATUS_CODE);
+        groupBy(EMAIL);
     }
 
     //##################################################
-    //# projections (accessKey)
+    //# projections (token)
     //##################################################
 
-    public void selectAccessKey()
+    public void selectToken()
     {
-        select(ACCESS_KEY);
+        select(TOKEN);
     }
 
-    public void selectDistinctAccessKey()
+    public void selectDistinctToken()
     {
-        selectDistinct(ACCESS_KEY);
+        selectDistinct(TOKEN);
     }
 
-    public void selectCountDistinctAccessKey()
+    public void selectCountDistinctToken()
     {
-        selectCountDistinct(ACCESS_KEY);
+        selectCountDistinct(TOKEN);
     }
 
-    public void selectMinimumAccessKey()
+    public void selectMinimumToken()
     {
-        selectMinimum(ACCESS_KEY);
+        selectMinimum(TOKEN);
     }
 
-    public void selectMaximumAccessKey()
+    public void selectMaximumToken()
     {
-        selectMaximum(ACCESS_KEY);
+        selectMaximum(TOKEN);
     }
 
-    public void selectAverageAccessKey()
+    public void selectAverageToken()
     {
-        selectAverage(ACCESS_KEY);
+        selectAverage(TOKEN);
     }
 
-    public void selectSumAccessKey()
+    public void selectSumToken()
     {
-        selectSum(ACCESS_KEY);
+        selectSum(TOKEN);
     }
 
-    public void groupByAccessKey()
+    public void groupByToken()
     {
-        groupBy(ACCESS_KEY);
+        groupBy(TOKEN);
     }
 
     //##################################################
@@ -451,47 +363,47 @@ public class MyPasswordResetCriteria
     }
 
     //##################################################
-    //# projections (closedUtcTs)
+    //# projections (expirationUtcTs)
     //##################################################
 
-    public void selectClosedUtcTs()
+    public void selectExpirationUtcTs()
     {
-        select(CLOSED_UTC_TS);
+        select(EXPIRATION_UTC_TS);
     }
 
-    public void selectDistinctClosedUtcTs()
+    public void selectDistinctExpirationUtcTs()
     {
-        selectDistinct(CLOSED_UTC_TS);
+        selectDistinct(EXPIRATION_UTC_TS);
     }
 
-    public void selectCountDistinctClosedUtcTs()
+    public void selectCountDistinctExpirationUtcTs()
     {
-        selectCountDistinct(CLOSED_UTC_TS);
+        selectCountDistinct(EXPIRATION_UTC_TS);
     }
 
-    public void selectMinimumClosedUtcTs()
+    public void selectMinimumExpirationUtcTs()
     {
-        selectMinimum(CLOSED_UTC_TS);
+        selectMinimum(EXPIRATION_UTC_TS);
     }
 
-    public void selectMaximumClosedUtcTs()
+    public void selectMaximumExpirationUtcTs()
     {
-        selectMaximum(CLOSED_UTC_TS);
+        selectMaximum(EXPIRATION_UTC_TS);
     }
 
-    public void selectAverageClosedUtcTs()
+    public void selectAverageExpirationUtcTs()
     {
-        selectAverage(CLOSED_UTC_TS);
+        selectAverage(EXPIRATION_UTC_TS);
     }
 
-    public void selectSumClosedUtcTs()
+    public void selectSumExpirationUtcTs()
     {
-        selectSum(CLOSED_UTC_TS);
+        selectSum(EXPIRATION_UTC_TS);
     }
 
-    public void groupByClosedUtcTs()
+    public void groupByExpirationUtcTs()
     {
-        groupBy(CLOSED_UTC_TS);
+        groupBy(EXPIRATION_UTC_TS);
     }
 
     //##################################################
@@ -536,53 +448,6 @@ public class MyPasswordResetCriteria
     public void groupByLockVersion()
     {
         groupBy(LOCK_VERSION);
-    }
-
-    //##################################################
-    //# association (User)
-    //##################################################
-
-    public void selectUserUid()
-    {
-        select(USER_UID);
-    }
-
-    public void selectMinimumUserUid()
-    {
-        selectMinimum(USER_UID);
-    }
-
-    public void selectMaximumUserUid()
-    {
-        selectMaximum(USER_UID);
-    }
-
-    public void groupByUserUid()
-    {
-        groupBy(USER);
-    }
-
-    public MyUserCriteria joinToUser()
-    {
-        return new MyUserCriteria(joinTo(USER));
-    }
-
-    public MyUserCriteria leftJoinToUser()
-    {
-        return new MyUserCriteria(leftJoinTo(USER));
-    }
-
-    public KmStringCriteria whereUserUid()
-    {
-        return new KmStringCriteria(parent(), fullName(USER_UID));
-    }
-
-    public void whereUserIs(MyUser e)
-    {
-        if ( e == null )
-            whereUserUid().isNull();
-        else
-            whereUserUid().is(e.getUid());
     }
 
     //##################################################

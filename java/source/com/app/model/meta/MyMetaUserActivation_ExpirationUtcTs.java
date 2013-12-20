@@ -29,8 +29,9 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaPasswordReset_StatusName
-    extends KmMetaStringProperty<MyPasswordReset>
+public class MyMetaUserActivation_ExpirationUtcTs
+    extends KmMetaTimestampProperty<MyUserActivation>
+    implements KmMetaDaoPropertyIF<MyUserActivation,KmTimestamp>
 {
     //##################################################
     //# accessing
@@ -39,45 +40,78 @@ public class MyMetaPasswordReset_StatusName
     @Override
     public String getName()
     {
-        return "statusName";
+        return "expirationUtcTs";
     }
 
     @Override
     public String getLabel()
     {
-        return "Status";
+        return "Expiration Utc Ts";
     }
 
     @Override
     public int getColumnWidth()
     {
-        return 15;
+        return 16;
     }
 
     @Override
     public boolean isEditable()
     {
-        return false;
+        return true;
     }
 
+    @Override
+    public KmTimestampValidator getValidator()
+    {
+        return MyUserActivationValidator.instance.getExpirationUtcTsValidator();
+    }
+
+    //##################################################
+    //# dao
+    //##################################################
+
+    @Override
+    public String getDaoPropertyName()
+    {
+        return "expirationUtcTs";
+    }
+
+    @Override
+    public MyUserActivationDao getDao()
+    {
+        return getAccess().getUserActivationDao();
+    }
+
+    private MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
+    
     //##################################################
     //# value
     //##################################################
 
     @Override
-    public String getValueFor(MyPasswordReset model)
+    public KmTimestamp getValueFor(MyUserActivation model)
     {
-        return model.getStatusName();
+        return model.getExpirationUtcTs();
     }
     
     @Override
-    public boolean hasValueFor(MyPasswordReset model, String value)
+    public void setValueFor(MyUserActivation model, KmTimestamp value)
     {
-        return model.hasStatusName(value);
+        model.setExpirationUtcTs(value);
     }
     
     @Override
-    public int compareValues(MyPasswordReset o1, MyPasswordReset o2, boolean nullsOnTop)
+    public boolean hasValueFor(MyUserActivation model, KmTimestamp value)
+    {
+        return model.hasExpirationUtcTs(value);
+    }
+    
+    @Override
+    public int compareValues(MyUserActivation o1, MyUserActivation o2, boolean nullsOnTop)
     {
         return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }

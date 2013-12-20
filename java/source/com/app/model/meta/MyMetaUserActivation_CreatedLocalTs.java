@@ -29,8 +29,8 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaPasswordReset_UserName
-    extends KmMetaStringProperty<MyPasswordReset>
+public class MyMetaUserActivation_CreatedLocalTs
+    extends KmMetaTimestampProperty<MyUserActivation>
 {
     //##################################################
     //# accessing
@@ -39,25 +39,25 @@ public class MyMetaPasswordReset_UserName
     @Override
     public String getName()
     {
-        return "userName";
+        return "createdLocalTs";
     }
 
     @Override
     public String getLabel()
     {
-        return "User Name";
+        return "Created";
     }
 
     @Override
     public int getColumnWidth()
     {
-        return 15;
+        return 16;
     }
 
     @Override
     public boolean isEditable()
     {
-        return true;
+        return false;
     }
 
     //##################################################
@@ -65,25 +65,19 @@ public class MyMetaPasswordReset_UserName
     //##################################################
 
     @Override
-    public String getValueFor(MyPasswordReset model)
+    public KmTimestamp getValueFor(MyUserActivation model)
     {
-        return model.getUserName();
+        return model.getCreatedLocalTs();
     }
     
     @Override
-    public void setValueFor(MyPasswordReset model, String value)
+    public boolean hasValueFor(MyUserActivation model, KmTimestamp value)
     {
-        model.setUserName(value);
+        return model.hasCreatedLocalTs(value);
     }
     
     @Override
-    public boolean hasValueFor(MyPasswordReset model, String value)
-    {
-        return model.hasUserName(value);
-    }
-    
-    @Override
-    public int compareValues(MyPasswordReset o1, MyPasswordReset o2, boolean nullsOnTop)
+    public int compareValues(MyUserActivation o1, MyUserActivation o2, boolean nullsOnTop)
     {
         return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }

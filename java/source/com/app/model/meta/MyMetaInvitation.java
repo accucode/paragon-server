@@ -63,7 +63,7 @@ public class MyMetaInvitation
     public static final MyMetaInvitation_Uid Uid = new MyMetaInvitation_Uid();
     public static final MyMetaInvitation_StatusCode StatusCode = new MyMetaInvitation_StatusCode();
     public static final MyMetaInvitation_TypeCode TypeCode = new MyMetaInvitation_TypeCode();
-    public static final MyMetaInvitation_AccessKey AccessKey = new MyMetaInvitation_AccessKey();
+    public static final MyMetaInvitation_Token Token = new MyMetaInvitation_Token();
     public static final MyMetaInvitation_CreatedUtcTs CreatedUtcTs = new MyMetaInvitation_CreatedUtcTs();
     public static final MyMetaInvitation_ClosedUtcTs ClosedUtcTs = new MyMetaInvitation_ClosedUtcTs();
     public static final MyMetaInvitation_Email Email = new MyMetaInvitation_Email();

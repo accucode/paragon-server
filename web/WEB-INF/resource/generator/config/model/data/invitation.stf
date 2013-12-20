@@ -6,8 +6,8 @@ database
 : alias = inv
 
     index
-    : name  = accessKey
-    : on    = accessKey
+    : name  = token
+    : on    = token
 
 attributes
 
@@ -29,6 +29,7 @@ attributes
             value(#N New)
             value(#A Accepted)
             value(#R Rejected)
+            value(#E Expired)
             value(#X Cancelled)
             
     field
@@ -39,12 +40,12 @@ attributes
     : required  = true
 
         enum
-            value(#U User)
-            value(#T Transfer)
-            value(#J Join)
+            value(#U NewUser)
+            value(#T TransferOwnership)
+            value(#J JoinAccount)
 
     field
-    : name      = accessKey
+    : name      = token
     : comment   = A long unique (~unguessable) code that allows the user to access this object without a password.
     : type      = uid
     : default   = newUid()

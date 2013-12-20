@@ -41,6 +41,7 @@ public class MyPageSessionBase
     private ScLocalInteger _systemLogId;
     private ScLocalInteger _systemLogTraceId;
     private ScLocalString _userUid;
+    private ScLocalString _userActivationUid;
 
     //##################################################
     //# constructor
@@ -98,6 +99,9 @@ public class MyPageSessionBase
 
         _userUid = new ScLocalString();
         _userUid.setAutoSave();
+
+        _userActivationUid = new ScLocalString();
+        _userActivationUid.setAutoSave();
 
     }
 
@@ -813,6 +817,48 @@ public class MyPageSessionBase
     public void clearUser()
     {
         getUserUidHolder().clearValue();
+    }
+
+    //##################################################
+    //# UserActivation
+    //##################################################
+
+    public String getUserActivationUid()
+    {
+        return getUserActivationUidHolder().getValue();
+    }
+
+    public void setUserActivationUid(String e)
+    {
+        getUserActivationUidHolder().setValue(e);
+    }
+
+    public ScLocalString getUserActivationUidHolder()
+    {
+        return _userActivationUid;
+    }
+
+    public MyUserActivation getUserActivation()
+    {
+        return getDaoRegistry().getUserActivationDao().findUid(getUserActivationUid());
+    }
+
+    public void setUserActivation(MyUserActivation e)
+    {
+        if ( e == null )
+            setUserActivationUid(null);
+        else
+            setUserActivationUid(e.getUid());
+    }
+
+    public void resetUserActivation()
+    {
+        getUserActivationUidHolder().resetValue();
+    }
+
+    public void clearUserActivation()
+    {
+        getUserActivationUidHolder().clearValue();
     }
 
     //##################################################

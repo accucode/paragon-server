@@ -28,11 +28,8 @@ import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.variable.ScLocalRenderer;
 
 /**
- * I am used to manage simple text blocks.
- * I am wrapped in a span so that css can be applied.
- * The span contains a single text element - if multiple
- * text elements are required then you should manually manage
- * multiple nested spans.
+ * I am used to manage styled text.  I am in inline element
+ * and apply styling via a span element.
  */
 public class ScStyledText
     extends ScElement

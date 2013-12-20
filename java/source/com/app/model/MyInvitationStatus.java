@@ -23,6 +23,7 @@ public enum MyInvitationStatus
     New("N", "New"),
     Accepted("A", "Accepted"),
     Rejected("R", "Rejected"),
+    Expired("E", "Expired"),
     Cancelled("X", "Cancelled"),
     ;
 
@@ -103,6 +104,11 @@ public enum MyInvitationStatus
     public boolean isRejected()
     {
         return this == Rejected;
+    }
+
+    public boolean isExpired()
+    {
+        return this == Expired;
     }
 
     public boolean isCancelled()

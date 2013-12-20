@@ -29,8 +29,9 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaPasswordReset_ClosedLocalDate
-    extends KmMetaDateProperty<MyPasswordReset>
+public class MyMetaInvitation_Token
+    extends KmMetaStringProperty<MyInvitation>
+    implements KmMetaDaoPropertyIF<MyInvitation,String>
 {
     //##################################################
     //# accessing
@@ -39,45 +40,78 @@ public class MyMetaPasswordReset_ClosedLocalDate
     @Override
     public String getName()
     {
-        return "closedLocalDate";
+        return "token";
     }
 
     @Override
     public String getLabel()
     {
-        return "Closed";
+        return "Token";
     }
 
     @Override
     public int getColumnWidth()
     {
-        return 10;
+        return 20;
     }
 
     @Override
     public boolean isEditable()
     {
-        return false;
+        return true;
     }
 
+    @Override
+    public KmStringValidator getValidator()
+    {
+        return MyInvitationValidator.instance.getTokenValidator();
+    }
+
+    //##################################################
+    //# dao
+    //##################################################
+
+    @Override
+    public String getDaoPropertyName()
+    {
+        return "token";
+    }
+
+    @Override
+    public MyInvitationDao getDao()
+    {
+        return getAccess().getInvitationDao();
+    }
+
+    private MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
+    
     //##################################################
     //# value
     //##################################################
 
     @Override
-    public KmDate getValueFor(MyPasswordReset model)
+    public String getValueFor(MyInvitation model)
     {
-        return model.getClosedLocalDate();
+        return model.getToken();
     }
     
     @Override
-    public boolean hasValueFor(MyPasswordReset model, KmDate value)
+    public void setValueFor(MyInvitation model, String value)
     {
-        return model.hasClosedLocalDate(value);
+        model.setToken(value);
     }
     
     @Override
-    public int compareValues(MyPasswordReset o1, MyPasswordReset o2, boolean nullsOnTop)
+    public boolean hasValueFor(MyInvitation model, String value)
+    {
+        return model.hasToken(value);
+    }
+    
+    @Override
+    public int compareValues(MyInvitation o1, MyInvitation o2, boolean nullsOnTop)
     {
         return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }

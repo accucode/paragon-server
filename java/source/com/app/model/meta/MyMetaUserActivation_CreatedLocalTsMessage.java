@@ -29,9 +29,8 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaInvitation_AccessKey
-    extends KmMetaStringProperty<MyInvitation>
-    implements KmMetaDaoPropertyIF<MyInvitation,String>
+public class MyMetaUserActivation_CreatedLocalTsMessage
+    extends KmMetaStringProperty<MyUserActivation>
 {
     //##################################################
     //# accessing
@@ -40,13 +39,13 @@ public class MyMetaInvitation_AccessKey
     @Override
     public String getName()
     {
-        return "accessKey";
+        return "createdLocalTsMessage";
     }
 
     @Override
     public String getLabel()
     {
-        return "Access Key";
+        return "Created";
     }
 
     @Override
@@ -58,60 +57,27 @@ public class MyMetaInvitation_AccessKey
     @Override
     public boolean isEditable()
     {
-        return true;
+        return false;
     }
 
-    @Override
-    public KmStringValidator getValidator()
-    {
-        return MyInvitationValidator.instance.getAccessKeyValidator();
-    }
-
-    //##################################################
-    //# dao
-    //##################################################
-
-    @Override
-    public String getDaoPropertyName()
-    {
-        return "accessKey";
-    }
-
-    @Override
-    public MyInvitationDao getDao()
-    {
-        return getAccess().getInvitationDao();
-    }
-
-    private MyDaoRegistry getAccess()
-    {
-        return MyGlobals.getAccess();
-    }
-    
     //##################################################
     //# value
     //##################################################
 
     @Override
-    public String getValueFor(MyInvitation model)
+    public String getValueFor(MyUserActivation model)
     {
-        return model.getAccessKey();
+        return model.getCreatedLocalTsMessage();
     }
     
     @Override
-    public void setValueFor(MyInvitation model, String value)
+    public boolean hasValueFor(MyUserActivation model, String value)
     {
-        model.setAccessKey(value);
+        return model.hasCreatedLocalTsMessage(value);
     }
     
     @Override
-    public boolean hasValueFor(MyInvitation model, String value)
-    {
-        return model.hasAccessKey(value);
-    }
-    
-    @Override
-    public int compareValues(MyInvitation o1, MyInvitation o2, boolean nullsOnTop)
+    public int compareValues(MyUserActivation o1, MyUserActivation o2, boolean nullsOnTop)
     {
         return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }

@@ -19,161 +19,167 @@ import com.app.utility.MyUrls;
 public class MyJoinAccountUtility
 {
     //##################################################
-    //# variables
-    //##################################################
-
-    private MyUser _user;
-
-    //##################################################
     //# start
     //##################################################
 
-    public void start(MyAccount account, String email, String roleCode)
+    /**
+     * Send an email invitation to join the specified account, with the given role.
+     * 
+     * The invitation will be sent to the email address provided.
+     * The email may already be associated with a user, or not.
+     */
+    public void sendInvitationTo(String email, MyAccount account, String roleCode)
     {
         MyUser user = getAccess().getUserDao().findEmail(email);
 
-        boolean isNewUser = user == null;
-
-        if ( !isNewUser )
-            _user = user;
-
-        sendJoinInvitation(email, account, isNewUser, roleCode);
-    }
-
-    private void sendJoinInvitation(
-        String email,
-        MyAccount account,
-        boolean isNewUser,
-        String roleCode)
-    {
-        MyPropertyRegistry p = getProperties();
-
-        String accountName = account.getName();
-
         MyInvitation inv;
         inv = new MyInvitation();
-        inv.setType(MyInvitationType.Join);
+        inv.setType(MyInvitationType.JoinAccount);
+        inv.setUser(user);
         inv.setAccount(account);
         inv.setEmail(email);
         inv.setRoleCode(roleCode);
         inv.saveDao();
 
-        KmHtmlBuilder msg;
+        sendEmail(inv);
+    }
 
-        if ( isNewUser )
-            msg = formatNewUserMsg(email, account, inv);
-        else
-            if ( account.getAccountUserFor(_user) != null )
-                msg = formatExistingAccountUserMsg(_user, account, inv);
-            else
-                msg = formatExistingUserMsg(_user, account, inv);
+    //##################################################
+    //# private
+    //##################################################
 
-        String subject = Kmu.format("%s Join Account Invitation", accountName);
+    private void sendEmail(MyInvitation inv)
+    {
+        MyPropertyRegistry p = getProperties();
+
+        String to = inv.getEmail();
+        String from = p.getSendEmailFromAddress();
+        String subject = formatSubject(inv);
+        String msg = formatMessage(inv);
 
         MyEmail e;
         e = new MyEmail();
         e.setSubject(subject);
-        e.addToRecipient(email);
-        e.setFromAddress(p.getSendEmailFromAddress());
-        e.addHtmlPart(msg.toString());
+        e.addToRecipient(to);
+        e.setFromAddress(from);
+        e.addHtmlPart(msg);
         e.markReady();
         e.saveDao();
     }
 
-    private KmHtmlBuilder formatNewUserMsg(String email, MyAccount account, MyInvitation i)
+    private String formatSubject(MyInvitation inv)
+    {
+        return Kmu.format("%s Join Account Invitation", inv.getAccountName());
+    }
+
+    private String formatMessage(MyInvitation inv)
+    {
+        MyUser user = inv.getUser();
+        MyAccount acct = inv.getAccount();
+
+        if ( user == null )
+            return formatNewUserMessage(inv);
+
+        if ( !user.isMemberOf(acct) )
+            return formatNewMemberMessage(inv);
+
+        return formatExistingMemberMessage(inv);
+    }
+
+    private String formatNewUserMessage(MyInvitation i)
     {
         KmEmailParser parser;
         parser = new KmEmailParser();
-        parser.setEmail(email);
+        parser.setEmail(i.getEmail());
 
-        String name;
-        name = parser.getName();
+        String userName = parser.getName();
+        String accountName = i.getAccountName();
+        String appName = MyConstantsIF.APPLICATION_NAME;
 
-        String accountName = account.getName();
-        String app = MyConstantsIF.APPLICATION_NAME;
-
-        KmHtmlBuilder msg;
-        msg = new KmHtmlBuilder();
-        msg.printfln("Hi %s", name);
-        msg.printfln();
-        msg.printf("Welcome to %s! ", app);
-        msg.printf("You have been asked to join %s! ", accountName);
-        msg.printfln();
-        msg.printf("To join %s and to activate your new user account "
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.printfln("Hi %s", userName);
+        out.printfln();
+        out.printf("Welcome to %s! ", appName);
+        out.printf("You have been asked to join %s. ", accountName);
+        out.printfln();
+        out.printf(""
+            + "To join %s and to activate your new user account "
             + "click the following link.", accountName);
-        msg.printfln();
-        msg.printfln();
-        msg.printLink(
-            "Activate My account and join " + accountName + ".",
+        out.printfln();
+        out.printfln();
+        out.printLink(
+            "Activate my account and join " + accountName + ".",
             MyUrls.getInvitationUrl(i));
-        msg.printfln();
-        return msg;
+        out.printfln();
+
+        return out.toString();
     }
 
-    private KmHtmlBuilder formatExistingAccountUserMsg(
-        MyUser user,
-        MyAccount account,
-        MyInvitation i)
+    private String formatNewMemberMessage(MyInvitation i)
     {
-        MyPasswordReset a;
-        a = new MyPasswordReset();
-        a.setUser(user);
-        a.saveDao();
-
-        String linkMsg = "Reset My Password";
-        String linkUrl = MyUrls.getPasswordResetUrl(a);
-
-        KmHtmlBuilder msg;
-        msg = new KmHtmlBuilder();
-        msg.printfln("Hi %s", user.getName());
-        msg.printfln();
-        msg.printf(
-            "A request was made to join the email %s to the account %s. ",
-            user.getEmail(),
-            account);
-        msg.printf("However, this email is already joined to the account. ");
-        msg.printf("If you did not initiate this request, please ignore this email. ");
-        msg.printf("If you are having difficulty accessing your account, you may use ");
-        msg.printf("the link below to reset your password.");
-        msg.printfln();
-        msg.printfln();
-        msg.printLink(linkMsg, linkUrl);
-        msg.printfln();
-        return msg;
-    }
-
-    private KmHtmlBuilder formatExistingUserMsg(MyUser user, MyAccount account, MyInvitation i)
-    {
-        String userName = user.getName();
-        String accountName = account.getName();
+        String userName = i.getUserName();
+        String accountName = i.getAccountName();
 
         String linkMsg = "Join " + accountName + ".";
         String linkUrl = MyUrls.getInvitationUrl(i);
 
-        KmHtmlBuilder msg;
-        msg = new KmHtmlBuilder();
-        msg.printfln("Hi %s", userName);
-        msg.printfln();
-        msg.printf("You have been asked to join %s! ", accountName);
-        msg.printfln();
-        msg.printf("To join this account click the following link.");
-        msg.printfln();
-        msg.printfln();
-        msg.printLink(linkMsg, linkUrl);
-        msg.printfln();
-        return msg;
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.printfln("Hi %s", userName);
+        out.printfln();
+        out.printfln("You have been asked to join %s! ", accountName);
+        out.printfln("To join this account click the following link.");
+        out.printfln();
+        out.printLink(linkMsg, linkUrl);
+        out.printfln();
+
+        return out.toString();
+    }
+
+    private String formatExistingMemberMessage(MyInvitation i)
+    {
+        MyUser user = i.getUser();
+        MyAccount account = i.getAccount();
+
+        MyPasswordReset pr;
+        pr = new MyPasswordReset();
+        pr.setUser(user);
+        pr.saveDao();
+
+        String linkMsg = "Reset My Password";
+        String linkUrl = MyUrls.getPasswordResetUrl(pr);
+
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.printfln("Hi %s", user.getName());
+        out.printfln();
+        out.printf(
+            "A request was made to join the email %s to the account %s. ",
+            user.getEmail(),
+            account.getName());
+        out.printf("However, this email is already joined to the account. ");
+        out.printf("If you did not initiate this request, please ignore this email. ");
+        out.printf("If you are having difficulty accessing your account, you may use ");
+        out.printf("the link below to reset your password.");
+        out.printfln();
+        out.printfln();
+        out.printLink(linkMsg, linkUrl);
+        out.printfln();
+
+        return out.toString();
     }
 
     //##################################################
     //# utility
     //##################################################
 
-    protected MyDaoRegistry getAccess()
+    private MyDaoRegistry getAccess()
     {
         return MyGlobals.getAccess();
     }
 
-    protected MyPropertyRegistry getProperties()
+    private MyPropertyRegistry getProperties()
     {
         return MyGlobals.getProperties();
     }

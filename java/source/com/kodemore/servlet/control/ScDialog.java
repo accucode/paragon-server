@@ -282,6 +282,11 @@ public class ScDialog
     //# ajax
     //##################################################
 
+    public void ajaxReplace()
+    {
+        ajax().replace();
+    }
+
     /**
      * Show the modal dialog.  This method assumes that the dialog's
      * html has already been rendered/attached to the DOM.

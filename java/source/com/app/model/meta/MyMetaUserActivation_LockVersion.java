@@ -29,9 +29,9 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaPasswordReset_StatusCode
-    extends KmMetaStringProperty<MyPasswordReset>
-    implements KmMetaDaoPropertyIF<MyPasswordReset,String>
+public class MyMetaUserActivation_LockVersion
+    extends KmMetaIntegerProperty<MyUserActivation>
+    implements KmMetaDaoPropertyIF<MyUserActivation,Integer>
 {
     //##################################################
     //# accessing
@@ -40,19 +40,19 @@ public class MyMetaPasswordReset_StatusCode
     @Override
     public String getName()
     {
-        return "statusCode";
+        return "lockVersion";
     }
 
     @Override
     public String getLabel()
     {
-        return "Status Code";
+        return "Lock Version";
     }
 
     @Override
     public int getColumnWidth()
     {
-        return 3;
+        return 10;
     }
 
     @Override
@@ -62,9 +62,9 @@ public class MyMetaPasswordReset_StatusCode
     }
 
     @Override
-    public KmStringValidator getValidator()
+    public KmIntegerValidator getValidator()
     {
-        return MyPasswordResetValidator.instance.getStatusCodeValidator();
+        return MyUserActivationValidator.instance.getLockVersionValidator();
     }
 
     //##################################################
@@ -74,13 +74,13 @@ public class MyMetaPasswordReset_StatusCode
     @Override
     public String getDaoPropertyName()
     {
-        return "statusCode";
+        return "lockVersion";
     }
 
     @Override
-    public MyPasswordResetDao getDao()
+    public MyUserActivationDao getDao()
     {
-        return getAccess().getPasswordResetDao();
+        return getAccess().getUserActivationDao();
     }
 
     private MyDaoRegistry getAccess()
@@ -89,49 +89,29 @@ public class MyMetaPasswordReset_StatusCode
     }
     
     //##################################################
-    //# enum
-    //##################################################
-
-    public ScDropdown newDropdown()
-    {
-        return newDropdown(getLabel());
-    }
-
-    public ScDropdown newDropdown(String label)
-    {
-        ScDropdown e;
-        e = new ScDropdown();
-        e.setLabel(label);
-        e.setValidator(getValidator());
-        e.setValue(getAdaptor());
-        e.addOptions(MyPasswordResetStatus.values());
-        return e;
-    }
-    
-    //##################################################
     //# value
     //##################################################
 
     @Override
-    public String getValueFor(MyPasswordReset model)
+    public Integer getValueFor(MyUserActivation model)
     {
-        return model.getStatusCode();
+        return model.getLockVersion();
     }
     
     @Override
-    public void setValueFor(MyPasswordReset model, String value)
+    public void setValueFor(MyUserActivation model, Integer value)
     {
-        model.setStatusCode(value);
+        model.setLockVersion(value);
     }
     
     @Override
-    public boolean hasValueFor(MyPasswordReset model, String value)
+    public boolean hasValueFor(MyUserActivation model, Integer value)
     {
-        return model.hasStatusCode(value);
+        return model.hasLockVersion(value);
     }
     
     @Override
-    public int compareValues(MyPasswordReset o1, MyPasswordReset o2, boolean nullsOnTop)
+    public int compareValues(MyUserActivation o1, MyUserActivation o2, boolean nullsOnTop)
     {
         return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }

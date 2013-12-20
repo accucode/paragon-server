@@ -122,7 +122,7 @@ CREATE TABLE invitation
     uid varchar(30),
     statusCode char(1),
     typeCode char(1),
-    accessKey varchar(30),
+    token varchar(30),
     createdUtcTs datetime,
     closedUtcTs datetime,
     email varchar(50),
@@ -132,22 +132,22 @@ CREATE TABLE invitation
     accountUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
-create index accessKey on invitation (accessKey);
+create index token on invitation (token);
 
 
 DROP TABLE IF EXISTS passwordReset;
 CREATE TABLE passwordReset
 (
     uid varchar(30),
-    statusCode char(1),
-    accessKey varchar(30),
+    email varchar(50),
+    token varchar(30),
     createdUtcTs datetime,
-    closedUtcTs datetime,
+    expirationUtcTs datetime,
     lockVersion int,
-    userUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
-create index accessKey on passwordReset (accessKey);
+create index token on passwordReset (token);
+create index expiration on passwordReset (expirationUtcTs);
 
 
 DROP TABLE IF EXISTS patch;
@@ -243,5 +243,20 @@ CREATE TABLE user
     primary key (uid)
 ) ENGINE = INNODB;
 create unique index email on user (email);
+
+
+DROP TABLE IF EXISTS userActivation;
+CREATE TABLE userActivation
+(
+    uid varchar(30),
+    email varchar(50),
+    token varchar(30),
+    createdUtcTs datetime,
+    expirationUtcTs datetime,
+    lockVersion int,
+    primary key (uid)
+) ENGINE = INNODB;
+create index token on userActivation (token);
+create index expiration on userActivation (expirationUtcTs);
 
 

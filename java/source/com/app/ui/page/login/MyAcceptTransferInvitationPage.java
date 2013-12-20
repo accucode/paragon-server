@@ -13,7 +13,6 @@ import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScUrlLink;
 import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.Kmu;
 
 import com.app.model.MyAccount;
 import com.app.model.MyInvitation;
@@ -40,7 +39,7 @@ public class MyAcceptTransferInvitationPage
     //# variables
     //##################################################
 
-    private ScLocalString _accessKey;
+    private ScLocalString _token;
 
     private ScText        _emailText;
     private ScText        _accountText;
@@ -70,16 +69,16 @@ public class MyAcceptTransferInvitationPage
     //# navigation
     //##################################################
 
-    public void pushAccessKey(MyInvitation e)
+    public void push(MyInvitation e)
     {
-        setAccessKey(e.getAccessKey());
+        setToken(e.getToken());
 
         _push();
     }
 
     public String formatEntryUrl(MyInvitation e)
     {
-        setAccessKey(e.getAccessKey());
+        setToken(e.getToken());
 
         return _formatEntryUrl();
     }
@@ -89,14 +88,14 @@ public class MyAcceptTransferInvitationPage
     {
         ScParameterList v;
         v = new ScParameterList();
-        v.setValue("accessKey", getAccessKey());
+        v.setValue("accessKey", getToken());
         return v;
     }
 
     @Override
     public void applyQueryParameters(ScParameterList v)
     {
-        setAccessKey(v.getValue("accessKey"));
+        setToken(v.getValue("accessKey"));
     }
 
     //##################################################
@@ -106,8 +105,8 @@ public class MyAcceptTransferInvitationPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        _accessKey = new ScLocalString();
-        _accessKey.setAutoSave();
+        _token = new ScLocalString();
+        _token.setAutoSave();
 
         ScGroup group;
         group = root.addGroup();
@@ -213,14 +212,8 @@ public class MyAcceptTransferInvitationPage
     {
         super.preRender();
 
-        String key;
-        key = getAccessKey();
-
-        if ( Kmu.isEmpty(key) )
-            fatal("Access Key Required");
-
         MyInvitation inv;
-        inv = getAccess().getInvitationDao().findAccessKey(key);
+        inv = getAccess().getInvitationDao().findToken(getToken());
 
         String email;
         email = inv.getEmail();
@@ -319,10 +312,8 @@ public class MyAcceptTransferInvitationPage
         ajax().hideAllErrors();
         ajax().focus();
 
-        String key = getAccessKey();
-
         MyInvitation inv;
-        inv = getAccess().getInvitationDao().findAccessKey(key);
+        inv = getAccess().getInvitationDao().findToken(getToken());
         inv.setStatusAccepted();
         inv.setClosedUtcTs(getNowUtc());
 
@@ -338,13 +329,13 @@ public class MyAcceptTransferInvitationPage
     //# access key
     //##################################################
 
-    private String getAccessKey()
+    private String getToken()
     {
-        return _accessKey.getValue();
+        return _token.getValue();
     }
 
-    private void setAccessKey(String e)
+    private void setToken(String e)
     {
-        _accessKey.setValue(e);
+        _token.setValue(e);
     }
 }

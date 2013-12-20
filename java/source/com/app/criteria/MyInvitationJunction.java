@@ -58,9 +58,9 @@ public class MyInvitationJunction
         return new KmStringCriteria(context(), fullName(TYPE_CODE));
     }
 
-    public KmStringCriteria whereAccessKey()
+    public KmStringCriteria whereToken()
     {
-        return new KmStringCriteria(context(), fullName(ACCESS_KEY));
+        return new KmStringCriteria(context(), fullName(TOKEN));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()

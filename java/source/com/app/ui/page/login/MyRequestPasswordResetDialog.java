@@ -13,7 +13,6 @@ import com.app.model.MyPasswordReset;
 import com.app.model.MyUser;
 import com.app.ui.control.MyDialog;
 import com.app.utility.MyConstantsIF;
-import com.app.utility.MyUrls;
 
 public class MyRequestPasswordResetDialog
     extends MyDialog
@@ -69,6 +68,7 @@ public class MyRequestPasswordResetDialog
         ScBox box;
         box = root.addBox();
         box.addText(msg);
+        box.addBreak();
         box.addBreak();
         box.addLabel("Email");
         box.addErrorBox().add(_emailField);
@@ -151,11 +151,15 @@ public class MyRequestPasswordResetDialog
 
     private void sendEmail(MyPasswordReset pr)
     {
-        MyUser user = pr.getUser();
+        String to = pr.getEmail();
+
+        MyUser user = getAccess().getUserDao().findEmail(to);
+        if ( user == null )
+            _emailField.error("We have no record of a user with with that email.");
+
         String app = MyConstantsIF.APPLICATION_NAME;
         String subject = Kmu.format("Password Reset Request");
-        String to = pr.getUser().getEmail();
-        String url = MyUrls.getPasswordResetUrl(pr);
+        String url = pr.formatEntryUrl();
 
         KmHtmlBuilder msg;
         msg = new KmHtmlBuilder();
@@ -170,6 +174,7 @@ public class MyRequestPasswordResetDialog
         MyEmail e;
         e = new MyEmail();
         e.addToRecipient(to);
+        e.setFromAddress(getFromAddress());
         e.setSubject(subject);
         e.addHtmlPart(msg.toString());
         e.markReady();
@@ -178,7 +183,7 @@ public class MyRequestPasswordResetDialog
 
     private void showSentMessage(MyPasswordReset pr)
     {
-        String email = pr.getUser().getEmail();
+        String email = pr.getEmail();
 
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
@@ -200,6 +205,11 @@ public class MyRequestPasswordResetDialog
     private void setEmailCookie(String email)
     {
         MySignInUtility.setEmailCookie(email);
+    }
+
+    private String getFromAddress()
+    {
+        return getProperties().getSendEmailFromAddress();
     }
 
 }

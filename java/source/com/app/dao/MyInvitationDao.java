@@ -7,11 +7,11 @@ import com.app.model.MyInvitation;
 public class MyInvitationDao
     extends MyInvitationDaoBase
 {
-    public MyInvitation findAccessKey(String key)
+    public MyInvitation findToken(String s)
     {
         MyInvitationCriteria c;
         c = createCriteria();
-        c.whereAccessKey().is(key);
+        c.whereToken().is(s);
         return c.findFirst();
     }
 }

@@ -69,6 +69,46 @@ public class MySignInPage
     }
 
     //##################################################
+    //# navigation
+    //##################################################
+
+    public void pushForWindowQuery()
+    {
+        String q = getData().getWindowQuery();
+        pushForQuery(q);
+    }
+
+    public void pushForQuery(String e)
+    {
+        _targetQuery.setValue(e);
+        _push();
+    }
+
+    @Override
+    public ScParameterList composeQueryParameters()
+    {
+        ScParameterList v;
+        v = new ScParameterList();
+
+        if ( _targetQuery.hasValue() )
+            v.setValue("q", _targetQuery.getValue());
+
+        return v;
+    }
+
+    @Override
+    public void applyQueryParameters(ScParameterList params)
+    {
+        _targetQuery.clearValue();
+
+        String s = params.getValue("q");
+        if ( Kmu.isEmpty(s) )
+            return;
+
+        _targetQuery.setValue(s);
+    }
+
+    //##################################################
     //# install
     //##################################################
 
@@ -227,46 +267,6 @@ public class MySignInPage
     }
 
     //##################################################
-    //# navigation
-    //##################################################
-
-    public void pushForWindowQuery()
-    {
-        String q = getData().getWindowQuery();
-        pushForQuery(q);
-    }
-
-    public void pushForQuery(String e)
-    {
-        _targetQuery.setValue(e);
-        _push();
-    }
-
-    @Override
-    public ScParameterList composeQueryParameters()
-    {
-        ScParameterList v;
-        v = new ScParameterList();
-
-        if ( _targetQuery.hasValue() )
-            v.setValue("q", _targetQuery.getValue());
-
-        return v;
-    }
-
-    @Override
-    public void applyQueryParameters(ScParameterList params)
-    {
-        _targetQuery.clearValue();
-
-        String s = params.getValue("q");
-        if ( Kmu.isEmpty(s) )
-            return;
-
-        _targetQuery.setValue(s);
-    }
-
-    //##################################################
     //# print
     //##################################################
 
@@ -288,7 +288,7 @@ public class MySignInPage
 
         ajax().hideAllErrors();
 
-        _signUpDialog.start(email);
+        _signUpDialog.open(email);
     }
 
     private void handleForgotPassword()

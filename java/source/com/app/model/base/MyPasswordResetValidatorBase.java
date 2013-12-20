@@ -36,12 +36,11 @@ public class MyPasswordResetValidatorBase
     //##################################################
 
     private KmStringValidator uidValidator;
-    private KmStringValidator statusCodeValidator;
-    private KmStringValidator accessKeyValidator;
+    private KmStringValidator emailValidator;
+    private KmStringValidator tokenValidator;
     private KmTimestampValidator createdUtcTsValidator;
-    private KmTimestampValidator closedUtcTsValidator;
+    private KmTimestampValidator expirationUtcTsValidator;
     private KmIntegerValidator lockVersionValidator;
-    private KmStringValidator userNameValidator;
 
     //##################################################
     //# constructor
@@ -51,12 +50,11 @@ public class MyPasswordResetValidatorBase
     {
         super();
         uidValidator = newUidValidator();
-        statusCodeValidator = newStatusCodeValidator();
-        accessKeyValidator = newAccessKeyValidator();
+        emailValidator = newEmailValidator();
+        tokenValidator = newTokenValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
-        closedUtcTsValidator = newClosedUtcTsValidator();
+        expirationUtcTsValidator = newExpirationUtcTsValidator();
         lockVersionValidator = newLockVersionValidator();
-        userNameValidator = newUserNameValidator();
     }
 
     //##################################################
@@ -68,14 +66,14 @@ public class MyPasswordResetValidatorBase
         return uidValidator;
     }
 
-    public KmStringValidator getStatusCodeValidator()
+    public KmStringValidator getEmailValidator()
     {
-        return statusCodeValidator;
+        return emailValidator;
     }
 
-    public KmStringValidator getAccessKeyValidator()
+    public KmStringValidator getTokenValidator()
     {
-        return accessKeyValidator;
+        return tokenValidator;
     }
 
     public KmTimestampValidator getCreatedUtcTsValidator()
@@ -83,19 +81,14 @@ public class MyPasswordResetValidatorBase
         return createdUtcTsValidator;
     }
 
-    public KmTimestampValidator getClosedUtcTsValidator()
+    public KmTimestampValidator getExpirationUtcTsValidator()
     {
-        return closedUtcTsValidator;
+        return expirationUtcTsValidator;
     }
 
     public KmIntegerValidator getLockVersionValidator()
     {
         return lockVersionValidator;
-    }
-
-    public KmStringValidator getUserNameValidator()
-    {
-        return userNameValidator;
     }
 
     //##################################################
@@ -106,10 +99,10 @@ public class MyPasswordResetValidatorBase
     public void convertOnly(MyPasswordReset value)
     {
         value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setStatusCode(statusCodeValidator.convertOnly(value.getStatusCode()));
-        value.setAccessKey(accessKeyValidator.convertOnly(value.getAccessKey()));
+        value.setEmail(emailValidator.convertOnly(value.getEmail()));
+        value.setToken(tokenValidator.convertOnly(value.getToken()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
-        value.setClosedUtcTs(closedUtcTsValidator.convertOnly(value.getClosedUtcTs()));
+        value.setExpirationUtcTs(expirationUtcTsValidator.convertOnly(value.getExpirationUtcTs()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
     }
 
@@ -117,10 +110,10 @@ public class MyPasswordResetValidatorBase
     public void validateOnly(MyPasswordReset value, KmList<KmErrorIF> errors)
     {
         uidValidator.validateOnly(value.getUid(), errors);
-        statusCodeValidator.validateOnly(value.getStatusCode(), errors);
-        accessKeyValidator.validateOnly(value.getAccessKey(), errors);
+        emailValidator.validateOnly(value.getEmail(), errors);
+        tokenValidator.validateOnly(value.getToken(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
-        closedUtcTsValidator.validateOnly(value.getClosedUtcTs(), errors);
+        expirationUtcTsValidator.validateOnly(value.getExpirationUtcTs(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
     }
 
@@ -140,28 +133,26 @@ public class MyPasswordResetValidatorBase
         return e;
     }
 
-    public KmStringValidator newStatusCodeValidator()
+    public KmStringValidator newEmailValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(1);
-        e.setAllowsLetters(true);
-        e.setForcesUpperCase(true);
-        e.setStripsAllSpaces(true);
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
         e.setModel("passwordReset");
-        e.setField("statusCode");
+        e.setField("email");
         e.setRequired();
         return e;
     }
 
-    public KmStringValidator newAccessKeyValidator()
+    public KmStringValidator newTokenValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
         e.setMaximumLength(30);
         e.setAllowsPrintable(true);
         e.setModel("passwordReset");
-        e.setField("accessKey");
+        e.setField("token");
         e.setRequired();
         return e;
     }
@@ -176,12 +167,13 @@ public class MyPasswordResetValidatorBase
         return e;
     }
 
-    public KmTimestampValidator newClosedUtcTsValidator()
+    public KmTimestampValidator newExpirationUtcTsValidator()
     {
         KmTimestampValidator e;
         e = new KmTimestampValidator();
         e.setModel("passwordReset");
-        e.setField("closedUtcTs");
+        e.setField("expirationUtcTs");
+        e.setRequired();
         return e;
     }
 
@@ -191,18 +183,6 @@ public class MyPasswordResetValidatorBase
         e = new KmIntegerValidator();
         e.setModel("passwordReset");
         e.setField("lockVersion");
-        return e;
-    }
-
-    public KmStringValidator newUserNameValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsPrintable(true);
-        e.setModel("passwordReset");
-        e.setField("userName");
-        e.setRequired();
         return e;
     }
 

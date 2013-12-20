@@ -1,7 +1,8 @@
 package sandbox.wlove;
 
-import com.kodemore.servlet.field.ScFakeHtmlId;
-import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.email.KmEmail;
+import com.kodemore.email.method.KmEmailSmtpMethod;
+import com.kodemore.utility.KmClock;
 
 public class JkTest
 {
@@ -20,17 +21,25 @@ public class JkTest
 
     private void run()
     {
-        ScRootScript root;
-        root = new ScRootScript();
+        String now = KmClock.getNowLocal().format_m_d_yyyy_hh_mm_ss();
 
-        ScFakeHtmlId a = new ScFakeHtmlId("a", root);
-        ScFakeHtmlId b = new ScFakeHtmlId("b", root);
-        ScFakeHtmlId c = new ScFakeHtmlId("c", root);
+        KmEmail e;
+        e = new KmEmail();
+        e.setFrom("noreply@test.com");
+        e.setSubject("test " + now);
+        e.addTo("wlove@accucode.com");
+        e.addHtmlPart("hello");
 
-        a.ajax().toggle().slide().defer();
-        b.ajax().toggle().slide().defer();
-        c.ajax().toggle().slide().defer();
+        KmEmailSmtpMethod m;
+        m = new KmEmailSmtpMethod();
+        m.setSmtpSsl(false);
+        m.setSmtpScheme("http");
+        m.setSmtpHost("smtp.sendgrid.net");
+        m.setSmtpPort(587);
+        m.setSmtpUser("aoBarApp");
+        m.setSmtpPassword("q8ndPsKMxpAkp3yv");
+        m.send(e);
 
-        System.out.println(root.formatMultilineScript());
+        System.out.println("ok.");
     }
 }

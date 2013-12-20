@@ -350,4 +350,23 @@ public class MyDaoRegistry
         return getUserDao().findUid(e);
     }
 
+    //##################################################
+    //# userActivation
+    //##################################################
+
+    public MyUserActivationDao getUserActivationDao()
+    {
+        return new MyUserActivationDao();
+    }
+
+    public KmList<MyUserActivation> findAllUserActivations()
+    {
+        return getUserActivationDao().findAll();
+    }
+
+    public MyUserActivation findUserActivationUid(String e)
+    {
+        return getUserActivationDao().findUid(e);
+    }
+
 }

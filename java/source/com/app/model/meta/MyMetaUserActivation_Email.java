@@ -29,8 +29,9 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaPasswordReset_ClosedLocalTsMessage
-    extends KmMetaStringProperty<MyPasswordReset>
+public class MyMetaUserActivation_Email
+    extends KmMetaStringProperty<MyUserActivation>
+    implements KmMetaDaoPropertyIF<MyUserActivation,String>
 {
     //##################################################
     //# accessing
@@ -39,13 +40,13 @@ public class MyMetaPasswordReset_ClosedLocalTsMessage
     @Override
     public String getName()
     {
-        return "closedLocalTsMessage";
+        return "email";
     }
 
     @Override
     public String getLabel()
     {
-        return "Closed";
+        return "Email";
     }
 
     @Override
@@ -57,27 +58,60 @@ public class MyMetaPasswordReset_ClosedLocalTsMessage
     @Override
     public boolean isEditable()
     {
-        return false;
+        return true;
     }
 
+    @Override
+    public KmStringValidator getValidator()
+    {
+        return MyUserActivationValidator.instance.getEmailValidator();
+    }
+
+    //##################################################
+    //# dao
+    //##################################################
+
+    @Override
+    public String getDaoPropertyName()
+    {
+        return "email";
+    }
+
+    @Override
+    public MyUserActivationDao getDao()
+    {
+        return getAccess().getUserActivationDao();
+    }
+
+    private MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
+    
     //##################################################
     //# value
     //##################################################
 
     @Override
-    public String getValueFor(MyPasswordReset model)
+    public String getValueFor(MyUserActivation model)
     {
-        return model.getClosedLocalTsMessage();
+        return model.getEmail();
     }
     
     @Override
-    public boolean hasValueFor(MyPasswordReset model, String value)
+    public void setValueFor(MyUserActivation model, String value)
     {
-        return model.hasClosedLocalTsMessage(value);
+        model.setEmail(value);
     }
     
     @Override
-    public int compareValues(MyPasswordReset o1, MyPasswordReset o2, boolean nullsOnTop)
+    public boolean hasValueFor(MyUserActivation model, String value)
+    {
+        return model.hasEmail(value);
+    }
+    
+    @Override
+    public int compareValues(MyUserActivation o1, MyUserActivation o2, boolean nullsOnTop)
     {
         return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }

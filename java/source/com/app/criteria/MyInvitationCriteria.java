@@ -124,6 +124,24 @@ public class MyInvitationCriteria
             whereStatusIsNotRejected();
     }
 
+    public void whereStatusIsExpired()
+    {
+        whereStatusIs(MyInvitationStatus.Expired);
+    }
+
+    public void whereStatusIsNotExpired()
+    {
+        whereStatusIsNot(MyInvitationStatus.Expired);
+    }
+
+    public void whereStatusIsExpired(boolean e)
+    {
+        if ( e )
+            whereStatusIsExpired();
+        else
+            whereStatusIsNotExpired();
+    }
+
     public void whereStatusIsCancelled()
     {
         whereStatusIs(MyInvitationStatus.Cancelled);
@@ -163,63 +181,63 @@ public class MyInvitationCriteria
             whereTypeCode().isNot(e.getCode());
     }
 
-    public void whereTypeIsUser()
+    public void whereTypeIsNewUser()
     {
-        whereTypeIs(MyInvitationType.User);
+        whereTypeIs(MyInvitationType.NewUser);
     }
 
-    public void whereTypeIsNotUser()
+    public void whereTypeIsNotNewUser()
     {
-        whereTypeIsNot(MyInvitationType.User);
+        whereTypeIsNot(MyInvitationType.NewUser);
     }
 
-    public void whereTypeIsUser(boolean e)
+    public void whereTypeIsNewUser(boolean e)
     {
         if ( e )
-            whereTypeIsUser();
+            whereTypeIsNewUser();
         else
-            whereTypeIsNotUser();
+            whereTypeIsNotNewUser();
     }
 
-    public void whereTypeIsTransfer()
+    public void whereTypeIsTransferOwnership()
     {
-        whereTypeIs(MyInvitationType.Transfer);
+        whereTypeIs(MyInvitationType.TransferOwnership);
     }
 
-    public void whereTypeIsNotTransfer()
+    public void whereTypeIsNotTransferOwnership()
     {
-        whereTypeIsNot(MyInvitationType.Transfer);
+        whereTypeIsNot(MyInvitationType.TransferOwnership);
     }
 
-    public void whereTypeIsTransfer(boolean e)
+    public void whereTypeIsTransferOwnership(boolean e)
     {
         if ( e )
-            whereTypeIsTransfer();
+            whereTypeIsTransferOwnership();
         else
-            whereTypeIsNotTransfer();
+            whereTypeIsNotTransferOwnership();
     }
 
-    public void whereTypeIsJoin()
+    public void whereTypeIsJoinAccount()
     {
-        whereTypeIs(MyInvitationType.Join);
+        whereTypeIs(MyInvitationType.JoinAccount);
     }
 
-    public void whereTypeIsNotJoin()
+    public void whereTypeIsNotJoinAccount()
     {
-        whereTypeIsNot(MyInvitationType.Join);
+        whereTypeIsNot(MyInvitationType.JoinAccount);
     }
 
-    public void whereTypeIsJoin(boolean e)
+    public void whereTypeIsJoinAccount(boolean e)
     {
         if ( e )
-            whereTypeIsJoin();
+            whereTypeIsJoinAccount();
         else
-            whereTypeIsNotJoin();
+            whereTypeIsNotJoinAccount();
     }
 
-    public KmStringCriteria whereAccessKey()
+    public KmStringCriteria whereToken()
     {
-        return new KmStringCriteria(context(), fullName(ACCESS_KEY));
+        return new KmStringCriteria(context(), fullName(TOKEN));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
@@ -305,22 +323,22 @@ public class MyInvitationCriteria
             sortOnTypeCodeDescending();
     }
 
-    public void sortOnAccessKey()
+    public void sortOnToken()
     {
-        parent().sortAscending(ACCESS_KEY);
+        parent().sortAscending(TOKEN);
     }
 
-    public void sortOnAccessKeyDescending()
+    public void sortOnTokenDescending()
     {
-        parent().sortDescending(ACCESS_KEY);
+        parent().sortDescending(TOKEN);
     }
 
-    public void sortOnAccessKey(boolean asc)
+    public void sortOnToken(boolean asc)
     {
         if ( asc )
-            sortOnAccessKey();
+            sortOnToken();
         else
-            sortOnAccessKeyDescending();
+            sortOnTokenDescending();
     }
 
     public void sortOnCreatedUtcTs()
@@ -546,47 +564,47 @@ public class MyInvitationCriteria
     }
 
     //##################################################
-    //# projections (accessKey)
+    //# projections (token)
     //##################################################
 
-    public void selectAccessKey()
+    public void selectToken()
     {
-        select(ACCESS_KEY);
+        select(TOKEN);
     }
 
-    public void selectDistinctAccessKey()
+    public void selectDistinctToken()
     {
-        selectDistinct(ACCESS_KEY);
+        selectDistinct(TOKEN);
     }
 
-    public void selectCountDistinctAccessKey()
+    public void selectCountDistinctToken()
     {
-        selectCountDistinct(ACCESS_KEY);
+        selectCountDistinct(TOKEN);
     }
 
-    public void selectMinimumAccessKey()
+    public void selectMinimumToken()
     {
-        selectMinimum(ACCESS_KEY);
+        selectMinimum(TOKEN);
     }
 
-    public void selectMaximumAccessKey()
+    public void selectMaximumToken()
     {
-        selectMaximum(ACCESS_KEY);
+        selectMaximum(TOKEN);
     }
 
-    public void selectAverageAccessKey()
+    public void selectAverageToken()
     {
-        selectAverage(ACCESS_KEY);
+        selectAverage(TOKEN);
     }
 
-    public void selectSumAccessKey()
+    public void selectSumToken()
     {
-        selectSum(ACCESS_KEY);
+        selectSum(TOKEN);
     }
 
-    public void groupByAccessKey()
+    public void groupByToken()
     {
-        groupBy(ACCESS_KEY);
+        groupBy(TOKEN);
     }
 
     //##################################################

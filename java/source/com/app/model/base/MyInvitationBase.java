@@ -41,7 +41,7 @@ public abstract class MyInvitationBase
     private String uid;
     private String statusCode;
     private String typeCode;
-    private String accessKey;
+    private String token;
     private KmTimestamp createdUtcTs;
     private KmTimestamp closedUtcTs;
     private String email;
@@ -58,7 +58,7 @@ public abstract class MyInvitationBase
     {
         super();
         setUid(newUid());
-        setAccessKey(newUid());
+        setToken(newUid());
         setCreatedUtcTs(getNowUtc());
     }
 
@@ -212,6 +212,21 @@ public abstract class MyInvitationBase
         return !isStatusRejected();
     }
 
+    public void setStatusExpired()
+    {
+        setStatus(MyInvitationStatus.Expired);
+    }
+
+    public boolean isStatusExpired()
+    {
+        return hasStatus(MyInvitationStatus.Expired);
+    }
+
+    public boolean isNotStatusExpired()
+    {
+        return !isStatusExpired();
+    }
+
     public void setStatusCancelled()
     {
         setStatus(MyInvitationStatus.Cancelled);
@@ -291,90 +306,90 @@ public abstract class MyInvitationBase
         return getType() == e;
     }
 
-    public void setTypeUser()
+    public void setTypeNewUser()
     {
-        setType(MyInvitationType.User);
+        setType(MyInvitationType.NewUser);
     }
 
-    public boolean isTypeUser()
+    public boolean isTypeNewUser()
     {
-        return hasType(MyInvitationType.User);
+        return hasType(MyInvitationType.NewUser);
     }
 
-    public boolean isNotTypeUser()
+    public boolean isNotTypeNewUser()
     {
-        return !isTypeUser();
+        return !isTypeNewUser();
     }
 
-    public void setTypeTransfer()
+    public void setTypeTransferOwnership()
     {
-        setType(MyInvitationType.Transfer);
+        setType(MyInvitationType.TransferOwnership);
     }
 
-    public boolean isTypeTransfer()
+    public boolean isTypeTransferOwnership()
     {
-        return hasType(MyInvitationType.Transfer);
+        return hasType(MyInvitationType.TransferOwnership);
     }
 
-    public boolean isNotTypeTransfer()
+    public boolean isNotTypeTransferOwnership()
     {
-        return !isTypeTransfer();
+        return !isTypeTransferOwnership();
     }
 
-    public void setTypeJoin()
+    public void setTypeJoinAccount()
     {
-        setType(MyInvitationType.Join);
+        setType(MyInvitationType.JoinAccount);
     }
 
-    public boolean isTypeJoin()
+    public boolean isTypeJoinAccount()
     {
-        return hasType(MyInvitationType.Join);
+        return hasType(MyInvitationType.JoinAccount);
     }
 
-    public boolean isNotTypeJoin()
+    public boolean isNotTypeJoinAccount()
     {
-        return !isTypeJoin();
+        return !isTypeJoinAccount();
     }
 
     //##################################################
-    //# field (accessKey)
+    //# field (token)
     //##################################################
 
-    public String getAccessKey()
+    public String getToken()
     {
-        return accessKey;
+        return token;
     }
 
-    public void setAccessKey(String e)
+    public void setToken(String e)
     {
         checkReadOnly();
-        e = Validator.getAccessKeyValidator().convertOnly(e);
-        accessKey = e;
+        e = Validator.getTokenValidator().convertOnly(e);
+        token = e;
     }
 
-    public void clearAccessKey()
+    public void clearToken()
     {
-        setAccessKey(null);
+        setToken(null);
     }
 
-    public boolean hasAccessKey()
+    public boolean hasToken()
     {
-        return Kmu.hasValue(getAccessKey());
+        return Kmu.hasValue(getToken());
     }
 
-    public boolean hasAccessKey(String e)
+    public boolean hasToken(String e)
     {
-        return Kmu.isEqualIgnoreCase(getAccessKey(), e);
+        return Kmu.isEqualIgnoreCase(getToken(), e);
     }
 
-    public void truncateAccessKey()
+    public void truncateToken()
     {
-        truncateAccessKey(false);
+        truncateToken(false);
     }
 
-    public void truncateAccessKey(boolean ellipses)
+    public void truncateToken(boolean ellipses)
     {
-        accessKey = Kmu.truncate(accessKey, 30, ellipses);
+        token = Kmu.truncate(token, 30, ellipses);
     }
 
     //##################################################
@@ -927,7 +942,7 @@ public abstract class MyInvitationBase
     {
         if ( !Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
         if ( !Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
-        if ( !Kmu.isEqual(getAccessKey(), e.getAccessKey()) ) return false;
+        if ( !Kmu.isEqual(getToken(), e.getToken()) ) return false;
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getClosedUtcTs(), e.getClosedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getEmail(), e.getEmail()) ) return false;
@@ -975,8 +990,8 @@ public abstract class MyInvitationBase
         if ( p.hasKey("typeCode") )
             setTypeCode(p.getString("typeCode"));
 
-        if ( p.hasKey("accessKey") )
-            setAccessKey(p.getString("accessKey"));
+        if ( p.hasKey("token") )
+            setToken(p.getString("token"));
 
         if ( p.hasKey("email") )
             setEmail(p.getString("email"));
@@ -1002,8 +1017,8 @@ public abstract class MyInvitationBase
         if ( hasTypeCode() )
             p.setString("typeCode", getTypeCode());
 
-        if ( hasAccessKey() )
-            p.setString("accessKey", getAccessKey());
+        if ( hasToken() )
+            p.setString("token", getToken());
 
         if ( hasEmail() )
             p.setString("email", getEmail());
@@ -1040,7 +1055,7 @@ public abstract class MyInvitationBase
         System.out.println("    Uid = " + uid);
         System.out.println("    StatusCode = " + statusCode);
         System.out.println("    TypeCode = " + typeCode);
-        System.out.println("    AccessKey = " + accessKey);
+        System.out.println("    Token = " + token);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
         System.out.println("    ClosedUtcTs = " + closedUtcTs);
         System.out.println("    Email = " + email);

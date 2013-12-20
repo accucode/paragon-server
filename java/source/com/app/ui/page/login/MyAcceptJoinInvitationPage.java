@@ -44,7 +44,7 @@ public class MyAcceptJoinInvitationPage
     //# variables
     //##################################################
 
-    private ScLocalString   _accessKey;
+    private ScLocalString   _token;
 
     private ScText          _emailText;
     private ScText          _accountText;
@@ -84,14 +84,14 @@ public class MyAcceptJoinInvitationPage
 
     public void pushAccessKey(MyInvitation e)
     {
-        setAccessKey(e.getAccessKey());
+        setToken(e.getToken());
 
         _push();
     }
 
     public String formatEntryUrl(MyInvitation e)
     {
-        setAccessKey(e.getAccessKey());
+        setToken(e.getToken());
 
         return _formatEntryUrl();
     }
@@ -101,14 +101,14 @@ public class MyAcceptJoinInvitationPage
     {
         ScParameterList v;
         v = new ScParameterList();
-        v.setValue("accessKey", getAccessKey());
+        v.setValue("token", getToken());
         return v;
     }
 
     @Override
     public void applyQueryParameters(ScParameterList v)
     {
-        setAccessKey(v.getValue("accessKey"));
+        setToken(v.getValue("accessKey"));
     }
 
     //##################################################
@@ -118,8 +118,8 @@ public class MyAcceptJoinInvitationPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        _accessKey = new ScLocalString();
-        _accessKey.setAutoSave();
+        _token = new ScLocalString();
+        _token.setAutoSave();
 
         ScGroup group;
         group = root.addGroup();
@@ -250,14 +250,14 @@ public class MyAcceptJoinInvitationPage
     {
         super.preRender();
 
-        String key;
-        key = getAccessKey();
+        String token;
+        token = getToken();
 
-        if ( Kmu.isEmpty(key) )
-            fatal("Access Key Required");
+        if ( Kmu.isEmpty(token) )
+            fatal("Token is Required");
 
         MyInvitation inv;
-        inv = getAccess().getInvitationDao().findAccessKey(key);
+        inv = getAccess().getInvitationDao().findToken(token);
 
         String email;
         email = inv.getEmail();
@@ -344,10 +344,8 @@ public class MyAcceptJoinInvitationPage
         ajax().hideAllErrors();
         ajax().focus();
 
-        String key = getAccessKey();
-
         MyInvitation inv;
-        inv = getAccess().getInvitationDao().findAccessKey(key);
+        inv = getAccess().getInvitationDao().findToken(getToken());
         inv.setStatusAccepted();
         inv.setClosedUtcTs(getNowUtc());
 
@@ -405,13 +403,13 @@ public class MyAcceptJoinInvitationPage
     //# access key
     //##################################################
 
-    private String getAccessKey()
+    private String getToken()
     {
-        return _accessKey.getValue();
+        return _token.getValue();
     }
 
-    private void setAccessKey(String e)
+    private void setToken(String e)
     {
-        _accessKey.setValue(e);
+        _token.setValue(e);
     }
 }

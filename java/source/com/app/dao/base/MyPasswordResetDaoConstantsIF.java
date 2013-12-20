@@ -18,26 +18,18 @@ public interface MyPasswordResetDaoConstantsIF
     //##################################################
 
     String UID = "uid";
-    String STATUS_CODE = "statusCode";
-    String ACCESS_KEY = "accessKey";
+    String EMAIL = "email";
+    String TOKEN = "token";
     String CREATED_UTC_TS = "createdUtcTs";
-    String CLOSED_UTC_TS = "closedUtcTs";
+    String EXPIRATION_UTC_TS = "expirationUtcTs";
     String LOCK_VERSION = "lockVersion";
-    String STATUS_NAME = "statusName";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
     String CREATED_LOCAL_DATE = "createdLocalDate";
     String CREATED_LOCAL_TIME = "createdLocalTime";
-    String CLOSED_LOCAL_TS = "closedLocalTs";
-    String CLOSED_LOCAL_TS_MESSAGE = "closedLocalTsMessage";
-    String CLOSED_LOCAL_DATE = "closedLocalDate";
-    String CLOSED_LOCAL_TIME = "closedLocalTime";
-
-    //##################################################
-    //# associations
-    //##################################################
-
-    String USER = "user";
-    String USER_UID = "user.uid";
+    String EXPIRATION_LOCAL_TS = "expirationLocalTs";
+    String EXPIRATION_LOCAL_TS_MESSAGE = "expirationLocalTsMessage";
+    String EXPIRATION_LOCAL_DATE = "expirationLocalDate";
+    String EXPIRATION_LOCAL_TIME = "expirationLocalTime";
 
 }

@@ -4,12 +4,14 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScCard;
+import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScStyledText;
-import com.kodemore.servlet.control.ScSubmitButton;
+import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
@@ -17,7 +19,6 @@ import com.kodemore.utility.Kmu;
 import com.app.model.MyPasswordReset;
 import com.app.model.MyUser;
 import com.app.ui.page.MyPage;
-import com.app.utility.MyUrls;
 
 public class MyPasswordResetPage
     extends MyPage
@@ -37,31 +38,50 @@ public class MyPasswordResetPage
     //# variables
     //##################################################
 
-    private ScLocalString   _accessKey;
+    private ScLocalString   _token;
 
-    private ScBox           _emailBox;
+    private ScCardFrame     _frame;
 
-    private ScForm          _form;
+    private ScCard          _entryCard;
+    private ScStyledText    _emailText;
     private ScPasswordField _password1Field;
     private ScPasswordField _password2Field;
 
-    private ScBox           _messageBox;
-    private ScBox           _invalidKeyBox;
+    private ScCard          _successCard;
+
+    private ScCard          _errorCard;
+    private ScText          _errorMessage;
+
+    //##################################################
+    //# setup
+    //##################################################
+
+    @Override
+    public boolean requiresUser()
+    {
+        return false;
+    }
+
+    @Override
+    protected boolean showsLeftMenu()
+    {
+        return false;
+    }
 
     //##################################################
     //# navigation
     //##################################################
 
-    public void push(MyPasswordReset e)
+    public void pushToken(MyPasswordReset e)
     {
-        setAccessKey(e.getAccessKey());
+        setToken(e.getToken());
 
         _push();
     }
 
     public String formatEntryUrl(MyPasswordReset e)
     {
-        setAccessKey(e.getAccessKey());
+        setToken(e.getToken());
 
         return _formatEntryUrl();
     }
@@ -71,24 +91,14 @@ public class MyPasswordResetPage
     {
         ScParameterList v;
         v = new ScParameterList();
-        v.setValue("accessKey", getAccessKey());
+        v.setValue("token", getToken());
         return v;
     }
 
     @Override
     public void applyQueryParameters(ScParameterList v)
     {
-        setAccessKey(v.getValue("accessKey"));
-    }
-
-    //##################################################
-    //# install
-    //##################################################
-
-    @Override
-    public boolean requiresUser()
-    {
-        return false;
+        setToken(v.getValue("token"));
     }
 
     //##################################################
@@ -98,110 +108,149 @@ public class MyPasswordResetPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        _accessKey = new ScLocalString();
-        _accessKey.setAutoSave();
+        _token = new ScLocalString();
+        _token.setAutoSave();
 
-        ScGroup group;
-        group = root.addGroup();
-        group.setTitle("Reset Password");
-        group.style().width(300).marginTop(100).marginCenter();
+        _frame = root.addFrame();
+        _frame.style().width(300).marginTop(100).marginCenter();
 
-        ScContainer body = group.getBody();
+        _entryCard = createEntryCard(_frame);
+        _successCard = createSuccessCard(_frame);
+        _errorCard = createErrorCard(_frame);
+    }
 
-        installForm(body);
-        installSuccessBox(body);
-        installInvalidKeyBox(body);
+    //==================================================
+    //= install :: entry card
+    //==================================================
+
+    private ScCard createEntryCard(ScCardFrame frame)
+    {
+        ScCard card;
+        card = frame.addCard();
+
+        initFields();
+        installForm(card);
+
+        return card;
+    }
+
+    private void initFields()
+    {
+        int width = 270;
+
+        _emailText = new ScStyledText();
+        _emailText.css().displayBlock().fieldValue();
+
+        _password1Field = new ScPasswordField();
+        _password1Field.style().width(width);
+        _password1Field.setRequired();
+
+        _password2Field = new ScPasswordField();
+        _password2Field.style().width(width);
     }
 
     private void installForm(ScContainer root)
     {
-        _password1Field = new ScPasswordField();
-        _password1Field.style().width(270);
-        _password1Field.setRequired();
-
-        _password2Field = new ScPasswordField();
-        _password2Field.style().width(270);
-
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newAcceptAction());
-        form.css().pad10();
-        form.hide();
-        _form = form;
+        form.setDefaultAction(newResetPasswordAction());
 
-        form.addLabel("Email");
+        ScGroup group;
+        group = form.addGroup();
+        group.setTitle("Reset Password");
 
-        _emailBox = form.addBox();
-        _emailBox.css().fieldValue();
+        ScBox body;
+        body = group.addBox();
+        body.css().pad();
 
-        ScBox chooseLabel;
-        chooseLabel = form.addLabel("Choose a Password");
-        chooseLabel.css().padTop();
-        form.addErrorBox().add(_password1Field);
+        body.addLabel("Email");
+        body.add(_emailText);
 
-        ScBox reEnterLabel;
-        reEnterLabel = form.addLabel("Re-enter Password");
-        reEnterLabel.css().padTop();
-        form.addErrorBox().add(_password2Field);
+        ScBox label;
+        label = body.addLabel("Choose a Password");
+        label.css().padTop();
+        body.addErrorBox().add(_password1Field);
 
-        ScBox buttons;
-        buttons = form.addButtonBoxRight();
+        label = body.addLabel("Re-enter Password");
+        label.css().padTop();
+        body.addErrorBox().add(_password2Field);
 
-        ScSubmitButton button;
-        button = buttons.addSubmitButton("Save Password");
-        button.style().marginTop(10);
+        group.addDivider();
+
+        ScBox footer;
+        footer = group.addButtonBoxRight();
+        footer.addSubmitButton("Reset Password");
     }
 
-    private void installSuccessBox(ScContainer root)
+    //==================================================
+    //= install :: success card
+    //==================================================
+
+    private ScCard createSuccessCard(ScCardFrame frame)
     {
-        ScBox box;
-        box = root.addBox();
-        box.hide();
-        box.css().pad();
-        _messageBox = box;
+        ScCard card;
+        card = frame.addCard();
 
-        ScStyledText text;
-        text = box.addStyledText();
-        text.style().bold().italic().size(16);
-        text.setValue("" + "Congratulations! " + "Your password has been reset.");
+        ScGroup group;
+        group = card.addGroup();
+        group.setTitle("Success");
 
-        box.addBreaks(2);
+        ScBox body;
+        body = group.addBox();
+        body.css().pad();
+        body.addText(""
+            + "Success! Your password has been reset. "
+            + "Please click the following link to sign in.");
 
-        box.addUrlLink("Sign In", MyUrls.getEntryUrl());
+        group.addDivider();
+
+        ScBox footer;
+        footer = group.addButtonBoxRight();
+        footer.addButton("Sign In", MySignInPage.instance);
+
+        return card;
     }
 
-    private void installInvalidKeyBox(ScContainer root)
+    //==================================================
+    //= install :: error card
+    //==================================================
+
+    private ScCard createErrorCard(ScCardFrame frame)
     {
-        ScBox box;
-        box = root.addBox();
-        box.hide();
-        box.css().pad();
-        _invalidKeyBox = box;
+        ScCard card;
+        card = frame.addCard();
 
-        ScStyledText text;
-        text = box.addStyledText();
-        text.style().bold().italic().size(16);
-        text.setValue(""
-            + "This request is invalid or expired. If you still need "
-            + "to reset your password, please return to the Sign In page and "
-            + "request a new password reset.");
+        ScGroup group;
+        group = card.addGroup();
+        group.setTitle("Error");
 
-        box.addBreaks(2);
-        box.addUrlLink("Sign In", MyUrls.getEntryUrl());
+        ScBox body;
+        body = group.addBox();
+        body.css().pad();
+
+        _errorMessage = body.addText();
+
+        group.addDivider();
+
+        ScBox footer;
+        footer = group.addButtonBoxRight();
+        footer.addButton("Sign In", MySignInPage.instance);
+
+        return card;
     }
 
     //##################################################
     //# actions
     //##################################################
 
-    private ScActionIF newAcceptAction()
+    private ScActionIF newResetPasswordAction()
     {
         return new ScAction(this)
         {
             @Override
             protected void handle()
             {
-                handleAccept();
+                handleResetPassword();
             }
         };
     }
@@ -215,69 +264,113 @@ public class MyPasswordResetPage
     {
         super.preRender();
 
-        String key;
-        key = getAccessKey();
-
-        MyPasswordReset e;
-        e = getAccess().getPasswordResetDao().findAccessKey(key);
-
-        if ( e == null || e.isNotStatusNew() )
+        MyPasswordReset pr = getPasswordReset();
+        if ( pr == null || pr.isExpired() )
         {
-            _invalidKeyBox.show();
+            _errorMessage.setValue("The requested password reset is invalid or has expired.");
+            _errorCard.beDefault();
             return;
         }
 
-        _emailBox.ajaxSetText(e.getUser().getEmail());
+        MyUser u = pr.findUser();
+        if ( u == null )
+        {
+            _errorMessage.setValue("No such email exists.");
+            _errorCard.beDefault();
+            return;
+        }
+
+        _entryCard.beDefault();
+        _emailText.setValue(getPasswordReset().getEmail());
+        _password1Field.clearText();
+        _password2Field.clearText();
     }
 
     //##################################################
     //# handle
     //##################################################
 
-    private void handleAccept()
+    private void handleResetPassword()
     {
+        MyPasswordReset pr = getPasswordReset();
+        if ( pr == null || pr.isExpired() )
+        {
+            printError(""
+                + "The requested password reset is invalid or has expired. "
+                + "Please return to the sign in page to try again.");
+            return;
+        }
+
+        ajax().hideAllErrors();
+
         _password1Field.ajax().clearValue();
         _password2Field.ajax().clearValue();
 
-        ajax().hideAllErrors();
-        ajax().focus();
+        _entryCard.validate();
 
-        _form.validate();
+        String pw1 = _password1Field.getValue();
+        String pw2 = _password2Field.getValue();
 
-        String p1 = _password1Field.getValue();
-        String p2 = _password2Field.getValue();
-
-        if ( Kmu.isNotEqual(p1, p2) )
+        if ( Kmu.isNotEqual(pw1, pw2) )
             _password1Field.error("Passwords did not match.");
 
-        String key = getAccessKey();
+        MyUser user = pr.findUser();
+        if ( user == null )
+        {
+            printError("The requested email is not valid.");
+            return;
 
-        MyPasswordReset e;
-        e = getAccess().getPasswordResetDao().findAccessKey(key);
-        e.setStatusAccepted();
-        e.setClosedUtcTs(getNowUtc());
+        }
 
-        MyUser u;
-        u = e.getUser();
-        u.setPassword(p1);
-        u.setVerified(true);
+        user.setPassword(pw1);
+        setEmailCookie();
+        deletePasswordReset();
 
-        _form.ajax().hide();
-        _messageBox.ajax().show().slide();
+        _successCard.print();
     }
 
     //##################################################
-    //# access key
+    //# token
     //##################################################
 
-    private String getAccessKey()
+    private String getToken()
     {
-        return _accessKey.getValue();
+        return _token.getValue();
     }
 
-    private void setAccessKey(String e)
+    private void setToken(String e)
     {
-        _accessKey.setValue(e);
+        _token.setValue(e);
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private MyPasswordReset getPasswordReset()
+    {
+        return getAccess().getPasswordResetDao().findToken(getToken());
+    }
+
+    private void deletePasswordReset()
+    {
+        MyPasswordReset ua = getPasswordReset();
+
+        if ( ua != null )
+            ua.deleteDao();
+    }
+
+    private void printError(String msg)
+    {
+        _errorMessage.setValue(msg);
+        _errorCard.print();
+    }
+
+    private void setEmailCookie()
+    {
+        MyPasswordReset ua = getPasswordReset();
+        if ( ua != null )
+            MySignInUtility.setEmailCookie(ua.getEmail());
     }
 
 }
