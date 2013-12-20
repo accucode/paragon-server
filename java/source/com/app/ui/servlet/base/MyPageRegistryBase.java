@@ -27,9 +27,6 @@ public abstract class MyPageRegistryBase
     {
         super.registerPages();
         
-        add(MyAcceptJoinInvitationPage.instance);
-        add(MyAcceptNewUserInvitationPage.instance);
-        add(MyAcceptTransferInvitationPage.instance);
         add(MyAccordionTestPage.instance);
         add(MyAccountsPage.instance);
         add(MyAdminPage.instance);
@@ -68,7 +65,6 @@ public abstract class MyPageRegistryBase
         add(MyHomePage.instance);
         add(MyHoverTestPage.instance);
         add(MyImageButtonTestPage.instance);
-        add(MyInvalidInvitationPage.instance);
         add(MyLocalValueTestPage.instance);
         add(MyMemoryLeakTestPage.instance);
         add(MyNotebookTestPage.instance);

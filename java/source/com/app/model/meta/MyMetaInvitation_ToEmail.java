@@ -29,7 +29,7 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaInvitation_Email
+public class MyMetaInvitation_ToEmail
     extends KmMetaStringProperty<MyInvitation>
     implements KmMetaDaoPropertyIF<MyInvitation,String>
 {
@@ -40,13 +40,13 @@ public class MyMetaInvitation_Email
     @Override
     public String getName()
     {
-        return "email";
+        return "toEmail";
     }
 
     @Override
     public String getLabel()
     {
-        return "Email";
+        return "To Email";
     }
 
     @Override
@@ -64,7 +64,7 @@ public class MyMetaInvitation_Email
     @Override
     public KmStringValidator getValidator()
     {
-        return MyInvitationValidator.instance.getEmailValidator();
+        return MyInvitationValidator.instance.getToEmailValidator();
     }
 
     //##################################################
@@ -74,7 +74,7 @@ public class MyMetaInvitation_Email
     @Override
     public String getDaoPropertyName()
     {
-        return "email";
+        return "toEmail";
     }
 
     @Override
@@ -95,19 +95,19 @@ public class MyMetaInvitation_Email
     @Override
     public String getValueFor(MyInvitation model)
     {
-        return model.getEmail();
+        return model.getToEmail();
     }
     
     @Override
     public void setValueFor(MyInvitation model, String value)
     {
-        model.setEmail(value);
+        model.setToEmail(value);
     }
     
     @Override
     public boolean hasValueFor(MyInvitation model, String value)
     {
-        return model.hasEmail(value);
+        return model.hasToEmail(value);
     }
     
     @Override

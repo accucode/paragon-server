@@ -101,11 +101,9 @@ public class MySignInPage
     {
         _targetQuery.clearValue();
 
-        String s = params.getValue("q");
-        if ( Kmu.isEmpty(s) )
-            return;
-
-        _targetQuery.setValue(s);
+        String query = params.getValue("q");
+        if ( Kmu.hasValue(query) )
+            _targetQuery.setValue(query);
     }
 
     //##################################################
@@ -276,6 +274,7 @@ public class MySignInPage
         super.preRender();
 
         _emailField.setValue(getEmailCookie());
+        _passwordField.clearText();
     }
 
     //##################################################

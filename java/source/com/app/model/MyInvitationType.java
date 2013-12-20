@@ -20,8 +20,7 @@ public enum MyInvitationType
     //# values
     //##################################################
 
-    NewUser("U", "New User"),
-    TransferOwnership("T", "Transfer Ownership"),
+    TransferAccount("T", "Transfer Account"),
     JoinAccount("J", "Join Account"),
     ;
 
@@ -89,14 +88,9 @@ public enum MyInvitationType
     //# testing
     //##################################################
 
-    public boolean isNewUser()
+    public boolean isTransferAccount()
     {
-        return this == NewUser;
-    }
-
-    public boolean isTransferOwnership()
-    {
-        return this == TransferOwnership;
+        return this == TransferAccount;
     }
 
     public boolean isJoinAccount()

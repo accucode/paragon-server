@@ -39,18 +39,6 @@ Invite a user to the system.<br>
   </td>
 </tr>
 <tr>
-  <td>statusCode&nbsp;</td>
-  <td>The status.&nbsp;</td>
-  <td>letterCode
-        <br><nobr>max length: 1</nobr>           <br>allows(
-                      letters
-            )
-      </td>
-  <td>
-                   required<br>           &nbsp;
-  </td>
-</tr>
-<tr>
   <td>typeCode&nbsp;</td>
   <td>The type.&nbsp;</td>
   <td>letterCode
@@ -63,11 +51,11 @@ Invite a user to the system.<br>
   </td>
 </tr>
 <tr>
-  <td>token&nbsp;</td>
-  <td>A long unique (~unguessable) code that allows the user to access this object without a password.&nbsp;</td>
-  <td>uid
-        <br><nobr>max length: 30</nobr>           <br>allows(
-                      printable
+  <td>statusCode&nbsp;</td>
+  <td>The status.&nbsp;</td>
+  <td>letterCode
+        <br><nobr>max length: 1</nobr>           <br>allows(
+                      letters
             )
       </td>
   <td>
@@ -93,7 +81,7 @@ Invite a user to the system.<br>
   </td>
 </tr>
 <tr>
-  <td>email&nbsp;</td>
+  <td>toEmail&nbsp;</td>
   <td>The email to which the invitation was sent.&nbsp;</td>
   <td>email
         <br><nobr>max length: 50</nobr>           <br>allows(
@@ -126,7 +114,7 @@ Invite a user to the system.<br>
   </td>
 </tr>
 <tr>
-  <td>statusName&nbsp;</td>
+  <td>typeName&nbsp;</td>
   <td>${field.f_comment}&nbsp;</td>
   <td>name
         <br><nobr>max length: 30</nobr>           <br>allows(
@@ -138,7 +126,7 @@ Invite a user to the system.<br>
   </td>
 </tr>
 <tr>
-  <td>typeName&nbsp;</td>
+  <td>statusName&nbsp;</td>
   <td>${field.f_comment}&nbsp;</td>
   <td>name
         <br><nobr>max length: 30</nobr>           <br>allows(

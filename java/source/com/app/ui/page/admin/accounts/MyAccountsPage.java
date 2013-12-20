@@ -38,14 +38,13 @@ import com.app.model.MyAccount;
 import com.app.model.MyAccountType;
 import com.app.model.MyAccountUser;
 import com.app.model.MyAccountUserRole;
+import com.app.model.MyInvitation;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccountUser;
 import com.app.model.meta.MyMetaUser;
 import com.app.ui.core.MyPageSession;
 import com.app.ui.layout.MyPageLayout;
 import com.app.ui.page.admin.MyAbstractAdminPage;
-import com.app.ui.page.login.MyJoinAccountUtility;
-import com.app.ui.page.login.MyTransferAccountUtility;
 import com.app.utility.MyButtonUrls;
 
 public class MyAccountsPage
@@ -1217,27 +1216,32 @@ public class MyAccountsPage
 
     private void handleSendTransferRequest()
     {
-        MyAccount a;
-        a = getPageSession().getAccount();
+        MyAccount acct;
+        acct = getPageSession().getAccount();
 
-        String email = _transferEmailAutoComplete.getValue();
+        String toEmail = _transferEmailAutoComplete.getValue();
 
-        boolean isValid = KmEmailParser.validate(email);
+        boolean isValid = KmEmailParser.validate(toEmail);
 
         if ( !isValid )
             _transferEmailAutoComplete.error("Invalid");
 
         MyUser from = getCurrentUser();
-        MyUser to = getAccess().getUserDao().findEmail(email);
+        MyUser to = getAccess().getUserDao().findEmail(toEmail);
 
-        if ( !a.validateTransferOwnership(from, to) )
+        if ( !acct.validateTransferOwnership(from, to) )
             error("You cannot transfer ownership of this account.");
 
-        MyTransferAccountUtility utility;
-        utility = new MyTransferAccountUtility();
-        utility.start(a, email);
+        MyInvitation inv;
+        inv = new MyInvitation();
+        inv.setFromUser(from);
+        inv.setToEmail(toEmail);
+        inv.setTypeTransferAccount();
+        inv.setAccount(acct);
+        inv.sendEmail();
+        inv.saveDao();
 
-        showSentMessage(email);
+        showSentMessage(toEmail);
     }
 
     private void handleCancelTransferRequest()
@@ -1391,37 +1395,24 @@ public class MyAccountsPage
     {
         MyAccount account = getPageSession().getAccount();
         String email = _inviteUserEmailField.getValue();
+
         String roleCode = _inviteRoleDropdown.getStringValue();
+        MyAccountUserRole role = MyAccountUserRole.findCode(roleCode);
 
         boolean isValid = KmEmailParser.validate(email);
 
         if ( !isValid )
             _inviteUserEmailField.error("Invalid");
 
-        if ( !checkAccountUserExists(email, account) )
-        {
-            MyJoinAccountUtility utility;
-            utility = new MyJoinAccountUtility();
-            utility.sendInvitationTo(email, account, roleCode);
-
-            showSentMessage(email);
-        }
-        else
-            error("The email address "
-                + email
-                + " is already associated with the account "
-                + account.getName()
-                + ".");
-    }
-
-    private boolean checkAccountUserExists(String email, MyAccount account)
-    {
-        MyUser user;
-        user = getAccess().getUserDao().findEmail(email);
-
-        MyAccountUser accountUser = account.getAccountUserFor(user);
-
-        return accountUser != null;
+        MyInvitation inv;
+        inv = new MyInvitation();
+        inv.setFromUser(getCurrentUser());
+        inv.setToEmail(email);
+        inv.setTypeJoinAccount();
+        inv.setAccount(account);
+        inv.setRole(role);
+        inv.saveDao();
+        inv.sendEmail();
     }
 
     private void handleInviteUserCancel()
@@ -1468,9 +1459,9 @@ public class MyAccountsPage
         _deleteUserDialog.ajaxOpen();
     }
 
-    private void showSentMessage(String e)
+    private void showSentMessage(String email)
     {
-        ajax().toast("Your request has been sent to: " + e);
+        ajax().toast("Your request has been sent to: " + email);
 
         refreshFlipViewAccount();
     }

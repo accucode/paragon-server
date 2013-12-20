@@ -39,15 +39,14 @@ public abstract class MyInvitationBase
     //##################################################
 
     private String uid;
-    private String statusCode;
     private String typeCode;
-    private String token;
+    private String statusCode;
     private KmTimestamp createdUtcTs;
     private KmTimestamp closedUtcTs;
-    private String email;
+    private String toEmail;
     private String roleCode;
     private Integer lockVersion;
-    private MyUser user;
+    private MyUser fromUser;
     private MyAccount account;
 
     //##################################################
@@ -58,7 +57,6 @@ public abstract class MyInvitationBase
     {
         super();
         setUid(newUid());
-        setToken(newUid());
         setCreatedUtcTs(getNowUtc());
     }
 
@@ -101,145 +99,6 @@ public abstract class MyInvitationBase
     public void truncateUid(boolean ellipses)
     {
         uid = Kmu.truncate(uid, 30, ellipses);
-    }
-
-    //##################################################
-    //# field (statusCode)
-    //##################################################
-
-    public String getStatusCode()
-    {
-        return statusCode;
-    }
-
-    public void setStatusCode(String e)
-    {
-        checkReadOnly();
-        e = Validator.getStatusCodeValidator().convertOnly(e);
-        statusCode = e;
-    }
-
-    public void clearStatusCode()
-    {
-        setStatusCode(null);
-    }
-
-    public boolean hasStatusCode()
-    {
-        return Kmu.hasValue(getStatusCode());
-    }
-
-    public boolean hasStatusCode(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getStatusCode(), e);
-    }
-
-    public void truncateStatusCode()
-    {
-        truncateStatusCode(false);
-    }
-
-    public void truncateStatusCode(boolean ellipses)
-    {
-        statusCode = Kmu.truncate(statusCode, 1, ellipses);
-    }
-
-    public MyInvitationStatus getStatus()
-    {
-        return MyInvitationStatus.findCode(getStatusCode());
-    }
-
-    public void setStatus(MyInvitationStatus e)
-    {
-        if ( e == null )
-            setStatusCode(null);
-        else
-            setStatusCode(e.getCode());
-    }
-
-    public boolean hasStatus()
-    {
-        return getStatus() != null;
-    }
-
-    public boolean hasStatus(MyInvitationStatus e)
-    {
-        return getStatus() == e;
-    }
-
-    public void setStatusNew()
-    {
-        setStatus(MyInvitationStatus.New);
-    }
-
-    public boolean isStatusNew()
-    {
-        return hasStatus(MyInvitationStatus.New);
-    }
-
-    public boolean isNotStatusNew()
-    {
-        return !isStatusNew();
-    }
-
-    public void setStatusAccepted()
-    {
-        setStatus(MyInvitationStatus.Accepted);
-    }
-
-    public boolean isStatusAccepted()
-    {
-        return hasStatus(MyInvitationStatus.Accepted);
-    }
-
-    public boolean isNotStatusAccepted()
-    {
-        return !isStatusAccepted();
-    }
-
-    public void setStatusRejected()
-    {
-        setStatus(MyInvitationStatus.Rejected);
-    }
-
-    public boolean isStatusRejected()
-    {
-        return hasStatus(MyInvitationStatus.Rejected);
-    }
-
-    public boolean isNotStatusRejected()
-    {
-        return !isStatusRejected();
-    }
-
-    public void setStatusExpired()
-    {
-        setStatus(MyInvitationStatus.Expired);
-    }
-
-    public boolean isStatusExpired()
-    {
-        return hasStatus(MyInvitationStatus.Expired);
-    }
-
-    public boolean isNotStatusExpired()
-    {
-        return !isStatusExpired();
-    }
-
-    public void setStatusCancelled()
-    {
-        setStatus(MyInvitationStatus.Cancelled);
-    }
-
-    public boolean isStatusCancelled()
-    {
-        return hasStatus(MyInvitationStatus.Cancelled);
-    }
-
-    public boolean isNotStatusCancelled()
-    {
-        return !isStatusCancelled();
     }
 
     //##################################################
@@ -306,34 +165,19 @@ public abstract class MyInvitationBase
         return getType() == e;
     }
 
-    public void setTypeNewUser()
+    public void setTypeTransferAccount()
     {
-        setType(MyInvitationType.NewUser);
+        setType(MyInvitationType.TransferAccount);
     }
 
-    public boolean isTypeNewUser()
+    public boolean isTypeTransferAccount()
     {
-        return hasType(MyInvitationType.NewUser);
+        return hasType(MyInvitationType.TransferAccount);
     }
 
-    public boolean isNotTypeNewUser()
+    public boolean isNotTypeTransferAccount()
     {
-        return !isTypeNewUser();
-    }
-
-    public void setTypeTransferOwnership()
-    {
-        setType(MyInvitationType.TransferOwnership);
-    }
-
-    public boolean isTypeTransferOwnership()
-    {
-        return hasType(MyInvitationType.TransferOwnership);
-    }
-
-    public boolean isNotTypeTransferOwnership()
-    {
-        return !isTypeTransferOwnership();
+        return !isTypeTransferAccount();
     }
 
     public void setTypeJoinAccount()
@@ -352,44 +196,142 @@ public abstract class MyInvitationBase
     }
 
     //##################################################
-    //# field (token)
+    //# field (statusCode)
     //##################################################
 
-    public String getToken()
+    public String getStatusCode()
     {
-        return token;
+        return statusCode;
     }
 
-    public void setToken(String e)
+    public void setStatusCode(String e)
     {
         checkReadOnly();
-        e = Validator.getTokenValidator().convertOnly(e);
-        token = e;
+        e = Validator.getStatusCodeValidator().convertOnly(e);
+        statusCode = e;
     }
 
-    public void clearToken()
+    public void clearStatusCode()
     {
-        setToken(null);
+        setStatusCode(null);
     }
 
-    public boolean hasToken()
+    public boolean hasStatusCode()
     {
-        return Kmu.hasValue(getToken());
+        return Kmu.hasValue(getStatusCode());
     }
 
-    public boolean hasToken(String e)
+    public boolean hasStatusCode(String e)
     {
-        return Kmu.isEqualIgnoreCase(getToken(), e);
+        return Kmu.isEqualIgnoreCase(getStatusCode(), e);
     }
 
-    public void truncateToken()
+    public void truncateStatusCode()
     {
-        truncateToken(false);
+        truncateStatusCode(false);
     }
 
-    public void truncateToken(boolean ellipses)
+    public void truncateStatusCode(boolean ellipses)
     {
-        token = Kmu.truncate(token, 30, ellipses);
+        statusCode = Kmu.truncate(statusCode, 1, ellipses);
+    }
+
+    public MyInvitationStatus getStatus()
+    {
+        return MyInvitationStatus.findCode(getStatusCode());
+    }
+
+    public void setStatus(MyInvitationStatus e)
+    {
+        if ( e == null )
+            setStatusCode(null);
+        else
+            setStatusCode(e.getCode());
+    }
+
+    public boolean hasStatus()
+    {
+        return getStatus() != null;
+    }
+
+    public boolean hasStatus(MyInvitationStatus e)
+    {
+        return getStatus() == e;
+    }
+
+    public void setStatusPending()
+    {
+        setStatus(MyInvitationStatus.Pending);
+    }
+
+    public boolean isStatusPending()
+    {
+        return hasStatus(MyInvitationStatus.Pending);
+    }
+
+    public boolean isNotStatusPending()
+    {
+        return !isStatusPending();
+    }
+
+    public void setStatusAccepted()
+    {
+        setStatus(MyInvitationStatus.Accepted);
+    }
+
+    public boolean isStatusAccepted()
+    {
+        return hasStatus(MyInvitationStatus.Accepted);
+    }
+
+    public boolean isNotStatusAccepted()
+    {
+        return !isStatusAccepted();
+    }
+
+    public void setStatusRejected()
+    {
+        setStatus(MyInvitationStatus.Rejected);
+    }
+
+    public boolean isStatusRejected()
+    {
+        return hasStatus(MyInvitationStatus.Rejected);
+    }
+
+    public boolean isNotStatusRejected()
+    {
+        return !isStatusRejected();
+    }
+
+    public void setStatusExpired()
+    {
+        setStatus(MyInvitationStatus.Expired);
+    }
+
+    public boolean isStatusExpired()
+    {
+        return hasStatus(MyInvitationStatus.Expired);
+    }
+
+    public boolean isNotStatusExpired()
+    {
+        return !isStatusExpired();
+    }
+
+    public void setStatusCancelled()
+    {
+        setStatus(MyInvitationStatus.Cancelled);
+    }
+
+    public boolean isStatusCancelled()
+    {
+        return hasStatus(MyInvitationStatus.Cancelled);
+    }
+
+    public boolean isNotStatusCancelled()
+    {
+        return !isStatusCancelled();
     }
 
     //##################################################
@@ -455,44 +397,44 @@ public abstract class MyInvitationBase
     }
 
     //##################################################
-    //# field (email)
+    //# field (toEmail)
     //##################################################
 
-    public String getEmail()
+    public String getToEmail()
     {
-        return email;
+        return toEmail;
     }
 
-    public void setEmail(String e)
+    public void setToEmail(String e)
     {
         checkReadOnly();
-        e = Validator.getEmailValidator().convertOnly(e);
-        email = e;
+        e = Validator.getToEmailValidator().convertOnly(e);
+        toEmail = e;
     }
 
-    public void clearEmail()
+    public void clearToEmail()
     {
-        setEmail(null);
+        setToEmail(null);
     }
 
-    public boolean hasEmail()
+    public boolean hasToEmail()
     {
-        return Kmu.hasValue(getEmail());
+        return Kmu.hasValue(getToEmail());
     }
 
-    public boolean hasEmail(String e)
+    public boolean hasToEmail(String e)
     {
-        return Kmu.isEqualIgnoreCase(getEmail(), e);
+        return Kmu.isEqualIgnoreCase(getToEmail(), e);
     }
 
-    public void truncateEmail()
+    public void truncateToEmail()
     {
-        truncateEmail(false);
+        truncateToEmail(false);
     }
 
-    public void truncateEmail(boolean ellipses)
+    public void truncateToEmail(boolean ellipses)
     {
-        email = Kmu.truncate(email, 50, ellipses);
+        toEmail = Kmu.truncate(toEmail, 50, ellipses);
     }
 
     //##################################################
@@ -568,25 +510,6 @@ public abstract class MyInvitationBase
     }
 
     //##################################################
-    //# field (statusName)
-    //##################################################
-
-    public final String getStatusName()
-    {
-        return Kmu.getName(getStatus());
-    }
-
-    public boolean hasStatusName()
-    {
-        return Kmu.hasValue(getStatusName());
-    }
-
-    public boolean hasStatusName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getStatusName(), e);
-    }
-
-    //##################################################
     //# field (typeName)
     //##################################################
 
@@ -603,6 +526,25 @@ public abstract class MyInvitationBase
     public boolean hasTypeName(String e)
     {
         return Kmu.isEqualIgnoreCase(getTypeName(), e);
+    }
+
+    //##################################################
+    //# field (statusName)
+    //##################################################
+
+    public final String getStatusName()
+    {
+        return Kmu.getName(getStatus());
+    }
+
+    public boolean hasStatusName()
+    {
+        return Kmu.hasValue(getStatusName());
+    }
+
+    public boolean hasStatusName(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getStatusName(), e);
     }
 
     //##################################################
@@ -758,61 +700,61 @@ public abstract class MyInvitationBase
     }
 
     //##################################################
-    //# user
+    //# fromUser
     //##################################################
 
-    public MyUser getUser()
+    public MyUser getFromUser()
     {
-        return user;
+        return fromUser;
     }
 
-    public void setUser(MyUser e)
+    public void setFromUser(MyUser e)
     {
         checkReadOnly();
-        user = e;
+        fromUser = e;
     }
 
-    public void _setUser(MyUser e)
+    public void _setFromUser(MyUser e)
     {
         checkReadOnly();
-        user = e;
+        fromUser = e;
     }
 
-    public void clearUser()
+    public void clearFromUser()
     {
-        setUser(null);
+        setFromUser(null);
     }
 
-    public boolean hasUser()
+    public boolean hasFromUser()
     {
-        return getUser() != null;
+        return getFromUser() != null;
     }
 
-    public boolean hasUser(MyUser e)
+    public boolean hasFromUser(MyUser e)
     {
-        return Kmu.isEqual(getUser(), e);
+        return Kmu.isEqual(getFromUser(), e);
     }
 
-    public String getUserName()
+    public String getFromUserName()
     {
-        if ( hasUser() )
-            return getUser().getName();
+        if ( hasFromUser() )
+            return getFromUser().getName();
         return null;
     }
 
-    public void setUserName(String e)
+    public void setFromUserName(String e)
     {
-        getUser().setName(e);
+        getFromUser().setName(e);
     }
 
-    public boolean hasUserName()
+    public boolean hasFromUserName()
     {
-        return hasUser() && getUser().hasName();
+        return hasFromUser() && getFromUser().hasName();
     }
 
-    public boolean hasUserName(String e)
+    public boolean hasFromUserName(String e)
     {
-        return hasUser() && getUser().hasName(e);
+        return hasFromUser() && getFromUser().hasName(e);
     }
 
     //##################################################
@@ -940,16 +882,15 @@ public abstract class MyInvitationBase
 
     public boolean isSameIgnoringKey(MyInvitation e)
     {
-        if ( !Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
         if ( !Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
-        if ( !Kmu.isEqual(getToken(), e.getToken()) ) return false;
+        if ( !Kmu.isEqual(getStatusCode(), e.getStatusCode()) ) return false;
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getClosedUtcTs(), e.getClosedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getEmail(), e.getEmail()) ) return false;
+        if ( !Kmu.isEqual(getToEmail(), e.getToEmail()) ) return false;
         if ( !Kmu.isEqual(getRoleCode(), e.getRoleCode()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
         if ( !Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
+        if ( !Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
@@ -984,17 +925,14 @@ public abstract class MyInvitationBase
         if ( p.hasKey("uid") )
             setUid(p.getString("uid"));
 
-        if ( p.hasKey("statusCode") )
-            setStatusCode(p.getString("statusCode"));
-
         if ( p.hasKey("typeCode") )
             setTypeCode(p.getString("typeCode"));
 
-        if ( p.hasKey("token") )
-            setToken(p.getString("token"));
+        if ( p.hasKey("statusCode") )
+            setStatusCode(p.getString("statusCode"));
 
-        if ( p.hasKey("email") )
-            setEmail(p.getString("email"));
+        if ( p.hasKey("toEmail") )
+            setToEmail(p.getString("toEmail"));
 
         if ( p.hasKey("roleCode") )
             setRoleCode(p.getString("roleCode"));
@@ -1011,17 +949,14 @@ public abstract class MyInvitationBase
         if ( hasUid() )
             p.setString("uid", getUid());
 
-        if ( hasStatusCode() )
-            p.setString("statusCode", getStatusCode());
-
         if ( hasTypeCode() )
             p.setString("typeCode", getTypeCode());
 
-        if ( hasToken() )
-            p.setString("token", getToken());
+        if ( hasStatusCode() )
+            p.setString("statusCode", getStatusCode());
 
-        if ( hasEmail() )
-            p.setString("email", getEmail());
+        if ( hasToEmail() )
+            p.setString("toEmail", getToEmail());
 
         if ( hasRoleCode() )
             p.setString("roleCode", getRoleCode());
@@ -1053,12 +988,11 @@ public abstract class MyInvitationBase
     {
         System.out.println(this);
         System.out.println("    Uid = " + uid);
-        System.out.println("    StatusCode = " + statusCode);
         System.out.println("    TypeCode = " + typeCode);
-        System.out.println("    Token = " + token);
+        System.out.println("    StatusCode = " + statusCode);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
         System.out.println("    ClosedUtcTs = " + closedUtcTs);
-        System.out.println("    Email = " + email);
+        System.out.println("    ToEmail = " + toEmail);
         System.out.println("    RoleCode = " + roleCode);
         System.out.println("    LockVersion = " + lockVersion);
     }

@@ -20,7 +20,7 @@ public enum MyInvitationStatus
     //# values
     //##################################################
 
-    New("N", "New"),
+    Pending("P", "Pending"),
     Accepted("A", "Accepted"),
     Rejected("R", "Rejected"),
     Expired("E", "Expired"),
@@ -91,9 +91,9 @@ public enum MyInvitationStatus
     //# testing
     //##################################################
 
-    public boolean isNew()
+    public boolean isPending()
     {
-        return this == New;
+        return this == Pending;
     }
 
     public boolean isAccepted()

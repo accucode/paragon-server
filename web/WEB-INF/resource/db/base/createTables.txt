@@ -120,19 +120,17 @@ DROP TABLE IF EXISTS invitation;
 CREATE TABLE invitation
 (
     uid varchar(30),
-    statusCode char(1),
     typeCode char(1),
-    token varchar(30),
+    statusCode char(1),
     createdUtcTs datetime,
     closedUtcTs datetime,
-    email varchar(50),
+    toEmail varchar(50),
     roleCode char(1),
     lockVersion int,
-    userUid varchar(30),
+    fromUserUid varchar(30),
     accountUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
-create index token on invitation (token);
 
 
 DROP TABLE IF EXISTS passwordReset;

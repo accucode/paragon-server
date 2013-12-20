@@ -4,13 +4,8 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyDownload;
-import com.app.model.MyInvitation;
-import com.app.model.MyInvitationType;
 import com.app.model.MyPasswordReset;
 import com.app.property.MyPropertyRegistry;
-import com.app.ui.page.login.MyAcceptJoinInvitationPage;
-import com.app.ui.page.login.MyAcceptNewUserInvitationPage;
-import com.app.ui.page.login.MyAcceptTransferInvitationPage;
 import com.app.ui.page.login.MyPasswordResetPage;
 import com.app.ui.servlet.MyServletConstantsIF;
 
@@ -32,24 +27,6 @@ public class MyUrls
             return formatUrl("");
 
         return formatServletUrl("main", params);
-    }
-
-    public static String getInvitationUrl(MyInvitation e)
-    {
-        MyInvitationType type = e.getType();
-        switch ( type )
-        {
-            case NewUser:
-                return MyAcceptNewUserInvitationPage.instance.formatEntryUrl(e);
-
-            case JoinAccount:
-                return MyAcceptJoinInvitationPage.instance.formatEntryUrl(e);
-
-            case TransferOwnership:
-                return MyAcceptTransferInvitationPage.instance.formatEntryUrl(e);
-        }
-
-        return null;
     }
 
     public static String getPasswordResetUrl(MyPasswordReset e)

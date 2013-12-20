@@ -5,10 +5,6 @@ model
 database
 : alias = inv
 
-    index
-    : name  = token
-    : on    = token
-
 attributes
 
     field
@@ -20,19 +16,6 @@ attributes
     : required      = true
 
     field
-    : name      = statusCode
-    : comment   = The status.
-    : type      = letterCode
-    : required  = true
-
-        enum
-            value(#N New)
-            value(#A Accepted)
-            value(#R Rejected)
-            value(#E Expired)
-            value(#X Cancelled)
-            
-    field
     : name      = typeCode
     : label     = Type
     : comment   = The type.
@@ -40,17 +23,22 @@ attributes
     : required  = true
 
         enum
-            value(#U NewUser)
-            value(#T TransferOwnership)
+            value(#T TransferAccount)
             value(#J JoinAccount)
 
     field
-    : name      = token
-    : comment   = A long unique (~unguessable) code that allows the user to access this object without a password.
-    : type      = uid
-    : default   = newUid()
+    : name      = statusCode
+    : comment   = The status.
+    : type      = letterCode
     : required  = true
 
+        enum
+            value(#P Pending)
+            value(#A Accepted)
+            value(#R Rejected)
+            value(#E Expired)
+            value(#X Cancelled)
+            
     field
     : name      = createdUtcTs
     : comment   = When the object was created.
@@ -63,29 +51,22 @@ attributes
     : comment   = When the object was used.
     : type      = timestamp
 
-    field
-    : name      = email
-    : comment   = The email to which the invitation was sent.
-    : type      = email
-    : required  = true
-    
-    field
-    : name      = roleCode
-    : label     = Role
-    : comment   = The role of the account joiner.
-    : type      = letterCode
-    : required  = false
-            
     association
-    : name      = user
-    : comment   = The user to whom the invitation was sent.
+    : name      = fromUser
+    : comment   = The user that issued the invitation.
     : modelName = user
     : relation  = reference
-    : required  = false
+    : required  = true
 
         delegate
         : fieldName = name
         
+    field
+    : name      = toEmail
+    : comment   = The email to which the invitation was sent.
+    : type      = email
+    : required  = true
+    
     association
     : name      = account
     : comment   = The account to which the invitation referred.
@@ -95,3 +76,12 @@ attributes
 
         delegate
         : fieldName = name
+        
+    field
+    : name      = roleCode
+    : label     = Role
+    : comment   = The role of the account joiner.
+    : type      = letterCode
+    : required  = false
+            
+        

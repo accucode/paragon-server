@@ -18,16 +18,15 @@ public interface MyInvitationDaoConstantsIF
     //##################################################
 
     String UID = "uid";
-    String STATUS_CODE = "statusCode";
     String TYPE_CODE = "typeCode";
-    String TOKEN = "token";
+    String STATUS_CODE = "statusCode";
     String CREATED_UTC_TS = "createdUtcTs";
     String CLOSED_UTC_TS = "closedUtcTs";
-    String EMAIL = "email";
+    String TO_EMAIL = "toEmail";
     String ROLE_CODE = "roleCode";
     String LOCK_VERSION = "lockVersion";
-    String STATUS_NAME = "statusName";
     String TYPE_NAME = "typeName";
+    String STATUS_NAME = "statusName";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
     String CREATED_LOCAL_DATE = "createdLocalDate";
@@ -41,8 +40,8 @@ public interface MyInvitationDaoConstantsIF
     //# associations
     //##################################################
 
-    String USER = "user";
-    String USER_UID = "user.uid";
+    String FROM_USER = "fromUser";
+    String FROM_USER_UID = "fromUser.uid";
 
     String ACCOUNT = "account";
     String ACCOUNT_UID = "account.uid";

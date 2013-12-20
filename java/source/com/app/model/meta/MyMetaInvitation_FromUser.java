@@ -26,7 +26,7 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaInvitation_User
+public class MyMetaInvitation_FromUser
     extends KmMetaDaoAssociation<MyInvitation,MyUser>
 {
     //##################################################
@@ -36,7 +36,7 @@ public class MyMetaInvitation_User
     @Override
     public String getName()
     {
-        return "user";
+        return "fromUser";
     }
 
     //##################################################
@@ -46,18 +46,18 @@ public class MyMetaInvitation_User
     @Override
     public MyUser getValueFor(MyInvitation model)
     {
-        return model.getUser();
+        return model.getFromUser();
     }
     
     @Override
     public void setValueFor(MyInvitation model, MyUser value)
     {
-        model.setUser(value);
+        model.setFromUser(value);
     }
     
     @Override
     public boolean hasValueFor(MyInvitation model, MyUser value)
     {
-        return model.hasUser(value);
+        return model.hasFromUser(value);
     }
 }

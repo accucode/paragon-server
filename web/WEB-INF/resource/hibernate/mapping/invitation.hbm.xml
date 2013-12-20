@@ -38,20 +38,14 @@
             />
 
         <property
-            name="statusCode"
-            column="statusCode"
-            type="string"
-            />
-
-        <property
             name="typeCode"
             column="typeCode"
             type="string"
             />
 
         <property
-            name="token"
-            column="token"
+            name="statusCode"
+            column="statusCode"
             type="string"
             />
 
@@ -68,8 +62,8 @@
             />
 
         <property
-            name="email"
-            column="email"
+            name="toEmail"
+            column="toEmail"
             type="string"
             />
 
@@ -80,8 +74,8 @@
             />
 
         <many-to-one
-            name="user"
-            column="userUid"
+            name="fromUser"
+            column="fromUserUid"
             class="com.app.model.MyUser"
             cascade="none"
             />

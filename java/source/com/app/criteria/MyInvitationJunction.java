@@ -48,19 +48,14 @@ public class MyInvitationJunction
         return new KmStringCriteria(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereStatusCode()
-    {
-        return new KmStringCriteria(context(), fullName(STATUS_CODE));
-    }
-
     public KmStringCriteria whereTypeCode()
     {
         return new KmStringCriteria(context(), fullName(TYPE_CODE));
     }
 
-    public KmStringCriteria whereToken()
+    public KmStringCriteria whereStatusCode()
     {
-        return new KmStringCriteria(context(), fullName(TOKEN));
+        return new KmStringCriteria(context(), fullName(STATUS_CODE));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
@@ -73,9 +68,9 @@ public class MyInvitationJunction
         return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CLOSED_UTC_TS));
     }
 
-    public KmStringCriteria whereEmail()
+    public KmStringCriteria whereToEmail()
     {
-        return new KmStringCriteria(context(), fullName(EMAIL));
+        return new KmStringCriteria(context(), fullName(TO_EMAIL));
     }
 
     public KmStringCriteria whereRoleCode()
@@ -92,19 +87,19 @@ public class MyInvitationJunction
     //# associations
     //##################################################
 
-    public MyUserCriteria joinToUser()
+    public MyUserCriteria joinToFromUser()
     {
-        return join(new MyUserCriteria(root().joinTo(USER)));
+        return join(new MyUserCriteria(root().joinTo(FROM_USER)));
     }
 
-    public MyUserCriteria leftJoinToUser()
+    public MyUserCriteria leftJoinToFromUser()
     {
-        return join(new MyUserCriteria(root().leftJoinTo(USER)));
+        return join(new MyUserCriteria(root().leftJoinTo(FROM_USER)));
     }
 
-    public KmStringCriteria whereUserUid()
+    public KmStringCriteria whereFromUserUid()
     {
-        return new KmStringCriteria(context(), fullName(USER_UID));
+        return new KmStringCriteria(context(), fullName(FROM_USER_UID));
     }
 
     public MyAccountCriteria joinToAccount()

@@ -49,6 +49,63 @@ public class MyInvitationCriteria
         return new KmStringCriteria(context(), fullName(UID));
     }
 
+    public KmStringCriteria whereTypeCode()
+    {
+        return new KmStringCriteria(context(), fullName(TYPE_CODE));
+    }
+
+    public void whereTypeIs(MyInvitationType e)
+    {
+        if ( e == null )
+            whereTypeCode().isNull();
+        else
+            whereTypeCode().is(e.getCode());
+    }
+
+    public void whereTypeIsNot(MyInvitationType e)
+    {
+        if ( e == null )
+            whereTypeCode().isNull();
+        else
+            whereTypeCode().isNot(e.getCode());
+    }
+
+    public void whereTypeIsTransferAccount()
+    {
+        whereTypeIs(MyInvitationType.TransferAccount);
+    }
+
+    public void whereTypeIsNotTransferAccount()
+    {
+        whereTypeIsNot(MyInvitationType.TransferAccount);
+    }
+
+    public void whereTypeIsTransferAccount(boolean e)
+    {
+        if ( e )
+            whereTypeIsTransferAccount();
+        else
+            whereTypeIsNotTransferAccount();
+    }
+
+    public void whereTypeIsJoinAccount()
+    {
+        whereTypeIs(MyInvitationType.JoinAccount);
+    }
+
+    public void whereTypeIsNotJoinAccount()
+    {
+        whereTypeIsNot(MyInvitationType.JoinAccount);
+    }
+
+    public void whereTypeIsJoinAccount(boolean e)
+    {
+        if ( e )
+            whereTypeIsJoinAccount();
+        else
+            whereTypeIsNotJoinAccount();
+    }
+
     public KmStringCriteria whereStatusCode()
     {
         return new KmStringCriteria(context(), fullName(STATUS_CODE));
@@ -70,22 +127,22 @@ public class MyInvitationCriteria
             whereStatusCode().isNot(e.getCode());
     }
 
-    public void whereStatusIsNew()
+    public void whereStatusIsPending()
     {
-        whereStatusIs(MyInvitationStatus.New);
+        whereStatusIs(MyInvitationStatus.Pending);
     }
 
-    public void whereStatusIsNotNew()
+    public void whereStatusIsNotPending()
     {
-        whereStatusIsNot(MyInvitationStatus.New);
+        whereStatusIsNot(MyInvitationStatus.Pending);
     }
 
-    public void whereStatusIsNew(boolean e)
+    public void whereStatusIsPending(boolean e)
     {
         if ( e )
-            whereStatusIsNew();
+            whereStatusIsPending();
         else
-            whereStatusIsNotNew();
+            whereStatusIsNotPending();
     }
 
     public void whereStatusIsAccepted()
@@ -160,86 +217,6 @@ public class MyInvitationCriteria
             whereStatusIsNotCancelled();
     }
 
-    public KmStringCriteria whereTypeCode()
-    {
-        return new KmStringCriteria(context(), fullName(TYPE_CODE));
-    }
-
-    public void whereTypeIs(MyInvitationType e)
-    {
-        if ( e == null )
-            whereTypeCode().isNull();
-        else
-            whereTypeCode().is(e.getCode());
-    }
-
-    public void whereTypeIsNot(MyInvitationType e)
-    {
-        if ( e == null )
-            whereTypeCode().isNull();
-        else
-            whereTypeCode().isNot(e.getCode());
-    }
-
-    public void whereTypeIsNewUser()
-    {
-        whereTypeIs(MyInvitationType.NewUser);
-    }
-
-    public void whereTypeIsNotNewUser()
-    {
-        whereTypeIsNot(MyInvitationType.NewUser);
-    }
-
-    public void whereTypeIsNewUser(boolean e)
-    {
-        if ( e )
-            whereTypeIsNewUser();
-        else
-            whereTypeIsNotNewUser();
-    }
-
-    public void whereTypeIsTransferOwnership()
-    {
-        whereTypeIs(MyInvitationType.TransferOwnership);
-    }
-
-    public void whereTypeIsNotTransferOwnership()
-    {
-        whereTypeIsNot(MyInvitationType.TransferOwnership);
-    }
-
-    public void whereTypeIsTransferOwnership(boolean e)
-    {
-        if ( e )
-            whereTypeIsTransferOwnership();
-        else
-            whereTypeIsNotTransferOwnership();
-    }
-
-    public void whereTypeIsJoinAccount()
-    {
-        whereTypeIs(MyInvitationType.JoinAccount);
-    }
-
-    public void whereTypeIsNotJoinAccount()
-    {
-        whereTypeIsNot(MyInvitationType.JoinAccount);
-    }
-
-    public void whereTypeIsJoinAccount(boolean e)
-    {
-        if ( e )
-            whereTypeIsJoinAccount();
-        else
-            whereTypeIsNotJoinAccount();
-    }
-
-    public KmStringCriteria whereToken()
-    {
-        return new KmStringCriteria(context(), fullName(TOKEN));
-    }
-
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
     {
         return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
@@ -250,9 +227,9 @@ public class MyInvitationCriteria
         return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CLOSED_UTC_TS));
     }
 
-    public KmStringCriteria whereEmail()
+    public KmStringCriteria whereToEmail()
     {
-        return new KmStringCriteria(context(), fullName(EMAIL));
+        return new KmStringCriteria(context(), fullName(TO_EMAIL));
     }
 
     public KmStringCriteria whereRoleCode()
@@ -287,24 +264,6 @@ public class MyInvitationCriteria
             sortOnUidDescending();
     }
 
-    public void sortOnStatusCode()
-    {
-        parent().sortAscending(STATUS_CODE);
-    }
-
-    public void sortOnStatusCodeDescending()
-    {
-        parent().sortDescending(STATUS_CODE);
-    }
-
-    public void sortOnStatusCode(boolean asc)
-    {
-        if ( asc )
-            sortOnStatusCode();
-        else
-            sortOnStatusCodeDescending();
-    }
-
     public void sortOnTypeCode()
     {
         parent().sortAscending(TYPE_CODE);
@@ -323,22 +282,22 @@ public class MyInvitationCriteria
             sortOnTypeCodeDescending();
     }
 
-    public void sortOnToken()
+    public void sortOnStatusCode()
     {
-        parent().sortAscending(TOKEN);
+        parent().sortAscending(STATUS_CODE);
     }
 
-    public void sortOnTokenDescending()
+    public void sortOnStatusCodeDescending()
     {
-        parent().sortDescending(TOKEN);
+        parent().sortDescending(STATUS_CODE);
     }
 
-    public void sortOnToken(boolean asc)
+    public void sortOnStatusCode(boolean asc)
     {
         if ( asc )
-            sortOnToken();
+            sortOnStatusCode();
         else
-            sortOnTokenDescending();
+            sortOnStatusCodeDescending();
     }
 
     public void sortOnCreatedUtcTs()
@@ -377,22 +336,22 @@ public class MyInvitationCriteria
             sortOnClosedUtcTsDescending();
     }
 
-    public void sortOnEmail()
+    public void sortOnToEmail()
     {
-        parent().sortAscending(EMAIL);
+        parent().sortAscending(TO_EMAIL);
     }
 
-    public void sortOnEmailDescending()
+    public void sortOnToEmailDescending()
     {
-        parent().sortDescending(EMAIL);
+        parent().sortDescending(TO_EMAIL);
     }
 
-    public void sortOnEmail(boolean asc)
+    public void sortOnToEmail(boolean asc)
     {
         if ( asc )
-            sortOnEmail();
+            sortOnToEmail();
         else
-            sortOnEmailDescending();
+            sortOnToEmailDescending();
     }
 
     public void sortOnRoleCode()
@@ -476,50 +435,6 @@ public class MyInvitationCriteria
     }
 
     //##################################################
-    //# projections (statusCode)
-    //##################################################
-
-    public void selectStatusCode()
-    {
-        select(STATUS_CODE);
-    }
-
-    public void selectDistinctStatusCode()
-    {
-        selectDistinct(STATUS_CODE);
-    }
-
-    public void selectCountDistinctStatusCode()
-    {
-        selectCountDistinct(STATUS_CODE);
-    }
-
-    public void selectMinimumStatusCode()
-    {
-        selectMinimum(STATUS_CODE);
-    }
-
-    public void selectMaximumStatusCode()
-    {
-        selectMaximum(STATUS_CODE);
-    }
-
-    public void selectAverageStatusCode()
-    {
-        selectAverage(STATUS_CODE);
-    }
-
-    public void selectSumStatusCode()
-    {
-        selectSum(STATUS_CODE);
-    }
-
-    public void groupByStatusCode()
-    {
-        groupBy(STATUS_CODE);
-    }
-
-    //##################################################
     //# projections (typeCode)
     //##################################################
 
@@ -564,47 +479,47 @@ public class MyInvitationCriteria
     }
 
     //##################################################
-    //# projections (token)
+    //# projections (statusCode)
     //##################################################
 
-    public void selectToken()
+    public void selectStatusCode()
     {
-        select(TOKEN);
+        select(STATUS_CODE);
     }
 
-    public void selectDistinctToken()
+    public void selectDistinctStatusCode()
     {
-        selectDistinct(TOKEN);
+        selectDistinct(STATUS_CODE);
     }
 
-    public void selectCountDistinctToken()
+    public void selectCountDistinctStatusCode()
     {
-        selectCountDistinct(TOKEN);
+        selectCountDistinct(STATUS_CODE);
     }
 
-    public void selectMinimumToken()
+    public void selectMinimumStatusCode()
     {
-        selectMinimum(TOKEN);
+        selectMinimum(STATUS_CODE);
     }
 
-    public void selectMaximumToken()
+    public void selectMaximumStatusCode()
     {
-        selectMaximum(TOKEN);
+        selectMaximum(STATUS_CODE);
     }
 
-    public void selectAverageToken()
+    public void selectAverageStatusCode()
     {
-        selectAverage(TOKEN);
+        selectAverage(STATUS_CODE);
     }
 
-    public void selectSumToken()
+    public void selectSumStatusCode()
     {
-        selectSum(TOKEN);
+        selectSum(STATUS_CODE);
     }
 
-    public void groupByToken()
+    public void groupByStatusCode()
     {
-        groupBy(TOKEN);
+        groupBy(STATUS_CODE);
     }
 
     //##################################################
@@ -696,47 +611,47 @@ public class MyInvitationCriteria
     }
 
     //##################################################
-    //# projections (email)
+    //# projections (toEmail)
     //##################################################
 
-    public void selectEmail()
+    public void selectToEmail()
     {
-        select(EMAIL);
+        select(TO_EMAIL);
     }
 
-    public void selectDistinctEmail()
+    public void selectDistinctToEmail()
     {
-        selectDistinct(EMAIL);
+        selectDistinct(TO_EMAIL);
     }
 
-    public void selectCountDistinctEmail()
+    public void selectCountDistinctToEmail()
     {
-        selectCountDistinct(EMAIL);
+        selectCountDistinct(TO_EMAIL);
     }
 
-    public void selectMinimumEmail()
+    public void selectMinimumToEmail()
     {
-        selectMinimum(EMAIL);
+        selectMinimum(TO_EMAIL);
     }
 
-    public void selectMaximumEmail()
+    public void selectMaximumToEmail()
     {
-        selectMaximum(EMAIL);
+        selectMaximum(TO_EMAIL);
     }
 
-    public void selectAverageEmail()
+    public void selectAverageToEmail()
     {
-        selectAverage(EMAIL);
+        selectAverage(TO_EMAIL);
     }
 
-    public void selectSumEmail()
+    public void selectSumToEmail()
     {
-        selectSum(EMAIL);
+        selectSum(TO_EMAIL);
     }
 
-    public void groupByEmail()
+    public void groupByToEmail()
     {
-        groupBy(EMAIL);
+        groupBy(TO_EMAIL);
     }
 
     //##################################################
@@ -828,50 +743,50 @@ public class MyInvitationCriteria
     }
 
     //##################################################
-    //# association (User)
+    //# association (FromUser)
     //##################################################
 
-    public void selectUserUid()
+    public void selectFromUserUid()
     {
-        select(USER_UID);
+        select(FROM_USER_UID);
     }
 
-    public void selectMinimumUserUid()
+    public void selectMinimumFromUserUid()
     {
-        selectMinimum(USER_UID);
+        selectMinimum(FROM_USER_UID);
     }
 
-    public void selectMaximumUserUid()
+    public void selectMaximumFromUserUid()
     {
-        selectMaximum(USER_UID);
+        selectMaximum(FROM_USER_UID);
     }
 
-    public void groupByUserUid()
+    public void groupByFromUserUid()
     {
-        groupBy(USER);
+        groupBy(FROM_USER);
     }
 
-    public MyUserCriteria joinToUser()
+    public MyUserCriteria joinToFromUser()
     {
-        return new MyUserCriteria(joinTo(USER));
+        return new MyUserCriteria(joinTo(FROM_USER));
     }
 
-    public MyUserCriteria leftJoinToUser()
+    public MyUserCriteria leftJoinToFromUser()
     {
-        return new MyUserCriteria(leftJoinTo(USER));
+        return new MyUserCriteria(leftJoinTo(FROM_USER));
     }
 
-    public KmStringCriteria whereUserUid()
+    public KmStringCriteria whereFromUserUid()
     {
-        return new KmStringCriteria(parent(), fullName(USER_UID));
+        return new KmStringCriteria(parent(), fullName(FROM_USER_UID));
     }
 
-    public void whereUserIs(MyUser e)
+    public void whereFromUserIs(MyUser e)
     {
         if ( e == null )
-            whereUserUid().isNull();
+            whereFromUserUid().isNull();
         else
-            whereUserUid().is(e.getUid());
+            whereFromUserUid().is(e.getUid());
     }
 
     //##################################################

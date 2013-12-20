@@ -29,7 +29,7 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaInvitation_UserName
+public class MyMetaInvitation_FromUserName
     extends KmMetaStringProperty<MyInvitation>
 {
     //##################################################
@@ -39,13 +39,13 @@ public class MyMetaInvitation_UserName
     @Override
     public String getName()
     {
-        return "userName";
+        return "fromUserName";
     }
 
     @Override
     public String getLabel()
     {
-        return "User Name";
+        return "From User Name";
     }
 
     @Override
@@ -67,19 +67,19 @@ public class MyMetaInvitation_UserName
     @Override
     public String getValueFor(MyInvitation model)
     {
-        return model.getUserName();
+        return model.getFromUserName();
     }
     
     @Override
     public void setValueFor(MyInvitation model, String value)
     {
-        model.setUserName(value);
+        model.setFromUserName(value);
     }
     
     @Override
     public boolean hasValueFor(MyInvitation model, String value)
     {
-        return model.hasUserName(value);
+        return model.hasFromUserName(value);
     }
     
     @Override
