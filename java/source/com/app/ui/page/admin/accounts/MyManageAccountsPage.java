@@ -183,6 +183,7 @@ public class MyManageAccountsPage
         String name = _nameField.getValue();
         getCurrentUser().addPersonalAccount(name);
 
+        _nameField.clearText();
         print();
     }
 
