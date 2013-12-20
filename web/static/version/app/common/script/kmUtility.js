@@ -420,7 +420,7 @@ Kmu.formatAjaxFormParams = function(options)
     if ( !options.form )
         return null;
         
-    return $(options.form).serialize();
+    return $('#' + options.form).serialize();
 }
 
 Kmu.concatAjaxParams = function(a, b)
