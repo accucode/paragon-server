@@ -95,16 +95,13 @@ Version: ${applicationVersion}
                 push = false;
                 
             var silent = options.silent;
-            if ( silent )
-            { 
+            
                 KmNavigator.unbind();
                 KmNavigator.pushOrReplace(data, title, url, push);
                 KmNavigator.bind();
-            }
-            else
-            {
-                KmNavigator.pushOrReplace(data, title, url, push);
-            }
+                
+            if ( !silent )
+                KmNavigator.handleStateChange();
         }
 
         KmNavigator.pushOrReplace = function(data, title, url, push)
