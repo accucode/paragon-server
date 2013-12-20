@@ -44,6 +44,7 @@ public class MyAjaxServlet
     private void handle()
     {
         MyServletData data = getData();
+
         try
         {
             checkServerSession(data);
@@ -104,23 +105,23 @@ public class MyAjaxServlet
     {
         String key = data.getActionKey();
 
-        if ( key.equals("_printCurrentPage") )
-            printCurrentPageDao();
+        if ( key.equals(ScConstantsIF.PRINT_WINDOW_LOCATION) )
+            printWindowLocationDao();
     }
 
-    private void printCurrentPageDao()
+    private void printWindowLocationDao()
     {
         new KmDaoCommand()
         {
             @Override
             protected void handle()
             {
-                printCurrentPage();
+                printWindowLocation();
             }
         }.run();
     }
 
-    private void printCurrentPage()
+    private void printWindowLocation()
     {
         ScPage page = getCurrentPage();
 

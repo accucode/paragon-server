@@ -31,7 +31,6 @@ public class MyServletData
         _install(data);
 
         return data;
-
     }
 
     public static MyServletData getLocal()

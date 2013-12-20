@@ -20,7 +20,7 @@ import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServletData;
-import com.app.ui.page.admin.accounts.MyAccountsPage;
+import com.app.ui.page.admin.accounts.MyManageAccountsPage;
 import com.app.ui.page.admin.userProfile.MyUserProfilePage;
 import com.app.ui.page.general.MySignOutPage;
 import com.app.ui.page.login.MySignInUtility;
@@ -186,7 +186,7 @@ public class MyPageLayout
 
     private void handleManageAccounts()
     {
-        MyAccountsPage.instance.push();
+        MyManageAccountsPage.instance.push();
     }
 
     //==================================================

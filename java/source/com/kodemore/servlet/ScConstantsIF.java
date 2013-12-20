@@ -115,10 +115,11 @@ public interface ScConstantsIF
      */
     String   PARAMETER_IS_RIGHT_VISIBLE  = "_isRightVisible";
 
+    // todo_wyatt: move this to the layout? (instead of the page)
     /**
      * The key of the form that was submitted.
      */
-    String   PARAMETER_FORM_KEY          = "_formKey";
+    String   PARAMETER_FORM_KEY          = "_form";
 
     /**
      * The key used to identify the requested page.
@@ -193,4 +194,15 @@ public interface ScConstantsIF
     ScEasing DEFAULT_HIDE_EASING         = ScEasing.easeInCirc;
     ScEasing DEFAULT_SHOW_EASING         = ScEasing.easeOutCirc;
     Integer  DEFAULT_SPEED_MS            = 200;
+
+    //##################################################
+    //# actions
+    //##################################################
+
+    /**
+     * Used to identify the special action where the application prints the 
+     * page identified by the text in the window location.  That is, the location
+     * identified by the url bar at the top of the browser window.
+     */
+    String   PRINT_WINDOW_LOCATION       = "_printWindowLocation";
 }

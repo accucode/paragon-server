@@ -36,7 +36,7 @@ public abstract class ScAbstractServlet<T extends ScServletData>
     //##################################################
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    public final void doGet(HttpServletRequest request, HttpServletResponse response)
     {
         long start = _accumulator.getNow();
         if ( MONITOR_GET )
@@ -87,7 +87,7 @@ public abstract class ScAbstractServlet<T extends ScServletData>
     //##################################################
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
+    public final void doPost(HttpServletRequest request, HttpServletResponse response)
     {
         long start = _accumulator.getNow();
         if ( MONITOR_POST )

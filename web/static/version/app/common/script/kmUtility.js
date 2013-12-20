@@ -292,23 +292,6 @@ Kmu.installColorField = function(sel)
 //** ajax
 //**********************************************************
 
-Kmu.ajaxEnter = function(params)
-{
-    Kmu.ajax(
-    {
-    	action: "_enter",
-    	argument: params
-    });
-}
-
-Kmu.ajaxNavigate = function()
-{
-    Kmu.ajax(
-    {
-    	action: "_navigate"
-    });
-}
-
 /*
  * options
  *     action

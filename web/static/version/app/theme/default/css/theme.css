@@ -916,15 +916,9 @@ a.tabx:hover
     border: 1px solid #aaa;
     background-color: #eee;
     
-    -moz-border-radius-topleft:         5px;
-    -moz-border-radius-topright:        5px;
-    -webkit-border-radius-topleft:      5px;
-    -webkit-border-radius-topright:     5px;
-    border-top-left-radius:             5px;
-    border-top-right-radius:            5px;
+    border-top-left-radius:     5px;
+    border-top-right-radius:    5px;
 
-    -moz-box-shadow:    5px 5px 5px #ccc;
-    -webkit-box-shadow: 5px 5px 5px #ccc;
     box-shadow:         5px 5px 5px #ccc;
 }
 
@@ -958,16 +952,10 @@ a.tabx:hover
     border: 1px solid #f00;
     background-color: #fdd;
     
-    -moz-border-radius-topleft:         5px;
-    -moz-border-radius-topright:        5px;
-    -webkit-border-radius-topleft:      5px;
-    -webkit-border-radius-topright:     5px;
-    border-top-left-radius:             5px;
-    border-top-right-radius:            5px;
+    border-top-left-radius:  5px;
+    border-top-right-radius: 5px;
 
-    -moz-box-shadow:    5px 5px 5px #ccc;
-    -webkit-box-shadow: 5px 5px 5px #ccc;
-    box-shadow:         5px 5px 5px #ccc;
+    box-shadow: 5px 5px 5px #ccc;
 }
 
 .group-header-error
