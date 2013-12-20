@@ -279,7 +279,7 @@ public class ScActionScript
             args.setString("extra", getExtra());
 
         if ( hasForm() )
-            args.setString("form", getForm().formatJquerySelector());
+            args.setString("form", getForm().getKey());
 
         if ( hasBlockTarget() )
             args.setString("block", getBlockTarget().formatJquerySelector());
