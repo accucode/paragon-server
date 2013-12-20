@@ -25,6 +25,7 @@ package com.kodemore.servlet.script;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.utility.KmApplicationBridge;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -78,7 +79,8 @@ public class ScPushPageScript
 
     public ScPushPageScript()
     {
-        // none
+        String appName = KmApplicationBridge.getInstance().getName();
+        setTitle(appName);
     }
 
     //##################################################
