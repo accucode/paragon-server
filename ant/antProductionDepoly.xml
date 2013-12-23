@@ -28,14 +28,10 @@
     -->
 
     <target 
-        name="1-makeWar" 
+        name="1-deployProduction" 
+        depends="clean"
         description="public">
-        <antcall target="nested.makeWar" />
-    </target>
-
-    <target 
-        name="2-deployProduction" 
-        description="public">
+        <antcall target="nested.makeWarUsingTemp" />
         <antcall target="nested.deploy" />
     </target>
 

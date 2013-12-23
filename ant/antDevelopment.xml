@@ -72,7 +72,7 @@
           </antcall>
     </target>
     <target
-            name="makeWar"
+            name="makeWarUsingTemp"
             depends="init,clean,compile" 
             description="Used to make War file used for use in the AWS Development environment.">    
         <delete dir="${temp}/web" quiet="true" />
