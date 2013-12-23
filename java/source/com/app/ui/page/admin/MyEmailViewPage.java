@@ -124,7 +124,7 @@ public class MyEmailViewPage
         fields.addText(x.CreatedLocalTs);
         fields.addText(x.SentLocalTs);
 
-        _errorText = fields.addStyledText(x.ErrorNotes);
+        _errorText = fields.addTextSpan(x.ErrorNotes);
         _errorText.hide();
 
         ScContainer buttons;

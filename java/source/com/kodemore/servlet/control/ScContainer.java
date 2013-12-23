@@ -477,25 +477,25 @@ public abstract class ScContainer
     //# styled text
     //##################################################
 
-    public ScTextSpan addStyledText()
+    public ScTextSpan addTextSpan()
     {
         return add(new ScTextSpan());
     }
 
-    public ScTextSpan addStyledText(CharSequence text)
+    public ScTextSpan addTextSpan(CharSequence text)
     {
         ScTextSpan e;
-        e = addStyledText();
+        e = addTextSpan();
         e.setValue(text);
         return e;
     }
 
-    public ScTextSpan addStyledText(KmMetaProperty<?,?> attr)
+    public ScTextSpan addTextSpan(KmMetaProperty<?,?> attr)
     {
         return add(attr.newSpannedText());
     }
 
-    public ScTextSpan addStyledText(KmMetaProperty<?,?> attr, String label)
+    public ScTextSpan addTextSpan(KmMetaProperty<?,?> attr, String label)
     {
         return add(attr.newSpannedText(label));
     }
