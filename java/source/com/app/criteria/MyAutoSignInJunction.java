@@ -53,9 +53,9 @@ public class MyAutoSignInJunction
         return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereLastUtcTs()
+    public KmPropertyCriteria<KmTimestamp> whereLastTouchedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(LAST_UTC_TS));
+        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(LAST_TOUCHED_UTC_TS));
     }
 
     public KmIntegerCriteria whereLockVersion()

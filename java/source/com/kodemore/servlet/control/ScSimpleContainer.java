@@ -28,7 +28,7 @@ import com.kodemore.html.KmHtmlBuilder;
  * I simply render my children.  
  * 
  * I do NOT provide any additional wrapping elements or layout.  
- * I do not have any htmlId, style, css of my own. If I do not 
+ * I do not have an htmlId, style, or css of my own. If I do not 
  * contain any children, then I do not generate any html.
  */
 public final class ScSimpleContainer

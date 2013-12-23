@@ -1,6 +1,7 @@
 package com.app.utility;
 
-import com.kodemore.log.*;
+import com.kodemore.log.KmLogPrinter;
+import com.kodemore.log.KmLogger;
 
 public class MyInstallerLog
     implements KmLogPrinter

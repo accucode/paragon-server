@@ -25,6 +25,7 @@ package com.kodemore.servlet.control;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScBlockScript;
@@ -218,11 +219,11 @@ public abstract class ScContainerElement
         setOnClick(script);
     }
 
-    public void setOnClickHash(String hash)
+    public void setOnClickPush(ScPage e)
     {
         ScRootScript script;
         script = new ScRootScript();
-        script.gotoHash(hash);
+        script.pushPage(e);
 
         setOnClick(script);
     }

@@ -40,7 +40,7 @@ public abstract class MyAutoSignInBase
 
     private String uid;
     private KmTimestamp createdUtcTs;
-    private KmTimestamp lastUtcTs;
+    private KmTimestamp lastTouchedUtcTs;
     private Integer lockVersion;
     private MyUser user;
 
@@ -53,7 +53,7 @@ public abstract class MyAutoSignInBase
         super();
         setUid(newUid());
         setCreatedUtcTs(getNowUtc());
-        setLastUtcTs(getNowUtc());
+        setLastTouchedUtcTs(getNowUtc());
     }
 
     //##################################################
@@ -129,34 +129,34 @@ public abstract class MyAutoSignInBase
     }
 
     //##################################################
-    //# field (lastUtcTs)
+    //# field (lastTouchedUtcTs)
     //##################################################
 
-    public KmTimestamp getLastUtcTs()
+    public KmTimestamp getLastTouchedUtcTs()
     {
-        return lastUtcTs;
+        return lastTouchedUtcTs;
     }
 
-    public void setLastUtcTs(KmTimestamp e)
+    public void setLastTouchedUtcTs(KmTimestamp e)
     {
         checkReadOnly();
-        e = Validator.getLastUtcTsValidator().convertOnly(e);
-        lastUtcTs = e;
+        e = Validator.getLastTouchedUtcTsValidator().convertOnly(e);
+        lastTouchedUtcTs = e;
     }
 
-    public void clearLastUtcTs()
+    public void clearLastTouchedUtcTs()
     {
-        setLastUtcTs(null);
+        setLastTouchedUtcTs(null);
     }
 
-    public boolean hasLastUtcTs()
+    public boolean hasLastTouchedUtcTs()
     {
-        return getLastUtcTs() != null;
+        return getLastTouchedUtcTs() != null;
     }
 
-    public boolean hasLastUtcTs(KmTimestamp e)
+    public boolean hasLastTouchedUtcTs(KmTimestamp e)
     {
-        return Kmu.isEqual(getLastUtcTs(), e);
+        return Kmu.isEqual(getLastTouchedUtcTs(), e);
     }
 
     //##################################################
@@ -267,79 +267,79 @@ public abstract class MyAutoSignInBase
     }
 
     //##################################################
-    //# field (lastLocalTs)
+    //# field (lastTouchedLocalTs)
     //##################################################
 
-    public final KmTimestamp getLastLocalTs()
+    public final KmTimestamp getLastTouchedLocalTs()
     {
-        return KmTimestampUtility.toLocal(getLastUtcTs());
+        return KmTimestampUtility.toLocal(getLastTouchedUtcTs());
     }
 
-    public boolean hasLastLocalTs()
+    public boolean hasLastTouchedLocalTs()
     {
-        return getLastLocalTs() != null;
+        return getLastTouchedLocalTs() != null;
     }
 
-    public boolean hasLastLocalTs(KmTimestamp e)
+    public boolean hasLastTouchedLocalTs(KmTimestamp e)
     {
-        return Kmu.isEqual(getLastLocalTs(), e);
-    }
-
-    //##################################################
-    //# field (lastLocalTsMessage)
-    //##################################################
-
-    public final String getLastLocalTsMessage()
-    {
-        return KmTimestampUtility.formatLocalMessage(getLastUtcTs());
-    }
-
-    public boolean hasLastLocalTsMessage()
-    {
-        return Kmu.hasValue(getLastLocalTsMessage());
-    }
-
-    public boolean hasLastLocalTsMessage(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getLastLocalTsMessage(), e);
+        return Kmu.isEqual(getLastTouchedLocalTs(), e);
     }
 
     //##################################################
-    //# field (lastLocalDate)
+    //# field (lastTouchedLocalTsMessage)
     //##################################################
 
-    public final KmDate getLastLocalDate()
+    public final String getLastTouchedLocalTsMessage()
     {
-        return KmTimestampUtility.getDate(getLastLocalTs());
+        return KmTimestampUtility.formatLocalMessage(getLastTouchedUtcTs());
     }
 
-    public boolean hasLastLocalDate()
+    public boolean hasLastTouchedLocalTsMessage()
     {
-        return getLastLocalDate() != null;
+        return Kmu.hasValue(getLastTouchedLocalTsMessage());
     }
 
-    public boolean hasLastLocalDate(KmDate e)
+    public boolean hasLastTouchedLocalTsMessage(String e)
     {
-        return Kmu.isEqual(getLastLocalDate(), e);
+        return Kmu.isEqualIgnoreCase(getLastTouchedLocalTsMessage(), e);
     }
 
     //##################################################
-    //# field (lastLocalTime)
+    //# field (lastTouchedLocalDate)
     //##################################################
 
-    public final KmTime getLastLocalTime()
+    public final KmDate getLastTouchedLocalDate()
     {
-        return KmTimestampUtility.getTime(getLastLocalTs());
+        return KmTimestampUtility.getDate(getLastTouchedLocalTs());
     }
 
-    public boolean hasLastLocalTime()
+    public boolean hasLastTouchedLocalDate()
     {
-        return getLastLocalTime() != null;
+        return getLastTouchedLocalDate() != null;
     }
 
-    public boolean hasLastLocalTime(KmTime e)
+    public boolean hasLastTouchedLocalDate(KmDate e)
     {
-        return Kmu.isEqual(getLastLocalTime(), e);
+        return Kmu.isEqual(getLastTouchedLocalDate(), e);
+    }
+
+    //##################################################
+    //# field (lastTouchedLocalTime)
+    //##################################################
+
+    public final KmTime getLastTouchedLocalTime()
+    {
+        return KmTimestampUtility.getTime(getLastTouchedLocalTs());
+    }
+
+    public boolean hasLastTouchedLocalTime()
+    {
+        return getLastTouchedLocalTime() != null;
+    }
+
+    public boolean hasLastTouchedLocalTime(KmTime e)
+    {
+        return Kmu.isEqual(getLastTouchedLocalTime(), e);
     }
 
     //##################################################
@@ -446,16 +446,16 @@ public abstract class MyAutoSignInBase
     public boolean isSameIgnoringKey(MyAutoSignIn e)
     {
         if ( !Kmu.isEqual(getCreatedUtcTs(), e.getCreatedUtcTs()) ) return false;
-        if ( !Kmu.isEqual(getLastUtcTs(), e.getLastUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getLastTouchedUtcTs(), e.getLastTouchedUtcTs()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTime(), e.getCreatedLocalTime()) ) return false;
-        if ( !Kmu.isEqual(getLastLocalTs(), e.getLastLocalTs()) ) return false;
-        if ( !Kmu.isEqual(getLastLocalTsMessage(), e.getLastLocalTsMessage()) ) return false;
-        if ( !Kmu.isEqual(getLastLocalDate(), e.getLastLocalDate()) ) return false;
-        if ( !Kmu.isEqual(getLastLocalTime(), e.getLastLocalTime()) ) return false;
+        if ( !Kmu.isEqual(getLastTouchedLocalTs(), e.getLastTouchedLocalTs()) ) return false;
+        if ( !Kmu.isEqual(getLastTouchedLocalTsMessage(), e.getLastTouchedLocalTsMessage()) ) return false;
+        if ( !Kmu.isEqual(getLastTouchedLocalDate(), e.getLastTouchedLocalDate()) ) return false;
+        if ( !Kmu.isEqual(getLastTouchedLocalTime(), e.getLastTouchedLocalTime()) ) return false;
         return true;
     }
 
@@ -522,7 +522,7 @@ public abstract class MyAutoSignInBase
         System.out.println(this);
         System.out.println("    Uid = " + uid);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
-        System.out.println("    LastUtcTs = " + lastUtcTs);
+        System.out.println("    LastTouchedUtcTs = " + lastTouchedUtcTs);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

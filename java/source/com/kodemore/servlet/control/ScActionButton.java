@@ -44,6 +44,7 @@ public class ScActionButton
     private ScLocalObject _argument;
     private ScLocalString _extra;
     private ScLocalHtmlId _blockTarget;
+    private ScLocalString _confirmationMessage;
 
     //##################################################
     //# init
@@ -58,6 +59,7 @@ public class ScActionButton
         _argument = new ScLocalObject();
         _extra = new ScLocalString();
         _blockTarget = new ScLocalHtmlId();
+        _confirmationMessage = new ScLocalString();
     }
 
     //##################################################
@@ -115,6 +117,16 @@ public class ScActionButton
         _extra.setValue(e);
     }
 
+    public String getConfirmationMessage()
+    {
+        return _confirmationMessage.getValue();
+    }
+
+    public void setConfirmationMessage(String e)
+    {
+        _confirmationMessage.setValue(e);
+    }
+
     //##################################################
     //# block
     //##################################################
@@ -159,6 +171,7 @@ public class ScActionButton
         s.setForm(form);
         s.setModel(getModel());
         s.setBlockTarget(block);
+        s.setConfirmationMessage(getConfirmationMessage());
 
         return s.formatScript();
     }

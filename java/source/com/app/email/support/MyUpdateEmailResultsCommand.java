@@ -1,11 +1,11 @@
 package com.app.email.support;
 
-import com.app.finder.MyEmailFinder;
-import com.app.model.MyEmail;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.email.KmEmailResult;
+
+import com.app.finder.MyEmailFinder;
+import com.app.model.MyEmail;
 
 public class MyUpdateEmailResultsCommand
     extends KmDaoCommand

@@ -1,28 +1,29 @@
 package com.app.ui.servlet;
 
-import com.app.dao.base.MyDaoRegistry;
-import com.app.model.MyInvitation;
-import com.app.model.MyInvitationType;
-import com.app.model.MyServerSession;
-import com.app.ui.activity.login.MyHandleJoinInvitationActivity;
-import com.app.ui.activity.login.MyHandleNewUserInvitationActivity;
-import com.app.ui.activity.login.MyHandlePasswordResetActivity;
-import com.app.ui.activity.login.MyHandleTransferInvitationActivity;
-import com.app.ui.activity.login.MyInvalidInvitationPage;
-import com.app.ui.activity.login.MySignInActivity;
-import com.app.ui.core.MyServletData;
-import com.app.ui.layout.MyLeftMenu;
-import com.app.ui.layout.MyPageLayout;
-import com.app.utility.MyGlobals;
-import com.app.utility.MyUrls;
-
 import com.kodemore.collection.KmMap;
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
+import com.kodemore.servlet.ScPage;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.utility.Kmu;
+
+import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MyInvitation;
+import com.app.model.MyInvitationType;
+import com.app.model.MyUser;
+import com.app.ui.core.MyServletData;
+import com.app.ui.page.MyPageRegistry;
+import com.app.ui.page.login.MyAcceptJoinInvitationPage;
+import com.app.ui.page.login.MyAcceptNewUserInvitationPage;
+import com.app.ui.page.login.MyAcceptTransferInvitationPage;
+import com.app.ui.page.login.MyInvalidInvitationPage;
+import com.app.ui.page.login.MyPasswordResetPage;
+import com.app.ui.page.login.MySignInPage;
+import com.app.utility.MyGlobals;
+import com.app.utility.MyNavigator;
+import com.app.utility.MyUrls;
 
 public class MyAjaxServlet
     extends MyServlet
@@ -111,102 +112,67 @@ public class MyAjaxServlet
     {
         String key = data.getActionKey();
 
-        if ( Kmu.isEmpty(key) || key.equals("_enter") )
-            runEnter();
-
-        if ( key.equals("_navigate") )
-            runNavigate();
+        if ( key.equals("_printCurrentPage") )
+            printCurrentPageDao();
     }
 
-    //##################################################
-    //# navigation (via url hash)
-    //##################################################
-
-    private void runNavigate()
+    private void printCurrentPageDao()
     {
         new KmDaoCommand()
         {
             @Override
             protected void handle()
             {
-                handleNavigate();
+                printCurrentPage();
             }
         }.run();
     }
 
-    private void handleNavigate()
+    private void printCurrentPage()
     {
-        if ( hasCurrentUser() )
-            MyLeftMenu.getInstance().gotoWindowLocation();
-        else
-            MySignInActivity.instance.start();
+        ScPage page = getCurrentPage();
+
+        if ( requiresLoginFor(page) )
+        {
+            String q = getData().getWindowQuery();
+            MySignInPage.instance.startForTarget(q);
+            return;
+        }
+
+        ScParameterList params = getData().getWindowParameters();
+
+        page.applyParametersFromUrl(params);
+        page.print();
     }
 
-    private boolean hasCurrentUser()
+    private ScPage getCurrentPage()
     {
-        MyServerSession ss = MyGlobals.getServerSession();
-        if ( ss == null )
-            return false;
+        ScParameterList params = getData().getWindowParameters();
+        String key = params.getValue("page");
 
-        return ss.isFresh() && ss.hasUser();
+        MyPageRegistry registry = MyPageRegistry.getInstance();
+
+        ScPage page = registry.findKey(key);
+        if ( page != null )
+            return page;
+
+        return MyNavigator.getDefaultPage();
+    }
+
+    private boolean requiresLoginFor(ScPage page)
+    {
+        boolean requiresUser = page.requiresUser();
+        MyUser user = MyGlobals.getServerSession().getUser();
+
+        return requiresUser && user == null;
     }
 
     //##################################################
     //# enter application
     //##################################################
 
-    private void runEnter()
-    {
-        new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                handleEnter();
-            }
-        }.run();
-    }
-
-    private void handleEnter()
-    {
-        MyPageLayout e;
-        e = getPageStructure();
-        e.ajaxCreateLayout();
-        e.ajaxRefreshHeader();
-        e.ajaxRefreshFooter();
-
-        if ( handleEntryParameters() )
-            return;
-
-        MySignInActivity.instance.start();
-    }
-
-    private boolean handleEntryParameters()
-    {
-        KmMap<String,String> params = getEntryParameters();
-        if ( params == null )
-            return false;
-
-        if ( handleInvitation(params) )
-            return true;
-
-        if ( handlePasswordReset(params) )
-            return true;
-
-        return false;
-    }
-
-    @SuppressWarnings("unchecked")
-    private KmMap<String,String> getEntryParameters()
-    {
-        MyServletData data = getData();
-
-        if ( !data.hasArgument() )
-            return null;
-
-        return (KmMap<String,String>)data.getArgument();
-    }
-
+    // todo_wyatt: accept invitation
+    @SuppressWarnings("unused")
     private boolean handleInvitation(KmMap<String,String> params)
     {
         String key = MyUrls.PARAMETER_INVITATION;
@@ -228,21 +194,23 @@ public class MyAjaxServlet
         switch ( type )
         {
             case Join:
-                MyHandleJoinInvitationActivity.instance.start(value);
+                MyAcceptJoinInvitationPage.instance.start(value);
                 break;
 
             case Transfer:
-                MyHandleTransferInvitationActivity.instance.start(value);
+                MyAcceptTransferInvitationPage.instance.start(value);
                 break;
 
             case User:
-                MyHandleNewUserInvitationActivity.instance.start(value);
+                MyAcceptNewUserInvitationPage.instance.start(value);
                 break;
         }
 
         return true;
     }
 
+    // todo_wyatt: password reset
+    @SuppressWarnings("unused")
     private boolean handlePasswordReset(KmMap<String,String> params)
     {
         String key = MyUrls.PARAMETER_PASSWORD_RESET;
@@ -251,7 +219,7 @@ public class MyAjaxServlet
 
         String value = params.get(key);
 
-        MyHandlePasswordResetActivity.instance.start(value);
+        MyPasswordResetPage.instance.start(value);
         return true;
     }
 
@@ -329,11 +297,6 @@ public class MyAjaxServlet
     //##################################################
     //# support
     //##################################################
-
-    private MyPageLayout getPageStructure()
-    {
-        return MyPageLayout.getInstance();
-    }
 
     private void toastFatal(String s)
     {

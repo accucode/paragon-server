@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="gap">
+
+    <div class="boxGray pad">
+        Test vertical text centering.
+        What we want is some text vertically centered on the left, with an image on the right.
+        We want to avoid relying on fixed size layouts.   
+    </div>
+
+    <div class="boxRed gap">
+        <p class="">
+            Simply applying vertical-align:middle to the outer div and/or inner span doesn't work.
+        </p>
+        <div class="boxBrown middle clearfix">
+            <span class="middle box pad3">some text</span>
+            <img class="boxBlue width50 height50 floatRight">
+        </div>
+    </div>
+    
+    <div class="boxGreen gap">
+        <p>
+            Here we wrap the text and image in divs with a display:table-cell.
+            This tell the browser to use the layout rules that are traditionally used
+            for TDs.  Now we can apply the vertical-align:middle to the mock cell and
+            the nested inline text does center vertically.
+        </p>
+        <div class="boxBrown">
+            <div class="displayCell middle width100p">
+                <span class="box pad3">some text</span>
+            </div>
+            <div class="displayCell middle">
+                <img class="boxBlue width50 height50 floatRight">
+            </div>
+        </div>
+    </div>
+    
+    <div class="boxGreen gap">
+        <p>
+            Here we use the same display:table-cell trick, but with lines of text on the right 
+            instead of an image.  Note that instead of float:right we set the first cell's 
+            size to 100%; this means that we need to set white-space:nowrap on the righthand
+            cell to keep the text from getting compressed. 
+        </p>
+        <div class="boxBrown">
+            <div class="displayCell middle width100p">
+                <span class="box pad3">
+                    aaa aaa
+                </span>
+            </div>
+            <div class="displayCell middle">
+                <div class="box pad3 noWrap">
+                    bbb bbb<br>
+                    bbb bbb<br>
+                    bbb bbb<br>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="boxGreen gap">
+        <p>
+            This is the display:table-cell trick again.  This time we have removed the
+            100% width from the first cell and added padding to each of the blue cells
+            so that you can see how they layout.  Note that if we don't set an explicit
+            width, then the cells do NOT expand to fill their parent.
+        </p>
+        <div class="boxBrown pad">
+            <div class="displayCell middle boxBlue pad">
+                <div class="box pad3">
+                    aaa aaa<br>
+                </div>
+            </div>
+            <div class="displayCell middle boxBlue pad">
+                <div class="box pad3 noWrap">
+                    bbb bbb<br>
+                    bbb bbb<br>
+                    bbb bbb<br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

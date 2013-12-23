@@ -1,11 +1,11 @@
 package com.app.model;
 
-import com.app.model.base.MyEmailBase;
-import com.app.model.meta.MyMetaEmailRecipient;
-
 import com.kodemore.collection.KmCollection;
 import com.kodemore.collection.KmList;
 import com.kodemore.utility.Kmu;
+
+import com.app.model.base.MyEmailBase;
+import com.app.model.meta.MyMetaEmailRecipient;
 
 public class MyEmail
     extends MyEmailBase

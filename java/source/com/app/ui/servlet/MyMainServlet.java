@@ -1,24 +1,23 @@
 package com.app.ui.servlet;
 
+import com.kodemore.file.KmFile;
+import com.kodemore.servlet.ScParameterList;
+import com.kodemore.utility.Kmu;
+
 import com.app.file.MyResourceFiles;
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.core.MyServletData;
 import com.app.utility.MyConstantsIF;
+import com.app.utility.MyNavigator;
 import com.app.utility.MyUrlBridge;
 import com.app.utility.MyUrls;
-
-import com.kodemore.collection.KmMap;
-import com.kodemore.file.KmFile;
-import com.kodemore.json.KmJsonUtility;
-import com.kodemore.servlet.encoder.ScEncoder;
-import com.kodemore.utility.Kmu;
 
 /**
  * Handle entry into the application, typically initiated
  * from an HTTP GET.  
  * 
  * -- Redirect to a standard url.      
- * -- Redirect the GET with a POST.
+ * -- Redirect the GET with a POST (to avoid caching).
  * -- Begin the server session and register the cookie.
  * -- Generate the minimal html page, just enough to bootstrap the first ajax request.
  */
@@ -49,6 +48,10 @@ public class MyMainServlet
         getData().setHtmlResult(html);
     }
 
+    //##################################################
+    //# redirect
+    //##################################################
+
     /**
      * Redirect the client to a standard url.
      * If the user accessed the site via IP, this will redirect
@@ -69,7 +72,7 @@ public class MyMainServlet
         String requestScheme = data.getRequestScheme();
         String requestHost = data.getRequestServerName();
         String requestPath = data.getRequestUri();
-        KmMap<String,String> requestParams = data.getParameterMap();
+        ScParameterList requestParams = data.getParameterList();
 
         boolean schemeMatches = requestScheme.equalsIgnoreCase(scheme);
         boolean hostMatches = requestHost.equalsIgnoreCase(host);
@@ -96,31 +99,25 @@ public class MyMainServlet
         String name = MyConstantsIF.APPLICATION_NAME;
         String version = MyConstantsIF.APPLICATION_VERSION;
         String versionFolder = MyUrlBridge.getInstance().getVersionFolder();
-        String params = formatParameters();
+
+        String query = formatQueryString();
 
         String s;
         s = file.readString();
         s = Kmu.replaceAll(s, "${applicationName}", name);
         s = Kmu.replaceAll(s, "${applicationVersion}", version);
         s = Kmu.replaceAll(s, "${versionFolder}", versionFolder);
-        s = Kmu.replaceAll(s, "${params}", params);
+        s = Kmu.replaceAll(s, "${query}", query);
         return s;
     }
 
-    /**
-     * Encode any parameters into the initial structure. 
-     */
-    private String formatParameters()
+    private String formatQueryString()
     {
-        MyServletData data = getData();
-        if ( !data.hasParameters() )
-            return "";
+        String s = getData().formatParametersAsQueryString();
 
-        KmMap<String,String> map = data.getParameterMap();
-        String encoded = ScEncoder.staticEncode(map);
-        String wrapped = KmJsonUtility.format(encoded);
+        if ( Kmu.isEmpty(s) )
+            s = MyNavigator.getDefaultPage().formatQueryString();
 
-        return wrapped;
+        return s;
     }
-
 }

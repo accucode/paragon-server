@@ -1,277 +1,132 @@
 package com.app.ui.layout;
 
-import com.app.ui.activity.MyActivityRegistry;
-import com.app.ui.activity.admin.MyAdminMenuPage;
-import com.app.ui.activity.general.MyHomePage;
-import com.app.ui.activity.test.MyTestMenuPage;
-import com.app.ui.activity.tools.MyToolsMenuPage;
-import com.app.ui.core.MyServletData;
-import com.app.utility.MyGlobals;
-import com.app.utility.MyHashBridge;
-
-import com.kodemore.collection.KmList;
+import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
-import com.kodemore.servlet.ScActivity;
-import com.kodemore.servlet.ScActivityRegistry;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
-import com.kodemore.servlet.control.ScSimpleContainer;
 import com.kodemore.servlet.script.ScRootScript;
-import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.utility.Kmu;
+import com.kodemore.servlet.utility.ScJquery;
+
+import com.app.ui.core.MyServletData;
+import com.app.ui.page.MyPage;
+import com.app.utility.MyGlobals;
 
 public class MyLeftMenu
 {
     //##################################################
-    //# install
+    //# constants
     //##################################################
 
-    private static MyLeftMenu _instance;
-
-    public static void install()
-    {
-        if ( _instance != null )
-            Kmu.fatal("Already installed.");
-
-        _instance = new MyLeftMenu();
-    }
-
-    public static MyLeftMenu getInstance()
-    {
-        return _instance;
-    }
-
-    //##################################################
-    //# variables
-    //##################################################
-
-    private ScLocalString _selectedKey;
-
-    //##################################################
-    //# constructor
-    //##################################################
-
-    public MyLeftMenu()
-    {
-        _selectedKey = new ScLocalString();
-        _selectedKey.setAutoSave();
-    }
-
-    //##################################################
-    //# basics
-    //##################################################
-
-    private KmList<ScActivity> getList()
-    {
-        KmList<ScActivity> v;
-        v = new KmList<ScActivity>();
-
-        v.add(MyHomePage.instance);
-        v.add(MyAdminMenuPage.instance);
-        v.add(MyToolsMenuPage.instance);
-        v.add(MyTestMenuPage.instance);
-
-        return v;
-    }
-
-    private ScActivity getDefault()
-    {
-        return MyActivityRegistry.getInstance().getHomeActivity();
-    }
+    private static final String ID_PREFIX = "leftMenu";
 
     //##################################################
     //# ajax
     //##################################################
 
     /**
-     * Refresh the entire menu structure.  This could become relatively
+     * Render the entire menu structure.  This could become relatively
      * significant if we support large, multi-tiered menus.
      */
-    public void ajaxRefreshMenu()
+    public KmHtmlBuilder render()
     {
-        ScSimpleContainer root;
-        root = new ScSimpleContainer();
+        ScDiv root;
+        root = new ScDiv();
+        root.setHtmlId(getWrapperId());
+        root.css().leftMenu_box();
 
-        for ( ScActivity e : getList() )
-            addMenuTo(root, e);
+        for ( MyLeftMenuItem e : MyLeftMenuItem.getValues() )
+            renderItemOn(root, e);
 
-        String leftCss;
-        leftCss = KmCssDefaultConstantsIF.appMenu_box;
-
-        String centerCss;
-        centerCss = KmCssDefaultConstantsIF.appMenu_content;
-
-        MyPageLayout layout;
-        layout = MyPageLayout.getInstance();
-        layout.ajaxSetLeftCss(leftCss);
-        layout.ajaxShowLeft(root);
-        layout.ajaxSetCenterCss(centerCss);
+        return root.render();
     }
 
-    private void addMenuTo(ScContainer root, ScActivity e)
+    private void renderItemOn(ScContainer root, MyLeftMenuItem e)
     {
         ScDiv div;
         div = root.addDiv();
-        div.setOnClickHash(e.getNavigationHash());
-        div.addText(e.getName());
-
-        if ( isSelected(e) )
-            div.css().appMenu_selectedItem();
-        else
-            div.css().appMenu_item();
-    }
-
-    /**
-     * Refresh the current menu selection.  This assumes that the 
-     * menu is already installed and we need only to update the visual
-     * selection.
-     * 
-     * (For now we simply refresh the _entire_ menu.)
-     */
-    public void ajaxRefreshSelection(ScActivity e)
-    {
-        setSelection(e);
-
-        ajaxRefreshMenu();
+        div.setHtmlId(getItemId(e));
+        div.addText(e.getTitle());
+        div.setOnClick(e.getAction());
+        div.css().leftMenu_item();
     }
 
     //##################################################
-    //# goto
+    //# ids
     //##################################################
 
-    /**
-     * Updates the browser url in order to force a navigation.  The 
-     * actual ui update will be managed during a subsequent callback
-     * that is trigged when the url changes.
-     */
-    public void gotoActivity(ScActivity e)
+    private String getWrapperId()
     {
-        setSelection(e);
-
-        String hash = e.getNavigationHash();
-
-        if ( getData().hasWindowLocationHash(hash) )
-            e.start();
-        else
-            ajax().gotoHash(hash);
+        return ID_PREFIX;
     }
 
-    /**
-     * Navigate to the default menu item.  See also, gotoItem(). 
-     */
-    public void gotoDefault()
+    private String getItemId(MyLeftMenuItem e)
     {
-        gotoActivity(getDefault());
+        return getWrapperId() + "-" + e.getKey();
     }
 
-    /**
-     * Navigate to the location indicated by the window's location url.
-     * If the window url does not indicate a valid menu, then goto
-     * the default location.
-     */
-    public void gotoWindowLocation()
+    //##################################################
+    //# css
+    //##################################################
+
+    public String getContentCss()
     {
-        String fullHash = getData().getWindowLocationHash();
-
-        MyHashBridge hh = MyHashBridge.getInstance();
-        String menuHash = hh.parseMenuHash(fullHash);
-        String pageHash = hh.parsePageHash(fullHash);
-
-        ScActivityRegistry rr = MyActivityRegistry.getInstance();
-        ScActivity menuActivity = rr.findNavigationHash(menuHash);
-        ScActivity pageActivity = rr.findNavigationHash(pageHash);
-
-        if ( pageActivity == null )
-        {
-            gotoDefault();
-            return;
-        }
-
-        MyLeftMenu mm;
-        mm = MyLeftMenu.getInstance();
-        mm.checkSelection(menuActivity, pageActivity);
-
-        pageActivity.start();
+        return KmCssDefaultConstantsIF.leftMenu_content;
     }
 
     //##################################################
     //# selection
     //##################################################
 
-    public ScActivity getSelection()
+    /**
+     * Update the selection and refresh the ui.
+     */
+    public void ajaxRefreshSelection(MyPage page)
     {
-        String key = getSelectedKey();
-        if ( key == null )
-            return null;
-
-        return ScActivityRegistry.getInstance().findKey(key);
-    }
-
-    public String getSelectedKey()
-    {
-        return _selectedKey.getValue();
-    }
-
-    private void setSelection(ScActivity e)
-    {
-        _selectedKey.setValue(e.getKey());
-    }
-
-    private boolean isSelected(ScActivity e)
-    {
-        return e.hasKey(_selectedKey.getValue());
+        _ajaxClearSelection();
+        _ajaxSetSelection(page);
     }
 
     /**
-     * Update the selection and refresh the ui, but only if the
-     * requested activity is part of the menu.
+     * Clear the selection css from all menu items.
      */
-    public boolean checkSelection(ScActivity primary, ScActivity alternate)
+    private void _ajaxClearSelection()
     {
-        if ( checkSelection(primary) )
-            return true;
+        String sel = ScJquery.formatCssSelector(KmCssDefaultConstantsIF.leftMenu_item);
+        String css = KmCssDefaultConstantsIF.leftMenu_selected;
 
-        if ( checkSelection(alternate) )
-            return true;
-
-        return false;
+        ajax().removeCss(sel, css);
     }
 
     /**
-     * Update the selection and refresh the ui, but only if the
-     * requested activity is part of the menu.
+     * Apply the selection css to the menu associated with this page.
      */
-    public boolean checkSelection(ScActivity e)
+    private void _ajaxSetSelection(MyPage page)
     {
-        if ( !isMenuItem(e) )
-            return false;
+        if ( page == null )
+            return;
 
-        setSelection(e);
-        ajaxRefreshSelection(e);
-        return true;
-    }
+        MyLeftMenuItem item = page.getMenuItem();
+        if ( item == null )
+            return;
 
-    public boolean isMenuItem(ScActivity a)
-    {
-        for ( ScActivity e : getList() )
-            if ( e.equals(a) )
-                return true;
+        String sel = ScJquery.formatIdSelector(getItemId(item));
+        String css = KmCssDefaultConstantsIF.leftMenu_selected;
 
-        return false;
+        ajax().addCss(sel, css);
     }
 
     //##################################################
     //# support
     //##################################################
 
-    private ScRootScript ajax()
-    {
-        return getData().ajax();
-    }
-
     private MyServletData getData()
     {
         return MyGlobals.getData();
+    }
+
+    private ScRootScript ajax()
+    {
+        return getData().ajax();
     }
 
 }

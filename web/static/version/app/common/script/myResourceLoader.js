@@ -4,8 +4,6 @@ var MyResourceLoader =
     //** files
     //**********************************************************
 
-    library: "static/{version}/kodemore/loader",
-    
     files: 
         [
             // Reset
@@ -71,6 +69,9 @@ var MyResourceLoader =
             // Code39 Azalea
             "static/{version}/azaleaCode39/Code39Azalea.min.css", 
             
+            // History
+            "static/{version}/jquery/history-1.8.6/scripts/bundled-uncompressed/html5/jquery.history.js", 
+            
             // ScrollTo
             "static/{version}/jquery/scrollto-1.4.3.1/jquery.scrollTo-1.4.3.1-min.js", 
             
@@ -89,12 +90,15 @@ var MyResourceLoader =
             // Kodemore
             "static/{version}/app/common/script/kmExtensions.js",
             "static/{version}/app/common/script/kmUtility.js",
-            "static/{version}/app/common/script/kmHistory.js",
+            "static/{version}/app/common/script/kmHashHistory.js",
+            "static/{version}/app/common/script/kmNavigator.js",
             "static/{version}/app/common/script/kmBorderLayout.js",
+            "static/{version}/app/common/script/kmDropdownMenu.js",
             
             // App
             "static/{version}/app/theme/default/css/topMenu.css",
             "static/{version}/app/theme/default/css/button.css",
+            "static/{version}/app/theme/default/css/dropdownMenu.css",
             "static/{version}/app/theme/default/css/theme.css",
             "static/{version}/app/theme/default/css/spice.css",
             "static/{version}/app/theme/default/css/tools.css"
@@ -128,7 +132,6 @@ var MyResourceLoader =
         var localOptions = 
         {
             files: this.getFiles(prefix, version),
-			library: this.getFile(this.library, prefix, version)
         }; 
 
         return this.run(localOptions, userOptions);

@@ -71,6 +71,8 @@ public abstract class ScButton
     {
         super.install();
 
+        css().noWrap();
+
         _htmlName = new ScLocalString(getHtmlId());
 
         _text = new ScLocalRenderer();

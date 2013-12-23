@@ -141,7 +141,7 @@ public class ScServletData
      * server side http session.  Most session information should
      * be stored here.
      */
-    private KmJsonMap         _pageSessionEncodedValues;
+    private KmJsonMap            _pageSessionEncodedValues;
 
     //##################################################
     //# variables (response)
@@ -224,7 +224,7 @@ public class ScServletData
             String value = _request.getParameter(key);
 
             value = _normalize(value);
-            _parameters.set(key, value);
+            _parameters.setValue(key, value);
         }
     }
 
@@ -537,7 +537,7 @@ public class ScServletData
 
     public String getParameter(String key)
     {
-        return _parameters.get(key);
+        return _parameters.getValue(key);
     }
 
     public boolean hasParameters()
@@ -547,17 +547,12 @@ public class ScServletData
 
     public boolean hasParameter(String key)
     {
-        return _parameters.has(key);
+        return _parameters.hasKey(key);
     }
 
     public ScParameterList getParameterList()
     {
         return _parameters;
-    }
-
-    public KmMap<String,String> getParameterMap()
-    {
-        return _parameters.getMap();
     }
 
     public KmList<String> getParameterKeys()
@@ -567,7 +562,7 @@ public class ScServletData
 
     public void setParameter(String key, String value)
     {
-        _parameters.set(key, value);
+        _parameters.setValue(key, value);
     }
 
     public KmList<String> getParameterKeysStartingWith(String prefix)
@@ -611,6 +606,11 @@ public class ScServletData
         System.out.println(prefix + "Parameters: " + keys.size());
         for ( String key : keys )
             System.out.printf("%s    %s = %s\n", prefix, key, getParameter(key));
+    }
+
+    public String formatParametersAsQueryString()
+    {
+        return getParameterList().formatUrl();
     }
 
     //##################################################
@@ -1061,10 +1061,10 @@ public class ScServletData
 
     public void redirectWithPost()
     {
-        redirectWithPost(getParameterMap());
+        redirectWithPost(getParameterList());
     }
 
-    public void redirectWithPost(KmMap<String,String> params)
+    public void redirectWithPost(ScParameterList params)
     {
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
@@ -1073,9 +1073,9 @@ public class ScServletData
         out.beginHtml();
 
         out.beginHead();
-        out.printTitle("Loading...");
         out.printMetaCharsetUtf8();
         out.printMetaNoCache();
+        out.printTitle("Loading...");
         out.endHead();
 
         out.openBody();
@@ -1088,10 +1088,13 @@ public class ScServletData
         out.printAttribute("method", "post");
         out.close();
 
-        out.printHiddenField(PARAMETER_REDIRECTED_POST, PARAMETER_REDIRECTED_POST_VALUE);
-
-        for ( String key : params.getKeys() )
-            out.printHiddenField(key, params.get(key));
+        KmList<String> keys = params.getKeys();
+        for ( String key : keys )
+        {
+            KmList<String> values = params.getValues(key);
+            for ( String value : values )
+                out.printHiddenField(key, value);
+        }
 
         out.endForm();
         out.endBody();
@@ -1100,11 +1103,6 @@ public class ScServletData
         String html = out.toString();
         boolean noCache = true;
         setHtmlResult(html, noCache);
-    }
-
-    public boolean isRedirectedPost()
-    {
-        return Kmu.isEqual(getParameter(PARAMETER_REDIRECTED_POST), PARAMETER_REDIRECTED_POST_VALUE);
     }
 
     //##################################################
@@ -1461,7 +1459,7 @@ public class ScServletData
     }
 
     //##################################################
-    //# location
+    //# window location
     //##################################################
 
     /**
@@ -1471,6 +1469,23 @@ public class ScServletData
     public String getWindowLocation()
     {
         return getParameter(PARAMETER_WINDOW_LOCATION);
+    }
+
+    public String getWindowQuery()
+    {
+        String s = getWindowLocation();
+        int i = s.indexOf("?");
+
+        if ( i < 0 )
+            return null;
+
+        return s.substring(i);
+    }
+
+    public ScParameterList getWindowParameters()
+    {
+        String url = getWindowLocation();
+        return ScParameterList.createFromUrl(url);
     }
 
     /**
@@ -1492,6 +1507,34 @@ public class ScServletData
     public boolean hasWindowLocationHash(String hash)
     {
         return Kmu.isEqual(getWindowLocationHash(), hash);
+    }
+
+    //##################################################
+    //# layout visibility
+    //##################################################
+
+    public boolean isTopVisible()
+    {
+        String s = getParameter(PARAMETER_IS_TOP_VISIBLE);
+        return Kmu.parse_boolean(s);
+    }
+
+    public boolean isBottomVisible()
+    {
+        String s = getParameter(PARAMETER_IS_BOTTOM_VISIBLE);
+        return Kmu.parse_boolean(s);
+    }
+
+    public boolean isLeftVisible()
+    {
+        String s = getParameter(PARAMETER_IS_LEFT_VISIBLE);
+        return Kmu.parse_boolean(s);
+    }
+
+    public boolean isRightVisible()
+    {
+        String s = getParameter(PARAMETER_IS_RIGHT_VISIBLE);
+        return Kmu.parse_boolean(s);
     }
 
     //##################################################

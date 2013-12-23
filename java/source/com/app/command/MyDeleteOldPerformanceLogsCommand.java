@@ -1,11 +1,11 @@
 package com.app.command;
 
-import com.app.filter.MyPerformanceLogFilter;
-import com.app.model.MyPerformanceLog;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.time.KmTimestamp;
+
+import com.app.filter.MyPerformanceLogFilter;
+import com.app.model.MyPerformanceLog;
 
 public class MyDeleteOldPerformanceLogsCommand
     extends KmDaoCommand

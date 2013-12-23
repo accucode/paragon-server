@@ -111,6 +111,14 @@ public class ScFormatter
         return e;
     }
 
+    public String formatCharSequence(CharSequence e)
+    {
+        if ( e == null )
+            return formatNull();
+
+        return formatString(e.toString());
+    }
+
     //##################################################
     //# integer
     //##################################################
@@ -541,6 +549,9 @@ public class ScFormatter
 
         if ( e instanceof KmHtmlColor )
             return formatHtmlColor((KmHtmlColor)e);
+
+        if ( e instanceof CharSequence )
+            return formatCharSequence((CharSequence)e);
 
         KmLog.warnTrace("Unsupported format: " + e.getClass().getName());
         return "";

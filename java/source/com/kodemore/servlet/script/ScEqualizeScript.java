@@ -29,6 +29,17 @@ public class ScEqualizeScript
     extends ScAbstractScript
 {
     //##################################################
+    //# enum
+    //##################################################
+
+    private enum Mode
+    {
+        width,
+        height,
+        both;
+    }
+
+    //##################################################
     //# variables
     //##################################################
 
@@ -37,8 +48,7 @@ public class ScEqualizeScript
      */
     private String  _selector;
 
-    private boolean _equalizeHeight;
-    private boolean _equalizeWidth;
+    private Mode    _mode;
 
     /**
      * The min/max values for height and width.  The 
@@ -56,7 +66,7 @@ public class ScEqualizeScript
 
     public ScEqualizeScript()
     {
-        // none
+        _mode = Mode.both;
     }
 
     //##################################################
@@ -77,40 +87,19 @@ public class ScEqualizeScript
     //# mode
     //##################################################
 
-    public boolean getEqualizeHeight()
-    {
-        return _equalizeHeight;
-    }
-
-    public void setEqualizeHeight(boolean e)
-    {
-        _equalizeHeight = e;
-    }
-
     public void setEqualizeHeight()
     {
-        setEqualizeHeight(true);
-    }
-
-    public boolean getEqualizeWidth()
-    {
-        return _equalizeWidth;
-    }
-
-    public void setEqualizeWidth(boolean e)
-    {
-        _equalizeWidth = e;
+        _mode = Mode.height;
     }
 
     public void setEqualizeWidth()
     {
-        setEqualizeWidth(true);
+        _mode = Mode.width;
     }
 
     public void setEqualizeBoth()
     {
-        setEqualizeHeight();
-        setEqualizeWidth();
+        _mode = Mode.both;
     }
 
     //##################################################
@@ -164,25 +153,44 @@ public class ScEqualizeScript
     @Override
     public void formatScriptOn(KmStringBuilder out)
     {
-        boolean height = getEqualizeHeight();
-        boolean width = getEqualizeWidth();
-
-        if ( !getEqualizeHeight() && !getEqualizeWidth() )
-        {
-            height = true;
-            width = true;
-        }
-
         KmJsonMap e;
         e = new KmJsonMap();
         e.setString("selector", getSelector());
-        e.setBoolean("height", height);
-        e.setBoolean("width", width);
+        e.setBoolean("width", equalizesWidth());
+        e.setBoolean("height", equalizesHeight());
         e.setInteger("minWidth", getMinWidth());
         e.setInteger("maxWidth", getMaxWidth());
         e.setInteger("minHeight", getMinHeight());
         e.setInteger("maxHeight", getMaxHeight());
 
         out.printf("Kmu.equalize(%s);", e);
+    }
+
+    private boolean equalizesWidth()
+    {
+        switch ( _mode )
+        {
+            case both:
+            case width:
+                return true;
+
+            case height:
+                return false;
+        }
+        return true;
+    }
+
+    private boolean equalizesHeight()
+    {
+        switch ( _mode )
+        {
+            case both:
+            case height:
+                return true;
+
+            case width:
+                return false;
+        }
+        return true;
     }
 }

@@ -28,9 +28,6 @@ import java.io.InputStream;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.FilenameUtils;
 
-import com.app.ui.servlet.ScServletCallback;
-import com.app.ui.servlet.ScServletCallbackRegistry;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonMap;
@@ -43,6 +40,9 @@ import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
+
+import com.app.ui.servlet.ScServletCallback;
+import com.app.ui.servlet.ScServletCallbackRegistry;
 
 public class ScDropzone
     extends ScControl

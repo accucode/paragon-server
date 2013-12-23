@@ -44,8 +44,8 @@
             />
 
         <property
-            name="lastUtcTs"
-            column="lastUtcTs"
+            name="lastTouchedUtcTs"
+            column="lastTouchedUtcTs"
             type="com.kodemore.hibernate.KmHibernateTimestampType"
             />
 

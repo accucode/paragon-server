@@ -35,8 +35,8 @@ public class KmgRoot
     private KmList<KmgModel>          _models;
     private KmgPropertyFile           _propertyFile;
 
-    private KmList<String>            _activityClassNames;
-    private KmList<String>            _activityPackageNames;
+    private KmList<String>            _pageClassNames;
+    private KmList<String>            _pagePackageNames;
 
     private String                    _applicationName;
     private String                    _applicationPackage;
@@ -58,8 +58,8 @@ public class KmgRoot
         _baseTypes = KmProtoTypes.getAll();
         _types = new KmList<KmgModelType>();
         _models = new KmList<KmgModel>();
-        _activityClassNames = new KmList<String>();
-        _activityPackageNames = new KmList<String>();
+        _pageClassNames = new KmList<String>();
+        _pagePackageNames = new KmList<String>();
         _extenders = getDefaultExtenders();
         _cssBundles = new KmList<KmgCssBundle>();
     }
@@ -258,14 +258,14 @@ public class KmgRoot
         _defaultModelSuperClass = e;
     }
 
-    public KmList<String> getActivityClassNames()
+    public KmList<String> getPageClassNames()
     {
-        return _activityClassNames;
+        return _pageClassNames;
     }
 
-    public KmList<String> getActivityPackageNames()
+    public KmList<String> getPagePackageNames()
     {
-        return _activityPackageNames;
+        return _pagePackageNames;
     }
 
     public KmList<KmgCssBundle> getCssBundles()

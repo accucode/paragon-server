@@ -1,13 +1,13 @@
 package com.app.tools;
 
+import com.kodemore.collection.KmList;
+
 import com.app.property.MyPropertyDefinition;
 import com.app.property.MyPropertyRegistry;
 import com.app.property.base.MyPropertyDefinitions;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
-
-import com.kodemore.collection.KmList;
 
 public class MyPropertyPrinter
 {

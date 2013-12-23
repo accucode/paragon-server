@@ -22,11 +22,6 @@ public interface KmCssDefaultConstantsIF
     String accordionEnabledTab = "accordionEnabledTab";
     String accordionOpenBody = "accordionOpenBody";
     String accordionOpenTab = "accordionOpenTab";
-    String appMenu_box = "appMenu-box";
-    String appMenu_content = "appMenu-content";
-    String appMenu_item = "appMenu-item";
-    String appMenu_link = "appMenu-link";
-    String appMenu_selectedItem = "appMenu-selectedItem";
     String blockMsg = "blockMsg";
     String checkbox = "checkbox";
     String content = "content";
@@ -73,6 +68,11 @@ public interface KmCssDefaultConstantsIF
     String headerUser = "headerUser";
     String importantText = "importantText";
     String label = "label";
+    String leftMenu_box = "leftMenu-box";
+    String leftMenu_content = "leftMenu-content";
+    String leftMenu_item = "leftMenu-item";
+    String leftMenu_link = "leftMenu-link";
+    String leftMenu_selected = "leftMenu-selected";
     String lineBox = "lineBox";
     String link = "link";
     String linkBox = "linkBox";
@@ -96,6 +96,7 @@ public interface KmCssDefaultConstantsIF
     String padTopChildren = "padTopChildren";
     String padVertical = "padVertical";
     String pageFooter = "pageFooter";
+    String pageHeader = "pageHeader";
     String pageTitle = "pageTitle";
     String pageTitleButton = "pageTitleButton";
     String pageTitleText = "pageTitleText";
@@ -187,8 +188,11 @@ public interface KmCssDefaultConstantsIF
     String cursorText = "cursorText";
     String cursorWait = "cursorWait";
     String displayBlock = "displayBlock";
+    String displayCell = "displayCell";
     String displayInline = "displayInline";
     String displayNone = "displayNone";
+    String displayRow = "displayRow";
+    String displayTable = "displayTable";
     String dragHandle = "dragHandle";
     String filler = "filler";
     String floatLeft = "floatLeft";
@@ -267,10 +271,13 @@ public interface KmCssDefaultConstantsIF
     String overflowScroll = "overflowScroll";
     String overflowVisible = "overflowVisible";
     String pad0 = "pad0";
+    String pad1 = "pad1";
     String pad10 = "pad10";
+    String pad2 = "pad2";
     String pad20 = "pad20";
     String pad3 = "pad3";
     String pad30 = "pad30";
+    String pad4 = "pad4";
     String pad5 = "pad5";
     String pad50 = "pad50";
     String padLeft5 = "padLeft5";
@@ -321,6 +328,7 @@ public interface KmCssDefaultConstantsIF
     String width30p = "width30p";
     String width33p = "width33p";
     String width400 = "width400";
+    String width50 = "width50";
     String width500 = "width500";
     String width50p = "width50p";
     String widthFull = "widthFull";

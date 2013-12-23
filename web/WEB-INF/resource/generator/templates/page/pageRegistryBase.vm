@@ -1,0 +1,23 @@
+${javaAutoGenerationComment}
+
+package ${package}.ui.servlet.base;
+
+import com.kodemore.servlet.*;
+
+#foreach ( $package in $root.pagePackageNames )
+import ${package}.*;
+#end
+
+public abstract class ${Prefix}PageRegistryBase
+    extends ScPageRegistry
+{
+    @Override
+    protected void registerPages()
+    {
+        super.registerPages();
+        
+#foreach ( $e in $root.pageClassNames )
+        add(${e}.instance);
+#end
+    }
+}

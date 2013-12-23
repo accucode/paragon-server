@@ -140,31 +140,6 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.accordionOpenTab);
     }
     
-    public KmCssDefaultBuilder appMenu_box()
-    {
-        return apply(KmCssDefaultConstantsIF.appMenu_box);
-    }
-    
-    public KmCssDefaultBuilder appMenu_content()
-    {
-        return apply(KmCssDefaultConstantsIF.appMenu_content);
-    }
-    
-    public KmCssDefaultBuilder appMenu_item()
-    {
-        return apply(KmCssDefaultConstantsIF.appMenu_item);
-    }
-    
-    public KmCssDefaultBuilder appMenu_link()
-    {
-        return apply(KmCssDefaultConstantsIF.appMenu_link);
-    }
-    
-    public KmCssDefaultBuilder appMenu_selectedItem()
-    {
-        return apply(KmCssDefaultConstantsIF.appMenu_selectedItem);
-    }
-    
     public KmCssDefaultBuilder blockMsg()
     {
         return apply(KmCssDefaultConstantsIF.blockMsg);
@@ -395,6 +370,31 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.label);
     }
     
+    public KmCssDefaultBuilder leftMenu_box()
+    {
+        return apply(KmCssDefaultConstantsIF.leftMenu_box);
+    }
+    
+    public KmCssDefaultBuilder leftMenu_content()
+    {
+        return apply(KmCssDefaultConstantsIF.leftMenu_content);
+    }
+    
+    public KmCssDefaultBuilder leftMenu_item()
+    {
+        return apply(KmCssDefaultConstantsIF.leftMenu_item);
+    }
+    
+    public KmCssDefaultBuilder leftMenu_link()
+    {
+        return apply(KmCssDefaultConstantsIF.leftMenu_link);
+    }
+    
+    public KmCssDefaultBuilder leftMenu_selected()
+    {
+        return apply(KmCssDefaultConstantsIF.leftMenu_selected);
+    }
+    
     public KmCssDefaultBuilder lineBox()
     {
         return apply(KmCssDefaultConstantsIF.lineBox);
@@ -508,6 +508,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder pageFooter()
     {
         return apply(KmCssDefaultConstantsIF.pageFooter);
+    }
+    
+    public KmCssDefaultBuilder pageHeader()
+    {
+        return apply(KmCssDefaultConstantsIF.pageHeader);
     }
     
     public KmCssDefaultBuilder pageTitle()
@@ -965,6 +970,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.displayBlock);
     }
     
+    public KmCssDefaultBuilder displayCell()
+    {
+        return apply(KmCssDefaultConstantsIF.displayCell);
+    }
+    
     public KmCssDefaultBuilder displayInline()
     {
         return apply(KmCssDefaultConstantsIF.displayInline);
@@ -973,6 +983,16 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder displayNone()
     {
         return apply(KmCssDefaultConstantsIF.displayNone);
+    }
+    
+    public KmCssDefaultBuilder displayRow()
+    {
+        return apply(KmCssDefaultConstantsIF.displayRow);
+    }
+    
+    public KmCssDefaultBuilder displayTable()
+    {
+        return apply(KmCssDefaultConstantsIF.displayTable);
     }
     
     public KmCssDefaultBuilder dragHandle()
@@ -1365,9 +1385,19 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.pad0);
     }
     
+    public KmCssDefaultBuilder pad1()
+    {
+        return apply(KmCssDefaultConstantsIF.pad1);
+    }
+    
     public KmCssDefaultBuilder pad10()
     {
         return apply(KmCssDefaultConstantsIF.pad10);
+    }
+    
+    public KmCssDefaultBuilder pad2()
+    {
+        return apply(KmCssDefaultConstantsIF.pad2);
     }
     
     public KmCssDefaultBuilder pad20()
@@ -1383,6 +1413,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder pad30()
     {
         return apply(KmCssDefaultConstantsIF.pad30);
+    }
+    
+    public KmCssDefaultBuilder pad4()
+    {
+        return apply(KmCssDefaultConstantsIF.pad4);
     }
     
     public KmCssDefaultBuilder pad5()
@@ -1633,6 +1668,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder width400()
     {
         return apply(KmCssDefaultConstantsIF.width400);
+    }
+    
+    public KmCssDefaultBuilder width50()
+    {
+        return apply(KmCssDefaultConstantsIF.width50);
     }
     
     public KmCssDefaultBuilder width500()

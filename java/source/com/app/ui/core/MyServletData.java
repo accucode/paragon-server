@@ -4,14 +4,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.app.file.MyFilePaths;
-import com.app.property.MyPropertyRegistry;
-import com.app.utility.MyGlobals;
-
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.KmClock;
 import com.kodemore.utility.Kmu;
+
+import com.app.file.MyFilePaths;
+import com.app.property.MyPropertyRegistry;
+import com.app.utility.MyGlobals;
 
 public class MyServletData
     extends ScServletData
@@ -165,6 +165,7 @@ public class MyServletData
         out = new KmStringBuilder();
         out.println(Kmu.dashes(80));
         out.println(KmClock.getNowUtc().format_m_d_yyyy_hh_mm_ss());
+        out.println("bytes: " + s.length());
         out.println(s);
         out.println();
 

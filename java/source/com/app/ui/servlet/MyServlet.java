@@ -3,15 +3,16 @@ package com.app.ui.servlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.app.property.MyPropertyRegistry;
-import com.app.ui.core.MyServerSessionManager;
-import com.app.ui.core.MyServletData;
-import com.app.utility.MyConstantsIF;
-import com.app.utility.MyGlobals;
-
 import com.kodemore.command.KmDaoCommand;
 import com.kodemore.command.KmDaoResultCommand;
 import com.kodemore.servlet.ScAbstractServlet;
+
+import com.app.property.MyPropertyRegistry;
+import com.app.ui.core.MyServerSessionManager;
+import com.app.ui.core.MyServletData;
+import com.app.ui.page.login.MySignInUtility;
+import com.app.utility.MyConstantsIF;
+import com.app.utility.MyGlobals;
 
 public abstract class MyServlet
     extends ScAbstractServlet<MyServletData>
@@ -45,6 +46,7 @@ public abstract class MyServlet
             protected void handle()
             {
                 MyServerSessionManager.beginSession();
+                MySignInUtility.checkAutoSignIn();
             }
         }.run();
     }

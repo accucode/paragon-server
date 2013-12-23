@@ -84,6 +84,12 @@ public class KmStringBuilder
         newLine();
     }
 
+    public void printRepeat(Object e, int n)
+    {
+        for ( int i = 0; i < n; i++ )
+            print(e);
+    }
+
     public void printSpaces(int n)
     {
         printRepeat(SPACE, n);
@@ -92,12 +98,6 @@ public class KmStringBuilder
     public void printTabs(int n)
     {
         printRepeat(TAB, n);
-    }
-
-    public void printRepeat(Object e, int n)
-    {
-        for ( int i = 0; i < n; i++ )
-            print(e);
     }
 
     public void newLine()
@@ -409,6 +409,43 @@ public class KmStringBuilder
     public void trimToSize()
     {
         _buffer.trimToSize();
+    }
+
+    //##################################################
+    //# testing
+    //##################################################
+
+    public boolean startsWith(CharSequence s)
+    {
+        return toString().startsWith(s.toString());
+    }
+
+    public boolean endsWith(CharSequence s)
+    {
+        return toString().endsWith(s.toString());
+    }
+
+    //##################################################
+    //# remove
+    //##################################################
+
+    public boolean removePrefix(CharSequence prefix)
+    {
+        if ( !startsWith(prefix) )
+            return false;
+
+        delete(0, prefix.length());
+        return true;
+    }
+
+    public boolean removeSuffix(CharSequence suffix)
+    {
+        if ( !endsWith(suffix) )
+            return false;
+
+        int n = length();
+        delete(n - suffix.length(), n);
+        return true;
     }
 
     //##################################################

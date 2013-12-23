@@ -86,5 +86,4 @@ public class MyMetaServerSession
 
     public static final MyMetaServerSession_User User = new MyMetaServerSession_User();
     public static final MyMetaServerSession_AutoSignIn AutoSignIn = new MyMetaServerSession_AutoSignIn();
-    public static final MyMetaServerSession_Account Account = new MyMetaServerSession_Account();
 }

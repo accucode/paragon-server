@@ -1,10 +1,11 @@
 package com.app.dao;
 
+import com.kodemore.collection.KmList;
+
 import com.app.criteria.MyUserCriteria;
 import com.app.dao.base.MyUserDaoBase;
 import com.app.model.MyUser;
-
-import com.kodemore.collection.KmList;
+import com.app.utility.MyConstantsIF;
 
 public class MyUserDao
     extends MyUserDaoBase
@@ -35,8 +36,13 @@ public class MyUserDao
         u = createUser("Root", "root");
         u.setRoleDeveloper();
         u.clearPassword();
-        u.getAccounts().getFirst().setName("Root-Inc");
+        u.getAccounts().getFirst().setName(getRootAccountName());
         return u;
+    }
+
+    private String getRootAccountName()
+    {
+        return MyConstantsIF.APPLICATION_NAME + " Inc.";
     }
 
     /**
@@ -56,5 +62,5 @@ public class MyUserDao
         u.saveDao();
         return u;
     }
-   
+
 }

@@ -1,6 +1,7 @@
 package com.app.model;
 
 import com.kodemore.collection.KmCollection;
+import com.kodemore.collection.KmList;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyUserBase;
@@ -122,6 +123,33 @@ public class MyUser
         return v;
     }
 
+    public KmCollection<MyAccount> getSharedAccounts()
+    {
+        KmCollection<MyAccount> v = new KmCollection<MyAccount>();
+
+        for ( MyAccountUser e : getAccountUsers() )
+            if ( !e.isRoleOwner() )
+                v.add(e.getAccount());
+
+        return v;
+    }
+
+    public KmList<MyAccount> getOwnedAccountsByName()
+    {
+        KmList<MyAccount> v;
+        v = getOwnedAccounts().toList();
+        v.sortOn(MyAccount.Meta.Name);
+        return v;
+    }
+
+    public KmList<MyAccount> getSharedAccountsByName()
+    {
+        KmList<MyAccount> v;
+        v = getSharedAccounts().toList();
+        v.sortOn(MyAccount.Meta.Name);
+        return v;
+    }
+
     public MyAccount getDefaultAccount()
     {
         MyMetaAccount x = MyAccount.Meta;
@@ -142,13 +170,13 @@ public class MyUser
 
     public MyAccount addBusinessAccount(String name)
     {
-        MyAccount a;
-        a = new MyAccount();
-        a.setName(name);
-        a.setTypeBusiness();
-        a.saveDao();
+        MyAccount e;
+        e = new MyAccount();
+        e.setName(name);
+        e.setTypeBusiness();
+        e.saveDao();
 
-        return _addAccount(a);
+        return _addAccount(e);
     }
 
     public MyAccount addBusinessAccount(String name, MyAccountUserRole role)

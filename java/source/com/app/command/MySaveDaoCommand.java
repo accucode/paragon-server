@@ -1,8 +1,8 @@
 package com.app.command;
 
-import com.app.model.core.MyAbstractDomain;
-
 import com.kodemore.command.KmDaoCommand;
+
+import com.app.model.core.MyAbstractDomain;
 
 public class MySaveDaoCommand<T extends MyAbstractDomain>
     extends KmDaoCommand

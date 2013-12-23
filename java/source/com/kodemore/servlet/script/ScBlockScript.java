@@ -26,6 +26,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.json.KmJsonMap;
+import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.control.ScForm;
@@ -355,6 +356,28 @@ public abstract class ScBlockScript
         ScAddContentScript e;
         e = new ScAddContentScript();
         e.setSelector(target);
+        run(e);
+        return e;
+    }
+
+    //##################################################
+    //# push page
+    //##################################################
+
+    public ScPushPageScript pushPage(String url)
+    {
+        ScPushPageScript e;
+        e = new ScPushPageScript();
+        e.setUrl(url);
+        run(e);
+        return e;
+    }
+
+    public ScPushPageScript pushPage(ScPage page)
+    {
+        ScPushPageScript e;
+        e = new ScPushPageScript();
+        e.setUrl(page);
         run(e);
         return e;
     }

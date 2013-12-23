@@ -54,9 +54,9 @@ public class MyAutoSignInCriteria
         return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereLastUtcTs()
+    public KmPropertyCriteria<KmTimestamp> whereLastTouchedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(LAST_UTC_TS));
+        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(LAST_TOUCHED_UTC_TS));
     }
 
     public KmIntegerCriteria whereLockVersion()
@@ -104,22 +104,22 @@ public class MyAutoSignInCriteria
             sortOnCreatedUtcTsDescending();
     }
 
-    public void sortOnLastUtcTs()
+    public void sortOnLastTouchedUtcTs()
     {
-        parent().sortAscending(LAST_UTC_TS);
+        parent().sortAscending(LAST_TOUCHED_UTC_TS);
     }
 
-    public void sortOnLastUtcTsDescending()
+    public void sortOnLastTouchedUtcTsDescending()
     {
-        parent().sortDescending(LAST_UTC_TS);
+        parent().sortDescending(LAST_TOUCHED_UTC_TS);
     }
 
-    public void sortOnLastUtcTs(boolean asc)
+    public void sortOnLastTouchedUtcTs(boolean asc)
     {
         if ( asc )
-            sortOnLastUtcTs();
+            sortOnLastTouchedUtcTs();
         else
-            sortOnLastUtcTsDescending();
+            sortOnLastTouchedUtcTsDescending();
     }
 
     public void sortOnLockVersion()
@@ -229,47 +229,47 @@ public class MyAutoSignInCriteria
     }
 
     //##################################################
-    //# projections (lastUtcTs)
+    //# projections (lastTouchedUtcTs)
     //##################################################
 
-    public void selectLastUtcTs()
+    public void selectLastTouchedUtcTs()
     {
-        select(LAST_UTC_TS);
+        select(LAST_TOUCHED_UTC_TS);
     }
 
-    public void selectDistinctLastUtcTs()
+    public void selectDistinctLastTouchedUtcTs()
     {
-        selectDistinct(LAST_UTC_TS);
+        selectDistinct(LAST_TOUCHED_UTC_TS);
     }
 
-    public void selectCountDistinctLastUtcTs()
+    public void selectCountDistinctLastTouchedUtcTs()
     {
-        selectCountDistinct(LAST_UTC_TS);
+        selectCountDistinct(LAST_TOUCHED_UTC_TS);
     }
 
-    public void selectMinimumLastUtcTs()
+    public void selectMinimumLastTouchedUtcTs()
     {
-        selectMinimum(LAST_UTC_TS);
+        selectMinimum(LAST_TOUCHED_UTC_TS);
     }
 
-    public void selectMaximumLastUtcTs()
+    public void selectMaximumLastTouchedUtcTs()
     {
-        selectMaximum(LAST_UTC_TS);
+        selectMaximum(LAST_TOUCHED_UTC_TS);
     }
 
-    public void selectAverageLastUtcTs()
+    public void selectAverageLastTouchedUtcTs()
     {
-        selectAverage(LAST_UTC_TS);
+        selectAverage(LAST_TOUCHED_UTC_TS);
     }
 
-    public void selectSumLastUtcTs()
+    public void selectSumLastTouchedUtcTs()
     {
-        selectSum(LAST_UTC_TS);
+        selectSum(LAST_TOUCHED_UTC_TS);
     }
 
-    public void groupByLastUtcTs()
+    public void groupByLastTouchedUtcTs()
     {
-        groupBy(LAST_UTC_TS);
+        groupBy(LAST_TOUCHED_UTC_TS);
     }
 
     //##################################################

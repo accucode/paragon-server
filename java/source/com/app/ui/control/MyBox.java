@@ -22,17 +22,17 @@
 
 package com.app.ui.control;
 
+import com.kodemore.dao.KmDaoSession;
+import com.kodemore.servlet.control.ScBox;
+import com.kodemore.time.KmDate;
+import com.kodemore.time.KmTimestamp;
+
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MySettings;
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServletData;
 import com.app.utility.MyGlobals;
-
-import com.kodemore.dao.KmDaoSession;
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.time.KmDate;
-import com.kodemore.time.KmTimestamp;
 
 /**
  * Used to wrap dynamic ajax content.

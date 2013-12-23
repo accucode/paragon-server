@@ -1,10 +1,10 @@
 package com.app.ui.core;
 
-import com.app.utility.MyGlobals;
-
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.utility.Kmu;
+
+import com.app.utility.MyGlobals;
 
 @SuppressWarnings("unused")
 public class MyCookieSession
