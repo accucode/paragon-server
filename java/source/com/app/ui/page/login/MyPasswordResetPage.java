@@ -10,7 +10,7 @@ import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.control.ScStyledText;
+import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
@@ -43,7 +43,7 @@ public class MyPasswordResetPage
     private ScCardFrame     _frame;
 
     private ScCard          _entryCard;
-    private ScStyledText    _emailText;
+    private ScTextSpan    _emailText;
     private ScPasswordField _password1Field;
     private ScPasswordField _password2Field;
 
@@ -138,7 +138,7 @@ public class MyPasswordResetPage
     {
         int width = 270;
 
-        _emailText = new ScStyledText();
+        _emailText = new ScTextSpan();
         _emailText.css().displayBlock().fieldValue();
 
         _password1Field = new ScPasswordField();

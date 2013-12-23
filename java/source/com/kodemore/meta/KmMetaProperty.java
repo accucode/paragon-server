@@ -2,7 +2,7 @@ package com.kodemore.meta;
 
 import com.kodemore.comparator.KmComparator;
 import com.kodemore.servlet.control.ScGridColumn;
-import com.kodemore.servlet.control.ScStyledText;
+import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScField;
@@ -70,18 +70,18 @@ public abstract class KmMetaProperty<T, V>
         return e;
     }
 
-    public ScStyledText newSpannedText()
+    public ScTextSpan newSpannedText()
     {
-        ScStyledText e;
-        e = new ScStyledText();
+        ScTextSpan e;
+        e = new ScTextSpan();
         e.setLabel(getLabel());
         e.setValue(getAdaptor());
         return e;
     }
 
-    public ScStyledText newSpannedText(String label)
+    public ScTextSpan newSpannedText(String label)
     {
-        ScStyledText e;
+        ScTextSpan e;
         e = newSpannedText();
         e.setLabel(label);
         return e;

@@ -6,7 +6,7 @@ import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScStyledText;
+import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.model.MyAccount;
@@ -21,7 +21,7 @@ public class MyAccountSettingsEditCard
     //##################################################
 
     private ScTextField  _nameField;
-    private ScStyledText _ownerText;
+    private ScTextSpan _ownerText;
 
     //##################################################
     //# constructor
@@ -50,7 +50,7 @@ public class MyAccountSettingsEditCard
         _nameField = x.Name.newField();
         _nameField.setLabel("Name");
 
-        _ownerText = new ScStyledText();
+        _ownerText = new ScTextSpan();
         _ownerText.setLabel("Owner");
 
         ScFieldTable fields;

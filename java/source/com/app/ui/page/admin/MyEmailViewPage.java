@@ -13,7 +13,7 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScLiteral;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.control.ScStyledText;
+import com.kodemore.servlet.control.ScTextSpan;
 
 import com.app.model.MyEmail;
 import com.app.model.MyEmailPart;
@@ -39,7 +39,7 @@ public class MyEmailViewPage
     //# variables
     //##################################################
 
-    private ScStyledText _errorText;
+    private ScTextSpan _errorText;
     private ScLiteral    _partsHtml;
     private ScButton     _editButton;
 

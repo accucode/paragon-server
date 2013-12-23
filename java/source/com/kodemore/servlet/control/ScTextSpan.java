@@ -29,10 +29,11 @@ import com.kodemore.servlet.variable.ScLocalRenderer;
 
 /**
  * I am used to manage styled text.  I am in inline element
- * and apply styling via a 'span' element.
+ * and apply styling via a 'span' element.  I may be used
+ * even when no styling is needed in order to allow the text
+ * to be dynamically replaced via ajax.
  */
-// todo_wyatt: rename styledText?
-public class ScStyledText
+public class ScTextSpan
     extends ScElement
 {
     //##################################################

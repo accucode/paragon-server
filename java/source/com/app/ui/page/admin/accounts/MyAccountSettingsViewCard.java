@@ -5,7 +5,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScStyledText;
+import com.kodemore.servlet.control.ScTextSpan;
 
 import com.app.model.MyAccount;
 import com.app.ui.control.MyCard;
@@ -17,8 +17,8 @@ public class MyAccountSettingsViewCard
     //# variables
     //##################################################
 
-    private ScStyledText _nameText;
-    private ScStyledText _ownerText;
+    private ScTextSpan _nameText;
+    private ScTextSpan _ownerText;
 
     //##################################################
     //# constructor
@@ -38,10 +38,10 @@ public class MyAccountSettingsViewCard
 
     private void installFields(ScGroup group)
     {
-        _nameText = new ScStyledText();
+        _nameText = new ScTextSpan();
         _nameText.setLabel("Name");
 
-        _ownerText = new ScStyledText();
+        _ownerText = new ScTextSpan();
         _ownerText.setLabel("Owner");
 
         ScFieldTable fields;
