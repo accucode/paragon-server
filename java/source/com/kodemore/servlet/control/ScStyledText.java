@@ -29,8 +29,9 @@ import com.kodemore.servlet.variable.ScLocalRenderer;
 
 /**
  * I am used to manage styled text.  I am in inline element
- * and apply styling via a span element.
+ * and apply styling via a 'span' element.
  */
+// todo_wyatt: rename styledText?
 public class ScStyledText
     extends ScElement
 {

@@ -110,5 +110,6 @@ public class MyTestPage
         links.addLink(MyHoverTestPage.instance);
         links.addLink(MyDragScrollToTestPage.instance);
         links.addLink(MyFacebookTestPage.instance);
+        links.addLink(MyPageSessionTest1Page.instance);
     }
 }

@@ -19,28 +19,29 @@ Version: ${applicationVersion}
     <script type="text/javascript" src ="/static/${versionFolder}/app/common/script/myResourceLoader.js"></script>
 
     <script type="text/javascript">
-
-        function loadResources()
+        App = {};
+        
+        App.loadResources = function()
         {
             var version = "${versionFolder}";
             
             var options = 
             { 
                 title: "${applicationName}",
-                onComplete: init
+                onComplete: App.init
             };
             
             MyResourceLoader.loadAppResources(options, version);
         }
 
-        function init()
+        App.init = function()
         {
-            initBorderLayout();
-            initDropdownMenus();
-            initNavigator();
+            App.initBorderLayout();
+            App.initDropdownMenus();
+            App.initNavigator();
         }
         
-        function initBorderLayout()
+        App.initBorderLayout = function()
         {
             new KmBorderLayout(
             {
@@ -72,21 +73,20 @@ Version: ${applicationVersion}
             });
         }        
         
-        function initDropdownMenus()
+        App.initDropdownMenus = function()
         {
             KmDropdownMenu.installAutoClose();  
         }
         
-        function initNavigator()
+        App.initNavigator = function()
         {
             KmNavigator.init();
             KmNavigator.pushPage({url: "${query}"});
         }
-        
     </script>
 
 </head>
 
-<body onload="loadResources();"></body>
+<body onload="App.loadResources();"></body>
 
 </html>

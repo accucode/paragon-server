@@ -105,7 +105,7 @@ public class ScCardFrame
         return e;
     }
 
-    public ScCard addCard(ScCard e)
+    public <T extends ScCard> T addCard(T e)
     {
         e.setParent(this);
         _cards.add(e);
@@ -275,6 +275,22 @@ public class ScCardFrame
     public boolean hasHideSpeed()
     {
         return _hideSpeed != null;
+    }
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    public void useFadeAnimation()
+    {
+        setShowFade();
+        setHideFade();
+    }
+
+    public void useFlipAnimation()
+    {
+        setShowFlip();
+        setHideFlip();
     }
 
     //##################################################

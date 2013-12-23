@@ -572,6 +572,7 @@ public abstract class ScBlockScript
     {
         KmJsonMap json = getData().getPageSessionEncodedValues();
         run("Kmu.updatePageSession(%s);", json);
+        run("KmNavigator.updatePageSession();");
     }
 
     //##################################################

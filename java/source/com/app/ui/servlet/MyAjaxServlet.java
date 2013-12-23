@@ -148,6 +148,8 @@ public class MyAjaxServlet
         if ( page != null )
             return page;
 
+        KmLog.warn("Unknown page key: " + key);
+
         return MyNavigator.getDefaultPage();
     }
 

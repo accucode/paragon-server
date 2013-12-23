@@ -28,6 +28,7 @@ public abstract class MyPageRegistryBase
         super.registerPages();
         
         add(MyAccordionTestPage.instance);
+        add(MyAccountSettingsPage.instance);
         add(MyAccountsPage.instance);
         add(MyAdminPage.instance);
         add(MyAnimationTestPage.instance);
@@ -70,6 +71,8 @@ public abstract class MyPageRegistryBase
         add(MyNotebookTestPage.instance);
         add(MyOpenWindowTestPage.instance);
         add(MyPaddingTestPage.instance);
+        add(MyPageSessionTest1Page.instance);
+        add(MyPageSessionTest2Page.instance);
         add(MyPasswordResetPage.instance);
         add(MyPerformanceLogPage.instance);
         add(MyPlaceholderTestPage.instance);

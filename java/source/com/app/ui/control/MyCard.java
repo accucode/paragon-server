@@ -28,6 +28,7 @@ import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 
 import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MyAccount;
 import com.app.model.MyServerSession;
 import com.app.model.MySettings;
 import com.app.model.MyUser;
@@ -89,6 +90,11 @@ public class MyCard
     protected MyUser getCurrentUser()
     {
         return getServerSession().getUser();
+    }
+
+    protected MyAccount getCurrentAccount()
+    {
+        return getPageSession().getAccount();
     }
 
 }

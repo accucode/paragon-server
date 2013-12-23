@@ -43,13 +43,13 @@ public class ScAjaxResult
      * The length of the http output.  This is not set until
      * I am applied to the response.
      */
-    private int      _length;
+    private int          _length;
 
     /**
      * If true (the default) then the page session is automatically
      * updated as part of applying the script to the http response.
      */
-    private boolean  _autoUpdatePageSession;
+    private boolean      _autoUpdatePageSession;
 
     //##################################################
     //# constructor
@@ -79,6 +79,7 @@ public class ScAjaxResult
     //# apply
     //##################################################
 
+    // fixme_wyatt: here
     @Override
     public void applyTo(ScServletData data)
     {
