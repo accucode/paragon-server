@@ -66,7 +66,6 @@ public abstract class MyPageRegistryBase
         add(MyHoverTestPage.instance);
         add(MyImageButtonTestPage.instance);
         add(MyLocalValueTestPage.instance);
-        add(MyManageAccountsPage.instance);
         add(MyMemoryLeakTestPage.instance);
         add(MyNotebookTestPage.instance);
         add(MyOpenWindowTestPage.instance);
@@ -77,6 +76,7 @@ public abstract class MyPageRegistryBase
         add(MyPopupMenuTestPage.instance);
         add(MyRadioButtonTestPage.instance);
         add(MyScriptTestPage.instance);
+        add(MySelectAccountPage.instance);
         add(MySharedFileBrowserPage.instance);
         add(MyShowDialogTestPage.instance);
         add(MySignInPage.instance);

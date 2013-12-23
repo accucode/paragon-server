@@ -17,16 +17,16 @@ import com.app.model.meta.MyMetaAccount;
 import com.app.ui.page.admin.MyAbstractAdminPage;
 import com.app.utility.MyNavigator;
 
-public class MyManageAccountsPage
+public class MySelectAccountPage
     extends MyAbstractAdminPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManageAccountsPage instance = new MyManageAccountsPage();
+    public static final MySelectAccountPage instance = new MySelectAccountPage();
 
-    private MyManageAccountsPage()
+    private MySelectAccountPage()
     {
         // singleton
     }
