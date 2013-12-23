@@ -5,6 +5,7 @@ import com.kodemore.patch.KmPatchManager;
 import com.kodemore.servlet.action.ScActions;
 import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.utility.ScControlRegistry;
+import com.kodemore.servlet.utility.ScServletCallbackRegistry;
 import com.kodemore.time.KmTimeZoneBridge;
 import com.kodemore.utility.Kmu;
 
@@ -27,7 +28,6 @@ import com.app.ui.layout.MyPageLayout;
 import com.app.ui.layout.MyPageLayoutBridge;
 import com.app.ui.page.MyPageRegistry;
 import com.app.ui.servlet.MyFormatter;
-import com.app.ui.servlet.ScServletCallbackRegistry;
 
 /**
  * I install the application when the servlet container initially
