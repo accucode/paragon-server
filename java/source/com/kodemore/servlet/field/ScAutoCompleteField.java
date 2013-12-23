@@ -36,13 +36,12 @@ import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.utility.ScControlRegistry;
+import com.kodemore.servlet.utility.ScServletCallback;
+import com.kodemore.servlet.utility.ScServletCallbackRegistry;
 import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.servlet.variable.ScLocalStringList;
 import com.kodemore.utility.Kmu;
-
-import com.app.ui.servlet.ScServletCallback;
-import com.app.ui.servlet.ScServletCallbackRegistry;
 
 /**
  * I am based on...

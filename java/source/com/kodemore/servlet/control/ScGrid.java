@@ -42,13 +42,12 @@ import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.utility.ScJquery;
+import com.kodemore.servlet.utility.ScServletCallback;
+import com.kodemore.servlet.utility.ScServletCallbackRegistry;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
-
-import com.app.ui.servlet.ScServletCallback;
-import com.app.ui.servlet.ScServletCallbackRegistry;
 
 /**
  * A grid based on the JQuery Flexigrid tool.

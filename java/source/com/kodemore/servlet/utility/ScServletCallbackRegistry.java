@@ -1,9 +1,10 @@
-package com.app.ui.servlet;
+package com.kodemore.servlet.utility;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScDropzone;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.field.ScAutoCompleteField;
+import com.kodemore.servlet.utility.ScServletCallback;
 import com.kodemore.utility.Kmu;
 
 /**

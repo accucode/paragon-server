@@ -37,12 +37,11 @@ import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScJquery;
+import com.kodemore.servlet.utility.ScServletCallback;
+import com.kodemore.servlet.utility.ScServletCallbackRegistry;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
-
-import com.app.ui.servlet.ScServletCallback;
-import com.app.ui.servlet.ScServletCallbackRegistry;
 
 public class ScDropzone
     extends ScControl

@@ -5,7 +5,6 @@ import com.kodemore.servlet.ScPage;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 
-import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAccount;
 import com.app.model.MyAccountUser;
 import com.app.model.MyServerSession;
@@ -18,6 +17,7 @@ import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyLeftMenuItem;
 import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyGlobals;
+import com.app.utility.MyUrls;
 
 public abstract class MyPage
     extends ScPage
@@ -299,6 +299,11 @@ public abstract class MyPage
     protected MyPageLayout getPageLayout()
     {
         return MyPageLayout.getInstance();
+    }
+
+    public final String _formatEntryUrl()
+    {
+        return MyUrls.getEntryUrl(_composeQueryParameters());
     }
 
 }

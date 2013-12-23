@@ -1,4 +1,4 @@
-package com.app.ui.servlet;
+package com.kodemore.servlet.utility;
 
 import com.kodemore.utility.Kmu;
 

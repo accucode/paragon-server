@@ -9,8 +9,6 @@ import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.utility.Kmu;
 
-import com.app.utility.MyUrls;
-
 /**
  * Pages represent a unit of work within the browser's history.
  * Performing actions and updating the display within a page generally does NOT
@@ -155,17 +153,12 @@ public abstract class ScPage
     //= url :: protected 
     //==================================================
 
-    public final String _formatEntryUrl()
-    {
-        return MyUrls.getEntryUrl(_composeQueryParameters());
-    }
-
     public final String _formatQueryString()
     {
         return _composeQueryParameters().formatUrl();
     }
 
-    private ScParameterList _composeQueryParameters()
+    protected final ScParameterList _composeQueryParameters()
     {
         ScParameterList v;
         v = composeQueryParameters();
