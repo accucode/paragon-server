@@ -2,9 +2,9 @@
 ## servlet
 #######################################
 
-servletScheme                               = https
-servletHost                                 = paragon.accucode-apps.com
-servletPort                                 = 443
+servletScheme                               = http
+servletHost                                 = paragon-dev.elasticbeanstalk.com
+servletPort                                 = 80
                                             
 servletRedirect                             = y
                                             
@@ -20,9 +20,9 @@ webResourceVersioning                       = deploy
 
 databaseSchema                              = paragon
 databaseDriver                              = com.mysql.jdbc.Driver
-databaseUri                                 = jdbc:mysql://paragon-prod.c6elvadxxqh4.us-east-1.rds.amazonaws.com:3306/
+databaseUri                                 = jdbc:mysql://paragon-dev.c6elvadxxqh4.us-east-1.rds.amazonaws.com:3306/
 databaseUser                                = paragon
-databasePassword                            = E-Baa6jVlS+bY(U
+databasePassword                            = R6XCP2qi09C4BWr
 
                 
 #######################################     

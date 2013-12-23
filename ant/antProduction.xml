@@ -1,0 +1,125 @@
+<project name="Production" basedir="..">
+
+    <property name='dummy' value=''/>  
+    <import file="antCore.xml"/>
+	
+	
+    <property name='awsApplicationName' value='Paragon'/>  
+    <property name='awsEnvironmentName' value='1-Paragon-Prod'/>  
+	<property name='awsBuildPrefix' value='paragon-prod'/> 
+
+    <!--
+    ****************************************
+    ** Beanstalk
+    ****************************************
+    -->
+
+    <target
+        name="uploadWar"
+        depends="init" >
+    	<exec executable="${bin}/kmAwsCli.bat" failonerror="true" >
+    	   <arg value="s3" />
+    	   <arg value="cp" />
+    	   <arg value="${temp}/paragon.war" />
+    	   <arg value="s3://AccuCode-Builds/${awsApplicationName}/${awsBuildPrefix}-${buildNumber}.war" />
+    	</exec>
+    </target>
+	
+    <target
+        name="configureVersion"
+        depends="init" >
+    	<exec executable="${bin}/kmAwsCli.bat" failonerror="true" >
+           <arg value="elasticbeanstalk" />
+           <arg value="create-application-version" />
+           <arg value="--application-name" />
+           <arg value="${awsApplicationName}" />
+           <arg value="--version-label" />
+           <arg value="${awsBuildPrefix}-${buildNumber}" />
+           <arg value="--source-bundle" />
+    	   <arg value='"S3Bucket=AccuCode-Builds,S3Key=${awsApplicationName}/${awsBuildPrefix}-${buildNumber}.war"' />
+        </exec>
+    </target>
+	
+    <target
+        name="updateEnvironment"
+        depends="init" >
+    	<exec executable="${bin}/kmAwsCli.bat" failonerror="true" >
+           <arg value="elasticbeanstalk" />
+           <arg value="update-environment" />
+           <arg value="--environment-name" />
+           <arg value="${awsEnvironmentName}" />
+           <arg value="--version-label" />
+           <arg value="${awsBuildPrefix}-${buildNumber}" />
+        </exec>
+    </target>
+	
+    <target
+        name="deploy"
+        depends="init,confirmProduction" 
+    	description="Used to deploy war file to Production.  This will take Production off-line during update.">
+        <input
+            message="What is the build number?"
+            addproperty="buildNumber" />
+    	
+    	  <antcall target="uploadWar">
+    	  	<param name="buildNumber" value="${buildNumber}" />
+    	  </antcall>
+    	  <antcall target="configureVersion">
+    	  	<param name="buildNumber" value="${buildNumber}" />
+    	  </antcall>
+    	  <antcall target="updateEnvironment">
+    	  	<param name="buildNumber" value="${buildNumber}" />
+    	  </antcall>
+    </target>
+	<target
+	        name="makeWar"
+	        depends="init,clean,compile" 
+	        description="Used to make War file used for use in the AWS Production environment.">	
+	    <delete dir="${temp}/web" quiet="true" />
+		
+		<!-- copy the web dir to temp area -->
+		<copy todir="${temp}/web" >
+		    <fileset dir="${web}"/>
+		</copy>
+	
+		<!-- bring in the properties file for Production -->
+	    <copy
+	            file="${resource}/settings/production/_overrides.txt"
+	            tofile="${temp}/web/WEB-INF/resource/property/overrides.txt"
+	            overwrite="true"
+	            verbose="true"/>
+	    <copy
+	            file="${resource}/settings/production/_log4j.xml"
+	            tofile="${temp}/web/WEB-INF/resource/log4j/log4j.xml"
+	            overwrite="true"
+	            verbose="true"/>
+	    <copy
+	            file="${resource}/settings/production/_ROOT.xml"
+	            tofile="${temp}/web/WEB-INF/resource/webInstall/ROOT.xml"
+	            overwrite="true"
+	            verbose="true"/>
+	
+		<!-- create the war file -->
+	    <war destfile="${temp}/paragon.war" webxml="${temp}/web/WEB-INF/web.xml">
+	        <fileset dir="${temp}/web">
+	            <exclude name="ajaxLog.txt"/>
+	            <exclude name="last.html"/>
+	        </fileset>
+	   	</war>
+		
+	    <delete dir="${temp}/web" />
+	</target>
+	
+    <target
+        name="restart"
+        depends="init,confirmProduction"
+	    description="Bounces the servers in AWS.">	
+        <exec executable="${bin}/kmAwsCli.bat" failonerror="true" >
+           <arg value="elasticbeanstalk" />
+           <arg value="restart-app-server" />
+           <arg value="--environment-name" />
+           <arg value="${awsEnvironmentName}" />
+        </exec>
+    </target>
+	
+</project>
