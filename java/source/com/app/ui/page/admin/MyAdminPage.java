@@ -44,8 +44,11 @@ public class MyAdminPage
         links = group.addLinkBox();
         links.addLink(MySelectAccountPage.instance);
         links.addLink(MyAccountSettingsPage.instance);
+
+        group.addDivider();
+
+        links = group.addLinkBox();
         links.addLink(MyAccountsPage.instance);
-        links.addDivider();
         links.addLink(MyUserProfilePage.instance);
     }
 }

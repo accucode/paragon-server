@@ -229,10 +229,10 @@ public class ScReplaceContentsScript
         setTransition(e, 150);
     }
 
-    public void setTransition(ScTransition e, Integer speed)
+    public void setTransition(ScTransition e, Integer ms)
     {
         _transition = e;
-        _speed = speed;
+        _speed = ms;
     }
 
     public boolean hasTransition()

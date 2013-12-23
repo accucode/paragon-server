@@ -109,6 +109,15 @@ public abstract class ScControl
      */
     private ScRootScript                       _postDomScript;
 
+    /**
+     * The scripts to run after the display has been rendered.
+     * 
+     * Some actions (e.g.: focus) cannot be reliably executed
+     * after the dom has been updated, and must wait until after
+     * the display has been fully rendered.
+     */
+    private ScRootScript                       _postRenderScript;
+
     //##################################################
     //# constructor
     //##################################################
@@ -514,6 +523,11 @@ public abstract class ScControl
         out.getPostDom().run(_postDomScript);
     }
 
+    protected void renderPostRenderOn(KmHtmlBuilder out)
+    {
+        out.getPostRender().run(_postRenderScript);
+    }
+
     //##################################################
     //# typing
     //##################################################
@@ -766,6 +780,14 @@ public abstract class ScControl
             _postDomScript = new ScRootScript();
 
         return _postDomScript;
+    }
+
+    public ScBlockScript getPostRenderScript()
+    {
+        if ( _postRenderScript == null )
+            _postRenderScript = new ScRootScript();
+
+        return _postRenderScript;
     }
 
     //##################################################

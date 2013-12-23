@@ -209,6 +209,7 @@ public abstract class ScPage
 
         ajax().printMain(root);
 
+        // todo_wyatt: defer
         if ( focus )
             root.ajax().focus();
 

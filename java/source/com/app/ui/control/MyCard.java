@@ -94,7 +94,7 @@ public class MyCard
 
     protected MyAccount getCurrentAccount()
     {
-        return getPageSession().getAccount();
+        return getPageSession().getCurrentAccount();
     }
 
 }

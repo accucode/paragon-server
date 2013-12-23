@@ -86,7 +86,7 @@ public class MyAccountSettingsEditCard
     @Override
     public void preRender()
     {
-        MyAccount e = getPageSession().getCurrentAccount();
+        MyAccount e = getCurrentAccount();
 
         _nameField.setValue(e.getName());
         _ownerText.setValue(e.getOwner().getName());

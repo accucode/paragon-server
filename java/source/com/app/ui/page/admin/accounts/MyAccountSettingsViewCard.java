@@ -58,7 +58,6 @@ public class MyAccountSettingsViewCard
         footer = group.addButtonBoxRight();
         footer.addButton("Edit", newEditAction());
         footer.addButton("Transfer", newTransferAction());
-        footer.addButton("Delete", newDeleteAction());
     }
 
     //##################################################
@@ -112,18 +111,6 @@ public class MyAccountSettingsViewCard
         };
     }
 
-    private ScActionIF newDeleteAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleDelete();
-            }
-        };
-    }
-
     //##################################################
     //# handle
     //##################################################
@@ -134,10 +121,6 @@ public class MyAccountSettingsViewCard
     }
 
     private void handleTransfer()
-    {
-    }
-
-    private void handleDelete()
     {
     }
 }

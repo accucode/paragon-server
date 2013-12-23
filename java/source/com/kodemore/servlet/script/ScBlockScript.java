@@ -306,12 +306,12 @@ public abstract class ScBlockScript
         setContents(sel, c);
     }
 
-    public void setContents(String sel, ScControlIF c)
+    public ScReplaceContentsScript setContents(String sel, ScControlIF c)
     {
         if ( c == null )
-            clearContents(sel);
-        else
-            setContents(sel, c.render());
+            return setContents(sel, (KmHtmlBuilder)null);
+
+        return setContents(sel, c.render());
     }
 
     public void setContents(ScHtmlIdIF target, KmHtmlBuilder contents)
@@ -320,12 +320,13 @@ public abstract class ScBlockScript
         setContents(sel, contents);
     }
 
-    public void setContents(String sel, KmHtmlBuilder contents)
+    public ScReplaceContentsScript setContents(String sel, KmHtmlBuilder contents)
     {
         ScReplaceContentsScript r;
         r = setContents();
         r.setSelector(sel);
         r.setContents(contents);
+        return r;
     }
 
     //##################################################
@@ -379,7 +380,23 @@ public abstract class ScBlockScript
 
     public void printMain(ScControlIF e)
     {
-        setContents(getMainSelector(), e);
+        ScReplaceContentsScript r;
+        r = setContents(getMainSelector(), e);
+
+        /**
+         * todo_wyatt: transition
+         * Adding the following transition looks good but has a couple of problems.
+         * 
+         *      1) Since the green border is part of the main section, it also
+         *          fades in an out.  Perhaps we should nest an invisible child
+         *          inside of the body.
+         *          
+         *      2) The postDom scripts are not playing together nicely.  E.g.:
+         *          The TestPage uses a postDom script to equalize the size of
+         *          the multiple groups.  But the page gets trashed when we 
+         *          try to enable a page transition effect.
+         */
+        // r.setTransition(ScTransition.Fade, 50);
     }
 
     public void clearMain()

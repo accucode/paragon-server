@@ -108,7 +108,7 @@ KmBorderLayout.prototype.getParent = function()
 
 KmBorderLayout.prototype.installDom = function()
 {
-    // WARNING: the sequence in which children are created does matter.
+    // WARNING: the sequence in which children are created DOES matter.
     // This impacts the z-index, which in turn changes which controls
     // are on top during animations.
 

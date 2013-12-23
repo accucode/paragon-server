@@ -44,7 +44,7 @@ public class MyTestPage
     protected void installRoot(ScPageRoot root)
     {
         root.css().gap();
-        root.getPostDomScript().equalizeGroups();
+        root.getPostRenderScript().equalizeGroups();
 
         ScGroupArray groups;
         groups = root.addGroupArray();
