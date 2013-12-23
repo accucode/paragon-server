@@ -37,7 +37,6 @@ public class MyAccountValidatorBase
 
     private KmStringValidator uidValidator;
     private KmStringValidator nameValidator;
-    private KmStringValidator typeCodeValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -49,7 +48,6 @@ public class MyAccountValidatorBase
         super();
         uidValidator = newUidValidator();
         nameValidator = newNameValidator();
-        typeCodeValidator = newTypeCodeValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -67,11 +65,6 @@ public class MyAccountValidatorBase
         return nameValidator;
     }
 
-    public KmStringValidator getTypeCodeValidator()
-    {
-        return typeCodeValidator;
-    }
-
     public KmIntegerValidator getLockVersionValidator()
     {
         return lockVersionValidator;
@@ -86,7 +79,6 @@ public class MyAccountValidatorBase
     {
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setName(nameValidator.convertOnly(value.getName()));
-        value.setTypeCode(typeCodeValidator.convertOnly(value.getTypeCode()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
     }
 
@@ -95,7 +87,6 @@ public class MyAccountValidatorBase
     {
         uidValidator.validateOnly(value.getUid(), errors);
         nameValidator.validateOnly(value.getName(), errors);
-        typeCodeValidator.validateOnly(value.getTypeCode(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
     }
 
@@ -123,20 +114,6 @@ public class MyAccountValidatorBase
         e.setAllowsPrintable(true);
         e.setModel("account");
         e.setField("name");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newTypeCodeValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(1);
-        e.setAllowsLetters(true);
-        e.setForcesUpperCase(true);
-        e.setStripsAllSpaces(true);
-        e.setModel("account");
-        e.setField("typeCode");
         e.setRequired();
         return e;
     }

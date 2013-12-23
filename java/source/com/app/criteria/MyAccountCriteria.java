@@ -54,63 +54,6 @@ public class MyAccountCriteria
         return new KmStringCriteria(context(), fullName(NAME));
     }
 
-    public KmStringCriteria whereTypeCode()
-    {
-        return new KmStringCriteria(context(), fullName(TYPE_CODE));
-    }
-
-    public void whereTypeIs(MyAccountType e)
-    {
-        if ( e == null )
-            whereTypeCode().isNull();
-        else
-            whereTypeCode().is(e.getCode());
-    }
-
-    public void whereTypeIsNot(MyAccountType e)
-    {
-        if ( e == null )
-            whereTypeCode().isNull();
-        else
-            whereTypeCode().isNot(e.getCode());
-    }
-
-    public void whereTypeIsPersonal()
-    {
-        whereTypeIs(MyAccountType.Personal);
-    }
-
-    public void whereTypeIsNotPersonal()
-    {
-        whereTypeIsNot(MyAccountType.Personal);
-    }
-
-    public void whereTypeIsPersonal(boolean e)
-    {
-        if ( e )
-            whereTypeIsPersonal();
-        else
-            whereTypeIsNotPersonal();
-    }
-
-    public void whereTypeIsBusiness()
-    {
-        whereTypeIs(MyAccountType.Business);
-    }
-
-    public void whereTypeIsNotBusiness()
-    {
-        whereTypeIsNot(MyAccountType.Business);
-    }
-
-    public void whereTypeIsBusiness(boolean e)
-    {
-        if ( e )
-            whereTypeIsBusiness();
-        else
-            whereTypeIsNotBusiness();
-    }
-
     public KmIntegerCriteria whereLockVersion()
     {
         return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
@@ -154,24 +97,6 @@ public class MyAccountCriteria
             sortOnName();
         else
             sortOnNameDescending();
-    }
-
-    public void sortOnTypeCode()
-    {
-        parent().sortAscending(TYPE_CODE);
-    }
-
-    public void sortOnTypeCodeDescending()
-    {
-        parent().sortDescending(TYPE_CODE);
-    }
-
-    public void sortOnTypeCode(boolean asc)
-    {
-        if ( asc )
-            sortOnTypeCode();
-        else
-            sortOnTypeCodeDescending();
     }
 
     public void sortOnLockVersion()
@@ -278,50 +203,6 @@ public class MyAccountCriteria
     public void groupByName()
     {
         groupBy(NAME);
-    }
-
-    //##################################################
-    //# projections (typeCode)
-    //##################################################
-
-    public void selectTypeCode()
-    {
-        select(TYPE_CODE);
-    }
-
-    public void selectDistinctTypeCode()
-    {
-        selectDistinct(TYPE_CODE);
-    }
-
-    public void selectCountDistinctTypeCode()
-    {
-        selectCountDistinct(TYPE_CODE);
-    }
-
-    public void selectMinimumTypeCode()
-    {
-        selectMinimum(TYPE_CODE);
-    }
-
-    public void selectMaximumTypeCode()
-    {
-        selectMaximum(TYPE_CODE);
-    }
-
-    public void selectAverageTypeCode()
-    {
-        selectAverage(TYPE_CODE);
-    }
-
-    public void selectSumTypeCode()
-    {
-        selectSum(TYPE_CODE);
-    }
-
-    public void groupByTypeCode()
-    {
-        groupBy(TYPE_CODE);
     }
 
     //##################################################

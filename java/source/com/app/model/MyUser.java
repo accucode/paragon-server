@@ -168,59 +168,14 @@ public class MyUser
         return getAccounts().collect(x.Name);
     }
 
-    public MyAccount addBusinessAccount(String name)
-    {
-        MyAccount e;
-        e = new MyAccount();
-        e.setName(name);
-        e.setTypeBusiness();
-        e.saveDao();
-
-        return _addAccount(e);
-    }
-
-    public MyAccount addBusinessAccount(String name, MyAccountUserRole role)
+    public MyAccount addAccount(String name)
     {
         MyAccount a;
         a = new MyAccount();
         a.setName(name);
-        a.setTypeBusiness();
-        a.saveDao();
-
-        return _addAccount(a, role);
-    }
-
-    public MyAccount addPersonalAccount()
-    {
-        MyAccount a;
-        a = new MyAccount();
-        a.setName("Personal");
-        a.setTypePersonal();
         a.saveDao();
 
         return _addAccount(a);
-    }
-
-    public MyAccount addPersonalAccount(String name)
-    {
-        MyAccount a;
-        a = new MyAccount();
-        a.setName(name);
-        a.setTypePersonal();
-        a.saveDao();
-
-        return _addAccount(a);
-    }
-
-    public MyAccount addPersonalAccount(String name, MyAccountUserRole role)
-    {
-        MyAccount a;
-        a = new MyAccount();
-        a.setName(name);
-        a.setTypeBusiness();
-        a.saveDao();
-
-        return _addAccount(a, role);
     }
 
     public MyAccountUser joinAccount(MyAccount a)
@@ -269,14 +224,6 @@ public class MyUser
         MyAccountUser au;
         au = joinAccount(a);
         au.setRoleOwner();
-        return a;
-    }
-
-    private MyAccount _addAccount(MyAccount a, MyAccountUserRole role)
-    {
-        MyAccountUser au;
-        au = joinAccount(a);
-        au.setRoleCode(role.getCode());
         return a;
     }
 

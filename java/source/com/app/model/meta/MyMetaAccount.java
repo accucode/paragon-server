@@ -62,9 +62,7 @@ public class MyMetaAccount
 
     public static final MyMetaAccount_Uid Uid = new MyMetaAccount_Uid();
     public static final MyMetaAccount_Name Name = new MyMetaAccount_Name();
-    public static final MyMetaAccount_TypeCode TypeCode = new MyMetaAccount_TypeCode();
     public static final MyMetaAccount_LockVersion LockVersion = new MyMetaAccount_LockVersion();
-    public static final MyMetaAccount_TypeName TypeName = new MyMetaAccount_TypeName();
 
     //##################################################
     //# associations

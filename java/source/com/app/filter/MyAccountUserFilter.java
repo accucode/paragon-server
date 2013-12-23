@@ -245,9 +245,6 @@ public class MyAccountUserFilter
 
         if ( usesAccountNameSubstring() )
             c.joinToAccount().whereName().hasSubstring(getAccountNameSubstring());
-
-        if ( usesAccountTypeCode() )
-            c.joinToAccount().whereTypeCode().is(getAccountTypeCode());
     }
 
     @Override

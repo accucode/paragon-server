@@ -35,7 +35,6 @@ import com.app.dao.MyAccountUserDao;
 import com.app.filter.MyAccountUserFilter;
 import com.app.filter.MyUserFilter;
 import com.app.model.MyAccount;
-import com.app.model.MyAccountType;
 import com.app.model.MyAccountUser;
 import com.app.model.MyAccountUserRole;
 import com.app.model.MyInvitation;
@@ -66,8 +65,6 @@ public class MyAccountsPage
     //##################################################
 
     private ScDropdown            _accountDropdown;
-    private ScDropdown            _editTypeDropdown;
-    private ScDropdown            _addAccountTypeDropdown;
     private ScDropdown            _editRoleDropdown;
     private ScDropdown            _inviteRoleDropdown;
 
@@ -82,7 +79,6 @@ public class MyAccountsPage
     private ScTextField           _editUserEmailField;
     private ScTextField           _inviteUserEmailField;
     private ScTextField           _deleteAccountNameField;
-    private ScTextField           _deleteAccountTypeField;
 
     private ScAutoCompleteField   _transferEmailAutoComplete;
 
@@ -141,6 +137,8 @@ public class MyAccountsPage
         _accountUid.setAutoSave();
 
         root.css().gap();
+
+        root.addText("hello");
 
         ScArray row;
         row = root.addRow();
@@ -256,8 +254,6 @@ public class MyAccountsPage
         _editAccountNameField = new ScTextField();
         _editAccountNameField.setLabel("Name ");
 
-        _editTypeDropdown = MyAccount.Tools.newTypeDropdown();
-
         ScActionIF saveAction = newEditAccountSaveAction();
         ScActionIF cancelAction = newEditAccountCancelAction();
 
@@ -275,7 +271,6 @@ public class MyAccountsPage
         ScFieldTable fields;
         fields = group.addPad().addFields();
         fields.add(_editAccountNameField);
-        fields.add(_editTypeDropdown);
 
         group.addDivider();
 
@@ -306,12 +301,9 @@ public class MyAccountsPage
         _addAccountNameField = new ScTextField();
         _addAccountNameField.setLabel("Name ");
 
-        _addAccountTypeDropdown = MyAccount.Tools.newTypeDropdown();
-
         ScFieldTable fields;
         fields = group.addPad().addFields();
         fields.add(_addAccountNameField);
-        fields.add(_addAccountTypeDropdown);
 
         group.addDivider();
 
@@ -386,14 +378,9 @@ public class MyAccountsPage
         _deleteAccountNameField.setLabel("Name ");
         _deleteAccountNameField.setReadOnly();
 
-        _deleteAccountTypeField = new ScTextField();
-        _deleteAccountTypeField.setLabel("Type ");
-        _deleteAccountTypeField.setReadOnly();
-
         ScFieldTable fields;
         fields = group.addPad().addFields();
         fields.add(_deleteAccountNameField);
-        fields.add(_deleteAccountTypeField);
 
         group.addDivider();
 
@@ -1096,10 +1083,7 @@ public class MyAccountsPage
         a = getPageSession().getAccount();
 
         if ( a != null )
-        {
             _deleteAccountNameField.setValue(a.getName());
-            _deleteAccountTypeField.setValue(a.getType().getName());
-        }
 
         _deleteAccountCard.print();
     }
@@ -1200,10 +1184,7 @@ public class MyAccountsPage
         a = getPageSession().getAccount();
 
         if ( a != null )
-        {
             _editAccountNameField.setValue(a.getName());
-            _editTypeDropdown.setValue(a.getType());
-        }
 
         _editAccountCard.print();
     }
@@ -1259,7 +1240,6 @@ public class MyAccountsPage
         MyAccount a;
         a = getPageSession().getAccount();
         a.setName(_editAccountNameField.getValue());
-        a.setTypeCode(_editTypeDropdown.getStringValue());
         a.saveDao();
 
         setDropdownOptions();
@@ -1286,16 +1266,9 @@ public class MyAccountsPage
             error("Please enter an account name");
 
         String name = _addAccountNameField.getValue();
-        String typeCode = _addAccountTypeDropdown.getStringValue();
-        MyAccountType type = MyAccountType.findCode(typeCode);
         MyUser user = getCurrentUser();
 
-        MyAccount a;
-        if ( type.isPersonal() )
-            a = user.addPersonalAccount(name);
-        else
-            a = user.addBusinessAccount(name);
-
+        MyAccount a = user.addAccount(name);
         getPageSession().setAccount(a);
 
         setDropdownOptions();
@@ -1487,7 +1460,6 @@ public class MyAccountsPage
         }
 
         _viewAccountNameField.setValue(a.getName());
-        _viewAccountTypeField.setValue(a.getType().getName());
 
         boolean isOwner = a.hasOwner(u);
         boolean isOnlyAccount = u.getAccountUserCount() == 1;

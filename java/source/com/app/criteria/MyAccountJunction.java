@@ -53,11 +53,6 @@ public class MyAccountJunction
         return new KmStringCriteria(context(), fullName(NAME));
     }
 
-    public KmStringCriteria whereTypeCode()
-    {
-        return new KmStringCriteria(context(), fullName(TYPE_CODE));
-    }
-
     public KmIntegerCriteria whereLockVersion()
     {
         return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));

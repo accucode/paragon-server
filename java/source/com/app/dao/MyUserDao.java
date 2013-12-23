@@ -56,7 +56,7 @@ public class MyUserDao
         u.setRoleUser();
         u.setName(name);
         u.setEmail(email);
-        u.addPersonalAccount();
+        u.addAccount("Personal");
         u.setRandomPassword();
         u.setVerified(true);
         u.saveDao();

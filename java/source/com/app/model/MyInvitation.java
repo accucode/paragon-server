@@ -45,7 +45,6 @@ public class MyInvitation
             case JoinAccount:
             case TransferAccount:
                 return MyUrls.getEntryUrl();
-
         }
         return null;
     }

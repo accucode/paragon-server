@@ -43,12 +43,6 @@
             type="string"
             />
 
-        <property
-            name="typeCode"
-            column="typeCode"
-            type="string"
-            />
-
         <bag
             name="accountUsers"
             inverse="false"

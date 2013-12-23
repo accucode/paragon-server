@@ -16,8 +16,7 @@ public class MyAccountFilter
         implements KmNamedEnumIF
     {
         Uid("Uid"),
-        Name("Name"),
-        Type("Type");
+        Name("Name");
 
         private String _name;
 
@@ -43,9 +42,6 @@ public class MyAccountFilter
     private String  _nameSubstring;
     private boolean _usesNameSubstring;
 
-    private String  _type;
-    private boolean _usesType;
-
     //##################################################
     //# name substring
     //##################################################
@@ -64,26 +60,6 @@ public class MyAccountFilter
     public boolean usesNameSubstring()
     {
         return _usesNameSubstring;
-    }
-
-    //##################################################
-    //# type
-    //##################################################
-
-    public String getTypeCode()
-    {
-        return _type;
-    }
-
-    public void setTypeCode(String e)
-    {
-        _type = e;
-        _usesType = true;
-    }
-
-    public boolean usesTypeCode()
-    {
-        return _usesType;
     }
 
     //##################################################
@@ -140,12 +116,8 @@ public class MyAccountFilter
     @Override
     protected void applyConditionsTo(MyAccountCriteria c)
     {
-
         if ( usesNameSubstring() )
             c.whereName().hasSubstring(getNameSubstring());
-
-        if ( usesTypeCode() )
-            c.whereTypeCode().is(getTypeCode());
     }
 
     @Override
@@ -164,10 +136,6 @@ public class MyAccountFilter
 
             case Name:
                 c.sortOnName(asc);
-                break;
-
-            case Type:
-                c.sortOnTypeCode(asc);
                 break;
         }
     }

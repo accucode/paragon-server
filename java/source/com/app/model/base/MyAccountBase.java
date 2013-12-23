@@ -40,7 +40,6 @@ public abstract class MyAccountBase
 
     private String uid;
     private String name;
-    private String typeCode;
     private Integer lockVersion;
     private List<MyAccountUser> accountUsers;
 
@@ -52,7 +51,6 @@ public abstract class MyAccountBase
     {
         super();
         setUid(newUid());
-        setTypeCode(MyAccountType.Personal.getCode());
         accountUsers = new ArrayList<MyAccountUser>();
     }
 
@@ -139,100 +137,6 @@ public abstract class MyAccountBase
     }
 
     //##################################################
-    //# field (typeCode)
-    //##################################################
-
-    public String getTypeCode()
-    {
-        return typeCode;
-    }
-
-    public void setTypeCode(String e)
-    {
-        checkReadOnly();
-        e = Validator.getTypeCodeValidator().convertOnly(e);
-        typeCode = e;
-    }
-
-    public void clearTypeCode()
-    {
-        setTypeCode(null);
-    }
-
-    public boolean hasTypeCode()
-    {
-        return Kmu.hasValue(getTypeCode());
-    }
-
-    public boolean hasTypeCode(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getTypeCode(), e);
-    }
-
-    public void truncateTypeCode()
-    {
-        truncateTypeCode(false);
-    }
-
-    public void truncateTypeCode(boolean ellipses)
-    {
-        typeCode = Kmu.truncate(typeCode, 1, ellipses);
-    }
-
-    public MyAccountType getType()
-    {
-        return MyAccountType.findCode(getTypeCode());
-    }
-
-    public void setType(MyAccountType e)
-    {
-        if ( e == null )
-            setTypeCode(null);
-        else
-            setTypeCode(e.getCode());
-    }
-
-    public boolean hasType()
-    {
-        return getType() != null;
-    }
-
-    public boolean hasType(MyAccountType e)
-    {
-        return getType() == e;
-    }
-
-    public void setTypePersonal()
-    {
-        setType(MyAccountType.Personal);
-    }
-
-    public boolean isTypePersonal()
-    {
-        return hasType(MyAccountType.Personal);
-    }
-
-    public boolean isNotTypePersonal()
-    {
-        return !isTypePersonal();
-    }
-
-    public void setTypeBusiness()
-    {
-        setType(MyAccountType.Business);
-    }
-
-    public boolean isTypeBusiness()
-    {
-        return hasType(MyAccountType.Business);
-    }
-
-    public boolean isNotTypeBusiness()
-    {
-        return !isTypeBusiness();
-    }
-
-    //##################################################
     //# field (lockVersion)
     //##################################################
 
@@ -261,25 +165,6 @@ public abstract class MyAccountBase
     public boolean hasLockVersion(Integer e)
     {
         return Kmu.isEqual(getLockVersion(), e);
-    }
-
-    //##################################################
-    //# field (typeName)
-    //##################################################
-
-    public final String getTypeName()
-    {
-        return Kmu.getName(getType());
-    }
-
-    public boolean hasTypeName()
-    {
-        return Kmu.hasValue(getTypeName());
-    }
-
-    public boolean hasTypeName(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getTypeName(), e);
     }
 
 
@@ -422,9 +307,7 @@ public abstract class MyAccountBase
     public boolean isSameIgnoringKey(MyAccount e)
     {
         if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
-        if ( !Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
-        if ( !Kmu.isEqual(getTypeName(), e.getTypeName()) ) return false;
         return true;
     }
 
@@ -454,9 +337,6 @@ public abstract class MyAccountBase
         if ( p.hasKey("name") )
             setName(p.getString("name"));
 
-        if ( p.hasKey("typeCode") )
-            setTypeCode(p.getString("typeCode"));
-
         if ( p.hasKey("lockVersion") )
             setLockVersion(p.getInteger("lockVersion"));
     }
@@ -471,9 +351,6 @@ public abstract class MyAccountBase
 
         if ( hasName() )
             p.setString("name", getName());
-
-        if ( hasTypeCode() )
-            p.setString("typeCode", getTypeCode());
 
         if ( hasLockVersion() )
             p.setInteger("lockVersion", getLockVersion());
@@ -503,7 +380,6 @@ public abstract class MyAccountBase
         System.out.println(this);
         System.out.println("    Uid = " + uid);
         System.out.println("    Name = " + name);
-        System.out.println("    TypeCode = " + typeCode);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

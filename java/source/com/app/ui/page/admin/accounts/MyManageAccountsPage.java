@@ -181,7 +181,7 @@ public class MyManageAccountsPage
         _form.validate();
 
         String name = _nameField.getValue();
-        getCurrentUser().addPersonalAccount(name);
+        getCurrentUser().addAccount(name);
 
         _nameField.clearText();
         print();

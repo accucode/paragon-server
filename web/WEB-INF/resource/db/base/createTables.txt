@@ -12,7 +12,6 @@ CREATE TABLE account
 (
     uid varchar(30),
     name varchar(30),
-    typeCode char(1),
     lockVersion int,
     primary key (uid)
 ) ENGINE = INNODB;

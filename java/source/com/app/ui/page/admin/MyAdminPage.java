@@ -6,6 +6,7 @@ import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.ui.page.admin.accounts.MyAccountsPage;
+import com.app.ui.page.admin.accounts.MyManageAccountsPage;
 import com.app.ui.page.admin.userProfile.MyUserProfilePage;
 
 public class MyAdminPage
@@ -41,6 +42,7 @@ public class MyAdminPage
         ScBox links;
         links = group.addLinkBox();
         links.addLink(MyAccountsPage.instance);
+        links.addLink(MyManageAccountsPage.instance);
         links.addLink(MyUserProfilePage.instance);
     }
 }
