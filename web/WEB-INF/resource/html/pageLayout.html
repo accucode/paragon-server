@@ -19,9 +19,9 @@ Version: ${applicationVersion}
     <script type="text/javascript" src ="/static/${versionFolder}/app/common/script/myResourceLoader.js"></script>
 
     <script type="text/javascript">
-        App = {};
+        var App = {};
         
-        App.loadResources = function()
+        App.load = function()
         {
             var version = "${versionFolder}";
             
@@ -36,12 +36,12 @@ Version: ${applicationVersion}
 
         App.init = function()
         {
-            App.initBorderLayout();
+            App.initLayout();
             App.initDropdownMenus();
             App.initNavigator();
         }
         
-        App.initBorderLayout = function()
+        App.initLayout = function()
         {
             new KmBorderLayout(
             {
@@ -87,6 +87,6 @@ Version: ${applicationVersion}
 
 </head>
 
-<body onload="App.loadResources();"></body>
+<body onload="App.load();"></body>
 
 </html>
