@@ -295,7 +295,6 @@ KmBorderLayout.prototype.layout = function()
 
     if ( center.isVisible() )
     {
-        centerOffset = right.outerWidth(true);
         center.css('top', topOffset);
         center.css('bottom', bottomOffset);
         center.css('left', leftOffset);
