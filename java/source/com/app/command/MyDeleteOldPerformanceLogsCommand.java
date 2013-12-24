@@ -10,11 +10,21 @@ import com.app.model.MyPerformanceLog;
 public class MyDeleteOldPerformanceLogsCommand
     extends KmDaoCommand
 {
+
     //##################################################
     //# variables
     //##################################################
 
     private boolean _hasMore;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public MyDeleteOldPerformanceLogsCommand()
+    {
+        setIgnoreStaleExceptions(true);
+    }
 
     //##################################################
     //# accessing

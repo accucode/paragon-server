@@ -1,0 +1,38 @@
+<project name="ProductionDeploy" basedir="..">
+    <!--
+    ****************************************
+    ** PURPOSE
+    **
+    ** This file wraps the production script in order to provide a 
+    ** simple step-by-step list process for typical production 
+    ** deployments.  Deployments are usually a simple simply running
+    ** each step in order, and confirming that the step completes
+    ** successfully before running the next step.
+    **
+    ** Note: eclipse may misreport a warning about not supporting
+    ** the "as" attribute in the import.  This warning can be safely
+    ** ignored.
+    ****************************************
+    -->
+
+
+    <!-- For compatibility with eclipse. -->
+    <property name="dummy" value=""/>
+    
+    <import file="antProduction.xml" as="nested" />
+      
+    <!--
+    ****************************************
+    ** Standard Deployment Steps
+    ****************************************
+    -->
+
+    <target 
+        name="1-deployProduction" 
+        depends="clean"
+        description="public">
+        <antcall target="nested.makeWarUsingTemp" />
+        <antcall target="nested.deploy" />
+    </target>
+
+</project>

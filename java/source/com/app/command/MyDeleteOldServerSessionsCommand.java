@@ -17,6 +17,14 @@ public class MyDeleteOldServerSessionsCommand
     private boolean _hasMore;
 
     //##################################################
+    //# constructor
+    //##################################################//
+    public MyDeleteOldServerSessionsCommand()
+    {
+        setIgnoreStaleExceptions(true);
+    }
+
+    //##################################################
     //# accessing
     //##################################################
 
