@@ -67,7 +67,7 @@ public class MyRadioButtonTestPage
         root.css().pad();
 
         _form = root.addForm();
-        _form.setDefaultAction(newSubmitAction());
+        _form.setSubmitAction(newSubmitAction());
 
         ScGroup group;
         group = _form.addGroup("Radio Button Field Test");

@@ -94,7 +94,7 @@ public class MyUserFrame
 
         ScForm form;
         form = child.addForm();
-        form.setDefaultAction(saveAction);
+        form.setSubmitAction(saveAction);
         form.onEscape().run(cancelAction);
 
         ScGroup group;

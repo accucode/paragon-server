@@ -42,7 +42,7 @@ public class ScForm
      * The action to run when users press the enter key in a field.
      */
     // todo_wyatt: rename to _submitAction
-    private ScActionIF     _defaultAction;
+    private ScActionIF     _submitAction;
 
     /**
      * An optional target to use as the block root.
@@ -79,19 +79,19 @@ public class ScForm
     //# action
     //##################################################
 
-    public ScActionIF getDefaultAction()
+    public ScActionIF getSubmitAction()
     {
-        return _defaultAction;
+        return _submitAction;
     }
 
-    public void setDefaultAction(ScActionIF e)
+    public void setSubmitAction(ScActionIF e)
     {
-        _defaultAction = e;
+        _submitAction = e;
     }
 
-    public boolean hasAction()
+    public boolean hasSubmitAction()
     {
-        return _defaultAction != null;
+        return _submitAction != null;
     }
 
     //##################################################
@@ -167,7 +167,7 @@ public class ScForm
     {
         final String suffix = " return false;";
 
-        if ( !hasAction() )
+        if ( !hasSubmitAction() )
             return suffix;
 
         ScForm form;
@@ -180,7 +180,7 @@ public class ScForm
         ScActionScript s;
         s = new ScActionScript();
         s.setForm(form);
-        s.setAction(getDefaultAction());
+        s.setAction(getSubmitAction());
         s.setModel(getModel());
         s.setBlockTarget(block);
 

@@ -159,7 +159,7 @@ public class MyFieldTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newValidateAction());
+        form.setSubmitAction(newValidateAction());
 
         ScGroup group;
         group = form.addGroup("Field Samples");

@@ -59,7 +59,7 @@ public class MyPlaceholderTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newSubmitAction());
+        form.setSubmitAction(newSubmitAction());
         form.css().gap();
 
         ScGroup group;

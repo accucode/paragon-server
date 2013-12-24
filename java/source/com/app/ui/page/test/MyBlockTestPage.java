@@ -101,7 +101,7 @@ public class MyBlockTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newFormTestAction());
+        form.setSubmitAction(newFormTestAction());
         form.css().pad();
 
         form.addText(""
@@ -126,7 +126,7 @@ public class MyBlockTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newFormTestAction());
+        form.setSubmitAction(newFormTestAction());
         form.css().pad();
 
         form.addText(""
@@ -152,7 +152,7 @@ public class MyBlockTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newFormTestAction());
+        form.setSubmitAction(newFormTestAction());
         form.setBlockWrapper(false); // DISABLE BLOCK WRAPPER
         form.css().pad();
 

@@ -79,7 +79,7 @@ public class MyGmailTestPage
         ScForm form;
         form = root.addForm();
         form.css().pad();
-        form.setDefaultAction(newSendAction());
+        form.setSubmitAction(newSendAction());
 
         ScGroup group;
         group = form.addGroup("Send Gmail");

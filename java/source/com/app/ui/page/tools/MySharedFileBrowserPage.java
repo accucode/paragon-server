@@ -63,7 +63,7 @@ public class MySharedFileBrowserPage
     {
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newFindDirectoryAction());
+        form.setSubmitAction(newFindDirectoryAction());
 
         installPath(form);
 

@@ -154,7 +154,7 @@ public class MyUserActivationPage
     {
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newActivateAction());
+        form.setSubmitAction(newActivateAction());
 
         ScGroup group;
         group = form.addGroup();

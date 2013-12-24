@@ -68,7 +68,7 @@ public class ScFilterBox
 
         _form = new ScForm();
         _form.setParent(this);
-        _form.setDefaultAction(newSearchAction());
+        _form.setSubmitAction(newSearchAction());
 
         _group = _form.addGroup();
         _group.setTitle("Filter");

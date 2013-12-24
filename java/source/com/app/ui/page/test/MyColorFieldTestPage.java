@@ -57,7 +57,7 @@ public class MyColorFieldTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newSubmitAction());
+        form.setSubmitAction(newSubmitAction());
         form.css().pad();
 
         ScGroup group;

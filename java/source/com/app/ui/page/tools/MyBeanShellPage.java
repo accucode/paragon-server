@@ -65,7 +65,7 @@ public class MyBeanShellPage
 
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(submitAction);
+        form.setSubmitAction(submitAction);
         form.css().pad();
 
         ScGroup group;

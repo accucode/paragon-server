@@ -75,7 +75,7 @@ public class MyAutoCompleteTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newSubmitAction());
+        form.setSubmitAction(newSubmitAction());
 
         ScGroup group;
         group = form.addGroup("Auto Complete Field Test");

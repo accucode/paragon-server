@@ -338,7 +338,7 @@ public class ScDialog
 
     public void setAction(ScActionIF e)
     {
-        getForm().setDefaultAction(e);
+        getForm().setSubmitAction(e);
     }
 
 }

@@ -62,7 +62,7 @@ public class MyUserPasswordPage
 
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newSaveAction());
+        form.setSubmitAction(newSaveAction());
 
         ScGroup group;
         group = form.addGroup("Change Password");

@@ -36,7 +36,7 @@ public class MyAccountSettingsTransferCard
 
         ScForm form;
         form = addForm();
-        form.setDefaultAction(newSendAction());
+        form.setSubmitAction(newSendAction());
 
         ScGroup group;
         group = form.addGroup("Transfer Account");

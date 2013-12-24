@@ -153,7 +153,7 @@ public class MyPasswordResetPage
     {
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newResetPasswordAction());
+        form.setSubmitAction(newResetPasswordAction());
 
         ScGroup group;
         group = form.addGroup();

@@ -34,7 +34,7 @@ public class MyAccountSettingsEditCard
 
         ScForm form;
         form = addForm();
-        form.setDefaultAction(newSaveAction());
+        form.setSubmitAction(newSaveAction());
 
         ScGroup group;
         group = form.addGroup("Account Settings");

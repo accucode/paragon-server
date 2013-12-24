@@ -70,7 +70,7 @@ public class MySelectAccountPage
 
         _form = root.addForm();
         _form = root.addForm();
-        _form.setDefaultAction(newCreateAccountAction());
+        _form.setSubmitAction(newCreateAccountAction());
         _form.css().floatLeft();
 
         ScGroup group;

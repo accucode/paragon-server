@@ -262,7 +262,7 @@ public class MyAccountsPage
 
         ScForm form;
         form = card.addForm();
-        form.setDefaultAction(saveAction);
+        form.setSubmitAction(saveAction);
         form.onEscape().run(cancelAction);
 
         ScGroup group;
@@ -292,7 +292,7 @@ public class MyAccountsPage
 
         ScForm form;
         form = card.addForm();
-        form.setDefaultAction(saveAction);
+        form.setSubmitAction(saveAction);
         form.onEscape().run(cancelAction);
 
         ScGroup group;
@@ -325,7 +325,7 @@ public class MyAccountsPage
 
         ScForm form;
         form = card.addForm();
-        form.setDefaultAction(sendAction);
+        form.setSubmitAction(sendAction);
         form.onEscape().run(cancelAction);
 
         ScGroup group = form.addGroup();
@@ -367,7 +367,7 @@ public class MyAccountsPage
 
         ScForm form;
         form = card.addForm();
-        form.setDefaultAction(saveAction);
+        form.setSubmitAction(saveAction);
         form.onEscape().run(cancelAction);
 
         ScGroup group = form.addGroup();
@@ -402,7 +402,7 @@ public class MyAccountsPage
 
         ScForm form;
         form = card.addForm();
-        form.setDefaultAction(sendAction);
+        form.setSubmitAction(sendAction);
         form.onEscape().run(cancelAction);
 
         ScGroup group = form.addGroup();
@@ -634,7 +634,7 @@ public class MyAccountsPage
 
         ScForm form;
         form = card.addForm();
-        form.setDefaultAction(saveAction);
+        form.setSubmitAction(saveAction);
         form.onEscape().run(cancelAction);
 
         ScGroup group;

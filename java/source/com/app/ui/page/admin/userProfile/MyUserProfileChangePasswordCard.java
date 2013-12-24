@@ -79,7 +79,7 @@ public class MyUserProfileChangePasswordCard
         ScForm form;
         form = addForm();
         form.css().gap();
-        form.setDefaultAction(newSaveAction());
+        form.setSubmitAction(newSaveAction());
 
         ScGroup group;
         group = form.addGroup("My Profile");

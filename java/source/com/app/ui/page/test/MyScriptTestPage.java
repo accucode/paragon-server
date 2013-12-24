@@ -60,7 +60,7 @@ public class MyScriptTestPage
     {
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newRunAction());
+        form.setSubmitAction(newRunAction());
         form.css().gap();
 
         installScript(form);

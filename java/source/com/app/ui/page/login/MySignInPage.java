@@ -136,7 +136,7 @@ public class MySignInPage
 
         ScForm form;
         form = root.addForm();
-        form.setDefaultAction(newSignInAction());
+        form.setSubmitAction(newSignInAction());
         form.style().width(300).padTop(50);
         _form = form;
 
