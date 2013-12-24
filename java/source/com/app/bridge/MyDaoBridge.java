@@ -78,7 +78,10 @@ public class MyDaoBridge
     @Override
     protected void onStaleObjectRetry()
     {
-        MyServletData.getLocal().reset();
+        MyServletData e = MyServletData.getLocal();
+        if ( e == null )
+            return;
+        e.reset();
     }
 
     //##################################################

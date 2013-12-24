@@ -10,6 +10,12 @@ import com.app.model.MyPerformanceLog;
 public class MyDeleteOldPerformanceLogsCommand
     extends KmDaoCommand
 {
+
+    public MyDeleteOldPerformanceLogsCommand()
+    {
+        setIgnoreStaleExceptions(true);
+    }
+
     //##################################################
     //# variables
     //##################################################
@@ -46,4 +52,11 @@ public class MyDeleteOldPerformanceLogsCommand
 
         _hasMore = v.size() >= limit;
     }
+
+    @Override
+    protected int getStaleObjectRetryCount()
+    {
+        return 3;
+    }
+
 }

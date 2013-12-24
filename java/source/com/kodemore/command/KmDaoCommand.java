@@ -1,6 +1,7 @@
 package com.kodemore.command;
 
 import org.hibernate.StaleObjectStateException;
+import org.hibernate.StaleStateException;
 
 import com.kodemore.dao.KmDaoSession;
 import com.kodemore.dao.KmDaoSessionManager;
@@ -26,6 +27,7 @@ public abstract class KmDaoCommand
     //##################################################
 
     private int                   _warningThresholdMs;
+    private boolean               _ignoreStaleExceptions;
 
     //##################################################
     //# constructor
@@ -58,6 +60,16 @@ public abstract class KmDaoCommand
     public void disableWarningThresholdMs()
     {
         setWarningThresholdMs(0);
+    }
+
+    public boolean getIgnoreStaleExceptions()
+    {
+        return _ignoreStaleExceptions;
+    }
+
+    public void setIgnoreStaleExceptions(boolean b)
+    {
+        _ignoreStaleExceptions = b;
     }
 
     //##################################################
@@ -123,7 +135,7 @@ public abstract class KmDaoCommand
             catch ( RuntimeException ex )
             {
                 Throwable root = Kmu.getRootCause(ex);
-                if ( !(root instanceof StaleObjectStateException) )
+                if ( !isStaleException(root) )
                     throw ex;
 
                 if ( retries < retryCount )
@@ -133,8 +145,17 @@ public abstract class KmDaoCommand
                     onStaleObjectRetry();
                     continue;
                 }
+
+                if ( _ignoreStaleExceptions )
+                    break;
+
                 throw new KmDaoOptimisticLockException(ex);
             }
+    }
+
+    private boolean isStaleException(Throwable root)
+    {
+        return root instanceof StaleObjectStateException || root instanceof StaleStateException;
     }
 
     private void runOnceInNewTransaction()
