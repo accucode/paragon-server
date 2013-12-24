@@ -505,6 +505,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.pageFooter);
     }
     
+    public KmCssDefaultBuilder pageFooterBox()
+    {
+        return apply(KmCssDefaultConstantsIF.pageFooterBox);
+    }
+    
     public KmCssDefaultBuilder pageHeader()
     {
         return apply(KmCssDefaultConstantsIF.pageHeader);

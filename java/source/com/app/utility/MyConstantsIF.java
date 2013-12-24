@@ -37,10 +37,7 @@ public interface MyConstantsIF
     //##################################################
 
     String COPYRIGHT_TEXT            = "Copyright 2013 AccuCode Inc";
-
-    // fixme_wyatt: 
-    // String COPYRIGHT_HTML            = "&copy; 2013 AccuCode Inc";
-    String COPYRIGHT_HTML            = COPYRIGHT_TEXT;
+    String COPYRIGHT_HTML            = "&copy; 2013 AccuCode Inc";
 
     //##################################################
     //# misc

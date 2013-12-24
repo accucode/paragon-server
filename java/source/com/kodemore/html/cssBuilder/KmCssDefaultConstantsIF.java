@@ -95,6 +95,7 @@ public interface KmCssDefaultConstantsIF
     String pageBodyWrapper = "pageBodyWrapper";
     String pageBodyWrapper_menu = "pageBodyWrapper-menu";
     String pageFooter = "pageFooter";
+    String pageFooterBox = "pageFooterBox";
     String pageHeader = "pageHeader";
     String pageMenu = "pageMenu";
     String pageMenu_menu = "pageMenu-menu";

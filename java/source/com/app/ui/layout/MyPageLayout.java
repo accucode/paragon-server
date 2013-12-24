@@ -7,6 +7,7 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.action.ScGlobalContext;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.field.ScDropdownMenu;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScUrls;
@@ -358,11 +359,12 @@ public class MyPageLayout
 
     private void ajaxShowFooter()
     {
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
-        out.printLiteral(MyConstantsIF.COPYRIGHT_HTML);
+        ScDiv footer;
+        footer = new ScDiv();
+        footer.css().pageFooterBox();
+        footer.addHtml(MyConstantsIF.COPYRIGHT_HTML);
 
-        ajax().setContents(FOOTER_SELECTOR, out);
+        ajax().setContents(FOOTER_SELECTOR, footer);
         ajax().show(FOOTER_SELECTOR);
     }
 

@@ -275,7 +275,11 @@
     width: auto;
     bottom: 0;
     height: 25px;
-    
+    top: auto;
+}
+
+.pageFooterBox
+{
     text-align: center;
     color: #444;
     font: normal 12px sans-serif;
