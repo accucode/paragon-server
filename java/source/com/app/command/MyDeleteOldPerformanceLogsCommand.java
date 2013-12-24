@@ -11,16 +11,20 @@ public class MyDeleteOldPerformanceLogsCommand
     extends KmDaoCommand
 {
 
-    public MyDeleteOldPerformanceLogsCommand()
-    {
-        setIgnoreStaleExceptions(true);
-    }
-
     //##################################################
     //# variables
     //##################################################
 
     private boolean _hasMore;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public MyDeleteOldPerformanceLogsCommand()
+    {
+        setIgnoreStaleExceptions(true);
+    }
 
     //##################################################
     //# accessing

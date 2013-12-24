@@ -13,7 +13,14 @@ import org.apache.log4j.spi.LoggingEvent;
  *      level = ERROR
  *      logger = org.hibernate.event.def.AbstractFlushingEventListener
  *      message = Could not synchronize database state with session
- *      throwable prefix = org.hibernate.StaleObjectStateException:
+ *      throwable prefix = org.hibernate.StaleObjectStateException: 
+ *      
+ *      --or--
+ *      
+ *      level = ERROR
+ *      logger =  org.hibernate.jdbc.AbstractBatcher 
+ *      message = Exception executing batch: 
+ *      throwable prefix = org.hibernate.StaleStateException:  
  */
 public class KmHibernateStaleObjectLogFilter
     extends Filter
@@ -26,9 +33,24 @@ public class KmHibernateStaleObjectLogFilter
             return NEUTRAL;
 
         String loggerName = e.getLoggerName();
-        if ( !loggerName.equals("org.hibernate.event.def.AbstractFlushingEventListener") )
-            return NEUTRAL;
+        if ( isAbstractFlushingEventListener(loggerName) )
+            return checkAbstractFlushingEventListnerCriteria(e);
+        else
+            if ( isAbstractBatcher(loggerName) )
+                return checkAbstractBatcherCriteria(e);
+            else
+                return NEUTRAL;
+    }
 
+    private boolean isAbstractFlushingEventListener(String loggerName)
+    {
+
+        boolean b = loggerName.equals("org.hibernate.event.def.AbstractFlushingEventListener");
+        return b;
+    }
+
+    private int checkAbstractFlushingEventListnerCriteria(LoggingEvent e)
+    {
         String message = e.getRenderedMessage();
         if ( !message.equals("Could not synchronize database state with session") )
             return NEUTRAL;
@@ -49,4 +71,34 @@ public class KmHibernateStaleObjectLogFilter
 
         return DENY;
     }
+
+    private boolean isAbstractBatcher(String loggerName)
+    {
+        boolean b = loggerName.equals("org.hibernate.jdbc.AbstractBatcher");
+        return b;
+    }
+
+    private int checkAbstractBatcherCriteria(LoggingEvent e)
+    {
+        String message = e.getRenderedMessage();
+        if ( !message.equals("Exception executing batch: ") )
+            return NEUTRAL;
+
+        String[] lines = e.getThrowableStrRep();
+        if ( lines == null )
+            return NEUTRAL;
+
+        if ( lines.length == 0 )
+            return NEUTRAL;
+
+        String line = lines[0];
+        if ( line == null )
+            return NEUTRAL;
+
+        if ( !line.startsWith("org.hibernate.StaleStateException:") )
+            return NEUTRAL;
+
+        return DENY;
+    }
+
 }

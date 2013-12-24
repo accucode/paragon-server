@@ -17,6 +17,14 @@ public class MyDeleteOldSystemLogsCommand
     private boolean _hasMore;
 
     //##################################################
+    //# contstructor
+    //##################################################//
+    public MyDeleteOldSystemLogsCommand()
+    {
+        setIgnoreStaleExceptions(true);
+    }
+
+    //##################################################
     //# accessing
     //##################################################
 
