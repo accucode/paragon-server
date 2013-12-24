@@ -79,7 +79,6 @@ public class ScAjaxResult
     //# apply
     //##################################################
 
-    // fixme_wyatt: here
     @Override
     public void applyTo(ScServletData data)
     {

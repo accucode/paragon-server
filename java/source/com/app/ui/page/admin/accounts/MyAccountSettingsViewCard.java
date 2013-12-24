@@ -122,7 +122,6 @@ public class MyAccountSettingsViewCard
 
     private void handleTransfer()
     {
-        // todo_wyatt: transfer
-        ajax().toast("transfer");
+        getFrame().printTransferCard();
     }
 }

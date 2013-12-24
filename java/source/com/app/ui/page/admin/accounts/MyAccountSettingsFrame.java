@@ -9,8 +9,9 @@ public class MyAccountSettingsFrame
     //# variables
     //##################################################
 
-    private MyAccountSettingsViewCard _viewCard;
-    private MyAccountSettingsEditCard _editCard;
+    private MyAccountSettingsViewCard     _viewCard;
+    private MyAccountSettingsEditCard     _editCard;
+    private MyAccountSettingsTransferCard _transferCard;
 
     //##################################################
     //# constructor
@@ -25,6 +26,7 @@ public class MyAccountSettingsFrame
 
         _viewCard = addCard(new MyAccountSettingsViewCard());
         _editCard = addCard(new MyAccountSettingsEditCard());
+        _transferCard = addCard(new MyAccountSettingsTransferCard());
     }
 
     //##################################################
@@ -41,6 +43,11 @@ public class MyAccountSettingsFrame
         return _editCard;
     }
 
+    public MyAccountSettingsTransferCard getTransferCard()
+    {
+        return _transferCard;
+    }
+
     //##################################################
     //# navigation
     //##################################################
@@ -53,5 +60,10 @@ public class MyAccountSettingsFrame
     public void printEditCard()
     {
         _editCard.print();
+    }
+
+    public void printTransferCard()
+    {
+        _transferCard.print();
     }
 }

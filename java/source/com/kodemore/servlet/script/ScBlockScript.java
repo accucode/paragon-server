@@ -380,8 +380,7 @@ public abstract class ScBlockScript
 
     public void printMain(ScControlIF e)
     {
-        ScReplaceContentsScript r;
-        r = setContents(getMainSelector(), e);
+        setContents(getMainSelector(), e);
 
         /**
          * todo_wyatt: transition
