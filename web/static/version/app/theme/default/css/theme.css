@@ -237,42 +237,99 @@
  ** page layout
  *******************************************************************/
 
-#pageLayoutTop
+.pageHeader
 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: auto;
+    top: 0;
+    height: 50px;
+    
+    overflow: visible;
     background-image: linear-gradient(to bottom, #888, #fff);    
 }
 
-#pageLayoutLeft
+.pageMenu
 {
-    /*
-    border-right: 1px solid #ddd;
-    */
+    display: none;
 }
 
-#pageLayoutBottom
+.pageMenu-menu
 {
-    /*
-    border-top: 1px solid #ddd;
-    */
+    position: absolute;
+    left: 0;
+    width: 150px;
+    top: 50px;
+    bottom: 25px;
+    height: auto;
+    
+    overflow: hidden;
 }
 
-#pageLayoutCenter
+.pageFooter
 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: auto;
+    bottom: 0;
+    height: 25px;
+    
+    text-align: center;
+    color: #444;
+    font: normal 12px sans-serif;
+    padding-top: 5px;
+}
+
+.pageBodyWrapper
+{
+    position: absolute;
+    left: 0;
+    right: 0px;
+    width: auto;
+    top: 50px;
+    bottom: 25px;
+    height: auto;
+    
+    overflow: hidden;
+    border: none;
+}
+
+.pageBodyWrapper-menu
+{
+    position: absolute;
+    left: 150px;
+    right: 0px;
+    width: auto;
+    top: 50px;
+    bottom: 25px;
+    height: auto;
+    
+    overflow: hidden;
+    
+    border: 5px solid #080;
+    border-right: none;
+    border-radius: 3px 0 0 3px;
+}
+
+.pageBody
+{
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    width: auto;
+    top: 0px;
+    bottom: 0px;
+    height: auto;
+    
+    overflow: auto;
     background-color: white;
 }
 
 /*******************************************************************
  ** page header
  *******************************************************************/
-
-.pageHeader
-{
-}
-
-#pageHeaderLink
-{
-    text-decoration: none;
-}
 
 #pageHeaderLogoImage
 {
@@ -310,46 +367,6 @@
     padding: 0 5px;
     text-align: right;
     float: right;
-}
-
-#pageHeaderMenu
-{
-}
-
-.headerUser
-{
-    color: #000;
-    font-size: 13px;
-}
-
-.headerLink
-{
-    color: #444;
-    font-size: 12px;
-    text-decoration: none;
-}
-
-.headerLink:hover
-{
-    text-decoration: underline;
-}
-
-.headerLinkBar
-{
-    color: #888;
-}
-
-
-/*******************************************************************
- ** page footer
- *******************************************************************/
-
-.pageFooter
-{
-    text-align: center;
-    color: #444;
-    font: normal 12px sans-serif;
-    padding-top: 5px;
 }
 
 
@@ -823,11 +840,12 @@ a.tabx:hover
  ** app
  *******************************************************************/
  
-.leftMenu-box
-{
-    padding: 50px 0 0 10px;
-}
-
+ .leftMenu-box
+ {
+    padding-top: 50px;
+    padding-left: 10px;
+ }
+ 
 .leftMenu-item
 {
     cursor: pointer;
@@ -894,16 +912,6 @@ a.tabx:hover
 {
     color: inherit;
     text-decoration: inherit;
-}
-
-.leftMenu-content
-{
-    border: 5px solid #080;
-    border-right: none;
-
-    -moz-border-radius:     3px 0 0 3px;
-    -webkit-border-radius:  3px 0 0 3px;
-    border-radius:          3px 0 0 3px;
 }
 
 /*******************************************************************

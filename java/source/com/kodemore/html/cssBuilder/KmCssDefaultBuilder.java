@@ -345,21 +345,6 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.group_wrapper_error);
     }
     
-    public KmCssDefaultBuilder headerLink()
-    {
-        return apply(KmCssDefaultConstantsIF.headerLink);
-    }
-    
-    public KmCssDefaultBuilder headerLinkBar()
-    {
-        return apply(KmCssDefaultConstantsIF.headerLinkBar);
-    }
-    
-    public KmCssDefaultBuilder headerUser()
-    {
-        return apply(KmCssDefaultConstantsIF.headerUser);
-    }
-    
     public KmCssDefaultBuilder importantText()
     {
         return apply(KmCssDefaultConstantsIF.importantText);
@@ -373,11 +358,6 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder leftMenu_box()
     {
         return apply(KmCssDefaultConstantsIF.leftMenu_box);
-    }
-    
-    public KmCssDefaultBuilder leftMenu_content()
-    {
-        return apply(KmCssDefaultConstantsIF.leftMenu_content);
     }
     
     public KmCssDefaultBuilder leftMenu_item()
@@ -505,6 +485,21 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.padVertical);
     }
     
+    public KmCssDefaultBuilder pageBody()
+    {
+        return apply(KmCssDefaultConstantsIF.pageBody);
+    }
+    
+    public KmCssDefaultBuilder pageBodyWrapper()
+    {
+        return apply(KmCssDefaultConstantsIF.pageBodyWrapper);
+    }
+    
+    public KmCssDefaultBuilder pageBodyWrapper_menu()
+    {
+        return apply(KmCssDefaultConstantsIF.pageBodyWrapper_menu);
+    }
+    
     public KmCssDefaultBuilder pageFooter()
     {
         return apply(KmCssDefaultConstantsIF.pageFooter);
@@ -513,6 +508,16 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder pageHeader()
     {
         return apply(KmCssDefaultConstantsIF.pageHeader);
+    }
+    
+    public KmCssDefaultBuilder pageMenu()
+    {
+        return apply(KmCssDefaultConstantsIF.pageMenu);
+    }
+    
+    public KmCssDefaultBuilder pageMenu_menu()
+    {
+        return apply(KmCssDefaultConstantsIF.pageMenu_menu);
     }
     
     public KmCssDefaultBuilder pageTitle()

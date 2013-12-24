@@ -1516,27 +1516,21 @@ public class ScServletData
     //# layout visibility
     //##################################################
 
-    public boolean isTopVisible()
+    public boolean isPageHeaderVisible()
     {
-        String s = getParameter(PARAMETER_IS_TOP_VISIBLE);
+        String s = getParameter(PARAMETER_IS_PAGE_HEADER_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 
-    public boolean isBottomVisible()
+    public boolean isPageFooterVisible()
     {
-        String s = getParameter(PARAMETER_IS_BOTTOM_VISIBLE);
+        String s = getParameter(PARAMETER_IS_PAGE_FOOTER_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 
-    public boolean isLeftVisible()
+    public boolean isLeftMenuVisible()
     {
-        String s = getParameter(PARAMETER_IS_LEFT_VISIBLE);
-        return Kmu.parse_boolean(s);
-    }
-
-    public boolean isRightVisible()
-    {
-        String s = getParameter(PARAMETER_IS_RIGHT_VISIBLE);
+        String s = getParameter(PARAMETER_IS_PAGE_MENU_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 

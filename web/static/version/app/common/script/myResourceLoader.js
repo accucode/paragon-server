@@ -92,7 +92,6 @@ var MyResourceLoader =
             "static/{version}/app/common/script/kmUtility.js",
             "static/{version}/app/common/script/kmHashHistory.js",
             "static/{version}/app/common/script/kmNavigator.js",
-            "static/{version}/app/common/script/kmBorderLayout.js",
             "static/{version}/app/common/script/kmDropdownMenu.js",
             
             // App

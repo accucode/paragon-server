@@ -63,13 +63,9 @@ public interface KmCssDefaultConstantsIF
     String group_title_error = "group-title-error";
     String group_wrapper_default = "group-wrapper-default";
     String group_wrapper_error = "group-wrapper-error";
-    String headerLink = "headerLink";
-    String headerLinkBar = "headerLinkBar";
-    String headerUser = "headerUser";
     String importantText = "importantText";
     String label = "label";
     String leftMenu_box = "leftMenu-box";
-    String leftMenu_content = "leftMenu-content";
     String leftMenu_item = "leftMenu-item";
     String leftMenu_link = "leftMenu-link";
     String leftMenu_selected = "leftMenu-selected";
@@ -95,8 +91,13 @@ public interface KmCssDefaultConstantsIF
     String padTop = "padTop";
     String padTopChildren = "padTopChildren";
     String padVertical = "padVertical";
+    String pageBody = "pageBody";
+    String pageBodyWrapper = "pageBodyWrapper";
+    String pageBodyWrapper_menu = "pageBodyWrapper-menu";
     String pageFooter = "pageFooter";
     String pageHeader = "pageHeader";
+    String pageMenu = "pageMenu";
+    String pageMenu_menu = "pageMenu-menu";
     String pageTitle = "pageTitle";
     String pageTitleButton = "pageTitleButton";
     String pageTitleText = "pageTitleText";

@@ -37,7 +37,7 @@ public interface ScConstantsIF
     //# loggers
     //##################################################
 
-    KmLogger ScPerformanceLogger         = KmLogger.create("com.kodemore.servlet.performance");
+    KmLogger ScPerformanceLogger              = KmLogger.create("com.kodemore.servlet.performance");
 
     //##################################################
     //# path
@@ -51,7 +51,7 @@ public interface ScConstantsIF
      * hook for url rewriting in production, to better manage
      * client side caching.
      */
-    String   WEB_STATIC_PATH             = "static/version";
+    String   WEB_STATIC_PATH                  = "static/version";
 
     //##################################################
     //# parameters
@@ -63,22 +63,22 @@ public interface ScConstantsIF
      * set the cookie value to well known value that we later
      * check for in getCookies().
      */
-    String   REMOVED_COOKIE_VALUE        = "[[#REMOVED#]]";
+    String   REMOVED_COOKIE_VALUE             = "[[#REMOVED#]]";
 
     /**
      * See JAVASCRIPT_PAGE_SESSION
      */
-    String   PARAMETER_PAGE_SESSION      = "_session";
+    String   PARAMETER_PAGE_SESSION           = "_session";
 
     /**
      * The action key.
      */
-    String   PARAMETER_ACTION            = "_action";
+    String   PARAMETER_ACTION                 = "_action";
 
     /**
      * The argument, encoded using ScEncoder.
      */
-    String   PARAMETER_ARGUMENT          = "_argument";
+    String   PARAMETER_ARGUMENT               = "_argument";
 
     /**
      * An alternate value that is not encoded.  We use
@@ -86,114 +86,109 @@ public interface ScConstantsIF
      * the this extra unencoded value for special cases 
      * where encoding is not appropriate.
      */
-    String   PARAMETER_EXTRA_VALUE       = "_extraValue";
+    String   PARAMETER_EXTRA_VALUE            = "_extraValue";
 
     /**
      * The browser window's current url is commonly included 
      * in ajax submits since it may contain pertinent information
      * such as the 'hash' suffix.
      */
-    String   PARAMETER_WINDOW_LOCATION   = "_windowLocation";
+    String   PARAMETER_WINDOW_LOCATION        = "_windowLocation";
 
     /**
      * Indicates if the border layout side is visible.
      */
-    String   PARAMETER_IS_TOP_VISIBLE    = "_isTopVisible";
+    String   PARAMETER_IS_PAGE_HEADER_VISIBLE = "_isHeaderVisible";
 
     /**
      * Indicates if the border layout side is visible.
      */
-    String   PARAMETER_IS_BOTTOM_VISIBLE = "_isBottomVisible";
+    String   PARAMETER_IS_PAGE_FOOTER_VISIBLE = "_isFooterVisible";
 
     /**
      * Indicates if the border layout side is visible.
      */
-    String   PARAMETER_IS_LEFT_VISIBLE   = "_isLeftVisible";
-
-    /**
-     * Indicates if the border layout side is visible.
-     */
-    String   PARAMETER_IS_RIGHT_VISIBLE  = "_isRightVisible";
+    String   PARAMETER_IS_PAGE_MENU_VISIBLE   = "_isMenuVisible";
 
     // todo_wyatt: move this to the layout? (instead of the page)
     /**
      * The key of the form that was submitted.
      */
-    String   PARAMETER_FORM_KEY          = "_form";
+    String   PARAMETER_FORM_KEY               = "_form";
 
     /**
      * The key used to identify the requested page.
      */
-    String   PARAMETER_PAGE_KEY          = "page";
+    String   PARAMETER_PAGE_KEY               = "page";
 
     //##################################################
     //# session keys
     //##################################################
 
-    String   TRANSIENT_KEY_PREFIX        = "T";
-    String   PERSISTENT_KEY_PREFIX       = "P";
+    String   TRANSIENT_KEY_PREFIX             = "T";
+    String   PERSISTENT_KEY_PREFIX            = "P";
 
     //##################################################
     //# misc
     //##################################################
 
-    String   SUBMIT_IMAGE_NAME           = "_submitImage";
+    String   SUBMIT_IMAGE_NAME                = "_submitImage";
 
-    String   GENERAL_ERROR_MESSAGE       = "Please correct the errors below.";
+    String   GENERAL_ERROR_MESSAGE            = "Please correct the errors below.";
 
     //##################################################
     //# content types
     //##################################################
 
-    String   CONTENT_TYPE_BINARY         = "application/octet-stream";
-    String   CONTENT_TYPE_HTML           = "text/html";
-    String   CONTENT_TYPE_JPEG           = "image/jpeg";
-    String   CONTENT_TYPE_JSON           = "application/json";
-    String   CONTENT_TYPE_OCTET          = "application/octet-stream";
-    String   CONTENT_TYPE_PDF            = "application/pdf";
-    String   CONTENT_TYPE_SERIALIZED     = "application/x-java-serialized-object";
-    String   CONTENT_TYPE_TEXT           = "text/plain";
-    String   CONTENT_TYPE_CSS            = "text/css";
-    String   CONTENT_TYPE_XML            = "text/xml";
+    String   CONTENT_TYPE_BINARY              = "application/octet-stream";
+    String   CONTENT_TYPE_HTML                = "text/html";
+    String   CONTENT_TYPE_JPEG                = "image/jpeg";
+    String   CONTENT_TYPE_JSON                = "application/json";
+    String   CONTENT_TYPE_OCTET               = "application/octet-stream";
+    String   CONTENT_TYPE_PDF                 = "application/pdf";
+    String   CONTENT_TYPE_SERIALIZED          = "application/x-java-serialized-object";
+    String   CONTENT_TYPE_TEXT                = "text/plain";
+    String   CONTENT_TYPE_CSS                 = "text/css";
+    String   CONTENT_TYPE_XML                 = "text/xml";
 
     //##################################################
     //# events
     //##################################################
 
-    String   EVENT_KEY_DOWN              = "keydown";
-    String   EVENT_KEY_UP                = "keyup";
-    String   EVENT_KEY_PRESS             = "keypress";
+    String   EVENT_KEY_DOWN                   = "keydown";
+    String   EVENT_KEY_UP                     = "keyup";
+    String   EVENT_KEY_PRESS                  = "keypress";
 
-    String   EVENT_CLICK                 = "click";
-    String   EVENT_MOUSE_DOWN            = "mousedown";
-    String   EVENT_MOUSE_UP              = "mouseup";
+    String   EVENT_CLICK                      = "click";
+    String   EVENT_MOUSE_DOWN                 = "mousedown";
+    String   EVENT_MOUSE_UP                   = "mouseup";
 
-    String   EVENT_MOUSE_MOVE            = "mousemove";
-    String   EVENT_MOUSE_OVER            = "mouseover";
-    String   EVENT_MOUSE_OUT             = "mouseout";
+    String   EVENT_MOUSE_MOVE                 = "mousemove";
+    String   EVENT_MOUSE_OVER                 = "mouseover";
+    String   EVENT_MOUSE_OUT                  = "mouseout";
 
-    String   EVENT_CHANGE                = "change";
-    String   EVENT_SELECT                = "select";
+    String   EVENT_CHANGE                     = "change";
+    String   EVENT_SELECT                     = "select";
 
-    String   EVENT_FOCUS                 = "focus";
-    String   EVENT_BLUR                  = "blur";
+    String   EVENT_FOCUS                      = "focus";
+    String   EVENT_BLUR                       = "blur";
 
     //##################################################
     //# layout
     //##################################################
 
-    Integer  DEFAULT_PADDING             = 10;
+    Integer  DEFAULT_PADDING                  = 10;
 
     //##################################################
     //# animations
     //##################################################
 
-    ScEffect DEFAULT_EFFECT              = ScEffect.fade;
+    ScEffect DEFAULT_EFFECT                   = ScEffect.fade;
 
-    ScEasing DEFAULT_EASING              = ScEasing.easeInOutCirc;
-    ScEasing DEFAULT_HIDE_EASING         = ScEasing.easeInCirc;
-    ScEasing DEFAULT_SHOW_EASING         = ScEasing.easeOutCirc;
-    Integer  DEFAULT_SPEED_MS            = 200;
+    ScEasing DEFAULT_EASING                   = ScEasing.easeInOutCirc;
+    ScEasing DEFAULT_HIDE_EASING              = ScEasing.easeInCirc;
+    ScEasing DEFAULT_SHOW_EASING              = ScEasing.easeOutCirc;
+    Integer  DEFAULT_SPEED_MS                 = 200;
 
     //##################################################
     //# actions
@@ -204,5 +199,5 @@ public interface ScConstantsIF
      * page identified by the text in the window location.  That is, the location
      * identified by the url bar at the top of the browser window.
      */
-    String   PRINT_WINDOW_LOCATION       = "_printWindowLocation";
+    String   PRINT_WINDOW_LOCATION            = "_printWindowLocation";
 }

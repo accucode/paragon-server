@@ -21,6 +21,7 @@ import com.kodemore.utility.Kmu;
 
 import com.app.model.MyAutoSignIn;
 import com.app.model.MyUser;
+import com.app.ui.layout.MyPageLayout;
 import com.app.ui.page.MyPage;
 import com.app.utility.MyNavigator;
 
@@ -122,7 +123,7 @@ public class MySignInPage
         ScArray row;
         row = root.addRow();
         row.setGap(50);
-        row.style().marginCenter().marginTop(50);
+        row.style().marginCenter().marginTop(200);
 
         installForm(row);
         installLogo(row);
@@ -154,7 +155,7 @@ public class MySignInPage
     {
         ScBox box;
         box = root.addBox();
-        box.style().width(300).padTop(75);
+        box.style().width(300).padTop(25);
         box.css().middle();
 
         ScImage e;
@@ -359,6 +360,7 @@ public class MySignInPage
             return;
         }
 
+        MyPageLayout.getInstance().ajaxClearContent();
         MyNavigator.pushDefaultPage();
     }
 

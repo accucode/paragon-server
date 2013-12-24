@@ -30,6 +30,6 @@ public class MyPageLayoutBridge
     @Override
     public String getMainSelector()
     {
-        return MyPageLayout.CENTER_SELECTOR;
+        return MyPageLayout.CONTENT_SELECTOR;
     }
 }

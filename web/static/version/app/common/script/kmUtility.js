@@ -392,10 +392,9 @@ Kmu.formatAjaxBaseParams = function(options)
    	var e;
    	e = {};
     e._windowLocation 	= window.location.href;
-    e._isTopVisible   	= Kmu.isLayoutVisible('top');
-    e._isBottomVisible	= Kmu.isLayoutVisible('bottom');
-    e._isLeftVisible  	= Kmu.isLayoutVisible('left');
-    e._isRightVisible	= Kmu.isLayoutVisible('right');
+    e._isHeaderVisible  = $('#pageHeader').isVisible();
+    e._isFooterVisible	= $('#pageFooter').isVisible();
+    e._isMenuVisible  	= $('#pageMenu').isVisible();
 
     if ( options.form )
         e._form = options.form;
@@ -455,23 +454,6 @@ Kmu.ajaxError = function(req, status, error)
  */
 Kmu.ajaxComplete = function(jqXHR, textStatus)
 {
-}
-
-
-//**********************************************************
-//** layout
-//**********************************************************
-
-Kmu.isLayoutVisible = function(side)
-{
-	try
-	{
-		return $('body').data('borderLayout').getChild(side).isVisible();
-	}
-	catch (ex)
-	{
-	    return false;
-	}
 }
 
 //**********************************************************

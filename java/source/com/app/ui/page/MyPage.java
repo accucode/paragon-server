@@ -24,7 +24,7 @@ public abstract class MyPage
     extends ScPage
 {
     //##################################################
-    //# navigation
+    //# check layout
     //##################################################
 
     @Override
@@ -32,24 +32,24 @@ public abstract class MyPage
     {
         super.checkLayout();
 
-        checkHeader();
-        checkFooter();
+        checkPageHeader();
+        checkPageFooter();
         checkLeftMenu();
     }
 
-    private void checkHeader()
+    private void checkPageHeader()
     {
-        boolean shows = showsHeader();
-        boolean visible = getData().isTopVisible();
+        boolean shows = showsPageHeader();
+        boolean visible = getData().isPageHeaderVisible();
 
         if ( shows != visible )
             getPageLayout().ajaxShowHeader(shows);
     }
 
-    private void checkFooter()
+    private void checkPageFooter()
     {
-        boolean shows = showsFooter();
-        boolean visible = getData().isBottomVisible();
+        boolean shows = showsPageFooter();
+        boolean visible = getData().isPageFooterVisible();
 
         if ( shows != visible )
             getPageLayout().ajaxShowFooter(shows);
@@ -58,7 +58,7 @@ public abstract class MyPage
     private void checkLeftMenu()
     {
         boolean shows = showsLeftMenu();
-        boolean visible = getData().isLeftVisible();
+        boolean visible = getData().isLeftMenuVisible();
 
         if ( shows != visible )
             getPageLayout().ajaxShowLeftMenu(shows);
@@ -67,12 +67,12 @@ public abstract class MyPage
             getPageLayout().getLeftMenu().ajaxRefreshSelection(this);
     }
 
-    protected boolean showsHeader()
+    protected boolean showsPageHeader()
     {
         return true;
     }
 
-    protected boolean showsFooter()
+    protected boolean showsPageFooter()
     {
         return true;
     }

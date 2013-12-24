@@ -30,6 +30,7 @@ import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.control.ScForm;
+import com.kodemore.servlet.control.ScTransition;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.utility.ScPageLayoutBridge;
@@ -380,7 +381,7 @@ public abstract class ScBlockScript
 
     public void printMain(ScControlIF e)
     {
-        setContents(getMainSelector(), e);
+        ScReplaceContentsScript r = setContents(getMainSelector(), e);
 
         /**
          * todo_wyatt: transition
@@ -395,7 +396,7 @@ public abstract class ScBlockScript
          *          the multiple groups.  But the page gets trashed when we 
          *          try to enable a page transition effect.
          */
-        // r.setTransition(ScTransition.Fade, 50);
+        r.setTransition(ScTransition.Fade, 100);
     }
 
     public void clearMain()

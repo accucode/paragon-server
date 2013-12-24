@@ -99,7 +99,6 @@ public class MyMainServlet
         String name = MyConstantsIF.APPLICATION_NAME;
         String version = MyConstantsIF.APPLICATION_VERSION;
         String versionFolder = MyUrlBridge.getInstance().getVersionFolder();
-
         String query = formatQueryString();
 
         String s;
