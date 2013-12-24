@@ -41,7 +41,6 @@ public class ScForm
     /**
      * The action to run when users press the enter key in a field.
      */
-    // todo_wyatt: rename to _submitAction
     private ScActionIF     _submitAction;
 
     /**

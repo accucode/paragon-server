@@ -293,7 +293,7 @@ KmBorderLayout.prototype.layout = function()
         right.css('height', 'auto');
     }
 
-    if ( center.is(':visible') )
+    if ( center.isVisible() )
     {
         centerOffset = right.outerWidth(true);
         center.css('top', topOffset);
