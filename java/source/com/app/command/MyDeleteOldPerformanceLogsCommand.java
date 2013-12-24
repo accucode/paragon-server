@@ -56,11 +56,4 @@ public class MyDeleteOldPerformanceLogsCommand
 
         _hasMore = v.size() >= limit;
     }
-
-    @Override
-    protected int getStaleObjectRetryCount()
-    {
-        return 3;
-    }
-
 }
