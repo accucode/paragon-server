@@ -55,7 +55,7 @@ public class MySelectAccountPage
     protected void installRoot(ScPageRoot root)
     {
         root.css().gap();
-        root.getPostDomScript().equalizeGroups();
+        root.getPostRenderScript().equalizeGroups();
 
         installCreateGroup(root);
         installOwnedAccounts(root);

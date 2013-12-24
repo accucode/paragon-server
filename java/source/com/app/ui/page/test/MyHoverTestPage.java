@@ -63,7 +63,7 @@ public class MyHoverTestPage
         _form = root.addForm();
         _form.css().gap();
         _form.setHoverText("This is text that shows when hovering over the entire form.");
-        _form.getPostDomScript().tooltip();
+        _form.getPostRenderScript().tooltip();
 
         ScGroup group;
         group = _form.addGroup("Hover/Title Test");

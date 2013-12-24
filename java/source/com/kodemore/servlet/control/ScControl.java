@@ -498,6 +498,7 @@ public abstract class ScControl
         preRender();
         renderControlOn(out);
         renderPostDomOn(out);
+        renderPostRenderOn(out);
     }
 
     /**

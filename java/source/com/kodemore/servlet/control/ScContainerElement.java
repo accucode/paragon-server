@@ -128,7 +128,7 @@ public abstract class ScContainerElement
     @Override
     public ScHtmlIdAjax getPostRenderScript()
     {
-        return new ScHtmlIdAjax(super.getPostDomScript(), this);
+        return new ScHtmlIdAjax(super.getPostRenderScript(), this);
     }
 
     //##################################################
