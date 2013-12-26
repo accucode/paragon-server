@@ -1,4 +1,4 @@
-package com.app.ui.page.admin.accounts;
+package com.app.ui.page.admin;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.action.ScAction;
@@ -14,7 +14,6 @@ import com.kodemore.servlet.field.ScTextField;
 import com.app.model.MyAccount;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaAccount;
-import com.app.ui.page.admin.MyAbstractAdminPage;
 import com.app.utility.MyNavigator;
 
 public class MySelectAccountPage

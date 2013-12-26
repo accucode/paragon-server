@@ -1,4 +1,4 @@
-package com.app.ui.page.admin.accounts;
+package com.app.ui.page.admin.accountSettings;
 
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;

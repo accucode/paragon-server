@@ -5,8 +5,7 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
-import com.app.ui.page.admin.accounts.MyAccountSettingsPage;
-import com.app.ui.page.admin.accounts.MySelectAccountPage;
+import com.app.ui.page.admin.accountSettings.MyAccountSettingsPage;
 import com.app.ui.page.admin.userProfile.MyUserProfilePage;
 
 public class MyAdminPage

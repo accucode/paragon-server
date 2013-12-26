@@ -1,27 +1,29 @@
-package com.app.ui.page.admin.accounts;
+package com.app.ui.page.admin.accountSettings;
 
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
-import com.kodemore.servlet.control.ScFieldTable;
+import com.kodemore.servlet.control.ScErrorBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.field.ScTextField;
+import com.kodemore.utility.Kmu;
 
-import com.app.model.MyAccount;
-import com.app.model.meta.MyMetaAccount;
+import com.app.model.MyInvitation;
+import com.app.model.meta.MyMetaInvitation;
 import com.app.ui.control.MyCard;
 
-public class MyAccountSettingsEditCard
+public class MyAccountSettingsTransferCard
     extends MyCard
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScTextField  _nameField;
-    private ScTextSpan _ownerText;
+    private ScTextSpan  _messageText;
+    private ScTextField _emailField;
 
     //##################################################
     //# constructor
@@ -34,29 +36,34 @@ public class MyAccountSettingsEditCard
 
         ScForm form;
         form = addForm();
-        form.setSubmitAction(newSaveAction());
+        form.setSubmitAction(newSendAction());
 
         ScGroup group;
-        group = form.addGroup("Account Settings");
+        group = form.addGroup("Transfer Account");
 
-        installFields(group);
+        installBody(group);
         installFooter(group);
     }
 
-    private void installFields(ScGroup group)
+    private void installBody(ScGroup group)
     {
-        MyMetaAccount x = MyAccount.Meta;
+        MyMetaInvitation x = MyInvitation.Meta;
 
-        _nameField = x.Name.newField();
-        _nameField.setLabel("Name");
+        _messageText = new ScTextSpan();
+        _messageText.css().displayBlock();
 
-        _ownerText = new ScTextSpan();
-        _ownerText.setLabel("Owner");
+        _emailField = x.ToEmail.newField();
+        _emailField.setWidthFull();
 
-        ScFieldTable fields;
-        fields = group.addPad().addFields();
-        fields.add(_nameField);
-        fields.add(_ownerText);
+        ScBox body;
+        body = group.addPad();
+        body.add(_messageText);
+        body.addBreak();
+
+        ScErrorBox box;
+        box = body.addErrorBox();
+        box.addLabel("New Owner Email");
+        box.add(_emailField);
     }
 
     private void installFooter(ScGroup group)
@@ -66,7 +73,7 @@ public class MyAccountSettingsEditCard
         ScDiv footer;
         footer = group.addButtonBoxRight();
         footer.addCancelButton(newCancelAction());
-        footer.addSubmitButton("Save");
+        footer.addSubmitButton("Send Invitation");
     }
 
     //##################################################
@@ -86,27 +93,21 @@ public class MyAccountSettingsEditCard
     @Override
     public void preRender()
     {
-        MyAccount e = getCurrentAccount();
+        _messageText.setValue(formatMessage());
+    }
 
-        _nameField.setValue(e.getName());
-        _ownerText.setValue(e.getOwner().getName());
+    private String formatMessage()
+    {
+        return ""
+            + "This will send an invitation to permanently transfer ownership of "
+            + getCurrentAccount().getName()
+            + " to the following recipient. You will remain the owner until the"
+            + " new owner accepts the invitation.";
     }
 
     //##################################################
     //# actions
     //##################################################
-
-    private ScActionIF newSaveAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSave();
-            }
-        };
-    }
 
     private ScActionIF newCancelAction()
     {
@@ -120,24 +121,45 @@ public class MyAccountSettingsEditCard
         };
     }
 
+    private ScActionIF newSendAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleSend();
+            }
+        };
+    }
+
     //##################################################
     //# handle
     //##################################################
 
-    private void handleSave()
+    private void handleCancel()
     {
-        validate();
-
-        MyAccount e;
-        e = getCurrentAccount();
-        e.applyFrom(this);
-        e.validate();
-
         closeCard();
     }
 
-    private void handleCancel()
+    private void handleSend()
     {
+        ajax().hideAllErrors();
+        validate();
+
+        String email = _emailField.getValue();
+        boolean isValid = Kmu.isValidEmailAddress(email);
+        if ( !isValid )
+            _emailField.error("Invalid");
+
+        MyInvitation e;
+        e = new MyInvitation();
+        e.setFromUser(getCurrentUser());
+        e.setToEmail(email);
+        e.setTypeTransferAccount();
+        e.setAccount(getCurrentAccount());
+
+        ajax().toast("The invitation has been sent.");
         closeCard();
     }
 }
