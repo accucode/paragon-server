@@ -29,8 +29,9 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaAccountUser_UserEmail
-    extends KmMetaStringProperty<MyAccountUser>
+public class MyMetaUserAccount_Uid
+    extends KmMetaStringProperty<MyUserAccount>
+    implements KmMetaDaoPropertyIF<MyUserAccount,String>
 {
     //##################################################
     //# accessing
@@ -39,13 +40,13 @@ public class MyMetaAccountUser_UserEmail
     @Override
     public String getName()
     {
-        return "userEmail";
+        return "uid";
     }
 
     @Override
     public String getLabel()
     {
-        return "User Email";
+        return "Uid";
     }
 
     @Override
@@ -60,30 +61,57 @@ public class MyMetaAccountUser_UserEmail
         return true;
     }
 
+    @Override
+    public KmStringValidator getValidator()
+    {
+        return MyUserAccountValidator.instance.getUidValidator();
+    }
+
+    //##################################################
+    //# dao
+    //##################################################
+
+    @Override
+    public String getDaoPropertyName()
+    {
+        return "uid";
+    }
+
+    @Override
+    public MyUserAccountDao getDao()
+    {
+        return getAccess().getUserAccountDao();
+    }
+
+    private MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
+    
     //##################################################
     //# value
     //##################################################
 
     @Override
-    public String getValueFor(MyAccountUser model)
+    public String getValueFor(MyUserAccount model)
     {
-        return model.getUserEmail();
+        return model.getUid();
     }
     
     @Override
-    public void setValueFor(MyAccountUser model, String value)
+    public void setValueFor(MyUserAccount model, String value)
     {
-        model.setUserEmail(value);
+        model.setUid(value);
     }
     
     @Override
-    public boolean hasValueFor(MyAccountUser model, String value)
+    public boolean hasValueFor(MyUserAccount model, String value)
     {
-        return model.hasUserEmail(value);
+        return model.hasUid(value);
     }
     
     @Override
-    public int compareValues(MyAccountUser o1, MyAccountUser o2, boolean nullsOnTop)
+    public int compareValues(MyUserAccount o1, MyUserAccount o2, boolean nullsOnTop)
     {
         return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }

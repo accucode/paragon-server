@@ -21,7 +21,6 @@ public abstract class MyHibernateConfigurationBase
     protected void addMappings()
     {
         addMapping("account");
-        addMapping("accountUser");
         addMapping("autoSignIn");
         addMapping("download");
         addMapping("email");
@@ -37,6 +36,7 @@ public abstract class MyHibernateConfigurationBase
         addMapping("systemLog");
         addMapping("systemLogTrace");
         addMapping("user");
+        addMapping("userAccount");
         addMapping("userActivation");
     }
 

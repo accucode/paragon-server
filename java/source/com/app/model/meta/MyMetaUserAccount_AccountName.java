@@ -29,8 +29,8 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaAccountUser_AccountName
-    extends KmMetaStringProperty<MyAccountUser>
+public class MyMetaUserAccount_AccountName
+    extends KmMetaStringProperty<MyUserAccount>
 {
     //##################################################
     //# accessing
@@ -65,25 +65,25 @@ public class MyMetaAccountUser_AccountName
     //##################################################
 
     @Override
-    public String getValueFor(MyAccountUser model)
+    public String getValueFor(MyUserAccount model)
     {
         return model.getAccountName();
     }
     
     @Override
-    public void setValueFor(MyAccountUser model, String value)
+    public void setValueFor(MyUserAccount model, String value)
     {
         model.setAccountName(value);
     }
     
     @Override
-    public boolean hasValueFor(MyAccountUser model, String value)
+    public boolean hasValueFor(MyUserAccount model, String value)
     {
         return model.hasAccountName(value);
     }
     
     @Override
-    public int compareValues(MyAccountUser o1, MyAccountUser o2, boolean nullsOnTop)
+    public int compareValues(MyUserAccount o1, MyUserAccount o2, boolean nullsOnTop)
     {
         return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }

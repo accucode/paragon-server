@@ -43,15 +43,5 @@
             type="string"
             />
 
-        <bag
-            name="accountUsers"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="accountUid"/>
-                <one-to-many class="com.app.model.MyAccountUser"/>
-        </bag>
-
     </class>
 </hibernate-mapping>

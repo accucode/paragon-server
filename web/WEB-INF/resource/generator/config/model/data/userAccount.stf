@@ -1,6 +1,6 @@
 model
-: name      = accountUser
-: comment   = The list of all account users.
+: name      = userAccount
+: comment   = The user's role at each account.
 
 database
 : alias = au
@@ -21,16 +21,6 @@ attributes
     : required      = true
 
     association
-    : name          = account
-    : comment       = The account table's unique key.
-    : modelName     = account
-    : relation      = parent
-    : required      = true
-
-        delegate
-        : fieldName = name
-
-    association
     : name          = user
     : comment       = The user table's unique key.
     : modelName     = user
@@ -43,13 +33,23 @@ attributes
         delegate
         : fieldName = email
 
+    association
+    : name          = account
+    : comment       = The account table's unique key.
+    : modelName     = account
+    : relation      = reference
+    : required      = true
+
+        delegate
+        : fieldName = name
+
     field
     : name      = roleCode
     : label     = Role
     : comment   = The role of account user.
     : type      = letterCode
     : required  = true
-    : default   = MyAccountUserRole.User.getCode() 
+    : default   = MyUserAccountRole.User.getCode() 
 
         enum
             value(#O Owner)

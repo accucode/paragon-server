@@ -23,20 +23,20 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaAccountUser
+public class MyMetaUserAccount
     extends KmMetaModel
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyMetaAccountUser instance = new MyMetaAccountUser();
+    public static final MyMetaUserAccount instance = new MyMetaUserAccount();
 
     //##################################################
     //# constructor
     //##################################################
 
-    private MyMetaAccountUser()
+    private MyMetaUserAccount()
     {
         // singleton
     }
@@ -48,30 +48,30 @@ public class MyMetaAccountUser
     @Override
     public String getName()
     {
-        return "accountUser";
+        return "userAccount";
     }
 
-    public static MyAccountUserValidator getValidator()
+    public static MyUserAccountValidator getValidator()
     {
-        return MyAccountUserValidator.instance;
+        return MyUserAccountValidator.instance;
     }
 
     //##################################################
     //# fields and delegates
     //##################################################
 
-    public static final MyMetaAccountUser_Uid Uid = new MyMetaAccountUser_Uid();
-    public static final MyMetaAccountUser_RoleCode RoleCode = new MyMetaAccountUser_RoleCode();
-    public static final MyMetaAccountUser_LockVersion LockVersion = new MyMetaAccountUser_LockVersion();
-    public static final MyMetaAccountUser_RoleName RoleName = new MyMetaAccountUser_RoleName();
-    public static final MyMetaAccountUser_AccountName AccountName = new MyMetaAccountUser_AccountName();
-    public static final MyMetaAccountUser_UserName UserName = new MyMetaAccountUser_UserName();
-    public static final MyMetaAccountUser_UserEmail UserEmail = new MyMetaAccountUser_UserEmail();
+    public static final MyMetaUserAccount_Uid Uid = new MyMetaUserAccount_Uid();
+    public static final MyMetaUserAccount_RoleCode RoleCode = new MyMetaUserAccount_RoleCode();
+    public static final MyMetaUserAccount_LockVersion LockVersion = new MyMetaUserAccount_LockVersion();
+    public static final MyMetaUserAccount_RoleName RoleName = new MyMetaUserAccount_RoleName();
+    public static final MyMetaUserAccount_UserName UserName = new MyMetaUserAccount_UserName();
+    public static final MyMetaUserAccount_UserEmail UserEmail = new MyMetaUserAccount_UserEmail();
+    public static final MyMetaUserAccount_AccountName AccountName = new MyMetaUserAccount_AccountName();
 
     //##################################################
     //# associations
     //##################################################
 
-    public static final MyMetaAccountUser_Account Account = new MyMetaAccountUser_Account();
-    public static final MyMetaAccountUser_User User = new MyMetaAccountUser_User();
+    public static final MyMetaUserAccount_User User = new MyMetaUserAccount_User();
+    public static final MyMetaUserAccount_Account Account = new MyMetaUserAccount_Account();
 }

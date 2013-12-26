@@ -29,9 +29,9 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaAccountUser_RoleCode
-    extends KmMetaStringProperty<MyAccountUser>
-    implements KmMetaDaoPropertyIF<MyAccountUser,String>
+public class MyMetaUserAccount_RoleCode
+    extends KmMetaStringProperty<MyUserAccount>
+    implements KmMetaDaoPropertyIF<MyUserAccount,String>
 {
     //##################################################
     //# accessing
@@ -64,7 +64,7 @@ public class MyMetaAccountUser_RoleCode
     @Override
     public KmStringValidator getValidator()
     {
-        return MyAccountUserValidator.instance.getRoleCodeValidator();
+        return MyUserAccountValidator.instance.getRoleCodeValidator();
     }
 
     //##################################################
@@ -78,9 +78,9 @@ public class MyMetaAccountUser_RoleCode
     }
 
     @Override
-    public MyAccountUserDao getDao()
+    public MyUserAccountDao getDao()
     {
-        return getAccess().getAccountUserDao();
+        return getAccess().getUserAccountDao();
     }
 
     private MyDaoRegistry getAccess()
@@ -104,7 +104,7 @@ public class MyMetaAccountUser_RoleCode
         e.setLabel(label);
         e.setValidator(getValidator());
         e.setValue(getAdaptor());
-        e.addOptions(MyAccountUserRole.values());
+        e.addOptions(MyUserAccountRole.values());
         return e;
     }
     
@@ -113,25 +113,25 @@ public class MyMetaAccountUser_RoleCode
     //##################################################
 
     @Override
-    public String getValueFor(MyAccountUser model)
+    public String getValueFor(MyUserAccount model)
     {
         return model.getRoleCode();
     }
     
     @Override
-    public void setValueFor(MyAccountUser model, String value)
+    public void setValueFor(MyUserAccount model, String value)
     {
         model.setRoleCode(value);
     }
     
     @Override
-    public boolean hasValueFor(MyAccountUser model, String value)
+    public boolean hasValueFor(MyUserAccount model, String value)
     {
         return model.hasRoleCode(value);
     }
     
     @Override
-    public int compareValues(MyAccountUser o1, MyAccountUser o2, boolean nullsOnTop)
+    public int compareValues(MyUserAccount o1, MyUserAccount o2, boolean nullsOnTop)
     {
         return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }

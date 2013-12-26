@@ -2,11 +2,11 @@ package com.app.filter;
 
 import com.kodemore.utility.KmNamedEnumIF;
 
-import com.app.criteria.MyAccountUserCriteria;
-import com.app.filter.base.MyAccountUserFilterBase;
+import com.app.criteria.MyUserAccountCriteria;
+import com.app.filter.base.MyUserAccountFilterBase;
 
-public class MyAccountUserFilter
-    extends MyAccountUserFilterBase
+public class MyUserAccountFilter
+    extends MyUserAccountFilterBase
 {
     //##################################################
     //# sort (enum)
@@ -229,7 +229,7 @@ public class MyAccountUserFilter
     //##################################################
 
     @Override
-    protected void applyConditionsTo(MyAccountUserCriteria c)
+    protected void applyConditionsTo(MyUserAccountCriteria c)
     {
         if ( usesAccountUid() )
             c.whereAccountUid().is(getAccountUid());
@@ -248,7 +248,7 @@ public class MyAccountUserFilter
     }
 
     @Override
-    protected void applySortsTo(MyAccountUserCriteria c)
+    protected void applySortsTo(MyUserAccountCriteria c)
     {
         if ( !usesSort() )
             return;

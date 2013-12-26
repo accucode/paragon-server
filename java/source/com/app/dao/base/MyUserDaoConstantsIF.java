@@ -32,5 +32,5 @@ public interface MyUserDaoConstantsIF
     //# collections
     //##################################################
 
-    String ACCOUNT_USERS = "accountUsers";
+    String USER_ACCOUNTS = "userAccounts";
 }

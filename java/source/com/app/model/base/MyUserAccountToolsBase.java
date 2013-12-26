@@ -29,18 +29,18 @@ import com.app.utility.*;
 /**
  * Miscellaneous tools for use with the model.
  */
-public abstract class MyAccountUserToolsBase
+public abstract class MyUserAccountToolsBase
     extends MyAbstractDomainTools
 {
-    public static final MyMetaAccountUser Meta = MyAccountUser.Meta;
+    public static final MyMetaUserAccount Meta = MyUserAccount.Meta;
 
-    public ScDomainDropdownField<MyAccountUser,String> newDomainDropdown()
+    public ScDomainDropdownField<MyUserAccount,String> newDomainDropdown()
     {
-        ScDomainDropdownField<MyAccountUser,String> e;
-        e = new ScDomainDropdownField<MyAccountUser,String>();
+        ScDomainDropdownField<MyUserAccount,String> e;
+        e = new ScDomainDropdownField<MyUserAccount,String>();
         e.setLabel(Meta.getLabel());
-        e.setFilter(new MyAccountUserFilter());
-        e.setFinder(new MyAccountUserFinder());
+        e.setFilter(new MyUserAccountFilter());
+        e.setFinder(new MyUserAccountFinder());
         e.setOptionKeyAdaptor(Meta.Uid);
         return e;
     }

@@ -47,25 +47,6 @@ public class MyDaoRegistry
     }
 
     //##################################################
-    //# accountUser
-    //##################################################
-
-    public MyAccountUserDao getAccountUserDao()
-    {
-        return new MyAccountUserDao();
-    }
-
-    public KmList<MyAccountUser> findAllAccountUsers()
-    {
-        return getAccountUserDao().findAll();
-    }
-
-    public MyAccountUser findAccountUserUid(String e)
-    {
-        return getAccountUserDao().findUid(e);
-    }
-
-    //##################################################
     //# autoSignIn
     //##################################################
 
@@ -348,6 +329,25 @@ public class MyDaoRegistry
     public MyUser findUserUid(String e)
     {
         return getUserDao().findUid(e);
+    }
+
+    //##################################################
+    //# userAccount
+    //##################################################
+
+    public MyUserAccountDao getUserAccountDao()
+    {
+        return new MyUserAccountDao();
+    }
+
+    public KmList<MyUserAccount> findAllUserAccounts()
+    {
+        return getUserAccountDao().findAll();
+    }
+
+    public MyUserAccount findUserAccountUid(String e)
+    {
+        return getUserAccountDao().findUid(e);
     }
 
     //##################################################

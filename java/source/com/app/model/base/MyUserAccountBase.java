@@ -23,16 +23,16 @@ import com.app.model.core.*;
 import com.app.model.meta.*;
 import com.app.utility.*;
 
-public abstract class MyAccountUserBase
+public abstract class MyUserAccountBase
     extends MyAbstractDomain
 {
     //##################################################
     //# static
     //##################################################
 
-    public static final MyMetaAccountUser Meta = MyMetaAccountUser.instance;
-    public static final MyAccountUserTools Tools = MyAccountUserTools.instance;
-    public static final MyAccountUserValidator Validator = MyAccountUserValidator.instance;
+    public static final MyMetaUserAccount Meta = MyMetaUserAccount.instance;
+    public static final MyUserAccountTools Tools = MyUserAccountTools.instance;
+    public static final MyUserAccountValidator Validator = MyUserAccountValidator.instance;
 
     //##################################################
     //# variables
@@ -41,18 +41,18 @@ public abstract class MyAccountUserBase
     private String uid;
     private String roleCode;
     private Integer lockVersion;
-    private MyAccount account;
     private MyUser user;
+    private MyAccount account;
 
     //##################################################
     //# constructor
     //##################################################
 
-    public MyAccountUserBase()
+    public MyUserAccountBase()
     {
         super();
         setUid(newUid());
-        setRoleCode(MyAccountUserRole.User.getCode());
+        setRoleCode(MyUserAccountRole.User.getCode());
     }
 
     //##################################################
@@ -137,12 +137,12 @@ public abstract class MyAccountUserBase
         roleCode = Kmu.truncate(roleCode, 1, ellipses);
     }
 
-    public MyAccountUserRole getRole()
+    public MyUserAccountRole getRole()
     {
-        return MyAccountUserRole.findCode(getRoleCode());
+        return MyUserAccountRole.findCode(getRoleCode());
     }
 
-    public void setRole(MyAccountUserRole e)
+    public void setRole(MyUserAccountRole e)
     {
         if ( e == null )
             setRoleCode(null);
@@ -155,19 +155,19 @@ public abstract class MyAccountUserBase
         return getRole() != null;
     }
 
-    public boolean hasRole(MyAccountUserRole e)
+    public boolean hasRole(MyUserAccountRole e)
     {
         return getRole() == e;
     }
 
     public void setRoleOwner()
     {
-        setRole(MyAccountUserRole.Owner);
+        setRole(MyUserAccountRole.Owner);
     }
 
     public boolean isRoleOwner()
     {
-        return hasRole(MyAccountUserRole.Owner);
+        return hasRole(MyUserAccountRole.Owner);
     }
 
     public boolean isNotRoleOwner()
@@ -177,12 +177,12 @@ public abstract class MyAccountUserBase
 
     public void setRoleManager()
     {
-        setRole(MyAccountUserRole.Manager);
+        setRole(MyUserAccountRole.Manager);
     }
 
     public boolean isRoleManager()
     {
-        return hasRole(MyAccountUserRole.Manager);
+        return hasRole(MyUserAccountRole.Manager);
     }
 
     public boolean isNotRoleManager()
@@ -192,12 +192,12 @@ public abstract class MyAccountUserBase
 
     public void setRoleUser()
     {
-        setRole(MyAccountUserRole.User);
+        setRole(MyUserAccountRole.User);
     }
 
     public boolean isRoleUser()
     {
-        return hasRole(MyAccountUserRole.User);
+        return hasRole(MyUserAccountRole.User);
     }
 
     public boolean isNotRoleUser()
@@ -253,64 +253,6 @@ public abstract class MyAccountUserBase
     public boolean hasRoleName(String e)
     {
         return Kmu.isEqualIgnoreCase(getRoleName(), e);
-    }
-
-    //##################################################
-    //# account
-    //##################################################
-
-    public MyAccount getAccount()
-    {
-        return account;
-    }
-
-    public void setAccount(MyAccount e)
-    {
-        checkReadOnly();
-        account = e;
-    }
-
-    public void _setAccount(MyAccount e)
-    {
-        checkReadOnly();
-        account = e;
-    }
-
-    public void clearAccount()
-    {
-        setAccount(null);
-    }
-
-    public boolean hasAccount()
-    {
-        return getAccount() != null;
-    }
-
-    public boolean hasAccount(MyAccount e)
-    {
-        return Kmu.isEqual(getAccount(), e);
-    }
-
-    public String getAccountName()
-    {
-        if ( hasAccount() )
-            return getAccount().getName();
-        return null;
-    }
-
-    public void setAccountName(String e)
-    {
-        getAccount().setName(e);
-    }
-
-    public boolean hasAccountName()
-    {
-        return hasAccount() && getAccount().hasName();
-    }
-
-    public boolean hasAccountName(String e)
-    {
-        return hasAccount() && getAccount().hasName(e);
     }
 
     //##################################################
@@ -393,6 +335,64 @@ public abstract class MyAccountUserBase
         return hasUser() && getUser().hasEmail(e);
     }
 
+    //##################################################
+    //# account
+    //##################################################
+
+    public MyAccount getAccount()
+    {
+        return account;
+    }
+
+    public void setAccount(MyAccount e)
+    {
+        checkReadOnly();
+        account = e;
+    }
+
+    public void _setAccount(MyAccount e)
+    {
+        checkReadOnly();
+        account = e;
+    }
+
+    public void clearAccount()
+    {
+        setAccount(null);
+    }
+
+    public boolean hasAccount()
+    {
+        return getAccount() != null;
+    }
+
+    public boolean hasAccount(MyAccount e)
+    {
+        return Kmu.isEqual(getAccount(), e);
+    }
+
+    public String getAccountName()
+    {
+        if ( hasAccount() )
+            return getAccount().getName();
+        return null;
+    }
+
+    public void setAccountName(String e)
+    {
+        getAccount().setName(e);
+    }
+
+    public boolean hasAccountName()
+    {
+        return hasAccount() && getAccount().hasName();
+    }
+
+    public boolean hasAccountName(String e)
+    {
+        return hasAccount() && getAccount().hasName(e);
+    }
+
 
     //##################################################
     //# validate
@@ -401,18 +401,18 @@ public abstract class MyAccountUserBase
     @Override
     public void validate()
     {
-        Validator.validate((MyAccountUser)this);
+        Validator.validate((MyUserAccount)this);
     }
 
     @Override
     public void validateWarn()
     {
-        Validator.validateWarn((MyAccountUser)this);
+        Validator.validateWarn((MyUserAccount)this);
     }
 
     public boolean isValid()
     {
-        return Validator.isValid((MyAccountUser)this);
+        return Validator.isValid((MyUserAccount)this);
     }
 
     //##################################################
@@ -420,9 +420,9 @@ public abstract class MyAccountUserBase
     //##################################################
 
     @Override
-    public final MyAccountUser getCopy()
+    public final MyUserAccount getCopy()
     {
-        return (MyAccountUser)super.getCopy();
+        return (MyUserAccount)super.getCopy();
     }
 
     @Override
@@ -430,7 +430,6 @@ public abstract class MyAccountUserBase
     {
         super.postCopy();
         uid = null;
-        account = null;
         user = null;
     }
 
@@ -441,10 +440,10 @@ public abstract class MyAccountUserBase
     @Override
     public boolean equals(Object o)
     {
-        if ( !(o instanceof MyAccountUserBase) )
+        if ( !(o instanceof MyUserAccountBase) )
             return false;
 
-        MyAccountUserBase e = (MyAccountUserBase)o;
+        MyUserAccountBase e = (MyUserAccountBase)o;
         return Kmu.isEqual(getUid(), e.getUid());
     }
 
@@ -454,13 +453,13 @@ public abstract class MyAccountUserBase
         return Kmu.getHashCode(getUid());
     }
 
-    public boolean isSame(MyAccountUser e)
+    public boolean isSame(MyUserAccount e)
     {
         if ( !Kmu.isEqual(getUid(), e.getUid()) ) return false;
         return isSameIgnoringKey(e);
     }
 
-    public boolean isSameIgnoringKey(MyAccountUser e)
+    public boolean isSameIgnoringKey(MyUserAccount e)
     {
         if ( !Kmu.isEqual(getRoleCode(), e.getRoleCode()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
@@ -468,12 +467,12 @@ public abstract class MyAccountUserBase
         return true;
     }
 
-    public boolean isDifferent(MyAccountUser e)
+    public boolean isDifferent(MyUserAccount e)
     {
         return !isSame(e);
     }
 
-    public boolean isDifferentIgnoringKey(MyAccountUser e)
+    public boolean isDifferentIgnoringKey(MyUserAccount e)
     {
         return !isSameIgnoringKey(e);
     }
@@ -524,7 +523,7 @@ public abstract class MyAccountUserBase
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("MyAccountUser");
+        sb.append("MyUserAccount");
         sb.append("(");
         sb.append("Uid=");
         sb.append(uid);

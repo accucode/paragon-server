@@ -14,23 +14,20 @@ import com.kodemore.adaptor.*;
 import com.kodemore.collection.*;
 import com.kodemore.comparator.*;
 import com.kodemore.exception.*;
-import com.kodemore.match.*;
 import com.kodemore.meta.*;
+import com.kodemore.match.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.field.*;
 import com.kodemore.time.*;
-import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
-import com.app.dao.*;
-import com.app.dao.base.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaAccountUser_RoleName
-    extends KmMetaStringProperty<MyAccountUser>
+public class MyMetaUserAccount_Account
+    extends KmMetaDaoAssociation<MyUserAccount,MyAccount>
 {
     //##################################################
     //# accessing
@@ -39,25 +36,7 @@ public class MyMetaAccountUser_RoleName
     @Override
     public String getName()
     {
-        return "roleName";
-    }
-
-    @Override
-    public String getLabel()
-    {
-        return "Role";
-    }
-
-    @Override
-    public int getColumnWidth()
-    {
-        return 15;
-    }
-
-    @Override
-    public boolean isEditable()
-    {
-        return false;
+        return "account";
     }
 
     //##################################################
@@ -65,21 +44,20 @@ public class MyMetaAccountUser_RoleName
     //##################################################
 
     @Override
-    public String getValueFor(MyAccountUser model)
+    public MyAccount getValueFor(MyUserAccount model)
     {
-        return model.getRoleName();
+        return model.getAccount();
     }
     
     @Override
-    public boolean hasValueFor(MyAccountUser model, String value)
+    public void setValueFor(MyUserAccount model, MyAccount value)
     {
-        return model.hasRoleName(value);
+        model.setAccount(value);
     }
     
     @Override
-    public int compareValues(MyAccountUser o1, MyAccountUser o2, boolean nullsOnTop)
+    public boolean hasValueFor(MyUserAccount model, MyAccount value)
     {
-        return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
+        return model.hasAccount(value);
     }
-    
 }

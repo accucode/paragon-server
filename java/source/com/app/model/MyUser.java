@@ -6,7 +6,7 @@ import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyUserBase;
 import com.app.model.meta.MyMetaAccount;
-import com.app.model.meta.MyMetaAccountUser;
+import com.app.model.meta.MyMetaUserAccount;
 import com.app.utility.MyUtility;
 
 public class MyUser
@@ -107,16 +107,16 @@ public class MyUser
 
     public KmCollection<MyAccount> getAccounts()
     {
-        MyMetaAccountUser x = MyAccountUser.Meta;
+        MyMetaUserAccount x = MyUserAccount.Meta;
 
-        return getAccountUsers().collect(x.Account);
+        return getUserAccounts().collect(x.Account);
     }
 
     public KmCollection<MyAccount> getOwnedAccounts()
     {
         KmCollection<MyAccount> v = new KmCollection<MyAccount>();
 
-        for ( MyAccountUser e : getAccountUsers() )
+        for ( MyUserAccount e : getUserAccounts() )
             if ( e.isRoleOwner() )
                 v.add(e.getAccount());
 
@@ -127,7 +127,7 @@ public class MyUser
     {
         KmCollection<MyAccount> v = new KmCollection<MyAccount>();
 
-        for ( MyAccountUser e : getAccountUsers() )
+        for ( MyUserAccount e : getUserAccounts() )
             if ( !e.isRoleOwner() )
                 v.add(e.getAccount());
 
@@ -175,67 +175,48 @@ public class MyUser
         a.setName(name);
         a.saveDao();
 
-        return _addAccount(a);
+        joinAccount(a, MyUserAccountRole.Owner);
+
+        return a;
     }
 
-    public MyAccountUser joinAccount(MyAccount a)
+    public MyUserAccount joinAccount(MyAccount a)
     {
-        MyAccountUser au;
-        au = a.addAccountUser();
-        au.setRoleUser();
-
-        addAccountUser(au);
-
-        return au;
+        return joinAccount(a, MyUserAccountRole.User);
     }
 
-    public MyAccountUser joinAccount(MyAccount a, MyAccountUserRole role)
+    public MyUserAccount joinAccount(MyAccount a, MyUserAccountRole role)
     {
-        MyAccountUser au;
-        au = a.addAccountUser();
-        au.setRoleCode(role.getCode());
-
-        addAccountUser(au);
-
-        return au;
+        MyUserAccount ua;
+        ua = addUserAccount();
+        ua.setAccount(a);
+        ua.setRole(role);
+        return ua;
     }
 
     public boolean hasSingleAccount()
     {
-        return getAccountUserCount() == 1;
+        return getUserAccountCount() == 1;
     }
 
     public boolean hasMultipleAccounts()
     {
-        return getAccountUsers().isMultiple();
+        return getUserAccounts().isMultiple();
     }
 
     public boolean isMemberOf(MyAccount e)
     {
-        return e.hasMember(this);
+        return getUserAccountFor(e) != null;
     }
 
-    //##################################################
-    //# support
-    //##################################################
-
-    private MyAccount _addAccount(MyAccount a)
+    public MyUserAccount getUserAccountFor(MyAccount a)
     {
-        MyAccountUser au;
-        au = joinAccount(a);
-        au.setRoleOwner();
-        return a;
-    }
+        KmCollection<MyUserAccount> uas = getUserAccounts();
+        for ( MyUserAccount ua : uas )
+            if ( ua.hasAccount(a) )
+                return ua;
 
-    public void _removeAccount(MyAccount a)
-    {
-        KmCollection<MyAccountUser> v = getAccountUsers();
-        for ( MyAccountUser e : v )
-            if ( e.hasAccount(a) )
-            {
-                removeAccountUser(e);
-                break;
-            }
+        return null;
     }
 
 }

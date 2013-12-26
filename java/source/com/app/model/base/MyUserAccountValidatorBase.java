@@ -20,16 +20,16 @@ import com.app.model.core.*;
 import com.app.utility.*;
 
 /**
- * Validation rules for accountUser.
+ * Validation rules for userAccount.
  */
-public class MyAccountUserValidatorBase
-    extends MyDomainValidator<MyAccountUser>
+public class MyUserAccountValidatorBase
+    extends MyDomainValidator<MyUserAccount>
 {
     //##################################################
     //# static
     //##################################################
 
-    public static final MyAccountUserValidator instance = new MyAccountUserValidator();
+    public static final MyUserAccountValidator instance = new MyUserAccountValidator();
 
     //##################################################
     //# variables
@@ -38,23 +38,23 @@ public class MyAccountUserValidatorBase
     private KmStringValidator uidValidator;
     private KmStringValidator roleCodeValidator;
     private KmIntegerValidator lockVersionValidator;
-    private KmStringValidator accountNameValidator;
     private KmStringValidator userNameValidator;
     private KmStringValidator userEmailValidator;
+    private KmStringValidator accountNameValidator;
 
     //##################################################
     //# constructor
     //##################################################
 
-    protected MyAccountUserValidatorBase()
+    protected MyUserAccountValidatorBase()
     {
         super();
         uidValidator = newUidValidator();
         roleCodeValidator = newRoleCodeValidator();
         lockVersionValidator = newLockVersionValidator();
-        accountNameValidator = newAccountNameValidator();
         userNameValidator = newUserNameValidator();
         userEmailValidator = newUserEmailValidator();
+        accountNameValidator = newAccountNameValidator();
     }
 
     //##################################################
@@ -76,11 +76,6 @@ public class MyAccountUserValidatorBase
         return lockVersionValidator;
     }
 
-    public KmStringValidator getAccountNameValidator()
-    {
-        return accountNameValidator;
-    }
-
     public KmStringValidator getUserNameValidator()
     {
         return userNameValidator;
@@ -91,12 +86,17 @@ public class MyAccountUserValidatorBase
         return userEmailValidator;
     }
 
+    public KmStringValidator getAccountNameValidator()
+    {
+        return accountNameValidator;
+    }
+
     //##################################################
     //# validate
     //##################################################
 
     @Override
-    public void convertOnly(MyAccountUser value)
+    public void convertOnly(MyUserAccount value)
     {
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setRoleCode(roleCodeValidator.convertOnly(value.getRoleCode()));
@@ -104,7 +104,7 @@ public class MyAccountUserValidatorBase
     }
 
     @Override
-    public void validateOnly(MyAccountUser value, KmList<KmErrorIF> errors)
+    public void validateOnly(MyUserAccount value, KmList<KmErrorIF> errors)
     {
         uidValidator.validateOnly(value.getUid(), errors);
         roleCodeValidator.validateOnly(value.getRoleCode(), errors);
@@ -121,7 +121,7 @@ public class MyAccountUserValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(30);
         e.setAllowsPrintable(true);
-        e.setModel("accountUser");
+        e.setModel("userAccount");
         e.setField("uid");
         e.setRequired();
         return e;
@@ -135,7 +135,7 @@ public class MyAccountUserValidatorBase
         e.setAllowsLetters(true);
         e.setForcesUpperCase(true);
         e.setStripsAllSpaces(true);
-        e.setModel("accountUser");
+        e.setModel("userAccount");
         e.setField("roleCode");
         e.setRequired();
         return e;
@@ -145,20 +145,8 @@ public class MyAccountUserValidatorBase
     {
         KmIntegerValidator e;
         e = new KmIntegerValidator();
-        e.setModel("accountUser");
+        e.setModel("userAccount");
         e.setField("lockVersion");
-        return e;
-    }
-
-    public KmStringValidator newAccountNameValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(30);
-        e.setAllowsPrintable(true);
-        e.setModel("accountUser");
-        e.setField("accountName");
-        e.setRequired();
         return e;
     }
 
@@ -168,7 +156,7 @@ public class MyAccountUserValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(30);
         e.setAllowsPrintable(true);
-        e.setModel("accountUser");
+        e.setModel("userAccount");
         e.setField("userName");
         e.setRequired();
         return e;
@@ -180,8 +168,20 @@ public class MyAccountUserValidatorBase
         e = new KmStringValidator();
         e.setMaximumLength(50);
         e.setAllowsPrintable(true);
-        e.setModel("accountUser");
+        e.setModel("userAccount");
         e.setField("userEmail");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newAccountNameValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
+        e.setModel("userAccount");
+        e.setField("accountName");
         e.setRequired();
         return e;
     }

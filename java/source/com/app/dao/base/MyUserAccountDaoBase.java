@@ -19,15 +19,15 @@ import com.app.filter.*;
 import com.app.model.*;
 import com.app.model.meta.*;
 
-public abstract class MyAccountUserDaoBase
-    extends KmAbstractDao<MyAccountUser,String>
-    implements MyAccountUserDaoConstantsIF
+public abstract class MyUserAccountDaoBase
+    extends KmAbstractDao<MyUserAccount,String>
+    implements MyUserAccountDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyAccountUserDaoBase()
+    public MyUserAccountDaoBase()
     {
         super();
     }
@@ -37,33 +37,33 @@ public abstract class MyAccountUserDaoBase
     //##################################################
 
     @Override
-    protected Class<MyAccountUser> getPersistentClass()
+    protected Class<MyUserAccount> getPersistentClass()
     {
-        return MyAccountUser.class;
+        return MyUserAccount.class;
     }
 
     @Override
     protected String getTableName()
     {
-        return "accountUser";
+        return "userAccount";
     }
 
     @Override
-    public MyAccountUserCriteria createCriteria()
+    public MyUserAccountCriteria createCriteria()
     {
-        return new MyAccountUserCriteria(createGenericCriteria());
+        return new MyUserAccountCriteria(createGenericCriteria());
     }
 
-    protected MyMetaAccountUser getMeta()
+    protected MyMetaUserAccount getMeta()
     {
-        return MyAccountUser.Meta;
+        return MyUserAccount.Meta;
     }
 
     //##################################################
     //# find
     //##################################################
 
-    public MyAccountUser findUid(String e)
+    public MyUserAccount findUid(String e)
     {
         return getKey(e);
     }
@@ -74,7 +74,7 @@ public abstract class MyAccountUserDaoBase
 
     public void deleteUid(String e)
     {
-        MyAccountUser m = findUid(e);
+        MyUserAccount m = findUid(e);
         if ( m == null )
             fatal("Cannot delete; key not found(%s).", e);
         delete(m);

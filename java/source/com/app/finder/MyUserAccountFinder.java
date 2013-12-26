@@ -16,21 +16,21 @@ import com.app.dao.base.*;
 import com.app.finder.core.*;
 import com.app.model.*;
 
-public class MyAccountUserFinder
-    implements KmKeyFinderIF<MyAccountUser,String>
+public class MyUserAccountFinder
+    implements KmKeyFinderIF<MyUserAccount,String>
 {
     //##################################################
     //# static
     //##################################################
 
-    public static MyAccountUser staticFind(String key)
+    public static MyUserAccount staticFind(String key)
     {
-        return new MyAccountUserFinder().find(key);
+        return new MyUserAccountFinder().find(key);
     }
 
-    public static MyAccountUser staticFindDao(String key)
+    public static MyUserAccount staticFindDao(String key)
     {
-        return new MyAccountUserFinder().findDao(key);
+        return new MyUserAccountFinder().findDao(key);
     }
 
     //##################################################
@@ -38,15 +38,15 @@ public class MyAccountUserFinder
     //##################################################
 
     @Override
-    public MyAccountUser find(String key)
+    public MyUserAccount find(String key)
     {
-        return new MyAccountUserDao().findUid(key);
+        return new MyUserAccountDao().findUid(key);
     }
 
-    public MyAccountUser findDao(String key)
+    public MyUserAccount findDao(String key)
     {
-        MyDaoKeyFinder<MyAccountUser,String> e;
-        e = new MyDaoKeyFinder<MyAccountUser,String>(this, key);
+        MyDaoKeyFinder<MyUserAccount,String> e;
+        e = new MyDaoKeyFinder<MyUserAccount,String>(this, key);
         e.run();
         return e.getValue();
     }

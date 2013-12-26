@@ -29,9 +29,9 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaAccountUser_Uid
-    extends KmMetaStringProperty<MyAccountUser>
-    implements KmMetaDaoPropertyIF<MyAccountUser,String>
+public class MyMetaUserAccount_LockVersion
+    extends KmMetaIntegerProperty<MyUserAccount>
+    implements KmMetaDaoPropertyIF<MyUserAccount,Integer>
 {
     //##################################################
     //# accessing
@@ -40,19 +40,19 @@ public class MyMetaAccountUser_Uid
     @Override
     public String getName()
     {
-        return "uid";
+        return "lockVersion";
     }
 
     @Override
     public String getLabel()
     {
-        return "Uid";
+        return "Lock Version";
     }
 
     @Override
     public int getColumnWidth()
     {
-        return 20;
+        return 10;
     }
 
     @Override
@@ -62,9 +62,9 @@ public class MyMetaAccountUser_Uid
     }
 
     @Override
-    public KmStringValidator getValidator()
+    public KmIntegerValidator getValidator()
     {
-        return MyAccountUserValidator.instance.getUidValidator();
+        return MyUserAccountValidator.instance.getLockVersionValidator();
     }
 
     //##################################################
@@ -74,13 +74,13 @@ public class MyMetaAccountUser_Uid
     @Override
     public String getDaoPropertyName()
     {
-        return "uid";
+        return "lockVersion";
     }
 
     @Override
-    public MyAccountUserDao getDao()
+    public MyUserAccountDao getDao()
     {
-        return getAccess().getAccountUserDao();
+        return getAccess().getUserAccountDao();
     }
 
     private MyDaoRegistry getAccess()
@@ -93,25 +93,25 @@ public class MyMetaAccountUser_Uid
     //##################################################
 
     @Override
-    public String getValueFor(MyAccountUser model)
+    public Integer getValueFor(MyUserAccount model)
     {
-        return model.getUid();
+        return model.getLockVersion();
     }
     
     @Override
-    public void setValueFor(MyAccountUser model, String value)
+    public void setValueFor(MyUserAccount model, Integer value)
     {
-        model.setUid(value);
+        model.setLockVersion(value);
     }
     
     @Override
-    public boolean hasValueFor(MyAccountUser model, String value)
+    public boolean hasValueFor(MyUserAccount model, Integer value)
     {
-        return model.hasUid(value);
+        return model.hasLockVersion(value);
     }
     
     @Override
-    public int compareValues(MyAccountUser o1, MyAccountUser o2, boolean nullsOnTop)
+    public int compareValues(MyUserAccount o1, MyUserAccount o2, boolean nullsOnTop)
     {
         return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }

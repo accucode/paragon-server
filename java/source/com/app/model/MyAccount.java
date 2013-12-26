@@ -1,11 +1,9 @@
 package com.app.model;
 
-import com.kodemore.collection.KmCollection;
+import com.kodemore.collection.KmList;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyAccountBase;
-import com.app.model.meta.MyMetaAccountUser;
-import com.app.model.meta.MyMetaUser;
 
 public class MyAccount
     extends MyAccountBase
@@ -23,18 +21,9 @@ public class MyAccount
     //# users
     //##################################################
 
-    public KmCollection<MyUser> getUsers()
+    public KmList<MyUser> findUsers()
     {
-        MyMetaAccountUser x = MyAccountUser.Meta;
-
-        return getAccountUsers().collect(x.User);
-    }
-
-    public KmCollection<String> getUserNames()
-    {
-        MyMetaUser x = MyUser.Meta;
-
-        return getUsers().collect(x.Name);
+        return getAccess().getUserDao().findAccount(this);
     }
 
     //##################################################
@@ -61,8 +50,8 @@ public class MyAccount
 
         validateTransferOwnership(from, to);
 
-        getAccountUserFor(from).setRoleUser();
-        getAccountUserFor(to).setRoleOwner();
+        getUserAccountFor(from).setRoleUser();
+        getUserAccountFor(to).setRoleOwner();
     }
 
     //##################################################
@@ -83,12 +72,7 @@ public class MyAccount
 
     public MyUser getOwner()
     {
-        KmCollection<MyAccountUser> v = getAccountUsers();
-        for ( MyAccountUser e : v )
-            if ( e.isRoleOwner() )
-                return e.getUser();
-
-        return null;
+        return getAccess().getUserDao().findOwnerFor(this);
     }
 
     public boolean hasOwner(MyUser u)
@@ -96,48 +80,18 @@ public class MyAccount
         return Kmu.isEqual(getOwner(), u);
     }
 
-    public MyAccountUser getAccountUserFor(MyUser user)
+    public MyUserAccount getUserAccountFor(MyUser user)
     {
-        KmCollection<MyAccountUser> v = getAccountUsers();
-        for ( MyAccountUser e : v )
-            if ( e.hasUser(user) )
-                return e;
-
-        return null;
+        return user.getUserAccountFor(this);
     }
 
     private boolean isNotMember(MyUser user)
     {
-        return getAccountUserFor(user) == null;
+        return getUserAccountFor(user) == null;
     }
 
     public boolean hasMember(MyUser u)
     {
-        return getAccountUserFor(u) != null;
-    }
-
-    //##################################################
-    //# dao
-    //##################################################
-
-    @Override
-    public void deleteDao()
-    {
-        _removeAllUsers();
-
-        super.deleteDao();
-    }
-
-    /**
-     * Remove ALL users from this account, including the owner.
-     * This is typically only used when deleting the account,
-     * and is necessary only because of the many-to-many relationship
-     * between accounts and users.
-     */
-    private void _removeAllUsers()
-    {
-        KmCollection<MyAccountUser> v = getAccountUsers();
-        for ( MyAccountUser e : v )
-            e.getUser()._removeAccount(this);
+        return getUserAccountFor(u) != null;
     }
 }

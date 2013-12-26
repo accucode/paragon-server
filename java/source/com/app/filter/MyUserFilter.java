@@ -207,7 +207,7 @@ public class MyUserFilter
     public void applyConditionsTo(MyUserCriteria c)
     {
         if ( usesAccountUid() )
-            c.joinToAccountUsers().whereAccountUid().is(getAccountUid());
+            c.joinToUserAccounts().whereAccountUid().is(getAccountUid());
 
         if ( usesEmail() )
             c.whereEmail().is(getEmail());

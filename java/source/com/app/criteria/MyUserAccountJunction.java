@@ -21,20 +21,20 @@ import com.app.filter.*;
 import com.app.model.*;
 import com.app.model.meta.*;
 
-public class MyAccountUserJunction
-    extends KmModelJunction<MyAccountUser>
-    implements MyAccountUserDaoConstantsIF
+public class MyUserAccountJunction
+    extends KmModelJunction<MyUserAccount>
+    implements MyUserAccountDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyAccountUserJunction(KmJunction context)
+    public MyUserAccountJunction(KmJunction context)
     {
         super(context);
     }
 
-    public MyAccountUserJunction(KmJunction context, KmAbstractCriteria parent)
+    public MyUserAccountJunction(KmJunction context, KmAbstractCriteria parent)
     {
         super(context, parent);
     }
@@ -62,21 +62,6 @@ public class MyAccountUserJunction
     //# associations
     //##################################################
 
-    public MyAccountCriteria joinToAccount()
-    {
-        return join(new MyAccountCriteria(root().joinTo(ACCOUNT)));
-    }
-
-    public MyAccountCriteria leftJoinToAccount()
-    {
-        return join(new MyAccountCriteria(root().leftJoinTo(ACCOUNT)));
-    }
-
-    public KmStringCriteria whereAccountUid()
-    {
-        return new KmStringCriteria(context(), fullName(ACCOUNT_UID));
-    }
-
     public MyUserCriteria joinToUser()
     {
         return join(new MyUserCriteria(root().joinTo(USER)));
@@ -92,18 +77,33 @@ public class MyAccountUserJunction
         return new KmStringCriteria(context(), fullName(USER_UID));
     }
 
+    public MyAccountCriteria joinToAccount()
+    {
+        return join(new MyAccountCriteria(root().joinTo(ACCOUNT)));
+    }
+
+    public MyAccountCriteria leftJoinToAccount()
+    {
+        return join(new MyAccountCriteria(root().leftJoinTo(ACCOUNT)));
+    }
+
+    public KmStringCriteria whereAccountUid()
+    {
+        return new KmStringCriteria(context(), fullName(ACCOUNT_UID));
+    }
+
     //##################################################
     //# junction
     //##################################################
 
-    public MyAccountUserJunction addAnd()
+    public MyUserAccountJunction addAnd()
     {
-        return new MyAccountUserJunction(context().addAnd(), parent());
+        return new MyUserAccountJunction(context().addAnd(), parent());
     }
 
-    public MyAccountUserJunction addOr()
+    public MyUserAccountJunction addOr()
     {
-        return new MyAccountUserJunction(context().addOr(), parent());
+        return new MyUserAccountJunction(context().addOr(), parent());
     }
 
 }

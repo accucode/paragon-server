@@ -20,48 +20,48 @@ import com.app.filter.core.*;
 import com.app.model.*;
 import com.app.model.meta.*;
 
-public abstract class MyAccountUserFilterBase
-    extends MyBasicFilter<MyAccountUser>
-    implements MyAccountUserDaoConstantsIF
+public abstract class MyUserAccountFilterBase
+    extends MyBasicFilter<MyUserAccount>
+    implements MyUserAccountDaoConstantsIF
 {
     //##################################################
     //# apply
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyAccountUser> c)
+    protected void applyConditionsTo(KmModelCriteria<MyUserAccount> c)
     {
-        applyConditionsTo((MyAccountUserCriteria)c);
+        applyConditionsTo((MyUserAccountCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyAccountUser> c)
+    protected void applySortsTo(KmModelCriteria<MyUserAccount> c)
     {
-        applySortsTo((MyAccountUserCriteria)c);
+        applySortsTo((MyUserAccountCriteria)c);
     }
 
-    protected abstract void applyConditionsTo(MyAccountUserCriteria c);
+    protected abstract void applyConditionsTo(MyUserAccountCriteria c);
 
-    protected abstract void applySortsTo(MyAccountUserCriteria c);
+    protected abstract void applySortsTo(MyUserAccountCriteria c);
 
     //##################################################
     //# support
     //##################################################
 
-    protected MyMetaAccountUser getMeta()
+    protected MyMetaUserAccount getMeta()
     {
-        return MyAccountUser.Meta;
+        return MyUserAccount.Meta;
     }
 
     @Override
-    protected MyAccountUserDao getDao()
+    protected MyUserAccountDao getDao()
     {
-        return getAccess().getAccountUserDao();
+        return getAccess().getUserAccountDao();
     }
 
     @Override
-    protected MyAccountUserCriteria createCriteria()
+    protected MyUserAccountCriteria createCriteria()
     {
-        return new MyAccountUserCriteria(createGenericCriteria());
+        return new MyUserAccountCriteria(createGenericCriteria());
     }
 }

@@ -17,8 +17,8 @@
     default-access="field">
 
     <class
-        name="com.app.model.MyAccountUser"
-        table="accountUser"
+        name="com.app.model.MyUserAccount"
+        table="userAccount"
         >
 
         <cache usage="read-write"/>
@@ -44,16 +44,16 @@
             />
 
         <many-to-one
-            name="account"
-            column="accountUid"
-            class="com.app.model.MyAccount"
+            name="user"
+            column="userUid"
+            class="com.app.model.MyUser"
             cascade="none"
             />
 
         <many-to-one
-            name="user"
-            column="userUid"
-            class="com.app.model.MyUser"
+            name="account"
+            column="accountUid"
+            class="com.app.model.MyAccount"
             cascade="none"
             />
 

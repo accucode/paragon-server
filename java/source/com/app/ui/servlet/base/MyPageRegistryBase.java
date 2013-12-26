@@ -12,6 +12,7 @@ import com.kodemore.servlet.*;
 
 import com.app.ui.page.admin.*;
 import com.app.ui.page.admin.accountSettings.*;
+import com.app.ui.page.admin.accountUsers.*;
 import com.app.ui.page.admin.userProfile.*;
 import com.app.ui.page.general.*;
 import com.app.ui.page.login.*;
@@ -28,6 +29,7 @@ public abstract class MyPageRegistryBase
         
         add(MyAccordionTestPage.instance);
         add(MyAccountSettingsPage.instance);
+        add(MyAccountUsersPage.instance);
         add(MyAdminPage.instance);
         add(MyAnimationTestPage.instance);
         add(MyAutoCompleteTestPage.instance);

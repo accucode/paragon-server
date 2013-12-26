@@ -29,9 +29,8 @@ import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaAccountUser_LockVersion
-    extends KmMetaIntegerProperty<MyAccountUser>
-    implements KmMetaDaoPropertyIF<MyAccountUser,Integer>
+public class MyMetaUserAccount_RoleName
+    extends KmMetaStringProperty<MyUserAccount>
 {
     //##################################################
     //# accessing
@@ -40,78 +39,45 @@ public class MyMetaAccountUser_LockVersion
     @Override
     public String getName()
     {
-        return "lockVersion";
+        return "roleName";
     }
 
     @Override
     public String getLabel()
     {
-        return "Lock Version";
+        return "Role";
     }
 
     @Override
     public int getColumnWidth()
     {
-        return 10;
+        return 15;
     }
 
     @Override
     public boolean isEditable()
     {
-        return true;
+        return false;
     }
 
-    @Override
-    public KmIntegerValidator getValidator()
-    {
-        return MyAccountUserValidator.instance.getLockVersionValidator();
-    }
-
-    //##################################################
-    //# dao
-    //##################################################
-
-    @Override
-    public String getDaoPropertyName()
-    {
-        return "lockVersion";
-    }
-
-    @Override
-    public MyAccountUserDao getDao()
-    {
-        return getAccess().getAccountUserDao();
-    }
-
-    private MyDaoRegistry getAccess()
-    {
-        return MyGlobals.getAccess();
-    }
-    
     //##################################################
     //# value
     //##################################################
 
     @Override
-    public Integer getValueFor(MyAccountUser model)
+    public String getValueFor(MyUserAccount model)
     {
-        return model.getLockVersion();
+        return model.getRoleName();
     }
     
     @Override
-    public void setValueFor(MyAccountUser model, Integer value)
+    public boolean hasValueFor(MyUserAccount model, String value)
     {
-        model.setLockVersion(value);
+        return model.hasRoleName(value);
     }
     
     @Override
-    public boolean hasValueFor(MyAccountUser model, Integer value)
-    {
-        return model.hasLockVersion(value);
-    }
-    
-    @Override
-    public int compareValues(MyAccountUser o1, MyAccountUser o2, boolean nullsOnTop)
+    public int compareValues(MyUserAccount o1, MyUserAccount o2, boolean nullsOnTop)
     {
         return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }

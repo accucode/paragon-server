@@ -11,7 +11,7 @@ package com.app.dao.base;
 import com.kodemore.collection.*;
 import com.app.model.*;
 
-public interface MyAccountUserDaoConstantsIF
+public interface MyUserAccountDaoConstantsIF
 {
     //##################################################
     //# fields
@@ -26,10 +26,10 @@ public interface MyAccountUserDaoConstantsIF
     //# associations
     //##################################################
 
-    String ACCOUNT = "account";
-    String ACCOUNT_UID = "account.uid";
-
     String USER = "user";
     String USER_UID = "user.uid";
+
+    String ACCOUNT = "account";
+    String ACCOUNT_UID = "account.uid";
 
 }

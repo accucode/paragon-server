@@ -74,7 +74,7 @@ public class MyMarkEmailPendingCommand
     @Override
     public String getLockKey()
     {
-        // fixme_wyatt: Pessimistic Lock
+        // todo_wyatt: Pessimistic Lock
         return MyCommandLocksIF.LOCK_EMAIL;
     }
 

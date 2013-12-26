@@ -13,7 +13,7 @@ import java.util.*;
 import com.kodemore.collection.*;
 import com.kodemore.utility.*;
 
-public enum MyAccountUserRole
+public enum MyUserAccountRole
     implements KmCodedEnumIF
 {
     //##################################################
@@ -29,25 +29,25 @@ public enum MyAccountUserRole
     //# find
     //##################################################
 
-    private static final KmList<MyAccountUserRole> _values;
-    private static final KmMap<String,MyAccountUserRole> _codes;
+    private static final KmList<MyUserAccountRole> _values;
+    private static final KmMap<String,MyUserAccountRole> _codes;
 
     static
     {
-        _values = new KmList<MyAccountUserRole>();
+        _values = new KmList<MyUserAccountRole>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyAccountUserRole>();
-        for ( MyAccountUserRole e : EnumSet.allOf(MyAccountUserRole.class) )
+        _codes = new KmMap<String,MyUserAccountRole>();
+        for ( MyUserAccountRole e : EnumSet.allOf(MyUserAccountRole.class) )
             _codes.put(e.getCode(), e);
     }
 
-    public static KmList<MyAccountUserRole> getValues()
+    public static KmList<MyUserAccountRole> getValues()
     {
         return _values;
     }
 
-    public static MyAccountUserRole findCode(String code)
+    public static MyUserAccountRole findCode(String code)
     {
         return _codes.get(code);
     }
@@ -63,7 +63,7 @@ public enum MyAccountUserRole
     //# constructor
     //##################################################
 
-    private MyAccountUserRole(String code, String name)
+    private MyUserAccountRole(String code, String name)
     {
         _code = code;
         _name = name;
@@ -108,22 +108,22 @@ public enum MyAccountUserRole
     //# sequence
     //##################################################
 
-    public static MyAccountUserRole getAt(int index)
+    public static MyUserAccountRole getAt(int index)
     {
         return values()[index];
     }
 
-    public static MyAccountUserRole getFirst()
+    public static MyUserAccountRole getFirst()
     {
         return values()[0];
     }
 
-    public static MyAccountUserRole getLast()
+    public static MyUserAccountRole getLast()
     {
         return values()[values().length - 1];
     }
 
-    public MyAccountUserRole getPrevious()
+    public MyUserAccountRole getPrevious()
     {
         int i = ordinal() - 1;
         if ( i >= 0 )
@@ -131,7 +131,7 @@ public enum MyAccountUserRole
         return null;
     }
 
-    public MyAccountUserRole getNext()
+    public MyUserAccountRole getNext()
     {
         int i = ordinal() + 1;
         if ( i < values().length )

@@ -704,17 +704,17 @@ public class MyUserCriteria
     }
 
     //##################################################
-    //# collection (AccountUsers)
+    //# collection (UserAccounts)
     //##################################################
 
-    public MyAccountUserCriteria joinToAccountUsers()
+    public MyUserAccountCriteria joinToUserAccounts()
     {
-        return new MyAccountUserCriteria(joinTo(ACCOUNT_USERS));
+        return new MyUserAccountCriteria(joinTo(USER_ACCOUNTS));
     }
 
-    public MyAccountUserCriteria leftJoinToAccountUsers()
+    public MyUserAccountCriteria leftJoinToUserAccounts()
     {
-        return new MyAccountUserCriteria(leftJoinTo(ACCOUNT_USERS));
+        return new MyUserAccountCriteria(leftJoinTo(USER_ACCOUNTS));
     }
 
     //##################################################

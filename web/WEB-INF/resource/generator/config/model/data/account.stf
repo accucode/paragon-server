@@ -24,10 +24,3 @@ attributes
     : comment   = The account name.
     : type      = name
     : required  = required
-        
-    collection
-    : name          = accountUser
-    : comment       = The many-to-many relationship to this account's users.
-    : relation      = children
-    : elementModel  = accountUser
-    : elementField  = account

@@ -14,23 +14,20 @@ import com.kodemore.adaptor.*;
 import com.kodemore.collection.*;
 import com.kodemore.comparator.*;
 import com.kodemore.exception.*;
-import com.kodemore.match.*;
 import com.kodemore.meta.*;
+import com.kodemore.match.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.field.*;
 import com.kodemore.time.*;
-import com.kodemore.types.*;
 import com.kodemore.utility.*;
 import com.kodemore.validator.*;
 
-import com.app.dao.*;
-import com.app.dao.base.*;
 import com.app.model.*;
 import com.app.model.core.*;
 import com.app.utility.*;
 
-public class MyMetaAccountUser_UserName
-    extends KmMetaStringProperty<MyAccountUser>
+public class MyMetaUserAccount_User
+    extends KmMetaDaoAssociation<MyUserAccount,MyUser>
 {
     //##################################################
     //# accessing
@@ -39,25 +36,7 @@ public class MyMetaAccountUser_UserName
     @Override
     public String getName()
     {
-        return "userName";
-    }
-
-    @Override
-    public String getLabel()
-    {
-        return "User Name";
-    }
-
-    @Override
-    public int getColumnWidth()
-    {
-        return 15;
-    }
-
-    @Override
-    public boolean isEditable()
-    {
-        return true;
+        return "user";
     }
 
     //##################################################
@@ -65,27 +44,20 @@ public class MyMetaAccountUser_UserName
     //##################################################
 
     @Override
-    public String getValueFor(MyAccountUser model)
+    public MyUser getValueFor(MyUserAccount model)
     {
-        return model.getUserName();
+        return model.getUser();
     }
     
     @Override
-    public void setValueFor(MyAccountUser model, String value)
+    public void setValueFor(MyUserAccount model, MyUser value)
     {
-        model.setUserName(value);
+        model.setUser(value);
     }
     
     @Override
-    public boolean hasValueFor(MyAccountUser model, String value)
+    public boolean hasValueFor(MyUserAccount model, MyUser value)
     {
-        return model.hasUserName(value);
+        return model.hasUser(value);
     }
-    
-    @Override
-    public int compareValues(MyAccountUser o1, MyAccountUser o2, boolean nullsOnTop)
-    {
-        return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
-    }
-    
 }

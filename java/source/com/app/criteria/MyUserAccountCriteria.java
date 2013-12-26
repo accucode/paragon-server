@@ -22,20 +22,20 @@ import com.app.filter.*;
 import com.app.model.*;
 import com.app.model.meta.*;
 
-public class MyAccountUserCriteria
-    extends MyAbstractCriteria<MyAccountUser>
-    implements MyAccountUserDaoConstantsIF
+public class MyUserAccountCriteria
+    extends MyAbstractCriteria<MyUserAccount>
+    implements MyUserAccountDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyAccountUserCriteria(KmCriteria parent)
+    public MyUserAccountCriteria(KmCriteria parent)
     {
         super(parent);
     }
 
-    public MyAccountUserCriteria(KmCriteria parent, KmAbstractCriteria context)
+    public MyUserAccountCriteria(KmCriteria parent, KmAbstractCriteria context)
     {
         super(parent, context);
     }
@@ -54,7 +54,7 @@ public class MyAccountUserCriteria
         return new KmStringCriteria(context(), fullName(ROLE_CODE));
     }
 
-    public void whereRoleIs(MyAccountUserRole e)
+    public void whereRoleIs(MyUserAccountRole e)
     {
         if ( e == null )
             whereRoleCode().isNull();
@@ -62,7 +62,7 @@ public class MyAccountUserCriteria
             whereRoleCode().is(e.getCode());
     }
 
-    public void whereRoleIsNot(MyAccountUserRole e)
+    public void whereRoleIsNot(MyUserAccountRole e)
     {
         if ( e == null )
             whereRoleCode().isNull();
@@ -72,12 +72,12 @@ public class MyAccountUserCriteria
 
     public void whereRoleIsOwner()
     {
-        whereRoleIs(MyAccountUserRole.Owner);
+        whereRoleIs(MyUserAccountRole.Owner);
     }
 
     public void whereRoleIsNotOwner()
     {
-        whereRoleIsNot(MyAccountUserRole.Owner);
+        whereRoleIsNot(MyUserAccountRole.Owner);
     }
 
     public void whereRoleIsOwner(boolean e)
@@ -90,12 +90,12 @@ public class MyAccountUserCriteria
 
     public void whereRoleIsManager()
     {
-        whereRoleIs(MyAccountUserRole.Manager);
+        whereRoleIs(MyUserAccountRole.Manager);
     }
 
     public void whereRoleIsNotManager()
     {
-        whereRoleIsNot(MyAccountUserRole.Manager);
+        whereRoleIsNot(MyUserAccountRole.Manager);
     }
 
     public void whereRoleIsManager(boolean e)
@@ -108,12 +108,12 @@ public class MyAccountUserCriteria
 
     public void whereRoleIsUser()
     {
-        whereRoleIs(MyAccountUserRole.User);
+        whereRoleIs(MyUserAccountRole.User);
     }
 
     public void whereRoleIsNotUser()
     {
-        whereRoleIsNot(MyAccountUserRole.User);
+        whereRoleIsNot(MyUserAccountRole.User);
     }
 
     public void whereRoleIsUser(boolean e)
@@ -320,53 +320,6 @@ public class MyAccountUserCriteria
     }
 
     //##################################################
-    //# association (Account)
-    //##################################################
-
-    public void selectAccountUid()
-    {
-        select(ACCOUNT_UID);
-    }
-
-    public void selectMinimumAccountUid()
-    {
-        selectMinimum(ACCOUNT_UID);
-    }
-
-    public void selectMaximumAccountUid()
-    {
-        selectMaximum(ACCOUNT_UID);
-    }
-
-    public void groupByAccountUid()
-    {
-        groupBy(ACCOUNT);
-    }
-
-    public MyAccountCriteria joinToAccount()
-    {
-        return new MyAccountCriteria(joinTo(ACCOUNT));
-    }
-
-    public MyAccountCriteria leftJoinToAccount()
-    {
-        return new MyAccountCriteria(leftJoinTo(ACCOUNT));
-    }
-
-    public KmStringCriteria whereAccountUid()
-    {
-        return new KmStringCriteria(parent(), fullName(ACCOUNT_UID));
-    }
-
-    public void whereAccountIs(MyAccount e)
-    {
-        if ( e == null )
-            whereAccountUid().isNull();
-        else
-            whereAccountUid().is(e.getUid());
-    }
-
-    //##################################################
     //# association (User)
     //##################################################
 
@@ -414,17 +367,64 @@ public class MyAccountUserCriteria
     }
 
     //##################################################
+    //# association (Account)
+    //##################################################
+
+    public void selectAccountUid()
+    {
+        select(ACCOUNT_UID);
+    }
+
+    public void selectMinimumAccountUid()
+    {
+        selectMinimum(ACCOUNT_UID);
+    }
+
+    public void selectMaximumAccountUid()
+    {
+        selectMaximum(ACCOUNT_UID);
+    }
+
+    public void groupByAccountUid()
+    {
+        groupBy(ACCOUNT);
+    }
+
+    public MyAccountCriteria joinToAccount()
+    {
+        return new MyAccountCriteria(joinTo(ACCOUNT));
+    }
+
+    public MyAccountCriteria leftJoinToAccount()
+    {
+        return new MyAccountCriteria(leftJoinTo(ACCOUNT));
+    }
+
+    public KmStringCriteria whereAccountUid()
+    {
+        return new KmStringCriteria(parent(), fullName(ACCOUNT_UID));
+    }
+
+    public void whereAccountIs(MyAccount e)
+    {
+        if ( e == null )
+            whereAccountUid().isNull();
+        else
+            whereAccountUid().is(e.getUid());
+    }
+
+    //##################################################
     //# junction
     //##################################################
 
-    public MyAccountUserJunction addAnd()
+    public MyUserAccountJunction addAnd()
     {
-        return new MyAccountUserJunction(parent().addAnd());
+        return new MyUserAccountJunction(parent().addAnd());
     }
 
-    public MyAccountUserJunction addOr()
+    public MyUserAccountJunction addOr()
     {
-        return new MyAccountUserJunction(parent().addOr());
+        return new MyUserAccountJunction(parent().addOr());
     }
 
     //##################################################
@@ -433,9 +433,9 @@ public class MyAccountUserCriteria
 
     @Override
     @SuppressWarnings("rawtypes")
-    public MyAccountUserCriteria createOn(KmModelJunction junction)
+    public MyUserAccountCriteria createOn(KmModelJunction junction)
     {
-        return new MyAccountUserCriteria(parent(), junction.context());
+        return new MyUserAccountCriteria(parent(), junction.context());
     }
 
 }

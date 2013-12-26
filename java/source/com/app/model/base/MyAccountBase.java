@@ -41,7 +41,6 @@ public abstract class MyAccountBase
     private String uid;
     private String name;
     private Integer lockVersion;
-    private List<MyAccountUser> accountUsers;
 
     //##################################################
     //# constructor
@@ -51,7 +50,6 @@ public abstract class MyAccountBase
     {
         super();
         setUid(newUid());
-        accountUsers = new ArrayList<MyAccountUser>();
     }
 
     //##################################################
@@ -169,73 +167,6 @@ public abstract class MyAccountBase
 
 
     //##################################################
-    //# AccountUsers (collection)
-    //##################################################
-
-    public KmCollection<MyAccountUser> getAccountUsers()
-    {
-        return new KmHibernateCollection<MyAccountUser,MyAccount>(
-            getBaseAccountUsers(),
-            (MyAccount)this,
-            MyAccountUser.Meta.Account.getAdaptor());
-    }
-
-    public boolean hasAccountUsers()
-    {
-        return !getBaseAccountUsers().isEmpty();
-    }
-
-    public int getAccountUserCount()
-    {
-        return getBaseAccountUsers().size();
-    }
-
-    public List<MyAccountUser> getBaseAccountUsers()
-    {
-        return accountUsers;
-    }
-
-    public MyAccountUser addAccountUser()
-    {
-        MyAccountUser e;
-        e = new MyAccountUser();
-        getAccountUsers().add(e);
-        return e;
-    }
-
-    public void addAccountUser(MyAccountUser e)
-    {
-        getAccountUsers().add(e);
-    }
-
-    public boolean removeAccountUser(MyAccountUser e)
-    {
-        return getAccountUsers().remove(e);
-    }
-
-    public boolean removeAccountUserUid(String myUid)
-    {
-        MyAccountUser e = findAccountUserUid(myUid);
-        if ( e == null )
-            return false;
-
-        return removeAccountUser(e);
-    }
-
-    public MyAccountUser findAccountUserUid(String myUid)
-    {
-        for ( MyAccountUser e : getBaseAccountUsers() )
-            if ( e.hasUid(myUid) )
-                return e;
-        return null;
-    }
-
-    public void clearAccountUsers()
-    {
-        getAccountUsers().clear();
-    }
-
-    //##################################################
     //# validate
     //##################################################
 
@@ -271,11 +202,6 @@ public abstract class MyAccountBase
     {
         super.postCopy();
         uid = null;
-
-        List<MyAccountUser> old_accountUsers = accountUsers;
-        accountUsers = new ArrayList<MyAccountUser>();
-        for ( MyAccountUser e : old_accountUsers )
-            addAccountUser(copy(e));
     }
 
     //##################################################

@@ -7,7 +7,6 @@ import com.kodemore.time.KmTimestamp;
 
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAccount;
-import com.app.model.MyAccountUser;
 import com.app.model.MyServerSession;
 import com.app.model.MySettings;
 import com.app.model.MyUser;
@@ -135,27 +134,6 @@ public abstract class MyPage
     public boolean hasCurrentAccount()
     {
         return getCurrentAccount() != null;
-    }
-
-    //##################################################
-    //# account user
-    //##################################################
-
-    public MyAccountUser getCurrentAccountUser()
-    {
-        MyUser u = getCurrentUser();
-        MyAccount a = getCurrentAccount();
-
-        return a.getAccountUserFor(u);
-    }
-
-    public String getCurrentAccountUserUid()
-    {
-        MyAccount a = getCurrentAccount();
-        if ( a == null )
-            return null;
-
-        return a.getUid();
     }
 
     //##################################################

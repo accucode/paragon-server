@@ -250,20 +250,6 @@ public class MyAccountCriteria
     }
 
     //##################################################
-    //# collection (AccountUsers)
-    //##################################################
-
-    public MyAccountUserCriteria joinToAccountUsers()
-    {
-        return new MyAccountUserCriteria(joinTo(ACCOUNT_USERS));
-    }
-
-    public MyAccountUserCriteria leftJoinToAccountUsers()
-    {
-        return new MyAccountUserCriteria(leftJoinTo(ACCOUNT_USERS));
-    }
-
-    //##################################################
     //# junction
     //##################################################
 
