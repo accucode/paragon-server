@@ -342,9 +342,7 @@ public abstract class ScContainer
         ScSubmitButton e;
         e = new ScSubmitButton();
         e.applyPrimaryFlavor();
-
         add(e);
-
         return e;
     }
 
