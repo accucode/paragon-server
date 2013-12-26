@@ -366,6 +366,7 @@ public abstract class ScPage
         String s;
         s = getClass().getSimpleName();
         s = Kmu.removePrefix(s, "My");
+        s = Kmu.removePrefix(s, "Dev");
         s = Kmu.removeSuffix(s, "Page");
         s = Kmu.removeSuffix(s, "Menu");
         s = Kmu.formatAsCapitalizedNames(s);

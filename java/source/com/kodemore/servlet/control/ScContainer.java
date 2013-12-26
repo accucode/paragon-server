@@ -728,7 +728,7 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScBox addPadSpaced()
+    public ScBox addGap()
     {
         ScBox e;
         e = addBox();

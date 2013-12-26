@@ -63,7 +63,7 @@ public class MyImageButtonTestPage
         image.setHoverText("Smile!");
 
         ScBox box;
-        box = group.addPadSpaced();
+        box = group.addGap();
         box.addBox().addText(
             "Show hover text over the icon, form, field, and button using the title attribute");
         box.addFields().add(_nameField);

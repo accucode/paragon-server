@@ -229,7 +229,7 @@ public class MyFieldTestPage
         group = root.addGroup("Fieldset Samples");
 
         ScBox body;
-        body = group.addPadSpaced();
+        body = group.addGap();
 
         ScFieldset box;
         box = body.addFieldset("Name");
