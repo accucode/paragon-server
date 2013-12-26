@@ -49,7 +49,6 @@ public class MyNavigator
 
     public static void selectAccount(String uid)
     {
-        // todo_wyatt: security
         MyAccount acct = getAccess().findAccountUid(uid);
 
         getPageSession().setCurrentAccount(acct);
