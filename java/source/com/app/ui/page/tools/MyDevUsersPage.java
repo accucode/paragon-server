@@ -1,4 +1,4 @@
-package com.app.ui.page.admin;
+package com.app.ui.page.tools;
 
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
@@ -16,6 +16,7 @@ import com.kodemore.servlet.field.ScTextField;
 import com.app.filter.MyUserFilter;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
+import com.app.ui.page.admin.MyAbstractAdminPage;
 
 public class MyDevUsersPage
     extends MyAbstractAdminPage

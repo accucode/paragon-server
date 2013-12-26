@@ -1,4 +1,4 @@
-package com.app.ui.page.admin;
+package com.app.ui.page.tools;
 
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;

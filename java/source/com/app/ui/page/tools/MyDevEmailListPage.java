@@ -1,4 +1,4 @@
-package com.app.ui.page.admin;
+package com.app.ui.page.tools;
 
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
@@ -19,6 +19,7 @@ import com.app.filter.MyEmailFilter;
 import com.app.model.MyEmail;
 import com.app.model.MyEmailStatus;
 import com.app.model.meta.MyMetaEmail;
+import com.app.ui.page.admin.MyAbstractAdminPage;
 
 public class MyDevEmailListPage
     extends MyAbstractAdminPage

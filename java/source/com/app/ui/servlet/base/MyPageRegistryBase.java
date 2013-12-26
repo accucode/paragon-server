@@ -11,10 +11,6 @@ package com.app.ui.servlet.base;
 import com.kodemore.servlet.ScPageRegistry;
 
 import com.app.ui.page.admin.MyAdminPage;
-import com.app.ui.page.admin.MyDevEmailEditPage;
-import com.app.ui.page.admin.MyDevEmailListPage;
-import com.app.ui.page.admin.MyDevEmailViewPage;
-import com.app.ui.page.admin.MyDevUsersPage;
 import com.app.ui.page.admin.accounts.MyAccountSettingsPage;
 import com.app.ui.page.admin.accounts.MySelectAccountPage;
 import com.app.ui.page.admin.userProfile.MyUserProfilePage;
@@ -75,12 +71,16 @@ import com.app.ui.page.test.MyToastTestPage;
 import com.app.ui.page.test.MyWyattTestPage;
 import com.app.ui.page.tools.MyDevApplicationPropertiesPage;
 import com.app.ui.page.tools.MyDevBeanShellPage;
+import com.app.ui.page.tools.MyDevEmailEditPage;
+import com.app.ui.page.tools.MyDevEmailListPage;
+import com.app.ui.page.tools.MyDevEmailViewPage;
 import com.app.ui.page.tools.MyDevPerformanceLogPage;
 import com.app.ui.page.tools.MyDevSharedFileBrowserPage;
 import com.app.ui.page.tools.MyDevSqlPage;
 import com.app.ui.page.tools.MyDevSystemLogListPage;
 import com.app.ui.page.tools.MyDevSystemPropertiesPage;
 import com.app.ui.page.tools.MyDevToolsPage;
+import com.app.ui.page.tools.MyDevUsersPage;
 import com.app.ui.page.tools.MyDevUtilityPage;
 
 public abstract class MyPageRegistryBase

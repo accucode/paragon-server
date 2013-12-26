@@ -1,4 +1,4 @@
-package com.app.ui.page.admin;
+package com.app.ui.page.tools;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
@@ -21,6 +21,7 @@ import com.app.model.MyEmailRecipient;
 import com.app.model.MyEmailRecipientType;
 import com.app.model.meta.MyMetaEmail;
 import com.app.model.meta.MyMetaEmailRecipient;
+import com.app.ui.page.admin.MyAbstractAdminPage;
 
 public class MyDevEmailEditPage
     extends MyAbstractAdminPage

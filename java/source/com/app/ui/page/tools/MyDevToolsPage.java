@@ -6,8 +6,6 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
-import com.app.ui.page.admin.MyDevEmailListPage;
-import com.app.ui.page.admin.MyDevUsersPage;
 
 public class MyDevToolsPage
     extends MyDevAbstractPage
