@@ -16,7 +16,7 @@ import com.app.model.meta.MyMetaUser;
 import com.app.ui.control.MyCardFrame;
 import com.app.utility.MyButtonUrls;
 
-public class MyUserFrame
+public class MyDevUserFrame
     extends MyCardFrame
 {
     //##################################################
@@ -36,6 +36,8 @@ public class MyUserFrame
     protected void install()
     {
         super.install();
+
+        useFlipAnimation();
 
         _viewChild = createViewChild();
         _editChild = createEditChild();

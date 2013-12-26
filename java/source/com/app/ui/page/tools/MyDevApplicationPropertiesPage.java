@@ -14,16 +14,16 @@ import com.app.property.MyPropertyDefinition;
 import com.app.property.MyPropertyRegistry;
 import com.app.property.base.MyPropertyDefinitions;
 
-public class MyApplicationPropertiesPage
-    extends MyAbstractToolsPage
+public class MyDevApplicationPropertiesPage
+    extends MyDevAbstractPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyApplicationPropertiesPage instance = new MyApplicationPropertiesPage();
+    public static final MyDevApplicationPropertiesPage instance = new MyDevApplicationPropertiesPage();
 
-    private MyApplicationPropertiesPage()
+    private MyDevApplicationPropertiesPage()
     {
         // singleton
     }

@@ -11,8 +11,8 @@ import com.kodemore.servlet.control.ScTable;
 import com.kodemore.servlet.control.ScTableCell;
 import com.kodemore.servlet.control.ScTableRow;
 
-public class MySystemPropertiesPage
-    extends MyAbstractToolsPage
+public class MyDevSystemPropertiesPage
+    extends MyDevAbstractPage
 {
     //##################################################
     //# variables
@@ -24,9 +24,9 @@ public class MySystemPropertiesPage
     //# singleton
     //##################################################
 
-    public static final MySystemPropertiesPage instance = new MySystemPropertiesPage();
+    public static final MyDevSystemPropertiesPage instance = new MyDevSystemPropertiesPage();
 
-    private MySystemPropertiesPage()
+    private MyDevSystemPropertiesPage()
     {
         // singleton
     }

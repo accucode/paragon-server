@@ -17,16 +17,16 @@ import com.app.filter.MyUserFilter;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
 
-public class MyUsersPage
+public class MyDevUsersPage
     extends MyAbstractAdminPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyUsersPage instance = new MyUsersPage();
+    public static final MyDevUsersPage instance = new MyDevUsersPage();
 
-    private MyUsersPage()
+    private MyDevUsersPage()
     {
         // singleton
     }
@@ -40,7 +40,7 @@ public class MyUsersPage
 
     private ScGrid<MyUser> _grid;
 
-    private MyUserFrame    _frame;
+    private MyDevUserFrame    _frame;
 
     //##################################################
     //# install
@@ -131,7 +131,7 @@ public class MyUsersPage
 
     private void installFrame(ScArray row)
     {
-        _frame = new MyUserFrame();
+        _frame = new MyDevUserFrame();
         _frame.setOnChangeAction(newOnChangeAction());
 
         row.add(_frame);

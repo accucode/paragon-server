@@ -17,16 +17,16 @@ import com.app.model.MyTimeZone;
 import com.app.property.MyPropertyManager;
 import com.app.ui.core.MyServletData;
 
-public class MyUtilityPage
-    extends MyAbstractToolsPage
+public class MyDevUtilityPage
+    extends MyDevAbstractPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyUtilityPage instance = new MyUtilityPage();
+    public static final MyDevUtilityPage instance = new MyDevUtilityPage();
 
-    private MyUtilityPage()
+    private MyDevUtilityPage()
     {
         // singleton
     }

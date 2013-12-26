@@ -19,16 +19,16 @@ import com.kodemore.utility.Kmu;
 
 import com.app.utility.MyButtonUrls;
 
-public class MySqlPage
-    extends MyAbstractToolsPage
+public class MyDevSqlPage
+    extends MyDevAbstractPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MySqlPage instance = new MySqlPage();
+    public static final MyDevSqlPage instance = new MyDevSqlPage();
 
-    private MySqlPage()
+    private MyDevSqlPage()
     {
         // singleton
     }

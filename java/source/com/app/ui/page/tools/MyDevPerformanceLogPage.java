@@ -22,16 +22,16 @@ import com.kodemore.utility.KmNamedEnumIF;
 import com.app.model.MyPerformanceLogSummaryVo;
 import com.app.model.meta.MyMetaPerformanceLogSummaryVo;
 
-public class MyPerformanceLogPage
-    extends MyAbstractToolsPage
+public class MyDevPerformanceLogPage
+    extends MyDevAbstractPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPerformanceLogPage instance = new MyPerformanceLogPage();
+    public static final MyDevPerformanceLogPage instance = new MyDevPerformanceLogPage();
 
-    private MyPerformanceLogPage()
+    private MyDevPerformanceLogPage()
     {
         // singleton
     }

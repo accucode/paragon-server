@@ -21,16 +21,16 @@ import com.app.model.meta.MyMetaEmail;
 import com.app.model.meta.MyMetaEmailPart;
 import com.app.ui.page.MyPage;
 
-public class MyEmailViewPage
+public class MyDevEmailViewPage
     extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyEmailViewPage instance = new MyEmailViewPage();
+    public static final MyDevEmailViewPage instance = new MyDevEmailViewPage();
 
-    private MyEmailViewPage()
+    private MyDevEmailViewPage()
     {
         // singleton
     }

@@ -13,16 +13,16 @@ import com.kodemore.utility.KmBeanShell;
 
 import com.app.file.MyResourceFiles;
 
-public class MyBeanShellPage
-    extends MyAbstractToolsPage
+public class MyDevBeanShellPage
+    extends MyDevAbstractPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyBeanShellPage instance = new MyBeanShellPage();
+    public static final MyDevBeanShellPage instance = new MyDevBeanShellPage();
 
-    private MyBeanShellPage()
+    private MyDevBeanShellPage()
     {
         // singleton
     }

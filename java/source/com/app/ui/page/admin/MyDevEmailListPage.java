@@ -20,16 +20,16 @@ import com.app.model.MyEmail;
 import com.app.model.MyEmailStatus;
 import com.app.model.meta.MyMetaEmail;
 
-public class MyEmailListPage
+public class MyDevEmailListPage
     extends MyAbstractAdminPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyEmailListPage instance = new MyEmailListPage();
+    public static final MyDevEmailListPage instance = new MyDevEmailListPage();
 
-    private MyEmailListPage()
+    private MyDevEmailListPage()
     {
         // singleton
     }
@@ -217,7 +217,7 @@ public class MyEmailListPage
 
     private void handleView()
     {
-        MyEmailViewPage.instance.pushEmail(getStringArgument());
+        MyDevEmailViewPage.instance.pushEmail(getStringArgument());
     }
 
     //##################################################

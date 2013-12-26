@@ -6,19 +6,19 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
-import com.app.ui.page.admin.MyEmailListPage;
-import com.app.ui.page.admin.MyUsersPage;
+import com.app.ui.page.admin.MyDevEmailListPage;
+import com.app.ui.page.admin.MyDevUsersPage;
 
-public class MyToolsPage
-    extends MyAbstractToolsPage
+public class MyDevToolsPage
+    extends MyDevAbstractPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyToolsPage instance = new MyToolsPage();
+    public static final MyDevToolsPage instance = new MyDevToolsPage();
 
-    private MyToolsPage()
+    private MyDevToolsPage()
     {
         // singleton
     }
@@ -56,19 +56,19 @@ public class MyToolsPage
 
         ScBox links;
         links = group.addLinkBox();
-        links.addLink(MyUtilityPage.instance);
-        links.addLink(MySqlPage.instance);
+        links.addLink(MyDevUtilityPage.instance);
+        links.addLink(MyDevSqlPage.instance);
 
         group.addDivider();
 
         links = group.addLinkBox();
-        links.addLink(MyBeanShellPage.instance);
-        links.addLink(MyPerformanceLogPage.instance);
-        links.addLink(MySharedFileBrowserPage.instance);
-        links.addLink(MySystemLogListPage.instance);
-        links.addLink(MyApplicationPropertiesPage.instance);
-        links.addLink(MySystemPropertiesPage.instance);
-        links.addLink(MyUsersPage.instance);
-        links.addLink(MyEmailListPage.instance);
+        links.addLink(MyDevBeanShellPage.instance);
+        links.addLink(MyDevPerformanceLogPage.instance);
+        links.addLink(MyDevSharedFileBrowserPage.instance);
+        links.addLink(MyDevSystemLogListPage.instance);
+        links.addLink(MyDevApplicationPropertiesPage.instance);
+        links.addLink(MyDevSystemPropertiesPage.instance);
+        links.addLink(MyDevUsersPage.instance);
+        links.addLink(MyDevEmailListPage.instance);
     }
 }

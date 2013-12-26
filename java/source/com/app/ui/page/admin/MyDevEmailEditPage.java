@@ -22,16 +22,16 @@ import com.app.model.MyEmailRecipientType;
 import com.app.model.meta.MyMetaEmail;
 import com.app.model.meta.MyMetaEmailRecipient;
 
-public class MyEmailEditPage
+public class MyDevEmailEditPage
     extends MyAbstractAdminPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyEmailEditPage instance = new MyEmailEditPage();
+    public static final MyDevEmailEditPage instance = new MyDevEmailEditPage();
 
-    private MyEmailEditPage()
+    private MyDevEmailEditPage()
     {
         // singleton
     }

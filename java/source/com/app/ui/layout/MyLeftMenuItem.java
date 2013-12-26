@@ -8,7 +8,7 @@ import com.kodemore.servlet.script.ScScriptIF;
 import com.app.ui.page.admin.MyAdminPage;
 import com.app.ui.page.general.MyHomePage;
 import com.app.ui.page.test.MyTestPage;
-import com.app.ui.page.tools.MyToolsPage;
+import com.app.ui.page.tools.MyDevToolsPage;
 
 public enum MyLeftMenuItem
 {
@@ -94,7 +94,7 @@ public enum MyLeftMenuItem
                 return newPushScript(MyAdminPage.instance);
 
             case tools:
-                return newPushScript(MyToolsPage.instance);
+                return newPushScript(MyDevToolsPage.instance);
         }
 
         return null;

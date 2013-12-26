@@ -16,16 +16,16 @@ import com.kodemore.utility.Kmu;
 
 import com.app.file.MySharedFiles;
 
-public class MySharedFileBrowserPage
-    extends MyAbstractToolsPage
+public class MyDevSharedFileBrowserPage
+    extends MyDevAbstractPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MySharedFileBrowserPage instance = new MySharedFileBrowserPage();
+    public static final MyDevSharedFileBrowserPage instance = new MyDevSharedFileBrowserPage();
 
-    private MySharedFileBrowserPage()
+    private MyDevSharedFileBrowserPage()
     {
         // singleton
     }

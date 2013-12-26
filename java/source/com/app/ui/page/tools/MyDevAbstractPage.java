@@ -5,7 +5,7 @@ import com.kodemore.servlet.ScEntryPageIF;
 import com.app.ui.layout.MyLeftMenuItem;
 import com.app.ui.page.MyPage;
 
-public abstract class MyAbstractToolsPage
+public abstract class MyDevAbstractPage
     extends MyPage
     implements ScEntryPageIF
 {

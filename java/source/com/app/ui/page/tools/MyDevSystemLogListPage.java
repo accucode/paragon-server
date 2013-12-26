@@ -24,16 +24,16 @@ import com.app.model.MySystemLog;
 import com.app.model.MySystemLogTools;
 import com.app.model.meta.MyMetaSystemLog;
 
-public class MySystemLogListPage
-    extends MyAbstractToolsPage
+public class MyDevSystemLogListPage
+    extends MyDevAbstractPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MySystemLogListPage instance = new MySystemLogListPage();
+    public static final MyDevSystemLogListPage instance = new MyDevSystemLogListPage();
 
-    private MySystemLogListPage()
+    private MyDevSystemLogListPage()
     {
         // singleton
     }
