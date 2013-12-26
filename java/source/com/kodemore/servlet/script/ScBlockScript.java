@@ -381,21 +381,8 @@ public abstract class ScBlockScript
 
     public void printMain(ScControlIF e)
     {
-        ScReplaceContentsScript r = setContents(getMainSelector(), e);
-
-        /**
-         * todo_wyatt: transition
-         * Adding the following transition looks good but has a couple of problems.
-         * 
-         *      1) Since the green border is part of the main section, it also
-         *          fades in an out.  Perhaps we should nest an invisible child
-         *          inside of the body.
-         *          
-         *      2) The postDom scripts are not playing together nicely.  E.g.:
-         *          The TestPage uses a postDom script to equalize the size of
-         *          the multiple groups.  But the page gets trashed when we 
-         *          try to enable a page transition effect.
-         */
+        ScReplaceContentsScript r;
+        r = setContents(getMainSelector(), e);
         r.setTransition(ScTransition.Fade, 100);
     }
 
