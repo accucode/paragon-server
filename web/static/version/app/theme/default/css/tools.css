@@ -394,6 +394,23 @@
 .backgroundGray          { background-color: gray;      }
 .backgroundLightGray     { background-color: lightgray; }
 
+.backgroundGray000       { background-color: #000;      }
+.backgroundGray111       { background-color: #111;      }
+.backgroundGray222       { background-color: #222;      }
+.backgroundGray333       { background-color: #333;      }
+.backgroundGray444       { background-color: #444;      }
+.backgroundGray555       { background-color: #555;      }
+.backgroundGray666       { background-color: #666;      }
+.backgroundGray777       { background-color: #777;      }
+.backgroundGray888       { background-color: #888;      }
+.backgroundGray999       { background-color: #999;      }
+.backgroundGrayAAA       { background-color: #AAA;      }
+.backgroundGrayBBB       { background-color: #BBB;      }
+.backgroundGrayCCC       { background-color: #CCC;      }
+.backgroundGrayDDD       { background-color: #DDD;      }
+.backgroundGrayEEE       { background-color: #EEE;      }
+.backgroundGrayFFF       { background-color: #FFF;      }
+
 /*******************************************************************
  ** resize
  *******************************************************************/
