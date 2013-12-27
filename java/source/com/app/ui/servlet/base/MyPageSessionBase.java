@@ -32,6 +32,7 @@ public class MyPageSessionBase
     private ScLocalString _emailPartUid;
     private ScLocalString _emailRecipientUid;
     private ScLocalInteger _fileId;
+    private ScLocalString _hibernateCacheTestUid;
     private ScLocalString _invitationUid;
     private ScLocalString _passwordResetUid;
     private ScLocalString _patchName;
@@ -72,6 +73,9 @@ public class MyPageSessionBase
 
         _fileId = new ScLocalInteger();
         _fileId.setAutoSave();
+
+        _hibernateCacheTestUid = new ScLocalString();
+        _hibernateCacheTestUid.setAutoSave();
 
         _invitationUid = new ScLocalString();
         _invitationUid.setAutoSave();
@@ -439,6 +443,48 @@ public class MyPageSessionBase
     public void clearFile()
     {
         getFileIdHolder().clearValue();
+    }
+
+    //##################################################
+    //# HibernateCacheTest
+    //##################################################
+
+    public String getHibernateCacheTestUid()
+    {
+        return getHibernateCacheTestUidHolder().getValue();
+    }
+
+    public void setHibernateCacheTestUid(String e)
+    {
+        getHibernateCacheTestUidHolder().setValue(e);
+    }
+
+    public ScLocalString getHibernateCacheTestUidHolder()
+    {
+        return _hibernateCacheTestUid;
+    }
+
+    public MyHibernateCacheTest getHibernateCacheTest()
+    {
+        return getDaoRegistry().getHibernateCacheTestDao().findUid(getHibernateCacheTestUid());
+    }
+
+    public void setHibernateCacheTest(MyHibernateCacheTest e)
+    {
+        if ( e == null )
+            setHibernateCacheTestUid(null);
+        else
+            setHibernateCacheTestUid(e.getUid());
+    }
+
+    public void resetHibernateCacheTest()
+    {
+        getHibernateCacheTestUidHolder().resetValue();
+    }
+
+    public void clearHibernateCacheTest()
+    {
+        getHibernateCacheTestUidHolder().clearValue();
     }
 
     //##################################################

@@ -115,6 +115,16 @@ CREATE TABLE file
 ) ENGINE = INNODB;
 
 
+DROP TABLE IF EXISTS hibernateCacheTest;
+CREATE TABLE hibernateCacheTest
+(
+    uid varchar(30),
+    data varchar(1000),
+    lockVersion int,
+    primary key (uid)
+) ENGINE = INNODB;
+
+
 DROP TABLE IF EXISTS invitation;
 CREATE TABLE invitation
 (

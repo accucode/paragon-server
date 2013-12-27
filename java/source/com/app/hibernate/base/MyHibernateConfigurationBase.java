@@ -28,6 +28,7 @@ public abstract class MyHibernateConfigurationBase
         addMapping("emailPart");
         addMapping("emailRecipient");
         addMapping("file");
+        addMapping("hibernateCacheTest");
         addMapping("invitation");
         addMapping("passwordReset");
         addMapping("patch");

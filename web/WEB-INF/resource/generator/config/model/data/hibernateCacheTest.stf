@@ -1,0 +1,22 @@
+model
+: name      = hibernateCacheTest
+: comment   = A table to be able to test the hibernate second level cache.
+
+database
+: alias = hc
+
+attributes
+
+    field
+    : name          = uid
+    : comment       = The unique key.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    field
+    : name      = data
+    : comment   = just random data
+    : type      = text1000
+    : required  = required

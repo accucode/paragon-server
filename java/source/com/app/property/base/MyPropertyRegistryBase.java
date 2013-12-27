@@ -275,6 +275,30 @@ public class MyPropertyRegistryBase
     }
 
     //##################################################
+    //# hibernateSecondLevelCache
+    //##################################################
+
+    public String getHibernateCacheProvider()
+    {
+       return MyPropertyDefinitions.getHibernateCacheProvider().getStringFor(this);
+    }
+
+    public Integer getHibernateCacheTimeSeconds()
+    {
+       return MyPropertyDefinitions.getHibernateCacheTimeSeconds().getIntegerFor(this);
+    }
+
+    public String getHibernateMemcachedServers()
+    {
+       return MyPropertyDefinitions.getHibernateMemcachedServers().getStringFor(this);
+    }
+
+    public Boolean getHibernateUseSecondLevelCache()
+    {
+       return MyPropertyDefinitions.getHibernateUseSecondLevelCache().getBooleanFor(this);
+    }
+
+    //##################################################
     //# databaseOther
     //##################################################
 

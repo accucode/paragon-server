@@ -70,5 +70,6 @@ public class MyToolsPage
         links.addLink(MySystemPropertiesPage.instance);
         links.addLink(MyUsersPage.instance);
         links.addLink(MyEmailListPage.instance);
+        links.addLink(MyHibernateCachePage.instance);
     }
 }

@@ -24,6 +24,14 @@ databaseUri                                 = jdbc:mysql://paragon-dev.c6elvadxx
 databaseUser                                = paragon
 databasePassword                            = R6XCP2qi09C4BWr
 
+#######################################
+## hibernate 2nd level cache
+#######################################
+
+hibernateUseSecondLevelCache                = y
+hibernateCacheProvider                      = com.googlecode.hibernate.memcached.MemcachedCacheProvider
+hibernateMemcachedServers                   = paragon-dev.hzwk2l.cfg.use1.cache.amazonaws.com:11211
+hibernateCacheTimeSeconds                   = 3600
                 
 #######################################     
 ## google chart                             

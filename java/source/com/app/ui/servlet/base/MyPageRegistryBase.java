@@ -62,6 +62,7 @@ public abstract class MyPageRegistryBase
         add(MyGroupIconHeaderTestPage.instance);
         add(MyGroupTestPage.instance);
         add(MyHandleSortTestPage.instance);
+        add(MyHibernateCachePage.instance);
         add(MyHideErrorsTestPage.instance);
         add(MyHomePage.instance);
         add(MyHoverTestPage.instance);

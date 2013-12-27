@@ -180,6 +180,25 @@ public class MyDaoRegistry
     }
 
     //##################################################
+    //# hibernateCacheTest
+    //##################################################
+
+    public MyHibernateCacheTestDao getHibernateCacheTestDao()
+    {
+        return new MyHibernateCacheTestDao();
+    }
+
+    public KmList<MyHibernateCacheTest> findAllHibernateCacheTests()
+    {
+        return getHibernateCacheTestDao().findAll();
+    }
+
+    public MyHibernateCacheTest findHibernateCacheTestUid(String e)
+    {
+        return getHibernateCacheTestDao().findUid(e);
+    }
+
+    //##################################################
     //# invitation
     //##################################################
 

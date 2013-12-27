@@ -291,6 +291,35 @@ group
     : type      = string
     : default   = 
     : comment   = Database connection.
+    
+group
+: name      = HibernateSecondLevelCache
+: comment   = Configuration parameters for using Hibernate second level cache.
+
+    property
+    : name      = hibernateUseSecondLevelCache
+    : type      = boolean
+    : default   = false
+    : comment   = Use Hibernate second level caching.
+    
+    property
+    : name      = hibernateCacheProvider
+    : type      = string
+    : default   = 
+    : comment   = Hibernate cache provider class.
+    
+    property
+    : name      = hibernateMemcachedServers
+    : type      = string
+    : default   = 
+    : comment   = Names of the Memcached Servers, format is <hostname>:<port>
+    
+    property
+    : name      = hibernateCacheTimeSeconds
+    : type      = integer
+    : default   = 300
+    : comment   = How long items should remain in the second level cache.
+    
 
 group
 : name      = DatabaseOther

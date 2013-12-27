@@ -89,6 +89,12 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_DATABASE_URI = "databaseUri";
     public static final String PROPERTY_DATABASE_USER = "databaseUser";
 
+    public static final String GROUP_HIBERNATE_SECOND_LEVEL_CACHE = "hibernateSecondLevelCache";
+    public static final String PROPERTY_HIBERNATE_CACHE_PROVIDER = "hibernateCacheProvider";
+    public static final String PROPERTY_HIBERNATE_CACHE_TIME_SECONDS = "hibernateCacheTimeSeconds";
+    public static final String PROPERTY_HIBERNATE_MEMCACHED_SERVERS = "hibernateMemcachedServers";
+    public static final String PROPERTY_HIBERNATE_USE_SECOND_LEVEL_CACHE = "hibernateUseSecondLevelCache";
+
     public static final String GROUP_DATABASE_OTHER = "databaseOther";
     public static final String PROPERTY_DATABASE_AES_PASSWORD = "databaseAesPassword";
     public static final String PROPERTY_DATABASE_BATCH_INSERT_GROUP_SIZE = "databaseBatchInsertGroupSize";
@@ -225,6 +231,12 @@ public class MyPropertyDefinitions
         install(m, newDatabaseSchema());
         install(m, newDatabaseUri());
         install(m, newDatabaseUser());
+
+        // hibernateSecondLevelCache
+        install(m, newHibernateCacheProvider());
+        install(m, newHibernateCacheTimeSeconds());
+        install(m, newHibernateMemcachedServers());
+        install(m, newHibernateUseSecondLevelCache());
 
         // databaseOther
         install(m, newDatabaseAesPassword());
@@ -907,6 +919,62 @@ public class MyPropertyDefinitions
         e.setComment("Database connection.");
         e.setType(KmPropertyTypes.TYPE_STRING);
         e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    //##################################################
+    //# install (hibernateSecondLevelCache)
+    //##################################################
+
+    private static MyPropertyDefinition newHibernateCacheProvider()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_HIBERNATE_SECOND_LEVEL_CACHE);
+        e.setKey(PROPERTY_HIBERNATE_CACHE_PROVIDER);
+        e.setComment("Hibernate cache provider class.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newHibernateCacheTimeSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_HIBERNATE_SECOND_LEVEL_CACHE);
+        e.setKey(PROPERTY_HIBERNATE_CACHE_TIME_SECONDS);
+        e.setComment("How long items should remain in the second level cache.");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("300");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newHibernateMemcachedServers()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_HIBERNATE_SECOND_LEVEL_CACHE);
+        e.setKey(PROPERTY_HIBERNATE_MEMCACHED_SERVERS);
+        e.setComment("Names of the Memcached Servers, format is <hostname>:<port>");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newHibernateUseSecondLevelCache()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_HIBERNATE_SECOND_LEVEL_CACHE);
+        e.setKey(PROPERTY_HIBERNATE_USE_SECOND_LEVEL_CACHE);
+        e.setComment("Use Hibernate second level caching.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
         e.postInstall();
         return e;
     }
@@ -1918,6 +1986,26 @@ public class MyPropertyDefinitions
     public static MyPropertyDefinition getDatabaseUser()
     {
         return get(PROPERTY_DATABASE_USER);
+    }
+
+    public static MyPropertyDefinition getHibernateCacheProvider()
+    {
+        return get(PROPERTY_HIBERNATE_CACHE_PROVIDER);
+    }
+
+    public static MyPropertyDefinition getHibernateCacheTimeSeconds()
+    {
+        return get(PROPERTY_HIBERNATE_CACHE_TIME_SECONDS);
+    }
+
+    public static MyPropertyDefinition getHibernateMemcachedServers()
+    {
+        return get(PROPERTY_HIBERNATE_MEMCACHED_SERVERS);
+    }
+
+    public static MyPropertyDefinition getHibernateUseSecondLevelCache()
+    {
+        return get(PROPERTY_HIBERNATE_USE_SECOND_LEVEL_CACHE);
     }
 
     public static MyPropertyDefinition getDatabaseAesPassword()

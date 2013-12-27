@@ -58,6 +58,35 @@ public class MyHibernateConfiguration
 
         c.setProperty("hibernate.connection.release_mode", "on_close");
         c.setProperty("hibernate.show_sql", formatTrueFalse(getShowSql()));
+
+        if ( useSecondLevelCache() )
+            setSecondLevelCacheProperties(c);
+    }
+
+    private void setSecondLevelCacheProperties(Configuration c)
+    {
+        MyPropertyRegistry p = getProperties();
+        String cacheProvider = p.getHibernateCacheProvider();
+        String servers = p.getHibernateMemcachedServers();
+        Integer cacheTime = p.getHibernateCacheTimeSeconds();
+
+        c.setProperty(
+            "hibernate.cache.use_second_level_cache",
+            formatTrueFalse(useSecondLevelCache()));
+        c.setProperty("hibernate.cache.provider_class", cacheProvider);
+        c.setProperty("hibernate.memcached.servers", servers);
+        c.setProperty("hibernate.memcached.cacheTimeSeconds", cacheTime.toString());
+
+    }
+
+    private boolean useSecondLevelCache()
+    {
+        return getProperties().getHibernateUseSecondLevelCache();
+    }
+
+    private boolean getShowSql()
+    {
+        return getProperties().getShowHibernateSql();
     }
 
     private String formatTrueFalse(boolean b)
@@ -67,8 +96,4 @@ public class MyHibernateConfiguration
             : "false";
     }
 
-    private boolean getShowSql()
-    {
-        return getProperties().getShowHibernateSql();
-    }
 }
