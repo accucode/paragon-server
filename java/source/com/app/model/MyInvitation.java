@@ -1,5 +1,6 @@
 package com.app.model;
 
+import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyInvitationBase;
@@ -63,7 +64,7 @@ public class MyInvitation
         e.setFromAddress(getDoNoReplyEmail());
         e.addToRecipient(getToEmail());
         e.setSubject(formatSubject());
-        e.addTextPart(formatMessage());
+        e.addHtmlPart(formatHtmlMessage());
         e.setStatusReady();
         e.saveDao();
     }
@@ -101,35 +102,57 @@ public class MyInvitation
     //# format message
     //##################################################
 
-    public String formatMessage()
+    private String formatHtmlMessage()
     {
         MyInvitationType type = getType();
         switch ( type )
         {
             case JoinAccount:
-                return formatJoinAccountMessage();
+                return formatJoinAccountMessage().toString();
 
             case TransferAccount:
-                return formatTransferAccountMessage();
+                return formatTransferAccountMessage().toString();
         }
 
-        return "Unknown Invitation Type";
+        return formatUnknownTypeMessage().toString();
     }
 
-    private String formatJoinAccountMessage()
+    private KmHtmlBuilder formatJoinAccountMessage()
     {
-        return Kmu.format(
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.printf(
             "You have been invited to the %s account by %s.",
             formatAccountName(),
             formatSenderName());
+
+        out.print(" To review the invitation please click ");
+        out.printLink("here", MyUrls.getEntryUrl());
+        out.print(".");
+        return out;
     }
 
-    private String formatTransferAccountMessage()
+    private KmHtmlBuilder formatTransferAccountMessage()
     {
-        return Kmu.format(
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.printf(
             "You have been invited to take ownership of the %s account by %s.",
             formatAccountName(),
             formatSenderName());
+
+        out.print(" To review the invitation please click ");
+        out.printLink("here", MyUrls.getEntryUrl());
+        out.print(".");
+        return out;
+    }
+
+    private KmHtmlBuilder formatUnknownTypeMessage()
+    {
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.println("Unknown Invitation Type");
+        return out;
     }
 
     //##################################################
