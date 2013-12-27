@@ -394,7 +394,7 @@ public class MyPageLayout
     private void ajaxShowLeftMenu()
     {
         ajax().setCss(MENU_SELECTOR, KmCssDefaultConstantsIF.pageMenu_menu);
-        ajax().setCss(CONTENT_WRAPPER_SELECTOR, KmCssDefaultConstantsIF.pageBodyWrapper_menu);
+        ajax().setCss(CONTENT_WRAPPER_SELECTOR, KmCssDefaultConstantsIF.pageContentWrapper_menu);
         ajax().setContents(MENU_SELECTOR, getLeftMenu().render());
         ajax().show(MENU_SELECTOR);
     }
@@ -402,7 +402,7 @@ public class MyPageLayout
     private void ajaxHideLeftMenu()
     {
         ajax().setCss(MENU_SELECTOR, KmCssDefaultConstantsIF.pageMenu);
-        ajax().setCss(CONTENT_WRAPPER_SELECTOR, KmCssDefaultConstantsIF.pageBody);
+        ajax().setCss(CONTENT_WRAPPER_SELECTOR, KmCssDefaultConstantsIF.pageContent);
         ajax().clearContents(MENU_SELECTOR);
         ajax().hide(MENU_SELECTOR);
     }

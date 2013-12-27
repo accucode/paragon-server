@@ -91,9 +91,9 @@ public interface KmCssDefaultConstantsIF
     String padTop = "padTop";
     String padTopChildren = "padTopChildren";
     String padVertical = "padVertical";
-    String pageBody = "pageBody";
-    String pageBodyWrapper = "pageBodyWrapper";
-    String pageBodyWrapper_menu = "pageBodyWrapper-menu";
+    String pageContent = "pageContent";
+    String pageContentWrapper = "pageContentWrapper";
+    String pageContentWrapper_menu = "pageContentWrapper-menu";
     String pageFooter = "pageFooter";
     String pageFooterBox = "pageFooterBox";
     String pageHeader = "pageHeader";
@@ -249,7 +249,12 @@ public interface KmCssDefaultConstantsIF
     String inlineBlock = "inlineBlock";
     String invisible = "invisible";
     String italic = "italic";
+    String margin0 = "margin0";
+    String margin1 = "margin1";
     String margin10 = "margin10";
+    String margin2 = "margin2";
+    String margin3 = "margin3";
+    String margin4 = "margin4";
     String margin5 = "margin5";
     String marginBottom10 = "marginBottom10";
     String marginBottom5 = "marginBottom5";

@@ -485,19 +485,19 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.padVertical);
     }
     
-    public KmCssDefaultBuilder pageBody()
+    public KmCssDefaultBuilder pageContent()
     {
-        return apply(KmCssDefaultConstantsIF.pageBody);
+        return apply(KmCssDefaultConstantsIF.pageContent);
     }
     
-    public KmCssDefaultBuilder pageBodyWrapper()
+    public KmCssDefaultBuilder pageContentWrapper()
     {
-        return apply(KmCssDefaultConstantsIF.pageBodyWrapper);
+        return apply(KmCssDefaultConstantsIF.pageContentWrapper);
     }
     
-    public KmCssDefaultBuilder pageBodyWrapper_menu()
+    public KmCssDefaultBuilder pageContentWrapper_menu()
     {
-        return apply(KmCssDefaultConstantsIF.pageBodyWrapper_menu);
+        return apply(KmCssDefaultConstantsIF.pageContentWrapper_menu);
     }
     
     public KmCssDefaultBuilder pageFooter()
@@ -1275,9 +1275,34 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.italic);
     }
     
+    public KmCssDefaultBuilder margin0()
+    {
+        return apply(KmCssDefaultConstantsIF.margin0);
+    }
+    
+    public KmCssDefaultBuilder margin1()
+    {
+        return apply(KmCssDefaultConstantsIF.margin1);
+    }
+    
     public KmCssDefaultBuilder margin10()
     {
         return apply(KmCssDefaultConstantsIF.margin10);
+    }
+    
+    public KmCssDefaultBuilder margin2()
+    {
+        return apply(KmCssDefaultConstantsIF.margin2);
+    }
+    
+    public KmCssDefaultBuilder margin3()
+    {
+        return apply(KmCssDefaultConstantsIF.margin3);
+    }
+    
+    public KmCssDefaultBuilder margin4()
+    {
+        return apply(KmCssDefaultConstantsIF.margin4);
     }
     
     public KmCssDefaultBuilder margin5()
