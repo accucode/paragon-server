@@ -631,6 +631,11 @@ public abstract class ScContainer
         return e;
     }
 
+    public ScTransientContainer addTransientContainer()
+    {
+        return add(new ScTransientContainer());
+    }
+
     public ScWrapper addWrapper()
     {
         return add(new ScWrapper());
