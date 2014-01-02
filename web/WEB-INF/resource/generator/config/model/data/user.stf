@@ -69,8 +69,8 @@ attributes
             value(#D Developer)
 
     collection
-    : name          = accountUser
-    : comment       = The many-to-many relationship to this user's accounts.
-    : relation      = weakChildren
-    : elementModel  = accountUser
+    : name          = userAccount
+    : comment       = The list of accounts to which this user has access.
+    : relation      = children
+    : elementModel  = userAccount
     : elementField  = user

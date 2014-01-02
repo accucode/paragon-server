@@ -85,7 +85,7 @@ public class MyGmailTestPage
         group = form.addGroup("Send Gmail");
 
         ScBox body;
-        body = group.addPadSpaced();
+        body = group.addGap();
         body.addText("Send an email directly via gmail.");
         body.addBreak();
 

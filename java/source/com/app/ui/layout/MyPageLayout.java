@@ -20,7 +20,7 @@ import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServletData;
-import com.app.ui.page.admin.accounts.MySelectAccountPage;
+import com.app.ui.page.admin.MySelectAccountPage;
 import com.app.ui.page.admin.userProfile.MyUserProfilePage;
 import com.app.ui.page.general.MySignOutPage;
 import com.app.ui.page.login.MySignInUtility;

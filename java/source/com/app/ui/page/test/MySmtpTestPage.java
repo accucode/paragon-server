@@ -85,7 +85,7 @@ public class MySmtpTestPage
         group = form.addGroup("Send Email via SMTP");
 
         ScBox body;
-        body = group.addPadSpaced();
+        body = group.addGap();
         body.addText("Send an email using SMTP.");
         body.addBreak();
 

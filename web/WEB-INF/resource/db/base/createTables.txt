@@ -18,19 +18,6 @@ CREATE TABLE account
 create index accountName on account (name);
 
 
-DROP TABLE IF EXISTS accountUser;
-CREATE TABLE accountUser
-(
-    uid varchar(30),
-    roleCode char(1),
-    lockVersion int,
-    accountUid varchar(30),
-    userUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create unique index uid on accountUser (uid);
-
-
 DROP TABLE IF EXISTS autoSignIn;
 CREATE TABLE autoSignIn
 (
@@ -250,6 +237,19 @@ CREATE TABLE user
     primary key (uid)
 ) ENGINE = INNODB;
 create unique index email on user (email);
+
+
+DROP TABLE IF EXISTS userAccount;
+CREATE TABLE userAccount
+(
+    uid varchar(30),
+    roleCode char(1),
+    lockVersion int,
+    userUid varchar(30),
+    accountUid varchar(30),
+    primary key (uid)
+) ENGINE = INNODB;
+create unique index uid on userAccount (uid);
 
 
 DROP TABLE IF EXISTS userActivation;

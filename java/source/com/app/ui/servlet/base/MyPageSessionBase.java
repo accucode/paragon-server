@@ -25,7 +25,6 @@ public class MyPageSessionBase
     //##################################################
 
     private ScLocalString _accountUid;
-    private ScLocalString _accountUserUid;
     private ScLocalString _autoSignInUid;
     private ScLocalString _downloadUid;
     private ScLocalString _emailUid;
@@ -42,6 +41,7 @@ public class MyPageSessionBase
     private ScLocalInteger _systemLogId;
     private ScLocalInteger _systemLogTraceId;
     private ScLocalString _userUid;
+    private ScLocalString _userAccountUid;
     private ScLocalString _userActivationUid;
 
     //##################################################
@@ -52,9 +52,6 @@ public class MyPageSessionBase
     {
         _accountUid = new ScLocalString();
         _accountUid.setAutoSave();
-
-        _accountUserUid = new ScLocalString();
-        _accountUserUid.setAutoSave();
 
         _autoSignInUid = new ScLocalString();
         _autoSignInUid.setAutoSave();
@@ -104,6 +101,9 @@ public class MyPageSessionBase
         _userUid = new ScLocalString();
         _userUid.setAutoSave();
 
+        _userAccountUid = new ScLocalString();
+        _userAccountUid.setAutoSave();
+
         _userActivationUid = new ScLocalString();
         _userActivationUid.setAutoSave();
 
@@ -149,48 +149,6 @@ public class MyPageSessionBase
     public void clearAccount()
     {
         getAccountUidHolder().clearValue();
-    }
-
-    //##################################################
-    //# AccountUser
-    //##################################################
-
-    public String getAccountUserUid()
-    {
-        return getAccountUserUidHolder().getValue();
-    }
-
-    public void setAccountUserUid(String e)
-    {
-        getAccountUserUidHolder().setValue(e);
-    }
-
-    public ScLocalString getAccountUserUidHolder()
-    {
-        return _accountUserUid;
-    }
-
-    public MyAccountUser getAccountUser()
-    {
-        return getDaoRegistry().getAccountUserDao().findUid(getAccountUserUid());
-    }
-
-    public void setAccountUser(MyAccountUser e)
-    {
-        if ( e == null )
-            setAccountUserUid(null);
-        else
-            setAccountUserUid(e.getUid());
-    }
-
-    public void resetAccountUser()
-    {
-        getAccountUserUidHolder().resetValue();
-    }
-
-    public void clearAccountUser()
-    {
-        getAccountUserUidHolder().clearValue();
     }
 
     //##################################################
@@ -863,6 +821,48 @@ public class MyPageSessionBase
     public void clearUser()
     {
         getUserUidHolder().clearValue();
+    }
+
+    //##################################################
+    //# UserAccount
+    //##################################################
+
+    public String getUserAccountUid()
+    {
+        return getUserAccountUidHolder().getValue();
+    }
+
+    public void setUserAccountUid(String e)
+    {
+        getUserAccountUidHolder().setValue(e);
+    }
+
+    public ScLocalString getUserAccountUidHolder()
+    {
+        return _userAccountUid;
+    }
+
+    public MyUserAccount getUserAccount()
+    {
+        return getDaoRegistry().getUserAccountDao().findUid(getUserAccountUid());
+    }
+
+    public void setUserAccount(MyUserAccount e)
+    {
+        if ( e == null )
+            setUserAccountUid(null);
+        else
+            setUserAccountUid(e.getUid());
+    }
+
+    public void resetUserAccount()
+    {
+        getUserAccountUidHolder().resetValue();
+    }
+
+    public void clearUserAccount()
+    {
+        getUserAccountUidHolder().clearValue();
     }
 
     //##################################################

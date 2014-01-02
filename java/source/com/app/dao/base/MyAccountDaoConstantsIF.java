@@ -21,9 +21,4 @@ public interface MyAccountDaoConstantsIF
     String NAME = "name";
     String LOCK_VERSION = "lockVersion";
 
-    //##################################################
-    //# collections
-    //##################################################
-
-    String ACCOUNT_USERS = "accountUsers";
 }

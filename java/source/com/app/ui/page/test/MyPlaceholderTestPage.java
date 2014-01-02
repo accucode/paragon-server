@@ -66,7 +66,7 @@ public class MyPlaceholderTestPage
         group = form.addGroup("Placeholder Test");
 
         ScBox box;
-        box = group.addPadSpaced();
+        box = group.addGap();
         box.addBox().addText(
             "The following field should show a 'placeholder' hint inside the field...");
         box.addFields().add(_textField);

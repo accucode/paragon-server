@@ -23,12 +23,12 @@ public class MyInvitation
     //# role
     //##################################################
 
-    public MyAccountUserRole getRole()
+    public MyUserAccountRole getRole()
     {
-        return MyAccountUserRole.findCode(getRoleCode());
+        return MyUserAccountRole.findCode(getRoleCode());
     }
 
-    public void setRole(MyAccountUserRole e)
+    public void setRole(MyUserAccountRole e)
     {
         setRoleCode(getCodeFor(e));
     }

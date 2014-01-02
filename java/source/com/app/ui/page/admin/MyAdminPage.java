@@ -5,9 +5,8 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
-import com.app.ui.page.admin.accounts.MyAccountSettingsPage;
-import com.app.ui.page.admin.accounts.MyAccountsPage;
-import com.app.ui.page.admin.accounts.MySelectAccountPage;
+import com.app.ui.page.admin.accountSettings.MyAccountSettingsPage;
+import com.app.ui.page.admin.accountUsers.MyAccountUsersPage;
 import com.app.ui.page.admin.userProfile.MyUserProfilePage;
 
 public class MyAdminPage
@@ -44,11 +43,11 @@ public class MyAdminPage
         links = group.addLinkBox();
         links.addLink(MySelectAccountPage.instance);
         links.addLink(MyAccountSettingsPage.instance);
+        links.addLink(MyAccountUsersPage.instance);
 
         group.addDivider();
 
         links = group.addLinkBox();
-        links.addLink(MyAccountsPage.instance);
         links.addLink(MyUserProfilePage.instance);
     }
 }

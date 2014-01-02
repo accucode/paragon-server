@@ -36,9 +36,21 @@ public class ScRepeater
     //# variables
     //##################################################
 
+    /**
+     * The list of values to be displayed.
+     */
+    private ScLocalList<Object> _values;
+
+    /**
+     * The control to be displayed for each values.  The attributes
+     * of each value is applied to the body via applyFromModel.
+     */
     private ScLocalControl      _body;
+
+    /**
+     * The split is rendered between each occurence of the body.
+     */
     private ScLocalControl      _split;
-    private ScLocalList<Object> _list;
 
     //##################################################
     //# constructor
@@ -48,9 +60,10 @@ public class ScRepeater
     protected void install()
     {
         super.install();
+
+        _values = new ScLocalList<Object>();
         _body = new ScLocalControl();
         _split = new ScLocalControl();
-        _list = new ScLocalList<Object>();
     }
 
     //##################################################
@@ -60,7 +73,7 @@ public class ScRepeater
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        KmList<?> v = _list.getValue();
+        KmList<?> v = _values.getValue();
         ScControl body = _body.getValue();
         ScControl split = _split.getValue();
 
@@ -76,8 +89,9 @@ public class ScRepeater
             Object e = i.next();
             body.applyFromModel(e);
             body.renderOn(out);
-            if ( i.hasNext() && split != null )
-                split.renderOn(out);
+
+            if ( i.hasNext() )
+                out.render(split);
         }
     }
 
@@ -85,9 +99,9 @@ public class ScRepeater
     //# accessing
     //##################################################
 
-    public void setList(KmList<Object> e)
+    public void setValues(KmList<Object> e)
     {
-        _list.setValue(e);
+        _values.setValue(e);
     }
 
     public void setBody(ScControl e)

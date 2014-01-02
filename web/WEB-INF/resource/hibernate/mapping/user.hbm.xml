@@ -80,13 +80,13 @@
             />
 
         <bag
-            name="accountUsers"
+            name="userAccounts"
             inverse="false"
-            cascade="save-update,evict,lock,replicate,merge,persist"
+            cascade="all-delete-orphan"
             >
                 <cache usage="read-write"/>
                 <key column="userUid"/>
-                <one-to-many class="com.app.model.MyAccountUser"/>
+                <one-to-many class="com.app.model.MyUserAccount"/>
         </bag>
 
     </class>

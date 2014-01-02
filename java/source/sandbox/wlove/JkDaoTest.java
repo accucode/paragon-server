@@ -127,7 +127,7 @@ public class JkDaoTest
 
         MyDaoRegistry access;
         access = getAccess();
-        access.getAccountUserDao().deleteAll();
+        access.getUserAccountDao().deleteAll();
         access.getAccountDao().deleteAll();
         access.getUserDao().deleteAll();
         access.getUserDao().createRootUser();
@@ -263,7 +263,12 @@ public class JkDaoTest
         System.out.printf("Accounts(%s)\n", accounts.size());
 
         for ( MyAccount e : accounts )
-            System.out.printf("    %s: %s.\n", e.getName(), e.getUserNames().format());
+            System.out.printf("    %s: %s.\n", e.getName(), getUserNamesFor(e).format());
+    }
+
+    private KmList<String> getUserNamesFor(MyAccount e)
+    {
+        return e.findUsers().collect(MyUser.Meta.Name);
     }
 
 }

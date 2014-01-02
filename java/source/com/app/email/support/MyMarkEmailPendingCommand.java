@@ -3,7 +3,6 @@ package com.app.email.support;
 import com.kodemore.collection.KmList;
 import com.kodemore.command.KmDaoCommand;
 
-import com.app.command.core.MyCommandLocksIF;
 import com.app.filter.MyEmailFilter;
 import com.app.model.MyEmail;
 import com.app.model.MyEmailStatus;
@@ -66,16 +65,4 @@ public class MyMarkEmailPendingCommand
             fetch(e.getBaseParts());
         }
     }
-
-    //##################################################
-    //# locks
-    //##################################################
-
-    @Override
-    public String getLockKey()
-    {
-        // fixme_wyatt: Pessimistic Lock
-        return MyCommandLocksIF.LOCK_EMAIL;
-    }
-
 }

@@ -342,9 +342,7 @@ public abstract class ScContainer
         ScSubmitButton e;
         e = new ScSubmitButton();
         e.applyPrimaryFlavor();
-
         add(e);
-
         return e;
     }
 
@@ -730,7 +728,7 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScBox addPadSpaced()
+    public ScBox addGap()
     {
         ScBox e;
         e = addBox();

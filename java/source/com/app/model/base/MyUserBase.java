@@ -47,7 +47,7 @@ public abstract class MyUserBase
     private String timeZoneCode;
     private String roleCode;
     private Integer lockVersion;
-    private List<MyAccountUser> accountUsers;
+    private List<MyUserAccount> userAccounts;
 
     //##################################################
     //# constructor
@@ -60,7 +60,7 @@ public abstract class MyUserBase
         setVerified(false);
         setPasswordSalt(newUid());
         setRoleCode(MyUserRole.User.getCode());
-        accountUsers = new ArrayList<MyAccountUser>();
+        userAccounts = new ArrayList<MyUserAccount>();
     }
 
     //##################################################
@@ -508,70 +508,70 @@ public abstract class MyUserBase
 
 
     //##################################################
-    //# AccountUsers (collection)
+    //# UserAccounts (collection)
     //##################################################
 
-    public KmCollection<MyAccountUser> getAccountUsers()
+    public KmCollection<MyUserAccount> getUserAccounts()
     {
-        return new KmHibernateCollection<MyAccountUser,MyUser>(
-            getBaseAccountUsers(),
+        return new KmHibernateCollection<MyUserAccount,MyUser>(
+            getBaseUserAccounts(),
             (MyUser)this,
-            MyAccountUser.Meta.User.getAdaptor());
+            MyUserAccount.Meta.User.getAdaptor());
     }
 
-    public boolean hasAccountUsers()
+    public boolean hasUserAccounts()
     {
-        return !getBaseAccountUsers().isEmpty();
+        return !getBaseUserAccounts().isEmpty();
     }
 
-    public int getAccountUserCount()
+    public int getUserAccountCount()
     {
-        return getBaseAccountUsers().size();
+        return getBaseUserAccounts().size();
     }
 
-    public List<MyAccountUser> getBaseAccountUsers()
+    public List<MyUserAccount> getBaseUserAccounts()
     {
-        return accountUsers;
+        return userAccounts;
     }
 
-    public MyAccountUser addAccountUser()
+    public MyUserAccount addUserAccount()
     {
-        MyAccountUser e;
-        e = new MyAccountUser();
-        getAccountUsers().add(e);
+        MyUserAccount e;
+        e = new MyUserAccount();
+        getUserAccounts().add(e);
         return e;
     }
 
-    public void addAccountUser(MyAccountUser e)
+    public void addUserAccount(MyUserAccount e)
     {
-        getAccountUsers().add(e);
+        getUserAccounts().add(e);
     }
 
-    public boolean removeAccountUser(MyAccountUser e)
+    public boolean removeUserAccount(MyUserAccount e)
     {
-        return getAccountUsers().remove(e);
+        return getUserAccounts().remove(e);
     }
 
-    public boolean removeAccountUserUid(String myUid)
+    public boolean removeUserAccountUid(String myUid)
     {
-        MyAccountUser e = findAccountUserUid(myUid);
+        MyUserAccount e = findUserAccountUid(myUid);
         if ( e == null )
             return false;
 
-        return removeAccountUser(e);
+        return removeUserAccount(e);
     }
 
-    public MyAccountUser findAccountUserUid(String myUid)
+    public MyUserAccount findUserAccountUid(String myUid)
     {
-        for ( MyAccountUser e : getBaseAccountUsers() )
+        for ( MyUserAccount e : getBaseUserAccounts() )
             if ( e.hasUid(myUid) )
                 return e;
         return null;
     }
 
-    public void clearAccountUsers()
+    public void clearUserAccounts()
     {
-        getAccountUsers().clear();
+        getUserAccounts().clear();
     }
 
     //##################################################
@@ -611,7 +611,10 @@ public abstract class MyUserBase
         super.postCopy();
         uid = null;
 
-        accountUsers = new ArrayList<MyAccountUser>();
+        List<MyUserAccount> old_userAccounts = userAccounts;
+        userAccounts = new ArrayList<MyUserAccount>();
+        for ( MyUserAccount e : old_userAccounts )
+            addUserAccount(copy(e));
     }
 
     //##################################################

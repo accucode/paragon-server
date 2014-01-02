@@ -4,6 +4,7 @@ import com.kodemore.collection.KmList;
 
 import com.app.criteria.MyUserCriteria;
 import com.app.dao.base.MyUserDaoBase;
+import com.app.model.MyAccount;
 import com.app.model.MyUser;
 import com.app.utility.MyConstantsIF;
 
@@ -63,4 +64,20 @@ public class MyUserDao
         return u;
     }
 
+    public KmList<MyUser> findAccount(MyAccount e)
+    {
+        MyUserCriteria c;
+        c = createCriteria();
+        c.joinToUserAccounts().whereAccountIs(e);
+        return c.findAll();
+    }
+
+    public MyUser findOwnerFor(MyAccount e)
+    {
+        MyUserCriteria c;
+        c = createCriteria();
+        c.joinToUserAccounts().whereAccountIs(e);
+        c.joinToUserAccounts().whereRoleIsOwner();
+        return c.findFirst();
+    }
 }
