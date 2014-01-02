@@ -463,6 +463,16 @@ public abstract class KmHttpRequest
 
     protected boolean isSuccessfullResponse(String responseMessage)
     {
+        if ( Kmu.isEmpty(responseMessage) )
+            return false;
+        return responseMessage.equals("OK");
+    }
+
+    public boolean isSuccessfullResponse() throws IOException
+    {
+        String responseMessage = _connection.getResponseMessage();
+        if ( Kmu.isEmpty(responseMessage) )
+            return false;
         return responseMessage.equals("OK");
     }
 

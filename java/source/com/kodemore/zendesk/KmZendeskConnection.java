@@ -1,5 +1,7 @@
 package com.kodemore.zendesk;
 
+import java.io.IOException;
+
 import org.apache.commons.codec.binary.Base64;
 
 import com.kodemore.collection.KmOrderedMap;
@@ -8,6 +10,7 @@ import com.kodemore.http.KmHttpRequest;
 import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.json.KmJsonReader;
+import com.kodemore.utility.Kmu;
 
 /**
  * I am used connect to Zendesk; make various requests.
@@ -19,6 +22,7 @@ public class KmZendeskConnection
     //##################################################
 
     private static String               HOST = "accucodeit.zendesk.com";
+    //    private static String               HOST = "localhost";
 
     //##################################################
     //# variables (public)
@@ -196,6 +200,24 @@ public class KmZendeskConnection
         return KmJsonReader.parseJsonArray(s);
     }
 
+    public boolean isResponseOk()
+    {
+        try
+        {
+            return _request.isOk() && _request.isSuccessfullResponse();
+        }
+        catch ( IOException ex )
+        {
+            Kmu.printStackTrace();
+            return false;
+        }
+    }
+
+    public int getResponseCode()
+    {
+        return _request.getResponseCode();
+    }
+
     //##################################################
     //# authorization header
     //##################################################
@@ -219,4 +241,5 @@ public class KmZendeskConnection
 
         return s.trim();
     }
+
 }
