@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.utility;
 
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 import com.kodemore.utility.Kmu;
 
 public class ScJquery
@@ -36,7 +36,7 @@ public class ScJquery
         return Kmu.format("$('%s')", e);
     }
 
-    public static String formatReference(ScHtmlIdIF e)
+    public static String formatReference(ScHtmlIdControlIF e)
     {
         return formatReference(formatSelector(e));
     }
@@ -60,7 +60,7 @@ public class ScJquery
         return e;
     }
 
-    public static String formatSelector(ScHtmlIdIF e)
+    public static String formatSelector(ScHtmlIdControlIF e)
     {
         return formatIdSelector(e.getHtmlId());
     }

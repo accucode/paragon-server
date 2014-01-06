@@ -28,7 +28,7 @@ import com.kodemore.collection.KmSingletonIterator;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 
 /**
@@ -45,7 +45,7 @@ import com.kodemore.servlet.script.ScHtmlIdAjax;
  */
 public class ScFilterBox
     extends ScContainer
-    implements ScHtmlIdIF
+    implements ScHtmlIdControlIF
 {
     //##################################################
     //# variables

@@ -26,7 +26,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScTransition;
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
@@ -129,7 +129,7 @@ public class ScReplaceContentsScript
         setInnerSelector(e);
     }
 
-    public void setSelector(ScHtmlIdIF e)
+    public void setSelector(ScHtmlIdControlIF e)
     {
         String sel = e.formatJquerySelector();
         setSelector(sel);

@@ -31,7 +31,7 @@ import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalInteger;
@@ -59,7 +59,7 @@ import com.kodemore.servlet.variable.ScLocalStyle;
  */
 public class ScDialog
     extends ScControl
-    implements ScHtmlIdIF
+    implements ScHtmlIdControlIF
 {
     //##################################################
     //# variables

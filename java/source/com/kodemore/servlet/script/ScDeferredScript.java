@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.script;
 
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
@@ -61,7 +61,7 @@ public class ScDeferredScript
         _selector = e;
     }
 
-    public void setTarget(ScHtmlIdIF e)
+    public void setTarget(ScHtmlIdControlIF e)
     {
         setSelector(e.formatJquerySelector());
     }

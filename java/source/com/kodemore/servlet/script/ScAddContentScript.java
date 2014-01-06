@@ -24,7 +24,7 @@ package com.kodemore.servlet.script;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.control.ScControlIF;
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
@@ -85,7 +85,7 @@ public class ScAddContentScript
         _selector = e;
     }
 
-    public void setSelector(ScHtmlIdIF e)
+    public void setSelector(ScHtmlIdControlIF e)
     {
         setSelector(e.formatJquerySelector());
     }

@@ -28,7 +28,7 @@ import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.encoder.ScEncoder;
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
@@ -88,7 +88,7 @@ public class ScActionScript
      * If set, the client will block the target element prior
      * to submitting the ajax request.
      */
-    private ScHtmlIdIF _blockTarget;
+    private ScHtmlIdControlIF _blockTarget;
 
     /**
      * The optional 'extra' parameter.  This value will be resubmitted
@@ -222,12 +222,12 @@ public class ScActionScript
     //# block
     //##################################################
 
-    public ScHtmlIdIF getBlockTarget()
+    public ScHtmlIdControlIF getBlockTarget()
     {
         return _blockTarget;
     }
 
-    public void setBlockTarget(ScHtmlIdIF e)
+    public void setBlockTarget(ScHtmlIdControlIF e)
     {
         _blockTarget = e;
     }

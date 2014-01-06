@@ -31,7 +31,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScTransition;
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.utility.ScPageLayoutBridge;
 import com.kodemore.servlet.utility.ScUrlBridge;
@@ -128,7 +128,7 @@ public abstract class ScBlockScript
      * cases, this method provides clearer code.  Clients that 
      * use pop should also use a corresponding push.
      */
-    public void deferUntil(ScHtmlIdIF target)
+    public void deferUntil(ScHtmlIdControlIF target)
     {
         pushDeferUntil(target);
     }
@@ -146,7 +146,7 @@ public abstract class ScBlockScript
      * 
      * And is deferred until the target's "promise" is done. 
      */
-    public void pushDeferUntil(ScHtmlIdIF target)
+    public void pushDeferUntil(ScHtmlIdControlIF target)
     {
         pushDeferUntil(target.formatJquerySelector());
     }
@@ -179,7 +179,7 @@ public abstract class ScBlockScript
         run("$(%s).addClass(%s);", json(sel), json(css));
     }
 
-    public void addCss(ScHtmlIdIF target, String css)
+    public void addCss(ScHtmlIdControlIF target, String css)
     {
         addCss(target.formatJquerySelector(), css);
     }
@@ -189,7 +189,7 @@ public abstract class ScBlockScript
         run("$(%s).removeClass(%s);", json(sel), json(css));
     }
 
-    public void removeCss(ScHtmlIdIF target, String css)
+    public void removeCss(ScHtmlIdControlIF target, String css)
     {
         removeCss(target.formatJquerySelector(), css);
     }
@@ -199,7 +199,7 @@ public abstract class ScBlockScript
         setAttribute(sel, "class", css);
     }
 
-    public void setCss(ScHtmlIdIF target, String css)
+    public void setCss(ScHtmlIdControlIF target, String css)
     {
         setCss(target.formatJquerySelector(), css);
     }
@@ -269,7 +269,7 @@ public abstract class ScBlockScript
         run("$(%s).empty();", json(sel));
     }
 
-    public void clearContents(ScHtmlIdIF target)
+    public void clearContents(ScHtmlIdControlIF target)
     {
         String sel = target.formatJquerySelector();
         clearContents(sel);
@@ -301,7 +301,7 @@ public abstract class ScBlockScript
         return e;
     }
 
-    public void setContents(ScHtmlIdIF target, ScControlIF c)
+    public void setContents(ScHtmlIdControlIF target, ScControlIF c)
     {
         String sel = target.formatJquerySelector();
         setContents(sel, c);
@@ -315,7 +315,7 @@ public abstract class ScBlockScript
         return setContents(sel, c.render());
     }
 
-    public void setContents(ScHtmlIdIF target, KmHtmlBuilder contents)
+    public void setContents(ScHtmlIdControlIF target, KmHtmlBuilder contents)
     {
         String sel = target.formatJquerySelector();
         setContents(sel, contents);
@@ -334,7 +334,7 @@ public abstract class ScBlockScript
     //# add contents
     //##################################################
 
-    public ScAddContentScript addContentsTo(ScHtmlIdIF target)
+    public ScAddContentScript addContentsTo(ScHtmlIdControlIF target)
     {
         ScAddContentScript e;
         e = new ScAddContentScript();
@@ -420,12 +420,12 @@ public abstract class ScBlockScript
         replaceWith(target, out);
     }
 
-    public void replaceWith(ScHtmlIdIF target, ScControlIF with)
+    public void replaceWith(ScHtmlIdControlIF target, ScControlIF with)
     {
         replaceWith(target.formatJquerySelector(), with);
     }
 
-    public void replace(ScHtmlIdIF target)
+    public void replace(ScHtmlIdControlIF target)
     {
         ScControlIF with = target;
         replaceWith(target, with);
@@ -443,7 +443,7 @@ public abstract class ScBlockScript
         run("Kmu.focus();");
     }
 
-    public void focus(ScHtmlIdIF e)
+    public void focus(ScHtmlIdControlIF e)
     {
         focus(e.formatJquerySelector());
     }
@@ -456,7 +456,7 @@ public abstract class ScBlockScript
             run("Kmu.focus(%s);", json(sel));
     }
 
-    public void focusDeferred(ScHtmlIdIF e)
+    public void focusDeferred(ScHtmlIdControlIF e)
     {
         focusDeferred(e.formatJquerySelector());
     }
@@ -472,7 +472,7 @@ public abstract class ScBlockScript
     //# show
     //##################################################
 
-    public ScShowScript show(ScHtmlIdIF e)
+    public ScShowScript show(ScHtmlIdControlIF e)
     {
         return show(e.formatJquerySelector());
     }
@@ -488,7 +488,7 @@ public abstract class ScBlockScript
         return s;
     }
 
-    public ScHideScript hide(ScHtmlIdIF e)
+    public ScHideScript hide(ScHtmlIdControlIF e)
     {
         return hide(e.formatJquerySelector());
     }
@@ -504,7 +504,7 @@ public abstract class ScBlockScript
         return s;
     }
 
-    public ScToggleScript toggle(ScHtmlIdIF e)
+    public ScToggleScript toggle(ScHtmlIdControlIF e)
     {
         return toggle(e.formatJquerySelector());
     }
@@ -583,22 +583,22 @@ public abstract class ScBlockScript
     //# text
     //##################################################
 
-    public void setText(ScHtmlIdIF target, String value)
+    public void setText(ScHtmlIdControlIF target, String value)
     {
         run("%s.text(%s);", target.formatJqueryReference(), json(value));
     }
 
-    public void clearText(ScHtmlIdIF target)
+    public void clearText(ScHtmlIdControlIF target)
     {
         setText(target, "");
     }
 
-    public void setHtml(ScHtmlIdIF target, String value)
+    public void setHtml(ScHtmlIdControlIF target, String value)
     {
         run("%s.html(%s);", target.formatJqueryReference(), json(value));
     }
 
-    public void clearHtml(ScHtmlIdIF target)
+    public void clearHtml(ScHtmlIdControlIF target)
     {
         clearText(target);
     }
@@ -607,7 +607,7 @@ public abstract class ScBlockScript
     //# html attributes
     //##################################################
 
-    public void setAttribute(ScHtmlIdIF target, String key, String value)
+    public void setAttribute(ScHtmlIdControlIF target, String key, String value)
     {
         setAttribute(target.formatJquerySelector(), key, value);
     }
@@ -620,7 +620,7 @@ public abstract class ScBlockScript
             run("$(%s).attr(%s,%s);", json(sel), json(key), json(value));
     }
 
-    public void removeAttribute(ScHtmlIdIF target, String key)
+    public void removeAttribute(ScHtmlIdControlIF target, String key)
     {
         removeAttribute(target.formatJquerySelector(), key);
     }
@@ -630,12 +630,12 @@ public abstract class ScBlockScript
         run("$(%s).removeAttr(%s);", json(sel), json(key));
     }
 
-    public void setValue(ScHtmlIdIF field, String value)
+    public void setValue(ScHtmlIdControlIF field, String value)
     {
         run("$(%s).val(%s);", field.formatJqueryReference(), json(value));
     }
 
-    public void clearValue(ScHtmlIdIF field)
+    public void clearValue(ScHtmlIdControlIF field)
     {
         setValue(field, "");
     }
@@ -649,7 +649,7 @@ public abstract class ScBlockScript
      * This is typically used on a target that is otherwise hidden.
      * See ScDialog for a convenient wrapper.
      */
-    public void openDialogTarget(ScHtmlIdIF target, KmJsonMap options)
+    public void openDialogTarget(ScHtmlIdControlIF target, KmJsonMap options)
     {
         if ( options == null )
             run("Kmu.openDialogTarget(%s);", json(target));
@@ -657,12 +657,12 @@ public abstract class ScBlockScript
             run("Kmu.openDialogTarget(%s,%s);", json(target), options);
     }
 
-    public void openDialogTarget(ScHtmlIdIF target)
+    public void openDialogTarget(ScHtmlIdControlIF target)
     {
         openDialogTarget(target, null);
     }
 
-    public void openDialogTargetSample(ScHtmlIdIF target)
+    public void openDialogTargetSample(ScHtmlIdControlIF target)
     {
         KmJsonMap css;
         css = new KmJsonMap();
@@ -774,14 +774,14 @@ public abstract class ScBlockScript
     //# on escape
     //##################################################
 
-    public ScBlockScript onEscape(ScHtmlIdIF target)
+    public ScBlockScript onEscape(ScHtmlIdControlIF target)
     {
         ScBlockScript block = new ScSimpleBlockScript(getRoot());
         onEscape(target, block);
         return block;
     }
 
-    public void onEscape(ScHtmlIdIF target, ScScriptIF script)
+    public void onEscape(ScHtmlIdControlIF target, ScScriptIF script)
     {
         String ref = target.formatJqueryReference();
         String fn = ref + ".onEscape(function(){%s});";
@@ -793,12 +793,12 @@ public abstract class ScBlockScript
         run(e);
     }
 
-    public void onEscape(ScHtmlIdIF target, String e)
+    public void onEscape(ScHtmlIdControlIF target, String e)
     {
         onEscape(target, ScSimpleScript.create(e));
     }
 
-    public void onEscape(ScHtmlIdIF target, ScActionIF action)
+    public void onEscape(ScHtmlIdControlIF target, ScActionIF action)
     {
         onEscape(target, ScActionScript.create(action));
     }
@@ -807,14 +807,14 @@ public abstract class ScBlockScript
     //# on control-enter
     //##################################################
 
-    public ScBlockScript onControlEnter(ScHtmlIdIF target)
+    public ScBlockScript onControlEnter(ScHtmlIdControlIF target)
     {
         ScBlockScript block = new ScSimpleBlockScript(getRoot());
         onControlEnter(target, block);
         return block;
     }
 
-    public void onControlEnter(ScHtmlIdIF target, ScScriptIF script)
+    public void onControlEnter(ScHtmlIdControlIF target, ScScriptIF script)
     {
         String ref = target.formatJqueryReference();
         String fn = ref + ".onControlEnter(function(){%s});";
@@ -826,12 +826,12 @@ public abstract class ScBlockScript
         run(e);
     }
 
-    public void onControlEnter(ScHtmlIdIF target, String e)
+    public void onControlEnter(ScHtmlIdControlIF target, String e)
     {
         onControlEnter(target, ScSimpleScript.create(e));
     }
 
-    public void onControlEnter(ScHtmlIdIF target, ScActionIF e)
+    public void onControlEnter(ScHtmlIdControlIF target, ScActionIF e)
     {
         onControlEnter(target, ScActionScript.create(e));
     }
@@ -850,12 +850,12 @@ public abstract class ScBlockScript
         run("Kmu.unblockPage();");
     }
 
-    public void blockControl(ScHtmlIdIF target)
+    public void blockControl(ScHtmlIdControlIF target)
     {
         run("Kmu.blockControl('%s');", target.formatJquerySelector());
     }
 
-    public void unblockControl(ScHtmlIdIF target)
+    public void unblockControl(ScHtmlIdControlIF target)
     {
         run("Kmu.unblockControl('%s');", target.formatJquerySelector());
     }
@@ -927,7 +927,7 @@ public abstract class ScBlockScript
     /**
      * Equalize the immediate children of the target.
      */
-    public ScEqualizeScript equalizeChildrenOf(ScHtmlIdIF target)
+    public ScEqualizeScript equalizeChildrenOf(ScHtmlIdControlIF target)
     {
         return equalizeChildrenOf(target.formatJquerySelector());
     }
@@ -944,7 +944,7 @@ public abstract class ScBlockScript
     /**
      * Equalize all groups contained in the target.
      */
-    public ScEqualizeScript equalizeGroupsIn(ScHtmlIdIF target)
+    public ScEqualizeScript equalizeGroupsIn(ScHtmlIdControlIF target)
     {
         return equalizeGroupsIn(target.formatJquerySelector());
     }
@@ -961,7 +961,7 @@ public abstract class ScBlockScript
     /**
      * Equalize all elements with a matching class, contained in the target. 
      */
-    public ScEqualizeScript equalizeClassIn(ScHtmlIdIF target, String klass)
+    public ScEqualizeScript equalizeClassIn(ScHtmlIdControlIF target, String klass)
     {
         return equalizeClassIn(target.formatJquerySelector(), klass);
     }
@@ -1000,12 +1000,12 @@ public abstract class ScBlockScript
         sortable(sel, options);
     }
 
-    public void sortable(ScHtmlIdIF target)
+    public void sortable(ScHtmlIdControlIF target)
     {
         sortable(target.formatJquerySelector());
     }
 
-    public void sortableByHandle(ScHtmlIdIF target)
+    public void sortableByHandle(ScHtmlIdControlIF target)
     {
         String dragHandle;
         dragHandle = ScJquery.formatCssSelector(KmCssDefaultConstantsIF.dragHandle);
@@ -1020,7 +1020,7 @@ public abstract class ScBlockScript
         sortable(sel, options);
     }
 
-    public void sortableUpdate(ScHtmlIdIF target, String childPath, String attr, ScActionIF action)
+    public void sortableUpdate(ScHtmlIdControlIF target, String childPath, String attr, ScActionIF action)
     {
         String parentSelector = target.formatJquerySelector();
         String actionId = action.getKey();
@@ -1067,12 +1067,12 @@ public abstract class ScBlockScript
         accordion(sel, options);
     }
 
-    public void accordion(ScHtmlIdIF target)
+    public void accordion(ScHtmlIdControlIF target)
     {
         accordion(target.formatJquerySelector());
     }
 
-    public void accordionCollapsible(ScHtmlIdIF target)
+    public void accordionCollapsible(ScHtmlIdControlIF target)
     {
         accordionCollapsible(target.formatJquerySelector());
     }
@@ -1102,12 +1102,12 @@ public abstract class ScBlockScript
         scrollTo(containerSel, targetSel, speedMs);
     }
 
-    public void scrollTo(ScHtmlIdIF container, ScHtmlIdIF target, Integer speedMs)
+    public void scrollTo(ScHtmlIdControlIF container, ScHtmlIdControlIF target, Integer speedMs)
     {
         scrollTo(container.formatJquerySelector(), target.formatJquerySelector(), speedMs);
     }
 
-    public void scrollTo(ScHtmlIdIF container, ScHtmlIdIF target)
+    public void scrollTo(ScHtmlIdControlIF container, ScHtmlIdControlIF target)
     {
         Integer speedMs = null;
         scrollTo(container, target, speedMs);
@@ -1126,7 +1126,7 @@ public abstract class ScBlockScript
         run("$('%s').tooltip();", sel);
     }
 
-    public void tooltip(ScHtmlIdIF target)
+    public void tooltip(ScHtmlIdControlIF target)
     {
         tooltip(target.formatJquerySelector());
     }

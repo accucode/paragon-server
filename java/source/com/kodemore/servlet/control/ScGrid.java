@@ -39,7 +39,7 @@ import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.utility.ScServletCallback;
@@ -64,7 +64,7 @@ import com.kodemore.utility.Kmu;
  */
 public class ScGrid<T>
     extends ScControl
-    implements ScHtmlIdIF
+    implements ScHtmlIdControlIF
 {
     //##################################################
     //# constants

@@ -26,7 +26,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControl;
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 
 /**
  * I manage a list of scripts, roughly representing the
@@ -48,13 +48,13 @@ public class ScHtmlIdAjax
     //# variables
     //##################################################
 
-    private ScHtmlIdIF _target;
+    private ScHtmlIdControlIF _target;
 
     //##################################################
     //# constructor
     //##################################################
 
-    public ScHtmlIdAjax(ScBlockScript delegate, ScHtmlIdIF target)
+    public ScHtmlIdAjax(ScBlockScript delegate, ScHtmlIdControlIF target)
     {
         super(delegate);
 
@@ -65,7 +65,7 @@ public class ScHtmlIdAjax
     //# accessing
     //##################################################
 
-    public ScHtmlIdIF getTarget()
+    public ScHtmlIdControlIF getTarget()
     {
         return _target;
     }

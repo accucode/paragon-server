@@ -25,7 +25,7 @@ package com.kodemore.servlet.field;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 
-public interface ScHtmlIdIF
+public interface ScHtmlIdControlIF
     extends ScControlIF
 {
     String getHtmlId();

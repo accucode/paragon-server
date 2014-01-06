@@ -26,7 +26,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalHtmlId;
@@ -97,12 +97,12 @@ public class ScForm
     //# block target
     //##################################################
 
-    public ScHtmlIdIF getBlockTarget()
+    public ScHtmlIdControlIF getBlockTarget()
     {
         return _blockTarget.getHtmlId();
     }
 
-    public void setBlockTarget(ScHtmlIdIF e)
+    public void setBlockTarget(ScHtmlIdControlIF e)
     {
         _blockTarget.setHtmlId(e);
     }
@@ -172,7 +172,7 @@ public class ScForm
         ScForm form;
         form = findFormWrapper();
 
-        ScHtmlIdIF block = hasBlockTarget()
+        ScHtmlIdControlIF block = hasBlockTarget()
             ? getBlockTarget()
             : findBlockWrapper();
 

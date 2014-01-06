@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.variable;
 
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 import com.kodemore.servlet.utility.ScControlRegistry;
 
 public class ScLocalHtmlId
@@ -46,7 +46,7 @@ public class ScLocalHtmlId
     //# convenience
     //##################################################
 
-    public void setHtmlId(ScHtmlIdIF e)
+    public void setHtmlId(ScHtmlIdControlIF e)
     {
         if ( e == null )
             clearValue();
@@ -54,7 +54,7 @@ public class ScLocalHtmlId
             setValue(e.getHtmlId());
     }
 
-    public ScHtmlIdIF getHtmlId()
+    public ScHtmlIdControlIF getHtmlId()
     {
         if ( !hasValue() )
             return null;

@@ -22,10 +22,10 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 
 public interface ScElementIF
-    extends ScHtmlIdIF
+    extends ScHtmlIdControlIF
 {
     //##################################################
     //# html id

@@ -747,7 +747,7 @@ public class ScDropdown
             return null;
 
         ScForm form = findFormWrapper();
-        ScHtmlIdIF block = findBlockWrapper();
+        ScHtmlIdControlIF block = findBlockWrapper();
 
         ScActionScript s;
         s = new ScActionScript();

@@ -27,6 +27,7 @@ import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.variable.ScLocalAction;
 import com.kodemore.servlet.variable.ScLocalObject;
 import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.utility.Kmu;
 
 /**
  * The typical link that we use to run an action.
@@ -131,7 +132,7 @@ public class ScLink
         String prefix;
         prefix = s.formatScript();
 
-        return prefix == null
+        return Kmu.isEmpty(prefix)
             ? suffix
             : prefix + suffix;
     }

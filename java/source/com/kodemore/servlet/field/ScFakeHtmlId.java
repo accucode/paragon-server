@@ -31,7 +31,7 @@ import com.kodemore.servlet.utility.ScJquery;
  * A fake html id; useful for debugging.
  */
 public class ScFakeHtmlId
-    implements ScHtmlIdIF
+    implements ScHtmlIdControlIF
 {
     //##################################################
     //# variables

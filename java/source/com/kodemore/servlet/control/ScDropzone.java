@@ -32,7 +32,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScHtmlIdControlIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.script.ScRootScript;
@@ -45,7 +45,7 @@ import com.kodemore.utility.Kmu;
 
 public class ScDropzone
     extends ScControl
-    implements ScHtmlIdIF
+    implements ScHtmlIdControlIF
 {
     //##################################################
     //# variables
@@ -113,7 +113,7 @@ public class ScDropzone
         Object arg = null;
         ScForm form = null;
         Object model = null;
-        ScHtmlIdIF block = null;
+        ScHtmlIdControlIF block = null;
 
         ScActionScript s;
         s = new ScActionScript();

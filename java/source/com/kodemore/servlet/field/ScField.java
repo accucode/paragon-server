@@ -39,7 +39,7 @@ import com.kodemore.utility.Kmu;
 
 public abstract class ScField<T>
     extends ScControl
-    implements ScHtmlIdIF, ScEncodedValueIF, ScAjaxValueIF
+    implements ScHtmlIdControlIF, ScEncodedValueIF, ScAjaxValueIF
 {
     //##################################################
     //# variables

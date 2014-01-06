@@ -406,7 +406,7 @@ group
     property
     : name      = monitorJobEnabled
     : type      = boolean
-    : default   = false
+    : default   = true
     : comment   = Indicates if the job should be run.
 
     property
