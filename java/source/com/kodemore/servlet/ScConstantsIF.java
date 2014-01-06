@@ -110,7 +110,6 @@ public interface ScConstantsIF
      */
     String   PARAMETER_IS_PAGE_MENU_VISIBLE   = "_isMenuVisible";
 
-    // todo_wyatt: move this to the layout? (instead of the page)
     /**
      * The key of the form that was submitted.
      */
