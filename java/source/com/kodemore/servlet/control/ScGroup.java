@@ -29,7 +29,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
-import com.kodemore.servlet.field.ScHtmlIdControlIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalBoolean;
@@ -45,7 +45,7 @@ import com.kodemore.utility.Kmu;
 
 public class ScGroup
     extends ScContainer
-    implements ScHtmlIdControlIF
+    implements ScHtmlIdIF
 {
     //##################################################
     //# constants
@@ -164,13 +164,13 @@ public class ScGroup
     }
 
     @Override
-    public String formatJquerySelector()
+    public String getJquerySelector()
     {
         return ScJquery.formatSelector(this);
     }
 
     @Override
-    public String formatJqueryReference()
+    public String getJqueryReference()
     {
         return ScJquery.formatReference(this);
     }

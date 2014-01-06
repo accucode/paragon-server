@@ -82,7 +82,7 @@ public class ScDateField
         super.renderPostDomOn(out);
 
         String fn = "Kmu.installDateField('%s');";
-        String sel = formatJquerySelector();
+        String sel = getJquerySelector();
         out.getPostDom().run(fn, sel);
     }
 

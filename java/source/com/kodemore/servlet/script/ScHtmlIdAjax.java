@@ -26,7 +26,8 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControl;
-import com.kodemore.servlet.field.ScHtmlIdControlIF;
+import com.kodemore.servlet.control.ScControlIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 
 /**
  * I manage a list of scripts, roughly representing the
@@ -48,13 +49,13 @@ public class ScHtmlIdAjax
     //# variables
     //##################################################
 
-    private ScHtmlIdControlIF _target;
+    private ScHtmlIdIF _target;
 
     //##################################################
     //# constructor
     //##################################################
 
-    public ScHtmlIdAjax(ScBlockScript delegate, ScHtmlIdControlIF target)
+    public ScHtmlIdAjax(ScBlockScript delegate, ScHtmlIdIF target)
     {
         super(delegate);
 
@@ -65,28 +66,19 @@ public class ScHtmlIdAjax
     //# accessing
     //##################################################
 
-    public ScHtmlIdControlIF getTarget()
+    public ScHtmlIdIF getTarget()
     {
         return _target;
     }
 
     public String formatJquerySelector()
     {
-        return getTarget().formatJquerySelector();
+        return getTarget().getJquerySelector();
     }
 
     public String formatJqueryReference()
     {
-        return getTarget().formatJqueryReference();
-    }
-
-    //##################################################
-    //# layout
-    //##################################################
-
-    public void printMain()
-    {
-        printMain(getTarget());
+        return getTarget().getJqueryReference();
     }
 
     //##################################################
@@ -133,12 +125,53 @@ public class ScHtmlIdAjax
     }
 
     //##################################################
-    //# replace
+    //# append / prepend
     //##################################################
 
+    public void appendContents(CharSequence html)
+    {
+        appendContents(getTarget(), html);
+    }
+
+    public void prependContents(CharSequence html)
+    {
+        prependContents(getTarget(), html);
+    }
+
+    //##################################################
+    //# remove / replace
+    //##################################################
+
+    public void remove()
+    {
+        remove(getTarget());
+    }
+
+    public void replaceWith(ScControlIF with)
+    {
+        replaceWith(getTarget(), with);
+    }
+
+    /**
+     * Attempt to replace the element identified by the target htmlId
+     * with the current version of itself.  
+     * 
+     * NOTE: HtmlIds are not necessarily renderable.  This only works if 
+     * the target HtmlId is also an instance of ScControlIF.  Otherwise,
+     * the element will simply be removed.
+     */
     public void replace()
     {
-        replace(getTarget());
+        ScHtmlIdIF target = getTarget();
+
+        if ( target instanceof ScControlIF )
+        {
+            ScControlIF with = (ScControlIF)target;
+            replaceWith(target, with);
+            return;
+        }
+
+        remove();
     }
 
     //##################################################
@@ -328,4 +361,5 @@ public class ScHtmlIdAjax
     {
         tooltip(getTarget());
     }
+
 }

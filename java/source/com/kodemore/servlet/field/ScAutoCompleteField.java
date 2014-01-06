@@ -323,7 +323,7 @@ public class ScAutoCompleteField
         renderAttributesOn(out);
         out.close();
 
-        String ref = formatJqueryReference();
+        String ref = getJqueryReference();
         KmJsonMap settings = formatSettings();
         out.getPostDom().run("%s.autocomplete(%s);", ref, settings);
 

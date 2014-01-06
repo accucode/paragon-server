@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.servlet.field.ScHtmlIdControlIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 
 /**
  * A submit button corresponds to <button type="submit"...>
@@ -59,7 +59,7 @@ public class ScSubmitButton
 
     private void installBlockWrapper()
     {
-        ScHtmlIdControlIF block = findBlockWrapper();
+        ScHtmlIdIF block = findBlockWrapper();
         if ( block == null )
             return;
 

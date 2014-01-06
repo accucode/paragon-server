@@ -28,7 +28,7 @@ import com.kodemore.collection.KmSingletonIterator;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.field.ScHtmlIdControlIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 
 /**
@@ -45,7 +45,7 @@ import com.kodemore.servlet.script.ScHtmlIdAjax;
  */
 public class ScFilterBox
     extends ScContainer
-    implements ScHtmlIdControlIF
+    implements ScHtmlIdIF
 {
     //##################################################
     //# variables
@@ -119,15 +119,15 @@ public class ScFilterBox
     }
 
     @Override
-    public String formatJquerySelector()
+    public String getJquerySelector()
     {
-        return _form.formatJquerySelector();
+        return _form.getJquerySelector();
     }
 
     @Override
-    public String formatJqueryReference()
+    public String getJqueryReference()
     {
-        return _form.formatJqueryReference();
+        return _form.getJqueryReference();
     }
 
     @Override

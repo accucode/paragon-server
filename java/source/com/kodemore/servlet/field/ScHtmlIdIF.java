@@ -22,17 +22,15 @@
 
 package com.kodemore.servlet.field;
 
-import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 
-public interface ScHtmlIdControlIF
-    extends ScControlIF
+public interface ScHtmlIdIF
 {
     String getHtmlId();
 
-    String formatJquerySelector();
+    String getJquerySelector();
 
-    String formatJqueryReference();
+    String getJqueryReference();
 
     ScHtmlIdAjax ajax();
 }

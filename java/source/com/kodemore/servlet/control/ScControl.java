@@ -38,7 +38,7 @@ import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.field.ScAbstractTextField;
 import com.kodemore.servlet.field.ScControlVisitorIF;
-import com.kodemore.servlet.field.ScHtmlIdControlIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.field.ScStoppableControlVisitorIF;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScRootScript;
@@ -341,10 +341,10 @@ public abstract class ScControl
      * Subclasses should usually override isBlockWrapper rather 
      * than findBlockWrapper.
      */
-    public final ScHtmlIdControlIF findBlockWrapper()
+    public final ScHtmlIdIF findBlockWrapper()
     {
         if ( isBlockWrapper() )
-            return (ScHtmlIdControlIF)this;
+            return (ScHtmlIdIF)this;
 
         if ( hasParent() )
             return getParent().findBlockWrapper();

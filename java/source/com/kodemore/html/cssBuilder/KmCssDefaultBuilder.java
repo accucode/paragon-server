@@ -765,6 +765,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.backgroundWhite);
     }
     
+    public KmCssDefaultBuilder backgroundYellow()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundYellow);
+    }
+    
     public KmCssDefaultBuilder baseline()
     {
         return apply(KmCssDefaultConstantsIF.baseline);

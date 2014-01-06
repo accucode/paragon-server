@@ -39,7 +39,7 @@ import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
-import com.kodemore.servlet.field.ScHtmlIdControlIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.utility.ScServletCallback;
@@ -64,7 +64,7 @@ import com.kodemore.utility.Kmu;
  */
 public class ScGrid<T>
     extends ScControl
-    implements ScHtmlIdControlIF
+    implements ScHtmlIdIF
 {
     //##################################################
     //# constants
@@ -235,13 +235,13 @@ public class ScGrid<T>
     }
 
     @Override
-    public String formatJquerySelector()
+    public String getJquerySelector()
     {
         return ScJquery.formatSelector(this);
     }
 
     @Override
-    public String formatJqueryReference()
+    public String getJqueryReference()
     {
         return ScJquery.formatReference(this);
     }
@@ -407,7 +407,7 @@ public class ScGrid<T>
 
     private void renderScript(KmHtmlBuilder out)
     {
-        String ref = formatJqueryReference();
+        String ref = getJqueryReference();
         KmJsonMap setup = setupJson();
 
         out.getPostDom().run("%s.flexigrid(%s);", ref, setup);
@@ -1068,14 +1068,14 @@ public class ScGrid<T>
 
     public void ajaxReload()
     {
-        String ref = formatJqueryReference();
+        String ref = getJqueryReference();
 
         KmJsonMap map = new KmJsonMap();
         setupRequestParameters(map);
         String options = map.formatJson();
 
         ajax().run("%s.flexOptions(%s);", ref, options);
-        ajax().run("%s.flexReload();", formatJqueryReference());
+        ajax().run("%s.flexReload();", getJqueryReference());
     }
 
     public void ajaxDownloadCsv()

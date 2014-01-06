@@ -151,7 +151,7 @@ public class ScNotebook
 
     private void renderScript(KmHtmlBuilder out)
     {
-        String ref = formatJqueryReference();
+        String ref = getJqueryReference();
 
         out.getPostDom().run("%s.tabs();", ref);
 

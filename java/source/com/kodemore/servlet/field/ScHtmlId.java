@@ -20,68 +20,57 @@
   THE SOFTWARE.
 */
 
-package com.kodemore.servlet.utility;
+package com.kodemore.servlet.field;
 
-import com.kodemore.servlet.field.ScHtmlIdIF;
-import com.kodemore.utility.Kmu;
+import com.kodemore.servlet.script.ScBlockScript;
+import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.utility.ScJquery;
 
-public class ScJquery
+public class ScHtmlId
+    implements ScHtmlIdIF
 {
     //##################################################
-    //# reference
+    //# variables
     //##################################################
 
-    public static String formatReference(String e)
-    {
-        return Kmu.format("$('%s')", e);
-    }
+    private String        _htmlId;
+    private ScBlockScript _innerScript;
 
-    public static String formatReference(ScHtmlIdIF e)
-    {
-        return formatReference(formatSelector(e));
-    }
+    //##################################################
+    //# constructor
+    //##################################################
 
-    public static String formatIdReference(String htmlId)
+    public ScHtmlId(String e, ScBlockScript inner)
     {
-        return formatReference(formatIdSelector(htmlId));
-    }
-
-    public static String formatClassReference(String css)
-    {
-        return formatReference(formatCssSelector(css));
+        _htmlId = e;
+        _innerScript = inner;
     }
 
     //##################################################
-    //# selectors
+    //# accessing
     //##################################################
 
-    public static String formatSelector(String e)
+    @Override
+    public String getHtmlId()
     {
-        return e;
+        return _htmlId;
     }
 
-    public static String formatSelector(ScHtmlIdIF e)
+    @Override
+    public String getJquerySelector()
     {
-        return formatIdSelector(e.getHtmlId());
+        return ScJquery.formatIdSelector(getHtmlId());
     }
 
-    public static String formatIdSelector(String htmlId)
+    @Override
+    public String getJqueryReference()
     {
-        return "#" + htmlId;
+        return ScJquery.formatIdReference(getHtmlId());
     }
 
-    public static String formatCssSelector(String css)
+    @Override
+    public ScHtmlIdAjax ajax()
     {
-        return "." + css;
+        return new ScHtmlIdAjax(_innerScript, this);
     }
-
-    //##################################################
-    //# run on ready 
-    //##################################################
-
-    public static String runOnReady(String script)
-    {
-        return Kmu.format("$(function(){%s});", script);
-    }
-
 }

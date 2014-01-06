@@ -18,27 +18,14 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.servlet.field.ScHtmlIdIF;
-
-public interface ScElementIF
-    extends ScHtmlIdIF
+/**
+ * I provide an interface for rendering a value onto a box.
+ */
+public interface ScBoxRendererIF<T>
 {
-    //##################################################
-    //# html id
-    //##################################################
-
-    // see super
-
-    //##################################################
-    //# html class - convenience
-    //##################################################
-
-    void show();
-
-    void hide();
-
+    void renderOn(ScBox root, T value);
 }

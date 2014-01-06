@@ -395,7 +395,7 @@ public class ScDropdown
 
     private String formatBootstrapSelectScript()
     {
-        return Kmu.format("%s.selectpicker();", formatJqueryReference());
+        return Kmu.format("%s.selectpicker();", getJqueryReference());
     }
 
     private void renderBootstrapAttributesOn(KmHtmlBuilder out)
@@ -427,17 +427,17 @@ public class ScDropdown
 
     private String formatBootstrapSelectHideScript()
     {
-        return Kmu.format("%s.selectpicker('hide');", formatJqueryReference());
+        return Kmu.format("%s.selectpicker('hide');", getJqueryReference());
     }
 
     private String formatBootstrapSelectShowScript()
     {
-        return Kmu.format("%s.selectpicker('show');", formatJqueryReference());
+        return Kmu.format("%s.selectpicker('show');", getJqueryReference());
     }
 
     private String formatBootstrapSelectRefreshScript()
     {
-        return Kmu.format("%s.selectpicker('refresh');", formatJqueryReference());
+        return Kmu.format("%s.selectpicker('refresh');", getJqueryReference());
     }
 
     //##################################################
@@ -747,7 +747,7 @@ public class ScDropdown
             return null;
 
         ScForm form = findFormWrapper();
-        ScHtmlIdControlIF block = findBlockWrapper();
+        ScHtmlIdIF block = findBlockWrapper();
 
         ScActionScript s;
         s = new ScActionScript();
@@ -779,7 +779,7 @@ public class ScDropdown
      */
     public void ajaxSetOptions(KmJsonArray options)
     {
-        ajax().run("Kmu.setSelectOptions(%s,%s);", json(formatJquerySelector()), options);
+        ajax().run("Kmu.setSelectOptions(%s,%s);", json(getJquerySelector()), options);
     }
 
     public void ajaxSetOptions(KmList<ScOption> options)
@@ -809,14 +809,14 @@ public class ScDropdown
     {
         ajax().run(
             "Kmu.addSelectOptionTextValue(%s,%s,%s);",
-            json(formatJquerySelector()),
+            json(getJquerySelector()),
             json(text),
             json(encode(value)));
     }
 
     public void ajaxClearOptions()
     {
-        ajax().run("Kmu.clearSelectOptions(%s);", json(formatJquerySelector()));
+        ajax().run("Kmu.clearSelectOptions(%s);", json(getJquerySelector()));
     }
 
     public void ajaxHide()

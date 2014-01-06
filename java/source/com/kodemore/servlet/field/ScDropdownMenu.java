@@ -166,7 +166,7 @@ public class ScDropdownMenu
 
     private void renderScriptOn(KmHtmlBuilder out)
     {
-        out.getPostDom().run("KmDropdownMenu.installMenu('%s');", formatJquerySelector());
+        out.getPostDom().run("KmDropdownMenu.installMenu('%s');", getJquerySelector());
     }
 
 }

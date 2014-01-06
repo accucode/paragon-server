@@ -405,12 +405,12 @@ public abstract class ScButton
 
     public void ajaxEnable(String flavor)
     {
-        getRootScript().run("Kmu.enableButton(%s,%s);", json(formatJquerySelector()), json(flavor));
+        getRootScript().run("Kmu.enableButton(%s,%s);", json(getJquerySelector()), json(flavor));
     }
 
     public void ajaxDisable()
     {
-        getRootScript().run("Kmu.disableButton(%s);", json(formatJquerySelector()));
+        getRootScript().run("Kmu.disableButton(%s);", json(getJquerySelector()));
     }
 
 }

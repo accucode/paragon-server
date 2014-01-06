@@ -2744,6 +2744,17 @@ public class Kmu
             : e.toString();
     }
 
+    public static String toDisplayString(Object e)
+    {
+        if ( e == null )
+            return "NULL";
+
+        if ( e instanceof KmDisplayStringIF )
+            return ((KmDisplayStringIF)e).getDisplayString();
+
+        return e.toString();
+    }
+
     //##################################################
     //# math
     //##################################################

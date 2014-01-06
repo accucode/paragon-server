@@ -39,7 +39,7 @@ import com.kodemore.utility.Kmu;
 
 public abstract class ScField<T>
     extends ScControl
-    implements ScHtmlIdControlIF, ScEncodedValueIF, ScAjaxValueIF
+    implements ScHtmlIdIF, ScEncodedValueIF, ScAjaxValueIF
 {
     //##################################################
     //# variables
@@ -105,13 +105,13 @@ public abstract class ScField<T>
     }
 
     @Override
-    public String formatJquerySelector()
+    public String getJquerySelector()
     {
         return ScJquery.formatSelector(this);
     }
 
     @Override
-    public String formatJqueryReference()
+    public String getJqueryReference()
     {
         return ScJquery.formatReference(this);
     }

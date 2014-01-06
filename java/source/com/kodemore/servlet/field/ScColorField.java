@@ -57,7 +57,7 @@ public class ScColorField
         _text = new ScLocalString();
         _fullWrapper = new ScLocalBoolean(false);
 
-        getPostDomScript().run("Kmu.installColorField('%s');", formatJquerySelector());
+        getPostDomScript().run("Kmu.installColorField('%s');", getJquerySelector());
     }
 
     //##################################################

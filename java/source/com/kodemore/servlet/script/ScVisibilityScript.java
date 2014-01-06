@@ -23,7 +23,7 @@
 package com.kodemore.servlet.script;
 
 import com.kodemore.servlet.ScConstantsIF;
-import com.kodemore.servlet.field.ScHtmlIdControlIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.utility.ScEasing;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
@@ -130,9 +130,9 @@ public abstract class ScVisibilityScript
         _selector = e;
     }
 
-    public void setTarget(ScHtmlIdControlIF e)
+    public void setTarget(ScHtmlIdIF e)
     {
-        setSelector(e.formatJquerySelector());
+        setSelector(e.getJquerySelector());
     }
 
     //##################################################

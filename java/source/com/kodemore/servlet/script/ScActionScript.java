@@ -28,7 +28,7 @@ import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.encoder.ScEncoder;
-import com.kodemore.servlet.field.ScHtmlIdControlIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
@@ -88,7 +88,7 @@ public class ScActionScript
      * If set, the client will block the target element prior
      * to submitting the ajax request.
      */
-    private ScHtmlIdControlIF _blockTarget;
+    private ScHtmlIdIF _blockTarget;
 
     /**
      * The optional 'extra' parameter.  This value will be resubmitted
@@ -222,12 +222,12 @@ public class ScActionScript
     //# block
     //##################################################
 
-    public ScHtmlIdControlIF getBlockTarget()
+    public ScHtmlIdIF getBlockTarget()
     {
         return _blockTarget;
     }
 
-    public void setBlockTarget(ScHtmlIdControlIF e)
+    public void setBlockTarget(ScHtmlIdIF e)
     {
         _blockTarget = e;
     }
@@ -282,7 +282,7 @@ public class ScActionScript
             args.setString("form", getForm().getKey());
 
         if ( hasBlockTarget() )
-            args.setString("block", getBlockTarget().formatJquerySelector());
+            args.setString("block", getBlockTarget().getJquerySelector());
 
         if ( hasConfirmationMessage() )
             args.setString("confirmation", getConfirmationMessage());

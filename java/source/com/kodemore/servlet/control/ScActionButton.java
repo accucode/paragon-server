@@ -23,7 +23,7 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.field.ScHtmlIdControlIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.variable.ScLocalAction;
 import com.kodemore.servlet.variable.ScLocalHtmlId;
@@ -131,12 +131,12 @@ public class ScActionButton
     //# block
     //##################################################
 
-    public ScHtmlIdControlIF getBlockTarget()
+    public ScHtmlIdIF getBlockTarget()
     {
         return _blockTarget.getHtmlId();
     }
 
-    public void setBlockTarget(ScHtmlIdControlIF e)
+    public void setBlockTarget(ScHtmlIdIF e)
     {
         _blockTarget.setHtmlId(e);
     }
@@ -159,7 +159,7 @@ public class ScActionButton
         ScForm form;
         form = findFormWrapper();
 
-        ScHtmlIdControlIF block = hasBlockTarget()
+        ScHtmlIdIF block = hasBlockTarget()
             ? getBlockTarget()
             : findBlockWrapper();
 

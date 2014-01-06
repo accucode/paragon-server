@@ -24,11 +24,14 @@ package com.kodemore.servlet.control;
 
 import java.util.Iterator;
 
+import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.meta.KmMetaAttribute;
+import com.kodemore.servlet.field.ScHtmlId;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
-import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalList;
+import com.kodemore.utility.Kmu;
 
 /**
  * I am a container that displays an element for each model in the list.
@@ -47,7 +50,7 @@ import com.kodemore.servlet.variable.ScLocalList;
  * for data entry.  I should instead be used for read only views.  However,
  * action triggers such as links and buttons are fine.
  */
-public abstract class ScModelList<T>
+public class ScModelList<T>
     extends ScElement
 {
     //##################################################
@@ -55,9 +58,42 @@ public abstract class ScModelList<T>
     //##################################################
 
     /**
-     * The list of values (models) to be displayed in the list.
+     * I am used to get each model's key.  
+     * 
+     * This is optional.  However, if not specified, then many of the
+     * ajax methods will not be able to dynamically update the view.
+     * 
+     * Usually, the keyAdapter is simply configured to return each
+     * model's primary key (as a string).  However, if a given model
+     * may appear multiple times in the same list, then a key that 
+     * uniquely identifies each element is needed.
      */
-    private ScLocalList<T> _values;
+    private KmAdaptorIF<T,String> _keyAdapter;
+
+    /**
+     * I am responsible for rendering each model.
+     * 
+     * Although optional, clients will normally need to specify this 
+     * in order to get something useful.  The default is to simply 
+     * display the toString of each model.
+     * 
+     * The root is a transient object and may be safely manipulated by the client.
+     * The client may add and remove child elements, and may also manipulate the
+     * root's style as needed.  By default, the root has the default (box) style,
+     * which means it has no visible border or background.
+     * 
+     * The root DOES have a specific htmlId already set, and clients should
+     * NOT change this.  The htmlId is used to coordinate dynamic ajax changes
+     * with the dynamic view.
+     */
+    private ScBoxRendererIF<T>    _renderer;
+
+    /**
+     * The list of values (models) to be displayed in the list.
+     * If empty, the container will still be rendered, thus allowing
+     * for subsequent dynamic updates via ajax. 
+     */
+    private ScLocalList<T>        _values;
 
     //##################################################
     //# init
@@ -72,7 +108,7 @@ public abstract class ScModelList<T>
     }
 
     //##################################################
-    //# values
+    //# accessing
     //##################################################
 
     public KmList<T> getValues()
@@ -85,23 +121,38 @@ public abstract class ScModelList<T>
         _values.setValue(v);
     }
 
-    //##################################################
-    //# abstract
-    //##################################################
+    //==================================================
+    //= accessing :: key adapter
+    //==================================================
 
-    public abstract String getModelKeyFor(T value);
+    public KmAdaptorIF<T,String> getKeyAdapter()
+    {
+        return _keyAdapter;
+    }
 
-    /**
-     * The root is a transient object and may be safely manipulated by the client.
-     * The client may add and remove child elements, and may also manipulate the
-     * root's style as needed.  By default, the root has the default (box) style,
-     * which means it has no visible border or background.
-     * 
-     * NOTE: the root does have a specific htmlId already set, and clients should
-     * not change this.  The htmlId is used to coordinate dynamic ajax changes
-     * with the dynamic view.
-     */
-    public abstract void renderModelOn(ScBox root, T value);
+    public void setKeyAdapter(KmAdaptorIF<T,String> e)
+    {
+        _keyAdapter = e;
+    }
+
+    public void setKeyAdapter(KmMetaAttribute<T,String> e)
+    {
+        setKeyAdapter(e.getAdaptor());
+    }
+
+    //==================================================
+    //= renderer
+    //==================================================
+
+    public ScBoxRendererIF<T> getRenderer()
+    {
+        return _renderer;
+    }
+
+    public void setRenderer(ScBoxRendererIF<T> e)
+    {
+        _renderer = e;
+    }
 
     //##################################################
     //# components
@@ -143,13 +194,46 @@ public abstract class ScModelList<T>
             renderValueOn(out, e);
     }
 
+    private KmHtmlBuilder renderValue(T value, boolean visible)
+    {
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+
+        renderValueOn(out, value, visible);
+
+        return out;
+    }
+
     private void renderValueOn(KmHtmlBuilder out, T value)
     {
-        ScBox root;
-        root = new ScBox();
-        root.setHtmlId(getHtmlIdFor(value));
+        renderValueOn(out, value, true);
+    }
 
-        renderModelOn(root, value);
+    private void renderValueOn(KmHtmlBuilder out, T value, boolean visible)
+    {
+        ScBox root;
+        root = createBoxFor(value);
+        root.show(visible);
+
+        renderValueOn(root, value);
+
+        root.renderOn(out);
+    }
+
+    private void renderValueOn(ScBox root, T value)
+    {
+        if ( _renderer == null )
+            renderDefaultModelOn(root, value);
+        else
+            _renderer.renderOn(root, value);
+    }
+
+    private void renderDefaultModelOn(ScBox root, T value)
+    {
+        String s = Kmu.toDisplayString(value);
+
+        root.css().border().pad();
+        root.addText(s);
     }
 
     //##################################################
@@ -161,31 +245,64 @@ public abstract class ScModelList<T>
         ajax().clearContents();
     }
 
-    public void ajaxRemoveModel(T value)
+    public void ajaxRemoveValue(T value)
     {
         String sel = getSelectorFor(value);
 
-        ajax().hide(sel).slide();
+        ajax().hide(sel).slide().defer();
+        ajax().remove(sel);
+    }
 
-        new ScHtmlIdAjax(delegate, target)
-        getRootScript().get
+    public void ajaxAppendValue(T value)
+    {
+        KmHtmlBuilder out = renderValue(value, false);
+        String html = out.formatHtml();
+
+        ScHtmlIdAjax listAjax;
+        listAjax = ajax();
+        listAjax.appendContents(html);
+        listAjax.run(out.getPostDom());
+
+        ScHtmlIdAjax valueAjax;
+        valueAjax = getHtmlIdFor(value).ajax();
+        valueAjax.show().slide().defer();
+        valueAjax.run(out.getPostRender());
     }
 
     //##################################################
     //# support
     //##################################################
 
-    private String getHtmlIdFor(T value)
+    private ScBox createBoxFor(T value)
+    {
+        ScBox root;
+        root = new ScBox();
+        root.setHtmlId(getHtmlIdFor(value));
+        return root;
+    }
+
+    private ScHtmlId getHtmlIdFor(T value)
     {
         String parentId = getHtmlId();
-        String modelKey = getModelKeyFor(value);
+        String modelKey = getKeyFor(value);
+        String id = parentId + "-" + modelKey;
 
-        return parentId + "-" + modelKey;
+        return new ScHtmlId(id, ajax());
+    }
+
+    public String getKeyFor(T value)
+    {
+        KmAdaptorIF<T,String> a = getKeyAdapter();
+
+        if ( a == null )
+            return null;
+
+        return a.getValue(value);
     }
 
     private String getSelectorFor(T value)
     {
-        String htmlId = getHtmlIdFor(value);
-        return ScJquery.formatIdSelector(htmlId);
+        return getHtmlIdFor(value).getJquerySelector();
     }
+
 }

@@ -24,7 +24,7 @@ package com.kodemore.servlet.script;
 
 import com.kodemore.json.KmJsonUtility;
 import com.kodemore.servlet.ScServletData;
-import com.kodemore.servlet.field.ScHtmlIdControlIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.string.KmStringBuilder;
 
 /**
@@ -109,9 +109,9 @@ public abstract class ScAbstractScript
     //# support
     //##################################################
 
-    protected String json(ScHtmlIdControlIF e)
+    protected String json(ScHtmlIdIF e)
     {
-        return json(e.formatJquerySelector());
+        return json(e.getJquerySelector());
     }
 
     protected String json(CharSequence s)

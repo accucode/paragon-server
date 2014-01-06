@@ -27,6 +27,7 @@ import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
@@ -101,14 +102,22 @@ public abstract class ScContainerElement
         _htmlId.setValue(e);
     }
 
+    public void setHtmlId(ScHtmlIdIF e)
+    {
+        if ( e == null )
+            setHtmlId((String)null);
+        else
+            setHtmlId(e.getHtmlId());
+    }
+
     @Override
-    public String formatJquerySelector()
+    public String getJquerySelector()
     {
         return ScJquery.formatSelector(this);
     }
 
     @Override
-    public String formatJqueryReference()
+    public String getJqueryReference()
     {
         return ScJquery.formatReference(this);
     }
@@ -169,6 +178,14 @@ public abstract class ScContainerElement
     public void hide()
     {
         css().hide();
+    }
+
+    public void show(boolean visible)
+    {
+        if ( visible )
+            show();
+        else
+            hide();
     }
 
     protected KmCssDefaultBuilder formatCss()

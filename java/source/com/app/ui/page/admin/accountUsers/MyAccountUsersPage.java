@@ -5,13 +5,14 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScCard;
+import com.kodemore.servlet.control.ScBoxRendererIF;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLink;
+import com.kodemore.servlet.control.ScModelList;
 import com.kodemore.servlet.control.ScNotebook;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTable;
@@ -20,7 +21,6 @@ import com.kodemore.servlet.control.ScTableRow;
 import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.control.ScTransientContainer;
 import com.kodemore.servlet.field.ScTextField;
-import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.MyInvitationDao;
@@ -28,7 +28,6 @@ import com.app.model.MyAccount;
 import com.app.model.MyInvitation;
 import com.app.model.MyUserAccount;
 import com.app.ui.page.admin.MyAbstractAdminPage;
-import com.app.ui.page.admin.accountSettings.MyAccountSettingsFrame;
 
 public class MyAccountUsersPage
     extends MyAbstractAdminPage
@@ -48,25 +47,19 @@ public class MyAccountUsersPage
     //# variables
     //##################################################
 
-    private ScGroup                _summaryGroup;
-    private ScTextSpan             _ownerText;
+    private ScGroup                   _summaryGroup;
+    private ScTextSpan                _ownerText;
 
-    private ScNotebook             _notebook;
+    private ScNotebook                _notebook;
 
-    private ScDiv                  _usersScroll;
-    private ScTransientContainer   _usersContainer;
-    private ScActionIF             _selectUserAction;
+    private ScModelList<MyInvitation> _invitationList;
 
-    private ScTextField            _invitationField;
-    private ScTransientContainer   _invitationsContainer;
-    private ScActionIF             _cancelInvitationAction;
-    private ScActionIF             _resendInvitationAction;
+    private ScTransientContainer      _usersContainer;
+    private ScActionIF                _selectUserAction;
 
-    private MyAccountSettingsFrame _frame;
-
-    private ScCard                 _viewUserCard;
-    private ScCard                 _editUserCard;
-    private ScCard                 _removeUserCard;
+    private ScTextField               _invitationField;
+    private ScActionIF                _cancelInvitationAction;
+    private ScActionIF                _resendInvitationAction;
 
     //##################################################
     //# install
@@ -186,12 +179,12 @@ public class MyAccountUsersPage
         tab.addBreak();
         tab.addLabel("Pending Invitations");
 
-        ScBox scroll;
-        scroll = tab.addBox();
-        scroll.css().borderGray().overflowAuto();
-        scroll.style().height(230);
+        _invitationList = tab.addModelList();
+        _invitationList.css().borderGray().overflowAuto();
+        _invitationList.style().height(230);
+        _invitationList.setKeyAdapter(MyInvitation.Meta.Uid);
+        _invitationList.setRenderer(newInvitationRenderer());
 
-        _invitationsContainer = scroll.addTransientContainer();
         _cancelInvitationAction = newCancelInvitationAction();
         _resendInvitationAction = newResendInvitationAction();
     }
@@ -265,23 +258,38 @@ public class MyAccountUsersPage
         v = dao.findJoinInvitationsFor(acct);
         v.sortOn(MyInvitation.Meta.ToEmail);
 
-        for ( MyInvitation e : v )
+        _invitationList.setValues(v);
+    }
+
+    //##################################################
+    //# render :: invitations
+    //##################################################
+
+    private ScBoxRendererIF<MyInvitation> newInvitationRenderer()
+    {
+        return new ScBoxRendererIF<MyInvitation>()
         {
-            ScBox box;
-            box = _invitationsContainer.addBox();
-            box.setHtmlId(getHtmlIdFor(e));
-            box.css().margin1().pad().border().backgroundGrayEEE();
+            @Override
+            public void renderOn(ScBox root, MyInvitation value)
+            {
+                renderInvitation(root, value);
+            }
+        };
+    }
 
-            ScDiv left;
-            left = box.addFloatLeft();
-            left.addText(e.getToEmail());
+    private void renderInvitation(ScBox root, MyInvitation value)
+    {
+        root.css().margin1().pad().border().backgroundGrayEEE();
 
-            ScDiv right;
-            right = box.addFloatRight();
-            right.css().padLeftChildren();
-            right.addLink("Resend", _resendInvitationAction, e.getUid());
-            right.addLink("Cancel", _cancelInvitationAction, e.getUid());
-        }
+        ScDiv left;
+        left = root.addFloatLeft();
+        left.addText(value.getToEmail());
+
+        ScDiv right;
+        right = root.addFloatRight();
+        right.css().padLeftChildren();
+        right.addLink("Resend", _resendInvitationAction, value.getUid());
+        right.addLink("Cancel", _cancelInvitationAction, value.getUid());
     }
 
     //##################################################
@@ -365,9 +373,12 @@ public class MyAccountUsersPage
         e.setTypeJoinAccount();
         e.setAccount(getCurrentAccount());
         e.saveDao();
+        e.sendEmail();
 
-        _invitationField.ajax().clearValue();
         ajax().toast("Invitation sent to: " + email);
+
+        _invitationList.ajaxAppendValue(e);
+        _invitationField.ajax().clearValue();
     }
 
     private void handleResendInvitation()
@@ -398,10 +409,8 @@ public class MyAccountUsersPage
 
         inv.deleteDao();
 
-        String htmlId = getHtmlIdFor(inv);
-        String sel = ScJquery.formatIdSelector(htmlId);
+        _invitationList.ajaxRemoveValue(inv);
 
-        ajax().hide(sel).slide().defer();
         ajax().toast("The invitation to %s has been cancelled.", inv.getToEmail());
     }
 
@@ -422,10 +431,4 @@ public class MyAccountUsersPage
 
         return v;
     }
-
-    private String getHtmlIdFor(MyInvitation e)
-    {
-        return "invite-" + e.getUid();
-    }
-
 }

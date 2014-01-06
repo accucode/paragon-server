@@ -32,7 +32,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.field.ScHtmlIdControlIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.script.ScRootScript;
@@ -45,7 +45,7 @@ import com.kodemore.utility.Kmu;
 
 public class ScDropzone
     extends ScControl
-    implements ScHtmlIdControlIF
+    implements ScHtmlIdIF
 {
     //##################################################
     //# variables
@@ -102,7 +102,7 @@ public class ScDropzone
             getKey(),
             formatOnRemoveAction());
 
-        out.printfln("%s.dropzone(%s);", formatJqueryReference(), formatOptions());
+        out.printfln("%s.dropzone(%s);", getJqueryReference(), formatOptions());
 
         return out.toString();
     }
@@ -113,7 +113,7 @@ public class ScDropzone
         Object arg = null;
         ScForm form = null;
         Object model = null;
-        ScHtmlIdControlIF block = null;
+        ScHtmlIdIF block = null;
 
         ScActionScript s;
         s = new ScActionScript();
@@ -150,13 +150,13 @@ public class ScDropzone
     }
 
     @Override
-    public String formatJquerySelector()
+    public String getJquerySelector()
     {
         return ScJquery.formatSelector(this);
     }
 
     @Override
-    public String formatJqueryReference()
+    public String getJqueryReference()
     {
         return ScJquery.formatReference(this);
     }

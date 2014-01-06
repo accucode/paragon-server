@@ -268,6 +268,11 @@ public abstract class ScContainer
         return add(new ScLinkList());
     }
 
+    public <T> ScModelList<T> addModelList()
+    {
+        return add(new ScModelList<T>());
+    }
+
     //##################################################
     //# buttons
     //##################################################

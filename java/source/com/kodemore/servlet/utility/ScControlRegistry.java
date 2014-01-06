@@ -29,7 +29,7 @@ import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScSessionTimeoutException;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControl;
-import com.kodemore.servlet.field.ScHtmlIdControlIF;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.thread.KmThreadLocalManager;
 import com.kodemore.utility.Kmu;
 
@@ -138,21 +138,21 @@ public class ScControlRegistry
         throw newTimeout("Unknown Control: %s.", key);
     }
 
-    public ScHtmlIdControlIF findHtmlId(String id)
+    public ScHtmlIdIF findHtmlId(String id)
     {
         KmList<ScKeyIF> v;
 
         v = _persistentValues.getValues();
         for ( ScKeyIF e : v )
-            if ( e instanceof ScHtmlIdControlIF )
-                if ( ((ScHtmlIdControlIF)e).getHtmlId().equals(id) )
-                    return (ScHtmlIdControlIF)e;
+            if ( e instanceof ScHtmlIdIF )
+                if ( ((ScHtmlIdIF)e).getHtmlId().equals(id) )
+                    return (ScHtmlIdIF)e;
 
         v = _transientValues.get().getValues();
         for ( ScKeyIF e : v )
-            if ( e instanceof ScHtmlIdControlIF )
-                if ( ((ScHtmlIdControlIF)e).getHtmlId().equals(id) )
-                    return (ScHtmlIdControlIF)e;
+            if ( e instanceof ScHtmlIdIF )
+                if ( ((ScHtmlIdIF)e).getHtmlId().equals(id) )
+                    return (ScHtmlIdIF)e;
 
         throw newTimeout("Unknown Html ID: %s.", id);
     }

@@ -147,6 +147,7 @@ public interface KmCssDefaultConstantsIF
     String backgroundLightGray = "backgroundLightGray";
     String backgroundRed = "backgroundRed";
     String backgroundWhite = "backgroundWhite";
+    String backgroundYellow = "backgroundYellow";
     String baseline = "baseline";
     String block = "block";
     String bold = "bold";
