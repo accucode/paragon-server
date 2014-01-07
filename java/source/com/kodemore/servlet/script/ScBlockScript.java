@@ -546,6 +546,22 @@ public abstract class ScBlockScript
         return e;
     }
 
+    public ScGlowScript glow(String sel)
+    {
+        ScGlowScript e;
+        e = new ScGlowScript();
+        e.setTarget(sel);
+
+        run(e);
+
+        return e;
+    }
+
+    public ScGlowScript glow(ScHtmlIdIF target)
+    {
+        return glow(target.getJquerySelector());
+    }
+
     //##################################################
     //# open window
     //##################################################

@@ -247,10 +247,10 @@ public class ScModelList<T>
 
     public void ajaxRemoveValue(T value)
     {
-        String sel = getSelectorFor(value);
-
-        ajax().hide(sel).slide().defer();
-        ajax().remove(sel);
+        ScHtmlIdAjax ajax;
+        ajax = ajaxFor(value);
+        ajax.hide().slide().defer();
+        ajax.remove();
     }
 
     public void ajaxAppendValue(T value)
@@ -264,9 +264,10 @@ public class ScModelList<T>
         listAjax.run(out.getPostDom());
 
         ScHtmlIdAjax valueAjax;
-        valueAjax = getHtmlIdFor(value).ajax();
-        valueAjax.show().slide().defer();
-        valueAjax.run(out.getPostRender());
+        valueAjax = ajaxFor(value);
+        valueAjax.show().slide();
+        valueAjax.glowDeferred();
+        valueAjax.runDeferred(out.getPostRender());
     }
 
     //##################################################
@@ -290,6 +291,11 @@ public class ScModelList<T>
         return new ScHtmlId(id, ajax());
     }
 
+    public ScHtmlIdAjax ajaxFor(T value)
+    {
+        return getHtmlIdFor(value).ajax();
+    }
+
     public String getKeyFor(T value)
     {
         KmAdaptorIF<T,String> a = getKeyAdapter();
@@ -299,10 +305,4 @@ public class ScModelList<T>
 
         return a.getValue(value);
     }
-
-    private String getSelectorFor(T value)
-    {
-        return getHtmlIdFor(value).getJquerySelector();
-    }
-
 }

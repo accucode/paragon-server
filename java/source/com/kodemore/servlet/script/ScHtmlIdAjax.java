@@ -27,6 +27,7 @@ import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScControlIF;
+import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 
 /**
@@ -82,6 +83,41 @@ public class ScHtmlIdAjax
     }
 
     //##################################################
+    //# run :: deferred
+    //##################################################
+
+    public void runDeferred(ScScriptIF e)
+    {
+        pushDefer();
+        run(e);
+        popDefer();
+    }
+
+    public ScScriptIF runDeferred(String s, Object... args)
+    {
+        pushDefer();
+        ScScriptIF e = run(s, args);
+        popDefer();
+        return e;
+    }
+
+    public ScActionScript runDeferred(ScActionIF action)
+    {
+        pushDefer();
+        ScActionScript e = run(action);
+        popDefer();
+        return e;
+    }
+
+    public ScActionScript runDeferred(ScActionIF action, ScForm form)
+    {
+        pushDefer();
+        ScActionScript e = run(action, form);
+        popDefer();
+        return e;
+    }
+
+    //##################################################
     //# visible
     //##################################################
 
@@ -98,6 +134,19 @@ public class ScHtmlIdAjax
     public ScToggleScript toggle()
     {
         return toggle(getTarget());
+    }
+
+    public ScGlowScript glow()
+    {
+        return glow(getTarget());
+    }
+
+    public ScGlowScript glowDeferred()
+    {
+        pushDefer();
+        ScGlowScript e = glow(getTarget());
+        popDefer();
+        return e;
     }
 
     //##################################################
@@ -168,10 +217,9 @@ public class ScHtmlIdAjax
         {
             ScControlIF with = (ScControlIF)target;
             replaceWith(target, with);
-            return;
         }
-
-        remove();
+        else
+            remove();
     }
 
     //##################################################
