@@ -35,6 +35,8 @@
     </logger>
 -->
 
+    <logger name="com.app.job.application.MyMonitorJob"><level value="error" /></logger>
+
     <root>
         <priority value ="info" />
         <appender-ref ref="console" />
