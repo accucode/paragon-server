@@ -21,6 +21,7 @@ import com.kodemore.servlet.control.ScTableRow;
 import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.control.ScTransientContainer;
 import com.kodemore.servlet.field.ScTextField;
+import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.MyInvitationDao;
@@ -394,6 +395,12 @@ public class MyAccountUsersPage
 
         inv.sendEmail();
         ajax().toast("The invitation to %s has been resent.", inv.getToEmail());
+
+        // fixme_wyatt: test
+        ScHtmlIdAjax valueAjax;
+        valueAjax = _invitationList.getHtmlIdFor(inv).ajax();
+        valueAjax.hide().fade(500).defer();
+        valueAjax.show().fade(500).defer();
     }
 
     private void handleCancelInvitation()

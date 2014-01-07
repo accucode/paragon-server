@@ -281,7 +281,7 @@ public class ScModelList<T>
         return root;
     }
 
-    private ScHtmlId getHtmlIdFor(T value)
+    public ScHtmlId getHtmlIdFor(T value)
     {
         String parentId = getHtmlId();
         String modelKey = getKeyFor(value);

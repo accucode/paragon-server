@@ -2,6 +2,12 @@
 == To Do
 =======================================
 
+KmUtility.js
+    functions do not appear to be declared correctly...
+        installDropdownMenuAutoClose()
+        installDropdownMenu(e)
+
+
 Refactor ScActivity
     No more activities.  Just pages.
     Change page.start to final.
@@ -321,3 +327,32 @@ setTimeout("Kmu.ajaxRequest(null,'pXR','n,');", 250);
 .hPadSpaced30     { padding-left: 30px; }
 .hPadSpaced30 > * { margin-right: 30px; }
 
+
+
+$("#P7CO-6DQ1SIM-Z0IBUJ-XJHTF3-DYB5L7").animate(
+    {
+        "background-color": "#0ff"
+    },
+    {
+        duration: 100,
+    }
+);
+$("#P7CO-6DQ1SIM-Z0IBUJ-XJHTF3-DYB5L7").animate(
+    {
+        "background-color": "#eee"
+    },
+    {
+        duration: 100,
+    }
+);
+
+
+Kmu.glow(
+{
+    target: "#P7CO-6DQ1SIM-Z0IBUJ-XJHTF3-DYB5L7"
+});
+
+
+
+
+$("#P7CO-6DQ1SIM-Z0IBUJ-XJHTF3-DYB5L7").toggle();
