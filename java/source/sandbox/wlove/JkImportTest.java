@@ -206,12 +206,12 @@ public class JkImportTest
 
     private void printTimes()
     {
+        double secs = _minimumTime.diff(_maximumTime).getTotalSecondsExact();
+        double recsPerSec = _lineNumber / secs;
+
         System.out.println();
         System.out.printf("Min Time: %s\n", _minimumTime);
         System.out.printf("Max Time: %s\n", _maximumTime);
-
-        double totalSecs = _minimumTime.getSecondsUntil(_maximumTime);
-        double recsPerSec = _lineNumber / totalSecs;
         System.out.printf("Records / sec: %s", Kmu.formatDouble(recsPerSec, 1));
     }
 

@@ -28,7 +28,11 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I implement an interval for timestamps.  I define a start and end
- * timestamp with various convenience methods.
+ * timestamp with various convenience methods.  
+ * 
+ * The start and/or end dates may be null for an open ended range.  
+ * If both the start and end date are specified, then the start date 
+ * MUST be on or before the end date.
  */
 public class KmTimestampInterval
     implements Comparable<KmTimestampInterval>, Serializable
@@ -50,8 +54,8 @@ public class KmTimestampInterval
     //# variables
     //##################################################
 
-    public KmTimestamp _start;
-    public KmTimestamp _end;
+    private KmTimestamp _start;
+    private KmTimestamp _end;
 
     //##################################################
     //# contructor
@@ -107,10 +111,15 @@ public class KmTimestampInterval
         return Kmu.isEqual(getEnd(), ts);
     }
 
+    /**
+     * Return the duration between the start and end.
+     * Null is returned if either the start or end dates are null.
+     * If non null, the duration is guaranteed to be positive.
+     */
     public KmDuration getDuration()
     {
         if ( isClosed() )
-            return getStart().difference(getEnd());
+            return getStart().diff(getEnd());
 
         return null;
     }
@@ -329,15 +338,19 @@ public class KmTimestampInterval
     {
         KmTimestamp startTimestamp1 = null;
         KmTimestamp startTimestamp2 = null;
+
         if ( start1 > 0 )
             startTimestamp1 = KmTimestamp.create(KmDate.create(2000, 1, start1));
+
         if ( start2 > 0 )
             startTimestamp2 = KmTimestamp.create(KmDate.create(2000, 2, start2));
 
         KmTimestamp endTimestamp1 = null;
         KmTimestamp endTimestamp2 = null;
+
         if ( end1 > 0 )
             endTimestamp1 = KmTimestamp.create(KmDate.create(2000, 1, end1));
+
         if ( end2 > 0 )
             endTimestamp2 = KmTimestamp.create(KmDate.create(2000, 2, end2));
 

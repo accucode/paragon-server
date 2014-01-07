@@ -260,9 +260,9 @@ public class KmDateParser
             KmDate d2 = KmDate.create(yy, mm, dd);
             KmDate d3 = KmDate.create(yy + 1, mm, dd);
 
-            int n1 = Math.abs(d1.getDaysTo(today));
-            int n2 = Math.abs(d2.getDaysTo(today));
-            int n3 = Math.abs(d3.getDaysTo(today));
+            int n1 = Math.abs(d1.getDaysUntil(today));
+            int n2 = Math.abs(d2.getDaysUntil(today));
+            int n3 = Math.abs(d3.getDaysUntil(today));
 
             if ( n1 < n2 )
                 return d1;

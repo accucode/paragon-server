@@ -226,7 +226,7 @@ public class KmDateConsolidator
 
     private int getDayCount()
     {
-        return _minDate.getDaysTo(_maxDate);
+        return _minDate.getDaysUntil(_maxDate);
     }
 
     private void generateDays()
@@ -264,7 +264,7 @@ public class KmDateConsolidator
         KmDate start = getWeekStartDate();
         KmDate end = getWeekEndDate();
 
-        return start.getDaysTo(end) / 7;
+        return start.getDaysUntil(end) / 7;
     }
 
     private void generateWeeks()

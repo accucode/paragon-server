@@ -613,78 +613,28 @@ public class KmTimestamp
     //# difference
     //##################################################
 
-    public KmDuration difference(KmTimestamp ts)
+    /**
+     * Return the duration from myself until the specified ts.
+     * 
+     * Durations may be positive or negative:
+     *      today.getDurationUntil(tomorrow)  ==  1 day.
+     *      today.getDurationUntil(yesterday) == -1 day.
+     */
+    public KmDuration getDurationUntil(KmTimestamp ts)
     {
-        long ms = getMillisecondsDifference(ts);
+        long end = ts.getOrdinal();
+        long start = getOrdinal();
+        long ms = end - start;
 
-        KmDuration e;
-        e = new KmDuration();
-        e.setOrdinal(ms);
-        return e;
+        return new KmDuration(ms);
     }
 
-    public int getDaysDifference(KmTimestamp ts)
+    /**
+     * An alias for getDurationUntil(ts).
+     */
+    public KmDuration diff(KmTimestamp ts)
     {
-        return (int)(getMillisecondsDifference(ts) / MS_PER_DAY);
-    }
-
-    public double getDaysDoubleDifference(KmTimestamp ts)
-    {
-        return (int)(getMillisecondsDifference(ts) / (double)MS_PER_DAY);
-    }
-
-    public int getMinutesDifference(KmTimestamp ts)
-    {
-        return (int)(getMillisecondsDifference(ts) / MS_PER_MINUTE);
-    }
-
-    public double getMinutesDoubleDifference(KmTimestamp ts)
-    {
-        return getMillisecondsDifference(ts) / (double)MS_PER_MINUTE;
-    }
-
-    public int getSecondsDifference(KmTimestamp ts)
-    {
-        return (int)(getMillisecondsDifference(ts) / MS_PER_SECOND);
-    }
-
-    public double getSecondsDoubleDifference(KmTimestamp ts)
-    {
-        return (int)(getMillisecondsDifference(ts) / (double)MS_PER_SECOND);
-    }
-
-    public long getMillisecondsDifference(KmTimestamp ts)
-    {
-        return Math.abs(getOrdinal() - ts.getOrdinal());
-    }
-
-    //##################################################
-    //# until
-    //##################################################
-
-    public double getDaysUntil(KmTimestamp ts)
-    {
-        return getMillisecondsUntil(ts) / MS_PER_DAY;
-    }
-
-    public double getHoursUntil(KmTimestamp ts)
-    {
-        return getMillisecondsUntil(ts) / MS_PER_HOUR;
-    }
-
-    public double getMinutesUntil(KmTimestamp ts)
-    {
-        return getMillisecondsUntil(ts) / MS_PER_MINUTE;
-    }
-
-    public double getSecondsUntil(KmTimestamp ts)
-    {
-        return getMillisecondsUntil(ts) / MS_PER_SECOND;
-    }
-
-    public double getMillisecondsUntil(KmTimestamp ts)
-    {
-        return ts.getOrdinal() - getOrdinal();
+        return getDurationUntil(ts);
     }
 
     //##################################################
@@ -715,6 +665,16 @@ public class KmTimestamp
     public String format_m_d_yyyy_hh_mm_ss()
     {
         return getDate().format_m_d_yyyy() + " " + getTime().format_hh24_mm_ss();
+    }
+
+    public String formatTimeAgoUtc()
+    {
+        return KmClock.getNowUtc().diff(this).formatTimeAgo();
+    }
+
+    public String formatTimeAgoLocal()
+    {
+        return KmClock.getNowLocal().diff(this).formatTimeAgo();
     }
 
     //##################################################
@@ -800,4 +760,5 @@ public class KmTimestamp
         double d = 20101201011500.0;
         createMySqlGoofy(d);
     }
+
 }

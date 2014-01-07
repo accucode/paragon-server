@@ -47,12 +47,12 @@ public class KmStaleFolderMonitor
     //##################################################
 
     private String                    _folderPath;
-    private Integer                   _staleMinutes;
-    private Integer                   _inactiveMinutes;
+    private int                       _staleMinutes;
+    private int                       _inactiveMinutes;
     private boolean                   _logResults;
 
     private File                      _folder;
-    private KmMap<String,KmTimestamp> _lastFilenames;
+    private KmMap<String,KmTimestamp> _lastFilenameUtsTs;
     private KmTimestamp               _lastNewFileUtcTs;
 
     //##################################################
@@ -61,7 +61,7 @@ public class KmStaleFolderMonitor
 
     public KmStaleFolderMonitor()
     {
-        _lastFilenames = new KmMap<String,KmTimestamp>();
+        _lastFilenameUtsTs = new KmMap<String,KmTimestamp>();
         _lastNewFileUtcTs = KmClock.getNowUtc();
     }
 
@@ -80,22 +80,22 @@ public class KmStaleFolderMonitor
         _folder = null;
     }
 
-    public Integer getStaleMinutes()
+    public int getStaleMinutes()
     {
         return _staleMinutes;
     }
 
-    public void setStaleMinutes(Integer e)
+    public void setStaleMinutes(int e)
     {
         _staleMinutes = e;
     }
 
-    public Integer getInactiveMinutes()
+    public int getInactiveMinutes()
     {
         return _inactiveMinutes;
     }
 
-    public void setInactiveMinutes(Integer e)
+    public void setInactiveMinutes(int e)
     {
         _inactiveMinutes = e;
     }
@@ -135,7 +135,7 @@ public class KmStaleFolderMonitor
     private void updateState(KmTimestamp now)
     {
         KmList<String> current = KmList.createStrings(_folder.list());
-        KmList<String> last = _lastFilenames.getKeys();
+        KmList<String> last = _lastFilenameUtsTs.getKeys();
         KmList<String> added = getNotInListFirstNotLast(current, last);
         KmList<String> removed = getNotInListFirstNotLast(last, current);
 
@@ -160,18 +160,19 @@ public class KmStaleFolderMonitor
     private void addFiles(KmList<String> filenames, KmTimestamp now)
     {
         for ( String e : filenames )
-            _lastFilenames.put(e, now);
+            _lastFilenameUtsTs.put(e, now);
     }
 
     private void removeFiles(KmList<String> filenames)
     {
         for ( String e : filenames )
-            _lastFilenames.remove(e);
+            _lastFilenameUtsTs.remove(e);
     }
 
     private void checkInput(KmTimestamp now)
     {
-        double diff = _lastNewFileUtcTs.getMinutesDoubleDifference(now);
+        int diff = _lastNewFileUtcTs.diff(now).getTotalMinutes();
+
         if ( diff > _inactiveMinutes )
             reportNoInput();
     }
@@ -180,10 +181,10 @@ public class KmStaleFolderMonitor
     {
         KmMap<String,KmTimestamp> map = new KmMap<String,KmTimestamp>();
 
-        for ( String e : _lastFilenames.getKeys() )
+        for ( String e : _lastFilenameUtsTs.getKeys() )
         {
-            KmTimestamp ts = _lastFilenames.get(e);
-            double diff = now.getMinutesDoubleDifference(ts);
+            KmTimestamp ts = _lastFilenameUtsTs.get(e);
+            int diff = ts.diff(now).getTotalMinutes();
 
             if ( diff > _staleMinutes )
                 map.put(e, ts);

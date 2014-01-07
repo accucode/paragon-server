@@ -1,7 +1,5 @@
 package sandbox.wlove;
 
-import com.kodemore.json.KmJsonMap;
-
 public class JkTest
 {
     //##################################################
@@ -19,9 +17,6 @@ public class JkTest
 
     private void run()
     {
-        KmJsonMap e;
-        e = new KmJsonMap();
-        e.setString("html", "aaa &copy; bbb");
-        System.out.println(e);
+        // none
     }
 }

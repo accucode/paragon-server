@@ -331,16 +331,27 @@ public class KmTime
         return true;
     }
 
-    public KmDuration difference(KmTime t)
+    /**
+     * Return the duration from myself until the specified time.
+     * 
+     * The result will be positive if t is after myself, and
+     * negative if t is before myself.
+     */
+    public KmDuration getDurationUntil(KmTime t)
     {
-        long a = getOrdinal();
-        long b = t.getOrdinal();
-        long c = Math.abs(a - b);
+        long start = getOrdinal();
+        long end = t.getOrdinal();
+        long diff = end - start;
 
-        KmDuration e;
-        e = new KmDuration();
-        e.setOrdinal(c);
-        return e;
+        return new KmDuration(diff);
+    }
+
+    /**
+     * An alias for getDurationUntil(t).
+     */
+    public KmDuration diff(KmTime t)
+    {
+        return getDurationUntil(t);
     }
 
     //##################################################
@@ -389,7 +400,7 @@ public class KmTime
 
     public KmTimeAdjustment addDuration(KmDuration e)
     {
-        return createAdjustment(_ordinal + e.getTotalMilliseconds());
+        return createAdjustment(_ordinal + e.getTotalMs());
     }
 
     //##################################################
@@ -438,7 +449,7 @@ public class KmTime
 
     public KmTimeAdjustment subtractDuration(KmDuration e)
     {
-        return createAdjustment(_ordinal - e.getTotalMilliseconds());
+        return createAdjustment(_ordinal - e.getTotalMs());
     }
 
     //##################################################

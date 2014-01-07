@@ -741,7 +741,7 @@ public class KmDate
         return addDays(e.getTotalDays());
     }
 
-    public KmDate substractDuration(KmDuration e)
+    public KmDate subtractDuration(KmDuration e)
     {
         return subtractDays(e.getTotalDays());
     }
@@ -850,32 +850,32 @@ public class KmDate
     //##################################################
 
     /**
-     * Return the duration between myself and another date.
-     * NOTE: Duractions have magnitude, but not direction;
-     * they do not have a forward or back.  Therefore both
-     * of the following return a duration of 1 day:
-     * today.difference(tomorrow);
-     * tomorrow.difference(today);
-     * If you need the direction, consider using getDaysTo().
+     * Return the duration from myself until the specified ts.
+     * 
+     * Durations may be positive or negative:
+     *      today.getDurationUntil(tomorrow)  ==  1 day.
+     *      today.getDurationUntil(yesterday) == -1 day.
      */
-    public KmDuration difference(KmDate d)
+    public KmDuration getDurationUntil(KmDate d)
     {
-        long a = _ordinal;
-        long b = d.getOrdinal();
-        int days = (int)Math.abs(a - b);
-        KmDuration e = new KmDuration();
-        e.addDays(days);
-        return e;
+        long end = d.getOrdinal();
+        long start = getOrdinal();
+        long ms = (end - start) * MS_PER_DAY;
+
+        return new KmDuration(ms);
     }
 
     /**
-     * Count the number of days from my date until the date parameter.  Return
-     * zero if the dates are equals.  Return a negative number if the parameter
-     * is before my date.
+     * An alias for getDurationUntil(d).
      */
-    public int getDaysTo(KmDate d)
+    public KmDuration diff(KmDate d)
     {
-        return d._ordinal - _ordinal;
+        return getDurationUntil(d);
+    }
+
+    public int getDaysUntil(KmDate d)
+    {
+        return getDurationUntil(d).getTotalDays();
     }
 
     //##################################################
