@@ -1,4 +1,189 @@
 /*******************************************************************
+ ** body
+ *******************************************************************/
+
+body
+{
+    overflow: hidden;
+}
+
+/*******************************************************************
+ ** page layout
+ *******************************************************************/
+
+.pageHeader
+{
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: auto;
+    top: 0;
+    height: 50px;
+    
+    overflow: visible;
+    background-image: linear-gradient(to bottom, #888, #fff);    
+}
+
+.pageMenu
+{
+    display: none;
+}
+
+.pageMenu-menu
+{
+    position: absolute;
+    left: 0;
+    width: 150px;
+    top: 50px;
+    bottom: 25px;
+    height: auto;
+    
+    overflow: hidden;
+}
+
+.pageFooter
+{
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: auto;
+    bottom: 0;
+    height: 25px;
+    top: auto;
+}
+
+.pageFooterBox
+{
+    text-align: center;
+    color: #444;
+    font: normal 12px sans-serif;
+    padding-top: 5px;
+}
+
+.pageContentWrapper
+{
+    position: absolute;
+    left: 0;
+    right: 0px;
+    width: auto;
+    top: 50px;
+    bottom: 25px;
+    height: auto;
+    
+    overflow: hidden;
+    border: none;
+}
+
+.pageContentWrapper-menu
+{
+    position: absolute;
+    left: 150px;
+    right: 0px;
+    width: auto;
+    top: 50px;
+    bottom: 25px;
+    height: auto;
+    
+    overflow: hidden;
+    
+    border: 5px solid #080;
+    border-right: none;
+    border-radius: 3px 0 0 3px;
+}
+
+.pageContent
+{
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    width: auto;
+    top: 0px;
+    bottom: 0px;
+    height: auto;
+    
+    overflow: auto;
+    background-color: white;
+}
+
+/*******************************************************************
+ ** page header
+ *******************************************************************/
+
+#pageHeaderLogoImage
+{
+    float: left;
+    padding-top: 7px;
+    padding-left: 5px;
+}
+
+#pageHeaderLogoText
+{
+    color: #080;
+    font: italic bold 36px sans-serif;
+    text-shadow: -1px -1px #fff,  1px  1px #444;
+    padding-top: 5px;
+    padding-left: 5px;
+    display: block;
+    float: left;
+}
+
+#pageHeaderLeft
+{
+    float: left;
+}
+
+#pageHeaderCenter
+{
+    padding: 0 5px;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+#pageHeaderRight
+{
+    padding: 0 5px;
+    text-align: right;
+    float: right;
+}
+
+
+/*******************************************************************
+ ** page title
+ *******************************************************************/
+
+.pageTitle
+{
+    background-color: #ccc;
+    border-top: thin solid #aaa;
+    border-bottom: thin solid #aaa;
+    width: 100%;
+    padding-left: 5px;
+}
+
+.pageTitleButton
+{
+    vertical-align: middle;
+    padding: 2px;
+    margin: 0;
+}
+
+.pageTitleButton:disabled
+{
+    background-color: #888;
+    border: 1px solid #888;
+}
+
+.pageTitleText
+{
+    font: normal 22px sans-serif;
+    color: #000;
+    vertical-align: middle;
+    padding: 3px 0 3px 10px;
+    width: 100%;
+}
+
+/*******************************************************************
  ** common spacing 
  *******************************************************************/
 
@@ -233,181 +418,6 @@
 }
 
 
-/*******************************************************************
- ** page layout
- *******************************************************************/
-
-.pageHeader
-{
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: auto;
-    top: 0;
-    height: 50px;
-    
-    overflow: visible;
-    background-image: linear-gradient(to bottom, #888, #fff);    
-}
-
-.pageMenu
-{
-    display: none;
-}
-
-.pageMenu-menu
-{
-    position: absolute;
-    left: 0;
-    width: 150px;
-    top: 50px;
-    bottom: 25px;
-    height: auto;
-    
-    overflow: hidden;
-}
-
-.pageFooter
-{
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: auto;
-    bottom: 0;
-    height: 25px;
-    top: auto;
-}
-
-.pageFooterBox
-{
-    text-align: center;
-    color: #444;
-    font: normal 12px sans-serif;
-    padding-top: 5px;
-}
-
-.pageContentWrapper
-{
-    position: absolute;
-    left: 0;
-    right: 0px;
-    width: auto;
-    top: 50px;
-    bottom: 25px;
-    height: auto;
-    
-    overflow: hidden;
-    border: none;
-}
-
-.pageContentWrapper-menu
-{
-    position: absolute;
-    left: 150px;
-    right: 0px;
-    width: auto;
-    top: 50px;
-    bottom: 25px;
-    height: auto;
-    
-    overflow: hidden;
-    
-    border: 5px solid #080;
-    border-right: none;
-    border-radius: 3px 0 0 3px;
-}
-
-.pageContent
-{
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    width: auto;
-    top: 0px;
-    bottom: 0px;
-    height: auto;
-    
-    overflow: auto;
-    background-color: white;
-}
-
-/*******************************************************************
- ** page header
- *******************************************************************/
-
-#pageHeaderLogoImage
-{
-    float: left;
-    padding-top: 7px;
-    padding-left: 5px;
-}
-
-#pageHeaderLogoText
-{
-    color: #080;
-    font: italic bold 36px sans-serif;
-    text-shadow: -1px -1px #fff,  1px  1px #444;
-    padding-top: 5px;
-    padding-left: 5px;
-    display: block;
-    float: left;
-}
-
-#pageHeaderLeft
-{
-    float: left;
-}
-
-#pageHeaderCenter
-{
-    padding: 0 5px;
-    margin: 0;
-    width: 100%;
-    text-align: center;
-}
-
-#pageHeaderRight
-{
-    padding: 0 5px;
-    text-align: right;
-    float: right;
-}
-
-
-/*******************************************************************
- ** page title
- *******************************************************************/
-
-.pageTitle
-{
-    background-color: #ccc;
-    border-top: thin solid #aaa;
-    border-bottom: thin solid #aaa;
-    width: 100%;
-    padding-left: 5px;
-}
-
-.pageTitleButton
-{
-    vertical-align: middle;
-    padding: 2px;
-    margin: 0;
-}
-
-.pageTitleButton:disabled
-{
-    background-color: #888;
-    border: 1px solid #888;
-}
-
-.pageTitleText
-{
-    font: normal 22px sans-serif;
-    color: #000;
-    vertical-align: middle;
-    padding: 3px 0 3px 10px;
-    width: 100%;
-}
 
 /*******************************************************************
  ** main
