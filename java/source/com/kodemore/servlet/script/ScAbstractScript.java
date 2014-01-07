@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2013 www.kodemore.com
+  Copyright (c) 2005-2014 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -111,7 +111,7 @@ public abstract class ScAbstractScript
 
     protected String json(ScHtmlIdIF e)
     {
-        return json(e.formatJquerySelector());
+        return json(e.getJquerySelector());
     }
 
     protected String json(CharSequence s)

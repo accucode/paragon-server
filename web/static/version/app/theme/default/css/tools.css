@@ -174,6 +174,7 @@
 .pad3       { padding: 3px;         }
 .pad4       { padding: 4px;         }
 .pad5       { padding: 5px;         }
+
 .pad10      { padding: 10px;        }
 .pad20      { padding: 20px;        }
 .pad30      { padding: 30px;        }
@@ -190,7 +191,13 @@
  ** margin
  *******************************************************************/
 
+.margin0        { margin: 0px;          }
+.margin1        { margin: 1px;          }
+.margin2        { margin: 2px;          }
+.margin3        { margin: 3px;          }
+.margin4        { margin: 4px;          }
 .margin5        { margin: 5px;          }
+
 .marginLeft5    { margin-left: 5px;     }
 .marginRight5   { margin-right: 5px;    }
 .marginTop5     { margin-top: 5px;      }
@@ -386,6 +393,24 @@
 .backgroundWhite         { background-color: white;     }
 .backgroundGray          { background-color: gray;      }
 .backgroundLightGray     { background-color: lightgray; }
+.backgroundYellow        { background-color: yellow;    }
+
+.backgroundGray000       { background-color: #000;      }
+.backgroundGray111       { background-color: #111;      }
+.backgroundGray222       { background-color: #222;      }
+.backgroundGray333       { background-color: #333;      }
+.backgroundGray444       { background-color: #444;      }
+.backgroundGray555       { background-color: #555;      }
+.backgroundGray666       { background-color: #666;      }
+.backgroundGray777       { background-color: #777;      }
+.backgroundGray888       { background-color: #888;      }
+.backgroundGray999       { background-color: #999;      }
+.backgroundGrayAAA       { background-color: #AAA;      }
+.backgroundGrayBBB       { background-color: #BBB;      }
+.backgroundGrayCCC       { background-color: #CCC;      }
+.backgroundGrayDDD       { background-color: #DDD;      }
+.backgroundGrayEEE       { background-color: #EEE;      }
+.backgroundGrayFFF       { background-color: #FFF;      }
 
 /*******************************************************************
  ** resize

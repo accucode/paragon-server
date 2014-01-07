@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2013 www.kodemore.com
+  Copyright (c) 2005-2014 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -57,7 +57,7 @@ public class ScColorField
         _text = new ScLocalString();
         _fullWrapper = new ScLocalBoolean(false);
 
-        getPostDomScript().run("Kmu.installColorField('%s');", formatJquerySelector());
+        getPostDomScript().run("Kmu.installColorField('%s');", getJquerySelector());
     }
 
     //##################################################

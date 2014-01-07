@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2013 www.kodemore.com
+  Copyright (c) 2005-2014 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -266,6 +266,11 @@ public abstract class ScContainer
     public ScLinkList addLinkList()
     {
         return add(new ScLinkList());
+    }
+
+    public <T> ScModelList<T> addModelList()
+    {
+        return add(new ScModelList<T>());
     }
 
     //##################################################
@@ -629,6 +634,11 @@ public abstract class ScContainer
         e.setLabel(attr.getName());
         e.setValue(attr.getAdaptor());
         return e;
+    }
+
+    public ScTransientContainer addTransientContainer()
+    {
+        return add(new ScTransientContainer());
     }
 
     public ScWrapper addWrapper()

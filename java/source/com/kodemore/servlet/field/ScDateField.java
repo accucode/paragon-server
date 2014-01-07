@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2013 www.kodemore.com
+  Copyright (c) 2005-2014 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -82,7 +82,7 @@ public class ScDateField
         super.renderPostDomOn(out);
 
         String fn = "Kmu.installDateField('%s');";
-        String sel = formatJquerySelector();
+        String sel = getJquerySelector();
         out.getPostDom().run(fn, sel);
     }
 

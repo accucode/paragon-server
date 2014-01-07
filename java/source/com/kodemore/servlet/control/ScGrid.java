@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2013 www.kodemore.com
+  Copyright (c) 2005-2014 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -235,13 +235,13 @@ public class ScGrid<T>
     }
 
     @Override
-    public String formatJquerySelector()
+    public String getJquerySelector()
     {
         return ScJquery.formatSelector(this);
     }
 
     @Override
-    public String formatJqueryReference()
+    public String getJqueryReference()
     {
         return ScJquery.formatReference(this);
     }
@@ -407,7 +407,7 @@ public class ScGrid<T>
 
     private void renderScript(KmHtmlBuilder out)
     {
-        String ref = formatJqueryReference();
+        String ref = getJqueryReference();
         KmJsonMap setup = setupJson();
 
         out.getPostDom().run("%s.flexigrid(%s);", ref, setup);
@@ -1068,14 +1068,14 @@ public class ScGrid<T>
 
     public void ajaxReload()
     {
-        String ref = formatJqueryReference();
+        String ref = getJqueryReference();
 
         KmJsonMap map = new KmJsonMap();
         setupRequestParameters(map);
         String options = map.formatJson();
 
         ajax().run("%s.flexOptions(%s);", ref, options);
-        ajax().run("%s.flexReload();", formatJqueryReference());
+        ajax().run("%s.flexReload();", getJqueryReference());
     }
 
     public void ajaxDownloadCsv()

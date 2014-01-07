@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2013 www.kodemore.com
+  Copyright (c) 2005-2014 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -203,13 +203,13 @@ public class ScDialog
     }
 
     @Override
-    public String formatJquerySelector()
+    public String getJquerySelector()
     {
         return ScJquery.formatSelector(this);
     }
 
     @Override
-    public String formatJqueryReference()
+    public String getJqueryReference()
     {
         return ScJquery.formatReference(this);
     }

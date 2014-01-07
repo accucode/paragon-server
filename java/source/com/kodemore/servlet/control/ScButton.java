@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2013 www.kodemore.com
+  Copyright (c) 2005-2014 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -405,12 +405,12 @@ public abstract class ScButton
 
     public void ajaxEnable(String flavor)
     {
-        getRootScript().run("Kmu.enableButton(%s,%s);", json(formatJquerySelector()), json(flavor));
+        getRootScript().run("Kmu.enableButton(%s,%s);", json(getJquerySelector()), json(flavor));
     }
 
     public void ajaxDisable()
     {
-        getRootScript().run("Kmu.disableButton(%s);", json(formatJquerySelector()));
+        getRootScript().run("Kmu.disableButton(%s);", json(getJquerySelector()));
     }
 
 }

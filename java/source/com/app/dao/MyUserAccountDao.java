@@ -1,14 +1,20 @@
 package com.app.dao;
 
-import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.collection.KmList;
 
-import com.app.dao.base.*;
-import com.app.filter.*;
-import com.app.model.*;
+import com.app.criteria.MyUserAccountCriteria;
+import com.app.dao.base.MyUserAccountDaoBase;
+import com.app.model.MyAccount;
+import com.app.model.MyUserAccount;
 
 public class MyUserAccountDao
     extends MyUserAccountDaoBase
 {
-    // none
+    public KmList<MyUserAccount> findAccount(MyAccount e)
+    {
+        MyUserAccountCriteria c;
+        c = createCriteria();
+        c.whereAccountIs(e);
+        return c.findAll();
+    }
 }

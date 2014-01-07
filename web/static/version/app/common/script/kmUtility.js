@@ -1272,22 +1272,82 @@ Kmu.registerDragUpdate = function(parentSelector, childPath, attr, actionId)
 //** dropdown menu
 //**********************************************************
 
+function installDropdownMenuAutoClose()
+{
+    $(document).click(function() 
+    {
+        $('.dropdownMenu').removeClass('open');
+    });
+}
 
-        function installDropdownMenuAutoClose()
-        {
-            $(document).click(function() 
-            {
-                $('.dropdownMenu').removeClass('open');
-            });
-        }
+function installDropdownMenu(e)
+{
+    e = $(e);
+    e.on('click', function(ev)
+    {
+        e.toggleClass('open');
+        ev.stopPropagation();
+    }); 
+}
         
-        function installDropdownMenu(e)
-        {
-            e = $(e);
-            e.on('click', function(ev)
-            {
-                e.toggleClass('open');
-                ev.stopPropagation();
-            }); 
-        }
-        
+//**********************************************************
+//** drag
+//**********************************************************
+
+/**
+ * Change some attribute of the target element to a new value, then back.
+ * The change is animated.
+ * 
+ * Options
+ * 		target
+ * 			A valid jquery selector, compatible with $(target).
+ * 			This is required.
+ * 
+ * 		attribute
+ * 			The name of the css attribute to modify.
+ * 		    Defaults to "background-color".
+ * 
+ * 		value
+ * 			The value to which the attribute will be changed.
+ * 			Defaults to "yellow".
+ * 
+ * 		speed
+ * 			The speed at which the animation occurs.
+ * 		    This is the total animation time, which is split between first changing
+ * 		    to the new value, then changing back to the original value.
+ *          Defaults to 200.
+ */
+Kmu.glow = function(options)
+{
+	var target = options.target;
+	if ( !target )
+	    return;
+	    
+	target = $(target);
+
+	var attr = options.attribute;
+	if ( !attr )
+	    attr = "background-color";
+	    
+	var value = options.value;
+	if ( value === undefined )
+	    value = "yellow";
+
+	var speed = options.speed;
+	if ( speed === undefined )
+	    speed = 200;
+	    
+	var oldValue = target.css(attr);
+
+	var css;
+	css = {};
+	css[attr] = value;
+	
+	var extra;
+	extra = {};
+	extra.duration = speed / 2;
+	
+	target.animate(css, extra);
+	css[attr] = oldValue;
+	target.animate(css, extra);
+}

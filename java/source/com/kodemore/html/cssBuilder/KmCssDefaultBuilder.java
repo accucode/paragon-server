@@ -485,19 +485,19 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.padVertical);
     }
     
-    public KmCssDefaultBuilder pageBody()
+    public KmCssDefaultBuilder pageContent()
     {
-        return apply(KmCssDefaultConstantsIF.pageBody);
+        return apply(KmCssDefaultConstantsIF.pageContent);
     }
     
-    public KmCssDefaultBuilder pageBodyWrapper()
+    public KmCssDefaultBuilder pageContentWrapper()
     {
-        return apply(KmCssDefaultConstantsIF.pageBodyWrapper);
+        return apply(KmCssDefaultConstantsIF.pageContentWrapper);
     }
     
-    public KmCssDefaultBuilder pageBodyWrapper_menu()
+    public KmCssDefaultBuilder pageContentWrapper_menu()
     {
-        return apply(KmCssDefaultConstantsIF.pageBodyWrapper_menu);
+        return apply(KmCssDefaultConstantsIF.pageContentWrapper_menu);
     }
     
     public KmCssDefaultBuilder pageFooter()
@@ -665,6 +665,86 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.backgroundGray);
     }
     
+    public KmCssDefaultBuilder backgroundGray000()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGray000);
+    }
+    
+    public KmCssDefaultBuilder backgroundGray111()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGray111);
+    }
+    
+    public KmCssDefaultBuilder backgroundGray222()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGray222);
+    }
+    
+    public KmCssDefaultBuilder backgroundGray333()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGray333);
+    }
+    
+    public KmCssDefaultBuilder backgroundGray444()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGray444);
+    }
+    
+    public KmCssDefaultBuilder backgroundGray555()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGray555);
+    }
+    
+    public KmCssDefaultBuilder backgroundGray666()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGray666);
+    }
+    
+    public KmCssDefaultBuilder backgroundGray777()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGray777);
+    }
+    
+    public KmCssDefaultBuilder backgroundGray888()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGray888);
+    }
+    
+    public KmCssDefaultBuilder backgroundGray999()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGray999);
+    }
+    
+    public KmCssDefaultBuilder backgroundGrayAAA()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGrayAAA);
+    }
+    
+    public KmCssDefaultBuilder backgroundGrayBBB()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGrayBBB);
+    }
+    
+    public KmCssDefaultBuilder backgroundGrayCCC()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGrayCCC);
+    }
+    
+    public KmCssDefaultBuilder backgroundGrayDDD()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGrayDDD);
+    }
+    
+    public KmCssDefaultBuilder backgroundGrayEEE()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGrayEEE);
+    }
+    
+    public KmCssDefaultBuilder backgroundGrayFFF()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundGrayFFF);
+    }
+    
     public KmCssDefaultBuilder backgroundGreen()
     {
         return apply(KmCssDefaultConstantsIF.backgroundGreen);
@@ -683,6 +763,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder backgroundWhite()
     {
         return apply(KmCssDefaultConstantsIF.backgroundWhite);
+    }
+    
+    public KmCssDefaultBuilder backgroundYellow()
+    {
+        return apply(KmCssDefaultConstantsIF.backgroundYellow);
     }
     
     public KmCssDefaultBuilder baseline()
@@ -1275,9 +1360,34 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.italic);
     }
     
+    public KmCssDefaultBuilder margin0()
+    {
+        return apply(KmCssDefaultConstantsIF.margin0);
+    }
+    
+    public KmCssDefaultBuilder margin1()
+    {
+        return apply(KmCssDefaultConstantsIF.margin1);
+    }
+    
     public KmCssDefaultBuilder margin10()
     {
         return apply(KmCssDefaultConstantsIF.margin10);
+    }
+    
+    public KmCssDefaultBuilder margin2()
+    {
+        return apply(KmCssDefaultConstantsIF.margin2);
+    }
+    
+    public KmCssDefaultBuilder margin3()
+    {
+        return apply(KmCssDefaultConstantsIF.margin3);
+    }
+    
+    public KmCssDefaultBuilder margin4()
+    {
+        return apply(KmCssDefaultConstantsIF.margin4);
     }
     
     public KmCssDefaultBuilder margin5()

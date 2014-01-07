@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2013 www.kodemore.com
+  Copyright (c) 2005-2014 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,8 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScControlIF;
+import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 
 /**
@@ -72,21 +74,47 @@ public class ScHtmlIdAjax
 
     public String formatJquerySelector()
     {
-        return getTarget().formatJquerySelector();
+        return getTarget().getJquerySelector();
     }
 
     public String formatJqueryReference()
     {
-        return getTarget().formatJqueryReference();
+        return getTarget().getJqueryReference();
     }
 
     //##################################################
-    //# layout
+    //# run :: deferred
     //##################################################
 
-    public void printMain()
+    public void runDeferred(ScScriptIF e)
     {
-        printMain(getTarget());
+        pushDefer();
+        run(e);
+        popDefer();
+    }
+
+    public ScScriptIF runDeferred(String s, Object... args)
+    {
+        pushDefer();
+        ScScriptIF e = run(s, args);
+        popDefer();
+        return e;
+    }
+
+    public ScActionScript runDeferred(ScActionIF action)
+    {
+        pushDefer();
+        ScActionScript e = run(action);
+        popDefer();
+        return e;
+    }
+
+    public ScActionScript runDeferred(ScActionIF action, ScForm form)
+    {
+        pushDefer();
+        ScActionScript e = run(action, form);
+        popDefer();
+        return e;
     }
 
     //##################################################
@@ -106,6 +134,19 @@ public class ScHtmlIdAjax
     public ScToggleScript toggle()
     {
         return toggle(getTarget());
+    }
+
+    public ScGlowScript glow()
+    {
+        return glow(getTarget());
+    }
+
+    public ScGlowScript glowDeferred()
+    {
+        pushDefer();
+        ScGlowScript e = glow(getTarget());
+        popDefer();
+        return e;
     }
 
     //##################################################
@@ -133,12 +174,52 @@ public class ScHtmlIdAjax
     }
 
     //##################################################
-    //# replace
+    //# append / prepend
     //##################################################
 
+    public void appendContents(CharSequence html)
+    {
+        appendContents(getTarget(), html);
+    }
+
+    public void prependContents(CharSequence html)
+    {
+        prependContents(getTarget(), html);
+    }
+
+    //##################################################
+    //# remove / replace
+    //##################################################
+
+    public void remove()
+    {
+        remove(getTarget());
+    }
+
+    public void replaceWith(ScControlIF with)
+    {
+        replaceWith(getTarget(), with);
+    }
+
+    /**
+     * Attempt to replace the element identified by the target htmlId
+     * with the current version of itself.  
+     * 
+     * NOTE: HtmlIds are not necessarily renderable.  This only works if 
+     * the target HtmlId is also an instance of ScControlIF.  Otherwise,
+     * the element will simply be removed.
+     */
     public void replace()
     {
-        replace(getTarget());
+        ScHtmlIdIF target = getTarget();
+
+        if ( target instanceof ScControlIF )
+        {
+            ScControlIF with = (ScControlIF)target;
+            replaceWith(target, with);
+        }
+        else
+            remove();
     }
 
     //##################################################
@@ -328,4 +409,5 @@ public class ScHtmlIdAjax
     {
         tooltip(getTarget());
     }
+
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2013 www.kodemore.com
+  Copyright (c) 2005-2014 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -119,15 +119,15 @@ public class ScFilterBox
     }
 
     @Override
-    public String formatJquerySelector()
+    public String getJquerySelector()
     {
-        return _form.formatJquerySelector();
+        return _form.getJquerySelector();
     }
 
     @Override
-    public String formatJqueryReference()
+    public String getJqueryReference()
     {
-        return _form.formatJqueryReference();
+        return _form.getJqueryReference();
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2013 www.kodemore.com
+  Copyright (c) 2005-2014 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,6 @@
 
 package com.kodemore.servlet.field;
 
-import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScJquery;
@@ -85,26 +84,6 @@ public class ScFakeHtmlId
     }
 
     //##################################################
-    //# render
-    //##################################################
-
-    @Override
-    public KmHtmlBuilder render()
-    {
-        KmHtmlBuilder out = new KmHtmlBuilder();
-        renderOn(out);
-        return out;
-    }
-
-    @Override
-    public void renderOn(KmHtmlBuilder out)
-    {
-        out.open("simple");
-        out.printAttribute("id", getId());
-        out.close();
-    }
-
-    //##################################################
     //# html id
     //##################################################
 
@@ -115,13 +94,13 @@ public class ScFakeHtmlId
     }
 
     @Override
-    public String formatJquerySelector()
+    public String getJquerySelector()
     {
         return ScJquery.formatIdSelector(getId());
     }
 
     @Override
-    public String formatJqueryReference()
+    public String getJqueryReference()
     {
         return ScJquery.formatIdReference(getId());
     }

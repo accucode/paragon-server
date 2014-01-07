@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2013 www.kodemore.com
+  Copyright (c) 2005-2014 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -110,7 +110,6 @@ public interface ScConstantsIF
      */
     String   PARAMETER_IS_PAGE_MENU_VISIBLE   = "_isMenuVisible";
 
-    // todo_wyatt: move this to the layout? (instead of the page)
     /**
      * The key of the form that was submitted.
      */

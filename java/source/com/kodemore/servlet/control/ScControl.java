@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2005-2013 www.kodemore.com
+  Copyright (c) 2005-2014 www.kodemore.com
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -96,6 +96,7 @@ public abstract class ScControl
      * that Person in different ways - one control may apply
      * the person's name.
      */
+    // todo_wyatt: reconsider the ScControl.model paradigm. 
     private ScLocalObject                      _model;
 
     /**

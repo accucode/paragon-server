@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+    </script>
+
+    <style type="text/css">
+        .myTable
+        {
+            border: thin solid yellow;
+        }
+        .myTable td
+        {
+            padding: 3px;
+        }
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="">
+
+    <div class="boxGreen gap">
+        <p>Field with button on right.</p>
+        <button onclick="location.reload();">reload</button>
+    </div>
+
+
+    <br>
+    <div class='boxBrown pad width400 clearfix'>
+        <p>Here we use a table layout.  The brown box is a div with a fixed width.
+            The table is placed inside the brown box.  The table has a single row
+            with two cells.  The first cell has a width of 100%.  Finally, the field
+            is placed inside the first cell, and is also given a width of 100%.
+        </p>
+        <table class='widthFull'>
+            <tr>
+                <td class='widthFull padRight'>
+                    <input class='widthFull'></input>
+                </td>
+                <td>
+                    <button type="button" class="button button-element-default" onclick=";">button</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+</div>    
+</body>
+</html>
