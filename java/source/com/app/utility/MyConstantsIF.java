@@ -30,14 +30,14 @@ public interface MyConstantsIF
      * Typical format is Build-YYMMDD-R.  Where R is the number
      * of revisions on a given day.
      */
-    String APPLICATION_VERSION       = "Build-131224-1";
+    String APPLICATION_VERSION       = "Build-140107-1";
 
     //##################################################
     //# copyright
     //##################################################
 
-    String COPYRIGHT_TEXT            = "Copyright 2013 AccuCode Inc";
-    String COPYRIGHT_HTML            = "&copy; 2013 AccuCode Inc";
+    String COPYRIGHT_TEXT            = "Copyright 2014 AccuCode Inc";
+    String COPYRIGHT_HTML            = "&copy; 2014 AccuCode Inc";
 
     //##################################################
     //# misc
