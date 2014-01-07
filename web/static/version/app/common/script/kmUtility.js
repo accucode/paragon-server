@@ -1345,7 +1345,7 @@ Kmu.glow = function(options)
 	
 	var extra;
 	extra = {};
-	extra.duration = speed;
+	extra.duration = speed / 2;
 	
 	target.animate(css, extra);
 	css[attr] = oldValue;
