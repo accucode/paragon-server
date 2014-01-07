@@ -3,7 +3,6 @@ This README contains information regarding Amazon Web Service (AWS) deployment.
 Installing and configuring Toolkit
 
     Install AWS CLI
-
      
         1.  Download and install the MSI setup tool
                 http://aws.amazon.com/cli/
