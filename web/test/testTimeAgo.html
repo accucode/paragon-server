@@ -18,17 +18,16 @@
         function myInstall()
         {
             $('#main').fadeIn();
-			$.timeago.settings.allowFuture = true;            
         }
         
     </script>
 </head>
 
 <body onload="myLoad()">
-<div id='main' style='display:none'>
+<div id="main" style="display:none" class="gap">
 
-<div class="boxBlue pad">
-	Time elements<br>
+<div class="boxGreen pad">
+	Km TimeAgo<br>
 	
 	July 2008 (time): 
 	<time class="timeago" datetime="2008-07-17T09:24:17Z">July 2008</time><br>
@@ -36,7 +35,8 @@
 	July 2014 (time): 
 	<time class="timeago" datetime="2014-07-17T09:24:17Z">July 2014</time><br>
 	
-	<button onclick="$('.timeago').timeago();">install</button>
+	<button onclick="KmTimeAgo.start('time.timeago', 1);">start</button>
+	<button onclick="KmTimeAgo.stopAll();">stop all</button>
 </div>
 
 </div>

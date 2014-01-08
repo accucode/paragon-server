@@ -270,6 +270,23 @@ public class ScModelList<T>
         valueAjax.runDeferred(out.getPostRender());
     }
 
+    public void ajaxPrependValue(T value)
+    {
+        KmHtmlBuilder out = renderValue(value, false);
+        String html = out.formatHtml();
+
+        ScHtmlIdAjax listAjax;
+        listAjax = ajax();
+        listAjax.prependContents(html);
+        listAjax.run(out.getPostDom());
+
+        ScHtmlIdAjax valueAjax;
+        valueAjax = ajaxFor(value);
+        valueAjax.show().slide();
+        valueAjax.glowDeferred();
+        valueAjax.runDeferred(out.getPostRender());
+    }
+
     //##################################################
     //# support
     //##################################################

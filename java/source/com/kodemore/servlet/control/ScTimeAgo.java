@@ -62,7 +62,7 @@ public class ScTimeAgo
     }
 
     //##################################################
-    //# source
+    //# utc ts
     //##################################################
 
     public KmTimestamp getUtcTs()
@@ -91,7 +91,7 @@ public class ScTimeAgo
         renderAttributesOn(out);
         out.close();
 
-        // no end tag.
+        out.end("time");
     }
 
     @Override

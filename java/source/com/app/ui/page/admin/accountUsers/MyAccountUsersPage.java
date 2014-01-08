@@ -256,7 +256,7 @@ public class MyAccountUsersPage
 
         KmList<MyInvitation> v;
         v = dao.findJoinInvitationsFor(acct);
-        v.sortOn(MyInvitation.Meta.ToEmail);
+        v.sortReverseOn(MyInvitation.Meta.CreatedUtcTs);
 
         _invitationList.setValues(v);
     }
@@ -282,12 +282,15 @@ public class MyAccountUsersPage
         root.css().margin1().pad().border().backgroundGrayEEE();
 
         ScDiv left;
-        left = root.addFloatLeft();
-        left.addText(value.getToEmail());
+        left = root.addDiv();
+        left.css().displayCell().middle().widthFull();
+        left.addTextSpan(value.getToEmail()).css().bold();
+        left.addBreak();
+        left.addTimeAgo(value.getCreatedUtcTs()).css().smallText().italic();
 
         ScDiv right;
-        right = root.addFloatRight();
-        right.css().padLeftChildren();
+        right = root.addDiv();
+        right.css().displayCell().middle().padLeftChildren();
         right.addLink("Resend", _resendInvitationAction, value.getUid());
         right.addLink("Cancel", _cancelInvitationAction, value.getUid());
     }
@@ -377,7 +380,7 @@ public class MyAccountUsersPage
 
         ajax().toast("Invitation sent to: " + email);
 
-        _invitationList.ajaxAppendValue(e);
+        _invitationList.ajaxPrependValue(e);
         _invitationField.ajax().clearValue();
     }
 

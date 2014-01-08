@@ -93,8 +93,11 @@ Kmu.wait = function(ms)
 
 /**
  * Merge the attributes of multiple objects into a NEW result.
+ * The parameters are merged in the order in which they are provided.
+ * That is, we start with a, then merge b, then merge c, etc.
+ * In general, pass the default values first, and overrides second.
  */
-Kmu.merge = function(a, b)
+Kmu.merge = function(a, b, c)
 {
     var r = {};
     
@@ -105,6 +108,10 @@ Kmu.merge = function(a, b)
     if ( b )
         for ( key in b )
             r[key] = b[key];
+    
+    if ( c )
+        for ( key in c )
+            r[key] = c[key];
     
     return r;
 }
@@ -1269,29 +1276,7 @@ Kmu.registerDragUpdate = function(parentSelector, childPath, attr, actionId)
 }
 
 //**********************************************************
-//** dropdown menu
-//**********************************************************
-
-function installDropdownMenuAutoClose()
-{
-    $(document).click(function() 
-    {
-        $('.dropdownMenu').removeClass('open');
-    });
-}
-
-function installDropdownMenu(e)
-{
-    e = $(e);
-    e.on('click', function(ev)
-    {
-        e.toggleClass('open');
-        ev.stopPropagation();
-    }); 
-}
-        
-//**********************************************************
-//** drag
+//** glow
 //**********************************************************
 
 /**
