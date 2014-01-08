@@ -98,6 +98,7 @@ public class MyTestPage
         links.addLink(MyGradientTestPage.instance);
         links.addLink(MyCardFlipTestPage.instance);
         links.addLink(MyChartTestPage.instance);
+        links.addLink(MyTimeAgoTestPage.instance);
 
         group = groups.addGroup("Tools");
         links = group.addLinkBox();

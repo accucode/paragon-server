@@ -22,21 +22,21 @@
 
 package com.kodemore.servlet.variable;
 
-import com.kodemore.time.KmDate;
+import com.kodemore.time.KmTimestamp;
 
-public class ScLocalDate
-    extends ScSimpleLocal<KmDate>
+public class ScLocalTimestamp
+    extends ScSimpleLocal<KmTimestamp>
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public ScLocalDate()
+    public ScLocalTimestamp()
     {
         super();
     }
 
-    public ScLocalDate(KmDate def)
+    public ScLocalTimestamp(KmTimestamp def)
     {
         super(def);
     }

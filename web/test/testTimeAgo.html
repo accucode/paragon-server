@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+    
+    <script type="text/javascript">
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').fadeIn();
+			$.timeago.settings.allowFuture = true;            
+        }
+        
+    </script>
+</head>
+
+<body onload="myLoad()">
+<div id='main' style='display:none'>
+
+<div class="boxBlue pad">
+	Time elements<br>
+	
+	July 2008 (time): 
+	<time class="timeago" datetime="2008-07-17T09:24:17Z">July 2008</time><br>
+	
+	July 2014 (time): 
+	<time class="timeago" datetime="2014-07-17T09:24:17Z">July 2014</time><br>
+	
+	<button onclick="$('.timeago').timeago();">install</button>
+</div>
+
+</div>
+</body>
+</html>

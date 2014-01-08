@@ -39,7 +39,7 @@ public interface ScCoderConstantsIF
     String CODER_NULL       = "n";
     String CODER_QUANTITY   = "q";
     String CODER_STRING     = "s";
+    String CODER_TIMESTAMP  = "t";
     String CODER_LIST       = "v";
     String CODER_VISIBILITY = "y";
-
 }

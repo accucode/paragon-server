@@ -77,6 +77,7 @@ public class ScCoderRegistry
         registerCoder(new ScBooleanCoder());
 
         registerCoder(new ScDateCoder());
+        registerCoder(new ScTimestampCoder());
         registerCoder(new ScQuantityCoder());
         registerCoder(new ScActionCoder());
         registerCoder(new ScHtmlColorCoder());

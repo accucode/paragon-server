@@ -46,6 +46,7 @@ public abstract class MyPageRegistryBase
         add(MyDevEmailEditPage.instance);
         add(MyDevEmailListPage.instance);
         add(MyDevEmailViewPage.instance);
+        add(MyDevHibernateCachePage.instance);
         add(MyDevPerformanceLogPage.instance);
         add(MyDevSharedFileBrowserPage.instance);
         add(MyDevSqlPage.instance);
@@ -70,7 +71,6 @@ public abstract class MyPageRegistryBase
         add(MyGroupIconHeaderTestPage.instance);
         add(MyGroupTestPage.instance);
         add(MyHandleSortTestPage.instance);
-        add(MyDevHibernateCachePage.instance);
         add(MyHideErrorsTestPage.instance);
         add(MyHomePage.instance);
         add(MyHoverTestPage.instance);
@@ -96,6 +96,7 @@ public abstract class MyPageRegistryBase
         add(MyStaticIncludeTestPage.instance);
         add(MyTabbedTestPage.instance);
         add(MyTestPage.instance);
+        add(MyTimeAgoTestPage.instance);
         add(MyTimeoutPage.instance);
         add(MyToastTestPage.instance);
         add(MyUserActivationPage.instance);

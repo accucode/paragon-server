@@ -104,6 +104,21 @@ public class KmTimestamp
         return new KmTimestamp(date, time);
     }
 
+    /**
+     * Create a timestamp from an ordinal.  This is the reciprical
+     * of KmTimestamp.getOrdinal().
+     */
+    public static KmTimestamp createOrdinal(long i)
+    {
+        int dateOrdinal = (int)(i / MS_PER_DAY);
+        int timeOrdinal = (int)(i % MS_PER_DAY);
+
+        KmDate date = KmDate.createOrdinal(dateOrdinal);
+        KmTime time = KmTime.createOrdinal(timeOrdinal);
+
+        return KmTimestamp.create(date, time);
+    }
+
     //##################################################
     //# variables
     //##################################################
@@ -427,9 +442,19 @@ public class KmTimestamp
         return addDays(1);
     }
 
-    public KmTimestamp addDays(long i)
+    public KmTimestamp addDays(int i)
     {
-        return create(getDate().addDay(), getTime());
+        return create(getDate().addDays(i), getTime());
+    }
+
+    public KmTimestamp addWeek()
+    {
+        return addWeeks(1);
+    }
+
+    public KmTimestamp addWeeks(int i)
+    {
+        return addDays(i * 7);
     }
 
     public KmTimestamp addHour()
@@ -652,9 +677,22 @@ public class KmTimestamp
         return KmTimestampUtility.format(this, s);
     }
 
+    /**
+     * Create an XSD format, for use with xml files.
+     * E.g.: 2002-05-30T09:30:10Z
+     */
     public String formatXsdUtc()
     {
         return KmTimestampUtility.formatXsdUtc(this);
+    }
+
+    /**
+     * Create an ISO 8601 format (same as XSD?)
+     * E.g.: 2002-05-30T09:30:10Z
+     */
+    public String formatIsoUtc()
+    {
+        return formatXsdUtc();
     }
 
     public String format_yyyymmdd_hhmmss()
@@ -757,8 +795,11 @@ public class KmTimestamp
 
     public static void main(String... args)
     {
-        double d = 20101201011500.0;
-        createMySqlGoofy(d);
+        KmTimestamp a = KmClock.getNowLocal();
+        KmTimestamp b = KmTimestamp.createOrdinal(a.getOrdinal());
+
+        System.out.println(a);
+        System.out.println(b);
     }
 
 }

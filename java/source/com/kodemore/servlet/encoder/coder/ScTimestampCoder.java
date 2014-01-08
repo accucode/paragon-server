@@ -20,24 +20,41 @@
   THE SOFTWARE.
 */
 
-package com.kodemore.servlet.variable;
+package com.kodemore.servlet.encoder.coder;
 
-import com.kodemore.time.KmDate;
+import com.kodemore.servlet.encoder.ScDecoder;
+import com.kodemore.servlet.encoder.ScEncoder;
+import com.kodemore.time.KmTimestamp;
+import com.kodemore.utility.Kmu;
 
-public class ScLocalDate
-    extends ScSimpleLocal<KmDate>
+public class ScTimestampCoder
+    extends ScAbstractCoder
 {
-    //##################################################
-    //# constructor
-    //##################################################
-
-    public ScLocalDate()
+    @Override
+    public String getKey()
     {
-        super();
+        return CODER_TIMESTAMP;
     }
 
-    public ScLocalDate(KmDate def)
+    @Override
+    public boolean matches(Object e)
     {
-        super(def);
+        return e instanceof KmTimestamp;
     }
+
+    @Override
+    public void encode(ScEncoder encoder, Object o)
+    {
+        KmTimestamp e = (KmTimestamp)o;
+        long i = e.getOrdinal();
+        encoder._printLong(i);
+    }
+
+    @Override
+    public Object decode(ScDecoder decoder, String s)
+    {
+        long i = Kmu.parse_long(s);
+        return KmTimestamp.createOrdinal(i);
+    }
+
 }

@@ -51,6 +51,9 @@ var MyResourceLoader =
             // Transit
             "static/{version}/jquery/transit-0.9.9/jquery.transit-0.9.9.min.js",
             
+            // TimeAgo
+            "static/{version}/jquery/timeago-1.3.1/jquery.timeago.js",
+            
             // Twitter Bootstrap
             "static/{version}/bootstrap-2.3.2/css/bootstrap.min.css",
             "static/{version}/bootstrap-2.3.2/js/bootstrap.min.js",
