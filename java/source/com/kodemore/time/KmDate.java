@@ -953,6 +953,15 @@ public class KmDate
         return KmDateUtility.format_yymmdd(this);
     }
 
+    /**
+     * Create an ISO 8601 format.
+     * E.g.: 2002-05-30
+     */
+    public String formatIso()
+    {
+        return KmDateUtility.format_iso(this);
+    }
+
     //##################################################
     //# display
     //##################################################
@@ -1063,4 +1072,5 @@ public class KmDate
         }
         _day = _ordinal - days + 1;
     }
+
 }

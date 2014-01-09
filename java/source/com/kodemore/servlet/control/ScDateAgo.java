@@ -23,25 +23,27 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.servlet.variable.ScLocalTimestamp;
-import com.kodemore.time.KmTimestamp;
+import com.kodemore.servlet.variable.ScLocalDate;
+import com.kodemore.time.KmDate;
 
 /**
  * Add a <time> element to the page, but then use client
- * side javascript to display a timestamp using formats like
- *      10 minutes ago
- *      5 hours from now.
+ * side javascript to display a date/timestamp using formats like
+ *      today
+ *      tomorrow
+ *      5 days ago
+ *      2 weeks from now
  *
- * See KmTimeAgo.js
+ * See KmDateAgo.js
  */
-public class ScTimeAgo
+public class ScDateAgo
     extends ScElement
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScLocalTimestamp _utcTs;
+    private ScLocalDate _date;
 
     //##################################################
     //# constructor
@@ -52,27 +54,27 @@ public class ScTimeAgo
     {
         super.install();
 
-        css().add("timeago");
-        _utcTs = new ScLocalTimestamp();
+        css().add("dateago");
+        _date = new ScLocalDate();
     }
 
     //##################################################
     //# utc ts
     //##################################################
 
-    public KmTimestamp getUtcTs()
+    public KmDate getDate()
     {
-        return _utcTs.getValue();
+        return _date.getValue();
     }
 
-    public void setUtcTs(KmTimestamp e)
+    public void setDate(KmDate e)
     {
-        _utcTs.setValue(e);
+        _date.setValue(e);
     }
 
-    public boolean hasUtcTs()
+    public boolean hasDate()
     {
-        return _utcTs.hasValue();
+        return _date.hasValue();
     }
 
     //##################################################
@@ -94,10 +96,10 @@ public class ScTimeAgo
     {
         super.renderAttributesOn(out);
 
-        if ( hasUtcTs() )
+        if ( hasDate() )
         {
-            out.printAttribute("datetime", getUtcTs().formatIsoUtc());
-            out.getPostDom().run("KmTimeAgo.update('%s');", getJquerySelector());
+            out.printAttribute("datetime", getDate().formatIso());
+            out.getPostDom().run("KmDateAgo.update('%s');", getJquerySelector());
         }
     }
 }

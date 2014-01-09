@@ -40,6 +40,7 @@ import com.kodemore.servlet.field.ScLinkList;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
+import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
 
@@ -878,6 +879,19 @@ public abstract class ScContainer
         ScTimeAgo e;
         e = addTimeAgo();
         e.setUtcTs(utcTs);
+        return e;
+    }
+
+    public ScDateAgo addDateAgo()
+    {
+        return add(new ScDateAgo());
+    }
+
+    public ScDateAgo addDateAgo(KmDate date)
+    {
+        ScDateAgo e;
+        e = addDateAgo();
+        e.setDate(date);
         return e;
     }
 }

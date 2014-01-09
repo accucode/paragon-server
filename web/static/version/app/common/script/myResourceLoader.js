@@ -96,6 +96,7 @@ var MyResourceLoader =
             "static/{version}/app/common/script/kmNavigator.js",
             "static/{version}/app/common/script/kmDropdownMenu.js",
             "static/{version}/app/common/script/kmTimeAgo.js",
+            "static/{version}/app/common/script/kmDateAgo.js",
             
             // App
             "static/{version}/app/theme/default/css/topMenu.css",

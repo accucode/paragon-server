@@ -432,6 +432,21 @@ public class KmDateUtility
     }
 
     /**
+     * Format an ISO 8601 date, e.g.: 2014-01-31.
+     */
+    public static String format_iso(KmDate d)
+    {
+        if ( d == null )
+            return "";
+
+        String yyyy = pad4(d.getYear());
+        String mm = pad2(d.getMonth());
+        String dd = pad2(d.getDay());
+
+        return Kmu.format("%s-%s-%s", yyyy, mm, dd);
+    }
+
+    /**
      * Format a date, e.g.: Jan 31, 1985 -> 850131.
      */
     public static String format_yymmdd(KmDate d)
