@@ -247,7 +247,7 @@ public class MyPageLayout
     //= refresh :: header
     //==================================================
 
-    private void ajaxRefreshHeader()
+    public void ajaxRefreshHeader()
     {
         boolean show = getData().isPageHeaderVisible();
         ajaxShowHeader(show);

@@ -72,7 +72,6 @@ public abstract class ScPage
 
     protected String newKey()
     {
-        // return ScControlRegistry.getInstance().getNextKey();
         String s;
         s = getClass().getSimpleName();
         s = Kmu.removePrefix(s, "My");
