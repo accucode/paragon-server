@@ -10,6 +10,7 @@ import com.kodemore.servlet.field.ScTextField;
 
 import com.app.model.MyUser;
 import com.app.ui.control.MyCard;
+import com.app.ui.layout.MyPageLayout;
 
 public class MyUserProfileEditCard
     extends MyCard
@@ -153,6 +154,7 @@ public class MyUserProfileEditCard
         e.setName(name);
 
         ajax().toast("Changes Saved.").success();
+        MyPageLayout.getInstance().ajaxRefreshHeader();
 
         closeCard();
     }
