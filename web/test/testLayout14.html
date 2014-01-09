@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+        }
+        
+    </script>
+
+    <style type="text/css">
+        .myTable
+        {
+            border: thin solid yellow;
+        }
+        .myTable td
+        {
+            padding: 3px;
+        }
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="">
+
+    <div class="boxGreen gap">
+        <p>Test the use of position:absolute in the middle of the page.
+            The absolute element is positioned relative to its first non-static ancestor element.
+            This includes a parent that uses position:relative.  So you can use a parent with
+            relative positioning, but without an actual offset. 
+        </p>
+        <button onclick="location.reload();">reload</button>
+    </div>
+
+    <br>
+
+<!--     -->
+<!-- aaa -->
+<!--     -->
+
+    <div class='boxBrown pad clearBoth'>aaa</div>
+
+    <div class='boxBrown pad floatLeft'>
+        <p>floatLeft</p>
+    </div>
+
+    <div class='boxBlue floatLeft width50p height200' style='position:relative'>
+        <div 
+            class='boxGreen pad' 
+            style="position:absolute; left:0; right:0; width:auto; top:auto; bottom:0;"
+            >
+            <p>abs bottom</p>
+        </div>
+    </div>
+
+<!--     -->
+<!-- bbb -->
+<!--     -->
+    
+    <div class='boxBrown pad clearBoth'>bbb</div>
+
+    <div class='boxBrown pad floatLeft'>
+        <p>floatLeft</p>
+    </div>
+
+    <div class='boxBlue floatLeft width50p height200' style='position:relative'>
+        <div 
+            class='boxGreen pad displayCell bottom' 
+            style="position:absolute; left:0; right:0; width:auto; top:0; bottom:50%;"
+            >
+            <a class="borderRed">abs top half</a>
+        </div>
+        <div 
+            class='boxGreen pad overflowAuto' 
+            style="position:absolute; left:50%; right:0; width:auto; top:50%; bottom:0;"
+            >
+            <p>abs bottom half</p>
+            <p>stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, stuff, </p>
+        </div>
+    </div>
+
+<!--     -->
+<!-- ccc -->
+<!--     -->
+    
+    <div class='boxBrown pad clearBoth'>ccc</div>
+
+    <div class='boxBrown pad floatLeft'>
+        <p>floatLeft</p>
+    </div>
+
+    <div class='boxBlue floatLeft width50p height200 pad20' style='position:relative'>
+        <div class='boxGreen pad'>
+            <p>normal (static)</p>
+        </div>
+        <div 
+            class='boxGreen pad' 
+            style="position:absolute; left:50%; right:0; width:auto; top:auto; bottom:0;"
+            >
+            <p>abs bottom half</p>
+        </div>
+    </div>
+
+<!--     -->
+<!-- zzz -->
+<!--     -->
+    
+    <div class='boxBrown pad clearBoth'>zzz</div>
+
+</div>    
+</body>
+</html>
