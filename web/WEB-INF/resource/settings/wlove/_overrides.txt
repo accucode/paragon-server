@@ -9,7 +9,7 @@ servletPort                                 = 8080
 servletRedirect                             = y
                                             
 servletShowStackTrace                       = y
-serverSessionTimeoutSeconds                 = 6000
+serverSessionTimeoutSeconds                 = 604800
                                             
 webResourceVersioning                       = dev
                                             
@@ -43,8 +43,8 @@ sendEmailEnabled                            = y
 sendEmailOverrideTo                         = 
                                             
 sendEmailMethod                             = smtp
-sendEmailMethod                             = print
 sendEmailMethod                             = noop
+sendEmailMethod                             = print
 
 sendEmailJobEnabled                         = y
 sendEmailJobActiveSeconds                   = 1
