@@ -1,4 +1,4 @@
-<project name="Development" basedir="..">
+<project name="Deploy Development" basedir="..">
 
     <property name='dummy' value=''/>  
     <import file="antCore.xml"/>
