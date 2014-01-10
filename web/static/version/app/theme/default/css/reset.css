@@ -53,7 +53,8 @@ footer, header, hgroup, menu, nav, section
 
 body 
 {
-    font: normal 12px sans-serif;
+    font-weight: normal;
+    font-family: sans-serif;
 }
 
 b

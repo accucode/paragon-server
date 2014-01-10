@@ -79,9 +79,6 @@ public interface KmCssDefaultConstantsIF
     String marginLeft = "marginLeft";
     String marginRight = "marginRight";
     String marginTop = "marginTop";
-    String navigationElement = "navigationElement";
-    String navigationSeparator = "navigationSeparator";
-    String navigationTrail = "navigationTrail";
     String pad = "pad";
     String padHorizontal = "padHorizontal";
     String padLeft = "padLeft";

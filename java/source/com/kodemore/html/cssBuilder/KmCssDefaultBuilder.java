@@ -425,21 +425,6 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.marginTop);
     }
     
-    public KmCssDefaultBuilder navigationElement()
-    {
-        return apply(KmCssDefaultConstantsIF.navigationElement);
-    }
-    
-    public KmCssDefaultBuilder navigationSeparator()
-    {
-        return apply(KmCssDefaultConstantsIF.navigationSeparator);
-    }
-    
-    public KmCssDefaultBuilder navigationTrail()
-    {
-        return apply(KmCssDefaultConstantsIF.navigationTrail);
-    }
-    
     public KmCssDefaultBuilder pad()
     {
         return apply(KmCssDefaultConstantsIF.pad);

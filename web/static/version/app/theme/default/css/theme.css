@@ -1,10 +1,17 @@
 /*******************************************************************
- ** body
+ ** root
  *******************************************************************/
+
+html
+{
+    font-size: 62.5%; // 10px
+    line-height: 1.2;
+}
 
 body
 {
     overflow: hidden;
+    font-size: 1.3rem;
 }
 
 /*******************************************************************
@@ -56,7 +63,7 @@ body
 {
     text-align: center;
     color: #444;
-    font: normal 12px sans-serif;
+    font: normal 1.2rem sans-serif;
     padding-top: 5px;
 }
 
@@ -119,7 +126,7 @@ body
 #pageHeaderLogoText
 {
     color: #080;
-    font: italic bold 36px sans-serif;
+    font: italic bold 3rem sans-serif;
     text-shadow: -1px -1px #fff,  1px  1px #444;
     padding-top: 5px;
     padding-left: 5px;
@@ -176,7 +183,7 @@ body
 
 .pageTitleText
 {
-    font: normal 22px sans-serif;
+    font: normal 2em sans-serif;
     color: #000;
     vertical-align: middle;
     padding: 3px 0 3px 10px;
@@ -239,7 +246,7 @@ body
 {
     margin: 0;
     padding: 5px;
-    font: normal 15px sans-serif;
+    font: normal 1.5rem sans-serif;
     background-color: #ffd;
     
     border-top:    1px solid #999;
@@ -287,7 +294,7 @@ body
 {
     margin: 0;
     padding: 5px;
-    font: normal 15px sans-serif;
+    font: normal 1.5rem sans-serif;
     background-color: #ccc;
     
     border-top:    1px solid #999;
@@ -324,7 +331,7 @@ body
 {
     margin: 0;
     padding: 3px;
-    font: normal 15px sans-serif;
+    font: normal 1.5rem sans-serif;
     background-color: #ffd;
     
     border-top:    1px solid #999;
@@ -380,7 +387,7 @@ body
 
 .link
 {
-    font: normal 13px sans-serif;
+    font: normal 1.3rem sans-serif;
     color: #000;
 }
 
@@ -472,7 +479,7 @@ td.content
 th.dataTableHeader
 {
     vertical-align: top;
-    font: 12px sans-serif;
+    font: 1.2rem sans-serif;
     background-color: #d4d0c8;
     margin: 0 0 0 0;
     padding: 1px 5px 2px 2px;
@@ -485,7 +492,7 @@ th.dataTableHeader
 tr.dataTableOdd
 {
     vertical-align: top;
-    font: 12px sans-serif;
+    font: 1.2rem sans-serif;
     background-color: #ffffff;
     padding: 1px 2px 1px 2px;
     border: 0px;
@@ -495,7 +502,7 @@ tr.dataTableOdd
 tr.dataTableEven
 {
     vertical-align: top;
-    font: 12px sans-serif;
+    font: 1.2rem sans-serif;
     background-color: #f0f5fa;
     padding: 1px 2px 1px 2px;
     border: 0px;
@@ -505,7 +512,7 @@ tr.dataTableEven
 tr.dataTableOddOver
 {
     vertical-align: top;
-    font: 12px sans-serif;
+    font: 1.2rem sans-serif;
     background-color: #EDDFC9;
     padding: 1px 2px 1px 2px;
     border: 0px;
@@ -515,7 +522,7 @@ tr.dataTableOddOver
 tr.dataTableEvenOver
 {
     vertical-align: top;
-    font: 12px sans-serif;
+    font: 1.2rem sans-serif;
     background-color: #EDDFC9;
     padding: 1px 2px 1px 2px;
     border: 0px;
@@ -525,7 +532,7 @@ tr.dataTableEvenOver
 td.dataTableOdd
 {
     vertical-align: top;
-    font: 12px sans-serif;
+    font: 1.2rem sans-serif;
     padding: 1px 2px 1px 2px;
     border: 0px;
     border-right: 1px solid #666;
@@ -535,7 +542,7 @@ td.dataTableOdd
 td.dataTableEven
 {
     vertical-align: top;
-    font: 12px sans-serif;
+    font: 1.2rem sans-serif;
     padding: 1px 2px 1px 2px;
     border: 0px;
     border-right: 1px solid #666;
@@ -549,32 +556,32 @@ td.dataTableEven
 
 .text
 {
-    font: normal 12px sans-serif;
+    font: normal 1.2rem sans-serif;
     color: #000;
 }
 
 .smallText
 {
-    font: normal 11px sans-serif;
+    font: normal 1rem sans-serif;
     color: #000;
 }
 
 .importantText
 {
-    font: bold 12px sans-serif;
+    font: bold 1.2rem sans-serif;
     color: #f00;
 }
 
 .label
 {
-    font: bold 13px sans-serif;
+    font: bold 1.3rem sans-serif;
     color: #000;
     white-space: nowrap;
 }
 
 .fieldValue
 {
-    font: normal 15px sans-serif;
+    font: normal 1.5rem sans-serif;
     border: 1px solid #ddd;
     padding: 2px;
 }
@@ -614,32 +621,6 @@ td.fieldsRight
 {
     padding-left: 3px;
     width: 100%;
-}
-
-/*******************************************************************
- ** Navigation Trail
- *******************************************************************/
-
-.navigationTrail
-{
-    margin: 0;
-    padding: 0.3em;
-    border: 1px solid black;
-    border-bottom: 0px;
-    color: #111;
-    background-color: #ebeef3;
-}
-
-.navigationElement
-{
-    background-color: #ebeef3;
-    font: bold 16pt serif;
-}
-
-.navigationSeparator
-{
-    background-color: #ebeef3;
-    font: bold 10pt serif;
 }
 
 /*******************************************************************
@@ -721,7 +702,7 @@ a.tabx:hover
 
 .accordionEnabledTab
 {
-    font: bold 10pt sans-serif;
+    font: bold 1.2rem sans-serif;
     color: #000000;
     background-color: #EEEEEE;
     border: 1px solid #CCCCCC;
@@ -736,7 +717,7 @@ a.tabx:hover
 
 .accordionDisabledTab
 {
-    font: bold 10pt sans-serif;
+    font: bold 1.2rem sans-serif;
     color: #000000;
     background-color: #EEEEEE;
     border: 1px solid #CCCCCC;
@@ -746,7 +727,7 @@ a.tabx:hover
 
 .accordionOpenTab
 {
-    font: bold 10pt sans-serif;
+    font: bold 1.2rem sans-serif;
     color: #000000;
     background-color: #DDDD66;
     border: 1px solid #444444;
@@ -775,7 +756,7 @@ a.tabx:hover
 {
     background-color: #ff0;
     border-bottom: 1px solid #888;
-    font: bold 24px sans-serif; 
+    font: bold 2rem sans-serif; 
     padding: 10px;
 }
 
@@ -797,7 +778,7 @@ a.tabx:hover
     background-color: white;
     padding: 5px;
     
-    font: normal 12px sans-serif;
+    font: normal 1.2rem sans-serif;
     text-align: center;
 }
 
@@ -827,7 +808,7 @@ a.tabx:hover
     color: red;
     padding: 5px;
     background-color: white;
-    font: normal 13px sans-serif; 
+    font: normal 1.2rem sans-serif; 
     
     border: 1px solid red;
     border-top: none;
@@ -842,7 +823,7 @@ a.tabx:hover
     color: red;
     padding: 2px 5px;
     background-color: white;
-    font: normal 13px sans-serif;
+    font: normal 1.2rem sans-serif;
     
     border: 1px solid #f00;
     margin-top: 1px; 
@@ -863,7 +844,7 @@ a.tabx:hover
 .leftMenu-item
 {
     cursor: pointer;
-    font: normal 13px sans-serif;
+    font: normal 1.4rem sans-serif;
     
     padding: 5px 5px 5px 10px;
     margin-bottom: 2px;
@@ -879,12 +860,7 @@ a.tabx:hover
     border: 1px solid #080;
     border-right: none;
     
-    -moz-border-radius:     10px 0 0 10px;
-    -webkit-border-radius:  10px 0 0 10px;
     border-radius:          10px 0 0 10px;
-
-    -webkit-box-shadow:     5px 5px 5px #ccc;
-    -moz-box-shadow:        5px 5px 5px #ccc;
     box-shadow:             5px 5px 5px #ccc;
 }
 
@@ -892,7 +868,7 @@ a.tabx:hover
 {
     color: #000;
     cursor: pointer;
-    font: normal 13px sans-serif;
+    font: bold 1.4rem sans-serif;
     
     padding: 5px 5px 5px 10px;
     margin-bottom: 2px;
@@ -902,12 +878,7 @@ a.tabx:hover
     border: 1px solid #080;
     border-right: none;
     
-    -moz-border-radius:     10px 0 0 10px;
-    -webkit-border-radius:  10px 0 0 10px;
     border-radius:          10px 0 0 10px;
-    
-    -webkit-box-shadow:     5px 5px 5px #ccc;
-    -moz-box-shadow:        5px 5px 5px #ccc;
     box-shadow:             5px 5px 5px #ccc;
 }
 
@@ -954,7 +925,7 @@ a.tabx:hover
 .group-title-default
 {
     padding: 5px 10px;
-    font: bold 24px sans-serif;
+    font: bold 2rem sans-serif;
     text-shadow:  1px  1px #fff, -1px -1px #444;
 }
 
@@ -990,7 +961,7 @@ a.tabx:hover
 .group-title-error
 {
     padding: 5px 10px;
-    font: bold 24px sans-serif;
+    font: bold 2rem sans-serif;
     text-shadow:  1px  1px #fff, -1px -1px #444;
 }
 
@@ -1009,7 +980,7 @@ a.tabx:hover
 {
     background-color: #ffa;
     border: 4px solid #f00;
-    font: bold 12px sans-serif;
+    font: bold 1.2rem sans-serif;
      
     padding: 10px;
     padding-left: 35px;
