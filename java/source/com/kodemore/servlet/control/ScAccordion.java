@@ -31,6 +31,7 @@ import com.kodemore.json.KmJsonMap;
  * Clients should usually add block level children such as divs or boxes.
  * 
  * Depends on: jquery, jqueryUI.
+ * http://api.jqueryui.com/accordion/
  */
 public final class ScAccordion
     extends ScDiv
