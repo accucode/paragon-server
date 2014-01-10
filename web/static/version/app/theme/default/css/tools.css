@@ -559,8 +559,17 @@
  ** box-sizing
  *******************************************************************/
 
-.boxSizingBorder    { box-sizing: border-box;  }
-.boxSizingContent   { box-sizing: content-box; }
+.boxSizingBorder    
+{ 
+    box-sizing:      border-box;  
+    -moz-box-sizing: border-box; 
+}
+
+.boxSizingContent   
+{ 
+    box-sizing:      content-box;
+    -moz-box-sizing: content-box; 
+}
 
 /*******************************************************************
  ** position
