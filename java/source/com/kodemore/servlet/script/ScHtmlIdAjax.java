@@ -388,20 +388,6 @@ public class ScHtmlIdAjax
     }
 
     //##################################################
-    //# accordion
-    //##################################################
-
-    public void accordion()
-    {
-        accordion(getTarget());
-    }
-
-    public void accordionCollapsible()
-    {
-        accordionCollapsible(getTarget());
-    }
-
-    //##################################################
     //# tooltip
     //##################################################
 

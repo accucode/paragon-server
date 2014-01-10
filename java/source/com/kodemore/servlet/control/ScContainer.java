@@ -895,6 +895,11 @@ public abstract class ScContainer
         return e;
     }
 
+    public ScAccordion addAccordion()
+    {
+        return add(new ScAccordion());
+    }
+
     public ScBorderLayout addBorderLayout()
     {
         return add(new ScBorderLayout());

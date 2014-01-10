@@ -1076,50 +1076,6 @@ public abstract class ScBlockScript
     }
 
     //##################################################
-    //# accordion
-    //##################################################
-
-    /**
-     * Allows children to be expanded/collapsible.
-     */
-    public void accordion(String sel, KmJsonMap options)
-    {
-        /**
-         * review_aaron (valerie) do you know of a classier kmu to replace
-         * if ( options == null)?
-         */
-        if ( options == null )
-            run("$('%s').accordion();", sel);
-        else
-            run("$('%s').accordion(%s);", sel, options);
-    }
-
-    public void accordion(String sel)
-    {
-        KmJsonMap options = null;
-        accordion(sel, options);
-    }
-
-    public void accordionCollapsible(String sel)
-    {
-        KmJsonMap options;
-        options = new KmJsonMap();
-        options.setBoolean("collapsible", true);
-
-        accordion(sel, options);
-    }
-
-    public void accordion(ScHtmlIdIF target)
-    {
-        accordion(target.getJquerySelector());
-    }
-
-    public void accordionCollapsible(ScHtmlIdIF target)
-    {
-        accordionCollapsible(target.getJquerySelector());
-    }
-
-    //##################################################
     //# scrollTo
     //##################################################
 
