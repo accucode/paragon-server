@@ -894,4 +894,9 @@ public abstract class ScContainer
         e.setDate(date);
         return e;
     }
+
+    public ScBorderLayout addBorderLayout()
+    {
+        return add(new ScBorderLayout());
+    }
 }

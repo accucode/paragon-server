@@ -209,20 +209,106 @@ public class KmStyleBuilder
     }
 
     //##################################################
+    //# left
+    //##################################################
+
+    public KmStyleBuilder left(int px)
+    {
+        addValue("left", px, "px");
+        return this;
+    }
+
+    public KmStyleBuilder leftPercent(int pct)
+    {
+        addValue("left", pct, "%");
+        return this;
+    }
+
+    public KmStyleBuilder leftAuto()
+    {
+        addValue("left", "auto");
+        return this;
+    }
+
+    //##################################################
+    //# right
+    //##################################################
+
+    public KmStyleBuilder right(int px)
+    {
+        addValue("right", px, "px");
+        return this;
+    }
+
+    public KmStyleBuilder rightPercent(int pct)
+    {
+        addValue("right", pct, "%");
+        return this;
+    }
+
+    public KmStyleBuilder rightAuto()
+    {
+        addValue("right", "auto");
+        return this;
+    }
+
+    //##################################################
+    //# top
+    //##################################################
+
+    public KmStyleBuilder top(int px)
+    {
+        addValue("top", px, "px");
+        return this;
+    }
+
+    public KmStyleBuilder topPercent(int pct)
+    {
+        addValue("top", pct, "%");
+        return this;
+    }
+
+    public KmStyleBuilder topAuto()
+    {
+        addValue("top", "auto");
+        return this;
+    }
+
+    //##################################################
+    //# bottom
+    //##################################################
+
+    public KmStyleBuilder bottom(int px)
+    {
+        addValue("bottom", px, "px");
+        return this;
+    }
+
+    public KmStyleBuilder bottomPercent(int pct)
+    {
+        addValue("bottom", pct, "%");
+        return this;
+    }
+
+    public KmStyleBuilder bottomAuto()
+    {
+        addValue("bottom", "auto");
+        return this;
+    }
+
+    //##################################################
     //# float
     //##################################################
 
     public KmStyleBuilder floatLeft()
     {
         addValue("float", "left");
-
         return this;
     }
 
     public KmStyleBuilder floatRight()
     {
         addValue("float", "right");
-
         return this;
     }
 
@@ -237,7 +323,6 @@ public class KmStyleBuilder
         return this;
     }
 
-    
     public KmStyleBuilder scroll()
     {
         addValue("overflow", "scroll");
@@ -253,6 +338,14 @@ public class KmStyleBuilder
     {
         if ( e != null )
             addValue("width", e, "px");
+
+        return this;
+    }
+
+    public KmStyleBuilder widthPercent(Integer e)
+    {
+        if ( e != null )
+            addValue("width", e, "%");
 
         return this;
     }
@@ -288,6 +381,14 @@ public class KmStyleBuilder
     {
         if ( e != null )
             addValue("height", e, "px");
+
+        return this;
+    }
+
+    public KmStyleBuilder heightPercent(Integer e)
+    {
+        if ( e != null )
+            addValue("height", e, "%");
 
         return this;
     }

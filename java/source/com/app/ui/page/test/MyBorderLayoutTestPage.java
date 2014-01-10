@@ -5,16 +5,16 @@ import com.kodemore.servlet.control.ScBorderLayout;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyWyattTestPage
+public class MyBorderLayoutTestPage
     extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyWyattTestPage instance = new MyWyattTestPage();
+    public static final MyBorderLayoutTestPage instance = new MyBorderLayoutTestPage();
 
-    private MyWyattTestPage()
+    private MyBorderLayoutTestPage()
     {
         // singleton
     }

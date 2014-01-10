@@ -124,6 +124,7 @@ public interface KmCssDefaultConstantsIF
     String textFieldReadOnly = "textFieldReadOnly";
     String textFieldWrapper = "textFieldWrapper";
     String shadow = "shadow";
+    String absolute = "absolute";
     String backgroundBlack = "backgroundBlack";
     String backgroundBlue = "backgroundBlue";
     String backgroundGray = "backgroundGray";
@@ -184,6 +185,8 @@ public interface KmCssDefaultConstantsIF
     String boxGreen = "boxGreen";
     String boxPurple = "boxPurple";
     String boxRed = "boxRed";
+    String boxSizingBorder = "boxSizingBorder";
+    String boxSizingContent = "boxSizingContent";
     String boxWhite = "boxWhite";
     String boxYellow = "boxYellow";
     String centerMargins = "centerMargins";
@@ -213,6 +216,7 @@ public interface KmCssDefaultConstantsIF
     String displayRow = "displayRow";
     String displayTable = "displayTable";
     String dragHandle = "dragHandle";
+    String fill = "fill";
     String filler = "filler";
     String floatLeft = "floatLeft";
     String floatLeftChildren = "floatLeftChildren";
@@ -308,6 +312,7 @@ public interface KmCssDefaultConstantsIF
     String padLeft5Children = "padLeft5Children";
     String padRight5 = "padRight5";
     String padRight5Children = "padRight5Children";
+    String relative = "relative";
     String resizeBoth = "resizeBoth";
     String resizeHorizontal = "resizeHorizontal";
     String resizeNone = "resizeNone";

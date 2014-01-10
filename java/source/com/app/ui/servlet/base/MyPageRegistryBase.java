@@ -36,6 +36,7 @@ public abstract class MyPageRegistryBase
         add(MyBarcodeTestPage.instance);
         add(MyBlankTestPage.instance);
         add(MyBlockTestPage.instance);
+        add(MyBorderLayoutTestPage.instance);
         add(MyBorderTestPage.instance);
         add(MyCardFlipTestPage.instance);
         add(MyChartTestPage.instance);

@@ -71,6 +71,7 @@ public class MyTestPage
         links.addLink(MyPlaceholderTestPage.instance);
         links.addLink(MyPopupMenuTestPage.instance);
         links.addLink(MyTabbedTestPage.instance);
+        links.addLink(MyBorderLayoutTestPage.instance);
 
         group = groups.addGroup("Fields");
         links = group.addLinkBox();

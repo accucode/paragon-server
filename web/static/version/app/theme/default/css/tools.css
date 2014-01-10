@@ -553,6 +553,28 @@
  ** dragging
  *******************************************************************/
  
-.dragHandle
+.dragHandle	{}
+
+/*******************************************************************
+ ** box-sizing
+ *******************************************************************/
+
+.boxSizingBorder    { box-sizing: border-box;  }
+.boxSizingContent   { box-sizing: content-box; }
+
+/*******************************************************************
+ ** position
+ *******************************************************************/
+
+.absolute   { position: absolute; } 
+.relative   { position: relative; }
+ 
+.fill
 {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
 }
+ 

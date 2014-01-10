@@ -650,6 +650,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.shadow);
     }
     
+    public KmCssDefaultBuilder absolute()
+    {
+        return apply(KmCssDefaultConstantsIF.absolute);
+    }
+    
     public KmCssDefaultBuilder backgroundBlack()
     {
         return apply(KmCssDefaultConstantsIF.backgroundBlack);
@@ -950,6 +955,16 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.boxRed);
     }
     
+    public KmCssDefaultBuilder boxSizingBorder()
+    {
+        return apply(KmCssDefaultConstantsIF.boxSizingBorder);
+    }
+    
+    public KmCssDefaultBuilder boxSizingContent()
+    {
+        return apply(KmCssDefaultConstantsIF.boxSizingContent);
+    }
+    
     public KmCssDefaultBuilder boxWhite()
     {
         return apply(KmCssDefaultConstantsIF.boxWhite);
@@ -1093,6 +1108,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder dragHandle()
     {
         return apply(KmCssDefaultConstantsIF.dragHandle);
+    }
+    
+    public KmCssDefaultBuilder fill()
+    {
+        return apply(KmCssDefaultConstantsIF.fill);
     }
     
     public KmCssDefaultBuilder filler()
@@ -1568,6 +1588,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder padRight5Children()
     {
         return apply(KmCssDefaultConstantsIF.padRight5Children);
+    }
+    
+    public KmCssDefaultBuilder relative()
+    {
+        return apply(KmCssDefaultConstantsIF.relative);
     }
     
     public KmCssDefaultBuilder resizeBoth()
