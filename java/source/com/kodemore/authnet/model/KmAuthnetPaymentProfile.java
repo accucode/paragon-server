@@ -10,19 +10,19 @@ public class KmAuthnetPaymentProfile
     //# constants
     //##################################################
 
-    private static final String  CUSTOMER_TYPE_INDIVIDUAL = "individual";
-    private static final String  CUSTOMER_TYPE_BUSINESS   = "business";
+    private static final String    CUSTOMER_TYPE_INDIVIDUAL = "individual";
+    private static final String    CUSTOMER_TYPE_BUSINESS   = "business";
 
     //##################################################
     //# variables
     //##################################################
 
-    private Integer              _customerPaymentProfileId;
-    private String               _customerType;
+    private Integer                _customerPaymentProfileId;
+    private String                 _customerType;
     private KmAuthnetBillToAddress _billTo;
     private KmAuthnetPayment       _payment;
 
-    private boolean              _isSingular;
+    private boolean                _isSingular;
 
     //##################################################
     //# constructor

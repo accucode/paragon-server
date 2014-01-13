@@ -10,9 +10,9 @@ public abstract class KmAuthnetAbstractRequest
     //# variables
     //##################################################
 
-    private KmXmlBuilder                  _request;
+    private KmXmlBuilder                    _request;
     private KmAuthnetMerchantAuthentication _authentication;
-    private String                        _refId;
+    private String                          _refId;
 
     //##################################################
     //# constructor

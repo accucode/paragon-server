@@ -11,31 +11,31 @@ public class KmAuthnetTransaction
     //# constants
     //##################################################
 
-    private static final String                TYPE_CAPTURE_ONLY = "profileTransCaptureOnly";
-    private static final String                TYPE_AUTH_CAPTURE = "profileTransAuthCapture";
-    private static final String                TYPE_AUTH_ONLY    = "profileTransAuthOnly";
+    private static final String                  TYPE_CAPTURE_ONLY = "profileTransCaptureOnly";
+    private static final String                  TYPE_AUTH_CAPTURE = "profileTransAuthCapture";
+    private static final String                  TYPE_AUTH_ONLY    = "profileTransAuthOnly";
 
-    private static final String                TRUE              = "TRUE";
-    private static final String                FALSE             = "FALSE";
+    private static final String                  TRUE              = "TRUE";
+    private static final String                  FALSE             = "FALSE";
 
     //##################################################
     //# variables
     //##################################################
 
-    private String                             _type;
-    private KmMoney                            _amount;
+    private String                               _type;
+    private KmMoney                              _amount;
     private KmAuthnetTransactionTax              _tax;
     private KmAuthnetTransactionShipping         _shipping;
     private KmAuthnetTransactionDuty             _duty;
     private KmList<KmAuthnetTransactionLineItem> _lineItems;
-    private Integer                            _customerProfileId;
-    private Integer                            _paymentProfileId;
-    private Integer                            _customerAddressId;
+    private Integer                              _customerProfileId;
+    private Integer                              _paymentProfileId;
+    private Integer                              _customerAddressId;
     private KmAuthnetTransactionOrder            _order;
-    private String                             _taxExempt;
-    private String                             _recurringBilling;
-    private String                             _cardCcvCode;
-    private String                             _approvalCode;
+    private String                               _taxExempt;
+    private String                               _recurringBilling;
+    private String                               _cardCcvCode;
+    private String                               _approvalCode;
 
     //##################################################
     //# constructor

@@ -10,17 +10,17 @@ public class KmAuthnetCreatePaymentProfileRequest
     //# constants
     //##################################################
 
-    public static final String    VALIDATION_MODE_NONE = "none";
-    public static final String    VALIDATION_MODE_TEST = "testMode";
-    public static final String    VALIDATION_MODE_LIVE = "liveMode";
+    public static final String      VALIDATION_MODE_NONE = "none";
+    public static final String      VALIDATION_MODE_TEST = "testMode";
+    public static final String      VALIDATION_MODE_LIVE = "liveMode";
 
     //##################################################
     //# variables
     //##################################################
 
-    private Integer               _customerProfileId;
+    private Integer                 _customerProfileId;
     private KmAuthnetPaymentProfile _paymentProfile;
-    private String                _validationMode;
+    private String                  _validationMode;
 
     //##################################################
     //# constructor

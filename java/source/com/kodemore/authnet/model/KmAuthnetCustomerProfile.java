@@ -11,10 +11,10 @@ public class KmAuthnetCustomerProfile
     //# variables
     //##################################################
 
-    private Integer                       _customerProfileId;
-    private String                        _merchantCustomerId;
-    private String                        _description;
-    private String                        _email;
+    private Integer                         _customerProfileId;
+    private String                          _merchantCustomerId;
+    private String                          _description;
+    private String                          _email;
     private KmList<KmAuthnetPaymentProfile> _paymentProfiles;
     private KmList<KmAuthnetShipToAddress>  _shipToList;
 

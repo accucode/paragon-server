@@ -13,16 +13,16 @@ public class KmAuthnetPaymentUtility
     //# variables (setup)
     //##################################################
 
-    private String                           _apiLogin;
-    private String                           _transactionKey;
+    private String                             _apiLogin;
+    private String                             _transactionKey;
 
-    private int                              _profileId;
-    private int                              _paymentProfileId;
+    private int                                _profileId;
+    private int                                _paymentProfileId;
 
     // optional
-    private String                           _invoiceNumber;
+    private String                             _invoiceNumber;
 
-    private KmMoney                          _amount;
+    private KmMoney                            _amount;
 
     //##################################################
     //# variables (results)

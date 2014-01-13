@@ -27,17 +27,17 @@ public class KmAuthnetPost
     private KmAuthnetAbstractRequest  _request;
     private KmAuthnetAbstractResponse _response;
 
-    private KmXmlBuilder            _requestBuffer;
-    private String                  _requestXml;
+    private KmXmlBuilder              _requestBuffer;
+    private String                    _requestXml;
 
-    private String                  _responseXml;
-    private String                  _cleanedReponseXml;
+    private String                    _responseXml;
+    private String                    _cleanedReponseXml;
 
-    private URLConnection           _connection;
-    private URL                     _url;
+    private URLConnection             _connection;
+    private URL                       _url;
 
-    private StringBuilder           _status;
-    private boolean                 _retry;
+    private StringBuilder             _status;
+    private boolean                   _retry;
 
     //##################################################
     //# constructor
