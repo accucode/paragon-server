@@ -29,7 +29,44 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 
 /**
- * I am used to 
+ * I am used to create a layout similar to the traditional java AWT border layout.
+ * 
+ * I can be used to layout elements that "stick" to the sides of the parent with a 
+ * center portion that fills any remaining space.  Each element is added inside
+ * the elements previously added.
+ * 
+ * In HTML terms, I create <div> elements with position:absolute.
+ * 
+ * NOTE:
+ *      I do not create an element of my own. 
+ *      My children are added directly to my parent.\
+ *      My parent must have a non-"static" position.  (e.g.: relative).
+ *      
+ *      Children use the alternate css size calcuations via "box-sizing:border-box".
+ *      This allows you to add borders and padding to the children without breaking the layout.
+ *
+ *      You can only add one "center" panel, and it must be the last panel that you add.
+ *      
+ *      You can use either pixel or percent based sizes for the sides.
+ *      You can use pixels for one side, and percents for another side.
+ *      However, you must use the SAME mode if you add multiple elements to the SAME side.
+ *      E.g.: 
+ *          This is ok... addLeft(10), addTopPercent(50).
+ *          This is ok... addLeft(10), addLeft(50).
+ *          This will break... addLeft(10), addLeftPercent(50).
+ *          
+ *      If you need to mix pixel and percents for the same side, then you need to create
+ *      multiple nested layouts.
+ *      
+ *          root.css().relative();
+ *          
+ *          outer = root.addBorderLayout();
+ *          outerLeft = outer.addLeft(10);
+ *          outerCenter = outer.addCenter();
+ *
+ *          inner = outerCenter.addBorderLayout();
+ *          innerLeft = inner.addLeftPercent(50);
+ *          innerCenter = inner.addCenter();
  */
 public class ScBorderLayout
     extends ScControl
