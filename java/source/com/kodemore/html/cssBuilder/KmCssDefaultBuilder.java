@@ -1095,14 +1095,14 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.dragHandle);
     }
     
+    public KmCssDefaultBuilder equalizeFiller()
+    {
+        return apply(KmCssDefaultConstantsIF.equalizeFiller);
+    }
+    
     public KmCssDefaultBuilder fill()
     {
         return apply(KmCssDefaultConstantsIF.fill);
-    }
-    
-    public KmCssDefaultBuilder filler()
-    {
-        return apply(KmCssDefaultConstantsIF.filler);
     }
     
     public KmCssDefaultBuilder floatLeft()
@@ -1298,6 +1298,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder gapOuter5()
     {
         return apply(KmCssDefaultConstantsIF.gapOuter5);
+    }
+    
+    public KmCssDefaultBuilder height10()
+    {
+        return apply(KmCssDefaultConstantsIF.height10);
     }
     
     public KmCssDefaultBuilder height100()
@@ -1750,6 +1755,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.whiteSpaceNormal);
     }
     
+    public KmCssDefaultBuilder width10()
+    {
+        return apply(KmCssDefaultConstantsIF.width10);
+    }
+    
     public KmCssDefaultBuilder width100()
     {
         return apply(KmCssDefaultConstantsIF.width100);
@@ -1758,6 +1768,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder width100p()
     {
         return apply(KmCssDefaultConstantsIF.width100p);
+    }
+    
+    public KmCssDefaultBuilder width20()
+    {
+        return apply(KmCssDefaultConstantsIF.width20);
     }
     
     public KmCssDefaultBuilder width200()

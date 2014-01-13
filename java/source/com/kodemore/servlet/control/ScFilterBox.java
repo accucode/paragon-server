@@ -75,7 +75,7 @@ public class ScFilterBox
 
         _body = _group.addPad();
 
-        _group.addFiller();
+        _group.addEqualizeFiller();
         _group.addDivider();
 
         ScBox buttons;

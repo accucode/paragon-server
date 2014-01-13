@@ -864,9 +864,9 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScFiller addFiller()
+    public ScEqualizeFiller addEqualizeFiller()
     {
-        return add(new ScFiller());
+        return add(new ScEqualizeFiller());
     }
 
     public ScTimeAgo addTimeAgo()

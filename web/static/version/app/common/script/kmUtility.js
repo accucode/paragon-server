@@ -1101,6 +1101,7 @@ Kmu.equalize = function(options)
     var widest      = options.minWidth || 0;
     var maxHeight   = options.maxHeight;
     var maxWidth    = options.maxWidth;
+    var fillerSel = ".equalizeFiller";
 
     // equalize width
     
@@ -1125,7 +1126,7 @@ Kmu.equalize = function(options)
     
     if ( height )
     {
-        $(selector).find('.filler').each(function()
+        $(selector).find(fillerSel).each(function()
         {
             $(this).height(0);        
         });
@@ -1141,7 +1142,7 @@ Kmu.equalize = function(options)
        
         $(selector).each(function() 
         {
-            var filler = $(this).find('.filler');
+            var filler = $(this).find(fillerSel);
             
             if ( filler.length > 0 )
             {

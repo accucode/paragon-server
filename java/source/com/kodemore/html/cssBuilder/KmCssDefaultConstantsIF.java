@@ -213,8 +213,8 @@ public interface KmCssDefaultConstantsIF
     String displayRow = "displayRow";
     String displayTable = "displayTable";
     String dragHandle = "dragHandle";
+    String equalizeFiller = "equalizeFiller";
     String fill = "fill";
-    String filler = "filler";
     String floatLeft = "floatLeft";
     String floatLeftChildren = "floatLeftChildren";
     String floatNone = "floatNone";
@@ -254,6 +254,7 @@ public interface KmCssDefaultConstantsIF
     String gapOuter20 = "gapOuter20";
     String gapOuter20x5 = "gapOuter20x5";
     String gapOuter5 = "gapOuter5";
+    String height10 = "height10";
     String height100 = "height100";
     String height100p = "height100p";
     String height20 = "height20";
@@ -344,8 +345,10 @@ public interface KmCssDefaultConstantsIF
     String visible = "visible";
     String whiteSpaceNoWrap = "whiteSpaceNoWrap";
     String whiteSpaceNormal = "whiteSpaceNormal";
+    String width10 = "width10";
     String width100 = "width100";
     String width100p = "width100p";
+    String width20 = "width20";
     String width200 = "width200";
     String width20p = "width20p";
     String width250 = "width250";
