@@ -905,14 +905,14 @@ a.tabx:hover
 
 .group-wrapper-default
 {
-    overflow: visible;
+    overflow: hidden;
     border: 1px solid #aaa;
     background-color: #eee;
     
-    border-top-left-radius:     5px;
-    border-top-right-radius:    5px;
+    border-top-left-radius:  5px;
+    border-top-right-radius: 5px;
 
-    box-shadow:         5px 5px 5px #ccc;
+    box-shadow: 5px 5px 5px #ccc;
 }
 
 .group-header-default
@@ -926,7 +926,7 @@ a.tabx:hover
 {
     padding: 5px 10px;
     font: bold 2rem sans-serif;
-    text-shadow:  1px  1px #fff, -1px -1px #444;
+    text-shadow: 1px 1px #fff, -1px -1px #444;
 }
 
 .group-divider-default

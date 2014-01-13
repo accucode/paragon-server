@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function myTest()
+        {
+        	var b;
+        	b = $("#b");
+            b.animate({left:'+=100px'}, 'slow');
+            b.queue(function()
+            {
+            	b.toggleClass("boxRed");
+            	b.dequeue();
+            });
+            b.animate({left:'-=100px'}, 'slow');
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="gap">
+
+    <button onclick="window.location.reload();">Refresh</button>
+    <button onclick="myTest();">Test</button>
+    <br><br>
+
+	<div id="a" class="width200 height200 boxGray relative">
+		<div id="b" class="width20 height20 boxBlue absolute">
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -80,7 +80,7 @@ public class ScGroup
 
     /**
      * This style is applied to the outer wrapper.  Clients typically use
-     * this to adjust layout attributes such as margins and size.  Attemping
+     * this to adjust layout attributes such as margins and size.  Attempting
      * to use this to modify the flavor will have unpredicable results based
      * on the css classes defined in the theme.css files.
      */

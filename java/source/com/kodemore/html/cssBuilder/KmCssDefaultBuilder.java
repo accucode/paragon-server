@@ -1105,6 +1105,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.fill);
     }
     
+    public KmCssDefaultBuilder fillPad()
+    {
+        return apply(KmCssDefaultConstantsIF.fillPad);
+    }
+    
     public KmCssDefaultBuilder floatLeft()
     {
         return apply(KmCssDefaultConstantsIF.floatLeft);
