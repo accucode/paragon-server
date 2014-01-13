@@ -123,7 +123,7 @@ public class MySignInPage
         ScArray row;
         row = root.addRow();
         row.setGap(50);
-        row.style().marginCenter().marginTop(200);
+        row.style().marginCenter().marginTop(100);
 
         installForm(row);
         installLogo(row);
