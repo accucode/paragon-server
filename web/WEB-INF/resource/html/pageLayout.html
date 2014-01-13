@@ -36,20 +36,19 @@ Version: ${applicationVersion}
 
         App.init = function()
         {
-            App.initLayout();
             App.initDropdownMenus();
-            App.initNavigator();
             App.initTimeAgo();
+            App.initNavigator();
         }
         
-        App.initLayout = function()
-        {
-            var body = $('body');
-        }        
-
         App.initDropdownMenus = function()
         {
             KmDropdownMenu.installAutoClose();  
+        }
+        
+        App.initTimeAgo = function()
+        {
+            KmTimeAgo.init();
         }
         
         App.initNavigator = function()
@@ -58,10 +57,6 @@ Version: ${applicationVersion}
             KmNavigator.pushPage({url: "${query}"});
         }
         
-        App.initTimeAgo = function()
-        {
-            KmTimeAgo.init();
-        }
     </script>
 
 </head>
