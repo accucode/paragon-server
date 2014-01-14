@@ -1077,6 +1077,17 @@ td.sqlResultValue
 }
 
 /*******************************************************************
+ ** groove 
+ *******************************************************************/
+
+.groove
+{
+    height: 0px;
+    border-top:    1px solid #aaa;
+    border-bottom: 1px solid #fff;
+}
+
+/*******************************************************************
  ** title panel 
  *******************************************************************/
 
@@ -1089,22 +1100,20 @@ td.sqlResultValue
 {
     padding: 5px;
     font: bold 2rem sans-serif;
-    /* text-shadow: 1px 1px #fff, -1px -1px #444; */
 }
 
+/**
+ * The center portion must be explicitly sized, and the top must be set such that
+ * it lays out just below the header.  You must manually account for any padding
+ * margins, borders, and fonts used in the .titlePanelHeader and .titlePanelText.
+ */
 .titlePanelCenter
 {
     position: absolute;
     left:  0;
     right: 0;
-    top:   36px;
     bottom: 0;
-    /* border: 1px solid green; */
+    top:   36px;
+    overflow: auto;
 }
 
-.groove
-{
-    height: 0px;
-    border-top:    1px solid #aaa;
-    border-bottom: 1px solid #fff;
-}
