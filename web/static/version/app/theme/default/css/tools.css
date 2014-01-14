@@ -93,6 +93,13 @@
 .borderGray     { border: 1px solid gray;   }
 .borderPurple   { border: 1px solid purple; }
 
+.borderBlack2   { border: 2px solid black;  }
+.borderRed2     { border: 2px solid red;    }
+.borderBlue2    { border: 2px solid blue;   }
+.borderGreen2   { border: 2px solid green;  }
+.borderGray2    { border: 2px solid gray;   }
+.borderPurple2  { border: 2px solid purple; }
+
 .borderDotted   { border: 1px dotted black; }
 .borderDashed   { border: 1px dashed black; }
 .borderSolid    { border: 1px solid black;  }
@@ -586,8 +593,10 @@
 	position: absolute;
 	left: 0;
 	right: 0;
+	width: auto;
 	top: 0;
 	bottom: 0;
+	height: auto;
 }
  
 .fillPad

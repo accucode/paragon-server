@@ -931,6 +931,7 @@ a.tabx:hover
 
 .group-divider-default
 {
+    height: 0px; 
     border-top: 1px solid #aaa;
     border-bottom: 1px solid #fff;
 }
@@ -1075,3 +1076,35 @@ td.sqlResultValue
     white-space: nowrap;
 }
 
+/*******************************************************************
+ ** title panel 
+ *******************************************************************/
+
+.titlePanelHeader
+{
+    overflow: hidden;
+}
+
+.titlePanelText
+{
+    padding: 5px;
+    font: bold 2rem sans-serif;
+    /* text-shadow: 1px 1px #fff, -1px -1px #444; */
+}
+
+.titlePanelCenter
+{
+    position: absolute;
+    left:  0;
+    right: 0;
+    top:   36px;
+    bottom: 0;
+    /* border: 1px solid green; */
+}
+
+.groove
+{
+    height: 0px;
+    border-top:    1px solid #aaa;
+    border-bottom: 1px solid #fff;
+}
