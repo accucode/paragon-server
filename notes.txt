@@ -2,10 +2,9 @@
 == To Do
 =======================================
 
-KmUtility.js
-    functions do not appear to be declared correctly...
-        installDropdownMenuAutoClose()
-        installDropdownMenu(e)
+Create
+    ScTitledBodyLayout
+    ScTriPanelLayout
 
 
 Refactor ScActivity
