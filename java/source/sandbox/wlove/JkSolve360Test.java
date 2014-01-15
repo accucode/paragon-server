@@ -45,6 +45,7 @@ public class JkSolve360Test
         ClientConnectionManager mgr;
         mgr = client.getConnectionManager();
         mgr.shutdown();
+        client.close();
     }
 
     public void dumpResponse(HttpResponse response) throws Exception

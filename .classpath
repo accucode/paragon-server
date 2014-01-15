@@ -35,8 +35,6 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/werken-xpath-0.9.4.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/mysql-connector-java-5.1.10-bin.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/velocity-1.6.3.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/httpcore-4.0.1.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/httpclient-4.0.1.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/httpmime-4.0.1.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/jasperreports-3.7.1.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-beanutils-1.8.0.jar"/>
@@ -59,5 +57,11 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/hibernate-memcached-1.4-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/spymemcached-2.10.3.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/aws-java-sdk-1.6.12.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/httpclient-4.3.1.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/httpcore-4.3.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jackson-core-2.2.3.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jackson-databind-2.2.3.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jackson-annotations-2.2.3.jar"/>
 	<classpathentry kind="output" path="web/WEB-INF/classes"/>
 </classpath>
