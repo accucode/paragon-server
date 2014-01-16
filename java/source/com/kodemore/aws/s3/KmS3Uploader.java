@@ -72,14 +72,17 @@ public class KmS3Uploader
 
     public void upload(String bucketName, String filePath, String data)
     {
-        //filePath should not begin with a '/'
-
         File f = writeToTemp(data);
+        upload(bucketName, filePath, f);
+        f.delete();
+    }
+
+    public void upload(String bucketName, String filePath, File f)
+    {
+        //filePath should not begin with a '/'
 
         AmazonS3 conn = createS3Client();
         conn.putObject(bucketName, filePath, f);
-
-        f.delete();
     }
 
     //##################################################
@@ -116,12 +119,18 @@ public class KmS3Uploader
 
     public static void main(String[] args)
     {
+
         KmS3Uploader e = new KmS3Uploader();
         e.setAccessKeyId("{replace with IAM ACCESS ID}");
         e.setSecretKey("{replace with SECRET KEY}");
-        e.upload("{replace with bucketName}", "{replace with filePath}", "{replace with data}");
+
+        File f = new File("{replace with filepath}");
+
+        System.out.println("Starting upload.");
+        e.upload("{replace with bucketName}", "{replace with filePath}", f);
 
         System.out.println("File written successfully to S3!");
 
     }
+
 }
