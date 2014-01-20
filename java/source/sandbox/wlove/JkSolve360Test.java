@@ -11,6 +11,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.kodemore.utility.Kmu;
 
+@SuppressWarnings("deprecation")
 public class JkSolve360Test
 {
     public void run() throws Exception
