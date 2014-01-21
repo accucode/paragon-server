@@ -78,14 +78,13 @@ public class MyHomePage
         addCenter(border);
     }
 
-    private void addTop(ScBorderLayout border)
+    private void addTop(ScBorderLayout layout)
     {
-        ScDiv top;
-        top = border.addTopPercent(50);
-        top.css().pad();
+        ScDiv div;
+        div = layout.addTopPercent(50);
 
         ScGroup group;
-        group = top.addGroup("Top");
+        group = div.addGroup("Top");
         group.css().fillPad();
 
         int n = 100;
@@ -93,20 +92,18 @@ public class MyHomePage
             group.addTextSpan("top line " + i).css().block();
     }
 
-    private void addCenter(ScBorderLayout border)
+    private void addCenter(ScBorderLayout layout)
     {
         ScDiv div;
-        div = border.addCenter();
-        div.css().pad();
+        div = layout.addCenter();
 
         ScGroup group;
         group = div.addGroup("Center");
         group.css().fillPad();
-        group.addPad();
+        group.style().top(0);
 
         int n = 100;
         for ( int i = 0; i < n; i++ )
             group.addTextSpan("center line " + i).css().block();
     }
-
 }

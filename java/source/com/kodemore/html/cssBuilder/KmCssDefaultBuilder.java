@@ -430,6 +430,16 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.pad);
     }
     
+    public KmCssDefaultBuilder padBottom()
+    {
+        return apply(KmCssDefaultConstantsIF.padBottom);
+    }
+    
+    public KmCssDefaultBuilder padBottomChildren()
+    {
+        return apply(KmCssDefaultConstantsIF.padBottomChildren);
+    }
+    
     public KmCssDefaultBuilder padHorizontal()
     {
         return apply(KmCssDefaultConstantsIF.padHorizontal);

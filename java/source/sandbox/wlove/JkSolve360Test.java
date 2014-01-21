@@ -11,6 +11,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.kodemore.utility.Kmu;
 
+@SuppressWarnings("deprecation")
 public class JkSolve360Test
 {
     public void run() throws Exception
@@ -45,6 +46,7 @@ public class JkSolve360Test
         ClientConnectionManager mgr;
         mgr = client.getConnectionManager();
         mgr.shutdown();
+        client.close();
     }
 
     public void dumpResponse(HttpResponse response) throws Exception

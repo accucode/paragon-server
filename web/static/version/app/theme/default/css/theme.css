@@ -214,6 +214,9 @@ body
 .padTop                 { padding-top: 10px;    }
 .padTopChildren > *     { padding-top: 10px;    }
 
+.padBottom              { padding-bottom: 10px; }
+.padBottomChildren > *  { padding-bottom: 10px; }
+
 .padLeft                { padding-left: 10px;   }
 .padLeftChildren > *    { padding-left: 10px;   }
 

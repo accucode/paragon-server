@@ -80,6 +80,8 @@ public interface KmCssDefaultConstantsIF
     String marginRight = "marginRight";
     String marginTop = "marginTop";
     String pad = "pad";
+    String padBottom = "padBottom";
+    String padBottomChildren = "padBottomChildren";
     String padHorizontal = "padHorizontal";
     String padLeft = "padLeft";
     String padLeftChildren = "padLeftChildren";
