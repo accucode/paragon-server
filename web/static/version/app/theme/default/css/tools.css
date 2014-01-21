@@ -346,7 +346,7 @@
  ** overflow
  *******************************************************************/
 
-.auto,
+.auto               { overflow: auto;       }
 .overflowAuto       { overflow: auto;       }
 
 .overflowScroll     { overflow: scroll;     }
