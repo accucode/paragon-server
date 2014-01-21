@@ -297,8 +297,9 @@ public class ScBorderLayout
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        for ( ScControl e : getChildren() )
-            out.render(e);
+        Iterator<ScControl> i = getChildren().reverseIterator();
+        while ( i.hasNext() )
+            i.next().renderOn(out);
     }
 
     //##################################################
@@ -325,7 +326,7 @@ public class ScBorderLayout
     {
         ScDiv e;
         e = new ScDiv();
-        e.css().absolute().boxSizingBorder();
+        e.css().absolute().boxSizingBorder().auto();
 
         _children.add(e);
 

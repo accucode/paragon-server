@@ -102,12 +102,18 @@
 
 .borderDotted   { border: 1px dotted black; }
 .borderDashed   { border: 1px dashed black; }
-.borderSolid    { border: 1px solid black;  }
-.borderDouble   { border: 3px double gray; }
-.borderGroove   { border: 3px groove gray; }
-.borderRidge    { border: 3px ridge gray;  }
-.borderInset    { border: 3px inset gray;  }
-.borderOutset   { border: 3px outset gray; }
+.borderSolid    { border: 1px solid  black; }
+.borderDouble   { border: 3px double gray;  }
+.borderInset    { border: 3px inset  gray;  }
+.borderOutset   { border: 3px outset gray;  }
+.borderGroove   { border: 2px groove gray;  }
+.borderRidge    { border: 2px ridge  gray;  }
+
+.groove       { border:        2px groove lightgray; }
+.grooveTop    { border-top:    2px groove lightgray; }
+.grooveBottom { border-bottom: 2px groove lightgray; }
+.grooveLeft   { border-left:   2px groove lightgray; }
+.grooveRight  { border-right:  2px groove lightgray; }
 
 /*******************************************************************
  ** border collapse
@@ -346,7 +352,7 @@
  ** overflow
  *******************************************************************/
 
-.auto,
+.auto               { overflow: auto;       }
 .overflowAuto       { overflow: auto;       }
 
 .overflowScroll     { overflow: scroll;     }

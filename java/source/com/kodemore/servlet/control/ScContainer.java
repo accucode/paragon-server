@@ -904,4 +904,9 @@ public abstract class ScContainer
     {
         return add(new ScBorderLayout());
     }
+
+    public ScTitlePanelLayout addTitlePanelLayout()
+    {
+        return add(new ScTitlePanelLayout());
+    }
 }

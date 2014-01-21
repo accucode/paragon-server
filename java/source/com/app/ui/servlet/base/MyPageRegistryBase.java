@@ -99,6 +99,7 @@ public abstract class MyPageRegistryBase
         add(MyTestPage.instance);
         add(MyTimeAgoTestPage.instance);
         add(MyTimeoutPage.instance);
+        add(MyTitlePanelTestPage.instance);
         add(MyToastTestPage.instance);
         add(MyUserActivationPage.instance);
         add(MyUserProfilePage.instance);

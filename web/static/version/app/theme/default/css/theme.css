@@ -4,7 +4,7 @@
 
 html
 {
-    font-size: 62.5%; // 10px
+    font-size: 62.5%; /* 10px */ 
     line-height: 1.2;
 }
 
@@ -1077,17 +1077,6 @@ td.sqlResultValue
 }
 
 /*******************************************************************
- ** groove 
- *******************************************************************/
-
-.groove
-{
-    height: 0px;
-    border-top:    1px solid #aaa;
-    border-bottom: 1px solid #fff;
-}
-
-/*******************************************************************
  ** title panel 
  *******************************************************************/
 
@@ -1107,13 +1096,13 @@ td.sqlResultValue
  * it lays out just below the header.  You must manually account for any padding
  * margins, borders, and fonts used in the .titlePanelHeader and .titlePanelText.
  */
-.titlePanelCenter
+.titlePanelBody
 {
     position: absolute;
     left:  0;
     right: 0;
     bottom: 0;
-    top:   36px;
+    top:   38px;
     overflow: auto;
 }
 

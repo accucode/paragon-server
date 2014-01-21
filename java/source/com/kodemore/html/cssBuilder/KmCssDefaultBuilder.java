@@ -630,6 +630,21 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.textFieldWrapper);
     }
     
+    public KmCssDefaultBuilder titlePanelBody()
+    {
+        return apply(KmCssDefaultConstantsIF.titlePanelBody);
+    }
+    
+    public KmCssDefaultBuilder titlePanelHeader()
+    {
+        return apply(KmCssDefaultConstantsIF.titlePanelHeader);
+    }
+    
+    public KmCssDefaultBuilder titlePanelText()
+    {
+        return apply(KmCssDefaultConstantsIF.titlePanelText);
+    }
+    
     public KmCssDefaultBuilder shadow()
     {
         return apply(KmCssDefaultConstantsIF.shadow);
@@ -638,6 +653,11 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder absolute()
     {
         return apply(KmCssDefaultConstantsIF.absolute);
+    }
+    
+    public KmCssDefaultBuilder auto()
+    {
+        return apply(KmCssDefaultConstantsIF.auto);
     }
     
     public KmCssDefaultBuilder backgroundBlack()
@@ -785,9 +805,19 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.borderBlack);
     }
     
+    public KmCssDefaultBuilder borderBlack2()
+    {
+        return apply(KmCssDefaultConstantsIF.borderBlack2);
+    }
+    
     public KmCssDefaultBuilder borderBlue()
     {
         return apply(KmCssDefaultConstantsIF.borderBlue);
+    }
+    
+    public KmCssDefaultBuilder borderBlue2()
+    {
+        return apply(KmCssDefaultConstantsIF.borderBlue2);
     }
     
     public KmCssDefaultBuilder borderCollapse()
@@ -815,9 +845,19 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.borderGray);
     }
     
+    public KmCssDefaultBuilder borderGray2()
+    {
+        return apply(KmCssDefaultConstantsIF.borderGray2);
+    }
+    
     public KmCssDefaultBuilder borderGreen()
     {
         return apply(KmCssDefaultConstantsIF.borderGreen);
+    }
+    
+    public KmCssDefaultBuilder borderGreen2()
+    {
+        return apply(KmCssDefaultConstantsIF.borderGreen2);
     }
     
     public KmCssDefaultBuilder borderGroove()
@@ -845,9 +885,19 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.borderPurple);
     }
     
+    public KmCssDefaultBuilder borderPurple2()
+    {
+        return apply(KmCssDefaultConstantsIF.borderPurple2);
+    }
+    
     public KmCssDefaultBuilder borderRed()
     {
         return apply(KmCssDefaultConstantsIF.borderRed);
+    }
+    
+    public KmCssDefaultBuilder borderRed2()
+    {
+        return apply(KmCssDefaultConstantsIF.borderRed2);
     }
     
     public KmCssDefaultBuilder borderRidge()
@@ -1303,6 +1353,31 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder gapOuter5()
     {
         return apply(KmCssDefaultConstantsIF.gapOuter5);
+    }
+    
+    public KmCssDefaultBuilder groove()
+    {
+        return apply(KmCssDefaultConstantsIF.groove);
+    }
+    
+    public KmCssDefaultBuilder grooveBottom()
+    {
+        return apply(KmCssDefaultConstantsIF.grooveBottom);
+    }
+    
+    public KmCssDefaultBuilder grooveLeft()
+    {
+        return apply(KmCssDefaultConstantsIF.grooveLeft);
+    }
+    
+    public KmCssDefaultBuilder grooveRight()
+    {
+        return apply(KmCssDefaultConstantsIF.grooveRight);
+    }
+    
+    public KmCssDefaultBuilder grooveTop()
+    {
+        return apply(KmCssDefaultConstantsIF.grooveTop);
     }
     
     public KmCssDefaultBuilder height10()

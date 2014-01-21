@@ -8,6 +8,7 @@ import com.kodemore.generator.KmgRoot;
 import com.kodemore.generator.model.KmgCssBundle;
 import com.kodemore.html.KmCssParser;
 import com.kodemore.javaParser.KmJavaParser;
+import com.kodemore.log.KmLog;
 import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
 
@@ -257,6 +258,8 @@ public class MyGenerator
 
     private KmList<String> getCssSelectors(String path)
     {
+        KmLog.info("parse css: " + path);
+
         path = getRootPath(path);
 
         KmCssParser parser;
