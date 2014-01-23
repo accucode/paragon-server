@@ -5,7 +5,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.field.ScTextField;
 
@@ -36,14 +36,14 @@ public class MyAccountUserEditCard
         form = addForm();
         form.setSubmitAction(newSaveAction());
 
-        ScGroup group;
-        group = form.addGroup("Account Settings");
+        ScOldGroup group;
+        group = form.addOldGroup("Account Settings");
 
         installFields(group);
         installFooter(group);
     }
 
-    private void installFields(ScGroup group)
+    private void installFields(ScOldGroup group)
     {
         MyMetaAccount x = MyAccount.Meta;
 
@@ -59,7 +59,7 @@ public class MyAccountUserEditCard
         fields.add(_ownerText);
     }
 
-    private void installFooter(ScGroup group)
+    private void installFooter(ScOldGroup group)
     {
         group.addDivider();
 

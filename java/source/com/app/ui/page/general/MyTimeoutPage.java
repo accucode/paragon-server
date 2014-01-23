@@ -4,7 +4,7 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGeneralButton;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.ui.page.MyPage;
@@ -62,8 +62,8 @@ public class MyTimeoutPage
         ScForm form;
         form = root.addForm();
 
-        ScGroup group;
-        group = form.addGroup("Time Out");
+        ScOldGroup group;
+        group = form.addOldGroup("Time Out");
         group.addText("For security reasons, your session has expired.");
         group.addSpace();
         group.addText("Please log back in.");

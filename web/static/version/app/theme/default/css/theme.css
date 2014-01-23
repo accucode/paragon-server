@@ -906,7 +906,7 @@ a.tabx:hover
  ** group (default)
  *******************************************************************/
 
-.group-wrapper-default
+.oldGroup-wrapper-default
 {
     overflow: hidden;
     border: 1px solid #aaa;
@@ -918,21 +918,21 @@ a.tabx:hover
     box-shadow: 5px 5px 5px #ccc;
 }
 
-.group-header-default
+.oldGroup-header-default
 {
     background-color: #ccc;
     overflow: hidden;
     white-space: nowrap;
 }
 
-.group-title-default
+.oldGroup-title-default
 {
     padding: 5px 10px;
     font: bold 2rem sans-serif;
     text-shadow: 1px 1px #fff, -1px -1px #444;
 }
 
-.group-divider-default
+.oldGroup-divider-default
 {
     height: 0px; 
     border-top: 1px solid #aaa;
@@ -943,7 +943,7 @@ a.tabx:hover
  ** group (error)
  *******************************************************************/
 
-.group-wrapper-error
+.oldGroup-wrapper-error
 {
     overflow: visible;
     border: 1px solid #f00;
@@ -955,21 +955,21 @@ a.tabx:hover
     box-shadow: 5px 5px 5px #ccc;
 }
 
-.group-header-error
+.oldGroup-header-error
 {
     background-color: #fbb;
     overflow: hidden;
     white-space: nowrap;
 }
 
-.group-title-error
+.oldGroup-title-error
 {
     padding: 5px 10px;
     font: bold 2rem sans-serif;
     text-shadow:  1px  1px #fff, -1px -1px #444;
 }
 
-.group-divider-error
+.oldGroup-divider-error
 {
     border-top: 1px solid #aaa;
     border-bottom: 1px solid #fff;
@@ -989,8 +989,6 @@ a.tabx:hover
     padding: 10px;
     padding-left: 35px;
     
-    -moz-border-radius:     5px;
-    -webkit-border-radius:  5px;
     border-radius:          5px;
 
     background-image:       url(blockSpinner.gif);

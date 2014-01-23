@@ -365,28 +365,28 @@ public abstract class ScContainer
     //# groups
     //##################################################
 
-    public ScGroupArray addGroupArray()
+    public ScOldGroupArray addOldGroupArray()
     {
-        return add(new ScGroupArray());
+        return add(new ScOldGroupArray());
     }
 
-    public ScGroupArray addGroupArray(int w, int h)
+    public ScOldGroupArray addOldGroupArray(int w, int h)
     {
-        ScGroupArray e;
-        e = addGroupArray();
+        ScOldGroupArray e;
+        e = addOldGroupArray();
         e.style().width(w).height(h);
         return e;
     }
 
-    public ScGroup addGroup()
+    public ScOldGroup addOldGroup()
     {
-        return add(new ScGroup());
+        return add(new ScOldGroup());
     }
 
-    public ScGroup addGroup(String title)
+    public ScOldGroup addOldGroup(String title)
     {
-        ScGroup e;
-        e = addGroup();
+        ScOldGroup e;
+        e = addOldGroup();
         e.setLabel(title);
         e.setTitle(title);
         return e;

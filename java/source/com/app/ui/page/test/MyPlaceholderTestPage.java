@@ -5,7 +5,7 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
@@ -62,8 +62,8 @@ public class MyPlaceholderTestPage
         form.setSubmitAction(newSubmitAction());
         form.css().gap();
 
-        ScGroup group;
-        group = form.addGroup("Placeholder Test");
+        ScOldGroup group;
+        group = form.addOldGroup("Placeholder Test");
 
         ScBox box;
         box = group.addGap();

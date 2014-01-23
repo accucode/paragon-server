@@ -5,7 +5,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
@@ -81,14 +81,14 @@ public class MyUserProfileChangePasswordCard
         form.css().gap();
         form.setSubmitAction(newSaveAction());
 
-        ScGroup group;
-        group = form.addGroup("My Profile");
+        ScOldGroup group;
+        group = form.addOldGroup("My Profile");
 
         installFields(group);
         installFooter(group);
     }
 
-    private void installFields(ScGroup group)
+    private void installFields(ScOldGroup group)
     {
         ScFieldTable fields;
         fields = group.addPad().addFields();
@@ -104,7 +104,7 @@ public class MyUserProfileChangePasswordCard
         fields.add(_retypePasswordField);
     }
 
-    private void installFooter(ScGroup group)
+    private void installFooter(ScOldGroup group)
     {
         group.addDivider();
 

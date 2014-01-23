@@ -6,7 +6,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDialog;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.utility.MyButtonUrls;
@@ -58,8 +58,8 @@ public class MyShowDialogTestPage
 
         installDialog(root);
 
-        ScGroup group;
-        group = root.addGroup("Dialog");
+        ScOldGroup group;
+        group = root.addOldGroup("Dialog");
 
         ScBox body;
         body = group.addPad();
@@ -75,8 +75,8 @@ public class MyShowDialogTestPage
         ScBox body = _dialog.getBodyBox();
         body.addPad().addText("This is the Body of the dialog.");
 
-        ScGroup group;
-        group = body.addGroup("This is a Group inside the body");
+        ScOldGroup group;
+        group = body.addOldGroup("This is a Group inside the body");
         group.addPad().addText("This is text inside the group, with a text field below.");
         group.addPad().addTextField();
         group.addPad().addButton("Toast Button", newToastAction());

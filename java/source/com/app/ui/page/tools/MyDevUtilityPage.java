@@ -5,8 +5,8 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScOldGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.string.KmStringBuilder;
@@ -67,8 +67,8 @@ public class MyDevUtilityPage
     {
         root.css().gap();
 
-        ScGroupArray groups;
-        groups = root.addGroupArray();
+        ScOldGroupArray groups;
+        groups = root.addOldGroupArray();
         groups.style().floatLeft().height(150);
 
         installMiscellaneousGroup(groups);
@@ -77,10 +77,10 @@ public class MyDevUtilityPage
         installRequestGroup(groups);
     }
 
-    private void installMiscellaneousGroup(ScGroupArray root)
+    private void installMiscellaneousGroup(ScOldGroupArray root)
     {
-        ScGroup group;
-        group = root.addGroup("Single VM");
+        ScOldGroup group;
+        group = root.addOldGroup("Single VM");
 
         ScBox box;
         box = group.addLinkBox();
@@ -88,10 +88,10 @@ public class MyDevUtilityPage
         box.addLink("reload properties", newReloadPropertiesAction());
     }
 
-    private void installExceptionGroup(ScGroupArray root)
+    private void installExceptionGroup(ScOldGroupArray root)
     {
-        ScGroup group;
-        group = root.addGroup("Exceptions");
+        ScOldGroup group;
+        group = root.addOldGroup("Exceptions");
 
         ScBox box;
         box = group.addLinkBox();
@@ -101,7 +101,7 @@ public class MyDevUtilityPage
         box.addLink("runtime exception", newRuntimeExceptionAction());
     }
 
-    private void installTimeGroup(ScGroupArray root)
+    private void installTimeGroup(ScOldGroupArray root)
     {
         _utcText = new ScText();
         _utcText.setLabel("Utc");
@@ -112,8 +112,8 @@ public class MyDevUtilityPage
         _denverText = new ScText();
         _denverText.setLabel("Denver");
 
-        ScGroup group;
-        group = root.addGroup("Time");
+        ScOldGroup group;
+        group = root.addOldGroup("Time");
 
         ScFieldTable fields;
         fields = group.addPad().addFields();
@@ -122,7 +122,7 @@ public class MyDevUtilityPage
         fields.add(_denverText);
     }
 
-    private void installRequestGroup(ScGroupArray root)
+    private void installRequestGroup(ScOldGroupArray root)
     {
         _userAgentText = new ScText();
         _userAgentText.setLabel("UserAgent");
@@ -133,8 +133,8 @@ public class MyDevUtilityPage
         _isFirefoxText = new ScText();
         _isFirefoxText.setLabel("isFirefox");
 
-        ScGroup group;
-        group = root.addGroup("Request / Response");
+        ScOldGroup group;
+        group = root.addOldGroup("Request / Response");
 
         ScFieldTable fields;
         fields = group.addPad().addFields();

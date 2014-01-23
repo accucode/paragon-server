@@ -2,8 +2,8 @@ package com.app.ui.page.tools;
 
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScOldGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyDevToolsPage
@@ -45,11 +45,11 @@ public class MyDevToolsPage
     {
         root.css().gap();
 
-        ScGroupArray groups;
-        groups = root.addGroupArray(150, 300);
+        ScOldGroupArray groups;
+        groups = root.addOldGroupArray(150, 300);
 
-        ScGroup group;
-        group = groups.addGroup("Tools");
+        ScOldGroup group;
+        group = groups.addOldGroup("Tools");
 
         ScBox links;
         links = group.addLinkBox();

@@ -3,7 +3,7 @@ package com.app.ui.page.test;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBarcodeCode39;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 /**
@@ -55,8 +55,8 @@ public class MyBarcodeTestPage
     {
         root.css().gap();
 
-        ScGroup group;
-        group = root.addGroup("ScBarcodeCode39");
+        ScOldGroup group;
+        group = root.addOldGroup("ScBarcodeCode39");
 
         ScBox body;
         body = group.addPad();

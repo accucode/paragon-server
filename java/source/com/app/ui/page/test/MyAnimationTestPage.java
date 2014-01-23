@@ -6,8 +6,8 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScOldGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyAnimationTestPage
@@ -55,14 +55,14 @@ public class MyAnimationTestPage
     {
         root.css().gap();
 
-        ScGroupArray groups;
-        groups = root.addGroupArray();
+        ScOldGroupArray groups;
+        groups = root.addOldGroupArray();
         groups.style().floatLeft().width(300).height(300);
 
-        ScGroup group;
+        ScOldGroup group;
         ScDiv right;
 
-        group = groups.addGroup("Group");
+        group = groups.addOldGroup("Group");
         right = group.getHeader().addFloatRight();
         right.css().gap();
         right.addButton("Async", newAsyncToggleAction());
@@ -70,7 +70,7 @@ public class MyAnimationTestPage
         _group = addBoxesTo(group);
     }
 
-    private KmList<ScBox> addBoxesTo(ScGroup group)
+    private KmList<ScBox> addBoxesTo(ScOldGroup group)
     {
         ScBox lines;
         lines = group.addLines();

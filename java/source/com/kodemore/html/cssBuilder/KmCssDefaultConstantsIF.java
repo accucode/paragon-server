@@ -55,14 +55,6 @@ public interface KmCssDefaultConstantsIF
     String gap = "gap";
     String gapInner = "gapInner";
     String gapOuter = "gapOuter";
-    String group_divider_default = "group-divider-default";
-    String group_divider_error = "group-divider-error";
-    String group_header_default = "group-header-default";
-    String group_header_error = "group-header-error";
-    String group_title_default = "group-title-default";
-    String group_title_error = "group-title-error";
-    String group_wrapper_default = "group-wrapper-default";
-    String group_wrapper_error = "group-wrapper-error";
     String importantText = "importantText";
     String label = "label";
     String leftMenu_box = "leftMenu-box";
@@ -79,6 +71,14 @@ public interface KmCssDefaultConstantsIF
     String marginLeft = "marginLeft";
     String marginRight = "marginRight";
     String marginTop = "marginTop";
+    String oldGroup_divider_default = "oldGroup-divider-default";
+    String oldGroup_divider_error = "oldGroup-divider-error";
+    String oldGroup_header_default = "oldGroup-header-default";
+    String oldGroup_header_error = "oldGroup-header-error";
+    String oldGroup_title_default = "oldGroup-title-default";
+    String oldGroup_title_error = "oldGroup-title-error";
+    String oldGroup_wrapper_default = "oldGroup-wrapper-default";
+    String oldGroup_wrapper_error = "oldGroup-wrapper-error";
     String pad = "pad";
     String padBottom = "padBottom";
     String padBottomChildren = "padBottomChildren";
@@ -398,6 +398,14 @@ public interface KmCssDefaultConstantsIF
     //# composites
     //##################################################
 
+    String oldGroup_prefix = "oldGroup";
+    String oldGroup_part_divider = "divider";
+    String oldGroup_part_header = "header";
+    String oldGroup_part_title = "title";
+    String oldGroup_part_wrapper = "wrapper";
+    String oldGroup_flavor_default = "default";
+    String oldGroup_flavor_error = "error";
+    
     String button_prefix = "button";
     String button_part_element = "element";
     String button_flavor_default = "default";
@@ -420,14 +428,6 @@ public interface KmCssDefaultConstantsIF
     String fieldset_part_body = "body";
     String fieldset_part_legend = "legend";
     String fieldset_flavor_default = "default";
-    
-    String group_prefix = "group";
-    String group_part_divider = "divider";
-    String group_part_header = "header";
-    String group_part_title = "title";
-    String group_part_wrapper = "wrapper";
-    String group_flavor_default = "default";
-    String group_flavor_error = "error";
     
     String dialog_prefix = "dialog";
     String dialog_part_body = "body";

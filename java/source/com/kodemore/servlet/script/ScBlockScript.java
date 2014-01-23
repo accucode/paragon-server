@@ -996,7 +996,7 @@ public abstract class ScBlockScript
      */
     public ScEqualizeScript equalizeGroupsIn(String sel)
     {
-        String klass = KmCssDefaultConstantsIF.group_prefix;
+        String klass = KmCssDefaultConstantsIF.oldGroup_prefix;
         return equalizeClassIn(sel, klass);
     }
 

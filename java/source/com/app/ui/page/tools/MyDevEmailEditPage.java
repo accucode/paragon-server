@@ -10,8 +10,8 @@ import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGrid;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScOldGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
@@ -42,7 +42,7 @@ public class MyDevEmailEditPage
     //##################################################
 
     @SuppressWarnings("unused")
-    private ScGroup                  _summaryGroup;
+    private ScOldGroup                  _summaryGroup;
 
     private ScDropdown               _recipientTypeField;
     private ScTextField              _recipientAddressField;
@@ -55,19 +55,19 @@ public class MyDevEmailEditPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        ScGroupArray row;
-        row = root.addGroupArray();
+        ScOldGroupArray row;
+        row = root.addOldGroupArray();
 
         addSummaryGroup(row);
         addRecipientGroup(row);
     }
 
-    private void addSummaryGroup(ScGroupArray arr)
+    private void addSummaryGroup(ScOldGroupArray arr)
     {
         MyMetaEmail x = MyEmail.Meta;
 
-        ScGroup group;
-        group = arr.addGroup("Summary");
+        ScOldGroup group;
+        group = arr.addOldGroup("Summary");
 
         ScForm form;
         form = group.addForm();
@@ -85,7 +85,7 @@ public class MyDevEmailEditPage
         _summaryGroup = group;
     }
 
-    private void addRecipientGroup(ScGroupArray arr)
+    private void addRecipientGroup(ScOldGroupArray arr)
     {
         MyMetaEmailRecipient x = MyEmailRecipient.Meta;
 
@@ -106,7 +106,7 @@ public class MyDevEmailEditPage
         _recipientGrid.addLinkColumn("Remove", newRemoveRecipientAction(), x.Uid);
 
         ScContainer group;
-        group = arr.addGroup("Recipients");
+        group = arr.addOldGroup("Recipients");
 
         ScArray row;
         row = group.addForm().addRow();

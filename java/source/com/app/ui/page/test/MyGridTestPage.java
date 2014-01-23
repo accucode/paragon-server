@@ -10,7 +10,7 @@ import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGridColumn;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
@@ -87,8 +87,8 @@ public class MyGridTestPage
     {
         MyMetaUser x = MyUser.Meta;
 
-        ScGroup group;
-        group = root.addGroup();
+        ScOldGroup group;
+        group = root.addOldGroup();
         group.setTitle("Users");
 
         ScDiv buttons;

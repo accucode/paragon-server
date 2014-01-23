@@ -5,7 +5,7 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.script.ScAddContentScript;
@@ -68,8 +68,8 @@ public class MyDevBeanShellPage
         form.setSubmitAction(submitAction);
         form.css().pad();
 
-        ScGroup group;
-        group = form.addGroup("Bean Shell");
+        ScOldGroup group;
+        group = form.addOldGroup("Bean Shell");
         group.addGap().add(_scriptField);
         group.addDivider();
         group.addButtonBox().addSubmitButton();
@@ -103,7 +103,7 @@ public class MyDevBeanShellPage
         KmBeanShell bs;
         bs = evaluate(script);
 
-        ScGroup group;
+        ScOldGroup group;
         group = composeResults(bs);
         group.style().hide();
 
@@ -131,10 +131,10 @@ public class MyDevBeanShellPage
         return e;
     }
 
-    private ScGroup composeResults(KmBeanShell bs)
+    private ScOldGroup composeResults(KmBeanShell bs)
     {
-        ScGroup group;
-        group = new ScGroup();
+        ScOldGroup group;
+        group = new ScOldGroup();
 
         if ( bs.isOk() )
         {

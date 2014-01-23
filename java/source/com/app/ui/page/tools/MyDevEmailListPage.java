@@ -10,7 +10,7 @@ import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDateField;
 import com.kodemore.servlet.field.ScDropdown;
@@ -99,8 +99,8 @@ public class MyDevEmailListPage
         grid.addColumn(x.Subject);
         grid.addColumn(x.ErrorNotes);
 
-        ScGroup group;
-        group = root.addGroup("Emails");
+        ScOldGroup group;
+        group = root.addOldGroup("Emails");
         group.add(grid);
     }
 

@@ -6,7 +6,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScLinkList;
 import com.kodemore.servlet.field.ScTextField;
@@ -72,8 +72,8 @@ public class MySelectAccountPage
         _form.setSubmitAction(newCreateAccountAction());
         _form.css().floatLeft();
 
-        ScGroup group;
-        group = _form.addGroup();
+        ScOldGroup group;
+        group = _form.addOldGroup();
         group.style().width(GROUP_WIDTH);
         group.setTitle("New Account");
 
@@ -100,8 +100,8 @@ public class MySelectAccountPage
         _ownedAccountList.setOptionTextAdaptor(x.Name);
         _ownedAccountList.setAction(newSelectAccountAction());
 
-        ScGroup group;
-        group = root.addGroup();
+        ScOldGroup group;
+        group = root.addOldGroup();
         group.css().floatLeft();
         group.style().width(GROUP_WIDTH);
         group.setTitle("My Accounts");
@@ -117,8 +117,8 @@ public class MySelectAccountPage
         _sharedAccountList.setOptionTextAdaptor(x.Name);
         _sharedAccountList.setAction(newSelectAccountAction());
 
-        ScGroup group;
-        group = root.addGroup();
+        ScOldGroup group;
+        group = root.addOldGroup();
         group.css().floatLeft();
         group.style().width(GROUP_WIDTH);
         group.setTitle("Shared Accounts");

@@ -7,8 +7,8 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScOldGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScListField;
 import com.kodemore.servlet.field.ScTextField;
@@ -67,8 +67,8 @@ public class MyDevSharedFileBrowserPage
 
         installPath(form);
 
-        ScGroupArray row;
-        row = form.addGroupArray();
+        ScOldGroupArray row;
+        row = form.addOldGroupArray();
 
         installFolders(row);
         installFiles(row);
@@ -80,7 +80,7 @@ public class MyDevSharedFileBrowserPage
         _directoryField.setLabel("Directory");
         _directoryField.setValue("/");
 
-        ScGroup group = root.addGroup("Path");
+        ScOldGroup group = root.addOldGroup("Path");
 
         ScArray row;
         row = group.addRow();
@@ -90,22 +90,22 @@ public class MyDevSharedFileBrowserPage
         group.addLink("Create", newCreatePathAction());
     }
 
-    private void installFolders(ScGroupArray root)
+    private void installFolders(ScOldGroupArray root)
     {
         _folderList = new ScListField();
 
-        ScGroup group;
-        group = root.addGroup("Folders");
+        ScOldGroup group;
+        group = root.addOldGroup("Folders");
         group.add(_folderList);
         group.addLink("Open", newOpenFolderAction());
     }
 
-    private void installFiles(ScGroupArray root)
+    private void installFiles(ScOldGroupArray root)
     {
         _fileList = new ScListField();
 
-        ScGroup group;
-        group = root.addGroup("Files");
+        ScOldGroup group;
+        group = root.addOldGroup("Files");
         group.add(_fileList);
         group.addLink("Get", newGetFileAction());
     }

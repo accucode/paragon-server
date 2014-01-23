@@ -9,8 +9,8 @@ import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScButton;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScFieldTable;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScOldGroupArray;
 import com.kodemore.servlet.control.ScLiteral;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTextSpan;
@@ -83,8 +83,8 @@ public class MyDevEmailViewPage
         ScArray arr;
         arr = root.addArray();
 
-        ScGroupArray row;
-        row = arr.addGroupArray();
+        ScOldGroupArray row;
+        row = arr.addOldGroupArray();
 
         installSummaryGroup(row);
         installStatusGroup(row);
@@ -95,12 +95,12 @@ public class MyDevEmailViewPage
         _editButton.hide();
     }
 
-    private void installSummaryGroup(ScGroupArray root)
+    private void installSummaryGroup(ScOldGroupArray root)
     {
         MyMetaEmail x = MyEmail.Meta;
 
-        ScGroup group;
-        group = root.addGroup("Summary");
+        ScOldGroup group;
+        group = root.addOldGroup("Summary");
 
         ScContainer fields;
         fields = group.addFields();
@@ -111,12 +111,12 @@ public class MyDevEmailViewPage
         fields.addText(x.Subject);
     }
 
-    private void installStatusGroup(ScGroupArray root)
+    private void installStatusGroup(ScOldGroupArray root)
     {
         MyMetaEmail x = MyEmail.Meta;
 
-        ScGroup group;
-        group = root.addGroup("Status");
+        ScOldGroup group;
+        group = root.addOldGroup("Status");
 
         ScFieldTable fields;
         fields = group.addFields();

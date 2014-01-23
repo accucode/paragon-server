@@ -8,7 +8,7 @@ import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.control.ScText;
@@ -156,8 +156,8 @@ public class MyUserActivationPage
         form = root.addForm();
         form.setSubmitAction(newActivateAction());
 
-        ScGroup group;
-        group = form.addGroup();
+        ScOldGroup group;
+        group = form.addOldGroup();
         group.setTitle("Activate User");
 
         ScBox body;
@@ -192,8 +192,8 @@ public class MyUserActivationPage
         ScCard card;
         card = frame.addCard();
 
-        ScGroup group;
-        group = card.addGroup();
+        ScOldGroup group;
+        group = card.addOldGroup();
         group.setTitle("Success");
 
         ScBox body;
@@ -221,8 +221,8 @@ public class MyUserActivationPage
         ScCard card;
         card = frame.addCard();
 
-        ScGroup group;
-        group = card.addGroup();
+        ScOldGroup group;
+        group = card.addOldGroup();
         group.setTitle("Error");
 
         ScBox body;

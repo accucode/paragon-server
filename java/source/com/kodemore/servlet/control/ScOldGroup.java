@@ -39,73 +39,11 @@ import com.kodemore.servlet.variable.ScLocalStyle;
 import com.kodemore.utility.Kmu;
 
 /**
- * I am a 'group box' container with three predefined areas: header, body, footer.
- * 
- * Sections:
- * 
- *      Header:
- *      The header is always displayed, and is typically just displays text in a standard
- *      style.  However, the header is a div and clients can add additional content
- *      (e.g.: a link or button) to the header is desired.
- * 
- *      Body:
- *      The body is always displayed, and typically does not have much styling other
- *      than a standard background color.  Children that are added directly to the group
- *      are delegated to the body.  E.g.: the following are equivalent...
- *
- *          aGroup.getBody().addDiv();
- *          aGroup.addDiv();
- * 
- *      Footer:
- *      The footer is displayed at the bottom, but is hidden by default.  The footer is 
- *      always rendered in the html content, even when it is hidden.
- *      
- *      Wrapper:
- *      The wrapper is not really a section.  The wrapper is a single div that acts as the
- *      parent for the header, body, and footer.  Having a single parent allows us to apply
- *      styles such as borders, and drop shadows to the group in a consistent way.  Clients
- *      will generally not add or remove children to the wrapper directly.
- *      
- * 
- * Layouts:
- * 
- *      Groups are always organized in roughly the same layout, with the header at the top,
- *      the footer (if visible) at the bottom, and the body nominally filling the area in
- *      between.  However, depending on how you want to incorporate the group into you page
- *      you need to apply different layout strategies.  In particular, it is necessary to 
- *      specify the position in different ways depending on the effect desired.
- *      
- *      Static:
- *      The default "static" layout render the group as a normally positioned block element.
- *          - all of the sections (and the wrapper) use the default style position:static.
- *          - the sections do not have a fixed size by default.
- *          - content added to the sections will cause those sections to grow vertically.
- *          - you may need to clearfix the sections manually, this is not done by default.
- *          - you may specify a fixed height for the body, header, or footer.
- *          - you should NOT specify a fixed height for the wrapper.
- *          
- *      Fixed:
- *      This layout is used to apply a fixed height to the group as a whole.  The header
- *      and footer (if displayed) have a fixed height, and the body fills the space between
- *      them.  
- *          - the wrapper uses position:relative.
- *          - the header, body, and footer use position:absolute.
- *          - css styles are used to ensure the sections fit together. 
- *          - you should specify a fixed height for the wrapper.
- *          - you should NOT specify an explicit height for the header, body, or footer.
- *
- *      Fill:
- *      The fill layout is similar to "fixed", but causes the group to completely fill its
- *      parent rather than using a fixed size.
- *          - the wrapper uses position:absolute.
- *          - the header, body, and footer use position:absolute.
- *          - the group's parent must have a non-static position.
- *          - css styles are used to ensure the sections fit together. 
- *          - you should NOT specify any explicit sizes.
- *          - you may override the wrapper position (left, top, etc) using the style attributes.
+ * I am a 'group box' container that surrounds my contents with a
+ * shaded/colored area.  I also display a title bar.
  */
 
-public class ScGroup
+public class ScOldGroup
     extends ScContainer
     implements ScHtmlIdIF
 {

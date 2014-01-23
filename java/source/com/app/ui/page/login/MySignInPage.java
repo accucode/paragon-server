@@ -8,7 +8,7 @@ import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScImage;
 import com.kodemore.servlet.control.ScLink;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -141,8 +141,8 @@ public class MySignInPage
         form.style().width(300).padTop(50);
         _form = form;
 
-        ScGroup group;
-        group = form.addGroup("Sign In");
+        ScOldGroup group;
+        group = form.addOldGroup("Sign In");
 
         installFormFields(group);
 
@@ -164,7 +164,7 @@ public class MySignInPage
         e.style().width(300).height(300);
     }
 
-    private void installFormFields(ScGroup group)
+    private void installFormFields(ScOldGroup group)
     {
         _emailField = new ScTextField();
         _emailField.setRequired();
@@ -197,7 +197,7 @@ public class MySignInPage
         box.addBreak();
     }
 
-    private void installFormFooter(ScGroup group)
+    private void installFormFooter(ScOldGroup group)
     {
         ScBox footer;
         footer = group.addBox();

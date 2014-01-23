@@ -5,7 +5,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScTextSpan;
 
 import com.app.model.MyAccount;
@@ -34,14 +34,14 @@ public class MyAccountUserRemoveCard
         form = addForm();
         form.setSubmitAction(newRemoveAction());
 
-        ScGroup group;
-        group = form.addGroup("Remove User");
+        ScOldGroup group;
+        group = form.addOldGroup("Remove User");
 
         installBody(group);
         installFooter(group);
     }
 
-    private void installBody(ScGroup group)
+    private void installBody(ScOldGroup group)
     {
         _messageText = new ScTextSpan();
         _messageText.css().displayBlock();
@@ -51,7 +51,7 @@ public class MyAccountUserRemoveCard
         body.add(_messageText);
     }
 
-    private void installFooter(ScGroup group)
+    private void installFooter(ScOldGroup group)
     {
         group.addDivider();
 

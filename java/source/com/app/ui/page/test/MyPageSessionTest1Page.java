@@ -4,7 +4,7 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.variable.ScLocalString;
 
@@ -56,8 +56,8 @@ public class MyPageSessionTest1Page
 
         root.css().gap();
 
-        ScGroup group;
-        group = root.addGroup();
+        ScOldGroup group;
+        group = root.addOldGroup();
         group.setTitle("Page Session Test (Page 1)");
         group.css().width400();
 

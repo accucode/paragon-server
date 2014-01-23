@@ -75,7 +75,7 @@ var MyResourceLoader =
             // ScrollTo
             "static/{version}/jquery/scrollto-1.4.3.1/jquery.scrollTo-1.4.3.1-min.js", 
             
-            //NVD3
+            // NVD3 Charts
             "static/{version}/nvd3-1.1.10/src/nv.d3.css", 
             "static/{version}/nvd3-1.1.10/lib/d3.v3.js", 
             "static/{version}/nvd3-1.1.10/nv.d3.js", 

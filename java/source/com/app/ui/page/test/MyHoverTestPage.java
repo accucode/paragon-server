@@ -6,7 +6,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScImage;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
@@ -65,8 +65,8 @@ public class MyHoverTestPage
         _form.setHoverText("This is text that shows when hovering over the entire form.");
         _form.getPostRenderScript().tooltip();
 
-        ScGroup group;
-        group = _form.addGroup("Hover/Title Test");
+        ScOldGroup group;
+        group = _form.addOldGroup("Hover/Title Test");
 
         ScDiv left;
         left = group.getHeader().addFloatLeft();

@@ -5,8 +5,8 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScOldGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyToastTestPage
@@ -50,12 +50,12 @@ public class MyToastTestPage
         form = root.addForm();
         form.css().gap();
 
-        ScGroupArray groups;
-        groups = form.addGroupArray(150, 200);
+        ScOldGroupArray groups;
+        groups = form.addOldGroupArray(150, 200);
         groups.style().floatLeft();
 
-        ScGroup group;
-        group = groups.addGroup("Toasts");
+        ScOldGroup group;
+        group = groups.addOldGroup("Toasts");
 
         ScBox links;
         links = group.addLinkBox();
@@ -65,7 +65,7 @@ public class MyToastTestPage
         links.addLink("Warn", newWarnAction());
         links.addLink("Error", newErrorAction());
 
-        group = groups.addGroup("Sticky");
+        group = groups.addOldGroup("Sticky");
         links = group.addLinkBox();
         links.addLink("Default", newDefaultStickyAction());
         links.addLink("Notice", newNoticeStickyAction());
@@ -73,7 +73,7 @@ public class MyToastTestPage
         links.addLink("Warn", newWarnStickyAction());
         links.addLink("Error", newErrorStickyAction());
 
-        group = groups.addGroup("Html");
+        group = groups.addOldGroup("Html");
         group.style().width(300);
         links = group.addLinkBox();
         links.addText("By default, toast messages are escaped.  However, you can easily set raw html if desired.");

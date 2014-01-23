@@ -5,8 +5,8 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScOldGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyHideErrorsTestPage
@@ -27,8 +27,8 @@ public class MyHideErrorsTestPage
     //# variables
     //##################################################
 
-    private ScGroup _groupOne;
-    private ScGroup _groupTwo;
+    private ScOldGroup _groupOne;
+    private ScOldGroup _groupTwo;
 
     //##################################################
     //# navigation
@@ -58,11 +58,11 @@ public class MyHideErrorsTestPage
         form.setSubmitAction(newSubmitAction());
         form.css().gap();
 
-        ScGroupArray groups;
-        groups = form.addGroupArray();
+        ScOldGroupArray groups;
+        groups = form.addOldGroupArray();
 
-        ScGroup group;
-        group = groups.addGroup("Group One");
+        ScOldGroup group;
+        group = groups.addOldGroup("Group One");
 
         ScBox lines;
         lines = group.addLines();
@@ -70,14 +70,14 @@ public class MyHideErrorsTestPage
         lines.addButton("Hide Errors", newHideGroupOneErrors());
         _groupOne = group;
 
-        group = groups.addGroup("Group Two");
+        group = groups.addOldGroup("Group Two");
 
         lines = group.addLines();
         lines.addFields().addIntegerField().setLabel("Integer");
         lines.addButton("Hide Errors", newHideGroupTwoErrors());
         _groupTwo = group;
 
-        group = groups.addGroup("Form");
+        group = groups.addOldGroup("Form");
 
         ScBox buttons;
         buttons = group.addButtonBox();

@@ -52,7 +52,7 @@ public class ScFilterBox
     //##################################################
 
     private ScForm     _form;
-    private ScGroup    _group;
+    private ScOldGroup    _group;
     private ScBox      _body;
 
     private ScActionIF _action;
@@ -70,7 +70,7 @@ public class ScFilterBox
         _form.setParent(this);
         _form.setSubmitAction(newSearchAction());
 
-        _group = _form.addGroup();
+        _group = _form.addOldGroup();
         _group.setTitle("Filter");
 
         _body = _group.addPad();
@@ -182,7 +182,7 @@ public class ScFilterBox
     //# components
     //##################################################
 
-    public ScGroup getGroup()
+    public ScOldGroup getGroup()
     {
         return _group;
     }

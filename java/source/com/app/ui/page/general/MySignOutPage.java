@@ -1,7 +1,7 @@
 package com.app.ui.page.general;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.utility.Kmu;
@@ -75,8 +75,8 @@ public class MySignOutPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        ScGroup group;
-        group = root.addGroup();
+        ScOldGroup group;
+        group = root.addOldGroup();
         group.style().width(300).marginTop(100).marginCenter();
 
         _titleText = group.setTitle(getDefaultTitle());

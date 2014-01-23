@@ -12,7 +12,7 @@ import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDateField;
 import com.kodemore.servlet.field.ScDropdown;
@@ -141,8 +141,8 @@ public class MyDevPerformanceLogPage
         _grid.addColumn(x.AverageMs, "Avg");
         _grid.addColumn(x.TotalMs, "Total");
 
-        ScGroup group;
-        group = root.addGroup("Performance Logs");
+        ScOldGroup group;
+        group = root.addOldGroup("Performance Logs");
         group.add(_grid);
 
         ScDiv buttons;

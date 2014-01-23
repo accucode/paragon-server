@@ -36,14 +36,14 @@ import com.kodemore.servlet.variable.ScLocalStyle;
  * I am a 'group box' container that surrounds my contents with a
  * shaded/colored area.  I also display a title bar.
  */
-public class ScGroupArray
+public class ScOldGroupArray
     extends ScControl
 {
     //##################################################
     //# constants
     //##################################################
 
-    private static final String FLAVOR_DEFAULT = KmCssDefaultConstantsIF.group_flavor_default;
+    private static final String FLAVOR_DEFAULT = KmCssDefaultConstantsIF.oldGroup_flavor_default;
 
     //##################################################
     //# variables
@@ -52,7 +52,7 @@ public class ScGroupArray
     /**
      * The list of child groups.
      */
-    private KmList<ScGroup>     _groups;
+    private KmList<ScOldGroup>     _groups;
 
     /**
      * The flavor to apply to child groups.
@@ -73,7 +73,7 @@ public class ScGroupArray
     {
         super.install();
 
-        _groups = new KmList<ScGroup>();
+        _groups = new KmList<ScOldGroup>();
         _flavor = new ScLocalString();
         _style = new ScLocalStyle();
 
@@ -84,15 +84,15 @@ public class ScGroupArray
     //# groups
     //##################################################
 
-    public KmList<ScGroup> getGroups()
+    public KmList<ScOldGroup> getOldGroups()
     {
         return _groups;
     }
 
-    public ScGroup addGroup()
+    public ScOldGroup addOldGroup()
     {
-        ScGroup e;
-        e = new ScGroup();
+        ScOldGroup e;
+        e = new ScOldGroup();
         e.setParent(this);
 
         applyDefaultsTo(e);
@@ -102,10 +102,10 @@ public class ScGroupArray
         return e;
     }
 
-    public ScGroup addGroup(String title)
+    public ScOldGroup addOldGroup(String title)
     {
-        ScGroup e;
-        e = addGroup();
+        ScOldGroup e;
+        e = addOldGroup();
         e.setTitle(title);
         return e;
     }
@@ -116,12 +116,12 @@ public class ScGroupArray
 
     public void reapplyDefaults()
     {
-        KmList<ScGroup> v = _groups;
-        for ( ScGroup e : v )
+        KmList<ScOldGroup> v = _groups;
+        for ( ScOldGroup e : v )
             applyDefaultsTo(e);
     }
 
-    private void applyDefaultsTo(ScGroup e)
+    private void applyDefaultsTo(ScOldGroup e)
     {
         e.setFlavor(getFlavor());
         e.setStyle(getStyle());
@@ -172,7 +172,7 @@ public class ScGroupArray
     @Override
     protected void renderControlOn(KmHtmlBuilder out)
     {
-        for ( ScGroup e : _groups )
+        for ( ScOldGroup e : _groups )
             out.render(e);
     }
 
@@ -187,7 +187,7 @@ public class ScGroupArray
         i = new KmCompositeIterator<ScControl>();
 
         i.addAll(super.getComponents());
-        i.addAll(getGroups());
+        i.addAll(getOldGroups());
 
         return i;
     }

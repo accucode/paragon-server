@@ -4,7 +4,7 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScTextSpan;
 
 import com.app.model.MyAccount;
@@ -29,14 +29,14 @@ public class MyAccountSettingsViewCard
     {
         super.install();
 
-        ScGroup group;
-        group = addGroup("Account Settings");
+        ScOldGroup group;
+        group = addOldGroup("Account Settings");
 
         installFields(group);
         installFooter(group);
     }
 
-    private void installFields(ScGroup group)
+    private void installFields(ScOldGroup group)
     {
         _nameText = new ScTextSpan();
         _nameText.setLabel("Name");
@@ -50,7 +50,7 @@ public class MyAccountSettingsViewCard
         fields.add(_ownerText);
     }
 
-    private void installFooter(ScGroup group)
+    private void installFooter(ScOldGroup group)
     {
         group.addDivider();
 

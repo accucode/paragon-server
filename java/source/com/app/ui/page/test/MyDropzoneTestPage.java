@@ -6,7 +6,7 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScDropzone;
 import com.kodemore.servlet.control.ScDropzoneUploadHandlerIF;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyDropzoneTestPage
@@ -60,8 +60,8 @@ public class MyDropzoneTestPage
         dz.showRemoveLinks();
         dz.setRemoveAction(newRemoveAction());
 
-        ScGroup group;
-        group = root.addGroup("Dropzone");
+        ScOldGroup group;
+        group = root.addOldGroup("Dropzone");
         group.add(dz);
     }
 

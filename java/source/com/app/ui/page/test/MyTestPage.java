@@ -2,8 +2,8 @@ package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupArray;
+import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScOldGroupArray;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyTestPage
@@ -46,18 +46,18 @@ public class MyTestPage
         root.css().gap();
         root.getPostRenderScript().equalizeGroups();
 
-        ScGroupArray groups;
-        groups = root.addGroupArray();
+        ScOldGroupArray groups;
+        groups = root.addOldGroupArray();
         groups.style().floatLeft();
 
-        ScGroup group;
+        ScOldGroup group;
         ScBox links;
 
-        group = groups.addGroup("Personal");
+        group = groups.addOldGroup("Personal");
         links = group.addLinkBox();
         links.addLink(MyWyattTestPage.instance);
 
-        group = groups.addGroup("Layout");
+        group = groups.addOldGroup("Layout");
         links = group.addLinkBox();
         links.addLink(MyAccordionTestPage.instance);
         links.addLink(MyBorderTestPage.instance);
@@ -74,7 +74,7 @@ public class MyTestPage
         links.addLink(MyBorderLayoutTestPage.instance);
         links.addLink(MyTitlePanelTestPage.instance);
 
-        group = groups.addGroup("Fields");
+        group = groups.addOldGroup("Fields");
         links = group.addLinkBox();
         links.addLink(MyFieldTestPage.instance);
         links.addLink(MyLocalValueTestPage.instance);
@@ -86,7 +86,7 @@ public class MyTestPage
         links.addLink(MyDropzoneTestPage.instance);
         links.addLink(MyRadioButtonTestPage.instance);
 
-        group = groups.addGroup("Misc");
+        group = groups.addOldGroup("Misc");
         links = group.addLinkBox();
         links.addLink(MyBlockTestPage.instance);
         links.addLink(MySlowTestPage.instance);
@@ -102,7 +102,7 @@ public class MyTestPage
         links.addLink(MyChartTestPage.instance);
         links.addLink(MyTimeAgoTestPage.instance);
 
-        group = groups.addGroup("Tools");
+        group = groups.addOldGroup("Tools");
         links = group.addLinkBox();
         links.addLink(MyScriptTestPage.instance);
         links.addLink(MyMemoryLeakTestPage.instance);

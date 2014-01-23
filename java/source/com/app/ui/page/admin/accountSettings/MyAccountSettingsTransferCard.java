@@ -6,7 +6,7 @@ import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScErrorBox;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScOldGroup;
 import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
@@ -38,14 +38,14 @@ public class MyAccountSettingsTransferCard
         form = addForm();
         form.setSubmitAction(newSendAction());
 
-        ScGroup group;
-        group = form.addGroup("Transfer Account");
+        ScOldGroup group;
+        group = form.addOldGroup("Transfer Account");
 
         installBody(group);
         installFooter(group);
     }
 
-    private void installBody(ScGroup group)
+    private void installBody(ScOldGroup group)
     {
         MyMetaInvitation x = MyInvitation.Meta;
 
@@ -66,7 +66,7 @@ public class MyAccountSettingsTransferCard
         box.add(_emailField);
     }
 
-    private void installFooter(ScGroup group)
+    private void installFooter(ScOldGroup group)
     {
         group.addDivider();
 
