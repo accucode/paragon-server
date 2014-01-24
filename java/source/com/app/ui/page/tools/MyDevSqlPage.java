@@ -104,7 +104,7 @@ public class MyDevSqlPage
         form.setSubmitAction(newSubmitAction());
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("SQL");
 
         ScBox body;
         body = group.addBox();

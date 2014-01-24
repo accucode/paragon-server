@@ -87,22 +87,22 @@ public class MyCardFlipTestPage
         _fadeFrame.setDefaultCard(_fadeFront);
 
         ScGroup front;
-        front = _flipFront.addGroup();
+        front = _flipFront.addGroup("Flip");
         front.addPad().addText("THIS IS THE FRONT!");
-        front.style().height(400);
+        front.bodyStyle().height(400);
 
         ScGroup back;
-        back = _flipBack.addGroup();
+        back = _flipBack.addGroup("Flip");
         back.addPad().addText("THIS IS THE BACK!");
-        back.style().height(400);
+        back.bodyStyle().height(400);
 
-        front = _fadeFront.addGroup();
+        front = _fadeFront.addGroup("Fade");
         front.addPad().addText("THIS IS THE FRONT!");
-        front.style().height(400);
+        front.bodyStyle().height(400);
 
-        back = _fadeBack.addGroup();
+        back = _fadeBack.addGroup("Fade");
         back.addPad().addText("THIS IS THE BACK!");
-        back.style().height(400);
+        back.bodyStyle().height(400);
     }
 
     //##################################################
