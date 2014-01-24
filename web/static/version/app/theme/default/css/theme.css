@@ -912,6 +912,7 @@ a.tabx:hover
     border-top-left-radius:  5px;
     border-top-right-radius: 5px;
     box-shadow: 5px 5px 5px #ccc;
+    background-color: #eee;
 }
 
 .groupHeader
@@ -930,12 +931,10 @@ a.tabx:hover
 
 .groupBody
 {
-    background-color: #eee;
 }
 
 .groupFooter
 {
-    background-color: #eee;
 }
 
 .groupDivider
@@ -970,7 +969,7 @@ a.tabx:hover
     bottom: 0;
 }
 
-.groupBody_fixedFooter
+.groupBody_fixedLinkFooter
 {
     position: absolute;
     left:   0;
@@ -979,13 +978,31 @@ a.tabx:hover
     bottom: 36px;
 }
 
-.groupFooter_fixed
+.groupBody_fixedButtonFooter
+{
+    position: absolute;
+    left:   0;
+    right:  0;
+    top:    36px;
+    bottom: 46px;
+}
+
+.groupFooter_fixedLink
 {
     position: absolute;
     left:   0;
     right:  0;
     bottom: 0;
     height: 36px;
+}
+
+.groupFooter_fixedButton
+{
+    position: absolute;
+    left:   0;
+    right:  0;
+    bottom: 0;
+    height: 46px;
 }
 
 /***** fill *****/

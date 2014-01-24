@@ -8,7 +8,7 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
-import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScBorderLayout;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
@@ -97,13 +97,15 @@ public class MyDevPerformanceLogPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        ScBorderLayout layout;
+        layout = root.addBorderLayout();
+        layout.pad();
 
-        installFilter(root);
-        installGrid(root);
+        installFilterOn(layout);
+        installGridOn(layout);
     }
 
-    private void installFilter(ScContainer root)
+    private void installFilterOn(ScBorderLayout layout)
     {
         _startDateField = new ScDateField();
         _endDateField = new ScDateField();
@@ -112,7 +114,11 @@ public class MyDevPerformanceLogPage
         _sortField.addOptions(Sort.values());
         _sortField.setValue(Sort.Total);
 
-        _filterBox = root.addFilterBox();
+        ScDiv root;
+        root = layout.addTop(130);
+
+        _filterBox = root.addFilterBox("Performance Logs");
+        _filterBox.layoutFill();
         _filterBox.setAction(newSearchAction());
 
         ScArray row;
@@ -126,7 +132,7 @@ public class MyDevPerformanceLogPage
         row.add(_sortField);
     }
 
-    private void installGrid(ScContainer root)
+    private void installGridOn(ScBorderLayout layout)
     {
         MyMetaPerformanceLogSummaryVo x = MyPerformanceLogSummaryVo.Meta;
 
@@ -141,8 +147,13 @@ public class MyDevPerformanceLogPage
         _grid.addColumn(x.AverageMs, "Avg");
         _grid.addColumn(x.TotalMs, "Total");
 
+        ScDiv root;
+        root = layout.addCenter();
+
         ScGroup group;
-        group = root.addGroup();
+        group = root.addGroup("Results");
+        group.layoutFill();
+        group.css().topOffset();
         group.add(_grid);
 
         ScDiv buttons;

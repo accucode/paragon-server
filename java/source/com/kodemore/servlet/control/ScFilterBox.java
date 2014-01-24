@@ -75,11 +75,8 @@ public class ScFilterBox
 
         _body = _group.addPad();
 
-        _group.addEqualizeFiller();
-        _group.addDivider();
-
         ScBox buttons;
-        buttons = _group.addButtonBox();
+        buttons = _group.getFooter().addButtonBox();
         buttons.addButton("Clear", newClearAction());
         buttons.addSubmitButton("Search");
     }
@@ -106,6 +103,16 @@ public class ScFilterBox
                 handleClear();
             }
         };
+    }
+
+    //##################################################
+    //# layout
+    //##################################################
+
+    public void layoutFill()
+    {
+        _form.css().fill();
+        _group.layoutFillWithButtonFooter();
     }
 
     //##################################################

@@ -1344,3 +1344,48 @@ Kmu.glow = function(options)
 	css[attr] = oldValue;
 	target.animate(css, extra);
 }
+
+
+//**********************************************************
+//** flexigrid
+//**********************************************************
+    
+/**
+ * Apply styling to a flexigrid such that it fills its parent.
+ * The client should pass in the table selector that was originally used to create the grid.
+ * We use absolute positioning and rely on several assumptions to make this work.
+ * We assume that the header and footer are visible, and hard code the pixel sizes.
+ */
+Kmu.flexigridFill = function(tableSel)
+{
+	var grid   = $(tableSel).parent().parent();
+	var header = grid.find('.hDiv');
+	var body   = grid.find('.bDiv');
+	var pager  = grid.find('.pDiv');
+	
+	grid.css("position", "absolute");
+	grid.css("left",   "0");
+	grid.css("right",  "0");
+	grid.css("top",    "0");
+	grid.css("bottom", "0");
+	
+	header.css("position", "absolute");
+	header.css("left",   "0");
+	header.css("right",  "0");
+	header.css("top",    "0");
+	header.css("height", "25px");
+	
+	body.css("position", "absolute");
+	body.css("left",   "0");
+	body.css("right",  "0");
+	body.css("top",    "25px");
+	body.css("bottom", "31px");
+	body.css("height", "");
+	
+	pager.css("position", "absolute");
+	pager.css("left",   "0");
+	pager.css("right",  "0");
+	pager.css("bottom", "0");
+	pager.css("height", "31px");
+}
+

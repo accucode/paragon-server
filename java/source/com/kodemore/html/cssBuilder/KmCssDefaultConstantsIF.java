@@ -58,11 +58,13 @@ public interface KmCssDefaultConstantsIF
     String gapOuter = "gapOuter";
     String group = "group";
     String groupBody = "groupBody";
-    String groupBody_fixedFooter = "groupBody_fixedFooter";
+    String groupBody_fixedButtonFooter = "groupBody_fixedButtonFooter";
+    String groupBody_fixedLinkFooter = "groupBody_fixedLinkFooter";
     String groupBody_fixedNoFooter = "groupBody_fixedNoFooter";
     String groupDivider = "groupDivider";
     String groupFooter = "groupFooter";
-    String groupFooter_fixed = "groupFooter_fixed";
+    String groupFooter_fixedButton = "groupFooter_fixedButton";
+    String groupFooter_fixedLink = "groupFooter_fixedLink";
     String groupHeader = "groupHeader";
     String groupHeader_fixed = "groupHeader_fixed";
     String groupTitle = "groupTitle";

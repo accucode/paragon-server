@@ -68,26 +68,21 @@ public class MySelectAccountPage
         _nameField = x.Name.newField();
 
         _form = root.addForm();
-        _form = root.addForm();
         _form.setSubmitAction(newCreateAccountAction());
         _form.css().floatLeft();
 
         ScGroup group;
         group = _form.addGroup();
         group.style().width(GROUP_WIDTH);
+        group.layoutNormalWithFooter();
         group.setTitle("New Account");
 
-        ScBox body;
-        body = group.addPad().addBox();
-
         ScFieldTable fields;
-        fields = body.addFields();
+        fields = group.addPad().addFields();
         fields.add(_nameField);
 
-        group.addBodyDivider();
-
         ScBox buttons;
-        buttons = group.addButtonBoxRight();
+        buttons = group.getFooter().addButtonBoxRight();
         buttons.addSubmitButton("Create");
     }
 

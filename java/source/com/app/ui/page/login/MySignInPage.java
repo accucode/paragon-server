@@ -143,6 +143,7 @@ public class MySignInPage
 
         ScGroup group;
         group = form.addGroup();
+        group.setTitle("Sign In");
 
         installFormFields(group);
 

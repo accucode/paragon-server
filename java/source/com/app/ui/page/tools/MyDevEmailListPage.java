@@ -4,9 +4,10 @@ import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScBorderLayout;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScButton;
-import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
@@ -53,14 +54,16 @@ public class MyDevEmailListPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        ScBorderLayout layout;
+        layout = root.addBorderLayout();
+        layout.pad();
 
-        addFilter(root);
-        addGrid(root);
-        addButtons(root);
+        addFilter(layout);
+        addButtons(layout);
+        addGrid(layout);
     }
 
-    private void addFilter(ScContainer root)
+    private void addFilter(ScBorderLayout layout)
     {
         _statusField = MyEmail.Tools.newStatusDropdown();
         _statusField.setLabel("Status");
@@ -72,7 +75,11 @@ public class MyDevEmailListPage
         _createdEndField = new ScDateField();
         _createdEndField.setLabel("Created End");
 
-        _filterBox = root.addFilterBox();
+        ScDiv root;
+        root = layout.addTop(200);
+
+        _filterBox = root.addFilterBox("Emails");
+        _filterBox.layoutFill();
 
         ScFieldTable fields;
         fields = _filterBox.addFields();
@@ -81,12 +88,13 @@ public class MyDevEmailListPage
         fields.add(_createdEndField);
     }
 
-    private void addGrid(ScContainer root)
+    private void addGrid(ScBorderLayout layout)
     {
         MyMetaEmail x = MyEmail.Meta;
 
         ScGrid<MyEmail> grid;
         grid = new ScGrid<MyEmail>();
+        grid.layoutFill();
         grid.setFilterFactory(newFetcher());
         grid.trackAll(_filterBox);
 
@@ -99,15 +107,26 @@ public class MyDevEmailListPage
         grid.addColumn(x.Subject);
         grid.addColumn(x.ErrorNotes);
 
+        layout.padTop();
+        layout.padBottom();
+
+        ScDiv root;
+        root = layout.addCenter();
+
         ScGroup group;
-        group = root.addGroup();
+        group = root.addGroup("Results");
+        group.layoutFill();
         group.add(grid);
     }
 
-    private void addButtons(ScContainer root)
+    private void addButtons(ScBorderLayout layout)
     {
+        ScDiv root;
+        root = layout.addBottom(50);
+
         ScBox buttons;
         buttons = root.addButtonBox();
+        buttons.css().fill().border();
         buttons.addButton("Resend All Pending", newResendAllPendingAction());
         buttons.addButton("Resend All Errors", newResendAllErrorsAction());
 

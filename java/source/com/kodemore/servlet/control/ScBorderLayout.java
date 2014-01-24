@@ -72,6 +72,12 @@ public class ScBorderLayout
     extends ScControl
 {
     //##################################################
+    //# constants
+    //##################################################
+
+    private static final int  DEFAULT_PAD = 10;
+
+    //##################################################
     //# variables
     //##################################################
 
@@ -108,6 +114,58 @@ public class ScBorderLayout
     public KmList<ScControl> getChildren()
     {
         return _children;
+    }
+
+    //##################################################
+    //# pad
+    //##################################################
+
+    public void pad()
+    {
+        padLeft();
+        padRight();
+        padTop();
+        padBottom();
+    }
+
+    public void padLeft()
+    {
+        padLeft(DEFAULT_PAD);
+    }
+
+    public void padLeft(int px)
+    {
+        _leftPixel += px;
+    }
+
+    public void padRight()
+    {
+        padRight(DEFAULT_PAD);
+    }
+
+    public void padRight(int px)
+    {
+        _rightPixel += px;
+    }
+
+    public void padTop()
+    {
+        padTop(DEFAULT_PAD);
+    }
+
+    public void padTop(int px)
+    {
+        _topPixel += px;
+    }
+
+    public void padBottom()
+    {
+        padBottom(DEFAULT_PAD);
+    }
+
+    public void padBottom(int px)
+    {
+        _bottomPixel += px;
     }
 
     //##################################################
@@ -326,7 +384,7 @@ public class ScBorderLayout
     {
         ScDiv e;
         e = new ScDiv();
-        e.css().absolute().boxSizingBorder().auto();
+        e.css().absolute().boxSizingBorder();
 
         _children.add(e);
 

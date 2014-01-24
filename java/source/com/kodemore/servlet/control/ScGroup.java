@@ -160,20 +160,20 @@ public class ScGroup
 
         _blockWrapper = new ScLocalBoolean(true);
 
-        layoutStatic();
+        layoutNormal();
     }
 
     //##################################################
     //# layout
     //##################################################
 
-    public void layoutStatic()
+    public void layoutNormal()
     {
         _layoutReset();
         getFooterWrapper().hide();
     }
 
-    public void layoutStaticWithFooter()
+    public void layoutNormalWithFooter()
     {
         _layoutReset();
     }
@@ -188,14 +188,24 @@ public class ScGroup
         getFooterWrapper().hide();
     }
 
-    public void layoutFixedWithFooter()
+    public void layoutFixedWithLinkFooter()
     {
         _layoutReset();
 
         css().groupWrapper_fixed();
         getHeaderWrapper().css().groupHeader_fixed();
-        getBody().css().groupBody_fixedFooter();
-        getFooterWrapper().css().groupFooter_fixed();
+        getBody().css().groupBody_fixedLinkFooter();
+        getFooterWrapper().css().groupFooter_fixedLink();
+    }
+
+    public void layoutFixedWithButtonFooter()
+    {
+        _layoutReset();
+
+        css().groupWrapper_fixed();
+        getHeaderWrapper().css().groupHeader_fixed();
+        getBody().css().groupBody_fixedButtonFooter();
+        getFooterWrapper().css().groupFooter_fixedButton();
     }
 
     public void layoutFill()
@@ -208,14 +218,24 @@ public class ScGroup
         getFooterWrapper().hide();
     }
 
-    public void layoutFillWithFooter()
+    public void layoutFillWithLinkFooter()
     {
         _layoutReset();
 
         css().groupWrapper_fill();
         getHeaderWrapper().css().groupHeader_fixed();
-        getBody().css().groupBody_fixedFooter();
-        getFooterWrapper().css().groupFooter_fixed();
+        getBody().css().groupBody_fixedLinkFooter();
+        getFooterWrapper().css().groupFooter_fixedLink();
+    }
+
+    public void layoutFillWithButtonFooter()
+    {
+        _layoutReset();
+
+        css().groupWrapper_fill();
+        getHeaderWrapper().css().groupHeader_fixed();
+        getBody().css().groupBody_fixedButtonFooter();
+        getFooterWrapper().css().groupFooter_fixedButton();
     }
 
     private void _layoutReset()
@@ -223,7 +243,7 @@ public class ScGroup
         css().clear().group().groupWrapper().clearfix();
         getHeaderWrapper().css().clear().groupHeader();
         getBody().css().clear().groupBody();
-        getFooterWrapper().css().clear().groupFooter();
+        getFooterWrapper().css().clear().groupFooter().clearfix();
     }
 
     //##################################################

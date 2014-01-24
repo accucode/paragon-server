@@ -37,7 +37,7 @@ public class MyAccountSettingsEditCard
         form.setSubmitAction(newSaveAction());
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Edit Account");
 
         installFields(group);
         installFooter(group);

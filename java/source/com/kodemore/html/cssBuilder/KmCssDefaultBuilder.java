@@ -326,9 +326,14 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.groupBody);
     }
     
-    public KmCssDefaultBuilder groupBody_fixedFooter()
+    public KmCssDefaultBuilder groupBody_fixedButtonFooter()
     {
-        return apply(KmCssDefaultConstantsIF.groupBody_fixedFooter);
+        return apply(KmCssDefaultConstantsIF.groupBody_fixedButtonFooter);
+    }
+    
+    public KmCssDefaultBuilder groupBody_fixedLinkFooter()
+    {
+        return apply(KmCssDefaultConstantsIF.groupBody_fixedLinkFooter);
     }
     
     public KmCssDefaultBuilder groupBody_fixedNoFooter()
@@ -346,9 +351,14 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.groupFooter);
     }
     
-    public KmCssDefaultBuilder groupFooter_fixed()
+    public KmCssDefaultBuilder groupFooter_fixedButton()
     {
-        return apply(KmCssDefaultConstantsIF.groupFooter_fixed);
+        return apply(KmCssDefaultConstantsIF.groupFooter_fixedButton);
+    }
+    
+    public KmCssDefaultBuilder groupFooter_fixedLink()
+    {
+        return apply(KmCssDefaultConstantsIF.groupFooter_fixedLink);
     }
     
     public KmCssDefaultBuilder groupHeader()

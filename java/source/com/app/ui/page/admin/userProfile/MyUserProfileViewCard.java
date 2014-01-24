@@ -3,6 +3,7 @@ package com.app.ui.page.admin.userProfile;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
@@ -62,7 +63,8 @@ public class MyUserProfileViewCard
         form.css().gap();
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("User Profile");
+        group.layoutNormalWithFooter();
 
         installHeader(group);
         installFields(group);
@@ -91,11 +93,9 @@ public class MyUserProfileViewCard
 
     private void installFooter(ScGroup group)
     {
-        group.addDivider();
-
-        ScDiv footer;
-        footer = group.addButtonBoxRight();
-        footer.addButton("Change Password", newChangePasswordAction());
+        ScBox buttons;
+        buttons = group.getFooter().addButtonBoxRight();
+        buttons.addButton("Change Password", newChangePasswordAction());
     }
 
     //##################################################

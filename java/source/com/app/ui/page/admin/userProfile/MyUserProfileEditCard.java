@@ -2,7 +2,7 @@ package com.app.ui.page.admin.userProfile;
 
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScDiv;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -61,7 +61,8 @@ public class MyUserProfileEditCard
         form.setSubmitAction(newSaveAction());
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Edit User");
+        group.layoutNormalWithFooter();
 
         installFields(group);
         installFooter(group);
@@ -78,12 +79,10 @@ public class MyUserProfileEditCard
 
     private void installFooter(ScGroup group)
     {
-        group.addDivider();
-
-        ScDiv footer;
-        footer = group.addButtonBoxRight();
-        footer.addCancelButton(newCancelAction());
-        footer.addSubmitButton("Save");
+        ScBox buttons;
+        buttons = group.getFooter().addButtonBoxRight();
+        buttons.addCancelButton(newCancelAction());
+        buttons.addSubmitButton("Save");
     }
 
     //##################################################

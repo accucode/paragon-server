@@ -164,6 +164,14 @@ public class ScGrid<T>
      */
     private ScLocalBoolean           _noWrap;
 
+    /**
+     * If true, attempt to adjust the layout such that the grid will fill its parent.
+     * This relies on several assumptions, and is a work in progress.
+     * My parent must have a non-static layout.
+     * Additionally, the layout currently assumes that the header and pager are both visible.
+     */
+    private ScLocalBoolean           _fill;
+
     //##################################################
     //# variables: state management
     //##################################################
@@ -222,6 +230,7 @@ public class ScGrid<T>
 
         _resizable = new ScLocalBoolean(false);
         _noWrap = new ScLocalBoolean(true);
+        _fill = new ScLocalBoolean(false);
     }
 
     //##################################################
@@ -386,6 +395,25 @@ public class ScGrid<T>
     }
 
     //##################################################
+    //# fill
+    //##################################################
+
+    public boolean getFill()
+    {
+        return _fill.getValue();
+    }
+
+    public void setFill(boolean e)
+    {
+        _fill.setValue(e);
+    }
+
+    public void layoutFill()
+    {
+        setFill(true);
+    }
+
+    //##################################################
     //# print
     //##################################################
 
@@ -411,6 +439,10 @@ public class ScGrid<T>
         KmJsonMap setup = setupJson();
 
         out.getPostDom().run("%s.flexigrid(%s);", ref, setup);
+
+        if ( getFill() )
+            out.getPostDom().run("Kmu.flexigridFill('%s');", getJquerySelector());
+
     }
 
     //##################################################
@@ -1087,5 +1119,4 @@ public class ScGrid<T>
     {
         getRootScript().download(name, renderCsv());
     }
-
 }

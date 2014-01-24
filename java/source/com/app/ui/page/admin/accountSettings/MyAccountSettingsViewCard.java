@@ -2,7 +2,7 @@ package com.app.ui.page.admin.accountSettings;
 
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScDiv;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScTextSpan;
@@ -30,7 +30,8 @@ public class MyAccountSettingsViewCard
         super.install();
 
         ScGroup group;
-        group = addGroup();
+        group = addGroup("Account Settings");
+        group.layoutNormalWithFooter();
 
         installFields(group);
         installFooter(group);
@@ -52,12 +53,10 @@ public class MyAccountSettingsViewCard
 
     private void installFooter(ScGroup group)
     {
-        group.addDivider();
-
-        ScDiv footer;
-        footer = group.addButtonBoxRight();
-        footer.addButton("Edit", newEditAction());
-        footer.addButton("Transfer", newTransferAction());
+        ScBox buttons;
+        buttons = group.getFooter().addButtonBoxRight();
+        buttons.addButton("Edit", newEditAction());
+        buttons.addButton("Transfer", newTransferAction());
     }
 
     //##################################################

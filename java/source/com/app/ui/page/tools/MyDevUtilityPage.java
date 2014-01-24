@@ -144,7 +144,6 @@ public class MyDevUtilityPage
         ScGroup e;
         e = root.addGroup();
         e.setTitle(title);
-        e.layoutFixed();
         e.css().floatLeft();
         e.style().height(150);
         return e;

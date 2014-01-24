@@ -3,7 +3,6 @@ package com.app.ui.page.admin.accountSettings;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScErrorBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -39,7 +38,8 @@ public class MyAccountSettingsTransferCard
         form.setSubmitAction(newSendAction());
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Transfer Account");
+        group.layoutNormalWithFooter();
 
         installBody(group);
         installFooter(group);
@@ -68,12 +68,10 @@ public class MyAccountSettingsTransferCard
 
     private void installFooter(ScGroup group)
     {
-        group.addDivider();
-
-        ScDiv footer;
-        footer = group.addButtonBoxRight();
-        footer.addCancelButton(newCancelAction());
-        footer.addSubmitButton("Send Invitation");
+        ScBox buttons;
+        buttons = group.getFooter().addButtonBoxRight();
+        buttons.addCancelButton(newCancelAction());
+        buttons.addSubmitButton("Send Invitation");
     }
 
     //##################################################

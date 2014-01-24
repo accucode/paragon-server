@@ -1009,6 +1009,23 @@ public abstract class ScBlockScript
     }
 
     /**
+     * Equalize all group bodies contained in the target.
+     */
+    public ScEqualizeScript equalizeGroupBodiesIn(ScHtmlIdIF target)
+    {
+        return equalizeGroupBodiesIn(target.getJquerySelector());
+    }
+
+    /**
+     * Equalize the group bodies within the target.
+     */
+    public ScEqualizeScript equalizeGroupBodiesIn(String sel)
+    {
+        String klass = KmCssDefaultConstantsIF.groupBody;
+        return equalizeClassIn(sel, klass);
+    }
+
+    /**
      * Equalize all elements with a matching class, contained in the target. 
      */
     public ScEqualizeScript equalizeClassIn(ScHtmlIdIF target, String klass)

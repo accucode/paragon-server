@@ -373,6 +373,11 @@ public class ScHtmlIdAjax
         return equalizeGroupsIn(getTarget());
     }
 
+    public ScEqualizeScript equalizeGroupBodies()
+    {
+        return equalizeGroupBodiesIn(getTarget());
+    }
+
     //##################################################
     //# drag
     //##################################################

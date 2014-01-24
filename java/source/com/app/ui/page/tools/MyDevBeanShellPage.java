@@ -69,7 +69,7 @@ public class MyDevBeanShellPage
         form.css().pad();
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Bean Shell");
         group.addGap().add(_scriptField);
         group.addDivider();
         group.addButtonBox().addSubmitButton();
