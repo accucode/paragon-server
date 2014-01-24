@@ -9,8 +9,7 @@ import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScButton;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScFieldTable;
-import com.kodemore.servlet.control.ScOldGroup;
-import com.kodemore.servlet.control.ScOldGroupArray;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLiteral;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTextSpan;
@@ -40,8 +39,8 @@ public class MyDevEmailViewPage
     //##################################################
 
     private ScTextSpan _errorText;
-    private ScLiteral    _partsHtml;
-    private ScButton     _editButton;
+    private ScLiteral  _partsHtml;
+    private ScButton   _editButton;
 
     //##################################################
     //# navigation
@@ -83,11 +82,8 @@ public class MyDevEmailViewPage
         ScArray arr;
         arr = root.addArray();
 
-        ScOldGroupArray row;
-        row = arr.addOldGroupArray();
-
-        installSummaryGroup(row);
-        installStatusGroup(row);
+        installSummaryGroup(arr);
+        installStatusGroup(arr);
 
         installParts(arr);
 
@@ -95,15 +91,15 @@ public class MyDevEmailViewPage
         _editButton.hide();
     }
 
-    private void installSummaryGroup(ScOldGroupArray root)
+    private void installSummaryGroup(ScContainer root)
     {
         MyMetaEmail x = MyEmail.Meta;
 
-        ScOldGroup group;
-        group = root.addOldGroup("Summary");
+        ScGroup group;
+        group = root.addGroup("Summary");
 
         ScContainer fields;
-        fields = group.addFields();
+        fields = group.getBody().addFields();
         fields.addText(x.Uid);
         fields.addText(x.ToAddressesLabel);
         fields.addText(x.CcAddressesLabel);
@@ -111,15 +107,15 @@ public class MyDevEmailViewPage
         fields.addText(x.Subject);
     }
 
-    private void installStatusGroup(ScOldGroupArray root)
+    private void installStatusGroup(ScContainer root)
     {
         MyMetaEmail x = MyEmail.Meta;
 
-        ScOldGroup group;
-        group = root.addOldGroup("Status");
+        ScGroup group;
+        group = root.addGroup("Status");
 
         ScFieldTable fields;
-        fields = group.addFields();
+        fields = group.getBody().addFields();
         fields.addText(x.StatusName);
         fields.addText(x.CreatedLocalTs);
         fields.addText(x.SentLocalTs);
@@ -128,7 +124,7 @@ public class MyDevEmailViewPage
         _errorText.hide();
 
         ScContainer buttons;
-        buttons = group.addRow();
+        buttons = group.getBody().addRow();
         buttons.addButton("Re-Send", newResendAction());
         buttons.addButton("Ignore", newIgnoreAction());
     }

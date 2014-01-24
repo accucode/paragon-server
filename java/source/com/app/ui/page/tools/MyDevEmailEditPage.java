@@ -10,8 +10,7 @@ import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGrid;
-import com.kodemore.servlet.control.ScOldGroup;
-import com.kodemore.servlet.control.ScOldGroupArray;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
@@ -42,7 +41,7 @@ public class MyDevEmailEditPage
     //##################################################
 
     @SuppressWarnings("unused")
-    private ScOldGroup                  _summaryGroup;
+    private ScGroup                  _summaryGroup;
 
     private ScDropdown               _recipientTypeField;
     private ScTextField              _recipientAddressField;
@@ -55,22 +54,19 @@ public class MyDevEmailEditPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        ScOldGroupArray row;
-        row = root.addOldGroupArray();
-
-        addSummaryGroup(row);
-        addRecipientGroup(row);
+        addSummaryGroup(root);
+        addRecipientGroup(root);
     }
 
-    private void addSummaryGroup(ScOldGroupArray arr)
+    private void addSummaryGroup(ScContainer root)
     {
         MyMetaEmail x = MyEmail.Meta;
 
-        ScOldGroup group;
-        group = arr.addOldGroup("Summary");
+        ScGroup group;
+        group = root.addGroup("Summary");
 
         ScForm form;
-        form = group.addForm();
+        form = group.getBody().addForm();
 
         ScFieldTable fields;
         fields = form.addFields();
@@ -85,7 +81,7 @@ public class MyDevEmailEditPage
         _summaryGroup = group;
     }
 
-    private void addRecipientGroup(ScOldGroupArray arr)
+    private void addRecipientGroup(ScContainer root)
     {
         MyMetaEmailRecipient x = MyEmailRecipient.Meta;
 
@@ -106,7 +102,7 @@ public class MyDevEmailEditPage
         _recipientGrid.addLinkColumn("Remove", newRemoveRecipientAction(), x.Uid);
 
         ScContainer group;
-        group = arr.addOldGroup("Recipients");
+        group = root.addGroup("Recipients").getBody();
 
         ScArray row;
         row = group.addForm().addRow();

@@ -6,7 +6,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScLinkList;
 import com.kodemore.servlet.field.ScTextField;
@@ -72,22 +72,22 @@ public class MySelectAccountPage
         _form.setSubmitAction(newCreateAccountAction());
         _form.css().floatLeft();
 
-        ScOldGroup group;
-        group = _form.addOldGroup();
+        ScGroup group;
+        group = _form.addGroup();
         group.style().width(GROUP_WIDTH);
         group.setTitle("New Account");
 
         ScBox body;
-        body = group.addPad().addBox();
+        body = group.getBody().addPad().addBox();
 
         ScFieldTable fields;
         fields = body.addFields();
         fields.add(_nameField);
 
-        group.addDivider();
+        group.addBodyDivider();
 
         ScBox buttons;
-        buttons = group.addButtonBoxRight();
+        buttons = group.getBody().addButtonBoxRight();
         buttons.addSubmitButton("Create");
     }
 
@@ -100,12 +100,12 @@ public class MySelectAccountPage
         _ownedAccountList.setOptionTextAdaptor(x.Name);
         _ownedAccountList.setAction(newSelectAccountAction());
 
-        ScOldGroup group;
-        group = root.addOldGroup();
+        ScGroup group;
+        group = root.addGroup();
         group.css().floatLeft();
         group.style().width(GROUP_WIDTH);
         group.setTitle("My Accounts");
-        group.addPad().add(_ownedAccountList);
+        group.getBody().addPad().add(_ownedAccountList);
     }
 
     private void installSharedAccounts(ScPageRoot root)
@@ -117,12 +117,12 @@ public class MySelectAccountPage
         _sharedAccountList.setOptionTextAdaptor(x.Name);
         _sharedAccountList.setAction(newSelectAccountAction());
 
-        ScOldGroup group;
-        group = root.addOldGroup();
+        ScGroup group;
+        group = root.addGroup();
         group.css().floatLeft();
         group.style().width(GROUP_WIDTH);
         group.setTitle("Shared Accounts");
-        group.addPad().add(_sharedAccountList);
+        group.getBody().addPad().add(_sharedAccountList);
     }
 
     //##################################################

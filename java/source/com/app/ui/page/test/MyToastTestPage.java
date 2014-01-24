@@ -5,8 +5,7 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
-import com.kodemore.servlet.control.ScOldGroupArray;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyToastTestPage
@@ -50,32 +49,28 @@ public class MyToastTestPage
         form = root.addForm();
         form.css().gap();
 
-        ScOldGroupArray groups;
-        groups = form.addOldGroupArray(150, 200);
-        groups.style().floatLeft();
-
-        ScOldGroup group;
-        group = groups.addOldGroup("Toasts");
+        ScGroup group;
+        group = form.addGroup("Toasts");
 
         ScBox links;
-        links = group.addLinkBox();
+        links = group.getBody().addLinkBox();
         links.addLink("Default", newDefaultAction());
         links.addLink("Notice", newNoticeAction());
         links.addLink("Success", newSuccessAction());
         links.addLink("Warn", newWarnAction());
         links.addLink("Error", newErrorAction());
 
-        group = groups.addOldGroup("Sticky");
-        links = group.addLinkBox();
+        group = form.addGroup("Sticky");
+        links = group.getBody().addLinkBox();
         links.addLink("Default", newDefaultStickyAction());
         links.addLink("Notice", newNoticeStickyAction());
         links.addLink("Success", newSuccessStickyAction());
         links.addLink("Warn", newWarnStickyAction());
         links.addLink("Error", newErrorStickyAction());
 
-        group = groups.addOldGroup("Html");
+        group = form.addGroup("Html");
         group.style().width(300);
-        links = group.addLinkBox();
+        links = group.getBody().addLinkBox();
         links.addText("By default, toast messages are escaped.  However, you can easily set raw html if desired.");
         links.addBreak();
         links.addLink("Text (default)", newTextMessageAction());

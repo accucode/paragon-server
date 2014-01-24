@@ -6,9 +6,9 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
+import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
-import com.kodemore.servlet.control.ScOldGroupArray;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScListField;
 import com.kodemore.servlet.field.ScTextField;
@@ -67,11 +67,8 @@ public class MyDevSharedFileBrowserPage
 
         installPath(form);
 
-        ScOldGroupArray row;
-        row = form.addOldGroupArray();
-
-        installFolders(row);
-        installFiles(row);
+        installFolders(form);
+        installFiles(form);
     }
 
     private void installPath(ScForm root)
@@ -80,34 +77,35 @@ public class MyDevSharedFileBrowserPage
         _directoryField.setLabel("Directory");
         _directoryField.setValue("/");
 
-        ScOldGroup group = root.addOldGroup("Path");
+        ScGroup group;
+        group = root.addGroup("Path");
 
         ScArray row;
-        row = group.addRow();
+        row = group.getBody().addRow();
         row.add(_directoryField);
         row.addSubmitButton("Open");
 
-        group.addLink("Create", newCreatePathAction());
+        group.getBody().addLink("Create", newCreatePathAction());
     }
 
-    private void installFolders(ScOldGroupArray root)
+    private void installFolders(ScContainer root)
     {
         _folderList = new ScListField();
 
-        ScOldGroup group;
-        group = root.addOldGroup("Folders");
-        group.add(_folderList);
-        group.addLink("Open", newOpenFolderAction());
+        ScGroup group;
+        group = root.addGroup("Folders");
+        group.getBody().add(_folderList);
+        group.getBody().addLink("Open", newOpenFolderAction());
     }
 
-    private void installFiles(ScOldGroupArray root)
+    private void installFiles(ScContainer root)
     {
         _fileList = new ScListField();
 
-        ScOldGroup group;
-        group = root.addOldGroup("Files");
-        group.add(_fileList);
-        group.addLink("Get", newGetFileAction());
+        ScGroup group;
+        group = root.addGroup("Files");
+        group.getBody().add(_fileList);
+        group.getBody().addLink("Get", newGetFileAction());
     }
 
     //##################################################

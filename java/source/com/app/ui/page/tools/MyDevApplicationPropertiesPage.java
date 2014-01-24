@@ -4,8 +4,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
-import com.kodemore.servlet.control.ScOldGroup;
-import com.kodemore.servlet.control.ScOldGroupArray;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLiteral;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
@@ -77,16 +76,13 @@ public class MyDevApplicationPropertiesPage
         root = new ScBox();
         root.css().gap();
 
-        ScOldGroupArray groups;
-        groups = root.addOldGroupArray();
-
         for ( String g : gs )
         {
-            ScOldGroup group;
-            group = groups.addOldGroup(g);
+            ScGroup group;
+            group = root.addGroup(g);
 
             ScFieldTable fields;
-            fields = group.addPad().addFields();
+            fields = group.getBody().addPad().addFields();
 
             KmList<MyPropertyDefinition> defs = getDefs(g);
             for ( MyPropertyDefinition def : defs )

@@ -2,8 +2,7 @@ package com.app.ui.page.tools;
 
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScOldGroup;
-import com.kodemore.servlet.control.ScOldGroupArray;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyDevToolsPage
@@ -45,20 +44,17 @@ public class MyDevToolsPage
     {
         root.css().gap();
 
-        ScOldGroupArray groups;
-        groups = root.addOldGroupArray(150, 300);
-
-        ScOldGroup group;
-        group = groups.addOldGroup("Tools");
+        ScGroup group;
+        group = root.addGroup("Tools");
 
         ScBox links;
-        links = group.addLinkBox();
+        links = group.getBody().addLinkBox();
         links.addLink(MyDevUtilityPage.instance);
         links.addLink(MyDevSqlPage.instance);
 
-        group.addDivider();
+        group.addBodyDivider();
 
-        links = group.addLinkBox();
+        links = group.getBody().addLinkBox();
         links.addLink(MyDevBeanShellPage.instance);
         links.addLink(MyDevPerformanceLogPage.instance);
         links.addLink(MyDevSharedFileBrowserPage.instance);

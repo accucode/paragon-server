@@ -2,8 +2,7 @@ package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScOldGroup;
-import com.kodemore.servlet.control.ScOldGroupArray;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyTestPage
@@ -46,19 +45,15 @@ public class MyTestPage
         root.css().gap();
         root.getPostRenderScript().equalizeGroups();
 
-        ScOldGroupArray groups;
-        groups = root.addOldGroupArray();
-        groups.style().floatLeft();
-
-        ScOldGroup group;
+        ScGroup group;
         ScBox links;
 
-        group = groups.addOldGroup("Personal");
-        links = group.addLinkBox();
+        group = addGroup("Personal");
+        links = group.getBody().addLinkBox();
         links.addLink(MyWyattTestPage.instance);
 
-        group = groups.addOldGroup("Layout");
-        links = group.addLinkBox();
+        group = addGroup("Layout");
+        links = group.getBody().addLinkBox();
         links.addLink(MyAccordionTestPage.instance);
         links.addLink(MyBorderTestPage.instance);
         links.addLink(MyBlankTestPage.instance);
@@ -74,8 +69,8 @@ public class MyTestPage
         links.addLink(MyBorderLayoutTestPage.instance);
         links.addLink(MyTitlePanelTestPage.instance);
 
-        group = groups.addOldGroup("Fields");
-        links = group.addLinkBox();
+        group = addGroup("Fields");
+        links = group.getBody().addLinkBox();
         links.addLink(MyFieldTestPage.instance);
         links.addLink(MyLocalValueTestPage.instance);
         links.addLink(MyDateFieldTestPage.instance);
@@ -86,8 +81,8 @@ public class MyTestPage
         links.addLink(MyDropzoneTestPage.instance);
         links.addLink(MyRadioButtonTestPage.instance);
 
-        group = groups.addOldGroup("Misc");
-        links = group.addLinkBox();
+        group = addGroup("Misc");
+        links = group.getBody().addLinkBox();
         links.addLink(MyBlockTestPage.instance);
         links.addLink(MySlowTestPage.instance);
         links.addLink(MyToastTestPage.instance);
@@ -102,8 +97,8 @@ public class MyTestPage
         links.addLink(MyChartTestPage.instance);
         links.addLink(MyTimeAgoTestPage.instance);
 
-        group = groups.addOldGroup("Tools");
-        links = group.addLinkBox();
+        group = addGroup("Tools");
+        links = group.getBody().addLinkBox();
         links.addLink(MyScriptTestPage.instance);
         links.addLink(MyMemoryLeakTestPage.instance);
         links.addLink(MyGmailTestPage.instance);
@@ -114,5 +109,14 @@ public class MyTestPage
         links.addLink(MyDragScrollToTestPage.instance);
         links.addLink(MyFacebookTestPage.instance);
         links.addLink(MyPageSessionTest1Page.instance);
+    }
+
+    private ScGroup addGroup(String title)
+    {
+        ScGroup e;
+        e = getRoot().addGroup();
+        e.setTitle(title);
+        e.css().floatLeft();
+        return e;
     }
 }

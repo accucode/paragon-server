@@ -310,6 +310,11 @@ public class ScGroup
         return _body;
     }
 
+    public void addBodyDivider()
+    {
+        getBody().addDiv().css().groupDivider();
+    }
+
     //##################################################
     //# footer
     //##################################################
