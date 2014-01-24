@@ -1535,6 +1535,22 @@ public class ScServletData
     }
 
     //##################################################
+    //# navigation direction
+    //##################################################
+
+    public boolean isNavigateForward()
+    {
+        String s = getParameter(PARAMETER_DIRECTION);
+        return "forward".equals(s);
+    }
+
+    public boolean isNavigateBack()
+    {
+        String s = getParameter(PARAMETER_DIRECTION);
+        return "back".equals(s);
+    }
+
+    //##################################################
     //# abstract
     //##################################################
 

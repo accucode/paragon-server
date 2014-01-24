@@ -11,7 +11,8 @@ var KmNavigator = {};
  */
 KmNavigator.init = function()
 {
-    KmNavigator.bind();            
+    KmNavigator.previousPrintDepth = undefined;
+    KmNavigator.bind();
 }
 
 /**
@@ -29,9 +30,9 @@ KmNavigator.init = function()
  *      replace
  *          If true, do a replaceState instead of a pushState.
  *
- *      silent
- *          By defualt, a push normally triggers the statechange event.  
- *          If silent is set to true, the statechange event is temporarily disabled.
+ *      handleStateChange
+ *          By default, a push normally triggers the statechange event.  
+ *          If handleStateChange is false, the statechange event is temporarily ignored.
  */
 KmNavigator.pushPage = function(options)
 {
@@ -41,31 +42,36 @@ KmNavigator.pushPage = function(options)
     if ( !title )
         title = '';
     
-    var data = 
-    {
-        pageSession: Kmu.pageSession
-    };
-
+    var state = History.getState();
+    
     var push = true;
     if ( options.replace )
         push = false;
         
-    var silent = options.silent;
+    var data = {};
+    data.pageSession = Kmu.pageSession;
+    
+    var inc = push && !state.url.endsWith(url);
+    if ( inc )
+        data.depth = KmNavigator.getNextDepth();
+    else
+    	data.depth = state.data.depth;
+        
+    var handle = options.handleStateChange;
+    if ( handle === undefined )
+        handle = true;
     
     KmNavigator.unbind();
-    KmNavigator.pushOrReplace(data, title, url, push);
-    KmNavigator.bind();
-        
-    if ( !silent )
-        KmNavigator.handleStateChange();
-}
 
-KmNavigator.pushOrReplace = function(data, title, url, push)
-{
     if ( push )
         History.pushState(data, title, url);
     else
         History.replaceState(data, title, url);
+        
+    KmNavigator.bind();
+
+    if ( handle )
+        KmNavigator.handleStateChange();
 }
 
 KmNavigator.pushUrl = function(url)
@@ -77,10 +83,36 @@ KmNavigator.printCurrentPage = function()
 {
     Kmu.ajax(
     {
-        action: "_printWindowLocation"
+        action: "_printWindowLocation",
+        direction: KmNavigator.getDirection()
     });
+    
+	KmNavigator.previousPrintDepth = KmNavigator.getDepth();    
 }
 
+KmNavigator.getDirection = function()
+{
+	var previous = KmNavigator.previousPrintDepth;
+	var current  = KmNavigator.getDepth();
+	
+	if ( previous === undefined )
+	    return "unknown";
+	    
+	if ( current === undefined )
+	    return "unknown";
+	    
+	if ( current == previous )
+	    return "refresh";
+	    
+	if ( current < previous )
+	    return "back";
+	
+	if ( current > previous )
+	    return "forward";
+
+	return "unknown";
+}
+    
 /**
  * Update history state with the value from Kmu.pageSession.
  * This does NOT push (or pop) a page on the history stack.
@@ -114,6 +146,10 @@ KmNavigator.printState = function()
     History.log(state.url, state.title, state.data);
 }
 
+//****************************************
+//** state change
+//****************************************
+    
 /**
  * Bind the statechange event listener.
  * This is typically NOT called directly. 
@@ -148,5 +184,21 @@ KmNavigator.handleStateChange = function()
     KmNavigator.printCurrentPage();
 }
 
+//****************************************
+//** depth
+//****************************************
+    
+KmNavigator.getDepth = function()
+{
+	return History.getState().data.depth;
+}
 
-
+KmNavigator.getNextDepth = function()
+{
+	var i = KmNavigator.getDepth();
+	
+	if ( i === undefined )
+	    return 0;
+	    
+	return i + 1;
+}

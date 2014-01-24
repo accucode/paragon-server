@@ -61,17 +61,17 @@ public class ScPushPageScript
     /**
      * If true, do a replaceState instead of a pushState.  This replaces
      * the current state on the history stack.  Note: unless you also set
-     * silent=true, this will still trigger a navigation.
+     * handleStateChange=false, this will still trigger a navigation.
      */
     private boolean _replace;
 
     /**
-     * If true, the statechange listener will be temporarily disconnected
+     * If false, the statechange listener will be temporarily disconnected
      * during the push in order to avoid trigging a an event.  This is 
-     * normally false, and is primarily used when you want to replace the 
+     * normally true, and is primarily used when you want to replace the 
      * current state without triggering a navigation. 
      */
-    private boolean _silent;
+    private boolean _handleStateChange;
 
     //##################################################
     //# constructor
@@ -81,6 +81,7 @@ public class ScPushPageScript
     {
         String appName = KmApplicationBridge.getInstance().getName();
         setTitle(appName);
+        setHandleStateChange(true);
     }
 
     //##################################################
@@ -147,22 +148,17 @@ public class ScPushPageScript
     }
 
     //##################################################
-    //# silent
+    //# handleStateChange
     //##################################################
 
-    public boolean getSilent()
+    public boolean getHandleStateChange()
     {
-        return _silent;
+        return _handleStateChange;
     }
 
-    public void setSilent(boolean e)
+    public void setHandleStateChange(boolean e)
     {
-        _silent = e;
-    }
-
-    public void setSilent()
-    {
-        setSilent(true);
+        _handleStateChange = e;
     }
 
     //##################################################
@@ -182,8 +178,8 @@ public class ScPushPageScript
         if ( getReplace() )
             json.setBoolean("replace", true);
 
-        if ( getSilent() )
-            json.setBoolean("silent", true);
+        if ( !getHandleStateChange() )
+            json.setBoolean("handleStateChange", false);
 
         ScRootScript s;
         s = new ScRootScript();

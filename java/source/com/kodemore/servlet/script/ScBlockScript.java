@@ -27,6 +27,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScPage;
+import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.control.ScForm;
@@ -402,6 +403,13 @@ public abstract class ScBlockScript
         ScReplaceContentsScript r;
         r = setContents(getMainSelector(), e);
         r.setTransition(ScTransition.Fade, 100);
+
+        ScServletData data = ScServletData.getLocal();
+        if ( data.isNavigateForward() )
+            r.setTransition(ScTransition.SlideLeft, 200);
+
+        if ( data.isNavigateBack() )
+            r.setTransition(ScTransition.SlideRight, 200);
     }
 
     public void clearMain()

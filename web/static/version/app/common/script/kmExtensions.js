@@ -12,6 +12,13 @@ if ( typeof String.prototype.startsWith != 'function' )
     };
 }
 
+/*
+ * Consider using the following.  Faster and avoids uneeded substring/slice.
+ * String.prototype.endsWith = function(suffix) 
+ * {
+ *   return this.indexOf(suffix, this.length - suffix.length) !== -1;
+ * };
+ */
 if ( typeof String.prototype.endsWith != 'function' ) 
 {
     String.prototype.endsWith = function(s)

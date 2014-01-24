@@ -120,6 +120,12 @@ public interface ScConstantsIF
      */
     String   PARAMETER_PAGE_KEY               = "page";
 
+    /**
+     * The navigation direction, if known.
+     * Values: forward, back, refresh, unknown.
+     */
+    String   PARAMETER_DIRECTION              = "_direction";
+
     //##################################################
     //# session keys
     //##################################################

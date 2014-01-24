@@ -326,7 +326,11 @@ Kmu.installColorField = function(sel)
  *     confirmation
  *     		Optional string
  *     		If set, prompt the user to confirm (Ok/Cancel) before submitting.
- *     		Confirmation is handled with a simple window.confirm() dialog. 
+ *     		Confirmation is handled with a simple window.confirm() dialog.
+ *      
+ *     direction
+ *     		Optional string (forward, back, refresh, unknown).
+ *     		If set indicates the navigation direction.
  */
 Kmu.ajax = function(options)
 {
@@ -402,7 +406,7 @@ Kmu.formatAjaxBaseParams = function(options)
     e._isHeaderVisible  = $('#pageHeader').isVisible();
     e._isFooterVisible	= $('#pageFooter').isVisible();
     e._isMenuVisible  	= $('#pageMenu').isVisible();
-
+    
     if ( options.form )
         e._form = options.form;
 
@@ -412,9 +416,12 @@ Kmu.formatAjaxBaseParams = function(options)
     if ( options.argument )
         e._argument = options.argument;
 
-    if ( options.extra)
+    if ( options.extra )
         e._extraValue = options.extra;
 
+    if ( options.direction )
+        e._direction = options.direction;
+        
     if ( Kmu.pageSession )
         e._session = JSON.stringify(Kmu.pageSession);
         
