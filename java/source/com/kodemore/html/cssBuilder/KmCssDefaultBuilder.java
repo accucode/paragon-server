@@ -33,6 +33,12 @@ public class KmCssDefaultBuilder
     //##################################################
 
     @Override
+    public KmCssDefaultBuilder clear()
+    {
+        return (KmCssDefaultBuilder) super.clear();
+    }
+
+    @Override
     public KmCssDefaultBuilder add()
     {
         return (KmCssDefaultBuilder) super.add();
@@ -303,6 +309,71 @@ public class KmCssDefaultBuilder
     public KmCssDefaultBuilder gapOuter()
     {
         return apply(KmCssDefaultConstantsIF.gapOuter);
+    }
+    
+    public KmCssDefaultBuilder group()
+    {
+        return apply(KmCssDefaultConstantsIF.group);
+    }
+    
+    public KmCssDefaultBuilder groupBody()
+    {
+        return apply(KmCssDefaultConstantsIF.groupBody);
+    }
+    
+    public KmCssDefaultBuilder groupBody_fixedFooter()
+    {
+        return apply(KmCssDefaultConstantsIF.groupBody_fixedFooter);
+    }
+    
+    public KmCssDefaultBuilder groupBody_fixedNoFooter()
+    {
+        return apply(KmCssDefaultConstantsIF.groupBody_fixedNoFooter);
+    }
+    
+    public KmCssDefaultBuilder groupDivider()
+    {
+        return apply(KmCssDefaultConstantsIF.groupDivider);
+    }
+    
+    public KmCssDefaultBuilder groupFooter()
+    {
+        return apply(KmCssDefaultConstantsIF.groupFooter);
+    }
+    
+    public KmCssDefaultBuilder groupFooter_fixed()
+    {
+        return apply(KmCssDefaultConstantsIF.groupFooter_fixed);
+    }
+    
+    public KmCssDefaultBuilder groupHeader()
+    {
+        return apply(KmCssDefaultConstantsIF.groupHeader);
+    }
+    
+    public KmCssDefaultBuilder groupHeader_fixed()
+    {
+        return apply(KmCssDefaultConstantsIF.groupHeader_fixed);
+    }
+    
+    public KmCssDefaultBuilder groupTitle()
+    {
+        return apply(KmCssDefaultConstantsIF.groupTitle);
+    }
+    
+    public KmCssDefaultBuilder groupWrapper()
+    {
+        return apply(KmCssDefaultConstantsIF.groupWrapper);
+    }
+    
+    public KmCssDefaultBuilder groupWrapper_fill()
+    {
+        return apply(KmCssDefaultConstantsIF.groupWrapper_fill);
+    }
+    
+    public KmCssDefaultBuilder groupWrapper_fixed()
+    {
+        return apply(KmCssDefaultConstantsIF.groupWrapper_fixed);
     }
     
     public KmCssDefaultBuilder importantText()

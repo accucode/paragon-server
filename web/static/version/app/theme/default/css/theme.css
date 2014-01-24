@@ -257,26 +257,19 @@ body
     border-bottom: 1px solid #bbb;
     border-right:  1px solid #bbb;
     
-    -moz-transition:    border 200ms;
-    -webkit-transition: border 200ms;
-    transition:         border 200ms;
+    transition: border 200ms;
 }
 
 .textField:hover
 {
-    -moz-box-shadow:    inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-    box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 .textField:focus
 {
     background-color: #fff;
     border: 1px solid #48f;
-    
-    -moz-box-shadow:    inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-    box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 /* 
@@ -906,6 +899,111 @@ a.tabx:hover
  ** group (default)
  *******************************************************************/
 
+/**
+ * Used to identify groups.  Should not have any styling.
+ */
+.group
+{
+}
+
+.groupWrapper
+{
+    border: 1px solid #aaa;
+    border-top-left-radius:  5px;
+    border-top-right-radius: 5px;
+    box-shadow: 5px 5px 5px #ccc;
+}
+
+.groupHeader
+{
+    background-color: #ccc;
+}
+
+.groupTitle
+{
+    padding: 5px 10px;
+    font: bold 2rem sans-serif;
+    text-shadow: 1px 1px #fff, -1px -1px #444;
+    white-space: nowrap;
+    float: left;
+}
+
+.groupBody
+{
+    background-color: #eee;
+}
+
+.groupFooter
+{
+    background-color: #eee;
+}
+
+.groupDivider
+{
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #fff;
+    clear: both;
+}
+
+/**** fixed *****/
+
+.groupWrapper_fixed
+{
+    position: relative;
+}
+
+.groupHeader_fixed
+{
+    position: absolute;
+    left:   0;
+    right:  0;
+    top:    0;
+    height: 36px;
+}
+
+.groupBody_fixedNoFooter
+{
+    position: absolute;
+    left:   0;
+    right:  0;
+    top:    36px;
+    bottom: 0;
+}
+
+.groupBody_fixedFooter
+{
+    position: absolute;
+    left:   0;
+    right:  0;
+    top:    36px;
+    bottom: 36px;
+}
+
+.groupFooter_fixed
+{
+    position: absolute;
+    left:   0;
+    right:  0;
+    bottom: 0;
+    height: 36px;
+}
+
+/***** fill *****/
+
+.groupWrapper_fill
+{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+
+/*******************************************************************
+ ** old group (default)
+ *******************************************************************/
+
 .oldGroup-wrapper-default
 {
     overflow: hidden;
@@ -940,7 +1038,7 @@ a.tabx:hover
 }
 
 /*******************************************************************
- ** group (error)
+ ** old group (error)
  *******************************************************************/
 
 .oldGroup-wrapper-error

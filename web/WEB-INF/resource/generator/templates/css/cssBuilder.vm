@@ -23,6 +23,12 @@ $utility.protocol("constructor")
 $utility.protocol("chain")
 
     @Override
+    public KmCss${bundle.f_Name}Builder clear()
+    {
+        return (KmCss${bundle.f_Name}Builder) super.clear();
+    }
+
+    @Override
     public KmCss${bundle.f_Name}Builder add()
     {
         return (KmCss${bundle.f_Name}Builder) super.add();

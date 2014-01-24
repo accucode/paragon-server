@@ -33,6 +33,12 @@ public class KmCssSpiceBuilder
     //##################################################
 
     @Override
+    public KmCssSpiceBuilder clear()
+    {
+        return (KmCssSpiceBuilder) super.clear();
+    }
+
+    @Override
     public KmCssSpiceBuilder add()
     {
         return (KmCssSpiceBuilder) super.add();

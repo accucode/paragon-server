@@ -1,7 +1,8 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScDiv;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
 
@@ -62,44 +63,48 @@ public class MyGroupTestPage
         root.add(newGroup("jjj", "normal"));
     }
 
-    private ScOldGroup newGroup(String title, String msg)
+    private ScGroup newGroup(String title, String msg)
     {
-        String body = Kmu.repeat(msg + "\n", 3);
+        String text = Kmu.repeat(msg + "\n", 3);
 
-        ScOldGroup e;
-        e = new ScOldGroup();
+        ScGroup e;
+        e = new ScGroup();
         e.setTitle(title);
-        e.addPad().addText(body);
+
+        ScDiv body;
+        body = e.getBody();
+        body.css().pad();
+        body.addText(text);
         return e;
     }
 
-    private ScOldGroup newClearGroup(String title, String msg)
+    private ScGroup newClearGroup(String title, String msg)
     {
-        ScOldGroup e;
+        ScGroup e;
         e = newGroup(title, msg);
         e.css().clearBoth();
         return e;
     }
 
-    private ScOldGroup newLeftGroup(String title, String msg)
+    private ScGroup newLeftGroup(String title, String msg)
     {
-        ScOldGroup e;
+        ScGroup e;
         e = newGroup(title, msg);
         e.css().floatLeft().width200();
         return e;
     }
 
-    private ScOldGroup newLeftClearGroup(String title, String msg)
+    private ScGroup newLeftClearGroup(String title, String msg)
     {
-        ScOldGroup e;
+        ScGroup e;
         e = newLeftGroup(title, msg);
         e.css().clearBoth();
         return e;
     }
 
-    private ScOldGroup newRightGroup(String title, String msg)
+    private ScGroup newRightGroup(String title, String msg)
     {
-        ScOldGroup e;
+        ScGroup e;
         e = newGroup(title, msg);
         e.style().floatRight().width(200);
         return e;

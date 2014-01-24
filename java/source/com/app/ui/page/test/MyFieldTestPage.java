@@ -46,7 +46,7 @@ public class MyFieldTestPage
     //# variables
     //##################################################
 
-    private ScOldGroup             _fieldGroup;
+    private ScOldGroup          _fieldGroup;
     private ScTextField         _textField;
     private ScTextField         _readOnlyField;
     private ScIntegerField      _integerField;

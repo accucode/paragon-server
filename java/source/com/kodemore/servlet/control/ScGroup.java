@@ -26,20 +26,12 @@ import java.util.Iterator;
 
 import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.html.KmStyleBuilder;
-import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
-import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
-import com.kodemore.servlet.field.ScHtmlIdIF;
-import com.kodemore.servlet.script.ScHtmlIdAjax;
-import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalBoolean;
-import com.kodemore.servlet.variable.ScLocalCss;
-import com.kodemore.servlet.variable.ScLocalString;
-import com.kodemore.servlet.variable.ScLocalStyle;
 import com.kodemore.utility.Kmu;
 
 /**
  * I am a 'group box' container with three predefined areas: header, body, footer.
+ * 
  * 
  * Sections:
  * 
@@ -50,15 +42,12 @@ import com.kodemore.utility.Kmu;
  * 
  *      Body:
  *      The body is always displayed, and typically does not have much styling other
- *      than a standard background color.  Children that are added directly to the group
- *      are delegated to the body.  E.g.: the following are equivalent...
- *
- *          aGroup.getBody().addDiv();
- *          aGroup.addDiv();
+ *      than a standard background color.  
  * 
  *      Footer:
  *      The footer is displayed at the bottom, but is hidden by default.  The footer is 
- *      always rendered in the html content, even when it is hidden.
+ *      always rendered in the html content, even when it is hidden.  If you want to display
+ *      the footer, you should use one of the layout* methods rather than showing it directly.
  *      
  *      Wrapper:
  *      The wrapper is not really a section.  The wrapper is a single div that acts as the
@@ -75,8 +64,8 @@ import com.kodemore.utility.Kmu;
  *      you need to apply different layout strategies.  In particular, it is necessary to 
  *      specify the position in different ways depending on the effect desired.
  *      
- *      Static:
- *      The default "static" layout render the group as a normally positioned block element.
+ *      Normal:
+ *      The default "normal" layout renders the group as a statically positioned block element.
  *          - all of the sections (and the wrapper) use the default style position:static.
  *          - the sections do not have a fixed size by default.
  *          - content added to the sections will cause those sections to grow vertically.
@@ -104,82 +93,46 @@ import com.kodemore.utility.Kmu;
  *          - you should NOT specify any explicit sizes.
  *          - you may override the wrapper position (left, top, etc) using the style attributes.
  */
-
 public class ScGroup
-    extends ScContainer
-    implements ScHtmlIdIF
+    extends ScElement
 {
-    //##################################################
-    //# constants
-    //##################################################
-
-    private static final String PREFIX         = KmCssDefaultConstantsIF.oldGroup_prefix;
-
-    private static final String PART_WRAPPER   = KmCssDefaultConstantsIF.oldGroup_part_wrapper;
-    private static final String PART_HEADER    = KmCssDefaultConstantsIF.oldGroup_part_header;
-    private static final String PART_TITLE     = KmCssDefaultConstantsIF.oldGroup_part_title;
-
-    private static final String PART_DIVIDER   = KmCssDefaultConstantsIF.oldGroup_part_divider;
-
-    private static final String FLAVOR_DEFAULT = KmCssDefaultConstantsIF.oldGroup_flavor_default;
-    private static final String FLAVOR_ERROR   = KmCssDefaultConstantsIF.oldGroup_flavor_error;
-
     //##################################################
     //# variables
     //##################################################
 
     /**
-     * The htmlId used for the table that wraps this control.
+     * The wrapper around the header.  This is used to manage the layout
+     * and is typically not accessed by the client directly.
      */
-    private ScLocalString       _htmlId;
+    private ScDiv          _headerWrapper;
 
     /**
-     * Groups support several common flavors for both simplicity and
-     * consistency.  The available flavors are defined in constants
-     * above.
+     * The header section.  Clients may add content to this.  In many cases,
+     * clients simply use the convenience method setTitle() to add auto-styled text. 
      */
-    private ScLocalString       _flavor;
+    private ScDiv          _header;
 
     /**
-     * This style is applied to the outer wrapper.  Clients typically use
-     * this to adjust layout attributes such as margins and size.  Attempting
-     * to use this to modify the flavor will have unpredicable results based
-     * on the css classes defined in the theme.css files.
+     * The body section. 
      */
-    private ScLocalCss          _css;
+    private ScDiv          _body;
 
     /**
-     * This style is applied to the outer wrapper.  Clients typically use
-     * this to adjust layout attributes such as margins and size.  Attemping
-     * to use this to modify the flavor will have unpredicable results based
-     * on the css classes defined in the theme.css files.
+     * The wrapper around the footer.  This is use to manage the layout
+     * and is typically not accessed by the client directly.
      */
-    private ScLocalStyle        _style;
+    private ScDiv          _footerWrapper;
 
     /**
-     * The controls in these containers are added to the corresponding
-     * sections of the group.  Note that the containers are not intended
-     * to be changed. 
+     * The footer section.  Clients may add content to this. 
      */
-    private ScBox               _header;
-
-    /**
-     * The divider between the header and the body.
-     */
-    private ScDiv               _divider;
-
-    /**
-     * The body.  Any children added to the group are actually 
-     * delegated to the body.  The body itself does not provide
-     * any styling or structure.
-     */
-    private ScSimpleContainer   _body;
+    private ScDiv          _footer;
 
     /**
      * Determine if I should act as the block root for ajax requests.
      * See ScControl.findBlockWrapper().  True by default.
      */
-    private ScLocalBoolean      _blockWrapper;
+    private ScLocalBoolean _blockWrapper;
 
     //##################################################
     //# init
@@ -190,161 +143,85 @@ public class ScGroup
     {
         super.install();
 
-        _htmlId = new ScLocalString(getKey());
+        _headerWrapper = new ScDiv();
+        _headerWrapper.setParent(this);
+        _header = _headerWrapper.addDiv();
+        _headerWrapper.addDiv().css().groupDivider();
 
-        _flavor = new ScLocalString();
-        setFlavorDefault();
-
-        _css = new ScLocalCss();
-        _style = new ScLocalStyle();
-
-        _header = new ScBox();
-        _header.setParent(this);
-
-        _divider = new ScDiv();
-        _divider.setParent(this);
-
-        _body = new ScSimpleContainer();
+        _body = new ScDiv();
         _body.setParent(this);
 
+        _footerWrapper = new ScDiv();
+        _footerWrapper.setParent(this);
+        _footerWrapper.addDiv().css().groupDivider();
+        _footer = _footerWrapper.addDiv();
+
         _blockWrapper = new ScLocalBoolean(true);
+
+        layoutStatic();
     }
 
     //##################################################
-    //# html id
+    //# layout
     //##################################################
 
-    @Override
-    public String getHtmlId()
+    public void layoutStatic()
     {
-        return _htmlId.getValue();
+        _layoutReset();
+        getFooterWrapper().hide();
     }
 
-    public void setHtmlId(String e)
+    public void layoutStaticWithFooter()
     {
-        _htmlId.setValue(e);
+        _layoutReset();
     }
 
-    @Override
-    public String getJquerySelector()
+    public void layoutFixed()
     {
-        return ScJquery.formatSelector(this);
+        _layoutReset();
+
+        css().groupWrapper_fixed();
+        getHeaderWrapper().css().groupHeader_fixed();
+        getBody().css().groupBody_fixedNoFooter();
+        getFooterWrapper().hide();
     }
 
-    @Override
-    public String getJqueryReference()
+    public void layoutFixedWithFooter()
     {
-        return ScJquery.formatReference(this);
+        _layoutReset();
+
+        css().groupWrapper_fixed();
+        getHeaderWrapper().css().groupHeader_fixed();
+        getBody().css().groupBody_fixedFooter();
+        getFooterWrapper().css().groupFooter_fixed();
     }
 
-    @Override
-    public ScHtmlIdAjax ajax()
+    public void layoutFill()
     {
-        return new ScHtmlIdAjax(getRootScript(), this);
+        _layoutReset();
+
+        css().groupWrapper_fill();
+        getHeaderWrapper().css().groupHeader_fixed();
+        getBody().css().groupBody_fixedNoFooter();
+        getFooterWrapper().hide();
     }
 
-    //##################################################
-    //# flavor
-    //##################################################
-
-    public String getFlavor()
+    public void layoutFillWithFooter()
     {
-        return _flavor.getValue();
+        _layoutReset();
+
+        css().groupWrapper_fill();
+        getHeaderWrapper().css().groupHeader_fixed();
+        getBody().css().groupBody_fixedFooter();
+        getFooterWrapper().css().groupFooter_fixed();
     }
 
-    public void setFlavor(String e)
+    private void _layoutReset()
     {
-        _flavor.setValue(e);
-    }
-
-    public void setFlavorDefault()
-    {
-        setFlavor(FLAVOR_DEFAULT);
-    }
-
-    public void setFlavorError()
-    {
-        setFlavor(FLAVOR_ERROR);
-    }
-
-    //##################################################
-    //# css
-    //##################################################
-
-    public String getCss()
-    {
-        return _css.getValue();
-    }
-
-    public void setCss(String e)
-    {
-        _css.setValue(e);
-    }
-
-    public KmCssDefaultBuilder css()
-    {
-        return _css.toBuilder();
-    }
-
-    private KmCssDefaultBuilder formatCss()
-    {
-        KmCssDefaultBuilder css;
-        css = css().getCopy();
-        css.add(PREFIX);
-        css.add(PREFIX, PART_WRAPPER, getFlavor());
-        css.clearfix();
-        return css;
-    }
-
-    //##################################################
-    //# style
-    //##################################################
-
-    public String getStyle()
-    {
-        return _style.getValue();
-    }
-
-    public void setStyle(String e)
-    {
-        _style.setValue(e);
-    }
-
-    public KmStyleBuilder style()
-    {
-        return _style.toBuilder();
-    }
-
-    private KmStyleBuilder formatStyle()
-    {
-        return style();
-    }
-
-    //##################################################
-    //# body
-    //##################################################
-
-    public ScSimpleContainer getBody()
-    {
-        return _body;
-    }
-
-    @Override
-    public <T extends ScControl> T add(T e)
-    {
-        return getBody().add(e);
-    }
-
-    @Override
-    public boolean isEmpty()
-    {
-        return getBody().isEmpty();
-    }
-
-    @Override
-    public void clear()
-    {
-        getBody().clear();
+        css().clear().group().groupWrapper().clearfix();
+        getHeaderWrapper().css().clear().groupHeader();
+        getFooterWrapper().css().clear().groupFooter();
+        getBody().css().clear().groupBody();
     }
 
     //##################################################
@@ -368,25 +245,17 @@ public class ScGroup
     }
 
     //##################################################
-    //# convenience
-    //##################################################
-
-    @Override
-    public ScDivider addDivider()
-    {
-        ScDivider e;
-        e = super.addDivider();
-        e.innerCss().clear().add(PREFIX, PART_DIVIDER, getFlavor());
-        return e;
-    }
-
-    //##################################################
     //# header
     //##################################################
 
-    public ScBox getHeader()
+    public ScDiv getHeader()
     {
         return _header;
+    }
+
+    private ScDiv getHeaderWrapper()
+    {
+        return _headerWrapper;
     }
 
     /**
@@ -396,17 +265,15 @@ public class ScGroup
      */
     public ScText setTitle(String msg, Object... args)
     {
-        String s = Kmu.format(msg, args);
-
         ScContainer header;
         header = getHeader();
         header.clear();
 
         ScDiv div;
         div = header.addDiv();
-        div.css().floatLeft().add(PREFIX, PART_TITLE, getFlavor());
+        div.css().groupTitle();
 
-        return div.addText(s);
+        return div.addText(msg, args);
     }
 
     /**
@@ -424,13 +291,37 @@ public class ScGroup
 
         ScDiv div;
         div = header.addDiv();
-        div.css().floatLeft().add(PREFIX, PART_TITLE, getFlavor());
+        div.css().groupTitle();
 
-        ScGroupIconHeader iconHeader = new ScGroupIconHeader();
+        ScGroupIconHeader iconHeader;
+        iconHeader = new ScGroupIconHeader();
         iconHeader.setImageSource(iconSource);
         iconHeader.setText(s);
 
         return div.add(iconHeader);
+    }
+
+    //##################################################
+    //# body
+    //##################################################
+
+    public ScDiv getBody()
+    {
+        return _body;
+    }
+
+    //##################################################
+    //# footer
+    //##################################################
+
+    public ScDiv getFooter()
+    {
+        return _footer;
+    }
+
+    public ScDiv getFooterWrapper()
+    {
+        return _footerWrapper;
     }
 
     //##################################################
@@ -444,8 +335,9 @@ public class ScGroup
         i = new KmCompositeIterator<ScControl>();
         i.addAll(super.getComponents());
 
-        i.add(getHeader());
+        i.add(getHeaderWrapper());
         i.add(getBody());
+        i.add(getFooterWrapper());
 
         return i;
     }
@@ -458,36 +350,13 @@ public class ScGroup
     protected void renderControlOn(KmHtmlBuilder out)
     {
         out.openDiv();
-        out.printAttribute("id", getHtmlId());
-        out.printAttribute(formatCss());
-        out.printAttribute(formatStyle());
+        renderAttributesOn(out);
         out.close();
 
-        renderHeaderOn(out);
-        renderDividerOn(out);
-        renderBodyOn(out);
+        out.render(getHeaderWrapper());
+        out.render(getBody());
+        out.render(getFooterWrapper());
 
         out.endDiv();
-    }
-
-    private void renderHeaderOn(KmHtmlBuilder out)
-    {
-        ScDiv div;
-        div = _header;
-        div.css().add(PREFIX, PART_HEADER, getFlavor());
-        div.renderOn(out);
-    }
-
-    private void renderDividerOn(KmHtmlBuilder out)
-    {
-        ScDiv div;
-        div = _divider;
-        div.css().add(PREFIX, PART_DIVIDER, getFlavor());
-        div.renderOn(out);
-    }
-
-    private void renderBodyOn(KmHtmlBuilder out)
-    {
-        _body.renderOn(out);
     }
 }
