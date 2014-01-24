@@ -68,8 +68,6 @@ public class MyGroupTestPage
 
         ScGroup e;
         e = new ScGroup();
-        e.layoutFixed();
-        e.style().width(200).height(300);
         e.setTitle(title);
         e.bodyCss().pad();
         e.addText(text);

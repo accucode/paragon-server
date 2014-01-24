@@ -8,6 +8,7 @@ import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.control.ScDiv;
+import com.kodemore.servlet.control.ScTransientContainer;
 import com.kodemore.servlet.field.ScDropdownMenu;
 import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScUrls;
@@ -414,6 +415,46 @@ public class MyPageLayout
     public void ajaxClearContent()
     {
         ajax().clearContents(CONTENT_SELECTOR);
+    }
+
+    //##################################################
+    //# html
+    //##################################################
+
+    public String formatHtml()
+    {
+        ScTransientContainer root;
+        root = new ScTransientContainer();
+
+        ScDiv wrapper;
+        wrapper = root.addDiv();
+        wrapper.setHtmlId(CONTENT_WRAPPER_ID);
+        wrapper.css().pageContentWrapper();
+
+        ScDiv content;
+        content = wrapper.addDiv();
+        content.setHtmlId(CONTENT_ID);
+        content.css().pageContent();
+
+        ScDiv menu;
+        menu = root.addDiv();
+        menu.setHtmlId(MENU_ID);
+        menu.css().pageMenu();
+        menu.style().hide();
+
+        ScDiv header;
+        header = root.addDiv();
+        header.setHtmlId(HEADER_ID);
+        header.css().pageHeader();
+        header.style().hide();
+
+        ScDiv footer;
+        footer = root.addDiv();
+        footer.setHtmlId(HEADER_ID);
+        footer.css().pageHeader();
+        footer.style().hide();
+
+        return root.renderHtml();
     }
 
     //##################################################

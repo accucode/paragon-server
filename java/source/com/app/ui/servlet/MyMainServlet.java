@@ -7,6 +7,7 @@ import com.kodemore.utility.Kmu;
 import com.app.file.MyResourceFiles;
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.core.MyServletData;
+import com.app.ui.layout.MyPageLayout;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyNavigator;
 import com.app.utility.MyUrlBridge;
@@ -100,6 +101,7 @@ public class MyMainServlet
         String version = MyConstantsIF.APPLICATION_VERSION;
         String versionFolder = MyUrlBridge.getInstance().getVersionFolder();
         String query = formatQueryString();
+        String html = MyPageLayout.getInstance().formatHtml();
 
         String s;
         s = file.readString();
@@ -107,6 +109,7 @@ public class MyMainServlet
         s = Kmu.replaceAll(s, "${applicationVersion}", version);
         s = Kmu.replaceAll(s, "${versionFolder}", versionFolder);
         s = Kmu.replaceAll(s, "${query}", query);
+        s = Kmu.replaceAll(s, "${html}", html);
         return s;
     }
 
