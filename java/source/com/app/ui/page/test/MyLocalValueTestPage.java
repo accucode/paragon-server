@@ -8,7 +8,7 @@ import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.servlet.field.ScTextArea;
@@ -37,7 +37,7 @@ public class MyLocalValueTestPage
     //# variables
     //##################################################
 
-    private ScOldGroup           _fieldGroup;
+    private ScGroup           _fieldGroup;
     private ScTextField       _textField;
     private ScIntegerField    _integerField;
 
@@ -89,8 +89,8 @@ public class MyLocalValueTestPage
         ScForm form;
         form = root.addForm();
 
-        ScOldGroup group;
-        group = form.addOldGroup("Test ScLocal");
+        ScGroup group;
+        group = form.addGroup();
 
         ScBox body;
         body = group.addPad();
@@ -143,8 +143,8 @@ public class MyLocalValueTestPage
         ScForm form;
         form = root.addForm();
 
-        ScOldGroup group;
-        group = form.addOldGroup("List");
+        ScGroup group;
+        group = form.addGroup();
 
         ScBox body;
         body = group.addPad();

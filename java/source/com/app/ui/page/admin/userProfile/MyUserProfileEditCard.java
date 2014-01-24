@@ -5,7 +5,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.model.MyUser;
@@ -60,14 +60,14 @@ public class MyUserProfileEditCard
         form.css().gap();
         form.setSubmitAction(newSaveAction());
 
-        ScOldGroup group;
-        group = form.addOldGroup("My Profile");
+        ScGroup group;
+        group = form.addGroup();
 
         installFields(group);
         installFooter(group);
     }
 
-    private void installFields(ScOldGroup group)
+    private void installFields(ScGroup group)
     {
         ScFieldTable fields;
         fields = group.addPad().addFields();
@@ -76,7 +76,7 @@ public class MyUserProfileEditCard
         fields.add(_roleField);
     }
 
-    private void installFooter(ScOldGroup group)
+    private void installFooter(ScGroup group)
     {
         group.addDivider();
 

@@ -3,7 +3,7 @@ package com.app.ui.page.test;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDateAgo;
 import com.kodemore.servlet.control.ScFieldTable;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScTimeAgo;
@@ -57,8 +57,8 @@ public class MyTimeAgoTestPage
     {
         KmTimestamp origin = getNowUtc();
 
-        ScOldGroup group;
-        group = root.addOldGroup("TimeAgo");
+        ScGroup group;
+        group = root.addGroup();
         group.css().floatLeft();
         group.style().width(200);
 
@@ -114,8 +114,8 @@ public class MyTimeAgoTestPage
     {
         KmDate origin = getTodayUtc();
 
-        ScOldGroup group;
-        group = root.addOldGroup("DateAgo");
+        ScGroup group;
+        group = root.addGroup();
         group.css().floatLeft();
         group.style().width(200);
 

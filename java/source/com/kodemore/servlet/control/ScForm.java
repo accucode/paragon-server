@@ -32,7 +32,7 @@ import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalHtmlId;
 
 public class ScForm
-    extends ScContainerElement
+    extends ScChildContainerElement
 {
     //##################################################
     //# variables

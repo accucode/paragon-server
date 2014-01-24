@@ -39,7 +39,7 @@ import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.servlet.variable.ScLocalStyle;
 
 public abstract class ScContainerElement
-    extends ScChildContainer
+    extends ScContainer
     implements ScElementIF
 {
     //##################################################
@@ -283,23 +283,6 @@ public abstract class ScContainerElement
     //# render
     //##################################################
 
-    /**
-     * Render a container that follows a very simple and common
-     * format.  All children must explicitly define their own
-     * renderControlOn() method, but many will do nothing more
-     * than delegate to this method. 
-     */
-    protected void renderSimpleElementOn(KmHtmlBuilder out, String tag)
-    {
-        out.open(tag);
-        renderAttributesOn(out);
-        out.close();
-
-        renderChildrenOn(out);
-
-        out.end(tag);
-    }
-
     protected void renderAttributesOn(KmHtmlBuilder out)
     {
         out.printAttribute("id", getHtmlId());
@@ -307,17 +290,6 @@ public abstract class ScContainerElement
         out.printAttribute(formatCss());
         out.printAttribute(formatStyle());
         out.printAttribute("title", getHoverText());
-    }
-
-    protected void renderChildrenOn(KmHtmlBuilder out)
-    {
-        for ( ScControl e : getChildren() )
-            renderChildOn(out, e);
-    }
-
-    protected void renderChildOn(KmHtmlBuilder out, ScControl e)
-    {
-        e.renderOn(out);
     }
 
     //##################################################

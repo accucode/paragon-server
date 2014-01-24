@@ -7,7 +7,7 @@ import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDialog;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDomainDropdownField;
 
@@ -73,8 +73,8 @@ public class MyDomainDropdownSetValueTestPage
         _toDropdown.setOptionLabelAdaptor(MyMetaUser.Name);
         _toDropdown.setNullNonePrefix();
 
-        ScOldGroup group;
-        group = root.addOldGroup("Domain Dropdown Set Value Test");
+        ScGroup group;
+        group = root.addGroup();
         group.addPad().addText(
             "Select a user from this dropdown and then click 'Select User'.  The dropdown in the "
                 + "group below should be updated to the user selected.");
@@ -91,7 +91,7 @@ public class MyDomainDropdownSetValueTestPage
         buttons.addButton("Select User", newSelectUserAction());
         buttons.addButton("Select User (in dialog)", newShowDialogAction());
 
-        group = root.addOldGroup("Updated Dropdown");
+        group = root.addGroup();
         fields = group.addPad().addFields();
         fields.add(_toDropdown);
     }

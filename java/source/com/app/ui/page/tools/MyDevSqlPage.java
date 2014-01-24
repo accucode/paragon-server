@@ -9,7 +9,7 @@ import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextArea;
@@ -103,8 +103,8 @@ public class MyDevSqlPage
         form = root.addForm();
         form.setSubmitAction(newSubmitAction());
 
-        ScOldGroup group;
-        group = form.addOldGroup("Sql");
+        ScGroup group;
+        group = form.addGroup();
 
         ScBox body;
         body = group.addBox();

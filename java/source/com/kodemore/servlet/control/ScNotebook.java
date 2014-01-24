@@ -38,7 +38,7 @@ import com.kodemore.servlet.script.ScActionScript;
  * application theme.css file.
  */
 public class ScNotebook
-    extends ScContainerElement
+    extends ScChildContainerElement
 {
     //##################################################
     //# init

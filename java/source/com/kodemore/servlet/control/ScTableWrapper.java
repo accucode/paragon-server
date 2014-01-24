@@ -39,7 +39,7 @@ import com.kodemore.servlet.variable.ScLocalStyle;
  * tables.  
  */
 public class ScTableWrapper
-    extends ScContainerElement
+    extends ScChildContainerElement
 {
     //##################################################
     //# variables

@@ -26,6 +26,8 @@ import java.util.Iterator;
 
 import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.html.KmStyleBuilder;
+import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.utility.Kmu;
 
@@ -94,7 +96,7 @@ import com.kodemore.utility.Kmu;
  *          - you may override the wrapper position (left, top, etc) using the style attributes.
  */
 public class ScGroup
-    extends ScElement
+    extends ScContainerElement
 {
     //##################################################
     //# variables
@@ -220,8 +222,8 @@ public class ScGroup
     {
         css().clear().group().groupWrapper().clearfix();
         getHeaderWrapper().css().clear().groupHeader();
-        getFooterWrapper().css().clear().groupFooter();
         getBody().css().clear().groupBody();
+        getFooterWrapper().css().clear().groupFooter();
     }
 
     //##################################################
@@ -256,6 +258,16 @@ public class ScGroup
     private ScDiv getHeaderWrapper()
     {
         return _headerWrapper;
+    }
+
+    public KmCssDefaultBuilder headerCss()
+    {
+        return getHeader().css();
+    }
+
+    public KmStyleBuilder headerStyle()
+    {
+        return getHeader().style();
     }
 
     /**
@@ -312,7 +324,17 @@ public class ScGroup
 
     public void addBodyDivider()
     {
-        getBody().addDiv().css().groupDivider();
+        addDiv().css().groupDivider();
+    }
+
+    public KmCssDefaultBuilder bodyCss()
+    {
+        return getBody().css();
+    }
+
+    public KmStyleBuilder bodyStyle()
+    {
+        return getBody().style();
     }
 
     //##################################################
@@ -327,6 +349,16 @@ public class ScGroup
     public ScDiv getFooterWrapper()
     {
         return _footerWrapper;
+    }
+
+    public KmCssDefaultBuilder footerCss()
+    {
+        return getFooter().css();
+    }
+
+    public KmStyleBuilder footerStyle()
+    {
+        return getFooter().style();
     }
 
     //##################################################
@@ -363,5 +395,27 @@ public class ScGroup
         out.render(getFooterWrapper());
 
         out.endDiv();
+    }
+
+    //##################################################
+    //# container (overrides)
+    //##################################################
+
+    @Override
+    public <T extends ScControl> T add(T e)
+    {
+        return getBody().add(e);
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+        return getBody().isEmpty();
+    }
+
+    @Override
+    public void clear()
+    {
+        getBody().clear();
     }
 }

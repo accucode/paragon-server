@@ -82,7 +82,7 @@ public class MyDevApplicationPropertiesPage
             group = root.addGroup(g);
 
             ScFieldTable fields;
-            fields = group.getBody().addPad().addFields();
+            fields = group.addPad().addFields();
 
             KmList<MyPropertyDefinition> defs = getDefs(g);
             for ( MyPropertyDefinition def : defs )

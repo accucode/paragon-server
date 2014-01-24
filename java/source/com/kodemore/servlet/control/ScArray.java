@@ -45,7 +45,7 @@ import com.kodemore.servlet.variable.ScLocalStyle;
  * The extra rows and columns are NOT included if the gap is zero.
  */
 public class ScArray
-    extends ScContainerElement
+    extends ScChildContainerElement
 {
     //##################################################
     //# constants

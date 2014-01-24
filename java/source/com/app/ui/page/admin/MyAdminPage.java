@@ -1,7 +1,6 @@
 package com.app.ui.page.admin;
 
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
@@ -32,18 +31,18 @@ public class MyAdminPage
     {
         root.css().gap();
 
-        ScGroup group = addGroup("Admin");
-        ScDiv body = group.getBody();
+        ScGroup group;
+        group = addGroup("Admin");
 
         ScBox links;
-        links = body.addLinkBox();
+        links = group.addLinkBox();
         links.addLink(MySelectAccountPage.instance);
         links.addLink(MyAccountSettingsPage.instance);
         links.addLink(MyAccountUsersPage.instance);
 
         group.addBodyDivider();
 
-        links = body.addLinkBox();
+        links = group.addLinkBox();
         links.addLink(MyUserProfilePage.instance);
     }
 

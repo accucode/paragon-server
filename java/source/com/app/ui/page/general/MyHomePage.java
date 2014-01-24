@@ -3,7 +3,7 @@ package com.app.ui.page.general;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBorderLayout;
 import com.kodemore.servlet.control.ScDiv;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.ui.layout.MyLeftMenuItem;
@@ -83,9 +83,12 @@ public class MyHomePage
         ScDiv div;
         div = layout.addTopPercent(50);
 
-        ScOldGroup group;
-        group = div.addOldGroup("Top");
-        group.css().fillPad();
+        ScGroup group;
+        group = div.addGroup();
+        group.layoutFill();
+        group.setTitle("Top");
+        group.css().offset();
+        group.bodyCss().pad().auto();
 
         int n = 100;
         for ( int i = 0; i < n; i++ )
@@ -97,10 +100,13 @@ public class MyHomePage
         ScDiv div;
         div = layout.addCenter();
 
-        ScOldGroup group;
-        group = div.addOldGroup("Center");
-        group.css().fillPad();
+        ScGroup group;
+        group = div.addGroup();
+        group.layoutFill();
+        group.setTitle("Center");
+        group.css().offset();
         group.style().top(0);
+        group.bodyCss().pad().auto();
 
         int n = 100;
         for ( int i = 0; i < n; i++ )

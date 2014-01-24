@@ -8,7 +8,7 @@ import com.kodemore.servlet.control.ScAbstractChart;
 import com.kodemore.servlet.control.ScBarChart;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScChartSeries;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLineChart;
 import com.kodemore.servlet.control.ScMultiBarChart;
 import com.kodemore.servlet.control.ScNotebook;
@@ -87,8 +87,8 @@ public class MyChartTestPage
             + "labels in the legend will enable and disable the display of an individual "
             + "series.";
 
-        ScOldGroup group;
-        group = tab.addOldGroup();
+        ScGroup group;
+        group = tab.addGroup();
         group.setTitle("Line Chart");
         group.addPad().addText(message);
 
@@ -106,8 +106,8 @@ public class MyChartTestPage
             + "Bar charts have the option to stagger the labels which can help accomodate "
             + "longer labels.";
 
-        ScOldGroup group;
-        group = tab.addOldGroup();
+        ScGroup group;
+        group = tab.addGroup();
         group.setTitle("Bar Chart");
         group.addPad().addText(message);
 
@@ -126,8 +126,8 @@ public class MyChartTestPage
             + "disable the display of idividual data series.  Additionally, this chart has the "
             + "option between grouped and stacked display.";
 
-        ScOldGroup group;
-        group = tab.addOldGroup();
+        ScGroup group;
+        group = tab.addGroup();
         group.setTitle("Multi Bar Chart");
         group.addPad().addText(message);
 
@@ -146,8 +146,8 @@ public class MyChartTestPage
             + "slices.  The pie chart has the option be be displayed as a traditional pie, "
             + "or as a 'donut'.";
 
-        ScOldGroup group;
-        group = tab.addOldGroup();
+        ScGroup group;
+        group = tab.addGroup();
         group.setTitle("Pie Chart");
         group.addPad().addText(message);
 

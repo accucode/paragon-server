@@ -1001,80 +1001,6 @@ a.tabx:hover
 
 
 /*******************************************************************
- ** old group (default)
- *******************************************************************/
-
-.oldGroup-wrapper-default
-{
-    overflow: hidden;
-    border: 1px solid #aaa;
-    background-color: #eee;
-    
-    border-top-left-radius:  5px;
-    border-top-right-radius: 5px;
-
-    box-shadow: 5px 5px 5px #ccc;
-}
-
-.oldGroup-header-default
-{
-    background-color: #ccc;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-.oldGroup-title-default
-{
-    padding: 5px 10px;
-    font: bold 2rem sans-serif;
-    text-shadow: 1px 1px #fff, -1px -1px #444;
-}
-
-.oldGroup-divider-default
-{
-    height: 0px; 
-    border-top: 1px solid #aaa;
-    border-bottom: 1px solid #fff;
-}
-
-/*******************************************************************
- ** old group (error)
- *******************************************************************/
-
-.oldGroup-wrapper-error
-{
-    overflow: visible;
-    border: 1px solid #f00;
-    background-color: #fdd;
-    
-    border-top-left-radius:  5px;
-    border-top-right-radius: 5px;
-
-    box-shadow: 5px 5px 5px #ccc;
-}
-
-.oldGroup-header-error
-{
-    background-color: #fbb;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-.oldGroup-title-error
-{
-    padding: 5px 10px;
-    font: bold 2rem sans-serif;
-    text-shadow:  1px  1px #fff, -1px -1px #444;
-}
-
-.oldGroup-divider-error
-{
-    border-top: 1px solid #aaa;
-    border-bottom: 1px solid #fff;
-}
-
-
-/*******************************************************************
  ** block ui 
  *******************************************************************/
  
@@ -1205,3 +1131,19 @@ td.sqlResultValue
     overflow: auto;
 }
 
+/*******************************************************************
+ ** position 
+ *******************************************************************/
+
+.offset
+{
+	left: 10px;
+	right: 10px;
+	top: 10px;
+	bottom: 10px;
+}
+
+.leftOffset     { left:   10px }
+.rightOffset    { right:  10px }
+.topOffset      { top:    10px }
+.bottomOffset   { bottom: 10px }

@@ -5,7 +5,7 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTable;
 import com.kodemore.servlet.control.ScTableCell;
@@ -69,8 +69,8 @@ public class MyRadioButtonTestPage
         _form = root.addForm();
         _form.setSubmitAction(newSubmitAction());
 
-        ScOldGroup group;
-        group = _form.addOldGroup("Radio Button Field Test");
+        ScGroup group;
+        group = _form.addGroup();
 
         KmList<String> labels;
         labels = new KmList<String>();

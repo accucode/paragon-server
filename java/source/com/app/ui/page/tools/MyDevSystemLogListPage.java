@@ -12,7 +12,7 @@ import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDateField;
 import com.kodemore.servlet.field.ScDropdown;
@@ -51,7 +51,7 @@ public class MyDevSystemLogListPage
 
     private ScLocalInteger _logId;
     @SuppressWarnings("unused")
-    private ScOldGroup        _logGroup;
+    private ScGroup        _logGroup;
 
     //##################################################
     //# navigation
@@ -127,8 +127,8 @@ public class MyDevSystemLogListPage
 
     private void installActions(ScContainer root)
     {
-        ScOldGroup group;
-        group = root.addOldGroup("Actions");
+        ScGroup group;
+        group = root.addGroup();
         group.addButton("Delete All", newDeleteAllAction());
     }
 
@@ -149,8 +149,8 @@ public class MyDevSystemLogListPage
         grid.addColumn(x.Context);
         grid.addColumn(x.Message);
 
-        ScOldGroup group;
-        group = root.addOldGroup("System Logs");
+        ScGroup group;
+        group = root.addGroup();
         group.add(grid);
     }
 
@@ -161,8 +161,8 @@ public class MyDevSystemLogListPage
         _logId = new ScLocalInteger();
         _logId.setAutoSave();
 
-        ScOldGroup group;
-        group = root.addOldGroup("Trace");
+        ScGroup group;
+        group = root.addGroup();
         group.style().hide();
 
         ScFieldTable fields;

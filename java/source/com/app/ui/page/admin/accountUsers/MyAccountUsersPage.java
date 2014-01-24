@@ -10,7 +10,7 @@ import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLink;
 import com.kodemore.servlet.control.ScModelList;
 import com.kodemore.servlet.control.ScNotebook;
@@ -47,7 +47,7 @@ public class MyAccountUsersPage
     //# variables
     //##################################################
 
-    private ScOldGroup                   _summaryGroup;
+    private ScGroup                   _summaryGroup;
     private ScTextSpan                _ownerText;
 
     private ScNotebook                _notebook;
@@ -81,7 +81,7 @@ public class MyAccountUsersPage
         _ownerText = new ScTextSpan();
         _ownerText.setLabel("Owner");
 
-        _summaryGroup = root.addOldGroup();
+        _summaryGroup = root.addGroup();
 
         ScBox body;
         body = _summaryGroup.addGap();

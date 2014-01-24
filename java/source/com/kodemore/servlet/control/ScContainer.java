@@ -380,24 +380,6 @@ public abstract class ScContainer
     }
 
     //##################################################
-    //# groups (old)
-    //##################################################
-
-    public ScOldGroup addOldGroup()
-    {
-        return add(new ScOldGroup());
-    }
-
-    public ScOldGroup addOldGroup(String title)
-    {
-        ScOldGroup e;
-        e = addOldGroup();
-        e.setLabel(title);
-        e.setTitle(title);
-        return e;
-    }
-
-    //##################################################
     //# array
     //##################################################
 

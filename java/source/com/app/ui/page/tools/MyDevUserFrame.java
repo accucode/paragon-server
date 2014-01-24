@@ -7,7 +7,7 @@ import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
 
@@ -50,8 +50,8 @@ public class MyDevUserFrame
         ScCard child;
         child = addCard();
 
-        ScOldGroup group;
-        group = child.addOldGroup("View");
+        ScGroup group;
+        group = child.addGroup();
 
         ScDiv header;
         header = group.getHeader().addFloatRight();
@@ -99,8 +99,8 @@ public class MyDevUserFrame
         form.setSubmitAction(saveAction);
         form.onEscape().run(cancelAction);
 
-        ScOldGroup group;
-        group = form.addOldGroup("Edit");
+        ScGroup group;
+        group = form.addGroup();
         group.style().minWidth(300);
 
         ScFieldTable fields;

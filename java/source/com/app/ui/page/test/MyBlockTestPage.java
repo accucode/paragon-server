@@ -6,7 +6,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
@@ -35,7 +35,7 @@ public class MyBlockTestPage
     //# variables
     //##################################################
 
-    private ScOldGroup          _group;
+    private ScGroup          _group;
     private ScTextField      _nameField;
 
     //##################################################
@@ -78,8 +78,8 @@ public class MyBlockTestPage
         ScActionButton button;
         button = buttons.addButton("Block on Request", newBlockRequestAction());
 
-        ScOldGroup group;
-        group = root.addPad().addOldGroup("Some Group");
+        ScGroup group;
+        group = root.addPad().addGroup();
 
         ScBox lines;
         lines = group.addLines();
@@ -110,8 +110,8 @@ public class MyBlockTestPage
             + " those containers will block only that container, rather than the"
             + " entire page. In this example only the group is blocked.");
 
-        ScOldGroup group;
-        group = form.addOldGroup("Auto-blocking, block the group");
+        ScGroup group;
+        group = form.addGroup();
 
         ScBox lines;
         lines = group.addLines();
@@ -135,8 +135,8 @@ public class MyBlockTestPage
             + " turn of the block wrapper for the group, so blocking will then"
             + " default up the control hierarchy to the form that contains the group.");
 
-        ScOldGroup group;
-        group = form.addOldGroup("Auto-blocking, block the form");
+        ScGroup group;
+        group = form.addGroup();
         group.setBlockWrapper(false); // DISABLE BLOCK WRAPPER
 
         ScBox lines;
@@ -160,8 +160,8 @@ public class MyBlockTestPage
             + "Here we disable block wrapping for both the form and the group,"
             + " so blocking will default to the entire page.");
 
-        ScOldGroup group;
-        group = form.addOldGroup("Auto-blocking, block the page");
+        ScGroup group;
+        group = form.addGroup();
         group.setBlockWrapper(false); // DISABLE BLOCK WRAPPER
 
         ScBox lines;

@@ -23,6 +23,7 @@ public interface KmCssDefaultConstantsIF
     String accordionOpenBody = "accordionOpenBody";
     String accordionOpenTab = "accordionOpenTab";
     String blockMsg = "blockMsg";
+    String bottomOffset = "bottomOffset";
     String checkbox = "checkbox";
     String content = "content";
     String dataTable = "dataTable";
@@ -74,6 +75,7 @@ public interface KmCssDefaultConstantsIF
     String leftMenu_item = "leftMenu-item";
     String leftMenu_link = "leftMenu-link";
     String leftMenu_selected = "leftMenu-selected";
+    String leftOffset = "leftOffset";
     String lineBox = "lineBox";
     String link = "link";
     String linkBox = "linkBox";
@@ -84,14 +86,7 @@ public interface KmCssDefaultConstantsIF
     String marginLeft = "marginLeft";
     String marginRight = "marginRight";
     String marginTop = "marginTop";
-    String oldGroup_divider_default = "oldGroup-divider-default";
-    String oldGroup_divider_error = "oldGroup-divider-error";
-    String oldGroup_header_default = "oldGroup-header-default";
-    String oldGroup_header_error = "oldGroup-header-error";
-    String oldGroup_title_default = "oldGroup-title-default";
-    String oldGroup_title_error = "oldGroup-title-error";
-    String oldGroup_wrapper_default = "oldGroup-wrapper-default";
-    String oldGroup_wrapper_error = "oldGroup-wrapper-error";
+    String offset = "offset";
     String pad = "pad";
     String padBottom = "padBottom";
     String padBottomChildren = "padBottomChildren";
@@ -115,6 +110,7 @@ public interface KmCssDefaultConstantsIF
     String pageTitleButton = "pageTitleButton";
     String pageTitleText = "pageTitleText";
     String radio = "radio";
+    String rightOffset = "rightOffset";
     String smallText = "smallText";
     String spaced = "spaced";
     String spacedBottom = "spacedBottom";
@@ -138,6 +134,7 @@ public interface KmCssDefaultConstantsIF
     String titlePanelBody = "titlePanelBody";
     String titlePanelHeader = "titlePanelHeader";
     String titlePanelText = "titlePanelText";
+    String topOffset = "topOffset";
     String shadow = "shadow";
     String absolute = "absolute";
     String auto = "auto";
@@ -291,8 +288,10 @@ public interface KmCssDefaultConstantsIF
     String height20 = "height20";
     String height200 = "height200";
     String height25 = "height25";
+    String height300 = "height300";
     String height400 = "height400";
     String height50 = "height50";
+    String height500 = "height500";
     String heightNone = "heightNone";
     String hide = "hide";
     String inline = "inline";
@@ -411,14 +410,6 @@ public interface KmCssDefaultConstantsIF
     //# composites
     //##################################################
 
-    String oldGroup_prefix = "oldGroup";
-    String oldGroup_part_divider = "divider";
-    String oldGroup_part_header = "header";
-    String oldGroup_part_title = "title";
-    String oldGroup_part_wrapper = "wrapper";
-    String oldGroup_flavor_default = "default";
-    String oldGroup_flavor_error = "error";
-    
     String button_prefix = "button";
     String button_part_element = "element";
     String button_flavor_default = "default";

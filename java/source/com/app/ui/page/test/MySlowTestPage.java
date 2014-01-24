@@ -6,7 +6,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScButton;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
 
@@ -49,8 +49,8 @@ public class MySlowTestPage
     {
         root.css().pad();
 
-        ScOldGroup group;
-        group = root.addOldGroup("Test slow responses");
+        ScGroup group;
+        group = root.addGroup();
         group.addPad().addText(
             ""
                 + "Test slow server side response.  The framework automatically"

@@ -80,7 +80,7 @@ public class MyAnimationTestPage
     private KmList<ScBox> addBoxesTo(ScGroup group)
     {
         ScBox lines;
-        lines = group.getBody().addLines();
+        lines = group.addLines();
 
         KmList<ScBox> v = new KmList<ScBox>();
 

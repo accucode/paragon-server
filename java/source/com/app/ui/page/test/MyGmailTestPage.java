@@ -7,7 +7,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
@@ -81,8 +81,8 @@ public class MyGmailTestPage
         form.css().pad();
         form.setSubmitAction(newSendAction());
 
-        ScOldGroup group;
-        group = form.addOldGroup("Send Gmail");
+        ScGroup group;
+        group = form.addGroup();
 
         ScBox body;
         body = group.addGap();

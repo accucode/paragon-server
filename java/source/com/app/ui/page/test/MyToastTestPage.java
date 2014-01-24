@@ -53,7 +53,7 @@ public class MyToastTestPage
         group = form.addGroup("Toasts");
 
         ScBox links;
-        links = group.getBody().addLinkBox();
+        links = group.addLinkBox();
         links.addLink("Default", newDefaultAction());
         links.addLink("Notice", newNoticeAction());
         links.addLink("Success", newSuccessAction());
@@ -61,7 +61,7 @@ public class MyToastTestPage
         links.addLink("Error", newErrorAction());
 
         group = form.addGroup("Sticky");
-        links = group.getBody().addLinkBox();
+        links = group.addLinkBox();
         links.addLink("Default", newDefaultStickyAction());
         links.addLink("Notice", newNoticeStickyAction());
         links.addLink("Success", newSuccessStickyAction());
@@ -70,7 +70,7 @@ public class MyToastTestPage
 
         group = form.addGroup("Html");
         group.style().width(300);
-        links = group.getBody().addLinkBox();
+        links = group.addLinkBox();
         links.addText("By default, toast messages are escaped.  However, you can easily set raw html if desired.");
         links.addBreak();
         links.addLink("Text (default)", newTextMessageAction());

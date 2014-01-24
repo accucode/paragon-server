@@ -8,7 +8,7 @@ import com.kodemore.servlet.control.ScButton;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
@@ -69,8 +69,8 @@ public class MyScriptTestPage
 
     private void installScript(ScForm root)
     {
-        ScOldGroup group;
-        group = root.addOldGroup("Script");
+        ScGroup group;
+        group = root.addGroup();
 
         ScTextArea field;
         field = group.addPad().addTextArea();
@@ -85,8 +85,8 @@ public class MyScriptTestPage
 
     private void installSamples(ScContainer root)
     {
-        ScOldGroup group;
-        group = root.addOldGroup("Sample Elements");
+        ScGroup group;
+        group = root.addGroup();
 
         ScBox buttons;
         buttons = group.addButtonBox();

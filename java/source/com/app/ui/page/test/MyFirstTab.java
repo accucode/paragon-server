@@ -1,7 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 
 import com.app.ui.control.MyBox;
 
@@ -27,8 +27,8 @@ public class MyFirstTab
 
     private void installGroup(ScBox root)
     {
-        ScOldGroup group;
-        group = root.addOldGroup();
+        ScGroup group;
+        group = root.addGroup();
         group.setTitle("bbb");
         group.addPad().addText("first test group");
     }

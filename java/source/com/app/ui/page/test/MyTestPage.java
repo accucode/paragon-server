@@ -43,17 +43,16 @@ public class MyTestPage
     protected void installRoot(ScPageRoot root)
     {
         root.css().gap();
-        root.getPostRenderScript().equalizeGroups();
 
         ScGroup group;
         ScBox links;
 
         group = addGroup("Personal");
-        links = group.getBody().addLinkBox();
+        links = group.addLinkBox();
         links.addLink(MyWyattTestPage.instance);
 
         group = addGroup("Layout");
-        links = group.getBody().addLinkBox();
+        links = group.addLinkBox();
         links.addLink(MyAccordionTestPage.instance);
         links.addLink(MyBorderTestPage.instance);
         links.addLink(MyBlankTestPage.instance);
@@ -70,7 +69,7 @@ public class MyTestPage
         links.addLink(MyTitlePanelTestPage.instance);
 
         group = addGroup("Fields");
-        links = group.getBody().addLinkBox();
+        links = group.addLinkBox();
         links.addLink(MyFieldTestPage.instance);
         links.addLink(MyLocalValueTestPage.instance);
         links.addLink(MyDateFieldTestPage.instance);
@@ -82,7 +81,7 @@ public class MyTestPage
         links.addLink(MyRadioButtonTestPage.instance);
 
         group = addGroup("Misc");
-        links = group.getBody().addLinkBox();
+        links = group.addLinkBox();
         links.addLink(MyBlockTestPage.instance);
         links.addLink(MySlowTestPage.instance);
         links.addLink(MyToastTestPage.instance);
@@ -98,7 +97,7 @@ public class MyTestPage
         links.addLink(MyTimeAgoTestPage.instance);
 
         group = addGroup("Tools");
-        links = group.getBody().addLinkBox();
+        links = group.addLinkBox();
         links.addLink(MyScriptTestPage.instance);
         links.addLink(MyMemoryLeakTestPage.instance);
         links.addLink(MyGmailTestPage.instance);
@@ -115,6 +114,8 @@ public class MyTestPage
     {
         ScGroup e;
         e = getRoot().addGroup();
+        e.layoutFixed();
+        e.style().width(200).height(350);
         e.setTitle(title);
         e.css().floatLeft();
         return e;

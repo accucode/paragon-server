@@ -25,7 +25,7 @@ package com.kodemore.servlet.control;
 import com.kodemore.html.KmHtmlBuilder;
 
 public class ScDiv
-    extends ScContainerElement
+    extends ScChildContainerElement
 {
     //##################################################
     //# render

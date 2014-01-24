@@ -6,7 +6,7 @@ import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.model.MyUser;
@@ -61,15 +61,15 @@ public class MyUserProfileViewCard
         form = addForm();
         form.css().gap();
 
-        ScOldGroup group;
-        group = form.addOldGroup("My Profile");
+        ScGroup group;
+        group = form.addGroup();
 
         installHeader(group);
         installFields(group);
         installFooter(group);
     }
 
-    private void installHeader(ScOldGroup group)
+    private void installHeader(ScGroup group)
     {
         ScDiv header;
         header = group.getHeader().addFloatRight();
@@ -80,7 +80,7 @@ public class MyUserProfileViewCard
         editButton.setImage(MyButtonUrls.edit());
     }
 
-    private void installFields(ScOldGroup group)
+    private void installFields(ScGroup group)
     {
         ScFieldTable fields;
         fields = group.addPad().addFields();
@@ -89,7 +89,7 @@ public class MyUserProfileViewCard
         fields.add(_roleField);
     }
 
-    private void installFooter(ScOldGroup group)
+    private void installFooter(ScGroup group)
     {
         group.addDivider();
 

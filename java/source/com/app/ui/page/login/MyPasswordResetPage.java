@@ -8,10 +8,10 @@ import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.control.ScText;
+import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
@@ -43,7 +43,7 @@ public class MyPasswordResetPage
     private ScCardFrame     _frame;
 
     private ScCard          _entryCard;
-    private ScTextSpan    _emailText;
+    private ScTextSpan      _emailText;
     private ScPasswordField _password1Field;
     private ScPasswordField _password2Field;
 
@@ -155,8 +155,8 @@ public class MyPasswordResetPage
         form = root.addForm();
         form.setSubmitAction(newResetPasswordAction());
 
-        ScOldGroup group;
-        group = form.addOldGroup();
+        ScGroup group;
+        group = form.addGroup();
         group.setTitle("Reset Password");
 
         ScBox body;
@@ -191,8 +191,8 @@ public class MyPasswordResetPage
         ScCard card;
         card = frame.addCard();
 
-        ScOldGroup group;
-        group = card.addOldGroup();
+        ScGroup group;
+        group = card.addGroup();
         group.setTitle("Success");
 
         ScBox body;
@@ -220,8 +220,8 @@ public class MyPasswordResetPage
         ScCard card;
         card = frame.addCard();
 
-        ScOldGroup group;
-        group = card.addOldGroup();
+        ScGroup group;
+        group = card.addGroup();
         group.setTitle("Error");
 
         ScBox body;

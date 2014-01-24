@@ -6,7 +6,7 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScAutoCompleteCallbackIF;
 import com.kodemore.servlet.field.ScAutoCompleteField;
@@ -77,8 +77,8 @@ public class MyAutoCompleteTestPage
         form = root.addForm();
         form.setSubmitAction(newSubmitAction());
 
-        ScOldGroup group;
-        group = form.addOldGroup("Auto Complete Field Test");
+        ScGroup group;
+        group = form.addGroup();
 
         ScFieldTable fields;
         fields = group.addPad().addFields();

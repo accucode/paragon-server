@@ -48,13 +48,13 @@ public class MyDevToolsPage
         group = root.addGroup("Tools");
 
         ScBox links;
-        links = group.getBody().addLinkBox();
+        links = group.addLinkBox();
         links.addLink(MyDevUtilityPage.instance);
         links.addLink(MyDevSqlPage.instance);
 
         group.addBodyDivider();
 
-        links = group.getBody().addLinkBox();
+        links = group.addLinkBox();
         links.addLink(MyDevBeanShellPage.instance);
         links.addLink(MyDevPerformanceLogPage.instance);
         links.addLink(MyDevSharedFileBrowserPage.instance);

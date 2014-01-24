@@ -81,11 +81,11 @@ public class MyDevSharedFileBrowserPage
         group = root.addGroup("Path");
 
         ScArray row;
-        row = group.getBody().addRow();
+        row = group.addRow();
         row.add(_directoryField);
         row.addSubmitButton("Open");
 
-        group.getBody().addLink("Create", newCreatePathAction());
+        group.addLink("Create", newCreatePathAction());
     }
 
     private void installFolders(ScContainer root)
@@ -94,8 +94,8 @@ public class MyDevSharedFileBrowserPage
 
         ScGroup group;
         group = root.addGroup("Folders");
-        group.getBody().add(_folderList);
-        group.getBody().addLink("Open", newOpenFolderAction());
+        group.add(_folderList);
+        group.addLink("Open", newOpenFolderAction());
     }
 
     private void installFiles(ScContainer root)
@@ -104,8 +104,8 @@ public class MyDevSharedFileBrowserPage
 
         ScGroup group;
         group = root.addGroup("Files");
-        group.getBody().add(_fileList);
-        group.getBody().addLink("Get", newGetFileAction());
+        group.add(_fileList);
+        group.addLink("Get", newGetFileAction());
     }
 
     //##################################################

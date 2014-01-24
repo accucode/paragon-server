@@ -6,7 +6,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScFilterBox;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.string.KmStringBuilder;
 
@@ -55,8 +55,8 @@ public class MyEqualizeTestPage
     {
         root.css().gap();
 
-        ScOldGroup info;
-        info = root.addOldGroup("Equalize Test");
+        ScGroup info;
+        info = root.addGroup();
         info.addPad().addText(infoMessage());
         info.addDivider();
 
@@ -76,8 +76,8 @@ public class MyEqualizeTestPage
         filter = groups.addFilterBox("Filter Box Test");
         filter.addText("This is a test filter box...");
 
-        ScOldGroup group;
-        group = groups.addOldGroup("Group 1");
+        ScGroup group;
+        group = groups.addGroup();
         links = group.addLinkBox();
         links.addLink(MyBlankTestPage.instance);
         links.addLink(MyFormTestPage.instance);
@@ -86,7 +86,7 @@ public class MyEqualizeTestPage
         links.addLink(MyGroupIconHeaderTestPage.instance);
         links.addLink(MyNotebookTestPage.instance);
 
-        group = groups.addOldGroup("Group 2");
+        group = groups.addGroup();
         links = group.addLinkBox();
         group.style().height(300);
         links.addLink(MyFieldTestPage.instance);
@@ -98,7 +98,7 @@ public class MyEqualizeTestPage
         links.addLink(MyGridTestPage.instance);
         links.addLink(MyDropzoneTestPage.instance);
 
-        group = groups.addOldGroup("Group 3");
+        group = groups.addGroup();
         links = group.addLinkBox();
         group.style().width(300);
         links.addLink(MyBlockTestPage.instance);
@@ -111,7 +111,7 @@ public class MyEqualizeTestPage
         links.addLink(MyShowDialogTestPage.instance);
         links.addLink(MyBarcodeTestPage.instance);
 
-        group = root.addOldGroup("Here's more content");
+        group = root.addGroup();
 
         buttons = group.addButtonBox();
         buttons.addButton("Button");

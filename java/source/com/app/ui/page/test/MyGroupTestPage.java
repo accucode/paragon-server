@@ -1,7 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
@@ -69,12 +68,11 @@ public class MyGroupTestPage
 
         ScGroup e;
         e = new ScGroup();
+        e.layoutFixed();
+        e.style().width(200).height(300);
         e.setTitle(title);
-
-        ScDiv body;
-        body = e.getBody();
-        body.css().pad();
-        body.addText(text);
+        e.bodyCss().pad();
+        e.addText(text);
         return e;
     }
 

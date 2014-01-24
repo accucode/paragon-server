@@ -9,7 +9,7 @@ import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
@@ -86,8 +86,8 @@ public class MyDevUsersPage
     {
         MyMetaUser x = MyUser.Meta;
 
-        ScOldGroup group;
-        group = root.addOldGroup();
+        ScGroup group;
+        group = root.addGroup();
         group.setTitle("Users");
 
         ScGrid<MyUser> grid;

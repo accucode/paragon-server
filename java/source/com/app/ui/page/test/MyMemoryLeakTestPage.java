@@ -8,7 +8,7 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGrid;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDateField;
 import com.kodemore.servlet.script.ScDelayedScript;
@@ -72,8 +72,8 @@ public class MyMemoryLeakTestPage
         form = root.addForm();
         form.css().gap();
 
-        ScOldGroup group;
-        group = form.addOldGroup("Test");
+        ScGroup group;
+        group = form.addGroup();
         group.addPad().addFields().add(_field);
 
         form.add(newUserGrid());

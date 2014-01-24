@@ -66,7 +66,7 @@ public class MyDevEmailEditPage
         group = root.addGroup("Summary");
 
         ScForm form;
-        form = group.getBody().addForm();
+        form = group.addForm();
 
         ScFieldTable fields;
         fields = form.addFields();
@@ -101,8 +101,8 @@ public class MyDevEmailEditPage
         _recipientGrid.addColumn(x.Address).setWidth(200);
         _recipientGrid.addLinkColumn("Remove", newRemoveRecipientAction(), x.Uid);
 
-        ScContainer group;
-        group = root.addGroup("Recipients").getBody();
+        ScGroup group;
+        group = root.addGroup("Recipients");
 
         ScArray row;
         row = group.addForm().addRow();

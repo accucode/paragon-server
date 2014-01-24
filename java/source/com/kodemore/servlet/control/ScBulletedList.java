@@ -26,7 +26,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 
 public class ScBulletedList
-    extends ScContainerElement
+    extends ScChildContainerElement
 {
     //##################################################
     //# init

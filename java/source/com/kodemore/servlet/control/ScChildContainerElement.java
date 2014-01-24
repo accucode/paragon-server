@@ -22,18 +22,20 @@
 
 package com.kodemore.servlet.control;
 
+import java.util.Iterator;
+
+import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.servlet.variable.ScLocalString;
 
-public class ScNumberedList
-    extends ScChildContainerElement
+public abstract class ScChildContainerElement
+    extends ScContainerElement
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString _type;
+    private KmList<ScControl> _children;
 
     //##################################################
     //# init
@@ -43,66 +45,91 @@ public class ScNumberedList
     protected void install()
     {
         super.install();
+
+        _children = new KmList<ScControl>();
     }
 
     //##################################################
-    //# type
+    //# children
     //##################################################
 
-    public String getType()
+    public KmList<ScControl> getChildren()
     {
-        return _type.getValue();
+        return _children;
     }
 
-    public void setType(String e)
+    public ScControl getChildAt(int i)
     {
-        _type.setValue(e);
+        return getChildren().getAt(i);
     }
 
-    public void setTypeNumber()
+    public boolean hasChildren()
     {
-        setType("1");
+        return getChildren().isNotEmpty();
     }
 
-    public void setTypeLetterUpper()
+    @Override
+    public <T extends ScControl> T add(T e)
     {
-        setType("A");
+        e.setParent(this);
+
+        _children.add(e);
+
+        return e;
     }
 
-    public void setTypeLetterLower()
+    @Override
+    public void clear()
     {
-        setType("a");
+        _children.clear();
     }
 
-    public void setTypeRomanUpper()
+    @Override
+    public boolean isEmpty()
     {
-        setType("I");
+        return getChildren().isEmpty();
     }
 
-    public void setTypeRomanLower()
+    //##################################################
+    //# components
+    //##################################################
+
+    @Override
+    public Iterator<ScControl> getComponents()
     {
-        setType("i");
+        KmCompositeIterator<ScControl> i;
+        i = new KmCompositeIterator<ScControl>();
+
+        i.addAll(super.getComponents());
+        i.addAll(getChildren());
+
+        return i;
     }
 
     //##################################################
     //# render
     //##################################################
 
-    @Override
-    protected void renderControlOn(KmHtmlBuilder out)
+    protected void renderSimpleElementOn(KmHtmlBuilder out, String tag)
     {
-        out.open("ol");
+        out.open(tag);
         renderAttributesOn(out);
         out.close();
 
-        KmList<ScControl> v = getChildren();
-        for ( ScControl e : v )
-        {
-            out.begin("li");
-            out.render(e);
-            out.end("li");
-        }
+        renderChildrenOn(out);
 
-        out.end("ol");
+        out.end(tag);
     }
+
+    protected void renderChildrenOn(KmHtmlBuilder out)
+    {
+        for ( ScControl e : getChildren() )
+            renderChildOn(out, e);
+    }
+
+    protected void renderChildOn(KmHtmlBuilder out, ScControl e)
+    {
+        out.render(e);
+    }
+
 }

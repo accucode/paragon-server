@@ -8,7 +8,7 @@ import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.utility.KmTimer;
@@ -70,7 +70,7 @@ public class MyDevHibernateCachePage
         ScForm form;
         form = root.addForm();
 
-        ScOldGroup group = form.addOldGroup("Hibernate Cache Test");
+        ScGroup group = form.addGroup();
 
         ScFieldTable fields;
         fields = group.addPad().addFields();

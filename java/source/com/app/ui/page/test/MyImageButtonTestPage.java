@@ -6,7 +6,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScButton;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScImage;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
@@ -55,7 +55,7 @@ public class MyImageButtonTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        ScOldGroup group = root.addOldGroup();
+        ScGroup group = root.addGroup();
 
         ScImage image;
         image = group.addImage();

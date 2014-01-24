@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScLiteral;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTable;
@@ -56,8 +56,8 @@ public class MyDevSystemPropertiesPage
     {
         root.css().gap();
 
-        ScOldGroup group;
-        group = root.addOldGroup("System Properties");
+        ScGroup group;
+        group = root.addGroup();
 
         _literal = group.addPad().addLiteral();
     }

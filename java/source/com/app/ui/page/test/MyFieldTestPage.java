@@ -8,7 +8,7 @@ import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFieldset;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScAutoCompleteCallbackIF;
 import com.kodemore.servlet.field.ScAutoCompleteField;
@@ -46,7 +46,7 @@ public class MyFieldTestPage
     //# variables
     //##################################################
 
-    private ScOldGroup          _fieldGroup;
+    private ScGroup          _fieldGroup;
     private ScTextField         _textField;
     private ScTextField         _readOnlyField;
     private ScIntegerField      _integerField;
@@ -161,8 +161,8 @@ public class MyFieldTestPage
         form = root.addForm();
         form.setSubmitAction(newValidateAction());
 
-        ScOldGroup group;
-        group = form.addOldGroup("Field Samples");
+        ScGroup group;
+        group = form.addGroup();
 
         ScBox body;
         body = group.addPad();
@@ -225,8 +225,8 @@ public class MyFieldTestPage
 
     private void installFieldsets(ScBox root)
     {
-        ScOldGroup group;
-        group = root.addOldGroup("Fieldset Samples");
+        ScGroup group;
+        group = root.addGroup();
 
         ScBox body;
         body = group.addGap();

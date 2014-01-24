@@ -27,7 +27,7 @@ import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalString;
 
 public class ScTableCell
-    extends ScContainerElement
+    extends ScChildContainerElement
 {
     //##################################################
     //# variables

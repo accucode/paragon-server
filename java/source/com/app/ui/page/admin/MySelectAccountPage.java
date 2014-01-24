@@ -78,7 +78,7 @@ public class MySelectAccountPage
         group.setTitle("New Account");
 
         ScBox body;
-        body = group.getBody().addPad().addBox();
+        body = group.addPad().addBox();
 
         ScFieldTable fields;
         fields = body.addFields();
@@ -87,7 +87,7 @@ public class MySelectAccountPage
         group.addBodyDivider();
 
         ScBox buttons;
-        buttons = group.getBody().addButtonBoxRight();
+        buttons = group.addButtonBoxRight();
         buttons.addSubmitButton("Create");
     }
 
@@ -105,7 +105,7 @@ public class MySelectAccountPage
         group.css().floatLeft();
         group.style().width(GROUP_WIDTH);
         group.setTitle("My Accounts");
-        group.getBody().addPad().add(_ownedAccountList);
+        group.addPad().add(_ownedAccountList);
     }
 
     private void installSharedAccounts(ScPageRoot root)
@@ -122,7 +122,7 @@ public class MySelectAccountPage
         group.css().floatLeft();
         group.style().width(GROUP_WIDTH);
         group.setTitle("Shared Accounts");
-        group.getBody().addPad().add(_sharedAccountList);
+        group.addPad().add(_sharedAccountList);
     }
 
     //##################################################

@@ -6,7 +6,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
-import com.kodemore.servlet.control.ScOldGroup;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyCardFlipTestPage
@@ -86,21 +86,21 @@ public class MyCardFlipTestPage
         _flipFrame.setDefaultCard(_flipFront);
         _fadeFrame.setDefaultCard(_fadeFront);
 
-        ScOldGroup front;
-        front = _flipFront.addOldGroup("Front");
+        ScGroup front;
+        front = _flipFront.addGroup();
         front.addPad().addText("THIS IS THE FRONT!");
         front.style().height(400);
 
-        ScOldGroup back;
-        back = _flipBack.addOldGroup("Back");
+        ScGroup back;
+        back = _flipBack.addGroup();
         back.addPad().addText("THIS IS THE BACK!");
         back.style().height(400);
 
-        front = _fadeFront.addOldGroup("Front");
+        front = _fadeFront.addGroup();
         front.addPad().addText("THIS IS THE FRONT!");
         front.style().height(400);
 
-        back = _fadeBack.addOldGroup("Back");
+        back = _fadeBack.addGroup();
         back.addPad().addText("THIS IS THE BACK!");
         back.style().height(400);
     }

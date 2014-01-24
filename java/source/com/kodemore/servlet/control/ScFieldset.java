@@ -28,7 +28,7 @@ import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.variable.ScLocalString;
 
 public class ScFieldset
-    extends ScContainerElement
+    extends ScChildContainerElement
 {
     //##################################################
     //# constants

@@ -99,7 +99,7 @@ public class MyDevEmailViewPage
         group = root.addGroup("Summary");
 
         ScContainer fields;
-        fields = group.getBody().addFields();
+        fields = group.addFields();
         fields.addText(x.Uid);
         fields.addText(x.ToAddressesLabel);
         fields.addText(x.CcAddressesLabel);
@@ -115,7 +115,7 @@ public class MyDevEmailViewPage
         group = root.addGroup("Status");
 
         ScFieldTable fields;
-        fields = group.getBody().addFields();
+        fields = group.addFields();
         fields.addText(x.StatusName);
         fields.addText(x.CreatedLocalTs);
         fields.addText(x.SentLocalTs);
@@ -124,7 +124,7 @@ public class MyDevEmailViewPage
         _errorText.hide();
 
         ScContainer buttons;
-        buttons = group.getBody().addRow();
+        buttons = group.addRow();
         buttons.addButton("Re-Send", newResendAction());
         buttons.addButton("Ignore", newIgnoreAction());
     }

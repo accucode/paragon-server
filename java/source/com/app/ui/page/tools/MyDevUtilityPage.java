@@ -79,7 +79,7 @@ public class MyDevUtilityPage
         group = addGroupTo(root, "Single VM");
 
         ScBox box;
-        box = group.getBody().addLinkBox();
+        box = group.addLinkBox();
         box.addLink("garbage collection", newGarbageCollectionAction());
         box.addLink("reload properties", newReloadPropertiesAction());
     }
@@ -90,7 +90,7 @@ public class MyDevUtilityPage
         group = addGroupTo(root, "Exceptions");
 
         ScBox box;
-        box = group.getBody().addLinkBox();
+        box = group.addLinkBox();
         box.addLink("message", newMessageAction());
         box.addLink("error", newErrorAction());
         box.addLink("fatal", newFatalAction());
@@ -112,7 +112,7 @@ public class MyDevUtilityPage
         group = addGroupTo(root, "Time");
 
         ScFieldTable fields;
-        fields = group.getBody().addPad().addFields();
+        fields = group.addPad().addFields();
         fields.add(_utcText);
         fields.add(_localText);
         fields.add(_denverText);
@@ -133,7 +133,7 @@ public class MyDevUtilityPage
         group = addGroupTo(root, "Request / Response");
 
         ScFieldTable fields;
-        fields = group.getBody().addPad().addFields();
+        fields = group.addPad().addFields();
         fields.add(_userAgentText);
         fields.add(_isInternetExplorerText);
         fields.add(_isFirefoxText);
