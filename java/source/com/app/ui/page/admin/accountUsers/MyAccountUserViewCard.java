@@ -78,7 +78,7 @@ public class MyAccountUserViewCard
     @Override
     public void preRender()
     {
-        MyAccount e = getPageSession().getCurrentAccount();
+        MyAccount e = getServerSession().getCurrentAccount();
 
         _nameText.setValue(e.getName());
         _ownerText.setValue(e.getOwner().getName());

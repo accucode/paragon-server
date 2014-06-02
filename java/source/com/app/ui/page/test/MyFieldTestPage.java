@@ -29,7 +29,7 @@ import com.app.model.MyUser;
  * Test the various form fields.
  */
 public class MyFieldTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

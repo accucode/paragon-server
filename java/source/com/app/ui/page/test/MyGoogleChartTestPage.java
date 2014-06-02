@@ -7,7 +7,7 @@ import com.kodemore.servlet.control.ScGoogleChart;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyGoogleChartTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

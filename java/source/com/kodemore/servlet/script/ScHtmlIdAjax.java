@@ -153,14 +153,19 @@ public class ScHtmlIdAjax
     //# contents
     //##################################################
 
-    public void setContents(ScControl contents)
+    public ScReplaceContentsScript setContents(ScControl contents)
     {
-        setContents(getTarget(), contents);
+        return setContents(getTarget(), contents);
     }
 
-    public void setContents(KmHtmlBuilder out)
+    public ScReplaceContentsScript setContents(KmHtmlBuilder out)
     {
-        setContents(getTarget(), out);
+        return setContents(getTarget(), out);
+    }
+
+    public ScReplaceContentsScript setContents(String html)
+    {
+        return setContents(getTarget(), html);
     }
 
     public void clearContents()
@@ -243,6 +248,11 @@ public class ScHtmlIdAjax
     public void setHtml(String value)
     {
         setHtml(getTarget(), value);
+    }
+
+    public void setHtml(KmHtmlBuilder out)
+    {
+        setHtml(out.toString());
     }
 
     public void clearHtml()

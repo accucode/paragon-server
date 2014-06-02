@@ -96,7 +96,6 @@ public abstract class ScControl
      * that Person in different ways - one control may apply
      * the person's name.
      */
-    // todo_wyatt: reconsider the ScControl.model paradigm. 
     private ScLocalObject                      _model;
 
     /**

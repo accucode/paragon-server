@@ -8,19 +8,39 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.variable.ScLocalString;
 
-public class MyPageSessionTest2Page
-    extends MyAbstractTestPage
+/**
+ * This demonstrates two pages that share some page session.
+ * Test 1A and 1B both rely on _testValue; Test 1B uses 1A's 
+ * public getter to access the value.
+ * 
+ * First, this shows how either page can update the value.
+ * 
+ * Second, this shows that the value is preserved when navigating
+ * from 1A to 1B.
+ * 
+ * Third, this shows that the value is automatically restored to
+ * it's pre-navigation value when the using the back button to 
+ * navigate "back" from 1B to 1A.
+ */
+public class MySharedStateTest1Page
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPageSessionTest2Page instance = new MyPageSessionTest2Page();
+    public static final MySharedStateTest1Page instance = new MySharedStateTest1Page();
 
-    private MyPageSessionTest2Page()
+    private MySharedStateTest1Page()
     {
         // singleton
     }
+
+    //##################################################
+    //# variables
+    //##################################################
+
+    private ScLocalString _testValue;
 
     //##################################################
     //# navigation
@@ -45,11 +65,14 @@ public class MyPageSessionTest2Page
     @Override
     protected void installRoot(ScPageRoot root)
     {
+        _testValue = new ScLocalString();
+        _testValue.setAutoSave();
+
         root.css().gap();
 
         ScGroup group;
         group = root.addGroup();
-        group.setTitle("Page Session Test (Page 2)");
+        group.setTitle("Page Session Test (Page 1)");
         group.css().width400();
 
         ScBox body;
@@ -64,6 +87,7 @@ public class MyPageSessionTest2Page
         footer.addButton("red", newRedAction());
         footer.addButton("blue", newBlueAction());
         footer.addButton("toast", newToastAction());
+        footer.addButton("page 2", MySharedStateTest2Page.instance);
     }
 
     //##################################################
@@ -141,8 +165,8 @@ public class MyPageSessionTest2Page
     //# support
     //##################################################
 
-    private ScLocalString getTestValueHolder()
+    public ScLocalString getTestValueHolder()
     {
-        return MyPageSessionTest1Page.instance.getTestValueHolder();
+        return _testValue;
     }
 }

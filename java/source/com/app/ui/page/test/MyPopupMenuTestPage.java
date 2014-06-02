@@ -13,7 +13,7 @@ import com.app.ui.core.MyActions;
 import com.app.utility.MyGlobals;
 
 public class MyPopupMenuTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

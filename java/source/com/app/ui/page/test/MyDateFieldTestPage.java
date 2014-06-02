@@ -13,7 +13,7 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.time.KmDate;
 
 public class MyDateFieldTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

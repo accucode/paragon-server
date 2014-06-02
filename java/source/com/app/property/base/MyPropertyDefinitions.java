@@ -387,7 +387,7 @@ public class MyPropertyDefinitions
         e.setKey(PROPERTY_SHARED_PERSISTENT_PATH);
         e.setComment("The path to work files that persist across deployment. Use this path for files like; ftp uploads, email attachments, csv uploads and other dynamic content. The contents of this directory are shared across all JVMs so some care needs to be take to avoid collisions. In production, this should be set to an absolute path that is outside of the web root, so that it persists across deployments.");
         e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("shared/persistent");
+        e.setDefaultValue("/temp/shared/persistent");
         e.postInstall();
         return e;
     }
@@ -400,7 +400,7 @@ public class MyPropertyDefinitions
         e.setKey(PROPERTY_SHARED_TRANSIENT_PATH);
         e.setComment("The path to work files that persist across deployment. Use this path for files like; ftp uploads, email attachments, csv uploads and other dynamic content. The contents of this directory are shared across all JVMs so some care needs to be take to avoid collisions. In production, this should be set to an absolute path that is outside of the web root, so that it persists across deployments.");
         e.setType(KmPropertyTypes.TYPE_STRING);
-        e.setDefaultValue("shared/transient");
+        e.setDefaultValue("/temp/shared/transient");
         e.postInstall();
         return e;
     }

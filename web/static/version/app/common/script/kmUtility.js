@@ -17,14 +17,6 @@ var Kmu = {};
 //**********************************************************
 
 /*
- * Used to manage page session state for apps.
- * Client side application scripts will generally NOT access
- * pageSession variables.  Instead, this state is used by
- * the server to coordinate application state. 
- */
-Kmu.pageSession = {};
-
-/*
  * Used with the methods to open and close dialogs.
  */
 Kmu.dialogOpenSpeed  = 300;
@@ -422,8 +414,9 @@ Kmu.formatAjaxBaseParams = function(options)
     if ( options.direction )
         e._direction = options.direction;
         
-    if ( Kmu.pageSession )
-        e._session = JSON.stringify(Kmu.pageSession);
+    var ps = KmNavigator.getPageSession(); 
+    if ( ps )
+        e._session = JSON.stringify(ps);
         
 	return $.param(e);        
 }
@@ -468,25 +461,6 @@ Kmu.ajaxError = function(req, status, error)
  */
 Kmu.ajaxComplete = function(jqXHR, textStatus)
 {
-}
-
-//**********************************************************
-//** page session
-//**********************************************************
-
-Kmu.updatePageSession = function(session)
-{
-    Kmu.pageSession = session;
-}
-
-Kmu.setPageSessionValue = function(key, value)
-{
-    Kmu.pageSession[key] = value;
-}
-
-Kmu.logPageSession = function()
-{
-    Kmu.logAttributes(Kmu.pageSession);
 }
 
 //**********************************************************

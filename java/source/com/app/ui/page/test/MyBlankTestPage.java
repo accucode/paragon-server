@@ -4,7 +4,7 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyBlankTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

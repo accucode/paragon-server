@@ -343,6 +343,34 @@ public class ScReplaceContentsScript
     }
 
     //##################################################
+    //# chain
+    //##################################################
+
+    public ScReplaceContentsScript fade()
+    {
+        setTransition(ScTransition.Fade);
+        return this;
+    }
+
+    public ScReplaceContentsScript slideLeft()
+    {
+        setTransition(ScTransition.SlideLeft);
+        return this;
+    }
+
+    public ScReplaceContentsScript slideRight()
+    {
+        setTransition(ScTransition.SlideRight);
+        return this;
+    }
+
+    public ScReplaceContentsScript ms(Integer ms)
+    {
+        setSpeed(ms);
+        return this;
+    }
+
+    //##################################################
     //# support
     //##################################################
 

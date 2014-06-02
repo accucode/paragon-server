@@ -36,8 +36,8 @@ public interface MyConstantsIF
     //# copyright
     //##################################################
 
-    String COPYRIGHT_TEXT            = "Copyright 2014 AccuCode Inc";
-    String COPYRIGHT_HTML            = "&copy; 2014 AccuCode Inc";
+    String COPYRIGHT_TEXT            = "Copyright 2014 Accucode Inc";
+    String COPYRIGHT_HTML            = "&copy; 2014 Accucode Inc";
 
     //##################################################
     //# misc

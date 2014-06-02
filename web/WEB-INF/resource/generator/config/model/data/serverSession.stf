@@ -61,3 +61,10 @@ attributes
     : relation  = reference
     : required  = false
 
+    association
+    : name      = currentAccount
+    : comment   = The account being accessed.
+    : modelName = account
+    : relation  = reference
+    : required  = false
+

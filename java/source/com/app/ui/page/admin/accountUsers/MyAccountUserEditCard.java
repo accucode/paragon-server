@@ -133,11 +133,11 @@ public class MyAccountUserEditCard
         e.applyFrom(this);
         e.validate();
 
-        closeCard();
+        ajaxClose();
     }
 
     private void handleCancel()
     {
-        closeCard();
+        ajaxClose();
     }
 }

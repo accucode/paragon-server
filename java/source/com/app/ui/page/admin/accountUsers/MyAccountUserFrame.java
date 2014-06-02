@@ -54,16 +54,16 @@ public class MyAccountUserFrame
 
     public void printViewCard()
     {
-        _viewCard.print();
+        _viewCard.ajaxPrint();
     }
 
     public void printEditCard()
     {
-        _editCard.print();
+        _editCard.ajaxPrint();
     }
 
     public void printRemoveCard()
     {
-        _removeCard.print();
+        _removeCard.ajaxPrint();
     }
 }

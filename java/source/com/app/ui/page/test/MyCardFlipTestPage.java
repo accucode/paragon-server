@@ -10,7 +10,7 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyCardFlipTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton
@@ -139,13 +139,13 @@ public class MyCardFlipTestPage
 
     private void handleShowFront()
     {
-        _flipFront.print();
-        _fadeFront.print();
+        _flipFront.ajaxPrint();
+        _fadeFront.ajaxPrint();
     }
 
     private void handleShowBack()
     {
-        _flipBack.print();
-        _fadeBack.print();
+        _flipBack.ajaxPrint();
+        _fadeBack.ajaxPrint();
     }
 }

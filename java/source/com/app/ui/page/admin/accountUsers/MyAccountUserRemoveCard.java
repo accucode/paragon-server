@@ -125,13 +125,13 @@ public class MyAccountUserRemoveCard
 
     private void handleCancel()
     {
-        closeCard();
+        ajaxClose();
     }
 
     private void handleRemove()
     {
         ajax().toast("remove the user");
-        closeCard();
+        ajaxClose();
     }
 
     //##################################################

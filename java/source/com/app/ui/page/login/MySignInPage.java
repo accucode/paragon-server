@@ -100,8 +100,6 @@ public class MySignInPage
     @Override
     public void applyQueryParameters(ScParameterList params)
     {
-        _targetQuery.clearValue();
-
         String query = params.getValue("q");
         if ( Kmu.hasValue(query) )
             _targetQuery.setValue(query);
@@ -118,7 +116,7 @@ public class MySignInPage
         _targetQuery.setAutoSave();
 
         // todo_wyatt: auto apply? 
-        // _queryTarget.autoApplyToUrl(this, "q");
+        // _targetQuery.autoApplyToUrl(this, "q");
 
         ScArray row;
         row = root.addRow();
@@ -358,6 +356,8 @@ public class MySignInPage
             ScPushPageScript script;
             script = ajax().pushPage(_targetQuery.getValue());
             script.setReplace();
+
+            _targetQuery.clearValue();
             return;
         }
 

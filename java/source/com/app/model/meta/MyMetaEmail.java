@@ -70,6 +70,7 @@ public class MyMetaEmail
     public static final MyMetaEmail_RecipientSummary RecipientSummary = new MyMetaEmail_RecipientSummary();
     public static final MyMetaEmail_ToAddressesLabel ToAddressesLabel = new MyMetaEmail_ToAddressesLabel();
     public static final MyMetaEmail_CcAddressesLabel CcAddressesLabel = new MyMetaEmail_CcAddressesLabel();
+    public static final MyMetaEmail_PartsAsHtml PartsAsHtml = new MyMetaEmail_PartsAsHtml();
     public static final MyMetaEmail_LockVersion LockVersion = new MyMetaEmail_LockVersion();
     public static final MyMetaEmail_StatusName StatusName = new MyMetaEmail_StatusName();
     public static final MyMetaEmail_CreatedLocalTs CreatedLocalTs = new MyMetaEmail_CreatedLocalTs();

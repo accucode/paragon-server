@@ -12,7 +12,7 @@ import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
 
 public class MyBlockTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

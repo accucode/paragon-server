@@ -967,6 +967,7 @@ a.tabx:hover
     right:  0;
     top:    36px;
     bottom: 0;
+    overflow: auto;
 }
 
 .groupBody_fixedLinkFooter
@@ -976,6 +977,7 @@ a.tabx:hover
     right:  0;
     top:    36px;
     bottom: 36px;
+    overflow: auto;
 }
 
 .groupBody_fixedButtonFooter
@@ -985,6 +987,7 @@ a.tabx:hover
     right:  0;
     top:    36px;
     bottom: 46px;
+    overflow: auto;
 }
 
 .groupFooter_fixedLink
@@ -1154,9 +1157,9 @@ td.sqlResultValue
 
 .offset
 {
-	left: 10px;
-	right: 10px;
-	top: 10px;
+	left:   10px;
+	right:  10px;
+	top:    10px;
 	bottom: 10px;
 }
 

@@ -58,11 +58,11 @@ public class MyDevToolsPage
         links.addLink(MyDevBeanShellPage.instance);
         links.addLink(MyDevPerformanceLogPage.instance);
         links.addLink(MyDevSharedFileBrowserPage.instance);
-        links.addLink(MyDevSystemLogListPage.instance);
+        links.addLink(MyDevSystemLogsPage.instance);
         links.addLink(MyDevApplicationPropertiesPage.instance);
         links.addLink(MyDevSystemPropertiesPage.instance);
         links.addLink(MyDevUsersPage.instance);
-        links.addLink(MyDevEmailListPage.instance);
+        links.addLink(MyDevEmailsPage.instance);
         links.addLink(MyDevHibernateCachePage.instance);
     }
 }

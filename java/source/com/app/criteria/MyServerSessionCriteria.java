@@ -612,6 +612,53 @@ public class MyServerSessionCriteria
     }
 
     //##################################################
+    //# association (CurrentAccount)
+    //##################################################
+
+    public void selectCurrentAccountUid()
+    {
+        select(CURRENT_ACCOUNT_UID);
+    }
+
+    public void selectMinimumCurrentAccountUid()
+    {
+        selectMinimum(CURRENT_ACCOUNT_UID);
+    }
+
+    public void selectMaximumCurrentAccountUid()
+    {
+        selectMaximum(CURRENT_ACCOUNT_UID);
+    }
+
+    public void groupByCurrentAccountUid()
+    {
+        groupBy(CURRENT_ACCOUNT);
+    }
+
+    public MyAccountCriteria joinToCurrentAccount()
+    {
+        return new MyAccountCriteria(joinTo(CURRENT_ACCOUNT));
+    }
+
+    public MyAccountCriteria leftJoinToCurrentAccount()
+    {
+        return new MyAccountCriteria(leftJoinTo(CURRENT_ACCOUNT));
+    }
+
+    public KmStringCriteria whereCurrentAccountUid()
+    {
+        return new KmStringCriteria(parent(), fullName(CURRENT_ACCOUNT_UID));
+    }
+
+    public void whereCurrentAccountIs(MyAccount e)
+    {
+        if ( e == null )
+            whereCurrentAccountUid().isNull();
+        else
+            whereCurrentAccountUid().is(e.getUid());
+    }
+
+    //##################################################
     //# junction
     //##################################################
 

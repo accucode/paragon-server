@@ -100,10 +100,6 @@ public abstract class ScAbstractTextField<T>
         _fullWrapper.setValue(e);
     }
 
-    // todo_wyatt: review
-    /*
-     * remove obsolte fullWrapper in favor of using box-sizing?
-     */
     public void setWidthFull()
     {
         // setFullWrapper(true);

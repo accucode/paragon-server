@@ -137,7 +137,7 @@ public class MyAccountSettingsTransferCard
 
     private void handleCancel()
     {
-        closeCard();
+        ajaxClose();
     }
 
     private void handleSend()
@@ -158,6 +158,6 @@ public class MyAccountSettingsTransferCard
         e.setAccount(getCurrentAccount());
 
         ajax().toast("The invitation has been sent.");
-        closeCard();
+        ajaxClose();
     }
 }

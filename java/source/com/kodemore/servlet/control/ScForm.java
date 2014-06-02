@@ -30,6 +30,7 @@ import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalHtmlId;
+import com.kodemore.servlet.variable.ScLocalObject;
 
 public class ScForm
     extends ScChildContainerElement
@@ -42,6 +43,11 @@ public class ScForm
      * The action to run when users press the enter key in a field.
      */
     private ScActionIF     _submitAction;
+
+    /**
+     * The argument passed with the submit action.
+     */
+    private ScLocalObject  _submitArgument;
 
     /**
      * An optional target to use as the block root.
@@ -63,6 +69,7 @@ public class ScForm
     {
         super.install();
 
+        _submitArgument = new ScLocalObject();
         _blockTarget = new ScLocalHtmlId();
         _blockWrapper = new ScLocalBoolean(true);
 
@@ -91,6 +98,25 @@ public class ScForm
     public boolean hasSubmitAction()
     {
         return _submitAction != null;
+    }
+
+    //##################################################
+    //# argument
+    //##################################################
+
+    public Object getSubmitArgument()
+    {
+        return _submitArgument.getValue();
+    }
+
+    public void setSubmitArgument(Object e)
+    {
+        _submitArgument.setValue(e);
+    }
+
+    public boolean hasSubmitArgument()
+    {
+        return _submitArgument.hasValue();
     }
 
     //##################################################
@@ -180,6 +206,7 @@ public class ScForm
         s = new ScActionScript();
         s.setForm(form);
         s.setAction(getSubmitAction());
+        s.setArgument(getSubmitArgument());
         s.setModel(getModel());
         s.setBlockTarget(block);
 

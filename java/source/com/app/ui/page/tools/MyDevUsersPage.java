@@ -4,8 +4,9 @@ import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScArray;
+import com.kodemore.servlet.control.ScBorderLayout;
 import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
@@ -16,10 +17,10 @@ import com.kodemore.servlet.field.ScTextField;
 import com.app.filter.MyUserFilter;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
-import com.app.ui.page.admin.MyAbstractAdminPage;
+import com.app.ui.page.admin.MyAbstractAdminEntryPage;
 
 public class MyDevUsersPage
-    extends MyAbstractAdminPage
+    extends MyAbstractAdminEntryPage
 {
     //##################################################
     //# singleton
@@ -29,7 +30,7 @@ public class MyDevUsersPage
 
     private MyDevUsersPage()
     {
-        // singleton
+        // singleton 
     }
 
     //##################################################
@@ -38,10 +39,8 @@ public class MyDevUsersPage
 
     private ScFilterBox    _filterBox;
     private ScTextField    _searchField;
-
     private ScGrid<MyUser> _grid;
-
-    private MyDevUserFrame    _frame;
+    private MyDevUserFrame _frame;
 
     //##################################################
     //# install
@@ -50,15 +49,19 @@ public class MyDevUsersPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fillOffset();
 
-        installFilter(root);
+        ScBorderLayout layout = root.addBorderLayout();
 
-        ScArray row;
-        row = root.addRow();
+        ScDiv top = layout.addTop(140);
+        layout.padTop();
 
-        installGrid(row);
-        installFrame(row);
+        ScDiv left = layout.addLeftPercent(50);
+        ScDiv center = layout.addCenter();
+
+        installFilter(top);
+        installGrid(left);
+        installFrame(center);
     }
 
     private void installFilter(ScContainer root)
@@ -68,7 +71,8 @@ public class MyDevUsersPage
 
         ScFilterBox box;
         box = root.addFilterBox();
-        box.setTitle("Find Users");
+        box.layoutFill();
+        box.setTitle("Users");
         box.setAction(newSearchAction());
 
         ScFieldTable fields;
@@ -82,21 +86,23 @@ public class MyDevUsersPage
     //# grid
     //##################################################
 
-    private void installGrid(ScArray root)
+    private void installGrid(ScContainer root)
     {
         MyMetaUser x = MyUser.Meta;
 
         ScGroup group;
         group = root.addGroup();
-        group.setTitle("Users");
+        group.setTitle("Results");
+        group.layoutFill();
+        group.css().rightOffset();
 
         ScGrid<MyUser> grid;
         grid = group.addGrid();
+        grid.layoutFill();
         grid.trackAll(_filterBox);
         grid.setFilterFactory(newFetcher());
         grid.addLinkColumn(x.Name, newViewAction(), x.Uid);
         grid.addColumn(x.Email);
-        grid.addColumn(x.Verified);
         grid.addColumn(x.RoleName);
 
         _grid = grid;
@@ -130,12 +136,13 @@ public class MyDevUsersPage
     //# frames
     //##################################################
 
-    private void installFrame(ScArray row)
+    private void installFrame(ScContainer root)
     {
         _frame = new MyDevUserFrame();
         _frame.setOnChangeAction(newOnChangeAction());
+        _frame.css().fill();
 
-        row.add(_frame);
+        root.add(_frame);
     }
 
     //##################################################

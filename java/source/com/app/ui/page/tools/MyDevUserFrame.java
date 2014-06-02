@@ -10,6 +10,7 @@ import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
+import com.kodemore.servlet.variable.ScLocalString;
 
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
@@ -23,10 +24,12 @@ public class MyDevUserFrame
     //# variables
     //##################################################
 
-    private ScCard     _viewChild;
-    private ScCard     _editChild;
+    private ScLocalString _userUid;
 
-    private ScActionIF _onChangeAction;
+    private ScCard        _viewChild;
+    private ScCard        _editChild;
+
+    private ScActionIF    _onChangeAction;
 
     //##################################################
     //# install
@@ -38,6 +41,9 @@ public class MyDevUserFrame
         super.install();
 
         useFlipAnimation();
+
+        _userUid = new ScLocalString();
+        _userUid.setAutoSave();
 
         _viewChild = createViewChild();
         _editChild = createEditChild();
@@ -51,7 +57,7 @@ public class MyDevUserFrame
         child = addCard();
 
         ScGroup group;
-        group = child.addGroup();
+        group = child.addGroup("View");
 
         ScDiv header;
         header = group.getHeader().addFloatRight();
@@ -100,7 +106,7 @@ public class MyDevUserFrame
         form.onEscape().run(cancelAction);
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Edit");
         group.style().minWidth(300);
 
         ScFieldTable fields;
@@ -215,29 +221,28 @@ public class MyDevUserFrame
 
     private MyUser getUser()
     {
-        return getPageSession().getUser();
+        String uid = _userUid.getValue();
+        return getAccess().findUserUid(uid);
     }
 
     private void setUser(MyUser e)
     {
-        getPageSession().setUser(e);
+        if ( e == null )
+            _userUid.clearValue();
+        else
+            _userUid.setValue(e.getUid());
     }
 
     private void renderView()
     {
-        MyUser user = getUser();
-
-        _viewChild.applyFromModel(user);
-        _viewChild.print();
+        _viewChild.applyFromModel(getUser());
+        _viewChild.ajaxPrint();
     }
 
     private void renderEdit()
     {
-        MyUser user;
-        user = getPageSession().getUser();
-
-        _editChild.applyFromModel(user);
-        _editChild.print();
+        _editChild.applyFromModel(getUser());
+        _editChild.ajaxPrint();
     }
 
     //##################################################
@@ -248,6 +253,9 @@ public class MyDevUserFrame
     {
         setUser(e);
         renderView();
+
+        // todo_wyatt: auto?
+        ajax().updatePageSession();
     }
 
 }

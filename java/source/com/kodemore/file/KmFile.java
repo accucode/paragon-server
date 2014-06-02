@@ -1,12 +1,16 @@
 package com.kodemore.file;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Iterator;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.log.KmLog;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
 
@@ -344,6 +348,27 @@ public class KmFile
     }
 
     //##################################################
+    //# input stream
+    //##################################################
+
+    public FileInputStream getInputStream()
+    {
+        try
+        {
+            return new FileInputStream(getRealFile());
+        }
+        catch ( IOException ex )
+        {
+            throw Kmu.toRuntime(ex);
+        }
+    }
+
+    public BufferedInputStream getBufferedInputStream()
+    {
+        return new BufferedInputStream(getInputStream());
+    }
+
+    //##################################################
     //# reader
     //##################################################
 
@@ -426,6 +451,36 @@ public class KmFile
     private void accessError()
     {
         Kmu.fatal("Attempt to access file outside root folder.");
+    }
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    public void writeTo(OutputStream out)
+    {
+        BufferedInputStream in = null;
+        try
+        {
+            in = getBufferedInputStream();
+            out = Kmu.toBufferedOutputStream(out);
+
+            while ( true )
+            {
+                int i = in.read();
+                if ( i < 0 )
+                    break;
+                out.write(i);
+            }
+        }
+        catch ( IOException ex )
+        {
+            KmLog.warn(ex, "Error writing http response.");
+        }
+        finally
+        {
+            Kmu.closeSafely(in);
+        }
     }
 
 }

@@ -52,9 +52,18 @@ public class ScCard
         // subclass 
     }
 
-    public void print()
+    //##################################################
+    //# ajax
+    //##################################################
+
+    public void ajaxPrint()
     {
-        getFrame().print(this);
+        getFrame().ajaxPrint(this);
+    }
+
+    protected void ajaxClose()
+    {
+        getFrame().ajaxClose(this);
     }
 
     //##################################################
@@ -70,11 +79,6 @@ public class ScCard
     public ScCardFrame getFrame()
     {
         return getParent();
-    }
-
-    protected void closeCard()
-    {
-        getFrame().close(this);
     }
 
     //##################################################

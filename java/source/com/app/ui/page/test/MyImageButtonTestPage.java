@@ -12,7 +12,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
 public class MyImageButtonTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

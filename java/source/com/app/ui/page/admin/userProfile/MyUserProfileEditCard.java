@@ -139,7 +139,7 @@ public class MyUserProfileEditCard
 
     private void handleCancel()
     {
-        closeCard();
+        ajaxClose();
     }
 
     private void handleSave()
@@ -155,7 +155,7 @@ public class MyUserProfileEditCard
         ajax().toast("Changes Saved.").success();
         MyPageLayout.getInstance().ajaxRefreshHeader();
 
-        closeCard();
+        ajaxClose();
     }
 
     //##################################################

@@ -22,10 +22,6 @@
 
 package com.kodemore.servlet;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -50,6 +46,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.file.KmFile;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.json.KmJsonObjectIF;
@@ -1635,34 +1632,19 @@ public class ScServletData
         }
     }
 
-    public void writeFile(File file)
+    public void writeFile(KmFile file)
     {
-        BufferedInputStream in = null;
-        BufferedOutputStream out = null;
-
+        OutputStream out = null;
         try
         {
-            int length = (int)file.length();
+            int length = (int)file.getLength();
             setContentLength(length);
 
-            in = new BufferedInputStream(new FileInputStream(file));
-            out = new BufferedOutputStream(getOutputStream());
-
-            while ( true )
-            {
-                int i = in.read();
-                if ( i < 0 )
-                    break;
-                out.write(i);
-            }
-        }
-        catch ( IOException ex )
-        {
-            KmLog.warn(ex, "Error writing http response.");
+            out = getOutputStream();
+            file.writeTo(getOutputStream());
         }
         finally
         {
-            Kmu.closeSafely(in);
             Kmu.closeSafely(out);
         }
     }
@@ -1673,7 +1655,7 @@ public class ScServletData
         writeBytes(value);
     }
 
-    public void writeAttachmentFile(String name, File file)
+    public void writeAttachmentFile(String name, KmFile file)
     {
         setAttachmentDisposition(name);
         writeFile(file);

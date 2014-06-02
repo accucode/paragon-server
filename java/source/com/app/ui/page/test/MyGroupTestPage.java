@@ -9,7 +9,7 @@ import com.kodemore.utility.Kmu;
  * Test the layout and usage of the groups.
  */
 public class MyGroupTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

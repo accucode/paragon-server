@@ -7,33 +7,37 @@ import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScArray;
-import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScBorderLayout;
+import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
+import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.control.ScSimpleContainer;
 import com.kodemore.servlet.field.ScDateField;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScTextField;
-import com.kodemore.servlet.variable.ScLocalInteger;
 
 import com.app.filter.MySystemLogFilter;
 import com.app.model.MySystemLog;
 import com.app.model.MySystemLogTools;
 import com.app.model.meta.MyMetaSystemLog;
 
-public class MyDevSystemLogListPage
+public class MyDevSystemLogsPage
     extends MyDevAbstractPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDevSystemLogListPage instance = new MyDevSystemLogListPage();
+    public static final MyDevSystemLogsPage instance = new MyDevSystemLogsPage();
 
-    private MyDevSystemLogListPage()
+    private MyDevSystemLogsPage()
     {
         // singleton
     }
@@ -42,16 +46,17 @@ public class MyDevSystemLogListPage
     //# variables
     //##################################################
 
-    private ScFilterBox    _filterBox;
-    private ScDropdown     _levelDropdown;
-    private ScTextField    _loggerField;
-    private ScTextField    _contextField;
-    private ScDateField    _startDateField;
-    private ScDateField    _endDateField;
+    private ScFilterBox         _filterBox;
+    private ScDropdown          _levelDropdown;
+    private ScTextField         _loggerField;
+    private ScTextField         _contextField;
+    private ScDateField         _startDateField;
+    private ScDateField         _endDateField;
 
-    private ScLocalInteger _logId;
-    @SuppressWarnings("unused")
-    private ScGroup        _logGroup;
+    private ScGrid<MySystemLog> _grid;
+
+    private ScDiv               _logPanel;
+    private ScGroup             _logGroup;
 
     //##################################################
     //# navigation
@@ -76,20 +81,23 @@ public class MyDevSystemLogListPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        ScArray arr;
-        arr = root.addArray();
+        root.css().fillOffset();
 
-        ScArray row;
-        row = arr.addRow();
+        ScBorderLayout layout;
+        layout = root.addBorderLayout();
 
-        installFilter(row);
-        installActions(row);
+        ScDiv top = layout.addTop(200);
+        layout.padTop();
 
-        installGrid(arr);
-        installTrace(arr);
+        ScDiv left = layout.addLeftPercent(50);
+        _logPanel = layout.addCenter();
+
+        installFilter(top);
+        installGrid(left);
+        installLog(_logPanel);
     }
 
-    private void installFilter(ScContainer root)
+    private void installFilter(ScDiv root)
     {
         MySystemLogTools x = MySystemLog.Tools;
 
@@ -109,10 +117,11 @@ public class MyDevSystemLogListPage
         _endDateField = new ScDateField();
         _endDateField.setLabel("End Date");
 
-        _filterBox = root.addFilterBox();
+        _filterBox = root.addFilterBox("System Logs");
+        _filterBox.layoutFill();
 
         ScArray row;
-        row = _filterBox.getGroup().addSpacedRow();
+        row = _filterBox.addSpacedRow();
 
         ScFieldTable fields;
         fields = row.addFields();
@@ -123,16 +132,13 @@ public class MyDevSystemLogListPage
         fields = row.addFields();
         fields.add(_startDateField);
         fields.add(_endDateField);
+
+        ScActionButton button;
+        button = _filterBox.getButtons().addButton("Delete All", newDeleteAllAction());
+        button.setConfirmationMessage("Delete All Logs?");
     }
 
-    private void installActions(ScContainer root)
-    {
-        ScGroup group;
-        group = root.addGroup();
-        group.addButton("Delete All", newDeleteAllAction());
-    }
-
-    private void installGrid(ScContainer root)
+    private void installGrid(ScDiv root)
     {
         MyMetaSystemLog x = MySystemLog.Meta;
 
@@ -140,55 +146,74 @@ public class MyDevSystemLogListPage
         grid = new ScGrid<MySystemLog>();
         grid.setFilterFactory(newFetcher());
         grid.trackAll(_filterBox);
+        grid.layoutFill();
 
-        grid.addLinkColumn(x.Id, newTraceAction());
-        grid.addColumn(x.CreatedUtcTs);
+        ScGridColumn<MySystemLog> col;
+        col = grid.addLinkColumn(x.Id, newSelectAction());
+        col.setWidth(50);
+        col.setHeader("Id");
+
         grid.addColumn(x.CreatedLocalTsMessage);
-        grid.addColumn(x.LevelCodeName, "Level");
-        grid.addColumn(x.LoggerName, "Logger");
-        grid.addColumn(x.Context);
+        grid.addColumn(x.LevelName, "Level");
         grid.addColumn(x.Message);
 
         ScGroup group;
-        group = root.addGroup();
+        group = root.addGroup("Results");
+        group.layoutFill();
         group.add(grid);
+
+        _grid = grid;
     }
 
-    private void installTrace(ScContainer root)
+    private void installLog(ScDiv root)
     {
         MyMetaSystemLog x = MySystemLog.Meta;
 
-        _logId = new ScLocalInteger();
-        _logId.setAutoSave();
+        _logGroup = new ScGroup();
+        _logGroup.setTitle("Log");
+        _logGroup.layoutFill();
+        _logGroup.css().marginLeft();
+        _logGroup.bodyCss().pad();
 
-        ScGroup group;
-        group = root.addGroup();
-        group.style().hide();
+        ScSimpleContainer idRow;
+        idRow = new ScSimpleContainer();
+        idRow.setLabel("Id");
+        idRow.addText(x.Id);
+        idRow.addSpace();
+        idRow.addLink("delete", newDeleteAction(), x.Id).setConfirmationMessage("Delete?");
+
+        ScBox body;
+        body = _logGroup.addBox();
 
         ScFieldTable fields;
-        fields = group.addFields();
-        fields.addLink("Delete", newDeleteAction());
-        fields.addText(x.Id);
-        fields.addText(x.CreatedUtcTs);
+        fields = body.addFields();
+        fields.add(idRow);
         fields.addText(x.CreatedLocalTsMessage);
-        fields.addText(x.Message);
-        fields.addText(x.FullTrace);
+        fields.addText(x.Context);
+        fields.addText(x.LevelName);
+        fields.addText(x.LoggerName);
 
-        _logGroup = group;
+        body.addBreak();
+        body.addParagraph().addBold("Message");
+        body.addParagraph().addText(x.Message);
+
+        body.addBreak();
+        body.addParagraph().addBold("Trace");
+        body.addParagraph().addText(x.FullTrace);
     }
 
     //##################################################
     //# actions
     //##################################################
 
-    private ScActionIF newTraceAction()
+    private ScActionIF newSelectAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleTrace();
+                handleSelect();
             }
         };
     }
@@ -221,10 +246,14 @@ public class MyDevSystemLogListPage
     //# handle
     //##################################################
 
-    private void handleTrace()
+    private void handleSelect()
     {
-        _logId.setValue(getIntegerArgument());
-        //        print();
+        Integer id = getIntegerArgument();
+        MySystemLog log = getAccess().findSystemLogId(id);
+
+        _logGroup.applyFromModel(log);
+
+        ajax().setContents(_logPanel, _logGroup).fade();
     }
 
     private void handleDeleteAll()
@@ -232,18 +261,23 @@ public class MyDevSystemLogListPage
         getAccess().getSystemLogDao()._truncate();
         getAccess().getSystemLogTraceDao()._truncate();
 
-        _logId.resetValue();
-        //        print();
+        ajax().toast("All logs deleted.");
+        print();
     }
 
     private void handleDelete()
     {
-        MySystemLog e;
-        e = getAccess().findSystemLogId(_logId.getValue());
-        e.deleteDao();
+        Integer id = getIntegerArgument();
 
-        _logId.resetValue();
-        //        print();
+        MySystemLog e;
+        e = getAccess().findSystemLogId(id);
+
+        if ( e != null )
+            e.deleteDao();
+
+        _grid.ajaxReload();
+        _logGroup.ajax().hide().fade();
+        ajax().toast("Log %s, deleted.", id);
     }
 
     //##################################################

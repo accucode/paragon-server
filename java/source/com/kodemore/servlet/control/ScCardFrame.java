@@ -33,7 +33,6 @@ import com.kodemore.servlet.script.ScHideScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.script.ScShowScript;
 import com.kodemore.servlet.utility.ScEasing;
-import com.kodemore.utility.Kmu;
 
 /**
  * Used to wrap dynamic ajax content.
@@ -340,7 +339,7 @@ public class ScCardFrame
         ajaxPrint(getDefaultCard());
     }
 
-    private void ajaxPrint(ScCard card)
+    public void ajaxPrint(ScCard e)
     {
         ScHtmlIdAjax ajax;
         ajax = ajax();
@@ -352,7 +351,7 @@ public class ScCardFrame
         hide.setSpeedMs(getHideSpeed());
 
         ajax.pushDefer();
-        ajax.setContents(card);
+        ajax.setContents(e);
 
         ScShowScript show;
         show = ajax.show();
@@ -368,38 +367,21 @@ public class ScCardFrame
     //# navigation
     //##################################################
 
-    public void printDefault()
+    public void ajaxPrintDefault()
     {
-        print(getDefaultCard());
+        ajaxPrint(getDefaultCard());
     }
 
-    public void print(ScCard e)
+    public void ajaxClose(ScCard e)
     {
-        check(e);
-
-        ajaxPrint(e);
-    }
-
-    public void close(ScCard e)
-    {
-        check(e);
-
         if ( e.isDefault() )
             ajaxPrint(null);
         else
-            printDefault();
+            ajaxPrintDefault();
     }
 
-    //##################################################
-    //# support
-    //##################################################
-
-    private void check(ScCard e)
+    public void ajaxClose()
     {
-        if ( e == null )
-            return;
-
-        if ( !e.hasParent(this) )
-            Kmu.fatal("Child does not belong to this frame.");
+        ajaxPrint(null);
     }
 }

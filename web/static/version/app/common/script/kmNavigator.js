@@ -49,7 +49,7 @@ KmNavigator.pushPage = function(options)
         push = false;
         
     var data = {};
-    data.pageSession = Kmu.pageSession;
+    data.pageSession = KmNavigator.getPageSession();
     
     var inc = push && !state.url.endsWith(url);
     if ( inc )
@@ -112,20 +112,30 @@ KmNavigator.getDirection = function()
 
 	return "unknown";
 }
+
+KmNavigator.getPageSession = function()
+{
+    var ps = History.getState().data.pageSession;
+    
+    if ( ps === undefined )
+        ps = {};
+        
+    return ps;
+}
     
 /**
- * Update history state with the value from Kmu.pageSession.
+ * Update history state with the parameter specified.
  * This does NOT push (or pop) a page on the history stack.
  * This uses History.replaceState, but temporary unbinds the 
  * event listener to avoid an infinite loop.
  */ 
-KmNavigator.updatePageSession = function()
+KmNavigator.updatePageSession = function(map)
 {
     var state = History.getState();
     
     var data;
     data = state.data;
-    data.pageSession = Kmu.pageSession;
+    data.pageSession = map;
     
     var title = state.title;
     var url = state.url;
@@ -175,12 +185,6 @@ KmNavigator.unbind = function()
  */
 KmNavigator.handleStateChange = function()
 {
-    var state = History.getState();
-    var ps = state.data.pageSession;
-    if ( ps === undefined )
-        ps = {};
-    Kmu.pageSession = ps;
-    
     KmNavigator.printCurrentPage();
 }
 

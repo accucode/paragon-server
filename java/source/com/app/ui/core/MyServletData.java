@@ -162,11 +162,13 @@ public class MyServletData
 
         KmStringBuilder out;
         out = new KmStringBuilder();
+        out.println();
+        out.println();
         out.println(Kmu.dashes(80));
         out.println(KmClock.getNowUtc().format_m_d_yyyy_hh_mm_ss());
         out.println("bytes: " + s.length());
+        out.println(Kmu.dashes(80));
         out.println(s);
-        out.println();
 
         Kmu.appendToFile(file, out.toString());
     }

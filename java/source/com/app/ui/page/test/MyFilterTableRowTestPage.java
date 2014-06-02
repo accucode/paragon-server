@@ -10,7 +10,7 @@ import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.servlet.field.ScTextField;
 
 public class MyFilterTableRowTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

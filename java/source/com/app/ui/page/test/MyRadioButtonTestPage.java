@@ -13,7 +13,7 @@ import com.kodemore.servlet.control.ScTableRow;
 import com.kodemore.servlet.field.ScRadioField;
 
 public class MyRadioButtonTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

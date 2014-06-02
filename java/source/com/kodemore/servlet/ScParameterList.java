@@ -26,6 +26,7 @@ import java.util.List;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
+import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
@@ -110,6 +111,14 @@ public class ScParameterList
             return def;
 
         return v.getFirst();
+    }
+
+    public void setValue(String key, ScLocalString value)
+    {
+        if ( value == null )
+            setValue(key, (String)null);
+        else
+            setValue(key, value.getValue());
     }
 
     public void setValue(String key, String value)

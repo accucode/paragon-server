@@ -2,6 +2,7 @@ package com.app.model;
 
 import com.kodemore.collection.KmCollection;
 import com.kodemore.collection.KmList;
+import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyEmailBase;
@@ -163,5 +164,38 @@ public class MyEmail
     public void markIgnored()
     {
         setStatusIgnored();
+    }
+
+    @Override
+    public String getPartsAsHtml()
+    {
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+
+        KmList<MyEmailPart> parts = getSortedParts();
+        for ( MyEmailPart e : parts )
+        {
+            out.printBold("Part " + e.getSequence());
+            out.printfln(" (%s)", e.getTypeName());
+            out.println(e.getUid());
+
+            MyEmailPartType type = e.getType();
+            switch ( type )
+            {
+                case Attachment:
+                    out.println(e.getAttachmentName());
+                    break;
+
+                case Html:
+                    out.printLiteral(e.getData().getStringValue());
+                    break;
+
+                case Text:
+                    out.println(e.getData().getStringValue());
+                    break;
+            }
+        }
+
+        return out.toString();
     }
 }

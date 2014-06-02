@@ -66,7 +66,7 @@ public class KmHtmlBuilder
      * offscreen, or hidden. This allows us to render and
      * initialize complex html before its made visible.  
      */
-    private ScRootScript            _postDom;
+    private ScRootScript        _postDom;
 
     /**
      * Scripts that are NOT rendered directly onto the html.
@@ -76,7 +76,7 @@ public class KmHtmlBuilder
      * But a some scripts must be delayed until after the
      * html is visible; such as setFocus.  
      */
-    private ScRootScript            _postRender;
+    private ScRootScript        _postRender;
 
     //##################################################
     //# constructor
@@ -87,6 +87,12 @@ public class KmHtmlBuilder
         _buffer = new KmStringBuilder();
         _postDom = new ScRootScript();
         _postRender = new ScRootScript();
+    }
+
+    public KmHtmlBuilder(String html)
+    {
+        this();
+        printLiteral(html);
     }
 
     //##################################################

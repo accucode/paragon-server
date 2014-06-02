@@ -1,12 +1,13 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton
@@ -107,7 +108,8 @@ public class MyTestPage
         links.addLink(MyHoverTestPage.instance);
         links.addLink(MyDragScrollToTestPage.instance);
         links.addLink(MyFacebookTestPage.instance);
-        links.addLink(MyPageSessionTest1Page.instance);
+        links.addLink(MySharedStateTest1Page.instance);
+        links.addLink("Navigation Test", newNavigationTestAction());
     }
 
     private ScGroup addGroup(String title)
@@ -119,5 +121,30 @@ public class MyTestPage
         e.setTitle(title);
         e.css().floatLeft();
         return e;
+    }
+
+    //##################################################
+    //# actions
+    //##################################################
+
+    private ScAction newNavigationTestAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            protected void handle()
+            {
+                handleNavigationTest();
+            }
+        };
+    }
+
+    //##################################################
+    //# handle
+    //##################################################
+
+    private void handleNavigationTest()
+    {
+        MyNavigationTest1Page.instance.push("xyz");
     }
 }

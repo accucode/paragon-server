@@ -1,7 +1,14 @@
+For Lucas
+	Needs to reset application salt.
+
+
 =======================================
 == To Do
 =======================================
 
+Sign page
+	The "Stay Signed In" feature is not working.
+	
 Create
     ScTitledBodyLayout
     ScTriPanelLayout

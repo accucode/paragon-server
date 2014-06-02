@@ -3,13 +3,14 @@ package com.app.ui.page.test;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
 public class MyFormTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton
@@ -61,10 +62,13 @@ public class MyFormTestPage
         form.css().gap();
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Form Test");
+        group.layoutNormalWithFooter();
         group.addPad().addFields().add(_textField);
-        group.addDivider();
-        group.addButtonBox().addSubmitButton();
+
+        ScBox buttons;
+        buttons = group.getFooter().addButtonBox();
+        buttons.addSubmitButton();
     }
 
     //##################################################

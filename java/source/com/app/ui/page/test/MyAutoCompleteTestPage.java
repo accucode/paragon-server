@@ -12,7 +12,7 @@ import com.kodemore.servlet.field.ScAutoCompleteCallbackIF;
 import com.kodemore.servlet.field.ScAutoCompleteField;
 
 public class MyAutoCompleteTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

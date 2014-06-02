@@ -577,18 +577,18 @@
  ** box-sizing
  *******************************************************************/
 
+/* The default; padding and borders ADD to the element width. */ 
+.boxSizingContent   
+{ 
+    box-sizing:      content-box;
+    -moz-box-sizing: content-box; 
+}
+
 /* CSS3 woot; element width remains contstant, padding and border are inside the width. */ 
 .boxSizingBorder 
 { 
     box-sizing:      border-box;  
     -moz-box-sizing: border-box; 
-}
-
-/* The normal default; padding and borders ADD to the element width. */ 
-.boxSizingContent   
-{ 
-    box-sizing:      content-box;
-    -moz-box-sizing: content-box; 
 }
 
 /*******************************************************************
@@ -609,7 +609,7 @@
 	height: auto;
 }
  
-.fillPad
+.fillOffset
 {
 	position: absolute;
 	left:   10px;

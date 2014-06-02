@@ -10,7 +10,7 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyAnimationTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton
@@ -59,7 +59,7 @@ public class MyAnimationTestPage
 
         ScDiv right;
         right = group.getHeader().addFloatRight();
-        right.css().gap();
+        right.css().gap5();
         right.addButton("Async", newAsyncToggleAction());
         right.addButton("Sync", newSyncToggleAction());
 

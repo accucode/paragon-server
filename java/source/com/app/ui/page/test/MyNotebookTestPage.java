@@ -10,7 +10,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 
 public class MyNotebookTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

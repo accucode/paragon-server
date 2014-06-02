@@ -9,7 +9,7 @@ import com.app.ui.page.admin.accountUsers.MyAccountUsersPage;
 import com.app.ui.page.admin.userProfile.MyUserProfilePage;
 
 public class MyAdminPage
-    extends MyAbstractAdminPage
+    extends MyAbstractAdminEntryPage
 {
     //##################################################
     //# singleton

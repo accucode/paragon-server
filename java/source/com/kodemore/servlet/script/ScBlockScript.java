@@ -320,10 +320,10 @@ public abstract class ScBlockScript
         return e;
     }
 
-    public void setContents(ScHtmlIdIF target, ScControlIF c)
+    public ScReplaceContentsScript setContents(ScHtmlIdIF target, ScControlIF c)
     {
         String sel = target.getJquerySelector();
-        setContents(sel, c);
+        return setContents(sel, c);
     }
 
     public ScReplaceContentsScript setContents(String sel, ScControlIF c)
@@ -334,10 +334,10 @@ public abstract class ScBlockScript
         return setContents(sel, c.render());
     }
 
-    public void setContents(ScHtmlIdIF target, KmHtmlBuilder contents)
+    public ScReplaceContentsScript setContents(ScHtmlIdIF target, KmHtmlBuilder contents)
     {
         String sel = target.getJquerySelector();
-        setContents(sel, contents);
+        return setContents(sel, contents);
     }
 
     public ScReplaceContentsScript setContents(String sel, KmHtmlBuilder contents)
@@ -347,6 +347,18 @@ public abstract class ScBlockScript
         r.setSelector(sel);
         r.setContents(contents);
         return r;
+    }
+
+    public ScReplaceContentsScript setContents(ScHtmlIdIF target, String html)
+    {
+        KmHtmlBuilder contents = new KmHtmlBuilder(html);
+        return setContents(target, contents);
+    }
+
+    public ScReplaceContentsScript setContents(String sel, String html)
+    {
+        KmHtmlBuilder contents = new KmHtmlBuilder(html);
+        return setContents(sel, contents);
     }
 
     //##################################################
@@ -381,6 +393,20 @@ public abstract class ScBlockScript
         e = new ScPushPageScript();
         e.setUrl(page);
         run(e);
+        return e;
+    }
+
+    /**
+     * Uses replaces the current browser history with the current
+     * state of the page specified.  This does NOT trigger a navigation
+     * event. 
+     */
+    public ScPushPageScript replaceHistory(ScPage page)
+    {
+        ScPushPageScript e;
+        e = pushPage(page);
+        e.setReplace();
+        e.setHandleStateChange(false);
         return e;
     }
 
@@ -625,8 +651,7 @@ public abstract class ScBlockScript
     public void updatePageSession()
     {
         KmJsonMap json = getData().getPageSessionEncodedValues();
-        run("Kmu.updatePageSession(%s);", json);
-        run("KmNavigator.updatePageSession();");
+        run("KmNavigator.updatePageSession(%s);", json);
     }
 
     //##################################################

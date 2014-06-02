@@ -491,6 +491,22 @@ public abstract class MyEmailBase
     }
 
     //##################################################
+    //# field (partsAsHtml)
+    //##################################################
+
+    public abstract String getPartsAsHtml();
+
+    public boolean hasPartsAsHtml()
+    {
+        return Kmu.hasValue(getPartsAsHtml());
+    }
+
+    public boolean hasPartsAsHtml(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getPartsAsHtml(), e);
+    }
+
+    //##################################################
     //# field (lockVersion)
     //##################################################
 
@@ -921,6 +937,7 @@ public abstract class MyEmailBase
         if ( !Kmu.isEqual(getRecipientSummary(), e.getRecipientSummary()) ) return false;
         if ( !Kmu.isEqual(getToAddressesLabel(), e.getToAddressesLabel()) ) return false;
         if ( !Kmu.isEqual(getCcAddressesLabel(), e.getCcAddressesLabel()) ) return false;
+        if ( !Kmu.isEqual(getPartsAsHtml(), e.getPartsAsHtml()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
         if ( !Kmu.isEqual(getStatusName(), e.getStatusName()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;

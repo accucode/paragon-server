@@ -239,7 +239,7 @@ public interface KmCssDefaultConstantsIF
     String dragHandle = "dragHandle";
     String equalizeFiller = "equalizeFiller";
     String fill = "fill";
-    String fillPad = "fillPad";
+    String fillOffset = "fillOffset";
     String floatLeft = "floatLeft";
     String floatLeftChildren = "floatLeftChildren";
     String floatNone = "floatNone";

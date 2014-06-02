@@ -45,12 +45,6 @@ public class ScAjaxResult
      */
     private int          _length;
 
-    /**
-     * If true (the default) then the page session is automatically
-     * updated as part of applying the script to the http response.
-     */
-    private boolean      _autoUpdatePageSession;
-
     //##################################################
     //# constructor
     //##################################################
@@ -58,21 +52,6 @@ public class ScAjaxResult
     public ScAjaxResult()
     {
         _script = new ScRootScript();
-        _autoUpdatePageSession = true;
-    }
-
-    //##################################################
-    //# accessing
-    //##################################################
-
-    public boolean getAutoUpdatePageSession()
-    {
-        return _autoUpdatePageSession;
-    }
-
-    public void setAutoUpdatePageSession(boolean e)
-    {
-        _autoUpdatePageSession = e;
     }
 
     //##################################################
@@ -82,9 +61,6 @@ public class ScAjaxResult
     @Override
     public void applyTo(ScServletData data)
     {
-        if ( getAutoUpdatePageSession() )
-            getScript().updatePageSession();
-
         byte[] bytes = formatJson().getBytes();
         _length = bytes.length;
 

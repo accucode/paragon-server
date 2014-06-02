@@ -11,7 +11,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
 
 public class MyDragScrollToTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     /**
      * fixme_steve working on this dragScroll

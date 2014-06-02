@@ -115,7 +115,7 @@ public class MyDevPerformanceLogPage
         _sortField.setValue(Sort.Total);
 
         ScDiv root;
-        root = layout.addTop(130);
+        root = layout.addTop(140);
 
         _filterBox = root.addFilterBox("Performance Logs");
         _filterBox.layoutFill();
@@ -140,12 +140,13 @@ public class MyDevPerformanceLogPage
         _grid.trackAll(_filterBox);
         _grid.setFilterFactory(newFetcher());
 
-        _grid.addColumn(x.Name).setWidth(50);
+        _grid.addColumn(x.Name).setWidth(200);
         _grid.addColumn(x.Count);
         _grid.addColumn(x.MinimumMs, "Min");
         _grid.addColumn(x.MaximumMs, "Max");
         _grid.addColumn(x.AverageMs, "Avg");
         _grid.addColumn(x.TotalMs, "Total");
+        _grid.layoutFill();
 
         ScDiv root;
         root = layout.addCenter();

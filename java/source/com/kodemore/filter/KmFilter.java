@@ -1,5 +1,7 @@
 package com.kodemore.filter;
 
+import java.util.Iterator;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.dao.KmDaoSessionManager;
 import com.kodemore.time.KmDate;
@@ -12,7 +14,7 @@ import com.kodemore.utility.KmClock;
  * findAll() method.
  */
 public abstract class KmFilter<T>
-    implements KmFilterIF<T>
+    implements KmFilterIF<T>, Iterable<T>
 {
     //##################################################
     //# find
@@ -43,6 +45,12 @@ public abstract class KmFilter<T>
     public Iterable<T> getCursor()
     {
         return findAll();
+    }
+
+    @Override
+    public Iterator<T> iterator()
+    {
+        return getCursor().iterator();
     }
 
     //##################################################

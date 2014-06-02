@@ -6,7 +6,7 @@ import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyBorderLayoutTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

@@ -2,7 +2,6 @@ package com.app.utility;
 
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAccount;
-import com.app.ui.core.MyPageSession;
 import com.app.ui.layout.MyPageLayout;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.general.MyHomePage;
@@ -51,7 +50,7 @@ public class MyNavigator
     {
         MyAccount acct = getAccess().findAccountUid(uid);
 
-        getPageSession().setCurrentAccount(acct);
+        MyGlobals.getServerSession().setCurrentAccount(acct);
         getPageLayout().ajaxRefresh();
         pushDefaultPage();
     }
@@ -63,11 +62,6 @@ public class MyNavigator
     private static MyDaoRegistry getAccess()
     {
         return MyGlobals.getAccess();
-    }
-
-    private static MyPageSession getPageSession()
-    {
-        return MyGlobals.getPageSession();
     }
 
     private static MyPageLayout getPageLayout()

@@ -3,33 +3,24 @@ package com.app.ui.page.test;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScDialog;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.variable.ScLocalString;
 
-import com.app.utility.MyButtonUrls;
-
-public class MyShowDialogTestPage
+public class MySharedStateTest2Page
     extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyShowDialogTestPage instance = new MyShowDialogTestPage();
+    public static final MySharedStateTest2Page instance = new MySharedStateTest2Page();
 
-    private MyShowDialogTestPage()
+    private MySharedStateTest2Page()
     {
         // singleton
     }
-
-    //##################################################
-    //# variables
-    //##################################################
-
-    private ScDialog _dialog;
 
     //##################################################
     //# navigation
@@ -56,48 +47,59 @@ public class MyShowDialogTestPage
     {
         root.css().gap();
 
-        installDialog(root);
-
         ScGroup group;
         group = root.addGroup();
+        group.setTitle("Page Session Test (Page 2)");
+        group.css().width400();
 
         ScBox body;
         body = group.addPad();
-        body.addButton("Show Dialog", newOpenAction());
+        body.addParagraph("Test the page session.");
+        body.addBreak();
+
+        group.addDivider();
+
+        ScBox footer;
+        footer = group.addButtonBoxLeft();
+        footer.addButton("red", newRedAction());
+        footer.addButton("blue", newBlueAction());
+        footer.addButton("toast", newToastAction());
     }
 
-    private void installDialog(ScBox root)
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
     {
-        _dialog = root.addDialog();
-        _dialog.getHeaderBox().addPad().addText("This is the Header");
-        _dialog.getFooterBox().addPad().addText("This is the Footer.");
-
-        ScBox body = _dialog.getBodyBox();
-        body.addPad().addText("This is the Body of the dialog.");
-
-        ScGroup group;
-        group = body.addGroup();
-        group.addPad().addText("This is text inside the group, with a text field below.");
-        group.addPad().addTextField();
-        group.addPad().addButton("Toast Button", newToastAction());
-
-        ScActionButton button;
-        button = body.addPad().addButton("Close Dialog", newCloseAction());
-        button.setImage(MyButtonUrls.cancel());
+        super.preRender();
     }
 
     //##################################################
     //# action
     //##################################################
 
-    private ScActionIF newOpenAction()
+    private ScActionIF newRedAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleOpen();
+                handleRed();
+            }
+        };
+    }
+
+    private ScActionIF newBlueAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleBlue();
             }
         };
     }
@@ -114,34 +116,33 @@ public class MyShowDialogTestPage
         };
     }
 
-    private ScActionIF newCloseAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleClose();
-            }
-        };
-    }
-
     //##################################################
     //# handle
     //##################################################
 
-    private void handleOpen()
+    private void handleRed()
     {
-        _dialog.ajaxOpen();
+        getTestValueHolder().setValue("red");
+        ajax().toast("set to red");
+    }
+
+    private void handleBlue()
+    {
+        getTestValueHolder().setValue("blue");
+        ajax().toast("set to blue");
     }
 
     private void handleToast()
     {
-        ajax().toast("Button pressed");
+        ajax().toast(getTestValueHolder().getValue());
     }
 
-    private void handleClose()
+    //##################################################
+    //# support
+    //##################################################
+
+    private ScLocalString getTestValueHolder()
     {
-        _dialog.ajaxClose();
+        return MySharedStateTest1Page.instance.getTestValueHolder();
     }
 }

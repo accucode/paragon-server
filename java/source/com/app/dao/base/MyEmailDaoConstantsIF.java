@@ -27,6 +27,7 @@ public interface MyEmailDaoConstantsIF
     String RECIPIENT_SUMMARY = "recipientSummary";
     String TO_ADDRESSES_LABEL = "toAddressesLabel";
     String CC_ADDRESSES_LABEL = "ccAddressesLabel";
+    String PARTS_AS_HTML = "partsAsHtml";
     String LOCK_VERSION = "lockVersion";
     String STATUS_NAME = "statusName";
     String CREATED_LOCAL_TS = "createdLocalTs";

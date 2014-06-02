@@ -11,7 +11,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
 
 public class MySlowTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

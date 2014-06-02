@@ -7,7 +7,7 @@ import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyHandleSortTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

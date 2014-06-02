@@ -1,6 +1,7 @@
 package com.app.ui.page.tools;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
@@ -70,7 +71,7 @@ public class MyDevHibernateCachePage
         ScForm form;
         form = root.addForm();
 
-        ScGroup group = form.addGroup();
+        ScGroup group = form.addGroup("Hibernate Cache Test");
 
         ScFieldTable fields;
         fields = group.addPad().addFields();
@@ -96,7 +97,6 @@ public class MyDevHibernateCachePage
         box.addButton("Run Test", runTest());
 
         return box;
-
     }
 
     public ScBox createInsertDataBox()
@@ -153,7 +153,8 @@ public class MyDevHibernateCachePage
         int n = _recordCount.getValue();
         for ( int i = 0; i < n; i++ )
         {
-            MyHibernateCacheTest e = new MyHibernateCacheTest();
+            MyHibernateCacheTest e;
+            e = new MyHibernateCacheTest();
             e.setData(Kmu.getLoremIpsum(100));
             e.saveDao();
         }
@@ -162,18 +163,19 @@ public class MyDevHibernateCachePage
 
     private void handleTestRun()
     {
-        String results = "";
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+        out.println("hostname: " + Kmu.getCanonicalLocalHostName());
+
         int n = _runCount.getValue();
-        results = "hostname:" + Kmu.getCanonicalLocalHostName() + "<br>";
         for ( int i = 0; i < n; i++ )
         {
-            KmTimer timer = KmTimer.run("hibernateTestRead");
+            KmTimer t = KmTimer.run();
             readTestData();
-            results += i + " test run. it took " + timer.getMilliseconds() + " milliseconds <br>";
-            timer.stop();
-            _results.ajax().setHtml(results);
+            out.printfln("%s test run, %.1f ms.", i + 1, t.getMilliseconds());
         }
 
+        _results.ajax().setHtml(out);
     }
 
     private void readTestData()

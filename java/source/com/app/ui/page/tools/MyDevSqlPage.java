@@ -255,20 +255,26 @@ public class MyDevSqlPage
 
         String result = c.run();
 
-        boolean isHtml = isHtmlFormat();
-        if ( isHtml )
-        {
-            _results.ajax().setHtml(result);
-            return;
-        }
-
-        getData().setAttachmentResult("sql.csv", result);
+        if ( isHtmlFormat() )
+            applyHtmlResult(result);
+        else
+            applyAttachmentResult(result);
     }
 
     private boolean isHtmlFormat()
     {
         String mode = _formatField.getStringValue();
         return Kmu.matchesAny(mode, FORMAT_HTML, FORMAT_HTML_SIMPLE);
+    }
+
+    private void applyHtmlResult(String result)
+    {
+        _results.ajax().setContents(result).fade();
+    }
+
+    private void applyAttachmentResult(String result)
+    {
+        getData().setAttachmentResult("sql.csv", result);
     }
 
     private void installFormatter(KmSqlResultComposer c)

@@ -54,16 +54,16 @@ public class MyAccountSettingsFrame
 
     public void printViewCard()
     {
-        _viewCard.print();
+        _viewCard.ajaxPrint();
     }
 
     public void printEditCard()
     {
-        _editCard.print();
+        _editCard.ajaxPrint();
     }
 
     public void printTransferCard()
     {
-        _transferCard.print();
+        _transferCard.ajaxPrint();
     }
 }

@@ -41,12 +41,12 @@ public class MyUserProfileFrame
 
     public void printEditCard()
     {
-        _editCard.print();
+        _editCard.ajaxPrint();
     }
 
     public void printChangePasswordCard()
     {
-        _changePasswordCard.print();
+        _changePasswordCard.ajaxPrint();
     }
 
 }

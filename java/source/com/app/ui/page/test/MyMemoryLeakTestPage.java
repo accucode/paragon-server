@@ -22,7 +22,7 @@ import com.app.property.MyPropertyRegistry;
  * to see if a client browser memory leak manifests.
  */
 public class MyMemoryLeakTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

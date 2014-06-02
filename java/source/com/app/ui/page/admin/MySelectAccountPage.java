@@ -17,7 +17,7 @@ import com.app.model.meta.MyMetaAccount;
 import com.app.utility.MyNavigator;
 
 public class MySelectAccountPage
-    extends MyAbstractAdminPage
+    extends MyAbstractAdminEntryPage
 {
     //##################################################
     //# singleton

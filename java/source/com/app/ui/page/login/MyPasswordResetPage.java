@@ -326,7 +326,7 @@ public class MyPasswordResetPage
         setEmailCookie();
         deletePasswordReset();
 
-        _successCard.print();
+        _successCard.ajaxPrint();
     }
 
     //##################################################
@@ -363,7 +363,7 @@ public class MyPasswordResetPage
     private void printError(String msg)
     {
         _errorMessage.setValue(msg);
-        _errorCard.print();
+        _errorCard.ajaxPrint();
     }
 
     private void setEmailCookie()

@@ -2,10 +2,10 @@ package com.app.ui.page.admin.userProfile;
 
 import com.kodemore.servlet.control.ScPageRoot;
 
-import com.app.ui.page.admin.MyAbstractAdminPage;
+import com.app.ui.page.admin.MyAbstractAdminEntryPage;
 
 public class MyUserProfilePage
-    extends MyAbstractAdminPage
+    extends MyAbstractAdminEntryPage
 {
     //##################################################
     //# singleton

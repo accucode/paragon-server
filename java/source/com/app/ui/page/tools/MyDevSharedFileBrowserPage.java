@@ -6,6 +6,7 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScArray;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -64,9 +65,9 @@ public class MyDevSharedFileBrowserPage
         ScForm form;
         form = root.addForm();
         form.setSubmitAction(newFindDirectoryAction());
+        form.css().gap();
 
         installPath(form);
-
         installFolders(form);
         installFiles(form);
     }
@@ -80,12 +81,15 @@ public class MyDevSharedFileBrowserPage
         ScGroup group;
         group = root.addGroup("Path");
 
+        ScBox body;
+        body = group.addPad();
+
         ScArray row;
-        row = group.addRow();
+        row = body.addRow();
         row.add(_directoryField);
         row.addSubmitButton("Open");
 
-        group.addLink("Create", newCreatePathAction());
+        body.addLink("Create", newCreatePathAction());
     }
 
     private void installFolders(ScContainer root)
@@ -94,8 +98,11 @@ public class MyDevSharedFileBrowserPage
 
         ScGroup group;
         group = root.addGroup("Folders");
-        group.add(_folderList);
-        group.addLink("Open", newOpenFolderAction());
+
+        ScBox body;
+        body = group.addPad();
+        body.add(_folderList);
+        body.addLink("Open", newOpenFolderAction());
     }
 
     private void installFiles(ScContainer root)
@@ -104,8 +111,11 @@ public class MyDevSharedFileBrowserPage
 
         ScGroup group;
         group = root.addGroup("Files");
-        group.add(_fileList);
-        group.addLink("Get", newGetFileAction());
+
+        ScBox body;
+        body = group.addPad();
+        body.add(_fileList);
+        body.addLink("Get", newGetFileAction());
     }
 
     //##################################################
@@ -204,7 +214,7 @@ public class MyDevSharedFileBrowserPage
     private void handleFind()
     {
         open(getDirectory());
-        //        print();
+        print();
     }
 
     private void handleCreatePath()
@@ -219,6 +229,7 @@ public class MyDevSharedFileBrowserPage
         Object[] args = {};
 
         ajax().toast("Created Directory: " + dir, args);
+        print();
     }
 
     private void handleOpenFolder()
@@ -228,7 +239,7 @@ public class MyDevSharedFileBrowserPage
             error("No folder selected.");
 
         open(getFile(path));
-        //        print();
+        print();
     }
 
     private void handleGetFile()
@@ -238,8 +249,8 @@ public class MyDevSharedFileBrowserPage
             error("No file selected.");
 
         KmFile file = getFile(path);
-        String s = file.readString();
-        getData().setAttachmentResult(file.getName(), s);
+        byte[] bytes = file.readBytes();
+        ajax().download(file.getName(), bytes);
     }
 
     //##################################################

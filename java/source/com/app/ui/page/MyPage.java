@@ -119,7 +119,7 @@ public abstract class MyPage
 
     public MyAccount getCurrentAccount()
     {
-        return getPageSession().getCurrentAccount();
+        return getServerSession().getCurrentAccount();
     }
 
     public String getCurrentAccountUid()

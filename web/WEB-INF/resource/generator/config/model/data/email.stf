@@ -92,3 +92,11 @@ attributes
     : relation      = children
     : elementModel  = emailPart
     : elementField  = email
+
+    abstractField
+    : name      = partsAsHtml
+    : comment   = A summary of the parts, suitable for html literals.
+    : type      = notes
+    : label     = parts
+
+    

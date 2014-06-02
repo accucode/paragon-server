@@ -4,20 +4,21 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.variable.ScLocalString;
+import com.kodemore.servlet.field.ScTextField;
 
-public class MyPageSessionTest1Page
+public class MyNavigationTest1Page
     extends MyAbstractTestPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPageSessionTest1Page instance = new MyPageSessionTest1Page();
+    public static final MyNavigationTest1Page instance = new MyNavigationTest1Page();
 
-    private MyPageSessionTest1Page()
+    private MyNavigationTest1Page()
     {
         // singleton
     }
@@ -26,22 +27,31 @@ public class MyPageSessionTest1Page
     //# variables
     //##################################################
 
-    private ScLocalString _testValue;
+    private ScTextField _textField;
 
     //##################################################
     //# navigation
     //##################################################
 
+    public void push(String value)
+    {
+        _textField.setValue(value);
+        _push();
+    }
+
     @Override
     public ScParameterList composeQueryParameters()
     {
-        return null;
+        ScParameterList v;
+        v = new ScParameterList();
+        v.setValue("value", _textField.getValue());
+        return v;
     }
 
     @Override
     public void applyQueryParameters(ScParameterList v)
     {
-        // none
+        _textField.setValue(v.getValue("value"));
     }
 
     //##################################################
@@ -51,29 +61,29 @@ public class MyPageSessionTest1Page
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        _testValue = new ScLocalString();
-        _testValue.setAutoSave();
+        _textField = new ScTextField();
+        _textField.setLabel("Test");
 
         root.css().gap();
 
+        ScForm form;
+        form = root.addForm();
+
         ScGroup group;
-        group = root.addGroup();
-        group.setTitle("Page Session Test (Page 1)");
+        group = form.addGroup();
+        group.setTitle("Navigation Test (Page 1)");
         group.css().width400();
 
         ScBox body;
         body = group.addPad();
-        body.addParagraph("Test the page session.");
-        body.addBreak();
+        body.addFields().add(_textField);
 
         group.addDivider();
 
         ScBox footer;
         footer = group.addButtonBoxLeft();
-        footer.addButton("red", newRedAction());
-        footer.addButton("blue", newBlueAction());
-        footer.addButton("toast", newToastAction());
-        footer.addButton("page 2", MyPageSessionTest2Page.instance);
+        footer.addButton("Update", newUpdateHistoryAction());
+        footer.addButton("Navigate", newNavigateAction());
     }
 
     //##################################################
@@ -90,38 +100,26 @@ public class MyPageSessionTest1Page
     //# action
     //##################################################
 
-    private ScActionIF newRedAction()
+    private ScActionIF newNavigateAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleRed();
+                handleNavigate();
             }
         };
     }
 
-    private ScActionIF newBlueAction()
+    private ScActionIF newUpdateHistoryAction()
     {
         return new ScAction(this)
         {
             @Override
             public void handle()
             {
-                handleBlue();
-            }
-        };
-    }
-
-    private ScActionIF newToastAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleToast();
+                handleUpdateHistory();
             }
         };
     }
@@ -130,29 +128,14 @@ public class MyPageSessionTest1Page
     //# handle
     //##################################################
 
-    private void handleRed()
+    private void handleNavigate()
     {
-        getTestValueHolder().setValue("red");
-        ajax().toast("set to red");
+        String value = _textField.getValue();
+        MyNavigationTest2Page.instance.push(value);
     }
 
-    private void handleBlue()
+    private void handleUpdateHistory()
     {
-        getTestValueHolder().setValue("blue");
-        ajax().toast("set to blue");
-    }
-
-    private void handleToast()
-    {
-        ajax().toast(getTestValueHolder().getValue());
-    }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    public ScLocalString getTestValueHolder()
-    {
-        return _testValue;
+        ajax().replaceHistory(this);
     }
 }

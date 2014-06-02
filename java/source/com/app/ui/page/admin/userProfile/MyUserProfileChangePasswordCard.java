@@ -167,7 +167,7 @@ public class MyUserProfileChangePasswordCard
 
     private void handleCancel()
     {
-        closeCard();
+        ajaxClose();
     }
 
     private void handleSave()
@@ -200,7 +200,7 @@ public class MyUserProfileChangePasswordCard
 
         getCurrentUser().setPassword(newPassword);
         ajax().toast("Password Changed.").success();
-        closeCard();
+        ajaxClose();
     }
 
     //##################################################

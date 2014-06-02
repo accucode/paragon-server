@@ -56,6 +56,7 @@ public class ScFilterBox
     private ScBox      _body;
 
     private ScActionIF _action;
+    private ScBox      _buttons;
 
     //##################################################
     //# init
@@ -75,10 +76,9 @@ public class ScFilterBox
 
         _body = _group.addPad();
 
-        ScBox buttons;
-        buttons = _group.getFooter().addButtonBox();
-        buttons.addButton("Clear", newClearAction());
-        buttons.addSubmitButton("Search");
+        _buttons = _group.getFooter().addButtonBox();
+        _buttons.addSubmitButton("Search");
+        _buttons.addButton("Clear", newClearAction());
     }
 
     protected ScActionIF newSearchAction()
@@ -203,6 +203,11 @@ public class ScFilterBox
     public Iterator<ScControl> getComponents()
     {
         return new KmSingletonIterator<ScControl>(_form);
+    }
+
+    public ScBox getButtons()
+    {
+        return _buttons;
     }
 
     //##################################################

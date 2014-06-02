@@ -2,12 +2,14 @@ package com.app.ui.page.general;
 
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBorderLayout;
+import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.ui.layout.MyLeftMenuItem;
 import com.app.ui.page.MyPage;
+import com.app.utility.MyConstantsIF;
 
 public class MyHomePage
     extends MyPage
@@ -66,50 +68,39 @@ public class MyHomePage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        // todo_wyatt: 
-        // String msg = "Welcome to " + MyConstantsIF.APPLICATION_NAME;
-
-        root.css().fill();
-
         ScBorderLayout border;
         border = root.addBorderLayout();
+        border.pad();
 
-        addTop(border);
-        addCenter(border);
+        ScDiv top = border.addTop(100);
+        border.padTop();
+
+        ScDiv center = border.addCenter();
+
+        installTop(top);
+        installCenter(center);
     }
 
-    private void addTop(ScBorderLayout layout)
+    private void installTop(ScContainer root)
     {
-        ScDiv div;
-        div = layout.addTopPercent(50);
-
         ScGroup group;
-        group = div.addGroup();
+        group = root.addGroup();
         group.layoutFill();
-        group.setTitle("Top");
-        group.css().offset();
-        group.bodyCss().pad().auto();
-
-        int n = 100;
-        for ( int i = 0; i < n; i++ )
-            group.addTextSpan("top line " + i).css().block();
+        group.setTitle("Welcome");
+        group.bodyCss().pad();
+        group.addText("Welcome to " + MyConstantsIF.APPLICATION_NAME);
     }
 
-    private void addCenter(ScBorderLayout layout)
+    private void installCenter(ScContainer root)
     {
-        ScDiv div;
-        div = layout.addCenter();
-
         ScGroup group;
-        group = div.addGroup();
-        group.layoutFill();
+        group = root.addGroup();
         group.setTitle("Center");
-        group.css().offset();
-        group.style().top(0);
-        group.bodyCss().pad().auto();
+        group.layoutFill();
+        group.bodyCss().pad();
 
         int n = 100;
         for ( int i = 0; i < n; i++ )
-            group.addTextSpan("center line " + i).css().block();
+            group.addParagraph("line " + i);
     }
 }

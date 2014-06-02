@@ -22,8 +22,7 @@
 
 package com.kodemore.servlet.result;
 
-import java.io.File;
-
+import com.kodemore.file.KmFile;
 import com.kodemore.servlet.ScServletData;
 
 public class ScFileResult
@@ -69,7 +68,7 @@ public class ScFileResult
     {
         data.setContentType(getContentType());
 
-        File file = new File(_fileName);
+        KmFile file = new KmFile(_fileName);
         if ( isAttachment() )
             data.writeAttachmentFile(getAttachmentName(), file);
         else

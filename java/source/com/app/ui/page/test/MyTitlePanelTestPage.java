@@ -8,7 +8,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTitlePanelLayout;
 
 public class MyTitlePanelTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

@@ -27,10 +27,10 @@ import com.app.dao.MyInvitationDao;
 import com.app.model.MyAccount;
 import com.app.model.MyInvitation;
 import com.app.model.MyUserAccount;
-import com.app.ui.page.admin.MyAbstractAdminPage;
+import com.app.ui.page.admin.MyAbstractAdminEntryPage;
 
 public class MyAccountUsersPage
-    extends MyAbstractAdminPage
+    extends MyAbstractAdminEntryPage
 {
     //##################################################
     //# singleton
@@ -126,7 +126,6 @@ public class MyAccountUsersPage
     private void installUserFrame(ScArray row)
     {
         // todo_wyatt Auto-generated method stub
-
     }
 
     //==================================================

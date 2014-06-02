@@ -11,7 +11,7 @@ import com.app.file.MyFilePaths;
  * Include the content found at /web/test/staticInclude.html
  */
 public class MyStaticIncludeTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

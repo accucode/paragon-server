@@ -1231,9 +1231,9 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.fill);
     }
     
-    public KmCssDefaultBuilder fillPad()
+    public KmCssDefaultBuilder fillOffset()
     {
-        return apply(KmCssDefaultConstantsIF.fillPad);
+        return apply(KmCssDefaultConstantsIF.fillOffset);
     }
     
     public KmCssDefaultBuilder floatLeft()

@@ -12,7 +12,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
 
 public class MyGroupIconHeaderTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     /**
      * this is an example of how to use the ScGroupIconHeadder

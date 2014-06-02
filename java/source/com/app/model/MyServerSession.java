@@ -67,4 +67,22 @@ public class MyServerSession
     {
         return !hasRightVersion();
     }
+
+    @Override
+    public MyAccount getCurrentAccount()
+    {
+        if ( !hasUser() )
+            return null;
+
+        MyAccount e = super.getCurrentAccount();
+
+        if ( e == null )
+        {
+            e = getUser().getDefaultAccount();
+            setCurrentAccount(e);
+        }
+
+        return e;
+    }
+
 }

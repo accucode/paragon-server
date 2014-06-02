@@ -15,7 +15,7 @@ import com.kodemore.servlet.field.ScTextField;
 import com.app.email.MyEmailSmtpMethod;
 
 public class MySmtpTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

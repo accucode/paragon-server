@@ -11,7 +11,7 @@ import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 
 public class MyTimeAgoTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton
@@ -58,7 +58,7 @@ public class MyTimeAgoTestPage
         KmTimestamp origin = getNowUtc();
 
         ScGroup group;
-        group = root.addGroup();
+        group = root.addGroup("Time Ago");
         group.css().floatLeft();
         group.style().width(200);
 
@@ -115,7 +115,7 @@ public class MyTimeAgoTestPage
         KmDate origin = getTodayUtc();
 
         ScGroup group;
-        group = root.addGroup();
+        group = root.addGroup("Date Ago");
         group.css().floatLeft();
         group.style().width(200);
 

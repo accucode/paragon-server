@@ -19,7 +19,6 @@ import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAccount;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
-import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServletData;
 import com.app.ui.page.admin.MySelectAccountPage;
 import com.app.ui.page.admin.userProfile.MyUserProfilePage;
@@ -450,8 +449,8 @@ public class MyPageLayout
 
         ScDiv footer;
         footer = root.addDiv();
-        footer.setHtmlId(HEADER_ID);
-        footer.css().pageHeader();
+        footer.setHtmlId(FOOTER_ID);
+        footer.css().pageFooter();
         footer.style().hide();
 
         return root.renderHtml();
@@ -486,11 +485,6 @@ public class MyPageLayout
         return MyGlobals.getAccess();
     }
 
-    private MyPageSession getPageSession()
-    {
-        return MyGlobals.getPageSession();
-    }
-
     private MyUser getCurrentUser()
     {
         return MyGlobals.getServerSession().getUser();
@@ -498,7 +492,7 @@ public class MyPageLayout
 
     private MyAccount getCurrentAccount()
     {
-        return getPageSession().getCurrentAccount();
+        return MyGlobals.getServerSession().getCurrentAccount();
     }
 
 }

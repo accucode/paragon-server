@@ -21,7 +21,7 @@ import com.kodemore.utility.KmRandomUtility;
  * Test the layout and usage of the groups.
  */
 public class MyChartTestPage
-    extends MyAbstractTestPage
+    extends MyAbstractTestEntryPage
 {
     //##################################################
     //# singleton

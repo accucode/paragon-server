@@ -3622,8 +3622,8 @@ public class Kmu
     }
 
     /**
-     * Return a buffered input stream.  If the parameter is already a
-     * buffered input stream, then just cast it.
+     * Return a buffered stream.  If the parameter is already a
+     * buffered stream, then just cast it.
      */
     public static BufferedInputStream toBufferedInputStream(InputStream in)
     {
@@ -3631,6 +3631,18 @@ public class Kmu
             return (BufferedInputStream)in;
 
         return new BufferedInputStream(in);
+    }
+
+    /**
+     * Return a buffered stream.  If the parameter is already a
+     * buffered stream, then just cast it.
+     */
+    public static BufferedOutputStream toBufferedOutputStream(OutputStream out)
+    {
+        if ( out instanceof BufferedOutputStream )
+            return (BufferedOutputStream)out;
+
+        return new BufferedOutputStream(out);
     }
 
     /**

@@ -4,7 +4,7 @@ import com.kodemore.exception.KmApplicationException;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.script.ScBlockScript;
 
 import com.app.ui.page.general.MySignOutPage;
 
@@ -131,7 +131,7 @@ public class MyActions
         return MyServletData.getLocal();
     }
 
-    private ScRootScript ajax()
+    private ScBlockScript ajax()
     {
         return getData().ajax();
     }
