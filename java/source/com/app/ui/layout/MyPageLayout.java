@@ -10,7 +10,7 @@ import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScTransientContainer;
 import com.kodemore.servlet.field.ScDropdownMenu;
-import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
@@ -475,7 +475,7 @@ public class MyPageLayout
         return MyGlobals.getNowUtc();
     }
 
-    private ScRootScript ajax()
+    private ScBlockScript ajax()
     {
         return getData().ajax();
     }

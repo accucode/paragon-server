@@ -4,7 +4,7 @@ import com.kodemore.exception.KmApplicationException;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.utility.Kmu;
@@ -444,7 +444,7 @@ public abstract class ScPage
     //# convenience
     //##################################################
 
-    protected ScRootScript ajax()
+    protected ScBlockScript ajax()
     {
         return getData().ajax();
     }

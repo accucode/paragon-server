@@ -25,6 +25,7 @@ package com.kodemore.servlet.ajax;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.result.ScAbstractResult;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScRootScript;
 
 public class ScAjaxResult
@@ -80,7 +81,7 @@ public class ScAjaxResult
     //# accessing
     //##################################################
 
-    public ScRootScript getScript()
+    public ScBlockScript getScript()
     {
         return _script;
     }

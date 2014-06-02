@@ -64,7 +64,7 @@ public class ScWrapperScript
     }
 
     @Override
-    protected ScRootScript getRoot()
+    public ScRootScript getRoot()
     {
         return _inner.getRoot();
     }

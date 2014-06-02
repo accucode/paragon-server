@@ -68,7 +68,7 @@ public abstract class ScBlockScript
     //# root
     //##################################################
 
-    protected abstract ScRootScript getRoot();
+    public abstract ScRootScript getRoot();
 
     //##################################################
     //# run

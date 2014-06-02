@@ -86,7 +86,7 @@ public class ScSimpleBlockScript
     //##################################################
 
     @Override
-    protected ScRootScript getRoot()
+    public ScRootScript getRoot()
     {
         return _root;
     }

@@ -1,6 +1,6 @@
 package com.app.ui.page.login;
 
-import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.script.ScBlockScript;
 
 import com.app.model.MyAutoSignIn;
 import com.app.model.MyServerSession;
@@ -112,7 +112,7 @@ public class MySignInUtility
         return MyGlobals.getData();
     }
 
-    private static ScRootScript ajax()
+    private static ScBlockScript ajax()
     {
         return getData().ajax();
     }

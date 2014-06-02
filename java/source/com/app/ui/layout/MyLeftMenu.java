@@ -4,7 +4,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
-import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.utility.ScJquery;
 
 import com.app.ui.core.MyServletData;
@@ -115,7 +115,7 @@ public class MyLeftMenu
         return MyGlobals.getData();
     }
 
-    private ScRootScript ajax()
+    private ScBlockScript ajax()
     {
         return getData().ajax();
     }

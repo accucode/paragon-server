@@ -58,7 +58,7 @@ import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.result.ScResultIF;
 import com.kodemore.servlet.result.ScSimpleResult;
-import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.thread.KmThreadLocalManager;
 import com.kodemore.time.KmDate;
@@ -1030,7 +1030,7 @@ public class ScServletData
     //# ajax (convenience)
     //##################################################
 
-    public ScRootScript ajax()
+    public ScBlockScript ajax()
     {
         return getAjaxResult().getScript();
     }

@@ -641,7 +641,7 @@ public abstract class ScControl
 
     protected final ScRootScript getRootScript()
     {
-        return getData().ajax();
+        return getData().ajax().getRoot();
     }
 
     protected String json(CharSequence s)

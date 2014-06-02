@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kodemore.log.KmLog;
 import com.kodemore.monitor.KmDefaultMonitor;
-import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.thread.KmThreadLocalManager;
 import com.kodemore.utility.KmNanoAccumulator;
 
@@ -169,7 +169,7 @@ public abstract class ScAbstractServlet<T extends ScServletData>
     //# ajax
     //##################################################
 
-    protected ScRootScript ajax()
+    protected ScBlockScript ajax()
     {
         return getData().ajax();
     }

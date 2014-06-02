@@ -116,23 +116,13 @@ public class ScRootScript
         _deferStack.clear();
     }
 
-    public KmStack<ScBlockScript> getDeferStack()
-    {
-        return _deferStack;
-    }
-
     @Override
     public void pushDeferUntil(String sel)
-    {
-        _pushDefer(sel);
-    }
-
-    protected void _pushDefer(String sel)
     {
         ScDeferredScript promise;
         promise = new ScDeferredScript(this);
         promise.setSelector(sel);
-
+        
         _add(promise);
         _deferStack.push(promise);
     }
