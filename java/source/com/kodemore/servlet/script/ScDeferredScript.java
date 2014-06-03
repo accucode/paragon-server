@@ -27,7 +27,7 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 /**
- * Defer my children until the target's promise is done.
+ * Run this script after the target's promise is done.
  */
 public class ScDeferredScript
     extends ScSimpleBlockScript
