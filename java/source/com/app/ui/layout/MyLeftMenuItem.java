@@ -2,8 +2,8 @@ package com.app.ui.layout;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScPage;
-import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.script.ScScriptIF;
+import com.kodemore.servlet.script.ScSimpleBlockScript;
 
 import com.app.ui.page.admin.MyAdminPage;
 import com.app.ui.page.general.MyHomePage;
@@ -100,14 +100,10 @@ public enum MyLeftMenuItem
         return null;
     }
 
-    //##################################################
-    //# support
-    //##################################################
-
     private ScScriptIF newPushScript(ScPage e)
     {
-        ScRootScript s;
-        s = new ScRootScript();
+        ScSimpleBlockScript s;
+        s = new ScSimpleBlockScript();
         s.pushPage(e);
         return s;
     }

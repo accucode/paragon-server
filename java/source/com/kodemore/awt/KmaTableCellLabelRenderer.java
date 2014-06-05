@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.awt;
 
@@ -144,17 +144,19 @@ public class KmaTableCellLabelRenderer
         _data.row = row;
         _data.column = col;
 
-        setupColors(_data);
-        setupBorder(_data);
-        setupAlignment(_data);
-        setupFont(_data);
-        setupText(_data);
-        setupOpaque(_data);
+        setupColors();
+        setupBorder();
+        setupAlignment();
+        setupFont();
+        setupText();
+        setupOpaque();
         return this;
     }
 
-    public void setupColors(KmaTableCellRendererData d)
+    public void setupColors()
     {
+        KmaTableCellRendererData d = _data;
+
         if ( d.isSelected )
         {
             super.setForeground(d.table.getSelectionForeground());
@@ -167,8 +169,10 @@ public class KmaTableCellLabelRenderer
         }
     }
 
-    public void setupBorder(KmaTableCellRendererData d)
+    public void setupBorder()
     {
+        KmaTableCellRendererData d = _data;
+
         if ( getShowFocus() && d.hasFocus )
         {
             if ( _focusBorderColor == null )
@@ -185,27 +189,30 @@ public class KmaTableCellLabelRenderer
             setBorder(_noBorder);
     }
 
-    public void setupAlignment(KmaTableCellRendererData d)
+    public void setupAlignment()
     {
         alignCenterX();
     }
 
-    public void setupFont(KmaTableCellRendererData d)
+    public void setupFont()
     {
-        setFont(d.table.getFont());
+        setFont(_data.table.getFont());
     }
 
-    public void setupText(KmaTableCellRendererData d)
+    public void setupText()
     {
-        setText(d.value + "");
+        setText(_data.value + "");
     }
 
-    public void setupOpaque(KmaTableCellRendererData d)
+    public void setupOpaque()
     {
+        KmaTableCellRendererData d = _data;
+
         Color back = getBackground();
         boolean colorMatch = back != null
             && back.equals(d.table.getBackground())
             && d.table.isOpaque();
+
         setOpaque(!colorMatch);
     }
 

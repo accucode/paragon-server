@@ -24,7 +24,7 @@ package com.kodemore.servlet.control;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonArray;
-import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.string.KmStringBuilder;
 
 /**
@@ -243,7 +243,7 @@ public abstract class ScAbstractChart
         out.end("svg");
         out.endDiv();
 
-        ScRootScript ajax;
+        ScBlockScript ajax;
         ajax = out.getPostRender();
         ajax.run(formatLineChartScript());
     }

@@ -79,6 +79,12 @@ public abstract class KmAbstractDao<T, K extends Serializable>
         getSession().delete(e);
     }
 
+    public void deleteAll(List<T> v)
+    {
+        for ( T e : v )
+            delete(e);
+    }
+
     /**
      * Delete all objects.   This method respects the normal hibernate
      * modelling rules.  Thus is you delete an object that is on the "one"

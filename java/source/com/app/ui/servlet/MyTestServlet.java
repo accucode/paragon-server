@@ -11,7 +11,7 @@ import com.kodemore.utility.Kmu;
 import com.app.utility.MyConstantsIF;
 
 public class MyTestServlet
-    extends HttpServlet
+extends HttpServlet
 {
     //##################################################
     //# get / post
@@ -53,6 +53,11 @@ public class MyTestServlet
 
         out.println("Time (UTC)");
         out.printBold(KmClock.getNowUtc().format_m_d_yyyy_hh_mm_ss());
+        out.println();
+        out.println();
+
+        out.println("Method)");
+        out.printBold(req.getMethod());
         out.println();
         out.println();
 

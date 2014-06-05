@@ -318,10 +318,8 @@ public class ScCardFrame
     {
         KmCompositeIterator<ScControl> i;
         i = new KmCompositeIterator<ScControl>();
-
         i.addAll(super.getComponents());
         i.addAll(getCards());
-
         return i;
     }
 
@@ -350,7 +348,7 @@ public class ScCardFrame
         hide.setEasing(getHideEasing());
         hide.setSpeedMs(getHideSpeed());
 
-        ajax.pushDefer();
+        ajax = ajax.whenDone();
         ajax.setContents(e);
 
         ScShowScript show;
@@ -359,8 +357,8 @@ public class ScCardFrame
         show.setEasing(getShowEasing());
         show.setSpeedMs(getShowSpeed());
 
-        ajax.popDefer();
-        ajax.focusDeferred();
+        ajax = ajax.whenDone();
+        ajax.focus();
     }
 
     //##################################################

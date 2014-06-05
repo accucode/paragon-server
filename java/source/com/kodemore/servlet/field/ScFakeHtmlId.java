@@ -22,8 +22,8 @@
 
 package com.kodemore.servlet.field;
 
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
-import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScJquery;
 
 /**
@@ -36,8 +36,8 @@ public class ScFakeHtmlId
     //# variables
     //##################################################
 
-    private String       _id;
-    private ScRootScript _root;
+    private String        _id;
+    private ScBlockScript _script;
 
     //##################################################
     //# constructor
@@ -45,18 +45,20 @@ public class ScFakeHtmlId
 
     public ScFakeHtmlId()
     {
-        // none
+        setId("fake");
+        setScript(ScBlockScript.create());
     }
 
     public ScFakeHtmlId(String id)
     {
         setId(id);
+        setScript(ScBlockScript.create());
     }
 
-    public ScFakeHtmlId(String id, ScRootScript root)
+    public ScFakeHtmlId(String id, ScBlockScript script)
     {
         setId(id);
-        setRoot(root);
+        setScript(script);
     }
 
     //##################################################
@@ -73,14 +75,14 @@ public class ScFakeHtmlId
         _id = e;
     }
 
-    public ScRootScript getRoot()
+    public ScBlockScript getScript()
     {
-        return _root;
+        return _script;
     }
 
-    public void setRoot(ScRootScript e)
+    public void setScript(ScBlockScript e)
     {
-        _root = e;
+        _script = e;
     }
 
     //##################################################
@@ -108,6 +110,6 @@ public class ScFakeHtmlId
     @Override
     public ScHtmlIdAjax ajax()
     {
-        return new ScHtmlIdAjax(getRoot(), this);
+        return new ScHtmlIdAjax(getScript(), this);
     }
 }

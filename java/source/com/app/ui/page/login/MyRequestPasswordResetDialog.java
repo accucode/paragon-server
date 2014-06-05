@@ -199,7 +199,7 @@ public class MyRequestPasswordResetDialog
         _emailBox.ajax().hide();
 
         _messageBox.ajaxSetHtml(out.toString());
-        _messageBox.ajax().show().fade().defer();
+        _messageBox.ajax().show().fade();
     }
 
     private void setEmailCookie(String email)

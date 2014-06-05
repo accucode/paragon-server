@@ -23,7 +23,7 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.servlet.ScPage;
-import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.script.ScBlockScript;
 
 /**
  * A button to navigate to an page.
@@ -78,8 +78,8 @@ public class ScPageButton
     @Override
     protected String formatOnClick()
     {
-        ScRootScript s;
-        s = new ScRootScript();
+        ScBlockScript s;
+        s = ScBlockScript.create();
         s.pushPage(getPage());
         return s.formatScript();
     }

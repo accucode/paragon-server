@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.time;
 
@@ -37,7 +37,7 @@ import com.kodemore.utility.Kmu;
  * Instances are assumed to be immutable.
  */
 public class KmTimestamp
-    implements KmTimeConstantsIF, Comparable<KmTimestamp>, Serializable
+implements KmTimeConstantsIF, Comparable<KmTimestamp>, Serializable
 {
     //##################################################
     //# instance creation
@@ -583,8 +583,8 @@ public class KmTimestamp
     public int getMySqlOrdinal()
     {
         return (getDate().getOrdinal() - DAYS_DIFF_1800_1970)
-            * SECONDS_PER_DAY
-            + getTime().getTotalSeconds();
+                        * SECONDS_PER_DAY
+                        + getTime().getTotalSeconds();
     }
 
     public static KmTimestamp createMySqlOrdinal(int i)
@@ -597,10 +597,10 @@ public class KmTimestamp
     /**
      * Create a timestamp based on the "goofy" format used when
      * mysql returns datetimes as a double.  E.g.:
-     * 
+     *
      * select now() + 0;
      * -> 20071215235026.000000
-     * 
+     *
      * which means: 2007-12-15 23:50:26.
      */
     public static KmTimestamp createMySqlGoofy(Double d)
@@ -640,7 +640,7 @@ public class KmTimestamp
 
     /**
      * Return the duration from myself until the specified ts.
-     * 
+     *
      * Durations may be positive or negative:
      *      today.getDurationUntil(tomorrow)  ==  1 day.
      *      today.getDurationUntil(yesterday) == -1 day.
@@ -741,12 +741,12 @@ public class KmTimestamp
 
     public KmDate toLocalDate(KmTimeZoneIF tz)
     {
-        return toLocal().getDate();
+        return toLocal(tz).getDate();
     }
 
     public KmTime toLocalTime(KmTimeZoneIF tz)
     {
-        return toLocal().getTime();
+        return toLocal(tz).getTime();
     }
 
     public String formatLocal()

@@ -48,7 +48,7 @@ import com.kodemore.wiki.parsers.KmWikiUnderlineParser;
 import com.kodemore.wiki.parsers.KmWikiUnorderedListParser;
 
 public class KmWikiReader
-    implements KmWikiConstantsIF
+implements KmWikiConstantsIF
 {
     //##################################################
     //# variables
@@ -583,7 +583,7 @@ public class KmWikiReader
             KmWikiParser p = top.parser;
             KmWikiContainer e = top.element;
 
-            if ( p.endDocument(e) )
+            if ( p.endDocument() )
                 continue;
 
             autoPopError(e);

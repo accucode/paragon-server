@@ -29,7 +29,7 @@ import com.app.model.MySystemLogTools;
 import com.app.model.meta.MyMetaSystemLog;
 
 public class MyDevSystemLogsPage
-    extends MyDevAbstractPage
+extends MyDevAbstractPage
 {
     //##################################################
     //# singleton
@@ -169,8 +169,8 @@ public class MyDevSystemLogsPage
     {
         MyMetaSystemLog x = MySystemLog.Meta;
 
-        _logGroup = new ScGroup();
-        _logGroup.setTitle("Log");
+        // todo_wyatt: test
+        _logGroup = root.addGroup("Log");
         _logGroup.layoutFill();
         _logGroup.css().marginLeft();
         _logGroup.bodyCss().pad();
@@ -287,13 +287,13 @@ public class MyDevSystemLogsPage
     private KmFilterFactoryIF<MySystemLog> newFetcher()
     {
         return new KmFilterFactoryIF<MySystemLog>()
-        {
+                        {
             @Override
             public KmFilter<MySystemLog> createFilter()
             {
                 return getFilter();
             }
-        };
+                        };
     }
 
     private MySystemLogFilter getFilter()

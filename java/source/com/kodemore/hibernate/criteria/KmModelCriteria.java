@@ -261,5 +261,4 @@ public abstract class KmModelCriteria<T>
     {
         return parent().findRowCount();
     }
-
 }

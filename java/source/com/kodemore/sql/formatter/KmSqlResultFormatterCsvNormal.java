@@ -66,12 +66,11 @@ public class KmSqlResultFormatterCsvNormal
 
     private void resultSetRows(KmSqlResultSet rs)
     {
-        int i = 0;
         while ( rs.next() )
-            resultSetRow(rs, i++);
+            resultSetRow(rs);
     }
 
-    private void resultSetRow(KmSqlResultSet rs, int rowIndex)
+    private void resultSetRow(KmSqlResultSet rs)
     {
         int n = getColumnCount(rs);
         for ( int i = 0; i < n; i++ )

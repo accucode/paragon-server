@@ -115,9 +115,6 @@ public class MySignInPage
         _targetQuery = new ScLocalString();
         _targetQuery.setAutoSave();
 
-        // todo_wyatt: auto apply? 
-        // _targetQuery.autoApplyToUrl(this, "q");
-
         ScArray row;
         row = root.addRow();
         row.setGap(50);
@@ -306,7 +303,7 @@ public class MySignInPage
         MySignInUtility.clearAutoSignIn();
 
         ajax().hideAllErrors();
-        ajax().focus();
+        ajax().focusPage();
 
         _form.validate();
 
@@ -328,6 +325,8 @@ public class MySignInPage
             _passwordField.ajax().focus();
             _passwordField.error("Invalid.");
         }
+
+        getAccess().getAutoSignInDao().deleteAllFor(user);
 
         MyAutoSignIn auto = null;
         boolean staySignedIn = _staySignedInField.isTrue();

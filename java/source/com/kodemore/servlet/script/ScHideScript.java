@@ -33,9 +33,9 @@ public class ScHideScript
     //# constructor
     //##################################################
 
-    public ScHideScript(ScRootScript e)
+    public ScHideScript()
     {
-        super(e);
+        super();
 
         setEasing(ScConstantsIF.DEFAULT_HIDE_EASING);
     }
@@ -108,9 +108,4 @@ public class ScHideScript
         return (ScHideScript)super.speed(ms);
     }
 
-    @Override
-    public ScHideScript defer()
-    {
-        return (ScHideScript)super.defer();
-    }
 }

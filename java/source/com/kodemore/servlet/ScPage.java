@@ -188,13 +188,8 @@ public abstract class ScPage
      */
     public final void print()
     {
-        checkLayout();
-        print(getAutoFocus());
-    }
-
-    protected final void print(boolean focus)
-    {
         checkSecurity();
+        checkLayout();
 
         if ( !hasRoot() )
         {
@@ -203,15 +198,10 @@ public abstract class ScPage
         }
 
         ScPageRoot root = getRoot();
+        boolean focus = getAutoFocus();
 
         preRender();
-
-        ajax().printMain(root);
-
-        // todo_wyatt: defer
-        if ( focus )
-            root.ajax().focus();
-
+        ajax().printMain(root, focus);
         postRender();
     }
 

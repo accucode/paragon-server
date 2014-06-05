@@ -27,7 +27,7 @@ import com.kodemore.wiki.KmWikiReader;
 import com.kodemore.wiki.KmWikiSource;
 
 public abstract class KmWikiBulletListParser
-    extends KmWikiParser
+extends KmWikiParser
 {
     //##################################################
     //# constructor
@@ -97,7 +97,7 @@ public abstract class KmWikiBulletListParser
     }
 
     @Override
-    public boolean endDocument(KmWikiContainer e)
+    public boolean endDocument()
     {
         getReader().pop();
         return true;

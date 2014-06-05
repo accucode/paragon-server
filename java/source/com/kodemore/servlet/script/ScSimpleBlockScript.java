@@ -23,6 +23,7 @@
 package com.kodemore.servlet.script;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 
 /**
  * I manage a list of scripts, roughly representing the
@@ -45,12 +46,6 @@ public class ScSimpleBlockScript
     //##################################################
 
     /**
-     * I provide access to the root script, which is needed to implement
-     * deferred actions.  
-     */
-    private ScRootScript       _root;
-
-    /**
      * The list of scripts to be executed.  Scripts
      * are composed as ScScriptIF and the actual string
      * value is deferred until the script is subsequently
@@ -69,26 +64,18 @@ public class ScSimpleBlockScript
      * dynamic/deferred binding then the values may be
      * different.
      */
-    private KmList<ScScriptIF> _list;
+    private KmList<ScScriptIF>     _list;
+
+    private KmList<ScWhenDoneAjax> _stack;
 
     //##################################################
     //# constructor
     //##################################################
 
-    public ScSimpleBlockScript(ScRootScript root)
+    public ScSimpleBlockScript()
     {
         _list = new KmList<ScScriptIF>();
-        _root = root;
-    }
-
-    //##################################################
-    //# root
-    //##################################################
-
-    @Override
-    public ScRootScript getRoot()
-    {
-        return _root;
+        _stack = new KmList<ScWhenDoneAjax>();
     }
 
     //##################################################
@@ -99,6 +86,43 @@ public class ScSimpleBlockScript
     protected KmList<ScScriptIF> getScripts()
     {
         return _list;
+    }
+
+    @Override
+    protected void _add(ScScriptIF e)
+    {
+        if ( e == null )
+            return;
+
+        if ( _stack.isNotEmpty() )
+            _stack.getLast().run(e);
+        else
+            getScripts().add(e);
+    }
+
+    @Override
+    public void clearScript()
+    {
+        _list.clear();
+        _stack.clear();
+    }
+
+    //##################################################
+    //# stack
+    //##################################################
+
+    @Override
+    public ScWhenDoneAjax pushWhenDone(ScHtmlIdIF target)
+    {
+        ScWhenDoneAjax e = whenDone(target);
+        _stack.add(e);
+        return e;
+    }
+
+    @Override
+    public void popWhenDone()
+    {
+        _stack.removeLast();
     }
 
 }

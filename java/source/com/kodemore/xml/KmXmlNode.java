@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.xml;
 
@@ -29,7 +29,7 @@ import java.io.StringWriter;
 import com.kodemore.utility.Kmu;
 
 public abstract class KmXmlNode
-    implements KmXmlConstantsIF, Serializable
+implements KmXmlConstantsIF, Serializable
 {
     //##################################################
     //# variables
@@ -109,7 +109,7 @@ public abstract class KmXmlNode
         return false;
     }
 
-    public boolean isElement(String tag)
+    public boolean isElement(@SuppressWarnings("unused") String tag)
     {
         return false;
     }
@@ -204,8 +204,8 @@ public abstract class KmXmlNode
     public int getDepth()
     {
         return hasParent()
-            ? getParent().getDepth() + 1
-            : 0;
+                        ? getParent().getDepth() + 1
+                            : 0;
     }
 
     public void indent(PrintWriter out, int n)

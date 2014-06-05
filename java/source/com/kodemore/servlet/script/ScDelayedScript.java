@@ -32,10 +32,10 @@ public class ScDelayedScript
     //# variables
     //##################################################
 
-    private ScRootScript _script;
+    private ScBlockScript _script;
 
-    private boolean      _onReady;
-    private int          _delayMs;
+    private boolean       _onReady;
+    private int           _delayMs;
 
     //##################################################
     //# constructor
@@ -43,7 +43,7 @@ public class ScDelayedScript
 
     public ScDelayedScript()
     {
-        _script = new ScRootScript();
+        _script = ScBlockScript.create();
         _onReady = false;
         _delayMs = 0;
     }
@@ -52,7 +52,7 @@ public class ScDelayedScript
     //# accessing
     //##################################################
 
-    public ScRootScript getScript()
+    public ScBlockScript getScript()
     {
         return _script;
     }

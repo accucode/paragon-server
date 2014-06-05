@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.servlet.control;
 
@@ -47,12 +47,12 @@ import com.kodemore.utility.Kmu;
 /**
  * I am used for controls that contain children.
  * I do not define any specific organization or layout,
- * but I do define a wide range of convenience methods 
+ * but I do define a wide range of convenience methods
  * that are relied upon heavily to simplify coding.
  * Most, hopefully ALL, containers will subclass from me.
  */
 public abstract class ScContainer
-    extends ScControl
+extends ScControl
 {
     //##################################################
     //# children
@@ -89,7 +89,7 @@ public abstract class ScContainer
     protected abstract void renderControlOn(KmHtmlBuilder out);
 
     //##################################################
-    //# fields 
+    //# fields
     //##################################################
 
     public <E> ScField<E> addField(KmMetaProperty<?,E> e)
@@ -131,7 +131,7 @@ public abstract class ScContainer
         return add(e);
     }
 
-    public <E> ScHiddenField<E> addHiddenField(Class<E> c)
+    public <E> ScHiddenField<E> addHiddenField(@SuppressWarnings("unused") Class<E> c)
     {
         ScHiddenField<E> e = addHiddenField();
         return add(e);

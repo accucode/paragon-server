@@ -38,9 +38,9 @@ public class ScCallbackScript
     //# constructor
     //##################################################
 
-    public ScCallbackScript(ScRootScript e)
+    public ScCallbackScript()
     {
-        super(e);
+        super();
     }
 
     //##################################################

@@ -31,7 +31,6 @@ import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
-import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.variable.ScLocalCss;
@@ -244,8 +243,8 @@ public abstract class ScContainerElement
 
     public void setOnClickPush(ScPage e)
     {
-        ScRootScript script;
-        script = new ScRootScript();
+        ScBlockScript script;
+        script = ScBlockScript.create();
         script.pushPage(e);
 
         setOnClick(script);

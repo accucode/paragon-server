@@ -181,8 +181,8 @@ public class ScPushPageScript
         if ( !getHandleStateChange() )
             json.setBoolean("handleStateChange", false);
 
-        ScRootScript s;
-        s = new ScRootScript();
+        ScBlockScript s;
+        s = ScBlockScript.create();
         s.run("KmNavigator.pushPage(%s);", json);
         s.formatScriptOn(out);
     }

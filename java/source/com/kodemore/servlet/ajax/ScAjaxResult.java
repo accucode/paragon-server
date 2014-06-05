@@ -26,7 +26,7 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.result.ScAbstractResult;
 import com.kodemore.servlet.script.ScBlockScript;
-import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.script.ScSimpleBlockScript;
 
 public class ScAjaxResult
     extends ScAbstractResult
@@ -38,13 +38,13 @@ public class ScAjaxResult
     /**
      * The script to execute.
      */
-    private ScRootScript _script;
+    private ScBlockScript _script;
 
     /**
      * The length of the http output.  This is not set until
      * I am applied to the response.
      */
-    private int          _length;
+    private int           _length;
 
     //##################################################
     //# constructor
@@ -52,7 +52,7 @@ public class ScAjaxResult
 
     public ScAjaxResult()
     {
-        _script = new ScRootScript();
+        _script = new ScSimpleBlockScript();
     }
 
     //##################################################

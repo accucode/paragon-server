@@ -47,7 +47,7 @@ public class MyAjaxServlet
 
         try
         {
-            checkServerSession(data);
+            checkServerSession();
             if ( data.hasResult() )
                 return;
 
@@ -86,7 +86,7 @@ public class MyAjaxServlet
     //# server session
     //##################################################
 
-    private void checkServerSession(MyServletData data)
+    private void checkServerSession()
     {
         if ( touchServerSession() )
             return;

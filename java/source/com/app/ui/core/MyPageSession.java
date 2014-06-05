@@ -15,5 +15,4 @@ public class MyPageSession
     {
         return (MyPageSession)ScPageSession.getInstance();
     }
-
 }

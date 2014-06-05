@@ -8,6 +8,7 @@ import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
+import com.kodemore.servlet.script.ScBlockScript;
 
 public class MyAnimationTestPage
     extends MyAbstractTestEntryPage
@@ -143,8 +144,13 @@ public class MyAnimationTestPage
 
     private void handleSyncToggle()
     {
+        ScBlockScript ajax = ajax();
+
         KmList<ScBox> v = _group;
         for ( ScBox e : v )
-            e.ajax().toggle().slide().defer();
+        {
+            ajax.toggle(e).slide();
+            e.ajax().pushWhenDone();
+        }
     }
 }

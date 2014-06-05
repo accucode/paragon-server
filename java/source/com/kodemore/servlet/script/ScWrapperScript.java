@@ -23,6 +23,7 @@
 package com.kodemore.servlet.script;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.servlet.field.ScHtmlIdIF;
 
 /**
  * I provide the basis for extending someone else's block script.
@@ -64,12 +65,6 @@ public class ScWrapperScript
     }
 
     @Override
-    public ScRootScript getRoot()
-    {
-        return _inner.getRoot();
-    }
-
-    @Override
     protected KmList<ScScriptIF> getScripts()
     {
         return _inner.getScripts();
@@ -79,5 +74,17 @@ public class ScWrapperScript
     protected void _add(ScScriptIF e)
     {
         _inner._add(e);
+    }
+
+    @Override
+    public ScWhenDoneAjax pushWhenDone(ScHtmlIdIF target)
+    {
+        return _inner.pushWhenDone(target);
+    }
+
+    @Override
+    public void popWhenDone()
+    {
+        _inner.popWhenDone();
     }
 }

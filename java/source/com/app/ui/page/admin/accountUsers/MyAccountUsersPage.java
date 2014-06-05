@@ -30,7 +30,7 @@ import com.app.model.MyUserAccount;
 import com.app.ui.page.admin.MyAbstractAdminEntryPage;
 
 public class MyAccountUsersPage
-    extends MyAbstractAdminEntryPage
+extends MyAbstractAdminEntryPage
 {
     //##################################################
     //# singleton
@@ -96,15 +96,15 @@ public class MyAccountUsersPage
         _notebook = root.addNotebook();
         _notebook.style().width(600).height(400);
 
-        installUserTab(_notebook);
-        installInvitationTab(_notebook);
+        installUserTab();
+        installInvitationTab();
     }
 
     //==================================================
     //= install :: user tab
     //==================================================
 
-    private void installUserTab(ScNotebook book)
+    private void installUserTab()
     {
         ScBox tab;
         tab = _notebook.addBox();
@@ -123,16 +123,17 @@ public class MyAccountUsersPage
         _selectUserAction = newSelectUserAction();
     }
 
+    @SuppressWarnings("unused")
     private void installUserFrame(ScArray row)
     {
-        // todo_wyatt Auto-generated method stub
+        // todo_wyatt: account users
     }
 
     //==================================================
     //= install :: invitation tab
     //==================================================
 
-    private void installInvitationTab(ScNotebook notebook)
+    private void installInvitationTab()
     {
         ScBox tab;
         tab = _notebook.addBox();
@@ -244,8 +245,8 @@ public class MyAccountUsersPage
     private void preRenderEmptyUsers()
     {
         _usersContainer.addText(""
-            + "This account does not have any additional users yet. "
-            + "You can invite users via the 'Invitations' tab.");
+                        + "This account does not have any additional users yet. "
+                        + "You can invite users via the 'Invitations' tab.");
     }
 
     private void preRenderInvitations()
@@ -267,13 +268,13 @@ public class MyAccountUsersPage
     private ScBoxRendererIF<MyInvitation> newInvitationRenderer()
     {
         return new ScBoxRendererIF<MyInvitation>()
-        {
+                        {
             @Override
             public void renderOn(ScBox root, MyInvitation value)
             {
                 renderInvitation(root, value);
             }
-        };
+                        };
     }
 
     private void renderInvitation(ScBox root, MyInvitation value)

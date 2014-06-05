@@ -162,7 +162,7 @@ public class ScRenderer
     //# render (private)
     //##################################################
 
-    private void renderNullOn(KmHtmlBuilder out)
+    private void renderNullOn(@SuppressWarnings("unused") KmHtmlBuilder out)
     {
         // none
     }
@@ -179,7 +179,8 @@ public class ScRenderer
     @SuppressWarnings(
     {
         "unchecked",
-        "rawtypes"
+        "rawtypes",
+        "unused"
     })
     private void renderAdaptorOn(KmHtmlBuilder out, Object oAdaptor, ScControl parent, Object model)
     {

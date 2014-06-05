@@ -93,7 +93,7 @@ public class MyDevSqlPage
         _sqlField.setLabel("Sql");
         _sqlField.setWidthFull();
         _sqlField.style().height(150);
-        _sqlField.getPostDomScript().focus();
+        _sqlField.getPostRenderScript().focus();
 
         _results = new ScBox();
 

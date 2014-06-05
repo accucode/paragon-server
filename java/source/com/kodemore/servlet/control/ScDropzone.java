@@ -34,8 +34,8 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
-import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.servlet.utility.ScServletCallback;
 import com.kodemore.servlet.utility.ScServletCallbackRegistry;
@@ -87,7 +87,7 @@ public class ScDropzone
 
         out.endForm();
 
-        ScRootScript ajax;
+        ScBlockScript ajax;
         ajax = out.getPostRender();
         ajax.run(formatScript());
     }

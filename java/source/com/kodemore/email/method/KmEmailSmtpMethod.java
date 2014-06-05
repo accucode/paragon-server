@@ -451,7 +451,7 @@ public class KmEmailSmtpMethod
                 getSmtpUser(),
                 getSmtpPassword());
 
-            _transport = createTransport(_session, urlName);
+            _transport = createTransport(urlName);
             _transport.connect();
             return true;
         }
@@ -462,7 +462,7 @@ public class KmEmailSmtpMethod
         }
     }
 
-    private Transport createTransport(Session session, URLName urlName)
+    private Transport createTransport(URLName urlName)
     {
         if ( getSmtpSsl() )
             return new SMTPSSLTransport(_session, urlName);

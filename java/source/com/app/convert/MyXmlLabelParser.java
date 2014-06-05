@@ -196,7 +196,10 @@ public class MyXmlLabelParser
         return true;
     }
 
-    private boolean parseTextValue(MyLabelText text, KmXmlElement root, KmXmlAttribute attr)
+    private boolean parseTextValue(
+        MyLabelText text,
+        @SuppressWarnings("unused") KmXmlElement root,
+        KmXmlAttribute attr)
     {
         if ( !attr.hasKey("value") )
             return false;
@@ -330,7 +333,10 @@ public class MyXmlLabelParser
         return true;
     }
 
-    private boolean parseBarcodeValue(MyLabelBarcode barcode, KmXmlElement root, KmXmlAttribute attr)
+    private boolean parseBarcodeValue(
+        MyLabelBarcode barcode,
+        @SuppressWarnings("unused") KmXmlElement root,
+        KmXmlAttribute attr)
     {
         if ( !attr.hasKey("value") )
             return false;

@@ -77,12 +77,11 @@ public class KmSqlResultFormatterHtmlNormal
 
     private void resultSetRows(KmSqlResultSet rs)
     {
-        int i = 0;
         while ( rs.next() )
-            resultSetRow(rs, i++);
+            resultSetRow(rs);
     }
 
-    private void resultSetRow(KmSqlResultSet rs, int rowIndex)
+    private void resultSetRow(KmSqlResultSet rs)
     {
         _out.open("tr");
         _out.printAttribute("class", "sqlResultValue");

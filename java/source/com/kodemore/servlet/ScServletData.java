@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.servlet;
 
@@ -73,7 +73,7 @@ import com.kodemore.utility.Kmu;
  * when applying a thread safe implementation of servlets and page handlers.
  */
 public class ScServletData
-    implements ScConstantsIF
+implements ScConstantsIF
 {
     //##################################################
     //# static
@@ -109,10 +109,10 @@ public class ScServletData
     private long                 _creationTimeNanos;
 
     /**
-     * Determines if parameters values should be normalized.  
-     * Normalized values strip non-printable characters, and 
-     * trim leading and trailing whitespace.  This is normally 
-     * desireable as it helps avoid a large number of potential 
+     * Determines if parameters values should be normalized.
+     * Normalized values strip non-printable characters, and
+     * trim leading and trailing whitespace.  This is normally
+     * desireable as it helps avoid a large number of potential
      * problems.
      */
     private boolean              _normalizeParameterValues;
@@ -190,8 +190,8 @@ public class ScServletData
     }
 
     /**
-     * If a database transaction fails, then the transient changes to 
-     * to the servlet data should be reset.  This method resets the 
+     * If a database transaction fails, then the transient changes to
+     * to the servlet data should be reset.  This method resets the
      * appropriate data.
      */
     public void reset()
@@ -309,8 +309,8 @@ public class ScServletData
     }
 
     /**
-     * Request: http://localhost:8080/app/servlet/account/test?key=value 
-     *       => http://localhost:8080/app/servlet/account/test 
+     * Request: http://localhost:8080/app/servlet/account/test?key=value
+     *       => http://localhost:8080/app/servlet/account/test
      */
     public String getRequestUri()
     {
@@ -431,10 +431,10 @@ public class ScServletData
     //##################################################
 
     /**
-     * Returns the portion of the path that identifies the application 
+     * Returns the portion of the path that identifies the application
      * context.   Any leading or trailing slashes are removed.
-     * 
-     * Request... http://localhost:8080/app/servlet/main/test?key=value 
+     *
+     * Request... http://localhost:8080/app/servlet/main/test?key=value
      *         => app
      */
     public String getContextPath()
@@ -444,10 +444,10 @@ public class ScServletData
 
     /**
      * Returns the portion of the path that identifies the specific servlet
-     * based on the configuration of the web.xml file. Any leading or trailing 
+     * based on the configuration of the web.xml file. Any leading or trailing
      * slashes are removed.
-     * 
-     * Request... http://localhost:8080/app/servlet/main/test?key=value 
+     *
+     * Request... http://localhost:8080/app/servlet/main/test?key=value
      *         => servlet/main
      */
     public String getServletPath()
@@ -458,7 +458,7 @@ public class ScServletData
     /**
      * Returns the portion of the path AFTER the servlet path.
      * Any leading or trailing slashes are removed.
-     * 
+     *
      * Request... http://localhost:8080/app/servlet/main/test?key=value
      *         => test
      */
@@ -468,9 +468,9 @@ public class ScServletData
     }
 
     /**
-     * Returns the entire path; everything after the machine 
+     * Returns the entire path; everything after the machine
      * and before the query parameters.
-     * 
+     *
      * Request... http://localhost:8080/app/servlet/main/test?key=value
      *         => /app/servlet/main/test
      */
@@ -923,7 +923,7 @@ public class ScServletData
 
     public void logResults(String e)
     {
-        // none, override
+        KmLog.debug("Servlet Results: %s bytes.", e.length());
     }
 
     //##################################################
@@ -1299,7 +1299,7 @@ public class ScServletData
         return out.toString();
     }
 
-    public void appendLogIdentification(StringBuilder out)
+    public void appendLogIdentification(@SuppressWarnings("unused") StringBuilder out)
     {
         // none
     }

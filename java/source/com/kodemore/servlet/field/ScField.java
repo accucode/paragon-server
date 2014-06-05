@@ -354,4 +354,26 @@ public abstract class ScField<T>
         // noop
     }
 
+    //##################################################
+    //# post scripts
+    //##################################################
+
+    @Override
+    public ScHtmlIdAjax getPostDomScript()
+    {
+        return (ScHtmlIdAjax)super.getPostDomScript();
+    }
+
+    @Override
+    public ScHtmlIdAjax getPostRenderScript()
+    {
+        return (ScHtmlIdAjax)super.getPostRenderScript();
+    }
+
+    @Override
+    protected ScHtmlIdAjax createPostScript()
+    {
+        return new ScHtmlIdAjax(this);
+    }
+
 }

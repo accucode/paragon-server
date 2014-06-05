@@ -1,7 +1,6 @@
 package sandbox.wlove;
 
-import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.KmClock;
+import com.kodemore.servlet.field.ScFakeHtmlId;
 
 public class JkTest
 {
@@ -20,7 +19,12 @@ public class JkTest
 
     private void run()
     {
-        KmTimestamp utc = KmClock.getNowUtc();
-        System.out.println(utc.formatIsoUtc());
+        ScFakeHtmlId fake;
+        fake = new ScFakeHtmlId();
+        fake.setId("sel");
+        fake.ajax().show();
+        fake.ajax().whenDone().focus();
+
+        System.out.println(fake.ajax().formatMultilineScript());
     }
 }

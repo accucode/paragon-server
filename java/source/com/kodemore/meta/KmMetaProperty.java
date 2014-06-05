@@ -2,15 +2,15 @@ package com.kodemore.meta;
 
 import com.kodemore.comparator.KmComparator;
 import com.kodemore.servlet.control.ScGridColumn;
-import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.control.ScText;
+import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScField;
 import com.kodemore.validator.KmBooleanValidator;
 import com.kodemore.validator.KmValidator;
 
 public abstract class KmMetaProperty<T, V>
-    extends KmMetaAttribute<T,V>
+extends KmMetaAttribute<T,V>
 {
     //##################################################
     //# attributes
@@ -40,13 +40,13 @@ public abstract class KmMetaProperty<T, V>
     public KmComparator<T> getComparator()
     {
         return new KmComparator<T>()
-        {
+                        {
             @Override
             public int compare(T o1, T o2)
             {
                 return compareValues(o1, o2, getNullsOnTop());
             }
-        };
+                        };
     }
 
     //##################################################
@@ -103,7 +103,7 @@ public abstract class KmMetaProperty<T, V>
         throw new UnsupportedOperationException();
     }
 
-    public ScField<V> newField(String label)
+    public ScField<V> newField(@SuppressWarnings("unused") String label)
     {
         throw new UnsupportedOperationException();
     }

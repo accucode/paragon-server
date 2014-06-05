@@ -286,7 +286,7 @@ public class KmaGraphPainter
     //# compute bounds
     //##################################################
 
-    public KmaGraphPixelBounds computeTopBounds(KmaGraphics g)
+    public KmaGraphPixelBounds computeTopBounds(@SuppressWarnings("unused") KmaGraphics g)
     {
         int x = _bounds.x + _margin.left;
         int y = _bounds.y;
@@ -295,7 +295,7 @@ public class KmaGraphPainter
         return new KmaGraphPixelBounds(x, y, w, h);
     }
 
-    public KmaGraphPixelBounds computeBottomBounds(KmaGraphics g)
+    public KmaGraphPixelBounds computeBottomBounds(@SuppressWarnings("unused") KmaGraphics g)
     {
         int x = _bounds.x + _margin.left;
         int y = _bounds.y + _bounds.height - _margin.bottom;
@@ -304,7 +304,7 @@ public class KmaGraphPainter
         return new KmaGraphPixelBounds(x, y, w, h);
     }
 
-    public KmaGraphPixelBounds computeLeftBounds(KmaGraphics g)
+    public KmaGraphPixelBounds computeLeftBounds(@SuppressWarnings("unused") KmaGraphics g)
     {
         int x = _bounds.x;
         int y = _bounds.y + _margin.top;
@@ -313,7 +313,7 @@ public class KmaGraphPainter
         return new KmaGraphPixelBounds(x, y, w, h);
     }
 
-    public KmaGraphPixelBounds computeRightBounds(KmaGraphics g)
+    public KmaGraphPixelBounds computeRightBounds(@SuppressWarnings("unused") KmaGraphics g)
     {
         int x = _bounds.x + _bounds.width - _margin.right;
         int y = _bounds.y + _margin.top;
@@ -322,7 +322,7 @@ public class KmaGraphPainter
         return new KmaGraphPixelBounds(x, y, w, h);
     }
 
-    public KmaGraphPixelBounds computeGridBounds(KmaGraphics g)
+    public KmaGraphPixelBounds computeGridBounds(@SuppressWarnings("unused") KmaGraphics g)
     {
         int x = _bounds.x + _margin.left;
         int y = _bounds.y + _margin.top;
@@ -602,7 +602,7 @@ public class KmaGraphPainter
         g.drawLine(bottom.getMaximum(), left.getMinimum(), bottom.getMaximum(), left.getMaximum());
     }
 
-    public void drawPreGrid(KmaGraphics g)
+    public void drawPreGrid(@SuppressWarnings("unused") KmaGraphics g)
     {
         // ignored
     }
@@ -867,10 +867,10 @@ public class KmaGraphPainter
     {
         float miterLimit = 1.0f;
         float dashArray[] =
-        {
+                    {
             8.0f,
             6.0f
-        };
+                    };
         float dashPhase = 0.0f;
         BasicStroke s = new BasicStroke(
             (float)w,
@@ -886,10 +886,10 @@ public class KmaGraphPainter
     {
         float miterLimit = 1.0f;
         float dashArray[] =
-        {
+                    {
             1.0f,
             2.0f
-        };
+                    };
         float dashPhase = 0.0f;
         BasicStroke s = new BasicStroke(
             (float)w,

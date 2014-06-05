@@ -32,9 +32,9 @@ public class ScToggleScript
     //# constructor
     //##################################################
 
-    public ScToggleScript(ScRootScript e)
+    public ScToggleScript()
     {
-        super(e);
+        super();
     }
 
     //##################################################
@@ -104,11 +104,4 @@ public class ScToggleScript
     {
         return (ScToggleScript)super.speed(ms);
     }
-
-    @Override
-    public ScToggleScript defer()
-    {
-        return (ScToggleScript)super.defer();
-    }
-
 }

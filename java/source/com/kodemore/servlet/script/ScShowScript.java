@@ -33,9 +33,9 @@ public class ScShowScript
     //# constructor
     //##################################################
 
-    public ScShowScript(ScRootScript e)
+    public ScShowScript()
     {
-        super(e);
+        super();
 
         setEasing(ScConstantsIF.DEFAULT_SHOW_EASING);
     }
@@ -107,11 +107,4 @@ public class ScShowScript
     {
         return (ScShowScript)super.speed(ms);
     }
-
-    @Override
-    public ScShowScript defer()
-    {
-        return (ScShowScript)super.defer();
-    }
-
 }

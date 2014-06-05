@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.dao;
 
@@ -36,7 +36,7 @@ import com.kodemore.collection.KmList;
  * Elements returned are guaranteed to be non-null.
  */
 public abstract class KmDaoCursor<T>
-    implements Iterator<T>, Iterable<T>
+implements Iterator<T>, Iterable<T>
 {
     //##################################################
     //# variables
@@ -129,7 +129,7 @@ public abstract class KmDaoCursor<T>
             }
 
             T e = _batch.get(_index);
-            if ( pass(e) )
+            if ( passes(e) )
             {
                 _ready = true;
                 return true;
@@ -164,10 +164,7 @@ public abstract class KmDaoCursor<T>
      */
     protected abstract KmList<T> getNextBatch();
 
-    /**
-     * Apply an additional filter to the elements.
-     */
-    protected boolean pass(T e)
+    protected boolean passes(@SuppressWarnings("unused") T e)
     {
         return true;
     }

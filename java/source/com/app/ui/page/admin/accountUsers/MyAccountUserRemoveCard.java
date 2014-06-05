@@ -140,13 +140,13 @@ public class MyAccountUserRemoveCard
 
     private MyUser getSelectedUser()
     {
-        // todo_wyatt: selectedUser
+        // todo_wyatt: account users
         return null;
     }
 
     private MyAccount getSelectedAccount()
     {
-        // todo_wyatt: selectedAccount;
+        // todo_wyatt: account users
         return null;
     }
 }

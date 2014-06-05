@@ -56,19 +56,13 @@ public abstract class ScBlockScript
     extends ScAbstractScript
 {
     //##################################################
-    //# constructor
+    //# instance creation
     //##################################################
 
-    public ScBlockScript()
+    public static ScBlockScript create()
     {
-        super();
+        return new ScSimpleBlockScript();
     }
-
-    //##################################################
-    //# root
-    //##################################################
-
-    public abstract ScRootScript getRoot();
 
     //##################################################
     //# run
@@ -118,49 +112,20 @@ public abstract class ScBlockScript
     }
 
     //##################################################
-    //# stack
+    //# when done
     //##################################################
 
-    /**
-     * Technically this is a push, but most context don't
-     * actually care about the push/pop relationship - instead
-     * they really just want to "wait" until the animation is 
-     * done before running the rest of the script.  For these
-     * cases, this method provides clearer code.  Clients that 
-     * use pop should also use a corresponding push.
-     */
-    public void deferUntil(ScHtmlIdIF target)
+    public ScWhenDoneAjax whenDone(ScHtmlIdIF target)
     {
-        pushDeferUntil(target);
+        ScWhenDoneAjax e;
+        e = new ScWhenDoneAjax(target);
+        run(e);
+        return e;
     }
 
-    public void deferUntil(String sel)
-    {
-        pushDeferUntil(sel);
-    }
+    public abstract ScWhenDoneAjax pushWhenDone(ScHtmlIdIF target);
 
-    /**
-     * Push a context onto the stack.  The new context is 
-     * wrapped in an anonomous function
-     * 
-     *      function() { ... }
-     * 
-     * And is deferred until the target's "promise" is done. 
-     */
-    public void pushDeferUntil(ScHtmlIdIF target)
-    {
-        pushDeferUntil(target.getJquerySelector());
-    }
-
-    public void pushDeferUntil(String sel)
-    {
-        getRoot().pushDeferUntil(sel);
-    }
-
-    public void popDefer()
-    {
-        getRoot().popDefer();
-    }
+    public abstract void popWhenDone();
 
     //##################################################
     //# call
@@ -424,7 +389,7 @@ public abstract class ScBlockScript
     //# main
     //##################################################
 
-    public void printMain(ScControlIF e)
+    public void printMain(ScControlIF e, boolean focus)
     {
         ScReplaceContentsScript r;
         r = setContents(getMainSelector(), e);
@@ -436,6 +401,23 @@ public abstract class ScBlockScript
 
         if ( data.isNavigateBack() )
             r.setTransition(ScTransition.SlideRight, 200);
+
+        if ( focus )
+            r.setPostRenderScript(formatFocusScript(e));
+    }
+
+    private String formatFocusScript(ScControlIF e)
+    {
+        if ( !(e instanceof ScHtmlIdIF) )
+            return null;
+
+        ScHtmlIdIF htmlId = (ScHtmlIdIF)e;
+
+        ScBlockScript s;
+        s = ScBlockScript.create();
+        s.focus(htmlId);
+
+        return s.formatScript();
     }
 
     public void clearMain()
@@ -498,7 +480,7 @@ public abstract class ScBlockScript
     /**
      * Focus on the first enabled field found on the page.
      */
-    public void focus()
+    public void focusPage()
     {
         run("Kmu.focus();");
     }
@@ -511,21 +493,9 @@ public abstract class ScBlockScript
     public void focus(String sel)
     {
         if ( Kmu.isEmpty(sel) )
-            focus();
+            focusPage();
         else
             run("Kmu.focus(%s);", json(sel));
-    }
-
-    public void focusDeferred(ScHtmlIdIF e)
-    {
-        focusDeferred(e.getJquerySelector());
-    }
-
-    public void focusDeferred(String sel)
-    {
-        pushDeferUntil(sel);
-        focus(sel);
-        popDefer();
     }
 
     //##################################################
@@ -540,7 +510,7 @@ public abstract class ScBlockScript
     public ScShowScript show(String sel)
     {
         ScShowScript s;
-        s = new ScShowScript(getRoot());
+        s = new ScShowScript();
         s.setSelector(sel);
 
         _add(s);
@@ -556,7 +526,7 @@ public abstract class ScBlockScript
     public ScHideScript hide(String sel)
     {
         ScHideScript s;
-        s = new ScHideScript(getRoot());
+        s = new ScHideScript();
         s.setSelector(sel);
 
         _add(s);
@@ -572,7 +542,7 @@ public abstract class ScBlockScript
     public ScToggleScript toggle(String sel)
     {
         ScToggleScript e;
-        e = new ScToggleScript(getRoot());
+        e = new ScToggleScript();
         e.setSelector(sel);
 
         _add(e);
@@ -851,7 +821,7 @@ public abstract class ScBlockScript
 
     public ScBlockScript onEscape(ScHtmlIdIF target)
     {
-        ScBlockScript block = new ScSimpleBlockScript(getRoot());
+        ScBlockScript block = new ScSimpleBlockScript();
         onEscape(target, block);
         return block;
     }
@@ -884,7 +854,7 @@ public abstract class ScBlockScript
 
     public ScBlockScript onControlEnter(ScHtmlIdIF target)
     {
-        ScBlockScript block = new ScSimpleBlockScript(getRoot());
+        ScBlockScript block = new ScSimpleBlockScript();
         onControlEnter(target, block);
         return block;
     }

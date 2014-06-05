@@ -6,13 +6,13 @@ import com.kodemore.json.KmJsonMap;
 
 /**
  * I am a ticket object
- * 
+ *
  * Api documentation
  *      http://developer.zendesk.com/documentation/rest_api/tickets.html
  */
 
 public class KmZendeskTicket
-    extends Object
+extends Object
 {
     //##################################################
     //# variables (public)
@@ -61,9 +61,9 @@ public class KmZendeskTicket
         return _ticketFormId;
     }
 
-    public void setTicketFormId(Integer ticketFormId)
+    public void setTicketFormId(Integer e)
     {
-        _ticketFormId = ticketFormId;
+        _ticketFormId = e;
     }
 
     public Integer getId()
@@ -71,9 +71,9 @@ public class KmZendeskTicket
         return _id;
     }
 
-    public void setId(Integer id)
+    public void setId(Integer e)
     {
-        _id = id;
+        _id = e;
     }
 
     public String getUrl()
@@ -81,9 +81,9 @@ public class KmZendeskTicket
         return _url;
     }
 
-    public void setUrl(String url)
+    public void setUrl(String e)
     {
-        _url = url;
+        _url = e;
     }
 
     public Integer getExternalId()
@@ -91,9 +91,9 @@ public class KmZendeskTicket
         return _externalId;
     }
 
-    public void setExternalId(Integer integer)
+    public void setExternalId(Integer e)
     {
-        _externalId = integer;
+        _externalId = e;
     }
 
     public String getType()
@@ -101,9 +101,9 @@ public class KmZendeskTicket
         return _type;
     }
 
-    public void setType(String type)
+    public void setType(String e)
     {
-        _type = type;
+        _type = e;
     }
 
     public String getSubject()
@@ -111,9 +111,9 @@ public class KmZendeskTicket
         return _subject;
     }
 
-    public void setSubject(String subject)
+    public void setSubject(String e)
     {
-        _subject = subject;
+        _subject = e;
     }
 
     public String getDescription()
@@ -121,9 +121,9 @@ public class KmZendeskTicket
         return _description;
     }
 
-    public void setDescription(String description)
+    public void setDescription(String e)
     {
-        _description = description;
+        _description = e;
     }
 
     public String getPriority()
@@ -131,9 +131,9 @@ public class KmZendeskTicket
         return _priority;
     }
 
-    public void setPriority(String priority)
+    public void setPriority(String e)
     {
-        _priority = priority;
+        _priority = e;
     }
 
     public String getStatus()
@@ -141,9 +141,9 @@ public class KmZendeskTicket
         return _status;
     }
 
-    public void setStatus(String status)
+    public void setStatus(String e)
     {
-        _status = status;
+        _status = e;
     }
 
     public String getRecipient()
@@ -151,9 +151,9 @@ public class KmZendeskTicket
         return _recipient;
     }
 
-    public void setRecipient(String recipient)
+    public void setRecipient(String e)
     {
-        _recipient = recipient;
+        _recipient = e;
     }
 
     public Integer getRequesterId()
@@ -161,9 +161,9 @@ public class KmZendeskTicket
         return _requesterId;
     }
 
-    public void setRequesterId(Integer requesterId)
+    public void setRequesterId(Integer e)
     {
-        _requesterId = requesterId;
+        _requesterId = e;
     }
 
     public Integer getSubmitterId()
@@ -171,9 +171,9 @@ public class KmZendeskTicket
         return _submitterId;
     }
 
-    public void setSubmitterId(Integer submitterId)
+    public void setSubmitterId(Integer e)
     {
-        _submitterId = submitterId;
+        _submitterId = e;
     }
 
     public Integer getAssigneeId()
@@ -181,9 +181,9 @@ public class KmZendeskTicket
         return _assigneeId;
     }
 
-    public void setAssigneeId(Integer assigneeId)
+    public void setAssigneeId(Integer e)
     {
-        _assigneeId = assigneeId;
+        _assigneeId = e;
     }
 
     public Integer getOrganizationId()
@@ -191,9 +191,9 @@ public class KmZendeskTicket
         return _organizationId;
     }
 
-    public void setOrganizationId(Integer organizationId)
+    public void setOrganizationId(Integer e)
     {
-        _organizationId = organizationId;
+        _organizationId = e;
     }
 
     public Integer getGroupId()
@@ -201,9 +201,9 @@ public class KmZendeskTicket
         return _groupId;
     }
 
-    public void setGroupId(Integer groupId)
+    public void setGroupId(Integer e)
     {
-        _groupId = groupId;
+        _groupId = e;
     }
 
     public Integer getForumTopicId()
@@ -211,9 +211,9 @@ public class KmZendeskTicket
         return _forumTopicId;
     }
 
-    public void setForumTopicId(Integer forumTopicId)
+    public void setForumTopicId(Integer e)
     {
-        _forumTopicId = forumTopicId;
+        _forumTopicId = e;
     }
 
     public Integer getProblemId()
@@ -221,9 +221,9 @@ public class KmZendeskTicket
         return _problemId;
     }
 
-    public void setProblemId(Integer problemId)
+    public void setProblemId(Integer e)
     {
-        _problemId = problemId;
+        _problemId = e;
     }
 
     public Boolean getHasIncidents()
@@ -231,9 +231,9 @@ public class KmZendeskTicket
         return _hasIncidents;
     }
 
-    public void setHasIncidents(Boolean hasIncidents)
+    public void setHasIncidents(Boolean e)
     {
-        _hasIncidents = hasIncidents;
+        _hasIncidents = e;
 
     }
 
@@ -242,9 +242,9 @@ public class KmZendeskTicket
         return _dueAt;
     }
 
-    public void setDueAt(String dueAt)
+    public void setDueAt(String e)
     {
-        _dueAt = dueAt;
+        _dueAt = e;
     }
 
     public String getCreatedAt()
@@ -252,9 +252,9 @@ public class KmZendeskTicket
         return _createdAt;
     }
 
-    public void setCreatedAt(String createdAt)
+    public void setCreatedAt(String e)
     {
-        createdAt = _createdAt;
+        _createdAt = e;
     }
 
     public String getUpdatedAt()
@@ -262,9 +262,9 @@ public class KmZendeskTicket
         return _updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt)
+    public void setUpdatedAt(String e)
     {
-        _updatedAt = updatedAt;
+        _updatedAt = e;
     }
 
     public KmList<Integer> getCollaboratorIds()

@@ -27,8 +27,9 @@ import java.util.List;
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScControlIF;
-import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScScriptIF;
+import com.kodemore.servlet.script.ScSimpleBlockScript;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
@@ -66,7 +67,7 @@ public class KmHtmlBuilder
      * offscreen, or hidden. This allows us to render and
      * initialize complex html before its made visible.  
      */
-    private ScRootScript        _postDom;
+    private ScBlockScript       _postDom;
 
     /**
      * Scripts that are NOT rendered directly onto the html.
@@ -76,7 +77,7 @@ public class KmHtmlBuilder
      * But a some scripts must be delayed until after the
      * html is visible; such as setFocus.  
      */
-    private ScRootScript        _postRender;
+    private ScBlockScript       _postRender;
 
     //##################################################
     //# constructor
@@ -85,8 +86,8 @@ public class KmHtmlBuilder
     public KmHtmlBuilder()
     {
         _buffer = new KmStringBuilder();
-        _postDom = new ScRootScript();
-        _postRender = new ScRootScript();
+        _postDom = new ScSimpleBlockScript();
+        _postRender = new ScSimpleBlockScript();
     }
 
     public KmHtmlBuilder(String html)
@@ -1026,7 +1027,7 @@ public class KmHtmlBuilder
     /**
      * see comment above: _postDom
      */
-    public ScRootScript getPostDom()
+    public ScBlockScript getPostDom()
     {
         return _postDom;
     }
@@ -1034,7 +1035,7 @@ public class KmHtmlBuilder
     /**
      * see comment above: _postRenderScripts
      */
-    public ScRootScript getPostRender()
+    public ScBlockScript getPostRender()
     {
         return _postRender;
     }

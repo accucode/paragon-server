@@ -14,7 +14,7 @@ import com.kodemore.json.KmJsonMap;
 
 /**
  * I am used list all tickets
- * 
+ *
  * Api documentation
  *      http://developer.zendesk.com/documentation/rest_api/tickets.html
  */
@@ -22,7 +22,7 @@ import com.kodemore.json.KmJsonMap;
 public class KmZendeskListTickets
 {
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private KmZendeskConnection _connection;
@@ -63,7 +63,7 @@ public class KmZendeskListTickets
             _connection.setApiToken(_apiToken);
             _connection.setHost(u.getHost());
             _connection.setPath(u.getPath());
-            setConnectionParameters(_connection, u);
+            setConnectionParameters(u);
 
         }
         catch ( URISyntaxException ex )
@@ -72,7 +72,7 @@ public class KmZendeskListTickets
         }
     }
 
-    private void setConnectionParameters(KmZendeskConnection connection, URI u)
+    private void setConnectionParameters(URI u)
     {
         List<NameValuePair> decode = URLEncodedUtils.parse(u, "UTF-8");
 

@@ -23,7 +23,7 @@
 package com.kodemore.servlet.control;
 
 import com.kodemore.servlet.ScEntryPageIF;
-import com.kodemore.servlet.script.ScRootScript;
+import com.kodemore.servlet.script.ScBlockScript;
 
 /**
  * A link to start an page.
@@ -74,8 +74,8 @@ public class ScPageLink
     @Override
     protected String formatHref()
     {
-        ScRootScript s;
-        s = new ScRootScript();
+        ScBlockScript s;
+        s = ScBlockScript.create();
         s.pushPage(getPage().formatQueryString());
 
         return "javascript:" + s.formatScript();

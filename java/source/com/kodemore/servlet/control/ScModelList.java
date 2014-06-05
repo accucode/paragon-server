@@ -249,8 +249,8 @@ public class ScModelList<T>
     {
         ScHtmlIdAjax ajax;
         ajax = ajaxFor(value);
-        ajax.hide().slide().defer();
-        ajax.remove();
+        ajax.hide().slide();
+        ajax.whenDone().remove();
     }
 
     public void ajaxAppendValue(T value)
@@ -266,8 +266,8 @@ public class ScModelList<T>
         ScHtmlIdAjax valueAjax;
         valueAjax = ajaxFor(value);
         valueAjax.show().slide();
-        valueAjax.glowDeferred();
-        valueAjax.runDeferred(out.getPostRender());
+        valueAjax.whenDone().glow();
+        valueAjax.whenDone().run(out.getPostRender());
     }
 
     public void ajaxPrependValue(T value)
@@ -283,8 +283,8 @@ public class ScModelList<T>
         ScHtmlIdAjax valueAjax;
         valueAjax = ajaxFor(value);
         valueAjax.show().slide();
-        valueAjax.glowDeferred();
-        valueAjax.runDeferred(out.getPostRender());
+        valueAjax.whenDone().glow();
+        valueAjax.whenDone().run(out.getPostRender());
     }
 
     //##################################################

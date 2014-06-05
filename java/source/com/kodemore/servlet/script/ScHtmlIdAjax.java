@@ -27,21 +27,18 @@ import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScControlIF;
-import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 
 /**
- * I manage a list of scripts, roughly representing the
- * contents of a "block".  That is, the code _between_
- * matching braces {...}.
+ * I provide convenience methods for a particular target.
+ * Note that the ScHtmlIdIF interface implements an ajax()
+ * method that returns an instance of ScHtmlIdAjax.
  * 
- * NOTE: In many cases, clients will simply use my helper
- * methods such as toast(...).  However, when clients 
- * directly compose their own script, then those clients
- * are responsible for manually including any appropriate
- * whitespace or terminators.  The basic add/run methods
- * do NOT automatically add any spaces, linefeeds, or
- * semicolons.
+ * For example, instead of:
+ *      ajax().hide(aControl);
+ *      
+ * We can use:
+ *      aControl.ajax().hide();
  */
 public class ScHtmlIdAjax
     extends ScWrapperScript
@@ -55,6 +52,11 @@ public class ScHtmlIdAjax
     //##################################################
     //# constructor
     //##################################################
+
+    public ScHtmlIdAjax(ScHtmlIdIF target)
+    {
+        this(ScBlockScript.create(), target);
+    }
 
     public ScHtmlIdAjax(ScBlockScript delegate, ScHtmlIdIF target)
     {
@@ -83,38 +85,17 @@ public class ScHtmlIdAjax
     }
 
     //##################################################
-    //# run :: deferred
+    //# when done
     //##################################################
 
-    public void runDeferred(ScScriptIF e)
+    public ScWhenDoneAjax whenDone()
     {
-        pushDefer();
-        run(e);
-        popDefer();
+        return whenDone(getTarget());
     }
 
-    public ScScriptIF runDeferred(String s, Object... args)
+    public ScWhenDoneAjax pushWhenDone()
     {
-        pushDefer();
-        ScScriptIF e = run(s, args);
-        popDefer();
-        return e;
-    }
-
-    public ScActionScript runDeferred(ScActionIF action)
-    {
-        pushDefer();
-        ScActionScript e = run(action);
-        popDefer();
-        return e;
-    }
-
-    public ScActionScript runDeferred(ScActionIF action, ScForm form)
-    {
-        pushDefer();
-        ScActionScript e = run(action, form);
-        popDefer();
-        return e;
+        return pushWhenDone(getTarget());
     }
 
     //##################################################
@@ -139,14 +120,6 @@ public class ScHtmlIdAjax
     public ScGlowScript glow()
     {
         return glow(getTarget());
-    }
-
-    public ScGlowScript glowDeferred()
-    {
-        pushDefer();
-        ScGlowScript e = glow(getTarget());
-        popDefer();
-        return e;
     }
 
     //##################################################
@@ -273,15 +246,9 @@ public class ScHtmlIdAjax
         run("$('%s .%s').hide();", target, error);
     }
 
-    @Override
     public void focus()
     {
         getInner().focus(getTarget());
-    }
-
-    public void focusDeferred()
-    {
-        getInner().focusDeferred(getTarget());
     }
 
     //##################################################
@@ -296,20 +263,6 @@ public class ScHtmlIdAjax
     public void clearValue()
     {
         clearValue(getTarget());
-    }
-
-    //##################################################
-    //# stack
-    //##################################################
-
-    public void pushDefer()
-    {
-        pushDeferUntil(getTarget());
-    }
-
-    public void defer()
-    {
-        deferUntil(getTarget());
     }
 
     //##################################################
@@ -389,7 +342,7 @@ public class ScHtmlIdAjax
     }
 
     //##################################################
-    //# drag
+    //# sortable
     //##################################################
 
     public void sortableByHandle()

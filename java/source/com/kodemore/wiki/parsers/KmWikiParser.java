@@ -27,7 +27,7 @@ import com.kodemore.wiki.KmWikiReader;
 import com.kodemore.wiki.KmWikiSource;
 
 public abstract class KmWikiParser
-    implements KmWikiConstantsIF
+implements KmWikiConstantsIF
 {
     //##################################################
     //# variables
@@ -52,7 +52,7 @@ public abstract class KmWikiParser
 
     public abstract boolean parse(KmWikiSource source, KmWikiContainer e);
 
-    public boolean endDocument(KmWikiContainer e)
+    public boolean endDocument()
     {
         return false;
     }

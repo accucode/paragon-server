@@ -41,7 +41,6 @@ import com.kodemore.servlet.field.ScControlVisitorIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.field.ScStoppableControlVisitorIF;
 import com.kodemore.servlet.script.ScBlockScript;
-import com.kodemore.servlet.script.ScRootScript;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.servlet.utility.ScKeyIF;
@@ -107,7 +106,7 @@ public abstract class ScControl
      * the script can contains ScScriptIFs that will be evaluated
      * upon request.
      */
-    private ScRootScript                       _postDomScript;
+    private ScBlockScript                      _postDomScript;
 
     /**
      * The scripts to run after the display has been rendered.
@@ -116,7 +115,7 @@ public abstract class ScControl
      * after the dom has been updated, and must wait until after
      * the display has been fully rendered.
      */
-    private ScRootScript                       _postRenderScript;
+    private ScBlockScript                      _postRenderScript;
 
     //##################################################
     //# constructor
@@ -639,9 +638,9 @@ public abstract class ScControl
         return data.hasParameter(_key);
     }
 
-    protected final ScRootScript getRootScript()
+    protected final ScBlockScript getRootScript()
     {
-        return getData().ajax().getRoot();
+        return getData().ajax();
     }
 
     protected String json(CharSequence s)
@@ -772,13 +771,13 @@ public abstract class ScControl
     }
 
     //##################################################
-    //# script
+    //# post scripts
     //##################################################
 
     public ScBlockScript getPostDomScript()
     {
         if ( _postDomScript == null )
-            _postDomScript = new ScRootScript();
+            _postDomScript = createPostScript();
 
         return _postDomScript;
     }
@@ -786,9 +785,14 @@ public abstract class ScControl
     public ScBlockScript getPostRenderScript()
     {
         if ( _postRenderScript == null )
-            _postRenderScript = new ScRootScript();
+            _postRenderScript = createPostScript();
 
         return _postRenderScript;
+    }
+
+    protected ScBlockScript createPostScript()
+    {
+        return ScBlockScript.create();
     }
 
     //##################################################
