@@ -1,6 +1,9 @@
 For Lucas
 	Needs to reset application salt.
 
+Java 8?
+    Lamda expressions?
+    Runtime compatible with JRE6?
 
 =======================================
 == To Do
