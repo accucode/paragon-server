@@ -4,6 +4,7 @@ import org.apache.log4j.Level;
 
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
+import com.kodemore.log.KmLog;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
@@ -17,6 +18,7 @@ import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScGroup;
+import com.kodemore.servlet.control.ScLink;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScSimpleContainer;
 import com.kodemore.servlet.field.ScDateField;
@@ -29,7 +31,7 @@ import com.app.model.MySystemLogTools;
 import com.app.model.meta.MyMetaSystemLog;
 
 public class MyDevSystemLogsPage
-extends MyDevAbstractPage
+    extends MyDevAbstractPage
 {
     //##################################################
     //# singleton
@@ -57,6 +59,7 @@ extends MyDevAbstractPage
 
     private ScDiv               _logPanel;
     private ScGroup             _logGroup;
+    private ScLink              _deleteLogLink;
 
     //##################################################
     //# navigation
@@ -94,7 +97,7 @@ extends MyDevAbstractPage
 
         installFilter(top);
         installGrid(left);
-        installLog(_logPanel);
+        installLogGroup();
     }
 
     private void installFilter(ScDiv root)
@@ -119,6 +122,7 @@ extends MyDevAbstractPage
 
         _filterBox = root.addFilterBox("System Logs");
         _filterBox.layoutFill();
+        _filterBox.setAction(newFilterAction());
 
         ScArray row;
         row = _filterBox.addSpacedRow();
@@ -134,8 +138,19 @@ extends MyDevAbstractPage
         fields.add(_endDateField);
 
         ScActionButton button;
-        button = _filterBox.getButtons().addButton("Delete All", newDeleteAllAction());
+        button = _filterBox.getLeftButtons().addButton("Delete All", newDeleteAllAction());
         button.setConfirmationMessage("Delete All Logs?");
+
+        installTestButtons();
+    }
+
+    private void installTestButtons()
+    {
+        ScBox buttons;
+        buttons = _filterBox.getRightButtons();
+        buttons.addButton("Add Debug", newAddDebugLogAction());
+        buttons.addButton("Add Info", newAddInfoLogAction());
+        buttons.addButton("Add Fatal", newAddFatalLogAction());
     }
 
     private void installGrid(ScDiv root)
@@ -165,25 +180,31 @@ extends MyDevAbstractPage
         _grid = grid;
     }
 
-    private void installLog(ScDiv root)
+    private void installLogGroup()
     {
         MyMetaSystemLog x = MySystemLog.Meta;
 
-        // todo_wyatt: test
-        _logGroup = root.addGroup("Log");
-        _logGroup.layoutFill();
-        _logGroup.css().marginLeft();
-        _logGroup.bodyCss().pad();
+        ScGroup group;
+        group = new ScGroup();
+        group.setTitle("Log");
+        group.layoutFill();
+        group.css().marginLeft();
+        group.bodyCss().pad();
+
+        // created, but disconnected from the main content.
+        _logGroup = group;
 
         ScSimpleContainer idRow;
         idRow = new ScSimpleContainer();
         idRow.setLabel("Id");
         idRow.addText(x.Id);
         idRow.addSpace();
-        idRow.addLink("delete", newDeleteAction(), x.Id).setConfirmationMessage("Delete?");
+
+        _deleteLogLink = idRow.addLink("delete", newDeleteAction(), x.Id);
+        _deleteLogLink.setConfirmationMessage("Delete?");
 
         ScBox body;
-        body = _logGroup.addBox();
+        body = group.addBox();
 
         ScFieldTable fields;
         fields = body.addFields();
@@ -205,6 +226,18 @@ extends MyDevAbstractPage
     //##################################################
     //# actions
     //##################################################
+
+    private ScActionIF newFilterAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleFilter();
+            }
+        };
+    }
 
     private ScActionIF newSelectAction()
     {
@@ -242,18 +275,65 @@ extends MyDevAbstractPage
         };
     }
 
+    private ScActionIF newAddDebugLogAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleAddDebugLog();
+            }
+        };
+    }
+
+    private ScActionIF newAddInfoLogAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleAddInfoLog();
+            }
+        };
+    }
+
+    private ScActionIF newAddFatalLogAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleAddFatalLog();
+            }
+        };
+    }
+
     //##################################################
     //# handle
     //##################################################
+
+    private void handleFilter()
+    {
+        _grid.ajaxReload();
+        _logPanel.ajax().clearContents();
+    }
 
     private void handleSelect()
     {
         Integer id = getIntegerArgument();
         MySystemLog log = getAccess().findSystemLogId(id);
 
-        _logGroup.applyFromModel(log);
+        if ( log == null )
+        {
+            ajax().toast("Cannot find log; refresh.");
+            return;
+        }
 
-        ajax().setContents(_logPanel, _logGroup).fade();
+        _logGroup.applyFromModel(log);
+        _logPanel.ajax().setContents(_logGroup).fade();
     }
 
     private void handleDeleteAll()
@@ -280,6 +360,24 @@ extends MyDevAbstractPage
         ajax().toast("Log %s, deleted.", id);
     }
 
+    private void handleAddDebugLog()
+    {
+        KmLog.debug("Debug log test.");
+        ajax().toast("Debug log created.  Refresh.");
+    }
+
+    private void handleAddInfoLog()
+    {
+        KmLog.info("Info log test.");
+        ajax().toast("Info log created.  Refresh.");
+    }
+
+    private void handleAddFatalLog()
+    {
+        KmLog.fatalTrace("Info log test.");
+        ajax().toast("Fatal log created.  Refresh.");
+    }
+
     //##################################################
     //# support
     //##################################################
@@ -287,13 +385,13 @@ extends MyDevAbstractPage
     private KmFilterFactoryIF<MySystemLog> newFetcher()
     {
         return new KmFilterFactoryIF<MySystemLog>()
-                        {
+        {
             @Override
             public KmFilter<MySystemLog> createFilter()
             {
                 return getFilter();
             }
-                        };
+        };
     }
 
     private MySystemLogFilter getFilter()
