@@ -459,7 +459,12 @@ public class ScGrid<T>
         setupPager(map);
         setupSorting(map);
         setupColumns(map);
-        // review_wyatt (lucas) - this appears to fix the issue where tracked values weren't making it to the request url during a page navigation, wouldn't mind you checking it out
+
+        /*
+         * review_wyatt (lucas)
+         * This appears to fix the issue where tracked values weren't making 
+         * it to the request url during a page navigation, would you check it out?
+         */
         setupRequestParameters(map);
 
         return map;
