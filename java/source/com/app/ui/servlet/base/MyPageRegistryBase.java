@@ -8,85 +8,16 @@
 
 package com.app.ui.servlet.base;
 
-import com.kodemore.servlet.ScPageRegistry;
+import com.kodemore.servlet.*;
 
-import com.app.ui.page.admin.MyAdminPage;
-import com.app.ui.page.admin.MySelectAccountPage;
-import com.app.ui.page.admin.accountSettings.MyAccountSettingsPage;
-import com.app.ui.page.admin.accountUsers.MyAccountUsersPage;
-import com.app.ui.page.admin.userProfile.MyUserProfilePage;
-import com.app.ui.page.general.MyHomePage;
-import com.app.ui.page.general.MySignOutPage;
-import com.app.ui.page.general.MyTimeoutPage;
-import com.app.ui.page.login.MyPasswordResetPage;
-import com.app.ui.page.login.MySignInPage;
-import com.app.ui.page.login.MyUserActivationPage;
-import com.app.ui.page.test.MyAccordionTestPage;
-import com.app.ui.page.test.MyAnimationTestPage;
-import com.app.ui.page.test.MyAutoCompleteTestPage;
-import com.app.ui.page.test.MyBarcodeTestPage;
-import com.app.ui.page.test.MyBlankTestPage;
-import com.app.ui.page.test.MyBlockTestPage;
-import com.app.ui.page.test.MyBorderLayoutTestPage;
-import com.app.ui.page.test.MyBorderTestPage;
-import com.app.ui.page.test.MyCardFlipTestPage;
-import com.app.ui.page.test.MyChartTestPage;
-import com.app.ui.page.test.MyColorFieldTestPage;
-import com.app.ui.page.test.MyDateFieldTestPage;
-import com.app.ui.page.test.MyDomainDropdownSetValueTestPage;
-import com.app.ui.page.test.MyDownloadTestPage;
-import com.app.ui.page.test.MyDragScrollToTestPage;
-import com.app.ui.page.test.MyDropzoneTestPage;
-import com.app.ui.page.test.MyEqualizeTestPage;
-import com.app.ui.page.test.MyFacebookTestPage;
-import com.app.ui.page.test.MyFieldTestPage;
-import com.app.ui.page.test.MyFilterTableRowTestPage;
-import com.app.ui.page.test.MyFormTestPage;
-import com.app.ui.page.test.MyGmailTestPage;
-import com.app.ui.page.test.MyGoogleChartTestPage;
-import com.app.ui.page.test.MyGradientTestPage;
-import com.app.ui.page.test.MyGridTestPage;
-import com.app.ui.page.test.MyGroupIconHeaderTestPage;
-import com.app.ui.page.test.MyGroupTestPage;
-import com.app.ui.page.test.MyHandleSortTestPage;
-import com.app.ui.page.test.MyHideErrorsTestPage;
-import com.app.ui.page.test.MyHoverTestPage;
-import com.app.ui.page.test.MyImageButtonTestPage;
-import com.app.ui.page.test.MyLocalValueTestPage;
-import com.app.ui.page.test.MyMemoryLeakTestPage;
-import com.app.ui.page.test.MyNavigationTest1Page;
-import com.app.ui.page.test.MyNavigationTest2Page;
-import com.app.ui.page.test.MyNotebookTestPage;
-import com.app.ui.page.test.MyOpenWindowTestPage;
-import com.app.ui.page.test.MyPaddingTestPage;
-import com.app.ui.page.test.MyPlaceholderTestPage;
-import com.app.ui.page.test.MyPopupMenuTestPage;
-import com.app.ui.page.test.MyRadioButtonTestPage;
-import com.app.ui.page.test.MyScriptTestPage;
-import com.app.ui.page.test.MySharedStateTest1Page;
-import com.app.ui.page.test.MySharedStateTest2Page;
-import com.app.ui.page.test.MyShowDialogTestPage;
-import com.app.ui.page.test.MySlowTestPage;
-import com.app.ui.page.test.MySmtpTestPage;
-import com.app.ui.page.test.MyStaticIncludeTestPage;
-import com.app.ui.page.test.MyTabbedTestPage;
-import com.app.ui.page.test.MyTestPage;
-import com.app.ui.page.test.MyTimeAgoTestPage;
-import com.app.ui.page.test.MyTitlePanelTestPage;
-import com.app.ui.page.test.MyToastTestPage;
-import com.app.ui.page.test.MyWyattTestPage;
-import com.app.ui.page.tools.MyDevApplicationPropertiesPage;
-import com.app.ui.page.tools.MyDevBeanShellPage;
-import com.app.ui.page.tools.MyDevEmailsPage;
-import com.app.ui.page.tools.MyDevHibernateCachePage;
-import com.app.ui.page.tools.MyDevPerformanceLogPage;
-import com.app.ui.page.tools.MyDevSharedFileBrowserPage;
-import com.app.ui.page.tools.MyDevSqlPage;
-import com.app.ui.page.tools.MyDevSystemLogsPage;
-import com.app.ui.page.tools.MyDevSystemPropertiesPage;
-import com.app.ui.page.tools.MyDevToolsPage;
-import com.app.ui.page.tools.MyDevUsersPage;
-import com.app.ui.page.tools.MyDevUtilityPage;
+import com.app.ui.page.admin.*;
+import com.app.ui.page.admin.accountSettings.*;
+import com.app.ui.page.admin.accountUsers.*;
+import com.app.ui.page.admin.userProfile.*;
+import com.app.ui.page.general.*;
+import com.app.ui.page.login.*;
+import com.app.ui.page.test.*;
+import com.app.ui.page.tools.*;
 
 public abstract class MyPageRegistryBase
     extends ScPageRegistry
@@ -95,7 +26,7 @@ public abstract class MyPageRegistryBase
     protected void registerPages()
     {
         super.registerPages();
-
+        
         add(MyAccordionTestPage.instance);
         add(MyAccountSettingsPage.instance);
         add(MyAccountUsersPage.instance);
@@ -114,6 +45,7 @@ public abstract class MyPageRegistryBase
         add(MyDevApplicationPropertiesPage.instance);
         add(MyDevBeanShellPage.instance);
         add(MyDevEmailsPage.instance);
+        add(MyDevEnvironmentVariablesPage.instance);
         add(MyDevHibernateCachePage.instance);
         add(MyDevPerformanceLogPage.instance);
         add(MyDevSharedFileBrowserPage.instance);

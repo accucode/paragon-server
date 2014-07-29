@@ -61,6 +61,7 @@ public class MyDevToolsPage
         links.addLink(MyDevSystemLogsPage.instance);
         links.addLink(MyDevApplicationPropertiesPage.instance);
         links.addLink(MyDevSystemPropertiesPage.instance);
+        links.addLink(MyDevEnvironmentVariablesPage.instance);
         links.addLink(MyDevUsersPage.instance);
         links.addLink(MyDevEmailsPage.instance);
         links.addLink(MyDevHibernateCachePage.instance);
