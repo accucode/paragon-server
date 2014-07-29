@@ -18,7 +18,7 @@ public class MyDevSystemPropertiesPage
     //# variables
     //##################################################
 
-    private ScLiteral                          _literal;
+    private ScLiteral                             _literal;
 
     //##################################################
     //# singleton
@@ -57,7 +57,7 @@ public class MyDevSystemPropertiesPage
         root.css().gap();
 
         ScGroup group;
-        group = root.addGroup();
+        group = root.addGroup("System Properties");
 
         _literal = group.addPad().addLiteral();
     }
