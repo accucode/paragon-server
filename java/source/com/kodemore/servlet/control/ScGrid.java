@@ -460,12 +460,7 @@ public class ScGrid<T>
         setupSorting(map);
         setupColumns(map);
 
-        /*
-         * review_wyatt (lucas)
-         * This appears to fix the issue where tracked values weren't making 
-         * it to the request url during a page navigation, would you check it out?
-         */
-        setupRequestParameters(map);
+        setupInitialParameters(map);
 
         return map;
     }
@@ -530,28 +525,45 @@ public class ScGrid<T>
         return c.getPath(getKey());
     }
 
-    private void setupRequestParameters(KmJsonMap map)
+    private void setupInitialParameters(KmJsonMap map)
     {
         KmJsonArray params;
         params = map.setArray("params");
 
+        _setupTotalCount(params);
+        _setupTrackedValues(params);
+    }
+
+    private void setupAllParameters(KmJsonMap map)
+    {
+        KmJsonArray params;
+        params = map.setArray("params");
+
+        _setupTotalCount(params);
+        _setupTrackedValues(params);
+    }
+
+    private void _setupTotalCount(KmJsonArray params)
+    {
+        if ( _cacheTotalCount.isFalse() )
+            return;
+
         KmJsonMap param;
         param = params.addMap();
+        param.setString("name", PARAMETER_TOTAL_COUNT);
+        param.setInteger("value", getTotalCount());
+    }
 
-        if ( _cacheTotalCount.isTrue() )
-        {
-            param = params.addMap();
-            param.setString("name", PARAMETER_TOTAL_COUNT);
-            param.setInteger("value", getTotalCount());
-        }
-
+    private void _setupTrackedValues(KmJsonArray params)
+    {
         KmList<?> values = getTrackedValues();
-        if ( values.isNotEmpty() )
-        {
-            param = params.addMap();
-            param.setString("name", PARAMETER_TRACKED_VALUES);
-            param.setString("value", ScEncoder.staticEncode(values));
-        }
+        if ( values.isEmpty() )
+            return;
+
+        KmJsonMap param;
+        param = params.addMap();
+        param.setString("name", PARAMETER_TRACKED_VALUES);
+        param.setString("value", ScEncoder.staticEncode(values));
     }
 
     //##################################################
@@ -1110,7 +1122,7 @@ public class ScGrid<T>
         String ref = getJqueryReference();
 
         KmJsonMap map = new KmJsonMap();
-        setupRequestParameters(map);
+        setupAllParameters(map);
         String options = map.formatJson();
 
         ajax().run("%s.flexOptions(%s);", ref, options);
