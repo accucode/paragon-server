@@ -12,7 +12,6 @@ import com.app.model.MySettings;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.core.MyCookieSession;
-import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyLeftMenuItem;
 import com.app.ui.layout.MyPageLayout;
@@ -222,12 +221,6 @@ public abstract class MyPage
     protected MyServletData getData()
     {
         return MyGlobals.getData();
-    }
-
-    @Override
-    protected MyPageSession getPageSession()
-    {
-        return MyGlobals.getPageSession();
     }
 
     protected MyServerSession getServerSession()

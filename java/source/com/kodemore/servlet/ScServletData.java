@@ -73,7 +73,7 @@ import com.kodemore.utility.Kmu;
  * when applying a thread safe implementation of servlets and page handlers.
  */
 public class ScServletData
-implements ScConstantsIF
+    implements ScConstantsIF
 {
     //##################################################
     //# static
@@ -1326,11 +1326,6 @@ implements ScConstantsIF
     //##################################################
     //# page session
     //##################################################
-
-    public ScPageSession getPageSession()
-    {
-        return ScPageSession.getInstance();
-    }
 
     public ScPageSessionAccess getPageSessionAccess()
     {

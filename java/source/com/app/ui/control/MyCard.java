@@ -33,7 +33,6 @@ import com.app.model.MyServerSession;
 import com.app.model.MySettings;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
-import com.app.ui.core.MyPageSession;
 import com.app.utility.MyGlobals;
 
 /**
@@ -45,11 +44,6 @@ public class MyCard
     public MyServerSession getServerSession()
     {
         return MyGlobals.getServerSession();
-    }
-
-    public MyPageSession getPageSession()
-    {
-        return MyGlobals.getPageSession();
     }
 
     public static MyDaoRegistry getAccess()
