@@ -21,6 +21,9 @@ public interface MyConstantsIF
      * Changing this salt will invalidate preexisting passwords 
      * and authentications used to access the application.
      * New values can be generated via Kmu.newUid().
+     * 
+     * The current value is the one used for the Paragon sample project.
+     * It should be changed when you start a new project.
      */
     String APPLICATION_SHA_SALT      = "662NNDM-R4A565-4ETNHI-JNEGAT";
 
