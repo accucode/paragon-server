@@ -86,7 +86,6 @@ public class ScTableRow
     /**
      * Add a cell, setting the column span to the number
      * of remaining columns in the row.
-     * @return
      */
     public ScTableCell addFullCell()
     {

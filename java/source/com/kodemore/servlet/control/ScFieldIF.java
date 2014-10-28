@@ -22,6 +22,9 @@
 
 package com.kodemore.servlet.control;
 
+/**
+ * @param <T>  used as a placeholder and for clarity.
+ */
 public interface ScFieldIF<T>
     extends ScElementIF
 {

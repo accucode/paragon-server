@@ -28,10 +28,10 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I implement an interval for timestamps.  I define a start and end
- * timestamp with various convenience methods.  
- * 
- * The start and/or end dates may be null for an open ended range.  
- * If both the start and end date are specified, then the start date 
+ * timestamp with various convenience methods.
+ *
+ * The start and/or end dates may be null for an open ended range.
+ * If both the start and end date are specified, then the start date
  * MUST be on or before the end date.
  */
 public class KmTimestampInterval
@@ -185,7 +185,7 @@ public class KmTimestampInterval
     //##################################################
 
     /**
-     * @see containsInclusive
+     * @see #containsInclusive(KmTimestamp)
      */
     public boolean contains(KmTimestamp t)
     {
