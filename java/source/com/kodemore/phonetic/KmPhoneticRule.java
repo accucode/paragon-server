@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.phonetic;
 
@@ -105,10 +105,13 @@ public class KmPhoneticRule
     {
         if ( hasMode(MODE_ALL) )
             return _replaceAll(s, verbose);
+
         if ( hasMode(MODE_PREFIX) )
             return _replacePrefix(s, verbose);
+
         if ( hasMode(MODE_SUFFIX) )
             return _replaceSuffix(s, verbose);
+
         return s;
     }
 
@@ -162,15 +165,15 @@ public class KmPhoneticRule
     public void printRuleApplication(String s1, String s2)
     {
         System.out.println("Rule: "
-            + getMode()
-            + ","
-            + getOldValue()
-            + ","
-            + getNewValue()
-            + " :: "
-            + s1
-            + " -> "
-            + s2);
+                        + getMode()
+                        + ","
+                        + getOldValue()
+                        + ","
+                        + getNewValue()
+                        + " :: "
+                        + s1
+                        + " -> "
+                        + s2);
     }
 
 }

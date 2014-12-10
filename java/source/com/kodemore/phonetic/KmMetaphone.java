@@ -18,12 +18,22 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.phonetic;
 
 public class KmMetaphone
 {
+    //##################################################
+    //# main
+    //##################################################
+
+    public static void main(String[] args)
+    {
+        String m = KmMetaphone.getMetaphone("sunday");
+        System.out.println(m);
+    }
+
     //##################################################
     //# constants
     //##################################################
@@ -97,7 +107,7 @@ public class KmMetaphone
         int wdsz = local.length();
         int n = 0;
         while ( mtsz < maxCodeLen && // max code size of 4 works well
-            n < wdsz )
+                        n < wdsz )
         {
             char symb = local.charAt(n);
             // remove duplicate letters except C
@@ -129,9 +139,9 @@ public class KmMetaphone
                     case 'C': // lots of C special cases
                         /* discard if SCI, SCE or SCY */
                         if ( n > 0
-                            && local.charAt(n - 1) == 'S'
-                            && n + 1 < wdsz
-                            && frontv.indexOf(local.charAt(n + 1)) >= 0 )
+                                        && local.charAt(n - 1) == 'S'
+                                        && n + 1 < wdsz
+                                        && frontv.indexOf(local.charAt(n + 1)) >= 0 )
                             break;
                         tmpS = local.toString();
                         if ( tmpS.indexOf("CIA", n) == n )
@@ -177,7 +187,7 @@ public class KmMetaphone
                         if ( tmpS.indexOf("CH", n) == n )
                         { // detect CH
                             if ( wdsz >= n + 3 && // CH consonant -> K consonant
-                                vowels.indexOf(local.charAt(n + 2)) < 0 )
+                                            vowels.indexOf(local.charAt(n + 2)) < 0 )
                                 //                                System.err.println("    n: " + n);
                                 //                                System.err.println("    wdsz: " + wdsz);
                                 //                                System.err.println("    local: " + local);
@@ -197,8 +207,8 @@ public class KmMetaphone
                         break;
                     case 'D':
                         if ( n + 2 < wdsz && // DGE DGI DGY -> J
-                            local.charAt(n + 1) == 'G'
-                            && frontv.indexOf(local.charAt(n + 2)) >= 0 )
+                                        local.charAt(n + 1) == 'G'
+                                        && frontv.indexOf(local.charAt(n + 2)) >= 0 )
                         {
                             code.append('J');
                             n += 2;
@@ -211,8 +221,8 @@ public class KmMetaphone
                         if ( n + 2 == wdsz && local.charAt(n + 1) == 'H' )
                             break;
                         if ( n + 2 < wdsz
-                            && local.charAt(n + 1) == 'H'
-                            && vowels.indexOf(local.charAt(n + 2)) < 0 )
+                                        && local.charAt(n + 1) == 'H'
+                                        && vowels.indexOf(local.charAt(n + 2)) < 0 )
                             break;
                         tmpS = local.toString();
                         if ( n > 0 && tmpS.indexOf("GN", n) == n || tmpS.indexOf("GNED", n) == n )
@@ -259,7 +269,7 @@ public class KmMetaphone
                         break;
                     case 'P':
                         if ( n + 1 < wdsz && // PH -> F
-                            local.charAt(n + 1) == 'H' )
+                                        local.charAt(n + 1) == 'H' )
                             code.append('F');
                         else
                             code.append(symb);
@@ -272,8 +282,8 @@ public class KmMetaphone
                     case 'S':
                         tmpS = local.toString();
                         if ( tmpS.indexOf("SH", n) == n
-                            || tmpS.indexOf("SIO", n) == n
-                            || tmpS.indexOf("SIA", n) == n )
+                                        || tmpS.indexOf("SIO", n) == n
+                                        || tmpS.indexOf("SIA", n) == n )
                             code.append('X');
                         else
                             code.append('S');

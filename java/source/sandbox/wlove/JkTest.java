@@ -1,6 +1,6 @@
 package sandbox.wlove;
 
-import com.kodemore.servlet.field.ScFakeHtmlId;
+import com.kodemore.phonetic.KmPhoneticEncoder;
 
 public class JkTest
 {
@@ -19,12 +19,13 @@ public class JkTest
 
     private void run()
     {
-        ScFakeHtmlId fake;
-        fake = new ScFakeHtmlId();
-        fake.setId("sel");
-        fake.ajax().show();
-        fake.ajax().whenDone().focus();
+        KmPhoneticEncoder e;
+        e = new KmPhoneticEncoder();
+        e.loadRulesFromResource("com/kodemore/phonetic/rules.txt");
 
-        System.out.println(fake.ajax().formatMultilineScript());
+        String s;
+        s = e.encode("cookie", true);
+
+        System.out.println(s);
     }
 }

@@ -920,7 +920,7 @@ public class Kmu
 
     /**
      * Trim the value, and replace all whitespace runs with a single space.
-     * Tabs, CRs, LFs are all converted to spaces.  Multiples spaces are 
+     * Tabs, CRs, LFs are all converted to spaces.  Multiples spaces are
      * converted to a single space.
      */
     public static String collapseWhitespace(String s)
@@ -1510,7 +1510,7 @@ public class Kmu
     }
 
     /**
-     * Determine if the character is considered printable on a single line. 
+     * Determine if the character is considered printable on a single line.
      * Basically, all characters with ascii values between 0x20 and 0xFE (inclusive).
      * Note: CR, LF, and TAB are not considered line printable.
      * See also, isWhitespace, isParagraphPrintable.
@@ -1521,7 +1521,7 @@ public class Kmu
     }
 
     /**
-     * Determine if the character is considered printable across multiple lines. 
+     * Determine if the character is considered printable across multiple lines.
      * This includes all of the singleLinePrintable characters, and adds the
      * standard whitespace (CR, LF, TAB).
      */
@@ -2246,7 +2246,7 @@ public class Kmu
 
     /**
      * Get the portion of the source before the specified split.
-     * Returns null if the split is not found. 
+     * Returns null if the split is not found.
      */
     public static String getBeforeFirst(String source, String split)
     {
@@ -2259,7 +2259,7 @@ public class Kmu
 
     /**
      * Get the portion of the source after the specified split.
-     * Returns null if the split is not found. 
+     * Returns null if the split is not found.
      */
     public static String getAfterFirst(String source, String split)
     {
@@ -2704,15 +2704,15 @@ public class Kmu
 
     /**
      * Take html and reformat it into a javascript string literal.
-     * 
+     *
      * E.g.:
      * Input...
-     * 
+     *
      *      Hello world
      *      <b>Bold text</b>
      *      A "quoted" value.
      *      <script>some javascript</script>
-     *   
+     *
      * Output...
      *
      *      var s = "";
@@ -3444,14 +3444,14 @@ public class Kmu
 
     /**
      * Determine if a path matches the pattern.
-     * 
-     * The path follow the form: a/b/c.  
+     *
+     * The path follow the form: a/b/c.
      * Backslashes are converted to forward slashes.
      *
      * NOTE: the pattern matches on * instead of @,
      * but I cannot put the stars in the comment.
      * So USE *'s!
-     * 
+     *
      * The pattern follows the general form of
      *      a/b/c/@/d/@@/e
      * Where * matches exactly one element and **
@@ -5340,10 +5340,10 @@ public class Kmu
      * This format does NOT attempt to match the format of a formal UUID/GUID.  The returned
      * string is in the format of ttttttt-aaaaaa-bbbbbb-cccccc.  Time is roughly the number of
      * tenths of a second since Jan 1, 1970.  The values a, b, c, are each a random integer.
-     * All four values are converted to a base-36, then left padded with zeroes.  
-     * 
-     * This format has the main advantage of being sortable by creation time.  
-     * This is primarily intended as an aid in debugging, and loose sorting 
+     * All four values are converted to a base-36, then left padded with zeroes.
+     *
+     * This format has the main advantage of being sortable by creation time.
+     * This is primarily intended as an aid in debugging, and loose sorting
      * for data that does not require strict sequencing.
      */
     public static String newUid()
@@ -5374,7 +5374,7 @@ public class Kmu
     }
 
     /**
-     * Return a (random) uuid using the standard java routine. 
+     * Return a (random) uuid using the standard java routine.
      */
     public static String newJavaUid()
     {
@@ -5382,7 +5382,7 @@ public class Kmu
     }
 
     /**
-     * Return a (random) uuid using the standard java routine. 
+     * Return a (random) uuid using the standard java routine.
      */
     public static String newJavaUid(boolean dashes)
     {
@@ -5678,7 +5678,7 @@ public class Kmu
 
             return out.toByteArray();
         }
-        catch ( IOException ex )
+        catch ( Exception ex )
         {
             KmLog.error(ex, "Cannot read class resource(%s)", path);
             return null;
@@ -5697,6 +5697,16 @@ public class Kmu
             return null;
 
         return new String(bytes);
+    }
+
+    public static KmList<String> readClassLines(String path)
+    {
+        String source = readClassString(path);
+
+        if ( source == null )
+            return new KmList<String>();
+
+        return getLines(source);
     }
 
     //##################################################
@@ -5757,7 +5767,7 @@ public class Kmu
     }
 
     //##################################################
-    //# boolean 
+    //# boolean
     //##################################################
 
     public static boolean isTrue(Boolean e)

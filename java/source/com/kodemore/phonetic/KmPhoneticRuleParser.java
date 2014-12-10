@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.phonetic;
 
@@ -41,6 +41,18 @@ public class KmPhoneticRuleParser
     //# accessing
     //##################################################
 
+    /**
+     * parse a resource from the class loader.
+     */
+    public KmList<KmPhoneticRule> parseResource(String path)
+    {
+        KmList<String> lines = Kmu.readClassLines(path);
+        return parseLines(lines);
+    }
+
+    /**
+     * parse a file located on the file system.
+     */
     public KmList<KmPhoneticRule> parseFile(String path)
     {
         KmList<String> lines = Kmu.readTextFileLines(path);
@@ -50,8 +62,10 @@ public class KmPhoneticRuleParser
     public KmList<KmPhoneticRule> parseLines(List<String> lines)
     {
         KmList<KmPhoneticRule> v = new KmList<KmPhoneticRule>();
+
         for ( String e : lines )
-            parseLine(e);
+            v.addNonNull(parseLine(e));
+
         return v;
     }
 
@@ -92,8 +106,10 @@ public class KmPhoneticRuleParser
     public KmPhoneticRule newRule(String mode, String oldValue, String newValue)
     {
         KmPhoneticRule r = new KmPhoneticRule();
+
         if ( mode == null )
             error("Mode is required.");
+
         if ( mode.equals("all") )
             r.setMode(KmPhoneticRule.MODE_ALL);
         else
@@ -107,22 +123,28 @@ public class KmPhoneticRuleParser
 
         if ( oldValue == null )
             error("Old value is required.");
+
         if ( oldValue.equals("") )
             error("Old value cannot be empty.");
+
         r.setOldValue(oldValue);
 
         if ( newValue == null )
             error("New value is required.");
+
         r.setNewValue(newValue);
         return r;
     }
 
     public void error(String msg)
     {
-        String s = "Metaphone Parser";
+        String s = "Phonetic Rule Parser";
+
         if ( _reader != null )
             s += " (line " + _reader.getLineNumber() + ")";
+
         s += " " + msg;
+
         throw new RuntimeException(s);
     }
 

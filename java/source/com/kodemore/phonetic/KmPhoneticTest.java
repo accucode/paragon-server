@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.phonetic;
 
@@ -48,8 +48,6 @@ public class KmPhoneticTest
 
     private KmList<String>               _words;
     private KmMap<String,KmList<String>> _phonetics;
-    private String                       _rulePath;
-    private String                       _wordPath;
 
     //##################################################
     //# run
@@ -57,37 +55,10 @@ public class KmPhoneticTest
 
     public void run()
     {
-        _words = null;
-        _phonetics = null;
-        _rulePath = "rules.txt";
-        _wordPath = "words.txt";
         _loadPhoneticRules();
         _loadWordList();
+
         menu();
-    }
-
-    //##################################################
-    //# accessing
-    //##################################################
-
-    public String getRulePath()
-    {
-        return _rulePath;
-    }
-
-    public void setRulePath(String e)
-    {
-        _rulePath = e;
-    }
-
-    public String getWordPath()
-    {
-        return _wordPath;
-    }
-
-    public void setWordPath(String e)
-    {
-        _wordPath = e;
     }
 
     //##################################################
@@ -193,44 +164,57 @@ public class KmPhoneticTest
             System.out.println("  7. Load phonetic rules");
             System.out.println("  0. Exit");
             System.out.print("Enter choice: ");
+
             String s = readConsole().trim().toLowerCase();
+
             if ( s.equals("1") )
             {
                 findWordsLike();
                 continue;
             }
+
             if ( s.equals("2") )
             {
                 findWordsWithSubstring();
                 continue;
             }
+
             if ( s.equals("3") )
             {
                 findWordsWithPrefix();
                 continue;
             }
+
             if ( s.equals("4") )
             {
                 findWordsWithSuffix();
                 continue;
             }
+
             if ( s.equals("5") )
             {
                 parseWord();
                 continue;
             }
+
             if ( s.equals("6") )
             {
                 loadWordList();
                 continue;
             }
+
             if ( s.equals("7") )
             {
                 loadPhoneticRules();
                 continue;
             }
+
             if ( s.equals("0") )
+            {
+                System.out.println("Done.");
                 break;
+            }
+
             System.out.println("ERROR - unknown command: " + s);
         }
     }
@@ -310,18 +294,14 @@ public class KmPhoneticTest
             String p = KmPhoneticEncoder.getInstance().encode(s, true);
             System.out.println("  Phonetic: " + p);
         }
-
     }
 
     public void loadWordList()
     {
         System.out.println();
         System.out.println();
-        System.out.println("Load word list.");
-        System.out.print("  Enter path (" + getWordPath() + "): ");
-        String s = readConsole();
-        if ( s.trim().length() != 0 )
-            setWordPath(s);
+        System.out.println("Loading word list: " + getWordsPath());
+
         _loadWordList();
     }
 
@@ -329,11 +309,8 @@ public class KmPhoneticTest
     {
         System.out.println();
         System.out.println();
-        System.out.println("Load phonetic rules.");
-        System.out.print("  Enter path (" + getRulePath() + "): ");
-        String s = readConsole();
-        if ( s.trim().length() != 0 )
-            setRulePath(s);
+        System.out.println("Loading phonetic rules: " + getRulesPath());
+
         _loadPhoneticRules();
     }
 
@@ -378,14 +355,14 @@ public class KmPhoneticTest
     {
         try
         {
-            System.out.println("  Loading words: " + getWordPath());
+            String path = getWordsPath();
+            System.out.println("  Loading words: " + path);
+
             _words = new KmList<String>();
             resetPhonetics();
 
-            String path = getWordPath();
-
             KmList<String> lines;
-            lines = Kmu.readTextFileLines(path);
+            lines = Kmu.readClassLines(path);
             Kmu.removeBlankLines(lines);
             Kmu.trimValues(lines);
             lines.sort();
@@ -394,25 +371,30 @@ public class KmPhoneticTest
 
             System.out.println("  Word count:     " + getWords().size());
             System.out.println("  Phonetic count: " + getPhonetics().size());
+            System.out.println("ok.");
         }
         catch ( RuntimeException ex )
         {
             System.out.println("ERROR: Cannot load words");
-            System.out.println("  Path: " + getWordPath());
+            System.out.println("  Path: " + getWordsPath());
             System.out.println("  " + ex.getMessage());
         }
     }
 
     public void _loadPhoneticRules()
     {
+        String path = getRulesPath();
         try
         {
-            KmPhoneticEncoder.getInstance().loadRulesFromFile(getRulePath());
+            System.out.println("  Loading rules: " + path);
+
+            KmPhoneticEncoder.getInstance().loadRulesFromResource(path);
+            System.out.println("ok.");
         }
         catch ( Exception ex )
         {
             System.out.println("ERROR: Cannot load rules");
-            System.out.println("  Path: " + getRulePath());
+            System.out.println("  Path: " + path);
             System.out.println("  " + ex.getMessage());
         }
     }
@@ -422,4 +404,25 @@ public class KmPhoneticTest
         return new KmAdjustedEditDistanceComparator(base);
     }
 
+    //##################################################
+    //# support
+    //##################################################
+
+    private String getRulesPath()
+    {
+        return Kmu.joinFilePath(getPackagePath(), "rules.txt");
+    }
+
+    private String getWordsPath()
+    {
+        return Kmu.joinFilePath(getPackagePath(), "words.txt");
+    }
+
+    private String getPackagePath()
+    {
+        String s;
+        s = getClass().getPackage().getName();
+        s = Kmu.replaceAll(s, ".", "/");
+        return s;
+    }
 }
