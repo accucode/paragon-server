@@ -19,7 +19,7 @@ public abstract class KmMetaAttribute<T, V>
     public KmAdaptorIF<T,V> getAdaptor()
     {
         return new KmAdaptorIF<T,V>()
-                        {
+        {
             @Override
             public V getValue(T model)
             {
@@ -31,19 +31,19 @@ public abstract class KmMetaAttribute<T, V>
             {
                 setValueFor(model, value);
             }
-                        };
+        };
     }
 
     public KmMatchIF<T> getMatch(final V value)
     {
         return new KmAbstractMatch<T>()
-                        {
+        {
             @Override
             public boolean matches(T model)
             {
                 return hasValueFor(model, value);
             }
-                        };
+        };
     }
 
     //##################################################

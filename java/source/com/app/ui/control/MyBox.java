@@ -30,7 +30,6 @@ import com.kodemore.time.KmTimestamp;
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MySettings;
 import com.app.property.MyPropertyRegistry;
-import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServletData;
 import com.app.utility.MyGlobals;
 
@@ -44,11 +43,6 @@ public class MyBox
     protected MyServletData getData()
     {
         return MyGlobals.getData();
-    }
-
-    protected MyPageSession getPageSession()
-    {
-        return MyGlobals.getPageSession();
     }
 
     protected static MyDaoRegistry getAccess()

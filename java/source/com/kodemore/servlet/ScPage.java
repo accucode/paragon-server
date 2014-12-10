@@ -284,11 +284,6 @@ public abstract class ScPage
         return ScServletData.getLocal();
     }
 
-    protected ScPageSession getPageSession()
-    {
-        return ScPageSession.getInstance();
-    }
-
     protected boolean isOk()
     {
         return getData().isOk();

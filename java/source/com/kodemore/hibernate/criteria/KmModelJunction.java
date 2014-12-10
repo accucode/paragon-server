@@ -1,5 +1,8 @@
 package com.kodemore.hibernate.criteria;
 
+/**
+ * @param <T>  used as a placeholder and for clarity.
+ */
 public class KmModelJunction<T>
 {
     //##################################################
@@ -55,8 +58,7 @@ public class KmModelJunction<T>
 
     @SuppressWarnings(
     {
-        "unchecked",
-        "rawtypes"
+        "unchecked", "rawtypes"
     })
     public <E extends KmModelCriteria> E join(E c)
     {

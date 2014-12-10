@@ -23,7 +23,6 @@ import com.app.job.MyMasterJob;
 import com.app.property.MyPropertyManager;
 import com.app.ui.core.MyActions;
 import com.app.ui.core.MyCookieSession;
-import com.app.ui.core.MyPageSession;
 import com.app.ui.layout.MyPageLayout;
 import com.app.ui.layout.MyPageLayoutBridge;
 import com.app.ui.page.MyPageRegistry;
@@ -298,7 +297,6 @@ public class MyInstaller
         _installServletCallbacks();
         _installControlRegistry();
         _installActions();
-        _installPageSession();
         _installCookieSession();
         _installCoders();
         _installFormatter();
@@ -365,13 +363,6 @@ public class MyInstaller
         ScGlobalContext.install();
         ScActions.install();
         MyActions.install();
-        printOk();
-    }
-
-    private static void _installPageSession()
-    {
-        printfHeader("PageSession");
-        MyPageSession.install();
         printOk();
     }
 

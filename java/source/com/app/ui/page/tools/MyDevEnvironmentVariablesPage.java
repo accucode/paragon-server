@@ -11,22 +11,22 @@ import com.kodemore.servlet.control.ScTable;
 import com.kodemore.servlet.control.ScTableCell;
 import com.kodemore.servlet.control.ScTableRow;
 
-public class MyDevSystemPropertiesPage
+public class MyDevEnvironmentVariablesPage
     extends MyDevAbstractPage
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScLiteral                             _literal;
+    private ScLiteral                                 _literal;
 
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDevSystemPropertiesPage instance = new MyDevSystemPropertiesPage();
+    public static final MyDevEnvironmentVariablesPage instance = new MyDevEnvironmentVariablesPage();
 
-    private MyDevSystemPropertiesPage()
+    private MyDevEnvironmentVariablesPage()
     {
         // singleton
     }
@@ -57,7 +57,7 @@ public class MyDevSystemPropertiesPage
         root.css().gap();
 
         ScGroup group;
-        group = root.addGroup("System Properties");
+        group = root.addGroup("Environment Variables");
 
         _literal = group.addPad().addLiteral();
     }
@@ -100,7 +100,7 @@ public class MyDevSystemPropertiesPage
 
     private KmList<String> getKeys()
     {
-        Set<String> names = System.getProperties().stringPropertyNames();
+        Set<String> names = System.getenv().keySet();
 
         KmList<String> v;
         v = new KmList<String>();
@@ -111,7 +111,7 @@ public class MyDevSystemPropertiesPage
 
     private String getValueFor(String key)
     {
-        return System.getProperty(key);
+        return System.getenv(key);
     }
 
 }

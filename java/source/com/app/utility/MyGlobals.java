@@ -12,7 +12,6 @@ import com.app.model.MyServerSession;
 import com.app.property.MyPropertyManager;
 import com.app.property.MyPropertyRegistry;
 import com.app.ui.core.MyCookieSession;
-import com.app.ui.core.MyPageSession;
 import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.core.MyServletData;
 
@@ -25,11 +24,6 @@ public class MyGlobals
     public static MyServletData getData()
     {
         return MyServletData.getLocal();
-    }
-
-    public static MyPageSession getPageSession()
-    {
-        return MyPageSession.getInstance();
     }
 
     public static MyServerSession getServerSession()

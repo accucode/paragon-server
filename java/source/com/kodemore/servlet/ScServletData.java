@@ -1327,11 +1327,6 @@ public class ScServletData
     //# page session
     //##################################################
 
-    public ScPageSession getPageSession()
-    {
-        return ScPageSession.getInstance();
-    }
-
     public ScPageSessionAccess getPageSessionAccess()
     {
         return new ScPageSessionAccess(this);

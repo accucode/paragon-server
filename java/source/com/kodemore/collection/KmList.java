@@ -796,8 +796,7 @@ public class KmList<T>
 
     @SuppressWarnings(
     {
-        "unchecked",
-        "rawtypes"
+        "unchecked", "rawtypes"
     })
     public T findId(Integer id)
     {

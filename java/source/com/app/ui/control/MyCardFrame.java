@@ -30,7 +30,6 @@ import com.kodemore.time.KmTimestamp;
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MySettings;
 import com.app.property.MyPropertyRegistry;
-import com.app.ui.core.MyPageSession;
 import com.app.utility.MyGlobals;
 
 /**
@@ -39,11 +38,6 @@ import com.app.utility.MyGlobals;
 public class MyCardFrame
     extends ScCardFrame
 {
-    public MyPageSession getPageSession()
-    {
-        return MyGlobals.getPageSession();
-    }
-
     public static MyDaoRegistry getAccess()
     {
         return MyDaoRegistry.getInstance();

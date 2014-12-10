@@ -132,6 +132,16 @@ public class KmJsonMap
         return (KmJsonArray)getObject(key);
     }
 
+    public KmJsonArray lazyGetArray(String key)
+    {
+        KmJsonArray arr = getArray(key);
+
+        if ( arr != null )
+            return arr;
+
+        return setArray(key);
+    }
+
     public void setArray(String key, KmJsonArray value)
     {
         setObject(key, value);
