@@ -18,7 +18,7 @@ public class MyDeleteOldServerSessionsCommand
 
     //##################################################
     //# constructor
-    //##################################################//
+    //##################################################
     public MyDeleteOldServerSessionsCommand()
     {
         setIgnoreStaleExceptions(true);

@@ -52,7 +52,7 @@ import com.kodemore.utility.Kmu;
  * Most, hopefully ALL, containers will subclass from me.
  */
 public abstract class ScContainer
-extends ScControl
+    extends ScControl
 {
     //##################################################
     //# children
@@ -131,7 +131,7 @@ extends ScControl
         return add(e);
     }
 
-    public <E> ScHiddenField<E> addHiddenField(@SuppressWarnings("unused") Class<E> c)
+    public <E> ScHiddenField<E> addHiddenField(Class<E> c)
     {
         ScHiddenField<E> e = addHiddenField();
         return add(e);

@@ -36,7 +36,7 @@ import com.kodemore.collection.KmList;
  * Elements returned are guaranteed to be non-null.
  */
 public abstract class KmDaoCursor<T>
-implements Iterator<T>, Iterable<T>
+    implements Iterator<T>, Iterable<T>
 {
     //##################################################
     //# variables
@@ -164,7 +164,7 @@ implements Iterator<T>, Iterable<T>
      */
     protected abstract KmList<T> getNextBatch();
 
-    protected boolean passes(@SuppressWarnings("unused") T e)
+    protected boolean passes(T e)
     {
         return true;
     }

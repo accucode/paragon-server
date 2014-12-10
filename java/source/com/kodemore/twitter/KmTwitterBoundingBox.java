@@ -21,7 +21,7 @@ public class KmTwitterBoundingBox
 
     //##################################################
     //# access
-    //##################################################//
+    //##################################################
 
     public KmList<KmTwitterCoordinate> getCoordinates()
     {

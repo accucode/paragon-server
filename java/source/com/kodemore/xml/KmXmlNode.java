@@ -29,7 +29,7 @@ import java.io.StringWriter;
 import com.kodemore.utility.Kmu;
 
 public abstract class KmXmlNode
-implements KmXmlConstantsIF, Serializable
+    implements KmXmlConstantsIF, Serializable
 {
     //##################################################
     //# variables
@@ -109,7 +109,7 @@ implements KmXmlConstantsIF, Serializable
         return false;
     }
 
-    public boolean isElement(@SuppressWarnings("unused") String tag)
+    public boolean isElement(String tag)
     {
         return false;
     }
@@ -204,8 +204,8 @@ implements KmXmlConstantsIF, Serializable
     public int getDepth()
     {
         return hasParent()
-                        ? getParent().getDepth() + 1
-                            : 0;
+            ? getParent().getDepth() + 1
+            : 0;
     }
 
     public void indent(PrintWriter out, int n)

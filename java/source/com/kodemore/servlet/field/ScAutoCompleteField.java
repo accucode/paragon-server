@@ -52,7 +52,7 @@ public class ScAutoCompleteField
 {
     //##################################################
     //# constants
-    //##################################################//
+    //##################################################
 
     private static final String      PARAMETER_TRACKED_VALUES = "trackedValues";
 

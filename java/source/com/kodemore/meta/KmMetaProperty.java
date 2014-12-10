@@ -10,7 +10,7 @@ import com.kodemore.validator.KmBooleanValidator;
 import com.kodemore.validator.KmValidator;
 
 public abstract class KmMetaProperty<T, V>
-extends KmMetaAttribute<T,V>
+    extends KmMetaAttribute<T,V>
 {
     //##################################################
     //# attributes
@@ -40,13 +40,13 @@ extends KmMetaAttribute<T,V>
     public KmComparator<T> getComparator()
     {
         return new KmComparator<T>()
-                        {
+        {
             @Override
             public int compare(T o1, T o2)
             {
                 return compareValues(o1, o2, getNullsOnTop());
             }
-                        };
+        };
     }
 
     //##################################################
@@ -103,7 +103,7 @@ extends KmMetaAttribute<T,V>
         throw new UnsupportedOperationException();
     }
 
-    public ScField<V> newField(@SuppressWarnings("unused") String label)
+    public ScField<V> newField(String label)
     {
         throw new UnsupportedOperationException();
     }

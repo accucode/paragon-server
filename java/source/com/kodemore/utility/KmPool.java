@@ -32,9 +32,9 @@ import com.kodemore.collection.KmList;
  */
 public abstract class KmPool
 {
-    // ##################################################
-    // # variables
-    // ##################################################
+    //##################################################
+    //# variables
+    //##################################################
 
     private KmList<Object> _inList;
     private KmList<Object> _outList;
@@ -42,9 +42,9 @@ public abstract class KmPool
     private int            _retryCount;
     private int            _retryDelayMs;
 
-    // ##################################################
-    // # constructor
-    // ##################################################
+    //##################################################
+    //# constructor
+    //##################################################
 
     public KmPool()
     {
@@ -52,9 +52,9 @@ public abstract class KmPool
         _outList = new KmList<Object>();
     }
 
-    // ##################################################
-    // # accessing
-    // ##################################################
+    //##################################################
+    //# accessing
+    //##################################################
 
     public Object get()
     {
@@ -74,9 +74,9 @@ public abstract class KmPool
         _inList.add(e);
     }
 
-    // ##################################################
-    // # private
-    // ##################################################
+    //##################################################
+    //# private
+    //##################################################
 
     public Object _getValue()
     {
@@ -125,25 +125,25 @@ public abstract class KmPool
         return e;
     }
 
-    // ##################################################
-    // # abstract
-    // ##################################################
+    //##################################################
+    //# abstract
+    //##################################################
 
     public abstract Object create();
 
-    public void preGet(@SuppressWarnings("unused") Object e)
+    public void preGet(Object e)
     {
         // hook for subclasses.
     }
 
-    public void postRelease(@SuppressWarnings("unused") Object e)
+    public void postRelease(Object e)
     {
         // hook for subclasses.
     }
 
-    // ##################################################
-    // # utility
-    // ##################################################
+    //##################################################
+    //# utility
+    //##################################################
 
     public void error(String s)
     {

@@ -34,7 +34,7 @@ public class KmZendeskTicketCreate
 
     //##################################################
     //# authentication
-    //##################################################//
+    //##################################################
     public void setZendeskUserid(String s)
     {
         _connection.setUserId(s);
@@ -48,7 +48,7 @@ public class KmZendeskTicketCreate
 
     //##################################################
     //# response
-    //##################################################//
+    //##################################################
 
     protected KmJsonMap getResponseJson()
     {
@@ -62,7 +62,7 @@ public class KmZendeskTicketCreate
 
     //##################################################
     //# submit
-    //##################################################//
+    //##################################################
 
     protected void submit()
     {
@@ -71,7 +71,7 @@ public class KmZendeskTicketCreate
 
     //##################################################
     //# tickets
-    //##################################################//
+    //##################################################
     public Integer submitNewTicket(String name, String email, String subject, String body)
     {
         KmJsonMap m = createTicket(name, email, subject, body);
@@ -117,7 +117,7 @@ public class KmZendeskTicketCreate
 
     //##################################################
     //# main
-    //##################################################//
+    //##################################################
 
     public static void main(String[] args)
     {

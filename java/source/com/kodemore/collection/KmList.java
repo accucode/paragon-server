@@ -539,7 +539,7 @@ public class KmList<T>
         removeAll(a.getMatch(value));
     }
 
-    public <V> void removeAll(KmMetaProperty<T,Boolean> a)
+    public void removeAll(KmMetaProperty<T,Boolean> a)
     {
         removeAll(a.getMatch(true));
     }
@@ -573,7 +573,7 @@ public class KmList<T>
         retainAll(a.getMatch(value));
     }
 
-    public <V> void retainAll(KmMetaAttribute<T,Boolean> a)
+    public void retainAll(KmMetaAttribute<T,Boolean> a)
     {
         retainAll(a.getMatch(true));
     }
@@ -1151,7 +1151,7 @@ public class KmList<T>
         return select(attr.getMatch(value));
     }
 
-    public <V> KmList<T> select(KmMetaAttribute<T,Boolean> attr)
+    public KmList<T> select(KmMetaAttribute<T,Boolean> attr)
     {
         return select(attr.getMatch(true));
     }

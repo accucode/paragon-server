@@ -69,7 +69,7 @@ public class KmZendeskTicketModifications
 
     //##################################################
     //# response
-    //##################################################//
+    //##################################################
 
     protected KmJsonMap getResponseJson()
     {
@@ -83,7 +83,7 @@ public class KmZendeskTicketModifications
 
     //##################################################
     //# submit
-    //##################################################//
+    //##################################################
 
     public void submit()
     {
@@ -94,7 +94,7 @@ public class KmZendeskTicketModifications
 
     //##################################################
     //# tickets
-    //##################################################//
+    //##################################################
     public KmList<KmZendeskTicket> getAllTickets()
     {
         KmList<KmZendeskTicket> v = new KmList<KmZendeskTicket>();
@@ -141,7 +141,7 @@ public class KmZendeskTicketModifications
 
     //##################################################
     //# create
-    //##################################################//
+    //##################################################
 
     private KmZendeskTicket createTicket(KmJsonMap e)
     {
@@ -246,7 +246,7 @@ public class KmZendeskTicketModifications
 
     //##################################################
     //# main
-    //##################################################//
+    //##################################################
 
     public static void main(String[] args)
     {

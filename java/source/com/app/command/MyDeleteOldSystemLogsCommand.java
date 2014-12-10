@@ -18,7 +18,7 @@ public class MyDeleteOldSystemLogsCommand
 
     //##################################################
     //# contstructor
-    //##################################################//
+    //##################################################
     public MyDeleteOldSystemLogsCommand()
     {
         setIgnoreStaleExceptions(true);

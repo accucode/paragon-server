@@ -73,7 +73,7 @@ import com.kodemore.utility.Kmu;
  * when applying a thread safe implementation of servlets and page handlers.
  */
 public class ScServletData
-implements ScConstantsIF
+    implements ScConstantsIF
 {
     //##################################################
     //# static
@@ -1299,7 +1299,7 @@ implements ScConstantsIF
         return out.toString();
     }
 
-    public void appendLogIdentification(@SuppressWarnings("unused") StringBuilder out)
+    public void appendLogIdentification(StringBuilder out)
     {
         // none
     }

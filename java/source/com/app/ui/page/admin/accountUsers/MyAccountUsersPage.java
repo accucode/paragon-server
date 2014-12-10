@@ -30,7 +30,7 @@ import com.app.model.MyUserAccount;
 import com.app.ui.page.admin.MyAbstractAdminEntryPage;
 
 public class MyAccountUsersPage
-extends MyAbstractAdminEntryPage
+    extends MyAbstractAdminEntryPage
 {
     //##################################################
     //# singleton
@@ -123,7 +123,6 @@ extends MyAbstractAdminEntryPage
         _selectUserAction = newSelectUserAction();
     }
 
-    @SuppressWarnings("unused")
     private void installUserFrame(ScArray row)
     {
         // todo_wyatt: account users
@@ -245,8 +244,8 @@ extends MyAbstractAdminEntryPage
     private void preRenderEmptyUsers()
     {
         _usersContainer.addText(""
-                        + "This account does not have any additional users yet. "
-                        + "You can invite users via the 'Invitations' tab.");
+            + "This account does not have any additional users yet. "
+            + "You can invite users via the 'Invitations' tab.");
     }
 
     private void preRenderInvitations()
@@ -268,13 +267,13 @@ extends MyAbstractAdminEntryPage
     private ScBoxRendererIF<MyInvitation> newInvitationRenderer()
     {
         return new ScBoxRendererIF<MyInvitation>()
-                        {
+        {
             @Override
             public void renderOn(ScBox root, MyInvitation value)
             {
                 renderInvitation(root, value);
             }
-                        };
+        };
     }
 
     private void renderInvitation(ScBox root, MyInvitation value)

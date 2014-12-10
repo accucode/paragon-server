@@ -41,7 +41,7 @@ public class KmTwitterSearchUsersRequest
 
     //##################################################
     //# parameters
-    //##################################################//
+    //##################################################
 
     protected void setQuery(String s)
     {
@@ -67,7 +67,7 @@ public class KmTwitterSearchUsersRequest
 
     //##################################################
     //# oauth
-    //##################################################//
+    //##################################################
 
     protected void setConsumerKey(String s)
     {
@@ -91,7 +91,7 @@ public class KmTwitterSearchUsersRequest
 
     //##################################################
     //# response
-    //##################################################//
+    //##################################################
 
     protected KmJsonArray getResponseJson()
     {
@@ -115,7 +115,7 @@ public class KmTwitterSearchUsersRequest
 
     //##################################################
     //# submit
-    //##################################################//
+    //##################################################
 
     protected void submit()
     {
@@ -176,7 +176,7 @@ public class KmTwitterSearchUsersRequest
 
     //##################################################
     //# users
-    //##################################################//
+    //##################################################
 
     protected KmTwitterStatus createTwitterStatus(KmJsonMap json)
     {
@@ -205,7 +205,7 @@ public class KmTwitterSearchUsersRequest
 
     //##################################################
     //# status
-    //##################################################//
+    //##################################################
 
     private KmTwitterPlace createTwitterPlace(KmJsonMap json)
     {
@@ -243,7 +243,7 @@ public class KmTwitterSearchUsersRequest
 
     //##################################################
     //# place
-    //##################################################//
+    //##################################################
 
     /**
      * coordinates are wierd, the json object has an array of an 
@@ -267,7 +267,7 @@ public class KmTwitterSearchUsersRequest
 
     //##################################################
     //# entities
-    //##################################################//
+    //##################################################
 
     public KmList<KmTwitterUserMention> createMentions(KmJsonArray json)
     {
@@ -330,7 +330,7 @@ public class KmTwitterSearchUsersRequest
 
     //##################################################
     //# bounding box
-    //##################################################//
+    //##################################################
     /**
      * coordinates are wierd, the json object has an array of an array of arrays with long and lat
      * inside, so the line " json = json.getArray(i); " is unpacking the long and lat to put into
@@ -359,7 +359,7 @@ public class KmTwitterSearchUsersRequest
 
     //##################################################
     //# status
-    //##################################################//
+    //##################################################
 
     public KmList<String> createContributors(KmJsonArray json)
     {

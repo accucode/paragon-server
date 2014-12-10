@@ -54,7 +54,7 @@ public abstract class KmMetaAttribute<T, V>
 
     public abstract boolean hasValueFor(T model, V value);
 
-    public void setValueFor(@SuppressWarnings("unused") T model, @SuppressWarnings("unused") V value)
+    public void setValueFor(T model, V value)
     {
         throw new UnsupportedOperationException();
     }
