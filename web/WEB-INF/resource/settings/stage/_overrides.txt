@@ -20,11 +20,11 @@ webResourceVersioning                       = dev
 ## database
 #######################################
 
-databaseSchema                              = field_service
+databaseSchema                              = paragon
 databaseDriver                              = com.mysql.jdbc.Driver
 databaseUri                                 = jdbc:mysql://paragon-stage.c6elvadxxqh4.us-east-1.rds.amazonaws.com:3306/
-databaseUser                                = field_service
-databasePassword                            = ukPsZRXriqxRm6g0
+databaseUser                                = paragon
+databasePassword                            = 
 
                 
 #######################################     
