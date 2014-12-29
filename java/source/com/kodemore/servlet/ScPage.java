@@ -5,6 +5,7 @@ import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.script.ScBlockScript;
+import com.kodemore.servlet.utility.ScBridge;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.utility.Kmu;
@@ -181,7 +182,7 @@ public abstract class ScPage
 
     /**
      * A convenience method that:
-     *      - peforms the generic security,
+     *      - performs the generic security,
      *      - displays the root control in the layout's main area,
      *      - attempts to set focus on the root.
      *
@@ -198,7 +199,7 @@ public abstract class ScPage
 
         if ( !hasRoot() )
         {
-            ajax().clearMain();
+            getBridge().clearMain();
             return;
         }
 
@@ -206,7 +207,7 @@ public abstract class ScPage
         boolean focus = getAutoFocus();
 
         preRender();
-        ajax().printMain(root, focus);
+        getBridge().printMain(root, focus);
         postRender();
     }
 
@@ -472,6 +473,11 @@ public abstract class ScPage
     protected ScFormatter getFormatter()
     {
         return ScFormatter.getInstance();
+    }
+
+    protected ScBridge getBridge()
+    {
+        return ScBridge.getInstance();
     }
 
 }

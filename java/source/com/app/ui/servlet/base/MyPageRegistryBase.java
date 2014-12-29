@@ -12,7 +12,6 @@ import com.kodemore.servlet.*;
 
 import com.app.ui.page.general.*;
 import com.app.ui.page.login.*;
-import com.app.ui.page.manageAttentionGroups.*;
 import com.app.ui.page.manageCategories.*;
 import com.app.ui.page.manageDepots.*;
 import com.app.ui.page.manageMembers.*;
@@ -83,7 +82,6 @@ public abstract class MyPageRegistryBase
         add(MyHideErrorsTestPage.instance);
         add(MyHoverTestPage.instance);
         add(MyLocalValueTestPage.instance);
-        add(MyManageAttentionGroupsPage.instance);
         add(MyManageCategoriesPage.instance);
         add(MyManageDepotsPage.instance);
         add(MyManageMembersPage.instance);

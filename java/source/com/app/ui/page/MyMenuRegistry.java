@@ -16,7 +16,6 @@ import com.app.ui.page.general.MyTimeoutPage;
 import com.app.ui.page.login.MyPasswordResetPage;
 import com.app.ui.page.login.MySignInPage;
 import com.app.ui.page.login.MyUserActivationPage;
-import com.app.ui.page.manageAttentionGroups.MyManageAttentionGroupsPage;
 import com.app.ui.page.manageCategories.MyManageCategoriesPage;
 import com.app.ui.page.manageDepots.MyManageDepotsPage;
 import com.app.ui.page.manageMembers.MyManageMembersPage;
@@ -199,7 +198,6 @@ public class MyMenuRegistry
         left = top.addMenu("People");
         left.addMenu("Members", MyManageMembersPage.instance);
         left.addMenu("Skills", MyManageSkillsPage.instance);
-        left.addMenu("Attention Groups", MyManageAttentionGroupsPage.instance);
 
         left = top.addMenu("Catalog");
         left.addMenu("Products", MyManageProductsPage.instance);

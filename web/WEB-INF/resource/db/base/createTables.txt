@@ -36,18 +36,6 @@ CREATE TABLE applicationLogTrace
 ) ENGINE = INNODB;
 
 
-DROP TABLE IF EXISTS attentionGroup;
-CREATE TABLE attentionGroup
-(
-    uid varchar(30),
-    name varchar(50),
-    lockVersion int,
-    projectUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index attentionGroup on attentionGroup (projectUid, name);
-
-
 DROP TABLE IF EXISTS autoSignIn;
 CREATE TABLE autoSignIn
 (

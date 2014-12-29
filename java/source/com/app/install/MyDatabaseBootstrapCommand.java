@@ -6,7 +6,6 @@ import com.kodemore.patch.KmPatch;
 import com.kodemore.patch.KmPatchBridge;
 
 import com.app.dao.base.MyDaoRegistry;
-import com.app.model.MyAttentionGroup;
 import com.app.model.MyCategory;
 import com.app.model.MyDepot;
 import com.app.model.MyMember;
@@ -75,25 +74,12 @@ public class MyDatabaseBootstrapCommand
 
     protected void installFakeUsers()
     {
-        // sample people
-        installFakeUser("AJ Love", "alove@accucode.com", MyUserRole.Admin);
-        installFakeUser("Wyatt Love", "wlove@accucode.com", MyUserRole.Developer);
-        installFakeUser("Ryan Waxler", "rwaxler@accucode.com", MyUserRole.Developer);
-        installFakeUser("Kevin Reynolds", "kreynolds@accucode.com", MyUserRole.Admin);
-
-        // sample roles
+        // sample users
         installFakeUser("Developer", "developer", MyUserRole.Developer);
         installFakeUser("Admin", "admin", MyUserRole.Admin);
         installFakeUser("Manager", "manager", MyUserRole.Other);
         installFakeUser("Member", "member", MyUserRole.Other);
         installFakeUser("User", "user", MyUserRole.Other);
-
-        //        int n = 1000;
-        //        for ( int i = 0; i < n; i++ )
-        //        {
-        //            String name = "fake" + i;
-        //            installFakeUser(name, name + "@accucode.com", MyUserRole.Admin);
-        //        }
     }
 
     private MyUser installFakeUser(String name, String email, MyUserRole role)
@@ -109,6 +95,7 @@ public class MyDatabaseBootstrapCommand
     private void installFakeProjects()
     {
         installFakeProject("Acme Inc");
+        installFakeProject("Ship Co");
     }
 
     private MyProject installFakeProject(String name)
@@ -124,7 +111,6 @@ public class MyDatabaseBootstrapCommand
         installFakeVendorsOn(e);
         installFakeSkillsOn(e);
         installFakeVisitTypesOn(e);
-        installFakeAttentionGroupsOn(e);
         installFakeCategoriesOn(e);
         installFakeCarriersOn(e);
         installFakeMembersOn(e);
@@ -180,21 +166,6 @@ public class MyDatabaseBootstrapCommand
         return e;
     }
 
-    private void installFakeAttentionGroupsOn(MyProject e)
-    {
-        installFakeAttentionGroupOn(e, "Manager");
-        installFakeAttentionGroupOn(e, "Engineer");
-    }
-
-    private MyAttentionGroup installFakeAttentionGroupOn(MyProject project, String name)
-    {
-        MyAttentionGroup e;
-        e = project.addAttentionGroup();
-        e.setName(name);
-        e.validate();
-        return e;
-    }
-
     private void installFakePowerTypesOn(MyProject e)
     {
         installFakePowerTypeOn(e, "US 120V 60Hz Type-A/B");
@@ -214,10 +185,9 @@ public class MyDatabaseBootstrapCommand
 
     private void installFakeVendorsOn(MyProject e)
     {
-        installFakeVendorOn(e, "Accucode");
-        installFakeVendorOn(e, "Netpulse");
-        installFakeVendorOn(e, "Meraki");
-        installFakeVendorOn(e, "Field Nation");
+        installFakeVendorOn(e, "Hat Vendor");
+        installFakeVendorOn(e, "Boot Vendor");
+        installFakeVendorOn(e, "Glove Vendor");
     }
 
     private MyVendor installFakeVendorOn(MyProject project, String name)

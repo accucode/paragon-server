@@ -111,11 +111,6 @@ public class MyProject
         return getRegions().toList(MyRegion.Meta.Name);
     }
 
-    public KmList<MyAttentionGroup> getAttentionGroupsByName()
-    {
-        return getAttentionGroups().toList(MyAttentionGroup.Meta.Name);
-    }
-
     public KmList<MyCategory> getCategoriesByName()
     {
         return getCategories().toList(MyCategory.Meta.Name);

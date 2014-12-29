@@ -27,21 +27,15 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScPage;
-import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.control.ScForm;
-import com.kodemore.servlet.control.ScTransition;
 import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.utility.ScBridge;
 import com.kodemore.servlet.utility.ScJquery;
-import com.kodemore.servlet.utility.ScPageLayoutBridge;
 import com.kodemore.servlet.utility.ScUrlBridge;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
-
-import com.app.model.MyCssConstantsIF;
-import com.app.ui.layout.MyPageErrorDialog;
-import com.app.ui.layout.MyPageLayout;
 
 /**
  * I manage a list of scripts, roughly representing the
@@ -439,60 +433,6 @@ public abstract class ScBlockScript
     }
 
     //##################################################
-    //# main
-    //##################################################
-
-    public void printMain(ScControlIF e, boolean focus)
-    {
-        ScReplaceContentsScript r;
-        r = setContents(getMainSelector(), e);
-
-        printMainTransition(r);
-        printMainPostRender(r, e, focus);
-    }
-
-    private void printMainTransition(ScReplaceContentsScript r)
-    {
-        r.setTransition(ScTransition.Fade, 100);
-
-        ScServletData data = ScServletData.getLocal();
-        if ( data.isNavigateForward() )
-        {
-            ScTransition effect = ScTransition.SlideLeft;
-            int speed = MyCssConstantsIF.PAGE_TRANSITION_SLIDE_MS;
-            r.setTransition(effect, speed);
-        }
-
-        if ( data.isNavigateBack() )
-        {
-            ScTransition effect = ScTransition.SlideRight;
-            int speed = MyCssConstantsIF.PAGE_TRANSITION_SLIDE_MS;
-            r.setTransition(effect, speed);
-        }
-    }
-
-    private void printMainPostRender(ScReplaceContentsScript r, ScControlIF e, boolean focus)
-    {
-        ScBlockScript postRender;
-        postRender = r.getPostRenderScript();
-
-        if ( focus )
-            postRender.focus(e.getFocusTarget());
-
-        MyPageLayout.getInstance().glowTitleOn(postRender);
-    }
-
-    public void clearMain()
-    {
-        clearContents(getMainSelector());
-    }
-
-    private String getMainSelector()
-    {
-        return ScPageLayoutBridge.getInstance().getMainSelector();
-    }
-
-    //##################################################
     //# remove
     //##################################################
 
@@ -788,9 +728,7 @@ public abstract class ScBlockScript
 
     public void openErrorDialog(Throwable ex)
     {
-        MyPageErrorDialog e;
-        e = new MyPageErrorDialog();
-        e.ajaxOpenException(ex);
+        ScBridge.getInstance().displayError(ex);
     }
 
     public void closeDialog(String sel)

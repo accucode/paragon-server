@@ -27,6 +27,7 @@ import com.app.ui.layout.MyPageLayoutBridge;
 import com.app.ui.page.MyMenuRegistry;
 import com.app.ui.page.MyPageRegistry;
 import com.app.ui.servlet.MyFormatter;
+import com.app.ui.servlet.MyScBridge;
 
 /**
  * I install the application when the servlet container initially
@@ -56,6 +57,7 @@ public class MyInstaller
         long used1 = getUsedMemory();
 
         _installCore();
+        _installUserInterface();
 
         _installJdbc();
         _syncDatabasePatches();
@@ -162,7 +164,6 @@ public class MyInstaller
         _installSharedFiles();
 
         _installTimeZoneBridge();
-        _installUserInterface();
     }
 
     private static void _installEnvironment()
@@ -296,6 +297,7 @@ public class MyInstaller
 
     private static void _installUserInterface()
     {
+        _installScBridge();
         _installServletCallbacks();
         _installControlRegistry();
         _installActions();
@@ -356,6 +358,13 @@ public class MyInstaller
         printfHeader("ScServletCallbacks");
         String path = MyUrls.getCallbackPath();
         ScServletCallbackRegistry.install(path);
+        printOk();
+    }
+
+    private static void _installScBridge()
+    {
+        printfHeader("ScBridge");
+        MyScBridge.install();
         printOk();
     }
 

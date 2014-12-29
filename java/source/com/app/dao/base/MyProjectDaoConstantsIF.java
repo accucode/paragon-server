@@ -32,7 +32,6 @@ public interface MyProjectDaoConstantsIF
     String VENDORS = "vendors";
     String SKILLS = "skills";
     String VISIT_TYPES = "visitTypes";
-    String ATTENTION_GROUPS = "attentionGroups";
     String PRODUCTS = "products";
     String CATEGORIES = "categories";
     String SHIP_CARRIERS = "shipCarriers";

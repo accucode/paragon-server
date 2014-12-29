@@ -66,25 +66,6 @@ public class MyDaoRegistry
     }
 
     //##################################################
-    //# attentionGroup
-    //##################################################
-
-    public MyAttentionGroupDao getAttentionGroupDao()
-    {
-        return new MyAttentionGroupDao();
-    }
-
-    public KmList<MyAttentionGroup> findAllAttentionGroups()
-    {
-        return getAttentionGroupDao().findAll();
-    }
-
-    public MyAttentionGroup findAttentionGroupUid(String e)
-    {
-        return getAttentionGroupDao().findUid(e);
-    }
-
-    //##################################################
     //# autoSignIn
     //##################################################
 

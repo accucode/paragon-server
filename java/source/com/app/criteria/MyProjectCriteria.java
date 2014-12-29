@@ -348,20 +348,6 @@ public class MyProjectCriteria
     }
 
     //##################################################
-    //# collection (AttentionGroups)
-    //##################################################
-
-    public MyAttentionGroupCriteria joinToAttentionGroups()
-    {
-        return new MyAttentionGroupCriteria(joinTo(ATTENTION_GROUPS));
-    }
-
-    public MyAttentionGroupCriteria leftJoinToAttentionGroups()
-    {
-        return new MyAttentionGroupCriteria(leftJoinTo(ATTENTION_GROUPS));
-    }
-
-    //##################################################
     //# collection (Products)
     //##################################################
 
