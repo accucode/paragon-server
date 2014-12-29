@@ -11,7 +11,6 @@ import com.app.dao.core.MyDaoSession;
 import com.app.model.MyServerSession;
 import com.app.property.MyPropertyManager;
 import com.app.property.MyPropertyRegistry;
-import com.app.ui.core.MyCookieSession;
 import com.app.ui.core.MyServerSessionManager;
 import com.app.ui.core.MyServletData;
 
@@ -29,11 +28,6 @@ public class MyGlobals
     public static MyServerSession getServerSession()
     {
         return MyServerSessionManager.getSession();
-    }
-
-    public static MyCookieSession getCookieSession()
-    {
-        return MyCookieSession.getInstance();
     }
 
     public static MyPropertyRegistry getProperties()

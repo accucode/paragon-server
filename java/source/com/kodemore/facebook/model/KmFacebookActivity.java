@@ -99,7 +99,7 @@ public class KmFacebookActivity
     public static KmList<KmFacebookActivity> createListWith(KmJsonArray arr)
     {
         KmList<KmFacebookActivity> v;
-        v = new KmList<KmFacebookActivity>();
+        v = new KmList<>();
 
         int n = arr.size();
         for ( int i = 0; i < n; i++ )

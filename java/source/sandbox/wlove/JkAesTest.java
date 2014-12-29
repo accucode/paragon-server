@@ -9,6 +9,16 @@ import com.kodemore.utility.Kmu;
 
 public class JkAesTest
 {
+    //##################################################
+    //# constants
+    //##################################################
+
+    private static final String CIPHER = "AES";
+
+    //##################################################
+    //# main
+    //##################################################
+
     public static void main(String[] args) throws Exception
     {
         new JkAesTest().run();
@@ -28,7 +38,7 @@ public class JkAesTest
         // Generate key
 
         KeyGenerator keyGen;
-        keyGen = KeyGenerator.getInstance("AES");
+        keyGen = KeyGenerator.getInstance(CIPHER);
         keyGen.init(128);
 
         SecretKey secret;
@@ -38,12 +48,12 @@ public class JkAesTest
         rawSecret = secret.getEncoded();
 
         SecretKeySpec secretKeySpec;
-        secretKeySpec = new SecretKeySpec(rawSecret, "AES");
+        secretKeySpec = new SecretKeySpec(rawSecret, CIPHER);
 
         // Encrypt
 
         Cipher cipher;
-        cipher = Cipher.getInstance("AES");
+        cipher = Cipher.getInstance(CIPHER);
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
 
         byte[] encrypted = cipher.doFinal(message.getBytes());

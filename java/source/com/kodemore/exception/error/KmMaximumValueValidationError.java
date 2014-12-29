@@ -55,10 +55,10 @@ public class KmMaximumValueValidationError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append("maximum value is ");
-        sb.append(_maximum);
+        out.append("maximum value is ");
+        out.append(_maximum);
     }
 
 }

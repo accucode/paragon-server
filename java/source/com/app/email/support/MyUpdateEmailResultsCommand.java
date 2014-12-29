@@ -22,7 +22,7 @@ public class MyUpdateEmailResultsCommand
 
     public MyUpdateEmailResultsCommand()
     {
-        _results = new KmList<KmEmailResult>();
+        _results = new KmList<>();
     }
 
     //##################################################

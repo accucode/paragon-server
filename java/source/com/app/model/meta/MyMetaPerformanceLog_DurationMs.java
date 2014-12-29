@@ -50,6 +50,12 @@ public class MyMetaPerformanceLog_DurationMs
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The duration of the task in milliseconds.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

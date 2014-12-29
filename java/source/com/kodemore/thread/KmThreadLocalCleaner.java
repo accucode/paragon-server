@@ -35,9 +35,9 @@ import com.kodemore.utility.Kmu;
  * USE WITH CAUTION.
  *
  * I am used to find and clear thread local references.
- * 
+ *
  * I have been tested with JDK 5 & 6.  Since I rely on reflection
- * to access private variables in the java.lang package, it is 
+ * to access private variables in the java.lang package, it is
  * reasonable to expect that this code may break on other jdks.
  *
  * Also, clearing all of the thread locals is a very heavy-handed,
@@ -52,34 +52,58 @@ import com.kodemore.utility.Kmu;
 public class KmThreadLocalCleaner
 {
     //##################################################
+    //# static
+    //##################################################
+
+    public static void cleanKmLocals()
+    {
+        KmThreadLocalCleaner e;
+        e = new KmThreadLocalCleaner();
+        e._classFilter = KmThreadLocal.class;
+        e.clean();
+    }
+
+    //##################################################
+    //# variables
+    //##################################################
+
+    /**
+     * If set, only this thread will be cleaned.
+     * If null, all threads will be cleaned.
+     */
+    private Thread   _threadFilter;
+
+    /**
+     * If set, only values of this type of threadLocal class
+     * will be cleaned.  If null, all threadLocals classes will
+     * be cleaned.
+     */
+    private Class<?> _classFilter;
+
+    //##################################################
     //# thread locals
     //##################################################
 
-    public void cleanAll()
+    private void clean()
     {
-        begin("all");
+        if ( _threadFilter != null )
+            cleanOneThread();
+        else
+            cleanAllThreads();
+    }
 
-        Set<Thread> v = getAllThreads();
-        for ( Thread e : v )
+    private void cleanOneThread()
+    {
+        begin();
+        clean(_threadFilter);
+        end();
+    }
+
+    private void cleanAllThreads()
+    {
+        begin();
+        for ( Thread e : getAllThreads() )
             clean(e);
-
-        end();
-    }
-
-    public void cleanCurrentThread()
-    {
-        begin("current");
-
-        Thread e = Thread.currentThread();
-        clean(e);
-
-        end();
-    }
-
-    public void cleanThread(Thread e)
-    {
-        begin(e.toString());
-        clean(e);
         end();
     }
 
@@ -87,9 +111,28 @@ public class KmThreadLocalCleaner
     //# counts
     //##################################################
 
-    private void begin(String name)
+    private void begin()
     {
-        KmLog.info("Thread local cleaner, %s...", name);
+        KmLog.printfln(
+            "Thread local cleaner. Thread(%s), Class(%s)",
+            formatThreadFilter(),
+            formatClassFilter());
+    }
+
+    private String formatThreadFilter()
+    {
+        if ( _threadFilter == null )
+            return "all";
+
+        return _threadFilter.getName();
+    }
+
+    private String formatClassFilter()
+    {
+        if ( _classFilter == null )
+            return "all";
+
+        return _classFilter.getName();
     }
 
     private void end()
@@ -98,7 +141,7 @@ public class KmThreadLocalCleaner
     }
 
     //##################################################
-    //# private 
+    //# private
     //##################################################
 
     private void clean(Thread thread)
@@ -118,7 +161,7 @@ public class KmThreadLocalCleaner
      * reflection to access various variables that would otherwise be
      * private.  Setting aside a few guard clauses, this method really
      * just accomplishes the following:
-     * 
+     *
      *      table = thread.threadLocals.table;
      *      for ( e : table )
      *          e.value = null;
@@ -151,7 +194,13 @@ public class KmThreadLocalCleaner
                 Method threadLocalMethod;
                 threadLocalMethod = entry.getClass().getMethod("get");
                 threadLocalMethod.setAccessible(true);
-                Object threadLocal = threadLocalMethod.invoke(entry);
+
+                Object threadLocal;
+                threadLocal = threadLocalMethod.invoke(entry);
+
+                if ( _classFilter != null )
+                    if ( _classFilter != threadLocal.getClass() )
+                        continue;
 
                 Field valueField;
                 valueField = entry.getClass().getDeclaredField("value");
@@ -161,7 +210,6 @@ public class KmThreadLocalCleaner
                 if ( value != null )
                 {
                     log(threadLocal, value);
-
                     valueField.set(entry, null);
                 }
             }
@@ -196,7 +244,7 @@ public class KmThreadLocalCleaner
     }
 
     /**
-     * Get all active threads.  The approach used here is arguably 
+     * Get all active threads.  The approach used here is arguably
      * a little slower that some others, but it is very simple and
      * reliable.
      */

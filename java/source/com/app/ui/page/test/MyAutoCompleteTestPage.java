@@ -78,15 +78,15 @@ public class MyAutoCompleteTestPage
         form.setSubmitAction(newSubmitAction());
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Auto Complete Tests");
 
         ScFieldTable fields;
-        fields = group.addPad().addFields();
+        fields = group.getBody().addPad().addFieldTable();
         fields.add(_staticField);
         fields.add(_dynamicField);
 
-        group.addDivider();
-        group.addButtonBox().addSubmitButton();
+        group.addBodyDivider();
+        group.getBody().addButtonBox().addSubmitButton();
     }
 
     private ScAutoCompleteCallbackIF newCallback()
@@ -99,7 +99,7 @@ public class MyAutoCompleteTestPage
                 term = term + "";
 
                 KmList<String> v;
-                v = new KmList<String>();
+                v = new KmList<>();
                 v.add(term + "1");
                 v.add(term + "2");
                 v.add(term + "3");

@@ -90,33 +90,11 @@ public interface KmTimeConstantsIF
 
     int[]    DAYS_PER_MONTH_NONLEAP   =
                                       {
-        31,
-        28,
-        31,
-        30,
-        31,
-        30,
-        31,
-        31,
-        30,
-        31,
-        30,
-        31
+        31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
                                       };
     int[]    DAYS_PER_MONTH_LEAP      =
                                       {
-        31,
-        29,
-        31,
-        30,
-        31,
-        30,
-        31,
-        31,
-        30,
-        31,
-        30,
-        31
+        31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
                                       };
 
     int      MY_SQL_DATE_OFFSET       = 657437;

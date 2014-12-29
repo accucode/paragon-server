@@ -24,10 +24,10 @@ $utility.protocol("find")
 
     static
     {
-        _values = new KmList<${enum.f_Class}>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,${enum.f_Class}>();
+        _codes = new KmMap<>();
         for ( ${enum.f_Class} e : EnumSet.allOf(${enum.f_Class}.class) )
             _codes.put(e.getCode(), e);
     }

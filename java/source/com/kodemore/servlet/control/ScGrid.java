@@ -57,10 +57,10 @@ import com.kodemore.utility.Kmu;
  * additional options?
  *      rpOptions           => [10,15,20,25,40]
  *      blockOpacity        => 0.5,
- * 
- *      The auto-width was not working correctly.  
- *          I applied a fix by changing the two instances 
- *          of 1024px to 100% in the .css file. 
+ *
+ *      The auto-width was not working correctly.
+ *          I applied a fix by changing the two instances
+ *          of 1024px to 100% in the .css file.
  */
 public class ScGrid<T>
     extends ScControl
@@ -95,7 +95,7 @@ public class ScGrid<T>
     private ScLocalString            _header;
 
     /**
-     * Defines a factory capable of creating the filter used to 
+     * Defines a factory capable of creating the filter used to
      * fetch data.
      */
     private KmFilterFactoryIF<T>     _filterFactory;
@@ -211,8 +211,8 @@ public class ScGrid<T>
         super.install();
 
         _header = new ScLocalString();
-        _columns = new KmList<ScGridColumn<T>>();
-        _trackedValues = new KmList<ScEncodedValueIF>();
+        _columns = new KmList<>();
+        _trackedValues = new KmList<>();
 
         _usesPager = new ScLocalBoolean(true);
         _rowsPerPage = new ScLocalInteger(30);
@@ -250,15 +250,9 @@ public class ScGrid<T>
     }
 
     @Override
-    public String getJqueryReference()
-    {
-        return ScJquery.formatReference(this);
-    }
-
-    @Override
     public ScHtmlIdAjax ajax()
     {
-        return new ScHtmlIdAjax(getRootScript(), this);
+        return new ScHtmlIdAjax(this, getRootScript());
     }
 
     //##################################################
@@ -435,14 +429,13 @@ public class ScGrid<T>
 
     private void renderScript(KmHtmlBuilder out)
     {
-        String ref = getJqueryReference();
+        String sel = getJquerySelector();
         KmJsonMap setup = setupJson();
 
-        out.getPostDom().run("%s.flexigrid(%s);", ref, setup);
+        out.getPostDom().run("$(%s).flexigrid(%s);", json(sel), setup);
 
         if ( getFill() )
-            out.getPostDom().run("Kmu.flexigridFill('%s');", getJquerySelector());
-
+            out.getPostDom().run("Kmu.flexigridFill(%s);", json(sel));
     }
 
     //##################################################
@@ -530,7 +523,6 @@ public class ScGrid<T>
         KmJsonArray params;
         params = map.setArray("params");
 
-        _setupTotalCount(params);
         _setupTrackedValues(params);
     }
 
@@ -675,7 +667,7 @@ public class ScGrid<T>
     public ScGridColumn<T> addColumn()
     {
         ScGridColumn<T> e;
-        e = new ScGridColumn<T>();
+        e = new ScGridColumn<>();
 
         return addColumn(e);
     }
@@ -793,15 +785,15 @@ public class ScGrid<T>
         _trackedValues.add(e);
     }
 
-    public void trackAll(ScControl c)
+    public void trackAll(ScControlIF c)
     {
         if ( c instanceof ScEncodedValueIF )
             track((ScEncodedValueIF)c);
 
-        Iterator<ScControl> i = c.getComponents();
+        Iterator<ScControlIF> i = c.getComponents();
         while ( i.hasNext() )
         {
-            ScControl e = i.next();
+            ScControlIF e = i.next();
 
             if ( e instanceof ScEncodedValueIF )
                 track((ScEncodedValueIF)e);
@@ -812,7 +804,7 @@ public class ScGrid<T>
 
     private KmList<?> getTrackedValues()
     {
-        KmList<Object> v = new KmList<Object>();
+        KmList<Object> v = new KmList<>();
 
         for ( ScEncodedValueIF value : _trackedValues )
             v.add(value.getEncodedValue());
@@ -941,8 +933,7 @@ public class ScGrid<T>
 
     @SuppressWarnings(
     {
-        "unchecked",
-        "rawtypes"
+        "unchecked", "rawtypes"
     })
     private void renderCsvAdaptor(KmCsvBuilder out, Object adaptor, Object model)
     {
@@ -964,7 +955,7 @@ public class ScGrid<T>
 
     private KmList<ScGridColumn<T>> getCsvColumns()
     {
-        KmList<ScGridColumn<T>> v = new KmList<ScGridColumn<T>>();
+        KmList<ScGridColumn<T>> v = new KmList<>();
 
         for ( ScGridColumn<T> e : getColumns() )
             if ( e.isCsvCell() && e.isVisible() )
@@ -979,7 +970,7 @@ public class ScGrid<T>
 
     /**
      * Handle servlet callback requests to fill the dropdown dynamically.
-     * Callback handlers are registered in the ScServletCallbackRegistry. 
+     * Callback handlers are registered in the ScServletCallbackRegistry.
      */
     public static void handleServletCallback(String pathSuffix)
     {
@@ -991,7 +982,7 @@ public class ScGrid<T>
     private static ScGrid<?> getGridForPath(String suffix)
     {
         /*
-         * We assume the pathSuffix is the control's key since that is 
+         * We assume the pathSuffix is the control's key since that is
          * what we provided when composing the url.  See formatRequestUrl().
          */
         String key = suffix;
@@ -1119,14 +1110,14 @@ public class ScGrid<T>
 
     public void ajaxReload()
     {
-        String ref = getJqueryReference();
+        String sel = getJquerySelector();
 
         KmJsonMap map = new KmJsonMap();
         setupAllParameters(map);
         String options = map.formatJson();
 
-        ajax().run("%s.flexOptions(%s);", ref, options);
-        ajax().run("%s.flexReload();", getJqueryReference());
+        ajax().run("$(%s).flexOptions(%s);", json(sel), options);
+        ajax().run("$(%s).flexReload();", json(sel));
     }
 
     public void ajaxDownloadCsv()

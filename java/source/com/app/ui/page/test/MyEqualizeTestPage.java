@@ -4,8 +4,8 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScFilterBox;
+import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.string.KmStringBuilder;
@@ -56,19 +56,20 @@ public class MyEqualizeTestPage
         root.css().gap();
 
         ScGroup info;
-        info = root.addGroup();
-        info.addPad().addText(infoMessage());
-        info.addDivider();
+        info = root.addGroup("Equalize Test");
+        info.getBody().addPad().addText(infoMessage());
+        info.addBodyDivider();
 
         ScBox buttons;
-        buttons = info.addButtonBox();
+        buttons = info.getBody().addButtonBox();
         buttons.addButton("Equalize Groups", newEqualizeAction());
         buttons.addButton("Click here to equalize all the buttons.", newEqualizeButtonsAction());
 
         _groups = root.addBox();
 
-        ScContainer groups;
+        ScFlexbox groups;
         groups = _groups.addRow();
+        groups.crossAlignStart();
 
         ScBox links;
 
@@ -77,8 +78,8 @@ public class MyEqualizeTestPage
         filter.addText("This is a test filter box...");
 
         ScGroup group;
-        group = groups.addGroup();
-        links = group.addLinkBox();
+        group = groups.addGroup("A group");
+        links = group.getBody().addLinkBox();
         links.addLink(MyBlankTestPage.instance);
         links.addLink(MyFormTestPage.instance);
         links.addLink(MyPlaceholderTestPage.instance);
@@ -86,8 +87,8 @@ public class MyEqualizeTestPage
         links.addLink(MyGroupIconHeaderTestPage.instance);
         links.addLink(MyNotebookTestPage.instance);
 
-        group = groups.addGroup();
-        links = group.addLinkBox();
+        group = groups.addGroup("Another group");
+        links = group.getBody().addLinkBox();
         group.style().height(300);
         links.addLink(MyFieldTestPage.instance);
         links.addLink(MyLocalValueTestPage.instance);
@@ -98,8 +99,8 @@ public class MyEqualizeTestPage
         links.addLink(MyGridTestPage.instance);
         links.addLink(MyDropzoneTestPage.instance);
 
-        group = groups.addGroup();
-        links = group.addLinkBox();
+        group = groups.addGroup("And another");
+        links = group.getBody().addLinkBox();
         group.style().width(300);
         links.addLink(MyBlockTestPage.instance);
         links.addLink(MySlowTestPage.instance);
@@ -108,12 +109,12 @@ public class MyEqualizeTestPage
         links.addLink(MyHideErrorsTestPage.instance);
         links.addLink(MyOpenWindowTestPage.instance);
         links.addLink(MyDownloadTestPage.instance);
-        links.addLink(MyShowDialogTestPage.instance);
+        links.addLink(MyDialogTestPage.instance);
         links.addLink(MyBarcodeTestPage.instance);
 
-        group = root.addGroup();
+        group = root.addGroup("One more at down below");
 
-        buttons = group.addButtonBox();
+        buttons = group.getBody().addButtonBox();
         buttons.addButton("Button");
         buttons.addButton("One more button with lots of text");
     }
@@ -123,7 +124,11 @@ public class MyEqualizeTestPage
         KmStringBuilder out;
         out = new KmStringBuilder();
 
-        out.println("'Equalize Groups' will make all of the below groups the same size.");
+        out.println(""
+            + "'Equalize Groups' will make all of the below groups the same size. This uses "
+            + "client-side javascript to equalize the width and/or height of multiple "
+            + "elements.  This is now largely OBSOLETE; in most cases, a flexbox layout "
+            + "will achieve the same effect and with far fewer problems and complications.");
 
         return out.toString();
     }

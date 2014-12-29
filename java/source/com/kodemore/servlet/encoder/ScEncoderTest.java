@@ -45,14 +45,14 @@ public class ScEncoderTest
         e.encode(12345);
         e.encode(null);
 
-        KmList<Object> v = new KmList<Object>();
+        KmList<Object> v = new KmList<>();
         v.add("x");
         v.add(null);
         v.add(3);
         v.add("z");
         e.encode(v);
 
-        KmMap<Object,Object> m = new KmMap<Object,Object>();
+        KmMap<Object,Object> m = new KmMap<>();
         m.put("a", "b");
         m.put("c", null);
         m.put("v", v);

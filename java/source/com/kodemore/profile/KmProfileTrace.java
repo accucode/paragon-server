@@ -44,7 +44,7 @@ public class KmProfileTrace
     {
         _traceId = -1;
         _threadId = -1;
-        _lines = new KmList<KmProfileTraceLine>();
+        _lines = new KmList<>();
     }
 
     //##################################################
@@ -101,7 +101,7 @@ public class KmProfileTrace
     public Iterator<KmProfileTraceLine> getTraceLinesFromRoot()
     {
         KmList<KmProfileTraceLine> v;
-        v = new KmList<KmProfileTraceLine>();
+        v = new KmList<>();
         v.addAll(_lines);
         v.reverse();
         return v.iterator();

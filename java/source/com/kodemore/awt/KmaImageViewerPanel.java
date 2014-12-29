@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.awt;
 
@@ -41,9 +41,9 @@ public class KmaImageViewerPanel
     //# variables
     //##################################################
 
-    private List<File>    _imageFiles;
-    private KmaListBox    _fileListBox;
-    private KmaImagePanel _imagePanel;
+    private List<File>         _imageFiles;
+    private KmaListBox<String> _fileListBox;
+    private KmaImagePanel      _imagePanel;
 
     //##################################################
     //# initialize
@@ -53,8 +53,9 @@ public class KmaImageViewerPanel
     public void initializeComponents()
     {
         super.initializeComponents();
+
         _imageFiles = null;
-        _fileListBox = new KmaListBox(newListBoxModel());
+        _fileListBox = new KmaListBox<>(newListBoxModel());
         _fileListBox.getSelectListeners().add(newAction("guiSelectImage"));
         _imagePanel = new KmaImagePanel();
     }
@@ -85,26 +86,29 @@ public class KmaImageViewerPanel
     {
         int i = _fileListBox.getSelectedIndex();
         File f = null;
+
         if ( i >= 0 )
             f = _imageFiles.get(i);
+
         _imagePanel.setImage(f);
         _imagePanel.revalidate();
     }
 
-    public ListModel newListBoxModel()
+    public ListModel<String> newListBoxModel()
     {
-        return new KmaListModel()
+        return new KmaListModel<String>()
         {
             @Override
             public int getSize()
             {
                 if ( _imageFiles == null )
                     return 0;
+
                 return _imageFiles.size();
             }
 
             @Override
-            public Object getElementAt(int index)
+            public String getElementAt(int index)
             {
                 File f = _imageFiles.get(index);
                 return f.getName();
@@ -121,7 +125,9 @@ public class KmaImageViewerPanel
         String path = Kmu.getHardcodedPath("/temp/jpegs");
         File dir = new File(path);
         File[] arr = dir.listFiles();
-        KmList<File> v = new KmList<File>(arr);
+
+        KmList<File> v;
+        v = new KmList<>(arr);
         v.sort();
 
         KmaImageViewerPanel p;

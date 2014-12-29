@@ -31,24 +31,24 @@ public class ScJquery
     //# reference
     //##################################################
 
-    public static String formatReference(String e)
+    public static String formatSelectorReference(String sel)
     {
-        return Kmu.format("$('%s')", e);
+        return Kmu.format("$('%s')", sel);
     }
 
     public static String formatReference(ScHtmlIdIF e)
     {
-        return formatReference(formatSelector(e));
+        return formatSelectorReference(formatSelector(e));
     }
 
     public static String formatIdReference(String htmlId)
     {
-        return formatReference(formatIdSelector(htmlId));
+        return formatSelectorReference(formatIdSelector(htmlId));
     }
 
     public static String formatClassReference(String css)
     {
-        return formatReference(formatCssSelector(css));
+        return formatSelectorReference(formatCssSelector(css));
     }
 
     //##################################################

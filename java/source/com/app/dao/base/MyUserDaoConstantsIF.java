@@ -20,6 +20,7 @@ public interface MyUserDaoConstantsIF
     String UID = "uid";
     String NAME = "name";
     String EMAIL = "email";
+    String PHONE = "phone";
     String VERIFIED = "verified";
     String PASSWORD_SALT = "passwordSalt";
     String PASSWORD_HASH = "passwordHash";
@@ -29,8 +30,10 @@ public interface MyUserDaoConstantsIF
     String ROLE_NAME = "roleName";
 
     //##################################################
-    //# collections
+    //# associations
     //##################################################
 
-    String USER_ACCOUNTS = "userAccounts";
+    String LAST_PROJECT = "lastProject";
+    String LAST_PROJECT_UID = "lastProject.uid";
+
 }

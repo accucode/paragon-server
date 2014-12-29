@@ -32,9 +32,9 @@ import com.kodemore.collection.KmList;
  */
 public abstract class KmPool
 {
-    //##################################################
-    //# variables
-    //##################################################
+    // ##################################################
+    // # variables
+    // ##################################################
 
     private KmList<Object> _inList;
     private KmList<Object> _outList;
@@ -42,19 +42,19 @@ public abstract class KmPool
     private int            _retryCount;
     private int            _retryDelayMs;
 
-    //##################################################
-    //# constructor
-    //##################################################
+    // ##################################################
+    // # constructor
+    // ##################################################
 
     public KmPool()
     {
-        _inList = new KmList<Object>();
-        _outList = new KmList<Object>();
+        _inList = new KmList<>();
+        _outList = new KmList<>();
     }
 
-    //##################################################
-    //# accessing
-    //##################################################
+    // ##################################################
+    // # accessing
+    // ##################################################
 
     public Object get()
     {
@@ -74,9 +74,9 @@ public abstract class KmPool
         _inList.add(e);
     }
 
-    //##################################################
-    //# private
-    //##################################################
+    // ##################################################
+    // # private
+    // ##################################################
 
     public Object _getValue()
     {
@@ -125,25 +125,31 @@ public abstract class KmPool
         return e;
     }
 
-    //##################################################
-    //# abstract
-    //##################################################
+    // ##################################################
+    // # abstract
+    // ##################################################
 
     public abstract Object create();
 
+    /**
+     * @param e unused, but defined for subclass overrides.
+     */
     public void preGet(Object e)
     {
         // hook for subclasses.
     }
 
+    /**
+     * @param e unused, but defined for subclass overrides.
+     */
     public void postRelease(Object e)
     {
         // hook for subclasses.
     }
 
-    //##################################################
-    //# utility
-    //##################################################
+    // ##################################################
+    // # utility
+    // ##################################################
 
     public void error(String s)
     {

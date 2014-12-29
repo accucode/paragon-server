@@ -50,6 +50,12 @@ public class MyMetaServerSession_Active
     }
 
     @Override
+    public String getHelp()
+    {
+        return "This indicates if the session is currently active, or if it has expired.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

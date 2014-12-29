@@ -50,6 +50,12 @@ public class MyMetaFile_StatusCode
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The status of the file. New: being created, should not use yet. Ready: Available for use; should not not edit. Deleted: The file has been deleted from the file system.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 3;
@@ -102,8 +108,9 @@ public class MyMetaFile_StatusCode
         ScDropdown e;
         e = new ScDropdown();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
-        e.setValue(getAdaptor());
+        e.setValueAdaptor(getAdaptor());
         e.addOptions(MyFileStatus.values());
         return e;
     }

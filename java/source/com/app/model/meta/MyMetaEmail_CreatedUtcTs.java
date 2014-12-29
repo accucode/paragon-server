@@ -50,6 +50,12 @@ public class MyMetaEmail_CreatedUtcTs
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when this email was created.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 16;

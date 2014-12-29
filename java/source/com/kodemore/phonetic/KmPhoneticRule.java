@@ -24,6 +24,11 @@ package com.kodemore.phonetic;
 
 import com.kodemore.utility.Kmu;
 
+/**
+ * I represent a single rule (or step) in the phonetic conversion process.
+ * Each rule is a simple string replacement, however the replacement can
+ * be specified to apply to the entire string, or to just the prefix or suffix.
+ */
 public class KmPhoneticRule
 {
     //##################################################
@@ -104,76 +109,66 @@ public class KmPhoneticRule
     public String applyTo(String s, boolean verbose)
     {
         if ( hasMode(MODE_ALL) )
-            return _replaceAll(s, verbose);
+            return replaceAll(s, verbose);
 
         if ( hasMode(MODE_PREFIX) )
-            return _replacePrefix(s, verbose);
+            return replacePrefix(s, verbose);
 
         if ( hasMode(MODE_SUFFIX) )
-            return _replaceSuffix(s, verbose);
+            return replaceSuffix(s, verbose);
 
         return s;
     }
 
-    public String _replaceAll(String s)
-    {
-        return _replaceAll(s, false);
-    }
+    //##################################################
+    //# private
+    //##################################################
 
-    public String _replaceAll(String s, boolean verbose)
+    private String replaceAll(String s, boolean verbose)
     {
         String result = Kmu.replaceAll(s, _oldValue, _newValue);
+
         if ( verbose && !result.equals(s) )
             printRuleApplication(s, result);
+
         return result;
     }
 
-    public String _replacePrefix(String s)
-    {
-        return _replacePrefix(s, false);
-    }
-
-    public String _replacePrefix(String s, boolean verbose)
+    private String replacePrefix(String s, boolean verbose)
     {
         if ( !s.startsWith(_oldValue) )
             return s;
+
         String result = _newValue + s.substring(_oldValue.length());
+
         if ( verbose )
             printRuleApplication(s, result);
+
         return result;
     }
 
-    public String _replaceSuffix(String s)
-    {
-        return _replaceSuffix(s, false);
-    }
-
-    public String _replaceSuffix(String s, boolean verbose)
+    private String replaceSuffix(String s, boolean verbose)
     {
         if ( !s.endsWith(_oldValue) )
             return s;
+
         String result = s.substring(0, s.length() - _oldValue.length()) + _newValue;
+
         if ( verbose )
             printRuleApplication(s, result);
+
         return result;
     }
 
-    //##################################################
-    //# display
-    //##################################################
-
-    public void printRuleApplication(String s1, String s2)
+    private void printRuleApplication(String s1, String s2)
     {
-        System.out.println("Rule: "
-                        + getMode()
-                        + ","
-                        + getOldValue()
-                        + ","
-                        + getNewValue()
-                        + " :: "
-                        + s1
-                        + " -> "
-                        + s2);
+        System.out.printf(
+            "Rule: %s, %s, %s :: %s -> %s\n",
+            getMode(),
+            getOldValue(),
+            getNewValue(),
+            s1,
+            s2);
     }
 
 }

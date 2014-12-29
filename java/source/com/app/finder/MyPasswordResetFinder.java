@@ -46,7 +46,7 @@ public class MyPasswordResetFinder
     public MyPasswordReset findDao(String key)
     {
         MyDaoKeyFinder<MyPasswordReset,String> e;
-        e = new MyDaoKeyFinder<MyPasswordReset,String>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

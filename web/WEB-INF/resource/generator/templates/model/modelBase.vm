@@ -48,7 +48,7 @@ $utility.protocol("constructor")
 #end
 #end
 #foreach ( $collection in $model.collections )
-        ${collection.f_variable} = new ${collection.f_ImplType}();
+        ${collection.f_variable} = new ${collection.f_ImplType_NoGeneric}();
 #end
     }
 
@@ -264,7 +264,7 @@ $utility.protocol("${collection.f_Name} (collection)")
 
     public ${collection.f_WrapperType} ${collection.f_getMethod}()
     {
-        return new ${collection.f_WrapperImplType}(
+        return new ${collection.f_WrapperImplType_NoGeneric}(
             ${collection.f_implGetMethod}(),
             ($model.f_Class)this,
             ${collection.f_ElementType}.Meta.${collection.f_ElementName}.getAdaptor());
@@ -420,18 +420,18 @@ $utility.protocol("copy")
 
 #if ( $collection.isOnCopyCopy() )
         ${collection.f_Type} old_${collection.f_variable} = ${collection.f_variable};
-        ${collection.f_variable} = new ${collection.f_ImplType}();
+        ${collection.f_variable} = new ${collection.f_ImplType_NoGeneric}();
         for ( ${collection.f_ElementType} e : old_${collection.f_variable} )
             add${collection.f_SingleName}(copy(e));
 #end
 #if ( $collection.isOnCopyClear() )
-        ${collection.f_variable} = new ${collection.f_ImplType}();
+        ${collection.f_variable} = new ${collection.f_ImplType_NoGeneric}();
 #end
 #end
 #foreach ( $collection in $model.valueCollections )
 
         ${collection.f_Type} old_${collection.f_variable} = ${collection.f_variable};
-        ${collection.f_variable} = new ${collection.f_ImplType}();
+        ${collection.f_variable} = new ${collection.f_ImplType_NoGeneric}();
         for ( ${collection.f_ElementType} e : old_${collection.f_variable} )
             add${collection.f_SingleName}(e);
 #end

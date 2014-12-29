@@ -49,6 +49,12 @@ public class MyMetaServerSession_ClosedLocalTsMessage
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when the session was closed.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

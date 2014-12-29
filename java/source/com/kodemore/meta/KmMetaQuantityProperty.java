@@ -23,6 +23,7 @@ public abstract class KmMetaQuantityProperty<T>
         ScQuantityField e;
         e = new ScQuantityField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
         e.setValueAdaptor(this);
         return e;

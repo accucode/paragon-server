@@ -133,7 +133,7 @@ public class KmZendeskListTickets
     public KmList<KmZendeskTicket> getAllTickets()
     {
         resetConnection();
-        KmList<KmZendeskTicket> v = new KmList<KmZendeskTicket>();
+        KmList<KmZendeskTicket> v = new KmList<>();
 
         while ( true )
         {
@@ -247,7 +247,7 @@ public class KmZendeskListTickets
 
     private KmList<KmZendeskCustomField> getCustomFields(KmJsonArray array)
     {
-        KmList<KmZendeskCustomField> v = new KmList<KmZendeskCustomField>();
+        KmList<KmZendeskCustomField> v = new KmList<>();
         int n = array.size();
         for ( int i = 0; i < n; i++ )
         {
@@ -261,7 +261,7 @@ public class KmZendeskListTickets
 
     private KmList<Integer> getIntegerList(KmJsonArray array)
     {
-        KmList<Integer> v = new KmList<Integer>();
+        KmList<Integer> v = new KmList<>();
         if ( array == null )
             return v;
         int n = array.size();
@@ -272,7 +272,7 @@ public class KmZendeskListTickets
 
     private KmList<String> getStringList(KmJsonArray array)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         if ( array == null )
             return v;
         int n = array.size();

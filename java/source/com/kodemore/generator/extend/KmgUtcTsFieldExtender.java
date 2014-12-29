@@ -24,6 +24,7 @@ public class KmgUtcTsFieldExtender
 
         String name;
         String label;
+        String help;
         String body;
         String type;
 
@@ -35,28 +36,32 @@ public class KmgUtcTsFieldExtender
 
         name = prefix + "LocalTs";
         label = Kmu.capitalizeWords(prefix);
+        help = field.getHelp();
         body = Kmu.format("return KmTimestampUtility.toLocal(%s());", field.getf_getMethod());
         type = "timestamp";
-        KmgModelField localTs = model.addCustomGetter(name, label, body, type);
+        KmgModelField localTs = model.addCustomGetter(name, label, help, body, type);
 
         name = prefix + "LocalTsMessage";
         label = Kmu.capitalizeWords(prefix);
-        body = Kmu.format(
-            "return KmTimestampUtility.formatLocalMessage(%s());",
-            field.getf_getMethod());
+        help = field.getHelp();
+        body =
+            Kmu.format("return KmTimestampUtility.formatLocalMessage(%s());", field
+                .getf_getMethod());
         type = "text100";
-        model.addCustomGetter(name, label, body, type);
+        model.addCustomGetter(name, label, help, body, type);
 
         name = prefix + "LocalDate";
         label = Kmu.capitalizeWords(prefix);
+        help = field.getHelp();
         body = Kmu.format("return KmTimestampUtility.getDate(%s());", localTs.getf_getMethod());
         type = "date";
-        model.addCustomGetter(name, label, body, type);
+        model.addCustomGetter(name, label, help, body, type);
 
         name = prefix + "LocalTime";
         label = Kmu.capitalizeWords(prefix);
+        help = field.getHelp();
         body = Kmu.format("return KmTimestampUtility.getTime(%s());", localTs.getf_getMethod());
         type = "time";
-        model.addCustomGetter(name, label, body, type);
+        model.addCustomGetter(name, label, help, body, type);
     }
 }

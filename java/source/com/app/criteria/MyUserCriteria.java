@@ -59,6 +59,11 @@ public class MyUserCriteria
         return new KmStringCriteria(context(), fullName(EMAIL));
     }
 
+    public KmStringCriteria wherePhone()
+    {
+        return new KmStringCriteria(context(), fullName(PHONE));
+    }
+
     public KmBooleanCriteria whereVerified()
     {
         return new KmBooleanCriteria(context(), fullName(VERIFIED));
@@ -100,24 +105,6 @@ public class MyUserCriteria
             whereRoleCode().isNot(e.getCode());
     }
 
-    public void whereRoleIsUser()
-    {
-        whereRoleIs(MyUserRole.User);
-    }
-
-    public void whereRoleIsNotUser()
-    {
-        whereRoleIsNot(MyUserRole.User);
-    }
-
-    public void whereRoleIsUser(boolean e)
-    {
-        if ( e )
-            whereRoleIsUser();
-        else
-            whereRoleIsNotUser();
-    }
-
     public void whereRoleIsDeveloper()
     {
         whereRoleIs(MyUserRole.Developer);
@@ -134,6 +121,42 @@ public class MyUserCriteria
             whereRoleIsDeveloper();
         else
             whereRoleIsNotDeveloper();
+    }
+
+    public void whereRoleIsAdmin()
+    {
+        whereRoleIs(MyUserRole.Admin);
+    }
+
+    public void whereRoleIsNotAdmin()
+    {
+        whereRoleIsNot(MyUserRole.Admin);
+    }
+
+    public void whereRoleIsAdmin(boolean e)
+    {
+        if ( e )
+            whereRoleIsAdmin();
+        else
+            whereRoleIsNotAdmin();
+    }
+
+    public void whereRoleIsOther()
+    {
+        whereRoleIs(MyUserRole.Other);
+    }
+
+    public void whereRoleIsNotOther()
+    {
+        whereRoleIsNot(MyUserRole.Other);
+    }
+
+    public void whereRoleIsOther(boolean e)
+    {
+        if ( e )
+            whereRoleIsOther();
+        else
+            whereRoleIsNotOther();
     }
 
     public KmIntegerCriteria whereLockVersion()
@@ -197,6 +220,24 @@ public class MyUserCriteria
             sortOnEmail();
         else
             sortOnEmailDescending();
+    }
+
+    public void sortOnPhone()
+    {
+        parent().sortAscending(PHONE);
+    }
+
+    public void sortOnPhoneDescending()
+    {
+        parent().sortDescending(PHONE);
+    }
+
+    public void sortOnPhone(boolean asc)
+    {
+        if ( asc )
+            sortOnPhone();
+        else
+            sortOnPhoneDescending();
     }
 
     public void sortOnVerified()
@@ -437,6 +478,50 @@ public class MyUserCriteria
     public void groupByEmail()
     {
         groupBy(EMAIL);
+    }
+
+    //##################################################
+    //# projections (phone)
+    //##################################################
+
+    public void selectPhone()
+    {
+        select(PHONE);
+    }
+
+    public void selectDistinctPhone()
+    {
+        selectDistinct(PHONE);
+    }
+
+    public void selectCountDistinctPhone()
+    {
+        selectCountDistinct(PHONE);
+    }
+
+    public void selectMinimumPhone()
+    {
+        selectMinimum(PHONE);
+    }
+
+    public void selectMaximumPhone()
+    {
+        selectMaximum(PHONE);
+    }
+
+    public void selectAveragePhone()
+    {
+        selectAverage(PHONE);
+    }
+
+    public void selectSumPhone()
+    {
+        selectSum(PHONE);
+    }
+
+    public void groupByPhone()
+    {
+        groupBy(PHONE);
     }
 
     //##################################################
@@ -704,17 +789,50 @@ public class MyUserCriteria
     }
 
     //##################################################
-    //# collection (UserAccounts)
+    //# association (LastProject)
     //##################################################
 
-    public MyUserAccountCriteria joinToUserAccounts()
+    public void selectLastProjectUid()
     {
-        return new MyUserAccountCriteria(joinTo(USER_ACCOUNTS));
+        select(LAST_PROJECT_UID);
     }
 
-    public MyUserAccountCriteria leftJoinToUserAccounts()
+    public void selectMinimumLastProjectUid()
     {
-        return new MyUserAccountCriteria(leftJoinTo(USER_ACCOUNTS));
+        selectMinimum(LAST_PROJECT_UID);
+    }
+
+    public void selectMaximumLastProjectUid()
+    {
+        selectMaximum(LAST_PROJECT_UID);
+    }
+
+    public void groupByLastProjectUid()
+    {
+        groupBy(LAST_PROJECT);
+    }
+
+    public MyProjectCriteria joinToLastProject()
+    {
+        return new MyProjectCriteria(joinTo(LAST_PROJECT));
+    }
+
+    public MyProjectCriteria leftJoinToLastProject()
+    {
+        return new MyProjectCriteria(leftJoinTo(LAST_PROJECT));
+    }
+
+    public KmStringCriteria whereLastProjectUid()
+    {
+        return new KmStringCriteria(parent(), fullName(LAST_PROJECT_UID));
+    }
+
+    public void whereLastProjectIs(MyProject e)
+    {
+        if ( e == null )
+            whereLastProjectUid().isNull();
+        else
+            whereLastProjectUid().is(e.getUid());
     }
 
     //##################################################
@@ -736,7 +854,6 @@ public class MyUserCriteria
     //##################################################
 
     @Override
-    @SuppressWarnings("rawtypes")
     public MyUserCriteria createOn(KmModelJunction junction)
     {
         return new MyUserCriteria(parent(), junction.context());

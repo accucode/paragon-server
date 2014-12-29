@@ -10,7 +10,7 @@ public class MyPerformanceLogRegistry
     //# variables
     //##################################################
 
-    private static final KmList<MyPerformanceLog> _list = new KmList<MyPerformanceLog>();
+    private static final KmList<MyPerformanceLog> _list = new KmList<>();
 
     //##################################################
     //# accessing

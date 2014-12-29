@@ -60,6 +60,7 @@ public abstract class KmHttpServer
     public void run(int port)
     {
         installServerSocket(port);
+
         while ( true )
             try
             {
@@ -92,21 +93,26 @@ public abstract class KmHttpServer
 
     public void readRequest() throws Exception
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder out = new StringBuilder();
+
         InputStream is = _socket.getInputStream();
         InputStreamReader isr = new InputStreamReader(is);
         BufferedReader r = new BufferedReader(isr);
+
         while ( true )
         {
             String s = r.readLine();
             if ( s == null )
                 break;
+
             if ( s.length() == 0 )
                 break;
-            sb.append(s);
-            sb.append("\r\n");
+
+            out.append(s);
+            out.append("\r\n");
         }
-        _request = sb.toString();
+
+        _request = out.toString();
     }
 
     public String getRequest()
@@ -137,11 +143,13 @@ public abstract class KmHttpServer
 
         OutputStream os = _socket.getOutputStream();
         BufferedOutputStream out = new BufferedOutputStream(os);
+
         writeln(out, "HTTP/1.0 200 OK");
         writeln(out, "Content-Type: " + getContentType());
         writeln(out, "Content-Length: " + s.length());
         writeln(out, "");
         writeln(out, s);
+
         out.flush();
     }
 

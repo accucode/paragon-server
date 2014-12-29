@@ -14,6 +14,7 @@ public class KmgModel
     //##################################################
 
     private String                          _name;
+    private String                          _help;
     private String                          _comment;
     private boolean                         _skipModelBase;
     private String                          _superclass;
@@ -31,10 +32,10 @@ public class KmgModel
     {
         super(parent);
 
-        _fields = new KmList<KmgModelField>();
-        _collections = new KmList<KmgModelCollection>();
-        _valueCollections = new KmList<KmgModelValueCollection>();
-        _associations = new KmList<KmgModelAssociation>();
+        _fields = new KmList<>();
+        _collections = new KmList<>();
+        _valueCollections = new KmList<>();
+        _associations = new KmList<>();
     }
 
     //##################################################
@@ -56,6 +57,21 @@ public class KmgModel
         return _name.equals(s);
     }
 
+    public String getHelp()
+    {
+        return _help;
+    }
+
+    public void setHelp(String e)
+    {
+        _help = e;
+    }
+
+    public boolean hasHelp()
+    {
+        return Kmu.hasValue(getHelp());
+    }
+
     public String getComment()
     {
         return _comment;
@@ -64,6 +80,11 @@ public class KmgModel
     public void setComment(String e)
     {
         _comment = e;
+    }
+
+    public boolean hasComment()
+    {
+        return Kmu.hasValue(getComment());
     }
 
     public boolean getSkipModelBase()
@@ -84,7 +105,7 @@ public class KmgModel
     public KmList<KmgModelAttribute> getAttributes()
     {
         KmList<KmgModelAttribute> v;
-        v = new KmList<KmgModelAttribute>();
+        v = new KmList<>();
         v.addAll(getFields());
         v.addAll(getAssociations());
         v.addAll(getCollections());
@@ -104,7 +125,7 @@ public class KmgModel
     public KmList<KmgModelAttribute> getFieldsAndDelegates()
     {
         KmList<KmgModelAttribute> v;
-        v = new KmList<KmgModelAttribute>();
+        v = new KmList<>();
         v.addAll(getFields());
         v.addAll(getDelegates());
         return v;
@@ -113,7 +134,7 @@ public class KmgModel
     public KmList<KmgModelAttribute> getEditableFieldsAndDelegates()
     {
         KmList<KmgModelAttribute> v;
-        v = new KmList<KmgModelAttribute>();
+        v = new KmList<>();
         v.addAll(getEditableFields());
         v.addAll(getEditableDelegates());
         return v;
@@ -122,7 +143,7 @@ public class KmgModel
     public KmList<KmgModelAttribute> getMetaFieldsAndDelegates()
     {
         KmList<KmgModelAttribute> v;
-        v = new KmList<KmgModelAttribute>();
+        v = new KmList<>();
         v.addAll(getMetaFields());
         v.addAll(getMetaDelegates());
         return v;
@@ -130,7 +151,7 @@ public class KmgModel
 
     public KmList<?> getFieldsDelegatesAndAssociations()
     {
-        KmList<Object> v = new KmList<Object>();
+        KmList<Object> v = new KmList<>();
         v.addAll(getFields());
         v.addAll(getDelegates());
         v.addAll(getAssociations());
@@ -144,7 +165,7 @@ public class KmgModel
 
     public KmList<KmgModelField> getEditableFields()
     {
-        KmList<KmgModelField> v = new KmList<KmgModelField>();
+        KmList<KmgModelField> v = new KmList<>();
         for ( KmgModelField e : getFields() )
             if ( e.isEditable() )
                 v.add(e);
@@ -153,7 +174,7 @@ public class KmgModel
 
     public KmList<KmgModelField> getPropertyFields()
     {
-        KmList<KmgModelField> v = new KmList<KmgModelField>();
+        KmList<KmgModelField> v = new KmList<>();
         for ( KmgModelField e : getFields() )
             if ( e.isEditable() && e.getProtoType().isProperty() )
                 v.add(e);
@@ -162,7 +183,7 @@ public class KmgModel
 
     public KmList<KmgModelField> getMetaFields()
     {
-        KmList<KmgModelField> v = new KmList<KmgModelField>();
+        KmList<KmgModelField> v = new KmList<>();
         for ( KmgModelField e : getFields() )
             if ( e.isMeta() )
                 v.add(e);
@@ -215,7 +236,7 @@ public class KmgModel
 
     public KmList<KmgModelAssociation> getEditableAssociations()
     {
-        KmList<KmgModelAssociation> v = new KmList<KmgModelAssociation>();
+        KmList<KmgModelAssociation> v = new KmList<>();
         for ( KmgModelAssociation e : getAssociations() )
             if ( e.isEditable() )
                 v.add(e);
@@ -224,7 +245,7 @@ public class KmgModel
 
     public KmList<KmgModelAssociation> getMetaAssociations()
     {
-        KmList<KmgModelAssociation> v = new KmList<KmgModelAssociation>();
+        KmList<KmgModelAssociation> v = new KmList<>();
         for ( KmgModelAssociation e : getAssociations() )
             if ( e.isMeta() )
                 v.add(e);
@@ -241,7 +262,7 @@ public class KmgModel
 
     public KmList<KmgModelAssociation> getAssocitionsWithPrimaryKeys()
     {
-        KmList<KmgModelAssociation> v = new KmList<KmgModelAssociation>();
+        KmList<KmgModelAssociation> v = new KmList<>();
         for ( KmgModelAssociation e : _associations )
             if ( e.hasPrimaryKey() )
                 v.add(e);
@@ -255,7 +276,7 @@ public class KmgModel
 
     public KmList<KmgModelDelegate> getDelegates()
     {
-        KmList<KmgModelDelegate> v = new KmList<KmgModelDelegate>();
+        KmList<KmgModelDelegate> v = new KmList<>();
         for ( KmgModelAssociation a : getAssociations() )
             v.addAll(a.getDelegates());
         return v;
@@ -263,7 +284,7 @@ public class KmgModel
 
     public KmList<KmgModelDelegate> getMetaDelegates()
     {
-        KmList<KmgModelDelegate> v = new KmList<KmgModelDelegate>();
+        KmList<KmgModelDelegate> v = new KmList<>();
         for ( KmgModelAssociation a : getAssociations() )
             v.addAll(a.getMetaDelegates());
         return v;
@@ -280,7 +301,7 @@ public class KmgModel
 
     public KmList<KmgModelDelegate> getEditableDelegates()
     {
-        KmList<KmgModelDelegate> v = new KmList<KmgModelDelegate>();
+        KmList<KmgModelDelegate> v = new KmList<>();
         for ( KmgModelAssociation a : getAssociations() )
             v.addAll(a.getEditableDelegates());
         return v;
@@ -302,12 +323,18 @@ public class KmgModel
         return e;
     }
 
-    public KmgModelField addCustomGetter(String name, String label, String body, String type)
+    public KmgModelField addCustomGetter(
+        String name,
+        String label,
+        String help,
+        String body,
+        String type)
     {
         KmgModelField f;
         f = addAbstractField();
         f.setName(name);
         f.setLabel(label);
+        f.setHelp(help);
         f.setType(type);
         f.setGetter(body);
         return f;
@@ -392,7 +419,7 @@ public class KmgModel
 
     public KmList<KmgModelField> getPrimaryKeyFields()
     {
-        KmList<KmgModelField> v = new KmList<KmgModelField>();
+        KmList<KmgModelField> v = new KmList<>();
         for ( KmgModelField e : getFields() )
             if ( e.isPrimaryKey() )
                 v.add(e);
@@ -401,7 +428,7 @@ public class KmgModel
 
     public KmList<KmgModelField> getNonPrimaryKeyFields()
     {
-        KmList<KmgModelField> v = new KmList<KmgModelField>();
+        KmList<KmgModelField> v = new KmList<>();
         for ( KmgModelField e : getFields() )
             if ( !e.isPrimaryKey() )
                 v.add(e);
@@ -410,7 +437,7 @@ public class KmgModel
 
     public KmList<KmgModelField> getEditableNonPrimaryKeyFields()
     {
-        KmList<KmgModelField> v = new KmList<KmgModelField>();
+        KmList<KmgModelField> v = new KmList<>();
         for ( KmgModelField e : getFields() )
             if ( e.isEditable() && e.isNotPrimaryKey() )
                 v.add(e);
@@ -419,7 +446,7 @@ public class KmgModel
 
     public KmList<KmgModelField> getGeneralFields()
     {
-        KmList<KmgModelField> v = new KmList<KmgModelField>();
+        KmList<KmgModelField> v = new KmList<>();
         for ( KmgModelField e : getFields() )
             if ( e.isEditable() && e.isNotPrimaryKey() && e.isNotLockVersion() )
                 v.add(e);
@@ -437,7 +464,7 @@ public class KmgModel
     public KmList<KmgModelAttribute> getDatabaseAttributes()
     {
         KmList<KmgModelAttribute> v;
-        v = new KmList<KmgModelAttribute>();
+        v = new KmList<>();
 
         for ( KmgModelField e : getFields() )
             if ( e.isEditable() )
@@ -500,7 +527,7 @@ public class KmgModel
 
     public KmList<String> getFieldNames()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         for ( KmgModelField e : getFields() )
             v.add(e.getName());
@@ -510,7 +537,7 @@ public class KmgModel
 
     public KmList<String> getOnChangeMethods()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         for ( KmgModelField e : getFields() )
             v.addAllDistinct(e.getOnChangeMethods());
@@ -540,10 +567,11 @@ public class KmgModel
     private void parseModel(KmStfElement root)
     {
         KmStfElement x = root.getChild("model");
-        checkAttributeKeys(x, "name", "comment", "skipModelBase", "superclass");
+        checkAttributeKeys(x, "name", "help", "comment", "skipModelBase", "superclass");
 
         _name = parseRequiredNameAttribute(x);
-        _comment = parseRequiredString(x, "comment");
+        _help = parseString(x, "help", null);
+        _comment = parseString(x, "comment", null);
         _skipModelBase = parseBoolean(x, "skipModelBase");
         _superclass = parseString(x, "superclass", null);
     }
@@ -644,7 +672,9 @@ public class KmgModel
         KmgModelField e;
         e = addField();
         e.setName("lockVersion");
-        e.setComment("Used for optimistic locking.");
+        e.setHelp(""
+            + "This is used to coordinate optimistic locking in the database. "
+            + "This is usually not displayed.");
         e.setType("lockVersion");
     }
 
@@ -779,6 +809,21 @@ public class KmgModel
         return getComment();
     }
 
+    public String getf_commentJavaString()
+    {
+        return toJavaString(getComment());
+    }
+
+    public String getf_help()
+    {
+        return getHelp();
+    }
+
+    public String getf_helpJavaString()
+    {
+        return toJavaString(getHelp());
+    }
+
     public String getf_MetaClass()
     {
         return getf_Prefix() + "Meta" + getf_Name();
@@ -791,6 +836,11 @@ public class KmgModel
     private String formatClass(String suffix)
     {
         return getf_Prefix() + getf_Name() + suffix;
+    }
+
+    private String toJavaString(String s)
+    {
+        return "\"" + Kmu.escapeJavaString(s) + "\"";
     }
 
     //##################################################

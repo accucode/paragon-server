@@ -46,7 +46,7 @@ public class MyAutoSignInFinder
     public MyAutoSignIn findDao(String key)
     {
         MyDaoKeyFinder<MyAutoSignIn,String> e;
-        e = new MyDaoKeyFinder<MyAutoSignIn,String>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

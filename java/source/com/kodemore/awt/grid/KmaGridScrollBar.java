@@ -91,14 +91,17 @@ public class KmaGridScrollBar
     {
         int i, j;
         i = j = getGrid().getFirstVisibleRow();
+
         while ( isRowRangeValid(i, j) )
             if ( direction > 0 )
                 j++;
             else
                 i--;
+
         int n = j - i - 1;
         if ( n < 1 )
             n = 1;
+
         return n;
     }
 
@@ -106,14 +109,18 @@ public class KmaGridScrollBar
     {
         int i, j;
         i = j = getGrid().getFirstVisibleColumn();
+
         while ( isColumnRangeValid(i, j) )
             if ( direction > 0 )
                 j++;
             else
                 i--;
+
         int n = j - i - 1;
+
         if ( n < 1 )
             n = 1;
+
         return n;
     }
 
@@ -124,28 +131,38 @@ public class KmaGridScrollBar
     public boolean isRowRangeValid(int i, int j)
     {
         KmaGrid g = getGrid();
+
         if ( i < 0 )
             return false;
+
         if ( j >= g.getRowCount() )
             return false;
+
         int h = g.getRowSizeModel().getRangeSize(i, j);
         int hMax = g.getClientBounds().height;
+
         if ( h > hMax )
             return false;
+
         return true;
     }
 
     public boolean isColumnRangeValid(int i, int j)
     {
         KmaGrid g = getGrid();
+
         if ( i < 0 )
             return false;
+
         if ( j >= g.getColumnCount() )
             return false;
+
         int h = g.getColumnSizeModel().getRangeSize(i, j);
         int hMax = g.getClientBounds().width;
+
         if ( h > hMax )
             return false;
+
         return true;
     }
 

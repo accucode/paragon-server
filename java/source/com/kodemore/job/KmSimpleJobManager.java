@@ -39,7 +39,7 @@ public class KmSimpleJobManager
 
     public KmSimpleJobManager()
     {
-        _jobs = new KmList<KmJob>();
+        _jobs = new KmList<>();
     }
 
     //##################################################
@@ -51,17 +51,28 @@ public class KmSimpleJobManager
         _jobs.add(e);
     }
 
+    //##################################################
+    //# overrides
+    //##################################################
+
     @Override
-    public void loop()
+    protected void runOnce()
     {
         for ( KmJob e : _jobs )
             runJob(e);
     }
 
     @Override
-    public int getCycleSleepMs()
+    protected int getLoopSleepMs()
     {
         return getMsToNextJob(_jobs);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        for ( KmJob e : _jobs )
+            e.handleStop();
     }
 
 }

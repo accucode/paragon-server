@@ -49,6 +49,12 @@ public class MyMetaPerformanceLogSummaryVo_AverageMs
     }
 
     @Override
+    public String getHelp()
+    {
+        return null;
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

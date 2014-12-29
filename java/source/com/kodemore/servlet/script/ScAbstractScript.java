@@ -25,6 +25,7 @@ package com.kodemore.servlet.script;
 import com.kodemore.json.KmJsonUtility;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.utility.ScJquery;
 import com.kodemore.string.KmStringBuilder;
 
 /**
@@ -122,6 +123,11 @@ public abstract class ScAbstractScript
     protected ScServletData getData()
     {
         return ScServletData.getLocal();
+    }
+
+    protected String formatReference(ScHtmlIdIF target)
+    {
+        return ScJquery.formatReference(target);
     }
 
 }

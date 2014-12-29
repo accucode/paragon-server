@@ -39,9 +39,9 @@ public class KmCodeValidationError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append("may not contain spaces, tabs, multiline text, or unprintable characters.");
+        out.append("may not contain spaces, tabs, multiline text, or unprintable characters.");
     }
 
 }

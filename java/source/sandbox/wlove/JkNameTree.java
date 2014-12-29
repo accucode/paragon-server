@@ -16,7 +16,7 @@ public class JkNameTree
 
     private void run()
     {
-        final KmList<String> names = new KmList<String>();
+        final KmList<String> names = new KmList<>();
 
         new KmFileTraverser()
         {
@@ -48,7 +48,7 @@ public class JkNameTree
         implements Comparable<Node>
     {
         String       token;
-        KmList<Node> children = new KmList<Node>();
+        KmList<Node> children = new KmList<>();
 
         @Override
         public boolean equals(Object e)
@@ -135,7 +135,7 @@ public class JkNameTree
 
         private int getChildFirstLetterCount()
         {
-            KmSet<Character> v = new KmSetImpl<Character>();
+            KmSet<Character> v = new KmSetImpl<>();
             for ( Node e : children )
                 v.add(e.token.charAt(0));
             return v.size();

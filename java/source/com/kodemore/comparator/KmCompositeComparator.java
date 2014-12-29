@@ -18,11 +18,12 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.comparator;
 
 import java.util.Comparator;
+import java.util.List;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.meta.KmMetaProperty;
@@ -45,7 +46,7 @@ public class KmCompositeComparator<T>
     public static <T> KmCompositeComparator<T> createWith(Comparator<T> a)
     {
         KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<T>();
+        x = new KmCompositeComparator<>();
         x.add(a);
         return x;
     }
@@ -53,7 +54,7 @@ public class KmCompositeComparator<T>
     public static <T> KmCompositeComparator<T> createWith(Comparator<T> a, Comparator<T> b)
     {
         KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<T>();
+        x = new KmCompositeComparator<>();
         x.add(a);
         x.add(b);
         return x;
@@ -65,7 +66,7 @@ public class KmCompositeComparator<T>
         Comparator<T> c)
     {
         KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<T>();
+        x = new KmCompositeComparator<>();
         x.add(a);
         x.add(b);
         x.add(c);
@@ -79,7 +80,7 @@ public class KmCompositeComparator<T>
         Comparator<T> d)
     {
         KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<T>();
+        x = new KmCompositeComparator<>();
         x.add(a);
         x.add(b);
         x.add(c);
@@ -95,7 +96,7 @@ public class KmCompositeComparator<T>
         Comparator<T> e)
     {
         KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<T>();
+        x = new KmCompositeComparator<>();
         x.add(a);
         x.add(b);
         x.add(c);
@@ -113,7 +114,7 @@ public class KmCompositeComparator<T>
         Comparator<T> f)
     {
         KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<T>();
+        x = new KmCompositeComparator<>();
         x.add(a);
         x.add(b);
         x.add(c);
@@ -133,7 +134,7 @@ public class KmCompositeComparator<T>
         Comparator<T> g)
     {
         KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<T>();
+        x = new KmCompositeComparator<>();
         x.add(a);
         x.add(b);
         x.add(c);
@@ -155,7 +156,7 @@ public class KmCompositeComparator<T>
         Comparator<T> h)
     {
         KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<T>();
+        x = new KmCompositeComparator<>();
         x.add(a);
         x.add(b);
         x.add(c);
@@ -179,7 +180,7 @@ public class KmCompositeComparator<T>
 
     public KmCompositeComparator()
     {
-        _comparators = new KmList<Comparator<T>>();
+        _comparators = new KmList<>();
     }
 
     //##################################################
@@ -201,11 +202,16 @@ public class KmCompositeComparator<T>
         _comparators.add(c);
     }
 
+    @SuppressWarnings("unchecked")
     public void addAll(Comparator<T>... arr)
     {
-        int n = arr.length;
-        for ( int i = 0; i < n; i++ )
-            add(arr[i]);
+        addAll(KmList.createWith(arr));
+    }
+
+    public void addAll(List<Comparator<T>> v)
+    {
+        for ( Comparator<T> e : v )
+            add(e);
     }
 
     public void add(KmMetaProperty<T,?> e)

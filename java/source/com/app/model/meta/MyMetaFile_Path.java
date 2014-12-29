@@ -50,6 +50,12 @@ public class MyMetaFile_Path
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The local path to the file. This is not the full file system path, but rather the relative path based on the root directory that contains persistent files.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

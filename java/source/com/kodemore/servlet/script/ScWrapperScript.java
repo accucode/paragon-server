@@ -77,9 +77,9 @@ public class ScWrapperScript
     }
 
     @Override
-    public ScWhenDoneAjax pushWhenDone(ScHtmlIdIF target)
+    public ScWhenDoneAjax pushWhenDone(ScHtmlIdIF target, ScHtmlIdIF waitFor)
     {
-        return _inner.pushWhenDone(target);
+        return _inner.pushWhenDone(target, waitFor);
     }
 
     @Override

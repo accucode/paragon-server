@@ -45,7 +45,7 @@ public class KmLockCache
 
     public KmLockCache()
     {
-        _map = new HashMap<Object,Object>();
+        _map = new HashMap<>();
     }
 
     //##################################################

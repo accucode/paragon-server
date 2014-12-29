@@ -46,7 +46,7 @@ public class KmCompositeIterator<T>
 
     public KmCompositeIterator()
     {
-        _iterators = new KmList<Iterator<? extends T>>();
+        _iterators = new KmList<>();
     }
 
     //##################################################
@@ -55,7 +55,7 @@ public class KmCompositeIterator<T>
 
     public <E extends T> void add(E e)
     {
-        KmList<T> v = new KmList<T>();
+        KmList<T> v = new KmList<>();
         v.add(e);
         addAll(v);
     }

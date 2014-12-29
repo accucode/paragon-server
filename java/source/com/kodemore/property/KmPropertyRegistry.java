@@ -50,7 +50,7 @@ public class KmPropertyRegistry
     public KmPropertyRegistry()
     {
         _overrides = null;
-        _values = new KmMap<String,String>();
+        _values = new KmMap<>();
         _parent = null;
     }
 
@@ -158,24 +158,29 @@ public class KmPropertyRegistry
         KmPropertyFileReader r;
         r = new KmPropertyFileReader();
         r.setCommentPrefixes("#", "//");
+
         KmMap<String,String> m = r.readFile(file);
         setValues(m);
     }
 
     public void loadDefaults(KmList<? extends KmPropertyDefinition> v)
     {
-        KmMap<String,String> map = new KmMap<String,String>();
+        KmMap<String,String> map = new KmMap<>();
+
         for ( KmPropertyDefinition e : v )
             map.put(e.getKey(), e.getDefaultValue());
+
         setValues(map);
     }
 
     public KmList<String> getUnknownKeys(Collection<String> knownKeys)
     {
-        KmList<String> keys = new KmList<String>();
+        KmList<String> keys = new KmList<>();
+
         for ( String e : getAllKeys() )
             if ( !knownKeys.contains(e) )
                 keys.add(e);
+
         keys.sort();
         return keys;
     }

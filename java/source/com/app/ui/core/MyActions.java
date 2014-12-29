@@ -1,6 +1,7 @@
 package com.app.ui.core;
 
 import com.kodemore.exception.KmApplicationException;
+import com.kodemore.exception.KmSecurityException;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScActionIF;
@@ -35,7 +36,7 @@ public class MyActions
     private ScActionIF _signOutAction;
 
     //##################################################
-    //# constructor 
+    //# constructor
     //##################################################
 
     private MyActions()
@@ -97,6 +98,20 @@ public class MyActions
     }
 
     @Override
+    public boolean checkSecuritySilently()
+    {
+        try
+        {
+            checkSecurity();
+            return true;
+        }
+        catch ( KmSecurityException ex )
+        {
+            return false;
+        }
+    }
+
+    @Override
     public void handleError(KmApplicationException ex)
     {
         ajax().alert(ex.formatMultiLineMessage());
@@ -119,7 +134,7 @@ public class MyActions
 
     private void handleSignOut()
     {
-        MySignOutPage.instance.push();
+        MySignOutPage.instance.ajaxPush();
     }
 
     //##################################################

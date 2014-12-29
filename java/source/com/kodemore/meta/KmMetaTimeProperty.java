@@ -23,6 +23,7 @@ public abstract class KmMetaTimeProperty<T>
         ScTimeField e;
         e = new ScTimeField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValueAdaptor(this);
         e.setValidator(getValidator());
         return e;

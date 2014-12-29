@@ -37,7 +37,7 @@ public abstract class MyInvitationToolsBase
     public ScDomainDropdownField<MyInvitation,String> newDomainDropdown()
     {
         ScDomainDropdownField<MyInvitation,String> e;
-        e = new ScDomainDropdownField<MyInvitation,String>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyInvitationFilter());
         e.setFinder(new MyInvitationFinder());

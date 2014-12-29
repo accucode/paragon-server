@@ -34,9 +34,20 @@ public interface ScElementIF
     // see super
 
     //##################################################
-    //# html class - convenience
+    //# show / hide
     //##################################################
 
+    /**
+     * These should be implemented by updating the html STYLE, not the CSS.
+     * E.g.: this.style().show().  If the subclass instead attempts to control
+     * visibility by applying it to the css it can interfere with other css rules.
+     *
+     * The issue is that visibility is controlled via the 'display' attribute;
+     * and to hide something we set display:none.  But display is also used for other
+     * things such as block, inline, and flex.  Overriding visibility on the style
+     * allows jquery to reinspect the css classes and correctly figure out the correct
+     * display value.
+     */
     void show();
 
     void hide();

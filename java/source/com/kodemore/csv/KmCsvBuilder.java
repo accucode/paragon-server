@@ -373,18 +373,21 @@ public class KmCsvBuilder
 
     private String escape(String s)
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append(_quote);
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append(_quote);
+
         int n = s.length();
         for ( int i = 0; i < n; i++ )
         {
             char c = s.charAt(i);
             if ( c == _quote )
-                sb.append(_quote);
-            sb.append(c);
+                out.append(_quote);
+            out.append(c);
         }
-        sb.append(_quote);
-        return sb.toString();
+
+        out.append(_quote);
+        return out.toString();
     }
 
     //##################################################

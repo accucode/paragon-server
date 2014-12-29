@@ -60,7 +60,7 @@ public class MyDevUserFrame
         group = child.addGroup("View");
 
         ScDiv header;
-        header = group.getHeader().addFloatRight();
+        header = group.getBanner().addFloatRight();
         header.css().pad5();
 
         ScActionButton button;
@@ -68,7 +68,7 @@ public class MyDevUserFrame
         button.setImage(MyButtonUrls.edit());
 
         ScFieldTable fields;
-        fields = group.addPad().addFields();
+        fields = group.getBody().addPad().addFieldTable();
         fields.addText(x.Uid);
         fields.addText(x.Email);
         fields.addText(x.Name);
@@ -110,17 +110,17 @@ public class MyDevUserFrame
         group.style().minWidth(300);
 
         ScFieldTable fields;
-        fields = group.addPad().addFields();
+        fields = group.getBody().addPad().addFieldTable();
         fields.css().widthFull();
         fields.addText(x.Uid);
         fields.add(emailField);
         fields.add(nameField);
         fields.add(roleField);
 
-        group.addDivider();
+        group.addBodyDivider();
 
         ScDiv footer;
-        footer = group.addButtonBoxRight();
+        footer = group.getBody().addButtonBox();
         footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Save");
 
@@ -253,9 +253,6 @@ public class MyDevUserFrame
     {
         setUser(e);
         renderView();
-
-        // todo_wyatt: auto?
-        ajax().updatePageSession();
     }
 
 }

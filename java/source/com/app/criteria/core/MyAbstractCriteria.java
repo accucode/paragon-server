@@ -32,7 +32,7 @@ public abstract class MyAbstractCriteria<T>
 
     public KmList<MyNamedCountVo> findNamedCounts()
     {
-        KmList<MyNamedCountVo> v = new KmList<MyNamedCountVo>();
+        KmList<MyNamedCountVo> v = new KmList<>();
 
         KmProjectionResult results = findResults();
 

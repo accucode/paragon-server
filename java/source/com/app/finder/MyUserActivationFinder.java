@@ -46,7 +46,7 @@ public class MyUserActivationFinder
     public MyUserActivation findDao(String key)
     {
         MyDaoKeyFinder<MyUserActivation,String> e;
-        e = new MyDaoKeyFinder<MyUserActivation,String>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

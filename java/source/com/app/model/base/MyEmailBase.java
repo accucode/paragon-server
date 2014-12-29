@@ -58,8 +58,8 @@ public abstract class MyEmailBase
         super();
         setUid(newUid());
         setCreatedUtcTs(getNowUtc());
-        recipients = new ArrayList<MyEmailRecipient>();
-        parts = new ArrayList<MyEmailPart>();
+        recipients = new ArrayList<>();
+        parts = new ArrayList<>();
     }
 
     //##################################################
@@ -715,7 +715,7 @@ public abstract class MyEmailBase
 
     public KmCollection<MyEmailRecipient> getRecipients()
     {
-        return new KmHibernateCollection<MyEmailRecipient,MyEmail>(
+        return new KmHibernateCollection<>(
             getBaseRecipients(),
             (MyEmail)this,
             MyEmailRecipient.Meta.Email.getAdaptor());
@@ -782,7 +782,7 @@ public abstract class MyEmailBase
 
     public KmCollection<MyEmailPart> getParts()
     {
-        return new KmHibernateCollection<MyEmailPart,MyEmail>(
+        return new KmHibernateCollection<>(
             getBaseParts(),
             (MyEmail)this,
             MyEmailPart.Meta.Email.getAdaptor());
@@ -890,12 +890,12 @@ public abstract class MyEmailBase
         uid = null;
 
         List<MyEmailRecipient> old_recipients = recipients;
-        recipients = new ArrayList<MyEmailRecipient>();
+        recipients = new ArrayList<>();
         for ( MyEmailRecipient e : old_recipients )
             addRecipient(copy(e));
 
         List<MyEmailPart> old_parts = parts;
-        parts = new ArrayList<MyEmailPart>();
+        parts = new ArrayList<>();
         for ( MyEmailPart e : old_parts )
             addPart(copy(e));
     }

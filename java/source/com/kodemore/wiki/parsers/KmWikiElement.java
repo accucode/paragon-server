@@ -122,11 +122,8 @@ public abstract class KmWikiElement
 
     public void printTreeOn(KmIndentPrintWriter out)
     {
-        String s = Kmu.format(
-            "%s (%s,%s)",
-            getName(),
-            getSource().getRow(),
-            getSource().getColumn());
+        String s =
+            Kmu.format("%s (%s,%s)", getName(), getSource().getRow(), getSource().getColumn());
         out.println(s);
     }
 }

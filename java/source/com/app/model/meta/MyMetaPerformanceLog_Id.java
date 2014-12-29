@@ -50,6 +50,12 @@ public class MyMetaPerformanceLog_Id
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The globally unique identifier.  This is an auto-incrementing integer field.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 7;

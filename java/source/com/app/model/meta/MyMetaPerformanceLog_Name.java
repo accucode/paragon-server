@@ -50,6 +50,12 @@ public class MyMetaPerformanceLog_Name
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The display name. This is typically something like the name of the servlet or job.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

@@ -24,10 +24,10 @@ package com.kodemore.hibernate.criteria;
 
 import java.util.Collection;
 
-import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import com.kodemore.meta.KmMetaDaoPropertyIF;
 import com.kodemore.utility.Kmu;
@@ -292,12 +292,12 @@ public abstract class KmAbstractCriteria
 
     public KmJoin joinTo(String entityName)
     {
-        return getRoot()._join(getCriteria(), entityName, Criteria.INNER_JOIN);
+        return getRoot()._join(getCriteria(), entityName, JoinType.INNER_JOIN);
     }
 
     public KmJoin leftJoinTo(String entityName)
     {
-        return getRoot()._join(getCriteria(), entityName, Criteria.LEFT_JOIN);
+        return getRoot()._join(getCriteria(), entityName, JoinType.LEFT_OUTER_JOIN);
     }
 
 }

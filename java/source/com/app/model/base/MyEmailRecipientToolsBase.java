@@ -37,7 +37,7 @@ public abstract class MyEmailRecipientToolsBase
     public ScDomainDropdownField<MyEmailRecipient,String> newDomainDropdown()
     {
         ScDomainDropdownField<MyEmailRecipient,String> e;
-        e = new ScDomainDropdownField<MyEmailRecipient,String>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyEmailRecipientFilter());
         e.setFinder(new MyEmailRecipientFinder());

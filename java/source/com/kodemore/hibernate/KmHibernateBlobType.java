@@ -28,6 +28,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SessionImplementor;
 
 import com.kodemore.collection.KmBlob;
 
@@ -61,7 +62,7 @@ public class KmHibernateBlobType
     }
 
     @Override
-    public Object nullSafeGet(ResultSet rs, String[] names, Object owner)
+    public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor impl, Object owner)
         throws HibernateException, SQLException
     {
         Blob e = rs.getBlob(names[0]);
@@ -73,7 +74,7 @@ public class KmHibernateBlobType
     }
 
     @Override
-    public void nullSafeSet(PreparedStatement st, Object value, int index)
+    public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor impl)
         throws HibernateException, SQLException
     {
         if ( value == null )

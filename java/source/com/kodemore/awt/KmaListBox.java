@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.awt;
 
@@ -27,7 +27,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Collection;
-import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
@@ -41,8 +40,8 @@ import javax.swing.event.ListSelectionListener;
 import com.kodemore.block.KmBlockFormatter;
 import com.kodemore.utility.KmFormatterIF;
 
-public class KmaListBox
-    extends JList
+public class KmaListBox<E>
+    extends JList<E>
     implements ListSelectionListener
 {
     //##################################################
@@ -57,11 +56,11 @@ public class KmaListBox
 
     public KmaListBox()
     {
-        setModel(new DefaultListModel());
+        setModel(new DefaultListModel<E>());
         _initialize();
     }
 
-    public KmaListBox(ListModel e)
+    public KmaListBox(ListModel<E> e)
     {
         super(e);
         _initialize();
@@ -70,10 +69,12 @@ public class KmaListBox
     private void _initialize()
     {
         _actions = new KmaActionMap();
+
         addListSelectionListener(this);
         addMouseListener(newMouseListener());
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        setCellRenderer(new KmaListBoxCellRenderer());
+        setCellRenderer(new KmaListBoxCellRenderer<E>());
+
         registerKeyboardAction(
             newEnterAction(),
             KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
@@ -84,16 +85,15 @@ public class KmaListBox
     //# accessing
     //##################################################
 
-    public void add(Object e)
+    public void add(E e)
     {
         getDefaultListModel().addElement(e);
     }
 
-    public void addAll(Collection<?> v)
+    public void addAll(Collection<E> v)
     {
-        Iterator<?> i = v.iterator();
-        while ( i.hasNext() )
-            add(i.next());
+        for ( E e : v )
+            add(e);
     }
 
     public void remove(Object e)
@@ -108,15 +108,15 @@ public class KmaListBox
         getDefaultListModel().clear();
     }
 
-    public void replaceAll(Collection<?> c)
+    public void replaceAll(Collection<E> c)
     {
         removeAll();
         addAll(c);
     }
 
-    public DefaultListModel getDefaultListModel()
+    public DefaultListModel<E> getDefaultListModel()
     {
-        return (DefaultListModel)getModel();
+        return (DefaultListModel<E>)getModel();
     }
 
     //##################################################
@@ -138,17 +138,20 @@ public class KmaListBox
     {
         int i = getIndexOf(e);
         setSelectionIndex(i);
+
         if ( hasSelection() )
             ensureIndexIsVisible(i);
     }
 
     public int getIndexOf(Object e)
     {
-        ListModel m = getModel();
+        ListModel<E> m = getModel();
+
         int n = m.getSize();
         for ( int i = 0; i < n; i++ )
             if ( m.getElementAt(i).equals(e) )
                 return i;
+
         return -1;
     }
 
@@ -165,6 +168,7 @@ public class KmaListBox
     {
         if ( ev.getValueIsAdjusting() )
             return;
+
         getSelectListeners().fire();
     }
 
@@ -196,9 +200,10 @@ public class KmaListBox
     //# display
     //##################################################
 
-    public KmaListBoxCellRenderer getListBoxCellRenderer()
+    @SuppressWarnings("unchecked")
+    public KmaListBoxCellRenderer<E> getListBoxCellRenderer()
     {
-        return (KmaListBoxCellRenderer)getCellRenderer();
+        return (KmaListBoxCellRenderer<E>)getCellRenderer();
     }
 
     public void setFormatter(KmFormatterIF f)
@@ -254,9 +259,9 @@ public class KmaListBox
     //# km list model
     //##################################################
 
-    public KmaListModel getKmaListModel()
+    public KmaListModel<E> getKmaListModel()
     {
-        return (KmaListModel)getModel();
+        return (KmaListModel<E>)getModel();
     }
 
     public void fireContentsChanged()

@@ -28,6 +28,7 @@ import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScElementIF;
 import com.kodemore.servlet.script.ScScriptIF;
+import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalStyle;
 
@@ -39,8 +40,15 @@ public abstract class ScInputField<T>
     //# variables
     //##################################################
 
-    private ScLocalCss   _css;
-    private ScLocalStyle _style;
+    private ScLocalCss     _css;
+    private ScLocalStyle   _style;
+
+    /**
+     * NOTE, a disabled field cannont receive user input
+     * nor will its value be submitted with the form.
+     * http://www.w3.org/TR/REC-html40/interact/forms.html#adef-disabled
+     */
+    private ScLocalBoolean _disabled;
 
     //##################################################
     //# init
@@ -53,6 +61,7 @@ public abstract class ScInputField<T>
 
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
+        _disabled = new ScLocalBoolean(false);
     }
 
     //##################################################
@@ -85,18 +94,6 @@ public abstract class ScInputField<T>
         return css();
     }
 
-    @Override
-    public void show()
-    {
-        css().remove().hide();
-    }
-
-    @Override
-    public void hide()
-    {
-        css().hide();
-    }
-
     //##################################################
     //# style
     //##################################################
@@ -119,6 +116,52 @@ public abstract class ScInputField<T>
     protected KmStyleBuilder formatStyle()
     {
         return style();
+    }
+
+    @Override
+    public void show()
+    {
+        style().show();
+    }
+
+    @Override
+    public void hide()
+    {
+        style().hide();
+    }
+
+    //##################################################
+    //# disabled
+    //##################################################
+
+    public boolean getDisabled()
+    {
+        return _disabled.getValue();
+    }
+
+    public void setDisabled(boolean e)
+    {
+        _disabled.setValue(e);
+    }
+
+    public void setEnabled(boolean e)
+    {
+        setDisabled(!e);
+    }
+
+    public void disable()
+    {
+        setDisabled(true);
+    }
+
+    public void enable()
+    {
+        setDisabled(false);
+    }
+
+    public boolean isDisabled()
+    {
+        return getDisabled();
     }
 
     //##################################################
@@ -162,8 +205,25 @@ public abstract class ScInputField<T>
         out.printAttribute("id", getHtmlId());
         out.printAttribute("name", getHtmlName());
         out.printAttribute("type", getInputType());
+
+        if ( getDisabled() )
+            out.printAttribute("disabled", "disabled");
+
         out.printAttribute(formatCss());
         out.printAttribute(formatStyle());
     }
 
+    //##################################################
+    //# ajax
+    //##################################################
+
+    public void ajaxEnable()
+    {
+        ajax().removeAttribute("disabled");
+    }
+
+    public void ajaxDisable()
+    {
+        ajax().setAttribute("disabled", "disabled");
+    }
 }

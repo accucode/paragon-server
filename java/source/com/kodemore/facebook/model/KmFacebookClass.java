@@ -14,19 +14,19 @@ public class KmFacebookClass
     //# constants
     //##################################################
 
-    public static final String             ID_KEY          = "id";
-    public static final String             NAME_KEY        = "name";
-    public static final String             WITH_KEY        = "with";
-    public static final String             DESCRIPTION_KEY = "description";
-    public static final String             FROM_KEY        = "from";
+    public static final String       ID_KEY          = "id";
+    public static final String       NAME_KEY        = "name";
+    public static final String       WITH_KEY        = "with";
+    public static final String       DESCRIPTION_KEY = "description";
+    public static final String       FROM_KEY        = "from";
 
     //##################################################
     //# variables 
     //##################################################
 
-    private String                         _id;
-    private String                         _name;
-    private String                         _description;
+    private String                   _id;
+    private String                   _name;
+    private String                   _description;
     private KmList<KmFacebookIdName> _with;
     private KmFacebookIdName         _from;
 
@@ -36,7 +36,7 @@ public class KmFacebookClass
 
     public KmFacebookClass()
     {
-        _with = new KmList<KmFacebookIdName>();
+        _with = new KmList<>();
     }
 
     //##################################################
@@ -112,7 +112,7 @@ public class KmFacebookClass
     public static KmList<KmFacebookClass> createClassListWith(KmJsonArray arr)
     {
         KmList<KmFacebookClass> v;
-        v = new KmList<KmFacebookClass>();
+        v = new KmList<>();
 
         int n = arr.size();
         for ( int i = 0; i < n; i++ )

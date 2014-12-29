@@ -35,10 +35,10 @@ public enum MyFileStatus
 
     static
     {
-        _values = new KmList<MyFileStatus>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyFileStatus>();
+        _codes = new KmMap<>();
         for ( MyFileStatus e : EnumSet.allOf(MyFileStatus.class) )
             _codes.put(e.getCode(), e);
     }

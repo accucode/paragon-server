@@ -60,9 +60,9 @@ public class KmUniqueValueError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append("duplicates are not allowed.");
+        out.append("duplicates are not allowed.");
     }
 
 }

@@ -43,6 +43,16 @@ $utility.protocol("accessing")
     {
         return ${model.f_ValidatorClass}.instance;
     }
+    
+    public static String getComment()
+    {
+        return ${model.f_commentJavaString};
+    }
+
+    public static String getHelp()
+    {
+        return ${model.f_helpJavaString};
+    }
 
 $utility.protocol("fields and delegates")
 

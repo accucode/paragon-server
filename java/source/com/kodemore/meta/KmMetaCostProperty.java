@@ -23,6 +23,7 @@ public abstract class KmMetaCostProperty<T>
         ScCostField e;
         e = new ScCostField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
         e.setValueAdaptor(this);
         return e;

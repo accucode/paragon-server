@@ -6,10 +6,9 @@ package com.kodemore.servlet;
  * a custom action to pass the pertinent parameters.
  */
 public interface ScEntryPageIF
+    extends ScPageIF
 {
-    String getTitle();
-
-    void push();
+    void ajaxPush();
 
     String formatQueryString();
 }

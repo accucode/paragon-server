@@ -64,7 +64,7 @@ public class KmFacebookIdName
     public static KmList<KmFacebookIdName> createListWith(KmJsonArray arr)
     {
         KmList<KmFacebookIdName> v;
-        v = new KmList<KmFacebookIdName>();
+        v = new KmList<>();
 
         int n = arr.size();
         for ( int i = 0; i < n; i++ )

@@ -108,8 +108,10 @@ public abstract class KmaSwingWorker3
     public void interrupt()
     {
         Thread t = threadVar.get();
+
         if ( t != null )
             t.interrupt();
+
         threadVar.clear();
     }
 
@@ -125,8 +127,10 @@ public abstract class KmaSwingWorker3
         while ( true )
         {
             Thread t = threadVar.get();
+
             if ( t == null )
                 return getValue();
+
             try
             {
                 t.join();

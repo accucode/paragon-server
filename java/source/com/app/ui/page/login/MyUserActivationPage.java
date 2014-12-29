@@ -10,8 +10,8 @@ import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.control.ScText;
+import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.KmEmailParser;
@@ -20,6 +20,7 @@ import com.kodemore.utility.Kmu;
 import com.app.model.MyUser;
 import com.app.model.MyUserActivation;
 import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
 public class MyUserActivationPage
     extends MyPage
@@ -44,7 +45,7 @@ public class MyUserActivationPage
     private ScCardFrame     _frame;
 
     private ScCard          _activationCard;
-    private ScTextSpan    _emailText;
+    private ScTextSpan      _emailText;
     private ScPasswordField _password1Field;
     private ScPasswordField _password2Field;
 
@@ -58,26 +59,20 @@ public class MyUserActivationPage
     //##################################################
 
     @Override
-    public boolean requiresUser()
+    public MySecurityLevel getSecurityLevel()
     {
-        return false;
-    }
-
-    @Override
-    protected boolean showsLeftMenu()
-    {
-        return false;
+        return MySecurityLevel.any;
     }
 
     //##################################################
     //# navigation
     //##################################################
 
-    public void pushToken(MyUserActivation e)
+    public void ajaxPushToken(MyUserActivation e)
     {
         setToken(e.getToken());
 
-        _push();
+        _ajaxPush();
     }
 
     public String formatEntryUrl(MyUserActivation e)
@@ -161,7 +156,7 @@ public class MyUserActivationPage
         group.setTitle("Activate User");
 
         ScBox body;
-        body = group.addBox();
+        body = group.getBody().addBox();
         body.css().pad();
 
         body.addLabel("Email");
@@ -176,10 +171,10 @@ public class MyUserActivationPage
         label.css().padTop();
         body.addErrorBox().add(_password2Field);
 
-        group.addDivider();
+        group.addBodyDivider();
 
         ScBox footer;
-        footer = group.addButtonBoxRight();
+        footer = group.getBody().addButtonBox();
         footer.addSubmitButton("Activate User");
     }
 
@@ -197,16 +192,16 @@ public class MyUserActivationPage
         group.setTitle("Success");
 
         ScBox body;
-        body = group.addBox();
+        body = group.getBody().addBox();
         body.css().pad();
         body.addText(""
             + "Success! Your email has been activated. "
             + "Please click the following link to sign in.");
 
-        group.addDivider();
+        group.addBodyDivider();
 
         ScBox footer;
-        footer = group.addButtonBoxRight();
+        footer = group.getBody().addButtonBox();
         footer.addButton("Sign In", MySignInPage.instance);
 
         return card;
@@ -226,15 +221,15 @@ public class MyUserActivationPage
         group.setTitle("Error");
 
         ScBox body;
-        body = group.addBox();
+        body = group.getBody().addBox();
         body.css().pad();
 
         _errorMessage = body.addText();
 
-        group.addDivider();
+        group.addBodyDivider();
 
         ScBox footer;
-        footer = group.addButtonBoxRight();
+        footer = group.getBody().addButtonBox();
         footer.addButton("Sign In", MySignInPage.instance);
 
         return card;

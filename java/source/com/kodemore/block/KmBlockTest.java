@@ -75,13 +75,14 @@ public class KmBlockTest
 
     public void testBlockComparator()
     {
-        Comparator<String> c = new KmBlockComparator<String>("trim.length");
-        KmList<String> v = new KmList<String>();
+        Comparator<String> c = new KmBlockComparator<>("trim.length");
+        KmList<String> v = new KmList<>();
         v.add("2. abcd     ");
         v.add("4. abcdef   ");
         v.add("1. abc      ");
         v.add("3. abcde    ");
         v.sortOn(c);
+
         for ( String s : v )
             System.out.println(s);
     }
@@ -111,8 +112,10 @@ public class KmBlockTest
     private void testSpeedDirect(int n)
     {
         KmTimer timer = KmTimer.run("direct");
+
         for ( int i = 0; i < n; i++ )
             testNano();
+
         System.out.println(timer);
     }
 
@@ -120,8 +123,10 @@ public class KmBlockTest
     {
         KmTimer timer = KmTimer.run("block ");
         KmBlock block = new KmBlock(this, "testNano");
+
         for ( int i = 0; i < n; i++ )
             block.invoke();
+
         System.out.println(timer);
     }
 

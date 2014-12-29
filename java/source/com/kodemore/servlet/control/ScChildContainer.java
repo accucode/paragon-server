@@ -50,7 +50,7 @@ public abstract class ScChildContainer
     {
         super.install();
 
-        _children = new KmList<ScControl>();
+        _children = new KmList<>();
     }
 
     //##################################################
@@ -99,14 +99,12 @@ public abstract class ScChildContainer
     //##################################################
 
     @Override
-    public Iterator<ScControl> getComponents()
+    public Iterator<ScControlIF> getComponents()
     {
-        KmCompositeIterator<ScControl> i;
-        i = new KmCompositeIterator<ScControl>();
-
+        KmCompositeIterator<ScControlIF> i;
+        i = new KmCompositeIterator<>();
         i.addAll(super.getComponents());
         i.addAll(getChildren());
-
         return i;
     }
 

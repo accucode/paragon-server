@@ -213,7 +213,7 @@ public class KmBeanShell
 
     public KmList<String> getSourceLines()
     {
-        return Kmu.getLines(_source);
+        return Kmu.parseLines(_source);
     }
 
     public int getErrorLine()

@@ -46,7 +46,7 @@ public class MyPatchFinder
     public MyPatch findDao(String key)
     {
         MyDaoKeyFinder<MyPatch,String> e;
-        e = new MyDaoKeyFinder<MyPatch,String>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

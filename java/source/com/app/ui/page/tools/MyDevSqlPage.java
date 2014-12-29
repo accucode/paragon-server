@@ -7,6 +7,7 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -77,55 +78,64 @@ public class MyDevSqlPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        _schemaField = new ScTextField();
-        _schemaField.setLabel("Schema");
-        _schemaField.setValue(getProperties().getDatabaseSchema());
-
-        _formatField = new ScDropdown();
-        _formatField.setLabel("Format");
-        _formatField.setValue(FORMAT_HTML);
-        _formatField.addOption(FORMAT_HTML);
-        _formatField.addOption(FORMAT_HTML_SIMPLE);
-        _formatField.addOption(FORMAT_CSV);
-        _formatField.addOption(FORMAT_CSV_SIMPLE);
-
-        _sqlField = new ScTextArea();
-        _sqlField.setLabel("Sql");
-        _sqlField.setWidthFull();
-        _sqlField.style().height(150);
-        _sqlField.getPostRenderScript().focus();
-
-        _results = new ScBox();
-
-        root.css().pad();
+        root.css().gap();
 
         ScForm form;
         form = root.addForm();
         form.setSubmitAction(newSubmitAction());
 
-        ScGroup group;
-        group = form.addGroup("SQL");
+        installQueryOn(form);
+        installResultsOn(root);
+    }
 
-        ScBox body;
-        body = group.addBox();
+    private void installQueryOn(ScForm form)
+    {
+        ScGroup group;
+        group = form.addGroup("Query");
+
+        ScDiv body;
+        body = group.getBody();
+        body.css().pad();
 
         ScFieldTable fields;
-        fields = body.addPad().addFields();
+        fields = body.addFieldTable();
         fields.css().widthFull();
         fields.rightCss().widthFull();
-        fields.add(_schemaField);
+        fields.add(createSchemaField());
         fields.add(createQuickActionBox());
-        fields.add(_formatField);
-        fields.add(_sqlField);
+        fields.add(createFormatField());
+        fields.add(createSqlField());
 
-        group.addDivider();
-
-        ScBox footer;
-        footer = group.addButtonBox();
+        ScDiv footer;
+        footer = group.showFooter();
+        footer.css().buttonBox();
         footer.addSubmitButton();
+    }
 
-        root.addBreak();
-        root.add(_results);
+    private ScTextField createSchemaField()
+    {
+        ScTextField e;
+        e = new ScTextField();
+        e.setLabel("Schema");
+        e.setValue(getProperties().getDatabaseSchema());
+
+        _schemaField = e;
+        return e;
+    }
+
+    private ScDropdown createFormatField()
+    {
+        ScDropdown e;
+        e = new ScDropdown();
+        e.setLabel("Format");
+        e.setValue(FORMAT_HTML);
+        e.addOption(FORMAT_HTML);
+        e.addOption(FORMAT_HTML_SIMPLE);
+        e.addOption(FORMAT_CSV);
+        e.addOption(FORMAT_CSV_SIMPLE);
+
+        _formatField = e;
+        return e;
     }
 
     private ScBox createQuickActionBox()
@@ -150,6 +160,26 @@ public class MyDevSqlPage
         box.addButton("describe", newDescribeTableAction());
 
         return box;
+    }
+
+    private ScTextArea createSqlField()
+    {
+        ScTextArea e;
+        e = new ScTextArea();
+        e.setLabel("Sql");
+        e.setWidthFull();
+        e.style().height(150);
+        e.getPostRenderScript().focus();
+
+        _sqlField = e;
+        return e;
+    }
+
+    private void installResultsOn(ScPageRoot root)
+    {
+        _results = new ScBox();
+
+        root.add(_results);
     }
 
     //##################################################

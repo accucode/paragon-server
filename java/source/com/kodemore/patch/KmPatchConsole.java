@@ -31,7 +31,7 @@ public abstract class KmPatchConsole
     public void run(String[] args)
     {
         _manager = new KmPatchManager();
-        _arguments = new KmList<String>();
+        _arguments = new KmList<>();
         _arguments.addAll(args);
         run();
     }
@@ -45,6 +45,7 @@ public abstract class KmPatchConsole
         catch ( RuntimeException ex )
         {
             ex.printStackTrace();
+
             System.out.println();
             System.out.println();
             System.out.println("PATCH FAILED !!!");

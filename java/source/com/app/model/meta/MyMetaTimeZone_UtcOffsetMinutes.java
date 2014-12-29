@@ -49,6 +49,12 @@ public class MyMetaTimeZone_UtcOffsetMinutes
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The number of minutes ahead or behind UTC.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

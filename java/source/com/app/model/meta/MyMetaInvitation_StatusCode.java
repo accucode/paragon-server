@@ -50,6 +50,12 @@ public class MyMetaInvitation_StatusCode
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The status of this invitation: pending, accepted, rejected, expired, or cancelled.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 3;
@@ -102,8 +108,9 @@ public class MyMetaInvitation_StatusCode
         ScDropdown e;
         e = new ScDropdown();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
-        e.setValue(getAdaptor());
+        e.setValueAdaptor(getAdaptor());
         e.addOptions(MyInvitationStatus.values());
         return e;
     }

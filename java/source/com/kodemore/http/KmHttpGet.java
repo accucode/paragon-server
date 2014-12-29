@@ -53,24 +53,26 @@ public class KmHttpGet
 
     public static void main(String[] args)
     {
-        KmHttpRequest e;
-        e = new KmHttpGet();
-        e.setHost("dictionary.reference.com");
-        e.setPort(80);
-        e.setPath("search");
-        e.setContentType("text/html");
-        e.setParameter("q", "test");
-        e.submit();
+        KmHttpRequest req;
+        req = new KmHttpGet();
+        req.setHost("dictionary.reference.com");
+        req.setPort(80);
+        req.setPath("search");
+        req.setContentType("text/html");
+        req.setParameter("q", "test");
+        req.submit();
+
         System.out.println("------------------------------------------------------------");
-        if ( e.hasException() )
+        if ( req.hasException() )
         {
-            System.out.println("url:   " + e.getUrl());
-            System.out.println("error: " + e.getException());
+            System.out.println("url:   " + req.getUrl());
+            System.out.println("error: " + req.getException());
             return;
         }
-        System.out.println("url:              " + e.getUrl());
-        System.out.println("response code:    " + e.getResponseCode());
-        System.out.println("response message: " + e.getResponseMessage());
-        System.out.println(e.getResponseString());
+
+        System.out.println("url:              " + req.getUrl());
+        System.out.println("response code:    " + req.getResponseCode());
+        System.out.println("response message: " + req.getResponseMessage());
+        System.out.println(req.getResponseString());
     }
 }

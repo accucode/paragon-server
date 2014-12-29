@@ -49,6 +49,12 @@ public class MyMetaUser_RoleName
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The global access role.  E.g.: Admin, Developer, or Other.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 15;

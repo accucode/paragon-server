@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.servlet.field;
 
@@ -60,13 +60,26 @@ public abstract class ScField<T>
      * Access to form parameters must use the name, not the id.
      *
      * The name is defaulted to the htmlId, but in some cases
-     * the name requires different behavior; e.g., multiple radio 
+     * the name requires different behavior; e.g., multiple radio
      * buttons form a group based on the use of a common name.
      * Names are only required to be unique within a given form.
      */
     private ScLocalString     _htmlName;
 
+    /**
+     * I adapt a domain model to this field.  The value adapter is not required,
+     * but when set, it allows multiple fields to be set from a single model at once.
+     * In practice, adapters work best when all of the fields in a given containers
+     * (e.g.: a form or group) are associated with the same model.
+     */
     private ScLocalAdaptor    _valueAdaptor;
+
+    /**
+     * The meta attribute associated with the valueAdapter.
+     * This can be used to subsequently find a specific field within the control hierarchy.
+     */
+    @SuppressWarnings("rawtypes")
+    private KmMetaAttribute   _valueMetaAttribute;
 
     /**
      * The list of errors currently associated with this field.
@@ -110,7 +123,6 @@ public abstract class ScField<T>
         return ScJquery.formatSelector(this);
     }
 
-    @Override
     public String getJqueryReference()
     {
         return ScJquery.formatReference(this);
@@ -123,7 +135,7 @@ public abstract class ScField<T>
     @Override
     public ScHtmlIdAjax ajax()
     {
-        return new ScHtmlIdAjax(getRootScript(), this);
+        return new ScHtmlIdAjax(this, getRootScript());
     }
 
     //##################################################
@@ -216,6 +228,7 @@ public abstract class ScField<T>
     @SuppressWarnings("rawtypes")
     public void setValueAdaptor(KmMetaAttribute e)
     {
+        setValueMetaAttribute(e);
         setValueAdaptor(e.getAdaptor());
     }
 
@@ -227,6 +240,43 @@ public abstract class ScField<T>
     public boolean hasValueAdaptor()
     {
         return _valueAdaptor.hasValue();
+    }
+
+    //##################################################
+    //# value meta attribute
+    //##################################################
+
+    @SuppressWarnings("rawtypes")
+    public KmMetaAttribute getValueMetaAttribute()
+    {
+        return _valueMetaAttribute;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public void setValueMetaAttribute(KmMetaAttribute e)
+    {
+        _valueMetaAttribute = e;
+    }
+
+    public boolean hasValueMetaAttribute()
+    {
+        return getValueMetaAttribute() != null;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public boolean hasValueMetaAttribute(KmMetaAttribute e)
+    {
+        return getValueMetaAttribute() == e;
+    }
+
+    @Override
+    @SuppressWarnings("rawtypes")
+    public ScField<T> findFieldFor(KmMetaAttribute e)
+    {
+        if ( hasValueMetaAttribute(e) )
+            return this;
+
+        return null;
     }
 
     //##################################################
@@ -289,9 +339,15 @@ public abstract class ScField<T>
     @Override
     public boolean hasErrors()
     {
-        return _errors.isNotEmpty();
+        return _errors.isNotEmpty() || super.hasErrors();
     }
 
+    /**
+     * Add an error message to this field, but do NOT throw an exception.
+     * The client can later check for, and display the error messages with checkErrors.
+     *
+     * @see #checkErrors
+     */
     public void addError(String format, Object... args)
     {
         String s = Kmu.format(format, args);
@@ -326,11 +382,14 @@ public abstract class ScField<T>
         addError(e.formatProblem());
     }
 
+    /**
+     * Add an error, then display it, and throw a rollback exception.
+     * If you want to display multiple errors, use addError and checkErrors.
+     */
     public void error(String msg, Object... args)
     {
         addError(msg, args);
-        getRoot().ajaxShowErrors();
-        Kmu.cancel();
+        getErrorRoot().checkErrors();
     }
 
     @Override

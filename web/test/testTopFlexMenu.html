@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+    
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function mySetAccount(name)
+        {
+            $("#accountMenu").text(name);
+        }
+        
+    </script>
+
+    <style>
+
+        .xHeader
+        {
+            box-sizing:         border-box;  
+            height:             50px;
+            padding:            10px;
+            
+            font:               italic bold 3.0rem sans-serif;               
+            background-image:   linear-gradient(to bottom, #aaa, #eee);
+        }
+        
+        .xOuter
+        {
+            box-sizing:         border-box;
+            display:            flex;
+            align-items:        flex-end;
+            height:             40px;
+            
+            overflow:           visible;
+            border-top:         1px solid #C0E2D4;
+            border-bottom:      1px solid white;
+        }        
+
+        .xLeft
+        {
+            box-sizing: border-box;  
+            height: 38px;
+            border: 1px outset #fff;
+            border-left: none;
+            background-image: linear-gradient(to bottom, #E3F2EC, #C0E2D4);
+
+            width:       20px;
+            flex-grow:   0;
+            flex-shrink: 0;
+        }        
+        
+        .xRight
+        {
+            box-sizing: border-box;  
+            height: 38px;
+            border: 1px outset #fff;
+            border-right: none;
+            background-image: linear-gradient(to bottom, #E3F2EC, #C0E2D4);
+
+            flex-grow: 1;
+        }        
+        
+        .xItem
+        {
+            box-sizing: border-box;  
+            height: 38px;
+            flex-grow:   0;
+            flex-shrink: 0;
+
+            border: 1px outset #fff;
+            background-image: linear-gradient(to bottom, #E3F2EC, #C0E2D4);
+
+            padding: 7px 15px 0 15px;
+            font:   bold 1.8rem sans-serif;               
+            color:  #874B46;
+            cursor: pointer;
+        }        
+        .xItem:hover 
+        {
+            background-image:   linear-gradient(to bottom, #C0E2D4, #E3F2EC);
+            text-decoration:    underline;
+        }
+
+        .xSelected
+        {
+            box-sizing: border-box;  
+            position: relative;
+            top: 2px;
+            height: 50px;
+            padding: 17px 15px 0 15px;
+
+            flex-grow:   0;
+            flex-shrink: 0;
+
+            border: 1px outset #fff;
+            border-radius: 15px 15px 0 0;
+            
+            color: #fff;
+            background-color: #366;
+            font: bold 1.8rem sans-serif;               
+            cursor: pointer;
+        }        
+        .xSelected:hover 
+        {
+            text-decoration: underline;
+        }
+
+        .xBody
+        {
+            position: absolute;
+            top:    90px;
+            bottom: 30px;
+            left:   150px;
+            right:  0;
+            
+            border: 10px solid #366;
+            border-radius: 0 20px 20px 20px;
+        }
+        
+        .xMenu
+        {
+            position: absolute;
+            top:    90px;
+            bottom: 0;
+            left:   0;
+            width:  150px;
+            
+            border-top: 10px solid #366;
+            background-image: linear-gradient(to bottom, #C0E2D4, #eee);
+        }
+        
+        .xMenuSection
+        {
+            font: bold 1.6rem sans-serif;
+            color: #000;
+            padding: 5px;
+            background-image: linear-gradient(to bottom, #aaa, #eee);
+            border-top:    1px solid #ddd;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .xMenuItem
+        {
+            font: bold 1.6rem sans-serif;
+            color:  #874B46;
+            cursor: pointer;
+            padding: 3px 10px;
+            margin: 3px 0 3px 10px;
+
+            border: 2px solid transparent;
+            border-right: none;
+            border-radius: 15px 0 0 15px;
+        }
+        .xMenuItem:hover
+        {
+            text-decoration: underline;
+            border-color: #888;
+        }
+        
+        .xMenuSelected
+        {
+            font: bold 1.6rem sans-serif;
+            color: #fff;
+            background-color: #366;
+            
+            padding: 5px 10px;
+            margin-left: 10px;
+            
+            border: 1px outset #fff;
+            border-right: none;
+            border-radius: 15px 0 0 15px;
+        }
+        .xMenuSelected:hover
+        {
+            text-decoration: underline;
+        }
+        
+    </style>
+    
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none">
+
+<div class="xHeader">
+    My Application
+</div>
+
+<div class="xOuter">
+    <div class="xLeft"></div>
+    <div class="xItem">Home</div>
+    <div class="xItem">Tasks</div>
+    <div class="xSelected">Orders</div>
+    <div class="xItem">Admin</div>
+    <!--
+    <div class="xItem">Other...</div>
+    <div class="xItem">Other...</div>
+    <div class="xItem">Other...</div>
+    <div class="xItem">Other...</div>
+    <div class="xItem">Other...</div>
+    <div class="xItem">Other...</div>
+    <div class="xItem">Other...</div>
+    -->
+    <div class="xRight"></div>
+</div>
+
+<div class="xBody">
+</div>
+
+<div class="xMenu">
+    <div class="xMenuSection">Group 1</div>
+    <div class="xMenuItem">One</div>
+    <div class="xMenuSelected">Two</div>
+    <div class="xMenuItem">Three</div>
+
+    <div class="xMenuSection">Group 2</div>
+    <div class="xMenuItem">Four</div>
+    <div class="xMenuItem">Five</div>
+    <div class="xMenuItem">Six</div>
+</div>
+
+</div>
+</body>
+</html>

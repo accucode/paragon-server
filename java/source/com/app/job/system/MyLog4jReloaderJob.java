@@ -35,7 +35,7 @@ public class MyLog4jReloaderJob
     //##################################################
 
     @Override
-    protected boolean run()
+    protected boolean handle()
     {
         return MyLog4jManager.reload();
     }

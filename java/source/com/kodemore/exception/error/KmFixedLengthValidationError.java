@@ -60,10 +60,10 @@ public class KmFixedLengthValidationError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append("must be length ");
-        sb.append(_length);
+        out.append("must be length ");
+        out.append(_length);
     }
 
 }

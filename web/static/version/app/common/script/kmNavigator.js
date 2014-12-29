@@ -7,12 +7,20 @@
 var KmNavigator = {};
 
 /**
+ * The default title to be displayed if none is provided.
+ */
+KmNavigator.defaultTitle = "";
+
+/**
  * Called once to initialize the navigator.
  */
-KmNavigator.init = function()
+KmNavigator.init = function(options)
 {
     KmNavigator.previousPrintDepth = undefined;
     KmNavigator.bind();
+    
+    if ( options )
+        KmNavigator.pushPage(options);
 }
 
 /**
@@ -22,10 +30,13 @@ KmNavigator.init = function()
  *      url
  *          The url to be pushed. 
  *          This is the only required attribute, and is pushed 'as is'.
+ *          In most cases, this is a relative path and may include nothing
+ *          except the query string (e.g.: "?page=somePage").
  *
  *      title
  *          Although this may be used to update the browser's title, it is
- *          not well supported.  If no value is specified, we use an empty string. 
+ *          not well supported.  If no value is specified, we use the defaultTitle
+ *          property defined above. 
  *
  *      replace
  *          If true, do a replaceState instead of a pushState.
@@ -40,7 +51,7 @@ KmNavigator.pushPage = function(options)
     
     var title = options.title;
     if ( !title )
-        title = '';
+        title = KmNavigator.defaultTitle;
     
     var state = History.getState();
     
@@ -162,7 +173,7 @@ KmNavigator.printState = function()
     
 /**
  * Bind the statechange event listener.
- * This is typically NOT called directly. 
+ * Clients should usually NOT call this directly. 
  */
 KmNavigator.bind = function()
 {
@@ -171,7 +182,7 @@ KmNavigator.bind = function()
 
 /**
  * Unbind the statechange event listener.
- * This is typically NOT called directly. 
+ * Clients should usually NOT call this directly. 
  */
 KmNavigator.unbind = function()
 {

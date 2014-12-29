@@ -81,8 +81,8 @@ public class KmStfElement
 
     public KmStfElement()
     {
-        _attributes = new KmList<KmStfAttribute>();
-        _children = new KmList<KmStfElement>();
+        _attributes = new KmList<>();
+        _children = new KmList<>();
     }
 
     //##################################################
@@ -158,7 +158,7 @@ public class KmStfElement
 
     public KmList<KmStfAttribute> getAttributes(String key)
     {
-        KmList<KmStfAttribute> v = new KmList<KmStfAttribute>();
+        KmList<KmStfAttribute> v = new KmList<>();
 
         for ( KmStfAttribute e : _attributes )
             if ( e.hasKey(key) )
@@ -204,7 +204,7 @@ public class KmStfElement
 
     public KmList<String> getKeys()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         for ( KmStfAttribute e : getAttributes() )
             v.add(e.getKey());
@@ -218,7 +218,7 @@ public class KmStfElement
 
     public KmList<String> getValues(String key)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         for ( KmStfAttribute attr : getAttributes(key) )
             v.add(attr.getValue());
@@ -281,7 +281,7 @@ public class KmStfElement
 
     public KmList<KmStfElement> getChildren(String name)
     {
-        KmList<KmStfElement> v = new KmList<KmStfElement>();
+        KmList<KmStfElement> v = new KmList<>();
 
         for ( KmStfElement e : getChildren() )
             if ( e.hasName(name) )
@@ -297,7 +297,7 @@ public class KmStfElement
 
     public KmList<KmStfElement> getChildrenWithAttribute(String name, String key, String value)
     {
-        KmList<KmStfElement> v = new KmList<KmStfElement>();
+        KmList<KmStfElement> v = new KmList<>();
 
         for ( KmStfElement e : getChildren() )
             if ( e.hasName(name) && e.hasAttribute(key, value) )

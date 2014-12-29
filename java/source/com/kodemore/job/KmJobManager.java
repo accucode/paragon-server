@@ -27,7 +27,7 @@ import com.kodemore.hibernate.lock.KmDaoOptimisticLockException;
 import com.kodemore.hibernate.lock.KmDaoPessimisticLockException;
 import com.kodemore.log.KmLog;
 import com.kodemore.log.KmLogger;
-import com.kodemore.thread.KmKillableThread;
+import com.kodemore.thread.KmThread;
 import com.kodemore.utility.Kmu;
 
 public abstract class KmJobManager
@@ -36,9 +36,9 @@ public abstract class KmJobManager
     //# variables
     //##################################################
 
-    private String           _name;
-    private KmKillableThread _thread;
-    private KmLogger         _logger;
+    private String   _name;
+    private KmThread _thread;
+    private KmLogger _logger;
 
     //##################################################
     //# constructor
@@ -71,21 +71,11 @@ public abstract class KmJobManager
 
     public synchronized void start()
     {
-        startDelayedMs(0);
-    }
-
-    public void startDelayedSeconds(int secs)
-    {
-        startDelayedMs(secs * 1000);
-    }
-
-    public synchronized void startDelayedMs(int ms)
-    {
         if ( _thread != null )
             return;
 
-        _thread = newThread(ms);
-        _thread.start();
+        _thread = newThread();
+        _thread.startLater();
     }
 
     public synchronized void stop()
@@ -93,8 +83,9 @@ public abstract class KmJobManager
         if ( _thread == null )
             return;
 
-        KmLog.info("Stopping Job Manager (%s).", _name);
-        _thread.kill();
+        KmLog.info("Job Manager (%s), stopping...", _name);
+
+        _thread.requestStopAndWait();
         _thread = null;
     }
 
@@ -107,106 +98,142 @@ public abstract class KmJobManager
     //# private
     //##################################################
 
-    private KmKillableThread newThread(final int startDelayMs)
+    private KmThread newThread()
     {
-        return new KmKillableThread()
+        return new KmThread()
         {
             @Override
             public void run()
             {
                 try
                 {
-                    Kmu.sleepMs(startDelayMs);
-                    KmLog.info("Starting Job Manager (%s).", _name);
+                    KmLog.info("Job Manager (%s), started.", _name);
 
-                    while ( true )
-                        try
-                        {
-                            loop();
-                            cycleSleep();
-                            if ( isKilled() )
-                                break;
-                        }
-                        catch ( Throwable ex )
-                        {
-                            KmLog.fatal(ex, "Job Manager Error(%s), Continuing.", _name);
-                        }
+                    onStart();
+                    loop();
+                    onStop();
+
+                    KmLog.info("Job Manager (%s), stopped.", _name);
                 }
                 finally
                 {
-                    _thread = null;
-                    if ( !isKilled() )
+                    if ( !hasStopRequest() )
                         KmLog.fatal(
                             "Job Manager TERMINATED: Unknown fatal exception in (%s).",
                             _name);
                 }
             }
+
+            private void loop()
+            {
+                while ( !hasStopRequest() )
+                    try
+                    {
+                        runOnce();
+                        loopSleep();
+                    }
+                    catch ( Throwable ex )
+                    {
+                        KmLog.fatal(ex, "Job Manager Error(%s), Continuing.", _name);
+                    }
+            }
         };
     }
 
-    protected abstract void loop();
+    /**
+     * Called once, before the loop starts.
+     * Subclasses can optionally override this.
+     */
+    protected void onStart()
+    {
+        // subclass
+    }
 
-    protected abstract int getCycleSleepMs();
+    /**
+     * Called once, after the loop stops normally via stop().
+     * Subclasses can optionally override this.
+     */
+    protected void onStop()
+    {
+        // subclass
+    }
+
+    /**
+     * Perform the work of a single iteration.
+     * The manager is responsible for managing the loop.
+     */
+    protected abstract void runOnce();
+
+    /**
+     * Determine how long the manager should wait before
+     */
+    protected abstract int getLoopSleepMs();
 
     //##################################################
     //# utility
     //##################################################
 
-    protected void runJob(KmJob j)
+    protected void runJob(KmJob e)
     {
         try
         {
-            if ( !j.isReadyToRun() )
+            if ( !e.isReadyToRun() )
                 return;
 
-            debug("job (%s) start...", j.getName());
-            j.start();
-            debug("job (%s) done.", j.getName());
+            debug("job (%s) starting...", e.getName());
+            e.run();
+            debug("job (%s) done.", e.getName());
         }
         catch ( KmDaoPessimisticLockException ex )
         {
-            KmLog.warn("Skipping job(%s), pessimistic lock failed.", j.getName());
+            KmLog.warn("Skipping job(%s), pessimistic lock failed.", e.getName());
         }
         catch ( KmDaoOptimisticLockException ex )
         {
-            KmLog.warn("Skipping job(%s), optimistic lock failed.", j.getName());
+            KmLog.warn("Skipping job(%s), optimistic lock failed.", e.getName());
         }
         catch ( Exception ex )
         {
-            KmLog.fatal(ex, "CRON ERROR in job(%s)", j.getName());
+            KmLog.fatal(ex, "CRON ERROR in job(%s)", e.getName());
         }
     }
 
+    /**
+     * Determine the number of ms until the next job is scheduled to start.
+     * This may return a negative number if one of the jobs is already overdue.
+     */
     protected int getMsToNextJob(KmList<KmJob> v)
     {
-        int min = 500;
-        int max = 60000;
-
-        if ( v.isEmpty() )
-            return max;
-
-        long now = now();
-
         long next = Long.MAX_VALUE;
+
         for ( KmJob e : v )
-        {
-            if ( e.isDisabled() )
-                continue;
+            if ( e.isEnabled() )
+                next = Math.min(next, e.getNextStartTime());
 
-            long i = e.getNextStartTime();
-            if ( i <= now )
-                return min;
-
-            next = Math.min(next, i);
-        }
-
-        int ms = (int)(next - now);
-        return Kmu.constrain(ms, min, max);
+        return (int)(next - now());
     }
 
-    private void cycleSleep()
+    /**
+     * Sleep for a while before iterating the loop again.
+     * This is done to avoid needlessly tying up the cpu when we know
+     * that there are no jobs scheduled to run again for a while.
+     *
+     * Note that the maximum sleep time is constrained to a few seconds.
+     * This means that even if no jobs are scheduled to run for another hour
+     * the manager will continue to wake up and check every few seconds.
+     * This is done for two purposes:
+     *
+     * 1) So we can dynamically change the frequency of a job.
+     * 2) So we can politely shutdown the job manager without waiting a long time.
+     */
+    private void loopSleep()
     {
-        Kmu.sleepMs(getCycleSleepMs());
+        int def = getLoopSleepMs();
+        int min = 0;
+        int max = 5000;
+
+        int ms = Kmu.constrain(def, min, max);
+        Kmu.sleepMs(ms);
     }
 
     //##################################################
@@ -227,4 +254,5 @@ public abstract class KmJobManager
     {
         return _logger;
     }
+
 }

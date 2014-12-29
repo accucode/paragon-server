@@ -25,10 +25,10 @@ public enum MyLabelOrientation
 
     static
     {
-        _values = new KmList<MyLabelOrientation>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyLabelOrientation>();
+        _codes = new KmMap<>();
         for ( MyLabelOrientation e : EnumSet.allOf(MyLabelOrientation.class) )
             _codes.put(e.getCode(), e);
     }

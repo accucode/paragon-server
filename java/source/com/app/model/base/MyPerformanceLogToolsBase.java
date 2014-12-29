@@ -37,7 +37,7 @@ public abstract class MyPerformanceLogToolsBase
     public ScDomainDropdownField<MyPerformanceLog,Integer> newDomainDropdown()
     {
         ScDomainDropdownField<MyPerformanceLog,Integer> e;
-        e = new ScDomainDropdownField<MyPerformanceLog,Integer>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyPerformanceLogFilter());
         e.setFinder(new MyPerformanceLogFinder());

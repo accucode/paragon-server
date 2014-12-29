@@ -50,6 +50,12 @@ public class MyMetaEmailPart_AttachmentName
     }
 
     @Override
+    public String getHelp()
+    {
+        return null;
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 15;

@@ -43,7 +43,7 @@ public class JkNameTest
 
     private void install()
     {
-        nodes = new KmList<Node>();
+        nodes = new KmList<>();
         new KmFileTraverser()
         {
             @Override
@@ -73,8 +73,8 @@ public class JkNameTest
 
     private void test()
     {
-        prefixes = new KmList<String>();
-        suffixes = new KmList<String>();
+        prefixes = new KmList<>();
+        suffixes = new KmList<>();
 
         while ( true )
             if ( !menu() )
@@ -136,7 +136,7 @@ public class JkNameTest
 
     private KmList<Node> getMatches()
     {
-        KmList<Node> v = new KmList<Node>();
+        KmList<Node> v = new KmList<>();
         for ( Node e : nodes )
             if ( isMatch(e) )
                 v.add(e);
@@ -181,7 +181,7 @@ public class JkNameTest
 
     private KmList<String> getPrefixCandidates()
     {
-        KmSet<String> set = new KmSetImpl<String>();
+        KmSet<String> set = new KmSetImpl<>();
 
         int i = prefixes.size();
         KmList<Node> matches = getMatches();
@@ -196,7 +196,7 @@ public class JkNameTest
 
     private KmList<String> getSuffixCandidates()
     {
-        KmSet<String> set = new KmSetImpl<String>();
+        KmSet<String> set = new KmSetImpl<>();
 
         int i = suffixes.size();
         KmList<Node> matches = getMatches();

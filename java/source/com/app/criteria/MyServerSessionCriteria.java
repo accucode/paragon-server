@@ -56,17 +56,17 @@ public class MyServerSessionCriteria
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereClosedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CLOSED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CLOSED_UTC_TS));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereLastTouchedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(LAST_TOUCHED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(LAST_TOUCHED_UTC_TS));
     }
 
     public KmStringCriteria whereVersion()
@@ -612,50 +612,50 @@ public class MyServerSessionCriteria
     }
 
     //##################################################
-    //# association (CurrentAccount)
+    //# association (CurrentProject)
     //##################################################
 
-    public void selectCurrentAccountUid()
+    public void selectCurrentProjectUid()
     {
-        select(CURRENT_ACCOUNT_UID);
+        select(CURRENT_PROJECT_UID);
     }
 
-    public void selectMinimumCurrentAccountUid()
+    public void selectMinimumCurrentProjectUid()
     {
-        selectMinimum(CURRENT_ACCOUNT_UID);
+        selectMinimum(CURRENT_PROJECT_UID);
     }
 
-    public void selectMaximumCurrentAccountUid()
+    public void selectMaximumCurrentProjectUid()
     {
-        selectMaximum(CURRENT_ACCOUNT_UID);
+        selectMaximum(CURRENT_PROJECT_UID);
     }
 
-    public void groupByCurrentAccountUid()
+    public void groupByCurrentProjectUid()
     {
-        groupBy(CURRENT_ACCOUNT);
+        groupBy(CURRENT_PROJECT);
     }
 
-    public MyAccountCriteria joinToCurrentAccount()
+    public MyProjectCriteria joinToCurrentProject()
     {
-        return new MyAccountCriteria(joinTo(CURRENT_ACCOUNT));
+        return new MyProjectCriteria(joinTo(CURRENT_PROJECT));
     }
 
-    public MyAccountCriteria leftJoinToCurrentAccount()
+    public MyProjectCriteria leftJoinToCurrentProject()
     {
-        return new MyAccountCriteria(leftJoinTo(CURRENT_ACCOUNT));
+        return new MyProjectCriteria(leftJoinTo(CURRENT_PROJECT));
     }
 
-    public KmStringCriteria whereCurrentAccountUid()
+    public KmStringCriteria whereCurrentProjectUid()
     {
-        return new KmStringCriteria(parent(), fullName(CURRENT_ACCOUNT_UID));
+        return new KmStringCriteria(parent(), fullName(CURRENT_PROJECT_UID));
     }
 
-    public void whereCurrentAccountIs(MyAccount e)
+    public void whereCurrentProjectIs(MyProject e)
     {
         if ( e == null )
-            whereCurrentAccountUid().isNull();
+            whereCurrentProjectUid().isNull();
         else
-            whereCurrentAccountUid().is(e.getUid());
+            whereCurrentProjectUid().is(e.getUid());
     }
 
     //##################################################
@@ -677,7 +677,6 @@ public class MyServerSessionCriteria
     //##################################################
 
     @Override
-    @SuppressWarnings("rawtypes")
     public MyServerSessionCriteria createOn(KmModelJunction junction)
     {
         return new MyServerSessionCriteria(parent(), junction.context());

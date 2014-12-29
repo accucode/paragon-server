@@ -8,8 +8,7 @@ import java.util.Map;
  */
 @SuppressWarnings(
 {
-    "unchecked",
-    "rawtypes"
+    "unchecked", "rawtypes"
 })
 public class KmMultiKeySet
 {

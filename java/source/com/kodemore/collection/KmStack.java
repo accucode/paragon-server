@@ -41,7 +41,7 @@ public class KmStack<T>
 
     public KmStack()
     {
-        _list = new KmList<T>();
+        _list = new KmList<>();
     }
 
     //##################################################

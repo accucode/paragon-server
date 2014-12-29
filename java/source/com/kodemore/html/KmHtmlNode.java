@@ -59,8 +59,8 @@ public class KmHtmlNode
     {
         _tag = null;
         _endTag = true;
-        _attributes = new KmMap<String,String>();
-        _children = new KmList<Object>();
+        _attributes = new KmMap<>();
+        _children = new KmList<>();
     }
 
     //##################################################
@@ -190,7 +190,8 @@ public class KmHtmlNode
 
     public KmHtmlNode addHiddenField(String name, String value)
     {
-        KmHtmlNode e = addTag("input");
+        KmHtmlNode e;
+        e = addTag("input");
         e.noEndTag();
         e.setAttribute("type", "hidden");
         e.setAttribute("name", name);

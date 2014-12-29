@@ -50,6 +50,7 @@ public class KmPropertyFileRegistry
     {
         if ( _path == null )
             return false;
+
         File f = new File(_path);
         return f.exists() && f.isFile();
     }

@@ -43,8 +43,8 @@ public abstract class KmTelnetForm
 
     public KmTelnetForm()
     {
-        _labels = new KmList<KmTelnetLabel>();
-        _fields = new KmList<KmTelnetField>();
+        _labels = new KmList<>();
+        _fields = new KmList<>();
     }
 
     //##################################################

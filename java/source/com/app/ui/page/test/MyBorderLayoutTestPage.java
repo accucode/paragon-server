@@ -1,7 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBorderLayout;
+import com.kodemore.servlet.control.ScAbsoluteLayout;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
 
@@ -44,8 +44,8 @@ public class MyBorderLayoutTestPage
     {
         root.css().fill();
 
-        ScBorderLayout layout;
-        layout = root.addBorderLayout();
+        ScAbsoluteLayout layout;
+        layout = root.addAbsoluteLayout();
 
         ScDiv e;
 

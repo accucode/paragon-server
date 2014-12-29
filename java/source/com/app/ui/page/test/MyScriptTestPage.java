@@ -70,15 +70,15 @@ public class MyScriptTestPage
     private void installScript(ScForm root)
     {
         ScGroup group;
-        group = root.addGroup();
+        group = root.addGroup("Script Test");
 
         ScTextArea field;
-        field = group.addPad().addTextArea();
+        field = group.getBody().addPad().addTextArea();
         field.setWidthFull();
         field.style().height(100);
 
-        group.addDivider();
-        group.addButtonBox().addSubmitButton();
+        group.addBodyDivider();
+        group.getBody().addButtonBox().addSubmitButton();
 
         _scriptField = field;
     }
@@ -86,16 +86,16 @@ public class MyScriptTestPage
     private void installSamples(ScContainer root)
     {
         ScGroup group;
-        group = root.addGroup();
+        group = root.addGroup("Samples");
 
         ScBox buttons;
-        buttons = group.addButtonBox();
+        buttons = group.getBody().addButtonBox();
 
         ScButton b;
         b = buttons.addButton();
         b.setText(b.getHtmlId());
 
-        buttons = group.addButtonBox();
+        buttons = group.getBody().addButtonBox();
         b = buttons.addButton();
         b.setText(b.getHtmlId());
 
@@ -106,7 +106,7 @@ public class MyScriptTestPage
         b.setText(b.getHtmlId());
 
         ScFieldTable fields;
-        fields = group.addPad().addFields();
+        fields = group.getBody().addPad().addFieldTable();
 
         ScTextField textField;
         textField = fields.addTextField();

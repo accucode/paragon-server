@@ -46,7 +46,7 @@ public class MyServerSessionFinder
     public MyServerSession findDao(String key)
     {
         MyDaoKeyFinder<MyServerSession,String> e;
-        e = new MyDaoKeyFinder<MyServerSession,String>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

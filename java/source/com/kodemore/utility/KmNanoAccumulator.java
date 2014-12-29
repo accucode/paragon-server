@@ -59,8 +59,7 @@ public class KmNanoAccumulator
     {
         return new long[]
         {
-            _count,
-            _nanos
+            _count, _nanos
         };
     }
 

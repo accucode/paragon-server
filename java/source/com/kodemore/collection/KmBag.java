@@ -33,7 +33,7 @@ public class KmBag<E>
     //# variables
     //##################################################
 
-    private KmMap<E,Integer> _map = new KmMap<E,Integer>();
+    private KmMap<E,Integer> _map = new KmMap<>();
 
     //##################################################
     //# accessing
@@ -110,6 +110,7 @@ public class KmBag<E>
         for ( E e : b.getKeys() )
             if ( getCount(e) < b.getCount(e) )
                 return false;
+
         return true;
     }
 
@@ -153,6 +154,7 @@ public class KmBag<E>
         Integer nn = _map.get(e);
         if ( nn != null )
             n += nn;
+
         _map.put(e, n);
     }
 

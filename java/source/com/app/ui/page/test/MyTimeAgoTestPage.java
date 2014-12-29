@@ -63,7 +63,7 @@ public class MyTimeAgoTestPage
         group.style().width(200);
 
         ScFieldTable fields;
-        fields = group.addPad().addFields();
+        fields = group.getBody().addPad().addFieldTable();
 
         ScText nowText;
         nowText = fields.addText(origin.format_m_d_yyyy_hh_mm_ss());
@@ -120,7 +120,7 @@ public class MyTimeAgoTestPage
         group.style().width(200);
 
         ScFieldTable fields;
-        fields = group.addPad().addFields();
+        fields = group.getBody().addPad().addFieldTable();
 
         ScText nowText;
         nowText = fields.addText(origin.format_mm_dd_yyyy());

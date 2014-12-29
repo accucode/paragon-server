@@ -49,6 +49,12 @@ public class MyMetaEmail_ToAddressesLabel
     }
 
     @Override
+    public String getHelp()
+    {
+        return "A summary of the to addresses.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

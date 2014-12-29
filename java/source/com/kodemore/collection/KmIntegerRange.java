@@ -69,6 +69,7 @@ public class KmIntegerRange
             {
                 if ( _next > _end )
                     throw new IndexOutOfBoundsException();
+
                 return _next++;
             }
 
@@ -80,11 +81,13 @@ public class KmIntegerRange
         };
     }
 
-    public KmList<Integer> getList()
+    public KmList<Integer> toList()
     {
-        KmList<Integer> v = new KmList<Integer>();
+        KmList<Integer> v = new KmList<>();
+
         for ( Integer e : this )
             v.add(e);
+
         return v;
     }
 }

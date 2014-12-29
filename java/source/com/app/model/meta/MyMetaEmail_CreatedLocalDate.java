@@ -49,6 +49,12 @@ public class MyMetaEmail_CreatedLocalDate
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when this email was created.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

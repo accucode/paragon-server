@@ -25,8 +25,8 @@ public class KmSqlResultComposer
 
     public KmSqlResultComposer()
     {
-        _schemas = new KmList<String>();
-        _sqlStatements = new KmList<String>();
+        _schemas = new KmList<>();
+        _sqlStatements = new KmList<>();
         formatCsvNormal();
     }
 

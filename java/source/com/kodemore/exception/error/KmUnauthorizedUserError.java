@@ -59,10 +59,10 @@ public class KmUnauthorizedUserError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append("Unauthorized User: ");
-        sb.append(_login);
+        out.append("Unauthorized User: ");
+        out.append(_login);
     }
 
 }

@@ -18,12 +18,14 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.match;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.kodemore.collection.KmList;
 
 /**
  * I provide a convenient way to combine existing comparator into
@@ -43,7 +45,7 @@ public class KmCompositeMatch<T>
     public static <T> KmCompositeMatch<T> createWith(KmMatchIF<T> a)
     {
         KmCompositeMatch<T> x;
-        x = new KmCompositeMatch<T>();
+        x = new KmCompositeMatch<>();
         x.add(a);
         return x;
     }
@@ -51,7 +53,7 @@ public class KmCompositeMatch<T>
     public static <T> KmCompositeMatch<T> createWith(KmMatchIF<T> a, KmMatchIF<T> b)
     {
         KmCompositeMatch<T> x;
-        x = new KmCompositeMatch<T>();
+        x = new KmCompositeMatch<>();
         x.add(a);
         x.add(b);
         return x;
@@ -60,7 +62,7 @@ public class KmCompositeMatch<T>
     public static <T> KmCompositeMatch<T> createWith(KmMatchIF<T> a, KmMatchIF<T> b, KmMatchIF<T> c)
     {
         KmCompositeMatch<T> x;
-        x = new KmCompositeMatch<T>();
+        x = new KmCompositeMatch<>();
         x.add(a);
         x.add(b);
         x.add(c);
@@ -74,7 +76,7 @@ public class KmCompositeMatch<T>
         KmMatchIF<T> d)
     {
         KmCompositeMatch<T> x;
-        x = new KmCompositeMatch<T>();
+        x = new KmCompositeMatch<>();
         x.add(a);
         x.add(b);
         x.add(c);
@@ -90,7 +92,7 @@ public class KmCompositeMatch<T>
         KmMatchIF<T> e)
     {
         KmCompositeMatch<T> x;
-        x = new KmCompositeMatch<T>();
+        x = new KmCompositeMatch<>();
         x.add(a);
         x.add(b);
         x.add(c);
@@ -108,7 +110,7 @@ public class KmCompositeMatch<T>
         KmMatchIF<T> f)
     {
         KmCompositeMatch<T> x;
-        x = new KmCompositeMatch<T>();
+        x = new KmCompositeMatch<>();
         x.add(a);
         x.add(b);
         x.add(c);
@@ -128,7 +130,7 @@ public class KmCompositeMatch<T>
         KmMatchIF<T> g)
     {
         KmCompositeMatch<T> x;
-        x = new KmCompositeMatch<T>();
+        x = new KmCompositeMatch<>();
         x.add(a);
         x.add(b);
         x.add(c);
@@ -150,7 +152,7 @@ public class KmCompositeMatch<T>
         KmMatchIF<T> h)
     {
         KmCompositeMatch<T> x;
-        x = new KmCompositeMatch<T>();
+        x = new KmCompositeMatch<>();
         x.add(a);
         x.add(b);
         x.add(c);
@@ -174,7 +176,7 @@ public class KmCompositeMatch<T>
 
     public KmCompositeMatch()
     {
-        _matches = new ArrayList<KmMatchIF<T>>();
+        _matches = new ArrayList<>();
     }
 
     //##################################################
@@ -196,11 +198,16 @@ public class KmCompositeMatch<T>
         _matches.add(c);
     }
 
+    @SuppressWarnings("unchecked")
     public void addAll(KmMatchIF<T>... arr)
     {
-        int n = arr.length;
-        for ( int i = 0; i < n; i++ )
-            add(arr[i]);
+        addAll(KmList.createWith(arr));
+    }
+
+    public void addAll(List<KmMatchIF<T>> v)
+    {
+        for ( KmMatchIF<T> e : v )
+            add(e);
     }
 
     //##################################################

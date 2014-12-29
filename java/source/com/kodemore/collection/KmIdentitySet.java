@@ -27,7 +27,7 @@ public class KmIdentitySet<T>
 
     public KmIdentitySet()
     {
-        _impl = new HashSet<KmIdentityWrapper<T>>();
+        _impl = new HashSet<>();
     }
 
     //##################################################
@@ -177,9 +177,11 @@ public class KmIdentitySet<T>
     private Collection<KmIdentityWrapper<T>> wrapper(Collection c)
     {
         ArrayList<KmIdentityWrapper<T>> v;
-        v = new ArrayList<KmIdentityWrapper<T>>();
+        v = new ArrayList<>();
+
         for ( Object e : c )
             v.add(KmIdentityWrapper.create((T)e));
+
         return v;
     }
 

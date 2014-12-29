@@ -83,6 +83,7 @@ public class KmProfileReader
     {
         if ( _traces == null )
             _traces = _readTraces();
+
         return _traces;
     }
 
@@ -95,6 +96,7 @@ public class KmProfileReader
     {
         if ( _traceNodeRoot == null )
             _traceNodeRoot = _getTraceNodeRoot();
+
         return _traceNodeRoot;
     }
 
@@ -102,6 +104,7 @@ public class KmProfileReader
     {
         if ( _cpus == null )
             _cpus = _readCpus();
+
         return _cpus;
     }
 
@@ -125,11 +128,15 @@ public class KmProfileReader
     {
         _openFile();
         _skipHeader();
+
         while ( !_line.startsWith("TRACE") )
             _readLine();
-        KmList<KmProfileTrace> v = new KmList<KmProfileTrace>();
+
+        KmList<KmProfileTrace> v = new KmList<>();
+
         while ( _line.startsWith("TRACE") )
             v.add(_readTrace());
+
         _closeFile();
         return v;
     }
@@ -197,6 +204,7 @@ public class KmProfileReader
             KmProfileCpu cpu = _findCpuTraceId(trace.getTraceId());
             root.apply(trace, cpu);
         }
+
         root.fillInStats();
         return root;
     }
@@ -216,8 +224,9 @@ public class KmProfileReader
 
     public KmList<KmProfileTraceLine> getRootLines()
     {
-        KmList<String> names = new KmList<String>();
-        KmList<KmProfileTraceLine> lines = new KmList<KmProfileTraceLine>();
+        KmList<String> names = new KmList<>();
+        KmList<KmProfileTraceLine> lines = new KmList<>();
+
         Iterator<KmProfileTrace> i = getTraces().iterator();
         while ( i.hasNext() )
         {
@@ -256,14 +265,19 @@ public class KmProfileReader
     {
         _openFile();
         _skipHeader();
-        _cpus = new KmList<KmProfileCpu>();
+        _cpus = new KmList<>();
+
         while ( !_line.startsWith("CPU") )
             _readLine();
+
         _readLine();
         _readLine();
-        KmList<KmProfileCpu> v = new KmList<KmProfileCpu>();
+
+        KmList<KmProfileCpu> v = new KmList<>();
+
         while ( !_line.startsWith("CPU") )
             v.add(_readCpu());
+
         _closeFile();
         return v;
     }

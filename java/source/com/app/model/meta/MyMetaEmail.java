@@ -55,6 +55,16 @@ public class MyMetaEmail
     {
         return MyEmailValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "I am used to manage emails.  This allows the application to easily create an email\nas part of a database transaction, and to subsequently send (and re-send) the email\nas needed.  This also provides a convenient log of email that were previously sent.";
+    }
 
     //##################################################
     //# fields and delegates

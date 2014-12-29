@@ -66,7 +66,7 @@ public class KmSqlInsert
     {
         super(a);
         _table = null;
-        _columns = new KmList<String>();
+        _columns = new KmList<>();
         _valueBuffer = newBuffer();
         _rowCount = 0;
         _isFirstColumn = true;

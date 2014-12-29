@@ -51,10 +51,13 @@ public class KmConsoleStatus
     public static void print(Object e, int n)
     {
         String s = "";
+
         if ( e != null )
             s = e.toString();
+
         s = Kmu.truncate(s, n);
         s = Kmu.rightPad(s, n);
+
         System.out.print(s);
         System.out.print(Kmu.repeat(BACKSPACE, n));
     }
@@ -94,10 +97,13 @@ public class KmConsoleStatus
     public void print(Object e)
     {
         String s = "";
+
         if ( e != null )
             s = e.toString();
+
         System.out.print(Kmu.repeat(BACKSPACE, _valueLength));
         System.out.print(s);
+
         _valueLength = s.length();
     }
 

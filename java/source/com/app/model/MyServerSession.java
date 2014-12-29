@@ -68,21 +68,62 @@ public class MyServerSession
         return !hasRightVersion();
     }
 
+    //##################################################
+    //# current project
+    //##################################################
+
     @Override
-    public MyAccount getCurrentAccount()
+    public void setCurrentProject(MyProject e)
     {
-        if ( !hasUser() )
-            return null;
+        super.setCurrentProject(e);
 
-        MyAccount e = super.getCurrentAccount();
+        if ( hasUser() )
+            getUser().setLastProject(e);
+    }
 
-        if ( e == null )
+    public void installCurrentProject()
+    {
+        MyUser u = getUser();
+
+        if ( u == null )
         {
-            e = getUser().getDefaultAccount();
-            setCurrentAccount(e);
+            clearCurrentProject();
+            return;
         }
 
-        return e;
+        MyProject p;
+
+        p = getCurrentProject();
+        if ( p != null )
+            if ( p.allowsMember(u) )
+            {
+                setCurrentProject(p);
+                return;
+            }
+
+        p = u.getLastProject();
+        if ( p != null )
+            if ( p.allowsMember(u) )
+            {
+                setCurrentProject(p);
+                return;
+            }
+
+        MyMember m = getAccess().getMemberDao().findFirstFor(u);
+        if ( m != null )
+        {
+            setCurrentProject(m.getProject());
+            return;
+        }
+
+        p = getAccess().getProjectDao().findFirst();
+        if ( p != null )
+        {
+            setCurrentProject(p);
+            return;
+        }
+
+        clearCurrentProject();
     }
 
 }

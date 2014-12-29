@@ -29,6 +29,9 @@ import java.util.List;
 import com.kodemore.collection.KmList;
 import com.kodemore.utility.Kmu;
 
+/**
+ * I parse a list of rules from some external source.
+ */
 public class KmPhoneticRuleParser
 {
     //##################################################
@@ -46,7 +49,7 @@ public class KmPhoneticRuleParser
      */
     public KmList<KmPhoneticRule> parseResource(String path)
     {
-        KmList<String> lines = Kmu.readClassLines(path);
+        KmList<String> lines = Kmu.readResourceLines(path);
         return parseLines(lines);
     }
 
@@ -55,13 +58,17 @@ public class KmPhoneticRuleParser
      */
     public KmList<KmPhoneticRule> parseFile(String path)
     {
-        KmList<String> lines = Kmu.readTextFileLines(path);
+        KmList<String> lines = Kmu.readFileLines(path);
         return parseLines(lines);
     }
 
-    public KmList<KmPhoneticRule> parseLines(List<String> lines)
+    //##################################################
+    //# private
+    //##################################################
+
+    private KmList<KmPhoneticRule> parseLines(List<String> lines)
     {
-        KmList<KmPhoneticRule> v = new KmList<KmPhoneticRule>();
+        KmList<KmPhoneticRule> v = new KmList<>();
 
         for ( String e : lines )
             v.addNonNull(parseLine(e));
@@ -76,7 +83,7 @@ public class KmPhoneticRuleParser
      * is a comment then return null.  If the line cannot
      * be parsed throw an exception.
      */
-    public KmPhoneticRule parseLine(String s)
+    private KmPhoneticRule parseLine(String s)
     {
         int i = s.indexOf("#");
         if ( i >= 0 )
@@ -103,7 +110,7 @@ public class KmPhoneticRuleParser
         return newRule(mode, oldValue, newValue);
     }
 
-    public KmPhoneticRule newRule(String mode, String oldValue, String newValue)
+    private KmPhoneticRule newRule(String mode, String oldValue, String newValue)
     {
         KmPhoneticRule r = new KmPhoneticRule();
 
@@ -136,7 +143,7 @@ public class KmPhoneticRuleParser
         return r;
     }
 
-    public void error(String msg)
+    private void error(String msg)
     {
         String s = "Phonetic Rule Parser";
 

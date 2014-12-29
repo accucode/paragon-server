@@ -50,6 +50,12 @@ public class MyMetaUser_TimeZoneCode
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The user's preferred time zone.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 5;

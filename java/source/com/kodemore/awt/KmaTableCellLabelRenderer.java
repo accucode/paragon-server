@@ -179,6 +179,7 @@ public class KmaTableCellLabelRenderer
                 setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
             else
                 setBorder(BorderFactory.createLineBorder(_focusBorderColor));
+
             if ( d.table.isCellEditable(d.row, d.column) )
             {
                 super.setForeground(UIManager.getColor("Table.focusCellForeground"));
@@ -207,8 +208,8 @@ public class KmaTableCellLabelRenderer
     public void setupOpaque()
     {
         KmaTableCellRendererData d = _data;
-
         Color back = getBackground();
+
         boolean colorMatch = back != null
             && back.equals(d.table.getBackground())
             && d.table.isOpaque();

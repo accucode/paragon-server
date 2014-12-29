@@ -44,7 +44,7 @@ public class MyInvitationValidatorBase
     private KmStringValidator roleCodeValidator;
     private KmIntegerValidator lockVersionValidator;
     private KmStringValidator fromUserNameValidator;
-    private KmStringValidator accountNameValidator;
+    private KmStringValidator projectNameValidator;
 
     //##################################################
     //# constructor
@@ -62,7 +62,7 @@ public class MyInvitationValidatorBase
         roleCodeValidator = newRoleCodeValidator();
         lockVersionValidator = newLockVersionValidator();
         fromUserNameValidator = newFromUserNameValidator();
-        accountNameValidator = newAccountNameValidator();
+        projectNameValidator = newProjectNameValidator();
     }
 
     //##################################################
@@ -114,9 +114,9 @@ public class MyInvitationValidatorBase
         return fromUserNameValidator;
     }
 
-    public KmStringValidator getAccountNameValidator()
+    public KmStringValidator getProjectNameValidator()
     {
-        return accountNameValidator;
+        return projectNameValidator;
     }
 
     //##################################################
@@ -250,7 +250,7 @@ public class MyInvitationValidatorBase
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(30);
+        e.setMaximumLength(50);
         e.setAllowsPrintable(true);
         e.setModel("invitation");
         e.setField("fromUserName");
@@ -258,14 +258,14 @@ public class MyInvitationValidatorBase
         return e;
     }
 
-    public KmStringValidator newAccountNameValidator()
+    public KmStringValidator newProjectNameValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(30);
+        e.setMaximumLength(50);
         e.setAllowsPrintable(true);
         e.setModel("invitation");
-        e.setField("accountName");
+        e.setField("projectName");
         e.setRequired();
         return e;
     }

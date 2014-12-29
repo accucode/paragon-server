@@ -136,7 +136,7 @@ public class MyEmailPartCriteria
 
     public KmPropertyCriteria<KmBlob> whereData()
     {
-        return new KmPropertyCriteria<KmBlob>(context(), fullName(DATA));
+        return new KmPropertyCriteria<>(context(), fullName(DATA));
     }
 
     public KmIntegerCriteria whereLockVersion()
@@ -586,7 +586,6 @@ public class MyEmailPartCriteria
     //##################################################
 
     @Override
-    @SuppressWarnings("rawtypes")
     public MyEmailPartCriteria createOn(KmModelJunction junction)
     {
         return new MyEmailPartCriteria(parent(), junction.context());

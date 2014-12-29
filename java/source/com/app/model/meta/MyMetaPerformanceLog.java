@@ -55,6 +55,16 @@ public class MyMetaPerformanceLog
     {
         return MyPerformanceLogValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "A log for performance metrics.  We track a number of performance metrics on the active\nsystem.  This is primarily used as a tool in production to identify hotspots that may\nrequire tuning and optimization.  Some care needs to be taken to avoid enabling so many\nmetrics that they the performance logging itself becomes a bottleneck.";
+    }
 
     //##################################################
     //# fields and delegates

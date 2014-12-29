@@ -50,6 +50,12 @@ public class MyMetaInvitation_RoleCode
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The security role to be assigned to the invited user.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 3;

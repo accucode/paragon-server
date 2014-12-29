@@ -12,234 +12,615 @@ body
 {
     overflow: hidden;
     font-size: 1.3rem;
-}
-
-/*******************************************************************
- ** page layout
- *******************************************************************/
-
-.pageHeader
-{
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: auto;
-    top: 0;
-    height: 50px;
-    
-    overflow: visible;
-    background-image: linear-gradient(to bottom, #888, #fff);    
-}
-
-.pageMenu
-{
-    display: none;
-}
-
-.pageMenu-menu
-{
-    position: absolute;
-    left: 0;
-    width: 150px;
-    top: 50px;
-    bottom: 25px;
-    height: auto;
-    
-    overflow: hidden;
-}
-
-.pageFooter
-{
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: auto;
-    bottom: 0;
-    height: 25px;
-    top: auto;
-}
-
-.pageFooterBox
-{
-    text-align: center;
-    color: #444;
-    font: normal 1.2rem sans-serif;
-    padding-top: 5px;
-}
-
-.pageContentWrapper
-{
-    position: absolute;
-    left: 0;
-    right: 0px;
-    width: auto;
-    top: 50px;
-    bottom: 25px;
-    height: auto;
-    
-    overflow: hidden;
-    border: none;
-}
-
-.pageContentWrapper-menu
-{
-    position: absolute;
-    left: 150px;
-    right: 0;
-    width: auto;
-    top: 50px;
-    bottom: 25px;
-    height: auto;
-    
-    overflow: hidden;
-    
-    border: 5px solid #080;
-    border-right: none;
-    border-radius: 3px 0 0 3px;
-}
-
-.pageContent
-{
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: auto;
-    top: 0;
-    bottom: 0;
-    height: auto;
-    
-    overflow: auto;
-    background-color: white;
+    background-color: #f8f8f8;
 }
 
 /*******************************************************************
  ** page header
  *******************************************************************/
 
+.pageHeader_normal,
+.pageHeader-bare
+{
+    box-sizing: border-box;  
+    
+    position: absolute;
+    left:   0;
+    right:  0;
+    top:    0;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+        
+    overflow: visible;
+    background-image: linear-gradient(to bottom, #bbb, #f8f8f8);
+}
+
+.environmentStage .pageHeader_normal,
+.environmentStage .pageHeader-bare
+{
+    background-image: linear-gradient(to bottom, #00f, #f8f8f8);
+}
+
+.environmentProduction .pageHeader_normal,
+.environmentProduction .pageHeader-bare
+{
+    background-image: linear-gradient(to bottom, #f00, #f8f8f8);
+}
+
+
+/* the left side of the header; contains the app logo and title */
+.pageHeader-left
+{
+    padding-top: 5px;
+    flex-grow: 1;
+}
+
+#pageHeaderLink
+{
+}
+
 #pageHeaderLogoImage
 {
-    float: left;
-    padding-top: 7px;
-    padding-left: 5px;
+    padding: 0 5px;
 }
 
 #pageHeaderLogoText
 {
-    color: #080;
+    color: #000;
     font: italic bold 3rem sans-serif;
     text-shadow: -1px -1px #fff,  1px  1px #444;
-    padding-top: 5px;
-    padding-left: 5px;
-    display: block;
-    float: left;
+    display: inline-block;
+    vertical-align: top;
 }
 
-#pageHeaderLeft
+/* the right side of the header; contains the project and user dropdown menus */
+.pageHeader-right
 {
-    float: left;
+    flex-shrink: 0;
+}
+.pageHeader-right > *
+{
+    margin-right: 5px;
 }
 
-#pageHeaderCenter
+.pageHeader-bare > .pageHeader-right
 {
-    padding: 0 5px;
-    margin: 0;
-    width: 100%;
+    display: none;
+}
+
+/*******************************************************************
+ ** page footer
+ *******************************************************************/
+
+.pageFooter-normal
+{
+    box-sizing: border-box;  
+    
+    position:   absolute;
+    left:       0;
+    right:      0;
+    bottom:     0;
+    height:     30px;
+}
+
+.pageFooter-bare
+{
+    box-sizing: border-box;  
+    
+    position:   absolute;
+    left:       0;
+    right:      0;
+    bottom:     0;
+    height:     30px;
+}
+
+.pageFooterInner
+{
+    vertical-align: middle;
     text-align: center;
+    color: #444;
+    font: normal 1.2rem sans-serif;
+    padding-top: 8px;
 }
 
-#pageHeaderRight
+/*******************************************************************
+ ** top flex menu
+ *******************************************************************/
+
+.topMenu
 {
-    padding: 0 5px;
-    text-align: right;
-    float: right;
+    box-sizing:         border-box;
+    position:           absolute;
+    left:               0;
+    right:              0;
+    top:                50px;
+    height:             50px;
+    
+    display:            flex;
+    align-items:        flex-end;
+    
+    overflow:           visible;
+    border-bottom:      1px solid white;
+    background-color:   #f8f8f8;
+}
+.topMenu:before
+{
+    content: "";
+    display: block;
+    position: absolute;
+    top:    10px;
+    height: 1;
+    left:   0;
+    right:  0;
+    border-top: 1px solid #C0E2D4;
 }
 
+.topMenuLeft
+{
+    box-sizing: border-box;  
+    height: 38px;
+    border: 1px outset #fff;
+    border-left: none;
+    background-image: linear-gradient(to bottom, #E3F2EC, #C0E2D4);
+
+    width:       20px;
+    flex-grow:   0;
+    flex-shrink: 0;
+}        
+        
+.topMenuRight
+{
+    box-sizing: border-box;  
+    height: 38px;
+    border: 1px outset #fff;
+    border-right: none;
+    background-image: linear-gradient(to bottom, #E3F2EC, #C0E2D4);
+
+    flex-grow: 1;
+}        
+        
+.topMenuItem
+{
+    box-sizing: border-box;  
+    height: 38px;
+    flex-grow:   0;
+    flex-shrink: 0;
+
+    border: 1px outset #fff;
+    background-image: linear-gradient(to bottom, #E3F2EC, #C0E2D4);
+
+    padding: 7px 15px 0 15px;
+    font:   bold 1.8rem sans-serif;               
+    color:  #874B46;
+    cursor: pointer;
+}        
+.topMenuItem:hover 
+{
+    background-image: linear-gradient(to bottom, #C0E2D4, #E3F2EC);
+    text-decoration:  underline;
+}
+
+.topMenuSelected
+{
+    box-sizing: border-box;  
+    position: relative;
+    top: 2px;
+    height: 48px;
+    padding: 17px 15px 0 15px;
+
+    flex-grow:   0;
+    flex-shrink: 0;
+
+    border: 1px outset #fff;
+    border-bottom: none;
+    border-radius: 15px 15px 0 0;
+    
+    color: #fff;
+    font: bold 1.8rem sans-serif;               
+    cursor: pointer;
+    
+    background-color: #366;
+    background-image: radial-gradient(ellipse, #588 0px, #366 40px);
+}        
+.topMenuSelected:hover 
+{
+    text-decoration: underline;
+}
+
+.topMenuSelected > span
+{
+}
+ 
+/*******************************************************************
+ ** left menu 
+ *******************************************************************/
+ 
+.leftMenu
+{
+    box-sizing: border-box;  
+
+    position: absolute;
+    left:   0;
+    width:  150px;
+    top:    100px;
+    bottom: 30px;
+    height: auto;
+
+    overflow-y: auto;  
+    overflow-x: hidden;
+
+    border-top: 10px solid #366;    
+    background-color: #f8f8f8;
+    background-image: linear-gradient(to bottom, #CBE5DA, #CBE5DA, #f8f8f8);
+}
+
+.leftMenu-section
+{
+    cursor: normal;
+    white-space: nowrap;
+    word-break: keep-all;
+
+    font: bold 1.5rem sans-serif;
+    color: #000;
+    
+    padding: 5px;
+    background-image: linear-gradient(to bottom, #aaa, #eee);
+    border-top:    1px solid #ddd;
+    border-bottom: 1px solid #ccc;
+}
+
+.leftMenu-item
+{
+    color:  #874B46;
+    font: bold 1.5rem sans-serif;
+    white-space: nowrap;
+
+    cursor: pointer;
+    padding: 3px 10px;
+    margin:  3px 0 3px 10px;
+
+    border: 2px solid transparent;
+    border-right: none;
+    border-radius: 15px 0 0 15px;
+}
+
+.leftMenu-item:hover
+{
+    text-decoration: underline;
+    border-color: #888;
+}
+
+.leftMenu-selection
+{
+    font: bold 1.5rem sans-serif;
+    color: #fff;
+    background-color: #366;
+    background-image: radial-gradient(ellipse at 35px 15px, #588 0px, #366 40px);
+    
+    padding: 4px 10px;
+    margin:  3px 0 3px 10px;
+    
+    border: 1px outset #fff;
+    border-right: none;
+    border-radius: 15px 0 0 15px;
+    
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.leftMenu-selection:hover
+{
+    text-decoration: underline;
+}
+
+.leftMenu-selection > span
+{
+}
 
 /*******************************************************************
  ** page title
  *******************************************************************/
 
-.pageTitle
+.pageTitle-bare
 {
-    background-color: #ccc;
-    border-top: thin solid #aaa;
-    border-bottom: thin solid #aaa;
-    width: 100%;
-    padding-left: 5px;
+    display: flex;
 }
 
-.pageTitleButton
+.pageTitle-simple
 {
-    vertical-align: middle;
-    padding: 2px;
-    margin: 0;
+    box-sizing: border-box;  
+
+    position: absolute;
+    left:   0;
+    right:  0;
+    top:    100px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    
+    overflow: hidden;
+    background-color: #366;
+    border-radius: 0 15px 0 0;
 }
 
-.pageTitleButton:disabled
+.pageTitle-nested
 {
-    background-color: #888;
-    border: 1px solid #888;
+    box-sizing: border-box;  
+
+    position: absolute;
+    left:   150px;
+    right:  0;
+    top:    100px;
+    height: 40px;
+    
+    display: flex;
+    align-items: center;
+    
+    overflow: hidden;
+    
+    background-color: #366;
+    border-radius: 0 15px 0 0;
 }
 
-.pageTitleText
+.pageTitle-left
 {
-    font: normal 2em sans-serif;
-    color: #000;
-    vertical-align: middle;
-    padding: 3px 0 3px 10px;
-    width: 100%;
+    flex-grow: 1;
+    padding-left: 10px;
 }
 
-/*******************************************************************
- ** common spacing 
- *******************************************************************/
-
-.pad        
-{ 
-	padding: 10px;
-}
-
-.padVertical
+.pageTitle-right
 {
-    padding-top:    10px;
-    padding-bottom: 10px;
-}
-
-.padHorizontal
-{
-    padding-left:  10px;
+    flex-shrink: 0;
     padding-right: 10px;
 }
 
-.padTop                 { padding-top: 10px;    }
-.padTopChildren > *     { padding-top: 10px;    }
+.pageTitle-nameText
+{
+    color: #fff;
+    font: bold 2.2rem sans-serif;
+    white-space: nowrap;
+}
 
-.padBottom              { padding-bottom: 10px; }
-.padBottomChildren > *  { padding-bottom: 10px; }
+.pageTitle-projectText
+{
+    color: #ddd;
+    font: normal 1.6rem sans-serif;
+    white-space: nowrap;
+    margin-left: 10px;
+}
 
-.padLeft                { padding-left: 10px;   }
-.padLeftChildren > *    { padding-left: 10px;   }
+.pageTitle-link
+{
+    color: #eee;
+    font: normal 1.2rem sans-serif;
+    white-space: nowrap;
+    vertical-align: middle;
+    margin-right: 5px;
+    text-decoration: none;
+}
+.pageTitle-link:hover
+{
+    text-decoration: underline;
+}
 
-.padRight               { padding-right: 10px;  }
-.padRightChildren > *   { padding-right: 10px;  }
+.pageTitle-help
+{
+    box-sizing: border-box;
+  
+    cursor: pointer;
+    vertical-align: middle;
+  
+    background:   url(pageHelp.png) no-repeat;
+    height:       16px;
+    width:        16px; 
+    padding-left: 16px; /* equal to width */
+}
 
-.margin         		{ margin:        10px;  }
-.marginLeft     		{ margin-left:   10px;  }
-.marginRight    		{ margin-right:  10px;  }
-.marginTop      		{ margin-top:    10px;  }
-.marginBottom   		{ margin-bottom: 10px;	}
+/*******************************************************************
+ ** page content
+ *******************************************************************/
 
-.spaced       > *   	{ margin-bottom: 10px; margin-right: 10px;  }
-.spacedBottom > *   	{ margin-bottom: 10px;                      }
-.spacedRight  > *   	{ margin-right:  10px;                      }
-.spacedLeft   > *   	{ margin-left:   10px;                      }
+.pageContent-bare
+{
+    position: absolute;
+    left:   0;
+    right:  0;
+    top:    50px;
+    bottom: 30px;
+    height: auto;
+    
+    overflow: hidden;
+}
 
-.gapOuter          	 	{ padding: 10px  0px  0px 10px }
-.gapInner > *			{ margin:   0px 10px 10px  0px }
+.pageContent-simple
+{
+    position: absolute;
+    left:   0;
+    right:  0;
+    width:  auto;
+    top:    140px;
+    bottom: 30px;
+    height: auto;
+    
+    overflow: hidden;
+    background-color: #eee;
 
-.gap          			{ padding: 10px  0px  0px 10px }
-.gap > *      			{ margin:   0px 10px 10px  0px }
+    border: 10px solid #366;
+    border-top: none;
+    border-radius: 0 0 15px 15px;
+}
 
+.pageContent-nested
+{
+    position: absolute;
+    left:   150px;
+    right:  0;
+    width:  auto;
+    top:    140px;
+    bottom: 30px;
+    height: auto;
+    
+    overflow: hidden;
+    background-color: #eee;
+    
+    border: 10px solid #366;
+    border-top: none;
+    border-radius: 0 0 15px 15px;
+}
+
+.pageContentInner
+{
+    position: absolute;
+    left:   0;
+    right:  0;
+    width:  auto;
+    top:    0;
+    bottom: 0;
+    height: auto;
+    
+    overflow: auto;
+}
+
+/*******************************************************************
+ ** form area 
+ *******************************************************************/
+
+.formFilter
+{
+    /* 
+     * The section that contains the filter, 
+     * as well as the refresh and add buttons. 
+     */
+    
+    box-sizing: border-box;
+    height: 50px;  
+    
+    background-color: #eed;
+    border: 1px outset #fff;
+}
+
+.formBanner
+{
+    /* 
+     * The top section used to display a selected value.
+     * This contains the title and subtitle text, and the edit button(s).  
+     */
+     
+    box-sizing: border-box;
+    height: 50px;  
+     
+    display: flex;
+    align-items: center;
+    
+    background-color: #bdc;
+    background-image: linear-gradient(to bottom, #ced, #bdc);
+    border: 1px outset #fff;
+}
+
+.formTitle
+{
+    /* The title text, displayed inside the banner. */
+    font: bold 1.6rem sans-serif;
+}
+
+.formSubtitle
+{
+    /* The subtitle text, displayed inside the banner. */
+    font: italic 1.2rem sans-serif;
+}
+
+.formHeader
+{
+    /* Displayed below the banner, contains the save/cancel buttons. */
+
+    box-sizing: border-box;
+    height: 50px;  
+
+    display: flex;
+    align-items: center;
+
+    background-color: #eed;
+    border: 1px outset #fff;
+}
+
+.formHeaderText
+{
+    /* Text displayed inside the banner. */
+    font: italic 1.8rem sans-serif;
+}
+
+.formFooter
+{
+    /* Displayed at the bottom, repeats the save/cancel buttons. */
+
+    box-sizing: border-box;
+    height: 50px;  
+
+    display: flex;
+    align-items: center;
+
+    background-color: #eed;
+    border: 1px outset #fff;
+}
+
+.formBody
+{
+    /* The main center section where fields are displayed and edited. */
+    
+    border: 1px outset #fff;
+    background-color: #ffe;
+}
+
+.formBodyWarning
+{
+    /* The main center section where fields are displayed and edited. */
+    background-color: #fee;
+    border: 1px outset #fff;
+}
+
+.formSectionLeft
+{
+    flex-grow:   1;
+    flex-shrink: 1;
+    
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.formSectionRight
+{
+    flex-grow:   0;
+    flex-shrink: 0;
+    
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.formEmpty
+{
+    background-color: #ffe;
+    font: normal 1.4rem sans-serif;
+    padding: 10px;
+}
+
+.formHelp
+{
+    box-sizing: border-box;
+    
+    height:       11px;
+    width:        11px; 
+    padding-left: 11px; /* equal to width */
+    
+    cursor: help;
+    vertical-align: middle;
+    background:   url(fieldHelp11.png) no-repeat;
+}
 
 /*******************************************************************
  ** text field 
@@ -250,14 +631,14 @@ body
     margin: 0;
     padding: 5px;
     font: normal 1.5rem sans-serif;
-    background-color: #ffd;
+    background-color: #fff;
     
     border-top:    1px solid #999;
     border-left:   1px solid #999;
     border-bottom: 1px solid #bbb;
     border-right:  1px solid #bbb;
     
-    transition: border 200ms;
+    transition: border 100ms;
 }
 
 .textField:hover
@@ -305,8 +686,6 @@ body
 
 .textFieldReadOnly:hover
 {
-    -moz-box-shadow:    inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
     box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
@@ -314,8 +693,6 @@ body
 {
     border: 1px solid #48f;
     
-    -moz-box-shadow:    inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
     box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
@@ -328,7 +705,7 @@ body
     margin: 0;
     padding: 3px;
     font: normal 1.5rem sans-serif;
-    background-color: #ffd;
+    background-color: #fff;
     
     border-top:    1px solid #999;
     border-left:   1px solid #999;
@@ -342,8 +719,6 @@ body
 
 .dropdown:hover
 {
-    -moz-box-shadow:    inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
     box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
@@ -352,8 +727,6 @@ body
     border: 1px solid #48f;
     background-color: #fff;
     
-    -moz-box-shadow:    inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
     box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
@@ -405,21 +778,18 @@ body
 
 .fieldset-legend-default
 {
+    font: bold 1.4rem sans-serif;
     padding: 2px 14px;
-    background-color: #ccc;
-    border: 2px groove #eee;
-    
-    -moz-border-radius:     10px;
-    -webkit-border-radius:  10px;
-    border-radius:          10px;
+    background-color: #ddc;
+    border: 2px groove #fff;
+    border-radius: 10px;
 }
 
 .fieldset-body-default
 {
-    background-color: #ddd;
-    border: 2px groove #eee;
+    background-color: #eed;
+    border: 2px groove #fff;
 }
-
 
 
 /*******************************************************************
@@ -570,7 +940,7 @@ td.dataTableEven
 
 .label
 {
-    font: bold 1.3rem sans-serif;
+    font: bold 1.5rem sans-serif;
     color: #000;
     white-space: nowrap;
 }
@@ -584,7 +954,7 @@ td.dataTableEven
 
 
 /*******************************************************************
- ** Fields
+ ** field table
  *******************************************************************/
 
 table.fields
@@ -592,6 +962,10 @@ table.fields
     border-collapse: collapse;
     border-spacing: 0;
     padding: 0;
+}
+
+tr.fields
+{
 }
 
 td.fields
@@ -611,12 +985,38 @@ td.fieldsMore
 
 td.fieldsLeft
 {
+    vertical-align: middle;
 }
 
 td.fieldsRight
 {
     padding-left: 3px;
     width: 100%;
+}
+
+/*******************************************************************
+ ** field layout
+ *******************************************************************/
+
+.fieldLayout
+{
+}
+
+.fieldLayoutRow
+{
+    margin-top: 15px;
+}
+.fieldLayoutRow:first-child
+{
+    margin-top: 0;
+}
+
+.fieldLayoutLabel
+{
+    font: bold 1.3rem sans-serif;
+    color: #000;
+    white-space: nowrap;
+    vertical-align: middle;
 }
 
 /*******************************************************************
@@ -740,49 +1140,6 @@ a.tabx:hover
 }
 
 /*******************************************************************
- ** dialog
- *******************************************************************/
-
-.dialog-box-default
-{
-    border: 1px solid #888;
-}
-
-.dialog-header-default
-{
-    background-color: #ff0;
-    border-bottom: 1px solid #888;
-    font: bold 2rem sans-serif; 
-    padding: 10px;
-}
-
-.dialog-body-default
-{
-    padding: 10px;
-    overflow: auto;
-    
-    /* should usually match the normal page background. */
-    background-color: #eee;
-    
-    /* size should be set explicitly, but can be overridden in html style */
-    height: 300px;
-}
-
-.dialog-footer-default
-{
-    border-top: 1px solid #888;
-    background-color: white;
-    padding: 5px;
-    
-    font: normal 1.2rem sans-serif;
-    text-align: center;
-}
-
-.dialog-error-default
-{
-}
-
-/*******************************************************************
  ** error
  *******************************************************************/
 
@@ -827,76 +1184,12 @@ a.tabx:hover
 }
 
 
-/*******************************************************************
- ** app
- *******************************************************************/
- 
- .leftMenu-box
- {
-    padding-top: 50px;
-    padding-left: 10px;
- }
- 
-.leftMenu-item
-{
-    cursor: pointer;
-    font: normal 1.4rem sans-serif;
-    
-    padding: 5px 5px 5px 10px;
-    margin-bottom: 2px;
-    
-    border: 1px solid transparent;
-    border-right: none;
-}
-
-.leftMenu-item:hover
-{
-    background-color: #cec;
-    
-    border: 1px solid #080;
-    border-right: none;
-    
-    border-radius:          10px 0 0 10px;
-    box-shadow:             5px 5px 5px #ccc;
-}
-
-.leftMenu-selected
-{
-    color: #000;
-    cursor: pointer;
-    font: bold 1.4rem sans-serif;
-    
-    padding: 5px 5px 5px 10px;
-    margin-bottom: 2px;
-    
-    background-color: #9b9;
-    
-    border: 1px solid #080;
-    border-right: none;
-    
-    border-radius:          10px 0 0 10px;
-    box-shadow:             5px 5px 5px #ccc;
-}
-
-.leftMenu-selected:hover
-{
-    color: #000;
-}
-
-.leftMenu-link
-{
-    font: inherit;
-    color: inherit;
-    text-decoration: inherit;
-}
-.leftMenu-link:hover
-{
-    color: inherit;
-    text-decoration: inherit;
-}
 
 /*******************************************************************
  ** group (default)
+ ** 
+ ** The default groups are designed to vertically expand as needed
+ ** based on the contents of the body.
  *******************************************************************/
 
 /**
@@ -904,121 +1197,84 @@ a.tabx:hover
  */
 .group
 {
-}
-
-.groupWrapper
-{
-    border: 1px solid #aaa;
-    border-top-left-radius:  5px;
-    border-top-right-radius: 5px;
+    border-top:  1px solid #aaa;
+    border-left: 1px solid #aaa;
+    border-top-left-radius:  10px;
+    border-top-right-radius: 10px;
+    
     box-shadow: 5px 5px 5px #ccc;
-    background-color: #eee;
+    overflow: hidden;
+    background-color: #e8e8e8;
+}
+.group > *
+{
+    border-top:    1px solid #fff;
+    border-left:   1px solid #fff;
+    border-bottom: 1px solid #aaa;
+    border-right:  1px solid #aaa;
 }
 
-.groupHeader
+.groupBlock
 {
+    display: flex;
+    flex-direction: column;
+}
+
+.groupInline
+{
+    display: inline-flex;
+    flex-direction: column;
+}        
+
+.groupBanner
+{
+    flex-grow:   0;
+    flex-shrink: 0;
+    overflow: hidden;
+    
+    border-top-left-radius:  10px;
+    border-top-right-radius: 10px;
+    
+    font: bold 2.0rem sans-serif;
     background-color: #ccc;
 }
 
-.groupTitle
+.groupBannerTitle
 {
     padding: 5px 10px;
     font: bold 2rem sans-serif;
-    text-shadow: 1px 1px #fff, -1px -1px #444;
     white-space: nowrap;
     float: left;
 }
 
+.groupHeader
+{
+    flex-grow:   0;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
 .groupBody
 {
+    flex-grow:   1;
+    flex-shrink: 1;
 }
 
 .groupFooter
 {
+    flex-grow:   0;
+    flex-shrink: 0;
+    overflow: hidden;
 }
 
 .groupDivider
 {
-    border-top: 1px solid #aaa;
+    box-sizing: border-box;  
+    height: 2px;
+    border-top:    1px solid #aaa;
     border-bottom: 1px solid #fff;
-    clear: both;
 }
-
-/**** fixed *****/
-
-.groupWrapper_fixed
-{
-    position: relative;
-}
-
-.groupHeader_fixed
-{
-    position: absolute;
-    left:   0;
-    right:  0;
-    top:    0;
-    height: 36px;
-}
-
-.groupBody_fixedNoFooter
-{
-    position: absolute;
-    left:   0;
-    right:  0;
-    top:    36px;
-    bottom: 0;
-    overflow: auto;
-}
-
-.groupBody_fixedLinkFooter
-{
-    position: absolute;
-    left:   0;
-    right:  0;
-    top:    36px;
-    bottom: 36px;
-    overflow: auto;
-}
-
-.groupBody_fixedButtonFooter
-{
-    position: absolute;
-    left:   0;
-    right:  0;
-    top:    36px;
-    bottom: 46px;
-    overflow: auto;
-}
-
-.groupFooter_fixedLink
-{
-    position: absolute;
-    left:   0;
-    right:  0;
-    bottom: 0;
-    height: 36px;
-}
-
-.groupFooter_fixedButton
-{
-    position: absolute;
-    left:   0;
-    right:  0;
-    bottom: 0;
-    height: 46px;
-}
-
-/***** fill *****/
-
-.groupWrapper_fill
-{
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-}
-
+        
 
 /*******************************************************************
  ** block ui 
@@ -1049,17 +1305,28 @@ a.tabx:hover
 
 .divider-inner-groove
 {
-	height: 0px;
+    box-sizing: border-box;  
+    height: 2px;
     border-top:    1px solid #aaa;
     border-bottom: 1px solid #fff;
 }
 
 .divider-inner-bevel
 {
-	height: 0px;
+    box-sizing: border-box;  
+    height: 2px;
     border-top:    1px solid #fff;
     border-bottom: 1px solid #aaa;
 }
+
+.divider
+{
+    box-sizing: border-box;  
+    height: 2px;
+    border-top:    1px solid #aaa;
+    border-bottom: 1px solid #fff;
+}
+
 
 
 /*******************************************************************
@@ -1071,8 +1338,6 @@ a.tabx:hover
     border: 1px solid #444;
     padding: 5px;
     
-    -moz-box-shadow:    5px 5px 5px #ccc;
-    -webkit-box-shadow: 5px 5px 5px #ccc;
     box-shadow:         5px 5px 5px #ccc;
 }
 
@@ -1167,3 +1432,386 @@ td.sqlResultValue
 .rightOffset    { right:  10px }
 .topOffset      { top:    10px }
 .bottomOffset   { bottom: 10px }
+
+
+/*******************************************************************
+ ** model list 
+ *******************************************************************/
+
+.modelList
+{
+    position: absolute;
+    left:   0;
+    right:  0;
+    width:  auto;
+    top:    0;
+    bottom: 0;
+    height: auto;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    background-color: #aaa;    
+    background-image: url("bgLightTexture.png");
+}
+
+.modelList-item
+{
+    box-sizing: border-box;  
+    height: 50px;
+    
+    display: flex;
+    align-items: center;
+    
+	cursor: pointer;
+	border: 1px outset #fff;
+    background-color: #eee;
+    background-image: linear-gradient(to bottom, #eee, #ddd);
+}
+.modelList-item:hover
+{
+    background-color: #ddd;
+    background-image: linear-gradient(to bottom, #ddd, #ccc);
+}
+.modelList-item:first-child
+{
+    border-top: none;
+}
+
+.modelList-itemSelected
+{
+    background-color: #bdc;
+    background-image: linear-gradient(to bottom, #ced, #bdc);
+}
+.modelList-itemSelected:hover
+{
+    background-color: #acb;
+    background-image: linear-gradient(to bottom, #bdc, #acb);
+}
+
+.modelList-itemLeftBox
+{
+    flex-grow: 1;
+    overflow: hidden;
+    padding-left: 5px;
+}
+
+.modelList-itemRightBox
+{
+    flex-shrink: 0;
+    padding: 5px;
+    /* visibility: hidden; */
+}
+.modelList-item:hover .modelList-itemRightBox
+{
+    visibility: visible;
+}
+
+.modelList-itemTitle
+{
+    font: bold 1.6rem sans-serif;
+    white-space: nowrap;
+}
+
+.modelList-itemSubtitle
+{
+    font: italic 1.2rem sans-serif;
+    white-space: nowrap;
+}
+
+/*******************************************************************
+ ** dragging
+ *******************************************************************/
+ 
+.dragHandle
+{
+    box-sizing: border-box;  
+    width:   15px;
+    height:  16px;
+
+    cursor: move;
+    display: inline-block;
+    background: transparent url("drag.png") no-repeat center;
+    border: 1px solid transparent;
+}
+
+/*******************************************************************
+ ** draggable multi select
+ **
+ ** These styles are tied to the ScDraggableMultiSelect widget.
+ ** Also, javascript in Kmu.dmsToggle() relies on these selectors.
+ *******************************************************************/
+
+.dmsContainer
+{
+    overflow: hidden;
+}
+
+.dmsSelectedHeader
+{
+    box-sizing: border-box;
+    position:   absolute;
+    left:       0;
+    width:      50%;
+    top:        0;
+    height:     30px;
+
+    border: 1px outset #fff;
+    background-color: #eed;
+    font: bold 1.5rem sans-serif;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.dmsAvailableHeader
+{
+    box-sizing: border-box;
+    position:   absolute;
+    left:       50%;
+    right:      0;
+    top:        0;
+    height:     30px;
+    
+    border: 1px outset #fff;
+    background-color: #eed;
+    font: bold 1.5rem sans-serif;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.dmsSelectedList
+{
+    box-sizing: border-box;
+    position:   absolute;
+    left:       0;
+    width:      50%;
+    top:        30px;
+    bottom:     0;
+    
+    overflow-x: hidden;
+    overflow-y: scroll;
+    
+    border: 1px outset #fff;
+    background-color: #aaa;    
+    background-image: url("bgLightTexture.png");
+}
+
+.dmsAvailableList
+{
+    box-sizing: border-box;
+    position:   absolute;
+    left:       50%;
+    right:      0;
+    top:        30px;
+    bottom:     0;
+    
+    overflow-x: hidden;
+    overflow-y: scroll;
+    
+    border: 1px outset #fff;
+    background-color: #aaa;    
+    background-image: url("bgLightTexture.png");
+}
+
+.dmsItem
+{
+    display:     flex;
+    align-items: center;
+
+    padding: 5px;
+    border: 1px outset #fff;
+    background-color: #eee;
+    background-image: linear-gradient(to bottom, #eee, #ddd);
+}
+.dmsItem:first-child
+{
+    border-top: none;
+}
+.dmsItem:hover
+{
+    background-color: #ddd;
+    background-image: linear-gradient(to bottom, #ddd, #ccc);
+}
+
+.dmsSelectedList .dmsItemHandle
+{
+    flex-grow:   0;
+    flex-shrink: 0;
+
+    box-sizing: border-box;  
+    width:   15px;
+    height:  16px;
+
+    cursor: move;
+    display: inline-block;
+    background: transparent url("drag.png") no-repeat center;
+}
+.dmsAvailableList .dmsItemHandle
+{
+    display: none;
+}
+
+.dmsSelectedList .dmsItemPriority
+{
+    flex-grow:   0;
+    flex-shrink: 0;
+
+    box-sizing: border-box;  
+    width: 20px;
+    margin-left: 5px;
+    font: bold 1.4rem sans-serif;
+    padding-bottom: 4px;
+}
+.dmsAvailableList .dmsItemPriority
+{
+    display: none;
+}
+
+.dmsItemText
+{
+    flex-grow:   1;
+    flex-shrink: 1;
+    margin-left: 5px;
+    font: normal 1.4rem sans-serif;
+    padding-bottom: 2px;
+}
+
+.dmsItemToggle
+{
+    flex-grow:   0;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px outset #fff;
+    cursor: pointer;
+}
+.dmsSelectedList .dmsItemToggle
+{
+    background: transparent url("dmsRemove.png") no-repeat center;    
+}
+.dmsAvailableList .dmsItemToggle
+{
+    background: transparent url("dmsAdd.png") no-repeat center;    
+}
+
+.dmsItemField
+{
+}
+
+/*******************************************************************
+ ** dialog
+ *******************************************************************/
+
+.ui-widget-overlay
+{
+    opacity: .5;
+}
+
+.ui-dialog
+{
+    border: none !important;
+    box-shadow: 0 0 3px 3px #666;
+    padding: 0;
+}
+    
+.ui-dialog-title
+{
+    font-size: 2.0rem;
+}
+    
+.dialogNoClose .ui-dialog-titlebar-close 
+{
+    /* optionally hide the default close button */
+    display: none;
+}
+
+.dialogBody
+{
+    background-color: #ffe;
+    padding: 10px;
+}
+
+.dialogFooter
+{
+    background-color: #eed;
+}
+
+/*******************************************************************
+ ** common spacing 
+ **
+ ** These styles should be included at the bottom of the css.
+ ** This way, they will override defaults applied above.  
+ ** For example, the normal .textField (above) sets the default margin to 0, 
+ ** but the spacing styles (below) may override the text field's 0-margin.
+ *******************************************************************/
+
+.pad        
+{ 
+    padding: 10px;
+}
+
+.smallPad        
+{ 
+    padding: 5px;
+}
+
+.padVertical
+{
+    padding-top:    10px;
+    padding-bottom: 10px;
+}
+
+.padHorizontal
+{
+    padding-left:  10px;
+    padding-right: 10px;
+}
+
+.padTop                 { padding-top: 10px;    }
+.padTopChildren > *     { padding-top: 10px;    }
+
+.padBottom              { padding-bottom: 10px; }
+.padBottomChildren > *  { padding-bottom: 10px; }
+
+.padLeft                { padding-left: 10px;   }
+.padLeftChildren > *    { padding-left: 10px;   }
+
+.padRight               { padding-right: 10px;  }
+.padRightChildren > *   { padding-right: 10px;  }
+
+.margin                 { margin:        10px;  }
+.marginLeft             { margin-left:   10px;  }
+.marginRight            { margin-right:  10px;  }
+.marginTop              { margin-top:    10px;  }
+.marginBottom           { margin-bottom: 10px;  }
+
+.smallMargin            { margin:        5px;  }
+.smallMarginLeft        { margin-left:   5px;  }
+.smallMarginRight       { margin-right:  5px;  }
+.smallMarginTop         { margin-top:    5px;  }
+.smallMarginBottom      { margin-bottom: 5px;   }
+
+.childMargin > *        { margin:        10px;  }
+.childMarginLeft > *    { margin-left:   10px;  }
+.childMarginRight > *   { margin-right:  10px;  }
+.childMarginTop > *     { margin-top:    10px;  }
+.childMarginBottom > *  { margin-bottom: 10px;  }
+
+.smallChildMargin > *       { margin:        5px;  }
+.smallChildMarginLeft > *   { margin-left:   5px;  }
+.smallChildMarginRight > *  { margin-right:  5px;  }
+.smallChildMarginTop > *    { margin-top:    5px;  }
+.smallChildMarginBottom > * { margin-bottom: 5px;   }
+
+.gapOuter               { padding: 10px  0px  0px 10px }
+.gapInner > *           { margin:   0px 10px 10px  0px }
+
+.gap                    { padding: 10px  0px  0px 10px }
+.gap > *                { margin:   0px 10px 10px  0px }
+
+.smallGap               { padding:  5px 0px 0px 5px }
+.smallGap > *           { margin:   0px 5px 5px 0px }
+
+/* Intended for a single row of buttons */
+.buttonGap              { padding:     10px }
+.buttonGap > *          { margin-right: 5px }

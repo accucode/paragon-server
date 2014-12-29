@@ -124,6 +124,6 @@ public abstract class KmAbstractVirtualList<T>
     @Override
     public KmVirtualList<T> filter(KmMatchIF<T> m)
     {
-        return new KmFilteredVirtualList<T>(this, m);
+        return new KmFilteredVirtualList<>(this, m);
     }
 }

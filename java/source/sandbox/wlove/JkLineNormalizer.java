@@ -81,7 +81,7 @@ public class JkLineNormalizer
         PrintWriter out;
         out = new PrintWriter(new StringWriter());
 
-        KmList<String> v = Kmu.getLines(original);
+        KmList<String> v = Kmu.parseLines(original);
         for ( String e : v )
             out.println(Kmu.trimTrailing(e));
 

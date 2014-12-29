@@ -102,14 +102,19 @@ public class ScFakeHtmlId
     }
 
     @Override
-    public String getJqueryReference()
-    {
-        return ScJquery.formatIdReference(getId());
-    }
-
-    @Override
     public ScHtmlIdAjax ajax()
     {
-        return new ScHtmlIdAjax(getScript(), this);
+        return new ScHtmlIdAjax(this, getScript());
     }
+
+    //##################################################
+    //# focus
+    //##################################################
+
+    @Override
+    public ScHtmlIdIF getFocusTarget()
+    {
+        return this;
+    }
+
 }

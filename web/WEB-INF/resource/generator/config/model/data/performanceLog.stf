@@ -1,6 +1,12 @@
 model
 : name      = performanceLog
-: comment   = A log for performance metrics.
+: help...   
+    ===
+    A log for performance metrics.  We track a number of performance metrics on the active 
+    system.  This is primarily used as a tool in production to identify hotspots that may
+    require tuning and optimization.  Some care needs to be taken to avoid enabling so many
+    metrics that they the performance logging itself becomes a bottleneck.
+    ===
 
 database
 : alias     = pl
@@ -19,27 +25,27 @@ attributes
 
     field
     : name          = id
-    : comment       = The unique key.
+    : help          = The globally unique identifier.  This is an auto-incrementing integer field.
     : type          = id
     : identity      = true
     : primaryKey    = true
 
     field
     : name      = name
-    : comment   = The name. This is typically something like the name of the servlet or job.
+    : help      = The display name. This is typically something like the name of the servlet or job.
     : type      = text100
     : required  = true
 
     field
     : name      = createdUtcTs
-    : comment   = The approximate time when the task was run. In practice this will be very close to when the task ended but may lag a few milliseconds.
+    : help      = The approximate date and time when the task was run. In practice this will be very close to when the task ended but may lag a few milliseconds.
     : type      = timestamp
     : default   = getNowUtc()
     : required  = true
 
     field
     : name      = durationMs
-    : comment   = The length of the task in milliseconds.
+    : help      = The duration of the task in milliseconds.
     : type      = integer
     : required  = true
 

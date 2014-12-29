@@ -88,11 +88,13 @@ public class KmaEtchedBorder
         g.setColor(_etchType == LOWERED
             ? getShadowColor(c)
             : getHighlightColor(c));
+
         g.drawRect(0, 0, w - 2, h - 2);
 
         g.setColor(_etchType == LOWERED
             ? getHighlightColor(c)
             : getShadowColor(c));
+
         g.drawLine(1, h - 3, 1, 1);
         g.drawLine(1, 1, w - 3, 1);
 
@@ -111,7 +113,10 @@ public class KmaEtchedBorder
     @Override
     public Insets getBorderInsets(Component c, Insets insets)
     {
-        insets.left = insets.top = insets.right = insets.bottom = 2;
+        insets.left = 2;
+        insets.top = 2;
+        insets.right = 2;
+        insets.bottom = 2;
         return insets;
     }
 

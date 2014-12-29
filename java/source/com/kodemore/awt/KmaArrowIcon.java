@@ -248,39 +248,48 @@ public class KmaArrowIcon
     {
         Color oldColor = g.getColor();
         Insets i = getInsets();
+
         x += i.left;
         y += i.top;
         int w = getIconWidth() - i.left - i.right;
         int h = getIconHeight() - i.top - i.bottom;
+
         g.setColor(getColor());
         Polygon p = new Polygon();
+
         if ( isArrowUp() )
         {
             p.addPoint(x, y + h);
             p.addPoint(x + w / 2, y);
             p.addPoint(x + w, y + h);
         }
+
         if ( isArrowDown() )
         {
             p.addPoint(x, y);
             p.addPoint(x + w, y);
             p.addPoint(x + w / 2, y + h);
         }
+
         if ( isArrowLeft() )
         {
             p.addPoint(x, y + h / 2);
             p.addPoint(x + w, y);
             p.addPoint(x + w, y + h);
         }
+
         if ( isArrowRight() )
         {
             p.addPoint(x, y);
             p.addPoint(x, y + h);
             p.addPoint(x + w, y + h / 2);
         }
+
         g.drawPolygon(p);
+
         if ( isFill() )
             g.fillPolygon(p);
+
         g.setColor(oldColor);
     }
 

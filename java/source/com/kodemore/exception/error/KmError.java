@@ -81,6 +81,6 @@ public abstract class KmError
         return sb.toString();
     }
 
-    public abstract void formatProblem(StringBuilder sb);
+    public abstract void formatProblem(StringBuilder out);
 
 }

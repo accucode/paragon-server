@@ -102,7 +102,7 @@ public class KmJsonArray
 
     public KmList<Object> toObjectList()
     {
-        KmList<Object> v = new KmList<Object>();
+        KmList<Object> v = new KmList<>();
 
         int n = size();
         for ( int i = 0; i < n; i++ )
@@ -172,7 +172,7 @@ public class KmJsonArray
 
     public KmList<String> toStringList()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         for ( Object e : this )
             v.add((String)e);
@@ -257,6 +257,15 @@ public class KmJsonArray
     }
 
     //##################################################
+    //# literals
+    //##################################################
+
+    public void addLiteral(String value)
+    {
+        addObject(new KmJsonLiteral(value));
+    }
+
+    //##################################################
     //# map
     //##################################################
 
@@ -289,7 +298,7 @@ public class KmJsonArray
 
     public KmList<KmJsonMap> getAllAsMaps()
     {
-        KmList<KmJsonMap> v = new KmList<KmJsonMap>();
+        KmList<KmJsonMap> v = new KmList<>();
 
         for ( Object e : toObjectList() )
             v.add((KmJsonMap)e);

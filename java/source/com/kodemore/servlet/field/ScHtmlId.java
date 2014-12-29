@@ -19,11 +19,11 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-
 package com.kodemore.servlet.field;
 
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
+import com.kodemore.servlet.script.ScSimpleBlockScript;
 import com.kodemore.servlet.utility.ScJquery;
 
 public class ScHtmlId
@@ -40,9 +40,14 @@ public class ScHtmlId
     //# constructor
     //##################################################
 
-    public ScHtmlId(String e, ScBlockScript inner)
+    public ScHtmlId(String htmlId)
     {
-        _htmlId = e;
+        this(htmlId, new ScSimpleBlockScript());
+    }
+
+    public ScHtmlId(String htmlId, ScBlockScript inner)
+    {
+        _htmlId = htmlId;
         _innerScript = inner;
     }
 
@@ -63,14 +68,18 @@ public class ScHtmlId
     }
 
     @Override
-    public String getJqueryReference()
-    {
-        return ScJquery.formatIdReference(getHtmlId());
-    }
-
-    @Override
     public ScHtmlIdAjax ajax()
     {
-        return new ScHtmlIdAjax(_innerScript, this);
+        return new ScHtmlIdAjax(this, _innerScript);
+    }
+
+    //##################################################
+    //# focus
+    //##################################################
+
+    @Override
+    public ScHtmlIdIF getFocusTarget()
+    {
+        return this;
     }
 }

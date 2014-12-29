@@ -55,13 +55,6 @@ public class KmCollection<T>
             add(e.nextElement());
     }
 
-    public void addAll(T... arr)
-    {
-        int n = arr.length;
-        for ( int i = 0; i < n; i++ )
-            add(arr[i]);
-    }
-
     public void replaceAll(Collection<T> e)
     {
         clear();
@@ -76,6 +69,7 @@ public class KmCollection<T>
     {
         if ( e == null )
             return false;
+
         return add(e);
     }
 
@@ -83,6 +77,7 @@ public class KmCollection<T>
     {
         if ( e == null )
             return false;
+
         return addDistinct(e);
     }
 
@@ -90,15 +85,18 @@ public class KmCollection<T>
     {
         if ( contains(e) )
             return false;
+
         return add(e);
     }
 
     public boolean addAllDistinct(Collection<? extends T> v)
     {
         boolean b = false;
+
         for ( T e : v )
             if ( addDistinct(e) )
                 b = true;
+
         return b;
     }
 
@@ -172,10 +170,12 @@ public class KmCollection<T>
     public T getMinimum(Comparator<T> c)
     {
         T min = null;
+
         Iterator<T> i = iterator();
         while ( i.hasNext() )
         {
             T e = i.next();
+
             if ( min == null )
                 min = e;
             else
@@ -207,10 +207,12 @@ public class KmCollection<T>
     public T getMaximum(Comparator<T> c)
     {
         T max = null;
+
         Iterator<T> i = iterator();
         while ( i.hasNext() )
         {
             T e = i.next();
+
             if ( max == null )
                 max = e;
             else
@@ -243,10 +245,12 @@ public class KmCollection<T>
     {
         if ( id == null )
             return null;
+
         Iterator i = iterator();
         while ( i.hasNext() )
         {
             KmIntegerIdIF e = (KmIntegerIdIF)i.next();
+
             if ( id.equals(e.getId()) )
                 return (T)e;
         }
@@ -260,13 +264,15 @@ public class KmCollection<T>
 
     public KmCollection<Integer> collectIds()
     {
-        KmCollection<Integer> v = new KmCollection<Integer>();
+        KmCollection<Integer> v = new KmCollection<>();
+
         Iterator<?> i = iterator();
         while ( i.hasNext() )
         {
             KmIntegerIdIF e = (KmIntegerIdIF)i.next();
             v.add(e.getId());
         }
+
         return v;
     }
 
@@ -284,6 +290,7 @@ public class KmCollection<T>
         for ( T e : v )
             if ( contains(e) )
                 return true;
+
         return false;
     }
 
@@ -297,6 +304,7 @@ public class KmCollection<T>
         for ( T e : this )
             if ( !v.contains(e) )
                 return false;
+
         return true;
     }
 
@@ -349,6 +357,7 @@ public class KmCollection<T>
         int n = size();
         String[] arr = new String[n];
         int j = 0;
+
         Iterator<T> i = iterator();
         while ( i.hasNext() )
         {
@@ -356,6 +365,7 @@ public class KmCollection<T>
             arr[j] = e;
             j++;
         }
+
         return arr;
     }
 
@@ -364,6 +374,7 @@ public class KmCollection<T>
         int n = size();
         Integer[] arr = new Integer[n];
         int j = 0;
+
         Iterator<?> i = iterator();
         while ( i.hasNext() )
         {
@@ -371,6 +382,7 @@ public class KmCollection<T>
             arr[j] = e;
             j++;
         }
+
         return arr;
     }
 
@@ -404,16 +416,19 @@ public class KmCollection<T>
 
     public KmCollection<T> getShallowCopy()
     {
-        KmCollection<T> v = new KmCollection<T>();
+        KmCollection<T> v;
+        v = new KmCollection<>();
         v.addAll(this);
         return v;
     }
 
     public KmCollection<T> getDeepCopy()
     {
-        KmCollection<T> v = new KmCollection<T>();
+        KmCollection<T> v = new KmCollection<>();
+
         for ( T e : this )
             v.add(KmUnchecked.getCopy(e));
+
         return v;
     }
 
@@ -461,9 +476,11 @@ public class KmCollection<T>
 
     public <K> KmCollection<K> collect(KmAdaptorIF<T,K> a)
     {
-        KmCollection<K> v = new KmCollection<K>();
+        KmCollection<K> v = new KmCollection<>();
+
         for ( T e : this )
             v.add(a.getValue(e));
+
         return v;
     }
 
@@ -474,10 +491,12 @@ public class KmCollection<T>
 
     public KmCollection<T> select(KmMatchIF<T> m)
     {
-        KmCollection<T> v = new KmCollection<T>();
+        KmCollection<T> v = new KmCollection<>();
+
         for ( T e : this )
             if ( m.matches(e) )
                 v.add(e);
+
         return v;
     }
 
@@ -491,6 +510,7 @@ public class KmCollection<T>
         for ( T e : this )
             if ( m.matches(e) )
                 return e;
+
         return null;
     }
 
@@ -501,10 +521,12 @@ public class KmCollection<T>
 
     public KmCollection<T> reject(KmMatchIF<T> m)
     {
-        KmCollection<T> v = new KmCollection<T>();
+        KmCollection<T> v = new KmCollection<>();
+
         for ( T e : this )
             if ( !m.matches(e) )
                 v.add(e);
+
         return v;
     }
 
@@ -526,7 +548,13 @@ public class KmCollection<T>
         removeAll(a.getMatch(value));
     }
 
+    @SuppressWarnings("unchecked")
     public T selectInSequence(KmMatchIF<T> first, KmMatchIF<T>... arr)
+    {
+        return selectInSequence(first, KmList.createWith(arr));
+    }
+
+    public T selectInSequence(KmMatchIF<T> first, List<KmMatchIF<T>> arr)
     {
         T e = selectFirst(first);
         if ( e != null )
@@ -547,7 +575,7 @@ public class KmCollection<T>
     public boolean containsMatch(KmMatchIF<T> a, KmMatchIF<T> b)
     {
         KmCompositeMatch<T> m;
-        m = new KmCompositeMatch<T>();
+        m = new KmCompositeMatch<>();
         m.add(a);
         m.add(b);
         return containsMatch(m);
@@ -561,6 +589,7 @@ public class KmCollection<T>
         for ( T e : this )
             if ( m.matches(e) )
                 return true;
+
         return false;
     }
 
@@ -570,17 +599,21 @@ public class KmCollection<T>
 
     public KmSet<T> toSet()
     {
-        KmSetImpl<T> v = new KmSetImpl<T>();
+        KmSetImpl<T> v = new KmSetImpl<>();
+
         for ( T e : this )
             v.add(e);
+
         return v;
     }
 
     public <K> KmSet<K> toSet(KmAdaptorIF<T,K> a)
     {
-        KmSet<K> v = new KmSetImpl<K>();
+        KmSet<K> v = new KmSetImpl<>();
+
         for ( T e : this )
             v.add(a.getValue(e));
+
         return v;
     }
 
@@ -591,17 +624,21 @@ public class KmCollection<T>
 
     public <K, V> KmMap<K,V> toMap(KmAdaptorIF<T,K> keyAdaptor, KmAdaptorIF<T,V> valueAdaptor)
     {
-        KmMap<K,V> m = new KmMap<K,V>();
+        KmMap<K,V> m = new KmMap<>();
+
         for ( T e : this )
             m.put(keyAdaptor.getValue(e), valueAdaptor.getValue(e));
+
         return m;
     }
 
     public <K> KmMap<K,T> toMap(KmAdaptorIF<T,K> keyAdaptor)
     {
-        KmMap<K,T> m = new KmMap<K,T>();
+        KmMap<K,T> m = new KmMap<>();
+
         for ( T e : this )
             m.put(keyAdaptor.getValue(e), e);
+
         return m;
     }
 
@@ -614,17 +651,19 @@ public class KmCollection<T>
         KmAdaptorIF<T,K> keyAdaptor,
         KmAdaptorIF<T,V> valueAdaptor)
     {
-        KmMap<K,KmCollection<V>> map = new KmMap<K,KmCollection<V>>();
+        KmMap<K,KmCollection<V>> map = new KmMap<>();
         for ( T e : this )
         {
             K key = keyAdaptor.getValue(e);
             V value = valueAdaptor.getValue(e);
+
             KmCollection<V> list = map.get(key);
             if ( list == null )
             {
-                list = new KmCollection<V>();
+                list = new KmCollection<>();
                 map.put(key, list);
             }
+
             list.add(value);
         }
         return map;
@@ -632,24 +671,41 @@ public class KmCollection<T>
 
     public <K> KmMap<K,KmCollection<T>> toMapList(KmAdaptorIF<T,K> keyAdaptor)
     {
-        KmMap<K,KmCollection<T>> m = new KmMap<K,KmCollection<T>>();
+        KmMap<K,KmCollection<T>> m = new KmMap<>();
+
         for ( T e : this )
         {
             K key = keyAdaptor.getValue(e);
             KmCollection<T> v = m.get(key);
+
             if ( v == null )
             {
-                v = new KmCollection<T>();
+                v = new KmCollection<>();
                 m.put(key, v);
             }
+
             v.add(e);
         }
+
         return m;
     }
 
     public KmList<T> toList()
     {
-        return new KmList<T>(this);
+        return new KmList<>(this);
+    }
+
+    public KmList<T> toList(Comparator<T> c)
+    {
+        KmList<T> v;
+        v = toList();
+        v.sortOn(c);
+        return v;
+    }
+
+    public KmList<T> toList(KmMetaProperty<T,?> p)
+    {
+        return toList(p.getComparator());
     }
 
     //##################################################

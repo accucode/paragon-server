@@ -95,17 +95,17 @@ public class KmConsoleMeter
 
         _lastPercent = percent;
         backspace(4);
-        StringBuilder sb = new StringBuilder();
+        StringBuilder out = new StringBuilder();
 
         if ( percent < 10 )
-            sb.append(" ");
+            out.append(" ");
 
         if ( percent < 100 )
-            sb.append(" ");
+            out.append(" ");
 
-        sb.append(percent);
-        sb.append("%");
-        print(sb);
+        out.append(percent);
+        out.append("%");
+        print(out);
     }
 
     /**
@@ -155,10 +155,11 @@ public class KmConsoleMeter
     public static void main(String args[])
     {
         int n = 21474835;
-        KmConsoleMeter m;
-        m = new KmConsoleMeter("test", n);
+
+        KmConsoleMeter m = new KmConsoleMeter("test", n);
         for ( int i = 0; i < n; i++ )
             m.meter();
+
         m.stop();
     }
 

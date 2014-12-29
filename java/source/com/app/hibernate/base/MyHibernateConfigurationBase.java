@@ -18,10 +18,14 @@ public abstract class MyHibernateConfigurationBase
     //##################################################
 
     @Override
-    protected void addMappings()
+    protected void addCustomMappings()
     {
-        addMapping("account");
+        addMapping("applicationLog");
+        addMapping("applicationLogTrace");
+        addMapping("attentionGroup");
         addMapping("autoSignIn");
+        addMapping("category");
+        addMapping("depot");
         addMapping("download");
         addMapping("email");
         addMapping("emailPart");
@@ -29,16 +33,24 @@ public abstract class MyHibernateConfigurationBase
         addMapping("file");
         addMapping("hibernateCacheTest");
         addMapping("invitation");
+        addMapping("member");
+        addMapping("memberSkill");
         addMapping("passwordReset");
         addMapping("patch");
         addMapping("performanceLog");
+        addMapping("powerType");
+        addMapping("product");
+        addMapping("project");
+        addMapping("region");
         addMapping("serverSession");
         addMapping("settings");
-        addMapping("systemLog");
-        addMapping("systemLogTrace");
+        addMapping("shipCarrier");
+        addMapping("shipMethod");
+        addMapping("skill");
         addMapping("user");
-        addMapping("userAccount");
         addMapping("userActivation");
+        addMapping("vendor");
+        addMapping("visitType");
     }
 
 }

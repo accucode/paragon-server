@@ -7,7 +7,7 @@ public class JkClassLoader
 {
     public Class<?> myDefineClass(String path)
     {
-        byte[] bytes = Kmu.readByteFile(path);
+        byte[] bytes = Kmu.readFileBytes(path);
         return myDefineClass(bytes);
     }
 

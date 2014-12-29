@@ -5,9 +5,6 @@ package ${package}.property.base;
 import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.log.*;
-import com.kodemore.policy.date.*;
-import com.kodemore.policy.time.*;
-import com.kodemore.policy.weight.*;
 import com.kodemore.property.*;
 import com.kodemore.property.type.*;
 import com.kodemore.time.*;
@@ -33,7 +30,7 @@ $utility.protocol("install")
     private static KmMap<String,${Prefix}PropertyDefinition> installDefinitions()
     {
         KmMap<String,${Prefix}PropertyDefinition> m;
-        m = new KmMap<String,${Prefix}PropertyDefinition>();
+        m = new KmMap<>();
 
 #foreach ( $group in $root.propertyFile.groups )
         // ${group.f_name}
@@ -112,7 +109,7 @@ $utility.protocol("accessing (utility)")
 
     public static KmList<String> getAllGroups()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         for ( ${Prefix}PropertyDefinition e : getAll() )
             v.addDistinct(e.getGroup());
         return v;
@@ -120,7 +117,7 @@ $utility.protocol("accessing (utility)")
 
     public static KmList<${Prefix}PropertyDefinition> getAllInGroup(String group)
     {
-        KmList<${Prefix}PropertyDefinition> v = new KmList<${Prefix}PropertyDefinition>();
+        KmList<${Prefix}PropertyDefinition> v = new KmList<>();
         for ( ${Prefix}PropertyDefinition e : getAll() )
             if ( e.hasGroup(group) )
                 v.add(e);

@@ -50,12 +50,12 @@ public class KmBlockPath
 
     public KmBlockPath()
     {
-        _blocks = new KmList<KmBlock>();
+        _blocks = new KmList<>();
     }
 
     public KmBlockPath(String msgPath)
     {
-        _blocks = new KmList<KmBlock>();
+        _blocks = new KmList<>();
         addMessagePath(msgPath);
     }
 
@@ -148,15 +148,18 @@ public class KmBlockPath
     {
         if ( _blocks.isEmpty() )
             return null;
+
         Iterator<KmBlock> i = _blocks.iterator();
         KmBlock b = i.next();
         Object e = b.invoke();
+
         while ( i.hasNext() )
         {
             b = i.next();
             b.setReceiver(e);
             e = b.invoke();
         }
+
         return e;
     }
 }

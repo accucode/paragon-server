@@ -55,6 +55,16 @@ public class MyMetaAutoSignIn
     {
         return MyAutoSignInValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "Track the tokens that authorize a person/browser to automatically sign in.";
+    }
 
     //##################################################
     //# fields and delegates

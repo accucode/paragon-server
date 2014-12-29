@@ -76,7 +76,7 @@ public class ScControlRegistry
     {
         // singleton
         _nextPersistentId = 0;
-        _persistentValues = new KmMap<String,ScKeyIF>();
+        _persistentValues = new KmMap<>();
 
         _locked = false;
         _transientValues = KmThreadLocalManager.newLocal();
@@ -195,7 +195,7 @@ public class ScControlRegistry
         KmMap<String,ScKeyIF> m = _transientValues.get();
         if ( m == null )
         {
-            m = new KmMap<String,ScKeyIF>();
+            m = new KmMap<>();
             _transientValues.set(m);
         }
         return m;

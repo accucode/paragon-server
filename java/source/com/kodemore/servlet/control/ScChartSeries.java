@@ -55,7 +55,7 @@ public class ScChartSeries
      * The data points to be charted.  Each point has an
      * "x" and a "y".
      */
-    private KmJsonArray  _points;
+    private KmJsonArray _points;
 
     //##################################################
     //# constructor

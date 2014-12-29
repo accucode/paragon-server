@@ -22,7 +22,7 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyUserJunction
-    extends KmModelJunction<MyUser>
+    extends KmModelJunction
     implements MyUserDaoConstantsIF
 {
     //##################################################
@@ -58,6 +58,11 @@ public class MyUserJunction
         return new KmStringCriteria(context(), fullName(EMAIL));
     }
 
+    public KmStringCriteria wherePhone()
+    {
+        return new KmStringCriteria(context(), fullName(PHONE));
+    }
+
     public KmBooleanCriteria whereVerified()
     {
         return new KmBooleanCriteria(context(), fullName(VERIFIED));
@@ -91,6 +96,21 @@ public class MyUserJunction
     //##################################################
     //# associations
     //##################################################
+
+    public MyProjectCriteria joinToLastProject()
+    {
+        return join(new MyProjectCriteria(root().joinTo(LAST_PROJECT)));
+    }
+
+    public MyProjectCriteria leftJoinToLastProject()
+    {
+        return join(new MyProjectCriteria(root().leftJoinTo(LAST_PROJECT)));
+    }
+
+    public KmStringCriteria whereLastProjectUid()
+    {
+        return new KmStringCriteria(context(), fullName(LAST_PROJECT_UID));
+    }
 
     //##################################################
     //# junction

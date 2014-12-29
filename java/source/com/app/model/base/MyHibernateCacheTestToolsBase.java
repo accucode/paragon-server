@@ -37,7 +37,7 @@ public abstract class MyHibernateCacheTestToolsBase
     public ScDomainDropdownField<MyHibernateCacheTest,String> newDomainDropdown()
     {
         ScDomainDropdownField<MyHibernateCacheTest,String> e;
-        e = new ScDomainDropdownField<MyHibernateCacheTest,String>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyHibernateCacheTestFilter());
         e.setFinder(new MyHibernateCacheTestFinder());

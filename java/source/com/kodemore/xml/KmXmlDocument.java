@@ -79,10 +79,10 @@ public class KmXmlDocument
     {
         KmList<String> tags = KmXmlElement.pathToTags(path);
         if ( tags.isEmpty() )
-            return new KmList<KmXmlElement>();
+            return new KmList<>();
 
         if ( !getRoot().hasTag(tags.getFirst()) )
-            return new KmList<KmXmlElement>();
+            return new KmList<>();
 
         tags.removeFirst();
         return getRoot().getElementsAt(tags);

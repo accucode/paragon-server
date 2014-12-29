@@ -46,7 +46,7 @@ public class MyHibernateCacheTestFinder
     public MyHibernateCacheTest findDao(String key)
     {
         MyDaoKeyFinder<MyHibernateCacheTest,String> e;
-        e = new MyDaoKeyFinder<MyHibernateCacheTest,String>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

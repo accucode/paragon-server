@@ -136,7 +136,7 @@ public abstract class KmDelegateFilter<T, D>
     private KmList<T> convertList(KmList<D> all)
     {
         int n = all.size();
-        KmList<T> v = new KmList<T>(n);
+        KmList<T> v = new KmList<>(n);
 
         for ( D e : all )
             v.add(convert(e));

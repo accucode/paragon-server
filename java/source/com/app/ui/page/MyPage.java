@@ -6,15 +6,15 @@ import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 
 import com.app.dao.base.MyDaoRegistry;
-import com.app.model.MyAccount;
+import com.app.model.MyProject;
 import com.app.model.MyServerSession;
 import com.app.model.MySettings;
 import com.app.model.MyUser;
 import com.app.property.MyPropertyRegistry;
-import com.app.ui.core.MyCookieSession;
 import com.app.ui.core.MyServletData;
-import com.app.ui.layout.MyLeftMenuItem;
+import com.app.ui.layout.MyMenuItem;
 import com.app.ui.layout.MyPageLayout;
+import com.app.ui.layout.MyPageLayoutType;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyUrls;
 
@@ -22,7 +22,7 @@ public abstract class MyPage
     extends ScPage
 {
     //##################################################
-    //# check layout
+    //# layout
     //##################################################
 
     @Override
@@ -30,59 +30,64 @@ public abstract class MyPage
     {
         super.checkLayout();
 
-        checkPageHeader();
-        checkPageFooter();
-        checkLeftMenu();
+        getLayout().checkLayoutFor(this);
     }
 
-    private void checkPageHeader()
+    //==================================================
+    //= layout :: shows
+    //==================================================
+
+    public MyMenuItem getTopMenu()
     {
-        boolean shows = showsPageHeader();
-        boolean visible = getData().isPageHeaderVisible();
+        if ( hasMenu() )
+            return getMenu().getTop();
 
-        if ( shows != visible )
-            getPageLayout().ajaxShowHeader(shows);
-    }
-
-    private void checkPageFooter()
-    {
-        boolean shows = showsPageFooter();
-        boolean visible = getData().isPageFooterVisible();
-
-        if ( shows != visible )
-            getPageLayout().ajaxShowFooter(shows);
-    }
-
-    private void checkLeftMenu()
-    {
-        boolean shows = showsLeftMenu();
-        boolean visible = getData().isLeftMenuVisible();
-
-        if ( shows != visible )
-            getPageLayout().ajaxShowLeftMenu(shows);
-
-        if ( shows )
-            getPageLayout().getLeftMenu().ajaxRefreshSelection(this);
-    }
-
-    protected boolean showsPageHeader()
-    {
-        return true;
-    }
-
-    protected boolean showsPageFooter()
-    {
-        return true;
-    }
-
-    protected boolean showsLeftMenu()
-    {
-        return true;
-    }
-
-    public MyLeftMenuItem getMenuItem()
-    {
         return null;
+    }
+
+    public MyMenuItem getLeftMenuItem()
+    {
+        if ( hasMenu() )
+            return getMenu().getLeftItem();
+
+        return null;
+    }
+
+    //==================================================
+    //= layout :: support
+    //==================================================
+
+    protected MyPageLayout getLayout()
+    {
+        return MyPageLayout.getInstance();
+    }
+
+    public MyPageLayoutType getLayoutType()
+    {
+        MyMenuItem menu = getMenu();
+
+        if ( menu == null )
+            return MyPageLayoutType.bare;
+
+        if ( menu.isTop() )
+            return MyPageLayoutType.simple;
+
+        return MyPageLayoutType.nested;
+    }
+
+    private MyMenuItem getMenu()
+    {
+        return getMenuRegistry().findMenuFor(this);
+    }
+
+    private boolean hasMenu()
+    {
+        return getMenu() != null;
+    }
+
+    private MyMenuRegistry getMenuRegistry()
+    {
+        return MyMenuRegistry.getInstance();
     }
 
     //##################################################
@@ -113,104 +118,48 @@ public abstract class MyPage
     }
 
     //##################################################
-    //# account
+    //# project
     //##################################################
 
-    public MyAccount getCurrentAccount()
+    public MyProject getCurrentProject()
     {
-        return getServerSession().getCurrentAccount();
+        return getServerSession().getCurrentProject();
     }
 
-    public String getCurrentAccountUid()
+    public String getCurrentProjectUid()
     {
-        MyAccount a = getCurrentAccount();
+        MyProject a = getCurrentProject();
         if ( a == null )
             return null;
 
         return a.getUid();
     }
 
-    public boolean hasCurrentAccount()
+    public boolean hasCurrentProject()
     {
-        return getCurrentAccount() != null;
+        return getCurrentProject() != null;
     }
 
     //##################################################
-    //# security 
+    //# security
     //##################################################
 
     @Override
     public void checkSecurity()
     {
-        super.checkSecurity();
+        MySecurityLevel sec = getSecurityLevel();
+        MyUser u = getCurrentUser();
+        MyProject p = getCurrentProject();
 
-        checkUser();
-        checkDeveloper();
-        checkAccountMember();
-        checkAccountOwner();
+        sec.check(u, p);
     }
 
-    private void checkUser()
+    public abstract MySecurityLevel getSecurityLevel();
+
+    @Override
+    public boolean requiresUser()
     {
-        if ( !requiresUser() )
-            return;
-
-        if ( hasCurrentUser() )
-            return;
-
-        throwSecurityError("User sign in required.");
-    }
-
-    private void checkDeveloper()
-    {
-        if ( !requiresDeveloper() )
-            return;
-
-        if ( hasCurrentUser() && getCurrentUser().allowsDeveloper() )
-            return;
-
-        throwSecurityError("Developer access required.");
-    }
-
-    private void checkAccountMember()
-    {
-        if ( !requiresAccountMember() )
-            return;
-
-        if ( hasCurrentAccount() && getCurrentAccount().hasMember(getCurrentUser()) )
-            return;
-
-        throwSecurityError("Account member required.");
-    }
-
-    private void checkAccountOwner()
-    {
-        if ( !requiresAccountOwner() )
-            return;
-
-        if ( hasCurrentAccount() && getCurrentAccount().hasOwner(getCurrentUser()) )
-            return;
-
-        throwSecurityError("Account owner required.");
-    }
-
-    //==================================================
-    //= security overrides
-    //==================================================
-
-    protected boolean requiresDeveloper()
-    {
-        return false;
-    }
-
-    protected boolean requiresAccountMember()
-    {
-        return false;
-    }
-
-    protected boolean requiresAccountOwner()
-    {
-        return false;
+        return getSecurityLevel().requiresUser();
     }
 
     //##################################################
@@ -226,11 +175,6 @@ public abstract class MyPage
     protected MyServerSession getServerSession()
     {
         return MyGlobals.getServerSession();
-    }
-
-    protected MyCookieSession getCookieSession()
-    {
-        return MyGlobals.getCookieSession();
     }
 
     protected KmDate getTodayUtc()
@@ -258,7 +202,7 @@ public abstract class MyPage
         return MyGlobals.getDaoSession();
     }
 
-    protected void flushDao()
+    protected void daoFlush()
     {
         getDaoSession().flush();
     }
@@ -266,11 +210,6 @@ public abstract class MyPage
     protected MyDaoRegistry getAccess()
     {
         return MyGlobals.getAccess();
-    }
-
-    protected MyPageLayout getPageLayout()
-    {
-        return MyPageLayout.getInstance();
     }
 
     public final String _formatEntryUrl()

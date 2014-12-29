@@ -71,11 +71,13 @@ public class KmaTable
     private void _initialize()
     {
         _actions = new KmaActionGroup();
+
         ListSelectionListener e = newListSelectionListener();
         getSelectionModel().addListSelectionListener(e);
         getColumnModel().getSelectionModel().addListSelectionListener(e);
         addMouseListener(newMouseListener());
         setSingleRowSelection();
+
         registerKeyboardAction(
             new KmaBlockAction(this, "fireAcceptListeners"),
             KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),

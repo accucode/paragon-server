@@ -1,25 +1,19 @@
 package com.app.ui.page.test;
 
-import com.app.ui.layout.MyLeftMenuItem;
 import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
 public abstract class MyAbstractTestPage
     extends MyPage
 {
     //##################################################
-    //# setup
+    //# settings
     //##################################################
 
     @Override
-    protected boolean requiresDeveloper()
+    public MySecurityLevel getSecurityLevel()
     {
-        return true;
-    }
-
-    @Override
-    public MyLeftMenuItem getMenuItem()
-    {
-        return MyLeftMenuItem.tests;
+        return MySecurityLevel.developer;
     }
 
 }

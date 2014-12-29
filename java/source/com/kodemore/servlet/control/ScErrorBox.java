@@ -117,14 +117,12 @@ public class ScErrorBox
     //##################################################
 
     @Override
-    public Iterator<ScControl> getComponents()
+    public Iterator<ScControlIF> getComponents()
     {
-        KmCompositeIterator<ScControl> i;
-        i = new KmCompositeIterator<ScControl>();
-
+        KmCompositeIterator<ScControlIF> i;
+        i = new KmCompositeIterator<>();
         i.addAll(super.getComponents());
         i.add(_messageBox);
-
         return i;
     }
 

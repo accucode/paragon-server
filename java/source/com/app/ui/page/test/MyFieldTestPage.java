@@ -46,7 +46,7 @@ public class MyFieldTestPage
     //# variables
     //##################################################
 
-    private ScGroup          _fieldGroup;
+    private ScGroup             _fieldGroup;
     private ScTextField         _textField;
     private ScTextField         _readOnlyField;
     private ScIntegerField      _integerField;
@@ -162,13 +162,13 @@ public class MyFieldTestPage
         form.setSubmitAction(newValidateAction());
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Field Test");
 
         ScBox body;
-        body = group.addPad();
+        body = group.getBody().addPad();
 
         ScFieldTable fields;
-        fields = body.addFields();
+        fields = body.addFieldTable();
         fields.add(_textField);
         fields.add(_readOnlyField);
         fields.add(_integerField);
@@ -186,10 +186,10 @@ public class MyFieldTestPage
         fields.addSpace();
         fields.add(_listField);
 
-        group.addDivider();
+        group.addBodyDivider();
 
         ScBox footer;
-        footer = group.addButtonBox();
+        footer = group.getBody().addButtonBox();
         footer.addSubmitButton("Validate");
         footer.addButton("Reset", newResetValuesAction());
 
@@ -211,7 +211,7 @@ public class MyFieldTestPage
     private KmList<String> getAutoCompleteOptions(String term)
     {
         KmList<String> v;
-        v = new KmList<String>();
+        v = new KmList<>();
 
         KmList<MyUser> users;
         users = getAccess().findAllUsers();
@@ -226,17 +226,17 @@ public class MyFieldTestPage
     private void installFieldsets(ScBox root)
     {
         ScGroup group;
-        group = root.addGroup();
+        group = root.addGroup("Fieldsets");
 
         ScBox body;
-        body = group.addGap();
+        body = group.getBody().addGap();
 
         ScFieldset box;
         box = body.addFieldset("Name");
         box.css().floatLeft().pad();
 
         ScFieldTable fields;
-        fields = box.addFields();
+        fields = box.addFieldTable();
         fields.addTextField().setLabel("First");
         fields.addTextField().setLabel("Middle");
 
@@ -249,7 +249,7 @@ public class MyFieldTestPage
         box = body.addFieldset("Phone");
         box.css().floatLeft().pad();
 
-        fields = box.addFields();
+        fields = box.addFieldTable();
         fields.addTextField().setLabel("Home");
         fields.addTextField().setLabel("Work");
         fields.addTextField().setLabel("Cell");

@@ -76,10 +76,10 @@ public class KmDecimalCharacteristicValidationError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append("maximum left digits is ");
-        sb.append(_length);
+        out.append("maximum left digits is ");
+        out.append(_length);
     }
 
 }

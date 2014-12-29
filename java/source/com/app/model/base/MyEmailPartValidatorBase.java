@@ -161,7 +161,7 @@ public class MyEmailPartValidatorBase
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(30);
+        e.setMaximumLength(50);
         e.setAllowsPrintable(true);
         e.setModel("emailPart");
         e.setField("attachmentName");

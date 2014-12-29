@@ -1,6 +1,11 @@
 model
 : name      = serverSession
-: comment   = Server sessions are used in place of the Virtual Http Session. This allow for a user session to be served by multiple web server machines. The session is created as early as possible, even before the user actually logs in.
+: help...
+    === 
+    Server sessions are used in place of the Virtual Http Session. 
+    This allow for a user session to be served by multiple web server machines. 
+    The session is created as early as possible, even before the user actually logs in.
+    ===
 
 database
 : alias = ss
@@ -9,62 +14,62 @@ attributes
 
     field
     : name          = uid
-    : comment       = The unique key.
+    : help          = The globally unique identifier.  This is a big ugly number and is generally not displayed.
     : type          = uid
     : default       = newUid()
     : primaryKey    = true
 
     field
     : name      = active
-    : comment   = Is the session currently active.
+    : help      = This indicates if the session is currently active, or if it has expired.
     : type      = boolean
     : default   = true
     : required  = true
 
     field
     : name      = createdUtcTs
-    : comment   = When was the session created.
+    : help      = The date and time when the session was created.
     : type      = timestamp
     : default   = getNowUtc()
     : required  = true
 
     field
     : name      = closedUtcTs
-    : comment   = Is the session current active.
+    : help      = The date and time when the session was closed.
     : type      = timestamp
     : required  = false
 
     field
     : name      = lastTouchedUtcTs
-    : comment   = The last time the session was touched. Used to support automatic timeouts.
+    : help      = The date and time when the session was last touched. Used to support automatic timeouts.
     : type      = timestamp
     : default   = getNowUtc()
     : required  = true
 
     field
     : name      = version
-    : comment   = The application version. The server session is only valid if its version matches the application's current version. This is used to catch stale sessions when the application is upgraded.
+    : help      = The application version. The server session is only valid if its version matches the application's current version. This is used to catch stale sessions when the application is upgraded.
     : type      = name
     : required  = true
 
     association
     : name      = user
-    : comment   = The user that logged in.
+    : help      = The user associated with this session.
     : modelName = user
     : relation  = reference
     : required  = false
 
     association
     : name      = autoSignIn
-    : comment   = The token, if any, that was used to automatically sign the user in. 
+    : help      = The token, if any, that was used to automatically sign in. 
     : modelName = autoSignIn
     : relation  = reference
     : required  = false
 
     association
-    : name      = currentAccount
-    : comment   = The account being accessed.
-    : modelName = account
+    : name      = currentProject
+    : help      = The project being accessed.
+    : modelName = project
     : relation  = reference
     : required  = false
 

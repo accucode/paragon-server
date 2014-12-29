@@ -46,7 +46,7 @@ public class KmaActionList
 
     public KmaActionList()
     {
-        _actions = new KmList<ActionListener>();
+        _actions = new KmList<>();
         _enabled = true;
     }
 
@@ -95,12 +95,10 @@ public class KmaActionList
     {
         if ( !_enabled )
             return;
+
         Iterator<ActionListener> i = _actions.iterator();
         while ( i.hasNext() )
-        {
-            ActionListener e = i.next();
-            e.actionPerformed(null);
-        }
+            i.next().actionPerformed(null);
     }
 
 }

@@ -38,6 +38,7 @@ public class MyUserValidatorBase
     private KmStringValidator uidValidator;
     private KmStringValidator nameValidator;
     private KmStringValidator emailValidator;
+    private KmStringValidator phoneValidator;
     private KmBooleanValidator verifiedValidator;
     private KmStringValidator passwordSaltValidator;
     private KmStringValidator passwordHashValidator;
@@ -55,6 +56,7 @@ public class MyUserValidatorBase
         uidValidator = newUidValidator();
         nameValidator = newNameValidator();
         emailValidator = newEmailValidator();
+        phoneValidator = newPhoneValidator();
         verifiedValidator = newVerifiedValidator();
         passwordSaltValidator = newPasswordSaltValidator();
         passwordHashValidator = newPasswordHashValidator();
@@ -80,6 +82,11 @@ public class MyUserValidatorBase
     public KmStringValidator getEmailValidator()
     {
         return emailValidator;
+    }
+
+    public KmStringValidator getPhoneValidator()
+    {
+        return phoneValidator;
     }
 
     public KmBooleanValidator getVerifiedValidator()
@@ -122,6 +129,7 @@ public class MyUserValidatorBase
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setName(nameValidator.convertOnly(value.getName()));
         value.setEmail(emailValidator.convertOnly(value.getEmail()));
+        value.setPhone(phoneValidator.convertOnly(value.getPhone()));
         value.setVerified(verifiedValidator.convertOnly(value.getVerified()));
         value.setPasswordSalt(passwordSaltValidator.convertOnly(value.getPasswordSalt()));
         value.setPasswordHash(passwordHashValidator.convertOnly(value.getPasswordHash()));
@@ -136,6 +144,7 @@ public class MyUserValidatorBase
         uidValidator.validateOnly(value.getUid(), errors);
         nameValidator.validateOnly(value.getName(), errors);
         emailValidator.validateOnly(value.getEmail(), errors);
+        phoneValidator.validateOnly(value.getPhone(), errors);
         verifiedValidator.validateOnly(value.getVerified(), errors);
         passwordSaltValidator.validateOnly(value.getPasswordSalt(), errors);
         passwordHashValidator.validateOnly(value.getPasswordHash(), errors);
@@ -164,7 +173,7 @@ public class MyUserValidatorBase
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(30);
+        e.setMaximumLength(50);
         e.setAllowsPrintable(true);
         e.setModel("user");
         e.setField("name");
@@ -181,6 +190,17 @@ public class MyUserValidatorBase
         e.setModel("user");
         e.setField("email");
         e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newPhoneValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
+        e.setModel("user");
+        e.setField("phone");
         return e;
     }
 

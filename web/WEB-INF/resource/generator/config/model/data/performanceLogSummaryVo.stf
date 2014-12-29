@@ -1,6 +1,9 @@
 model
 : name      = performanceLogSummaryVo
-: comment   = Used to present summary information about performance logs.
+: help...
+    ===
+    Used to present summary information about performance logs.
+    ===
 
 attributes
 

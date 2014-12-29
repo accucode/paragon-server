@@ -3,7 +3,7 @@ package com.app.model;
 import com.kodemore.time.KmTimestamp;
 
 import com.app.model.base.MyAutoSignInBase;
-import com.app.utility.MyConstantsIF;
+import com.app.ui.servlet.MyServletConstantsIF;
 
 public class MyAutoSignIn
     extends MyAutoSignInBase
@@ -33,7 +33,7 @@ public class MyAutoSignIn
 
     public boolean isStale()
     {
-        int timeoutDays = MyConstantsIF.AUTO_SIGN_IN_TIMEOUT_DAYS;
+        int timeoutDays = MyServletConstantsIF.AUTO_SIGN_IN_TIMEOUT_DAYS;
 
         KmTimestamp lastTouch = getLastTouchedUtcTs();
         KmTimestamp limit = lastTouch.addDays(timeoutDays);

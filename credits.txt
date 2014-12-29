@@ -86,3 +86,13 @@ Dropzone
 A drag and drop file uploader
 http://www.dropzonejs.com/
 License: MIT
+
+------------------------------
+Java jars
+------------------------------
+
+The java libraries are documented in:
+
+    $project/web/WEB-INF/lib/_credits.txt
+
+[end]

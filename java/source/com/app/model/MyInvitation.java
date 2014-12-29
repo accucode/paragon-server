@@ -24,12 +24,12 @@ public class MyInvitation
     //# role
     //##################################################
 
-    public MyUserAccountRole getRole()
+    public MyMemberRole getRole()
     {
-        return MyUserAccountRole.findCode(getRoleCode());
+        return MyMemberRole.findCode(getRoleCode());
     }
 
-    public void setRole(MyUserAccountRole e)
+    public void setRole(MyMemberRole e)
     {
         setRoleCode(getCodeFor(e));
     }
@@ -44,7 +44,6 @@ public class MyInvitation
         switch ( type )
         {
             case JoinAccount:
-            case TransferAccount:
                 return MyUrls.getEntryUrl();
         }
         return null;
@@ -80,9 +79,6 @@ public class MyInvitation
         {
             case JoinAccount:
                 return formatJoinSubject();
-
-            case TransferAccount:
-                return formatTransferSubject();
         }
 
         return "Unknown Invitation Type";
@@ -90,12 +86,7 @@ public class MyInvitation
 
     private String formatJoinSubject()
     {
-        return Kmu.format("Invitation to join %s", formatAccountName());
-    }
-
-    private String formatTransferSubject()
-    {
-        return Kmu.format("Invitation to transfer %s", formatAccountName());
+        return Kmu.format("Invitation to join %s", formatProjectName());
     }
 
     //##################################################
@@ -109,9 +100,6 @@ public class MyInvitation
         {
             case JoinAccount:
                 return formatJoinAccountMessage().toString();
-
-            case TransferAccount:
-                return formatTransferAccountMessage().toString();
         }
 
         return formatUnknownTypeMessage().toString();
@@ -122,23 +110,8 @@ public class MyInvitation
         KmHtmlBuilder out;
         out = new KmHtmlBuilder();
         out.printf(
-            "You have been invited to the %s account by %s.",
-            formatAccountName(),
-            formatSenderName());
-
-        out.print(" To review the invitation please click ");
-        out.printLink("here", MyUrls.getEntryUrl());
-        out.print(".");
-        return out;
-    }
-
-    private KmHtmlBuilder formatTransferAccountMessage()
-    {
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
-        out.printf(
-            "You have been invited to take ownership of the %s account by %s.",
-            formatAccountName(),
+            "You have been invited to the %s project by %s.",
+            formatProjectName(),
             formatSenderName());
 
         out.print(" To review the invitation please click ");
@@ -159,9 +132,9 @@ public class MyInvitation
     //# support
     //##################################################
 
-    private String formatAccountName()
+    private String formatProjectName()
     {
-        return getAccountName();
+        return getProjectName();
     }
 
     private String formatSenderName()

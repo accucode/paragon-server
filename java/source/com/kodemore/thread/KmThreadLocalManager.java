@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.thread;
 
@@ -31,7 +31,7 @@ public abstract class KmThreadLocalManager
     //# variables
     //##################################################
 
-    private static final ThreadLocal<Set<ThreadLocal<?>>> _dirtySet = new ThreadLocal<Set<ThreadLocal<?>>>();
+    private static final ThreadLocal<Set<ThreadLocal<?>>> _dirtySet = new ThreadLocal<>();
 
     //##################################################
     //# register
@@ -39,7 +39,7 @@ public abstract class KmThreadLocalManager
 
     public static <E> ThreadLocal<E> newLocal()
     {
-        return new KmManagedThreadLocal<E>();
+        return new KmThreadLocal<>();
     }
 
     //##################################################
@@ -51,7 +51,7 @@ public abstract class KmThreadLocalManager
         Set<ThreadLocal<?>> v = _dirtySet.get();
         if ( v == null )
         {
-            v = new HashSet<ThreadLocal<?>>();
+            v = new HashSet<>();
             _dirtySet.set(v);
         }
         v.add(e);

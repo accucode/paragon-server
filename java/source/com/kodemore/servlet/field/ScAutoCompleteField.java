@@ -33,6 +33,7 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScEncodedValueIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.utility.ScControlRegistry;
@@ -68,8 +69,8 @@ public class ScAutoCompleteField
 
     /**
      * The number of characters that must be entered in
-     * order to trigger autocompletion.  Valid values 
-     * are 1..n.  The default is 1.  
+     * order to trigger autocompletion.  Valid values
+     * are 1..n.  The default is 1.
      */
     private ScLocalInteger           _triggerLength;
 
@@ -80,16 +81,16 @@ public class ScAutoCompleteField
 
     /**
      * Used to dynamically fill the options as the
-     * user types.  If set, this takes precedence 
+     * user types.  If set, this takes precedence
      * over the static options.
      */
     private ScAutoCompleteCallbackIF _callback;
 
     /**
      * Used to bind extra data for filtering and sorting.
-     * The values in this list will be encoded into the Auto 
-     * complete field's callback request url.  The values will 
-     * be rebound to their respective ScValue's prior to execute 
+     * The values in this list will be encoded into the Auto
+     * complete field's callback request url.  The values will
+     * be rebound to their respective ScValue's prior to execute
      * the filter.
      */
     private KmList<ScEncodedValueIF> _trackedValues;
@@ -107,7 +108,7 @@ public class ScAutoCompleteField
         _triggerLength = new ScLocalInteger(1);
         _options = new ScLocalStringList();
         _callback = null;
-        _trackedValues = new KmList<ScEncodedValueIF>();
+        _trackedValues = new KmList<>();
     }
 
     //##################################################
@@ -215,15 +216,15 @@ public class ScAutoCompleteField
         _trackedValues.add(e);
     }
 
-    public void trackAll(ScControl c)
+    public void trackAll(ScControlIF c)
     {
         if ( c instanceof ScEncodedValueIF )
             track((ScEncodedValueIF)c);
 
-        Iterator<ScControl> i = c.getComponents();
+        Iterator<ScControlIF> i = c.getComponents();
         while ( i.hasNext() )
         {
-            ScControl e = i.next();
+            ScControlIF e = i.next();
 
             if ( e instanceof ScEncodedValueIF )
                 track((ScEncodedValueIF)e);
@@ -234,7 +235,7 @@ public class ScAutoCompleteField
 
     private KmList<?> getTrackedValues()
     {
-        KmList<Object> v = new KmList<Object>();
+        KmList<Object> v = new KmList<>();
 
         for ( ScEncodedValueIF value : _trackedValues )
             v.add(value.getEncodedValue());
@@ -411,12 +412,12 @@ public class ScAutoCompleteField
 
     /**
      * Handle servlet callback requests to fill the dropdown dynamically.
-     * Callback handlers are registered in the ScServletCallbackRegistry. 
+     * Callback handlers are registered in the ScServletCallbackRegistry.
      */
     public static void handleServletCallback(String pathSuffix)
     {
         /*
-         * We assume the pathSuffix is the control's key since that is 
+         * We assume the pathSuffix is the control's key since that is
          * what we provided when composing the url.  See getSourceCallback().
          */
         String key = pathSuffix;

@@ -61,7 +61,7 @@ public class ScRepeater
     {
         super.install();
 
-        _values = new ScLocalList<Object>();
+        _values = new ScLocalList<>();
         _body = new ScLocalControl();
         _split = new ScLocalControl();
     }

@@ -55,6 +55,16 @@ public class MyMetaEmailRecipient
     {
         return MyEmailRecipientValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "I define the recipients for a given email.  The TOs, CCs, and BCCs.";
+    }
 
     //##################################################
     //# fields and delegates

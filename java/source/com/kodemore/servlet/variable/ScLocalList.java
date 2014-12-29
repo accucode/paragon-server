@@ -29,12 +29,12 @@ import com.kodemore.collection.KmList;
 
 /**
  * I am used to store a list of values.  The elements must
- * be compatible with ScEncoder if you want to persist 
+ * be compatible with ScEncoder if you want to persist
  * state to the page session.
- * 
+ *
  * Note that the value defaults to an EMPTY list and should
  * never be null.
- * 
+ *
  * Also, getValue() returns a shallow copy to avoid inadvertent
  * mutations.
  */
@@ -137,6 +137,16 @@ public class ScLocalList<T>
     public boolean isNotEmpty()
     {
         return !isEmpty();
+    }
+
+    public T getValueAt(int i)
+    {
+        return _getValue().get(i);
+    }
+
+    public T getFirst()
+    {
+        return _getValue().getFirst();
     }
 
     public T getLast()

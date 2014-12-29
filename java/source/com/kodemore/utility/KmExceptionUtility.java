@@ -171,7 +171,7 @@ public class KmExceptionUtility
      */
     public static KmList<Throwable> getExceptionChain(Throwable ex)
     {
-        KmList<Throwable> v = new KmList<Throwable>();
+        KmList<Throwable> v = new KmList<>();
         while ( true )
         {
             v.add(ex);

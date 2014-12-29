@@ -50,6 +50,12 @@ public class MyMetaPasswordReset_Token
     }
 
     @Override
+    public String getHelp()
+    {
+        return "A long unique code that allows temporary access without a password.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

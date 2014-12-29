@@ -39,46 +39,46 @@ public class ScReplaceContentsScript
 
     /**
      * The selector used for the transition animation.
-     * 
+     *
      * E.g.: When replacing this contents of a TD you may
      * need to set the outer selector to the enclosing TABLE
      * for the animation to work correctly.
      */
-    private String       _outerSelector;
+    private String        _outerSelector;
 
     /**
      * The selector whose contents will be replaced.
-     * 
+     *
      * See outerSelector.
      */
-    private String       _innerSelector;
+    private String        _innerSelector;
 
     /**
      * The html to put into the innerSelector.
      */
-    private String       _contents;
+    private String        _contents;
 
     /**
      * The script to run after the dom has been replaced.
      */
-    private String       _postDomScript;
+    private ScBlockScript _postDomScript;
 
     /**
      * The script to run after the html has been rendered.
      * This is run AFTER any transition effects.
      */
-    private String       _postRenderScript;
+    private ScBlockScript _postRenderScript;
 
     /**
      * The transition to use.
      */
-    private ScTransition _transition;
+    private ScTransition  _transition;
 
     /**
      * The speed of the transition.  Ignored if the transition
-     * does not support it.  
+     * does not support it.
      */
-    private Integer      _speed;
+    private Integer       _speed;
 
     //##################################################
     //# constructor
@@ -86,7 +86,8 @@ public class ScReplaceContentsScript
 
     public ScReplaceContentsScript()
     {
-        // none
+        _postDomScript = ScBlockScript.create();
+        _postRenderScript = ScBlockScript.create();
     }
 
     //##################################################
@@ -166,53 +167,75 @@ public class ScReplaceContentsScript
     {
         if ( out == null )
         {
-            setContents((String)null);
-            setPostDomScript(null);
-            setPostRenderScript(null);
+            clearContents();
+            clearPostDomScript();
+            clearPostRenderScript();
             return;
         }
 
         setContents(out.formatHtml());
-        setPostDomScript(out.getPostDom().formatScript());
-        setPostRenderScript(out.getPostRender().formatScript());
+
+        _setPostDomScript(out.getPostDom());
+        _setPostRenderScript(out.getPostRender());
+    }
+
+    public void clearContents()
+    {
+        setContents((String)null);
     }
 
     //##################################################
     //# post dom script
     //##################################################
 
-    public String getPostDomScript()
+    public ScBlockScript getPostDomScript()
     {
         return _postDomScript;
     }
 
-    public void setPostDomScript(String e)
+    public void _setPostDomScript(ScScriptIF e)
     {
-        _postDomScript = e;
+        ScBlockScript post;
+        post = getPostDomScript();
+        post.clearScript();
+        post.run(e);
     }
 
     public boolean hasPostDomScript()
     {
-        return Kmu.hasValue(getPostDomScript());
+        return _postDomScript.isNotEmpty();
+    }
+
+    public void clearPostDomScript()
+    {
+        _postDomScript.clearScript();
     }
 
     //##################################################
     //# post render script
     //##################################################
 
-    public String getPostRenderScript()
+    public ScBlockScript getPostRenderScript()
     {
         return _postRenderScript;
     }
 
-    public void setPostRenderScript(String e)
+    public void _setPostRenderScript(ScScriptIF e)
     {
-        _postRenderScript = e;
+        ScBlockScript post;
+        post = getPostRenderScript();
+        post.clearScript();
+        post.run(e);
     }
 
     public boolean hasPostRenderScript()
     {
-        return Kmu.hasValue(getPostRenderScript());
+        return _postRenderScript.isNotEmpty();
+    }
+
+    public void clearPostRenderScript()
+    {
+        _postRenderScript.clearScript();
     }
 
     //##################################################
@@ -260,7 +283,7 @@ public class ScReplaceContentsScript
     }
 
     //##################################################
-    //# scriptIF 
+    //# scriptIF
     //##################################################
 
     @Override
@@ -334,10 +357,10 @@ public class ScReplaceContentsScript
             e.setInteger("speed", getSpeed());
 
         if ( hasPostDomScript() )
-            e.setString("postDomScript", getPostDomScript());
+            e.setString("postDomScript", getPostDomScript().formatScript());
 
         if ( hasPostRenderScript() )
-            e.setString("postRenderScript", getPostRenderScript());
+            e.setString("postRenderScript", getPostRenderScript().formatScript());
 
         return e;
     }

@@ -23,6 +23,7 @@ public abstract class KmMetaHtmlColorProperty<T>
         ScColorField e;
         e = new ScColorField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
         e.setValueAdaptor(this);
         return e;

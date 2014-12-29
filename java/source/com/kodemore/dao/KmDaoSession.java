@@ -22,10 +22,10 @@
 
 package com.kodemore.dao;
 
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.math.BigInteger;
 
 import org.hibernate.Hibernate;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -392,39 +392,23 @@ public abstract class KmDaoSession
     //# lock (private)
     //##################################################
 
-    @SuppressWarnings("deprecation")
     private Integer _executeLockCommand(String sql)
     {
-        Statement st = null;
+        SQLQuery q = null;
         try
         {
-            st = _session.connection().createStatement();
-            boolean isResultSet = st.execute(sql);
-            if ( !isResultSet )
-                Kmu.fatal("Locking error; no result set for: %s", sql);
+            q = _session.createSQLQuery(sql);
+            Object res = q.uniqueResult();
 
-            ResultSet rs = st.getResultSet();
-            if ( !rs.next() )
-                Kmu.fatal("Locking error; empty result set for: %s", sql);
+            if ( res instanceof BigInteger )
+                return ((BigInteger)res).intValue();
 
-            return rs.getInt(1);
+            return (Integer)res;
         }
         catch ( Exception ex )
         {
             Kmu.fatal(ex, "Locking error; %s", sql);
             return null;
-        }
-        finally
-        {
-            try
-            {
-                if ( st != null )
-                    st.close();
-            }
-            catch ( Exception ex )
-            {
-                KmLog.error(ex, "Unable to close connection, continuing...");
-            }
         }
     }
 

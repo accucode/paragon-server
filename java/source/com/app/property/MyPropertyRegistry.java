@@ -5,5 +5,23 @@ import com.app.property.base.MyPropertyRegistryBase;
 public class MyPropertyRegistry
     extends MyPropertyRegistryBase
 {
-    // none
+    //##################################################
+    //# environment
+    //##################################################
+
+    public boolean isEnvironmentDevelopment()
+    {
+        return getEnvironment().equals("development");
+    }
+
+    public boolean isEnvironmentStage()
+    {
+        return getEnvironment().equals("stage");
+    }
+
+    public boolean isEnvironmentProduction()
+    {
+        return getEnvironment().equals("production");
+    }
+
 }

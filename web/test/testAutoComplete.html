@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+    
+    
+    <script type="text/javascript">
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+            
+            $('#tags').autocomplete(
+            {
+                source: myGetOptions(),
+                change: myHandleChange,
+                select: myHandleSelect
+                
+            });
+        }
+        
+        function myGetOptions()
+        {
+            var arr = 
+            [
+                "ActionScript",
+                "AppleScript",
+                "Asp",
+                "BASIC",
+                "C",
+                "C++",
+                "Clojure",
+                "COBOL",
+                "ColdFusion",
+                "Erlang",
+                "Fortran",
+                "Groovy",
+                "Haskell",
+                "Java",
+                "JavaScript",
+                "Lisp",
+                "Perl",
+                "PHP",
+                "Python",
+                "Ruby",
+                "Scala",
+                "Scheme"
+            ];
+            return arr;
+        }
+        
+        function myHandleChange(ev, ui)
+        {
+            alert('changed');
+        }
+        
+        function myHandleSelect(ev, ui)
+        {
+            alert('select');
+        }
+        
+    </script>
+    
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id='main' style='display:none' class='gap'>
+
+    <div class='boxGreen pad'>
+        <p>Auto complete:</p>
+        <input class="textField" id="tags">
+    </div>
+    
+</div>
+
+</body>
+</html>

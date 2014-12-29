@@ -4,6 +4,9 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScDiv;
+import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScSubmitButton;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
@@ -25,7 +28,6 @@ public class MyRequestPasswordResetDialog
     private ScTextField    _emailField;
 
     private ScBox          _messageBox;
-
     private ScSubmitButton _sendButton;
 
     //##################################################
@@ -37,25 +39,26 @@ public class MyRequestPasswordResetDialog
     {
         super.install();
 
-        setBodyWidth(300);
-        setBodyHeight(150);
+        setLabel("Reset Password");
+        setWidth(400);
+        setSubmitAction(newSendAction());
 
-        setAction(newSendAction());
-        getHeaderBox().addText("Reset Password");
+        ScDiv body;
+        body = getBody();
+        body.css().pad();
 
-        ScBox body;
-        body = getBodyBox();
+        installEmailBoxOn(body);
+        installMessageBoxOn(body);
 
-        installEmailBox(body);
-        installMessageBox(body);
-
-        ScBox buttons;
-        buttons = getFooterBox().addButtonBoxRight();
-        _sendButton = buttons.addSubmitButton("Email Password Reset");
-        buttons.addButton("Close", getCloseDialogAction());
+        ScFlexbox footer;
+        footer = showFooter();
+        footer.alignEnd();
+        footer.css().buttonBox();
+        _sendButton = footer.addSubmitButton("Email Password Reset");
+        footer.addButton("Close", newAjaxCloseAction());
     }
 
-    private void installEmailBox(ScBox root)
+    private void installEmailBoxOn(ScContainer root)
     {
         _emailField = new ScTextField();
         _emailField.setRequired();
@@ -76,7 +79,7 @@ public class MyRequestPasswordResetDialog
         _emailBox = box;
     }
 
-    private void installMessageBox(ScBox root)
+    private void installMessageBoxOn(ScContainer root)
     {
         _messageBox = root.addBox();
         _messageBox.hide();
@@ -86,11 +89,9 @@ public class MyRequestPasswordResetDialog
     //# start
     //##################################################
 
-    public void start(String email)
+    public void ajaxOpen(String email)
     {
         _emailField.setValue(email);
-        _emailField.ajaxUpdateValue();
-
         ajaxOpen();
     }
 

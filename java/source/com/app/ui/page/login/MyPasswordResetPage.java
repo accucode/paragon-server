@@ -19,6 +19,7 @@ import com.kodemore.utility.Kmu;
 import com.app.model.MyPasswordReset;
 import com.app.model.MyUser;
 import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
 public class MyPasswordResetPage
     extends MyPage
@@ -53,30 +54,24 @@ public class MyPasswordResetPage
     private ScText          _errorMessage;
 
     //##################################################
-    //# setup
+    //# settings
     //##################################################
 
     @Override
-    public boolean requiresUser()
+    public MySecurityLevel getSecurityLevel()
     {
-        return false;
-    }
-
-    @Override
-    protected boolean showsLeftMenu()
-    {
-        return false;
+        return MySecurityLevel.any;
     }
 
     //##################################################
     //# navigation
     //##################################################
 
-    public void pushToken(MyPasswordReset e)
+    public void ajaxPushToken(MyPasswordReset e)
     {
         setToken(e.getToken());
 
-        _push();
+        _ajaxPush();
     }
 
     public String formatEntryUrl(MyPasswordReset e)
@@ -160,7 +155,7 @@ public class MyPasswordResetPage
         group.setTitle("Reset Password");
 
         ScBox body;
-        body = group.addBox();
+        body = group.getBody().addBox();
         body.css().pad();
 
         body.addLabel("Email");
@@ -175,10 +170,10 @@ public class MyPasswordResetPage
         label.css().padTop();
         body.addErrorBox().add(_password2Field);
 
-        group.addDivider();
+        group.addBodyDivider();
 
         ScBox footer;
-        footer = group.addButtonBoxRight();
+        footer = group.getBody().addButtonBox();
         footer.addSubmitButton("Reset Password");
     }
 
@@ -196,16 +191,16 @@ public class MyPasswordResetPage
         group.setTitle("Success");
 
         ScBox body;
-        body = group.addBox();
+        body = group.getBody().addBox();
         body.css().pad();
         body.addText(""
             + "Success! Your password has been reset. "
             + "Please click the following link to sign in.");
 
-        group.addDivider();
+        group.addBodyDivider();
 
         ScBox footer;
-        footer = group.addButtonBoxRight();
+        footer = group.getBody().addButtonBox();
         footer.addButton("Sign In", MySignInPage.instance);
 
         return card;
@@ -225,15 +220,15 @@ public class MyPasswordResetPage
         group.setTitle("Error");
 
         ScBox body;
-        body = group.addBox();
+        body = group.getBody().addBox();
         body.css().pad();
 
         _errorMessage = body.addText();
 
-        group.addDivider();
+        group.addBodyDivider();
 
         ScBox footer;
-        footer = group.addButtonBoxRight();
+        footer = group.getBody().addButtonBox();
         footer.addButton("Sign In", MySignInPage.instance);
 
         return card;

@@ -61,14 +61,14 @@ public class MyColorFieldTestPage
         form.css().pad();
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Color Field");
 
         ScFieldTable fields;
-        fields = group.addPad().addFields();
+        fields = group.getBody().addPad().addFieldTable();
         fields.add(_colorField);
 
-        group.addDivider();
-        group.addButtonBox().addSubmitButton();
+        group.addBodyDivider();
+        group.getBody().addButtonBox().addSubmitButton();
     }
 
     private ScActionIF newSubmitAction()

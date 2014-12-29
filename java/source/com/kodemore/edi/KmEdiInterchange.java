@@ -49,7 +49,7 @@ public class KmEdiInterchange
 
     public KmEdiInterchange()
     {
-        _segments = new KmList<KmEdiSegment>();
+        _segments = new KmList<>();
     }
 
     //##################################################
@@ -103,11 +103,13 @@ public class KmEdiInterchange
     //##################################################
     //# abstract accessing
     //##################################################
+
     public KmEdiSegment getFirstSegment(String tag)
     {
         for ( KmEdiSegment e : _segments )
             if ( e.hasTag(tag) )
                 return e;
+
         return null;
     }
 
@@ -125,16 +127,19 @@ public class KmEdiInterchange
 
     public KmList<KmEdiMessage> getMessages()
     {
-        KmList<KmEdiMessage> messages = new KmList<KmEdiMessage>();
+        KmList<KmEdiMessage> messages = new KmList<>();
+
         int b = findMessageHeaderIndex(0);
         if ( b == -1 )
             return null;
+
         int e = b + 1;
         while ( e != -1 )
         {
             e = findMessageTrailerIndex(b);
             if ( e == -1 )
                 continue;
+
             messages.add(createMessage(b, e));
             b = e + 1;
         }
@@ -144,31 +149,32 @@ public class KmEdiInterchange
 
     public KmEdiMessage createMessage(int b, int e)
     {
-        KmEdiMessage message = new KmEdiMessage();
-        message.setParent(this);
-        message.setBeginInterchangeIndex(b);
-        message.setEndInterchangeIndex(e);
-        return message;
+        KmEdiMessage msg;
+        msg = new KmEdiMessage();
+        msg.setParent(this);
+        msg.setBeginInterchangeIndex(b);
+        msg.setEndInterchangeIndex(e);
+        return msg;
     }
 
     private int findMessageTrailerIndex(int b)
     {
-        int e = getFirstSegmentIndex(b, _segments.size() - 1, TAG_MESSAGE_TRAILER);
-        return e;
+        return getFirstSegmentIndex(b, _segments.size() - 1, TAG_MESSAGE_TRAILER);
     }
 
     private int findMessageHeaderIndex(int b)
     {
-        int e = getFirstSegmentIndex(b, _segments.size() - 1, TAG_MESSAGE_HEADER);
-        return e;
+        return getFirstSegmentIndex(b, _segments.size() - 1, TAG_MESSAGE_HEADER);
     }
 
     public KmList<KmEdiSegment> getSegments(int beginIndex, int endIndex)
     {
-        KmList<KmEdiSegment> l = new KmList<KmEdiSegment>();
+        KmList<KmEdiSegment> v = new KmList<>();
+
         for ( int i = beginIndex; i <= endIndex && i <= _segments.size(); i++ )
-            l.add(_segments.get(i));
-        return l;
+            v.add(_segments.get(i));
+
+        return v;
     }
 
     public String format()
@@ -176,14 +182,17 @@ public class KmEdiInterchange
         try
         {
             StringWriter sw = new StringWriter();
-            KmEdiWriter ew = new KmEdiWriter(sw);
+
+            KmEdiWriter ew;
+            ew = new KmEdiWriter(sw);
             ew.writeInterchange(this);
             ew.flush();
+
             return sw.toString();
         }
-        catch ( IOException e )
+        catch ( IOException ex )
         {
-            throw new RuntimeException(e);
+            throw new RuntimeException(ex);
         }
     }
 

@@ -50,6 +50,12 @@ public class MyMetaServerSession_Version
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The application version. The server session is only valid if its version matches the application's current version. This is used to catch stale sessions when the application is upgraded.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 15;

@@ -16,19 +16,25 @@
 <body>
 <h1>email</h1>
 
-Emails.<br>
+${model.f_comment}<br>
 <br>
 
 <table cellspacing=0 cellpadding=3 border=1>
 <tr>
   <th>Attribute</th>
-  <th>Comment</th>
+  <th>Help / Comment</th>
   <th>Format</th>
   <th>Attributes</th>
 </tr>
 <tr>
   <td>uid&nbsp;</td>
-  <td>The unique key.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The globally unique identifier.  This is a big ugly number and is generally not displayed.<br>
+            &nbsp;
+  </td>
+  
   <td>uid
         <br><nobr>max length: 30</nobr>           <br>allows(
                       printable
@@ -40,7 +46,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>createdUtcTs&nbsp;</td>
-  <td>When the email was created.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this email was created.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -49,7 +61,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>sentUtcTs&nbsp;</td>
-  <td>When the email was sent.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the email was last sent.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -58,7 +76,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>subject&nbsp;</td>
-  <td>The subject line.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The subject line.<br>
+            &nbsp;
+  </td>
+  
   <td>text100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -70,7 +94,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>fromAddress&nbsp;</td>
-  <td>The from address.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The from address.<br>
+            &nbsp;
+  </td>
+  
   <td>email
         <br><nobr>max length: 50</nobr>           <br>allows(
                       printable
@@ -82,7 +112,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>statusCode&nbsp;</td>
-  <td>The status: draft, ready, sent, error, ignored.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The status: draft, ready, pending, sent, error, ignored.<br>
+            &nbsp;
+  </td>
+  
   <td>letterCode
         <br><nobr>max length: 1</nobr>           <br>allows(
                       letters
@@ -94,7 +130,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>errorNotes&nbsp;</td>
-  <td>Any notes about the problem.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        Any notes about the error condition.<br>
+            &nbsp;
+  </td>
+  
   <td>multiline100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -108,7 +150,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>recipientSummary&nbsp;</td>
-  <td>A summary of the recipients.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        A summary of the recipients.<br>
+            &nbsp;
+  </td>
+  
   <td>notes
         <br><nobr>max length: 1000</nobr>           <br>allows(
                       printable
@@ -122,7 +170,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>toAddressesLabel&nbsp;</td>
-  <td>A summary of the to addresses.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        A summary of the to addresses.<br>
+            &nbsp;
+  </td>
+  
   <td>notes
         <br><nobr>max length: 1000</nobr>           <br>allows(
                       printable
@@ -136,7 +190,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>ccAddressesLabel&nbsp;</td>
-  <td>A summary of the to addresses.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        A summary of the to addresses.<br>
+            &nbsp;
+  </td>
+  
   <td>notes
         <br><nobr>max length: 1000</nobr>           <br>allows(
                       printable
@@ -150,7 +210,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>partsAsHtml&nbsp;</td>
-  <td>A summary of the parts, suitable for html literals.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        A summary of the parts, suitable for html literals.<br>
+            &nbsp;
+  </td>
+  
   <td>notes
         <br><nobr>max length: 1000</nobr>           <br>allows(
                       printable
@@ -164,7 +230,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>lockVersion&nbsp;</td>
-  <td>Used for optimistic locking.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
+            &nbsp;
+  </td>
+  
   <td>lockVersion
               </td>
   <td>
@@ -173,9 +245,15 @@ Emails.<br>
 </tr>
 <tr>
   <td>statusName&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The status: draft, ready, pending, sent, error, ignored.<br>
+            &nbsp;
+  </td>
+  
   <td>name
-        <br><nobr>max length: 30</nobr>           <br>allows(
+        <br><nobr>max length: 50</nobr>           <br>allows(
                       printable
             )
       </td>
@@ -185,7 +263,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>createdLocalTs&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this email was created.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -194,7 +278,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>createdLocalTsMessage&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this email was created.<br>
+            &nbsp;
+  </td>
+  
   <td>text100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -206,7 +296,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>createdLocalDate&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this email was created.<br>
+            &nbsp;
+  </td>
+  
   <td>date
               </td>
   <td>
@@ -215,7 +311,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>createdLocalTime&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this email was created.<br>
+            &nbsp;
+  </td>
+  
   <td>time
               </td>
   <td>
@@ -224,7 +326,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>sentLocalTs&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the email was last sent.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -233,7 +341,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>sentLocalTsMessage&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the email was last sent.<br>
+            &nbsp;
+  </td>
+  
   <td>text100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -245,7 +359,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>sentLocalDate&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the email was last sent.<br>
+            &nbsp;
+  </td>
+  
   <td>date
               </td>
   <td>
@@ -254,7 +374,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>sentLocalTime&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the email was last sent.<br>
+            &nbsp;
+  </td>
+  
   <td>time
               </td>
   <td>

@@ -20,12 +20,12 @@ public class KmCollectionWrapper<T>
 
     public KmCollectionWrapper()
     {
-        _collection = new ArrayList<T>();
+        _collection = new ArrayList<>();
     }
 
     public KmCollectionWrapper(int i)
     {
-        _collection = new ArrayList<T>(i);
+        _collection = new ArrayList<>(i);
     }
 
     protected KmCollectionWrapper(Collection<T> e)

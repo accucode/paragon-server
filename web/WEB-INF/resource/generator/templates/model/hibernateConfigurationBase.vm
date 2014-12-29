@@ -10,7 +10,7 @@ public abstract class ${Prefix}HibernateConfigurationBase
 $utility.protocol("private")
 
     @Override
-    protected void addMappings()
+    protected void addCustomMappings()
     {
 #foreach ( $model in $root.databaseModels )
         addMapping("${model.f_name}");

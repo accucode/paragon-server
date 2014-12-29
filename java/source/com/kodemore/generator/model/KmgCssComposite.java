@@ -20,8 +20,8 @@ public class KmgCssComposite
 
     public KmgCssComposite()
     {
-        _parts = new KmList<String>();
-        _flavors = new KmList<String>();
+        _parts = new KmList<>();
+        _flavors = new KmList<>();
     }
 
     //##################################################
@@ -67,7 +67,7 @@ public class KmgCssComposite
 
     public KmList<KmStringAssociation> getPartConstants()
     {
-        KmList<KmStringAssociation> v = new KmList<KmStringAssociation>();
+        KmList<KmStringAssociation> v = new KmList<>();
 
         for ( String part : getParts() )
         {
@@ -97,7 +97,7 @@ public class KmgCssComposite
 
     public KmList<KmStringAssociation> getFlavorConstants()
     {
-        KmList<KmStringAssociation> v = new KmList<KmStringAssociation>();
+        KmList<KmStringAssociation> v = new KmList<>();
 
         for ( String e : getFlavors() )
         {

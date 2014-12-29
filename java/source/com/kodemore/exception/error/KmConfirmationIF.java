@@ -28,5 +28,5 @@ package com.kodemore.exception.error;
 public interface KmConfirmationIF
     extends KmErrorIF
 {
-    //
+    // none
 }

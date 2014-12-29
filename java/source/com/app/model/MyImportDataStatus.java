@@ -34,10 +34,10 @@ public enum MyImportDataStatus
 
     static
     {
-        _values = new KmList<MyImportDataStatus>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyImportDataStatus>();
+        _codes = new KmMap<>();
         for ( MyImportDataStatus e : EnumSet.allOf(MyImportDataStatus.class) )
             _codes.put(e.getCode(), e);
     }

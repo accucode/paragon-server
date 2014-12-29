@@ -53,8 +53,10 @@ public class KmaAwtUtility
         {
             if ( c == null )
                 return null;
+
             if ( c instanceof JFrame )
                 return (JFrame)c;
+
             c = c.getParent();
         }
     }
@@ -72,10 +74,12 @@ public class KmaAwtUtility
     {
         Border b;
         Border in = c.getBorder();
+
         if ( in == null )
             b = out;
         else
             b = BorderFactory.createCompoundBorder(out, in);
+
         c.setBorder(b);
         return c;
     }
@@ -84,10 +88,12 @@ public class KmaAwtUtility
     {
         Border b;
         Border out = c.getBorder();
+
         if ( out == null )
             b = in;
         else
             b = BorderFactory.createCompoundBorder(out, in);
+
         c.setBorder(b);
         return c;
     }
@@ -143,12 +149,14 @@ public class KmaAwtUtility
 
     public static void showError(Component parent, String title, Exception ex)
     {
-        String message;
-        message = ex + "";
-        message = KmStringSplitter.splitByCharacter(message, 80);
+        String msg;
+        msg = ex + "";
+        msg = KmStringSplitter.splitByCharacter(msg, 80);
+
         if ( LOG_EXCEPTIONS )
             logException(ex);
-        showError(parent, title, message);
+
+        showError(parent, title, msg);
     }
 
     /**
@@ -167,15 +175,18 @@ public class KmaAwtUtility
     public static Boolean showYesNoCancel(Component parent, String title, String message)
     {
         int IGNORED = -1;
-        JOptionPane p;
-        p = new JOptionPane(message, JOptionPane.QUESTION_MESSAGE, IGNORED);
         Object cancel = "Cancel";
         Object yes = "Yes";
         Object no = "No";
-        Object arr[] = new Object[3];
+
+        Object arr[];
+        arr = new Object[3];
         arr[0] = cancel;
         arr[1] = yes;
         arr[2] = no;
+
+        JOptionPane p;
+        p = new JOptionPane(message, JOptionPane.QUESTION_MESSAGE, IGNORED);
         p.setOptions(arr);
         p.setInitialValue(cancel);
 
@@ -204,30 +215,41 @@ public class KmaAwtUtility
     public static boolean showYesNo(Component parent, String title, String message)
     {
         int IGNORED = -1;
-        JOptionPane p;
-        p = new JOptionPane(message, JOptionPane.QUESTION_MESSAGE, IGNORED);
+
         Object no = "No";
         Object yes = "Yes";
-        Object arr[] = new Object[2];
+
+        Object arr[];
+        arr = new Object[2];
         arr[0] = no;
         arr[1] = yes;
+
+        JOptionPane p;
+        p = new JOptionPane(message, JOptionPane.QUESTION_MESSAGE, IGNORED);
         p.setOptions(arr);
         p.setInitialValue(no);
+
         int i = _show(p, parent, title);
+
         if ( i == 0 )
             return false;
+
         if ( i == 1 )
             return true;
+
         return false;
     }
 
     public static int _show(JOptionPane p, Component parent, String title)
     {
-        JDialog d = p.createDialog(parent, title);
+        JDialog d;
+        d = p.createDialog(parent, title);
         d.setVisible(true);
+
         Object selectedValue = p.getValue();
         if ( selectedValue == null )
             return JOptionPane.CLOSED_OPTION;
+
         Object options[] = p.getOptions();
         if ( options == null )
         {
@@ -235,10 +257,12 @@ public class KmaAwtUtility
                 return (Integer)selectedValue;
             return JOptionPane.CLOSED_OPTION;
         }
+
         int n = options.length;
         for ( int i = 0; i < n; i++ )
             if ( options[i].equals(selectedValue) )
                 return i;
+
         return JOptionPane.CLOSED_OPTION;
     }
 

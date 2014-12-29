@@ -25,7 +25,7 @@ public class MyMonitorServlet
 {
     static
     {
-        List<MyMonitorServletCommandIF> v = new ArrayList<MyMonitorServletCommandIF>();
+        List<MyMonitorServletCommandIF> v = new ArrayList<>();
 
         v.add(new MyMonitorServletPingCommand());
         v.add(new MyMonitorServletEchoCommand());

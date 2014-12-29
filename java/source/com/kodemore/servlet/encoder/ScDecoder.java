@@ -51,7 +51,7 @@ public class ScDecoder
 
     public static KmList<Object> staticDecode(KmList<String> sv)
     {
-        KmList<Object> v = new KmList<Object>();
+        KmList<Object> v = new KmList<>();
         for ( String s : sv )
             v.add(staticDecode(s));
         return v;
@@ -87,7 +87,7 @@ public class ScDecoder
 
     public void decode(String s)
     {
-        _values = new KmList<Object>();
+        _values = new KmList<>();
 
         if ( s == null )
             return;

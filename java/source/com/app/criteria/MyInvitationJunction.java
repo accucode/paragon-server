@@ -22,7 +22,7 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyInvitationJunction
-    extends KmModelJunction<MyInvitation>
+    extends KmModelJunction
     implements MyInvitationDaoConstantsIF
 {
     //##################################################
@@ -60,12 +60,12 @@ public class MyInvitationJunction
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereClosedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CLOSED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CLOSED_UTC_TS));
     }
 
     public KmStringCriteria whereToEmail()
@@ -102,19 +102,19 @@ public class MyInvitationJunction
         return new KmStringCriteria(context(), fullName(FROM_USER_UID));
     }
 
-    public MyAccountCriteria joinToAccount()
+    public MyProjectCriteria joinToProject()
     {
-        return join(new MyAccountCriteria(root().joinTo(ACCOUNT)));
+        return join(new MyProjectCriteria(root().joinTo(PROJECT)));
     }
 
-    public MyAccountCriteria leftJoinToAccount()
+    public MyProjectCriteria leftJoinToProject()
     {
-        return join(new MyAccountCriteria(root().leftJoinTo(ACCOUNT)));
+        return join(new MyProjectCriteria(root().leftJoinTo(PROJECT)));
     }
 
-    public KmStringCriteria whereAccountUid()
+    public KmStringCriteria whereProjectUid()
     {
-        return new KmStringCriteria(context(), fullName(ACCOUNT_UID));
+        return new KmStringCriteria(context(), fullName(PROJECT_UID));
     }
 
     //##################################################

@@ -61,7 +61,7 @@ public class KmaGridVariableSizeModel
     public KmSparseArray<Integer> getSizes()
     {
         if ( _sizes == null )
-            _sizes = new KmSparseArray<Integer>();
+            _sizes = new KmSparseArray<>();
         return _sizes;
     }
 

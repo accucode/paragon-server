@@ -56,7 +56,7 @@ public class MyDownloadCriteria
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmIntegerCriteria whereLockVersion()
@@ -382,7 +382,6 @@ public class MyDownloadCriteria
     //##################################################
 
     @Override
-    @SuppressWarnings("rawtypes")
     public MyDownloadCriteria createOn(KmModelJunction junction)
     {
         return new MyDownloadCriteria(parent(), junction.context());

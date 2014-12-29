@@ -1,11 +1,16 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScLiteral;
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScActionButton;
+import com.kodemore.servlet.control.ScDiv;
+import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
 
 import com.app.file.MyFilePaths;
+import com.app.utility.MyButtonUrls;
 
 /**
  * Include the content found at /web/test/staticInclude.html
@@ -25,10 +30,16 @@ public class MyStaticIncludeTestPage
     }
 
     //##################################################
+    //# constants
+    //##################################################
+
+    private static final String FILE = "test/staticInclude.html";
+
+    //##################################################
     //# variables
     //##################################################
 
-    private ScLiteral _literal;
+    private ScDiv               _contents;
 
     //##################################################
     //# navigation
@@ -53,11 +64,46 @@ public class MyStaticIncludeTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        _literal = root.addLiteral();
+        root.css().fill();
+
+        ScFlexbox col;
+        col = root.addColumn();
+        col.css().fill();
+
+        ScFlexbox row;
+        row = col.addRow();
+        row.crossAlignCenter();
+        row.css().boxBlue().gap();
+
+        ScActionButton button;
+        button = row.addButton("Reload", newReloadAction());
+        button.setImage(MyButtonUrls.refresh());
+
+        row.addTextSpan("The contents below are loaded from:");
+        row.addTextSpan(FILE).css().bold();
+
+        _contents = col.addFiller();
+        _contents.css().relative();
     }
 
     //##################################################
-    //# navigation
+    //# action
+    //##################################################
+
+    private ScActionIF newReloadAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            protected void handle()
+            {
+                handleReload();
+            }
+        };
+    }
+
+    //##################################################
+    //# print
     //##################################################
 
     @Override
@@ -65,9 +111,26 @@ public class MyStaticIncludeTestPage
     {
         super.preRender();
 
-        String path = MyFilePaths.getWebPath("test/staticInclude.html");
-        String html = Kmu.readTextFile(path);
-        _literal.setValue(html);
+        _contents.getPostDomScript().setContents(getStaticHtml());
+    }
+
+    //##################################################
+    //# handle
+    //##################################################
+
+    private void handleReload()
+    {
+        _contents.ajax().setContents(getStaticHtml());
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private String getStaticHtml()
+    {
+        String path = MyFilePaths.getWebPath(FILE);
+        return Kmu.readFileString(path);
     }
 
 }

@@ -50,6 +50,12 @@ public class MyMetaUser_PasswordSalt
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The salt used for this user. Each user has a different salt. The salt is set to a random value when the user is created, and should never be changed.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

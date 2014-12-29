@@ -83,7 +83,7 @@ public class KmStfTest
 
         String res = Kmu.format("%s/%s", pkg, file);
 
-        return Kmu.readClassString(res);
+        return Kmu.readResourceString(res);
     }
 
 }

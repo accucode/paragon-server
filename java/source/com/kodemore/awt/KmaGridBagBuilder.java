@@ -148,6 +148,7 @@ public class KmaGridBagBuilder
     public void fillHoles(int w, int h)
     {
         Dimension d = new Dimension(w, h);
+
         for ( int i = 0; i < _fillArray.length; i++ )
             for ( int j = 0; j < _fillArray[i].length; j++ )
                 if ( !_fillArray[i][j] )
@@ -202,8 +203,10 @@ public class KmaGridBagBuilder
     {
         if ( x > _fillArray.length - 1 )
             return false;
+
         if ( y > _fillArray[x].length - 1 )
             return false;
+
         return _fillArray[x][y];
     }
 
@@ -608,10 +611,13 @@ public class KmaGridBagBuilder
     public void addGap(int w, int h)
     {
         Dimension d = new Dimension(w, h);
-        JPanel p = new JPanel();
+
+        JPanel p;
+        p = new JPanel();
         p.setMinimumSize(d);
         p.setPreferredSize(d);
         p.setMaximumSize(d);
+
         setWeight(0, 0);
         add(p);
     }
@@ -619,10 +625,13 @@ public class KmaGridBagBuilder
     public void addBigGap()
     {
         Dimension d = new Dimension(1, 1);
-        JPanel p = new JPanel();
+
+        JPanel p;
+        p = new JPanel();
         p.setMinimumSize(d);
         p.setPreferredSize(d);
         p.setMaximumSize(d);
+
         setWeight(1, 1);
         add(p);
     }
@@ -640,15 +649,18 @@ public class KmaGridBagBuilder
     {
         if ( _autoWrap )
             c = _wrap(c);
+
         if ( w > 0 )
         {
             Dimension d = new Dimension(w, h);
             c.setPreferredSize(d);
             c.setMinimumSize(d);
         }
+
         _markFillArray();
         _layout.setConstraints(c, _current);
         _container.add(c);
+
         resetCurrent();
     }
 
@@ -661,18 +673,23 @@ public class KmaGridBagBuilder
 
     public void _setNextPosition()
     {
-        do
+        while ( true )
+        {
             if ( isHorizontal() )
                 _setNextColumnPosition();
             else
                 _setNextRowPosition();
-        while ( _hasCollision() );
+
+            if ( !_hasCollision() )
+                break;
+        }
     }
 
     public boolean _hasCollision()
     {
         int x = _current.gridx;
         int y = _current.gridy;
+
         return isFilled(x, y);
     }
 
@@ -680,12 +697,17 @@ public class KmaGridBagBuilder
     {
         int w = _current.gridwidth;
         boolean isRemainder = w == GridBagConstraints.REMAINDER;
+
         int x = _nextColumn;
+
         if ( !isRemainder )
             x += w;
+
         if ( _nextColumn > 0 && x > _columnCount )
             newRow();
+
         _setConstraintPosition();
+
         if ( isRemainder )
             newRow();
         else
@@ -697,11 +719,15 @@ public class KmaGridBagBuilder
         int h = _current.gridheight;
         boolean isRemainder = h == GridBagConstraints.REMAINDER;
         int y = _nextRow;
+
         if ( !isRemainder )
             y += h;
+
         if ( _nextRow > 0 && y > _rowCount )
             newColumn();
+
         _setConstraintPosition();
+
         if ( isRemainder )
             newColumn();
         else
@@ -723,11 +749,14 @@ public class KmaGridBagBuilder
     {
         int x1 = _current.gridx;
         int x2 = x1 + _current.gridwidth - 1;
+
         int y1 = _current.gridy;
         int y2 = y1 + _current.gridheight - 1;
+
         for ( int x = x1; x <= x2; x++ )
         {
             _checkFillArraySize(x, y2);
+
             for ( int y = y1; y <= y2; y++ )
                 _fillArray[x][y] = true;
         }
@@ -737,27 +766,36 @@ public class KmaGridBagBuilder
     {
         int oldw = _fillArray.length;
         int oldh = _fillArray[0].length;
+
         if ( oldw < x + 1 || oldh < y + 1 )
         {
             int neww = Math.max(oldw, x + 1);
             int newh = Math.max(oldh, y + 1);
             boolean arr[][] = new boolean[neww][newh];
+
             for ( int i = 0; i < oldw; i++ )
                 for ( int j = 0; j < oldh; j++ )
                     arr[i][j] = _fillArray[i][j];
+
             _fillArray = arr;
         }
     }
 
     public void _printFillArray()
     {
-        for ( boolean[] element : _fillArray )
+        for ( boolean[] row : _fillArray )
         {
-            for ( boolean element2 : element )
-                System.out.print(element2
-                    ? 'x'
-                    : 'o');
-            System.out.println("");
+            for ( boolean col : row )
+                System.out.print(formatXo(col));
+
+            System.out.println();
         }
+    }
+
+    public String formatXo(boolean b)
+    {
+        return b
+            ? "x"
+            : "o";
     }
 }

@@ -37,7 +37,7 @@ public abstract class MyFileToolsBase
     public ScDomainDropdownField<MyFile,Integer> newDomainDropdown()
     {
         ScDomainDropdownField<MyFile,Integer> e;
-        e = new ScDomainDropdownField<MyFile,Integer>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyFileFilter());
         e.setFinder(new MyFileFinder());

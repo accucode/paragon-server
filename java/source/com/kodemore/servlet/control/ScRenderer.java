@@ -162,6 +162,9 @@ public class ScRenderer
     //# render (private)
     //##################################################
 
+    /**
+     * @param out unused, but defined for subclasses.
+     */
     private void renderNullOn(KmHtmlBuilder out)
     {
         // none
@@ -176,10 +179,12 @@ public class ScRenderer
         c.renderOn(out);
     }
 
+    /**
+     * @param parent
+     */
     @SuppressWarnings(
     {
-        "unchecked",
-        "rawtypes"
+        "unchecked", "rawtypes"
     })
     private void renderAdaptorOn(KmHtmlBuilder out, Object oAdaptor, ScControl parent, Object model)
     {

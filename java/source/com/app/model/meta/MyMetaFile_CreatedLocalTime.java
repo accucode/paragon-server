@@ -49,6 +49,12 @@ public class MyMetaFile_CreatedLocalTime
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when the file was created (in our system).";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

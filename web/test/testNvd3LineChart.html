@@ -9,7 +9,6 @@
     
     <script type="text/javascript">
 
-
         function myLoad()
         {
             MyResourceLoader.loadTestResources(
@@ -20,9 +19,9 @@
         
         function myInstall()
         {
-            $("#main").show();
-            
             installLineChart();
+            
+            $("#main").show();
         }
 
         function installLineChart()
@@ -32,22 +31,22 @@
                 var chart;
                 chart = nv.models.lineChart().useInteractiveGuideline(true);
                 
-                chart
-                    .margin( {left:100} )
-                    .x( function(d,i) { return d.x });
-            
-                chart.xAxis
-                    .axisLabel('Time (s)')
-                    .tickFormat(d3.format(',.1f'));
+                chart.margin(
+                {
+                    left: 100
+                });
                 
-                chart.yAxis
-                    .axisLabel('Voltage (v)')
-                    .tickFormat(d3.format(',.2f'));
+                chart.xAxis.axisLabel('Time');
+                chart.xAxis.tickFormat(d3.format(',.1f'));
                 
-                d3.select('#lineChart svg')
-                    .datum(lineChartData())
-                    .transition().duration(500)
-                    .call(chart);
+                chart.yAxis.axisLabel('Voltage');
+                chart.yAxis.tickFormat(d3.format(',.2f'));
+                
+                var e;
+                e = d3.select('#lineChart > svg');
+                e.datum(getChartData());
+                e.transition().duration(250);
+                e.call(chart);
                 
                 nv.utils.windowResize(chart.update);
                 
@@ -55,92 +54,102 @@
             });
         }
         
-        function lineChartData() 
+        function getChartData() 
         {
-            var sin = [],
-                cos = [],
-                rand = [],
-                rand2 = [];
-        
-            for (var i = 0; i < 100; i++) 
-            {
-                sin.push({x: i, y: i % 10 == 5 ? null : Math.sin(i/10) }); //the nulls are to show how defined works
-                cos.push({x: i, y: .5 * Math.cos(i/10)});
-                rand.push({x:i, y: Math.random() / 10});
-                rand2.push({x: i, y: Math.cos(i/10) + Math.random() / 10 });
-            }
+            var arr = [];
             
-            return [
+            arr.push(
+            {
+                key:    "Sine Wave",
+                values: getSinePoints(),
+                color:  "#f44",
+                area:   true
+            });
+            
+            arr.push(
+            {
+                key:    "Cosine Wave",
+                values: getCosinePoints(),
+                color: "#2a2"
+            });
+            
+            return arr;
+        }
+
+        function getSinePoints() 
+        {
+            var arr = [];
+            for ( var i=0; i<200; i++ ) 
+            {
+                arr.push(
                 {
-                    area: true,
-                    values: sin,
-                    key: "Sine Wave",
-                    color: "#ff7f0e"
-                },
-                
-                {
-                    values: cos,
-                    key: "Cosine Wave",
-                    color: "#2ca02c"
-                },
-                
-                {
-                    values: rand,
-                    key: "Random Points",
-                    color: "#2222ff"
-                },
-                
-                {
-                    values: rand2,
-                    key: "Random Cosine",
-                    color: "#667711"
-                }
-            ];
+                    x: i, 
+                    y: Math.sin(i/10) 
+                });
+            }
+            return arr;
         }
         
-        function myHide()
+        function getCosinePoints() 
         {
-            $('#lineChart').hide();
+            var arr = [];
+            for ( var i=0; i<200; i++ ) 
+            {
+                arr.push(
+                {
+                    x: i,
+                    y: Math.cos(i/10) * 0.5 
+                });
+            }
+            return arr;
         }
         
-        function myShow()
+        function myToggle()
         {
-            $('#lineChart').show();
+            $('#lineChart').toggle();
         }
         
         function myUpdate()
         {
-            var length = nv.graphs.length;
-            for ( var i = 0; i < length; i++)
-                nv.graphs[0].update();
+            var n = nv.graphs.length;
+            for ( var i=0; i<n; i++)
+                nv.graphs[i].update();
         }
         
     </script>
 
     <style type="text/css">
+
+        .xChart
+        {
+            position: absolute;
+            left:    50px;
+            right:   50px;
+            top:    100px;
+            bottom:  50px;
+            border: 1px solid blue;
+        }
+
     </style>
 
 </head>
 
 <body onload='myLoad();'>
-<div id="main" style="display:none" class="gap">
+<div id="main" style="display:none">
 
-    <button onclick='location.reload();'>reload</button>
-    <button onclick='myHide();'>Hide</button>
-    <button onclick='myShow();'>Show</button>
-    <button onclick='myUpdate();'>Update</button>
-    <br>
-    
-    <div class='boxBlue gap'>
-        <p>
-            This is a test of the NVD3 javascript chart tool. Specifically the Line chart.
-        </p>
+    <div class='boxBlue pad'>
+        This is a test of the NVD3 javascript chart tool. Specifically the Line chart.
     </div>
     
-    <div id="lineChart" style="float:left; width: 50%; height: 400px; display: none;">
+    <div class="buttonGap">
+        <button onclick='location.reload();'>reload</button>
+        <button onclick='myToggle();'>Toggle</button>
+        <button onclick='myUpdate();'>Update</button>
+    </div>
+    
+    <div id="lineChart" class="xChart">
         <svg></svg>
     </div>
     
 </body>
-
 </html>

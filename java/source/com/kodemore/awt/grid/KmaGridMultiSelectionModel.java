@@ -41,7 +41,7 @@ public class KmaGridMultiSelectionModel
 
     public KmaGridMultiSelectionModel()
     {
-        _areas = new KmList<KmaGridSelectionArea>();
+        _areas = new KmList<>();
     }
 
     //##################################################
@@ -106,8 +106,10 @@ public class KmaGridMultiSelectionModel
     public boolean isSelected(Point p)
     {
         boolean b = false;
+
         for ( KmaGridSelectionArea a : _areas )
             b = a.isSelected(p, b);
+
         return b;
     }
 
@@ -125,9 +127,11 @@ public class KmaGridMultiSelectionModel
     @Override
     public KmList<Point> getSelections()
     {
-        KmList<Point> v = new KmList<Point>();
+        KmList<Point> v = new KmList<>();
+
         for ( KmaGridSelectionArea a : _areas )
             a.updateSelections(v);
+
         return v;
     }
 

@@ -178,7 +178,7 @@ public class KmTimeInterval
     //##################################################
 
     /**
-     * @see #containsInclusive(KmTime)
+     * @see #containsInclusive
      */
     public boolean contains(KmTime t)
     {

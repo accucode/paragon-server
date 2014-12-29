@@ -34,10 +34,10 @@ public enum MyEmailPartType
 
     static
     {
-        _values = new KmList<MyEmailPartType>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyEmailPartType>();
+        _codes = new KmMap<>();
         for ( MyEmailPartType e : EnumSet.allOf(MyEmailPartType.class) )
             _codes.put(e.getCode(), e);
     }

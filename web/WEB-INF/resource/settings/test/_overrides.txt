@@ -18,11 +18,11 @@ webResourceVersioning                       = deploy
 ## database
 #######################################
 
-databaseSchema                              = paragon
+databaseSchema                              = field_service
 databaseDriver                              = com.mysql.jdbc.Driver
 databaseUri                                 = jdbc:mysql://paragon-test.c6elvadxxqh4.us-east-1.rds.amazonaws.com:3306/
-databaseUser                                = paragon
-databasePassword                            = Ym4Y2acI0D94asA
+databaseUser                                = field_service
+databasePassword                            = ukPsZRXriqxRm6g0
 
                 
 #######################################     

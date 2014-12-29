@@ -42,6 +42,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileCleaningTracker;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
@@ -205,8 +206,8 @@ public class ScServletData
 
     private void installVariables()
     {
-        _setCookies = new KmMap<String,Cookie>();
-        _errors = new KmList<KmErrorIF>();
+        _setCookies = new KmMap<>();
+        _errors = new KmList<>();
         _result = null;
     }
 
@@ -218,10 +219,13 @@ public class ScServletData
         while ( e.hasMoreElements() )
         {
             String key = e.nextElement();
-            String value = _request.getParameter(key);
+            String[] values = _request.getParameterValues(key);
 
-            value = _normalize(value);
-            _parameters.setValue(key, value);
+            for ( String value : values )
+            {
+                value = _normalize(value);
+                _parameters.addValue(key, value);
+            }
         }
     }
 
@@ -366,7 +370,7 @@ public class ScServletData
 
     public Iterator<String> getHeaderNames()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         v.addAllUnchecked(_getRequest().getHeaderNames());
         v.sort();
         return v.iterator();
@@ -402,28 +406,72 @@ public class ScServletData
         return _request.getRemoteAddr();
     }
 
-    @SuppressWarnings("unchecked")
+    //##################################################
+    //# multi part
+    //##################################################
+
+    /**
+     * Get the uploaded files from a multi-part upload.
+     *
+     * This relies on the Apache Commons DiskFileItemFactory and may introduce some
+     * architectural considerations.
+     *
+     * 1) deletion of (Apache's) temporary files
+     * 2) clean shutdown of servlet container
+     * 3) security
+     *
+     * For additional info see here... http://goo.gl/q93J27
+     *
+     * Security Review
+     *     Local untrusted users could change the contents of the
+     *     temp files causing unknown an probable malicous behavior.  This is not
+     *     a problem if you use an isolated web server which does not allow local
+     *     logins for users.  Our users are considered trusted and already have root
+     *     privileges.  I see no issue for us.
+     *
+     * Temp file deleteion
+     *     We need to implement a FileCleaningTracker (thread?) which cleans up the
+     *     files when the File object is garbage collected.
+     *
+     * Shutdown
+     *      This thread needs to add terminated during shutdown of the servlet
+     *      container( web application).
+     *      See http://bit.ly/1rmDy1f for additional information.
+     *
+     *       Adding the following the web.xml should shutdown the thread.
+     *       <web-app>
+     *         ...
+     *         <listener>
+     *           <listener-class>
+     *             org.apache.commons.fileupload.servlet.FileCleanerCleanup
+     *           </listener-class>
+     *         </listener>
+     *         ...
+     *       </web-app>
+     *
+     */
     public KmList<FileItem> getUploadedFiles()
     {
-        KmList<FileItem> v;
-        v = new KmList<FileItem>();
-
         try
         {
-            DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
-            ServletFileUpload servletFileUpload = new ServletFileUpload(diskFileItemFactory);
-
-            List<FileItem> files;
-            files = servletFileUpload.parseRequest(_getRequest());
-
-            v.addAll(files);
+            DiskFileItemFactory factory = createDiskFileItemFactory();
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            List<FileItem> items = upload.parseRequest(_getRequest());
+            return new KmList<>(items);
         }
         catch ( FileUploadException ex )
         {
-            ex.printStackTrace();
+            KmLog.error(ex, "Cannot get uploaded files.");
+            return new KmList<>();
         }
+    }
 
-        return v;
+    private DiskFileItemFactory createDiskFileItemFactory()
+    {
+        DiskFileItemFactory x = new DiskFileItemFactory();
+        x.setFileCleaningTracker(new FileCleaningTracker());
+        return x;
+
     }
 
     //##################################################
@@ -564,7 +612,7 @@ public class ScServletData
 
     public KmList<String> getParameterKeysStartingWith(String prefix)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         for ( String s : getParameterKeys() )
             if ( s.startsWith(prefix) )
                 v.add(s);
@@ -573,7 +621,7 @@ public class ScServletData
 
     public KmList<String> getParametersStartingWith(String prefix)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         KmList<String> keys = getParameterKeysStartingWith(prefix);
         for ( String key : keys )
             v.add(getParameter(key));
@@ -582,30 +630,18 @@ public class ScServletData
 
     public KmList<String> getParameters(String key)
     {
-        String[] arr = _getRequest().getParameterValues(key);
-        KmList<String> v;
-        v = new KmList<String>();
-        v.addAll(arr);
-        return v;
+        return _parameters.getValues(key);
     }
 
     public void printParameters()
     {
-        printParameters(null);
-    }
-
-    public void printParameters(String prefix)
-    {
-        if ( prefix == null )
-            prefix = "";
-
         KmList<String> keys;
         keys = getParameterKeys();
         keys.sort();
 
-        System.out.println(prefix + "Parameters: " + keys.size());
+        System.out.println("Parameters: " + keys.size());
         for ( String key : keys )
-            System.out.printf("%s    %s = %s\n", prefix, key, getParameter(key));
+            System.out.printf("    %s = %s\n", key, getParameters(key).format());
     }
 
     public String formatParametersAsQueryString()
@@ -678,7 +714,7 @@ public class ScServletData
 
     private KmList<Cookie> _getCookies()
     {
-        KmMap<String,Cookie> m = new KmMap<String,Cookie>();
+        KmMap<String,Cookie> m = new KmMap<>();
 
         Cookie[] cookies = _getRequest().getCookies();
         if ( cookies != null )
@@ -688,7 +724,7 @@ public class ScServletData
         for ( Cookie e : _setCookies.getValues() )
             m.put(e.getName(), e);
 
-        KmList<Cookie> v = new KmList<Cookie>();
+        KmList<Cookie> v = new KmList<>();
         for ( Cookie e : m.getValues() )
             if ( Kmu.isNotEqual(e.getValue(), REMOVED_COOKIE_VALUE) )
                 v.add(e);
@@ -1153,7 +1189,7 @@ public class ScServletData
 
     public KmList<String> getErrorMessages()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         for ( KmErrorIF e : getErrors() )
             v.add(e.formatMessage());
 
@@ -1299,6 +1335,9 @@ public class ScServletData
         return out.toString();
     }
 
+    /**
+     * @param out unused, but defined for consistency and subclasses.
+     */
     public void appendLogIdentification(StringBuilder out)
     {
         // none
@@ -1362,6 +1401,25 @@ public class ScServletData
     public void clearPageSession()
     {
         _pageSessionEncodedValues.clear();
+    }
+
+    //##################################################
+    //# current page
+    //##################################################
+
+    public ScPage getCurrentPage()
+    {
+        String key = getCurrentPageKey();
+
+        if ( Kmu.isEmpty(key) )
+            return null;
+
+        return ScPageRegistry.getInstance().findKey(key);
+    }
+
+    public String getCurrentPageKey()
+    {
+        return getParameter(ScConstantsIF.PARAMETER_CURRENT_PAGE_KEY);
     }
 
     //##################################################
@@ -1520,9 +1578,27 @@ public class ScServletData
         return Kmu.parse_boolean(s);
     }
 
+    public boolean isTopMenuVisible()
+    {
+        String s = getParameter(PARAMETER_IS_TOP_MENU_VISIBLE);
+        return Kmu.parse_boolean(s);
+    }
+
     public boolean isLeftMenuVisible()
     {
-        String s = getParameter(PARAMETER_IS_PAGE_MENU_VISIBLE);
+        String s = getParameter(PARAMETER_IS_LEFT_MENU_VISIBLE);
+        return Kmu.parse_boolean(s);
+    }
+
+    public boolean isPageTitleVisible()
+    {
+        String s = getParameter(PARAMETER_IS_PAGE_TITLE_VISIBLE);
+        return Kmu.parse_boolean(s);
+    }
+
+    public boolean isPageContentVisible()
+    {
+        String s = getParameter(PARAMETER_IS_PAGE_CONTENT_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 

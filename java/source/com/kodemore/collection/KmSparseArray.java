@@ -39,7 +39,7 @@ public class KmSparseArray<T>
 
     public KmSparseArray()
     {
-        _data = new KmList<Element>();
+        _data = new KmList<>();
         _defaultValue = null;
     }
 

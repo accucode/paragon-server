@@ -1,0 +1,41 @@
+model
+: name      = applicationLogTrace
+: help...
+    ===
+    Used to store the stack trace segments.
+    ===
+
+database
+: alias     = alt
+: locking   = false
+
+attributes
+
+    field
+    : name          = id
+    : help          = The global unique identifier.  This is a big ugly number and is usually not displayed.
+    : comment       = The unique key.
+    : type          = id
+    : identity      = true
+    : primaryKey    = true
+
+    field
+    : name      = sequence
+    : help      = This sorts the traces within the log, but is generally not displayed.
+    : comment   =
+    : type      = integer
+    : required  = true
+
+    field
+    : name      = value
+    : help      = The text of an individual stack trace segment, truncated at 1000 characters.
+    : type      = text1000
+
+    association
+    : name      = log
+    : help      = The log to which this trace belongs.
+    : comment   = 
+    : modelName = applicationLog
+    : relation  = parent
+    : required  = true
+

@@ -20,7 +20,8 @@ public class MyDevApplicationPropertiesPage
     //# singleton
     //##################################################
 
-    public static final MyDevApplicationPropertiesPage instance = new MyDevApplicationPropertiesPage();
+    public static final MyDevApplicationPropertiesPage instance =
+                                                                    new MyDevApplicationPropertiesPage();
 
     private MyDevApplicationPropertiesPage()
     {
@@ -82,7 +83,7 @@ public class MyDevApplicationPropertiesPage
             group = root.addGroup(g);
 
             ScFieldTable fields;
-            fields = group.addPad().addFields();
+            fields = group.getBody().addPad().addFieldTable();
 
             KmList<MyPropertyDefinition> defs = getDefs(g);
             for ( MyPropertyDefinition def : defs )

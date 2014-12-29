@@ -116,11 +116,13 @@ public class MyXmlLabelAdaptorZpl
         switch ( type )
         {
             case UPC_A:
-                _out.printfln("^BU%s,%s,%s,%s,%s", o, h, printText, printTextAbove, printCheckDigit);
+                _out
+                    .printfln("^BU%s,%s,%s,%s,%s", o, h, printText, printTextAbove, printCheckDigit);
                 break;
 
             case Code_39:
-                _out.printfln("^B3%s,%s,%s,%s,%s", o, printCheckDigit, h, printText, printTextAbove);
+                _out
+                    .printfln("^B3%s,%s,%s,%s,%s", o, printCheckDigit, h, printText, printTextAbove);
                 break;
 
             case Standard_2_of_5:

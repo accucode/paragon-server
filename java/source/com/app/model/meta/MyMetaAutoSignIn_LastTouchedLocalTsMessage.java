@@ -49,6 +49,12 @@ public class MyMetaAutoSignIn_LastTouchedLocalTsMessage
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time the user logged in.  This is generally updated each time the user logs in either manaully or automatically.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

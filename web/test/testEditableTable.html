@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+            
+            var t;
+            t = $("#t");
+            // t.editableTableWidget();
+            t.editableTableWidget(
+            {
+                // editor: $('<textarea>'),
+                // cloneProperties: ['background', 'border', 'outline']
+            });
+            
+            $("#t td").on('validate', function(ev, value)
+            {
+                var ok = value.indexOf("x") < 0;
+                
+                console.log('validate: ' + value);
+                console.log('ok: ' + ok);
+
+                return ok;                
+            });
+            
+            $('#t td').on('change', function(ev, value) 
+            {
+                // console.log('change: ' + value);
+                return true;
+            });            
+        }
+        
+        function myTest()
+        {
+        }
+        
+    </script>
+
+    <style type="text/css">
+        
+        .xParent
+        {
+            position:   absolute;
+            left:       20px;
+            width:      300px;
+            top:        20px;
+            height:     100px;
+            
+            background-color: #eee;
+            border: 1px solid black;
+            padding: 10px;
+        }
+        
+        .xTable
+        {
+            left:       10px;
+            width:      200px;
+            top:        10px;
+            
+            border: 1px solid blue;
+        }
+        
+        .xTr
+        {
+            background-color: yellow;
+        }
+        .xTr:nth-child(odd)
+        {
+            background-color: white;
+        }
+        
+        .xTd
+        {
+            padding: 5px;
+        }
+        
+        input.error
+        {
+            border: 1px solid red;
+            /* background-color: red; */
+        }
+        
+        
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none">
+
+<div class="xParent">
+    <table id="t" class="xTable">
+        <tr class="xTr">
+            <td class="xTd">Cat</td>
+            <td class="xTd">100</td>
+        </tr>
+        <tr class="xTr">
+            <td class="xTd">Dog</td>
+            <td class="xTd">200</td>
+        </tr>
+        <tr class="xTr">
+            <td class="xTd">Mouse</td>
+            <td class="xTd">300</td>
+        </tr>
+    </table>
+</div>
+
+</div>
+</body>
+</html>

@@ -7,18 +7,6 @@
     <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
     <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
     
-    <link href="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/nv.d3.css" rel="stylesheet" type="text/css">
-    
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/lib/d3.v3.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/nv.d3.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/tooltip.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/utils.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/interactiveLayer.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/legend.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/axis.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/discreteBar.js"></script>
-    <script type="text/javascript" src ="file:///C:/Users/aledbetter/Desktop/nvd3-1.1.10/src/models/discreteBarChart.js"></script>
-    
     <script type="text/javascript">
 
         function myLoad()
@@ -61,38 +49,40 @@
         
         function barChartData() 
         {
-            return [
+            return 
+            [
                 {
                     key: "Math",
-                    values: [
+                    values: 
+                    [
                         { 
-                          "label" : "Pi" ,
-                          "value" : 3.14159
+                            "label" : "Pi",
+                            "value" : 3.14159
                         },
                          
                         { 
-                          "label" : "Phi" , 
-                          "value" : 1.618
+                            "label" : "Phi", 
+                            "value" : 1.618
                         }, 
                         
                         { 
-                          "label" : "e" , 
-                          "value" : 2.718
+                            "label" : "e", 
+                            "value" : 2.718
                         },
                          
                         { 
-                          "label" : "-1" , 
-                          "value" : -1
-                        }, 
-                         
-                        { 
-                          "label" : "0" , 
-                          "value" : 0
+                            "label" : "-1", 
+                            "value" : -1
                         },
                          
                         { 
-                          "label" : "1" , 
-                          "value" : 1
+                            "label" : "0", 
+                            "value" : 0
+                        },
+                        
+                        { 
+                            "label" : "1", 
+                            "value" : 1
                         } 
                     ]
                 }
@@ -102,6 +92,17 @@
     </script>
 
     <style type="text/css">
+    
+        .xChart
+        {
+            position: absolute;
+            left:  50px;
+            right: 50px;
+            top:   200px;
+            bottom: 50px;
+            border: 1px solid blue;
+        }
+        
     </style>
 
 </head>
@@ -118,8 +119,8 @@
         </p>
     </div>
     
-    <div id="barChart" style="float:left; width: 50%;">
-        <svg style="height: 400px;"></svg>
+    <div id="barChart" class="xChart">
+        <svg class="fill"></svg>
     </div>
     
 </body>

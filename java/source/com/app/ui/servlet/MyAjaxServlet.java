@@ -10,7 +10,6 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScActionIF;
 
 import com.app.dao.base.MyDaoRegistry;
-import com.app.model.MyUser;
 import com.app.ui.core.MyServletData;
 import com.app.ui.page.MyPageRegistry;
 import com.app.ui.page.login.MySignInPage;
@@ -123,11 +122,18 @@ public class MyAjaxServlet
 
     private void printWindowLocation()
     {
-        ScPage page = getCurrentPage();
+        ScPage page = getEntryPage();
 
         if ( requiresLoginFor(page) )
         {
             MySignInPage.instance.pushForWindowQuery();
+            return;
+        }
+
+        if ( !page.checkSecuritySilently() )
+        {
+            KmLog.debug("Entry page; security check: %s.", page.getClass().getSimpleName());
+            getDefaultEntryPage()._ajaxPush();
             return;
         }
 
@@ -137,10 +143,10 @@ public class MyAjaxServlet
         page.print();
     }
 
-    private ScPage getCurrentPage()
+    private ScPage getEntryPage()
     {
         ScParameterList params = getData().getWindowParameters();
-        String key = params.getValue(ScConstantsIF.PARAMETER_PAGE_KEY);
+        String key = params.getValue(ScConstantsIF.PARAMETER_REQUESTED_PAGE_KEY);
 
         MyPageRegistry registry = MyPageRegistry.getInstance();
 
@@ -148,17 +154,21 @@ public class MyAjaxServlet
         if ( page != null )
             return page;
 
-        KmLog.warn("Unknown page key: " + key);
+        KmLog.debug("Entry page; unknown key: %s.", key);
+        return getDefaultEntryPage();
+    }
 
-        return MyNavigator.getDefaultPage();
+    public ScPage getDefaultEntryPage()
+    {
+        return MyNavigator.getEntryPage();
     }
 
     private boolean requiresLoginFor(ScPage page)
     {
         boolean requiresUser = page.requiresUser();
-        MyUser user = MyGlobals.getServerSession().getUser();
+        boolean hasUser = MyGlobals.getServerSession().hasUser();
 
-        return requiresUser && user == null;
+        return requiresUser && !hasUser;
     }
 
     //##################################################

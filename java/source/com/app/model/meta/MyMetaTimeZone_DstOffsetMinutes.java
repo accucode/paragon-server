@@ -49,6 +49,12 @@ public class MyMetaTimeZone_DstOffsetMinutes
     }
 
     @Override
+    public String getHelp()
+    {
+        return "dstOffsetMinutes";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

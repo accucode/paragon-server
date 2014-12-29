@@ -33,10 +33,10 @@ public class MyNavigationTest1Page
     //# navigation
     //##################################################
 
-    public void push(String value)
+    public void ajaxPush(String value)
     {
         _textField.setValue(value);
-        _push();
+        _ajaxPush();
     }
 
     @Override
@@ -75,13 +75,13 @@ public class MyNavigationTest1Page
         group.css().width400();
 
         ScBox body;
-        body = group.addPad();
-        body.addFields().add(_textField);
+        body = group.getBody().addPad();
+        body.addFieldTable().add(_textField);
 
-        group.addDivider();
+        group.addBodyDivider();
 
         ScBox footer;
-        footer = group.addButtonBoxLeft();
+        footer = group.getBody().addButtonBox();
         footer.addButton("Update", newUpdateHistoryAction());
         footer.addButton("Navigate", newNavigateAction());
     }
@@ -131,11 +131,12 @@ public class MyNavigationTest1Page
     private void handleNavigate()
     {
         String value = _textField.getValue();
-        MyNavigationTest2Page.instance.push(value);
+        MyNavigationTest2Page.instance.ajaxPush(value);
     }
 
     private void handleUpdateHistory()
     {
         ajax().replaceHistory(this);
+        ajax().toast("Updated.");
     }
 }

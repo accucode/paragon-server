@@ -40,7 +40,6 @@ public class ScCheckboxField
     private KmValidator<Boolean> _validator;
 
     private ScLocalBoolean       _checked;
-    private ScLocalBoolean       _disabled;
 
     //##################################################
     //# init
@@ -52,7 +51,6 @@ public class ScCheckboxField
         super.install();
 
         _checked = new ScLocalBoolean(false);
-        _disabled = new ScLocalBoolean(false);
     }
 
     //##################################################
@@ -118,9 +116,6 @@ public class ScCheckboxField
     protected void renderAttributesOn(KmHtmlBuilder out)
     {
         super.renderAttributesOn(out);
-
-        if ( isDisabled() )
-            out.printAttribute("disabled", "disabled");
 
         if ( _checked.isTrue() )
             out.printAttribute("checked");
@@ -213,32 +208,13 @@ public class ScCheckboxField
         if ( _validator == null )
             return true;
 
-        KmList<KmErrorIF> errors = new KmList<KmErrorIF>();
+        KmList<KmErrorIF> errors = new KmList<>();
         _validator.validateOnly(getValue(), errors);
         if ( errors.isEmpty() )
             return true;
 
         setErrors(errors);
         return false;
-    }
-
-    //##################################################
-    //# enablement
-    //##################################################
-
-    public void disable()
-    {
-        _disabled.setTrue();
-    }
-
-    public void enable()
-    {
-        _disabled.setFalse();
-    }
-
-    public boolean isDisabled()
-    {
-        return _disabled.isTrue();
     }
 
     //##################################################

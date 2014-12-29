@@ -9,7 +9,6 @@ public class KmPropertyTypes
     //##################################################
 
     public static final KmPropertyTypeIF TYPE_BOOLEAN                  = new KmPropertyTypeBoolean();
-    public static final KmPropertyTypeIF TYPE_DATE_POLICY              = new KmPropertyTypeDatePolicy();
     public static final KmPropertyTypeIF TYPE_DOUBLE                   = new KmPropertyTypeDouble();
     public static final KmPropertyTypeIF TYPE_INTEGER                  = new KmPropertyTypeInteger();
     public static final KmPropertyTypeIF TYPE_INTEGER_0_100            = new KmPropertyTypeInteger0to100();
@@ -20,9 +19,7 @@ public class KmPropertyTypes
     public static final KmPropertyTypeIF TYPE_STRING                   = new KmPropertyTypeString();
     public static final KmPropertyTypeIF TYPE_STRING_LIST              = new KmPropertyTypeStringList();
     public static final KmPropertyTypeIF TYPE_TIME_24_HHMM             = new KmPropertyTypeTime24hhmm();
-    public static final KmPropertyTypeIF TYPE_TIME_POLICY              = new KmPropertyTypeTimePolicy();
     public static final KmPropertyTypeIF TYPE_TIME_ZONE_OFFSET_MINUTES = new KmPropertyTypeTimeZoneOffsetMinutes();
-    public static final KmPropertyTypeIF TYPE_WEIGHT_POLICY            = new KmPropertyTypeWeightPolicy();
 
     //##################################################
     //# accessing
@@ -46,9 +43,8 @@ public class KmPropertyTypes
         if ( _types != null )
             return;
 
-        _types = new KmMap<String,KmPropertyTypeIF>();
+        _types = new KmMap<>();
         add(TYPE_BOOLEAN);
-        add(TYPE_DATE_POLICY);
         add(TYPE_DOUBLE);
         add(TYPE_INTEGER);
         add(TYPE_INTEGER_0_100);
@@ -59,9 +55,7 @@ public class KmPropertyTypes
         add(TYPE_STRING_LIST);
         add(TYPE_STRING);
         add(TYPE_TIME_24_HHMM);
-        add(TYPE_TIME_POLICY);
         add(TYPE_TIME_ZONE_OFFSET_MINUTES);
-        add(TYPE_WEIGHT_POLICY);
     }
 
     private static void add(KmPropertyTypeIF e)

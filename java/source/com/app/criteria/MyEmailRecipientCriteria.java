@@ -434,7 +434,6 @@ public class MyEmailRecipientCriteria
     //##################################################
 
     @Override
-    @SuppressWarnings("rawtypes")
     public MyEmailRecipientCriteria createOn(KmModelJunction junction)
     {
         return new MyEmailRecipientCriteria(parent(), junction.context());

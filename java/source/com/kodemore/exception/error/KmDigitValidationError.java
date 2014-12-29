@@ -39,9 +39,9 @@ public class KmDigitValidationError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append("May only contain digits");
+        out.append("May only contain digits");
     }
 
 }

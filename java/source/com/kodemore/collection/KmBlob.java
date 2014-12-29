@@ -129,6 +129,7 @@ public class KmBlob
     {
         if ( e instanceof KmBlob )
             return Arrays.equals(_bytes, ((KmBlob)e).getValue());
+
         return false;
     }
 
@@ -147,10 +148,12 @@ public class KmBlob
     {
         int max = 100;
         String s;
+
         if ( _bytes.length > max )
             s = formatHexString(max) + "...";
         else
             s = formatHexString();
+
         return Kmu.format("%s(%s)", Kmu.getSimpleClassName(this), s);
     }
 

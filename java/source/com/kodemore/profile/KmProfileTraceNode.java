@@ -74,7 +74,7 @@ public class KmProfileTraceNode
     {
         _traceId = -1;
         _lineNumber = -1;
-        _children = new KmList<KmProfileTraceNode>();
+        _children = new KmList<>();
     }
 
     //##################################################
@@ -315,22 +315,26 @@ public class KmProfileTraceNode
 
     public String getDisplayString(int n)
     {
-        StringBuilder sb = new StringBuilder();
-        for ( int i = 0; i < n; i++ )
-            sb.append("  ");
-        sb.append(getName());
+        StringBuilder out = new StringBuilder();
 
-        sb.append(" (");
-        sb.append(Kmu.formatDouble(getTotalPercent(), 2));
-        sb.append("%");
+        for ( int i = 0; i < n; i++ )
+            out.append("  ");
+
+        out.append(getName());
+
+        out.append(" (");
+        out.append(Kmu.formatDouble(getTotalPercent(), 2));
+        out.append("%");
+
         if ( getCount() > 1 )
         {
-            sb.append(", ");
-            sb.append(getCount());
+            out.append(", ");
+            out.append(getCount());
         }
-        sb.append(")");
 
-        return sb.toString();
+        out.append(")");
+
+        return out.toString();
     }
 
     @Override
@@ -364,6 +368,7 @@ public class KmProfileTraceNode
         for ( int i = 0; i < n; i++ )
             if ( hasNamePrefix(arr[i]) )
                 return true;
+
         return false;
     }
 
@@ -384,7 +389,6 @@ public class KmProfileTraceNode
                 child.setParent(null);
                 i.remove();
             }
-
         }
     }
 
@@ -447,6 +451,7 @@ public class KmProfileTraceNode
     public void collapseAllChainsWithTotalLessThan(double tolerance)
     {
         _collapseChainWithTotalLessThan(tolerance);
+
         Iterator<KmProfileTraceNode> i = getChildren();
         while ( i.hasNext() )
         {

@@ -50,6 +50,12 @@ public class MyMetaHibernateCacheTest_Data
     }
 
     @Override
+    public String getHelp()
+    {
+        return "Random data used for testing.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

@@ -126,21 +126,22 @@ public class KmaFontWrapper
     /**
      * Turn a style flag on or off.
      */
-    public void _setStyle(int s, boolean b)
+    public void _setStyle(int s, boolean on)
     {
         Font f = getFont();
-        int i;
-        if ( b )
-            i = f.getStyle() | s;
-        else
-            i = f.getStyle() & ~s;
+
+        int i = on
+            ? f.getStyle() | s
+            : f.getStyle() & ~s;
+
         f = new Font(f.getName(), i, f.getSize());
         setFont(f);
     }
 
     public void _clearStyle()
     {
-        Font f = getFont();
+        Font f;
+        f = getFont();
         f = new Font(f.getName(), 0, f.getSize());
         setFont(f);
     }

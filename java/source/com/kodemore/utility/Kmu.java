@@ -44,6 +44,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -60,18 +61,21 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.collection.KmSetImpl;
+import com.kodemore.command.KmDaoRollbackException;
 import com.kodemore.exception.KmApplicationException;
-import com.kodemore.exception.KmCancelException;
 import com.kodemore.exception.KmSecurityException;
 import com.kodemore.file.KmFileUtility;
 import com.kodemore.log.KmLog;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.string.KmNameTokenizer;
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.text.KmEditDistance;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmDateFormatter;
 import com.kodemore.time.KmTime;
@@ -530,7 +534,7 @@ public class Kmu
      */
     public static KmList<String> getWords(String s, String delimiters)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         StringTokenizer st = new StringTokenizer(s, delimiters, true);
         while ( st.hasMoreTokens() )
         {
@@ -557,7 +561,7 @@ public class Kmu
      */
     public static KmList<String> tokenize(String s, char delimiter)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         if ( s == null )
             return v;
@@ -1669,6 +1673,11 @@ public class Kmu
         return out.toString();
     }
 
+    public static String toProper(String s)
+    {
+        return capitalizeWords(s);
+    }
+
     /**
      * Set the first character to uppercase leave the rest alone.
      */
@@ -2087,16 +2096,29 @@ public class Kmu
         return s;
     }
 
+    public static String escapeJavaString(String s)
+    {
+        if ( s == null )
+            return null;
+
+        s = StringEscapeUtils.escapeJava(s);
+
+        // kludge to fix mistake in StringEscapeUtils.
+        s = replaceAll(s, "\\/", "/");
+
+        return s;
+    }
+
     /**
      * Return the list of lines (without the line separator characters) using
      * the standard line reading mechanism of BufferedReader.
      */
-    public static KmList<String> getLines(String source)
+    public static KmList<String> parseLines(String source)
     {
         try
         {
             BufferedReader br = new BufferedReader(new StringReader(source));
-            KmList<String> v = new KmList<String>();
+            KmList<String> v = new KmList<>();
 
             while ( true )
             {
@@ -2110,7 +2132,7 @@ public class Kmu
         }
         catch ( Exception ex )
         {
-            return new KmList<String>();
+            return new KmList<>();
         }
     }
 
@@ -2119,7 +2141,7 @@ public class Kmu
      */
     public static String getFirstLine(String s)
     {
-        return getLines(s).getFirstSafe();
+        return parseLines(s).getFirstSafe();
     }
 
     /**
@@ -2127,7 +2149,7 @@ public class Kmu
      */
     public static String getLastLine(String s)
     {
-        return getLines(s).getLastSafe();
+        return parseLines(s).getLastSafe();
     }
 
     /**
@@ -2271,7 +2293,7 @@ public class Kmu
     }
 
     //##################################################
-    //# edit distance
+    //# text
     //##################################################
 
     /**
@@ -2280,99 +2302,7 @@ public class Kmu
      */
     public static int getEditDistance(String s, String t)
     {
-        int d[][]; // matrix
-        int sn; // length of s
-        int tn; // length of t
-        int si; // iterates through s
-        int ti; // iterates through t
-        char sc; // ith character of s
-        char tc; // ith character of t
-        int cost; // cost
-
-        sn = s.length();
-        tn = t.length();
-
-        if ( sn == 0 )
-            return tn;
-
-        if ( tn == 0 )
-            return sn;
-
-        d = new int[sn + 1][tn + 1];
-
-        for ( si = 0; si <= sn; si++ )
-            d[si][0] = si;
-
-        for ( ti = 0; ti <= tn; ti++ )
-            d[0][ti] = ti;
-
-        for ( si = 1; si <= sn; si++ )
-        {
-            sc = s.charAt(si - 1);
-            for ( ti = 1; ti <= tn; ti++ )
-            {
-                tc = t.charAt(ti - 1);
-
-                if ( sc == tc )
-                    cost = 0;
-                else
-                    cost = 1;
-
-                d[si][ti] = min(d[si - 1][ti] + 1, d[si][ti - 1] + 1, d[si - 1][ti - 1] + cost);
-            }
-        }
-        return d[sn][tn] + Math.abs(tn - sn);
-    }
-
-    /**
-     * Compute the Levenshtein "edit" distance. This is the number of changes
-     * necessary to convert one string into the other.
-     */
-    public static double getAdjustedEditDistance(String s, String t)
-    {
-        double d[][]; // matrix
-        int sn; // length of s
-        int tn; // length of t
-        int si; // iterates through s
-        int ti; // iterates through t
-        char sc; // ith character of s
-        char tc; // ith character of t
-        int cost; // cost
-
-        sn = s.length();
-        tn = t.length();
-
-        if ( sn == 0 )
-            return tn * 1.01;
-
-        if ( tn == 0 )
-            return sn * 1.01;
-
-        d = new double[sn + 1][tn + 1];
-
-        for ( si = 0; si <= sn; si++ )
-            d[si][0] = si;
-
-        for ( ti = 0; ti <= tn; ti++ )
-            d[0][ti] = ti;
-
-        for ( si = 1; si <= sn; si++ )
-        {
-            sc = s.charAt(si - 1);
-            for ( ti = 1; ti <= tn; ti++ )
-            {
-                tc = t.charAt(ti - 1);
-
-                if ( sc == tc )
-                    cost = 0;
-                else
-                    cost = 1;
-
-                d[si][ti] = min(d[si - 1][ti] + 1, d[si][ti - 1] + 1, d[si - 1][ti - 1] + cost);
-            }
-        }
-
-        return d[sn][tn] + Math.abs(tn - sn) * 0.01;
+        return KmEditDistance.getEditDistance(s, t);
     }
 
     //##################################################
@@ -2727,7 +2657,7 @@ public class Kmu
         out = new KmStringBuilder();
         out.printfln("var %s = \"\";", var);
 
-        KmList<String> lines = getLines(html);
+        KmList<String> lines = parseLines(html);
         for ( String line : lines )
         {
             String escaped = escapeJavascriptStringLiteral(line);
@@ -3352,7 +3282,7 @@ public class Kmu
      */
     public static String joinFilePath(String... arr)
     {
-        return joinFilePath(new KmList<String>(arr));
+        return joinFilePath(new KmList<>(arr));
     }
 
     /**
@@ -3373,7 +3303,7 @@ public class Kmu
      */
     public static String joinUrlPath(String... arr)
     {
-        return joinUrlPath(new KmList<String>(arr));
+        return joinUrlPath(new KmList<>(arr));
     }
 
     /**
@@ -3459,16 +3389,16 @@ public class Kmu
      */
     public static boolean matchesPath(String path, String pattern)
     {
-        path = Kmu.replaceAll(path, BACKSLASH, SLASH);
+        path = replaceAll(path, BACKSLASH, SLASH);
 
         String r;
         r = pattern;
-        r = Kmu.replaceAll(r, "*", "@");
-        r = Kmu.replaceAll(r, "/@@/", "/.*/");
-        r = Kmu.replaceAll(r, "@@/", "([^/]*/)*");
-        r = Kmu.replaceAll(r, "/@@", "(/[^/]*)*");
-        r = Kmu.replaceAll(r, "@/", "[^/]*/");
-        r = Kmu.replaceAll(r, "/@", "/[^/]*");
+        r = replaceAll(r, "*", "@");
+        r = replaceAll(r, "/@@/", "/.*/");
+        r = replaceAll(r, "@@/", "([^/]*/)*");
+        r = replaceAll(r, "/@@", "(/[^/]*)*");
+        r = replaceAll(r, "@/", "[^/]*/");
+        r = replaceAll(r, "/@", "/[^/]*");
         r = "^" + r + "$";
 
         Pattern p = Pattern.compile(r);
@@ -3495,9 +3425,9 @@ public class Kmu
      * assumed to be compatible with String. Any exceptions are throw as a
      * RuntimeException.
      */
-    public static String readTextFile(File f)
+    public static String readFileString(File f)
     {
-        return readTextFile(f.getPath());
+        return readFileString(f.getPath());
     }
 
     /**
@@ -3505,7 +3435,7 @@ public class Kmu
      * assumed to be compatible with String. Any exceptions are throw as a
      * RuntimeException.
      */
-    public static String readTextFile(String path)
+    public static String readFileString(String path)
     {
         KmReaderProcessorIF p = new KmReaderProcessorIF()
         {
@@ -3532,9 +3462,9 @@ public class Kmu
      * assumed to be compatible with String. Any exceptions are throw as a
      * RuntimeException.
      */
-    public static String readTextFileUnicode(String path)
+    public static String readFileUnicode(String path)
     {
-        byte[] bytes = readByteFile(path);
+        byte[] bytes = readFileBytes(path);
         return new String(
             Charset.forName(KmConstantsIF.UTF_16).decode(ByteBuffer.wrap(bytes)).array());
     }
@@ -3564,18 +3494,18 @@ public class Kmu
     /**
      * Return the contents of the file and return the list of lines.
      */
-    public static KmList<String> readTextFileLines(File f)
+    public static KmList<String> readFileLines(File f)
     {
-        return readTextFileLines(f.getPath());
+        return readFileLines(f.getPath());
     }
 
     /**
      * Return the contents of the file and return the list of lines.
      */
-    public static KmList<String> readTextFileLines(String path)
+    public static KmList<String> readFileLines(String path)
     {
-        String s = readTextFile(path);
-        return getLines(s);
+        String s = readFileString(path);
+        return parseLines(s);
     }
 
     /**
@@ -3617,7 +3547,7 @@ public class Kmu
         }
         catch ( Exception ex )
         {
-            throw Kmu.toRuntime(ex);
+            throw toRuntime(ex);
         }
     }
 
@@ -3723,16 +3653,16 @@ public class Kmu
      * Read the contents of the file into a byte array. Exceptions are printed
      * to System.out but are not thrown.
      */
-    public static byte[] readByteFile(File f)
+    public static byte[] readFileBytes(File f)
     {
-        return readByteFile(f.getPath());
+        return readFileBytes(f.getPath());
     }
 
     /**
      * Read the contents of the file into a byte array. Exceptions are printed
      * to System.out but are not thrown.
      */
-    public static byte[] readByteFile(String path)
+    public static byte[] readFileBytes(String path)
     {
         BufferedInputStream in = null;
         ByteArrayOutputStream out = null;
@@ -3775,9 +3705,9 @@ public class Kmu
      * that the bytes can be processed as having a range of 0..255 instead of
      * -128..127. Exceptions are printed to System.out but are not thrown.
      */
-    public static int[] readByteFileAsIntegers(String path)
+    public static int[] readFileAsIntegers(String path)
     {
-        byte[] ba = readByteFile(path);
+        byte[] ba = readFileBytes(path);
         int n = ba.length;
         int[] ia = new int[n];
 
@@ -3908,7 +3838,7 @@ public class Kmu
      */
     public static void copyFile(File in, File out)
     {
-        byte[] arr = readByteFile(in);
+        byte[] arr = readFileBytes(in);
         writeFile(out, arr);
     }
 
@@ -3996,7 +3926,7 @@ public class Kmu
      */
     public static void writePropertiesFile(String path, KmMap<String,String> m)
     {
-        KmList<String> keys = new KmList<String>();
+        KmList<String> keys = new KmList<>();
         keys.addAll(m.keySet());
         keys.sort();
 
@@ -4048,7 +3978,7 @@ public class Kmu
         if ( suffix == null )
             suffix = "";
 
-        KmList<File> v = new KmList<File>();
+        KmList<File> v = new KmList<>();
         File[] arr = directory.listFiles();
 
         if ( arr == null )
@@ -4107,7 +4037,7 @@ public class Kmu
      */
     public static KmList<String> getDirsRecursively(String path)
     {
-        KmList<String> result = new KmList<String>();
+        KmList<String> result = new KmList<>();
 
         if ( path == null )
             return result;
@@ -4257,6 +4187,23 @@ public class Kmu
         }
     }
 
+    /**
+     * Call e.close, but wrap the call in a try/catch block
+     * that logs any exception without throwing it.
+     */
+    public static void closeSafely(ServerSocket e)
+    {
+        try
+        {
+            if ( e != null )
+                e.close();
+        }
+        catch ( Exception ex )
+        {
+            KmLog.error(ex, "Cannot close socket.");
+        }
+    }
+
     //##################################################
     //# object copy
     //##################################################
@@ -4313,7 +4260,7 @@ public class Kmu
      */
     public static KmMap<String,Object> addPrefixToKeys(KmMap<String,Object> m, String prefix)
     {
-        KmMap<String,Object> result = new KmMap<String,Object>();
+        KmMap<String,Object> result = new KmMap<>();
 
         for ( String e : m.getKeys() )
         {
@@ -4358,6 +4305,7 @@ public class Kmu
         return arr;
     }
 
+    @SafeVarargs
     public static <T> T[] toArray(T... v)
     {
         return v;
@@ -4374,7 +4322,7 @@ public class Kmu
     public static KmList<String> toStringList(String... arr)
     {
         KmList<String> v;
-        v = new KmList<String>();
+        v = new KmList<>();
         v.addAll(arr);
         return v;
     }
@@ -4967,11 +4915,12 @@ public class Kmu
      * Throw a runtime exception for the purpose of cancelling
      * the current operation.   This is typically used by ajax
      * handlers to exit the current execution stack after errors
-     * have been added to the http response.
+     * have been added to the http response.  The database transaction
+     * will be rolled back.
      */
-    public static void cancel()
+    public static void throwDaoRollback()
     {
-        throw new KmCancelException();
+        throw new KmDaoRollbackException();
     }
 
     public static void throwSecurityError(String msg, Object... args)
@@ -5348,13 +5297,15 @@ public class Kmu
      */
     public static String newUid()
     {
+        KmRandom rand = new KmRandom();
+
         long now = System.currentTimeMillis() / 100;
         // long now = KmDate.create(2200, 1, 1).getJavaDate().getTime() / 100;
 
-        String a = Kmu.formatBase36(now);
-        String b = Kmu.formatBase36(KmRandomUtility.getPositiveInteger());
-        String c = Kmu.formatBase36(KmRandomUtility.getPositiveInteger());
-        String d = Kmu.formatBase36(KmRandomUtility.getPositiveInteger());
+        String a = formatBase36(now);
+        String b = formatBase36(rand.getPositiveInteger());
+        String c = formatBase36(rand.getPositiveInteger());
+        String d = formatBase36(rand.getPositiveInteger());
 
         StringBuilder out;
         out = new StringBuilder();
@@ -5591,18 +5542,24 @@ public class Kmu
         return joinHtmlStyle(css, nextAttr, nextValue, nextUnit);
     }
 
-    public static String joinHtmlStyle(
-        String css,
-        String nextAttr,
-        Integer nextValue,
-        String nextUnit)
+    public static String joinHtmlStyle(String css, String attr, Integer value, String unit)
     {
-        String s = nextValue + "";
+        String s = value + "";
 
-        if ( nextUnit != null )
-            s += nextUnit;
+        if ( unit != null )
+            s += unit;
 
-        return joinHtmlStyle(css, nextAttr, s);
+        return joinHtmlStyle(css, attr, s);
+    }
+
+    public static String joinHtmlStyle(String css, String attr, Double value, String unit)
+    {
+        String s = value + "";
+
+        if ( unit != null )
+            s += unit;
+
+        return joinHtmlStyle(css, attr, s);
     }
 
     //##################################################
@@ -5657,7 +5614,7 @@ public class Kmu
      * located in the package com.kodemore you could use:
      * Kmu.readClassResource("com/kodemore/abc.txt");
      */
-    public static byte[] readClassResource(String path)
+    public static byte[] readResourceBytes(String path)
     {
         InputStream in = null;
         ByteArrayOutputStream out = null;
@@ -5678,7 +5635,7 @@ public class Kmu
 
             return out.toByteArray();
         }
-        catch ( Exception ex )
+        catch ( IOException ex )
         {
             KmLog.error(ex, "Cannot read class resource(%s)", path);
             return null;
@@ -5690,23 +5647,18 @@ public class Kmu
         }
     }
 
-    public static String readClassString(String path)
+    public static String readResourceString(String path)
     {
-        byte[] bytes = readClassResource(path);
+        byte[] bytes = readResourceBytes(path);
         if ( bytes == null )
             return null;
 
         return new String(bytes);
     }
 
-    public static KmList<String> readClassLines(String path)
+    public static KmList<String> readResourceLines(String path)
     {
-        String source = readClassString(path);
-
-        if ( source == null )
-            return new KmList<String>();
-
-        return getLines(source);
+        return parseLines(readResourceString(path));
     }
 
     //##################################################
@@ -5741,7 +5693,7 @@ public class Kmu
         if ( !matches )
             return null;
 
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         int n = matcher.groupCount();
         for ( int i = 0; i < n; i++ )
@@ -5781,4 +5733,5 @@ public class Kmu
             ? def
             : e;
     }
+
 }

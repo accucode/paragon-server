@@ -39,13 +39,17 @@ import com.kodemore.servlet.utility.ScUrlBridge;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
+import com.app.model.MyCssConstantsIF;
+import com.app.ui.layout.MyPageErrorDialog;
+import com.app.ui.layout.MyPageLayout;
+
 /**
  * I manage a list of scripts, roughly representing the
  * contents of a "block".  That is, the code _between_
  * matching braces {...}.
- * 
+ *
  * NOTE: In many cases, clients will simply use my helper
- * methods such as toast(...).  However, when clients 
+ * methods such as toast(...).  However, when clients
  * directly compose their own script, then those clients
  * are responsible for manually including any appropriate
  * whitespace or terminators.  The basic add/run methods
@@ -97,6 +101,16 @@ public abstract class ScBlockScript
         return e;
     }
 
+    public void returnFalse()
+    {
+        run("return false;");
+    }
+
+    public void returnTrue()
+    {
+        run("return true;");
+    }
+
     //##################################################
     //# run delayed
     //##################################################
@@ -115,15 +129,15 @@ public abstract class ScBlockScript
     //# when done
     //##################################################
 
-    public ScWhenDoneAjax whenDone(ScHtmlIdIF target)
+    public ScWhenDoneAjax whenDone(ScHtmlIdIF target, ScHtmlIdIF waitFor)
     {
         ScWhenDoneAjax e;
-        e = new ScWhenDoneAjax(target);
+        e = new ScWhenDoneAjax(target, waitFor);
         run(e);
         return e;
     }
 
-    public abstract ScWhenDoneAjax pushWhenDone(ScHtmlIdIF target);
+    public abstract ScWhenDoneAjax pushWhenDone(ScHtmlIdIF target, ScHtmlIdIF waitFor);
 
     public abstract void popWhenDone();
 
@@ -173,6 +187,11 @@ public abstract class ScBlockScript
     public void clearCss(String sel)
     {
         removeAttribute(sel, "class");
+    }
+
+    public void clearCss(ScHtmlIdIF target)
+    {
+        clearCss(target.getJquerySelector());
     }
 
     //##################################################
@@ -267,6 +286,19 @@ public abstract class ScBlockScript
         prependContents(target.getJquerySelector(), html);
     }
 
+    public void insertContentsAfter(String sel, CharSequence html)
+    {
+        if ( Kmu.isEmpty(html) )
+            return;
+
+        run("$(%s).after(%s);", json(sel), json(html));
+    }
+
+    public void insertContentsAfter(ScHtmlIdIF target, CharSequence html)
+    {
+        insertContentsAfter(target.getJquerySelector(), html);
+    }
+
     public void addDivIdTo(String sel, String divId)
     {
         String html = Kmu.format("<div id='%s'></div>", divId);
@@ -274,7 +306,7 @@ public abstract class ScBlockScript
     }
 
     //##################################################
-    //# replace contents
+    //# set contents
     //##################################################
 
     public ScReplaceContentsScript setContents()
@@ -330,41 +362,62 @@ public abstract class ScBlockScript
     //# add contents
     //##################################################
 
-    public ScAddContentScript addContentsTo(ScHtmlIdIF target)
+    public ScAddContentScript addContentsTo(String sel)
     {
         ScAddContentScript e;
         e = new ScAddContentScript();
-        e.setSelector(target);
+        e.setSelector(sel);
         run(e);
         return e;
+    }
+
+    public ScAddContentScript addContentsTo(ScHtmlIdIF target)
+    {
+        return addContentsTo(target.getJquerySelector());
     }
 
     //##################################################
     //# navigation
     //##################################################
 
+    /**
+     * All of the pushPage methods redirect to me.
+     *
+     * Before adding the pushPage script, I write the CURRENT page session.  Updating the
+     * page session as part of navigation is relatively rare, but when it does happen it is
+     * important to ensure that the client side session gets updated BEFORE triggering the
+     * client side history and navigation flows.
+     */
+    private ScPushPageScript _pushPage()
+    {
+        updatePageSession();
+
+        ScPushPageScript e;
+        e = new ScPushPageScript();
+        run(e);
+        return e;
+    }
+
     public ScPushPageScript pushPage(String url)
     {
         ScPushPageScript e;
-        e = new ScPushPageScript();
+        e = _pushPage();
         e.setUrl(url);
-        run(e);
         return e;
     }
 
     public ScPushPageScript pushPage(ScPage page)
     {
         ScPushPageScript e;
-        e = new ScPushPageScript();
+        e = _pushPage();
         e.setUrl(page);
-        run(e);
         return e;
     }
 
     /**
      * Uses replaces the current browser history with the current
      * state of the page specified.  This does NOT trigger a navigation
-     * event. 
+     * event.
      */
     public ScPushPageScript replaceHistory(ScPage page)
     {
@@ -375,7 +428,7 @@ public abstract class ScBlockScript
         return e;
     }
 
-    public void popPage()
+    public void back()
     {
         run("window.history.back();");
     }
@@ -393,31 +446,40 @@ public abstract class ScBlockScript
     {
         ScReplaceContentsScript r;
         r = setContents(getMainSelector(), e);
+
+        printMainTransition(r);
+        printMainPostRender(r, e, focus);
+    }
+
+    private void printMainTransition(ScReplaceContentsScript r)
+    {
         r.setTransition(ScTransition.Fade, 100);
 
         ScServletData data = ScServletData.getLocal();
         if ( data.isNavigateForward() )
-            r.setTransition(ScTransition.SlideLeft, 200);
+        {
+            ScTransition effect = ScTransition.SlideLeft;
+            int speed = MyCssConstantsIF.PAGE_TRANSITION_SLIDE_MS;
+            r.setTransition(effect, speed);
+        }
 
         if ( data.isNavigateBack() )
-            r.setTransition(ScTransition.SlideRight, 200);
-
-        if ( focus )
-            r.setPostRenderScript(formatFocusScript(e));
+        {
+            ScTransition effect = ScTransition.SlideRight;
+            int speed = MyCssConstantsIF.PAGE_TRANSITION_SLIDE_MS;
+            r.setTransition(effect, speed);
+        }
     }
 
-    private String formatFocusScript(ScControlIF e)
+    private void printMainPostRender(ScReplaceContentsScript r, ScControlIF e, boolean focus)
     {
-        if ( !(e instanceof ScHtmlIdIF) )
-            return null;
+        ScBlockScript postRender;
+        postRender = r.getPostRenderScript();
 
-        ScHtmlIdIF htmlId = (ScHtmlIdIF)e;
+        if ( focus )
+            postRender.focus(e.getFocusTarget());
 
-        ScBlockScript s;
-        s = ScBlockScript.create();
-        s.focus(htmlId);
-
-        return s.formatScript();
+        MyPageLayout.getInstance().glowTitleOn(postRender);
     }
 
     public void clearMain()
@@ -487,7 +549,10 @@ public abstract class ScBlockScript
 
     public void focus(ScHtmlIdIF e)
     {
-        focus(e.getJquerySelector());
+        e = e.getFocusTarget();
+
+        if ( e != null )
+            focus(e.getJquerySelector());
     }
 
     public void focus(String sel)
@@ -566,6 +631,24 @@ public abstract class ScBlockScript
         return glow(target.getJquerySelector());
     }
 
+    //==================================================
+    //= glow :: color
+    //==================================================
+
+    public ScGlowScript glowColor(String sel)
+    {
+        ScGlowScript e;
+        e = glow(sel);
+        e.setAttribute("color");
+        e.setValue("yellow");
+        return e;
+    }
+
+    public ScGlowScript glowColor(ScHtmlIdIF target)
+    {
+        return glowColor(target.getJquerySelector());
+    }
+
     //##################################################
     //# open window
     //##################################################
@@ -614,14 +697,28 @@ public abstract class ScBlockScript
     //##################################################
 
     /**
-     * This is normally handled automatically immediately
-     * before the ajax script is flushed to the http response.
-     * See: ScAjaxResult.applyTo();
+     * This is normally handled automatically immediately and clients should not need
+     * to call this directly under most circumstances.  There are two cases where this
+     * is usually handled automatically:
+     *
+     * 1) Any time the client code calls pushPage.  This ensures the client-side page
+     *      session is updated before navigating away from the page and updating the
+     *      browser history stack.
+     *
+     * 2) At the end of every normal ajax request.
      */
     public void updatePageSession()
     {
         KmJsonMap json = getData().getPageSessionEncodedValues();
         run("KmNavigator.updatePageSession(%s);", json);
+    }
+
+    /**
+     * See 'pageKey' variable in KmUtility.js.
+     */
+    public void updateCurrentPageKey(ScPage e)
+    {
+        run("Kmu.currentPageKey = '%s';", e.getKey());
     }
 
     //##################################################
@@ -630,7 +727,7 @@ public abstract class ScBlockScript
 
     public void setText(ScHtmlIdIF target, String value)
     {
-        run("%s.text(%s);", target.getJqueryReference(), json(value));
+        run("%s.text(%s);", formatReference(target), json(value));
     }
 
     public void clearText(ScHtmlIdIF target)
@@ -640,7 +737,7 @@ public abstract class ScBlockScript
 
     public void setHtml(ScHtmlIdIF target, String value)
     {
-        run("%s.html(%s);", target.getJqueryReference(), json(value));
+        run("%s.html(%s);", formatReference(target), json(value));
     }
 
     public void clearHtml(ScHtmlIdIF target)
@@ -677,7 +774,7 @@ public abstract class ScBlockScript
 
     public void setValue(ScHtmlIdIF field, String value)
     {
-        run("$(%s).val(%s);", field.getJqueryReference(), json(value));
+        run("%s.val(%s);", formatReference(field), json(value));
     }
 
     public void clearValue(ScHtmlIdIF field)
@@ -686,101 +783,24 @@ public abstract class ScBlockScript
     }
 
     //##################################################
-    //# dialog (target)
+    //# dialog
     //##################################################
 
-    /**
-     * Open the target as a modal dialog using the SimpleModal library.
-     * This is typically used on a target that is otherwise hidden.
-     * See ScDialog for a convenient wrapper.
-     */
-    public void openDialogTarget(ScHtmlIdIF target, KmJsonMap options)
+    public void openErrorDialog(Throwable ex)
     {
-        if ( options == null )
-            run("Kmu.openDialogTarget(%s);", json(target));
-        else
-            run("Kmu.openDialogTarget(%s,%s);", json(target), options);
+        MyPageErrorDialog e;
+        e = new MyPageErrorDialog();
+        e.ajaxOpenException(ex);
     }
 
-    public void openDialogTarget(ScHtmlIdIF target)
+    public void closeDialog(String sel)
     {
-        openDialogTarget(target, null);
+        run("$('%s').dialog('close');", sel);
     }
 
-    public void openDialogTargetSample(ScHtmlIdIF target)
+    public void closeDialog(ScHtmlIdIF target)
     {
-        KmJsonMap css;
-        css = new KmJsonMap();
-        css.setString("color", "black");
-        css.setString("backgroundColor", "#fcc");
-        css.setString("borderColor", "#f00");
-        css.setString("width", "600px");
-        css.setString("height", "400px");
-        css.setString("padding", "0px");
-
-        KmJsonMap options;
-        options = new KmJsonMap();
-        options.setMap("containerCss", css);
-
-        openDialogTarget(target, options);
-    }
-
-    //##################################################
-    //# dialog (html)
-    //##################################################
-
-    public void openDialogHtml(CharSequence html)
-    {
-        openDialogHtml(html, null);
-    }
-
-    public void openDialogHtml(CharSequence html, KmJsonMap options)
-    {
-        if ( options == null )
-            run("Kmu.openDialogHtml(%s);", json(html));
-        else
-            run("Kmu.openDialogHtml(%s,%s);", json(html), options);
-    }
-
-    public void openDialogHtml(KmHtmlBuilder html, KmJsonMap options)
-    {
-        openDialogHtml(html.toString(), options);
-    }
-
-    public void openDialogError(Throwable ex)
-    {
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
-        out.beginDiv();
-        out.printTextCss(ex.getMessage(), "font16 bold sans");
-        out.printBreak();
-        out.printBreak();
-        out.print(Kmu.formatStackTrace(ex));
-        out.endDiv();
-
-        KmJsonMap css;
-        css = new KmJsonMap();
-        css.setString("color", "black");
-        css.setString("backgroundColor", "#fcc");
-        css.setString("borderColor", "#f00");
-        css.setString("width", "600px");
-        css.setString("height", "400px");
-        css.setString("padding", "0px");
-
-        KmJsonMap options;
-        options = new KmJsonMap();
-        options.setMap("containerCss", css);
-
-        openDialogHtml(out, options);
-    }
-
-    //##################################################
-    //# dialog (close)
-    //##################################################
-
-    public void closeDialog()
-    {
-        run("Kmu.closeDialog();");
+        closeDialog(target.getJquerySelector());
     }
 
     //##################################################
@@ -788,16 +808,15 @@ public abstract class ScBlockScript
     //##################################################
 
     /**
-     * Set a cookie. 
+     * Set a cookie.
      */
     public void setCookie(String key, String value)
     {
         run("Kmu.setCookie(%s,%s);", json(key), json(value));
-
     }
 
     /**
-     * Set a cookie. 
+     * Set a cookie.
      */
     public void setCookie(String key, Boolean value)
     {
@@ -812,7 +831,6 @@ public abstract class ScBlockScript
     public void clearCookie(String key)
     {
         run("Kmu.clearCookie(%s);", json(key));
-
     }
 
     //##################################################
@@ -828,7 +846,7 @@ public abstract class ScBlockScript
 
     public void onEscape(ScHtmlIdIF target, ScScriptIF script)
     {
-        String ref = target.getJqueryReference();
+        String ref = formatReference(target);
         String fn = ref + ".onEscape(function(){%s});";
 
         ScScriptPattern e;
@@ -861,7 +879,7 @@ public abstract class ScBlockScript
 
     public void onControlEnter(ScHtmlIdIF target, ScScriptIF script)
     {
-        String ref = target.getJqueryReference();
+        String ref = ScJquery.formatReference(target);
         String fn = ref + ".onControlEnter(function(){%s});";
 
         ScScriptPattern e;
@@ -879,6 +897,86 @@ public abstract class ScBlockScript
     public void onControlEnter(ScHtmlIdIF target, ScActionIF e)
     {
         onControlEnter(target, ScActionScript.create(e));
+    }
+
+    //##################################################
+    //# on key up
+    //##################################################
+
+    public ScBlockScript onKeyUp(ScHtmlIdIF target)
+    {
+        ScBlockScript block = new ScSimpleBlockScript();
+        onKeyUp(target, block);
+        return block;
+    }
+
+    public void onKeyUp(ScHtmlIdIF target, ScScriptIF script)
+    {
+        String ref = formatReference(target);
+        String fn = ref + ".keyup(function(){%s});";
+
+        ScScriptPattern e;
+        e = new ScScriptPattern();
+        e.setPattern(fn);
+        e.addArgument(script);
+        run(e);
+    }
+
+    public void onKeyUp(ScHtmlIdIF target, String e)
+    {
+        onKeyUp(target, ScSimpleScript.create(e));
+    }
+
+    public void onKeyUp(ScHtmlIdIF target, ScActionIF e)
+    {
+        onKeyUp(target, ScActionScript.create(e));
+    }
+
+    //##################################################
+    //# on change
+    //##################################################
+
+    public ScBlockScript onChange(ScHtmlIdIF target)
+    {
+        ScBlockScript block = new ScSimpleBlockScript();
+        onChange(target, block);
+        return block;
+    }
+
+    public void onChange(ScHtmlIdIF target, ScScriptIF script)
+    {
+        String ref = formatReference(target);
+        String fn = ref + ".change(function(){%s});";
+
+        ScScriptPattern e;
+        e = new ScScriptPattern();
+        e.setPattern(fn);
+        e.addArgument(script);
+        run(e);
+    }
+
+    public void onChange(ScHtmlIdIF target, String e)
+    {
+        onChange(target, ScSimpleScript.create(e));
+    }
+
+    public void onChange(ScHtmlIdIF target, ScActionIF e)
+    {
+        onChange(target, ScActionScript.create(e));
+    }
+
+    //##################################################
+    //# fire on change
+    //##################################################
+
+    public void fireOnChange(ScHtmlIdIF target)
+    {
+        fireOnChange(target.getJquerySelector());
+    }
+
+    public void fireOnChange(String sel)
+    {
+        run("$(%s).change();", json(sel));
     }
 
     //##################################################
@@ -1021,7 +1119,7 @@ public abstract class ScBlockScript
     }
 
     /**
-     * Equalize all elements with a matching class, contained in the target. 
+     * Equalize all elements with a matching class, contained in the target.
      */
     public ScEqualizeScript equalizeClassIn(ScHtmlIdIF target, String klass)
     {
@@ -1029,7 +1127,7 @@ public abstract class ScBlockScript
     }
 
     /**
-     * Equalize all elements with a matching class, contained in the target. 
+     * Equalize all elements with a matching class, contained in the target.
      */
     public ScEqualizeScript equalizeClassIn(String sel, String klass)
     {
@@ -1041,58 +1139,13 @@ public abstract class ScBlockScript
     //# sort
     //##################################################
 
-    /**
-     * Allows children to be sorted.
-     */
-    public void sortable(String sel, KmJsonMap options)
+    public ScSortableScript sortable(ScHtmlIdIF target)
     {
-        /**
-         * review_aaron (valerie) do you know of a classier kmu to replace
-         * if ( options == null)?
-         */
-        if ( options == null )
-            run("$('%s').sortable();", sel);
-        else
-            run("$('%s').sortable(%s);", sel, options);
-    }
-
-    public void sortable(String sel)
-    {
-        KmJsonMap options = null;
-        sortable(sel, options);
-    }
-
-    public void sortable(ScHtmlIdIF target)
-    {
-        sortable(target.getJquerySelector());
-    }
-
-    public void sortableByHandle(ScHtmlIdIF target)
-    {
-        String dragHandle;
-        dragHandle = ScJquery.formatCssSelector(KmCssDefaultConstantsIF.dragHandle);
-
-        String sel;
-        sel = target.getJquerySelector();
-
-        KmJsonMap options;
-        options = new KmJsonMap();
-        options.setString("handle", dragHandle);
-
-        sortable(sel, options);
-    }
-
-    public void sortableUpdate(ScHtmlIdIF target, String childPath, String attr, ScActionIF action)
-    {
-        String parentSelector = target.getJquerySelector();
-        String actionId = action.getKey();
-
-        run(
-            "Kmu.registerDragUpdate('%s','%s','%s','%s');",
-            parentSelector,
-            childPath,
-            attr,
-            actionId);
+        ScSortableScript e;
+        e = new ScSortableScript();
+        e.setContainer(target);
+        run(e);
+        return e;
     }
 
     //##################################################
@@ -1129,6 +1182,44 @@ public abstract class ScBlockScript
     {
         Integer speedMs = null;
         scrollTo(container, target, speedMs);
+    }
+
+    //##################################################
+    //# scrollToTop
+    //##################################################
+
+    public void scrollToTop(ScHtmlIdIF container)
+    {
+        Integer speedMs = null;
+        scrollToTop(container, speedMs);
+    }
+
+    public void scrollToTop(ScHtmlIdIF container, Integer speedMs)
+    {
+        scrollToTop(container.getJquerySelector(), speedMs);
+    }
+
+    public void scrollToTop(String containerSel, Integer speedMs)
+    {
+        if ( speedMs == null )
+            run("$('%s').scrollTo(0);", containerSel);
+        else
+            run("$('%s').scrollTo(0,%s);", containerSel, speedMs);
+    }
+
+    //##################################################
+    //# scrollTo (off screen)
+    //##################################################
+
+    public void scrollToIfOffScreen(ScHtmlIdIF container, ScHtmlIdIF target)
+    {
+        scrollToIfOffScreen(container, target.getJquerySelector());
+    }
+
+    public void scrollToIfOffScreen(ScHtmlIdIF container, String targetSel)
+    {
+        String containerSel = container.getJquerySelector();
+        run("Kmu.scrollToIfOffScreen('%s','%s');", containerSel, targetSel);
     }
 
     //##################################################
@@ -1174,7 +1265,7 @@ public abstract class ScBlockScript
     protected abstract KmList<ScScriptIF> getScripts();
 
     /**
-     * All actions should ultimately resolve to calling me. 
+     * All actions should ultimately resolve to calling me.
      * I provide standard hooks for all scripts.
      */
     protected void _add(ScScriptIF e)
@@ -1185,6 +1276,16 @@ public abstract class ScBlockScript
     public void clearScript()
     {
         getScripts().clear();
+    }
+
+    public boolean isEmpty()
+    {
+        return getScripts().isEmpty();
+    }
+
+    public boolean isNotEmpty()
+    {
+        return !isEmpty();
     }
 
 }

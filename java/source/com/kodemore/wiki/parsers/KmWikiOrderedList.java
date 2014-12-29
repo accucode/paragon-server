@@ -63,12 +63,7 @@ public class KmWikiOrderedList
     {
         String arr[] =
         {
-            "decimal",
-            "upper-alpha",
-            "upper-roman",
-            "lower-alpha",
-            "lower-roman",
-            "decimal"
+            "decimal", "upper-alpha", "upper-roman", "lower-alpha", "lower-roman", "decimal"
         };
         return arr;
     }

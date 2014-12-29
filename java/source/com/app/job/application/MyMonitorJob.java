@@ -57,7 +57,7 @@ public class MyMonitorJob
     //##################################################
 
     @Override
-    protected boolean run()
+    protected boolean handle()
     {
         logger.info(_name);
         return true;

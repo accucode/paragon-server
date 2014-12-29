@@ -2,66 +2,27 @@ package com.app.ui.layout;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
-import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.control.ScDiv;
-import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.utility.ScJquery;
 
-import com.app.ui.core.MyServletData;
+import com.app.ui.page.MyMenuRegistry;
 import com.app.ui.page.MyPage;
-import com.app.utility.MyGlobals;
 
 public class MyLeftMenu
+    extends ScDiv
 {
     //##################################################
-    //# constants
+    //# install
     //##################################################
 
-    private static final String ID_PREFIX = "leftMenu";
-
-    //##################################################
-    //# ajax
-    //##################################################
-
-    /**
-     * Render the entire menu structure.  This could become relatively
-     * significant if we support large, multi-tiered menus.
-     */
-    public KmHtmlBuilder render()
+    @Override
+    protected void install()
     {
-        ScDiv root;
-        root = new ScDiv();
-        root.setHtmlId(getWrapperId());
-        root.css().leftMenu_box();
+        super.install();
 
-        for ( MyLeftMenuItem e : MyLeftMenuItem.getValues() )
-            renderItemOn(root, e);
-
-        return root.render();
-    }
-
-    private void renderItemOn(ScContainer root, MyLeftMenuItem e)
-    {
-        ScDiv div;
-        div = root.addDiv();
-        div.setHtmlId(getItemId(e));
-        div.addText(e.getTitle());
-        div.setOnClick(e.getAction());
-        div.css().leftMenu_item();
-    }
-
-    //##################################################
-    //# ids
-    //##################################################
-
-    private String getWrapperId()
-    {
-        return ID_PREFIX;
-    }
-
-    private String getItemId(MyLeftMenuItem e)
-    {
-        return getWrapperId() + "-" + e.getKey();
+        setHtmlId("pageLeftMenu");
+        css().leftMenu();
     }
 
     //##################################################
@@ -82,10 +43,10 @@ public class MyLeftMenu
      */
     private void _ajaxClearSelection()
     {
-        String sel = ScJquery.formatCssSelector(KmCssDefaultConstantsIF.leftMenu_item);
-        String css = KmCssDefaultConstantsIF.leftMenu_selected;
+        String sel = ScJquery.formatCssSelector(KmCssDefaultConstantsIF.leftMenu_selection);
+        String css = KmCssDefaultConstantsIF.leftMenu_item;
 
-        ajax().removeCss(sel, css);
+        ajax().setCss(sel, css);
     }
 
     /**
@@ -96,28 +57,73 @@ public class MyLeftMenu
         if ( page == null )
             return;
 
-        MyLeftMenuItem item = page.getMenuItem();
+        MyMenuItem item = page.getLeftMenuItem();
         if ( item == null )
             return;
 
-        String sel = ScJquery.formatIdSelector(getItemId(item));
-        String css = KmCssDefaultConstantsIF.leftMenu_selected;
+        String sel = item.getJquerySelector();
+        String css = KmCssDefaultConstantsIF.leftMenu_selection;
 
-        ajax().addCss(sel, css);
+        ajax().setCss(sel, css);
+        ajax().scrollToIfOffScreen(sel);
     }
 
     //##################################################
-    //# support
+    //# refresh
     //##################################################
 
-    private MyServletData getData()
+    public void ajaxRefreshContentFor(ScPage page)
     {
-        return MyGlobals.getData();
+        ajax().setContents(renderSections(page));
     }
 
-    private ScBlockScript ajax()
+    //##################################################
+    //# render
+    //##################################################
+
+    private KmHtmlBuilder renderSections(ScPage page)
     {
-        return getData().ajax();
+        KmHtmlBuilder out;
+        out = new KmHtmlBuilder();
+
+        MyMenuItem top = MyMenuRegistry.getInstance().findTopMenuFor(page);
+        if ( top == null )
+            return out;
+
+        for ( MyMenuItem e : top.getSubMenus() )
+            renderSectionOn(out, e);
+
+        return out;
+    }
+
+    private void renderSectionOn(KmHtmlBuilder out, MyMenuItem section)
+    {
+        if ( !section.isVisible() )
+            return;
+
+        ScDiv div;
+        div = new ScDiv();
+        div.setHtmlId(section.getHtmlId());
+        div.addText(section.getTitle());
+        div.css().leftMenu_section();
+        div.renderOn(out);
+
+        for ( MyMenuItem item : section.getSubMenus() )
+            renderItemOn(out, item);
+    }
+
+    private void renderItemOn(KmHtmlBuilder out, MyMenuItem e)
+    {
+        if ( !e.isVisible() )
+            return;
+
+        ScDiv div;
+        div = new ScDiv();
+        div.setHtmlId(e.getHtmlId());
+        div.addTextSpan(e.getTitle());
+        div.setOnClick(e.getClickScript());
+        div.css().leftMenu_item();
+        div.renderOn(out);
     }
 
 }

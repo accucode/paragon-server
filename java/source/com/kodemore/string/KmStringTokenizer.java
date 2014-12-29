@@ -46,7 +46,7 @@ public class KmStringTokenizer
 
     public KmStringTokenizer()
     {
-        _delimiters = new KmList<String>();
+        _delimiters = new KmList<>();
         _trimValues = false;
         _ignoreEmptyValues = false;
     }
@@ -73,6 +73,15 @@ public class KmStringTokenizer
     public void addDelimiter(String e)
     {
         _delimiters.add(e);
+    }
+
+    /**
+     * Add EACH character of the param as a separate delimiter.
+     */
+    public void addCharDelimiters(String s)
+    {
+        for ( char c : s.toCharArray() )
+            addDelimiter(c);
     }
 
     public void addCommaDelimiter()
@@ -139,7 +148,7 @@ public class KmStringTokenizer
     public KmList<String> split(String source)
     {
         if ( Kmu.isEmpty(source) )
-            return new KmList<String>();
+            return new KmList<>();
 
         KmList<String> v = _split(source);
 
@@ -154,7 +163,7 @@ public class KmStringTokenizer
 
     private KmList<String> _split(String source)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         StringBuilder out = new StringBuilder();
         int i = 0;
 

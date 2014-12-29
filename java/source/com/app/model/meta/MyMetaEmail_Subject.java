@@ -50,6 +50,12 @@ public class MyMetaEmail_Subject
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The subject line.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

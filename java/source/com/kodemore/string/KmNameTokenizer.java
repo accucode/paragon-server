@@ -59,7 +59,7 @@ public class KmNameTokenizer
     private KmList<String> _parse(String s)
     {
         _name = s;
-        _tokens = new KmList<String>();
+        _tokens = new KmList<>();
         convertDelimiters();
 
         while ( notEmpty() )
@@ -103,39 +103,45 @@ public class KmNameTokenizer
 
     private void addLowerCaseLetterWord()
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder out = new StringBuilder();
+
         while ( isLowerCaseLetter() )
-            sb.append(read());
-        _tokens.add(sb.toString());
+            out.append(read());
+
+        _tokens.add(out.toString());
     }
 
     private void addCamelCaseWord()
     {
-        StringBuilder sb;
-        sb = new StringBuilder();
-        sb.append(current());
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append(current());
 
         skip();
         while ( isLowerCaseLetter() )
-            sb.append(read());
+            out.append(read());
 
-        _tokens.add(sb.toString().toLowerCase());
+        _tokens.add(out.toString().toLowerCase());
     }
 
     private void addUpperCaseWord()
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder out = new StringBuilder();
+
         while ( isUpperCaseLetter() )
-            sb.append(read());
-        _tokens.add(sb.toString().toLowerCase());
+            out.append(read());
+
+        _tokens.add(out.toString().toLowerCase());
     }
 
     private void addDigitWord()
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder out = new StringBuilder();
+
         while ( isDigit() )
-            sb.append(read());
-        _tokens.add(sb.toString());
+            out.append(read());
+
+        _tokens.add(out.toString());
     }
 
     private boolean isDigit()
@@ -257,6 +263,7 @@ public class KmNameTokenizer
     {
         String s = "a methodName 123abc_endTLA C-Stores";
         KmList<String> v = KmNameTokenizer.parse(s);
+
         System.out.println(s);
         System.out.println(v.format());
     }

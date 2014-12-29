@@ -56,8 +56,11 @@ if ( typeof String.prototype.endsWith != 'function' )
     {  
         this.bind("keyup", function(ev) 
         {  
-            if ( ev.keyCode === 27 ) 
-                fn();   
+            if ( ev.keyCode === 27 )
+            { 
+                fn();
+                ev.stopPropagation();
+            }
         });
     }
 

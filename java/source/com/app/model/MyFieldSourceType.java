@@ -33,10 +33,10 @@ public enum MyFieldSourceType
 
     static
     {
-        _values = new KmList<MyFieldSourceType>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyFieldSourceType>();
+        _codes = new KmMap<>();
         for ( MyFieldSourceType e : EnumSet.allOf(MyFieldSourceType.class) )
             _codes.put(e.getCode(), e);
     }

@@ -50,8 +50,8 @@ public class MySlowTestPage
         root.css().pad();
 
         ScGroup group;
-        group = root.addGroup();
-        group.addPad().addText(
+        group = root.addGroup("Slow Response Tests");
+        group.getBody().addPad().addText(
             ""
                 + "Test slow server side response.  The framework automatically"
                 + " blocks the user interface during ajax submits.  The blocking"
@@ -66,7 +66,7 @@ public class MySlowTestPage
                 + " blockDelayMs variable.");
 
         ScBox buttons;
-        buttons = group.addButtonBox();
+        buttons = group.getBody().addButtonBox();
         buttons.add(newButton(0));
         buttons.add(newButton(10));
         buttons.add(newButton(20));

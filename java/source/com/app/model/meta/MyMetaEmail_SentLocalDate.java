@@ -49,6 +49,12 @@ public class MyMetaEmail_SentLocalDate
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when the email was last sent.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

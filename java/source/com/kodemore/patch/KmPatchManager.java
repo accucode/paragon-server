@@ -500,7 +500,7 @@ public class KmPatchManager
 
     private KmMap<String,KmPatch> toMap(KmList<KmPatch> v)
     {
-        KmMap<String,KmPatch> m = new KmMap<String,KmPatch>();
+        KmMap<String,KmPatch> m = new KmMap<>();
         for ( KmPatch e : v )
             m.put(e.getName(), e);
         return m;

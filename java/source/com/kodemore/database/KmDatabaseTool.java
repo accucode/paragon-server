@@ -262,7 +262,7 @@ public class KmDatabaseTool
             st = createStatement();
             rs = st.executeQuery(sql);
 
-            KmList<String> v = new KmList<String>();
+            KmList<String> v = new KmList<>();
             while ( rs.next() )
                 v.add(rs.getString(1));
             return v;

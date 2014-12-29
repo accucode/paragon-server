@@ -45,12 +45,13 @@ public class KmFilteredVirtualList<T>
     public KmFilteredVirtualList(KmVirtualList<T> original, KmMatchIF<T> match)
     {
         _original = original;
-        _indexes = new KmList<Integer>();
+        _indexes = new KmList<>();
 
         int n = original.getSize();
         for ( int i = 0; i < n; i++ )
         {
             T e = original.get(i);
+
             if ( match.matches(e) )
                 _indexes.add(i);
         }

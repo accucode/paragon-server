@@ -51,12 +51,12 @@ public class MyEmailCriteria
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereSentUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(SENT_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(SENT_UTC_TS));
     }
 
     public KmStringCriteria whereSubject()
@@ -755,7 +755,6 @@ public class MyEmailCriteria
     //##################################################
 
     @Override
-    @SuppressWarnings("rawtypes")
     public MyEmailCriteria createOn(KmModelJunction junction)
     {
         return new MyEmailCriteria(parent(), junction.context());

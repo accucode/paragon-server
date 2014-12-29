@@ -37,7 +37,7 @@ public abstract class MyUserToolsBase
     public ScDomainDropdownField<MyUser,String> newDomainDropdown()
     {
         ScDomainDropdownField<MyUser,String> e;
-        e = new ScDomainDropdownField<MyUser,String>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyUserFilter());
         e.setFinder(new MyUserFinder());

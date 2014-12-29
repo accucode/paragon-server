@@ -63,8 +63,7 @@ public class ScLiteral
 
     @SuppressWarnings(
     {
-        "unchecked",
-        "rawtypes"
+        "unchecked", "rawtypes"
     })
     private String formatHtml()
     {

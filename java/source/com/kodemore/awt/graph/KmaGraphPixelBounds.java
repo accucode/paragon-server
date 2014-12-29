@@ -127,8 +127,10 @@ public class KmaGraphPixelBounds
     {
         if ( _right < _left )
             return false;
+
         if ( _top < _bottom )
             return false;
+
         return true;
     }
 
@@ -141,16 +143,22 @@ public class KmaGraphPixelBounds
     {
         if ( isUndefined() )
             return false;
+
         int x = p.x;
         int y = p.y;
+
         if ( x < _left )
             return false;
+
         if ( x > _right )
             return false;
+
         if ( y < _bottom )
             return false;
+
         if ( y > _top )
             return false;
+
         return true;
     }
 }

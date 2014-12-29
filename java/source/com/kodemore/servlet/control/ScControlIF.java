@@ -22,11 +22,84 @@
 
 package com.kodemore.servlet.control;
 
+import java.util.Iterator;
+
+import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.meta.KmMetaAttribute;
+import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.field.ScControlVisitorIF;
+import com.kodemore.servlet.field.ScField;
+import com.kodemore.servlet.field.ScHtmlIdIF;
+import com.kodemore.servlet.field.ScStoppableControlVisitorIF;
 
 public interface ScControlIF
 {
+    //##################################################
+    //# hierarchy
+    //##################################################
+
+    void setParent(ScControl e);
+
+    Iterator<ScControlIF> getComponents();
+
+    ScHtmlIdIF getFocusTarget();
+
+    //##################################################
+    //# render
+    //##################################################
+
     KmHtmlBuilder render();
 
     void renderOn(KmHtmlBuilder out);
+
+    //##################################################
+    //# accept
+    //##################################################
+
+    void accept(ScControlVisitorIF e);
+
+    boolean accept(ScStoppableControlVisitorIF e);
+
+    //##################################################
+    //# fields
+    //##################################################
+
+    void saveFieldValues();
+
+    void resetFieldValues();
+
+    //##################################################
+    //# apply
+    //##################################################
+
+    void applyFromModel(Object model, boolean skipFields);
+
+    void applyToModel(Object model);
+
+    //##################################################
+    //# validate
+    //##################################################
+
+    void validate();
+
+    boolean validateQuietly();
+
+    void collectErrorsOn(KmList<String> v);
+
+    boolean hasErrors();
+
+    //##################################################
+    //# find
+    //##################################################
+
+    @SuppressWarnings("rawtypes")
+    ScField findFieldFor(KmMetaAttribute<?,?> attr);
+
+    //##################################################
+    //# parameters
+    //##################################################
+
+    void readParameters(ScServletData data);
+
 }

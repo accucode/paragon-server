@@ -1,12 +1,9 @@
 package com.app.model;
 
-import com.kodemore.collection.KmCollection;
 import com.kodemore.collection.KmList;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyUserBase;
-import com.app.model.meta.MyMetaAccount;
-import com.app.model.meta.MyMetaUserAccount;
 import com.app.utility.MyUtility;
 
 public class MyUser
@@ -91,130 +88,58 @@ public class MyUser
     //# roles
     //##################################################
 
-    public boolean allowsDeveloper()
-    {
-        return isRoleDeveloper();
-    }
-
     public boolean allowsLogin()
     {
         return isVerified();
     }
 
+    public boolean allowsDeveloper()
+    {
+        return isRoleDeveloper();
+    }
+
+    public boolean allowsAdmin()
+    {
+        return isRoleAdmin() || allowsDeveloper();
+    }
+
     //##################################################
-    //# accounts
+    //# projects
     //##################################################
 
-    public KmCollection<MyAccount> getAccounts()
+    public KmList<MyMember> getMemberships()
     {
-        MyMetaUserAccount x = MyUserAccount.Meta;
-
-        return getUserAccounts().collect(x.Account);
+        return getAccess().getMemberDao().findUser(this);
     }
 
-    public KmCollection<MyAccount> getOwnedAccounts()
+    public KmList<MyProject> getProjects()
     {
-        KmCollection<MyAccount> v = new KmCollection<MyAccount>();
+        return getMemberships().collect(MyMember.Meta.Project);
+    }
 
-        for ( MyUserAccount e : getUserAccounts() )
-            if ( e.isRoleOwner() )
-                v.add(e.getAccount());
-
+    public KmList<MyProject> getProjectsByName()
+    {
+        KmList<MyProject> v;
+        v = getProjects();
+        v.sortOn(MyProject.Meta.Name);
         return v;
     }
 
-    public KmCollection<MyAccount> getSharedAccounts()
+    public KmList<String> getProjectNames()
     {
-        KmCollection<MyAccount> v = new KmCollection<MyAccount>();
-
-        for ( MyUserAccount e : getUserAccounts() )
-            if ( !e.isRoleOwner() )
-                v.add(e.getAccount());
-
-        return v;
+        return getProjectsByName().collect(MyProject.Meta.Name);
     }
 
-    public KmList<MyAccount> getOwnedAccountsByName()
+    public boolean isMemberOf(MyProject e)
     {
-        KmList<MyAccount> v;
-        v = getOwnedAccounts().toList();
-        v.sortOn(MyAccount.Meta.Name);
-        return v;
+        return getMembershipFor(e) != null;
     }
 
-    public KmList<MyAccount> getSharedAccountsByName()
+    public MyMember getMembershipFor(MyProject p)
     {
-        KmList<MyAccount> v;
-        v = getSharedAccounts().toList();
-        v.sortOn(MyAccount.Meta.Name);
-        return v;
-    }
-
-    public MyAccount getDefaultAccount()
-    {
-        MyMetaAccount x = MyAccount.Meta;
-
-        KmCollection<MyAccount> v;
-        v = getOwnedAccounts();
-        v.toList().sortOn(x.Name);
-
-        return v.getFirst();
-    }
-
-    public KmCollection<String> getAccountNames()
-    {
-        MyMetaAccount x = MyAccount.Meta;
-
-        return getAccounts().collect(x.Name);
-    }
-
-    public MyAccount addAccount(String name)
-    {
-        MyAccount a;
-        a = new MyAccount();
-        a.setName(name);
-        a.saveDao();
-
-        joinAccount(a, MyUserAccountRole.Owner);
-
-        return a;
-    }
-
-    public MyUserAccount joinAccount(MyAccount a)
-    {
-        return joinAccount(a, MyUserAccountRole.User);
-    }
-
-    public MyUserAccount joinAccount(MyAccount a, MyUserAccountRole role)
-    {
-        MyUserAccount ua;
-        ua = addUserAccount();
-        ua.setAccount(a);
-        ua.setRole(role);
-        return ua;
-    }
-
-    public boolean hasSingleAccount()
-    {
-        return getUserAccountCount() == 1;
-    }
-
-    public boolean hasMultipleAccounts()
-    {
-        return getUserAccounts().isMultiple();
-    }
-
-    public boolean isMemberOf(MyAccount e)
-    {
-        return getUserAccountFor(e) != null;
-    }
-
-    public MyUserAccount getUserAccountFor(MyAccount a)
-    {
-        KmCollection<MyUserAccount> uas = getUserAccounts();
-        for ( MyUserAccount ua : uas )
-            if ( ua.hasAccount(a) )
-                return ua;
+        for ( MyMember m : getMemberships() )
+            if ( m.hasProject(p) )
+                return m;
 
         return null;
     }

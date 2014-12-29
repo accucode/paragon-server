@@ -1,52 +1,56 @@
 model
 : name          = timeZone
-: comment       = A service type. Changing service types requires and update to java business logic.
+: help...       
+    ===
+    The time zones supported by this application.
+    Ideally, this should be replaced by a more modern and dynamic time zone mechanism.
+    ===
 : skipModelBase
 
 attributes
 
     abstractField
     : name      = code
-    : comment   = The unique key.
+    : help      = The unique key; e.g.: MST (for mountain standard time).
     : type      = code5
 
     abstractField
     : name      = name
-    : comment   = The longer display name.
+    : help      = The longer display name.  E.g.: Mountain Standard Time.
     : type      = name
 
     abstractField
     : name      = utcOffsetMinutes
-    : comment   = The number of minutes ahead or behind UTC.
+    : help      = The number of minutes ahead or behind UTC.
     : type      = integer
 
     abstractField
     : name      = dstCode
-    : comment   = dstCode
+    : help      = dstCode
     : type      = calculated
 
     abstractField
     : name      = dstOffsetMinutes
-    : comment   = dstOffsetMinutes
+    : help      = dstOffsetMinutes
     : type      = integer
 
     abstractField
     : name      = dstStartMonth
-    : comment   = dstStartMonth
+    : help      = The date (month) when daylight savings starts.
     : type      = integer
 
     abstractField
     : name      = dstStartDay
-    : comment   = dstStartDay
+    : help      = The date (day) when daylight savings starts.
     : type      = integer
 
     abstractField
     : name      = dstEndMonth
-    : comment   = dstEndMonth
+    : help      = The date (month) when daylight savings ends.
     : type      = integer
 
     abstractField
     : name      = dstEndDay
-    : comment   = dstEndDay
+    : help      = The date (day) when daylight savings ends.
     : type      = integer
 

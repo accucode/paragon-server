@@ -30,7 +30,7 @@ public interface ScHtmlIdIF
 
     String getJquerySelector();
 
-    String getJqueryReference();
-
     ScHtmlIdAjax ajax();
+
+    ScHtmlIdIF getFocusTarget();
 }

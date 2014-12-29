@@ -244,7 +244,7 @@ public class KmXmlTest
             String xsdFile = Kmu.getHardcodedPath("/temp/xml/person.xsd");
 
             System.out.println("parsing xml...");
-            String xml = Kmu.readTextFile(xmlFile);
+            String xml = Kmu.readFileString(xmlFile);
             Document doc = parseXml(xml);
             DOMSource ds = new DOMSource(doc);
 

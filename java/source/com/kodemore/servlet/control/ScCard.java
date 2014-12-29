@@ -22,6 +22,9 @@
 
 package com.kodemore.servlet.control;
 
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.action.ScActionIF;
+
 /**
  * I am used in conjuction with the ScCardFrame.
  */
@@ -49,16 +52,29 @@ public class ScCard
      */
     public void prePrint()
     {
-        // subclass 
+        // subclass
     }
 
     //##################################################
     //# ajax
     //##################################################
 
+    /**
+     * Show this card within the frame using the frame's
+     * default animation effect.
+     */
     public void ajaxPrint()
     {
         getFrame().ajaxPrint(this);
+    }
+
+    /**
+     * Show this card within the frame without any animation
+     * effect.
+     */
+    public void ajaxPrintFast()
+    {
+        getFrame().ajaxPrintFast(this);
     }
 
     protected void ajaxClose()
@@ -93,5 +109,21 @@ public class ScCard
     public boolean isDefault()
     {
         return getFrame().isDefaultCard(this);
+    }
+
+    //##################################################
+    //# actions
+    //##################################################
+
+    public ScActionIF newPrintAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                ajaxPrint();
+            }
+        };
     }
 }

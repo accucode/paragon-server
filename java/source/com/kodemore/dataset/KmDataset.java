@@ -40,8 +40,8 @@ public class KmDataset
 
     public KmDataset()
     {
-        _columns = new KmList<KmDatasetColumn>();
-        _rows = new KmList<KmDatasetRow>();
+        _columns = new KmList<>();
+        _rows = new KmList<>();
     }
 
     //##################################################

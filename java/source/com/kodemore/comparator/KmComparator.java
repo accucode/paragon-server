@@ -102,7 +102,7 @@ public abstract class KmComparator<T>
      */
     public KmComparator<T> reverse()
     {
-        return new KmReversingComparator<T>(this);
+        return new KmReversingComparator<>(this);
     }
 
     /**
@@ -110,7 +110,7 @@ public abstract class KmComparator<T>
      */
     public KmComparator<T> toNullComparator()
     {
-        return new KmNullComparator<T>(this);
+        return new KmNullComparator<>(this);
     }
 
     //##################################################

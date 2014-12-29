@@ -28,8 +28,8 @@ import com.kodemore.servlet.action.ScActionContextIF;
 /**
  * I am typically the root control for each page.  I act as
  * the bridge that provides the control hierarchy access to
- * the page's context for things like security and error 
- * logging. 
+ * the page's context for things like security and error
+ * logging.
  */
 public class ScPageRoot
     extends ScBox

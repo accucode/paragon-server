@@ -22,7 +22,7 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MySettingsJunction
-    extends KmModelJunction<MySettings>
+    extends KmModelJunction
     implements MySettingsDaoConstantsIF
 {
     //##################################################

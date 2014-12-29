@@ -35,7 +35,7 @@ public abstract class KmModelCriteria<T>
 
     public <E> KmPropertyCriteria<E> whereProperty(KmMetaDaoPropertyIF<T,E> e)
     {
-        return new KmPropertyCriteria<E>(context(), fullName(e.getDaoPropertyName()));
+        return new KmPropertyCriteria<>(context(), fullName(e.getDaoPropertyName()));
     }
 
     public KmStringCriteria whereString(KmMetaDaoPropertyIF<T,String> attr)
@@ -96,7 +96,6 @@ public abstract class KmModelCriteria<T>
         return parent().getFullName(property);
     }
 
-    @SuppressWarnings("rawtypes")
     public abstract KmModelCriteria<T> createOn(KmModelJunction context);
 
     protected KmRootCriteria root()

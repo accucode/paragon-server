@@ -10,7 +10,6 @@ import com.kodemore.http.KmHttpRequest;
 import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.json.KmJsonReader;
-import com.kodemore.utility.Kmu;
 
 /**
  * I am used connect to Zendesk; make various requests.
@@ -22,15 +21,15 @@ public class KmZendeskConnection
     //##################################################
 
     private static String               HOST = "accucodeit.zendesk.com";
-    //    private static String               HOST = "localhost";
+    // private static String HOST = "localhost";
 
     //##################################################
     //# variables (public)
     //##################################################
 
     /**
-     * The uri path.  In general, don't encode parameters into the path;
-     * set the parameters separately.
+     * The uri path. In general, don't encode parameters into the path; set the
+     * parameters separately.
      */
     private String                      _path;
     private String                      _host;
@@ -39,9 +38,9 @@ public class KmZendeskConnection
     private String                      _data;
 
     /**
-     * The list of parameters.  Parameters are generally stored and used
-     * in the sequence that they are set.  Changing the value of a parameter
-     * preserves the initial sequence.
+     * The list of parameters. Parameters are generally stored and used in the
+     * sequence that they are set. Changing the value of a parameter preserves
+     * the initial sequence.
      */
     private KmOrderedMap<String,String> _parameters;
 
@@ -60,7 +59,7 @@ public class KmZendeskConnection
 
     public KmZendeskConnection()
     {
-        _parameters = new KmOrderedMap<String,String>();
+        _parameters = new KmOrderedMap<>();
         _host = HOST;
     }
 
@@ -208,7 +207,7 @@ public class KmZendeskConnection
         }
         catch ( IOException ex )
         {
-            Kmu.printStackTrace();
+            ex.printStackTrace();
             return false;
         }
     }

@@ -292,7 +292,7 @@ type
 : name          = name
 : comment       = The a general name, used to supply a common format for many names.
 : baseType      = string
-: maximumLength = 30
+: maximumLength = 50
 : allows        = printable
 : columnWidth   = 15
 

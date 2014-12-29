@@ -1,10 +1,13 @@
 package com.app.dao.core;
 
 import java.io.File;
+import java.util.Properties;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.classic.Session;
+import org.hibernate.service.ServiceRegistry;
 
 import com.kodemore.file.KmFile;
 import com.kodemore.utility.Kmu;
@@ -19,8 +22,9 @@ public abstract class MyAbstractHibernateConfiguration
     //# variables
     //##################################################
 
-    private Configuration  _configuration;
-    private SessionFactory _sessionFactory;
+    private Configuration   _configuration;
+    private SessionFactory  _sessionFactory;
+    private ServiceRegistry _serviceRegistry;
 
     //##################################################
     //# constructor
@@ -29,10 +33,19 @@ public abstract class MyAbstractHibernateConfiguration
     protected MyAbstractHibernateConfiguration()
     {
         _configuration = new Configuration();
-        addMappings();
+        addCustomMappings();
         _configuration.configure(getConfigFile());
+
         addCustomConfigurations(_configuration);
-        _sessionFactory = _configuration.buildSessionFactory();
+
+        Properties props;
+        props = _configuration.getProperties();
+
+        StandardServiceRegistryBuilder builder;
+        builder = new StandardServiceRegistryBuilder();
+
+        _serviceRegistry = builder.applySettings(props).build();
+        _sessionFactory = _configuration.buildSessionFactory(_serviceRegistry);
     }
 
     //##################################################
@@ -54,9 +67,9 @@ public abstract class MyAbstractHibernateConfiguration
     //# support
     //##################################################
 
-    protected abstract void addMappings();
+    protected abstract void addCustomMappings();
 
-    protected abstract void addCustomConfigurations(Configuration configuration);
+    protected abstract void addCustomConfigurations(Configuration config);
 
     protected void addMapping(String clazz)
     {

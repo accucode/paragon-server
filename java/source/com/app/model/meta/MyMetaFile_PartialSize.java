@@ -50,6 +50,12 @@ public class MyMetaFile_PartialSize
     }
 
     @Override
+    public String getHelp()
+    {
+        return "This is only used when coordinating an asynchronous file upload.  Once the file is fully uploaded (and available) this can be ignored.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

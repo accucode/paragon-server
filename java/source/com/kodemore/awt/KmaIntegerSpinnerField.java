@@ -42,10 +42,12 @@ public class KmaIntegerSpinnerField
     public KmaIntegerSpinnerField()
     {
         _step = 1;
+
         registerKeyboardAction(
             newAction("guiStepUp"),
             KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0),
             WHEN_FOCUSED);
+
         registerKeyboardAction(
             newAction("guiStepDown"),
             KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0),
@@ -83,6 +85,7 @@ public class KmaIntegerSpinnerField
     public void _changeByStep(int delta)
     {
         int i;
+
         if ( hasValue() )
             i = getValue() + delta;
         else
@@ -90,12 +93,16 @@ public class KmaIntegerSpinnerField
                 i = getMinimumValue();
             else
                 i = getMaximumValue();
+
         if ( i < getMinimumValue() )
             i = getMinimumValue();
+
         if ( i > getMaximumValue() )
             i = getMaximumValue();
+
         if ( i == getValue() )
             return;
+
         setValue(i);
         getAcceptActions().fire();
         getChangeActions().fire();

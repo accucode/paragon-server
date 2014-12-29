@@ -50,6 +50,12 @@ public class MyMetaUser_Uid
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The global unique key.  This is a big ugly number and is usually not displayed.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

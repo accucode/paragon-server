@@ -20,7 +20,6 @@ public enum MyInvitationType
     //# values
     //##################################################
 
-    TransferAccount("T", "Transfer Account"),
     JoinAccount("J", "Join Account"),
     ;
 
@@ -33,10 +32,10 @@ public enum MyInvitationType
 
     static
     {
-        _values = new KmList<MyInvitationType>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyInvitationType>();
+        _codes = new KmMap<>();
         for ( MyInvitationType e : EnumSet.allOf(MyInvitationType.class) )
             _codes.put(e.getCode(), e);
     }
@@ -87,11 +86,6 @@ public enum MyInvitationType
     //##################################################
     //# testing
     //##################################################
-
-    public boolean isTransferAccount()
-    {
-        return this == TransferAccount;
-    }
 
     public boolean isJoinAccount()
     {

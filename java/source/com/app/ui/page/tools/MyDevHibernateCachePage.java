@@ -74,7 +74,7 @@ public class MyDevHibernateCachePage
         ScGroup group = form.addGroup("Hibernate Cache Test");
 
         ScFieldTable fields;
-        fields = group.addPad().addFields();
+        fields = group.getBody().addPad().addFieldTable();
         fields.add(createInsertDataBox());
         fields.add(createRunTestBox());
 

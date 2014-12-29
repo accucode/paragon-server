@@ -83,6 +83,7 @@ public class KmDbaseTest
     {
         System.out.println();
         System.out.println("Field Descriptors");
+
         int n = f.getFieldDescriptorCount();
         for ( int i = 0; i < n; i++ )
         {
@@ -131,6 +132,7 @@ public class KmDbaseTest
         for ( int i = 0; i < n; i++ )
         {
             KmDbaseFieldDescriptor fd = r.getFieldDescriptor(i);
+
             System.out.print(fd.getName());
             System.out.print("(");
             System.out.print(fd.getType());
@@ -144,20 +146,27 @@ public class KmDbaseTest
     public String formatField(KmDbaseRecord r, int i)
     {
         KmDbaseFieldDescriptor fd = r.getFieldDescriptor(i);
+
         if ( fd.isCharacter() )
             return r.getString(i).trim();
+
         if ( fd.isDate() )
             return r.getDate(i) + "";
+
         if ( fd.isLogical() )
             return r.getBoolean(i) + "";
+
         if ( fd.isNumeric() )
         {
             if ( fd.getDecimalCount() > 0 )
                 return r.getDouble(i) + "";
+
             if ( fd.getLength() < 10 )
                 return r.getInteger(i) + "";
+
             return r.getLong(i) + "";
         }
+
         return "UKNONWN FORMAT";
     }
 
@@ -168,13 +177,14 @@ public class KmDbaseTest
     public void iterateRecords(KmDbaseFile f)
     {
         int n = f.getHeader().getRecordCount();
-        KmConsoleMeter m;
-        m = new KmConsoleMeter("Records", n);
+        KmConsoleMeter m = new KmConsoleMeter("Records", n);
+
         for ( int i = 0; i < n; i++ )
         {
             iterateRecord(f, i);
             m.meter();
         }
+
         m.stop();
     }
 

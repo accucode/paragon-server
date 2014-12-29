@@ -23,6 +23,7 @@ public abstract class KmMetaDateProperty<T>
         ScDateField e;
         e = new ScDateField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
         e.setValueAdaptor(this);
         return e;

@@ -61,22 +61,22 @@ public class MyHideErrorsTestPage
         group = form.addGroup("Group One");
 
         ScBox lines;
-        lines = group.addLines();
-        lines.addFields().addIntegerField().setLabel("Integer");
+        lines = group.getBody().addLines();
+        lines.addFieldTable().addIntegerField().setLabel("Integer");
         lines.addButton("Hide Errors", newHideGroupOneErrors());
         _groupOne = group;
 
         group = form.addGroup("Group Two");
 
-        lines = group.addLines();
-        lines.addFields().addIntegerField().setLabel("Integer");
+        lines = group.getBody().addLines();
+        lines.addFieldTable().addIntegerField().setLabel("Integer");
         lines.addButton("Hide Errors", newHideGroupTwoErrors());
         _groupTwo = group;
 
         group = form.addGroup("Form");
 
         ScBox buttons;
-        buttons = group.addButtonBox();
+        buttons = group.getBody().addButtonBox();
         buttons.addSubmitButton("Validate");
         buttons.addButton("Hide All Errors", newHideAllErrorsAction());
     }

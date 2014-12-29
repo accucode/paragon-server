@@ -69,7 +69,7 @@ public class MyHoverTestPage
         group = _form.addGroup();
 
         ScDiv left;
-        left = group.getHeader().addFloatLeft();
+        left = group.getBanner().addFloatLeft();
         left.css().pad5();
 
         ScImage image;
@@ -77,13 +77,13 @@ public class MyHoverTestPage
         image.setSource(getCommonImageUrl("smiley.png"));
         image.setHoverText("Smile!");
 
-        group.addPad().addText(
+        group.getBody().addPad().addText(
             "Show hover text over the icon, form, field, and button using the title attribute");
-        group.addPad().addFields().add(_nameField);
-        group.addDivider();
+        group.getBody().addPad().addFieldTable().add(_nameField);
+        group.addBodyDivider();
 
         ScButton button;
-        button = group.addButtonBox().addButton("Clear", newClearAction());
+        button = group.getBody().addButtonBox().addButton("Clear", newClearAction());
         button.setHoverText("This button is used for clearing the field.");
     }
 

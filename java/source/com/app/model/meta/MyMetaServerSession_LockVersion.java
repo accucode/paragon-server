@@ -50,6 +50,12 @@ public class MyMetaServerSession_LockVersion
     }
 
     @Override
+    public String getHelp()
+    {
+        return "This is used to coordinate optimistic locking in the database. This is usually not displayed.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

@@ -59,7 +59,7 @@ public class MyAnimationTestPage
         group = addGroup("Group");
 
         ScDiv right;
-        right = group.getHeader().addFloatRight();
+        right = group.getBanner().addFloatRight();
         right.css().gap5();
         right.addButton("Async", newAsyncToggleAction());
         right.addButton("Sync", newSyncToggleAction());
@@ -72,8 +72,7 @@ public class MyAnimationTestPage
         ScGroup e;
         e = getRoot().addGroup();
         e.setTitle(title);
-        e.layoutFixed();
-        e.css().floatLeft();
+        e.layoutInline();
         e.style().width(300).height(300);
         return e;
     }
@@ -81,16 +80,14 @@ public class MyAnimationTestPage
     private KmList<ScBox> addBoxesTo(ScGroup group)
     {
         ScBox lines;
-        lines = group.addLines();
+        lines = group.getBody().addLines();
 
-        KmList<ScBox> v = new KmList<ScBox>();
+        KmList<ScBox> v = new KmList<>();
 
         int n = 5;
         for ( int i = 0; i < n; i++ )
         {
-            ScBox e;
-            e = createBox(i);
-
+            ScBox e = createBox(i);
             v.add(e);
             lines.add(e);
         }

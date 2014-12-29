@@ -50,6 +50,12 @@ public class MyMetaFile_Size
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The size of the file (in bytes).";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

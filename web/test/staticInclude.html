@@ -1,5 +1,36 @@
 <!--
   - This file is used by MyStaticIncludeTest.java 
   --> 
-  
-Hello World xbe
+
+<style>
+</style>
+
+
+<div class='flex flexRow fill'>
+
+    <div id='left' class='flexStatic boxGreen gap'>
+        <button onclick='myTestOuter();'>Test Outer</button><br>
+        <button onclick='myTestInner();'>Test Inner</button><br>
+    </div>
+    
+    <iframe 
+        id='myFrame' 
+        class='flexFiller boxRed' 
+        src='http://172.16.20.200:8080'>
+    </iframe>
+
+</div>
+
+<script>
+
+    function myTestOuter()
+    {
+        Kmu.toast('hello');
+    }
+    
+    function myTestInner()
+    {
+        document.getElementById('myFrame').contentWindow.Kmu.toast('hello');
+    }
+    
+</script>

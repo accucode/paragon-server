@@ -50,6 +50,12 @@ public class MyMetaPasswordReset_CreatedUtcTs
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when this request was created.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 16;

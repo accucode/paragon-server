@@ -56,13 +56,16 @@ public class KmaGridSingleSelectionModel
             _selection = new Point(p);
             return;
         }
+
         if ( p == null )
         {
             _selection = null;
             return;
         }
+
         if ( _selection.equals(p) )
             return;
+
         _selection.setLocation(p);
     }
 
@@ -73,7 +76,7 @@ public class KmaGridSingleSelectionModel
     @Override
     public KmList<Point> getSelections()
     {
-        KmList<Point> v = new KmList<Point>();
+        KmList<Point> v = new KmList<>();
         Point p = getSelection();
         if ( p != null )
             v.add(p);

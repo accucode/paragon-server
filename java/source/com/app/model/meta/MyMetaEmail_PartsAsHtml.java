@@ -49,6 +49,12 @@ public class MyMetaEmail_PartsAsHtml
     }
 
     @Override
+    public String getHelp()
+    {
+        return "A summary of the parts, suitable for html literals.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

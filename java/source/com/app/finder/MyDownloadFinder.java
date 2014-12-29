@@ -46,7 +46,7 @@ public class MyDownloadFinder
     public MyDownload findDao(String key)
     {
         MyDaoKeyFinder<MyDownload,String> e;
-        e = new MyDaoKeyFinder<MyDownload,String>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

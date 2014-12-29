@@ -67,6 +67,7 @@ public class KmBlock
     public KmBlock(Object r, String m)
     {
         this();
+
         _receiver = r;
         _message = m;
     }
@@ -74,12 +75,14 @@ public class KmBlock
     public KmBlock(Object r, String m, Class<?> a0)
     {
         this(r, m);
+
         addArgument(a0);
     }
 
     public KmBlock(Object r, String m, Class<?> a0, Class<?> a1)
     {
         this(r, m);
+
         addArgument(a0);
         addArgument(a1);
     }
@@ -87,6 +90,7 @@ public class KmBlock
     public KmBlock(Object r, String m, Class<?> a0, Class<?> a1, Class<?> a2)
     {
         this(r, m);
+
         addArgument(a0);
         addArgument(a1);
         addArgument(a2);
@@ -140,11 +144,13 @@ public class KmBlock
         int n = _arguments.length;
         newArguments = new Object[n + 1];
         newTypes = new Class[n + 1];
+
         for ( int i = 0; i < n; i++ )
         {
             newArguments[i] = _arguments[i];
             newTypes[i] = _types[i];
         }
+
         _arguments = newArguments;
         _types = newTypes;
         _arguments[n] = o;
@@ -186,12 +192,16 @@ public class KmBlock
         catch ( Throwable ex )
         {
             System.out.println("--------------------");
+
             if ( ex instanceof InvocationTargetException )
                 ex = ((InvocationTargetException)ex).getTargetException();
+
             ex.printStackTrace();
+
             System.out.println("Receiver: " + _receiver);
             System.out.println("Message: " + _message);
             System.out.println("--------------------");
+
             return null;
         }
     }
@@ -225,10 +235,13 @@ public class KmBlock
     {
         if ( _receiver == null )
             return _error("Receiver is null");
+
         if ( _message == null )
             return _error("Message is null");
+
         Class<?> c = _receiver.getClass();
         Method m;
+
         try
         {
             m = c.getMethod(_message, _types);
@@ -237,8 +250,10 @@ public class KmBlock
         {
             return _error("Method not found");
         }
+
         if ( m.getReturnType() != returnType )
             return _error("Incorrect return type");
+
         return true;
     }
 
@@ -253,17 +268,19 @@ public class KmBlock
 
     public boolean _error(String s)
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Block > validate fail");
-        sb.append("\n" + s);
-        sb.append("\n    receiver: " + _receiver);
-        sb.append("\n    message:  " + _message);
-        sb.append("\n    arguments: " + _types.length);
+        StringBuilder out = new StringBuilder();
+        out.append("Block > validate fail");
+        out.append("\n" + s);
+        out.append("\n    receiver: " + _receiver);
+        out.append("\n    message:  " + _message);
+        out.append("\n    arguments: " + _types.length);
+
         int n = _types.length;
         for ( int i = 0; i < n; i++ )
-            sb.append("\n        " + _types[i]);
-        sb.append("\n");
-        throw new RuntimeException(sb.toString());
+            out.append("\n        " + _types[i]);
+
+        out.append("\n");
+        throw new RuntimeException(out.toString());
     }
 
 }

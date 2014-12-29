@@ -102,14 +102,14 @@ public abstract class KmValidator<T>
 
     public void validateOnly(T e)
     {
-        KmList<KmErrorIF> v = new KmList<KmErrorIF>();
+        KmList<KmErrorIF> v = new KmList<>();
         validateOnly(e, v);
         check(v);
     }
 
     public KmErrorIF getValidationError(T e)
     {
-        KmList<KmErrorIF> errors = new KmList<KmErrorIF>();
+        KmList<KmErrorIF> errors = new KmList<>();
         validateOnly(e, errors);
         return errors.getFirstSafe();
     }
@@ -139,7 +139,7 @@ public abstract class KmValidator<T>
 
     public String formatErrorsFor(T e)
     {
-        KmList<KmErrorIF> errors = new KmList<KmErrorIF>();
+        KmList<KmErrorIF> errors = new KmList<>();
 
         validate(e, errors);
 

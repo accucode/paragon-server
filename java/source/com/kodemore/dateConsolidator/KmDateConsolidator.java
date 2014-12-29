@@ -31,12 +31,12 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I am used to consolidate dated values into some limited number of groups.
- * For example, this can be used to easily consolidate stats for 100's or 1000's 
- * of individual dates into averages by week, month or year; depending on the 
+ * For example, this can be used to easily consolidate stats for 100's or 1000's
+ * of individual dates into averages by week, month or year; depending on the
  * maximum number of groups desired.
- * 
+ *
  * Sample usage...
- * 
+ *
  *      KmDateConsolidator c;
  *      c = new KmDateConsolidator();
  *      c.setMaximumGroupCount(15);
@@ -64,10 +64,10 @@ public class KmDateConsolidator
     private KmTwoKeyMap<String,KmDate,KmList<KmDateConsolidatorValue>> _valueMap;
 
     /**
-     * The maximum number of date groups desired.  This max will be strictly adhered 
+     * The maximum number of date groups desired.  This max will be strictly adhered
      * to except in the case where the using the largest unit (currently years)
      * still exceeds the max.  If null, then the data will be grouped by date,
-     * with no maximum number of groups. 
+     * with no maximum number of groups.
      */
     private Integer                                                    _maxGroupCount;
 
@@ -98,7 +98,7 @@ public class KmDateConsolidator
 
     public KmDateConsolidator()
     {
-        _values = new KmList<KmDateConsolidatorValue>();
+        _values = new KmList<>();
         _maxGroupCount = 10;
         _startOfWeek = KmWeekDay.FIRST_DAY;
     }
@@ -137,6 +137,7 @@ public class KmDateConsolidator
         e.setDate(date);
         e.setValue(value);
         e.setCount(count);
+
         _values.add(e);
     }
 
@@ -173,8 +174,8 @@ public class KmDateConsolidator
     {
         _minDate = null;
         _maxDate = null;
-        _valueMap = new KmTwoKeyMap<String,KmDate,KmList<KmDateConsolidatorValue>>();
-        _results = new KmList<KmDateConsolidatorResult>();
+        _valueMap = new KmTwoKeyMap<>();
+        _results = new KmList<>();
 
         KmList<KmDateConsolidatorValue> inputValue = _values;
         for ( KmDateConsolidatorValue e : inputValue )
@@ -188,7 +189,7 @@ public class KmDateConsolidator
             KmList<KmDateConsolidatorValue> v = _valueMap.get(c, d);
             if ( v == null )
             {
-                v = new KmList<KmDateConsolidatorValue>();
+                v = new KmList<>();
                 _valueMap.put(c, d, v);
             }
             v.add(e);
@@ -374,27 +375,6 @@ public class KmDateConsolidator
     //# years
     //##################################################
 
-    @SuppressWarnings("unused")
-    private boolean checkYears()
-    {
-        if ( getYearCount() > _maxGroupCount )
-            return false;
-
-        generateYears();
-        return true;
-    }
-
-    private int getYearCount()
-    {
-        KmDate start = getYearStartDate();
-        KmDate end = getYearEndDate();
-
-        int startYear = start.getYear();
-        int endYear = end.getYear();
-
-        return endYear - startYear + 1;
-    }
-
     private void generateYears()
     {
         KmDate start = getYearStartDate();
@@ -441,7 +421,7 @@ public class KmDateConsolidator
 
     private KmList<KmDateConsolidatorResult> consolidate(KmDate start, KmDate end)
     {
-        KmList<KmDateConsolidatorResult> v = new KmList<KmDateConsolidatorResult>();
+        KmList<KmDateConsolidatorResult> v = new KmList<>();
 
         KmList<String> cats = _valueMap.getKeyList1();
         for ( String cat : cats )

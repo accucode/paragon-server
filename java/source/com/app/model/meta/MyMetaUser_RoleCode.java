@@ -50,6 +50,12 @@ public class MyMetaUser_RoleCode
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The global access role.  E.g.: Admin, Developer, or Other.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 3;
@@ -102,8 +108,9 @@ public class MyMetaUser_RoleCode
         ScDropdown e;
         e = new ScDropdown();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
-        e.setValue(getAdaptor());
+        e.setValueAdaptor(getAdaptor());
         e.addOptions(MyUserRole.values());
         return e;
     }

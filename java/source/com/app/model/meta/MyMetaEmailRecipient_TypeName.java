@@ -49,6 +49,12 @@ public class MyMetaEmailRecipient_TypeName
     }
 
     @Override
+    public String getHelp()
+    {
+        return null;
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 15;

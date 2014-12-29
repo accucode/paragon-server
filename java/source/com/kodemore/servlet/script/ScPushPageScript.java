@@ -25,7 +25,6 @@ package com.kodemore.servlet.script;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.string.KmStringBuilder;
-import com.kodemore.utility.KmApplicationBridge;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -42,12 +41,15 @@ public class ScPushPageScript
     /**
      * The url to push.
      * This is the only required attribute, and is pushed 'as is'.
-     * The urls must be within the existing domain, and generally take 
+     * The urls must be within the existing domain, and generally take
      * one of the following forms:
-     *      
      *      /rootPath
      *      relativePath/
      *      ?queryString
+     *
+     * Most often, when simply navigating between pages we just update
+     * the queryString which indicates the appropriate page like so:
+     *      ?page=somePage
      */
     private String  _url;
 
@@ -67,9 +69,9 @@ public class ScPushPageScript
 
     /**
      * If false, the statechange listener will be temporarily disconnected
-     * during the push in order to avoid trigging a an event.  This is 
-     * normally true, and is primarily used when you want to replace the 
-     * current state without triggering a navigation. 
+     * during the push in order to avoid trigging a an event.  This is
+     * normally true, and is primarily used when you want to replace the
+     * current state without triggering a navigation.
      */
     private boolean _handleStateChange;
 
@@ -79,8 +81,6 @@ public class ScPushPageScript
 
     public ScPushPageScript()
     {
-        String appName = KmApplicationBridge.getInstance().getName();
-        setTitle(appName);
         setHandleStateChange(true);
     }
 

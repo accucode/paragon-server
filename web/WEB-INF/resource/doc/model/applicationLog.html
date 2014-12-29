@@ -1,0 +1,288 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>applicationLog</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>applicationLog</h1>
+
+${model.f_comment}<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Help / Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+<tr>
+  <td>id&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The global unique identifier.  This is a big ugly number and is usually not displayed.<br>
+            &nbsp;
+  </td>
+  
+  <td>id
+              </td>
+  <td>
+         id<br>              pk<br>                      &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this log was created.<br>
+            &nbsp;
+  </td>
+  
+  <td>timestamp
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>loggerName&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The logger name, typically similar to a fully qualified class name.<br>
+            &nbsp;
+  </td>
+  
+  <td>text100
+        <br><nobr>max length: 100</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>context&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The nested diagnostic context; used to distinguish threads.<br>
+            &nbsp;
+  </td>
+  
+  <td>text100
+        <br><nobr>max length: 100</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>message&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The plain text message describing the log event.<br>
+            &nbsp;
+  </td>
+  
+  <td>multiline100
+        <br><nobr>max length: 100</nobr>           <br>allows(
+                      printable
+                        ,&nbsp;
+                whitespace
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>levelName&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The display name for the severity level. E.g.: info, warn, error.<br>
+            &nbsp;
+  </td>
+  
+  <td>text5
+        <br><nobr>max length: 5</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>levelCode&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The severity level code. This can be used to find all events that are high or lower than some level.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>threadName&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The java thread name.  This is not directly useful except to determine which logs are generated from the same JVM thread.<br>
+            &nbsp;
+  </td>
+  
+  <td>text100
+        <br><nobr>max length: 100</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>exceptionText&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The first part of the exception.<br>
+            &nbsp;
+  </td>
+  
+  <td>multiline1000
+        <br><nobr>max length: 100</nobr>           <br>allows(
+                      printable
+                        ,&nbsp;
+                whitespace
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>levelCodeName&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        A combination of the code and name for display.<br>
+            &nbsp;
+  </td>
+  
+  <td>calculated
+        <br><nobr>max length: 1000</nobr>           <br>allows(
+                      all
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>fullTrace&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        All of the traces composed into a single string.  This is calculated (not stored in the db) and can be quite long.<br>
+            &nbsp;
+  </td>
+  
+  <td>calculated
+        <br><nobr>max length: 1000</nobr>           <br>allows(
+                      all
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this log was created.<br>
+            &nbsp;
+  </td>
+  
+  <td>timestamp
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this log was created.<br>
+            &nbsp;
+  </td>
+  
+  <td>text100
+        <br><nobr>max length: 100</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdLocalDate&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this log was created.<br>
+            &nbsp;
+  </td>
+  
+  <td>date
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdLocalTime&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this log was created.<br>
+            &nbsp;
+  </td>
+  
+  <td>time
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

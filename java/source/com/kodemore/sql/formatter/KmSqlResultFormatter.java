@@ -52,7 +52,7 @@ public abstract class KmSqlResultFormatter
     {
         try
         {
-            KmList<String> v = new KmList<String>();
+            KmList<String> v = new KmList<>();
             ResultSetMetaData m = rs.getMetaData();
             int n = m.getColumnCount();
             for ( int i = 1; i < n + 1; i++ )

@@ -136,6 +136,17 @@ public class KmgModelDelegate
         return getField().isRequired();
     }
 
+    @Override
+    public String getHelp()
+    {
+        return getField().getHelp();
+    }
+
+    public boolean hasHelp()
+    {
+        return getHelp() != null;
+    }
+
     //##################################################
     //# abstract accessing
     //##################################################
@@ -260,6 +271,11 @@ public class KmgModelDelegate
     public String getf_name()
     {
         return Kmu.toKneelingCamelCase(getName());
+    }
+
+    public String getf_help()
+    {
+        return Kmu.escapeJavaString(getHelp());
     }
 
     @Override

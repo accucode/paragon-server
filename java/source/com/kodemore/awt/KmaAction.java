@@ -133,15 +133,18 @@ public class KmaAction
         b.setText(name);
         b.setEnabled(isEnabled());
         b.addActionListener(this);
-        PropertyChangeListener l;
-        l = _newPropertyChangeListener(b);
-        addPropertyChangeListener(l);
+
+        PropertyChangeListener pcl;
+        pcl = _newPropertyChangeListener(b);
+        addPropertyChangeListener(pcl);
+
         return b;
     }
 
     public JMenuItem newMenuItem()
     {
-        JMenuItem i = new JMenuItem();
+        JMenuItem i;
+        i = new JMenuItem();
         i.setText(getName());
         i.addActionListener(this);
         return i;
@@ -165,12 +168,14 @@ public class KmaAction
                     b.setEnabled(enabledState.booleanValue());
                     b.repaint();
                 }
+
                 if ( s.equals(Action.NAME) )
                 {
                     String text = (String)ev.getNewValue();
                     b.setText(text);
                     b.repaint();
                 }
+
                 if ( s.equals(Action.SMALL_ICON) )
                 {
                     Icon icon = (Icon)ev.getNewValue();

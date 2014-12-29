@@ -33,10 +33,10 @@ public enum MyUserServiceDepotRole
 
     static
     {
-        _values = new KmList<MyUserServiceDepotRole>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyUserServiceDepotRole>();
+        _codes = new KmMap<>();
         for ( MyUserServiceDepotRole e : EnumSet.allOf(MyUserServiceDepotRole.class) )
             _codes.put(e.getCode(), e);
     }

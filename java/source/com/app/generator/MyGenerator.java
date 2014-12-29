@@ -27,6 +27,7 @@ public class MyGenerator
     {
         try
         {
+            KmLog.installConsole();
             MyEnvironment.install();
 
             MyGenerator e;
@@ -77,7 +78,7 @@ public class MyGenerator
 
     public MyGenerator()
     {
-        _args = new KmList<String>();
+        _args = new KmList<>();
     }
 
     //##################################################
@@ -258,7 +259,7 @@ public class MyGenerator
 
     private KmList<String> getCssSelectors(String path)
     {
-        KmLog.info("parse css: " + path);
+        System.out.println("parse css: " + path);
 
         path = getRootPath(path);
 

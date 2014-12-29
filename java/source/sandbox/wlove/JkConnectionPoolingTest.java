@@ -1,14 +1,13 @@
 package sandbox.wlove;
 
+import com.kodemore.collection.KmList;
+import com.kodemore.utility.KmRandom;
+import com.kodemore.utility.Kmu;
+
 import com.app.filter.MyUserFilter;
 import com.app.model.MyUser;
 import com.app.utility.MyInstaller;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.utility.KmRandomUtility;
-import com.kodemore.utility.Kmu;
-
-@SuppressWarnings("unused")
 public class JkConnectionPoolingTest
 {
     public static void main(String[] args)
@@ -22,7 +21,7 @@ public class JkConnectionPoolingTest
         startThread(100000);
     }
 
-    private static void test()
+    public static void test()
     {
         System.out.println("test.1");
         findUsers();
@@ -32,12 +31,12 @@ public class JkConnectionPoolingTest
         System.out.println("test.ok");
     }
 
-    private static void startThread(final int ms)
+    public static void startThread(final int ms)
     {
         newThread(ms).start();
     }
 
-    private static Thread newThread(final int ms)
+    public static Thread newThread(final int ms)
     {
         return new Thread()
         {
@@ -51,7 +50,6 @@ public class JkConnectionPoolingTest
                     sleepRandom(ms);
                 }
             }
-
         };
     }
 
@@ -66,6 +64,6 @@ public class JkConnectionPoolingTest
 
     private static void sleepRandom(int ms)
     {
-        Kmu.sleepMs(KmRandomUtility.getInteger(ms));
+        Kmu.sleepMs(KmRandom.getInstance().getInteger(ms));
     }
 }

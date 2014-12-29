@@ -94,22 +94,24 @@ public class KmaVerticalLayout
         int w = 0;
         int h = 0;
         Insets insets = parent.getInsets();
+
         int n = parent.getComponentCount();
         for ( int i = 0; i < n; i++ )
         {
             Component c = parent.getComponent(i);
             if ( !c.isVisible() )
                 continue;
+
             Dimension d = c.getPreferredSize();
             h += d.height;
+
             if ( w < d.width )
                 w = d.width;
         }
-        return new Dimension(insets.left + insets.right + w, insets.top
-            + insets.bottom
-            + h
-            + (n - 1)
-            * _gap);
+
+        int ww = insets.left + insets.right + w;
+        int hh = insets.top + insets.bottom + h + (n - 1) * _gap;
+        return new Dimension(ww, hh);
     }
 
     @Override
@@ -123,20 +125,26 @@ public class KmaVerticalLayout
         int height = bottom - top;
         int prefHeight = _getSize(parent).height;
         int yOffset = 0;
+
         if ( _verticalAlignment == BOTTOM )
             yOffset = height - prefHeight;
+
         if ( _verticalAlignment == CENTER )
             yOffset = (height - prefHeight) / 2;
+
         if ( yOffset < 0 )
             yOffset = 0;
+
         int w = right - left;
         int y = top + yOffset;
         int n = parent.getComponentCount();
+
         for ( int i = 0; i < n; i++ )
         {
             Component c = parent.getComponent(i);
             if ( !c.isVisible() )
                 continue;
+
             Dimension d = c.getPreferredSize();
             if ( _horizontalAlignment == FILL )
                 c.setBounds(left, y, w, d.height);
@@ -145,11 +153,14 @@ public class KmaVerticalLayout
                 int ww = w - d.width;
                 if ( _horizontalAlignment == LEFT )
                     c.setBounds(left, y, d.width, d.height);
+
                 if ( _horizontalAlignment == CENTER )
                     c.setBounds(left + ww / 2, y, d.width, d.height);
+
                 if ( _horizontalAlignment == RIGHT )
                     c.setBounds(left + ww - 1, y, d.width, d.height);
             }
+
             y += d.height + _gap;
         }
     }

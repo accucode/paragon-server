@@ -89,26 +89,31 @@ public class KmaHorizontalLayout
         int w = 0;
         int h = 0;
         Insets insets = parent.getInsets();
+
         int n = parent.getComponentCount();
         for ( int i = 0; i < n; i++ )
         {
             Component c = parent.getComponent(i);
             if ( !c.isVisible() )
                 continue;
+
             Dimension d = c.getPreferredSize();
             w += d.width;
+
             if ( h < d.height )
                 h = d.height;
         }
-        return new Dimension(insets.left + insets.right + w + (n - 1) * _gap, insets.top
-            + insets.bottom
-            + h);
+
+        int ww = insets.left + insets.right + w + (n - 1) * _gap;
+        int hh = insets.top + insets.bottom + h;
+        return new Dimension(ww, hh);
     }
 
     @Override
     public void layoutContainer(Container parent)
     {
         Insets insets = parent.getInsets();
+
         int left = insets.left;
         int top = insets.top;
         int right = parent.getSize().width - insets.right;
@@ -116,33 +121,44 @@ public class KmaHorizontalLayout
         int width = right - left;
         int prefWidth = _getSize(parent).width;
         int xOffset = 0;
+
         if ( _horizontalAlignment == RIGHT )
             xOffset = width - prefWidth;
+
         if ( _horizontalAlignment == CENTER )
             xOffset = (width - prefWidth) / 2;
+
         if ( xOffset < 0 )
             xOffset = 0;
+
         int x = left + xOffset;
         int h = bottom - top;
         int n = parent.getComponentCount();
+
         for ( int i = 0; i < n; i++ )
         {
             Component c = parent.getComponent(i);
             if ( !c.isVisible() )
                 continue;
+
             Dimension d = c.getPreferredSize();
+
             if ( _verticalAlignment == FILL )
                 c.setBounds(x, top, d.width, h);
             else
             {
                 int hh = h - d.height;
+
                 if ( _verticalAlignment == TOP )
                     c.setBounds(x, top, d.width, d.height);
+
                 if ( _verticalAlignment == CENTER )
                     c.setBounds(x, top + hh / 2, d.width, d.height);
+
                 if ( _verticalAlignment == BOTTOM )
                     c.setBounds(x, top + hh - 1, d.width, d.height);
             }
+
             x += d.width + _gap;
         }
     }

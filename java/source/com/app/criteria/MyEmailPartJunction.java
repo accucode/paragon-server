@@ -22,7 +22,7 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyEmailPartJunction
-    extends KmModelJunction<MyEmailPart>
+    extends KmModelJunction
     implements MyEmailPartDaoConstantsIF
 {
     //##################################################
@@ -65,7 +65,7 @@ public class MyEmailPartJunction
 
     public KmPropertyCriteria<KmBlob> whereData()
     {
-        return new KmPropertyCriteria<KmBlob>(context(), fullName(DATA));
+        return new KmPropertyCriteria<>(context(), fullName(DATA));
     }
 
     public KmIntegerCriteria whereLockVersion()

@@ -55,6 +55,16 @@ public class MyMetaPasswordReset
     {
         return MyPasswordResetValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "A request to reset a user's password.  When a user requests to reset a password,\nwe confirm the request by sending an email.  When the user responds to the email,\nthe response is checked against this record to authenticate the request.";
+    }
 
     //##################################################
     //# fields and delegates

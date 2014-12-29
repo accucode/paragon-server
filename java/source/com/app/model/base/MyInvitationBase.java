@@ -47,7 +47,7 @@ public abstract class MyInvitationBase
     private String roleCode;
     private Integer lockVersion;
     private MyUser fromUser;
-    private MyAccount account;
+    private MyProject project;
 
     //##################################################
     //# constructor
@@ -163,21 +163,6 @@ public abstract class MyInvitationBase
     public boolean hasType(MyInvitationType e)
     {
         return getType() == e;
-    }
-
-    public void setTypeTransferAccount()
-    {
-        setType(MyInvitationType.TransferAccount);
-    }
-
-    public boolean isTypeTransferAccount()
-    {
-        return hasType(MyInvitationType.TransferAccount);
-    }
-
-    public boolean isNotTypeTransferAccount()
-    {
-        return !isTypeTransferAccount();
     }
 
     public void setTypeJoinAccount()
@@ -758,61 +743,61 @@ public abstract class MyInvitationBase
     }
 
     //##################################################
-    //# account
+    //# project
     //##################################################
 
-    public MyAccount getAccount()
+    public MyProject getProject()
     {
-        return account;
+        return project;
     }
 
-    public void setAccount(MyAccount e)
+    public void setProject(MyProject e)
     {
         checkReadOnly();
-        account = e;
+        project = e;
     }
 
-    public void _setAccount(MyAccount e)
+    public void _setProject(MyProject e)
     {
         checkReadOnly();
-        account = e;
+        project = e;
     }
 
-    public void clearAccount()
+    public void clearProject()
     {
-        setAccount(null);
+        setProject(null);
     }
 
-    public boolean hasAccount()
+    public boolean hasProject()
     {
-        return getAccount() != null;
+        return getProject() != null;
     }
 
-    public boolean hasAccount(MyAccount e)
+    public boolean hasProject(MyProject e)
     {
-        return Kmu.isEqual(getAccount(), e);
+        return Kmu.isEqual(getProject(), e);
     }
 
-    public String getAccountName()
+    public String getProjectName()
     {
-        if ( hasAccount() )
-            return getAccount().getName();
+        if ( hasProject() )
+            return getProject().getName();
         return null;
     }
 
-    public void setAccountName(String e)
+    public void setProjectName(String e)
     {
-        getAccount().setName(e);
+        getProject().setName(e);
     }
 
-    public boolean hasAccountName()
+    public boolean hasProjectName()
     {
-        return hasAccount() && getAccount().hasName();
+        return hasProject() && getProject().hasName();
     }
 
-    public boolean hasAccountName(String e)
+    public boolean hasProjectName(String e)
     {
-        return hasAccount() && getAccount().hasName(e);
+        return hasProject() && getProject().hasName(e);
     }
 
 

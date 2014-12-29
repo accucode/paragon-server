@@ -47,7 +47,7 @@ public class KmaActionMap
 
     public KmaActionMap()
     {
-        _map = new KmMap<String,KmaActionList>();
+        _map = new KmMap<>();
     }
 
     //##################################################

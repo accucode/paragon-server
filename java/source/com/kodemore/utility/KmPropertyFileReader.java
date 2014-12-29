@@ -45,7 +45,7 @@ public class KmPropertyFileReader
 
     public KmPropertyFileReader()
     {
-        _commentPrefixes = new KmList<String>();
+        _commentPrefixes = new KmList<>();
     }
 
     //##################################################
@@ -64,7 +64,7 @@ public class KmPropertyFileReader
 
     public void setCommentPrefixes(String... arr)
     {
-        _commentPrefixes = new KmList<String>(arr);
+        _commentPrefixes = new KmList<>(arr);
     }
 
     public void addCommentPrefix(String s)
@@ -93,14 +93,14 @@ public class KmPropertyFileReader
 
     public KmMap<String,String> readFile(String path)
     {
-        String s = Kmu.readTextFile(path);
+        String s = Kmu.readFileString(path);
         return readText(s);
     }
 
     public KmMap<String,String> readText(String source)
     {
-        KmMap<String,String> m = new KmMap<String,String>();
-        for ( String s : Kmu.getLines(source) )
+        KmMap<String,String> m = new KmMap<>();
+        for ( String s : Kmu.parseLines(source) )
         {
             s = s.trim();
             if ( isComment(s) )

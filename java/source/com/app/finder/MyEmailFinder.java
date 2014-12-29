@@ -46,7 +46,7 @@ public class MyEmailFinder
     public MyEmail findDao(String key)
     {
         MyDaoKeyFinder<MyEmail,String> e;
-        e = new MyDaoKeyFinder<MyEmail,String>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

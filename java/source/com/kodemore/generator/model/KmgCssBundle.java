@@ -25,8 +25,8 @@ public class KmgCssBundle
 
     public KmgCssBundle()
     {
-        _selectors = new KmList<KmgCssSelector>();
-        _composites = new KmList<KmgCssComposite>();
+        _selectors = new KmList<>();
+        _composites = new KmList<>();
     }
 
     //##################################################
@@ -75,7 +75,7 @@ public class KmgCssBundle
 
     public void installComposites()
     {
-        KmMap<String,KmgCssComposite> map = new KmMap<String,KmgCssComposite>();
+        KmMap<String,KmgCssComposite> map = new KmMap<>();
 
         KmList<KmgCssSelector> sels = getSelectors();
         for ( KmgCssSelector sel : sels )

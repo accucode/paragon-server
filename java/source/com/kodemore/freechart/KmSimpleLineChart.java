@@ -102,7 +102,7 @@ public class KmSimpleLineChart
 
     public KmSimpleLineChart()
     {
-        _groups = new KmList<KmSimpleLineChartGroup>();
+        _groups = new KmList<>();
     }
 
     //##################################################
@@ -265,15 +265,16 @@ public class KmSimpleLineChart
         boolean showsTooltips = false;
         boolean showsUrls = false;
 
-        JFreeChart chart = ChartFactory.createXYLineChart(
-            getTitle(),
-            getAxisTitleX(),
-            getAxisTitleY(),
-            dataset,
-            orientation,
-            getShowsLegend(),
-            showsTooltips,
-            showsUrls);
+        JFreeChart chart =
+            ChartFactory.createXYLineChart(
+                getTitle(),
+                getAxisTitleX(),
+                getAxisTitleY(),
+                dataset,
+                orientation,
+                getShowsLegend(),
+                showsTooltips,
+                showsUrls);
 
         if ( hasBackgroundColor() )
             chart.setBackgroundPaint(getBackgroundColor());

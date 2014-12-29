@@ -46,7 +46,7 @@ public class MyFileFinder
     public MyFile findDao(Integer key)
     {
         MyDaoKeyFinder<MyFile,Integer> e;
-        e = new MyDaoKeyFinder<MyFile,Integer>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

@@ -24,7 +24,7 @@ public class MyUserActivationFilter
             _name = name;
         }
 
-		@Override
+        @Override
         public String getName()
         {
             return _name;
@@ -35,7 +35,7 @@ public class MyUserActivationFilter
     //# variables
     //##################################################
 
-    private Sort _sort;
+    private Sort    _sort;
     private boolean _sortAscending;
 
     //##################################################

@@ -55,6 +55,16 @@ public class MyMetaHibernateCacheTest
     {
         return MyHibernateCacheTestValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "I am used to test the hibernate second level cache.";
+    }
 
     //##################################################
     //# fields and delegates

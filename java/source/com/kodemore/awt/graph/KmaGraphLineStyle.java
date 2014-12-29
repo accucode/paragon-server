@@ -90,8 +90,10 @@ public class KmaGraphLineStyle
 
         int n = _dashes.length;
         float[] arr = new float[n];
+
         for ( int i = 0; i < n; i++ )
             arr[i] = (float)_dashes[i];
+
         return arr;
     }
 
@@ -118,6 +120,7 @@ public class KmaGraphLineStyle
     {
         if ( !isVisible() )
             return;
+
         g.setColor(getColor());
         g.setStroke(getStroke());
     }
@@ -129,6 +132,7 @@ public class KmaGraphLineStyle
 
         float miterLimit = 1.0f;
         float dashPhase = 0.0f;
+
         return new BasicStroke(
             (float)_thickness,
             BasicStroke.CAP_ROUND,

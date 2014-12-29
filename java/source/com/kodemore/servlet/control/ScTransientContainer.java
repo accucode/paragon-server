@@ -30,15 +30,15 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.variable.ScLocalList;
 
 /**
- * I provide a convenient way to add elements to add dynamic elements to a page.  The 
+ * I provide a convenient way to add elements to add dynamic elements to a page.  The
  * intent is to provide a more intuitive alternative to the ScLiteral element for dynamically
  * generated content.
- * 
+ *
  * The children are always transient; that is, they are not stored in the application
  * nor in the page session.  Any number of children can be added, and they will be
  * rendered onto the page, but the children are discarded as soon as the http request
  * is complete.
- * 
+ *
  * Also, I do not provide any html structure, style, or layout myself.  If I have no children,
  * then I will not render any html.
  */
@@ -60,7 +60,7 @@ public class ScTransientContainer
     {
         super.install();
 
-        _children = new ScLocalList<ScControl>();
+        _children = new ScLocalList<>();
     }
 
     //##################################################
@@ -109,14 +109,12 @@ public class ScTransientContainer
     //##################################################
 
     @Override
-    public Iterator<ScControl> getComponents()
+    public Iterator<ScControlIF> getComponents()
     {
-        KmCompositeIterator<ScControl> i;
-        i = new KmCompositeIterator<ScControl>();
-
+        KmCompositeIterator<ScControlIF> i;
+        i = new KmCompositeIterator<>();
         i.addAll(super.getComponents());
         i.addAll(getChildren());
-
         return i;
     }
 

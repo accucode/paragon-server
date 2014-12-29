@@ -43,7 +43,7 @@ public interface MyInvitationDaoConstantsIF
     String FROM_USER = "fromUser";
     String FROM_USER_UID = "fromUser.uid";
 
-    String ACCOUNT = "account";
-    String ACCOUNT_UID = "account.uid";
+    String PROJECT = "project";
+    String PROJECT_UID = "project.uid";
 
 }

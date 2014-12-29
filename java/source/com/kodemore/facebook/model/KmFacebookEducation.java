@@ -40,8 +40,8 @@ public class KmFacebookEducation
 
     public KmFacebookEducation()
     {
-        _with = new KmList<KmFacebookIdName>();
-        _classes = new KmList<KmFacebookClass>();
+        _with = new KmList<>();
+        _classes = new KmList<>();
     }
 
     //##################################################
@@ -139,7 +139,7 @@ public class KmFacebookEducation
     public static KmList<KmFacebookEducation> createListWith(KmJsonArray arr)
     {
         KmList<KmFacebookEducation> v;
-        v = new KmList<KmFacebookEducation>();
+        v = new KmList<>();
 
         int n = arr.size();
         for ( int i = 0; i < n; i++ )

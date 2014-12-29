@@ -39,10 +39,10 @@ public class MyNavigationTest2Page
     //# navigation
     //##################################################
 
-    public void push(String value)
+    public void ajaxPush(String value)
     {
         _value.setValue(value);
-        _push();
+        _ajaxPush();
     }
 
     @Override
@@ -78,7 +78,7 @@ public class MyNavigationTest2Page
         group.css().width400();
 
         ScBox body;
-        body = group.addPad();
+        body = group.getBody().addPad();
         body.add(_message);
     }
 

@@ -37,10 +37,10 @@ public enum MyEmailStatus
 
     static
     {
-        _values = new KmList<MyEmailStatus>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyEmailStatus>();
+        _codes = new KmMap<>();
         for ( MyEmailStatus e : EnumSet.allOf(MyEmailStatus.class) )
             _codes.put(e.getCode(), e);
     }

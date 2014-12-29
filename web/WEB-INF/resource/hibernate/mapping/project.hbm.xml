@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyProject"
+        table="project"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
+            />
+
+        <bag
+            name="members"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyMember"/>
+        </bag>
+
+        <bag
+            name="depots"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyDepot"/>
+        </bag>
+
+        <bag
+            name="powerTypes"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyPowerType"/>
+        </bag>
+
+        <bag
+            name="regions"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyRegion"/>
+        </bag>
+
+        <bag
+            name="vendors"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyVendor"/>
+        </bag>
+
+        <bag
+            name="skills"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MySkill"/>
+        </bag>
+
+        <bag
+            name="visitTypes"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyVisitType"/>
+        </bag>
+
+        <bag
+            name="attentionGroups"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyAttentionGroup"/>
+        </bag>
+
+        <bag
+            name="products"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyProduct"/>
+        </bag>
+
+        <bag
+            name="categories"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyCategory"/>
+        </bag>
+
+        <bag
+            name="shipCarriers"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyShipCarrier"/>
+        </bag>
+
+    </class>
+</hibernate-mapping>

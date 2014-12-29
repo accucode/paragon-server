@@ -55,6 +55,16 @@ public class MyMetaInvitation
     {
         return MyInvitationValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "I coordinate user invitations.  The system generates an invitation, stores the record,\nand sends a corresponding email to the user.  The user can verify/accept the invitation\nby clicking on a hyperlink in the email.  The response is trusted as it includes a\nlarge randomly generated number.";
+    }
 
     //##################################################
     //# fields and delegates
@@ -79,12 +89,12 @@ public class MyMetaInvitation
     public static final MyMetaInvitation_ClosedLocalDate ClosedLocalDate = new MyMetaInvitation_ClosedLocalDate();
     public static final MyMetaInvitation_ClosedLocalTime ClosedLocalTime = new MyMetaInvitation_ClosedLocalTime();
     public static final MyMetaInvitation_FromUserName FromUserName = new MyMetaInvitation_FromUserName();
-    public static final MyMetaInvitation_AccountName AccountName = new MyMetaInvitation_AccountName();
+    public static final MyMetaInvitation_ProjectName ProjectName = new MyMetaInvitation_ProjectName();
 
     //##################################################
     //# associations
     //##################################################
 
     public static final MyMetaInvitation_FromUser FromUser = new MyMetaInvitation_FromUser();
-    public static final MyMetaInvitation_Account Account = new MyMetaInvitation_Account();
+    public static final MyMetaInvitation_Project Project = new MyMetaInvitation_Project();
 }

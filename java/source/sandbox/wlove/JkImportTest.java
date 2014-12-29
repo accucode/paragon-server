@@ -7,7 +7,6 @@ import com.kodemore.collection.KmList;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
 
-@SuppressWarnings("unused")
 public class JkImportTest
 {
     //##################################################
@@ -48,8 +47,8 @@ public class JkImportTest
 
     public JkImportTest()
     {
-        _hostNames = new KmList<String>();
-        _serviceNames = new KmList<String>();
+        _hostNames = new KmList<>();
+        _serviceNames = new KmList<>();
     }
 
     //##################################################
@@ -213,15 +212,5 @@ public class JkImportTest
         System.out.printf("Min Time: %s\n", _minimumTime);
         System.out.printf("Max Time: %s\n", _maximumTime);
         System.out.printf("Records / sec: %s", Kmu.formatDouble(recsPerSec, 1));
-    }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private void error(String msg, Object... args)
-    {
-        String s = Kmu.format(msg, args);
-        Kmu.error("Error at line(%s), %s", _lineNumber, s);
     }
 }

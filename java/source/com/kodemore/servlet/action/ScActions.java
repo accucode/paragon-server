@@ -25,49 +25,4 @@ public class ScActions
     }
 
     private static ScActions _instance;
-
-    //##################################################
-    //# variables
-    //##################################################
-
-    private ScActionIF       _closeDialogAction;
-
-    //##################################################
-    //# constructor
-    //##################################################
-
-    private ScActions()
-    {
-        _closeDialogAction = newCloseDialogAction();
-    }
-
-    private ScActionIF newCloseDialogAction()
-    {
-        return new ScAction(getGlobalContext())
-        {
-            @Override
-            protected void handle()
-            {
-                ajax().closeDialog();
-            }
-        };
-    }
-
-    //##################################################
-    //# accessing
-    //##################################################
-
-    public ScActionIF getCloseDialogAction()
-    {
-        return _closeDialogAction;
-    }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private ScActionContextIF getGlobalContext()
-    {
-        return ScGlobalContext.getInstance();
-    }
 }

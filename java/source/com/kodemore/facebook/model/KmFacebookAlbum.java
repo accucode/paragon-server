@@ -227,7 +227,7 @@ public class KmFacebookAlbum
     public static KmList<KmFacebookAlbum> createListWith(KmJsonArray arr)
     {
         KmList<KmFacebookAlbum> v;
-        v = new KmList<KmFacebookAlbum>();
+        v = new KmList<>();
 
         int n = arr.size();
         for ( int i = 0; i < n; i++ )

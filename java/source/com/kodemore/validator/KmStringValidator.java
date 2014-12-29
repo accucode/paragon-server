@@ -349,7 +349,7 @@ public class KmStringValidator
 
     private void addConstraintError(KmList<KmErrorIF> errors)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         if ( _allowsPrintable )
             v.add("printable characters");
         else

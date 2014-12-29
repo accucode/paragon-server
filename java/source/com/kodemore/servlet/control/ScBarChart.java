@@ -69,7 +69,7 @@ public class ScBarChart
 
         setYAxisMin(DEFAULT_Y_AXIS_MIN);
 
-        _bars = new KmList<KmJsonMap>();
+        _bars = new KmList<>();
     }
 
     //##################################################

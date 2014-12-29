@@ -238,7 +238,7 @@ public class KmCssBuilder
     public KmList<String> getSelectors()
     {
         if ( Kmu.isEmpty(getValue()) )
-            return new KmList<String>();
+            return new KmList<>();
 
         return Kmu.tokenize(getValue(), KmConstantsIF.CHAR_SPACE);
     }

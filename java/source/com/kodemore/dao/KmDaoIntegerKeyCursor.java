@@ -45,7 +45,7 @@ public class KmDaoIntegerKeyCursor<T>
     public static <E> KmDaoIntegerKeyCursor<E> createOn(KmMetaDaoPropertyIF<E,Integer> attr)
     {
         KmDaoIntegerKeyCursor<E> e;
-        e = new KmDaoIntegerKeyCursor<E>();
+        e = new KmDaoIntegerKeyCursor<>();
         e.setProperty(attr);
         return e;
     }

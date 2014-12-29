@@ -44,6 +44,16 @@ $utility.protocol("accessing")
     }
 
     @Override
+    public String getHelp()
+    {
+#if ( $field.hasHelp() )
+        return "${field.f_help}";
+#else
+        return null;
+#end
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return ${field.f_columnWidth};
@@ -97,8 +107,9 @@ $utility.protocol("enum")
         ScDropdown e;
         e = new ScDropdown();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
-        e.setValue(getAdaptor());
+        e.setValueAdaptor(getAdaptor());
         e.addOptions(${field.enum.f_Class}.values());
         return e;
     }

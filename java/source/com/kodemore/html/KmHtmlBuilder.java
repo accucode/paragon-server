@@ -65,7 +65,7 @@ public class KmHtmlBuilder
      * These scripts are intended to be executed after the
      * DOM has been updated.  The DOM may have been composed
      * offscreen, or hidden. This allows us to render and
-     * initialize complex html before its made visible.  
+     * initialize complex html before its made visible.
      */
     private ScBlockScript       _postDom;
 
@@ -75,7 +75,7 @@ public class KmHtmlBuilder
      * is composed AND the elements are made VISIBLE. Most
      * scripts are handled in postDom rather than postRender.
      * But a some scripts must be delayed until after the
-     * html is visible; such as setFocus.  
+     * html is visible; such as setFocus.
      */
     private ScBlockScript       _postRender;
 
@@ -287,6 +287,12 @@ public class KmHtmlBuilder
         endDiv();
     }
 
+    public void printDivCss(String css)
+    {
+        beginDivCss(css);
+        endDiv();
+    }
+
     public void endDiv()
     {
         end("div");
@@ -423,14 +429,14 @@ public class KmHtmlBuilder
     //# body
     //##################################################
 
-    public void beginBody()
-    {
-        begin("body");
-    }
-
     public void openBody()
     {
         open("body");
+    }
+
+    public void beginBody()
+    {
+        begin("body");
     }
 
     public void endBody()
@@ -442,14 +448,14 @@ public class KmHtmlBuilder
     //# form
     //##################################################
 
-    public void beginForm()
-    {
-        begin("form");
-    }
-
     public void openForm()
     {
         open("form");
+    }
+
+    public void beginForm()
+    {
+        begin("form");
     }
 
     public void endForm()
@@ -621,6 +627,12 @@ public class KmHtmlBuilder
         begin("b");
         print(e);
         end("b");
+    }
+
+    public void printlnBold(Object e)
+    {
+        printBold(e);
+        println();
     }
 
     public void printTextCss(Object e, String css)
@@ -922,7 +934,7 @@ public class KmHtmlBuilder
         {
             printLiteralLine();
             printLiteralLine("/*");
-            KmList<String> v = Kmu.getLines(comment);
+            KmList<String> v = Kmu.parseLines(comment);
             for ( String e : v )
                 printLiteralLine(" *" + e);
             printLiteralLine(" */");
@@ -937,7 +949,7 @@ public class KmHtmlBuilder
         if ( e == null )
             return;
 
-        printScriptsInline(new KmList<String>(e));
+        printScriptsInline(KmList.createWith(e));
     }
 
     public void printScriptsInline(List<String> v)

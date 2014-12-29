@@ -37,7 +37,7 @@ public class KmIdentityWrapper<T>
 
     public static <V> KmIdentityWrapper<V> create(V e)
     {
-        return new KmIdentityWrapper<V>(e);
+        return new KmIdentityWrapper<>(e);
     }
 
     //##################################################
@@ -76,8 +76,7 @@ public class KmIdentityWrapper<T>
     @Override
     @SuppressWarnings(
     {
-        "unchecked",
-        "rawtypes"
+        "unchecked", "rawtypes"
     })
     public boolean equals(Object e)
     {

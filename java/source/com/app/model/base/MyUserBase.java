@@ -41,13 +41,14 @@ public abstract class MyUserBase
     private String uid;
     private String name;
     private String email;
+    private String phone;
     private Boolean verified;
     private String passwordSalt;
     private String passwordHash;
     private String timeZoneCode;
     private String roleCode;
     private Integer lockVersion;
-    private List<MyUserAccount> userAccounts;
+    private MyProject lastProject;
 
     //##################################################
     //# constructor
@@ -59,8 +60,7 @@ public abstract class MyUserBase
         setUid(newUid());
         setVerified(false);
         setPasswordSalt(newUid());
-        setRoleCode(MyUserRole.User.getCode());
-        userAccounts = new ArrayList<MyUserAccount>();
+        setRoleCode(MyUserRole.Other.getCode());
     }
 
     //##################################################
@@ -142,7 +142,7 @@ public abstract class MyUserBase
 
     public void truncateName(boolean ellipses)
     {
-        name = Kmu.truncate(name, 30, ellipses);
+        name = Kmu.truncate(name, 50, ellipses);
     }
 
     //##################################################
@@ -184,6 +184,47 @@ public abstract class MyUserBase
     public void truncateEmail(boolean ellipses)
     {
         email = Kmu.truncate(email, 50, ellipses);
+    }
+
+    //##################################################
+    //# field (phone)
+    //##################################################
+
+    public String getPhone()
+    {
+        return phone;
+    }
+
+    public void setPhone(String e)
+    {
+        checkReadOnly();
+        e = Validator.getPhoneValidator().convertOnly(e);
+        phone = e;
+    }
+
+    public void clearPhone()
+    {
+        setPhone(null);
+    }
+
+    public boolean hasPhone()
+    {
+        return Kmu.hasValue(getPhone());
+    }
+
+    public boolean hasPhone(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getPhone(), e);
+    }
+
+    public void truncatePhone()
+    {
+        truncatePhone(false);
+    }
+
+    public void truncatePhone(boolean ellipses)
+    {
+        phone = Kmu.truncate(phone, 30, ellipses);
     }
 
     //##################################################
@@ -426,21 +467,6 @@ public abstract class MyUserBase
         return getRole() == e;
     }
 
-    public void setRoleUser()
-    {
-        setRole(MyUserRole.User);
-    }
-
-    public boolean isRoleUser()
-    {
-        return hasRole(MyUserRole.User);
-    }
-
-    public boolean isNotRoleUser()
-    {
-        return !isRoleUser();
-    }
-
     public void setRoleDeveloper()
     {
         setRole(MyUserRole.Developer);
@@ -454,6 +480,36 @@ public abstract class MyUserBase
     public boolean isNotRoleDeveloper()
     {
         return !isRoleDeveloper();
+    }
+
+    public void setRoleAdmin()
+    {
+        setRole(MyUserRole.Admin);
+    }
+
+    public boolean isRoleAdmin()
+    {
+        return hasRole(MyUserRole.Admin);
+    }
+
+    public boolean isNotRoleAdmin()
+    {
+        return !isRoleAdmin();
+    }
+
+    public void setRoleOther()
+    {
+        setRole(MyUserRole.Other);
+    }
+
+    public boolean isRoleOther()
+    {
+        return hasRole(MyUserRole.Other);
+    }
+
+    public boolean isNotRoleOther()
+    {
+        return !isRoleOther();
     }
 
     //##################################################
@@ -506,73 +562,42 @@ public abstract class MyUserBase
         return Kmu.isEqualIgnoreCase(getRoleName(), e);
     }
 
-
     //##################################################
-    //# UserAccounts (collection)
+    //# lastProject
     //##################################################
 
-    public KmCollection<MyUserAccount> getUserAccounts()
+    public MyProject getLastProject()
     {
-        return new KmHibernateCollection<MyUserAccount,MyUser>(
-            getBaseUserAccounts(),
-            (MyUser)this,
-            MyUserAccount.Meta.User.getAdaptor());
+        return lastProject;
     }
 
-    public boolean hasUserAccounts()
+    public void setLastProject(MyProject e)
     {
-        return !getBaseUserAccounts().isEmpty();
+        checkReadOnly();
+        lastProject = e;
     }
 
-    public int getUserAccountCount()
+    public void _setLastProject(MyProject e)
     {
-        return getBaseUserAccounts().size();
+        checkReadOnly();
+        lastProject = e;
     }
 
-    public List<MyUserAccount> getBaseUserAccounts()
+    public void clearLastProject()
     {
-        return userAccounts;
+        setLastProject(null);
     }
 
-    public MyUserAccount addUserAccount()
+    public boolean hasLastProject()
     {
-        MyUserAccount e;
-        e = new MyUserAccount();
-        getUserAccounts().add(e);
-        return e;
+        return getLastProject() != null;
     }
 
-    public void addUserAccount(MyUserAccount e)
+    public boolean hasLastProject(MyProject e)
     {
-        getUserAccounts().add(e);
+        return Kmu.isEqual(getLastProject(), e);
     }
 
-    public boolean removeUserAccount(MyUserAccount e)
-    {
-        return getUserAccounts().remove(e);
-    }
-
-    public boolean removeUserAccountUid(String myUid)
-    {
-        MyUserAccount e = findUserAccountUid(myUid);
-        if ( e == null )
-            return false;
-
-        return removeUserAccount(e);
-    }
-
-    public MyUserAccount findUserAccountUid(String myUid)
-    {
-        for ( MyUserAccount e : getBaseUserAccounts() )
-            if ( e.hasUid(myUid) )
-                return e;
-        return null;
-    }
-
-    public void clearUserAccounts()
-    {
-        getUserAccounts().clear();
-    }
 
     //##################################################
     //# validate
@@ -610,11 +635,6 @@ public abstract class MyUserBase
     {
         super.postCopy();
         uid = null;
-
-        List<MyUserAccount> old_userAccounts = userAccounts;
-        userAccounts = new ArrayList<MyUserAccount>();
-        for ( MyUserAccount e : old_userAccounts )
-            addUserAccount(copy(e));
     }
 
     //##################################################
@@ -647,6 +667,7 @@ public abstract class MyUserBase
     {
         if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
         if ( !Kmu.isEqual(getEmail(), e.getEmail()) ) return false;
+        if ( !Kmu.isEqual(getPhone(), e.getPhone()) ) return false;
         if ( !Kmu.isEqual(getVerified(), e.getVerified()) ) return false;
         if ( !Kmu.isEqual(getPasswordSalt(), e.getPasswordSalt()) ) return false;
         if ( !Kmu.isEqual(getPasswordHash(), e.getPasswordHash()) ) return false;
@@ -686,6 +707,9 @@ public abstract class MyUserBase
         if ( p.hasKey("email") )
             setEmail(p.getString("email"));
 
+        if ( p.hasKey("phone") )
+            setPhone(p.getString("phone"));
+
         if ( p.hasKey("verified") )
             setVerified(p.getBoolean("verified"));
 
@@ -718,6 +742,9 @@ public abstract class MyUserBase
 
         if ( hasEmail() )
             p.setString("email", getEmail());
+
+        if ( hasPhone() )
+            p.setString("phone", getPhone());
 
         if ( hasVerified() )
             p.setBoolean("verified", getVerified());
@@ -763,6 +790,7 @@ public abstract class MyUserBase
         System.out.println("    Uid = " + uid);
         System.out.println("    Name = " + name);
         System.out.println("    Email = " + email);
+        System.out.println("    Phone = " + phone);
         System.out.println("    Verified = " + verified);
         System.out.println("    PasswordSalt = " + passwordSalt);
         System.out.println("    PasswordHash = " + passwordHash);

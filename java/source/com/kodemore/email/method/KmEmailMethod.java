@@ -39,11 +39,10 @@ public abstract class KmEmailMethod
     public KmEmailResult send(KmEmailIF email)
     {
         KmList<KmEmailIF> emails;
-        emails = new KmList<KmEmailIF>();
+        emails = new KmList<>();
         emails.add(email);
 
-        KmList<KmEmailResult> results;
-        results = send(emails);
+        KmList<KmEmailResult> results = send(emails);
         return results.getFirst();
     }
 

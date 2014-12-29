@@ -44,8 +44,7 @@ import java.util.List;
  */
 @SuppressWarnings(
 {
-    "rawtypes",
-    "unchecked"
+    "rawtypes", "unchecked"
 })
 public class KmUnchecked
 {

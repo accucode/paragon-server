@@ -45,8 +45,10 @@ public class MyUtility
 
     public static String getRandomPassword()
     {
-        String letters = KmRandom.getSafeLowerCaseString(8);
-        String digits = KmRandom.getDigits(3);
+        KmRandom r = KmRandom.getInstance();
+
+        String letters = r.getSafeString(8).toLowerCase();
+        String digits = r.getDigits(3);
         return letters + digits;
     }
 
@@ -56,7 +58,7 @@ public class MyUtility
 
     public static KmMap<String,String> getStates()
     {
-        KmMap<String,String> m = new KmMap<String,String>();
+        KmMap<String,String> m = new KmMap<>();
         m.put("Alabama", "AL");
         m.put("Alaska", "AK");
         m.put("Arizona", "AZ");

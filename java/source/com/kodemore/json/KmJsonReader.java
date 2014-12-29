@@ -20,13 +20,13 @@ public abstract class KmJsonReader
 
     public static KmJsonMap readJsonMap(String file)
     {
-        String json = Kmu.readTextFile(file);
+        String json = Kmu.readFileString(file);
         return parseJsonMap(json);
     }
 
     public static KmJsonArray readJsonArray(String file)
     {
-        String json = Kmu.readTextFile(file);
+        String json = Kmu.readFileString(file);
         return parseJsonArray(json);
     }
 

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+            myShowDialog();
+        }
+
+        function myShowDialog()
+        {
+            $('#dialog').dialog(
+            {
+                title: 'My Dialog',
+                autoOpen: true,
+                closeOnEscape: true,
+                show: 150,
+                hide: 150,
+                modal: true,
+                stack: true,
+                resizable: true,
+                draggable: true,
+                dialogClass: null,
+                width: 400,
+                height: 'auto',
+                close: function()
+                {
+                    $(this).dialog('destroy');
+                },
+                position:
+                {
+                    my: 'center',
+                    at: 'center',
+                    of: '#main'
+                }
+            });
+        }
+        
+        function myToast()
+        {
+            Kmu.toast("some message");
+        }
+                
+        
+    </script>
+    
+    <style type="text/css">
+       
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="fill gap">
+
+    <button class="button button-element-default" onclick="myShowDialog();" autofocus>
+        Open
+    </button>
+
+    <form 
+        id="dialog" 
+        style="display:none;padding:0" 
+        class="flex flexColumn fill overflowHidden"
+        >
+        <div class="formBody pad flexFiller auto">
+            <p>hello world</p>
+            <p>hello world</p>
+            <p>hello world</p>
+            <p>hello world</p>
+            <p>hello world</p>
+            <p>hello world</p>
+            <p>hello world</p>
+            <p>hello world</p>
+            <p>hello world</p>
+            <p>hello world</p>
+        </div>
+        <div class="formFooter flexStatic flex flexAlignSpaced pad">
+            <button class="button button-element-default" onclick="myToast();">
+                Toast
+            </button>
+            <button class="button button-element-default" onclick="myToast();">
+                Toast
+            </button>
+        </div>
+    </form>
+        
+</div>
+</body>
+</html>

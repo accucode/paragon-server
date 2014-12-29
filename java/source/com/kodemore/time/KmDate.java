@@ -80,13 +80,10 @@ public class KmDate
         int daysSince1970 = (int)(ms / MS_PER_DAY);
         int x = DAYS_DIFF_1800_1970 + daysSince1970;
         KmDate e = new KmDate(x);
-        int padMs = UTC_TIME_ZONE.getOffset(
-            1,
-            e.getYear(),
-            e.getMonth() - 1,
-            e.getDay(),
-            e.getWeekDay().getJdkIndex(),
-            0);
+        int padMs =
+            UTC_TIME_ZONE.getOffset(1, e.getYear(), e.getMonth() - 1, e.getDay(), e
+                .getWeekDay()
+                .getJdkIndex(), 0);
         int excessMillis = (int)(ms % MS_PER_DAY);
         if ( excessMillis + padMs < 0 )
             return new KmDate(x - 1);
@@ -111,13 +108,14 @@ public class KmDate
         int daysSince1970 = (int)(msSince1970 / MS_PER_DAY);
         int x = DAYS_DIFF_1800_1970 + daysSince1970;
         KmDate e = new KmDate(x);
-        int padMs = TimeZone.getDefault().getOffset(
-            1,
-            e.getYear(),
-            e.getMonth() - 1,
-            e.getDay(),
-            e.getWeekDay().getJdkIndex(),
-            0);
+        int padMs =
+            TimeZone.getDefault().getOffset(
+                1,
+                e.getYear(),
+                e.getMonth() - 1,
+                e.getDay(),
+                e.getWeekDay().getJdkIndex(),
+                0);
         int excessMillis = (int)(msSince1970 % MS_PER_DAY);
         if ( excessMillis + padMs < 0 )
             return new KmDate(x - 1);

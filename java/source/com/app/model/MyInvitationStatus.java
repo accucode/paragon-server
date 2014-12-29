@@ -36,10 +36,10 @@ public enum MyInvitationStatus
 
     static
     {
-        _values = new KmList<MyInvitationStatus>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyInvitationStatus>();
+        _codes = new KmMap<>();
         for ( MyInvitationStatus e : EnumSet.allOf(MyInvitationStatus.class) )
             _codes.put(e.getCode(), e);
     }

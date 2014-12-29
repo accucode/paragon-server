@@ -44,7 +44,7 @@ public abstract class KmaSortableTableModel
 
     public KmaSortableTableModel()
     {
-        _sortedColumns = new KmList<KmaSortableTableColumn>();
+        _sortedColumns = new KmList<>();
     }
 
     //##################################################
@@ -85,6 +85,7 @@ public abstract class KmaSortableTableModel
             if ( col == sc.getColumn() )
                 return sc;
         }
+
         return null;
     }
 
@@ -92,6 +93,7 @@ public abstract class KmaSortableTableModel
     {
         if ( _sortedColumns.isEmpty() )
             return false;
+
         return _sortedColumns.get(0) == c;
     }
 
@@ -116,15 +118,17 @@ public abstract class KmaSortableTableModel
         }
         else
             sc.toggleAscending();
+
         resort();
     }
 
     public void resort()
     {
-        KmCompositeComparator<Object> cc;
-        cc = new KmCompositeComparator<Object>();
+        KmCompositeComparator<Object> cc = new KmCompositeComparator<>();
+
         for ( KmaSortableTableColumn sc : _sortedColumns )
             cc.add(getComparator(sc));
+
         getList().sortOn(cc);
     }
 
@@ -132,8 +136,10 @@ public abstract class KmaSortableTableModel
     {
         int col = tc.getColumn();
         Comparator<Object> c = getColumnComparator(col);
+
         if ( !tc.getAscending() )
-            c = new KmReversingComparator<Object>(c);
+            c = new KmReversingComparator<>(c);
+
         return c;
     }
 

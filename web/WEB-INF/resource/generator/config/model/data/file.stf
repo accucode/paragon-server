@@ -1,6 +1,11 @@
 model
 : name      = file
 : comment   = A file. A record of files managed on the file system.
+: help...
+    ===
+    I represent a file stored on the file system.  I only store a reference to the 
+    file, NOT the contents of the file itself.
+    === 
 
 database
 : alias = f
@@ -9,32 +14,32 @@ attributes
 
     field
     : name          = id
-    : comment       = The unique key.
+    : help          = The globally unique identifier.  This is a big ugly number and is generally not displayed.
     : type          = id
     : identity      = true
     : primaryKey    = true
 
     field
     : name      = name
-    : comment   = A record of the file's original name. The name on our system is different. This may be initially unknown (null).
+    : help      = A file's ORIGINAL name. The name on our system is different. This may be initially unknown (null).
     : type      = text100
 
     field
     : name      = path
-    : comment   = The local path to the file. This is not the full file system path, but rather the relative path based on the root directory that contains persistent files.
+    : help      = The local path to the file. This is not the full file system path, but rather the relative path based on the root directory that contains persistent files.
     : type      = text100
     : required  = true
 
     field
     : name      = createdUtcTs
-    : comment   = The time when the file was created (in our system).
+    : help      = The date and time when the file was created (in our system).
     : type      = timestamp
     : default   = getNowUtc()
     : required  = true
 
     field
     : name      = statusCode
-    : comment   = The status of the file. New: being created, should not use yet. Ready: Available for use; should not not edit. Deleted: The file has been deleted from the file system.
+    : help      = The status of the file. New: being created, should not use yet. Ready: Available for use; should not not edit. Deleted: The file has been deleted from the file system.
     : type      = letterCode
     : required  = true
 
@@ -46,11 +51,11 @@ attributes
 
     field
     : name      = size
-    : comment   = The size of the file (in bytes).
+    : help      = The size of the file (in bytes).
     : type      = integer
 
     field
     : name      = partialSize
-    : comment   = This may be used to monitor file creation status. E.g.: for web uploads.
+    : help      = This is only used when coordinating an asynchronous file upload.  Once the file is fully uploaded (and available) this can be ignored.
     : type      = integer
 

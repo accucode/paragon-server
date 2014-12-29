@@ -50,6 +50,12 @@ public class MyMetaFile_Name
     }
 
     @Override
+    public String getHelp()
+    {
+        return "A file's ORIGINAL name. The name on our system is different. This may be initially unknown (null).";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

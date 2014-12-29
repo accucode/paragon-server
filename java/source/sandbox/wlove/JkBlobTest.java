@@ -1,12 +1,12 @@
 package sandbox.wlove;
 
+import com.kodemore.command.KmDaoResultCommand;
+import com.kodemore.utility.KmRandom;
+
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyEmail;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
-
-import com.kodemore.command.KmDaoResultCommand;
-import com.kodemore.utility.KmRandom;
 
 public class JkBlobTest
 {
@@ -19,7 +19,7 @@ public class JkBlobTest
 
     private void run()
     {
-        String msg1 = KmRandom.getPrintableString(50000);
+        String msg1 = KmRandom.getInstance().getPrintableString(50000);
         String uid = newSaveCommand(msg1).runResult();
         String msg2 = newFindCommand(uid).runResult();
 

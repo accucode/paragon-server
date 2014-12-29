@@ -23,6 +23,7 @@ public abstract class KmMetaIntegerProperty<T>
         ScIntegerField e;
         e = new ScIntegerField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
         e.setValueAdaptor(this);
         return e;
@@ -38,6 +39,7 @@ public abstract class KmMetaIntegerProperty<T>
         ScDropdown e;
         e = new ScDropdown();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValue(getAdaptor());
         e.addOptionRange(min, max);
         return e;

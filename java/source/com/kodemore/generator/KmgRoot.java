@@ -56,12 +56,12 @@ public class KmgRoot
     {
         super(null);
         _baseTypes = KmProtoTypes.getAll();
-        _types = new KmList<KmgModelType>();
-        _models = new KmList<KmgModel>();
-        _pageClassNames = new KmList<String>();
-        _pagePackageNames = new KmList<String>();
+        _types = new KmList<>();
+        _models = new KmList<>();
+        _pageClassNames = new KmList<>();
+        _pagePackageNames = new KmList<>();
         _extenders = getDefaultExtenders();
-        _cssBundles = new KmList<KmgCssBundle>();
+        _cssBundles = new KmList<>();
     }
 
     //##################################################
@@ -120,7 +120,7 @@ public class KmgRoot
 
     public KmList<String> getTypeNames()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         for ( KmgModelType e : getTypes() )
             v.add(e.getName());
         return v;
@@ -133,7 +133,7 @@ public class KmgRoot
 
     public KmList<KmgModel> getCacheModels()
     {
-        KmList<KmgModel> v = new KmList<KmgModel>();
+        KmList<KmgModel> v = new KmList<>();
         for ( KmgModel e : getModels() )
             if ( e.isCached() )
                 v.add(e);
@@ -142,7 +142,7 @@ public class KmgRoot
 
     public KmList<KmgModel> getDatabaseModels()
     {
-        KmList<KmgModel> v = new KmList<KmgModel>();
+        KmList<KmgModel> v = new KmList<>();
         for ( KmgModel e : getModels() )
             if ( e.hasDatabase() )
                 v.add(e);
@@ -151,7 +151,7 @@ public class KmgRoot
 
     public KmList<KmgModel> getModelBases()
     {
-        KmList<KmgModel> v = new KmList<KmgModel>();
+        KmList<KmgModel> v = new KmList<>();
         for ( KmgModel e : getModels() )
             if ( !e.getSkipModelBase() )
                 v.add(e);
@@ -160,7 +160,7 @@ public class KmgRoot
 
     public KmList<KmgModel> getPrimaryKeyModels()
     {
-        KmList<KmgModel> v = new KmList<KmgModel>();
+        KmList<KmgModel> v = new KmList<>();
         for ( KmgModel e : getModels() )
             if ( e.hasPrimaryKey() )
                 v.add(e);
@@ -170,7 +170,7 @@ public class KmgRoot
     public KmList<KmgModelAttribute> getMetaFieldsAndDelegates()
     {
         KmList<KmgModelAttribute> v;
-        v = new KmList<KmgModelAttribute>();
+        v = new KmList<>();
         for ( KmgModel e : getModels() )
             v.addAll(e.getMetaFieldsAndDelegates());
         return v;
@@ -179,7 +179,7 @@ public class KmgRoot
     public KmList<KmgModelAssociation> getMetaAssociations()
     {
         KmList<KmgModelAssociation> v;
-        v = new KmList<KmgModelAssociation>();
+        v = new KmList<>();
         for ( KmgModel e : getModels() )
             v.addAll(e.getMetaAssociations());
         return v;
@@ -187,7 +187,7 @@ public class KmgRoot
 
     public KmList<KmgModel> getNonDatabaseModels()
     {
-        KmList<KmgModel> v = new KmList<KmgModel>();
+        KmList<KmgModel> v = new KmList<>();
         for ( KmgModel e : getModels() )
             if ( !e.hasDatabase() )
                 v.add(e);
@@ -196,7 +196,7 @@ public class KmgRoot
 
     public KmList<KmgModel> getPageModels()
     {
-        KmList<KmgModel> v = new KmList<KmgModel>();
+        KmList<KmgModel> v = new KmList<>();
         for ( KmgModel e : getModels() )
             if ( e.hasDatabase() && e.getDatabase().getPages() )
                 v.add(e);
@@ -205,7 +205,7 @@ public class KmgRoot
 
     public KmList<KmgModelEnum> getEnums()
     {
-        KmMap<String,KmgModelEnum> v = new KmMap<String,KmgModelEnum>();
+        KmMap<String,KmgModelEnum> v = new KmMap<>();
 
         for ( KmgModel m : getModels() )
             for ( KmgModelField f : m.getFields() )
@@ -219,7 +219,7 @@ public class KmgRoot
 
     public KmList<KmgModel> getModelsByAlias(String s)
     {
-        KmList<KmgModel> v = new KmList<KmgModel>();
+        KmList<KmgModel> v = new KmList<>();
         for ( KmgModel e : getModels() )
             if ( e.hasDatabase() && e.getDatabase().hasAlias(s) )
                 v.add(e);
@@ -228,7 +228,7 @@ public class KmgRoot
 
     public KmList<String> getModelNames()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         for ( KmgModel e : getModels() )
             v.add(e.getName());
         return v;
@@ -236,7 +236,7 @@ public class KmgRoot
 
     public KmList<String> getModelAliases()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         for ( KmgModel e : getModels() )
             if ( e.hasDatabase() )
                 v.add(e.getDatabase().getAlias());
@@ -306,7 +306,7 @@ public class KmgRoot
     private KmList<KmgFieldExtender> getDefaultExtenders()
     {
         KmList<KmgFieldExtender> v;
-        v = new KmList<KmgFieldExtender>();
+        v = new KmList<>();
         v.add(new KmgEnumNameFieldExtender());
         v.add(new KmgUtcTsFieldExtender());
         return v;
@@ -458,7 +458,7 @@ public class KmgRoot
             return;
 
         KmList<KmgModel> models = getModelsByAlias(alias);
-        KmList<String> names = new KmList<String>();
+        KmList<String> names = new KmList<>();
 
         for ( KmgModel m : models )
             names.add(m.getName());

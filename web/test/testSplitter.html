@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            $('#main').show();
+            
+            $('#top').split(
+            {
+                orientation: 'vertical', 
+                limit:    100,  // must be an integer.
+                position: 200   // may be an integer (px) or a percent.
+            });
+            
+            $('#right').split(
+            {
+                orientation: 'horizontal', 
+                limit:    100,   
+                position: '70%'  // example of a percent rather than an integer px.
+            });
+            
+        }
+        
+    </script>
+
+    <style type="text/css">
+
+        .inner
+        {
+            /* fill the split child pane */
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            
+            /* style the split pane */
+            padding: 10px;
+            border: 1px solid red;
+            overflow: auto;
+        }
+                
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none">
+
+    <div id='top' class='fill'>
+    
+        <!-- The left side of the split.  Do NOT style this directly. -->
+        <div id='left'>
+        
+            <!-- A nested div to fill and style the split. -->
+            <div class='inner'>
+            AAA 
+            left left left left left left left left left left left left left
+            left left left left left left left left left left left left left
+            left left left left left left left left left left left left left
+            left left left left left left left left left left left left left
+            left left left left left left left left left left left left left
+            ZZZ
+            </div>
+        </div>
+    
+        <!-- The right side of the vertical split.  Do NOT style this directly. -->
+        <!-- Split this horizontally, between the top and bottom. -->
+        <div id="right">
+        
+            <!-- The top of the horizontal split.  Do NOT style this directly.  -->
+            <div id="top">
+            
+                <!-- A nested div to fill and style the split. -->
+                <div class="inner">
+                AAA
+                top top top top top top top top top top top top top top top top 
+                top top top top top top top top top top top top top top top top 
+                top top top top top top top top top top top top top top top top 
+                top top top top top top top top top top top top top top top top 
+                top top top top top top top top top top top top top top top top 
+                ZZZ
+                </div>
+            </div>
+    
+            <!-- The bottom of the horizontal split.  Do NOT style this directly.  -->
+            <div id="bottom">
+            
+                <!-- A nested div to fill and style the split. -->
+                <div class="inner">
+                AAA
+                bottom bottom bottom bottom bottom bottom bottom bottom bottom 
+                bottom bottom bottom bottom bottom bottom bottom bottom bottom 
+                bottom bottom bottom bottom bottom bottom bottom bottom bottom 
+                bottom bottom bottom bottom bottom bottom bottom bottom bottom 
+                bottom bottom bottom bottom bottom bottom bottom bottom bottom 
+                ZZZ
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+</div>
+</body>
+</html>

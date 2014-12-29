@@ -50,6 +50,12 @@ public class MyMetaEmail_ErrorNotes
     }
 
     @Override
+    public String getHelp()
+    {
+        return "Any notes about the error condition.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

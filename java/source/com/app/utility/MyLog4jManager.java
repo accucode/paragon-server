@@ -1,18 +1,9 @@
 package com.app.utility;
 
-import java.io.PrintWriter;
-
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Layout;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.PatternLayout;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import com.kodemore.file.KmFile;
 import com.kodemore.log.KmLog;
-import com.kodemore.log.KmLogger;
 
 import com.app.file.MyResourceFiles;
 
@@ -72,23 +63,7 @@ public class MyLog4jManager
 
     private static void resetToConsole()
     {
-        PrintWriter writer;
-        writer = new PrintWriter(System.out);
-
-        Layout layout;
-        layout = new PatternLayout("%d %-5p %c - %m %n");
-
-        ConsoleAppender e;
-        e = new ConsoleAppender();
-        e.setName("Console");
-        e.setThreshold(Level.INFO);
-        e.setWriter(writer);
-        e.setLayout(layout);
-
-        LogManager.shutdown();
-        BasicConfigurator.resetConfiguration();
-        BasicConfigurator.configure(e);
-        KmLogger.resetAll();
+        KmLog.installConsole();
     }
 
     private static boolean hasChanged()

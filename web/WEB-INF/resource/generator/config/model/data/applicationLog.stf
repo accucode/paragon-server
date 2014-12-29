@@ -1,0 +1,104 @@
+model
+: name      = applicationLog
+: help...
+    ===
+    Used to persist log4j events with a custom appender.
+    ===
+
+database
+: alias     = al
+: locking   = false
+
+    index
+    : name      = levelCode
+    : unique    = false
+    : on        = levelCode
+    : on        = id
+
+    index
+    : name      = createdUtcTs
+    : unique    = false
+    : on        = createdUtcTs
+    : on        = id
+
+attributes
+
+    field
+    : name          = id
+    : help          = The global unique identifier.  This is a big ugly number and is usually not displayed.
+    : comment       = 
+    : type          = id
+    : identity      = true
+    : primaryKey    = true
+
+    field
+    : name      = createdUtcTs
+    : help      = The date and time when this log was created.
+    : comment   = 
+    : type      = timestamp
+    : default   = getNowUtc()
+    : required  = true
+
+    field
+    : name      = loggerName
+    : help      = The logger name, typically similar to a fully qualified class name.
+    : comment   = 
+    : type      = text100
+    : required  = true
+
+    field
+    : name      = context
+    : help      = The nested diagnostic context; used to distinguish threads.
+    : comment   = 
+    : type      = text100
+
+    field
+    : name      = message
+    : help      = The plain text message describing the log event.
+    : comment   =
+    : type      = multiline100
+
+    field
+    : name      = levelName
+    : help      = The display name for the severity level. E.g.: info, warn, error.
+    : comment   =
+    : type      = text5
+
+    field
+    : name      = levelCode
+    : help      = The severity level code. This can be used to find all events that are high or lower than some level.
+    : comment   =
+    : type      = integer
+
+    abstractField
+    : name      = levelCodeName
+    : help      = A combination of the code and name for display.
+    : comment   = 
+    : type      = calculated
+
+    field
+    : name      = threadName
+    : help      = The java thread name.  This is not directly useful except to determine which logs are generated from the same JVM thread.
+    : comment   = 
+    : type      = text100
+
+    field
+    : name      = exceptionText
+    : help      = The first part of the exception.
+    : comment   =
+    : type      = multiline1000
+
+    abstractField
+    : name      = fullTrace
+    : help      = All of the traces composed into a single string.  This is calculated (not stored in the db) and can be quite long.
+    : comment   = 
+    : type      = calculated
+    : label     = Trace
+
+    collection
+    : name          = trace
+    : comment       = The stack trace if any.
+    : relation      = children
+    : elementModel  = applicationLogTrace
+    : elementField  = log
+

@@ -7,7 +7,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScGroupIconHeader;
+import com.kodemore.servlet.control.ScGroupBannerIcon;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
 
@@ -34,7 +34,7 @@ public class MyGroupIconHeaderTestPage
     //# variables
     //##################################################
 
-    private ScGroupIconHeader _groupHeader;
+    private ScGroupBannerIcon _groupHeader;
     private ScDropdown        _dropdown;
 
     //##################################################
@@ -64,7 +64,7 @@ public class MyGroupIconHeaderTestPage
 
         ScForm form = root.addForm();
 
-        KmList<String> list = new KmList<String>();
+        KmList<String> list = new KmList<>();
         list.add("house");
         list.add("smiley");
         list.add("squares");
@@ -79,7 +79,7 @@ public class MyGroupIconHeaderTestPage
         _groupHeader = group.setTitleWithIcon("source ", "welcome");
 
         ScBox body;
-        body = group.addPad();
+        body = group.getBody().addPad();
         body.addButton("change Icon", newChangeIconAction());
         body.add(_dropdown);
     }

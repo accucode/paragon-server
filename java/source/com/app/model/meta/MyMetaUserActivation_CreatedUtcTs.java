@@ -50,6 +50,12 @@ public class MyMetaUserActivation_CreatedUtcTs
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when the activation was created.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 16;

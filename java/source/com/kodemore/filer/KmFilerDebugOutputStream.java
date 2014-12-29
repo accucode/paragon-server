@@ -185,7 +185,7 @@ public class KmFilerDebugOutputStream
 
     private int _createChecksum()
     {
-        return KmRandom.getInteger();
+        return KmRandom.getInstance().getInteger();
     }
 
     private void _writeChecksum(int x)

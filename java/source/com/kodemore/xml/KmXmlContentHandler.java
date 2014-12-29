@@ -92,7 +92,7 @@ public class KmXmlContentHandler
     {
         _document = new KmXmlDocument(null);
         applyLocation(_document);
-        _elements = new KmStack<KmXmlElement>();
+        _elements = new KmStack<>();
     }
 
     @Override

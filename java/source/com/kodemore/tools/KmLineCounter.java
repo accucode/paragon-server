@@ -62,7 +62,7 @@ public class KmLineCounter
     //# variables
     //##################################################
 
-    private KmList<String> _ignoredPrefixes = new KmList<String>();
+    private KmList<String> _ignoredPrefixes = new KmList<>();
     private String         _suffix;
 
     private int            _lines;

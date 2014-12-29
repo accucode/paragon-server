@@ -62,7 +62,8 @@ public class KmaTextArea
     {
         _oldText = "";
         _selectOnFocus = true;
-        _changeActions = new KmList<KmaAction>();
+        _changeActions = new KmList<>();
+
         setRows(4);
         setColumns(10);
         addFocusListener(newFocusListener());
@@ -100,6 +101,7 @@ public class KmaTextArea
     public void setText(String s)
     {
         super.setText(s);
+
         _oldText = s;
         setCaretPosition(0);
     }
@@ -117,6 +119,7 @@ public class KmaTextArea
             {
                 if ( !_selectOnFocus )
                     return;
+
                 int n = getDocument().getLength();
                 select(n, 0);
                 repaint();
@@ -127,6 +130,7 @@ public class KmaTextArea
             {
                 if ( !_oldText.equals(getText()) )
                     fireChangeActions();
+
                 _oldText = getText();
                 repaint();
             }

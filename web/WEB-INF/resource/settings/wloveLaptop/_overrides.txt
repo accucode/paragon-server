@@ -9,7 +9,7 @@ servletPort                                 = 8080
 servletRedirect                             = y
                                             
 servletShowStackTrace                       = y
-serverSessionTimeoutSeconds                 = 6000
+serverSessionTimeoutSeconds                 = 3600
                                             
 webResourceVersioning                       = dev
                                             
@@ -18,7 +18,7 @@ webResourceVersioning                       = dev
 ## database
 #######################################
 
-databaseSchema                              = paragon
+databaseSchema                              = field_service
 databaseDriver                              = com.mysql.jdbc.Driver
 databaseUri                                 = jdbc:mysql://localhost:3306/
 databaseUser                                = root
@@ -40,12 +40,22 @@ googleChartPath                             = app/servlet/chart
 #######################################     
                                             
 sendEmailEnabled                            = y
-sendEmailMethod                             = print
 sendEmailOverrideTo                         = 
                                             
+sendEmailMethod                             = smtp
+sendEmailMethod                             = noop
+sendEmailMethod                             = print
+
 sendEmailJobEnabled                         = y
 sendEmailJobActiveSeconds                   = 1
 sendEmailJobIdleSeconds                     = 1
+
+smtpScheme                                  = http
+smtpHost                                    = smtp.sendgrid.net
+smtpPort                                    = 587
+smtpUser                                    = 
+smtpPassword                                = 
+smtpUseSsl                                  = false
 
 
 #######################################
@@ -59,7 +69,7 @@ ftpEnabled                                  = n
 ## jobs
 #######################################
 
-monitorJobEnabled                           = y
+monitorJobEnabled                           = n
 monitorJobActiveSeconds                     = 3600
 monitorJobIdleSeconds                       = 3600
                                             

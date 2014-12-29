@@ -25,7 +25,7 @@ package com.kodemore.file;
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.log.KmLog;
-import com.kodemore.thread.KmKillableThread;
+import com.kodemore.thread.KmThread;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.KmTimer;
 import com.kodemore.utility.Kmu;
@@ -41,7 +41,7 @@ public class KmFileMonitor
     //##################################################
 
     /**
-     * This "main" method serves as an example of common usage.  
+     * This "main" method serves as an example of common usage.
      * Clients will typically implement a more interesting handler.
      */
     public static void main(String[] args)
@@ -88,7 +88,7 @@ public class KmFileMonitor
      * The background thread that is responsible for scanning
      * for file changes.
      */
-    private KmKillableThread          _thread;
+    private KmThread                  _thread;
 
     /**
      * The frequency at which we scan for modified files.
@@ -115,13 +115,13 @@ public class KmFileMonitor
 
     public KmFileMonitor()
     {
-        _roots = new KmList<KmFileMonitorRoot>();
+        _roots = new KmList<>();
         _newScanFrequencyMs = 5000;
         _modifiedScanFrequencyMs = 500;
     }
 
     //##################################################
-    //# accessing 
+    //# accessing
     //##################################################
 
     public KmList<KmFileMonitorRoot> getRoots()
@@ -206,13 +206,13 @@ public class KmFileMonitor
         _lastNewScanTs = now;
         _lastModifiedScanTs = now;
 
-        _thread = newKillableThread();
+        _thread = newThread();
         _thread.start();
     }
 
     public void stop()
     {
-        _thread.kill();
+        _thread.requestStopAndWait();
         _thread = null;
     }
 
@@ -225,14 +225,14 @@ public class KmFileMonitor
         return KmTimestamp.createNowUtc();
     }
 
-    private KmKillableThread newKillableThread()
+    private KmThread newThread()
     {
-        return new KmKillableThread()
+        return new KmThread()
         {
             @Override
             public void run()
             {
-                while ( !isKilled() )
+                while ( !hasStopRequest() )
                     loop();
             }
         };
@@ -251,7 +251,7 @@ public class KmFileMonitor
 
     private void initializeFiles()
     {
-        _files = new KmMap<KmFile,Long>();
+        _files = new KmMap<>();
 
         for ( KmFileMonitorRoot e : getRoots() )
             initializeFiles(e);

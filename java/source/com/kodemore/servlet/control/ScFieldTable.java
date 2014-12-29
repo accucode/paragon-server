@@ -177,7 +177,9 @@ public class ScFieldTable
 
     private void renderRow(KmHtmlBuilder out, ScControl e, int row)
     {
-        out.begin("tr");
+        out.open("tr");
+        out.printAttribute("class", "fields");
+        out.close();
         renderLabelAndField(out, e, row);
         out.end("tr");
     }

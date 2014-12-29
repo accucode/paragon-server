@@ -55,6 +55,16 @@ public class MyMetaUserActivation
     {
         return MyUserActivationValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "A request to activate a new user account via email.";
+    }
 
     //##################################################
     //# fields and delegates

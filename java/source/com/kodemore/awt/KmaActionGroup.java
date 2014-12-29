@@ -60,7 +60,7 @@ public class KmaActionGroup
 
     public void initialize()
     {
-        _actions = new KmMap<String,KmList<ActionListener>>();
+        _actions = new KmMap<>();
     }
 
     //##################################################
@@ -114,7 +114,7 @@ public class KmaActionGroup
         KmList<ActionListener> v = _actions.get(key);
         if ( v == null )
         {
-            v = new KmList<ActionListener>();
+            v = new KmList<>();
             _actions.put(key, v);
         }
         return v;

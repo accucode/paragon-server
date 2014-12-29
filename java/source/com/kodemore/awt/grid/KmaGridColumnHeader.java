@@ -66,6 +66,7 @@ public class KmaGridColumnHeader
             r.x += w;
             r.width -= w;
         }
+
         return r;
     }
 
@@ -100,6 +101,7 @@ public class KmaGridColumnHeader
         int yy = -1;
         int x1 = grid.getFirstVisibleColumn();
         int x2 = grid.getLastVisibleColumn();
+
         for ( int xx = x1; xx <= x2; xx++ )
         {
             value = grid.getColumnHeaderValueAt(xx);
@@ -108,6 +110,7 @@ public class KmaGridColumnHeader
             grid.getCellRendererPane().paintComponent(g, c, p, x, y, w, h, false);
             x += w + dx;
         }
+
         g.setClip(oldClip);
     }
 

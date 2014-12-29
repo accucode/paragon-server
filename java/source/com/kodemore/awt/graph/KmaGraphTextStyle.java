@@ -92,6 +92,7 @@ public class KmaGraphTextStyle
     {
         if ( !isVisible() )
             return;
+
         g.setFont(getFont().getFont());
         g.setColor(getColor());
     }

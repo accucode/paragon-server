@@ -10,12 +10,12 @@
 
 <html>
 <head>
-  <title>Paragon Properties</title>
+  <title>Field Service Properties</title>
   <link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 <body>
 
-<h1>Paragon Properties</h1>
+<h1>Field Service Properties</h1>
 
 <h2>production</h2>
     <table cellspacing=0 cellpadding=3 border=1>
@@ -26,10 +26,10 @@
         <th>Default</th>
       </tr>
       <tr>
-        <td>production&nbsp;</td>
-        <td>Indicates if this is the production system or not. When set to true developers will see a prominent visual cue on the screen to tell them they are working on the production system.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>false&nbsp;</td>
+        <td>environment&nbsp;</td>
+        <td>Indicates the deployment environment.  Valid options are: development, stage, production.&nbsp;</td>
+        <td>string&nbsp;</td>
+        <td>development&nbsp;</td>
       </tr>
     </table>
     <br>
@@ -460,7 +460,7 @@
         <td>50&nbsp;</td>
       </tr>
       <tr>
-        <td>syncDatabaseOnStartup&nbsp;</td>
+        <td>databaseSyncOnStartup&nbsp;</td>
         <td>Normally the application will sync the database patches upon startup.  Set this to false to disable.&nbsp;</td>
         <td>boolean&nbsp;</td>
         <td>true&nbsp;</td>
@@ -678,6 +678,12 @@
         <td>If true, all ScAjaxResults are logged in $webRoot/ajaxLog.txt.&nbsp;</td>
         <td>boolean&nbsp;</td>
         <td>false&nbsp;</td>
+      </tr>
+      <tr>
+        <td>autoLoginEmail&nbsp;</td>
+        <td>If not blank, automatically login as this user.  Useful for development.&nbsp;</td>
+        <td>string&nbsp;</td>
+        <td>&nbsp;</td>
       </tr>
       <tr>
         <td>checkRecommendedBrowser&nbsp;</td>

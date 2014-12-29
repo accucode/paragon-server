@@ -22,7 +22,7 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyHibernateCacheTestJunction
-    extends KmModelJunction<MyHibernateCacheTest>
+    extends KmModelJunction
     implements MyHibernateCacheTestDaoConstantsIF
 {
     //##################################################

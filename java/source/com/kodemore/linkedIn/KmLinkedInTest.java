@@ -18,7 +18,7 @@ public class KmLinkedInTest
         c.setAuthToken("");
         c.setAuthSecret("");
 
-        c.setParameter("id", "xxxxxxxxxx");
+        c.setParameter("id", "x");
 
         c.submit();
 

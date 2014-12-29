@@ -1,6 +1,9 @@
 model
 : name      = hibernateCacheTest
-: comment   = A table to be able to test the hibernate second level cache.
+: help...
+    ===
+    I am used to test the hibernate second level cache.
+    === 
 
 database
 : alias = hc
@@ -9,7 +12,7 @@ attributes
 
     field
     : name          = uid
-    : comment       = The unique key.
+    : help          = The globally unique identifier.  This is a big ugly number and generally not displayed.
     : type          = uid
     : default       = newUid()
     : primaryKey    = true
@@ -17,6 +20,6 @@ attributes
 
     field
     : name      = data
-    : comment   = just random data
+    : help      = Random data used for testing.
     : type      = text1000
     : required  = required

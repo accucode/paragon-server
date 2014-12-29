@@ -50,6 +50,12 @@ public class MyMetaInvitation_ToEmail
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The email to which the invitation was sent.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

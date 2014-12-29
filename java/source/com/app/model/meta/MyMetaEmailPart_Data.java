@@ -50,6 +50,12 @@ public class MyMetaEmailPart_Data
     }
 
     @Override
+    public String getHelp()
+    {
+        return null;
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

@@ -17,7 +17,7 @@ public class KmCompositeCommand
 
     public KmCompositeCommand()
     {
-        _list = new KmList<KmCommand>();
+        _list = new KmList<>();
     }
 
     //##################################################

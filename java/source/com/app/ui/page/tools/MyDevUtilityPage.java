@@ -6,6 +6,7 @@ import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScFieldTable;
+import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
@@ -65,21 +66,26 @@ public class MyDevUtilityPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css();
 
-        installMiscellaneousGroup(root);
-        installExceptionGroup(root);
-        installTimeGroup(root);
-        installRequestGroup(root);
+        ScFlexbox row;
+        row = root.addRow();
+        row.css().gap();
+        row.wrap();
+
+        installSingleVmGroup(row);
+        installExceptionGroup(row);
+        installTimeGroup(row);
+        installRequestGroup(row);
     }
 
-    private void installMiscellaneousGroup(ScContainer root)
+    private void installSingleVmGroup(ScContainer root)
     {
         ScGroup group;
-        group = addGroupTo(root, "Single VM");
+        group = root.addInlineGroup("Single VM");
 
         ScBox box;
-        box = group.addLinkBox();
+        box = group.getBody().addLinkBox();
         box.addLink("garbage collection", newGarbageCollectionAction());
         box.addLink("reload properties", newReloadPropertiesAction());
     }
@@ -87,10 +93,10 @@ public class MyDevUtilityPage
     private void installExceptionGroup(ScContainer root)
     {
         ScGroup group;
-        group = addGroupTo(root, "Exceptions");
+        group = root.addInlineGroup("Exceptions");
 
         ScBox box;
-        box = group.addLinkBox();
+        box = group.getBody().addLinkBox();
         box.addLink("message", newMessageAction());
         box.addLink("error", newErrorAction());
         box.addLink("fatal", newFatalAction());
@@ -109,10 +115,11 @@ public class MyDevUtilityPage
         _denverText.setLabel("Denver");
 
         ScGroup group;
-        group = addGroupTo(root, "Time");
+        group = root.addInlineGroup("Time");
 
         ScFieldTable fields;
-        fields = group.addPad().addFields();
+        fields = group.getBody().addPad().addFieldTable();
+        fields.style().width(200);
         fields.add(_utcText);
         fields.add(_localText);
         fields.add(_denverText);
@@ -130,23 +137,13 @@ public class MyDevUtilityPage
         _isFirefoxText.setLabel("isFirefox");
 
         ScGroup group;
-        group = addGroupTo(root, "Request / Response");
+        group = root.addInlineGroup("Request / Response");
 
         ScFieldTable fields;
-        fields = group.addPad().addFields();
+        fields = group.getBody().addPad().addFieldTable();
         fields.add(_userAgentText);
         fields.add(_isInternetExplorerText);
         fields.add(_isFirefoxText);
-    }
-
-    private ScGroup addGroupTo(ScContainer root, String title)
-    {
-        ScGroup e;
-        e = root.addGroup();
-        e.setTitle(title);
-        e.css().floatLeft();
-        e.style().height(150);
-        return e;
     }
 
     //##################################################

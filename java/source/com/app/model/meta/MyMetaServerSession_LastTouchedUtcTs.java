@@ -50,6 +50,12 @@ public class MyMetaServerSession_LastTouchedUtcTs
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when the session was last touched. Used to support automatic timeouts.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 16;

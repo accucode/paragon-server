@@ -1,0 +1,45 @@
+model
+: name      = memberSkill
+: help...
+    ===
+    The project specific skills assigned to a particular member.
+    === 
+
+database
+: alias = ms
+
+    index
+    : name      = memberSkill
+    : unique    = true
+    : on        = member
+    : on        = skill
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The global unique key.  This is a big ugly number and is usually not displayed.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    association
+    : name      = member
+    : help      = The member to which this skill is assigned.
+    : modelName = member
+    : relation  = parent
+    : required  = true
+
+    association
+    : name      = skill
+    : help      = The skill assigned.
+    : modelName = skill
+    : relation  = reference
+    : required  = true
+
+    field
+    : name          = sequence
+    : help          = The relative priority of the skills. 
+    : type          = sequence
+    : required      = true

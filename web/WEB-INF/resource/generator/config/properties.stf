@@ -3,10 +3,10 @@ group
 : comment   = Some properties that are particularly important to the production environment.
 
     property
-    : name      = production
-    : type      = boolean
-    : default   = false
-    : comment   = Indicates if this is the production system or not. When set to true developers will see a prominent visual cue on the screen to tell them they are working on the production system.
+    : name      = environment
+    : comment   = Indicates the deployment environment.  Valid options are: development, stage, production.
+    : type      = string
+    : default   = development
 
 group
 : name      = AccountSetup
@@ -368,7 +368,7 @@ group
     : comment   = The password used for aes encryption. The password must be exactly 16 characters long. This should be overriden in production.
     
     property
-    : name      = syncDatabaseOnStartup
+    : name      = databaseSyncOnStartup
     : type      = boolean
     : default   = true
     : comment   = Normally the application will sync the database patches upon startup.  Set this to false to disable.
@@ -645,6 +645,12 @@ group
     : type      = integer
     : default   = 0
     : comment   = The speed of the memory leak test page.
+
+    property
+    : name      = autoLoginEmail
+    : type      = string
+    : default   = 
+    : comment   = If not blank, automatically login as this user.  Useful for development.
 
 group
 : name      = GoogleChart

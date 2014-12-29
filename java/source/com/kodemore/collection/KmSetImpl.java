@@ -57,7 +57,7 @@ public class KmSetImpl<T>
     @Override
     public KmList<T> toList()
     {
-        return new KmList<T>(iterator());
+        return new KmList<>(iterator());
     }
 
     @Override
@@ -99,14 +99,17 @@ public class KmSetImpl<T>
     public String format()
     {
         StringBuilder out = new StringBuilder();
+
         Iterator<T> i = iterator();
         while ( i.hasNext() )
         {
             T e = i.next();
             out.append(e);
+
             if ( i.hasNext() )
                 out.append(", ");
         }
+
         return out.toString();
     }
 }

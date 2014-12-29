@@ -55,10 +55,10 @@ public class KmMinimumValueValidationError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append("minimum value is ");
-        sb.append(_minimum);
+        out.append("minimum value is ");
+        out.append(_minimum);
     }
 
 }

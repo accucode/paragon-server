@@ -119,7 +119,7 @@ public class MyDownloadValidatorBase
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(30);
+        e.setMaximumLength(50);
         e.setAllowsPrintable(true);
         e.setModel("download");
         e.setField("name");

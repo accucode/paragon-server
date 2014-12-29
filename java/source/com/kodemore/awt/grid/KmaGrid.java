@@ -366,11 +366,6 @@ public class KmaGrid
     //# layout
     //##################################################
 
-    //    public boolean isFocusTraversable()
-    //    {
-    //        return true;
-    //    }
-    //
     @Override
     public boolean isValidateRoot()
     {
@@ -390,6 +385,7 @@ public class KmaGrid
         sb = getHorizontalScrollBar();
         sb.setMinimum(0);
         sb.setMaximum(getColumnCount() - 1 + sb.getVisibleAmount());
+
         refresh();
     }
 
@@ -397,6 +393,7 @@ public class KmaGrid
     {
         getVerticalScrollBar().invalidate();
         getHorizontalScrollBar().invalidate();
+
         validate();
         repaint();
     }
@@ -409,10 +406,12 @@ public class KmaGrid
     {
         Dimension d = getSize();
         Insets i = getInsets();
+
         int x = i.left;
         int y = i.top;
         int w = d.width - i.left - i.right;
         int h = d.height - i.top - i.bottom;
+
         return new Rectangle(x, y, w, h);
     }
 
@@ -421,14 +420,18 @@ public class KmaGrid
         JScrollBar vsb = getVerticalScrollBar();
         JScrollBar hsb = getHorizontalScrollBar();
         Rectangle r = getInsetBounds();
+
         r.x += 2;
         r.y += 2;
+
         r.width -= vsb.isVisible()
             ? vsb.getSize().width + 2
             : 4;
+
         r.height -= hsb.isVisible()
             ? hsb.getSize().height + 2
             : 4;
+
         return r;
     }
 
@@ -436,8 +439,10 @@ public class KmaGrid
     {
         Rectangle rb = getRowHeader().getBounds();
         Rectangle cb = getColumnHeader().getBounds();
+
         rb.x = cb.x;
         rb.width = cb.width;
+
         return rb;
     }
 
@@ -470,6 +475,7 @@ public class KmaGrid
         int x1 = getFirstVisibleColumn();
         int x2 = getLastVisibleColumn();
         int xx = x1;
+
         while ( xx < x2 )
         {
             x += getColumnWidthAt(xx) + dx;
@@ -483,11 +489,13 @@ public class KmaGrid
         int y1 = getFirstVisibleRow();
         int y2 = getLastVisibleRow();
         int yy = y1;
+
         while ( yy < y2 )
         {
             y += getRowHeightAt(yy) + dy;
             if ( y >= p.y )
                 break;
+
             yy++;
         }
 
@@ -604,6 +612,7 @@ public class KmaGrid
     public void paint(Graphics g)
     {
         super.paint(g);
+
         paintEdge(g);
         paintClientCells(g);
         getRowHeader().paint(g);
@@ -614,6 +623,7 @@ public class KmaGrid
     public void paintEdge(Graphics g)
     {
         Rectangle r = getInsetBounds();
+
         int x = r.x;
         int y = r.y;
         int w = r.width;
@@ -669,19 +679,23 @@ public class KmaGrid
 
         g.clipRect(r.x, r.y, r.width, r.height);
         int x, y, w, h;
+
         int dxy = _hasGridLines
             ? 1
             : 0;
+
         int maxx, maxy;
         y = r.y;
         maxy = r.y + r.height - 1;
 
         int y1 = getFirstVisibleRow();
         int y2 = getRowCount();
+
         for ( int yy = y1; yy < y2; yy++ )
         {
             if ( y > maxy )
                 break;
+
             point.y = yy;
             x = r.x;
             maxx = r.x + r.width - 1;
@@ -689,16 +703,19 @@ public class KmaGrid
 
             int x1 = getFirstVisibleColumn();
             int x2 = getColumnCount();
+
             for ( int xx = x1; xx < x2; xx++ )
             {
                 if ( x > maxx )
                     break;
+
                 point.x = xx;
                 w = getColumnWidthAt(xx);
                 Object o = getValueAt(xx, yy);
                 boolean hasFocus = showFocus && dot.x == xx && dot.y == yy;
                 boolean isSelected = getSelectionModel().isSelected(point);
                 boolean validate = true;
+
                 Component c = getCellRenderer().getCellRendererFor(
                     this,
                     o,
@@ -706,6 +723,7 @@ public class KmaGrid
                     hasFocus,
                     xx,
                     yy);
+
                 getCellRendererPane().paintComponent(g, c, p, x, y, w, h, validate);
                 x += w + dxy;
             }
@@ -718,6 +736,7 @@ public class KmaGrid
     {
         if ( !hasGridLines() )
             return;
+
         paintVerticalLines(g);
         paintHorizontalLines(g);
     }
@@ -730,14 +749,18 @@ public class KmaGrid
         int maxx = r.x + r.width - 1;
         int y1 = r.y;
         int y2 = r.y + r.height - 1;
+
         g.setColor(getGridLineColor());
+
         int a = getFirstVisibleColumn();
         int n = getColumnCount();
+
         for ( int i = a; i < n; i++ )
         {
             x += getColumnWidthAt(i);
             if ( x > maxx )
                 break;
+
             g.drawLine(x, y1, x, y2);
             x += dx;
         }
@@ -751,14 +774,18 @@ public class KmaGrid
         int maxy = r.y + r.height - 1;
         int x1 = r.x;
         int x2 = r.x + r.width - 1;
+
         g.setColor(getGridLineColor());
+
         int a = getFirstVisibleRow();
         int n = getRowCount();
+
         for ( int i = a; i < n; i++ )
         {
             y += getRowHeightAt(i);
             if ( y > maxy )
                 break;
+
             g.drawLine(x1, y, x2, y);
             y += dy;
         }
@@ -851,10 +878,12 @@ public class KmaGrid
     {
         int xn = getColumnCount();
         int yn = getRowCount();
+
         for ( int x = 0; x < xn; x++ )
             for ( int y = 0; y < yn; y++ )
             {
                 Object b = getValueAt(x, y);
+
                 if ( compare(a, b) )
                     return new Point(x, y);
             }
@@ -865,8 +894,10 @@ public class KmaGrid
     {
         if ( a == null )
             return b == null;
+
         if ( b == null )
             return false;
+
         return a.equals(b);
 
     }

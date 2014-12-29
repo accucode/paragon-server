@@ -77,8 +77,8 @@ public class KmCsvReader
         _lineIndex = -1;
         _separator = DEFAULT_SEPARATOR;
         _quote = DEFAULT_QUOTE;
-        _fields = new KmList<String>();
-        _conversions = new KmMap<String,String>();
+        _fields = new KmList<>();
+        _conversions = new KmMap<>();
     }
 
     //##################################################
@@ -100,7 +100,7 @@ public class KmCsvReader
 
     public void setSourceFile(String path)
     {
-        String s = Kmu.readTextFile(path);
+        String s = Kmu.readFileString(path);
         setSource(s);
     }
 
@@ -170,6 +170,7 @@ public class KmCsvReader
         _lineIndex++;
         _unread(i);
         _readFields();
+
         return true;
     }
 
@@ -177,14 +178,17 @@ public class KmCsvReader
     {
         _fields.clear();
         _fieldIndex = 0;
+
         while ( true )
         {
             String s = _readField();
             if ( s == null )
                 break;
+
             s = _convert(s);
             _fields.add(s);
         }
+
         _fields.isNotEmpty();
     }
 
@@ -221,22 +225,26 @@ public class KmCsvReader
     private String _readNormalField() throws IOException
     {
         int c;
-        StringBuilder sb = new StringBuilder();
+        StringBuilder out = new StringBuilder();
+
         while ( true )
         {
             c = _read();
             if ( c == _separator )
                 break;
+
             if ( c < 0 )
                 break;
+
             if ( c == CR || c == LF )
             {
                 _unread(c);
                 break;
             }
-            sb.append((char)c);
+
+            out.append((char)c);
         }
-        return sb.toString();
+        return out.toString();
     }
 
     /**
@@ -248,13 +256,15 @@ public class KmCsvReader
     private String _readQuotedField() throws IOException
     {
         int c, cc;
-        StringBuilder sb = new StringBuilder();
+        StringBuilder out = new StringBuilder();
         _read();
+
         while ( true )
         {
             c = _read();
             if ( c < 0 )
                 break;
+
             if ( c == _quote )
             {
                 cc = _read();
@@ -264,13 +274,15 @@ public class KmCsvReader
                     break;
                 }
             }
-            sb.append((char)c);
+
+            out.append((char)c);
         }
+
         c = _read();
         if ( c != _separator )
             _unread(c);
 
-        return sb.toString();
+        return out.toString();
     }
 
     private String _convert(String s)
@@ -283,6 +295,7 @@ public class KmCsvReader
             String newText = me.getValue();
             s = _convert(s, oldText, newText);
         }
+
         return s;
     }
 
@@ -352,6 +365,7 @@ public class KmCsvReader
     {
         if ( !isValidField(i) )
             return def;
+
         String s = getString(i);
         return Kmu.parse_int(s, def);
     }
@@ -370,6 +384,7 @@ public class KmCsvReader
     {
         if ( !isValidField(i) )
             return def;
+
         String s = getString(i);
         return Kmu.parse_double(s, def);
     }
@@ -388,6 +403,7 @@ public class KmCsvReader
     {
         if ( !isValidField(i) )
             return def;
+
         String s = getString(i);
         return Kmu.parse_boolean(s, def);
     }
@@ -401,6 +417,7 @@ public class KmCsvReader
     {
         if ( !isValidField(i) )
             return def;
+
         String s = getString(i);
         return Kmu.parseBoolean(s, def);
     }

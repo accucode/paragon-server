@@ -47,7 +47,7 @@ public class MyDeleteOldServerSessionsJob
     //##################################################
 
     @Override
-    protected boolean run()
+    protected boolean handle()
     {
         MyDeleteOldServerSessionsCommand cmd;
         cmd = new MyDeleteOldServerSessionsCommand();

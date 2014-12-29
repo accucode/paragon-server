@@ -106,7 +106,25 @@ public abstract class KmFilter<T>
 
     public KmFilterIF<T> toDaoFilter()
     {
-        return new KmDaoFilter<T>(this);
+        return new KmDaoFilter<>(this);
+    }
+
+    /**
+     * Return a factory that wraps this filter.   This is useful for interfaced that
+     * require a factory, but for which you currently just need a static filter.
+     * Note that the 'this' instance is used (not a copy), so subsequent changes to
+     * the filter will effect the factory.
+     */
+    public KmFilterFactoryIF<T> toFactory()
+    {
+        return new KmFilterFactoryIF<T>()
+        {
+            @Override
+            public KmFilterIF<T> createFilter()
+            {
+                return KmFilter.this;
+            }
+        };
     }
 
     //##################################################

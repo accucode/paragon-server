@@ -89,7 +89,7 @@ public class ScMultiBarChart
         setGroupSpacing(DEFAULT_GROUP_SPACING);
         setRotateLabelsDegrees(DEFAULT_ROTATE_LABEL_DEGREES);
 
-        _dataSeries = new KmList<ScChartSeries>();
+        _dataSeries = new KmList<>();
     }
 
     //##################################################

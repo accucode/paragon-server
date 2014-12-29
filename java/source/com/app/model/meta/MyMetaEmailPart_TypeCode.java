@@ -50,6 +50,12 @@ public class MyMetaEmailPart_TypeCode
     }
 
     @Override
+    public String getHelp()
+    {
+        return null;
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 3;
@@ -102,8 +108,9 @@ public class MyMetaEmailPart_TypeCode
         ScDropdown e;
         e = new ScDropdown();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
-        e.setValue(getAdaptor());
+        e.setValueAdaptor(getAdaptor());
         e.addOptions(MyEmailPartType.values());
         return e;
     }

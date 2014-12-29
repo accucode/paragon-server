@@ -5,7 +5,9 @@ import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDialog;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
+import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -34,7 +36,7 @@ public class MyDomainDropdownSetValueTestPage
 
     private ScDomainDropdownField<MyUser,String> _fromDropdown;
     private ScDomainDropdownField<MyUser,String> _toDropdown;
-    private ScDomainDropdownField<MyUser,String> _toDialogDropdown;
+    private ScDomainDropdownField<MyUser,String> _dialogDropdown;
 
     private ScDialog                             _dialog;
 
@@ -63,8 +65,13 @@ public class MyDomainDropdownSetValueTestPage
     {
         root.css().gap();
 
-        installDialog(root);
+        installDialog();
+        installDropdownGroupOn(root);
+        installTargetGroupOn(root);
+    }
 
+    private void installDropdownGroupOn(ScPageRoot root)
+    {
         _fromDropdown = MyUser.Tools.newDomainDropdown();
         _fromDropdown.setOptionLabelAdaptor(MyMetaUser.Name);
         _fromDropdown.setNullNonePrefix();
@@ -74,45 +81,62 @@ public class MyDomainDropdownSetValueTestPage
         _toDropdown.setNullNonePrefix();
 
         ScGroup group;
-        group = root.addGroup();
-        group.addPad().addText(
+        group = root.addGroup("Domain Dropdown Test");
+
+        ScDiv body;
+        body = group.getBody();
+        body.addPad().addText(
             "Select a user from this dropdown and then click 'Select User'.  The dropdown in the "
                 + "group below should be updated to the user selected.");
 
         ScForm form;
-        form = group.addForm();
+        form = body.addForm();
 
         ScFieldTable fields;
-        fields = form.addPad().addFields();
+        fields = form.addPad().addFieldTable();
         fields.add(_fromDropdown);
 
         ScBox buttons;
-        buttons = form.addButtonBoxLeft();
+        buttons = form.addButtonBox();
         buttons.addButton("Select User", newSelectUserAction());
         buttons.addButton("Select User (in dialog)", newShowDialogAction());
+    }
 
-        group = root.addGroup();
-        fields = group.addPad().addFields();
+    private void installTargetGroupOn(ScPageRoot root)
+    {
+        ScGroup group;
+        ScDiv body;
+        ScFieldTable fields;
+        group = root.addGroup("Target");
+
+        body = group.getBody();
+        fields = body.addPad().addFieldTable();
         fields.add(_toDropdown);
     }
 
-    private void installDialog(ScBox root)
+    private void installDialog()
     {
-        _dialog = root.addDialog();
-        _dialog.getHeaderBox().addPad().addText("Dropdown in Dialog");
-        _dialog.getBodyBox().hide();
+        _dialogDropdown = MyUser.Tools.newDomainDropdown();
+        _dialogDropdown.setOptionLabelAdaptor(MyMetaUser.Name);
+        _dialogDropdown.setNullNonePrefix();
 
-        _toDialogDropdown = MyUser.Tools.newDomainDropdown();
-        _toDialogDropdown.setOptionLabelAdaptor(MyMetaUser.Name);
-        _toDialogDropdown.setNullNonePrefix();
+        _dialog = new ScDialog();
+        _dialog.setLabel("Select User");
+        _dialog.setSubmitAction(newDialogSubmitAction());
 
-        ScForm form;
-        form = _dialog.getForm();
+        ScDiv body;
+        body = _dialog.getBody();
+        body.css().pad();
 
         ScFieldTable fields;
-        fields = form.addPad().addFields();
-        fields.css().width400();
-        fields.add(_toDialogDropdown);
+        fields = body.addFieldTable();
+        fields.add(_dialogDropdown);
+
+        ScFlexbox footer;
+        footer = _dialog.showFooter();
+        footer.alignEnd();
+        footer.css().buttonBox();
+        footer.addSubmitButton();
     }
 
     //##################################################
@@ -143,6 +167,18 @@ public class MyDomainDropdownSetValueTestPage
         };
     }
 
+    private ScActionIF newDialogSubmitAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleDialogSubmit();
+            }
+        };
+    }
+
     //##################################################
     //# handle
     //##################################################
@@ -158,12 +194,21 @@ public class MyDomainDropdownSetValueTestPage
 
     private void handleShowDialog()
     {
-        MyUser e;
-        e = _fromDropdown.getValue();
+        MyUser user = _fromDropdown.getValue();
 
-        _toDialogDropdown.setValue(e);
-        _toDialogDropdown.ajaxUpdateValue();
-
+        _dialogDropdown.setValue(user);
         _dialog.ajaxOpen();
     }
+
+    private void handleDialogSubmit()
+    {
+        MyUser e;
+        e = _dialogDropdown.getValue();
+
+        _dialog.ajaxClose();
+
+        _toDropdown.setValue(e);
+        _toDropdown.ajaxUpdateValue();
+    }
+
 }

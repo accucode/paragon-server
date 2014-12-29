@@ -50,6 +50,12 @@ public class MyMetaPatch_InstalledUtcTs
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when the patch was installed in this database.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 16;

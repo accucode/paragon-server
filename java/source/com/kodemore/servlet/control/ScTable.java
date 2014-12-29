@@ -52,7 +52,7 @@ public class ScTable
     {
         super.install();
 
-        _rows = new KmList<ScTableRow>();
+        _rows = new KmList<>();
 
         _defaultCellCss = new ScLocalCss();
         _defaultCellStyle = new ScLocalStyle();
@@ -169,14 +169,12 @@ public class ScTable
     //##################################################
 
     @Override
-    public Iterator<ScControl> getComponents()
+    public Iterator<ScControlIF> getComponents()
     {
-        KmCompositeIterator<ScControl> i;
-        i = new KmCompositeIterator<ScControl>();
-
+        KmCompositeIterator<ScControlIF> i;
+        i = new KmCompositeIterator<>();
         i.addAll(super.getComponents());
         i.addAll(getRows());
-
         return i;
     }
 }

@@ -50,6 +50,12 @@ public class MyMetaUser_Email
     }
 
     @Override
+    public String getHelp()
+    {
+        return "Used both to sign in, and to send emails to this user.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

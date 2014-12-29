@@ -136,18 +136,6 @@ public class ScDropdown
         return _css.toDefaultBuilder();
     }
 
-    @Override
-    public void show()
-    {
-        css().remove().hide();
-    }
-
-    @Override
-    public void hide()
-    {
-        css().hide();
-    }
-
     //##################################################
     //# html style
     //##################################################
@@ -160,6 +148,18 @@ public class ScDropdown
     public KmStyleBuilder style()
     {
         return _style.toBuilder();
+    }
+
+    @Override
+    public void show()
+    {
+        style().show();
+    }
+
+    @Override
+    public void hide()
+    {
+        style().hide();
     }
 
     //##################################################
@@ -211,7 +211,7 @@ public class ScDropdown
         if ( hasValidator() )
             getValidator().setRequired();
         else
-            setValidator(new KmRequiredValidator<Object>());
+            setValidator(new KmRequiredValidator<>());
     }
 
     public void setOptional()
@@ -410,7 +410,7 @@ public class ScDropdown
     }
 
     /**
-     * If true, the search field will be displayed at the top of the dropdown. 
+     * If true, the search field will be displayed at the top of the dropdown.
      */
     private boolean showSearchField()
     {
@@ -418,7 +418,7 @@ public class ScDropdown
     }
 
     /**
-     * If true, a check icon will be displayed next to the selected item. 
+     * If true, a check icon will be displayed next to the selected item.
      */
     private boolean showTickMark()
     {
@@ -427,17 +427,20 @@ public class ScDropdown
 
     private String formatBootstrapSelectHideScript()
     {
-        return Kmu.format("%s.selectpicker('hide');", getJqueryReference());
+        String sel = getJquerySelector();
+        return Kmu.format("$(%s).selectpicker('hide');", json(sel));
     }
 
     private String formatBootstrapSelectShowScript()
     {
-        return Kmu.format("%s.selectpicker('show');", getJqueryReference());
+        String sel = getJquerySelector();
+        return Kmu.format("$(%s).selectpicker('show');", json(sel));
     }
 
     private String formatBootstrapSelectRefreshScript()
     {
-        return Kmu.format("%s.selectpicker('refresh');", getJqueryReference());
+        String sel = getJquerySelector();
+        return Kmu.format("$(%s).selectpicker('refresh');", json(sel));
     }
 
     //##################################################
@@ -503,7 +506,7 @@ public class ScDropdown
         if ( _validator == null )
             return ok;
 
-        KmList<KmErrorIF> errors = new KmList<KmErrorIF>();
+        KmList<KmErrorIF> errors = new KmList<>();
         _validator.validateOnly(getValue(), errors);
         if ( errors.isEmpty() )
             return ok;
@@ -790,7 +793,7 @@ public class ScDropdown
     public void ajaxUpdateOptions()
     {
         KmList<ScOption> v;
-        v = new KmList<ScOption>();
+        v = new KmList<>();
         v.addAll(getPrefixes());
         v.addAll(getOptions());
 

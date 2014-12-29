@@ -74,8 +74,8 @@ public class ScSimpleBlockScript
 
     public ScSimpleBlockScript()
     {
-        _list = new KmList<ScScriptIF>();
-        _stack = new KmList<ScWhenDoneAjax>();
+        _list = new KmList<>();
+        _stack = new KmList<>();
     }
 
     //##################################################
@@ -112,9 +112,9 @@ public class ScSimpleBlockScript
     //##################################################
 
     @Override
-    public ScWhenDoneAjax pushWhenDone(ScHtmlIdIF target)
+    public ScWhenDoneAjax pushWhenDone(ScHtmlIdIF target, ScHtmlIdIF waitFor)
     {
-        ScWhenDoneAjax e = whenDone(target);
+        ScWhenDoneAjax e = whenDone(target, waitFor);
         _stack.add(e);
         return e;
     }

@@ -23,7 +23,7 @@ public class ScCoderRegistry
 
     private ScCoderRegistry()
     {
-        _coders = new KmMap<String,ScCoderIF>();
+        _coders = new KmMap<>();
         registerDefaultCoders();
     }
 

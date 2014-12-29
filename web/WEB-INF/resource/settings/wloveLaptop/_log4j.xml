@@ -14,7 +14,7 @@
     </appender>
 
     <appender name="file" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="/projects/paragon/output/log/log"/>
+        <param name="File" value="/wlove/projects/paragon-server/output/log/log"/>
         <param name="DatePattern" value="'_'yyyyMMdd'.txt'"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d %-5p %c - %m %n" />
@@ -34,6 +34,8 @@
         <level value="debug" />
     </logger>
 -->
+
+    <logger name="com.app.job.application.MyMonitorJob"><level value="error" /></logger>
 
     <root>
         <priority value ="info" />

@@ -46,7 +46,7 @@ public class MyInvitationFinder
     public MyInvitation findDao(String key)
     {
         MyDaoKeyFinder<MyInvitation,String> e;
-        e = new MyDaoKeyFinder<MyInvitation,String>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

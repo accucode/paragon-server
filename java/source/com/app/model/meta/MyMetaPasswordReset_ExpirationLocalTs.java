@@ -49,6 +49,12 @@ public class MyMetaPasswordReset_ExpirationLocalTs
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when this request expires.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 16;

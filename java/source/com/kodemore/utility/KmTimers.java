@@ -34,7 +34,7 @@ public class KmTimers
     //# variables
     //##################################################
 
-    public static final KmMap<String,KmTimer> _timers = new KmMap<String,KmTimer>();
+    public static final KmMap<String,KmTimer> _timers = new KmMap<>();
 
     //##################################################
     //# accessing

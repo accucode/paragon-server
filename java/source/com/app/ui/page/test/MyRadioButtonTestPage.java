@@ -4,6 +4,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -70,10 +71,10 @@ public class MyRadioButtonTestPage
         _form.setSubmitAction(newSubmitAction());
 
         ScGroup group;
-        group = _form.addGroup();
+        group = _form.addGroup("Radio Buttons");
 
         KmList<String> labels;
-        labels = new KmList<String>();
+        labels = new KmList<>();
 
         for ( int i = 0; i < 10; i++ )
         {
@@ -81,9 +82,12 @@ public class MyRadioButtonTestPage
             labels.add(s);
         }
 
-        ScTable table = group.addTable();
+        ScDiv body;
+        body = group.getBody();
 
-        _buttons = new KmList<ScRadioField>();
+        ScTable table = body.addTable();
+
+        _buttons = new KmList<>();
 
         for ( String label : labels )
         {
@@ -108,8 +112,8 @@ public class MyRadioButtonTestPage
             addLabelledRadioButton(_buttons, i);
         }
 
-        group.addDivider();
-        group.addButtonBox().addSubmitButton();
+        body.addDivider();
+        body.addButtonBox().addSubmitButton();
     }
 
     private void addLabelledRadioButton(KmList<ScRadioField> buttons, int i)
@@ -156,17 +160,13 @@ public class MyRadioButtonTestPage
     {
         ajax().hideAllErrors();
 
+        KmList<String> values = new KmList<>();
+
         for ( ScRadioField button : _buttons )
-        {
-            System.out.println("    button.getValue(): " + button.getValue());
-
             if ( button.isChecked() )
-            {
-                System.out.println("    button.getValue(): " + button.getValue());
-                ajax().toast(button.getValue());
-            }
-        }
+                values.add(button.getStringValue());
 
-        ajax().toast("Ok").success();
+        String msg = "Ok... " + values.format();
+        ajax().toast(msg).success();
     }
 }

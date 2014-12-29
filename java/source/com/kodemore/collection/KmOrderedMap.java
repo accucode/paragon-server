@@ -40,7 +40,7 @@ public class KmOrderedMap<K, V>
     public KmList<K> getKeys()
     {
         KmList<K> v;
-        v = new KmList<K>();
+        v = new KmList<>();
         v.addAll(keySet());
         return v;
     }
@@ -48,22 +48,25 @@ public class KmOrderedMap<K, V>
     public KmList<V> getValues()
     {
         KmList<V> v;
-        v = new KmList<V>();
+        v = new KmList<>();
         v.addAll(values());
         return v;
     }
 
     public KmList<KmAssociation<K,V>> getAssociations()
     {
-        KmList<KmAssociation<K,V>> v = new KmList<KmAssociation<K,V>>();
+        KmList<KmAssociation<K,V>> v = new KmList<>();
+
         for ( Map.Entry<K,V> e : entrySet() )
-            v.add(new KmAssociation<K,V>(e.getKey(), e.getValue()));
+            v.add(new KmAssociation<>(e.getKey(), e.getValue()));
+
         return v;
     }
 
     public void replaceAll(List<KmAssociation<K,V>> v)
     {
         clear();
+
         for ( KmAssociation<K,V> e : v )
             put(e.getKey(), e.getValue());
     }
@@ -77,6 +80,7 @@ public class KmOrderedMap<K, V>
         KmList<KmAssociation<K,V>> v;
         v = getAssociations();
         v.sortOn(new KmAssociationKeyComparator<K,V>());
+
         replaceAll(v);
     }
 
@@ -85,7 +89,16 @@ public class KmOrderedMap<K, V>
         KmList<KmAssociation<K,V>> v;
         v = getAssociations();
         v.sortOn(new KmAssociationValueComparator<K,V>());
-        replaceAll(v);
 
+        replaceAll(v);
+    }
+
+    //##################################################
+    //# testing
+    //##################################################
+
+    public boolean isNotEmpty()
+    {
+        return !isEmpty();
     }
 }

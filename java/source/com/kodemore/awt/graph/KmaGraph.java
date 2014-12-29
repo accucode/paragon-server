@@ -50,10 +50,10 @@ public class KmaGraph
     public KmaGraph()
     {
         _title = new KmaGraphStyledText();
-        _preGridLeftElements = new KmList<KmaGraphElementIF>();
-        _preGridRightElements = new KmList<KmaGraphElementIF>();
-        _postGridLeftElements = new KmList<KmaGraphElementIF>();
-        _postGridRightElements = new KmList<KmaGraphElementIF>();
+        _preGridLeftElements = new KmList<>();
+        _preGridRightElements = new KmList<>();
+        _postGridLeftElements = new KmList<>();
+        _postGridRightElements = new KmList<>();
         _leftAxis = new KmaGraphAxis();
         _rightAxis = new KmaGraphAxis();
         _bottomAxis = new KmaGraphAxis();

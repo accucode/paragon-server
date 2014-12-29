@@ -34,10 +34,10 @@ public enum MyUserVendorRole
 
     static
     {
-        _values = new KmList<MyUserVendorRole>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyUserVendorRole>();
+        _codes = new KmMap<>();
         for ( MyUserVendorRole e : EnumSet.allOf(MyUserVendorRole.class) )
             _codes.put(e.getCode(), e);
     }

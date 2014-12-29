@@ -55,6 +55,16 @@ public class MyMetaSettings
     {
         return MySettingsValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "A single record with global settings.  This provides a simply, typesafe way to store\nsome global settings in the database.  For example, we could define a global contact\n(email or phone) for technical assistance with the portal.";
+    }
 
     //##################################################
     //# fields and delegates

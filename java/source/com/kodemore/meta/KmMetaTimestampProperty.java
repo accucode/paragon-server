@@ -23,6 +23,7 @@ public abstract class KmMetaTimestampProperty<T>
         ScTimestampField e;
         e = new ScTimestampField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValueAdaptor(this);
         e.setValidator(getValidator());
         return e;

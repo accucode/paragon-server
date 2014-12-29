@@ -45,6 +45,12 @@ public class KmProtoString
     }
 
     @Override
+    public String format_CriteriaClass_NoGeneric()
+    {
+        return format_CriteriaClass();
+    }
+
+    @Override
     public String getHibernateType()
     {
         return "string";

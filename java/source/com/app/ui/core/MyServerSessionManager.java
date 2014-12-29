@@ -116,11 +116,12 @@ public class MyServerSessionManager
     //# login
     //##################################################
 
-    public static MyServerSession login(MyUser u)
+    public static MyServerSession signIn(MyUser u)
     {
         MyServerSession ss;
         ss = getSession();
         ss.setUser(u);
+        ss.installCurrentProject();
         ss.validate();
 
         return ss;

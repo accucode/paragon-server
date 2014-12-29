@@ -67,7 +67,7 @@ public class MyPatchBridge
 
         try
         {
-            v = new KmList<KmPatch>();
+            v = new KmList<>();
 
             con = open();
 

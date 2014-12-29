@@ -46,7 +46,7 @@ public class MyPerformanceLogFinder
     public MyPerformanceLog findDao(Integer key)
     {
         MyDaoKeyFinder<MyPerformanceLog,Integer> e;
-        e = new MyDaoKeyFinder<MyPerformanceLog,Integer>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

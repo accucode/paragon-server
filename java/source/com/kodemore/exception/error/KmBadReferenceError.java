@@ -44,13 +44,13 @@ public class KmBadReferenceError
     public KmBadReferenceError()
     {
         super();
-        _keys = new KmList<KmStringAssociation>();
+        _keys = new KmList<>();
     }
 
     public KmBadReferenceError(String model, String field, String value)
     {
         _model = model;
-        _keys = new KmList<KmStringAssociation>();
+        _keys = new KmList<>();
         addKey(field, value);
     }
 
@@ -93,19 +93,22 @@ public class KmBadReferenceError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append(_model);
-        sb.append(" does not exist for ");
+        out.append(_model);
+        out.append(" does not exist for ");
+
         Iterator<KmStringAssociation> e = _keys.iterator();
         while ( e.hasNext() )
         {
             KmStringAssociation a = e.next();
-            sb.append(a.getKey());
-            sb.append(" = ");
-            sb.append(a.getValue());
+
+            out.append(a.getKey());
+            out.append(" = ");
+            out.append(a.getValue());
+
             if ( e.hasNext() )
-                sb.append(", ");
+                out.append(", ");
         }
     }
 

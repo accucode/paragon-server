@@ -51,7 +51,7 @@ public class KmMonitorNode
     {
         _name = name;
         _parent = null;
-        _children = new KmList<KmMonitorNode>();
+        _children = new KmList<>();
         _nanos = 0;
         _count = 0;
         _start = -1;
@@ -191,8 +191,10 @@ public class KmMonitorNode
     {
         String indent = Kmu.repeat("  ", getDepth());
         String s = Kmu.format("%s%s", indent, getName());
+
         if ( getCount() > 0 )
             s += Kmu.format(" (%.0f ms, %s)", getMilliseconds(), getCount());
+
         return s;
     }
 

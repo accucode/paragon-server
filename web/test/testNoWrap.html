@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<!--
+    http://webdesignerwall.com/tutorials/css3-dropdown-menu
+  -->
+  
+<html>
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+    
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function mySetAccount(name)
+        {
+            $("#accountMenu").text(name);
+        }
+        
+    </script>
+
+    <style>
+        
+        .xouter
+        {
+            white-space: nowrap;
+            text-align: right;
+            height: 30px;
+            
+            margin: 5px;
+            padding: 5px;
+            border: 1px solid red;
+        }
+        
+        .xinner
+        {
+            display: inline-block;
+            
+            padding: 5px;
+            border: 1px solid blue;
+            background: lightblue;
+        }
+        
+        .xinner:hover
+        {
+            height: 100px;
+        }
+        
+    </style>
+    
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none">
+
+<div class="boxGray pad">
+    <p>This demonstrates how to right-align child divs, while also disallowing wrapping,
+    but without disabling overflow. The parent disables wrapping and aligns the children 
+    to the right.  The children then specify a display style of inline-block so that they 
+    respect the nowrap and alignment in the parent.  Finally, you need to specify a fixed
+    height for the parent, so that it does not expand if children try to display in the 
+    overflow.
+    
+    <p>&nbsp;
+    
+    <p>This is a useful solution for top level headers where you want to right align some 
+    things like dropdown menus for the user/logout.
+    
+</div>
+
+<div class="xouter">
+    <div class="xinner">one one one</div>
+    <div class="xinner">two two two</div>
+    <div class="xinner">three three three</div>
+    <div class="xinner">four four four</div>
+    <div class="xinner">five five five</div>
+    <div class="xinner">six six six</div>
+    <div class="xinner">seven seven seven</div>
+    <div class="xinner">eight eight eight</div>
+</div>
+
+</div>
+</body>
+</html>

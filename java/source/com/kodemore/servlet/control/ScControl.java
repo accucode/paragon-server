@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.servlet.control;
 
@@ -27,17 +27,21 @@ import java.util.Iterator;
 import com.kodemore.collection.KmEmptyIterator;
 import com.kodemore.collection.KmList;
 import com.kodemore.exception.KmApplicationException;
+import com.kodemore.exception.KmSecurityException;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.json.KmJsonUtility;
+import com.kodemore.log.KmLog;
+import com.kodemore.meta.KmMetaAttribute;
+import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScModelApplicatorIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
-import com.kodemore.servlet.field.ScAbstractTextField;
 import com.kodemore.servlet.field.ScControlVisitorIF;
+import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.field.ScStoppableControlVisitorIF;
 import com.kodemore.servlet.script.ScBlockScript;
@@ -57,7 +61,7 @@ public abstract class ScControl
     //# constants
     //##################################################
 
-    protected static final Iterator<ScControl> EMPTY_CONTROLS = new KmEmptyIterator<ScControl>();
+    protected static final Iterator<ScControlIF> EMPTY_CONTROLS = new KmEmptyIterator<>();
 
     //##################################################
     //# variables
@@ -69,53 +73,61 @@ public abstract class ScControl
      * but NOT across different application versions.  Keys are typically
      * assigned automatically when the control is created.
      */
-    private String                             _key;
+    private String                               _key;
 
     /**
      * Controls organized in a simple tree hierarchy.
      * However, the parent can be null for non-root elements, typically
      * when managing dynamic content.
      */
-    private ScControl                          _parent;
+    private ScControl                            _parent;
 
     /**
      * The label attribute is strictly an application feature,
      * and does not correspond directly to any html attribute.
-     * Various containers use their children's labels to more 
-     * conveniently manage the layout.  Although all controls 
+     * Various containers use their children's labels to more
+     * conveniently manage the layout.  Although all controls
      * have the label attribute, the actual usage varies widely.
      */
-    private ScLocalString                      _label;
+    private ScLocalString                        _label;
+
+    /**
+     * The help text associated with this control.  This is primarily
+     * used for fields, but may also be associated with other controls.
+     * Some of the layout controls such as ScFieldLayout, ScFieldTable,
+     * use the help (if present) to display a on screen tooltips.
+     */
+    private ScLocalString                        _help;
 
     /**
      * Many controls support dynamic content based on the current
-     * state of the model.  For instance this allows the client 
+     * state of the model.  For instance this allows the client
      * to apply a common model (e.g.: a Person) to an entire
      * subtree of controls, and have different children apply
      * that Person in different ways - one control may apply
      * the person's name.
      */
-    private ScLocalObject                      _model;
+    private ScLocalObject                        _model;
 
     /**
-     * The scripts to run after the dom has been updated.  
-     * 
+     * The scripts to run after the dom has been updated.
+     *
      * Note that these are scripts are not thread safe.  The
      * general assumption is that dynamic behavior will be handled
      * outside the configuration of the control.  That said,
      * the script can contains ScScriptIFs that will be evaluated
      * upon request.
      */
-    private ScBlockScript                      _postDomScript;
+    private ScBlockScript                        _postDomScript;
 
     /**
      * The scripts to run after the display has been rendered.
-     * 
+     *
      * Some actions (e.g.: focus) cannot be reliably executed
      * after the dom has been updated, and must wait until after
      * the display has been fully rendered.
      */
-    private ScBlockScript                      _postRenderScript;
+    private ScBlockScript                        _postRenderScript;
 
     //##################################################
     //# constructor
@@ -123,7 +135,7 @@ public abstract class ScControl
 
     /**
      * Register the control with a default key, then
-     * perform any default initialization. 
+     * perform any default initialization.
      */
     public ScControl()
     {
@@ -158,6 +170,7 @@ public abstract class ScControl
     {
         _parent = null;
         _label = new ScLocalString();
+        _help = new ScLocalString();
         _model = new ScLocalObject();
     }
 
@@ -172,14 +185,14 @@ public abstract class ScControl
     }
 
     /**
-     * Set the key to a new unique, non-null value; and re-register 
-     * this control for the new key.  
-     * 
-     * Although clients are allowed to modified the key, doing so should 
-     * normally be done immediately after the control is created.  In 
+     * Set the key to a new unique, non-null value; and re-register
+     * this control for the new key.
+     *
+     * Although clients are allowed to modified the key, doing so should
+     * normally be done immediately after the control is created.  In
      * particular, attempting to modify the key after the registry has
-     * been locked at the end of the application install process will fail.
-     * 
+     * been locked at the end of the servlet installation process will fail.
+     *
      * In most cases, setting an explicit key is not required.
      */
     public void setKey(String e)
@@ -221,6 +234,20 @@ public abstract class ScControl
     }
 
     @Override
+    public boolean checkSecuritySilently()
+    {
+        try
+        {
+            checkSecurity();
+            return true;
+        }
+        catch ( KmSecurityException ex )
+        {
+            return false;
+        }
+    }
+
+    @Override
     public void handleError(KmApplicationException ex)
     {
         getContext().handleError(ex);
@@ -257,12 +284,26 @@ public abstract class ScControl
         return _parent == null;
     }
 
+    /**
+     * Return the root/top-most control for the purpose of error handling.
+     * This is normally the ScPageRoot, but in some special cases we root
+     * error handling at a lower container such as an ScDialog.
+     */
+    public ScControl getErrorRoot()
+    {
+        if ( hasParent() )
+            return getParent().getErrorRoot();
+
+        return this;
+    }
+
     public ScControl getParent()
     {
         return _parent;
     }
 
-    public void setParent(ScControl e)
+    @Override
+    public final void setParent(ScControl e)
     {
         if ( _parent != null )
             Kmu.fatal("Attempt to change parent after initial assignment.");
@@ -281,13 +322,35 @@ public abstract class ScControl
         return Kmu.isEqual(getParent(), e);
     }
 
+    public void printParentHierarchy()
+    {
+        ScControl e = this;
+        int i = 0;
+
+        while ( e != null )
+        {
+            String prefix = Kmu.repeat("  ", i);
+            String name = e.getClass().getSimpleName();
+            KmLog.info(prefix + name);
+
+            i++;
+            e = e.getParent();
+        }
+    }
+
     /**
      * This method provides child controls the opportunity to perform
-     * some action after they have been added to a container.  
+     * some action after they have been added to a container.  Subclasses
+     * should normally override the install() method and perform initialization
+     * there since that thread is always guaranteed to be run.  However, some
+     * special cases may require that initialization be deferred until the control
+     * is attached to the parent; in which case, this method may safely perform
+     * the same type of initialization that would nomrally be performed by the install()
+     * method.
      */
     public void attached()
     {
-        // none   
+        // none
     }
 
     //##################################################
@@ -320,6 +383,20 @@ public abstract class ScControl
         return (ScForm)this;
     }
 
+    @Override
+    public ScHtmlIdIF getFocusTarget()
+    {
+        if ( this instanceof ScHtmlIdIF )
+            return (ScHtmlIdIF)this;
+
+        return null;
+    }
+
+    public boolean hasFocusTarget()
+    {
+        return getFocusTarget() != null;
+    }
+
     //##################################################
     //# block
     //##################################################
@@ -329,14 +406,14 @@ public abstract class ScControl
      * This may return myself; or null if no block wrapper is found.
      * The block wrapper is used when auto-selecting a parent to
      * visually block during the ajax submit process.
-     * 
+     *
      * Form act as block wrappers by default, but it is sometimes
      * appropriate to use some other container as the block
      * wrapper instead.
-     * 
+     *
      * Note that the block wrapper must implement ScHtmlIdIF.
-     * 
-     * Subclasses should usually override isBlockWrapper rather 
+     *
+     * Subclasses should usually override isBlockWrapper rather
      * than findBlockWrapper.
      */
     public final ScHtmlIdIF findBlockWrapper()
@@ -368,9 +445,10 @@ public abstract class ScControl
         readParameters(getData());
     }
 
+    @Override
     public void readParameters(ScServletData data)
     {
-        Iterator<? extends ScControl> i = getComponents();
+        Iterator<ScControlIF> i = getComponents();
         while ( i.hasNext() )
             i.next().readParameters(data);
     }
@@ -379,20 +457,19 @@ public abstract class ScControl
     //# validate
     //##################################################
 
-    public void validate()
+    @Override
+    public final void validate()
     {
-        if ( validateQuietly() )
-            return;
-
-        ajaxShowErrors();
-        Kmu.cancel();
+        validateQuietly();
+        getErrorRoot().checkErrors();
     }
 
+    @Override
     public boolean validateQuietly()
     {
         boolean ok = true;
 
-        Iterator<ScControl> i = getComponents();
+        Iterator<ScControlIF> i = getComponents();
         while ( i.hasNext() )
             if ( !i.next().validateQuietly() )
                 ok = false;
@@ -400,9 +477,20 @@ public abstract class ScControl
         return ok;
     }
 
+    public void checkErrors()
+    {
+        if ( !hasErrors() )
+            return;
+
+        ajaxShowErrors();
+        Kmu.throwDaoRollback();
+    }
+
+    @Override
     public boolean hasErrors()
     {
-        Iterator<ScControl> i = getComponents();
+        Iterator<ScControlIF> i = getComponents();
+
         while ( i.hasNext() )
             if ( i.next().hasErrors() )
                 return true;
@@ -412,14 +500,15 @@ public abstract class ScControl
 
     public KmList<String> collectErrors()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         collectErrorsOn(v);
         return v;
     }
 
+    @Override
     public void collectErrorsOn(KmList<String> v)
     {
-        Iterator<ScControl> i = getComponents();
+        Iterator<ScControlIF> i = getComponents();
         while ( i.hasNext() )
             i.next().collectErrorsOn(v);
     }
@@ -445,11 +534,33 @@ public abstract class ScControl
         return !hasErrors();
     }
 
+    @Override
+    @SuppressWarnings("rawtypes")
+    public ScField findFieldFor(KmMetaAttribute<?,?> attr)
+    {
+        Iterator<ScControlIF> i = getComponents();
+
+        while ( i.hasNext() )
+        {
+            ScField f = i.next().findFieldFor(attr);
+            if ( f != null )
+                return f;
+        }
+
+        return null;
+    }
+
+    public void addErrorTo(KmMetaAttribute<?,?> attr, String msg, Object... args)
+    {
+        findFieldFor(attr).addError(msg, args);
+    }
+
     //##################################################
     //# children
     //##################################################
 
-    public Iterator<ScControl> getComponents()
+    @Override
+    public Iterator<ScControlIF> getComponents()
     {
         return EMPTY_CONTROLS;
     }
@@ -529,20 +640,6 @@ public abstract class ScControl
     }
 
     //##################################################
-    //# typing
-    //##################################################
-
-    public boolean isTextField()
-    {
-        return false;
-    }
-
-    public ScAbstractTextField<?> asTextField()
-    {
-        return (ScAbstractTextField<?>)this;
-    }
-
-    //##################################################
     //# model
     //##################################################
 
@@ -558,7 +655,7 @@ public abstract class ScControl
     {
         _model.setValue(model);
 
-        Iterator<? extends ScControl> i = getComponents();
+        Iterator<? extends ScControlIF> i = getComponents();
         while ( i.hasNext() )
             i.next().applyFromModel(model, skipFields);
     }
@@ -566,7 +663,7 @@ public abstract class ScControl
     @Override
     public void applyToModel(Object model)
     {
-        Iterator<? extends ScControl> i = getComponents();
+        Iterator<? extends ScControlIF> i = getComponents();
         while ( i.hasNext() )
             i.next().applyToModel(model);
     }
@@ -575,16 +672,18 @@ public abstract class ScControl
     //# field values
     //##################################################
 
+    @Override
     public void saveFieldValues()
     {
-        Iterator<? extends ScControl> i = getComponents();
+        Iterator<ScControlIF> i = getComponents();
         while ( i.hasNext() )
             i.next().saveFieldValues();
     }
 
+    @Override
     public void resetFieldValues()
     {
-        Iterator<? extends ScControl> i = getComponents();
+        Iterator<ScControlIF> i = getComponents();
         while ( i.hasNext() )
             i.next().resetFieldValues();
     }
@@ -658,7 +757,7 @@ public abstract class ScControl
     }
 
     //##################################################
-    //# state
+    //# label
     //##################################################
 
     public void setLabel(String msg, Object... args)
@@ -675,12 +774,36 @@ public abstract class ScControl
     public boolean hasLabel()
     {
         // Non-standard: In this case, an empty string should be considered a value.
-        return _label.isNotNull();
+        return getLabel() != null;
     }
 
     public boolean hasLabel(String e)
     {
         return Kmu.isEqual(getLabel(), e);
+    }
+
+    //##################################################
+    //# help
+    //##################################################
+
+    public String getHelp()
+    {
+        return _help.getValue();
+    }
+
+    public void setHelp(String e)
+    {
+        _help.setValue(e);
+    }
+
+    public void setHelp(KmMetaProperty<?,?> p)
+    {
+        setHelp(p.getHelp());
+    }
+
+    public boolean hasHelp()
+    {
+        return Kmu.hasValue(getHelp());
     }
 
     //##################################################
@@ -749,20 +872,22 @@ public abstract class ScControl
     //# visitor (accept)
     //##################################################
 
+    @Override
     public void accept(ScControlVisitorIF e)
     {
         e.visit(this);
 
-        Iterator<? extends ScControl> i = getComponents();
+        Iterator<ScControlIF> i = getComponents();
         while ( i.hasNext() )
             i.next().accept(e);
     }
 
+    @Override
     public boolean accept(ScStoppableControlVisitorIF e)
     {
         e.visit(this);
 
-        Iterator<? extends ScControl> i = getComponents();
+        Iterator<? extends ScControlIF> i = getComponents();
         while ( i.hasNext() )
             if ( i.next().accept(e) )
                 return true;

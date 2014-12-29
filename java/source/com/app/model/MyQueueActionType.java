@@ -32,10 +32,10 @@ public enum MyQueueActionType
 
     static
     {
-        _values = new KmList<MyQueueActionType>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyQueueActionType>();
+        _codes = new KmMap<>();
         for ( MyQueueActionType e : EnumSet.allOf(MyQueueActionType.class) )
             _codes.put(e.getCode(), e);
     }

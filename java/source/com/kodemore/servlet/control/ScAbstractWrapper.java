@@ -88,15 +88,23 @@ public abstract class ScAbstractWrapper
             : null;
     }
 
+    @Override
+    public String getHelp()
+    {
+        return hasChild()
+            ? getChild().getHelp()
+            : null;
+    }
+
     //##################################################
     //# components
     //##################################################
 
     @Override
-    public Iterator<ScControl> getComponents()
+    public Iterator<ScControlIF> getComponents()
     {
-        KmCompositeIterator<ScControl> i;
-        i = new KmCompositeIterator<ScControl>();
+        KmCompositeIterator<ScControlIF> i;
+        i = new KmCompositeIterator<>();
 
         i.addAll(super.getComponents());
         i.addNonNull(getChild());

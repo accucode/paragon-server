@@ -11,9 +11,6 @@ package com.app.property.base;
 import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.log.*;
-import com.kodemore.policy.date.*;
-import com.kodemore.policy.time.*;
-import com.kodemore.policy.weight.*;
 import com.kodemore.property.*;
 import com.kodemore.property.type.*;
 import com.kodemore.time.*;
@@ -29,7 +26,7 @@ public class MyPropertyDefinitions
     //##################################################
 
     public static final String GROUP_PRODUCTION = "production";
-    public static final String PROPERTY_PRODUCTION = "production";
+    public static final String PROPERTY_ENVIRONMENT = "environment";
 
     public static final String GROUP_ACCOUNT_SETUP = "accountSetup";
     public static final String PROPERTY_DEFAULT_ADMIN_PASSWORD = "defaultAdminPassword";
@@ -103,7 +100,7 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_DATABASE_POOLING_RETRY_COUNT = "databasePoolingRetryCount";
     public static final String PROPERTY_DATABASE_ROW_LOCK_FAILURE_RETRY_COUNT = "databaseRowLockFailureRetryCount";
     public static final String PROPERTY_DATABASE_ROW_LOCK_FAILURE_RETRY_MS = "databaseRowLockFailureRetryMs";
-    public static final String PROPERTY_SYNC_DATABASE_ON_STARTUP = "syncDatabaseOnStartup";
+    public static final String PROPERTY_DATABASE_SYNC_ON_STARTUP = "databaseSyncOnStartup";
 
     public static final String GROUP_JOBS = "jobs";
     public static final String PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ACTIVE_SECONDS = "csvUploadProcessorJobActiveSeconds";
@@ -140,6 +137,7 @@ public class MyPropertyDefinitions
     public static final String GROUP_MISCELLANEOUS = "miscellaneous";
     public static final String PROPERTY_AJAX_LOG_DELETE_ON_START = "ajaxLogDeleteOnStart";
     public static final String PROPERTY_AJAX_LOG_ENABLED = "ajaxLogEnabled";
+    public static final String PROPERTY_AUTO_LOGIN_EMAIL = "autoLoginEmail";
     public static final String PROPERTY_CHECK_RECOMMENDED_BROWSER = "checkRecommendedBrowser";
     public static final String PROPERTY_DEFAULT_TIME_ZONE_CODE = "defaultTimeZoneCode";
     public static final String PROPERTY_FILE_UPLOAD_REFRESH_MS = "fileUploadRefreshMs";
@@ -169,10 +167,10 @@ public class MyPropertyDefinitions
     private static KmMap<String,MyPropertyDefinition> installDefinitions()
     {
         KmMap<String,MyPropertyDefinition> m;
-        m = new KmMap<String,MyPropertyDefinition>();
+        m = new KmMap<>();
 
         // production
-        install(m, newProduction());
+        install(m, newEnvironment());
 
         // accountSetup
         install(m, newDefaultAdminPassword());
@@ -246,7 +244,7 @@ public class MyPropertyDefinitions
         install(m, newDatabasePoolingRetryCount());
         install(m, newDatabaseRowLockFailureRetryCount());
         install(m, newDatabaseRowLockFailureRetryMs());
-        install(m, newSyncDatabaseOnStartup());
+        install(m, newDatabaseSyncOnStartup());
 
         // jobs
         install(m, newCsvUploadProcessorJobActiveSeconds());
@@ -283,6 +281,7 @@ public class MyPropertyDefinitions
         // miscellaneous
         install(m, newAjaxLogDeleteOnStart());
         install(m, newAjaxLogEnabled());
+        install(m, newAutoLoginEmail());
         install(m, newCheckRecommendedBrowser());
         install(m, newDefaultTimeZoneCode());
         install(m, newFileUploadRefreshMs());
@@ -332,15 +331,15 @@ public class MyPropertyDefinitions
     //# install (production)
     //##################################################
 
-    private static MyPropertyDefinition newProduction()
+    private static MyPropertyDefinition newEnvironment()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
         e.setGroup(GROUP_PRODUCTION);
-        e.setKey(PROPERTY_PRODUCTION);
-        e.setComment("Indicates if this is the production system or not. When set to true developers will see a prominent visual cue on the screen to tell them they are working on the production system.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("false");
+        e.setKey(PROPERTY_ENVIRONMENT);
+        e.setComment("Indicates the deployment environment. Valid options are: development, stage, production.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("development");
         e.postInstall();
         return e;
     }
@@ -1074,12 +1073,12 @@ public class MyPropertyDefinitions
         return e;
     }
 
-    private static MyPropertyDefinition newSyncDatabaseOnStartup()
+    private static MyPropertyDefinition newDatabaseSyncOnStartup()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
         e.setGroup(GROUP_DATABASE_OTHER);
-        e.setKey(PROPERTY_SYNC_DATABASE_ON_STARTUP);
+        e.setKey(PROPERTY_DATABASE_SYNC_ON_STARTUP);
         e.setComment("Normally the application will sync the database patches upon startup. Set this to false to disable.");
         e.setType(KmPropertyTypes.TYPE_BOOLEAN);
         e.setDefaultValue("true");
@@ -1511,6 +1510,19 @@ public class MyPropertyDefinitions
         return e;
     }
 
+    private static MyPropertyDefinition newAutoLoginEmail()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_MISCELLANEOUS);
+        e.setKey(PROPERTY_AUTO_LOGIN_EMAIL);
+        e.setComment("If not blank, automatically login as this user. Useful for development.");
+        e.setType(KmPropertyTypes.TYPE_STRING);
+        e.setDefaultValue("");
+        e.postInstall();
+        return e;
+    }
+
     private static MyPropertyDefinition newCheckRecommendedBrowser()
     {
         MyPropertyDefinition e;
@@ -1753,7 +1765,7 @@ public class MyPropertyDefinitions
 
     public static KmList<String> getAllGroups()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         for ( MyPropertyDefinition e : getAll() )
             v.addDistinct(e.getGroup());
         return v;
@@ -1761,7 +1773,7 @@ public class MyPropertyDefinitions
 
     public static KmList<MyPropertyDefinition> getAllInGroup(String group)
     {
-        KmList<MyPropertyDefinition> v = new KmList<MyPropertyDefinition>();
+        KmList<MyPropertyDefinition> v = new KmList<>();
         for ( MyPropertyDefinition e : getAll() )
             if ( e.hasGroup(group) )
                 v.add(e);
@@ -1773,9 +1785,9 @@ public class MyPropertyDefinitions
     //# accessing
     //##################################################
 
-    public static MyPropertyDefinition getProduction()
+    public static MyPropertyDefinition getEnvironment()
     {
-        return get(PROPERTY_PRODUCTION);
+        return get(PROPERTY_ENVIRONMENT);
     }
 
     public static MyPropertyDefinition getDefaultAdminPassword()
@@ -2043,9 +2055,9 @@ public class MyPropertyDefinitions
         return get(PROPERTY_DATABASE_ROW_LOCK_FAILURE_RETRY_MS);
     }
 
-    public static MyPropertyDefinition getSyncDatabaseOnStartup()
+    public static MyPropertyDefinition getDatabaseSyncOnStartup()
     {
-        return get(PROPERTY_SYNC_DATABASE_ON_STARTUP);
+        return get(PROPERTY_DATABASE_SYNC_ON_STARTUP);
     }
 
     public static MyPropertyDefinition getCsvUploadProcessorJobActiveSeconds()
@@ -2206,6 +2218,11 @@ public class MyPropertyDefinitions
     public static MyPropertyDefinition getAjaxLogEnabled()
     {
         return get(PROPERTY_AJAX_LOG_ENABLED);
+    }
+
+    public static MyPropertyDefinition getAutoLoginEmail()
+    {
+        return get(PROPERTY_AUTO_LOGIN_EMAIL);
     }
 
     public static MyPropertyDefinition getCheckRecommendedBrowser()

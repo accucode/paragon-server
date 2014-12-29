@@ -79,10 +79,10 @@ public class MyBlockTestPage
         button = buttons.addButton("Block on Request", newBlockRequestAction());
 
         ScGroup group;
-        group = root.addPad().addGroup();
+        group = root.addPad().addGroup("Block Tests");
 
         ScBox lines;
-        lines = group.addLines();
+        lines = group.getBody().addLines();
         lines.addText("hello world");
         lines.addText("hello world");
         lines.addText("hello world");
@@ -111,11 +111,11 @@ public class MyBlockTestPage
             + " entire page. In this example only the group is blocked.");
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Auto Block (group)");
 
         ScBox lines;
-        lines = group.addLines();
-        lines.addFields().add(_nameField);
+        lines = group.getBody().addLines();
+        lines.addFieldTable().add(_nameField);
         lines.addSubmitButton();
     }
 
@@ -136,12 +136,12 @@ public class MyBlockTestPage
             + " default up the control hierarchy to the form that contains the group.");
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Auto Block (form)");
         group.setBlockWrapper(false); // DISABLE BLOCK WRAPPER
 
         ScBox lines;
-        lines = group.addLines();
-        lines.addFields().add(_nameField);
+        lines = group.getBody().addLines();
+        lines.addFieldTable().add(_nameField);
         lines.addSubmitButton();
     }
 
@@ -161,12 +161,12 @@ public class MyBlockTestPage
             + " so blocking will default to the entire page.");
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Auto Block (page)");
         group.setBlockWrapper(false); // DISABLE BLOCK WRAPPER
 
         ScBox lines;
-        lines = group.addLines();
-        lines.addFields().add(_nameField);
+        lines = group.getBody().addLines();
+        lines.addFieldTable().add(_nameField);
         lines.addSubmitButton();
     }
 

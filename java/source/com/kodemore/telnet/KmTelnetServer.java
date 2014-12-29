@@ -18,12 +18,14 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.telnet;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import com.kodemore.utility.Kmu;
 
 public class KmTelnetServer
     implements KmTelnetConstantsIF
@@ -87,9 +89,10 @@ public class KmTelnetServer
 
     public void start()
     {
+        ServerSocket ss = null;
         try
         {
-            ServerSocket ss = new ServerSocket(getPort());
+            ss = new ServerSocket(getPort());
             while ( true )
             {
                 Socket socket = ss.accept();
@@ -101,6 +104,10 @@ public class KmTelnetServer
         catch ( Exception ex )
         {
             ex.printStackTrace();
+        }
+        finally
+        {
+            Kmu.closeSafely(ss);
         }
     }
 

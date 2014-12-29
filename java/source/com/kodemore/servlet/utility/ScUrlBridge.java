@@ -51,8 +51,8 @@ public abstract class ScUrlBridge
     //##################################################
 
     /**
-     * Typically the same as the servlet context, with a preceeding slash 
-     * to use absolute pathing.  If the preceeding slash is omitted, then 
+     * Typically the same as the servlet context, with a preceeding slash
+     * to use absolute pathing.  If the preceeding slash is omitted, then
      * paths will be relative instead of absolute.
      */
     public abstract String getWeb(String... path);
@@ -86,4 +86,18 @@ public abstract class ScUrlBridge
     //##################################################
 
     public abstract String createDownloadFor(String name, byte[] value);
+
+    //##################################################
+    //# buttons
+    //##################################################
+
+    public abstract String getAddButtonUrl();
+
+    public abstract String getEditButtonUrl();
+
+    public abstract String getRemoveButtonUrl();
+
+    public abstract String getDeleteButtonUrl();
+
+    public abstract String getRefreshButtonUrl();
 }

@@ -151,7 +151,7 @@ public class KmParameter
 
     public static KmMap<String,KmParameter> toKeyMap(Collection<KmParameter> v)
     {
-        KmMap<String,KmParameter> m = new KmMap<String,KmParameter>();
+        KmMap<String,KmParameter> m = new KmMap<>();
         for ( KmParameter e : v )
         {
             String k = e.getKey();

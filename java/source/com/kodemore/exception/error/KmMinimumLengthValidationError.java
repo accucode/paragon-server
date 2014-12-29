@@ -55,10 +55,10 @@ public class KmMinimumLengthValidationError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append("minimum length is ");
-        sb.append(_minimumLength);
+        out.append("minimum length is ");
+        out.append(_minimumLength);
     }
 
 }

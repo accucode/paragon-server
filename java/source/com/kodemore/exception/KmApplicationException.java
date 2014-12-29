@@ -30,16 +30,16 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I am used to politely abort the current thread, notifing
- * the caller that a problem was discovered and should be 
- * displayed to the user.  
- * 
- * Application exceptions are only used for problems that we 
+ * the caller that a problem was discovered and should be
+ * displayed to the user.
+ *
+ * Application exceptions are only used for problems that we
  * expect to occur in the normal course of operations.  For
  * example, an invalid password, a missing value, or a field
  * that is too long.
- * 
+ *
  * "Unhandled exceptions" like null pointer exceptions should
- * NOT be wrapped as application exceptions.  
+ * NOT be wrapped as application exceptions.
  */
 public class KmApplicationException
     extends RuntimeException
@@ -48,7 +48,7 @@ public class KmApplicationException
     //# variables
     //##################################################
 
-    private KmList<KmErrorIF> _errors = new KmList<KmErrorIF>();
+    private KmList<KmErrorIF> _errors = new KmList<>();
 
     //##################################################
     //# constructors
@@ -104,9 +104,11 @@ public class KmApplicationException
      */
     public KmList<String> getErrorMessages()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
+
         for ( KmErrorIF e : _errors )
             v.add(e.formatMessage());
+
         return v;
     }
 
@@ -119,6 +121,7 @@ public class KmApplicationException
         for ( KmErrorIF e : _errors )
             if ( e.hasCode(code) )
                 return true;
+
         return false;
     }
 
@@ -139,11 +142,13 @@ public class KmApplicationException
     private String formatErrors(String separator)
     {
         StringBuilder out = new StringBuilder();
+
         for ( KmErrorIF e : _errors )
         {
             out.append(e.formatMessage());
             out.append(separator);
         }
+
         return out.toString().trim();
     }
 
@@ -185,6 +190,7 @@ public class KmApplicationException
     {
         if ( getErrors().size() != 1 )
             return false;
+
         KmErrorIF e = getErrors().getFirst();
         return e instanceof KmDatabaseLockError;
     }

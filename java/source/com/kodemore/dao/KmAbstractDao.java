@@ -139,8 +139,7 @@ public abstract class KmAbstractDao<T, K extends Serializable>
      * If the key does not exist a non-null proxy will be returned, but
      * subsequent attempts to access the proxy will result in an exception.
      */
-    @SuppressWarnings("unused")
-    private T getProxy(K key, LockOptions lock)
+    protected T getProxy(K key, LockOptions lock)
     {
         if ( key == null )
             return null;
@@ -214,8 +213,7 @@ public abstract class KmAbstractDao<T, K extends Serializable>
      */
     @SuppressWarnings(
     {
-        "unchecked",
-        "rawtypes"
+        "unchecked", "rawtypes"
     })
     public KmList<Object> runHql(String s)
     {
@@ -224,7 +222,7 @@ public abstract class KmAbstractDao<T, K extends Serializable>
         if ( v == null )
             return null;
 
-        return new KmList<Object>(v);
+        return new KmList<>(v);
     }
 
     private Long findUniqueLong(String hql, Object... args)

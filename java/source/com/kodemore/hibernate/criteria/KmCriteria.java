@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.hibernate.criteria;
 
@@ -111,21 +111,34 @@ public class KmCriteria
     //# find
     //##################################################
 
+    /**
+     * Find the single, unique, result.
+     * Return null, if no result is found.
+     * Throw an exception, if multiple results are found.
+     */
     public Object findUnique()
     {
         return _criteria.uniqueResult();
     }
 
+    /**
+     * Find all matching results.
+     * Return an empty list, if not results are found.
+     */
     @SuppressWarnings("unchecked")
     public KmList<?> findAll()
     {
-        return new KmList<Object>(_criteria.list());
+        return new KmList<>(_criteria.list());
     }
 
     //##################################################
     //# projections (convenience)
     //##################################################
 
+    /**
+     * Count the number of matching results.
+     * Note: this can be slow for large tables, even if the number of matches is very small.
+     */
     public int findRowCount()
     {
         selectRowCount();
@@ -363,9 +376,11 @@ public class KmCriteria
 
     protected KmList<String> getFullNames(String... names)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
+
         for ( String e : names )
             v.add(getFullName(e));
+
         return v;
     }
 

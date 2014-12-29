@@ -49,6 +49,7 @@ public class KmEdiElement
     {
         int n = v.size();
         _values = new String[n];
+
         for ( int i = 0; i < n; i++ )
             _values[i] = v.get(i);
     }
@@ -66,6 +67,7 @@ public class KmEdiElement
     {
         if ( _values.length != 1 )
             _values = new String[1];
+
         _values[0] = s;
     }
 
@@ -94,6 +96,7 @@ public class KmEdiElement
     {
         if ( s == null )
             s = EMPTY_VALUE;
+
         ensureIndex(i);
         _values[i] = s;
     }
@@ -121,11 +124,15 @@ public class KmEdiElement
     {
         if ( _values.length > index )
             return;
+
         String[] arr = new String[index + 1];
+
         for ( int i = 0; i < _values.length; i++ )
             arr[i] = _values[i];
+
         for ( int i = _values.length; i < index + 1; i++ )
             arr[i] = EMPTY_VALUE;
+
         _values = arr;
     }
 

@@ -43,7 +43,7 @@ public class KmAuthnetTransaction
 
     public KmAuthnetTransaction()
     {
-        _lineItems = new KmList<KmAuthnetTransactionLineItem>();
+        _lineItems = new KmList<>();
     }
 
     //##################################################

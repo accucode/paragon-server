@@ -50,6 +50,12 @@ public class MyMetaInvitation_TypeCode
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The type of invitation.  Currently the only type is a JoinAccount, but other types can be added.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 3;
@@ -102,8 +108,9 @@ public class MyMetaInvitation_TypeCode
         ScDropdown e;
         e = new ScDropdown();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
-        e.setValue(getAdaptor());
+        e.setValueAdaptor(getAdaptor());
         e.addOptions(MyInvitationType.values());
         return e;
     }

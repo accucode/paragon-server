@@ -13,7 +13,7 @@ jQuery.easing.def = "easeOutQuart";
 var Kmu = {};
 
 //**********************************************************
-//** variables
+//** constants
 //**********************************************************
 
 /*
@@ -28,7 +28,205 @@ Kmu.dialogCloseSpeed = 100;
  * If the ajax request takes longer than this, then shade the
  * screen to provide a visual indication to the user.
  */
-Kmu.blockDelayMs     = 350; 	
+Kmu.blockDelayMs     = 500; 	
+
+/*
+ * Used to identify which page is currently rendered.
+
+ * The server compares the current and next page in order to perform certain
+ * conditional updates.  For example, rather than updates the left-menu for EVERY
+ * request, the server compares the current/next pages to determine when/if the menu
+ * needs to be removed, added, replaced, or when it just needs to have its selection updated.   
+ * 
+ * This is intentionally managed outside the page session and browser navigation state.
+ * It needs to be independent from these since the DOM is also indpendent.
+ * 
+ * The server should include a script that updates this value each time the page changes.
+ * The ajax() submits include this value each time a request is sent to the server.
+ * This value may be null, though typically only for the very request.
+ */ 
+Kmu.currentPageKey = null;
+
+//**********************************************************
+//** ajax
+//**********************************************************
+
+/*
+ * options
+ *     action
+ *     		Required string.
+ *     		The action key that identifies the server side function to execute.		
+ *     
+ *     form
+ *     		Optional string selector.
+ *     		Identifies the parameters to be submitted with this request.
+ *     
+ *     argument
+ *     		Optional string.
+ *     		The server expects this to be encoded.
+ *     		See ScEncoder.
+ *     
+ *     extra
+ *     		Optional string.
+ *			If set, pass this value without any encoding.
+ *     
+ *     block
+ *     		Optional string.
+ *     		If set, block the ui component BEFORE the ajax request.
+ *     		This should be a valid css selector.
+ *     
+ *     confirmation
+ *     		Optional string
+ *     		If set, prompt the user to confirm (Ok/Cancel) before submitting.
+ *     		Confirmation is handled with a simple window.confirm() dialog.
+ *      
+ *     direction
+ *     		Optional string (forward, back, refresh, unknown).
+ *     		If set indicates the navigation direction.
+ */
+Kmu.ajax = function(options)
+{
+    if ( !Kmu.checkAjaxConfirmation(options) )
+        return;
+
+    var onSuccessArr;
+    onSuccessArr = Kmu.initAjaxBlocking(options);
+    onSuccessArr.push(Kmu.ajaxSuccess);
+    
+    var data = Kmu.formatAjaxData(options);
+    
+    // Assumes ROOT servlet context 
+    $.ajax(
+    {
+    	type:   	'POST',
+    	url: 		'/servlet/ajax',
+    	dataType: 	'json',
+    	data: 		data,
+    	success: 	onSuccessArr,
+    	error: 		Kmu.ajaxError,
+    	complete: 	Kmu.ajaxComplete
+    });
+}
+
+Kmu.checkAjaxConfirmation = function(options)
+{
+    if ( !options.confirmation )
+        return true;
+        
+    var msg = options.confirmation.toString();
+	return confirm(msg);
+}
+
+Kmu.initAjaxBlocking = function(options)
+{
+   	var onSuccessArr = [];
+   	
+    if ( options.block )
+    {
+      	var sel = options.block;
+      	var delay = Kmu.blockDelayMs;
+        Kmu.blockControlQuietly(sel, delay);
+        
+        var fn = function() { Kmu.unblockControl(sel); };
+        onSuccessArr.push(fn);
+    }
+    else
+    {
+      	var delay = Kmu.blockDelayMs;
+        Kmu.blockPageQuietly(delay);
+        
+        var fn = function() { Kmu.unblockPage(); };
+        onSuccessArr.push(fn);
+    }
+
+    return onSuccessArr;
+}
+
+Kmu.formatAjaxData = function(options)
+{
+	var baseParams = Kmu.formatAjaxBaseParams(options)
+	var formParams = Kmu.formatAjaxFormParams(options);
+	
+	return Kmu.concatAjaxParams(baseParams, formParams);
+}
+
+Kmu.formatAjaxBaseParams = function(options)
+{
+   	var e;
+   	e = {};
+   	e._currentPageKey    	= Kmu.currentPageKey;
+    e._windowLocation 	 	= window.location.href;
+    
+    e._isHeaderVisible   	= $('#pageHeader').isVisible();
+    e._isFooterVisible	 	= $('#pageFooter').isVisible();
+    e._isTopMenuVisible  	= $('#pageTopMenu').isVisible();
+    e._isLeftMenuVisible 	= $('#pageLeftMenu').isVisible();
+    e._isPageTitleVisible 	= $('#pageTitle').isVisible();
+    e._isPageContentVisible	= $('#pageContent').isVisible();
+   
+    if ( options.form )
+        e._form = options.form;
+
+    if ( options.action )
+        e._action = options.action;
+
+    if ( options.argument )
+        e._argument = options.argument;
+
+    if ( options.extra )
+        e._extraValue = options.extra;
+
+    if ( options.direction )
+        e._direction = options.direction;
+        
+    var ps = KmNavigator.getPageSession(); 
+    if ( ps )
+        e._session = JSON.stringify(ps);
+
+	return $.param(e); 
+}
+
+Kmu.formatAjaxFormParams = function(options)
+{
+    if ( !options.form )
+        return null;
+        
+    return $('#' + options.form).serialize();
+}
+
+Kmu.concatAjaxParams = function(a, b)
+{
+   	if ( a && b )
+   		return a + "&" + b;
+   		
+   	if ( a )
+   	    return a;
+   	    
+   	if ( b )
+   	    return b;
+   	
+    return '';
+}
+
+Kmu.ajaxSuccess = function(result)
+{
+    eval(result.script);
+}
+
+Kmu.ajaxError = function(req, status, error)
+{
+    alert('Ajax error'
+        + '\nStatus: ' + status
+        + '\nError: ' + error
+        );
+}
+
+/*
+ * Called after success or error
+ */
+Kmu.ajaxComplete = function(jqXHR, textStatus)
+{
+}
 
 //**********************************************************
 //** dom
@@ -66,6 +264,14 @@ Kmu.isString = function(e)
 Kmu.endsWith = function(s, suffix)
 {
     return s.indexOf(suffix) == s.length - suffix.length;
+}
+
+Kmu.repeat = function(s, n)
+{
+    var result = "";
+    for ( var i=0; i<n; i++ )
+        result += s;
+    return result;
 }
 
 //**********************************************************
@@ -288,194 +494,18 @@ Kmu.installColorField = function(sel)
 }
 
 //**********************************************************
-//** ajax
-//**********************************************************
-
-/*
- * options
- *     action
- *     		Required string.
- *     		The action key that identifies the server side function to execute.		
- *     
- *     form
- *     		Optional string selector.
- *     		Identifies the parameters to be submitted with this request.
- *     
- *     argument
- *     		Optional string.
- *     		The server expects this to be encoded.
- *     		See ScEncoder.
- *     
- *     extra
- *     		Optional string.
- *			If set, pass this value without any encoding.
- *     
- *     block
- *     		Optional string.
- *     		If set, block the ui component BEFORE the ajax request.
- *     		This should be a valid css selector.
- *     
- *     confirmation
- *     		Optional string
- *     		If set, prompt the user to confirm (Ok/Cancel) before submitting.
- *     		Confirmation is handled with a simple window.confirm() dialog.
- *      
- *     direction
- *     		Optional string (forward, back, refresh, unknown).
- *     		If set indicates the navigation direction.
- */
-Kmu.ajax = function(options)
-{
-    if ( !Kmu.checkAjaxConfirmation(options) )
-        return;
-
-    var onSuccessArr;
-    onSuccessArr = Kmu.initAjaxBlocking(options);
-    onSuccessArr.push(Kmu.ajaxSuccess);
-    
-    var data = Kmu.formatAjaxData(options);
-    
-    // Assumes ROOT servlet context 
-    $.ajax(
-    {
-    	type:   	'POST',
-    	url: 		'/servlet/ajax',
-    	dataType: 	'json',
-    	data: 		data,
-    	success: 	onSuccessArr,
-    	error: 		Kmu.ajaxError,
-    	complete: 	Kmu.ajaxComplete
-    });
-}
-
-Kmu.checkAjaxConfirmation = function(options)
-{
-    if ( !options.confirmation )
-        return true;
-        
-    var msg = options.confirmation.toString();
-	return confirm(msg);
-}
-
-Kmu.initAjaxBlocking = function(options)
-{
-   	var onSuccessArr = [];
-   	
-    if ( options.block )
-    {
-      	var sel = options.block;
-      	var delay = Kmu.blockDelayMs;
-        Kmu.blockControlQuietly(sel, delay);
-        
-        var fn = function() { Kmu.unblockControl(sel); };
-        onSuccessArr.push(fn);
-    }
-    else
-    {
-      	var delay = Kmu.blockDelayMs;
-        Kmu.blockPageQuietly(delay);
-        
-        var fn = function() { Kmu.unblockPage(); };
-        onSuccessArr.push(fn);
-    }
-
-    return onSuccessArr;
-}
-
-Kmu.formatAjaxData = function(options)
-{
-	var baseParams = Kmu.formatAjaxBaseParams(options)
-	var formParams = Kmu.formatAjaxFormParams(options);
-	
-	return Kmu.concatAjaxParams(baseParams, formParams);
-}
-
-Kmu.formatAjaxBaseParams = function(options)
-{
-   	var e;
-   	e = {};
-    e._windowLocation 	= window.location.href;
-    e._isHeaderVisible  = $('#pageHeader').isVisible();
-    e._isFooterVisible	= $('#pageFooter').isVisible();
-    e._isMenuVisible  	= $('#pageMenu').isVisible();
-    
-    if ( options.form )
-        e._form = options.form;
-
-    if ( options.action )
-        e._action = options.action;
-
-    if ( options.argument )
-        e._argument = options.argument;
-
-    if ( options.extra )
-        e._extraValue = options.extra;
-
-    if ( options.direction )
-        e._direction = options.direction;
-        
-    var ps = KmNavigator.getPageSession(); 
-    if ( ps )
-        e._session = JSON.stringify(ps);
-        
-	return $.param(e);        
-}
-
-Kmu.formatAjaxFormParams = function(options)
-{
-    if ( !options.form )
-        return null;
-        
-    return $('#' + options.form).serialize();
-}
-
-Kmu.concatAjaxParams = function(a, b)
-{
-   	if ( a && b )
-   		return a + "&" + b;
-   		
-   	if ( a )
-   	    return a;
-   	    
-   	if ( b )
-   	    return b;
-   	
-    return '';
-}
-
-Kmu.ajaxSuccess = function(result)
-{
-    eval(result.script);
-}
-
-Kmu.ajaxError = function(req, status, error)
-{
-    alert('Ajax error'
-        + '\nStatus: ' + status
-        + '\nError: ' + error
-        );
-}
-
-/*
- * Called after success or error
- */
-Kmu.ajaxComplete = function(jqXHR, textStatus)
-{
-}
-
-//**********************************************************
 //** json commands
 //**********************************************************
 
 Kmu.jsonReplaceSimple = function(json)
 {
     var inner = $(json.inner);
-    var html  = $(json.html);
+    var html  = json.html;
 
     inner.empty();
     
-    if ( json.html )
-        inner.append(json.html);
+    if ( html )
+        inner.html(html);
         
     if ( json.postDomScript )
         eval(json.postDomScript);
@@ -499,7 +529,7 @@ Kmu.jsonReplaceFade = function(json)
         inner.empty();
         
         if ( json.html )
-            inner.append(json.html);
+            inner.html(json.html);
             
         if ( json.postDomScript )
             eval(json.postDomScript);
@@ -527,7 +557,7 @@ Kmu.jsonReplaceLeft = function(json)
         inner.empty();
         
         if ( json.html ) 
-            inner.append(json.html);
+            inner.html(json.html);
         
         if ( json.postDomScript )
             eval(json.postDomScript);
@@ -555,7 +585,7 @@ Kmu.jsonReplaceRight = function(json)
         inner.empty();
         
         if ( json.html )
-            inner.append(json.html);
+            inner.html(json.html);
             
         if ( json.postDomScript )
             eval(json.postDomScript);
@@ -652,26 +682,47 @@ Kmu.clearCookie = function(key)
  */
 Kmu.focus = function(sel)
 {
-    var filter = ":input:visible:enabled:first";
+    var filters = [
+        ":input[autofocus]:visible:enabled:not([readonly]):first",
+        ":input:visible:enabled:not([readonly]):first"
+    ];
+
+    var n = filters.length;    
+    for ( var i=0; i<n; i++ )
+    {
+        var filter = filters[i];
+        if ( Kmu._focusFilter(sel, filter) )
+            return;
+    }
+
+    // if the filters don't match anything, then attempt to focus the selector itself.
+    if ( sel )
+        $(sel).focus();
+}
+
+Kmu._focusFilter = function(sel, filter)
+{
+    var e;
     
-    if ( !sel )
+    if ( sel )
     {
-        // if no selector, focus first field on page.
-    	$(filter).focus();
-    	return;
-    }
+        // This only matches descendants; NOT the selector itself.
+        // YES, the space is required.
+        e = $(sel + " " + filter);
+        if ( e.length == 0 )
+            return false;
 
-    // this only matches descendants; not the selector itself.
-    var e = $(sel + " " + filter);
-
-    if ( e.get(0) )
-    {
         e.focus();
-        return;
+        return true;
     }
 
-    // if not matching child, then attempt to focus the selector itself.
-    $(sel).focus();
+    // if no selector, focus first field on page.
+    e = $(filter);
+    if ( e.length == 0 )
+        return false;
+        
+    e.focus();
+    return true;
 }
 
 /**
@@ -765,7 +816,7 @@ Kmu.enableButton = function(e, theme)
         
     e = $(e);
     e.removeAttr("disabled");
-    removeClassesWithPrefix(e, "button-element-");
+    Kmu.removeClassesWithPrefix(e, "button-element-");
     e.addClass("button-element-" + theme);
 }
 
@@ -773,7 +824,7 @@ Kmu.disableButton = function(e)
 {
     e = $(e);
     e.attr("disabled", "disabled");
-    removeClassesWithPrefix(e, "button-element-");
+    Kmu.removeClassesWithPrefix(e, "button-element-");
     e.addClass("button-element-disabled");
 }
 
@@ -942,7 +993,7 @@ Kmu.openWindow = function(args)
     var w;
     w = window.open(url, name, params);
 
-    if ( html )
+    if ( w && html )
     {
         w.document.write(html);
         w.document.close();
@@ -1203,7 +1254,9 @@ Kmu.formatIdsFor = function(sel)
 
 /**
  * Find all elements that match the selector.
- * For each element, collect the corresponding attribute into an array. 
+ * For each element, collect the corresponding attribute into an array.
+ * For example, getAttributesFor('.moose', 'id')... would return an array
+ * that contains the id of each element with the moose class.
  */
 Kmu.getAttributesFor = function(sel, attr)
 {
@@ -1305,20 +1358,55 @@ Kmu.glow = function(options)
 	    speed = 200;
 	    
 	var oldValue = target.css(attr);
+	var oldStyle = target.attr("style");
 
-	var css;
-	css = {};
-	css[attr] = value;
-	
+	var showCss;
+	showCss = {};
+	showCss[attr] = value;
+
+	var hideCss;
+	hideCss = {};
+	hideCss[attr] = oldValue;
+
 	var extra;
 	extra = {};
 	extra.duration = speed / 2;
 	
-	target.animate(css, extra);
-	css[attr] = oldValue;
-	target.animate(css, extra);
+	// SHOW; run the animation to show the effect.
+	target.animate(showCss, extra);
+
+    // HIDE: run the animation to hide the effect.
+	target.animate(hideCss, extra);
+
+    // RESTORE: ensure that the 'style' attribute is restored to it's original value.
+	target.promise().done(function()
+    {
+    	if ( oldStyle === undefined )
+    		target.removeAttr("style");
+    	else
+    	    target.attr("style", oldStyle);
+    });
 }
 
+Kmu.glowBackground = function(e)
+{
+    Kmu.glow(
+    {
+        target: e,
+        attribute: "background-color",
+        value: "yellow"
+    });
+}
+
+Kmu.glowColor = function(e)
+{
+    Kmu.glow(
+    {
+        target: e,
+        attribute: "color",
+        value: "yellow"
+    });
+}
 
 //**********************************************************
 //** flexigrid
@@ -1361,5 +1449,152 @@ Kmu.flexigridFill = function(tableSel)
 	pager.css("right",  "0");
 	pager.css("bottom", "0");
 	pager.css("height", "31px");
+}
+
+//**********************************************************
+//** scroll
+//**********************************************************
+
+/**
+ * Scroll the parent to a position that displays the child,
+ * but don't bother scrolling at all if the child is already 
+ * visible on screen.
+ * 
+ * Relies on plugins: scrollTo, jquery.visible
+ */ 
+Kmu.scrollToIfOffScreen = function(parentSel, childSel)
+{
+    if ( !$(childSel).visible() ) 
+    	$(parentSel).scrollTo(childSel);
+}
+
+//**********************************************************
+//** client side filter
+//**********************************************************
+
+/**
+ * The following options are supported...
+ *
+ * findValue
+ *      A string value to search for.
+ *      Should NOT be used with findSel.
+ *
+ * fieldSel
+ *      A string selector used to identify the field that contains the value to search for.
+ *      Should NOT be used with findValue.
+ *
+ * itemSel
+ *      A string selector that identifies the items to be shown or hidden.
+ *      This is required.
+ *
+ * attrSels
+ *      An array of string selectors used to identify one or more child elements of each item.
+ */
+Kmu.filterItems = function(options)
+{
+    var find = null;
+
+    if ( options.findValue )
+        find = options.findValue;
+            
+    if ( options.fieldSel )
+        find = $(options.fieldSel).val();
+
+    var itemSel = options.itemSel;
+    var attrSels = options.attrSels;
+
+    if ( !find )
+    {
+        $(itemSel).show();
+        return;
+    }
+    
+    find = find.toLowerCase();
+    
+    $(itemSel).each(function()
+    {
+        var e = $(this);
+        var match = false;
+        var n = attrSels.length;
+        for ( var i=0; i<n; i++ )
+        {
+            var attr = e.find(attrSels[i]);
+            if ( $(attr).text().toLowerCase().indexOf(find) >= 0 )
+            {
+                match = true;
+                break;
+            }
+        }
+        
+        if ( match )
+            e.show();
+        else
+            e.hide();
+    });
+}
+
+//**********************************************************
+//** draggable multi select
+//**********************************************************
+
+/**
+ * This method is used by the ScDraggableMultiSelect widget to move
+ * items back-and-forth between the selected and available lists.
+ * This method should be bound to the onClick event of either the
+ * list items, or any dom child inside of the item (e.g.: the toggle buttons).
+ * This depends on the css classes defined in the theme.css.
+ */
+Kmu.dmsToggle = function(e)
+{
+    var item      = $(e).closest(".dmsItem");
+    var container = item.closest(".dmsContainer");
+    var selList   = container.find(".dmsSelectedList");
+    var availList = container.find(".dmsAvailableList");
+    var field     = item.find(".dmsItemField");
+
+    var targetList;
+    var isTargetAvail = item.parent().hasClass("dmsSelectedList");
+    
+    if ( isTargetAvail )
+    {
+        targetList = availList;
+        field.attr("disabled", "disabled");
+    }
+    else
+    {
+        targetList = selList;
+        field.removeAttr("disabled");
+    }        
+
+    var speed = 150;
+
+    item.slideToggle(speed, function()
+    {
+        targetList.scrollTo(0);
+        
+        item.detach();
+        item.prependTo(targetList);
+        Kmu.dmsRenumber();
+        item.slideToggle(speed);
+    });
+}
+
+/**
+ * Renumber the selected items for all draggable multi-selects (dms) currently in the dom.
+ * Most of the time, there will only be a single dms widget on the screen, so we just renumber
+ * them all.
+ */
+Kmu.dmsRenumber = function()
+{
+    $(".dmsSelectedList").each(function(index)
+    {
+        var list = $(this);
+        list.find(".dmsItemPriority").each(function(index)
+        {
+            var pri = $(this)
+            pri.empty();
+            pri.append("[" + (index+1) + "]");
+        });
+    });
 }
 

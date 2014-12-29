@@ -107,6 +107,7 @@ public class KmaLayout
         int w = 0;
         int h = 0;
         int n = parent.getComponentCount();
+
         for ( int i = 0; i < n; i++ )
         {
             Component c = parent.getComponent(i);
@@ -114,6 +115,7 @@ public class KmaLayout
             w += d.width;
             h += d.height;
         }
+
         return new Dimension(w, h);
     }
 

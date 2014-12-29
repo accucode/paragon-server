@@ -63,7 +63,7 @@ public class KmSimpleLineChartGroup
 
     public KmSimpleLineChartGroup()
     {
-        _values = new KmMap<Double,Double>();
+        _values = new KmMap<>();
         _showsShapes = true;
         _showsLines = true;
     }

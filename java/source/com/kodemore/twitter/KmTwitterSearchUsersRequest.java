@@ -100,7 +100,7 @@ public class KmTwitterSearchUsersRequest
 
     protected KmList<KmTwitterUser> getResponseUsers()
     {
-        KmList<KmTwitterUser> v = new KmList<KmTwitterUser>();
+        KmList<KmTwitterUser> v = new KmList<>();
         KmJsonArray resp = getResponseJson();
 
         int n = resp.size();
@@ -156,7 +156,8 @@ public class KmTwitterSearchUsersRequest
             u.setGeoEmbed(json.getBoolean("geo_enabled"));
             u.setStatus(createTwitterStatus(json.getMap("status")));
             u.setProfileBackgroundImageUrl(json.getString("profile_background_image_url"));
-            u.setProfileBackgroundImageUrlHttps(json.getString("profile_background_image_url_https"));
+            u.setProfileBackgroundImageUrlHttps(json
+                .getString("profile_background_image_url_https"));
             u.setFollowRequestSent(json.getBoolean("follow_request_sent"));
             u.setUrl(json.getString("url"));
             u.setUtcOffset(json.getInteger("utc_offset"));
@@ -271,7 +272,7 @@ public class KmTwitterSearchUsersRequest
 
     public KmList<KmTwitterUserMention> createMentions(KmJsonArray json)
     {
-        KmList<KmTwitterUserMention> v = new KmList<KmTwitterUserMention>();
+        KmList<KmTwitterUserMention> v = new KmList<>();
 
         if ( json != null )
         {
@@ -291,7 +292,7 @@ public class KmTwitterSearchUsersRequest
 
     public KmList<String> createSymbols(KmJsonArray json)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         if ( json != null )
         {
@@ -304,7 +305,7 @@ public class KmTwitterSearchUsersRequest
 
     public KmList<String> createUrls(KmJsonArray json)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         if ( json != null )
         {
@@ -317,7 +318,7 @@ public class KmTwitterSearchUsersRequest
 
     public KmList<String> createHashtags(KmJsonArray json)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         if ( json != null )
         {
@@ -338,7 +339,7 @@ public class KmTwitterSearchUsersRequest
      */
     public KmList<KmTwitterCoordinate> createCoordinates(KmJsonArray json)
     {
-        KmList<KmTwitterCoordinate> v = new KmList<KmTwitterCoordinate>();
+        KmList<KmTwitterCoordinate> v = new KmList<>();
 
         if ( json != null )
         {
@@ -363,7 +364,7 @@ public class KmTwitterSearchUsersRequest
 
     public KmList<String> createContributors(KmJsonArray json)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         if ( json != null )
         {

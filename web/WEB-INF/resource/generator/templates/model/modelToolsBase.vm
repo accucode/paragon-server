@@ -32,7 +32,7 @@ public abstract class ${model.f_ToolsBaseClass}
     public ScDomainDropdownField<${model.f_Class},${model.primaryKeyField.f_Type}> newDomainDropdown()
     {
         ScDomainDropdownField<${model.f_Class},${model.primaryKeyField.f_Type}> e;
-        e = new ScDomainDropdownField<${model.f_Class},${model.primaryKeyField.f_Type}>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new ${model.f_FilterClass}());
         e.setFinder(new ${model.f_FinderClass}());

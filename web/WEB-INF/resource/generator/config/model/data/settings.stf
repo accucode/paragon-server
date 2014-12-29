@@ -1,6 +1,11 @@
 model
 : name      = settings
-: comment   = A single record with global settings.
+: help...   
+    === 
+    A single record with global settings.  This provides a simply, typesafe way to store
+    some global settings in the database.  For example, we could define a global contact
+    (email or phone) for technical assistance with the portal.
+    ===
 
 database
 : alias = sx
@@ -9,7 +14,7 @@ attributes
 
     field
     : name          = code
-    : comment       = The unique key.
+    : help          = The unique key.  I am generally hardcoded to 1.
     : type          = integer
     : identity      = false
     : primaryKey    = true
@@ -17,5 +22,5 @@ attributes
 
     field
     : name      = someMessage
-    : comment   = Just a placeholder.
+    : help      = Just a placeholder until more useful settings are defined.
     : type      = text100

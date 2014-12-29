@@ -31,7 +31,7 @@ import com.kodemore.html.KmHtmlBuilder;
  * I do not have an htmlId, style, or css of my own. If I do not 
  * contain any children, then I do not generate any html.
  */
-public final class ScSimpleContainer
+public class ScSimpleContainer
     extends ScChildContainer
 {
     //##################################################
@@ -39,7 +39,7 @@ public final class ScSimpleContainer
     //##################################################
 
     @Override
-    protected void renderControlOn(KmHtmlBuilder out)
+    protected final void renderControlOn(KmHtmlBuilder out)
     {
         for ( ScControl e : getChildren() )
             e.renderOn(out);

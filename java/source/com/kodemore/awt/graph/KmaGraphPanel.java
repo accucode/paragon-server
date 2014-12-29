@@ -82,6 +82,7 @@ public class KmaGraphPanel
         int b = i.bottom;
         int w = getWidth();
         int h = getHeight();
+
         return new Rectangle(l, t, w - l - r - 1, h - t - b - 1);
     }
 

@@ -60,6 +60,7 @@ public class KmaIntegerField
     {
         if ( !hasValue() )
             return null;
+
         return getValue();
     }
 
@@ -67,6 +68,7 @@ public class KmaIntegerField
     {
         if ( _value == null )
             return 0;
+
         return _value.intValue();
     }
 
@@ -94,6 +96,7 @@ public class KmaIntegerField
     {
         if ( _minimumValue == null )
             return Integer.MIN_VALUE;
+
         return _minimumValue.intValue();
     }
 
@@ -116,6 +119,7 @@ public class KmaIntegerField
     {
         if ( _maximumValue == null )
             return Integer.MAX_VALUE;
+
         return _maximumValue.intValue();
     }
 
@@ -160,15 +164,13 @@ public class KmaIntegerField
         }
     }
 
-    //###########################################
-    //##
-    //##  SUBCLASS OVERRIDE
-    //##
-    //###########################################
+    //##################################################
+    //# subclass override
+    //##################################################
 
-    //##################################################
-    //# update
-    //##################################################
+    //==================================================
+    //= update
+    //==================================================
 
     @Override
     public void updateValue()
@@ -192,48 +194,57 @@ public class KmaIntegerField
         String s = getText();
         if ( s.equals("") )
             return false;
+
         Integer ii = getIntegerFor(s);
         if ( ii == null )
             return false;
+
         int i = ii.intValue();
+
         if ( hasMinimumValue() && i < getMinimumValue() )
         {
             i = getMinimumValue();
             setValue(i);
             return true;
         }
+
         if ( hasMaximumValue() && i > getMaximumValue() )
         {
             i = getMaximumValue();
             setValue(i);
             return true;
         }
+
         return false;
     }
 
-    //##################################################
-    //# testing
-    //##################################################
+    //==================================================
+    //= testing
+    //==================================================
 
     @Override
     public boolean isTextValid(String s)
     {
         if ( s.equals("") )
             return getAllowEmpty();
+
         Integer ii = getIntegerFor(s);
         if ( ii == null )
             return false;
+
         int i = ii.intValue();
         if ( i < getMinimumValue() )
             return false;
+
         if ( i > getMaximumValue() )
             return false;
+
         return true;
     }
 
-    //##################################################
-    //# help
-    //##################################################
+    //==================================================
+    //= help
+    //==================================================
 
     @Override
     public String getHelpTitle()
@@ -245,10 +256,13 @@ public class KmaIntegerField
     public String getHelpMessage()
     {
         String s = "Enter an integer.";
+
         if ( hasMinimumValue() )
             s += "\nMinimum: " + getMinimumValue();
+
         if ( hasMaximumValue() )
             s += "\nMaximum: " + getMaximumValue();
+
         return s;
     }
 

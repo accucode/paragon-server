@@ -76,7 +76,7 @@ public class KmgGenerator
     public KmgGenerator()
     {
         _lineEnd = Kmu.getDefaultLineEnd();
-        _extraContext = new KmMap<String,Object>();
+        _extraContext = new KmMap<>();
     }
 
     //##################################################
@@ -401,7 +401,7 @@ public class KmgGenerator
         if ( !Kmu.fileExists(path) )
             return true;
 
-        String oldText = Kmu.readTextFile(path);
+        String oldText = Kmu.readFileString(path);
         return !oldText.equals(newText);
     }
 
@@ -581,8 +581,8 @@ public class KmgGenerator
     //# log
     //##################################################
 
-    private static KmMap<String,Integer> bytes = new KmMap<String,Integer>();
-    private static KmMap<String,Integer> lines = new KmMap<String,Integer>();
+    private static KmMap<String,Integer> bytes = new KmMap<>();
+    private static KmMap<String,Integer> lines = new KmMap<>();
 
     public void updateCounts(String path, String text)
     {
@@ -601,7 +601,7 @@ public class KmgGenerator
         if ( i == null )
             i = 0;
 
-        i += Kmu.getLines(text).size();
+        i += Kmu.parseLines(text).size();
         lines.put(ext, i);
     }
 

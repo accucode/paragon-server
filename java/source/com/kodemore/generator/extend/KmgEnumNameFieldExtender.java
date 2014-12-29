@@ -19,17 +19,25 @@ public class KmgEnumNameFieldExtender
         if ( e == null )
             return;
 
-        KmList<String> words = Kmu.getCamelCaseWords(e.getName());
-        String label = "";
-        for ( String s : words )
-            label += Kmu.capitalizeFirstLetter(s) + " ";
-        label = label.trim();
-
         KmgModel model = field.getModel();
         String name = e.getName() + "Name";
+        String label = getLabelFor(e);
+        String help = field.getHelp();
         String body = Kmu.format("return Kmu.getName(%s());", e.getf_getMethod());
         String type = "name";
 
-        model.addCustomGetter(name, label, body, type);
+        model.addCustomGetter(name, label, help, body, type);
+    }
+
+    private String getLabelFor(KmgModelEnum e)
+    {
+        KmList<String> words = Kmu.getCamelCaseWords(e.getName());
+        String label = "";
+
+        for ( String s : words )
+            label += Kmu.capitalizeFirstLetter(s) + " ";
+
+        label = label.trim();
+        return label;
     }
 }

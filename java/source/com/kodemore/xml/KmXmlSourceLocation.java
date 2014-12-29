@@ -88,7 +88,7 @@ public class KmXmlSourceLocation
 
     public String getSourceLine()
     {
-        return Kmu.getLines(_source).get(_row - 1);
+        return Kmu.parseLines(_source).get(_row - 1);
     }
 
     public String getMarkerLine()

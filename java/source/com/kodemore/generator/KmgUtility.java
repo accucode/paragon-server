@@ -44,6 +44,9 @@ public class KmgUtility
 
     public static String formatList(String collectionType, String elementType)
     {
+        if ( elementType == null )
+            return collectionType;
+
         return Kmu.format("%s<%s>", collectionType, elementType);
     }
 

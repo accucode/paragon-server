@@ -18,13 +18,12 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.awt;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -32,8 +31,8 @@ import javax.swing.JComboBox;
 
 import com.kodemore.utility.KmFormatterIF;
 
-public class KmaComboBox
-    extends JComboBox
+public class KmaComboBox<E>
+    extends JComboBox<E>
 {
     //##################################################
     //# constructors
@@ -41,13 +40,13 @@ public class KmaComboBox
 
     public KmaComboBox()
     {
-        this(new Vector<Object>());
+        this(new Vector<E>());
     }
 
-    public KmaComboBox(List<?> v)
+    public KmaComboBox(List<E> v)
     {
         setList(v);
-        setRenderer(new KmaListBoxCellRenderer());
+        setRenderer(new KmaListBoxCellRenderer<E>());
     }
 
     //##################################################
@@ -57,23 +56,24 @@ public class KmaComboBox
     @Override
     public Dimension getPreferredSize()
     {
-        Dimension d = super.getPreferredSize();
+        Dimension d;
+        d = super.getPreferredSize();
         d.width += 20;
         return d;
     }
 
-    public void setList(List<?> v)
+    public void setList(List<E> v)
     {
         removeAllItems();
-        Iterator<?> i = v.iterator();
-        while ( i.hasNext() )
-            addItem(i.next());
+        for ( E e : v )
+            addItem(e);
     }
 
+    @SuppressWarnings("unchecked")
     public void setFormatter(KmFormatterIF f)
     {
-        KmaListBoxCellRenderer r;
-        r = (KmaListBoxCellRenderer)getRenderer();
+        KmaListBoxCellRenderer<E> r;
+        r = (KmaListBoxCellRenderer<E>)getRenderer();
         r.setFormatter(f);
     }
 

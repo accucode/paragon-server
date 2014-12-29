@@ -1,23 +1,32 @@
 package sandbox.wlove;
 
+import com.kodemore.command.KmDaoCommand;
+import com.kodemore.hibernate.lock.KmDaoLockException;
+import com.kodemore.thread.KmThread;
+import com.kodemore.utility.Kmu;
+
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyUser;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyInstaller;
 
-import com.kodemore.command.KmDaoCommand;
-import com.kodemore.hibernate.lock.KmDaoLockException;
-import com.kodemore.utility.Kmu;
-
 public class JkLockTest
 {
+    //##################################################
+    //# main
+    //##################################################
+
     public static void main(String[] args)
     {
         MyInstaller.installDatabase();
         new JkLockTest().run();
     }
 
-    public void run()
+    //##################################################
+    //# run
+    //##################################################
+
+    private void run()
     {
         int n = 10;
         for ( int i = 0; i < n; i++ )
@@ -27,12 +36,12 @@ public class JkLockTest
     private void start(String name)
     {
         System.out.println("Starting: " + name);
-        new Thread(newRunnable(name)).start();
+        newThread(name).startLater();
     }
 
-    private Runnable newRunnable(final String name)
+    private KmThread newThread(final String name)
     {
-        return new Runnable()
+        return new KmThread()
         {
             @Override
             public void run()
@@ -41,7 +50,7 @@ public class JkLockTest
                     try
                     {
                         newCommand(name).run();
-                        Kmu.yield();
+                        yield();
                     }
                     catch ( KmDaoLockException ex )
                     {
@@ -58,15 +67,17 @@ public class JkLockTest
             @Override
             public void handle()
             {
-                System.out.println(name + ": begin...");
+                printfln("%s: handle...", name);
 
                 MyUser u;
-                u = getAccess().getUserDao().findUid("root");
+                u = getAccess().getUserDao().findEmail("root");
                 u.toggleVerified();
 
-                System.out.println(name + ": active = " + u.isVerified());
-                System.out.println(name + ": end.");
-                System.out.println();
+                getSessionManager().flush();
+
+                printfln("%s: version = %s", name, u.getLockVersion());
+                printfln("%s: end.", name);
+                printfln("");
             }
 
             @Override
@@ -77,9 +88,18 @@ public class JkLockTest
         };
     }
 
+    //##################################################
+    //# support
+    //##################################################
+
     private MyDaoRegistry getAccess()
     {
         return MyGlobals.getAccess();
+    }
+
+    private void printfln(String msg, Object... args)
+    {
+        System.out.println(Kmu.format(msg, args));
     }
 
 }

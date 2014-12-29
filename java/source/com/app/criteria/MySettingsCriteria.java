@@ -268,7 +268,6 @@ public class MySettingsCriteria
     //##################################################
 
     @Override
-    @SuppressWarnings("rawtypes")
     public MySettingsCriteria createOn(KmModelJunction junction)
     {
         return new MySettingsCriteria(parent(), junction.context());

@@ -50,6 +50,12 @@ public class MyMetaUser_Name
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The user's full name.  E.g.: \"John Doe\".";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 15;

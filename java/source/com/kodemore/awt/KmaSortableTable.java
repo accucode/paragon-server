@@ -53,7 +53,9 @@ public class KmaSortableTable
     public KmaSortableTable(KmaSortableTableModel m)
     {
         super(m);
-        JTableHeader th = getTableHeader();
+
+        JTableHeader th;
+        th = getTableHeader();
         th.addMouseListener(newHeaderMouseListener());
         th.setDefaultRenderer(new SortableHeaderRenderer());
 
@@ -90,20 +92,27 @@ public class KmaSortableTable
     {
         if ( i < 0 )
             return;
+
         if ( i >= getColumnCount() )
             return;
+
         int mi = convertColumnIndexToModel(i);
         List<?> v = getRowSelections();
         clearSelection();
+
         KmaSortableTableModel m = getSortableModel();
         if ( m.hasOneSortColumn(mi) )
             m.toggleSortColumn(mi);
         else
             m.setSortColumn(mi);
+
         setRowSelections(v);
         setSelectedColumn(i);
-        getTableHeader().revalidate();
-        getTableHeader().repaint();
+
+        JTableHeader th;
+        th = getTableHeader();
+        th.revalidate();
+        th.repaint();
     }
 
     public void guiSetSortColumn()
@@ -147,7 +156,7 @@ public class KmaSortableTable
 
     public KmList<Object> getRowSelections()
     {
-        KmList<Object> v = new KmList<Object>();
+        KmList<Object> v = new KmList<>();
         ListSelectionModel sm = getSelectionModel();
         int a = sm.getMinSelectionIndex();
         int b = sm.getMaxSelectionIndex();

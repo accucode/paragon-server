@@ -60,11 +60,11 @@ public class KmMaximumLengthValidationError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append("maximum length is ");
-        sb.append(_maximumLength);
-        sb.append(".");
+        out.append("maximum length is ");
+        out.append(_maximumLength);
+        out.append(".");
     }
 
 }

@@ -147,8 +147,7 @@ public class ScActionScript
 
     @SuppressWarnings(
     {
-        "unchecked",
-        "rawtypes"
+        "unchecked", "rawtypes"
     })
     private Object evalArgument()
     {

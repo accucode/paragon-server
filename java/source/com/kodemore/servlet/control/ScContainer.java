@@ -46,10 +46,10 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I am used for controls that contain children.
- * I do not define any specific organization or layout,
+ * I do NOT define any specific organization or layout,
  * but I do define a wide range of convenience methods
  * that are relied upon heavily to simplify coding.
- * Most, hopefully ALL, containers will subclass from me.
+ * Most (hopefully ALL) containers will subclass from me.
  */
 public abstract class ScContainer
     extends ScControl
@@ -127,14 +127,16 @@ public abstract class ScContainer
 
     public <E> ScHiddenField<E> addHiddenField()
     {
-        ScHiddenField<E> e = new ScHiddenField<E>();
+        ScHiddenField<E> e = new ScHiddenField<>();
         return add(e);
     }
 
+    /**
+     * @param c Not used directly, but is needed for 'generic' typing
+     */
     public <E> ScHiddenField<E> addHiddenField(Class<E> c)
     {
-        ScHiddenField<E> e = addHiddenField();
-        return add(e);
+        return addHiddenField();
     }
 
     public <E> ScHiddenField<E> addHiddenField(KmMetaAttribute<?,E> attr)
@@ -171,7 +173,7 @@ public abstract class ScContainer
 
     public <E> ScGrid<E> addGrid()
     {
-        ScGrid<E> e = new ScGrid<E>();
+        ScGrid<E> e = new ScGrid<>();
         return add(e);
     }
 
@@ -195,6 +197,11 @@ public abstract class ScContainer
         e = addLink();
         e.setText(text);
         return e;
+    }
+
+    public ScScriptLink addScriptLink()
+    {
+        return add(new ScScriptLink());
     }
 
     public ScUrlLink addUrlLink()
@@ -270,9 +277,14 @@ public abstract class ScContainer
         return add(new ScLinkList());
     }
 
-    public <T> ScModelList<T> addModelList()
+    public <T> ScSimpleModelList<T> addSimpleModelList()
     {
-        return add(new ScModelList<T>());
+        return add(new ScSimpleModelList<T>());
+    }
+
+    public <T> ScCustomModelList<T> addCustomModelList()
+    {
+        return add(new ScCustomModelList<T>());
     }
 
     //##################################################
@@ -379,6 +391,14 @@ public abstract class ScContainer
         return e;
     }
 
+    public ScGroup addInlineGroup(String title)
+    {
+        ScGroup e;
+        e = addGroup(title);
+        e.layoutInline();
+        return e;
+    }
+
     //##################################################
     //# array
     //##################################################
@@ -388,20 +408,12 @@ public abstract class ScContainer
         return add(new ScArray());
     }
 
-    public ScArray addColumn()
+    public ScArray addArrayColumn()
     {
         return addArray();
     }
 
-    public ScArray addColumns(int n)
-    {
-        ScArray e;
-        e = addColumn();
-        e.setColumnCount(n);
-        return e;
-    }
-
-    public ScArray addRow()
+    public ScArray addArrayRow()
     {
         ScArray e;
         e = addArray();
@@ -409,11 +421,52 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScArray addSpacedRow()
+    public ScArray addArraySpacedRow()
     {
         ScArray e;
-        e = addRow();
+        e = addArrayRow();
         e.setHorizontalGap(30);
+        return e;
+    }
+
+    //##################################################
+    //# flex
+    //##################################################
+
+    /**
+     * Clients should usually use addRow() or addColumn() for clarity.
+     */
+    public ScFlexbox _addFlexbox()
+    {
+        return add(new ScFlexbox());
+    }
+
+    public ScFlexbox addRow()
+    {
+        return _addFlexbox();
+    }
+
+    public ScFlexbox addInlineRow()
+    {
+        ScFlexbox e;
+        e = addRow();
+        e.beInline();
+        return e;
+    }
+
+    public ScFlexbox addColumn()
+    {
+        ScFlexbox e;
+        e = _addFlexbox();
+        e.beColumn();
+        return e;
+    }
+
+    public ScFlexbox addInlineColumn()
+    {
+        ScFlexbox e;
+        e = addColumn();
+        e.beInline();
         return e;
     }
 
@@ -466,7 +519,7 @@ public abstract class ScContainer
     }
 
     //##################################################
-    //# styled text
+    //# text span
     //##################################################
 
     public ScTextSpan addTextSpan()
@@ -484,12 +537,39 @@ public abstract class ScContainer
 
     public ScTextSpan addTextSpan(KmMetaProperty<?,?> attr)
     {
-        return add(attr.newSpannedText());
+        return add(attr.newTextSpan());
     }
 
     public ScTextSpan addTextSpan(KmMetaProperty<?,?> attr, String label)
     {
-        return add(attr.newSpannedText(label));
+        return add(attr.newTextSpan(label));
+    }
+
+    //##################################################
+    //# text paragraph
+    //##################################################
+
+    public ScTextParagraph addTextParagraph()
+    {
+        return add(new ScTextParagraph());
+    }
+
+    public ScTextParagraph addTextParagraph(CharSequence text)
+    {
+        ScTextParagraph e;
+        e = addTextParagraph();
+        e.setValue(text);
+        return e;
+    }
+
+    public ScTextParagraph addTextParagraph(KmMetaProperty<?,?> attr)
+    {
+        return add(attr.newTextParagraph());
+    }
+
+    public ScTextParagraph addTextParagraph(KmMetaProperty<?,?> attr, String label)
+    {
+        return add(attr.newTextParagraph(label));
     }
 
     //##################################################
@@ -682,22 +762,6 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScBox addButtonBoxLeft()
-    {
-        ScBox e;
-        e = addBox();
-        e.css().buttonBoxLeft();
-        return e;
-    }
-
-    public ScBox addButtonBoxRight()
-    {
-        ScBox e;
-        e = addBox();
-        e.css().buttonBoxRight();
-        return e;
-    }
-
     //##################################################
     //# fieldset
     //##################################################
@@ -784,6 +848,21 @@ public abstract class ScContainer
         return add(new ScDiv());
     }
 
+    public ScBulletedList addBullettedList()
+    {
+        return add(new ScBulletedList());
+    }
+
+    public ScUnorderedList addUnorderedList()
+    {
+        return add(new ScUnorderedList());
+    }
+
+    public ScListItem addListItem()
+    {
+        return add(new ScListItem());
+    }
+
     public ScParagraph addParagraph()
     {
         return add(new ScParagraph());
@@ -803,6 +882,11 @@ public abstract class ScContainer
         e = addSpan();
         e.css().clearfix();
         return e;
+    }
+
+    public ScBareDialog addBareDialog()
+    {
+        return add(new ScBareDialog());
     }
 
     public ScDialog addDialog()
@@ -833,14 +917,19 @@ public abstract class ScContainer
         return add(new ScBlockQuote());
     }
 
+    public ScFieldTable addFieldTable()
+    {
+        return add(new ScFieldTable());
+    }
+
+    public ScFieldLayout addFieldLayout()
+    {
+        return add(new ScFieldLayout());
+    }
+
     public ScFilterBox addFilterBox()
     {
         return add(new ScFilterBox());
-    }
-
-    public ScFieldTable addFields()
-    {
-        return add(new ScFieldTable());
     }
 
     public ScFilterBox addFilterBox(String title)
@@ -887,13 +976,23 @@ public abstract class ScContainer
         return add(new ScAccordion());
     }
 
-    public ScBorderLayout addBorderLayout()
+    public ScAbsoluteLayout addAbsoluteLayout()
     {
-        return add(new ScBorderLayout());
+        return add(new ScAbsoluteLayout());
     }
 
     public ScTitlePanelLayout addTitlePanelLayout()
     {
         return add(new ScTitlePanelLayout());
+    }
+
+    public <T> ScDraggableMultiSelectList<T> addDraggableMultiList()
+    {
+        return add(new ScDraggableMultiSelectList<T>());
+    }
+
+    public ScSplitter addSplitter()
+    {
+        return add(new ScSplitter());
     }
 }

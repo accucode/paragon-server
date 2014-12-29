@@ -49,6 +49,12 @@ public class MyMetaTimeZone_Name
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The longer display name.  E.g.: Mountain Standard Time.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 15;

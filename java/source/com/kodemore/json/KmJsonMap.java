@@ -80,6 +80,11 @@ public class KmJsonMap
         setObject(key, value);
     }
 
+    public void setLiteral(String key, String value)
+    {
+        setObject(key, new KmJsonLiteral(value));
+    }
+
     public void setNull(String key)
     {
         setObject(key, null);
@@ -215,7 +220,7 @@ public class KmJsonMap
     public KmList<String> getKeys()
     {
         KmList<String> v;
-        v = new KmList<String>();
+        v = new KmList<>();
 
         Set<?> keys = getInner().keySet();
         for ( Object key : keys )
@@ -302,4 +307,5 @@ public class KmJsonMap
     {
         return toString().subSequence(start, end);
     }
+
 }

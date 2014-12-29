@@ -1,7 +1,7 @@
 package com.kodemore.servlet.action;
 
+import com.kodemore.command.KmDaoRollbackException;
 import com.kodemore.exception.KmApplicationException;
-import com.kodemore.exception.KmCancelException;
 
 public abstract class ScAction
     extends ScAbstractAction
@@ -27,16 +27,16 @@ public abstract class ScAction
             getContext().checkSecurity();
             handle();
         }
-        catch ( KmCancelException ex )
-        {
-            // none
-        }
         catch ( KmApplicationException ex )
         {
             if ( !hasContext() )
                 throw ex;
 
             getContext().handleError(ex);
+        }
+        catch ( KmDaoRollbackException ex )
+        {
+            throw ex;
         }
         catch ( RuntimeException ex )
         {

@@ -33,6 +33,7 @@ public class MyDaoSession
     {
         if ( _cache == null )
             _cache = new MyDaoSessionCache();
+
         return _cache;
     }
 

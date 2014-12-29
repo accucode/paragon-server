@@ -37,7 +37,7 @@ public abstract class MySettingsToolsBase
     public ScDomainDropdownField<MySettings,Integer> newDomainDropdown()
     {
         ScDomainDropdownField<MySettings,Integer> e;
-        e = new ScDomainDropdownField<MySettings,Integer>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MySettingsFilter());
         e.setFinder(new MySettingsFinder());

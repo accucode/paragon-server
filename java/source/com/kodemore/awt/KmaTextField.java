@@ -84,18 +84,22 @@ public class KmaTextField
             newHelpAction(),
             KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0),
             WHEN_FOCUSED);
+
         registerKeyboardAction(
             newExtendedEditAction(),
             KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0),
             WHEN_FOCUSED);
+
         registerKeyboardAction(
             newCancelAction(),
             KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK),
             WHEN_FOCUSED);
+
         registerKeyboardAction(
             newCancelAction(),
             KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, Event.ALT_MASK),
             WHEN_FOCUSED);
+
         registerKeyboardAction(
             newEnterAction(),
             KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
@@ -116,8 +120,10 @@ public class KmaTextField
     public void setText(String s)
     {
         s = s.trim();
+
         if ( _forceUpperCase )
             s = s.toUpperCase();
+
         super.setText(s);
         _oldText = s;
     }
@@ -253,6 +259,7 @@ public class KmaTextField
             repaint();
             return;
         }
+
         if ( hasChanged() )
         {
             updateForChange();
@@ -261,6 +268,7 @@ public class KmaTextField
             repaint();
             return;
         }
+
         getAcceptActions().fire();
     }
 
@@ -429,8 +437,10 @@ public class KmaTextField
         char c = ev.getKeyChar();
         if ( c == KeyEvent.CHAR_UNDEFINED )
             return;
+
         if ( !Character.isLowerCase(c) )
             return;
+
         c = Character.toUpperCase(c);
         ev.setKeyChar(c);
     }
@@ -464,15 +474,13 @@ public class KmaTextField
         return isTextValid(s);
     }
 
-    //###########################################
-    //##
-    //##  SUBCLASS OVERRIDE
-    //##
-    //###########################################
+    //##################################################
+    //# subclass override
+    //##################################################
 
-    //##################################################
-    //# update
-    //##################################################
+    //==================================================
+    //= update
+    //==================================================
 
     /**
      * I am used by subclasses keep a cached value of some
@@ -512,6 +520,7 @@ public class KmaTextField
         if ( _autoRevertToRange )
             if ( updateValueToRange() )
                 return;
+
         if ( _autoRevertOnError )
             updateText();
         else
@@ -523,21 +532,22 @@ public class KmaTextField
         return false;
     }
 
-    //##################################################
-    //# testing
-    //##################################################
+    //==================================================
+    //= testing
+    //==================================================
 
     public boolean isTextValid(String s)
     {
         if ( !getAllowEmpty() )
             if ( s.equals("") )
                 return false;
+
         return true;
     }
 
-    //##################################################
-    //# help
-    //##################################################
+    //==================================================
+    //= help
+    //==================================================
 
     public String getHelpTitle()
     {

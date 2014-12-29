@@ -46,9 +46,11 @@ public class KmaGridDefaultCellRenderer
     public void initialize()
     {
         super.initialize();
+
         setBackground(getSelectionColor());
         int i = getFocusBorderWidth();
         Color c = getFocusBorderColor();
+
         _focusBorder = BorderFactory.createLineBorder(c, i);
         _emptyBorder = BorderFactory.createEmptyBorder(i, i, i, i);
     }
@@ -88,10 +90,12 @@ public class KmaGridDefaultCellRenderer
         Border b = hasFocus
             ? _focusBorder
             : _emptyBorder;
+
         setBorder(b);
         setOpaque(isSelected);
         String s = getTextFor(x, y, value);
         setText(s);
+
         return this;
     }
 

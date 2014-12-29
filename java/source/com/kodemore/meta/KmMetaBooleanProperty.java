@@ -22,6 +22,7 @@ public abstract class KmMetaBooleanProperty<T>
         ScCheckboxField e;
         e = new ScCheckboxField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
         e.setValueAdaptor(this);
         return e;

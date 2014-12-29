@@ -73,16 +73,16 @@ public class MyDateFieldTestPage
         form.setSubmitAction(newSubmitAction());
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Date Fields");
 
         ScFieldTable fields;
-        fields = group.addPad().addFields();
+        fields = group.getBody().addPad().addFieldTable();
         fields.add(_nameField);
         fields.add(_startField);
         fields.add(_endField);
 
-        group.addDivider();
-        group.addButtonBox().addSubmitButton();
+        group.addBodyDivider();
+        group.getBody().addButtonBox().addSubmitButton();
     }
 
     //##################################################

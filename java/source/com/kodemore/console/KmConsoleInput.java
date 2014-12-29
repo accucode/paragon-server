@@ -46,16 +46,18 @@ public class KmConsoleInput
     {
         try
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder out = new StringBuilder();
             System.out.print(prompt);
+
             while ( true )
             {
                 int i = System.in.read();
                 if ( i == '\n' )
                     break;
-                sb.append((char)i);
+
+                out.append((char)i);
             }
-            return sb.toString();
+            return out.toString();
         }
         catch ( Exception ex )
         {

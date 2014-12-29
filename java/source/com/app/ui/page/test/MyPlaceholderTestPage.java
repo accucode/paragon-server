@@ -63,15 +63,15 @@ public class MyPlaceholderTestPage
         form.css().gap();
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Placeholder Test");
 
         ScBox box;
-        box = group.addGap();
+        box = group.getBody().addGap();
         box.addBox().addText(
             "The following field should show a 'placeholder' hint inside the field...");
-        box.addFields().add(_textField);
-        group.addDivider();
-        group.addButtonBox().addSubmitButton();
+        box.addFieldTable().add(_textField);
+        group.addBodyDivider();
+        group.getBody().addButtonBox().addSubmitButton();
     }
 
     //##################################################

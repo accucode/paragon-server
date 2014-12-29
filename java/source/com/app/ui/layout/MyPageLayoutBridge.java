@@ -30,6 +30,6 @@ public class MyPageLayoutBridge
     @Override
     public String getMainSelector()
     {
-        return MyPageLayout.CONTENT_SELECTOR;
+        return MyPageLayout.getInstance().getContent().getInner().getJquerySelector();
     }
 }

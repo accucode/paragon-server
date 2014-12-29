@@ -1,6 +1,7 @@
 package com.app.ui.servlet;
 
 import com.kodemore.file.KmFile;
+import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.utility.Kmu;
 
@@ -15,9 +16,9 @@ import com.app.utility.MyUrls;
 
 /**
  * Handle entry into the application, typically initiated
- * from an HTTP GET.  
- * 
- * -- Redirect to a standard url.      
+ * from an HTTP GET.
+ *
+ * -- Redirect to a standard url.
  * -- Redirect the GET with a POST (to avoid caching).
  * -- Begin the server session and register the cookie.
  * -- Generate the minimal html page, just enough to bootstrap the first ajax request.
@@ -101,7 +102,8 @@ public class MyMainServlet
         String version = MyConstantsIF.APPLICATION_VERSION;
         String versionFolder = MyUrlBridge.getInstance().getVersionFolder();
         String query = formatQueryString();
-        String html = MyPageLayout.getInstance().formatHtml();
+        String html = MyPageLayout.getInstance().renderHtml();
+        String bodyClass = formatBodyClass();
 
         String s;
         s = file.readString();
@@ -110,6 +112,7 @@ public class MyMainServlet
         s = Kmu.replaceAll(s, "${versionFolder}", versionFolder);
         s = Kmu.replaceAll(s, "${query}", query);
         s = Kmu.replaceAll(s, "${html}", html);
+        s = Kmu.replaceAll(s, "${bodyClass}", bodyClass);
         return s;
     }
 
@@ -121,5 +124,16 @@ public class MyMainServlet
             s = MyNavigator.formatDefaultPageQueryString();
 
         return s;
+    }
+
+    private String formatBodyClass()
+    {
+        if ( getProperties().isEnvironmentStage() )
+            return KmCssDefaultConstantsIF.environmentStage;
+
+        if ( getProperties().isEnvironmentProduction() )
+            return KmCssDefaultConstantsIF.environmentProduction;
+
+        return "";
     }
 }

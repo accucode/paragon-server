@@ -85,7 +85,13 @@
  ** borders
  *******************************************************************/
 
-.border         { border: 1px solid black;  }
+.noBorder       { border: none; }
+
+.border         { border:        1px solid black;  }
+.borderLeft     { border-left:   1px solid black;  }
+.borderRight    { border-right:  1px solid black;  }
+.borderTop      { border-top:    1px solid black;  }
+.borderBottom   { border-bottom: 1px solid black;  }
 
 .borderNone     { border: none;             }
 .borderBlack    { border: 1px solid black;  }
@@ -111,11 +117,34 @@
 .borderGroove   { border: 2px groove gray;  }
 .borderRidge    { border: 2px ridge  gray;  }
 
-.groove       { border:        2px groove lightgray; }
-.grooveTop    { border-top:    2px groove lightgray; }
-.grooveBottom { border-bottom: 2px groove lightgray; }
-.grooveLeft   { border-left:   2px groove lightgray; }
-.grooveRight  { border-right:  2px groove lightgray; }
+.groove         { border:        2px groove lightgray; }
+.grooveTop      { border-top:    2px groove lightgray; }
+.grooveBottom   { border-bottom: 2px groove lightgray; }
+.grooveLeft     { border-left:   2px groove lightgray; }
+.grooveRight    { border-right:  2px groove lightgray; }
+
+.outset         { border:        1px outset #fff }
+.outsetTop      { border-top:    1px outset #fff }
+.outsetBottom   { border-bottom: 1px outset #fff }
+.outsetLeft     { border-left:   1px outset #fff }
+.outsetRight    { border-right:  1px outset #fff }
+
+.outsetVertical     
+{ 
+    border-top:    1px outset #fff; 
+    border-bottom: 1px outset #fff; 
+}
+
+.outsetHorizontal   
+{ 
+    border-left:   1px outset #fff;
+    border-right:  1px outset #fff;
+}
+
+.insetTop       { border-top:    1px inset #fff }
+.insetBottom    { border-bottom: 1px inset #fff }
+.insetLeft      { border-left:   1px inset #fff }
+.insetRight     { border-right:  1px inset #fff }
 
 /*******************************************************************
  ** border collapse
@@ -354,12 +383,30 @@
  ** overflow
  *******************************************************************/
 
-.auto               { overflow: auto;       }
-.overflowAuto       { overflow: auto;       }
+.auto               { overflow:   auto;     }
+.autoX              { overflow-x: auto;     }
+.autoY              { overflow-y: auto;     }
 
+.scroll             { overflow:   scroll;   }
+.scrollX            { overflow-x: scroll;   }
+.scrollY            { overflow-y: scroll;   }
+
+.noScroll           { overflow: hidden;     }
+           
+.overflowAuto       { overflow: auto;       }
 .overflowScroll     { overflow: scroll;     }
 .overflowVisible    { overflow: visible;    }
 .overflowHidden     { overflow: hidden;     }
+
+.overflowAutoY      { overflow-y: auto;     }
+.overflowScrollY    { overflow-y: scroll;   }
+.overflowVisibleY   { overflow-y: visible;  }
+.overflowHiddenY    { overflow-y: hidden;   }
+
+.overflowAutoX      { overflow-x: auto;     }
+.overflowScrollX    { overflow-x: scroll;   }
+.overflowVisibleX   { overflow-x: visible;  }
+.overflowHiddenX    { overflow-x: hidden;   }
 
 /*******************************************************************
  ** text - white space
@@ -413,6 +460,8 @@
 .backgroundLightGray     { background-color: lightgray; }
 .backgroundYellow        { background-color: yellow;    }
 
+/* The 16+1 gray scale */
+/* Obsolete, move towards the alternate half-tones below 00, 08, 10, 18... ff */
 .backgroundGray000       { background-color: #000;      }
 .backgroundGray111       { background-color: #111;      }
 .backgroundGray222       { background-color: #222;      }
@@ -429,6 +478,42 @@
 .backgroundGrayDDD       { background-color: #DDD;      }
 .backgroundGrayEEE       { background-color: #EEE;      }
 .backgroundGrayFFF       { background-color: #FFF;      }
+
+/* The 32+1 gray scale half tones. */
+.backgroundGray00        { background-color: #000000;   }
+.backgroundGray08        { background-color: #080808;   }
+.backgroundGray10        { background-color: #101010;   }
+.backgroundGray18        { background-color: #181818;   }
+.backgroundGray20        { background-color: #202020;   }
+.backgroundGray28        { background-color: #282828;   }
+.backgroundGray30        { background-color: #303030;   }
+.backgroundGray38        { background-color: #383838;   }
+.backgroundGray40        { background-color: #404040;   }
+.backgroundGray48        { background-color: #484848;   }
+.backgroundGray50        { background-color: #505050;   }
+.backgroundGray58        { background-color: #585858;   }
+.backgroundGray60        { background-color: #606060;   }
+.backgroundGray68        { background-color: #686868;   }
+.backgroundGray70        { background-color: #707070;   }
+.backgroundGray78        { background-color: #787878;   }
+.backgroundGray80        { background-color: #808080;   }
+.backgroundGray88        { background-color: #888888;   }
+.backgroundGray90        { background-color: #909090;   }
+.backgroundGray98        { background-color: #989898;   }
+.backgroundGrayA0        { background-color: #A0A0A0;   }
+.backgroundGrayA8        { background-color: #A8A8A8;   }
+.backgroundGrayB0        { background-color: #B0B0B0;   }
+.backgroundGrayB8        { background-color: #B8B8B8;   }
+.backgroundGrayC0        { background-color: #C0C0C0;   }
+.backgroundGrayC8        { background-color: #C8C8C8;   }
+.backgroundGrayD0        { background-color: #D0D0D0;   }
+.backgroundGrayD8        { background-color: #D8D8D8;   }
+.backgroundGrayE0        { background-color: #E0E0E0;   }
+.backgroundGrayE8        { background-color: #E8E8E8;   }
+.backgroundGrayF0        { background-color: #F0F0F0;   }
+.backgroundGrayF8        { background-color: #F8F8F8;   }
+.backgroundGrayFF        { background-color: #FFFFFF;   }
+
 
 /*******************************************************************
  ** resize
@@ -568,12 +653,6 @@
 }
 
 /*******************************************************************
- ** dragging
- *******************************************************************/
- 
-.dragHandle	{}
-
-/*******************************************************************
  ** box-sizing
  *******************************************************************/
 
@@ -601,10 +680,12 @@
 .fill
 {
 	position: absolute;
-	left: 0;
-	right: 0;
-	width: auto;
-	top: 0;
+	
+	left:   0;
+	right:  0;
+	width:  auto;
+	
+	top:    0;
 	bottom: 0;
 	height: auto;
 }
@@ -612,9 +693,81 @@
 .fillOffset
 {
 	position: absolute;
+	
 	left:   10px;
 	right:  10px;
+	width:  auto;
+	
 	top:    10px;
 	bottom: 10px;
+    height: auto;
 }
  
+/*******************************************************************
+ ** flexbox :: parent
+ **
+ ** http://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ *******************************************************************/
+
+/* use the flex layout, block or inline */
+.flex               { display: flex;            } 
+.flexInline         { display: inline-flex;     }
+
+/* the primary flow direction */
+.flexRow            { flex-direction: row;              }
+.flexRowReverse     { flex-direction: row-reverse;      }
+.flexColumn         { flex-direction: column;           }
+.flexColumnReverse  { flex-direction: column-reverse;   }
+
+/* distribute items along MAIN axis */ 
+.flexAlignStart         { justify-content: flex-start;      }
+.flexAlignEnd           { justify-content: flex-end         }
+.flexAlignCenter        { justify-content: center;          }
+.flexAlignSpaced        { justify-content: space-between;   }
+.flexAlignSpacedAround  { justify-content: space-around;    }
+
+/* distribute items along the CROSS axis */
+.flexCrossAlignStretch  { align-items: stretch;     }
+.flexCrossAlignStart    { align-items: flex-start;  }
+.flexCrossAlignEnd      { align-items: flex-end;    }
+.flexCrossAlignCenter   { align-items: center;      }
+.flexCrossAlignBaseline { align-items: baseline;    }
+
+/* allow wrapping */ 
+.flexNoWrap         { flex-wrap: none;          }
+.flexWrap           { flex-wrap: wrap;          }
+.flexWrapReverse    { flex-wrap: wrap-reverse;  }
+
+/* distribute lines along the CROSS axis, ONLY if wrapping is enabled */ 
+.flexWrapAlignStretch       { align-content: stretch;       }
+.flexWrapAlignStart         { align-content: flex-start;    }
+.flexWrapAlignEnd           { align-content: flex-end       }
+.flexWrapAlignCenter        { align-content: center;        }
+.flexWrapAlignSpaced        { align-content: space-between; }
+.flexWrapAlignSpacedAround  { align-content: space-around;  }
+
+ /*******************************************************************
+ ** flexbox :: child
+ **
+ ** http://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ *******************************************************************/
+
+/* can the item grow */
+.flexNoGrow    { flex-grow: 0; }
+.flexGrow      { flex-grow: 1; }
+
+/* can the item shrink */
+.flexShrink    { flex-shrink: 1; }
+.flexNoShrink  { flex-shrink: 0; }
+
+/* convenience for grow and shrink */
+.flexStatic    { flex-grow:0; flex-shrink:0; }
+.flexFiller    { flex-grow:1; flex-shrink:1; }
+
+/* override the item alignment on the CROSS axis */
+.flexCrossOverrideAuto      { align-self: auto;         }
+.flexCrossOverrideStart     { align-self: flex-start;   }
+.flexCrossOverrideEnd       { align-self: flex-end;     }
+.flexCrossOverrideCenter    { align-self: center;       }
+.flexCrossOverrideBaseline  { align-self: baseline;     }
+.flexCrossOverrideStretch   { align-self: stretch;      }

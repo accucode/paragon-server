@@ -21,7 +21,7 @@ public class KmJavaMethod
 
     public KmJavaMethod()
     {
-        _arguments = new KmList<KmJavaArgument>();
+        _arguments = new KmList<>();
     }
 
     //##################################################
@@ -79,15 +79,17 @@ public class KmJavaMethod
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder out = new StringBuilder();
+
         Iterator<KmJavaArgument> i = _arguments.iterator();
         while ( i.hasNext() )
         {
-            sb.append(i.next());
+            out.append(i.next());
             if ( i.hasNext() )
-                sb.append(", ");
+                out.append(", ");
         }
-        return Kmu.format("%s %s(%s)", _returnType, _name, sb);
+
+        return Kmu.format("%s %s(%s)", _returnType, _name, out);
     }
 
 }

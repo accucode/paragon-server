@@ -122,8 +122,10 @@ public abstract class KmaSwingWorker
     public void interrupt()
     {
         Thread t = _threadVar.get();
+
         if ( t != null )
             t.interrupt();
+
         _threadVar.clear();
     }
 

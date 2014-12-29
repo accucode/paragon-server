@@ -55,6 +55,16 @@ public class MyMetaFile
     {
         return MyFileValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "A file. A record of files managed on the file system.";
+    }
+
+    public static String getHelp()
+    {
+        return "I represent a file stored on the file system.  I only store a reference to the\nfile, NOT the contents of the file itself.";
+    }
 
     //##################################################
     //# fields and delegates

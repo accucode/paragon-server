@@ -32,9 +32,9 @@ import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
  * I am used to fill a region, displaying a title line at the top and filling
  * the remainder with a content area.  Children are added (delegated) directly
  * to my body.
- * 
+ *
  * I do not create an element of my own, instead adding the title and body
- * directly to my parent.  Because I rely on the use of absolute 
+ * directly to my parent.  Because I rely on the use of absolute
  * positioning, my parent must have a non-static position.
  */
 public class ScTitlePanelLayout
@@ -137,15 +137,13 @@ public class ScTitlePanelLayout
     //##################################################
 
     @Override
-    public Iterator<ScControl> getComponents()
+    public Iterator<ScControlIF> getComponents()
     {
-        KmCompositeIterator<ScControl> i;
-        i = new KmCompositeIterator<ScControl>();
-
+        KmCompositeIterator<ScControlIF> i;
+        i = new KmCompositeIterator<>();
         i.addAll(super.getComponents());
         i.add(getHeader());
         i.add(getBody());
-
         return i;
     }
 }

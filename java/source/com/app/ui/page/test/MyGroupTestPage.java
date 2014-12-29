@@ -1,6 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
@@ -66,12 +67,16 @@ public class MyGroupTestPage
     {
         String text = Kmu.repeat(msg + "\n", 3);
 
-        ScGroup e;
-        e = new ScGroup();
-        e.setTitle(title);
-        e.bodyCss().pad();
-        e.addText(text);
-        return e;
+        ScGroup group;
+        group = new ScGroup();
+        group.setTitle(title);
+
+        ScDiv body;
+        body = group.getBody();
+        body.css().pad();
+        body.addText(text);
+
+        return group;
     }
 
     private ScGroup newClearGroup(String title, String msg)

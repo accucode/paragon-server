@@ -46,10 +46,10 @@ public class KmStringConstraintValidationError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append(_message);
-        sb.append(".");
+        out.append(_message);
+        out.append(".");
     }
 
 }

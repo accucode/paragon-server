@@ -68,24 +68,29 @@ public class KmaGridMouseModel
             m.resetAnchor();
             m.toggleAnchorSelection();
             m.fireSelectActions();
+
+            repaintGrid();
+            return;
         }
-        else
-            if ( shift )
-            {
-                m.setDot(p);
-                m.clearSelection();
-                m.selectAnchor();
-                m.extendSelection();
-                m.fireSelectActions();
-            }
-            else
-            {
-                m.setDot(p);
-                m.resetAnchor();
-                m.clearSelection();
-                m.selectDot();
-                m.fireSelectActions();
-            }
+
+        if ( shift )
+        {
+            m.setDot(p);
+            m.clearSelection();
+            m.selectAnchor();
+            m.extendSelection();
+            m.fireSelectActions();
+
+            repaintGrid();
+            return;
+        }
+
+        m.setDot(p);
+        m.resetAnchor();
+        m.clearSelection();
+        m.selectDot();
+        m.fireSelectActions();
+
         repaintGrid();
     }
 
@@ -103,6 +108,7 @@ public class KmaGridMouseModel
         m.setDot(p);
         m.extendSelection();
         m.fireSelectActions();
+
         repaintGrid();
     }
 

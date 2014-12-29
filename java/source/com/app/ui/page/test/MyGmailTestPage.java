@@ -82,22 +82,22 @@ public class MyGmailTestPage
         form.setSubmitAction(newSendAction());
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Gmail Test");
 
         ScBox body;
-        body = group.addGap();
+        body = group.getBody().addGap();
         body.addText("Send an email directly via gmail.");
         body.addBreak();
 
         ScFieldTable fields;
-        fields = body.addFields();
+        fields = body.addFieldTable();
         fields.add(_toField);
         fields.add(_fromField);
         fields.add(_subjectField);
         fields.add(_messageField);
 
-        group.addDivider();
-        group.addButtonBox().addSubmitButton("Send");
+        group.addBodyDivider();
+        group.getBody().addButtonBox().addSubmitButton("Send");
     }
 
     //##################################################
@@ -134,7 +134,8 @@ public class MyGmailTestPage
         MyEmailGmailMethod m;
         m = new MyEmailGmailMethod();
         m.send(e);
-        Object[] args = {};
+        Object[] args =
+        {};
 
         ajax().toast("Your email has been sent.", args);
     }

@@ -1,52 +1,69 @@
-For Lucas
-	Needs to reset application salt.
-
-Java 8?
-    Lamda expressions?
-    Runtime compatible with JRE6?
-
 =======================================
 == To Do
 =======================================
 
-Sign page
-	The "Stay Signed In" feature is not working.
-	
-Create
-    ScTitledBodyLayout
-    ScTriPanelLayout
+Add module menu.
 
+Add projects.
+Replace "accounts" with "projects" in the header.
+Change userAccount => userProject.
+Remove transferAccount
+    invitation.stf
+    various pages.
+Remove auto-project for new users.
 
-Refactor ScActivity
-    No more activities.  Just pages.
-    Change page.start to final.
-    Page.start should call reset() which can update the pageSession.
+Remove the concept of "owned" accounts/projects.
+    Adminstrators can see/edit ALL projects.
+    Managers can see/edit their projects.
+    But each project may have many Managers, not a single owner.    
 
-    Change Navigation
-        Use History.pushState instead of url hashes.
-                
----
-Review myInstallerLog
-
-Test on tablets and phones.
-    apple and android.
+Current project
+    Is currently stored in the server session.
+    It does not sync with the browser back button.
+    E.g.: select Project A, select Project B, browser back, B is still selected.
+    Move to page session?
     
-Improve field labels.
-    Add colon?
-    Determine style based on child element?
-    
-properties
-    review all database properties...
-    e.g.: databaseBatchInsertGroupSize
-    
-Review types.xml
+Tab Header
+    The tab header (html title) is not initially updated when you first enter the app.
+    It is subsequently updated when you navigate to the next page.
 
-Read my readme.txt
-Read my notes.txt
+Help
+    Add page level help; to the pageTitle.
+    Add field level help; next to fields.
 
-Update copyrights
+Gap Layout
+    Consider a simpler "gap" method.
+    The W3C specifies that box "margins" collapse under the conditions that we usually 
+    care about; and only the larger of the two margins takes effect.
+    
+    Per http://www.w3.org/TR/CSS2/box.html#collapsing-margins
+    Margins collapse iff:
+        - both belong to in-flow block-level boxes that participate in the same block formatting context
+        - no line boxes, no clearance, no padding and no border separate them
+        - both belong to vertically-adjacent box edges
+
+    So... instead of:
+        .gap                    { padding: 10px  0px  0px 10px }
+        .gap > *                { margin:   0px 10px 10px  0px }
+        
+    Perhaps we can simply use:
+        .gap > *                { margin:   10px }
+    
+    This requires additional testing.  This may not work for certain cases.
 
     
+        
+    
+
+    
+=======================================
+== UX
+=======================================
+
+The following may provide some examples and ideas:
+    pinterest (ux)
+    theme forest (admin)
+
 =======================================
 == Key Classes
 =======================================
@@ -67,13 +84,6 @@ code.
     FF 3.5+
     Chrome
     Safari 3
-
-=======================================
-== Production access
-=======================================
-
-mysql -p -u root
-    accucode
 
 
 =======================================
@@ -252,116 +262,493 @@ of the common prefixes are:
 == temp
 =======================================
 
-
-
-$().toastmessage('showToast', {"sticky":false,"text":"hello","type":"notice",inEffectDuration:500});
-
-$().toastmessage('showToast', {text:"hello"});
-
-
-
-
-
-$(function(){setTimeout("Kmu.ajaxRequest(null,'pXR','n,');", 250);});
-
-setTimeout("Kmu.ajaxRequest(null,'pXR','n,');", 250);
-
-
-
-
-
-/*******************************************************************
- ** padSpaced
- *******************************************************************/
-
-.padSpaced          { padding: 10px  0px  0px 10px }
-.padSpaced > *      { margin:   0px 10px 10px  0px }
-
-.smallPadSpaced     { padding:  5px  0px  0px  5px }
-.smallPadSpaced > * { margin:   0px  5px  5px  0px }
-
-.padSpaced5         { padding: 5px 0px 0px 5px }
-.padSpaced5 > *     { margin:  0px 5px 5px 0px }
-
-.padSpaced10        { padding: 10px  0px  0px 10px }
-.padSpaced10 > *    { margin:   0px 10px 10px  0   }
-
-.padSpaced10x3      { padding: 10px  7px  7px 10px }
-.padSpaced10x3 > *  { margin:   0px  3px  3px  0px }
-
-.padSpaced10x2      { padding: 10px  8px  8px 10px }
-.padSpaced10x2 > *  { margin:   0px  2px  2px  0px }
-
-.padSpaced20        { padding: 20px  0px  0px 20px }
-.padSpaced20 > *    { margin:   0px 20px 20px  0px }
-
-.padSpaced20x5      { padding: 20px 15px 15px 20px }
-.padSpaced20x5 > *  { margin:   0px  5px  5px  0px }
-
-/*******************************************************************
- ** vPadSpaced
- *******************************************************************/
-
-.vPadSpaced      { padding-top:   10px; }
-.vPadSpaced > *  { margin-bottom: 10px; }
-
-.vPadSpaced5     { padding-top:   5px; }
-.vPadSpaced5 > * { margin-bottom: 5px; }
-
-.vPadSpaced10     { padding-top:   10px; }
-.vPadSpaced10 > * { margin-bottom: 10px; }
-
-.vPadSpaced20     { padding-top:   20px; }
-.vPadSpaced20 > * { margin-bottom: 20px; }
-
-.vPadSpaced30     { padding-top:   30px; }
-.vPadSpaced30 > * { margin-bottom: 30px; }
-
-/*******************************************************************
- ** hPadSpaced
- *******************************************************************/
-
-.hPadSpaced      { padding-left: 10px; }
-.hPadSpaced > *  { margin-right: 10px; }
-
-.hPadSpaced5     { padding-left: 5px; }
-.hPadSpaced5 > * { margin-right: 5px; }
-
-.hPadSpaced10     { padding-left: 10px; }
-.hPadSpaced10 > * { margin-right: 10px; }
-
-.hPadSpaced20     { padding-left: 20px; }
-.hPadSpaced20 > * { margin-right: 20px; }
-
-.hPadSpaced30     { padding-left: 30px; }
-.hPadSpaced30 > * { margin-right: 30px; }
-
-
-
-$("#P7CO-6DQ1SIM-Z0IBUJ-XJHTF3-DYB5L7").animate(
-    {
-        "background-color": "#0ff"
-    },
-    {
-        duration: 100,
-    }
-);
-$("#P7CO-6DQ1SIM-Z0IBUJ-XJHTF3-DYB5L7").animate(
-    {
-        "background-color": "#eee"
-    },
-    {
-        duration: 100,
-    }
-);
-
-
-Kmu.glow(
+itemFilter(
 {
-    target: "#P7CO-6DQ1SIM-Z0IBUJ-XJHTF3-DYB5L7"
+    findValue: "w",
+    itemSel: ".modelList-item",
+    attrSels: [".modelList-itemTitle", ".modelList-itemSubtitle"]
 });
 
+/**
+ * The following options are supported...
+ *
+ * findValue
+ *      A string value to search for.
+ *      Should NOT be used with findSel.
+ *
+ * findSel
+ *      A string selector used to identify the field that contains the value to search for.
+ *      Should NOT be used with findValue.
+ *
+ * itemSel
+ *      A string selector that identifies the items to be shown or hidden.
+ *      This is required.
+ *
+ * attrSels
+ *      An array of string selectors used to identify one or more child elements of each item.
+ */
+function filterItems(options)
+{
+    var find = null;
+
+    if ( options.findValue )
+        find = options.findValue;
+            
+    if ( options.findSel )
+        find = $(options.findSel).val();
+
+    var itemSel = options.itemSel;
+    var attrSels = options.attrSels;
+    
+    if ( !find )
+    {
+        $(itemSel).show();
+        return;
+    }
+    
+    find = find.toLowerCase();
+    
+    $(itemSel).each(function()
+    {
+        var e = $(this);
+        var match = false;
+        var n = attrSels.length;
+        for ( var i=0; i<n; i++ )
+        {
+            var attr = e.find(attrSels[i]);
+            if ( $(attr).text().toLowerCase().indexOf(find) >= 0 )
+            {
+                match = true;
+                break;
+            }
+        }
+        
+        if ( match )
+            e.show();
+        else
+            e.hide();
+    });
+}
 
 
 
-$("#P7CO-6DQ1SIM-Z0IBUJ-XJHTF3-DYB5L7").toggle();
+Kmu.filterItems({"findSel":"#PJUQ","itemSel":"modelList-item","attrSels":["modelList-itemTitle","modelList-itemSubtitle"]})
+
+$('#PJUQ').keyup(function(){Kmu.filterItems({"findSel":"#PJUQ","itemSel":"modelList-item","attrSels":["modelList-itemTitle","modelList-itemSubtitle"]});
+
+
+function test(item)
+{
+    item = $(item);
+    
+    var selList = item.closest(".dmsContainer").find(".dmsSelectedList");
+    var availList = item.closest(".dmsContainer").find(".dmsAvailableList");
+    
+    var avail = item.parent().hasClass("dmsAvailableList");
+    if ( avail )
+    {
+        
+        item.slideToggle();
+        item.promise().done(function()
+        {
+            item.remove();
+            selList.add(item);
+            item.slideToggle();
+        });
+    }
+}
+
+
+
+function dmsToggle()
+{
+    var item = $(this).closest(".dmsItem");
+    
+    var selList = item.closest(".dmsContainer").find(".dmsSelectedList");
+    var availList = item.closest(".dmsContainer").find(".dmsAvailableList");
+    
+    var targetList = item.parent().hasClass("dmsSelectedList")
+        ? availList
+        : selList;
+    
+    item.slideToggle(150);
+    item.promise().done(function()
+    {
+        targetList.scrollTo(0);
+        
+        item.detach();
+        item.prependTo(targetList);
+        item.slideToggle(150);
+    });
+}
+$('.dmsItemToggle').click(dmsToggle);
+
+
+$('#PFAT').sortable({"handle":".dragHandle""update\":Kmu.dmsRenumber});
+
+
+
+function xxx()
+{
+    window.open("", "_blank");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //##################################################
+    //# variables
+    //##################################################
+
+    private ScCardFrame _frame;
+
+    private ScCard      _checkEmailCard;
+    private ScTextField _checkEmailField;
+
+    private ScCard      _joinUserCard;
+    private ScActionIF  _joinUserAction;
+    private ScTextField _joinEmailField;
+    private ScTextField _joinNameField;
+    private ScDropdown  _joinRoleField;
+
+    private ScCard      _createUserCard;
+    private ScActionIF  _createUserAction;
+    private ScTextField _createEmailField;
+    private ScTextField _createNameField;
+    private ScDropdown  _createRoleField;
+
+    //##################################################
+    //# setup
+    //##################################################
+
+    @Override
+    public void setup()
+    {
+        _frame = getBody().addFrame();
+
+        installCheckEmailCard();
+        installJoinUserCard();
+        installCreateUserCard();
+
+        disableSave();
+    }
+
+    private void installCheckEmailCard()
+    {
+        _checkEmailCard = _frame.addCard();
+        _checkEmailCard.beDefault();
+
+        ScFieldset set;
+        set = _checkEmailCard.addFieldset("Check Email");
+
+        ScFieldLayout fields;
+        fields = set.addFieldLayout();
+
+        ScDiv row;
+        row = fields.addDiv();
+        row.setLabel("Email");
+        row.css().smallChildMarginRight();
+
+        _checkEmailField = row.addTextField();
+        _checkEmailField.setValidator(MyUser.Meta.Email);
+
+        ScActionButton button;
+        button = row.addButton();
+        button.setText("Check");
+        button.setPostImage(MyButtonUrls.rightDown());
+        button.setAction(newCheckEmailAction());
+    }
+
+    private void installJoinUserCard()
+    {
+        _joinUserCard = _frame.addCard();
+        _joinUserAction = newJoinUserAction();
+
+        ScFieldset set;
+        set = _joinUserCard.addFieldset("Join Existing User");
+
+        ScFieldLayout fields;
+        fields = set.addFieldLayout();
+
+        _joinEmailField = fields.addTextField();
+        _joinEmailField.setLabel("Email");
+        _joinEmailField.setReadOnly();
+
+        _joinNameField = fields.addTextField();
+        _joinNameField.setLabel("Name");
+        _joinNameField.setReadOnly();
+
+        _joinRoleField = fields.add(newRoleDropdown());
+    }
+
+    private void installCreateUserCard()
+    {
+        _createUserCard = _frame.addCard();
+        _createUserAction = newCreateUserAction();
+
+        ScFieldset set;
+        set = _createUserCard.addFieldset("Create New User");
+
+        ScFieldLayout fields;
+        fields = set.addFieldLayout();
+
+        ScDiv emailRow;
+        emailRow = fields.addDiv();
+        emailRow.setLabel("Email");
+        emailRow.css().smallChildMarginRight();
+
+        _createEmailField = emailRow.addTextField();
+        _createEmailField.setReadOnly();
+
+        emailRow.addLink("change", newChangeEmailAction());
+
+        _createNameField = fields.addTextField();
+        _createNameField.setLabel("Name");
+        _createNameField.setValidator(MyUser.Meta.Name);
+
+        _createRoleField = fields.add(newRoleDropdown());
+    }
+
+    //##################################################
+    //# actions
+    //##################################################
+
+    private ScActionIF newCheckEmailAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleCheckEmail();
+            }
+        };
+    }
+
+    private ScActionIF newChangeEmailAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleChangeEmail();
+            }
+        };
+    }
+
+    private ScActionIF newCreateUserAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleCreateUser();
+            }
+        };
+    }
+
+    private ScActionIF newJoinUserAction()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handleJoinUser();
+            }
+        };
+    }
+
+    //##################################################
+    //# handle
+    //##################################################
+
+    private void handleCheckEmail()
+    {
+        _checkEmailField.ajax().focus();
+        _checkEmailField.ajax().hideAllErrors();
+        _checkEmailField.validate();
+
+        String email = _checkEmailField.getValue();
+
+        if ( !Kmu.isValidEmailAddress(email) )
+            _checkEmailField.error("Invalid email.");
+
+        MyUser user;
+        user = getAccess().getUserDao().findEmail(email);
+
+        if ( user == null )
+        {
+            ajaxShowCreateUserFor(email);
+            return;
+        }
+
+        if ( getCurrentProject().hasMember(user) )
+            _checkEmailField.error("Already a member.");
+
+        ajaxShowJoinUserCardFor(user);
+    }
+
+    private void handleChangeEmail()
+    {
+        ajaxShowCheckEmailCard();
+    }
+
+    @Override
+    protected void handleSave()
+    {
+        validate();
+
+        MyMember e;
+        e = getCurrentProject().addMember();
+        e.applyFrom(this);
+        e.saveDao();
+
+        flushDao();
+
+        MyManageDomainPage<MyMember> page;
+        page = getPage();
+        page.ajaxAddDomain(e);
+        page.ajaxSelectDomain(e);
+    }
+
+    private void handleCreateUser()
+    {
+        String email = _createEmailField.getValue();
+        String name = _createNameField.getValue();
+        String roleCode = _createRoleField.getStringValue();
+        MyMemberRole role = MyMemberRole.findCode(roleCode);
+
+        MyUser user = getAccess().getUserDao().findEmail(email);
+        if ( user == null )
+        {
+            user = new MyUser();
+            user.setEmail(email);
+            user.setName(name);
+            user.setRoleOther();
+            user.saveDao();
+        }
+
+        MyProject project = getCurrentProject();
+        MyMember member = project.getMemberFor(user);
+
+        if ( member == null )
+        {
+            member = project.addMember();
+            member.setUser(user);
+        }
+
+        member.setRole(role);
+
+        flushDao();
+
+        ajax().toast("Added member.");
+        getPage().ajaxAddDomain(member);
+        getPage().ajaxSelectDomain(member);
+    }
+
+    private void handleJoinUser()
+    {
+        String email = _joinEmailField.getValue();
+        String roleCode = _joinRoleField.getStringValue();
+        MyMemberRole role = MyMemberRole.findCode(roleCode);
+
+        MyUser user = getAccess().getUserDao().findEmail(email);
+        if ( user == null )
+            _joinEmailField.error("Invalid email.");
+
+        MyProject project = getCurrentProject();
+        MyMember member = project.getMemberFor(user);
+
+        if ( member == null )
+        {
+            member = project.addMember();
+            member.setUser(user);
+        }
+
+        member.setRole(role);
+
+        flushDao();
+
+        ajax().toast("Added member.");
+        getPage().ajaxAddDomain(member);
+        getPage().ajaxSelectDomain(member);
+    }
+
+    //##################################################
+    //# ajax
+    //##################################################
+
+    private void ajaxShowCreateUserFor(String email)
+    {
+        _createEmailField.setValue(email);
+        _createUserCard.ajaxPrint();
+
+        ajaxEnableSave(_createUserAction);
+    }
+
+    private void ajaxShowJoinUserCardFor(MyUser user)
+    {
+        _joinEmailField.setValue(user.getEmail());
+        _joinNameField.setValue(user.getName());
+        _joinUserCard.ajaxPrint();
+
+        ajaxEnableSave(_joinUserAction);
+    }
+
+    private void ajaxShowCheckEmailCard()
+    {
+        _frame.ajaxPrintDefault();
+
+        ajaxDisableSave();
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private ScDropdown newRoleDropdown()
+    {
+        ScDropdown e;
+        e = MyMember.Tools.newRoleDropdown();
+        e.setValueAdaptor(MyMember.Meta.RoleCode);
+        e.setValue(MyMemberRole.Worker);
+        return e;
+    }
+

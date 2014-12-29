@@ -1,0 +1,46 @@
+model
+: name      = attentionGroup
+: help...
+    ===
+    Attention groups are used to coordinate requests for assistance.  When
+    someone needs help with a particular task, they can flag the task attention.
+    However, rather than requesting assistance from a specific person, the app is
+    designed to direct assistance to potentially multiple people.  This provides
+    for greater flexibility and helps avoid bottlenecks as the system scales.
+    Typical examples of attention groups include: Manager, Engineer, and Accounting.
+    === 
+
+database
+: alias = ag
+
+    index
+    : name      = attentionGroup
+    : unique    = false
+    : on        = project
+    : on        = name
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The globally unique identifier.  This is a big ugly number and is usually not displayed.
+    : comment       = The unique key.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    association
+    : name      = project
+    : help      = The project to which this group belongs.
+    : comment   =
+    : modelName = project
+    : relation  = parent
+    : required  = true
+
+    field
+    : name      = name
+    : help      = The display name of this group.  This should generally be unique within a given project.
+    : comment   =
+    : type      = name
+    : required  = required

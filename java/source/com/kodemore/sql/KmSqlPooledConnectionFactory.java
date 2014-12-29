@@ -56,8 +56,8 @@ public class KmSqlPooledConnectionFactory
     public KmSqlPooledConnectionFactory(KmSqlConnectionFactoryIF f)
     {
         _connectionFactory = f;
-        _openConnections = new KmList<KmSqlConnection>();
-        _closedConnections = new KmList<KmSqlConnection>();
+        _openConnections = new KmList<>();
+        _closedConnections = new KmList<>();
     }
 
     //##################################################

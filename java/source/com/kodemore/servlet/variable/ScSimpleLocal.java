@@ -51,7 +51,7 @@ public class ScSimpleLocal<T>
 
     public ScSimpleLocal(T def)
     {
-        _value = new ScThreadLocal<T>();
+        _value = new ScThreadLocal<>();
         setValue(def);
     }
 

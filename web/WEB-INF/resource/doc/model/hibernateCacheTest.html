@@ -16,19 +16,25 @@
 <body>
 <h1>hibernateCacheTest</h1>
 
-A table to be able to test the hibernate second level cache.<br>
+${model.f_comment}<br>
 <br>
 
 <table cellspacing=0 cellpadding=3 border=1>
 <tr>
   <th>Attribute</th>
-  <th>Comment</th>
+  <th>Help / Comment</th>
   <th>Format</th>
   <th>Attributes</th>
 </tr>
 <tr>
   <td>uid&nbsp;</td>
-  <td>The unique key.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The globally unique identifier.  This is a big ugly number and generally not displayed.<br>
+            &nbsp;
+  </td>
+  
   <td>uid
         <br><nobr>max length: 30</nobr>           <br>allows(
                       printable
@@ -40,7 +46,13 @@ A table to be able to test the hibernate second level cache.<br>
 </tr>
 <tr>
   <td>data&nbsp;</td>
-  <td>just random data&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        Random data used for testing.<br>
+            &nbsp;
+  </td>
+  
   <td>text1000
         <br><nobr>max length: 1000</nobr>           <br>allows(
                       printable
@@ -52,7 +64,13 @@ A table to be able to test the hibernate second level cache.<br>
 </tr>
 <tr>
   <td>lockVersion&nbsp;</td>
-  <td>Used for optimistic locking.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
+            &nbsp;
+  </td>
+  
   <td>lockVersion
               </td>
   <td>

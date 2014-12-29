@@ -27,7 +27,7 @@ public class KmFacebookWork
     private static final String       PROJECTS_KEY    = "projects";
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private KmFacebookIdName          _employer;
@@ -176,8 +176,7 @@ public class KmFacebookWork
 
     public static KmList<KmFacebookWork> createListWith(KmJsonArray arr)
     {
-        KmList<KmFacebookWork> v;
-        v = new KmList<KmFacebookWork>();
+        KmList<KmFacebookWork> v = new KmList<>();
 
         int n = arr.size();
         for ( int i = 0; i < n; i++ )

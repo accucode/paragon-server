@@ -50,6 +50,12 @@ public class MyMetaEmail_FromAddress
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The from address.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

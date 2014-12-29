@@ -48,7 +48,7 @@ public class ScScriptPattern
 
     public ScScriptPattern()
     {
-        _arguments = new KmList<Object>();
+        _arguments = new KmList<>();
     }
 
     //##################################################

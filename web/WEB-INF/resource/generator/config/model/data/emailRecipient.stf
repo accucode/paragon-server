@@ -1,6 +1,9 @@
 model
 : name      = emailRecipient
-: comment   = Emails.
+: help...
+    ===
+    I define the recipients for a given email.  The TOs, CCs, and BCCs.
+    === 
 
 database
 : alias = er

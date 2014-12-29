@@ -23,22 +23,21 @@ public enum MyInvitationRole
 
     Owner("O", "Owner"),
     Manager("M", "Manager"),
-    User("U", "User"),
-    ;
+    User("U", "User"), ;
 
     //##################################################
     //# find
     //##################################################
 
-    private static final KmList<MyInvitationRole> _values;
+    private static final KmList<MyInvitationRole>       _values;
     private static final KmMap<String,MyInvitationRole> _codes;
 
     static
     {
-        _values = new KmList<MyInvitationRole>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyInvitationRole>();
+        _codes = new KmMap<>();
         for ( MyInvitationRole e : EnumSet.allOf(MyInvitationRole.class) )
             _codes.put(e.getCode(), e);
     }

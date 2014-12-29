@@ -51,8 +51,8 @@ public class KmXmlElement
     public KmXmlElement(KmXmlSourceLocation e)
     {
         super(e);
-        _attributes = new KmList<KmXmlAttribute>();
-        _children = new KmList<KmXmlNode>();
+        _attributes = new KmList<>();
+        _children = new KmList<>();
     }
 
     //##################################################
@@ -133,7 +133,7 @@ public class KmXmlElement
 
     public KmList<String> getPathNames()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         collectPathNames(v);
         return v;
     }
@@ -292,7 +292,7 @@ public class KmXmlElement
 
     public KmList<KmXmlElement> getChildElements()
     {
-        KmList<KmXmlElement> v = new KmList<KmXmlElement>();
+        KmList<KmXmlElement> v = new KmList<>();
         for ( KmXmlNode e : _children )
             if ( e.isElement() )
                 v.add(e.asElement());
@@ -301,7 +301,7 @@ public class KmXmlElement
 
     public KmList<KmXmlElement> getChildElements(String tag)
     {
-        KmList<KmXmlElement> v = new KmList<KmXmlElement>();
+        KmList<KmXmlElement> v = new KmList<>();
         for ( KmXmlNode e : _children )
             if ( e.isElement() && e.asElement().hasTag(tag) )
                 v.add(e.asElement());
@@ -330,11 +330,11 @@ public class KmXmlElement
     public KmList<KmXmlElement> getElementsAt(KmList<String> path)
     {
         KmList<KmXmlElement> parents;
-        parents = new KmList<KmXmlElement>();
+        parents = new KmList<>();
         parents.add(this);
 
         KmList<KmXmlElement> children;
-        children = new KmList<KmXmlElement>();
+        children = new KmList<>();
 
         for ( String tag : path )
         {
@@ -369,7 +369,7 @@ public class KmXmlElement
 
     public KmList<String> getChildElementTexts(String tag)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         for ( KmXmlElement e : getChildElements(tag) )
             v.add(e.collectText());
         return v;
@@ -394,7 +394,7 @@ public class KmXmlElement
 
     public KmList<String> collectTextsAt(String path)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         for ( KmXmlElement e : getElementsAt(path) )
             v.add(e.collectText());
         return v;
@@ -402,7 +402,7 @@ public class KmXmlElement
 
     public KmList<KmXmlText> getTextChildren()
     {
-        KmList<KmXmlText> v = new KmList<KmXmlText>();
+        KmList<KmXmlText> v = new KmList<>();
         for ( KmXmlNode e : _children )
             if ( e.isText() )
                 v.add(e.asText());
@@ -411,7 +411,7 @@ public class KmXmlElement
 
     public KmList<String> getDistinctChildTags()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         for ( KmXmlElement e : getChildElements() )
             v.addDistinct(e.getTag());
         return v;
@@ -613,7 +613,7 @@ public class KmXmlElement
 
     public KmList<String> getStrings(String key)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         for ( KmXmlElement c : getChildElements(key) )
         {
             if ( c.containsNonText() )
@@ -639,7 +639,7 @@ public class KmXmlElement
     public static KmList<String> pathToTags(String path)
     {
         KmList<String> v;
-        v = new KmList<String>();
+        v = new KmList<>();
         v.addAll(path.split("/"));
         return v;
     }

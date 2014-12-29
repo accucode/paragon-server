@@ -55,15 +55,19 @@ public class KmaGridKeyModel
             case KeyEvent.VK_LEFT:
                 moveLeft(ev);
                 break;
+
             case KeyEvent.VK_RIGHT:
                 moveRight(ev);
                 break;
+
             case KeyEvent.VK_UP:
                 moveUp(ev);
                 break;
+
             case KeyEvent.VK_DOWN:
                 moveDown(ev);
                 break;
+
             case KeyEvent.VK_SPACE:
                 space(ev);
                 break;
@@ -88,28 +92,32 @@ public class KmaGridKeyModel
 
     public void moveLeft(KeyEvent ev)
     {
-        Point p = getDot();
+        Point p;
+        p = getDot();
         p.x--;
         moveTo(p, ev);
     }
 
     public void moveRight(KeyEvent ev)
     {
-        Point p = getDot();
+        Point p;
+        p = getDot();
         p.x++;
         moveTo(p, ev);
     }
 
     public void moveUp(KeyEvent ev)
     {
-        Point p = getDot();
+        Point p;
+        p = getDot();
         p.y--;
         moveTo(p, ev);
     }
 
     public void moveDown(KeyEvent ev)
     {
-        Point p = getDot();
+        Point p;
+        p = getDot();
         p.y++;
         moveTo(p, ev);
     }
@@ -145,6 +153,7 @@ public class KmaGridKeyModel
     {
         if ( !contains(p) )
             return;
+
         boolean shift = ev.isShiftDown();
         boolean control = ev.isControlDown();
         KmaGridActionModel a = getActionModel();
@@ -155,29 +164,36 @@ public class KmaGridKeyModel
             a.setDot(p);
             a.extendToggleSelection();
             a.fireSelectActions();
+
+            getGrid().repaint();
+            return;
         }
-        else
-            if ( control )
-            {
-                a.setDot(p);
-                a.resetAnchor();
-                a.toggleDotSelection();
-                a.fireSelectActions();
-            }
-            else
-                if ( shift )
-                {
-                    a.setDot(p);
-                    a.clearSelection();
-                    a.selectAnchor();
-                    a.extendSelection();
-                    a.fireSelectActions();
-                }
-                else
-                {
-                    a.setDot(p);
-                    a.resetAnchor();
-                }
+
+        if ( control )
+        {
+            a.setDot(p);
+            a.resetAnchor();
+            a.toggleDotSelection();
+            a.fireSelectActions();
+
+            getGrid().repaint();
+            return;
+        }
+
+        if ( shift )
+        {
+            a.setDot(p);
+            a.clearSelection();
+            a.selectAnchor();
+            a.extendSelection();
+            a.fireSelectActions();
+
+            getGrid().repaint();
+            return;
+        }
+
+        a.setDot(p);
+        a.resetAnchor();
         getGrid().repaint();
     }
 
@@ -188,6 +204,7 @@ public class KmaGridKeyModel
     public void space(KeyEvent ev)
     {
         KmaGridActionModel a = getActionModel();
+
         boolean control = ev.isControlDown();
         if ( control )
         {
@@ -203,6 +220,7 @@ public class KmaGridKeyModel
             a.selectDot();
             a.fireSelectActions();
         }
+
         getGrid().repaint();
     }
 

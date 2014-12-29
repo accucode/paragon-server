@@ -50,6 +50,12 @@ public class MyMetaPatch_Name
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The unique key.  This is typically a short date-ish value such as: 20140131-1.txt.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 15;

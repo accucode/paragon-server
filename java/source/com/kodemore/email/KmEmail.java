@@ -49,10 +49,10 @@ public class KmEmail
 
     public KmEmail()
     {
-        _toList = new ArrayList<String>();
-        _ccList = new ArrayList<String>();
-        _bccList = new ArrayList<String>();
-        _parts = new ArrayList<KmEmailPartIF>();
+        _toList = new ArrayList<>();
+        _ccList = new ArrayList<>();
+        _bccList = new ArrayList<>();
+        _parts = new ArrayList<>();
     }
 
     //##################################################

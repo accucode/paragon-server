@@ -88,20 +88,20 @@ public class MyCardFlipTestPage
 
         ScGroup front;
         front = _flipFront.addGroup("Flip");
-        front.addPad().addText("THIS IS THE FRONT!");
+        front.getBody().addPad().addText("THIS IS THE FRONT!");
         front.bodyStyle().height(400);
 
         ScGroup back;
         back = _flipBack.addGroup("Flip");
-        back.addPad().addText("THIS IS THE BACK!");
+        back.getBody().addPad().addText("THIS IS THE BACK!");
         back.bodyStyle().height(400);
 
         front = _fadeFront.addGroup("Fade");
-        front.addPad().addText("THIS IS THE FRONT!");
+        front.getBody().addPad().addText("THIS IS THE FRONT!");
         front.bodyStyle().height(400);
 
         back = _fadeBack.addGroup("Fade");
-        back.addPad().addText("THIS IS THE BACK!");
+        back.getBody().addPad().addText("THIS IS THE BACK!");
         back.bodyStyle().height(400);
     }
 

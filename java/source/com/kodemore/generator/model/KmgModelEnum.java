@@ -156,7 +156,7 @@ public class KmgModelEnum
 
     private void parseValues(KmStfElement x)
     {
-        _values = new KmList<KmgModelEnumValue>();
+        _values = new KmList<>();
 
         KmList<KmStfElement> v = x.getChildren("value");
         for ( KmStfElement e : v )

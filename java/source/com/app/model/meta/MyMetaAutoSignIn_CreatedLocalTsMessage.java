@@ -49,6 +49,12 @@ public class MyMetaAutoSignIn_CreatedLocalTsMessage
     }
 
     @Override
+    public String getHelp()
+    {
+        return null;
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

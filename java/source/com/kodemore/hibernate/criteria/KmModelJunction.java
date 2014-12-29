@@ -1,9 +1,6 @@
 package com.kodemore.hibernate.criteria;
 
-/**
- * @param <T>  used as a placeholder and for clarity.
- */
-public class KmModelJunction<T>
+public class KmModelJunction
 {
     //##################################################
     //# variables

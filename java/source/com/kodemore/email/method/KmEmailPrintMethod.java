@@ -41,9 +41,11 @@ public class KmEmailPrintMethod
     @Override
     public KmList<KmEmailResult> send(List<KmEmailIF> emails)
     {
-        KmList<KmEmailResult> v = new KmList<KmEmailResult>();
+        KmList<KmEmailResult> v = new KmList<>();
+
         for ( KmEmailIF e : emails )
             v.add(_send(e));
+
         return v;
     }
 
@@ -54,6 +56,7 @@ public class KmEmailPrintMethod
         printRecipients(email);
         printBody(email);
         end();
+
         return okResult(email);
     }
 
@@ -78,7 +81,7 @@ public class KmEmailPrintMethod
     private void printRecipients(String label, List<String> v)
     {
         if ( v == null )
-            v = new KmList<String>();
+            v = new KmList<>();
 
         printfln(label + " (%s)", v.size());
         for ( String e : v )

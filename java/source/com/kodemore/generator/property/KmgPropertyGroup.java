@@ -13,7 +13,7 @@ public class KmgPropertyGroup
     //##################################################
 
     private String              _name;
-    private KmList<KmgProperty> _properties = new KmList<KmgProperty>();
+    private KmList<KmgProperty> _properties = new KmList<>();
 
     //##################################################
     //# constructor

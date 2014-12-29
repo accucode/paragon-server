@@ -55,8 +55,8 @@ public class MyEmailSender
 
     public MyEmailSender()
     {
-        _emails = new KmList<MyEmail>();
-        _results = new KmList<KmEmailResult>();
+        _emails = new KmList<>();
+        _results = new KmList<>();
     }
 
     //##################################################
@@ -127,7 +127,7 @@ public class MyEmailSender
     private KmList<KmEmailIF> composeEmails()
     {
         KmList<KmEmailIF> v;
-        v = new KmList<KmEmailIF>();
+        v = new KmList<>();
 
         for ( MyEmail e : _emails )
             v.add(wrap(e));

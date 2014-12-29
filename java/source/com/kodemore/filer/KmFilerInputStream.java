@@ -216,7 +216,7 @@ public class KmFilerInputStream
             if ( !_readExists() )
                 return null;
             int n = _inputStream.readInt();
-            KmList<Object> v = new KmList<Object>(n);
+            KmList<Object> v = new KmList<>(n);
             for ( int i = 0; i < n; i++ )
                 v.add(readObject(c));
             return v;
@@ -240,7 +240,7 @@ public class KmFilerInputStream
                 return null;
 
             int n = _inputStream.readInt();
-            KmList<Object> v = new KmList<Object>(n);
+            KmList<Object> v = new KmList<>(n);
             for ( int i = 0; i < n; i++ )
                 v.add(readObject(c));
 
@@ -265,7 +265,7 @@ public class KmFilerInputStream
             if ( !_readExists() )
                 return null;
             int n = _inputStream.readInt();
-            KmList<Object> v = new KmList<Object>(n);
+            KmList<Object> v = new KmList<>(n);
             for ( int i = 0; i < n; i++ )
                 v.add(readRuntimeObject());
             return v;
@@ -284,7 +284,7 @@ public class KmFilerInputStream
                 return null;
 
             int n = _inputStream.readInt();
-            KmList<String> v = new KmList<String>(n);
+            KmList<String> v = new KmList<>(n);
             for ( int i = 0; i < n; i++ )
                 v.add(readString());
 
@@ -345,7 +345,7 @@ public class KmFilerInputStream
                 return null;
 
             int n = _inputStream.readInt();
-            KmList<Double> v = new KmList<Double>(n);
+            KmList<Double> v = new KmList<>(n);
             for ( int i = 0; i < n; i++ )
                 v.add(_inputStream.readDouble());
 
@@ -365,7 +365,7 @@ public class KmFilerInputStream
                 return null;
 
             int n = _inputStream.readInt();
-            KmList<Integer> v = new KmList<Integer>(n);
+            KmList<Integer> v = new KmList<>(n);
             for ( int i = 0; i < n; i++ )
                 v.add(_inputStream.readInt());
 

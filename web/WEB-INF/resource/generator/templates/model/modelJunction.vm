@@ -16,7 +16,7 @@ import ${package}.model.*;
 import ${package}.model.meta.*;
 
 public class ${model.f_JunctionClass}
-    extends KmModelJunction<${model.f_Class}>
+    extends KmModelJunction
     implements ${model.f_DaoConstantsIF}
 {
 $utility.protocol("constructor")
@@ -37,7 +37,7 @@ $utility.protocol("properties")
 #if ( $field.isDaoProperty() )
     public ${field.f_CriteriaClass} where${field.f_Name}()
     {
-        return new ${field.f_CriteriaClass}(context(), fullName(${field.f_NAME}));
+        return new ${field.f_CriteriaClass_NoGeneric}(context(), fullName(${field.f_NAME}));
     }
 
 #end

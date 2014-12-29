@@ -49,6 +49,12 @@ public class MyMetaTimeZone_Code
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The unique key; e.g.: MST (for mountain standard time).";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 5;

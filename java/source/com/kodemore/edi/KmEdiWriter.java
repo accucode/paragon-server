@@ -80,10 +80,13 @@ public class KmEdiWriter
     public void writeElement(KmEdiElement e) throws IOException
     {
         String[] arr = e.getValues();
+
         int n = arr.length;
         if ( n == 0 )
             return;
+
         writeValue(arr[0]);
+
         for ( int i = 1; i < n; i++ )
         {
             _out.write(CHAR_VALUE_SEPARATOR);
@@ -97,6 +100,7 @@ public class KmEdiWriter
         {
             if ( needsEscape(c) )
                 _out.write(CHAR_ESCAPE);
+
             _out.write(c);
         }
     }

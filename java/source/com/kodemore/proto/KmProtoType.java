@@ -150,7 +150,7 @@ public abstract class KmProtoType
     }
 
     //##################################################
-    //# hibernate 
+    //# hibernate
     //##################################################
 
     public abstract String getHibernateType();
@@ -161,6 +161,13 @@ public abstract class KmProtoType
         String type = format_JavaType();
 
         return Kmu.format("%s<%s>", className, type);
+    }
+
+    public String format_CriteriaClass_NoGeneric()
+    {
+        String className = KmPropertyCriteria.class.getSimpleName();
+
+        return Kmu.format("%s<>", className);
     }
 
     //##################################################

@@ -50,6 +50,12 @@
             />
 
         <property
+            name="phone"
+            column="phone"
+            type="string"
+            />
+
+        <property
             name="verified"
             column="verified"
             type="yes_no"
@@ -79,15 +85,12 @@
             type="string"
             />
 
-        <bag
-            name="userAccounts"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="userUid"/>
-                <one-to-many class="com.app.model.MyUserAccount"/>
-        </bag>
+        <many-to-one
+            name="lastProject"
+            column="lastProjectUid"
+            class="com.app.model.MyProject"
+            cascade="none"
+            />
 
     </class>
 </hibernate-mapping>

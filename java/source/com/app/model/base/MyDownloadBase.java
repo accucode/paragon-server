@@ -134,7 +134,7 @@ public abstract class MyDownloadBase
 
     public void truncateName(boolean ellipses)
     {
-        name = Kmu.truncate(name, 30, ellipses);
+        name = Kmu.truncate(name, 50, ellipses);
     }
 
     //##################################################

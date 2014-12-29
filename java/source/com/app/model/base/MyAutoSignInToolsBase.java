@@ -37,7 +37,7 @@ public abstract class MyAutoSignInToolsBase
     public ScDomainDropdownField<MyAutoSignIn,String> newDomainDropdown()
     {
         ScDomainDropdownField<MyAutoSignIn,String> e;
-        e = new ScDomainDropdownField<MyAutoSignIn,String>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyAutoSignInFilter());
         e.setFinder(new MyAutoSignInFinder());

@@ -237,7 +237,7 @@ public class KmStringSplitter
     private KmList<String> splitString(String s)
     {
         _tokenReader = new TokenReader(s);
-        _lines = new KmList<String>();
+        _lines = new KmList<>();
         _line = new StringBuilder();
         _lineWidth = 0;
         while ( true )

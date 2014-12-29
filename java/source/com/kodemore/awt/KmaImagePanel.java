@@ -50,6 +50,7 @@ public class KmaImagePanel
     {
         _image = e;
         _scaledImage = null;
+
         repaint();
     }
 
@@ -60,6 +61,7 @@ public class KmaImagePanel
             setImage((KmaImage)null);
             return;
         }
+
         KmaImage i;
         i = new KmaImage();
         i.setImage(path);
@@ -73,6 +75,7 @@ public class KmaImagePanel
             setImage((String)null);
             return;
         }
+
         setImage(f.getPath());
     }
 
@@ -103,10 +106,12 @@ public class KmaImagePanel
     {
         if ( _image == null )
             return null;
+
         Dimension d = getSize();
         if ( _scaledImage != null )
             if ( _scaledImage.getDimension().equals(d) )
                 return _scaledImage;
+
         _scaledImage = _image.getScaledInstance((int)d.getWidth(), (int)d.getHeight());
         return _scaledImage;
     }
@@ -119,8 +124,10 @@ public class KmaImagePanel
     public void paint(Graphics g)
     {
         super.paint(g);
+
         if ( _image == null )
             return;
+
         if ( _autoScale )
             getScaledImage().paintOn(g);
         else

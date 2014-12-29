@@ -56,7 +56,7 @@ public class KmStyleBuilder
 
     public KmStyleBuilder()
     {
-        _holder = new KmValueHolder<String>();
+        _holder = new KmValueHolder<>();
     }
 
     public KmStyleBuilder(KmValueHolderIF<String> holder)
@@ -84,7 +84,7 @@ public class KmStyleBuilder
     }
 
     /**
-     * Return a copy.  The copy will have the same value as the 
+     * Return a copy.  The copy will have the same value as the
      * original, but will be detached from the original value HOLDER.
      */
     public KmStyleBuilder getCopy()
@@ -98,6 +98,28 @@ public class KmStyleBuilder
     //##################################################
     //# values
     //##################################################
+
+    public void setValue(String attr, String value)
+    {
+        removeValue(attr);
+        addValue(attr, value);
+    }
+
+    public void setValue(String attr, Integer value, String unit)
+    {
+        removeValue(attr);
+        addValue(attr, value, unit);
+    }
+
+    public void setValue(String attr, Double value, String unit)
+    {
+        removeValue(attr);
+        addValue(attr, value, unit);
+    }
+
+    //==================================================
+    //= values :: add
+    //==================================================
 
     public void addValue(String attr)
     {
@@ -119,6 +141,11 @@ public class KmStyleBuilder
         setValue(join(attr, value, unit));
     }
 
+    public void addValue(String attr, Double value, String unit)
+    {
+        setValue(join(attr, value, unit));
+    }
+
     public void addValue(KmStringAssociation e)
     {
         if ( e == null )
@@ -136,17 +163,21 @@ public class KmStyleBuilder
             addValue(e);
     }
 
+    //==================================================
+    //= values :: remove
+    //==================================================
+
     /**
      * Remove all attributes with the specified key.
      */
-    public void removeValue(String key)
+    public void removeValue(String attr)
     {
         boolean found = false;
         KmList<KmStringAssociation> v = getAssociations();
 
         Iterator<KmStringAssociation> i = v.iterator();
         while ( i.hasNext() )
-            if ( i.next().hasKey(key) )
+            if ( i.next().hasKey(attr) )
             {
                 i.remove();
                 found = true;
@@ -159,9 +190,13 @@ public class KmStyleBuilder
         }
     }
 
+    //##################################################
+    //# abstract accessing
+    //##################################################
+
     public KmList<KmStringAssociation> getAssociations()
     {
-        KmList<KmStringAssociation> v = new KmList<KmStringAssociation>();
+        KmList<KmStringAssociation> v = new KmList<>();
 
         KmList<String> tokens = Kmu.tokenize(getValue(), KmConstantsIF.CHAR_SEMICOLON);
         for ( String token : tokens )
@@ -198,8 +233,8 @@ public class KmStyleBuilder
 
     /**
      * Format a string suitable for output to an html stream.
-     * 
-     * I currently just return my value.  But use of this 
+     *
+     * I currently just return my value.  But use of this
      * method will insulate clients from changes to my internal
      * implementation.
      */
@@ -209,24 +244,61 @@ public class KmStyleBuilder
     }
 
     //##################################################
+    //# position
+    //##################################################
+
+    public KmStyleBuilder relative()
+    {
+        setValue("position", "relative");
+        return this;
+    }
+
+    public KmStyleBuilder absolute()
+    {
+        setValue("position", "absolute");
+        return this;
+    }
+
+    public KmStyleBuilder fill()
+    {
+        absolute();
+
+        left(0);
+        right(0);
+        widthAuto();
+
+        top(0);
+        bottom(0);
+        heightAuto();
+
+        return this;
+    }
+
+    //##################################################
     //# left
     //##################################################
 
     public KmStyleBuilder left(int px)
     {
-        addValue("left", px, "px");
+        setValue("left", px, "px");
         return this;
     }
 
     public KmStyleBuilder leftPercent(int pct)
     {
-        addValue("left", pct, "%");
+        setValue("left", pct, "%");
         return this;
     }
 
     public KmStyleBuilder leftAuto()
     {
-        addValue("left", "auto");
+        setValue("left", "auto");
+        return this;
+    }
+
+    public KmStyleBuilder removeLeft()
+    {
+        removeValue("left");
         return this;
     }
 
@@ -249,6 +321,12 @@ public class KmStyleBuilder
     public KmStyleBuilder rightAuto()
     {
         addValue("right", "auto");
+        return this;
+    }
+
+    public KmStyleBuilder removeRight()
+    {
+        removeValue("right");
         return this;
     }
 
@@ -334,10 +412,10 @@ public class KmStyleBuilder
     //# width
     //##################################################
 
-    public KmStyleBuilder width(Integer e)
+    public KmStyleBuilder width(Integer px)
     {
-        if ( e != null )
-            addValue("width", e, "px");
+        if ( px != null )
+            setValue("width", px, "px");
 
         return this;
     }
@@ -345,30 +423,46 @@ public class KmStyleBuilder
     public KmStyleBuilder widthPercent(Integer e)
     {
         if ( e != null )
-            addValue("width", e, "%");
+            setValue("width", e, "%");
 
         return this;
     }
 
     public KmStyleBuilder widthFull()
     {
-        addValue("width", 100, "%");
+        setValue("width", 100, "%");
 
         return this;
     }
 
-    public KmStyleBuilder minWidth(Integer e)
+    public KmStyleBuilder widthAuto()
     {
-        if ( e != null )
-            addValue("min-width", e, "px");
+        setValue("width", "auto");
+        return this;
+    }
+
+    public KmStyleBuilder removeWidth()
+    {
+        removeValue("width");
+        return this;
+    }
+
+    //==================================================
+    //= width :: min/max
+    //==================================================
+
+    public KmStyleBuilder minWidth(Integer px)
+    {
+        if ( px != null )
+            addValue("min-width", px, "px");
 
         return this;
     }
 
-    public KmStyleBuilder maxWidth(Integer e)
+    public KmStyleBuilder maxWidth(Integer px)
     {
-        if ( e != null )
-            addValue("max-width", e, "px");
+        if ( px != null )
+            addValue("max-width", px, "px");
 
         return this;
     }
@@ -377,10 +471,10 @@ public class KmStyleBuilder
     //# height
     //##################################################
 
-    public KmStyleBuilder height(Integer e)
+    public KmStyleBuilder height(Integer px)
     {
-        if ( e != null )
-            addValue("height", e, "px");
+        if ( px != null )
+            setValue("height", px, "px");
 
         return this;
     }
@@ -388,8 +482,31 @@ public class KmStyleBuilder
     public KmStyleBuilder heightPercent(Integer e)
     {
         if ( e != null )
-            addValue("height", e, "%");
+            setValue("height", e, "%");
 
+        return this;
+    }
+
+    public KmStyleBuilder heightAuto()
+    {
+        setValue("height", "auto");
+        return this;
+    }
+
+    public KmStyleBuilder removeHeight()
+    {
+        removeValue("height");
+        return this;
+    }
+
+    //##################################################
+    //# size
+    //##################################################
+
+    public KmStyleBuilder size(Integer px)
+    {
+        width(px);
+        height(px);
         return this;
     }
 
@@ -537,44 +654,61 @@ public class KmStyleBuilder
 
     public KmStyleBuilder bold()
     {
-        addValue("font-weight", "bold");
+        setValue("font-weight", "bold");
         return this;
     }
 
     public KmStyleBuilder italic()
     {
-        addValue("font-style", "italic");
+        setValue("font-style", "italic");
         return this;
     }
 
     public KmStyleBuilder strike()
     {
-        addValue("text-decoration", "line-through");
-        return this;
-    }
-
-    public KmStyleBuilder size(int px)
-    {
-        addValue("font-size", px, "px");
+        setValue("text-decoration", "line-through");
         return this;
     }
 
     public KmStyleBuilder sans()
     {
-        addValue("font-family", "sans-serif");
+        setValue("font-family", "sans-serif");
         return this;
     }
 
     public KmStyleBuilder serif()
     {
-        addValue("font-family", "serif");
+        setValue("font-family", "serif");
         return this;
     }
 
     public KmStyleBuilder mono()
     {
-        addValue("font-family", "monospace");
+        setValue("font-family", "monospace");
         return this;
+    }
+
+    public KmStyleBuilder fontPx(int px)
+    {
+        addValue("font-size", px, "px");
+        return this;
+    }
+
+    /**
+     * Set the font size as CSS3 Root Em rather than pixels.
+     * This is actually the preferred method of setting font sizes.
+     * If the sytle sheets are configured correctly, you should be
+     * able to use 1.0 as 10px; 1.6 as 16px.
+     */
+    public KmStyleBuilder fontRem(double rem)
+    {
+        setValue("font-size", rem, "rem");
+        return this;
+    }
+
+    public KmStyleBuilder fontPxRem(int px)
+    {
+        return fontRem(px / 10.0);
     }
 
     //##################################################
@@ -596,8 +730,13 @@ public class KmStyleBuilder
 
     public KmStyleBuilder hide()
     {
-        removeValue("display");
-        addValue("display", "none");
+        setValue("display", "none");
+        return this;
+    }
+
+    public KmStyleBuilder visibilityHidden()
+    {
+        setValue("visibility", "hidden");
         return this;
     }
 
@@ -607,8 +746,7 @@ public class KmStyleBuilder
 
     public KmStyleBuilder noBorder()
     {
-        removeValue("border");
-        addValue("border", "none");
+        setValue("border", "none");
         return this;
     }
 
@@ -637,9 +775,18 @@ public class KmStyleBuilder
 
         String colors = Kmu.formatList(colorArr);
         String value = Kmu.format("linear-gradient(to %s, %s)", to, colors);
-        addValue("background", value);
+        setValue("background-image", value);
 
         return this;
+    }
+
+    //##################################################
+    //# background
+    //##################################################
+
+    public void backgroundColor(String value)
+    {
+        setValue("background-color", value);
     }
 
     //##################################################
@@ -666,6 +813,11 @@ public class KmStyleBuilder
         return Kmu.joinHtmlStyle(getValue(), attr, value, unit);
     }
 
+    private String join(String attr, Double value, String unit)
+    {
+        return Kmu.joinHtmlStyle(getValue(), attr, value, unit);
+    }
+
     //##################################################
     //# display
     //##################################################
@@ -679,4 +831,5 @@ public class KmStyleBuilder
     {
         return getValue();
     }
+
 }

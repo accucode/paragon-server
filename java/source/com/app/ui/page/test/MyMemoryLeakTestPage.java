@@ -73,8 +73,8 @@ public class MyMemoryLeakTestPage
         form.css().gap();
 
         ScGroup group;
-        group = form.addGroup();
-        group.addPad().addFields().add(_field);
+        group = form.addGroup("Memory Leak Test");
+        group.getBody().addPad().addFieldTable().add(_field);
 
         form.add(newUserGrid());
 
@@ -86,7 +86,7 @@ public class MyMemoryLeakTestPage
         MyMetaUser x = MyUser.Meta;
 
         ScGrid<MyUser> grid;
-        grid = new ScGrid<MyUser>();
+        grid = new ScGrid<>();
         grid.addColumn(x.Uid);
         grid.addColumn(x.Email);
         grid.addColumn(x.Name);

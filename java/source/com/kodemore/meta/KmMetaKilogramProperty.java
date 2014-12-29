@@ -23,6 +23,7 @@ public abstract class KmMetaKilogramProperty<T>
         ScKilogramField e;
         e = new ScKilogramField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
         e.setValueAdaptor(this);
         return e;

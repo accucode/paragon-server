@@ -83,11 +83,12 @@ public class KmDoubleValidator
         if ( s.length() > wholeNumberLength )
         {
             KmErrorIF err;
-            err = new KmDecimalCharacteristicValidationError(
-                getModel(),
-                getField(),
-                d,
-                wholeNumberLength);
+            err =
+                new KmDecimalCharacteristicValidationError(
+                    getModel(),
+                    getField(),
+                    d,
+                    wholeNumberLength);
             errors.add(err);
         }
     }

@@ -10,17 +10,17 @@ import com.kodemore.servlet.variable.ScLocalString;
 
 /**
  * This demonstrates two pages that share some page session.
- * Test 1A and 1B both rely on _testValue; Test 1B uses 1A's 
+ * Test1 and Test2 both rely on _testValue; Test2 uses Test1's
  * public getter to access the value.
- * 
+ *
  * First, this shows how either page can update the value.
- * 
+ *
  * Second, this shows that the value is preserved when navigating
- * from 1A to 1B.
- * 
+ * from Test1 to Test2.
+ *
  * Third, this shows that the value is automatically restored to
- * it's pre-navigation value when the using the back button to 
- * navigate "back" from 1B to 1A.
+ * it's pre-navigation value when the using the back button to
+ * navigate "back" from Test2 to Test1.
  */
 public class MySharedStateTest1Page
     extends MyAbstractTestEntryPage
@@ -76,18 +76,19 @@ public class MySharedStateTest1Page
         group.css().width400();
 
         ScBox body;
-        body = group.addPad();
+        body = group.getBody().addPad();
         body.addParagraph("Test the page session.");
         body.addBreak();
 
-        group.addDivider();
+        group.addBodyDivider();
 
         ScBox footer;
-        footer = group.addButtonBoxLeft();
+        footer = group.getBody().addButtonBox();
         footer.addButton("red", newRedAction());
         footer.addButton("blue", newBlueAction());
         footer.addButton("toast", newToastAction());
-        footer.addButton("page 2", MySharedStateTest2Page.instance);
+        // footer.addButton("page 2", MySharedStateTest2Page.instance);
+        footer.addButton("page 2", newPage2Action());
     }
 
     //##################################################
@@ -140,6 +141,18 @@ public class MySharedStateTest1Page
         };
     }
 
+    private ScActionIF newPage2Action()
+    {
+        return new ScAction(this)
+        {
+            @Override
+            public void handle()
+            {
+                handlePage2();
+            }
+        };
+    }
+
     //##################################################
     //# handle
     //##################################################
@@ -159,6 +172,12 @@ public class MySharedStateTest1Page
     private void handleToast()
     {
         ajax().toast(getTestValueHolder().getValue());
+    }
+
+    private void handlePage2()
+    {
+        getTestValueHolder().setValue("yellow");
+        MySharedStateTest2Page.instance.ajaxPush();
     }
 
     //##################################################

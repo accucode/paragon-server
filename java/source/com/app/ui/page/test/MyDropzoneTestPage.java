@@ -1,9 +1,8 @@
 package com.app.ui.page.test;
 
 import com.kodemore.file.KmFile;
+import com.kodemore.log.KmLog;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScDropzone;
 import com.kodemore.servlet.control.ScDropzoneUploadHandlerIF;
 import com.kodemore.servlet.control.ScGroup;
@@ -27,6 +26,10 @@ public class MyDropzoneTestPage
     //# constants
     //##################################################
 
+    /**
+     * The uploaded files are written to this folder for testing.
+     * In a real app, these could be written to a database, or processed directly.
+     */
     private static final String UPLOAD_FOLDER = "/temp/uploads";
 
     //##################################################
@@ -57,12 +60,10 @@ public class MyDropzoneTestPage
         ScDropzone dz;
         dz = new ScDropzone();
         dz.setUploadHandler(newUploadHandler());
-        dz.showRemoveLinks();
-        dz.setRemoveAction(newRemoveAction());
 
         ScGroup group;
-        group = root.addGroup();
-        group.add(dz);
+        group = root.addGroup("Drop Zone Test");
+        group.getBody().add(dz);
     }
 
     //##################################################
@@ -81,18 +82,6 @@ public class MyDropzoneTestPage
         };
     }
 
-    private ScActionIF newRemoveAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleRemove();
-            }
-        };
-    }
-
     //##################################################
     //# handle
     //##################################################
@@ -106,10 +95,7 @@ public class MyDropzoneTestPage
         KmFile file;
         file = folder.getChild(fileName);
         file.write(data);
-    }
 
-    private void handleRemove()
-    {
-        ajax().toast("Removed File");
+        KmLog.info("Dropzone uploaded to: " + file.getRealPath());
     }
 }

@@ -33,12 +33,22 @@ public class ScWhenDoneAjax
     extends ScHtmlIdAjax
 {
     //##################################################
+    //# variables
+    //##################################################
+
+    /**
+     * The element to wait for.
+     */
+    private ScHtmlIdIF _waitFor;
+
+    //##################################################
     //# constructor
     //##################################################
 
-    public ScWhenDoneAjax(ScHtmlIdIF target)
+    public ScWhenDoneAjax(ScHtmlIdIF target, ScHtmlIdIF waitFor)
     {
-        super(ScBlockScript.create(), target);
+        super(target, ScBlockScript.create());
+        _waitFor = waitFor;
     }
 
     //##################################################
@@ -65,7 +75,8 @@ public class ScWhenDoneAjax
 
     private String begin()
     {
-        return Kmu.format("%s.promise().done(function()", formatJqueryReference());
+        String sel = _waitFor.getJquerySelector();
+        return Kmu.format("$(%s).promise().done(function()", json(sel));
     }
 
     private String end()

@@ -43,7 +43,7 @@ public class KmaGraphPathElement
     public KmaGraphPathElement()
     {
         _lineStyle = new KmaGraphLineStyle();
-        _points = new KmList<KmaGraphPoint>();
+        _points = new KmList<>();
     }
 
     //##################################################
@@ -88,12 +88,14 @@ public class KmaGraphPathElement
     public KmaGraphBounds getBounds()
     {
         KmaGraphBounds b = new KmaGraphBounds();
+
         Iterator<KmaGraphPoint> i = getPoints().iterator();
         while ( i.hasNext() )
         {
             KmaGraphPoint p = i.next();
             b.add(p);
         }
+
         return b;
     }
 
@@ -102,6 +104,7 @@ public class KmaGraphPathElement
     {
         if ( getLineStyle().isHidden() )
             return;
+
         getLineStyle().applyTo(g);
         g.drawPath(_points);
     }

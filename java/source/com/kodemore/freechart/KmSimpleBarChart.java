@@ -81,7 +81,7 @@ public class KmSimpleBarChart
         _usesAutoHeight = true;
         _skipNullValues = false;
 
-        _groups = new KmList<KmSimpleBarChartGroup>();
+        _groups = new KmList<>();
     }
 
     //##################################################
@@ -292,15 +292,16 @@ public class KmSimpleBarChart
             ? PlotOrientation.HORIZONTAL
             : PlotOrientation.VERTICAL;
 
-        JFreeChart chart = ChartFactory.createBarChart3D(
-            getTitle(),
-            getCategoryAxisLabel(),
-            getValueAxisLabel(),
-            dataset,
-            orientation,
-            isShowsLegend(),
-            tooltips,
-            urls);
+        JFreeChart chart =
+            ChartFactory.createBarChart3D(
+                getTitle(),
+                getCategoryAxisLabel(),
+                getValueAxisLabel(),
+                dataset,
+                orientation,
+                isShowsLegend(),
+                tooltips,
+                urls);
 
         if ( getFormatWithLines() )
         {
@@ -317,7 +318,7 @@ public class KmSimpleBarChart
 
     private KmList<String> getAllDistinctCategoryNames()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         for ( KmSimpleBarChartGroup group : getGroups() )
         {
@@ -330,7 +331,7 @@ public class KmSimpleBarChart
 
     private KmList<Double> getAllDistinctValues()
     {
-        KmList<Double> v = new KmList<Double>();
+        KmList<Double> v = new KmList<>();
 
         for ( KmSimpleBarChartGroup group : getGroups() )
         {

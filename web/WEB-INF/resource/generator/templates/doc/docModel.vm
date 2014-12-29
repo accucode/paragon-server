@@ -14,14 +14,26 @@ ${model.f_comment}<br>
 <table cellspacing=0 cellpadding=3 border=1>
 <tr>
   <th>Attribute</th>
-  <th>Comment</th>
+  <th>Help / Comment</th>
   <th>Format</th>
   <th>Attributes</th>
 </tr>
 #foreach ( $field in $model.fields )
 <tr>
   <td>${field.f_name}&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+    #if ( $field.hasHelp() )
+        <i>Help</i><br>
+        ${field.f_help}<br>
+    #end
+    #if ( $field.hasComment() )
+        <br><i>Comment</i><br>
+        ${field.f_comment}
+    #end
+    &nbsp;
+  </td>
+  
   <td>${field.type.f_name}
     #if ( $field.type.hasMinimumLength() )<br><nobr>min length: $field.type.f_minimumLength</nobr> #end
     #if ( $field.type.hasMaximumLength() )<br><nobr>max length: $field.type.f_maximumLength</nobr> #end

@@ -164,7 +164,7 @@ public class KmEmailSmtpMethod
     @Override
     public KmList<KmEmailResult> send(List<KmEmailIF> v)
     {
-        _emails = new KmList<KmEmailIF>();
+        _emails = new KmList<>();
         _emails.addAll(v);
 
         run();
@@ -193,7 +193,7 @@ public class KmEmailSmtpMethod
 
     private void installResults()
     {
-        _results = new KmMap<KmEmailIF,KmEmailResult>();
+        _results = new KmMap<>();
         for ( KmEmailIF email : _emails )
             _results.put(email, okResult(email));
     }
@@ -219,7 +219,7 @@ public class KmEmailSmtpMethod
 
     private boolean installMessages()
     {
-        _messages = new KmMap<KmEmailIF,MimeMessage>();
+        _messages = new KmMap<>();
 
         for ( KmEmailIF e : _emails )
             if ( _results.get(e).isOk() )
@@ -443,13 +443,14 @@ public class KmEmailSmtpMethod
         {
             String file = null; // not used
 
-            URLName urlName = new URLName(
-                getSmtpScheme(),
-                getSmtpHost(),
-                getSmtpPort(),
-                file,
-                getSmtpUser(),
-                getSmtpPassword());
+            URLName urlName =
+                new URLName(
+                    getSmtpScheme(),
+                    getSmtpHost(),
+                    getSmtpPort(),
+                    file,
+                    getSmtpUser(),
+                    getSmtpPassword());
 
             _transport = createTransport(urlName);
             _transport.connect();

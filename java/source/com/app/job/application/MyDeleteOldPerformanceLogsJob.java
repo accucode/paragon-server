@@ -41,7 +41,7 @@ public class MyDeleteOldPerformanceLogsJob
     //##################################################
 
     @Override
-    protected boolean run()
+    protected boolean handle()
     {
         MyDeleteOldPerformanceLogsCommand cmd;
         cmd = new MyDeleteOldPerformanceLogsCommand();

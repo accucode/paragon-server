@@ -14,12 +14,12 @@ var MyResourceLoader =
             "static/{version}/jquery/core/jquery-migrate-1.2.1.min.js",
 
             // JQuery UI
-            "static/{version}/jquery/jquery-ui-1.10.3/themes/base/minified/jquery-ui.min.css",
-            "static/{version}/jquery/jquery-ui-1.10.3/ui/minified/jquery-ui.min.js",
+            "static/{version}/jquery/jquery-ui-1.11.1/jquery-ui.min.css",
+            "static/{version}/jquery/jquery-ui-1.11.1/jquery-ui.min.js",
 
             // Simple Modal
-            "static/{version}/jquery/simplemodal-1.4.4/simplemodal.css",
-            "static/{version}/jquery/simplemodal-1.4.4/simplemodal.js",
+            // "static/{version}/jquery/simplemodal-1.4.4/simplemodal.css",
+            // "static/{version}/jquery/simplemodal-1.4.4/simplemodal.js",
 
             // Color Picker
             "static/{version}/jquery/colorpicker-09.05.23/css/colorpicker.css",
@@ -39,8 +39,8 @@ var MyResourceLoader =
             "static/{version}/jquery/akquinet-0.2.0-13/javascript/jquery.toastmessage.js",
             
             // CL Editor
-            "static/{version}/jquery/cleditor-1.4.3/jquery.cleditor.css",
-            "static/{version}/jquery/cleditor-1.4.3/jquery.cleditor.min.js",
+            // "static/{version}/jquery/cleditor-1.4.3/jquery.cleditor.css",
+            // "static/{version}/jquery/cleditor-1.4.3/jquery.cleditor.min.js",
 
             // Block UI
             "static/{version}/jquery/blockUi-2.64.0/jquery.blockUI.js",
@@ -48,12 +48,12 @@ var MyResourceLoader =
             // Cookie
             "static/{version}/jquery/cookie-1.0.0/jquery.cookie.js",
 
-            // Transit
+            // Transit - smooth transitions
             "static/{version}/jquery/transit-0.9.9/jquery.transit-0.9.9.min.js",
             
             // Twitter Bootstrap
-            "static/{version}/bootstrap-2.3.2/css/bootstrap.min.css",
-            "static/{version}/bootstrap-2.3.2/js/bootstrap.min.js",
+            // "static/{version}/bootstrap-2.3.2/css/bootstrap.min.css",
+            // "static/{version}/bootstrap-2.3.2/js/bootstrap.min.js",
             
             // Bootstap-select
             "static/{version}/bootstrap-select-1.3.1/bootstrap-select.min.css",
@@ -67,13 +67,23 @@ var MyResourceLoader =
             "static/{version}/json-2010.11.18/json2.js",
             
             // Code39 Azalea
-            "static/{version}/azaleaCode39/Code39Azalea.min.css", 
+            // "static/{version}/azaleaCode39/Code39Azalea.min.css", 
             
             // History
             "static/{version}/jquery/history-1.8.6/scripts/bundled-uncompressed/html5/jquery.history.js", 
             
             // ScrollTo
             "static/{version}/jquery/scrollto-1.4.3.1/jquery.scrollTo-1.4.3.1-min.js", 
+
+            // Visible
+            "static/{version}/jquery/jquery-visible-master/jquery.visible.js", 
+            
+            // Mindmup Editable Table
+            // "static/{version}/jquery/mindmup-editable-table/mindmup-editabletable.js", 
+
+            // Splitter
+            "static/{version}/jquery/jcubic-splitter-0.14.0/css/jquery.splitter.css",
+            "static/{version}/jquery/jcubic-splitter-0.14.0/js/jquery.splitter-0.14.0.js",
             
             // NVD3 Charts
             "static/{version}/nvd3-1.1.10/src/nv.d3.css", 
@@ -96,7 +106,6 @@ var MyResourceLoader =
             "static/{version}/app/common/script/kmDateAgo.js",
             
             // App
-            "static/{version}/app/theme/default/css/topMenu.css",
             "static/{version}/app/theme/default/css/button.css",
             "static/{version}/app/theme/default/css/dropdownMenu.css",
             "static/{version}/app/theme/default/css/theme.css",

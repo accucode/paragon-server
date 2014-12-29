@@ -110,10 +110,11 @@ public class KmaFrame
     //##################################################
 
     @Override
-    protected void processWindowEvent(WindowEvent e)
+    protected void processWindowEvent(WindowEvent ev)
     {
-        super.processWindowEvent(e);
-        if ( e.getID() == WindowEvent.WINDOW_CLOSING )
+        super.processWindowEvent(ev);
+
+        if ( ev.getID() == WindowEvent.WINDOW_CLOSING )
             if ( getDefaultCloseOperation() == EXIT_ON_CLOSE )
                 System.exit(0);
     }

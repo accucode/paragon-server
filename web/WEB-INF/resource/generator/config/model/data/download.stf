@@ -1,6 +1,16 @@
 model
 : name      = download
-: comment   = Used to manage file downloads to the client browser.
+: help...
+    ===
+    I am used to manage file downloads to the client browser.  When a client requests a file
+    the server returns a token (url) that redirects the user to the page where the download 
+    can actually occur.  This helps avoid the problem of download interferring with the current
+    user interface, especially with the single page ajax ui we now use.  However, this also
+    means that additional security is needed to ensure that users cannot access someone else's
+    download.  Only the "user" identified in this record is allowed to download the specified
+    file.
+    === 
+
 
 database
 : alias = dl
@@ -14,7 +24,7 @@ attributes
 
     field
     : name          = uid
-    : comment       = The unique key.
+    : help          = The globally unique identifier.  This is a big ugly number and is generally not displayed.
     : type          = uid
     : default       = newUid()
     : primaryKey    = true
@@ -22,20 +32,20 @@ attributes
 
     field
     : name      = name
-    : comment   = The name of the file to be downloaded.  This is the name provided to the client browser, NOT the name we use internally.
+    : help      = The name of the file to be downloaded.  This is the name provided to the client browser, NOT the name we use internally.
     : type      = name
     : required  = required
 
     field
     : name      = createdUtcTs
-    : comment   = The time this record was created.
+    : help      = The date and time this record was created.
     : type      = timestamp
     : required  = true
     : default   = getNowUtc() 
 
     association
     : name      = user
-    : comment   = The user allowed to download this download.
+    : help      = The specific user allowed to download this file.
     : modelName = user
     : relation  = reference
     : required  = true

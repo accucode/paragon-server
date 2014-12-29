@@ -60,12 +60,14 @@ public class KmaGridRowHeader
             : 0;
 
         KmaGridHeaderIF gh = grid.getColumnHeader();
+
         if ( gh.isVisible() )
         {
             int h = gh.getSize();
             r.y += h;
             r.height -= h;
         }
+
         return r;
     }
 
@@ -101,6 +103,7 @@ public class KmaGridRowHeader
         int xx = -1;
         int y1 = grid.getFirstVisibleRow();
         int y2 = grid.getLastVisibleRow();
+
         for ( int yy = y1; yy <= y2; yy++ )
         {
             value = grid.getRowHeaderValueAt(yy);

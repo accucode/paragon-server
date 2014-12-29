@@ -27,6 +27,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SessionImplementor;
 
 import com.kodemore.types.KmHtmlColor;
 
@@ -51,7 +52,7 @@ public class KmHibernateHtmlColorType
     }
 
     @Override
-    public Object nullSafeGet(ResultSet rs, String[] names, Object owner)
+    public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor impl, Object owner)
         throws HibernateException, SQLException
     {
         String e = rs.getString(names[0]);
@@ -62,7 +63,7 @@ public class KmHibernateHtmlColorType
     }
 
     @Override
-    public void nullSafeSet(PreparedStatement st, Object value, int index)
+    public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor impl)
         throws HibernateException, SQLException
     {
         if ( value == null )

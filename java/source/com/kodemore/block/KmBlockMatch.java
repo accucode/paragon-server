@@ -46,6 +46,7 @@ public class KmBlockMatch<T>
         b = new KmBlock();
         b.setMessage(method);
         b.addArgument(value);
+
         _block = b;
     }
 

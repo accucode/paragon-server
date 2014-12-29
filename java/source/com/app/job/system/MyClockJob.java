@@ -27,7 +27,7 @@ public class MyClockJob
     //##################################################
 
     @Override
-    protected boolean run()
+    protected boolean handle()
     {
         MyClock.update();
         return true;

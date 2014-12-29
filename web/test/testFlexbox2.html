@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function myTest()
+        {
+        }
+        
+    </script>
+
+    <style type="text/css">
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="gap">
+
+<div class="boxBlue gap">
+    <p>Test some uses of the flex layout.</p>
+</div>
+
+<div class="boxGray gap">
+    <p>Left align (the default).</p>
+    <div class="boxGreen pad flex">
+        <div class="boxGray pad">One</div>
+        <div class="boxGray pad">Two</div>
+        <div class="boxGray pad">Three</div>
+        <div class="boxGray pad">Four</div>
+    </div>
+</div>
+
+<div class="boxGray gap">
+    <p>Left align, with spaces (must use non-breaking spaces).</p>
+    <div class="boxGreen pad flex">
+        <div class="boxGray pad">One</div>&nbsp;
+        <div class="boxGray pad">Two</div>&nbsp;
+        <div class="boxGray pad">Three</div>&nbsp;
+        <div class="boxGray pad">Four</div>&nbsp;
+    </div>
+</div>
+
+<div class="boxGray gap">
+    <p>Left align, with margins</p>
+    <div class="boxGreen pad flex">
+        <div class="boxGray pad smallMarginRight">One</div>
+        <div class="boxGray pad smallMarginRight">Two</div>
+        <div class="boxGray pad smallMarginRight">Three</div>
+        <div class="boxGray pad smallMarginRight">Four</div>
+    </div>
+</div>
+
+<div class="boxGray gap">
+    <p>Left align, with parent 'gap'.</p>
+    <div class="boxGreen gap flex">
+        <div class="boxGray pad">One</div>
+        <div class="boxGray pad">Two</div>
+        <div class="boxGray pad">Three</div>
+        <div class="boxGray pad">Four</div>
+    </div>
+</div>
+
+<div class="boxGray gap">
+    <p>Space Between; for simple left and right alignment.</p>
+    <div class="boxGreen pad flex flexSpaced">
+        <div class="boxGray pad flexStatic">Left</div>
+        <div class="boxGray pad flexStatic">Right</div>
+    </div>
+</div>
+
+<div class="boxGray gap">
+    <p>Space Between; with more items.</p>
+    <div class="boxGreen pad flex flexSpaced">
+        <div class="boxGray pad flexStatic">One</div>
+        <div class="boxGray pad flexStatic">Two</div>
+        <div class="boxGray pad flexStatic">Three</div>
+        <div class="boxGray pad flexStatic">Four</div>
+    </div>
+</div>
+
+<div class="boxGray gap">
+    <p>Space Between; with more items.</p>
+    <div class="boxGreen pad flex flexJustifySpaceBetween">
+        <div class="boxGray pad flexStatic">One</div>
+        <div class="boxGray pad flexFiller">Two (grow=1)</div>
+        <div class="boxGray pad flexStatic">Three</div>
+        <div class="boxGray pad flexStatic">Four</div>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

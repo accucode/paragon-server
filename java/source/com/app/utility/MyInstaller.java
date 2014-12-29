@@ -19,19 +19,19 @@ import com.app.file.MyFilePaths;
 import com.app.file.MyResourceFiles;
 import com.app.file.MySharedFiles;
 import com.app.hibernate.MyHibernateConfiguration;
-import com.app.job.MyMasterJob;
+import com.app.job.MyMasterJobManager;
 import com.app.property.MyPropertyManager;
 import com.app.ui.core.MyActions;
-import com.app.ui.core.MyCookieSession;
 import com.app.ui.layout.MyPageLayout;
 import com.app.ui.layout.MyPageLayoutBridge;
+import com.app.ui.page.MyMenuRegistry;
 import com.app.ui.page.MyPageRegistry;
 import com.app.ui.servlet.MyFormatter;
 
 /**
  * I install the application when the servlet container initially
  * starts.  My install method should only be called once per JVM.
- * 
+ *
  * The two most commonly used methods are install(), and installCore().
  */
 public class MyInstaller
@@ -63,7 +63,6 @@ public class MyInstaller
         _installHibernate();
         _installLog4j();
 
-        _installUserInterface();
         _installClock();
         _installAjaxLog();
         _installJobs();
@@ -135,10 +134,10 @@ public class MyInstaller
     //##################################################
     //# private
     //##################################################
+
     private static void _syncDatabasePatches()
     {
-
-        boolean sync = MyGlobals.getProperties().getSyncDatabaseOnStartup();
+        boolean sync = MyGlobals.getProperties().getDatabaseSyncOnStartup();
         if ( !sync )
             return;
 
@@ -163,6 +162,7 @@ public class MyInstaller
         _installSharedFiles();
 
         _installTimeZoneBridge();
+        _installUserInterface();
     }
 
     private static void _installEnvironment()
@@ -214,8 +214,10 @@ public class MyInstaller
     private static void _installLog4jConsole()
     {
         // This does NOT rely on properties or the database.
-        printfHeader("Log4j (console)");
         MyLog4jManager.installConsole();
+
+        // Don't use the logger until it has been installed.
+        printfHeader("Log4j (console)");
         printOk();
     }
 
@@ -247,7 +249,7 @@ public class MyInstaller
     private static void _installJobs()
     {
         printfHeader("Jobs");
-        MyMasterJob.install();
+        MyMasterJobManager.install();
         printOk();
     }
 
@@ -297,11 +299,11 @@ public class MyInstaller
         _installServletCallbacks();
         _installControlRegistry();
         _installActions();
-        _installCookieSession();
         _installCoders();
         _installFormatter();
         _installPageLayout();
         _installPages();
+        _installMenu();
 
         lockControlRegistry();
     }
@@ -309,7 +311,7 @@ public class MyInstaller
     private static void _installPageLayout()
     {
         printfHeader("Layouts");
-        MyPageLayout.install();
+        MyPageLayout.installInstance();
         MyPageLayoutBridge.install();
         printOk();
     }
@@ -325,6 +327,13 @@ public class MyInstaller
     {
         printfHeader("Pages");
         MyPageRegistry.install();
+        printOk();
+    }
+
+    private static void _installMenu()
+    {
+        printfHeader("Menu");
+        MyMenuRegistry.install();
         printOk();
     }
 
@@ -363,13 +372,6 @@ public class MyInstaller
         ScGlobalContext.install();
         ScActions.install();
         MyActions.install();
-        printOk();
-    }
-
-    private static void _installCookieSession()
-    {
-        printfHeader("CookieSession");
-        MyCookieSession.install();
         printOk();
     }
 

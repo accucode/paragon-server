@@ -42,7 +42,7 @@ public class KmAuthnetAbstractResponse
 
     public KmAuthnetAbstractResponse()
     {
-        _responseMessages = new KmList<KmAuthnetResponseMessage>();
+        _responseMessages = new KmList<>();
     }
 
     //##################################################

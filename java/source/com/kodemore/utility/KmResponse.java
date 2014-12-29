@@ -35,7 +35,7 @@ public class KmResponse<T>
     public static KmResponse<String> createString(String value)
     {
         KmResponse<String> e;
-        e = new KmResponse<String>();
+        e = new KmResponse<>();
         e.setValue(value);
         return e;
     }
@@ -43,7 +43,7 @@ public class KmResponse<T>
     public static KmResponse<String> createStringError(String error)
     {
         KmResponse<String> e;
-        e = new KmResponse<String>();
+        e = new KmResponse<>();
         e.setError(error);
         return e;
     }

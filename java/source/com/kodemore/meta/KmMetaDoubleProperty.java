@@ -23,6 +23,7 @@ public abstract class KmMetaDoubleProperty<T>
         ScDoubleField e;
         e = new ScDoubleField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
         e.setValueAdaptor(this);
         return e;

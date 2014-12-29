@@ -41,7 +41,7 @@ public class KmFacebookConnection
 
     public KmFacebookConnection()
     {
-        _parameters = new KmOrderedMap<String,String>();
+        _parameters = new KmOrderedMap<>();
     }
 
     //##################################################

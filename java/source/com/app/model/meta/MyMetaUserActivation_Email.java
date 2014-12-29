@@ -50,6 +50,12 @@ public class MyMetaUserActivation_Email
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The email to be activated.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

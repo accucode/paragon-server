@@ -36,10 +36,10 @@ import com.kodemore.servlet.script.ScHtmlIdAjax;
  * I manage a group box with a title, and buttons for 'clear'
  * and 'search'.  Custom controls are automatically added to
  * my body.
- * 
+ *
  * The 'clear' button will reset the values of all fields.
  * The 'search' button will validate and save the field values.
- * 
+ *
  * Both 'clear' and 'search' trigger the pluggable action so
  * that the client can take appropriate steps to update the view.
  */
@@ -75,13 +75,17 @@ public class ScFilterBox
         _group = _form.addGroup();
         _group.setTitle("Filter");
 
-        _body = _group.addPad();
+        _body = _group.getBody().addPad();
 
-        _leftButtons = _group.getFooter().addButtonBoxLeft();
+        ScDiv footer;
+        footer = _group.showFooter();
+        footer.css().flex().flexAlignSpaced();
+
+        _leftButtons = footer.addButtonBox();
         _leftButtons.addSubmitButton("Search");
         _leftButtons.addButton("Clear", newClearAction());
 
-        _rightButtons = _group.getFooter().addButtonBoxRight();
+        _rightButtons = footer.addButtonBox();
     }
 
     protected ScActionIF newSearchAction()
@@ -115,7 +119,9 @@ public class ScFilterBox
     public void layoutFill()
     {
         _form.css().fill();
-        _group.layoutFillWithButtonFooter();
+
+        _group.css().fill();
+        _group.getFooter().show();
     }
 
     //##################################################
@@ -132,12 +138,6 @@ public class ScFilterBox
     public String getJquerySelector()
     {
         return _form.getJquerySelector();
-    }
-
-    @Override
-    public String getJqueryReference()
-    {
-        return _form.getJqueryReference();
     }
 
     @Override
@@ -203,9 +203,9 @@ public class ScFilterBox
     }
 
     @Override
-    public Iterator<ScControl> getComponents()
+    public Iterator<ScControlIF> getComponents()
     {
-        return new KmSingletonIterator<ScControl>(_form);
+        return new KmSingletonIterator<ScControlIF>(_form);
     }
 
     public ScBox getLeftButtons()

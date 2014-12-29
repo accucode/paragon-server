@@ -79,7 +79,7 @@ public class MyGridTestPage
         _nameField.setLabel("Name");
 
         _filterBox = root.addFilterBox();
-        _filterBox.addFields().add(_nameField);
+        _filterBox.addFieldTable().add(_nameField);
         _filterBox.setAction(newSearchAction());
     }
 
@@ -92,14 +92,14 @@ public class MyGridTestPage
         group.setTitle("Users");
 
         ScDiv buttons;
-        buttons = group.getHeader().addBox();
+        buttons = group.getBanner().addBox();
         buttons.css().floatRight().gap5();
 
         buttons.addButton("Add Sample Users", newAddUsersAction());
         buttons.addButton("Export CSV", newExportAction());
 
         ScGrid<MyUser> grid;
-        grid = group.addGrid();
+        grid = group.getBody().addGrid();
         grid.trackAll(_filterBox);
         grid.setFilterFactory(newFetcher());
         grid.setWidthAuto();

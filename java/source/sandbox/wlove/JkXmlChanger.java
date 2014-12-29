@@ -27,7 +27,7 @@ public class JkXmlChanger
     {
         String doctype = "<!DOCTYPE model SYSTEM \"../model.dtd\">";
 
-        String source = Kmu.readTextFile(file);
+        String source = Kmu.readFileString(file);
         String xml = Kmu.removePrefix(source, doctype).trim();
 
         KmXmlDocument doc = KmXmlParser.parse(xml);

@@ -54,7 +54,7 @@ public class KmSimpleBarChartGroup
 
     public KmSimpleBarChartGroup()
     {
-        _values = new KmOrderedMap<String,Double>();
+        _values = new KmOrderedMap<>();
     }
 
     //##################################################

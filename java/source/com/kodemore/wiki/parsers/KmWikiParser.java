@@ -27,7 +27,7 @@ import com.kodemore.wiki.KmWikiReader;
 import com.kodemore.wiki.KmWikiSource;
 
 public abstract class KmWikiParser
-implements KmWikiConstantsIF
+    implements KmWikiConstantsIF
 {
     //##################################################
     //# variables

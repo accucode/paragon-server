@@ -56,7 +56,7 @@ public abstract class KmDaoSessionManager
     }
 
     //##################################################
-    //# thread local 
+    //# thread local
     //##################################################
 
     private static final ThreadLocal<KmDaoSession> _session = KmThreadLocalManager.newLocal();
@@ -73,6 +73,7 @@ public abstract class KmDaoSessionManager
 
         e = newSession();
         e.open();
+
         _session.set(e);
     }
 
@@ -141,6 +142,11 @@ public abstract class KmDaoSessionManager
         getDaoSession().rollbackSilently();
     }
 
+    public void flush()
+    {
+        getDaoSession().flush();
+    }
+
     //##################################################
     //# session
     //##################################################
@@ -158,8 +164,10 @@ public abstract class KmDaoSessionManager
     public KmDaoSession getDaoSession()
     {
         KmDaoSession e = _getDaoSession();
+
         if ( e == null )
             Kmu.fatal("Dao session NOT installed.");
+
         return e;
     }
 

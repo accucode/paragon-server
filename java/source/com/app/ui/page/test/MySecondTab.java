@@ -30,6 +30,6 @@ public class MySecondTab
         ScGroup group;
         group = root.addGroup();
         group.setTitle("aaa");
-        group.addPad().addText("second test group");
+        group.getBody().addPad().addText("second test group");
     }
 }

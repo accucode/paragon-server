@@ -51,7 +51,7 @@ public class KmaRangeSpinner
         _rightValue = 10;
         _step = 1;
 
-        _changeActions = new KmList<KmaAction>();
+        _changeActions = new KmList<>();
     }
 
     //##################################################
@@ -106,11 +106,14 @@ public class KmaRangeSpinner
     public void handleLeft()
     {
         int old = _value;
+
         if ( _leftValue < _rightValue )
             _value -= _step;
         else
             _value += _step;
+
         checkBounds();
+
         if ( old != _value )
             fireChangeActions();
     }
@@ -119,11 +122,14 @@ public class KmaRangeSpinner
     public void handleRight()
     {
         int old = _value;
+
         if ( _leftValue < _rightValue )
             _value += _step;
         else
             _value -= _step;
+
         checkBounds();
+
         if ( old != _value )
             fireChangeActions();
     }
@@ -132,6 +138,7 @@ public class KmaRangeSpinner
     {
         if ( _value < getMinValue() )
             _value = getMinValue();
+
         if ( _value < getMaxValue() )
             _value = getMaxValue();
     }

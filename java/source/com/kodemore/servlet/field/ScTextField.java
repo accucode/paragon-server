@@ -64,4 +64,8 @@ public class ScTextField
         return Kmu.isEqual(getValue(), e);
     }
 
+    public void clearValue()
+    {
+        setValue((String)null);
+    }
 }

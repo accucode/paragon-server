@@ -36,7 +36,7 @@ import com.kodemore.servlet.variable.ScLocalStyle;
  * not have any children.  That is, my subclasses do not
  * expose a general list of child controls.  However,
  * some subclasses may still manage and generate child
- * elements in the html structure.    
+ * elements in the html structure.
  */
 public abstract class ScElement
     extends ScControl
@@ -89,7 +89,6 @@ public abstract class ScElement
         return ScJquery.formatSelector(this);
     }
 
-    @Override
     public String getJqueryReference()
     {
         return ScJquery.formatReference(this);
@@ -98,7 +97,7 @@ public abstract class ScElement
     @Override
     public ScHtmlIdAjax ajax()
     {
-        return new ScHtmlIdAjax(getRootScript(), this);
+        return new ScHtmlIdAjax(this, getRootScript());
     }
 
     //##################################################
@@ -118,18 +117,6 @@ public abstract class ScElement
     public KmCssDefaultBuilder css()
     {
         return _css.toDefaultBuilder();
-    }
-
-    @Override
-    public void show()
-    {
-        css().remove().hide();
-    }
-
-    @Override
-    public void hide()
-    {
-        css().add().hide();
     }
 
     protected KmCssDefaultBuilder formatCss()
@@ -159,6 +146,18 @@ public abstract class ScElement
     protected KmStyleBuilder formatStyle()
     {
         return style();
+    }
+
+    @Override
+    public void show()
+    {
+        style().show();
+    }
+
+    @Override
+    public void hide()
+    {
+        style().hide();
     }
 
     //##################################################

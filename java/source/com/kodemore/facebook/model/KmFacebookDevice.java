@@ -61,7 +61,7 @@ public class KmFacebookDevice
     public static KmList<KmFacebookDevice> createListWith(KmJsonArray devices)
     {
         KmList<KmFacebookDevice> v;
-        v = new KmList<KmFacebookDevice>();
+        v = new KmList<>();
 
         int n = devices.size();
         for ( int i = 0; i < n; i++ )

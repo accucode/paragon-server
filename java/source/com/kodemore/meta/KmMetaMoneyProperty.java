@@ -23,6 +23,7 @@ public abstract class KmMetaMoneyProperty<T>
         ScMoneyField e;
         e = new ScMoneyField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
         e.setValueAdaptor(this);
         return e;

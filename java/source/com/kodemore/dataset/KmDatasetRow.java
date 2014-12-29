@@ -38,7 +38,7 @@ public class KmDatasetRow
 
     public KmDatasetRow()
     {
-        _values = new KmList<Object>();
+        _values = new KmList<>();
     }
 
     //##################################################

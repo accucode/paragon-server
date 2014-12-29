@@ -33,10 +33,10 @@ public enum MyEmailRecipientType
 
     static
     {
-        _values = new KmList<MyEmailRecipientType>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyEmailRecipientType>();
+        _codes = new KmMap<>();
         for ( MyEmailRecipientType e : EnumSet.allOf(MyEmailRecipientType.class) )
             _codes.put(e.getCode(), e);
     }

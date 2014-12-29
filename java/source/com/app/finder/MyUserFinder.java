@@ -46,7 +46,7 @@ public class MyUserFinder
     public MyUser findDao(String key)
     {
         MyDaoKeyFinder<MyUser,String> e;
-        e = new MyDaoKeyFinder<MyUser,String>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

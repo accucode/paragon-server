@@ -22,7 +22,7 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyServerSessionJunction
-    extends KmModelJunction<MyServerSession>
+    extends KmModelJunction
     implements MyServerSessionDaoConstantsIF
 {
     //##################################################
@@ -55,17 +55,17 @@ public class MyServerSessionJunction
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereClosedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CLOSED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CLOSED_UTC_TS));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereLastTouchedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(LAST_TOUCHED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(LAST_TOUCHED_UTC_TS));
     }
 
     public KmStringCriteria whereVersion()
@@ -112,19 +112,19 @@ public class MyServerSessionJunction
         return new KmStringCriteria(context(), fullName(AUTO_SIGN_IN_UID));
     }
 
-    public MyAccountCriteria joinToCurrentAccount()
+    public MyProjectCriteria joinToCurrentProject()
     {
-        return join(new MyAccountCriteria(root().joinTo(CURRENT_ACCOUNT)));
+        return join(new MyProjectCriteria(root().joinTo(CURRENT_PROJECT)));
     }
 
-    public MyAccountCriteria leftJoinToCurrentAccount()
+    public MyProjectCriteria leftJoinToCurrentProject()
     {
-        return join(new MyAccountCriteria(root().leftJoinTo(CURRENT_ACCOUNT)));
+        return join(new MyProjectCriteria(root().leftJoinTo(CURRENT_PROJECT)));
     }
 
-    public KmStringCriteria whereCurrentAccountUid()
+    public KmStringCriteria whereCurrentProjectUid()
     {
-        return new KmStringCriteria(context(), fullName(CURRENT_ACCOUNT_UID));
+        return new KmStringCriteria(context(), fullName(CURRENT_PROJECT_UID));
     }
 
     //##################################################

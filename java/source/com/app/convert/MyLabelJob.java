@@ -18,7 +18,7 @@ public class MyLabelJob
     public MyLabelJob()
     {
         _quantity = 1;
-        _elements = new KmList<MyLabelElementIF>();
+        _elements = new KmList<>();
     }
 
     //##################################################

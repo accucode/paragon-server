@@ -61,7 +61,7 @@ public class MyFileCriteria
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmStringCriteria whereStatusCode()
@@ -691,7 +691,6 @@ public class MyFileCriteria
     //##################################################
 
     @Override
-    @SuppressWarnings("rawtypes")
     public MyFileCriteria createOn(KmModelJunction junction)
     {
         return new MyFileCriteria(parent(), junction.context());

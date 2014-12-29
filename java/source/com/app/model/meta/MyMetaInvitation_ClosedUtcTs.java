@@ -50,6 +50,12 @@ public class MyMetaInvitation_ClosedUtcTs
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when this invitation was closed (e.g.: accepted).";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 16;

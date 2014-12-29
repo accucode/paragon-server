@@ -70,9 +70,9 @@ public class MyDevBeanShellPage
 
         ScGroup group;
         group = form.addGroup("Bean Shell");
-        group.addGap().add(_scriptField);
-        group.addDivider();
-        group.addButtonBox().addSubmitButton();
+        group.getBody().addGap().add(_scriptField);
+        group.addBodyDivider();
+        group.getBody().addButtonBox().addSubmitButton();
 
         _resultsBox = root.addBox();
         _resultsBox.css().gap();
@@ -141,36 +141,36 @@ public class MyDevBeanShellPage
         else
         {
             group.setTitle("Error");
-            group.headerCss().backgroundRed();
+            group.bannerCss().backgroundRed();
         }
 
         ScBox pad;
-        pad = group.addPad();
+        pad = group.getBody().addPad();
         pad.addText(bs.getSource());
 
         if ( bs.hasResult() )
         {
-            group.addDivider();
+            group.addBodyDivider();
 
-            pad = group.addPad();
+            pad = group.getBody().addPad();
             pad.addBox().addBold("Results");
             pad.addBox().addText(bs.getResult() + "");
         }
 
         if ( bs.hasOutput() )
         {
-            group.addDivider();
+            group.addBodyDivider();
 
-            pad = group.addPad();
+            pad = group.getBody().addPad();
             pad.addBox().addBold("Output");
             pad.addText(bs.getOutput());
         }
 
         if ( bs.hasException() )
         {
-            group.addDivider();
+            group.addBodyDivider();
 
-            pad = group.addPad();
+            pad = group.getBody().addPad();
             pad.addBox().addBold("Exception");
             pad.addText(bs.formatException());
             pad.addBreak();

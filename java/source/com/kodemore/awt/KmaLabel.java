@@ -54,8 +54,10 @@ public class KmaLabel
 
     public void setSize(int i)
     {
-        Font f = getFont();
+        Font f;
+        f = getFont();
         f = new Font(f.getName(), f.getStyle(), i);
+
         setFont(f);
     }
 
@@ -135,17 +137,20 @@ public class KmaLabel
     {
         Font f = getFont();
         int i;
+
         if ( b )
             i = f.getStyle() | s;
         else
             i = f.getStyle() & ~s;
+
         f = new Font(f.getName(), i, f.getSize());
         setFont(f);
     }
 
     public void _clearStyle()
     {
-        Font f = getFont();
+        Font f;
+        f = getFont();
         f = new Font(f.getName(), 0, f.getSize());
         setFont(f);
     }

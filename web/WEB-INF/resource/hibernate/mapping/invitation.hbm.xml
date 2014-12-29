@@ -81,9 +81,9 @@
             />
 
         <many-to-one
-            name="account"
-            column="accountUid"
-            class="com.app.model.MyAccount"
+            name="project"
+            column="projectUid"
+            class="com.app.model.MyProject"
             cascade="none"
             />
 

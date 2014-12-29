@@ -20,8 +20,9 @@ public enum MyUserRole
     //# values
     //##################################################
 
-    User("U", "User"),
     Developer("D", "Developer"),
+    Admin("A", "Admin"),
+    Other("O", "Other"),
     ;
 
     //##################################################
@@ -33,10 +34,10 @@ public enum MyUserRole
 
     static
     {
-        _values = new KmList<MyUserRole>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyUserRole>();
+        _codes = new KmMap<>();
         for ( MyUserRole e : EnumSet.allOf(MyUserRole.class) )
             _codes.put(e.getCode(), e);
     }
@@ -88,14 +89,19 @@ public enum MyUserRole
     //# testing
     //##################################################
 
-    public boolean isUser()
-    {
-        return this == User;
-    }
-
     public boolean isDeveloper()
     {
         return this == Developer;
+    }
+
+    public boolean isAdmin()
+    {
+        return this == Admin;
+    }
+
+    public boolean isOther()
+    {
+        return this == Other;
     }
 
     //##################################################

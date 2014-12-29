@@ -1,6 +1,12 @@
 model
 : name      = user
-: comment   = The list of all users. Users are global - that is, independent of any particular account.
+: help...
+    ===
+    Users define the global list of people that can log in to the system.
+    Most users are configured as Other and then given project specific roles.
+    A few users may be configured as Admin users so that they can create new
+    projects.
+    ===
 
 database
 : alias = u
@@ -14,7 +20,7 @@ attributes
 
     field
     : name          = uid
-    : comment       = The unique key.
+    : help          = The global unique key.  This is a big ugly number and is usually not displayed.
     : type          = uid
     : default       = newUid()
     : primaryKey    = true
@@ -22,55 +28,64 @@ attributes
 
     field
     : name      = name
-    : comment   = The user name, we typically default this to the username portion of the user's email address.
+    : help      = The user's full name.  E.g.: "John Doe".
     : type      = name
     : required  = required
 
     field
     : name      = email
-    : comment   = The email is effectively the user identity.
+    : help      = Used both to sign in, and to send emails to this user.
+    : comment   = Note: this must be unique across the entire system, not just the project.
     : type      = email
     : required  = true
 
     field
+    : name      = phone
+    : help      = The number that may be used to contact this user.
+    : type      = phone
+    : required  = false
+
+    field
     : name      = verified
-    : comment   = Indicates if this user's email address has been verified. We require the email address to be verified before the user is allowed to log in.
+    : help      = Indicates if this user's email address has been verified. We require the email address to be verified before the user is allowed to log in.
     : type      = boolean
     : default   = false
     : required  = true
 
     field
     : name      = passwordSalt
-    : comment   = The salt used for this user. Each user has a different salt. The salt is set to a random value when the user is created, and should never be changed.
+    : help      = The salt used for this user. Each user has a different salt. The salt is set to a random value when the user is created, and should never be changed.
     : type      = uid
     : default   = newUid()
     : required  = true
 
     field
     : name      = passwordHash
-    : comment   = The password sha hash used to authenticate the user. The actual password is not stored. If the user has no password the hash is set to empty string.
+    : help      = The password sha hash used to authenticate the user. The actual password is not stored. If the user has no password the hash is set to empty string.
     : type      = shaHash
 
     field
     : name      = timeZoneCode
-    : comment   = The time zone.
+    : help      = The user's preferred time zone.
     : type      = timeZoneCode
 
     field
     : name      = roleCode
     : label     = Role
-    : comment   = The role, or access level.
+    : help      = The global access role.  E.g.: Admin, Developer, or Other.
     : type      = letterCode
     : required  = true
-    : default   = MyUserRole.User.getCode() 
+    : default   = MyUserRole.Other.getCode() 
 
         enum
-            value(#U User)
             value(#D Developer)
+            value(#A Admin)
+            value(#O Other)
 
-    collection
-    : name          = userAccount
-    : comment       = The list of accounts to which this user has access.
-    : relation      = children
-    : elementModel  = userAccount
-    : elementField  = user
+    association
+    : name      = lastProject
+    : help      = The last project this user was working on.
+    : comment   = 
+    : modelName = project
+    : relation  = reference
+

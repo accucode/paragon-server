@@ -55,6 +55,16 @@ public class MyMetaUser
     {
         return MyUserValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "Users define the global list of people that can log in to the system.\nMost users are configured as Other and then given project specific roles.\nA few users may be configured as Admin users so that they can create new\nprojects.";
+    }
 
     //##################################################
     //# fields and delegates
@@ -63,6 +73,7 @@ public class MyMetaUser
     public static final MyMetaUser_Uid Uid = new MyMetaUser_Uid();
     public static final MyMetaUser_Name Name = new MyMetaUser_Name();
     public static final MyMetaUser_Email Email = new MyMetaUser_Email();
+    public static final MyMetaUser_Phone Phone = new MyMetaUser_Phone();
     public static final MyMetaUser_Verified Verified = new MyMetaUser_Verified();
     public static final MyMetaUser_PasswordSalt PasswordSalt = new MyMetaUser_PasswordSalt();
     public static final MyMetaUser_PasswordHash PasswordHash = new MyMetaUser_PasswordHash();
@@ -75,4 +86,5 @@ public class MyMetaUser
     //# associations
     //##################################################
 
+    public static final MyMetaUser_LastProject LastProject = new MyMetaUser_LastProject();
 }

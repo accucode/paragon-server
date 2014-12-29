@@ -87,7 +87,8 @@ public class KmaPanel
 
     public void showCard(String s)
     {
-        CardLayout e = (CardLayout)getLayout();
+        CardLayout e;
+        e = (CardLayout)getLayout();
         e.show(this, s);
     }
 

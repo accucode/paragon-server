@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.awt;
 
@@ -39,9 +39,9 @@ import com.kodemore.utility.KmFormatterIF;
  * I am used to render a cell in a list box.  I am adapted
  * from com.sun.java.swing.plaf.basic.BasicListCellRenderer.
  */
-public class KmaListBoxCellRenderer
+public class KmaListBoxCellRenderer<E>
     extends JLabel
-    implements ListCellRenderer
+    implements ListCellRenderer<E>
 {
     //##################################################
     //# constants
@@ -85,8 +85,8 @@ public class KmaListBoxCellRenderer
 
     @Override
     public Component getListCellRendererComponent(
-        JList list,
-        Object value,
+        JList<? extends E> list,
+        E value,
         int index,
         boolean isSelected,
         boolean cellHasFocus)
@@ -101,15 +101,22 @@ public class KmaListBoxCellRenderer
             setBackground(list.getBackground());
             setForeground(list.getForeground());
         }
+
         if ( value instanceof Icon )
             setIcon((Icon)value);
         else
             setText(getDisplayStringFor(value));
+
         setFont(list.getFont());
-        setBorder(cellHasFocus
-            ? UIManager.getBorder("List.focusCellHighlightBorder")
-            : noFocusBorder);
+        setBorder(getBorder(cellHasFocus));
         return this;
+    }
+
+    private Border getBorder(boolean cellHasFocus)
+    {
+        return cellHasFocus
+            ? UIManager.getBorder("List.focusCellHighlightBorder")
+            : noFocusBorder;
     }
 
     //##################################################
@@ -120,10 +127,13 @@ public class KmaListBoxCellRenderer
     {
         if ( _formatter != null )
             return _formatter.format(value);
+
         if ( value instanceof KmDisplayStringIF )
             return ((KmDisplayStringIF)value).getDisplayString();
+
         if ( value == null )
             return "-- null --";
+
         return value + "";
     }
 }

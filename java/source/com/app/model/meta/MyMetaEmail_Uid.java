@@ -50,6 +50,12 @@ public class MyMetaEmail_Uid
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The globally unique identifier.  This is a big ugly number and is generally not displayed.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

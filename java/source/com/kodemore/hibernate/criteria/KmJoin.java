@@ -23,6 +23,7 @@
 package com.kodemore.hibernate.criteria;
 
 import org.hibernate.Criteria;
+import org.hibernate.sql.JoinType;
 
 public class KmJoin
     extends KmCriteria
@@ -31,14 +32,14 @@ public class KmJoin
     //# variables
     //##################################################
 
-    private String _entityName;
-    private int    _type;
+    private String   _entityName;
+    private JoinType _type;
 
     //##################################################
     //# constructor
     //##################################################
 
-    public KmJoin(Criteria c, KmCriteria parent, String entityName, int type)
+    public KmJoin(Criteria c, KmCriteria parent, String entityName, JoinType type)
     {
         super(c, parent);
         _entityName = entityName;
@@ -54,9 +55,14 @@ public class KmJoin
         return _entityName;
     }
 
-    public int getType()
+    public JoinType getType()
     {
         return _type;
+    }
+
+    public boolean hasType(JoinType e)
+    {
+        return _type == e;
     }
 
 }

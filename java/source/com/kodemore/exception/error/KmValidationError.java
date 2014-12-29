@@ -79,12 +79,12 @@ public abstract class KmValidationError
         return sb.toString();
     }
 
-    public void formatSubject(StringBuilder sb)
+    public void formatSubject(StringBuilder out)
     {
-        sb.append(_field);
-        sb.append(" of ");
-        sb.append(_model);
-        sb.append(": ");
+        out.append(_field);
+        out.append(" of ");
+        out.append(_model);
+        out.append(": ");
     }
 
 }

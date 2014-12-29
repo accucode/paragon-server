@@ -3,6 +3,7 @@ package com.kodemore.meta;
 import com.kodemore.comparator.KmComparator;
 import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScText;
+import com.kodemore.servlet.control.ScTextParagraph;
 import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScField;
@@ -17,6 +18,8 @@ public abstract class KmMetaProperty<T, V>
     //##################################################
 
     public abstract String getLabel();
+
+    public abstract String getHelp();
 
     public abstract boolean isEditable();
 
@@ -58,6 +61,7 @@ public abstract class KmMetaProperty<T, V>
         ScText e;
         e = new ScText();
         e.setLabel(getLabel());
+        e.setHelp(getHelp());
         e.setValue(getAdaptor());
         return e;
     }
@@ -67,30 +71,52 @@ public abstract class KmMetaProperty<T, V>
         ScText e;
         e = newText();
         e.setLabel(label);
+        e.setHelp(getHelp());
         return e;
     }
 
-    public ScTextSpan newSpannedText()
+    public ScTextSpan newTextSpan()
     {
         ScTextSpan e;
         e = new ScTextSpan();
         e.setLabel(getLabel());
         e.setValue(getAdaptor());
+        e.setHelp(getHelp());
         return e;
     }
 
-    public ScTextSpan newSpannedText(String label)
+    public ScTextSpan newTextSpan(String label)
     {
         ScTextSpan e;
-        e = newSpannedText();
+        e = newTextSpan();
         e.setLabel(label);
+        e.setHelp(getHelp());
+        return e;
+    }
+
+    public ScTextParagraph newTextParagraph()
+    {
+        ScTextParagraph e;
+        e = new ScTextParagraph();
+        e.setLabel(getLabel());
+        e.setValue(getAdaptor());
+        e.setHelp(getHelp());
+        return e;
+    }
+
+    public ScTextParagraph newTextParagraph(String label)
+    {
+        ScTextParagraph e;
+        e = newTextParagraph();
+        e.setLabel(label);
+        e.setHelp(getHelp());
         return e;
     }
 
     public ScGridColumn<T> newGridColumn()
     {
         ScGridColumn<T> e;
-        e = new ScGridColumn<T>();
+        e = new ScGridColumn<>();
         e.setHeader(getLabel());
         e.setWidth(getColumnWidth() * 8);
         e.setDisplayAdaptor(getAdaptor());
@@ -103,6 +129,9 @@ public abstract class KmMetaProperty<T, V>
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * @param label
+     */
     public ScField<V> newField(String label)
     {
         throw new UnsupportedOperationException();
@@ -118,6 +147,7 @@ public abstract class KmMetaProperty<T, V>
         e = new ScCheckboxField();
         e.setValueAdaptor(getAdaptor());
         e.setLabel(getLabel());
+        e.setHelp(getHelp());
         e.setValidator(validator);
         return e;
     }
@@ -127,6 +157,7 @@ public abstract class KmMetaProperty<T, V>
         ScCheckboxField e;
         e = newCheckboxField(validator);
         e.setLabel(label);
+        e.setHelp(getHelp());
         return e;
     }
 

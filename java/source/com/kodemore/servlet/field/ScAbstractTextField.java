@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.servlet.field;
 
@@ -26,6 +26,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalString;
@@ -44,7 +45,6 @@ public abstract class ScAbstractTextField<T>
     private ScLocalString  _placeholder;
     private ScLocalString  _hoverText;
     private ScLocalBoolean _readOnly;
-    private ScLocalBoolean _disabled;
     private ScLocalBoolean _fullWrapper;
 
     private KmValidator<T> _validator;
@@ -62,7 +62,6 @@ public abstract class ScAbstractTextField<T>
         _placeholder = new ScLocalString();
         _hoverText = new ScLocalString();
         _readOnly = new ScLocalBoolean(false);
-        _disabled = new ScLocalBoolean(false);
         _fullWrapper = new ScLocalBoolean(false);
     }
 
@@ -74,16 +73,6 @@ public abstract class ScAbstractTextField<T>
     protected String getInputType()
     {
         return "text";
-    }
-
-    //##################################################
-    //# testing
-    //##################################################
-
-    @Override
-    public boolean isTextField()
-    {
-        return true;
     }
 
     //##################################################
@@ -118,6 +107,11 @@ public abstract class ScAbstractTextField<T>
     public void setValidator(KmValidator<T> e)
     {
         _validator = e;
+    }
+
+    public void setValidator(KmMetaProperty<?,T> p)
+    {
+        setValidator(p.getValidator());
     }
 
     public boolean hasValidator()
@@ -211,9 +205,6 @@ public abstract class ScAbstractTextField<T>
     protected void renderAttributesOn(KmHtmlBuilder out)
     {
         super.renderAttributesOn(out);
-
-        if ( isDisabled() )
-            out.printAttribute("disabled", "disabled");
 
         if ( isReadOnly() )
             out.printAttribute("readonly", "readonly");
@@ -319,12 +310,15 @@ public abstract class ScAbstractTextField<T>
         if ( _validator == null )
             return true;
 
-        KmList<KmErrorIF> errors = new KmList<KmErrorIF>();
+        KmList<KmErrorIF> errors = new KmList<>();
+
         _validator.validateOnly(getValue(), errors);
+
         if ( errors.isEmpty() )
             return true;
 
         setErrors(errors);
+
         return false;
     }
 
@@ -390,30 +384,6 @@ public abstract class ScAbstractTextField<T>
     public void setReadOnly()
     {
         setReadOnly(true);
-    }
-
-    //##################################################
-    //# enable
-    //##################################################
-
-    public void enable()
-    {
-        _disabled.setFalse();
-    }
-
-    /**
-    * WARNING, a disabled field cannont receive user input nor will its
-    * value be submitted with the form.
-    * http://www.w3.org/TR/REC-html40/interact/forms.html#adef-disabled
-    */
-    public void disable()
-    {
-        _disabled.setTrue();
-    }
-
-    public boolean isDisabled()
-    {
-        return _disabled.isTrue();
     }
 
     //##################################################

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+        
+        function myInstall()
+        {
+            Kmu.show('#main');
+        }
+        
+        function myTest()
+        {
+        }
+        
+    </script>
+
+    <style type="text/css">
+        
+        .xGroup
+        {
+            border-top:  1px solid #aaa;
+            border-left: 1px solid #aaa;
+            border-top-left-radius:  10px;
+            border-top-right-radius: 10px;
+            
+            box-shadow: 5px 5px 5px #ccc;
+            overflow: hidden;
+        }
+        .xGroup > *
+        {
+            border-top:    1px solid #fff;
+            border-left:   1px solid #fff;
+            border-bottom: 1px solid #aaa;
+            border-right:  1px solid #aaa;
+        }
+        
+        .xGroupInline
+        {
+            display: inline-flex;
+            flex-direction: column;
+        }        
+        
+        .xGroupBlock
+        {
+            display: flex;
+            flex-direction: column;
+        }        
+        
+        .xBanner
+        {
+            flex-grow:   0;
+            flex-shrink: 0;
+            overflow: hidden;
+            
+            border-top-left-radius:  10px;
+            border-top-right-radius: 10px;
+            
+            padding: 5px;
+            font: bold 2.0rem sans-serif;
+            background-color: #ddd;
+        }
+        
+        .xHeader
+        {
+            flex-grow:   0;
+            flex-shrink: 0;
+            overflow: hidden;
+
+            padding: 5px;
+        }
+        
+        .xBody
+        {
+            flex-grow:   1;
+            flex-shrink: 1;
+            overflow: auto;
+        }
+        
+        .xFooter
+        {
+            flex-grow:   0;
+            flex-shrink: 0;
+            overflow: hidden;
+            
+            padding: 5px;
+        }
+        
+        .xDivider
+        {
+            box-sizing: border-box;  
+            height: 2px;
+            border-top:    1px solid #aaa;
+            border-bottom: 1px solid #fff;
+        }
+        
+    </style>
+
+</head>
+
+<body onload="myLoad()">
+<div id="main" style="display:none" class="gap">
+
+<div class="boxBlue pad">
+    Toggle...
+    <button onclick="$('.xGroup').toggle();">groups</button>
+    <button onclick="$('.xHeader').toggle();">headers</button>
+    <button onclick="$('.xFooter').toggle();">footers</button><br>
+</div>
+
+<div class="xGroup xGroupBlock">
+    <div class="xBanner">banner</div>
+    <div class="xHeader">header</div>
+    <div class="xBody pad">body<br>body<br>body<br></div>
+    <div class="xFooter">footer</div>
+</div>
+
+<div class="xGroup xGroupInline">
+    <div class="xBanner">banner</div>
+    <div class="xHeader">header</div>
+    <div class="xBody pad">body<br>body<br>body<br></div>
+    <div class="xFooter">footer</div>
+</div>
+
+<div class="xGroup xGroupInline">
+    <div class="xBanner">banner</div>
+    <div class="xHeader">header</div>
+    <div class="xBody pad">body<br>body<br>body<br></div>
+    <div class="xFooter">footer</div>
+</div>
+
+<div class="xGroup xGroupBlock">
+    <div class="xBanner">banner</div>
+    <div class="xHeader">header</div>
+    <div class="xBody">
+        <div class="pad">
+            body with an extra divider in the middle<br>
+            body with an extra divider in the middle<br>
+        </div>
+        <div class="xDivider"></div>
+        <div class="pad">
+            body with an extra divider in the middle<br>
+            body with an extra divider in the middle<br>
+        </div>
+    </div>
+    <div class="xFooter">footer</div>
+</div>
+
+
+
+</div>
+</body>
+</html>

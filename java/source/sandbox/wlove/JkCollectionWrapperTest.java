@@ -14,7 +14,7 @@ public class JkCollectionWrapperTest
     private void run()
     {
         KmCollectionWrapper<Integer> c;
-        c = new KmCollectionWrapper<Integer>();
+        c = new KmCollectionWrapper<>();
         c.add(1);
         c.add(2);
         c.add(3);

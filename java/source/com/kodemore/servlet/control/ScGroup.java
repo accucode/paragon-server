@@ -22,111 +22,64 @@
 
 package com.kodemore.servlet.control;
 
-import java.util.Iterator;
-
-import com.kodemore.collection.KmCompositeIterator;
-import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.utility.Kmu;
 
 /**
- * I am a 'group box' container with three predefined areas: header, body, footer.
- * 
- * 
- * Sections:
- * 
- *      Header:
- *      The header is always displayed, and is typically just displays text in a standard
- *      style.  However, the header is a div and clients can add additional content
- *      (e.g.: a link or button) to the header is desired.
- * 
- *      Body:
- *      The body is always displayed, and typically does not have much styling other
- *      than a standard background color.  
- * 
- *      Footer:
- *      The footer is displayed at the bottom, but is hidden by default.  The footer is 
- *      always rendered in the html content, even when it is hidden.  If you want to display
- *      the footer, you should use one of the layout* methods rather than showing it directly.
- *      
- *      Wrapper:
- *      The wrapper is not really a section.  The wrapper is a single div that acts as the
- *      parent for the header, body, and footer.  Having a single parent allows us to apply
- *      styles such as borders, and drop shadows to the group in a consistent way.  Clients
- *      will generally not add or remove children to the wrapper directly.
- *      
- * 
- * Layouts:
- * 
- *      Groups are always organized in roughly the same layout, with the header at the top,
- *      the footer (if visible) at the bottom, and the body nominally filling the area in
- *      between.  However, depending on how you want to incorporate the group into you page
- *      you need to apply different layout strategies.  In particular, it is necessary to 
- *      specify the position in different ways depending on the effect desired.
- *      
- *      Normal:
- *      The default "normal" layout renders the group as a statically positioned block element.
- *          - all of the sections (and the wrapper) use the default style position:static.
- *          - the sections do not have a fixed size by default.
- *          - content added to the sections will cause those sections to grow vertically.
- *          - you may need to clearfix the sections manually, this is not done by default.
- *          - you may specify a fixed height for the body, header, or footer.
- *          - you should NOT specify a fixed height for the wrapper.
- *          
- *      Fixed:
- *      This layout is used to apply a fixed height to the group as a whole.  The header
- *      and footer (if displayed) have a fixed height, and the body fills the space between
- *      them.  
- *          - the wrapper uses position:relative.
- *          - the header, body, and footer use position:absolute.
- *          - css styles are used to ensure the sections fit together. 
- *          - you should specify a fixed height for the wrapper.
- *          - you should NOT specify an explicit height for the header, body, or footer.
+ * Introduction
+ *      I am a 'group box' container with predefined areas for: banner, header, body, footer.
+ *      The banner typically displays a title.
+ *      The header and footer provide standard sections for navigation and control.
+ *      The body contains the content.
  *
- *      Fill:
- *      The fill layout is similar to "fixed", but causes the group to completely fill its
- *      parent rather than using a fixed size.
- *          - the wrapper uses position:absolute.
- *          - the header, body, and footer use position:absolute.
- *          - the group's parent must have a non-static position.
- *          - css styles are used to ensure the sections fit together. 
- *          - you should NOT specify any explicit sizes.
- *          - you may override the wrapper position (left, top, etc) using the style attributes.
+ * Flexbox
+ *     Groups currently rely on the 'flex' layout; the display:flex is applied to the container.
+ *     By default, groups use the 'flex' layout and are displayed as 'block' elements.
+ *     However, you can switch to inline layout by simply calling setInline() which will
+ *     then use display:inline-flex instead.
+ *
+ * Styling
+ *     The group and its sections have minimal styling.  Other than the flex layout itself,
+ *     only the background colors and borders are specified, this includes things like rounded
+ *     corners and a box shadow around the group.  Clients are responsible for adding any
+ *     padding, fonts, and other styling to the contents.
  */
 public class ScGroup
-    extends ScContainerElement
+    extends ScDivWrapper
 {
     //##################################################
     //# variables
     //##################################################
 
     /**
-     * The wrapper around the header.  This is used to manage the layout
-     * and is typically not accessed by the client directly.
+     * The banner is always displayed, and typically just displays text in a standard
+     * style.  However, the banner is a div and clients easily style it, or insert alternate
+     * content such as an extra button (or link) on the right.  In simple cases, clients
+     * should use the setBannerTitle() method to set a simple text title with default theming.
      */
-    private ScDiv          _headerWrapper;
+    private ScDiv          _banner;
 
     /**
-     * The header section.  Clients may add content to this.  In many cases,
-     * clients simply use the convenience method setTitle() to add auto-styled text. 
+     * The header is optionally displayed between the banner and the body.  This provides
+     * an area to display navigation/action control such as save/cancel.  The header and
+     * footer are often configured to display the same content.  The header is hidden by
+     * default.
      */
     private ScDiv          _header;
 
     /**
-     * The body section. 
+     * The body is always displayed, and is the only section that is intended to contain
+     * scrollable content.  By default, the body will grow to accommodate its content.
+     * However, if the group is given a fixed size, then the body will shrink to accommodate
+     * the intended size.
      */
     private ScDiv          _body;
 
     /**
-     * The wrapper around the footer.  This is use to manage the layout
-     * and is typically not accessed by the client directly.
-     */
-    private ScDiv          _footerWrapper;
-
-    /**
-     * The footer section.  Clients may add content to this. 
+     * The footer is just like the header, but displayed after the body.  The footer is
+     * hidden by default.
      */
     private ScDiv          _footer;
 
@@ -145,105 +98,44 @@ public class ScGroup
     {
         super.install();
 
-        _headerWrapper = new ScDiv();
-        _headerWrapper.setParent(this);
-        _header = _headerWrapper.addDiv();
-        _headerWrapper.addDiv().css().groupDivider();
+        css().group();
 
-        _body = new ScDiv();
-        _body.setParent(this);
+        ScDiv root;
+        root = getInner();
 
-        _footerWrapper = new ScDiv();
-        _footerWrapper.setParent(this);
-        _footerWrapper.addDiv().css().groupDivider();
-        _footer = _footerWrapper.addDiv();
+        _banner = root.addDiv();
+        _banner.css().groupBanner();
+
+        _header = root.addDiv();
+        _header.css().groupHeader();
+        _header.hide();
+
+        _body = root.addDiv();
+        _body.css().groupBody();
+
+        _footer = root.addDiv();
+        _footer.css().groupFooter();
+        _footer.hide();
 
         _blockWrapper = new ScLocalBoolean(true);
 
-        layoutNormal();
+        layoutBlock();
     }
 
     //##################################################
     //# layout
     //##################################################
 
-    public void layoutNormal()
+    public void layoutBlock()
     {
-        _layoutReset();
-        getFooterWrapper().hide();
+        css().remove().groupInline();
+        css().groupBlock();
     }
 
-    public void layoutNormalWithFooter()
+    public void layoutInline()
     {
-        _layoutReset();
-    }
-
-    public void layoutFixed()
-    {
-        _layoutReset();
-
-        css().groupWrapper_fixed();
-        getHeaderWrapper().css().groupHeader_fixed();
-        getBody().css().groupBody_fixedNoFooter();
-        getFooterWrapper().hide();
-    }
-
-    public void layoutFixedWithLinkFooter()
-    {
-        _layoutReset();
-
-        css().groupWrapper_fixed();
-        getHeaderWrapper().css().groupHeader_fixed();
-        getBody().css().groupBody_fixedLinkFooter();
-        getFooterWrapper().css().groupFooter_fixedLink();
-    }
-
-    public void layoutFixedWithButtonFooter()
-    {
-        _layoutReset();
-
-        css().groupWrapper_fixed();
-        getHeaderWrapper().css().groupHeader_fixed();
-        getBody().css().groupBody_fixedButtonFooter();
-        getFooterWrapper().css().groupFooter_fixedButton();
-    }
-
-    public void layoutFill()
-    {
-        _layoutReset();
-
-        css().groupWrapper_fill();
-        getHeaderWrapper().css().groupHeader_fixed();
-        getBody().css().groupBody_fixedNoFooter();
-        getFooterWrapper().hide();
-    }
-
-    public void layoutFillWithLinkFooter()
-    {
-        _layoutReset();
-
-        css().groupWrapper_fill();
-        getHeaderWrapper().css().groupHeader_fixed();
-        getBody().css().groupBody_fixedLinkFooter();
-        getFooterWrapper().css().groupFooter_fixedLink();
-    }
-
-    public void layoutFillWithButtonFooter()
-    {
-        _layoutReset();
-
-        css().groupWrapper_fill();
-        getHeaderWrapper().css().groupHeader_fixed();
-        getBody().css().groupBody_fixedButtonFooter();
-        getFooterWrapper().css().groupFooter_fixedButton();
-    }
-
-    private void _layoutReset()
-    {
-        css().clear().group().groupWrapper().clearfix();
-        getHeaderWrapper().css().clear().groupHeader();
-        getBody().css().clear().groupBody();
-        getFooterWrapper().css().clear().groupFooter().clearfix();
+        css().remove().groupBlock();
+        css().groupInline();
     }
 
     //##################################################
@@ -267,6 +159,67 @@ public class ScGroup
     }
 
     //##################################################
+    //# banner
+    //##################################################
+
+    public ScDiv getBanner()
+    {
+        return _banner;
+    }
+
+    public KmCssDefaultBuilder bannerCss()
+    {
+        return getBanner().css();
+    }
+
+    public KmStyleBuilder bannerStyle()
+    {
+        return getBanner().style();
+    }
+
+    /**
+     * Replace banner contents (if any) with a standard title.
+     */
+    public ScTextSpan setTitle(String msg, Object... args)
+    {
+        String s = Kmu.format(msg, args);
+
+        ScContainer banner;
+        banner = getBanner();
+        banner.clear();
+
+        ScTextSpan span;
+        span = banner.addTextSpan(s);
+        span.css().groupBannerTitle();
+        return span;
+    }
+
+    /**
+     * Replace banner contents (if any) with a standard title.
+     * This will automatically apply a default style for the text
+     * based on the current flavor.
+     */
+    public ScGroupBannerIcon setTitleWithIcon(String iconSource, String msg, Object... args)
+    {
+        String s = Kmu.format(msg, args);
+
+        ScContainer banner;
+        banner = getBanner();
+        banner.clear();
+
+        ScDiv div;
+        div = banner.addDiv();
+        div.css().groupBannerTitle();
+
+        ScGroupBannerIcon icon;
+        icon = new ScGroupBannerIcon();
+        icon.setImageSource(iconSource);
+        icon.setText(s);
+
+        return div.add(icon);
+    }
+
+    //##################################################
     //# header
     //##################################################
 
@@ -275,9 +228,12 @@ public class ScGroup
         return _header;
     }
 
-    private ScDiv getHeaderWrapper()
+    public ScDiv showHeader()
     {
-        return _headerWrapper;
+        ScDiv e;
+        e = getHeader();
+        e.show();
+        return e;
     }
 
     public KmCssDefaultBuilder headerCss()
@@ -290,49 +246,6 @@ public class ScGroup
         return getHeader().style();
     }
 
-    /**
-     * Replace header contents (if any) with a standard title.
-     * This will automatically apply a default style for the text
-     * based on the current flavor.
-     */
-    public ScText setTitle(String msg, Object... args)
-    {
-        ScContainer header;
-        header = getHeader();
-        header.clear();
-
-        ScDiv div;
-        div = header.addDiv();
-        div.css().groupTitle();
-
-        return div.addText(msg, args);
-    }
-
-    /**
-     * Replace header contents (if any) with a standard title.
-     * This will automatically apply a default style for the text
-     * based on the current flavor.
-     */
-    public ScGroupIconHeader setTitleWithIcon(String iconSource, String msg, Object... args)
-    {
-        String s = Kmu.format(msg, args);
-
-        ScContainer header;
-        header = getHeader();
-        header.clear();
-
-        ScDiv div;
-        div = header.addDiv();
-        div.css().groupTitle();
-
-        ScGroupIconHeader iconHeader;
-        iconHeader = new ScGroupIconHeader();
-        iconHeader.setImageSource(iconSource);
-        iconHeader.setText(s);
-
-        return div.add(iconHeader);
-    }
-
     //##################################################
     //# body
     //##################################################
@@ -340,11 +253,6 @@ public class ScGroup
     public ScDiv getBody()
     {
         return _body;
-    }
-
-    public void addBodyDivider()
-    {
-        addDiv().css().groupDivider();
     }
 
     public KmCssDefaultBuilder bodyCss()
@@ -357,6 +265,15 @@ public class ScGroup
         return getBody().style();
     }
 
+    /**
+     * Add an extra divider to the body, styled the same as the dividers between the
+     * banner, header, body, and footer.
+     */
+    public void addBodyDivider()
+    {
+        getBody().addDiv().css().groupDivider();
+    }
+
     //##################################################
     //# footer
     //##################################################
@@ -366,9 +283,12 @@ public class ScGroup
         return _footer;
     }
 
-    public ScDiv getFooterWrapper()
+    public ScDiv showFooter()
     {
-        return _footerWrapper;
+        ScDiv e;
+        e = getFooter();
+        e.show();
+        return e;
     }
 
     public KmCssDefaultBuilder footerCss()
@@ -381,61 +301,4 @@ public class ScGroup
         return getFooter().style();
     }
 
-    //##################################################
-    //# components
-    //##################################################
-
-    @Override
-    public Iterator<ScControl> getComponents()
-    {
-        KmCompositeIterator<ScControl> i;
-        i = new KmCompositeIterator<ScControl>();
-        i.addAll(super.getComponents());
-
-        i.add(getHeaderWrapper());
-        i.add(getBody());
-        i.add(getFooterWrapper());
-
-        return i;
-    }
-
-    //##################################################
-    //# render
-    //##################################################
-
-    @Override
-    protected void renderControlOn(KmHtmlBuilder out)
-    {
-        out.openDiv();
-        renderAttributesOn(out);
-        out.close();
-
-        out.render(getHeaderWrapper());
-        out.render(getBody());
-        out.render(getFooterWrapper());
-
-        out.endDiv();
-    }
-
-    //##################################################
-    //# container (overrides)
-    //##################################################
-
-    @Override
-    public <T extends ScControl> T add(T e)
-    {
-        return getBody().add(e);
-    }
-
-    @Override
-    public boolean isEmpty()
-    {
-        return getBody().isEmpty();
-    }
-
-    @Override
-    public void clear()
-    {
-        getBody().clear();
-    }
 }

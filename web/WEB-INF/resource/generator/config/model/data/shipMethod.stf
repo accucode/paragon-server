@@ -1,0 +1,41 @@
+model
+: name      = shipMethod
+: help...
+    ===
+    The list of methods for a particular carrier.  E.g.: Red Label, 2-day, ground.
+    === 
+
+database
+: alias = sm 
+
+    index
+    : name      = carrier
+    : unique    = false
+    : on        = carrier
+    : on        = name
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The global unique key.  This is a big ugly number and is usually not displayed.
+    : comment       = 
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    association
+    : name      = carrier
+    : help      = The carrier associated with this method.
+    : comment   = 
+    : modelName = shipCarrier
+    : relation  = parent
+    : required  = true
+
+    field
+    : name      = name
+    : help      = The common display name.
+    : comment   = 
+    : type      = name
+    : required  = required

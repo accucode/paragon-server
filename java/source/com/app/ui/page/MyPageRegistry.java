@@ -2,7 +2,7 @@ package com.app.ui.page;
 
 import com.kodemore.servlet.ScPageRegistry;
 
-import com.app.ui.page.general.MyHomePage;
+import com.app.ui.page.general.MyDashboardPage;
 import com.app.ui.servlet.base.MyPageRegistryBase;
 
 public class MyPageRegistry
@@ -37,7 +37,7 @@ public class MyPageRegistry
 
     public MyPage getHomeActivity()
     {
-        return MyHomePage.instance;
+        return MyDashboardPage.instance;
     }
 
 }

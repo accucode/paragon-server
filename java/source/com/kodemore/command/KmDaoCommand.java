@@ -134,7 +134,6 @@ public abstract class KmDaoCommand
             }
             catch ( RuntimeException ex )
             {
-
                 Throwable root = Kmu.getRootCause(ex);
                 if ( !isStaleException(root) )
                     throw ex;
@@ -156,9 +155,7 @@ public abstract class KmDaoCommand
 
     private boolean isStaleException(Throwable root)
     {
-        boolean b = root instanceof StaleObjectStateException
-            || root instanceof StaleStateException;
-        return b;
+        return root instanceof StaleObjectStateException || root instanceof StaleStateException;
     }
 
     private void runOnceInNewTransaction()

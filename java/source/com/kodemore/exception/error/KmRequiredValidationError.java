@@ -39,9 +39,9 @@ public class KmRequiredValidationError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append("is required.");
+        out.append("is required.");
     }
 
 }

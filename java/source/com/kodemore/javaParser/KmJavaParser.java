@@ -27,7 +27,8 @@ public class KmJavaParser
 
     private String removeComments(String s)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder out = new StringBuilder();
+
         while ( true )
         {
             int a = s.indexOf("//");
@@ -36,7 +37,7 @@ public class KmJavaParser
             if ( c < 0 )
                 break;
 
-            sb.append(s.substring(0, c));
+            out.append(s.substring(0, c));
             s = s.substring(c);
 
             if ( a == c )
@@ -44,6 +45,7 @@ public class KmJavaParser
                 int x = s.indexOf("\r");
                 int y = s.indexOf("\n");
                 int z = next(x, y);
+
                 if ( z < 0 )
                     break;
 
@@ -54,10 +56,12 @@ public class KmJavaParser
             int j = s.indexOf("*/");
             if ( j < 0 )
                 break;
+
             s = s.substring(j + 2);
         }
-        sb.append(s);
-        return sb.toString();
+
+        out.append(s);
+        return out.toString();
     }
 
     private int next(int a, int b)
@@ -89,6 +93,7 @@ public class KmJavaParser
         resetIndex();
         skipThrough("class");
         skipUntil("{");
+
         int bodyIndex = getIndex();
 
         resetIndex();
@@ -105,6 +110,7 @@ public class KmJavaParser
         skipUntil("implements");
 
         int extendsEnd;
+
         if ( isEnd() || getIndex() > bodyIndex )
             extendsEnd = bodyIndex;
         else
@@ -115,15 +121,19 @@ public class KmJavaParser
 
     public KmList<KmJavaMethod> getPublishedMethods()
     {
+        KmList<KmJavaMethod> v = new KmList<>();
         resetIndex();
-        KmList<KmJavaMethod> v = new KmList<KmJavaMethod>();
+
         while ( true )
         {
             KmJavaMethod e = getNextPublishedMethod();
+
             if ( e == null )
                 break;
+
             v.add(e);
         }
+
         return v;
     }
 
@@ -140,9 +150,11 @@ public class KmJavaParser
             String s;
             s = readUntilAny("{;");
             s = s.trim();
+
             if ( s.endsWith(")") )
             {
                 KmJavaMethod m = parseMethod(s);
+
                 if ( m != null )
                     return m;
             }
@@ -151,14 +163,18 @@ public class KmJavaParser
 
     public KmList<KmJavaMethod> getPublicMethods()
     {
+        KmList<KmJavaMethod> v = new KmList<>();
+
         resetIndex();
         skipThrough("class");
-        KmList<KmJavaMethod> v = new KmList<KmJavaMethod>();
+
         while ( true )
         {
             KmJavaMethod e = getNextPublicMethod();
+
             if ( e == null )
                 break;
+
             v.add(e);
         }
         return v;
@@ -206,32 +222,41 @@ public class KmJavaParser
         i = s.indexOf("(");
         if ( i < 0 )
             error("Cannot find open parenthesis in: " + source);
+
         String params = s.substring(i);
 
         s = s.substring(0, i);
         arr = s.split(" ");
+
         if ( arr.length == 1 )
             return null; // constructor
+
         if ( arr.length != 2 )
             error("Expected to find exactly two tokens (return & name) before open parenthesis in: "
                 + source);
+
         m.setReturnType(arr[0]);
         m.setName(arr[1]);
 
         params = Kmu.removePrefix(params, "(");
         params = Kmu.removeSuffix(params, ")");
+
         arr = params.split(",");
 
-        KmList<String> v = new KmList<String>();
+        KmList<String> v;
+        v = new KmList<>();
         v.addAll(arr);
+
         Kmu.trimValues(v);
         Kmu.removeEmptyValues(v);
 
         for ( String p : v )
         {
             arr = p.split(" ");
+
             if ( arr.length != 2 )
                 error("Expected parameter (%s), to split into two parts.", p);
+
             m.addArgument(arr[1], arr[0]);
         }
 
@@ -274,6 +299,7 @@ public class KmJavaParser
         s = Kmu.removePrefix(s, "(");
         s = Kmu.removeSuffix(s, ")");
         s = s.trim();
+
         if ( Kmu.isEmpty(s) )
             return "";
 
@@ -286,6 +312,7 @@ public class KmJavaParser
     {
         resetIndex();
         key = "@" + key;
+
         if ( !skipThrough(key) )
             return null;
 
@@ -295,6 +322,7 @@ public class KmJavaParser
         s = Kmu.removePrefix(s, "(");
         s = Kmu.removeSuffix(s, ")");
         s = s.trim();
+
         return Kmu.parseInteger(s);
     }
 

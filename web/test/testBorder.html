@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+   
+<html>
+ 
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml; charset=utf-8" />
+             
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        /**************************************************
+         * install
+         **************************************************/
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+
+        function myInstall()
+        {
+            $("#content").show();
+        }
+        
+    </script>
+    
+    <style>
+        .xBox
+        {
+            width: 200px;
+            height: 200px;
+            float: left;
+            padding: 5px;
+            background-color: #f8f8f8;
+        }
+        
+        .xHack
+        {
+            /* border-right: 2px groove #fff; */
+            
+            border-left:  1px outset #fff;  
+            border-right: 1px outset #fff;  
+        }
+    </style>
+         
+</head>
+     
+<body onload="myLoad();">
+<div id="content" style="display:none">
+
+    <div class="clearfix border">
+        <div class="xBox xHack">left</div>
+        <div class="xBox xHack">middle</div>
+        <div class="xBox xHack">right</div>
+    </div>
+
+</div>
+</body>
+ 
+</html> 

@@ -40,11 +40,12 @@ import com.steadystate.css.parser.CSSOMParser;
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
 import com.kodemore.log.KmLog;
+import com.kodemore.string.KmStringTokenizer;
 import com.kodemore.utility.Kmu;
 
 /**
  * I am used to parse css files.
- * 
+ *
  * Dependencies:
  *      http://cssparser.sourceforge.net/
  *      http://www.w3.org/Style/CSS/SAC/
@@ -73,7 +74,7 @@ public class KmCssParser
 
     public void parseFile(String path)
     {
-        String css = Kmu.readTextFile(path);
+        String css = Kmu.readFileString(path);
 
         if ( css == null )
             Kmu.fatal("Unable to read css file: " + path);
@@ -103,7 +104,10 @@ public class KmCssParser
             CSSOMParser parser;
             parser = new CSSOMParser();
             parser.setErrorHandler(newErrorHandler());
-            CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+
+            CSSStyleSheet sheet;
+            sheet = parser.parseStyleSheet(source, null, null);
+
             _rules = sheet.getCssRules();
         }
         catch ( Exception ex )
@@ -125,7 +129,11 @@ public class KmCssParser
             @Override
             public void error(CSSParseException ex) throws CSSException
             {
-                KmLog.error("Css parse error. %s", ex.getMessage());
+                KmLog.error(
+                    "Css parse error at line %s, row %s. %s",
+                    ex.getLineNumber(),
+                    ex.getColumnNumber(),
+                    ex.getMessage());
             }
 
             @Override
@@ -146,7 +154,7 @@ public class KmCssParser
     public KmList<String> getAllSelectors()
     {
         KmList<String> v;
-        v = new KmList<String>();
+        v = new KmList<>();
 
         int n = getRules().getLength();
         for ( int i = 0; i < n; i++ )
@@ -176,30 +184,38 @@ public class KmCssParser
     public KmList<String> getClassSelectors()
     {
         KmList<String> v;
-        v = new KmList<String>();
+        v = new KmList<>();
 
-        for ( String s : getAllSelectors() )
+        KmStringTokenizer t;
+        t = new KmStringTokenizer();
+        t.addCharDelimiters(" \t,>");
+
+        for ( String sel : getAllSelectors() )
         {
-            int i;
-            i = s.lastIndexOf(DOT);
-            if ( i < 0 )
-                continue;
+            KmList<String> tokens = t.split(sel);
+            for ( String s : tokens )
+            {
+                int i;
+                i = s.lastIndexOf(DOT);
+                if ( i < 0 )
+                    continue;
 
-            s = s.substring(i + 1);
+                s = s.substring(i + 1);
 
-            i = s.indexOf(HASH);
-            if ( i >= 0 )
-                continue;
+                i = s.indexOf(HASH);
+                if ( i >= 0 )
+                    continue;
 
-            i = s.indexOf(COLON);
-            if ( i >= 0 )
-                s = s.substring(0, i);
+                i = s.indexOf(COLON);
+                if ( i >= 0 )
+                    s = s.substring(0, i);
 
-            i = s.indexOf(SPACE);
-            if ( i >= 0 )
-                s = s.substring(0, i);
+                i = s.indexOf(SPACE);
+                if ( i >= 0 )
+                    s = s.substring(0, i);
 
-            v.addDistinct(s);
+                v.addDistinct(s);
+            }
         }
 
         v.sort();
@@ -222,7 +238,7 @@ public class KmCssParser
     /**
      * Used to access the underlying css rules.  Clients should generally
      * NOT need to call this.  We may create helper methods and classes
-     * to insulate the rest of the application from this third pary 
+     * to insulate the rest of the application from this third pary
      * dependency.
      */
     public CSSRuleList getRules()
@@ -286,7 +302,15 @@ public class KmCssParser
 
     public static void main(String[] args)
     {
-        String file = "/projects/paragon/web/static/version/app/theme/default/css/theme.css";
+        _testCss();
+    }
+
+    @SuppressWarnings("unused")
+    private static void _testFile()
+    {
+        String file = Kmu.joinFilePath(
+            Kmu.getWorkingFolder(),
+            "web/static/version/app/theme/default/css/theme.css");
 
         System.out.println();
         System.out.println("Parse css...");
@@ -295,6 +319,26 @@ public class KmCssParser
         KmCssParser p;
         p = new KmCssParser();
         p.parseFile(file);
+
+        System.out.println("parse successful.");
+        System.out.println("class selectors...");
+
+        KmList<String> v = p.getClassSelectors();
+        for ( String e : v )
+            System.out.println("  " + e);
+    }
+
+    private static void _testCss()
+    {
+        String css = ".aaa, .bbb .ccc > .ddd { color: red }";
+
+        System.out.println();
+        System.out.println("Parse css...");
+
+        KmCssParser p;
+        p = new KmCssParser();
+        p.parseCss(css);
+        p.printRules();
 
         System.out.println("parse successful.");
         System.out.println("class selectors...");

@@ -123,9 +123,10 @@ public class KmPatchProcessor
         _upgradeSection = null;
         _statement = new StringBuilder();
 
-        KmList<String> lines = Kmu.getLines(_patch.getSource());
+        KmList<String> lines = Kmu.parseLines(_patch.getSource());
         for ( String line : lines )
             processLine(line);
+
         executeStatement();
     }
 
@@ -138,13 +139,16 @@ public class KmPatchProcessor
         if ( trimmed.startsWith(COMMENT_PREFIX) )
         {
             executeStatement();
+
             if ( trimmed.startsWith(DIRECTIVE_PREFIX) )
                 processDirective(line);
+
             return;
         }
 
         _statement.append(line);
         _statement.append(NEW_LINE);
+
         if ( trimmed.endsWith(";") )
             executeStatement();
     }

@@ -38,7 +38,6 @@ public class ScRadioField
 
     private ScLocalObject  _value;
     private ScLocalBoolean _checked;
-    private ScLocalBoolean _disabled;
 
     //##################################################
     //# init
@@ -51,7 +50,6 @@ public class ScRadioField
 
         _value = new ScLocalObject();
         _checked = new ScLocalBoolean(false);
-        _disabled = new ScLocalBoolean(false);
 
         setValue(getKey());
     }
@@ -88,28 +86,13 @@ public class ScRadioField
         _value.resetValue();
     }
 
-    //##################################################
-    //# enabled
-    //##################################################
+    //==================================================
+    //= value :: convenience
+    //==================================================
 
-    public void setEnabled(boolean e)
+    public String getStringValue()
     {
-        setDisabled(!e);
-    }
-
-    public void setDisabled()
-    {
-        setDisabled(true);
-    }
-
-    public void setDisabled(boolean e)
-    {
-        _disabled.setValue(e);
-    }
-
-    public boolean isDisabled()
-    {
-        return _disabled.isTrue();
+        return (String)getValue();
     }
 
     //##################################################
@@ -126,9 +109,6 @@ public class ScRadioField
 
         if ( isChecked() )
             out.printAttribute("checked");
-
-        if ( isDisabled() )
-            out.printAttribute("disabled");
     }
 
     @Override

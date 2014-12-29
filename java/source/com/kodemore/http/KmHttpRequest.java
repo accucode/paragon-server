@@ -65,8 +65,8 @@ public abstract class KmHttpRequest
         _host = "";
         _port = 80;
         _path = "";
-        _headers = new KmMap<String,String>();
-        _parameters = new KmOrderedMap<String,String>();
+        _headers = new KmMap<>();
+        _parameters = new KmOrderedMap<>();
         clearContentType();
         _https = false;
     }
@@ -144,6 +144,7 @@ public abstract class KmHttpRequest
     //##################################################
     //# method
     //##################################################
+
     public String getMethod()
     {
         return _method;
@@ -315,11 +316,14 @@ public abstract class KmHttpRequest
     {
         if ( _responseValue == null )
             return null;
-        StringBuilder sb = new StringBuilder();
+
+        StringBuilder out = new StringBuilder();
+
         int n = _responseValue.length;
         for ( int i = 0; i < n; i++ )
-            sb.append((char)_responseValue[i]);
-        return sb.toString();
+            out.append((char)_responseValue[i]);
+
+        return out.toString();
     }
 
     //##################################################
@@ -330,7 +334,6 @@ public abstract class KmHttpRequest
     {
         try
         {
-
             _reset();
             _openConnection();
             _setMethod();
@@ -363,7 +366,6 @@ public abstract class KmHttpRequest
 
     private void _setMethod()
     {
-
         try
         {
             getConnection().setRequestMethod(_method);
@@ -371,9 +373,7 @@ public abstract class KmHttpRequest
         catch ( ProtocolException ex )
         {
             _exception = ex;
-
         }
-
     }
 
     private String getScheme()
@@ -417,30 +417,34 @@ public abstract class KmHttpRequest
      */
     protected String getRequestParameterString()
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder out = new StringBuilder();
+
         Iterator<String> i = _parameters.getKeys().iterator();
         while ( i.hasNext() )
         {
             String key = i.next();
             String value = _parameters.get(key);
-            sb.append(Kmu.encodeUtf8(key));
-            sb.append("=");
-            sb.append(Kmu.encodeUtf8(value));
+
+            out.append(Kmu.encodeUtf8(key));
+            out.append("=");
+            out.append(Kmu.encodeUtf8(value));
+
             if ( i.hasNext() )
-                sb.append("&");
+                out.append("&");
         }
-        return sb.toString();
+
+        return out.toString();
     }
 
     /**
      * The documentation for HttpURLConnection.getErrorStream
-     * says that if the server responds with a 404, a FileNotFoundException 
-     * will be thrown during connect.  
-     * 
+     * says that if the server responds with a 404, a FileNotFoundException
+     * will be thrown during connect.
+     *
      * It is possible however to check the result code before trying connect
      * using the getResponseMessage method.  So below I implemented a simple
-     * check to see if the result code is OK, and it it isn't, it grabs the 
-     * error stream which contains the error information.  This seems to 
+     * check to see if the result code is OK, and it it isn't, it grabs the
+     * error stream which contains the error information.  This seems to
      * solve the problem.
      */
     private void _readResponseValue() throws IOException
@@ -465,15 +469,18 @@ public abstract class KmHttpRequest
     {
         if ( Kmu.isEmpty(responseMessage) )
             return false;
-        return responseMessage.equals("OK");
+
+        return responseMessage.equalsIgnoreCase("OK");
     }
 
     public boolean isSuccessfullResponse() throws IOException
     {
-        String responseMessage = _connection.getResponseMessage();
-        if ( Kmu.isEmpty(responseMessage) )
+        String msg = _connection.getResponseMessage();
+
+        if ( Kmu.isEmpty(msg) )
             return false;
-        return responseMessage.equals("OK");
+
+        return msg.equalsIgnoreCase("OK");
     }
 
     protected HttpURLConnection getConnection()

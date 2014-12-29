@@ -142,9 +142,9 @@ public class KmFacebookUser
 
     public KmFacebookUser()
     {
-        _devices = new KmList<KmFacebookDevice>();
-        _languages = new KmList<KmFacebookIdName>();
-        _interestedIn = new KmList<String>();
+        _devices = new KmList<>();
+        _languages = new KmList<>();
+        _interestedIn = new KmList<>();
     }
 
     //##################################################
@@ -479,48 +479,48 @@ public class KmFacebookUser
 
     public static KmFacebookUser createWith(KmJsonMap e)
     {
-        KmFacebookUser user;
-        user = new KmFacebookUser();
-        user.setId(e.getString(ID_KEY));
-        user.setUsername(e.getString(USERNAME_KEY));
-        user.setLink(e.getString(LINK_KEY));
-        user.setVerified(e.getBoolean(VERIFIED_KEY));
-        user.setUpdatedTimestamp(parseTime(e.getString(UPDATED_TIME_KEY)));
-        user.setLocale(e.getString(LOCALE_KEY));
-        user.setTimezone(e.getInteger(TIMEZONE_KEY));
-        user.setDevices(createDevices(e.getArray(DEVICES_KEY)));
+        KmFacebookUser u;
+        u = new KmFacebookUser();
+        u.setId(e.getString(ID_KEY));
+        u.setUsername(e.getString(USERNAME_KEY));
+        u.setLink(e.getString(LINK_KEY));
+        u.setVerified(e.getBoolean(VERIFIED_KEY));
+        u.setUpdatedTimestamp(parseTime(e.getString(UPDATED_TIME_KEY)));
+        u.setLocale(e.getString(LOCALE_KEY));
+        u.setTimezone(e.getInteger(TIMEZONE_KEY));
+        u.setDevices(createDevices(e.getArray(DEVICES_KEY)));
 
-        user.setName(e.getString(NAME_KEY));
-        user.setFirstName(e.getString(FIRST_NAME_KEY));
-        user.setMiddleName(e.getString(MIDDLE_NAME_KEY));
-        user.setLastName(e.getString(LAST_NAME_KEY));
+        u.setName(e.getString(NAME_KEY));
+        u.setFirstName(e.getString(FIRST_NAME_KEY));
+        u.setMiddleName(e.getString(MIDDLE_NAME_KEY));
+        u.setLastName(e.getString(LAST_NAME_KEY));
 
-        user.setGender(e.getString(GENDER_KEY));
-        user.setBirthday(KmDateParser.parseDate(e.getString(BIRTHDAY_KEY)));
-        user.setEmail(e.getString(EMAIL_KEY));
-        user.setWebsite(e.getString(WEBSITE_KEY));
-        user.setLocation(createIdName(e.getMap(LOCATION_KEY)));
-        user.setHometown(createIdName(e.getMap(HOMETOWN_KEY)));
-        user.setPolitical(e.getString(POLITICAL_KEY));
-        user.setReligion(e.getString(RELIGION_KEY));
-        user.setLanguages(createIdNames(e.getArray(LANGUAGES_KEY)));
+        u.setGender(e.getString(GENDER_KEY));
+        u.setBirthday(KmDateParser.parseDate(e.getString(BIRTHDAY_KEY)));
+        u.setEmail(e.getString(EMAIL_KEY));
+        u.setWebsite(e.getString(WEBSITE_KEY));
+        u.setLocation(createIdName(e.getMap(LOCATION_KEY)));
+        u.setHometown(createIdName(e.getMap(HOMETOWN_KEY)));
+        u.setPolitical(e.getString(POLITICAL_KEY));
+        u.setReligion(e.getString(RELIGION_KEY));
+        u.setLanguages(createIdNames(e.getArray(LANGUAGES_KEY)));
 
-        user.setRelationshipSatus(e.getString(RELATIONSHIP_STATUS_KEY));
-        user.setSignificantOther(createIdName(e.getMap(SIGNIFICANT_OTHER_KEY)));
+        u.setRelationshipSatus(e.getString(RELATIONSHIP_STATUS_KEY));
+        u.setSignificantOther(createIdName(e.getMap(SIGNIFICANT_OTHER_KEY)));
 
-        user.setBio(e.getString(BIO_KEY));
-        user.setQuotes(e.getString(QUOTES_KEY));
+        u.setBio(e.getString(BIO_KEY));
+        u.setQuotes(e.getString(QUOTES_KEY));
 
-        user.setPicture(KmFacebookPicture.createWith(e.getMap(PICTURE_KEY)));
+        u.setPicture(KmFacebookPicture.createWith(e.getMap(PICTURE_KEY)));
 
-        user.setEducation(createEducations(e.getArray(EDUCATION_KEY)));
-        user.setWork(createWorks(e.getArray(WORK_KEY)));
+        u.setEducation(createEducations(e.getArray(EDUCATION_KEY)));
+        u.setWork(createWorks(e.getArray(WORK_KEY)));
 
-        user.setInterestedIn(createInterestedInList(e.getArray(INTERESTED_IN_KEY)));
-        user.setFavoriteAthletes(createIdNames(e.getArray(FAVORITE_ATHLETES_KEY)));
-        user.setFavoriteTeams(createIdNames(e.getArray(FAVORITE_TEAMS_KEY)));
+        u.setInterestedIn(createInterestedInList(e.getArray(INTERESTED_IN_KEY)));
+        u.setFavoriteAthletes(createIdNames(e.getArray(FAVORITE_ATHLETES_KEY)));
+        u.setFavoriteTeams(createIdNames(e.getArray(FAVORITE_TEAMS_KEY)));
 
-        return user;
+        return u;
     }
 
     private static KmFacebookIdName createIdName(KmJsonMap map)
@@ -558,7 +558,7 @@ public class KmFacebookUser
     private static KmList<String> createInterestedInList(KmJsonArray arr)
     {
         KmList<String> v;
-        v = new KmList<String>();
+        v = new KmList<>();
 
         int n = arr.size();
         for ( int i = 0; i < n; i++ )

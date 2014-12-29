@@ -70,24 +70,6 @@ public class MyInvitationCriteria
             whereTypeCode().isNot(e.getCode());
     }
 
-    public void whereTypeIsTransferAccount()
-    {
-        whereTypeIs(MyInvitationType.TransferAccount);
-    }
-
-    public void whereTypeIsNotTransferAccount()
-    {
-        whereTypeIsNot(MyInvitationType.TransferAccount);
-    }
-
-    public void whereTypeIsTransferAccount(boolean e)
-    {
-        if ( e )
-            whereTypeIsTransferAccount();
-        else
-            whereTypeIsNotTransferAccount();
-    }
-
     public void whereTypeIsJoinAccount()
     {
         whereTypeIs(MyInvitationType.JoinAccount);
@@ -219,12 +201,12 @@ public class MyInvitationCriteria
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereClosedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CLOSED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CLOSED_UTC_TS));
     }
 
     public KmStringCriteria whereToEmail()
@@ -790,50 +772,50 @@ public class MyInvitationCriteria
     }
 
     //##################################################
-    //# association (Account)
+    //# association (Project)
     //##################################################
 
-    public void selectAccountUid()
+    public void selectProjectUid()
     {
-        select(ACCOUNT_UID);
+        select(PROJECT_UID);
     }
 
-    public void selectMinimumAccountUid()
+    public void selectMinimumProjectUid()
     {
-        selectMinimum(ACCOUNT_UID);
+        selectMinimum(PROJECT_UID);
     }
 
-    public void selectMaximumAccountUid()
+    public void selectMaximumProjectUid()
     {
-        selectMaximum(ACCOUNT_UID);
+        selectMaximum(PROJECT_UID);
     }
 
-    public void groupByAccountUid()
+    public void groupByProjectUid()
     {
-        groupBy(ACCOUNT);
+        groupBy(PROJECT);
     }
 
-    public MyAccountCriteria joinToAccount()
+    public MyProjectCriteria joinToProject()
     {
-        return new MyAccountCriteria(joinTo(ACCOUNT));
+        return new MyProjectCriteria(joinTo(PROJECT));
     }
 
-    public MyAccountCriteria leftJoinToAccount()
+    public MyProjectCriteria leftJoinToProject()
     {
-        return new MyAccountCriteria(leftJoinTo(ACCOUNT));
+        return new MyProjectCriteria(leftJoinTo(PROJECT));
     }
 
-    public KmStringCriteria whereAccountUid()
+    public KmStringCriteria whereProjectUid()
     {
-        return new KmStringCriteria(parent(), fullName(ACCOUNT_UID));
+        return new KmStringCriteria(parent(), fullName(PROJECT_UID));
     }
 
-    public void whereAccountIs(MyAccount e)
+    public void whereProjectIs(MyProject e)
     {
         if ( e == null )
-            whereAccountUid().isNull();
+            whereProjectUid().isNull();
         else
-            whereAccountUid().is(e.getUid());
+            whereProjectUid().is(e.getUid());
     }
 
     //##################################################
@@ -855,7 +837,6 @@ public class MyInvitationCriteria
     //##################################################
 
     @Override
-    @SuppressWarnings("rawtypes")
     public MyInvitationCriteria createOn(KmModelJunction junction)
     {
         return new MyInvitationCriteria(parent(), junction.context());

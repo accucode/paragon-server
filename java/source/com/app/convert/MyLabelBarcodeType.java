@@ -24,10 +24,10 @@ public enum MyLabelBarcodeType
 
     static
     {
-        _values = new KmList<MyLabelBarcodeType>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyLabelBarcodeType>();
+        _codes = new KmMap<>();
         for ( MyLabelBarcodeType e : EnumSet.allOf(MyLabelBarcodeType.class) )
             _codes.put(e.getCode(), e);
     }

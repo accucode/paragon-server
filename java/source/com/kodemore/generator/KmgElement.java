@@ -204,7 +204,7 @@ public abstract class KmgElement
     public KmList<String> parseStrings(KmStfElement p, String attr)
     {
         if ( p == null )
-            return new KmList<String>();
+            return new KmList<>();
 
         return p.getValues(attr);
     }
@@ -360,7 +360,7 @@ public abstract class KmgElement
         if ( hasParent() )
             v = getParent().getPath();
         else
-            v = new KmList<KmgElement>();
+            v = new KmList<>();
         v.add(this);
         return v;
     }
@@ -424,7 +424,7 @@ public abstract class KmgElement
 
     public KmList<String> toWords(String s)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         StringBuilder sb = new StringBuilder();
         if ( Kmu.isEmpty(s) )
             return v;

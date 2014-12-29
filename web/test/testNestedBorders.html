@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+   
+<html>
+ 
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml; charset=utf-8" />
+             
+    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
+    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+
+    <script type="text/javascript">
+
+        /**************************************************
+         * install
+         **************************************************/
+
+        function myLoad()
+        {
+            MyResourceLoader.loadTestResources(
+            {
+                onComplete: myInstall
+            });
+        }
+
+        function myInstall()
+        {
+            $("#content").show();
+        }
+        
+    </script>
+    
+    <style>
+        .xBox
+        {
+            /*
+            box-sizing:      border-box;  
+            -moz-box-sizing: border-box;
+            */
+        
+            width:  200px;
+            height: 200px;
+            
+            display: inline-block;
+            position: relative;
+            
+            background-color: #fff;
+            border: 10px solid blue;
+            
+            /* The padding needs enough space for the nested border */
+            padding: 5px;
+        }
+        .xBox:before
+        {
+            content: "";
+            display: block;
+            position: absolute;
+            top:    0;
+            bottom: 0;
+            left:   0;
+            right:  0;
+            
+            border: 5px solid green;
+        }
+        
+    </style>
+         
+</head>
+     
+<body onload="myLoad();">
+<div id="content" class="boxGray gap" style="display:none">
+
+    <!--
+        The nested divs are typed on a single line to avoid
+        superfluous white space being added between them.
+    -->
+    
+    <div class="clearfix borderRed">
+        <div class="xBox">left</div><div class="xBox">middle</div><div class="xBox">right</div>
+    </div>
+
+</div>
+</body>
+ 
+</html> 

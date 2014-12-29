@@ -152,7 +152,7 @@ public class KmWikiSample
 
     private void installSamples()
     {
-        _samples = new KmOrderedMap<String,String>();
+        _samples = new KmOrderedMap<>();
 
         addSimpleSample();
         addHeaderSample();

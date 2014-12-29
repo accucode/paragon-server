@@ -55,6 +55,16 @@ public class MyMetaNamedCountVo
     {
         return MyNamedCountVoValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "A node in the configuration hierarchy (customer/contract/modelCat/division).\nThis is a non-persistent domain model; it is NOT stored in the database.";
+    }
 
     //##################################################
     //# fields and delegates

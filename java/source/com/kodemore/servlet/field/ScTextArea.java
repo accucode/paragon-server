@@ -384,7 +384,7 @@ public class ScTextArea
         if ( _validator == null )
             return true;
 
-        KmList<KmErrorIF> errors = new KmList<KmErrorIF>();
+        KmList<KmErrorIF> errors = new KmList<>();
 
         _validator.validateOnly(getValue(), errors);
         if ( errors.isEmpty() )

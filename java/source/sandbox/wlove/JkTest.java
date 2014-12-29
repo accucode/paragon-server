@@ -1,7 +1,5 @@
 package sandbox.wlove;
 
-import com.kodemore.phonetic.KmPhoneticEncoder;
-
 public class JkTest
 {
     //##################################################
@@ -10,22 +8,6 @@ public class JkTest
 
     public static void main(String[] args)
     {
-        new JkTest().run();
-    }
-
-    //##################################################
-    //# run
-    //##################################################
-
-    private void run()
-    {
-        KmPhoneticEncoder e;
-        e = new KmPhoneticEncoder();
-        e.loadRulesFromResource("com/kodemore/phonetic/rules.txt");
-
-        String s;
-        s = e.encode("cookie", true);
-
-        System.out.println(s);
+        System.out.println("hello world");
     }
 }

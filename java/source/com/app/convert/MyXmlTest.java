@@ -24,7 +24,7 @@ public class MyXmlTest
         MyInstaller.installCore();
 
         String xmlFile = "converterTest/upcA.xml";
-        String xml = Kmu.readTextFile(xmlFile);
+        String xml = Kmu.readFileString(xmlFile);
 
         MyXmlConverter e;
         e = new MyXmlConverter();

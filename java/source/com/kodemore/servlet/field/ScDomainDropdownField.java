@@ -27,6 +27,7 @@ import java.util.List;
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.exception.error.KmErrorIF;
+import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.filter.KmFilterIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
@@ -49,30 +50,43 @@ public class ScDomainDropdownField<T, K>
     //# variables
     //##################################################
 
-    private ScLocalAdaptor     _optionKeyAdaptor;
-    private ScLocalAdaptor     _optionLabelAdaptor;
+    private ScLocalAdaptor       _optionKeyAdaptor;
+    private ScLocalAdaptor       _optionLabelAdaptor;
 
-    private ScLocalString      _nullPrefix;
+    private ScLocalString        _nullPrefix;
 
-    private ScLocal<K>         _valueKey;
+    private ScLocal<K>           _valueKey;
 
-    private ScLocalBoolean     _readOnly;
-    private ScLocalBoolean     _disabled;
+    private ScLocalBoolean       _readOnly;
+    private ScLocalBoolean       _disabled;
 
-    private KmValidator<T>     _validator;
+    private KmValidator<T>       _validator;
 
     /**
      * Used to find the list of options to be displayed.
      * The list is not cached; it is refetched during preRender.
+     * Clients should set either the filter or filterFactory; NOT both.
+     *
+     * @see #_filterFactory
      */
-    private KmFilterIF<T>      _filter;
+    private KmFilterIF<T>        _filter;
 
     /**
-     * Find a model by its key.  This lookup is independed of
-     * the filter.  In practice, the value returned should be
-     * a value from the filter, but this is not guaranteed.
+     * Used to specify a dynamic filter.
+     * This could be configured to incorporate the current time, or the currently
+     * selected user, or other factors that may be different eacy time we fill
+     * the options.
+     * Clients should set either the filter or filterFactory; NOT both.
+     * @see #_filter
      */
-    private KmKeyFinderIF<T,K> _finder;
+    private KmFilterFactoryIF<T> _filterFactory;
+
+    /**
+     * Find a model by its key.  This lookup is independent of
+     * the filter.  In practice, the value returned should be
+     * a value from the filter, but this is not guaranteed or validated.
+     */
+    private KmKeyFinderIF<T,K>   _finder;
 
     //##################################################
     //# init
@@ -83,7 +97,7 @@ public class ScDomainDropdownField<T, K>
     {
         super.install();
 
-        _valueKey = new ScLocal<K>();
+        _valueKey = new ScLocal<>();
         _validator = null;
 
         _optionKeyAdaptor = new ScLocalAdaptor();
@@ -107,14 +121,29 @@ public class ScDomainDropdownField<T, K>
     public void setFilter(KmFilterIF<T> e)
     {
         _filter = e;
+        _filterFactory = null;
+    }
+
+    public KmFilterFactoryIF<T> getFilterFactory()
+    {
+        return _filterFactory;
+    }
+
+    public void setFilterFactory(KmFilterFactoryIF<T> e)
+    {
+        _filter = null;
+        _filterFactory = e;
     }
 
     private KmList<T> getOptions()
     {
-        if ( _filter == null )
-            return new KmList<T>();
+        if ( _filter != null )
+            return _filter.findAll();
 
-        return _filter.findAll();
+        if ( _filterFactory != null )
+            return _filterFactory.createFilter().findAll();
+
+        return new KmList<>();
     }
 
     //##################################################
@@ -358,7 +387,7 @@ public class ScDomainDropdownField<T, K>
         if ( _validator == null )
             return ok;
 
-        KmList<KmErrorIF> errors = new KmList<KmErrorIF>();
+        KmList<KmErrorIF> errors = new KmList<>();
         _validator.validateOnly(getValue(), errors);
 
         if ( errors.isEmpty() )

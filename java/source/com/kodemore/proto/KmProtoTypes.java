@@ -26,7 +26,7 @@ public abstract class KmProtoTypes
 
     private static KmMap<String,KmProtoType> composeMap()
     {
-        KmMap<String,KmProtoType> m = new KmMap<String,KmProtoType>();
+        KmMap<String,KmProtoType> m = new KmMap<>();
 
         add(m, new KmProtoBoolean());
         add(m, new KmProtoBlob());

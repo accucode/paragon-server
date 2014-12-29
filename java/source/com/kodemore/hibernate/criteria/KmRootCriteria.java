@@ -26,6 +26,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
+import org.hibernate.sql.JoinType;
 
 import com.kodemore.collection.KmMap;
 import com.kodemore.utility.Kmu;
@@ -53,7 +54,7 @@ public class KmRootCriteria
     public KmRootCriteria(Criteria c)
     {
         super(c, null);
-        _joins = new KmMap<String,KmJoin>();
+        _joins = new KmMap<>();
         _projections = null;
     }
 
@@ -72,19 +73,20 @@ public class KmRootCriteria
         return "a" + _aliasIndex++;
     }
 
-    public KmJoin _join(KmCriteria parent, String entityName, int joinType)
+    public KmJoin _join(KmCriteria parent, String entityName, JoinType type)
     {
         KmJoin j = _joins.get(entityName);
         if ( j != null )
         {
-            if ( joinType != j.getType() )
+            if ( !j.hasType(type) )
                 Kmu.fatal("Rejoin to entity(%s), with wrong join type.", entityName);
             return j;
         }
 
         String alias = getNextAlias();
-        Criteria c = parent.getInnerCriteria().createCriteria(entityName, alias, joinType);
-        j = new KmJoin(c, parent, entityName, joinType);
+        Criteria c = parent.getInnerCriteria().createCriteria(entityName, alias, type);
+
+        j = new KmJoin(c, parent, entityName, type);
         _joins.put(entityName, j);
         return j;
     }

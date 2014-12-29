@@ -69,7 +69,7 @@ public class KmXmlWrapper
     {
         try
         {
-            String xml = Kmu.readTextFile(path);
+            String xml = Kmu.readFileString(path);
             return parseXml(xml);
         }
         catch ( Exception ex )
@@ -134,7 +134,7 @@ public class KmXmlWrapper
 
     public KmList<KmXmlWrapper> getChildrenNodes()
     {
-        KmList<KmXmlWrapper> v = new KmList<KmXmlWrapper>();
+        KmList<KmXmlWrapper> v = new KmList<>();
         NodeList nl = _node.getChildNodes();
         int n = nl.getLength();
         for ( int i = 0; i < n; i++ )
@@ -216,7 +216,7 @@ public class KmXmlWrapper
 
     public KmList<Element> getChildElements()
     {
-        KmList<Element> v = new KmList<Element>();
+        KmList<Element> v = new KmList<>();
         NodeList children = _node.getChildNodes();
         int n = children.getLength();
         for ( int i = 0; i < n; i++ )
@@ -230,7 +230,7 @@ public class KmXmlWrapper
 
     private KmList<Element> getChildElements(Node parent, String tag)
     {
-        KmList<Element> v = new KmList<Element>();
+        KmList<Element> v = new KmList<>();
         NodeList children = parent.getChildNodes();
         int n = children.getLength();
         for ( int i = 0; i < n; i++ )
@@ -267,7 +267,7 @@ public class KmXmlWrapper
 
     public KmList<String> getStringsAt(List<String> path)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         Iterator<KmXmlWrapper> i = getNodesAt(path).iterator();
         while ( i.hasNext() )
         {
@@ -301,7 +301,7 @@ public class KmXmlWrapper
 
     public KmList<KmString> getValuesAt(List<String> path)
     {
-        KmList<KmString> v = new KmList<KmString>();
+        KmList<KmString> v = new KmList<>();
         Iterator<String> i = getStringsAt(path).iterator();
         while ( i.hasNext() )
         {
@@ -332,7 +332,7 @@ public class KmXmlWrapper
 
     public KmList<KmXmlWrapper> getNodesAt(List<String> path)
     {
-        KmList<KmXmlWrapper> v = new KmList<KmXmlWrapper>();
+        KmList<KmXmlWrapper> v = new KmList<>();
         _collectNodes(_getElement(), path, 0, v);
         return v;
     }
@@ -394,7 +394,7 @@ public class KmXmlWrapper
 
     public KmList<String> getAttributeNames()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         NamedNodeMap m = _node.getAttributes();
         if ( m != null )
         {
@@ -684,7 +684,7 @@ public class KmXmlWrapper
         String prefix = "<!DOCTYPE model SYSTEM \"../model.dtd\">";
 
         String xml;
-        xml = Kmu.readTextFile(path);
+        xml = Kmu.readFileString(path);
         xml = Kmu.removePrefix(xml, prefix);
         xml = xml.trim();
 

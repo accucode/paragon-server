@@ -50,6 +50,12 @@ public class MyMetaEmail_StatusCode
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The status: draft, ready, pending, sent, error, ignored.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 3;
@@ -102,8 +108,9 @@ public class MyMetaEmail_StatusCode
         ScDropdown e;
         e = new ScDropdown();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
-        e.setValue(getAdaptor());
+        e.setValueAdaptor(getAdaptor());
         e.addOptions(MyEmailStatus.values());
         return e;
     }

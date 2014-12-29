@@ -5,9 +5,9 @@ import com.kodemore.file.KmFile;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -82,11 +82,12 @@ public class MyDevSharedFileBrowserPage
         group = root.addGroup("Path");
 
         ScBox body;
-        body = group.addPad();
+        body = group.getBody().addPad();
 
-        ScArray row;
+        ScFlexbox row;
         row = body.addRow();
         row.add(_directoryField);
+        row.addNonBreakingSpace();
         row.addSubmitButton("Open");
 
         body.addLink("Create", newCreatePathAction());
@@ -100,7 +101,7 @@ public class MyDevSharedFileBrowserPage
         group = root.addGroup("Folders");
 
         ScBox body;
-        body = group.addPad();
+        body = group.getBody().addPad();
         body.add(_folderList);
         body.addLink("Open", newOpenFolderAction());
     }
@@ -113,7 +114,7 @@ public class MyDevSharedFileBrowserPage
         group = root.addGroup("Files");
 
         ScBox body;
-        body = group.addPad();
+        body = group.getBody().addPad();
         body.add(_fileList);
         body.addLink("Get", newGetFileAction());
     }

@@ -1,8 +1,5 @@
 package com.app.job;
 
-import com.kodemore.job.KmJobManager;
-import com.kodemore.job.KmSimpleJobManager;
-
 import com.app.job.application.MyApplicationJobManager;
 import com.app.job.system.MySystemJobManager;
 
@@ -10,35 +7,9 @@ public class MyMasterJob
     extends MyJob
 {
     //##################################################
-    //# install / shutdown
-    //##################################################
-
-    private static MyMasterJob  _instance;
-    private static KmJobManager _manager;
-
-    public static void install()
-    {
-        _instance = new MyMasterJob();
-
-        KmSimpleJobManager e;
-        e = new KmSimpleJobManager();
-        e.setName("Master");
-        e.add(_instance);
-        e.startDelayedSeconds(5);
-        _manager = e;
-    }
-
-    public static void shutdown()
-    {
-        _instance._shutdown();
-        _manager.stop();
-    }
-
-    //##################################################
     //# variables
     //##################################################
 
-    private boolean                 _shutdown;
     private MySystemJobManager      _systemJobManager;
     private MyApplicationJobManager _applicationJobManager;
 
@@ -53,52 +24,36 @@ public class MyMasterJob
     }
 
     //##################################################
-    //# accessing
+    //# overrides
     //##################################################
 
     @Override
-    public boolean isEnabled()
+    protected boolean isEnabled()
     {
-        return !isShutdown();
+        return true;
     }
 
     @Override
-    public int getActiveMs()
+    protected int getActiveMs()
     {
         return 1000;
     }
 
     @Override
-    public synchronized boolean run()
+    protected synchronized boolean handle()
     {
-        if ( _shutdown )
-            return false;
-
-        boolean active = false;
-
         if ( !_systemJobManager.isRunning() )
-        {
             _systemJobManager.start();
-            active = true;
-        }
 
         if ( !_applicationJobManager.isRunning() )
-        {
             _applicationJobManager.start();
-            active = true;
-        }
 
-        return active;
+        return true;
     }
 
-    public synchronized boolean isShutdown()
+    @Override
+    protected void handleStop()
     {
-        return _shutdown;
-    }
-
-    private synchronized void _shutdown()
-    {
-        _shutdown = true;
         _systemJobManager.stop();
         _applicationJobManager.stop();
     }

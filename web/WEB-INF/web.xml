@@ -11,6 +11,9 @@
     <listener>
         <listener-class>com.app.ui.servlet.MyServletContextListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
+    </listener>
     
     <!-- filters -->
     

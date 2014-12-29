@@ -58,11 +58,11 @@ public class JkJavaImportTracer
 
     public JkJavaImportTracer()
     {
-        _ignoredPrefixes = new KmList<String>();
+        _ignoredPrefixes = new KmList<>();
 
-        _sources = new KmList<JicSource>();
-        _sourcesByName = new KmMap<String,JicSource>();
-        _sourcesByPackage = new KmMap<String,KmList<JicSource>>();
+        _sources = new KmList<>();
+        _sourcesByName = new KmMap<>();
+        _sourcesByPackage = new KmMap<>();
     }
 
     //##################################################
@@ -128,7 +128,7 @@ public class JkJavaImportTracer
         KmList<JicSource> v = _sourcesByPackage.get(pkg);
         if ( v == null )
         {
-            v = new KmList<JicSource>();
+            v = new KmList<>();
             _sourcesByPackage.put(pkg, v);
         }
         v.add(e);
@@ -138,7 +138,7 @@ public class JkJavaImportTracer
     {
         String source = f.readString();
 
-        KmList<String> lines = Kmu.getLines(source);
+        KmList<String> lines = Kmu.parseLines(source);
         for ( String line : lines )
         {
             String i = parseImport(line);
@@ -221,7 +221,7 @@ public class JkJavaImportTracer
             println("printTree");
 
             JicSource source = _sourcesByName.get(startAt);
-            KmList<String> log = new KmList<String>();
+            KmList<String> log = new KmList<>();
             int level = 0;
 
             printTree(source, stopAt, log, level);
@@ -292,22 +292,17 @@ public class JkJavaImportTracer
         // 
     }
 
-    @SuppressWarnings("unused")
     private class JicSource
         implements Comparable<JicSource>
     {
         String         name;
         String         pkg;
-        String         path;
-        KmList<String> imports = new KmList<String>();
+        KmList<String> imports = new KmList<>();
 
         public void applyPath(KmFile f)
         {
             String s;
             s = f.getPath();
-
-            path = f.getPath();
-
             s = Kmu.removePrefix(s, "/");
             s = Kmu.removeSuffix(s, ".java");
             s = Kmu.replaceAll(s, "/", ".");

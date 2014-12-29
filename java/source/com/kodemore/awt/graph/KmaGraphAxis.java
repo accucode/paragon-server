@@ -214,14 +214,19 @@ public class KmaGraphAxis
     {
         if ( Double.isNaN(x) )
             return false;
+
         if ( x < getMinimum() )
             return false;
+
         if ( x > getMaximum() )
             return false;
+
         if ( hasMinimumLabel() && x < getMinimumLabel() )
             return false;
+
         if ( hasMaximumLabel() && x > getMaximumLabel() )
             return false;
+
         return true;
     }
 }

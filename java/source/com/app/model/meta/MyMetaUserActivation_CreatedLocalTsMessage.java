@@ -49,6 +49,12 @@ public class MyMetaUserActivation_CreatedLocalTsMessage
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when the activation was created.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

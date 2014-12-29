@@ -16,19 +16,25 @@
 <body>
 <h1>invitation</h1>
 
-Invite a user to the system.<br>
+${model.f_comment}<br>
 <br>
 
 <table cellspacing=0 cellpadding=3 border=1>
 <tr>
   <th>Attribute</th>
-  <th>Comment</th>
+  <th>Help / Comment</th>
   <th>Format</th>
   <th>Attributes</th>
 </tr>
 <tr>
   <td>uid&nbsp;</td>
-  <td>The unique key.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The globally unique identifier.  This is a big ugly number and is generally not displayed.<br>
+            &nbsp;
+  </td>
+  
   <td>uid
         <br><nobr>max length: 30</nobr>           <br>allows(
                       printable
@@ -40,7 +46,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>typeCode&nbsp;</td>
-  <td>The type.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The type of invitation.  Currently the only type is a JoinAccount, but other types can be added.<br>
+            &nbsp;
+  </td>
+  
   <td>letterCode
         <br><nobr>max length: 1</nobr>           <br>allows(
                       letters
@@ -52,7 +64,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>statusCode&nbsp;</td>
-  <td>The status.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The status of this invitation: pending, accepted, rejected, expired, or cancelled.<br>
+            &nbsp;
+  </td>
+  
   <td>letterCode
         <br><nobr>max length: 1</nobr>           <br>allows(
                       letters
@@ -64,7 +82,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>createdUtcTs&nbsp;</td>
-  <td>When the object was created.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this invitation was created.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -73,7 +97,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>closedUtcTs&nbsp;</td>
-  <td>When the object was used.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this invitation was closed (e.g.: accepted).<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -82,7 +112,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>toEmail&nbsp;</td>
-  <td>The email to which the invitation was sent.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The email to which the invitation was sent.<br>
+            &nbsp;
+  </td>
+  
   <td>email
         <br><nobr>max length: 50</nobr>           <br>allows(
                       printable
@@ -94,7 +130,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>roleCode&nbsp;</td>
-  <td>The role of the account joiner.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The security role to be assigned to the invited user.<br>
+            &nbsp;
+  </td>
+  
   <td>letterCode
         <br><nobr>max length: 1</nobr>           <br>allows(
                       letters
@@ -106,7 +148,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>lockVersion&nbsp;</td>
-  <td>Used for optimistic locking.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
+            &nbsp;
+  </td>
+  
   <td>lockVersion
               </td>
   <td>
@@ -115,9 +163,15 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>typeName&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The type of invitation.  Currently the only type is a JoinAccount, but other types can be added.<br>
+            &nbsp;
+  </td>
+  
   <td>name
-        <br><nobr>max length: 30</nobr>           <br>allows(
+        <br><nobr>max length: 50</nobr>           <br>allows(
                       printable
             )
       </td>
@@ -127,9 +181,15 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>statusName&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The status of this invitation: pending, accepted, rejected, expired, or cancelled.<br>
+            &nbsp;
+  </td>
+  
   <td>name
-        <br><nobr>max length: 30</nobr>           <br>allows(
+        <br><nobr>max length: 50</nobr>           <br>allows(
                       printable
             )
       </td>
@@ -139,7 +199,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>createdLocalTs&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this invitation was created.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -148,7 +214,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>createdLocalTsMessage&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this invitation was created.<br>
+            &nbsp;
+  </td>
+  
   <td>text100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -160,7 +232,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>createdLocalDate&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this invitation was created.<br>
+            &nbsp;
+  </td>
+  
   <td>date
               </td>
   <td>
@@ -169,7 +247,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>createdLocalTime&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this invitation was created.<br>
+            &nbsp;
+  </td>
+  
   <td>time
               </td>
   <td>
@@ -178,7 +262,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>closedLocalTs&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this invitation was closed (e.g.: accepted).<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -187,7 +277,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>closedLocalTsMessage&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this invitation was closed (e.g.: accepted).<br>
+            &nbsp;
+  </td>
+  
   <td>text100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -199,7 +295,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>closedLocalDate&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this invitation was closed (e.g.: accepted).<br>
+            &nbsp;
+  </td>
+  
   <td>date
               </td>
   <td>
@@ -208,7 +310,13 @@ Invite a user to the system.<br>
 </tr>
 <tr>
   <td>closedLocalTime&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when this invitation was closed (e.g.: accepted).<br>
+            &nbsp;
+  </td>
+  
   <td>time
               </td>
   <td>

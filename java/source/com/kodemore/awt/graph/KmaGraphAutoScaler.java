@@ -57,6 +57,7 @@ public class KmaGraphAutoScaler
             5,
             8
         };
+
         _minorUnitOptions = new double[]
         {
             0.2,
@@ -65,6 +66,7 @@ public class KmaGraphAutoScaler
             1,
             2
         };
+
         _maximumDivisions = 10;
         _minimumLower = 0;
     }
@@ -223,7 +225,8 @@ public class KmaGraphAutoScaler
 
     public static void main(String args[])
     {
-        KmaGraphAutoScaler e = new KmaGraphAutoScaler();
+        KmaGraphAutoScaler e;
+        e = new KmaGraphAutoScaler();
         e.setMinimum(0);
         e.setMaximum(100);
         e.setMaximumDivisions(12);

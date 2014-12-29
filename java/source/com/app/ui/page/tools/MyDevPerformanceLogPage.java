@@ -7,10 +7,9 @@ import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScArray;
-import com.kodemore.servlet.control.ScBorderLayout;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFilterBox;
+import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -72,6 +71,7 @@ public class MyDevPerformanceLogPage
     private ScDateField                       _startDateField;
     private ScDateField                       _endDateField;
     private ScDropdown                        _sortField;
+
     private ScGrid<MyPerformanceLogSummaryVo> _grid;
 
     //##################################################
@@ -97,15 +97,17 @@ public class MyDevPerformanceLogPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        ScBorderLayout layout;
-        layout = root.addBorderLayout();
-        layout.pad();
+        root.css().fill();
 
-        installFilterOn(layout);
-        installGridOn(layout);
+        ScFlexbox col;
+        col = root.addColumn();
+        col.css().fill().gap();
+
+        installFilterOn(col);
+        installGridOn(col);
     }
 
-    private void installFilterOn(ScBorderLayout layout)
+    private void installFilterOn(ScFlexbox col)
     {
         _startDateField = new ScDateField();
         _endDateField = new ScDateField();
@@ -115,28 +117,38 @@ public class MyDevPerformanceLogPage
         _sortField.setValue(Sort.Total);
 
         ScDiv root;
-        root = layout.addTop(140);
+        root = col.addDiv();
+        root.css().flexStatic().relative();
 
-        _filterBox = root.addFilterBox("Performance Logs");
-        _filterBox.layoutFill();
+        _filterBox = root.addFilterBox("Search");
         _filterBox.setAction(newSearchAction());
 
-        ScArray row;
+        ScFlexbox row;
         row = _filterBox.addRow();
+        row.crossAlignCenter();
         row.addLabel("Date");
+        row.addSpace();
         row.add(_startDateField);
+        row.addSpace();
         row.addText("to");
+        row.addSpace();
         row.add(_endDateField);
         row.addSpace();
+
+        row.addFiller();
+
         row.addLabel("Sort");
+        row.addSpace();
         row.add(_sortField);
+
+        row.addFiller();
     }
 
-    private void installGridOn(ScBorderLayout layout)
+    private void installGridOn(ScFlexbox col)
     {
         MyMetaPerformanceLogSummaryVo x = MyPerformanceLogSummaryVo.Meta;
 
-        _grid = new ScGrid<MyPerformanceLogSummaryVo>();
+        _grid = new ScGrid<>();
         _grid.trackAll(_filterBox);
         _grid.setFilterFactory(newFetcher());
 
@@ -149,17 +161,21 @@ public class MyDevPerformanceLogPage
         _grid.layoutFill();
 
         ScDiv root;
-        root = layout.addCenter();
+        root = col.addDiv();
+        root.css().flexFiller().relative();
 
         ScGroup group;
         group = root.addGroup("Results");
-        group.layoutFill();
-        group.css().topOffset();
-        group.add(_grid);
+        group.css().fill();
+
+        ScDiv body;
+        body = group.getBody();
+        body.css().relative().noBorder();
+        body.add(_grid);
 
         ScDiv buttons;
-        buttons = group.getHeader().addFloatRight();
-        buttons.css().pad5();
+        buttons = group.getBanner().addFloatRight();
+        buttons.css().smallPad();
         buttons.addButton("Delete All", newDeleteAllAction());
     }
 

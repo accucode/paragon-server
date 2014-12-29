@@ -58,7 +58,7 @@ public class ScDropdownMenu
         super.install();
 
         _title = new ScLocalString("Menu");
-        _items = new ScLocalList<ScDropdownMenuItem>();
+        _items = new ScLocalList<>();
     }
 
     //##################################################

@@ -50,6 +50,12 @@ public class MyMetaUser_Verified
     }
 
     @Override
+    public String getHelp()
+    {
+        return "Indicates if this user's email address has been verified. We require the email address to be verified before the user is allowed to log in.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

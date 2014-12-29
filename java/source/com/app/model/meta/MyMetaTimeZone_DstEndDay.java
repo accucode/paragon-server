@@ -49,6 +49,12 @@ public class MyMetaTimeZone_DstEndDay
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date (day) when daylight savings ends.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

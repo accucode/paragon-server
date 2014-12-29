@@ -7,44 +7,45 @@ public interface MyConstantsIF
     //##################################################
 
     /**
-     * The name of the project.  It is used in a variety of 
+     * The name of the project.  It is used in a variety of
      * contexts and may be displayed on screen to users.
      */
-    String APPLICATION_NAME          = "Paragon";
+    String APPLICATION_NAME     = "Paragon Server";
 
     /**
      * This should be a globally unique value, that identifies
-     * the application.  This value MUST be randomly updated 
-     * for each new project, but should NOT be updated for new 
+     * the application.  This value MUST be randomly updated
+     * for each new project, but should NOT be updated for new
      * versions of the same application.
-     * 
-     * Changing this salt will invalidate preexisting passwords 
+     *
+     * Changing this salt will invalidate preexisting passwords
      * and authentications used to access the application.
      * New values can be generated via Kmu.newUid().
-     * 
-     * The current value is the one used for the Paragon sample project.
-     * It should be changed when you start a new project.
+     *
+     * This salt is TEMPORARY, and should be changed for real projects.
      */
-    String APPLICATION_SHA_SALT      = "662NNDM-R4A565-4ETNHI-JNEGAT";
+    String APPLICATION_SHA_SALT = "000000-000000-000000-000000";
 
     /**
-     * The build number is important.  It should be updated
-     * any time you are deploying a new version to production.
-     * Typical format is Build-YYMMDD-R.  Where R is the number
-     * of revisions on a given day.
+     * The build number is important.  It should be updated any time you
+     * are deploying a new version to production.  Typical format is Build-YYMMDD-R.
+     * Where R is the number of revisions on a given day.
+     *
+     * A different pattern can be used, but the build numbers should increase
+     * alpha-numerically with each version.  Also, the version number is
+     * used to compose the url/file path so it needs to be limited to text
+     * that is compatible with paths.
      */
-    String APPLICATION_VERSION       = "Build-140124-1";
+    String APPLICATION_VERSION  = "Build-150101-1";
 
     //##################################################
     //# copyright
     //##################################################
 
-    String COPYRIGHT_TEXT            = "Copyright 2014 Accucode Inc";
-    String COPYRIGHT_HTML            = "&copy; 2014 Accucode Inc";
+    /**
+     * This should be replaced with a copyright notice appropriate to your project.
+     */
+    String COPYRIGHT_TEXT       = "Copyright 2014, Accucode Inc., (Apache License, Open Source)";
+    String COPYRIGHT_HTML       = "&copy; 2014, Accucode Inc., (Apache License, Open Source)";
 
-    //##################################################
-    //# misc
-    //##################################################
-
-    int    AUTO_SIGN_IN_TIMEOUT_DAYS = 30;
 }

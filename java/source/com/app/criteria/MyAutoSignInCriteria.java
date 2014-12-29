@@ -51,12 +51,12 @@ public class MyAutoSignInCriteria
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereLastTouchedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(LAST_TOUCHED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(LAST_TOUCHED_UTC_TS));
     }
 
     public KmIntegerCriteria whereLockVersion()
@@ -382,7 +382,6 @@ public class MyAutoSignInCriteria
     //##################################################
 
     @Override
-    @SuppressWarnings("rawtypes")
     public MyAutoSignInCriteria createOn(KmModelJunction junction)
     {
         return new MyAutoSignInCriteria(parent(), junction.context());

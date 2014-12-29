@@ -55,8 +55,8 @@ public class KmSimplePieChart
 
     public KmSimplePieChart()
     {
-        _names = new KmList<String>();
-        _values = new KmList<Double>();
+        _names = new KmList<>();
+        _values = new KmList<>();
         _legend = false;
     }
 
@@ -111,6 +111,7 @@ public class KmSimplePieChart
     protected JFreeChart createAbstractChart()
     {
         DefaultPieDataset ds = new DefaultPieDataset();
+
         int n = _names.size();
         for ( int i = 0; i < n; i++ )
             ds.setValue(_names.get(i), _values.get(i));

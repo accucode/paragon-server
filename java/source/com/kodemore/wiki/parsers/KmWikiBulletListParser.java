@@ -27,7 +27,7 @@ import com.kodemore.wiki.KmWikiReader;
 import com.kodemore.wiki.KmWikiSource;
 
 public abstract class KmWikiBulletListParser
-extends KmWikiParser
+    extends KmWikiParser
 {
     //##################################################
     //# constructor

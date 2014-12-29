@@ -3,10 +3,10 @@ package com.app.ui.page.login;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
+import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScImage;
@@ -23,6 +23,7 @@ import com.app.model.MyAutoSignIn;
 import com.app.model.MyUser;
 import com.app.ui.layout.MyPageLayout;
 import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 import com.app.utility.MyNavigator;
 
 public class MySignInPage
@@ -50,23 +51,16 @@ public class MySignInPage
     private ScTextField                  _passwordField;
     private ScCheckboxField              _staySignedInField;
 
-    private MySignUpDialog               _signUpDialog;
     private MyRequestPasswordResetDialog _resetDialog;
 
     //##################################################
-    //# setup
+    //# settings
     //##################################################
 
     @Override
-    public boolean requiresUser()
+    public MySecurityLevel getSecurityLevel()
     {
-        return false;
-    }
-
-    @Override
-    protected boolean showsLeftMenu()
-    {
-        return false;
+        return MySecurityLevel.any;
     }
 
     //##################################################
@@ -76,13 +70,13 @@ public class MySignInPage
     public void pushForWindowQuery()
     {
         String q = getData().getWindowQuery();
-        pushForQuery(q);
+        ajaxPushForQuery(q);
     }
 
-    public void pushForQuery(String e)
+    public void ajaxPushForQuery(String e)
     {
         _targetQuery.setValue(e);
-        _push();
+        _ajaxPush();
     }
 
     @Override
@@ -112,28 +106,40 @@ public class MySignInPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
+        root.css().fill();
+
         _targetQuery = new ScLocalString();
         _targetQuery.setAutoSave();
 
-        ScArray row;
-        row = root.addRow();
-        row.setGap(50);
-        row.style().marginCenter().marginTop(100);
+        ScFlexbox col;
+        col = root.addColumn();
+        col.crossAlignCenter();
+        col.css().fill();
+        col.addFiller();
 
-        installForm(row);
-        installLogo(row);
-        installSignUpDialog(root);
-        installPasswordResetDialog(root);
+        installContentOn(col);
+
+        col.addFiller(2);
+
+        installPasswordResetDialog();
     }
 
-    private void installForm(ScArray root)
+    private void installContentOn(ScFlexbox col)
+    {
+        ScFlexbox row;
+        row = col.addRow();
+        installForm(row);
+        installLogo(row);
+    }
+
+    private void installForm(ScContainer root)
     {
         _staySignedInField = new ScCheckboxField();
 
         ScForm form;
         form = root.addForm();
         form.setSubmitAction(newSignInAction());
-        form.style().width(300).padTop(50);
+        form.style().width(300);
         _form = form;
 
         ScGroup group;
@@ -141,23 +147,15 @@ public class MySignInPage
         group.setTitle("Sign In");
 
         installFormFields(group);
-
-        group.addDivider();
-
         installFormFooter(group);
     }
 
-    private void installLogo(ScArray root)
+    private void installLogo(ScFlexbox root)
     {
-        ScBox box;
-        box = root.addBox();
-        box.style().width(300).padTop(25);
-        box.css().middle();
-
         ScImage e;
-        e = box.addImage();
+        e = root.addImage();
         e.setSource(getThemeImageUrl("logo300.png"));
-        e.style().width(300).height(300);
+        e.style().size(300).marginLeft(50);
     }
 
     private void installFormFields(ScGroup group)
@@ -170,7 +168,7 @@ public class MySignInPage
         _passwordField.setWidthFull();
 
         ScBox box;
-        box = group.addBox();
+        box = group.getBody().addBox();
         box.css().gap10x2();
         box.addLabel("Email");
         box.addErrorBox().add(_emailField);
@@ -178,15 +176,13 @@ public class MySignInPage
         ScDiv right;
         right = box.addBox().addFloatRight();
 
-        ScLink link;
-        link = right.addLink("New user?", newUserDialogAction());
-        link.setNoFocus();
-
+        box.addBreak();
         box.addLabel("Password");
         box.addErrorBox().add(_passwordField);
 
         right = box.addBox().addFloatRight();
 
+        ScLink link;
         link = right.addLink("Forgot password?", newForgotPasswordAction());
         link.setNoFocus();
 
@@ -195,30 +191,26 @@ public class MySignInPage
 
     private void installFormFooter(ScGroup group)
     {
-        ScBox footer;
-        footer = group.addBox();
-        footer.css().pad();
-        footer.addSubmitButton("Sign In");
+        ScDiv footer;
+        footer = group.getFooter();
+        footer.show();
 
-        ScDiv right;
-        right = footer.addFloatRight();
-        right.add(_staySignedInField);
-        right.addSpace();
-        right.addText("Stay Signed In");
+        ScFlexbox flex;
+        flex = footer.addRow();
+        flex.alignSpaced();
+        flex.crossAlignCenter();
+        flex.css().pad();
+
+        flex.addSubmitButton("Sign In");
+        flex.addFiller();
+        flex.add(_staySignedInField);
+        flex.addNonBreakingSpace();
+        flex.addTextSpan("Stay Signed In");
     }
 
-    private void installSignUpDialog(ScContainer root)
-    {
-        _signUpDialog = new MySignUpDialog();
-
-        root.add(_signUpDialog);
-    }
-
-    private void installPasswordResetDialog(ScContainer root)
+    private void installPasswordResetDialog()
     {
         _resetDialog = new MyRequestPasswordResetDialog();
-
-        root.add(_resetDialog);
     }
 
     //##################################################
@@ -233,18 +225,6 @@ public class MySignInPage
             protected void handle()
             {
                 handleSignIn();
-            }
-        };
-    }
-
-    private ScActionIF newUserDialogAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleUserDialog();
             }
         };
     }
@@ -278,22 +258,12 @@ public class MySignInPage
     //# handle
     //##################################################
 
-    private void handleUserDialog()
-    {
-        String email = _emailField.getValue();
-
-        ajax().hideAllErrors();
-
-        _signUpDialog.open(email);
-    }
-
     private void handleForgotPassword()
     {
+        String email = _emailField.getValue();
         ajax().hideAllErrors();
 
-        String email = _emailField.getValue();
-
-        _resetDialog.start(email);
+        _resetDialog.ajaxOpen(email);
     }
 
     private void handleSignIn()
@@ -328,18 +298,21 @@ public class MySignInPage
 
         getAccess().getAutoSignInDao().deleteAllFor(user);
 
-        MyAutoSignIn auto = null;
         boolean staySignedIn = _staySignedInField.isTrue();
 
         if ( staySignedIn )
         {
+            MyAutoSignIn auto;
             auto = new MyAutoSignIn();
             auto.setUser(user);
             auto.saveDao();
-        }
 
-        MySignInUtility.signIn(user, auto);
-        getPageLayout().ajaxRefresh();
+            MySignInUtility.signIn(auto);
+        }
+        else
+            MySignInUtility.signIn(user);
+
+        getLayout().ajaxRefreshHeaderContent();
 
         startNextPage();
     }

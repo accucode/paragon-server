@@ -67,16 +67,18 @@ public class KmDbaseData
      */
     public String getString(int index, int n)
     {
-        StringBuilder sb;
-        sb = new StringBuilder(n);
+        StringBuilder out = new StringBuilder(n);
+
         for ( int i = 0; i < n; i++ )
         {
             char c = (char)_bytes[index + i];
             if ( c == 0 )
                 break;
-            sb.append(c);
+
+            out.append(c);
         }
-        return sb.toString();
+
+        return out.toString();
     }
 
     /**
@@ -104,6 +106,7 @@ public class KmDbaseData
         int yy = 1900 + get1ByteInteger(index);
         int mm = get1ByteInteger(index + 1);
         int dd = get1ByteInteger(index + 2);
+
         return KmDate.create(yy, mm, dd);
     }
 
@@ -145,6 +148,7 @@ public class KmDbaseData
         String s;
         s = getString(index, length);
         s = s.trim();
+
         return Kmu.parse_double(s);
     }
 

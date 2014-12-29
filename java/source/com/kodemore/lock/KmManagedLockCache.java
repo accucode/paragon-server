@@ -47,7 +47,7 @@ public class KmManagedLockCache
 
     public KmManagedLockCache()
     {
-        _map = new HashMap<Object,KmManagedLock>();
+        _map = new HashMap<>();
     }
 
     //##################################################

@@ -55,6 +55,16 @@ public class MyMetaPerformanceLogSummaryVo
     {
         return MyPerformanceLogSummaryVoValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "Used to present summary information about performance logs.";
+    }
 
     //##################################################
     //# fields and delegates

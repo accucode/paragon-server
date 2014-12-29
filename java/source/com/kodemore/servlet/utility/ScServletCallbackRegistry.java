@@ -74,7 +74,7 @@ public class ScServletCallbackRegistry
 
     public ScServletCallbackRegistry()
     {
-        _callbacks = new KmList<ScServletCallback>();
+        _callbacks = new KmList<>();
 
         registerControls();
     }

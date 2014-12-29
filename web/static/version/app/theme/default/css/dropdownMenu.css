@@ -21,15 +21,17 @@
 
 .dropdownMenu 
 {
-    text-align: left;
+    display: inline-block;
+    
     position: relative;
+    text-align: left;
     width: 150px;
     padding: 10px 15px;
 
     font: bold 14px sans-serif;
-    background: transparent;
+    background: #eee linear-gradient(to bottom, #fff, #eee);
     
-    border: 1px solid #080;
+    border: 1px solid #366;
     border-radius: 5px;
     
     box-shadow: 0 1px 0 rgba(0,0,0,0.2);
@@ -37,6 +39,10 @@
     outline: none;
     
     transition: all 0.2s ease-out;
+}
+.dropdownMenu:hover
+{
+    background: #eee linear-gradient(to bottom, #eee, #fff);
 }
 
 /* small down arrow hack */
@@ -53,7 +59,7 @@
 
     border-width: 6px;
     border-style: solid;
-    border-color: #080 transparent;
+    border-color: #366 transparent;
     border-bottom: none;
 }
 
@@ -72,7 +78,7 @@
     background: white;
     padding: 0;
     
-    border: 2px solid #080;
+    border: 2px solid #366;
     border-top: none;
     border-bottom: none;
     border-radius: 0 0 5px 5px;
@@ -107,7 +113,7 @@
 {
     border-radius: 5px 5px 0 0;
     
-    background: #080;
+    background: #366;
     box-shadow: none;
     color: white;
 }
@@ -119,7 +125,7 @@
 
 .dropdownMenu.open ul
 {
-    border-bottom: 2px solid #080;
+    border-bottom: 2px solid #366;
     
     max-height: 400px;
 }

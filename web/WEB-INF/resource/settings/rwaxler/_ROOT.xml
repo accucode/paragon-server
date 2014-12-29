@@ -1,4 +1,4 @@
- <!-- copy file to ${tomcat_home}/conf/Catalina/localhost -->
+<!-- copy file to ${tomcat_home}/conf/Catalina/localhost -->
 
 <Context
     path="/"

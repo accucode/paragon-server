@@ -48,7 +48,7 @@ import com.kodemore.wiki.parsers.KmWikiUnderlineParser;
 import com.kodemore.wiki.parsers.KmWikiUnorderedListParser;
 
 public class KmWikiReader
-implements KmWikiConstantsIF
+    implements KmWikiConstantsIF
 {
     //##################################################
     //# variables
@@ -109,8 +109,8 @@ implements KmWikiConstantsIF
         _source = _sourceText.toCharArray();
 
         _text = new StringBuilder();
-        _stack = new KmList<StackElement>();
-        _errors = new KmList<KmWikiError>();
+        _stack = new KmList<>();
+        _errors = new KmList<>();
 
         KmWikiDocumentParser parser = new KmWikiDocumentParser(this);
         KmWikiDocument doc = new KmWikiDocument(getSource());
@@ -137,7 +137,7 @@ implements KmWikiConstantsIF
 
     private void installParsers()
     {
-        _parsers = new KmList<KmWikiParser>();
+        _parsers = new KmList<>();
 
         addParser(new KmWikiLiteralParser(this));
         addParser(new KmWikiNoWikiParser(this));

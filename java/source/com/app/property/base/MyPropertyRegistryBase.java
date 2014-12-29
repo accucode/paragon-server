@@ -11,9 +11,6 @@ package com.app.property.base;
 import com.kodemore.collection.*;
 import com.kodemore.exception.*;
 import com.kodemore.log.*;
-import com.kodemore.policy.date.*;
-import com.kodemore.policy.time.*;
-import com.kodemore.policy.weight.*;
 import com.kodemore.property.*;
 import com.kodemore.time.*;
 import com.kodemore.utility.*;
@@ -27,9 +24,9 @@ public class MyPropertyRegistryBase
     //# production
     //##################################################
 
-    public Boolean getProduction()
+    public String getEnvironment()
     {
-       return MyPropertyDefinitions.getProduction().getBooleanFor(this);
+       return MyPropertyDefinitions.getEnvironment().getStringFor(this);
     }
 
     //##################################################
@@ -337,9 +334,9 @@ public class MyPropertyRegistryBase
        return MyPropertyDefinitions.getDatabaseRowLockFailureRetryMs().getIntegerFor(this);
     }
 
-    public Boolean getSyncDatabaseOnStartup()
+    public Boolean getDatabaseSyncOnStartup()
     {
-       return MyPropertyDefinitions.getSyncDatabaseOnStartup().getBooleanFor(this);
+       return MyPropertyDefinitions.getDatabaseSyncOnStartup().getBooleanFor(this);
     }
 
     //##################################################
@@ -508,6 +505,11 @@ public class MyPropertyRegistryBase
     public Boolean getAjaxLogEnabled()
     {
        return MyPropertyDefinitions.getAjaxLogEnabled().getBooleanFor(this);
+    }
+
+    public String getAutoLoginEmail()
+    {
+       return MyPropertyDefinitions.getAutoLoginEmail().getStringFor(this);
     }
 
     public Boolean getCheckRecommendedBrowser()

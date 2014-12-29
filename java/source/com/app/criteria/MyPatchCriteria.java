@@ -51,7 +51,7 @@ public class MyPatchCriteria
 
     public KmPropertyCriteria<KmTimestamp> whereInstalledUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(INSTALLED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(INSTALLED_UTC_TS));
     }
 
     public KmStringCriteria whereSource()
@@ -268,7 +268,6 @@ public class MyPatchCriteria
     //##################################################
 
     @Override
-    @SuppressWarnings("rawtypes")
     public MyPatchCriteria createOn(KmModelJunction junction)
     {
         return new MyPatchCriteria(parent(), junction.context());

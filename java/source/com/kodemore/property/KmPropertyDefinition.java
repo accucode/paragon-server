@@ -62,7 +62,7 @@ public class KmPropertyDefinition
 
     public KmPropertyDefinition()
     {
-        _flags = new KmList<String>();
+        _flags = new KmList<>();
     }
 
     //##################################################

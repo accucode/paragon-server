@@ -49,6 +49,12 @@ public class MyMetaTimeZone_DstStartDay
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date (day) when daylight savings starts.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

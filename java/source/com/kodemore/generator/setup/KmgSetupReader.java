@@ -73,7 +73,7 @@ public class KmgSetupReader
 
     private KmList<KmgSetup> parseRoot(KmStfRoot root)
     {
-        KmList<KmgSetup> v = new KmList<KmgSetup>();
+        KmList<KmgSetup> v = new KmList<>();
 
         KmList<KmStfElement> es = root.getChildren("setup");
         for ( KmStfElement e : es )

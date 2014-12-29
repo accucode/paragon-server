@@ -49,6 +49,12 @@ public class MyMetaTimeZone_DstCode
     }
 
     @Override
+    public String getHelp()
+    {
+        return "dstCode";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

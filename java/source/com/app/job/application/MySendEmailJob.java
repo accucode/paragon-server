@@ -35,7 +35,7 @@ public class MySendEmailJob
     //##################################################
 
     @Override
-    protected boolean run()
+    protected boolean handle()
     {
         return MyEmailSender.staticRunBatch().isNotEmpty();
     }

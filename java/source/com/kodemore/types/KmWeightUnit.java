@@ -144,7 +144,7 @@ public abstract class KmWeightUnit
     private static KmList<KmWeightUnit> newUnitList()
     {
         KmList<KmWeightUnit> v;
-        v = new KmList<KmWeightUnit>();
+        v = new KmList<>();
         v.add(KILOGRAM);
         v.add(GRAM);
         v.add(POUND);

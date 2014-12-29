@@ -120,12 +120,14 @@ public class KmEdiInterchangeParser
         _name = name;
         _reader = r;
         _interchange = new KmEdiInterchange();
-        _elements = new KmList<KmEdiElement>();
-        _values = new KmList<String>();
+        _elements = new KmList<>();
+        _values = new KmList<>();
         _valueBuffer = new StringBuilder();
+
         read();
         readSegments();
         validate();
+
         return _interchange;
     }
 
@@ -134,8 +136,10 @@ public class KmEdiInterchangeParser
         while ( true )
         {
             skipWhitespace();
+
             if ( atEnd() )
                 break;
+
             KmEdiSegment e = readSegment();
             _interchange.addSegment(e);
         }
@@ -146,15 +150,20 @@ public class KmEdiInterchangeParser
         String tag = readElementTag();
         validate(tag);
         _elements.clear();
+
         while ( !atSegmentEnd() && !atEnd() )
         {
             KmEdiElement e = readElement();
+
             if ( e == null )
                 error("Cannot read element.");
+
             _elements.add(e);
         }
+
         if ( !atEnd() )
             skipSegmentEnd();
+
         return new KmEdiSegment(tag, _elements);
     }
 
@@ -167,16 +176,20 @@ public class KmEdiInterchangeParser
     private String readElementTag()
     {
         KmEdiElement e = readElement();
+
         if ( e == null )
             error("Cannot read tag element.");
+
         if ( !e.isSimple() )
             error("Segment tag must be simple.");
+
         return e.getValue();
     }
 
     private KmEdiElement readElement()
     {
         _values.clear();
+
         while ( true )
         {
             while ( !atValueEnd() )
@@ -184,6 +197,7 @@ public class KmEdiInterchangeParser
                 _valueBuffer.append(_next);
                 read();
             }
+
             String s = _valueBuffer.toString().intern();
             _valueBuffer.setLength(0);
             _values.add(s);
@@ -193,25 +207,31 @@ public class KmEdiInterchangeParser
                 skipValueSeparator();
                 continue;
             }
+
             if ( atElementSeparator() )
             {
                 skipElementSeparator();
                 break;
             }
+
             if ( atSegmentEnd() )
                 break;
+
             if ( atEnd() )
                 break;
         }
+
         return composeElement();
     }
 
     private KmEdiElement composeElement()
     {
         KmList<String> v = _values;
+
         int n = v.size();
         if ( n == 0 )
             error("Element must have at least 1 value.");
+
         return new KmEdiElement(v);
     }
 
@@ -244,9 +264,11 @@ public class KmEdiInterchangeParser
         if ( _next == CHAR_ESCAPE )
         {
             _escape = true;
+
             i = _read();
             if ( i < 0 )
                 error("File cannot end with escape character.");
+
             _next = (char)i;
         }
     }

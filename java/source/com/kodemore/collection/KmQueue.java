@@ -39,7 +39,7 @@ public class KmQueue<T>
 
     public KmQueue()
     {
-        _queue = new KmList<T>();
+        _queue = new KmList<>();
     }
 
     //##################################################

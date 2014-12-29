@@ -37,7 +37,7 @@ public abstract class MyDownloadToolsBase
     public ScDomainDropdownField<MyDownload,String> newDomainDropdown()
     {
         ScDomainDropdownField<MyDownload,String> e;
-        e = new ScDomainDropdownField<MyDownload,String>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyDownloadFilter());
         e.setFinder(new MyDownloadFinder());

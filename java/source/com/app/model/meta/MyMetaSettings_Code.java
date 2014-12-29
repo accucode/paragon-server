@@ -50,6 +50,12 @@ public class MyMetaSettings_Code
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The unique key.  I am generally hardcoded to 1.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

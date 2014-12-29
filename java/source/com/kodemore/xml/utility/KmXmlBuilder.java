@@ -36,7 +36,8 @@ public class KmXmlBuilder
     //##################################################
 
     private static final String NEW_LINE         = "\r\n";
-    private static final String XML_DEF          = "<?xml version=\"VERSION\" encoding=\"ENCODING\"?>";
+    private static final String XML_DEF          =
+                                                     "<?xml version=\"VERSION\" encoding=\"ENCODING\"?>";
 
     private static final String DEFAULT_VERSION  = "1.0";
     private static final String DEFAULT_ENCODING = "utf-8";
@@ -62,7 +63,7 @@ public class KmXmlBuilder
     public KmXmlBuilder()
     {
         _buffer = new StringBuilder();
-        _tags = new KmList<String>();
+        _tags = new KmList<>();
         _autoFormat = true;
         _indent = "    ";
         _version = DEFAULT_VERSION;

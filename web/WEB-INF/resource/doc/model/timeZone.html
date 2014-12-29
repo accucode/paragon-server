@@ -16,19 +16,25 @@
 <body>
 <h1>timeZone</h1>
 
-A service type. Changing service types requires and update to java business logic.<br>
+${model.f_comment}<br>
 <br>
 
 <table cellspacing=0 cellpadding=3 border=1>
 <tr>
   <th>Attribute</th>
-  <th>Comment</th>
+  <th>Help / Comment</th>
   <th>Format</th>
   <th>Attributes</th>
 </tr>
 <tr>
   <td>code&nbsp;</td>
-  <td>The unique key.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The unique key; e.g.: MST (for mountain standard time).<br>
+            &nbsp;
+  </td>
+  
   <td>code5
         <br><nobr>max length: 5</nobr>           <br>allows(
                       letters
@@ -42,9 +48,15 @@ A service type. Changing service types requires and update to java business logi
 </tr>
 <tr>
   <td>name&nbsp;</td>
-  <td>The longer display name.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The longer display name.  E.g.: Mountain Standard Time.<br>
+            &nbsp;
+  </td>
+  
   <td>name
-        <br><nobr>max length: 30</nobr>           <br>allows(
+        <br><nobr>max length: 50</nobr>           <br>allows(
                       printable
             )
       </td>
@@ -54,7 +66,13 @@ A service type. Changing service types requires and update to java business logi
 </tr>
 <tr>
   <td>utcOffsetMinutes&nbsp;</td>
-  <td>The number of minutes ahead or behind UTC.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The number of minutes ahead or behind UTC.<br>
+            &nbsp;
+  </td>
+  
   <td>integer
               </td>
   <td>
@@ -63,7 +81,13 @@ A service type. Changing service types requires and update to java business logi
 </tr>
 <tr>
   <td>dstCode&nbsp;</td>
-  <td>dstCode&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        dstCode<br>
+            &nbsp;
+  </td>
+  
   <td>calculated
         <br><nobr>max length: 1000</nobr>           <br>allows(
                       all
@@ -75,7 +99,13 @@ A service type. Changing service types requires and update to java business logi
 </tr>
 <tr>
   <td>dstOffsetMinutes&nbsp;</td>
-  <td>dstOffsetMinutes&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        dstOffsetMinutes<br>
+            &nbsp;
+  </td>
+  
   <td>integer
               </td>
   <td>
@@ -84,7 +114,13 @@ A service type. Changing service types requires and update to java business logi
 </tr>
 <tr>
   <td>dstStartMonth&nbsp;</td>
-  <td>dstStartMonth&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date (month) when daylight savings starts.<br>
+            &nbsp;
+  </td>
+  
   <td>integer
               </td>
   <td>
@@ -93,7 +129,13 @@ A service type. Changing service types requires and update to java business logi
 </tr>
 <tr>
   <td>dstStartDay&nbsp;</td>
-  <td>dstStartDay&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date (day) when daylight savings starts.<br>
+            &nbsp;
+  </td>
+  
   <td>integer
               </td>
   <td>
@@ -102,7 +144,13 @@ A service type. Changing service types requires and update to java business logi
 </tr>
 <tr>
   <td>dstEndMonth&nbsp;</td>
-  <td>dstEndMonth&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date (month) when daylight savings ends.<br>
+            &nbsp;
+  </td>
+  
   <td>integer
               </td>
   <td>
@@ -111,7 +159,13 @@ A service type. Changing service types requires and update to java business logi
 </tr>
 <tr>
   <td>dstEndDay&nbsp;</td>
-  <td>dstEndDay&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date (day) when daylight savings ends.<br>
+            &nbsp;
+  </td>
+  
   <td>integer
               </td>
   <td>

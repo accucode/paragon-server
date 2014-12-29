@@ -28,7 +28,7 @@ import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.variable.ScLocalRenderer;
 
 /**
- * I represent simple html text.  
+ * I represent simple html text.
  * Specifically, I am NOT an element.
  * If you need formatting; use a paragraph, span, bold, etc...
  */
@@ -80,6 +80,11 @@ public class ScText
     public void setValue(KmMetaAttribute<?,?> e)
     {
         _value.setAttribute(e);
+    }
+
+    public void clearValue()
+    {
+        setValue((String)null);
     }
 
     //##################################################

@@ -22,6 +22,7 @@ public abstract class KmMetaStringProperty<T>
         ScTextField e;
         e = new ScTextField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValueAdaptor(this);
         e.setValidator(getValidator());
         return e;

@@ -22,7 +22,7 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyEmailJunction
-    extends KmModelJunction<MyEmail>
+    extends KmModelJunction
     implements MyEmailDaoConstantsIF
 {
     //##################################################
@@ -50,12 +50,12 @@ public class MyEmailJunction
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereSentUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(SENT_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(SENT_UTC_TS));
     }
 
     public KmStringCriteria whereSubject()

@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.collection;
 
@@ -59,7 +59,7 @@ public class KmList<T>
     public static KmList<String> createStrings(String... arr)
     {
         KmList<String> v;
-        v = new KmList<String>(arr.length);
+        v = new KmList<>(arr.length);
         v.addAll(arr);
         return v;
     }
@@ -72,14 +72,15 @@ public class KmList<T>
      */
     public static <T> KmList<T> wrap(List<T> v)
     {
-        return new KmList<T>(v);
+        return new KmList<>(v);
     }
 
-    public static <T> KmList<T> createWith(T... a)
+    @SafeVarargs
+    public static <T> KmList<T> createWith(T... arr)
     {
         KmList<T> v;
-        v = new KmList<T>();
-        v.addAll(a);
+        v = new KmList<>();
+        v.addAll(arr);
         return v;
     }
 
@@ -108,9 +109,9 @@ public class KmList<T>
         addAll(v);
     }
 
-    public KmList(T... v)
+    public KmList(T[] arr)
     {
-        addAll(v);
+        addAll(arr);
     }
 
     public KmList(int initialSize)
@@ -134,9 +135,11 @@ public class KmList<T>
 
     public KmList<T> getFirst(int n)
     {
-        KmList<T> v = new KmList<T>();
+        KmList<T> v = new KmList<>();
+
         for ( int i = 0; i < n; i++ )
             v.add(get(i));
+
         return v;
     }
 
@@ -153,15 +156,27 @@ public class KmList<T>
         return get(size() - 1);
     }
 
+    public KmList<T> getLast(int n)
+    {
+        int nn = size();
+        KmList<T> v = new KmList<>();
+
+        for ( int i = nn - n; i < nn; i++ )
+            v.add(get(i));
+
+        return v;
+    }
+
     /**
      * Get the element immediately before e.
      * May throw an out of bounds exception.
      */
-    public T getBefore(T e) throws NoSuchElementException, IndexOutOfBoundsException
+    public T getPrevious(T e) throws NoSuchElementException, IndexOutOfBoundsException
     {
         int i = indexOf(e);
         if ( i <= 0 )
             throw new NoSuchElementException();
+
         return get(i - 1);
     }
 
@@ -169,11 +184,12 @@ public class KmList<T>
      * Get the element immediately after e.
      * May throw an out of bounds exception.
      */
-    public T getAfter(T e) throws NoSuchElementException, IndexOutOfBoundsException
+    public T getNext(T e) throws NoSuchElementException, IndexOutOfBoundsException
     {
         int i = indexOf(e);
         if ( i < 0 )
             throw new NoSuchElementException();
+
         return get(i + 1);
     }
 
@@ -222,22 +238,26 @@ public class KmList<T>
 
     public T getRandom()
     {
-        return get(KmRandom.getInteger(size()));
+        return KmRandom.getInstance().getElement(this);
     }
 
     public KmList<T> getRandom(int n)
     {
-        KmList<T> v = new KmList<T>();
+        KmList<T> v = new KmList<>();
+
         for ( int i = 0; i < n; i++ )
             v.add(getRandom());
+
         return v;
     }
 
     public KmList<T> getRandomDistinct(int n)
     {
-        KmList<T> v = new KmList<T>();
+        KmList<T> v = new KmList<>();
+
         while ( v.size() < n )
             v.addDistinct(getRandom());
+
         return v;
     }
 
@@ -250,10 +270,12 @@ public class KmList<T>
      */
     public void shuffle()
     {
+        KmRandom r = new KmRandom();
+
         int i = size();
         while ( i > 1 )
         {
-            int j = KmRandom.getInteger(i);
+            int j = r.getInteger(i);
             i--;
             swap(i, j);
         }
@@ -312,6 +334,7 @@ public class KmList<T>
     {
         if ( i < 0 )
             return null;
+
         if ( i >= size() )
             return null;
 
@@ -328,12 +351,12 @@ public class KmList<T>
         return getAtSafe(size() - 1);
     }
 
-    public T getBeforeSafe(T e)
+    public T getPreviousSafe(T e)
     {
         return getAtSafe(indexOf(e) - 1);
     }
 
-    public T getAfterSafe(T e)
+    public T getNextSafe(T e)
     {
         return getAtSafe(indexOf(e) + 1);
     }
@@ -359,6 +382,7 @@ public class KmList<T>
             add(e.nextElement());
     }
 
+    @SuppressWarnings("unchecked")
     public void addAll(T... arr)
     {
         int n = arr.length;
@@ -402,7 +426,7 @@ public class KmList<T>
 
     public KmList<T> getRange(int startInclusive, int endExclusive)
     {
-        return new KmList<T>(subList(startInclusive, endExclusive));
+        return new KmList<>(subList(startInclusive, endExclusive));
     }
 
     public KmList<T> getRangeSafe(int startInclusive, int endExclusive)
@@ -416,7 +440,7 @@ public class KmList<T>
         if ( endExclusive > size() )
             endExclusive = size();
 
-        return new KmList<T>(subList(startInclusive, endExclusive));
+        return new KmList<>(subList(startInclusive, endExclusive));
     }
 
     //##################################################
@@ -495,6 +519,7 @@ public class KmList<T>
     {
         if ( isEmpty() )
             return null;
+
         return removeFirst();
     }
 
@@ -596,7 +621,7 @@ public class KmList<T>
     public void sortOn(Comparator<T> a, Comparator<T> b)
     {
         KmCompositeComparator<T> cc;
-        cc = new KmCompositeComparator<T>();
+        cc = new KmCompositeComparator<>();
         cc.add(a);
         cc.add(b);
         Collections.sort(this, cc);
@@ -605,7 +630,7 @@ public class KmList<T>
     public void sortOn(Comparator<T> a, Comparator<T> b, Comparator<T> c)
     {
         KmCompositeComparator<T> cc;
-        cc = new KmCompositeComparator<T>();
+        cc = new KmCompositeComparator<>();
         cc.add(a);
         cc.add(b);
         cc.add(c);
@@ -796,7 +821,8 @@ public class KmList<T>
 
     @SuppressWarnings(
     {
-        "unchecked", "rawtypes"
+        "unchecked",
+        "rawtypes"
     })
     public T findId(Integer id)
     {
@@ -819,7 +845,7 @@ public class KmList<T>
 
     public KmList<Integer> collectIds()
     {
-        KmList<Integer> v = new KmList<Integer>();
+        KmList<Integer> v = new KmList<>();
         Iterator<?> i = iterator();
         while ( i.hasNext() )
         {
@@ -904,6 +930,7 @@ public class KmList<T>
         int n = size();
         Integer[] arr = new Integer[n];
         int j = 0;
+
         Iterator<?> i = iterator();
         while ( i.hasNext() )
         {
@@ -925,7 +952,7 @@ public class KmList<T>
 
     public boolean hasDuplicates()
     {
-        KmSetImpl<T> s = new KmSetImpl<T>();
+        KmSetImpl<T> s = new KmSetImpl<>();
 
         for ( T e : this )
             if ( !s.add(e) )
@@ -941,8 +968,8 @@ public class KmList<T>
      */
     public void removeDuplicates()
     {
-        KmSetImpl<T> set = new KmSetImpl<T>();
-        KmList<T> v = new KmList<T>(size());
+        KmSetImpl<T> set = new KmSetImpl<>();
+        KmList<T> v = new KmList<>(size());
 
         for ( T e : this )
             if ( set.add(e) )
@@ -953,8 +980,8 @@ public class KmList<T>
 
     public KmList<T> getDuplicates()
     {
-        KmSetImpl<T> set = new KmSetImpl<T>();
-        KmList<T> v = new KmList<T>();
+        KmSetImpl<T> set = new KmSetImpl<>();
+        KmList<T> v = new KmList<>();
 
         for ( T e : this )
             if ( !set.add(e) )
@@ -970,8 +997,8 @@ public class KmList<T>
      */
     public void removeDuplicateIdentities()
     {
-        KmIdentitySet<T> set = new KmIdentitySet<T>();
-        KmList<T> list = new KmList<T>();
+        KmIdentitySet<T> set = new KmIdentitySet<>();
+        KmList<T> list = new KmList<>();
 
         for ( T e : this )
             if ( set.add(e) )
@@ -1016,16 +1043,18 @@ public class KmList<T>
     public KmList<T> getShallowCopy()
     {
         KmList<T> v;
-        v = new KmList<T>();
+        v = new KmList<>();
         v.addAll(this);
         return v;
     }
 
     public KmList<T> getDeepCopy()
     {
-        KmList<T> v = new KmList<T>();
+        KmList<T> v = new KmList<>();
+
         for ( T e : this )
             v.add(KmUnchecked.getCopy(e));
+
         return v;
     }
 
@@ -1059,31 +1088,40 @@ public class KmList<T>
     public KmList<KmList<T>> splitByGroupCount(int groupCount)
     {
         int groupSize = size() / groupCount;
+
         if ( size() % groupCount != 0 )
             groupSize++;
+
         return _split(groupCount, groupSize);
     }
 
     public KmList<KmList<T>> splitByGroupSize(int groupSize)
     {
         int groupCount = size() / groupSize;
+
         if ( size() % groupSize != 0 )
             groupCount++;
+
         return _split(groupCount, groupSize);
     }
 
     private KmList<KmList<T>> _split(int groupCount, int groupSize)
     {
-        KmList<KmList<T>> groups = new KmList<KmList<T>>();
+        KmList<KmList<T>> groups = new KmList<>();
+
         int n = groupCount;
         for ( int i = 0; i < n; i++ )
         {
             int a = i * groupSize;
             int b = Math.min(size(), a + groupSize);
-            KmList<T> v = new KmList<T>();
+
+            KmList<T> v;
+            v = new KmList<>();
             v.addAll(subList(a, b));
+
             groups.add(v);
         }
+
         return groups;
     }
 
@@ -1099,6 +1137,7 @@ public class KmList<T>
             if ( s1.equalsIgnoreCase(s) )
                 return true;
         }
+
         return false;
     }
 
@@ -1108,9 +1147,11 @@ public class KmList<T>
 
     public <K> KmList<K> collect(KmAdaptorIF<T,K> a)
     {
-        KmList<K> v = new KmList<K>();
+        KmList<K> v = new KmList<>();
+
         for ( T e : this )
             v.add(a.getValue(e));
+
         return v;
     }
 
@@ -1121,9 +1162,11 @@ public class KmList<T>
 
     public <K> KmList<K> collectDistinct(KmAdaptorIF<T,K> a)
     {
-        KmList<K> v = new KmList<K>();
+        KmList<K> v = new KmList<>();
+
         for ( T e : this )
             v.addDistinct(a.getValue(e));
+
         return v;
     }
 
@@ -1138,10 +1181,12 @@ public class KmList<T>
 
     public KmList<T> select(KmMatchIF<T> m)
     {
-        KmList<T> v = new KmList<T>();
+        KmList<T> v = new KmList<>();
+
         for ( T e : this )
             if ( m.matches(e) )
                 v.add(e);
+
         return v;
     }
 
@@ -1160,6 +1205,7 @@ public class KmList<T>
         for ( T e : this )
             if ( m.matches(e) )
                 return e;
+
         return null;
     }
 
@@ -1168,18 +1214,25 @@ public class KmList<T>
         return selectFirst(attr.getMatch(value));
     }
 
+    @SuppressWarnings("unchecked")
     public T selectInSequence(KmMatchIF<T> first, KmMatchIF<T>... arr)
+    {
+        return selectInSequence(first, createWith(arr));
+    }
+
+    public T selectInSequence(KmMatchIF<T> first, List<KmMatchIF<T>> v)
     {
         T e = selectFirst(first);
         if ( e != null )
             return e;
 
-        for ( KmMatchIF<T> m : arr )
+        for ( KmMatchIF<T> m : v )
         {
             e = selectFirst(m);
             if ( e != null )
                 return e;
         }
+
         return null;
     }
 
@@ -1189,10 +1242,12 @@ public class KmList<T>
 
     public KmList<T> reject(KmMatchIF<T> m)
     {
-        KmList<T> v = new KmList<T>();
+        KmList<T> v = new KmList<>();
+
         for ( T e : this )
             if ( !m.matches(e) )
                 v.add(e);
+
         return v;
     }
 
@@ -1211,7 +1266,7 @@ public class KmList<T>
     public boolean containsMatch(KmMatchIF<T> a, KmMatchIF<T> b)
     {
         KmCompositeMatch<T> m;
-        m = new KmCompositeMatch<T>();
+        m = new KmCompositeMatch<>();
         m.add(a);
         m.add(b);
         return containsMatch(m);
@@ -1225,6 +1280,7 @@ public class KmList<T>
         for ( T e : this )
             if ( m.matches(e) )
                 return true;
+
         return false;
     }
 
@@ -1250,7 +1306,7 @@ public class KmList<T>
 
     public KmList<T> toDistinctList()
     {
-        KmList<T> v = new KmList<T>();
+        KmList<T> v = new KmList<>();
 
         for ( T e : this )
             v.addDistinct(e);
@@ -1260,17 +1316,20 @@ public class KmList<T>
 
     public KmSet<T> toSet()
     {
-        KmSetImpl<T> v = new KmSetImpl<T>();
+        KmSetImpl<T> v = new KmSetImpl<>();
         for ( T e : this )
             v.add(e);
+
         return v;
     }
 
     public <K> KmSet<K> toSet(KmAdaptorIF<T,K> a)
     {
-        KmSet<K> v = new KmSetImpl<K>();
+        KmSet<K> v = new KmSetImpl<>();
+
         for ( T e : this )
             v.add(a.getValue(e));
+
         return v;
     }
 
@@ -1281,17 +1340,21 @@ public class KmList<T>
 
     public <K, V> KmMap<K,V> toMap(KmAdaptorIF<T,K> keyAdaptor, KmAdaptorIF<T,V> valueAdaptor)
     {
-        KmMap<K,V> m = new KmMap<K,V>();
+        KmMap<K,V> m = new KmMap<>();
+
         for ( T e : this )
             m.put(keyAdaptor.getValue(e), valueAdaptor.getValue(e));
+
         return m;
     }
 
     public <K> KmMap<K,T> toMap(KmAdaptorIF<T,K> keyAdaptor)
     {
-        KmMap<K,T> m = new KmMap<K,T>();
+        KmMap<K,T> m = new KmMap<>();
+
         for ( T e : this )
             m.put(keyAdaptor.getValue(e), e);
+
         return m;
     }
 
@@ -1304,19 +1367,23 @@ public class KmList<T>
         KmAdaptorIF<T,K> keyAdaptor,
         KmAdaptorIF<T,V> valueAdaptor)
     {
-        KmMap<K,KmList<V>> map = new KmMap<K,KmList<V>>();
+        KmMap<K,KmList<V>> map = new KmMap<>();
+
         for ( T e : this )
         {
             K key = keyAdaptor.getValue(e);
             V value = valueAdaptor.getValue(e);
+
             KmList<V> list = map.get(key);
             if ( list == null )
             {
-                list = new KmList<V>();
+                list = new KmList<>();
                 map.put(key, list);
             }
+
             list.add(value);
         }
+
         return map;
     }
 
@@ -1327,16 +1394,18 @@ public class KmList<T>
 
     public <K> KmMap<K,KmList<T>> toMapList(KmAdaptorIF<T,K> keyAdaptor)
     {
-        KmMap<K,KmList<T>> m = new KmMap<K,KmList<T>>();
+        KmMap<K,KmList<T>> m = new KmMap<>();
         for ( T e : this )
         {
             K key = keyAdaptor.getValue(e);
             KmList<T> v = m.get(key);
+
             if ( v == null )
             {
-                v = new KmList<T>();
+                v = new KmList<>();
                 m.put(key, v);
             }
+
             v.add(e);
         }
         return m;
@@ -1344,7 +1413,7 @@ public class KmList<T>
 
     public KmVirtualList<T> toVirtualList()
     {
-        return new KmVirtualListWrapper<T>(this);
+        return new KmVirtualListWrapper<>(this);
     }
 
     public KmFilter<T> toFilter()
@@ -1366,7 +1435,7 @@ public class KmList<T>
 
     public <K> KmBag<K> toBag(KmAdaptorIF<T,K> adaptor)
     {
-        KmBag<K> b = new KmBag<K>();
+        KmBag<K> b = new KmBag<>();
 
         for ( T e : this )
             b.add(adaptor.getValue(e));
@@ -1380,9 +1449,11 @@ public class KmList<T>
 
     public KmList<T> repeat(int n)
     {
-        KmList<T> v = new KmList<T>();
+        KmList<T> v = new KmList<>();
+
         for ( int i = 0; i < n; i++ )
             v.addAll(this);
+
         return v;
     }
 }

@@ -49,6 +49,12 @@ public class MyMetaEmail_StatusName
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The status: draft, ready, pending, sent, error, ignored.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 15;

@@ -58,10 +58,10 @@ public class KmDatabaseLockError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append("Unable to acquire database lock(");
-        sb.append(_key);
-        sb.append(").");
+        out.append("Unable to acquire database lock(");
+        out.append(_key);
+        out.append(").");
     }
 }

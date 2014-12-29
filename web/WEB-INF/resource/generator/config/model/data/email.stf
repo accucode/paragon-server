@@ -1,6 +1,11 @@
 model
 : name      = email
-: comment   = Emails.
+: help...
+    ===
+    I am used to manage emails.  This allows the application to easily create an email
+    as part of a database transaction, and to subsequently send (and re-send) the email
+    as needed.  This also provides a convenient log of email that were previously sent.
+    === 
 
 database
 : alias = e
@@ -14,7 +19,7 @@ attributes
 
     field
     : name          = uid
-    : comment       = The unique key.
+    : help          = The globally unique identifier.  This is a big ugly number and is generally not displayed.
     : type          = uid
     : default       = newUid()
     : primaryKey    = true
@@ -22,30 +27,30 @@ attributes
 
     field
     : name      = createdUtcTs
-    : comment   = When the email was created.
+    : help      = The date and time when this email was created.
     : type      = timestamp
     : default   = getNowUtc()
     : required  = true
 
     field
     : name      = sentUtcTs
-    : comment   = When the email was sent.
+    : help      = The date and time when the email was last sent.
     : type      = timestamp
 
     field
     : name      = subject
-    : comment   = The subject line.
+    : help      = The subject line.
     : type      = text100
 
     field
     : name      = fromAddress
-    : comment   = The from address.
+    : help      = The from address.
     : type      = email
     : label     = From
 
     field
     : name      = statusCode
-    : comment   = The status: draft, ready, sent, error, ignored.
+    : help      = The status: draft, ready, pending, sent, error, ignored.
     : type      = letterCode
     : required  = true
 
@@ -59,23 +64,23 @@ attributes
 
     field
     : name      = errorNotes
-    : comment   = Any notes about the problem.
+    : help      = Any notes about the error condition.
     : type      = multiline100
 
     abstractField
     : name      = recipientSummary
-    : comment   = A summary of the recipients.
+    : help      = A summary of the recipients.
     : type      = notes
 
     abstractField
     : name      = toAddressesLabel
-    : comment   = A summary of the to addresses.
+    : help      = A summary of the to addresses.
     : type      = notes
     : label     = To
 
     abstractField
     : name      = ccAddressesLabel
-    : comment   = A summary of the to addresses.
+    : help      = A summary of the to addresses.
     : type      = notes
     : label     = Cc
 
@@ -95,7 +100,7 @@ attributes
 
     abstractField
     : name      = partsAsHtml
-    : comment   = A summary of the parts, suitable for html literals.
+    : help      = A summary of the parts, suitable for html literals.
     : type      = notes
     : label     = parts
 

@@ -17,7 +17,7 @@ public class KmHibernateCollection<T, P>
         P parent,
         KmAdaptorIF<T,P> adaptor)
     {
-        return new KmHibernateCollection<T,P>(collection, parent, adaptor);
+        return new KmHibernateCollection<>(collection, parent, adaptor);
     }
 
     //##################################################
@@ -54,6 +54,7 @@ public class KmHibernateCollection<T, P>
     {
         for ( T e : c )
             handleAdd(e);
+
         return super.addAll(c);
     }
 
@@ -75,6 +76,7 @@ public class KmHibernateCollection<T, P>
     {
         for ( Object e : c )
             handleRemove((T)e);
+
         return super.removeAll(c);
     }
 
@@ -85,6 +87,7 @@ public class KmHibernateCollection<T, P>
         for ( Object e : c )
             if ( !contains(e) )
                 handleRemove((T)e);
+
         return super.retainAll(c);
     }
 
@@ -93,6 +96,7 @@ public class KmHibernateCollection<T, P>
     {
         for ( T e : this )
             handleRemove(e);
+
         super.clear();
     }
 

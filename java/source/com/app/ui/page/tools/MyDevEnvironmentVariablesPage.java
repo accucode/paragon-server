@@ -24,7 +24,8 @@ public class MyDevEnvironmentVariablesPage
     //# singleton
     //##################################################
 
-    public static final MyDevEnvironmentVariablesPage instance = new MyDevEnvironmentVariablesPage();
+    public static final MyDevEnvironmentVariablesPage instance =
+                                                                   new MyDevEnvironmentVariablesPage();
 
     private MyDevEnvironmentVariablesPage()
     {
@@ -59,7 +60,7 @@ public class MyDevEnvironmentVariablesPage
         ScGroup group;
         group = root.addGroup("Environment Variables");
 
-        _literal = group.addPad().addLiteral();
+        _literal = group.getBody().addPad().addLiteral();
     }
 
     //##################################################
@@ -103,7 +104,7 @@ public class MyDevEnvironmentVariablesPage
         Set<String> names = System.getenv().keySet();
 
         KmList<String> v;
-        v = new KmList<String>();
+        v = new KmList<>();
         v.addAll(names);
         v.sort();
         return v;

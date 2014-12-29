@@ -1,7 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBorderLayout;
+import com.kodemore.servlet.control.ScAbsoluteLayout;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -46,24 +46,24 @@ public class MyTitlePanelTestPage
     {
         root.css().fill();
 
-        ScBorderLayout layout;
-        layout = root.addBorderLayout();
+        ScAbsoluteLayout layout;
+        layout = root.addAbsoluteLayout();
 
         installTop(layout);
         installLeft(layout);
         installCenter(layout);
     }
 
-    private void installTop(ScBorderLayout layout)
+    private void installTop(ScAbsoluteLayout layout)
     {
         ScDiv top;
         top = layout.addTop(100);
-        top.css().pad().grooveBottom();
+        top.css().pad().grooveBottom().overflowAuto();
 
         addLinesTo(top, "top 100px");
     }
 
-    private void installLeft(ScBorderLayout layout)
+    private void installLeft(ScAbsoluteLayout layout)
     {
         ScDiv left;
         left = layout.addLeftPercent(30);
@@ -78,7 +78,7 @@ public class MyTitlePanelTestPage
         addLinesTo(leftTitle, "left 30%");
     }
 
-    private void installCenter(ScBorderLayout layout)
+    private void installCenter(ScAbsoluteLayout layout)
     {
         ScDiv center;
         center = layout.addCenter();

@@ -50,6 +50,12 @@ public class MyMetaSettings_SomeMessage
     }
 
     @Override
+    public String getHelp()
+    {
+        return "Just a placeholder until more useful settings are defined.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

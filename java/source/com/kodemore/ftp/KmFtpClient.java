@@ -113,10 +113,12 @@ public class KmFtpClient
         try
         {
             FTPFile[] items = _client.dirDetails(remotePath);
-            KmList<KmFtpFile> files = new KmList<KmFtpFile>();
+            KmList<KmFtpFile> files = new KmList<>();
+
             for ( int i = 0; i < items.length; i++ )
                 if ( !items[i].isDir() )
                     files.add(KmFtpFile.createFtpFile(items[i]));
+
             return files;
         }
         catch ( Exception ex )
@@ -131,11 +133,13 @@ public class KmFtpClient
         try
         {
             FTPFile[] items = _client.dirDetails(remotePath);
-            KmList<KmFtpFile> directories = new KmList<KmFtpFile>();
+            KmList<KmFtpFile> dirs = new KmList<>();
+
             for ( FTPFile element : items )
                 if ( element.isDir() )
-                    directories.add(KmFtpFile.createFtpFile(element));
-            return directories;
+                    dirs.add(KmFtpFile.createFtpFile(element));
+
+            return dirs;
         }
         catch ( Exception ex )
         {
@@ -192,10 +196,12 @@ public class KmFtpClient
     {
         try
         {
-            KmList<String> list = new KmList<String>();
+            KmList<String> v = new KmList<>();
+
             for ( String s : _client.dir(remotePath) )
-                list.add(s);
-            return list;
+                v.add(s);
+
+            return v;
         }
         catch ( Exception ex )
         {
@@ -209,10 +215,12 @@ public class KmFtpClient
         try
         {
             FTPFile[] items = _client.dirDetails(remotePath);
-            KmList<String> files = new KmList<String>();
+            KmList<String> files = new KmList<>();
+
             for ( int i = 0; i < items.length; i++ )
                 if ( !items[i].isDir() )
                     files.add(items[i].getName());
+
             return files;
         }
         catch ( Exception ex )
@@ -227,11 +235,13 @@ public class KmFtpClient
         try
         {
             FTPFile[] items = _client.dirDetails(remotePath);
-            KmList<String> directories = new KmList<String>();
+            KmList<String> dirs = new KmList<>();
+
             for ( FTPFile element : items )
                 if ( element.isDir() )
-                    directories.add(element.getName());
-            return directories;
+                    dirs.add(element.getName());
+
+            return dirs;
         }
         catch ( Exception ex )
         {
@@ -247,25 +257,32 @@ public class KmFtpClient
     public boolean createAllDirsInPath(String remotePath)
     {
         KmList<String> dirs = Kmu.getDirsRecursively(remotePath);
+
         for ( String dir : dirs )
             if ( !createDir(dir) )
                 return false;
+
         return true;
     }
 
     public boolean removeAllDirsInPath(String remotePath, boolean delFiles)
     {
         KmList<KmFtpFile> files = getFiles(remotePath);
+
         if ( !files.isEmpty() && !delFiles )
             return false;
+
         for ( KmFtpFile file : files )
             deleteFile(remotePath + "/" + file.getFileName());
+
         for ( KmFtpFile dir : getDirectories(remotePath) )
         {
             if ( dir.getFileName().equals(".") || dir.getFileName().equals("..") )
                 continue;
+
             removeAllDirsInPath(remotePath + "/" + dir.getFileName(), delFiles);
         }
+
         removeDir(remotePath);
         return true;
     }
@@ -340,6 +357,7 @@ public class KmFtpClient
             KmLog.info("unable to connect to server!");
             return;
         }
+
         ftp._client.setMessageListener(new FTPMessageCollector());
         ftp.putTextFile("test.txt", "This is a test");
         KmLog.info(ftp.getTextFile("test.txt"));
@@ -374,8 +392,8 @@ public class KmFtpClient
         ftp.deleteFile("test3.txt");
         ftp.removeAllDirsInPath("z", true);
 
-        String messages = ((FTPMessageCollector)ftp._client.getMessageListener()).getLog();
-        KmLog.info(messages);
+        String msgs = ((FTPMessageCollector)ftp._client.getMessageListener()).getLog();
+        KmLog.info(msgs);
     }
 
 }

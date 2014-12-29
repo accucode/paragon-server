@@ -88,6 +88,7 @@ public class KmaGridFitSizeModel
     {
         int size = 0;
         int count = 0;
+
         if ( getOrientation() == SwingConstants.VERTICAL )
         {
             count = getGrid().getRowCount();
@@ -98,13 +99,18 @@ public class KmaGridFitSizeModel
             count = getGrid().getColumnCount();
             size = getGrid().getClientBounds().width;
         }
+
         if ( getGrid().hasGridLines() )
             size -= count - 1;
+
         if ( size < 0 )
             size = 0;
+
         int n = size / count;
+
         if ( i == count - 1 )
             n += size % count;
+
         return n;
     }
 

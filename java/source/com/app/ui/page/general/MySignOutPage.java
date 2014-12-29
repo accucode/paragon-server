@@ -4,9 +4,11 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
+import com.kodemore.servlet.control.ScTextSpan;
 import com.kodemore.utility.Kmu;
 
 import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyUrls;
 
@@ -28,32 +30,26 @@ public class MySignOutPage
     //# variables
     //##################################################
 
-    private ScText _titleText;
-    private ScText _messageText;
+    private ScTextSpan _titleText;
+    private ScText     _messageText;
 
     //##################################################
-    //# setup
+    //# settings
     //##################################################
 
     @Override
-    public boolean requiresUser()
+    public MySecurityLevel getSecurityLevel()
     {
-        return false;
-    }
-
-    @Override
-    protected boolean showsLeftMenu()
-    {
-        return false;
+        return MySecurityLevel.any;
     }
 
     //##################################################
     //# navigation
     //##################################################
 
-    public void push()
+    public void ajaxPush()
     {
-        _push();
+        _ajaxPush();
     }
 
     @Override
@@ -81,11 +77,11 @@ public class MySignOutPage
 
         _titleText = group.setTitle(getDefaultTitle());
 
-        _messageText = group.addPad().addText(getDefaultMessage());
+        _messageText = group.getBody().addPad().addText(getDefaultMessage());
 
-        group.addBreak();
-        group.addBreak();
-        group.addPad().addUrlLink("Sign In", MyUrls.getEntryUrl());
+        group.getBody().addBreak();
+        group.getBody().addBreak();
+        group.getBody().addPad().addUrlLink("Sign In", MyUrls.getEntryUrl());
     }
 
     //##################################################
@@ -113,6 +109,7 @@ public class MySignOutPage
 
     private String getDefaultMessage()
     {
-        return Kmu.format("You have successfully signed out of %s.", MyConstantsIF.APPLICATION_NAME);
+        return Kmu
+            .format("You have successfully signed out of %s.", MyConstantsIF.APPLICATION_NAME);
     }
 }

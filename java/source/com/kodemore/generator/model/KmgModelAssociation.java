@@ -75,8 +75,8 @@ public class KmgModelAssociation
     public KmgModelAssociation(KmgElement parent)
     {
         super(parent);
-        _delegates = new KmList<KmgModelDelegate>();
-        _onChangeMethods = new KmList<String>();
+        _delegates = new KmList<>();
+        _onChangeMethods = new KmList<>();
     }
 
     //##################################################
@@ -90,7 +90,12 @@ public class KmgModelAssociation
     private String                   _name;
 
     /**
-     * The free form comment for the field.
+     * A description suitable for display to users.
+     */
+    private String                   _help;
+
+    /**
+     * Additional description intended for developers.
      */
     private String                   _comment;
 
@@ -145,6 +150,21 @@ public class KmgModelAssociation
         return Kmu.isEqual(_name, s);
     }
 
+    public String getHelp()
+    {
+        return _help;
+    }
+
+    public void setHelp(String e)
+    {
+        _help = e;
+    }
+
+    public boolean hasHelp()
+    {
+        return Kmu.hasValue(getHelp());
+    }
+
     public String getComment()
     {
         return _comment;
@@ -153,6 +173,11 @@ public class KmgModelAssociation
     public void setComment(String e)
     {
         _comment = e;
+    }
+
+    public boolean hasComment()
+    {
+        return Kmu.hasValue(getComment());
     }
 
     public String getModelReferenceName()
@@ -187,7 +212,7 @@ public class KmgModelAssociation
 
     public KmList<KmgModelDelegate> getEditableDelegates()
     {
-        KmList<KmgModelDelegate> v = new KmList<KmgModelDelegate>();
+        KmList<KmgModelDelegate> v = new KmList<>();
         for ( KmgModelDelegate e : _delegates )
             if ( e.isEditable() )
                 v.add(e);
@@ -196,7 +221,7 @@ public class KmgModelAssociation
 
     public KmList<KmgModelDelegate> getMetaDelegates()
     {
-        KmList<KmgModelDelegate> v = new KmList<KmgModelDelegate>();
+        KmList<KmgModelDelegate> v = new KmList<>();
         for ( KmgModelDelegate e : _delegates )
             if ( e.isMeta() )
                 v.add(e);
@@ -373,11 +398,12 @@ public class KmgModelAssociation
     @Override
     public void parse(KmStfElement x)
     {
-        checkAttributeKeys(x, "name", "comment", "modelName", "relation", "required");
+        checkAttributeKeys(x, "name", "help", "comment", "modelName", "relation", "required");
         checkChildrenNames(x, "delegate");
 
         _name = parseRequiredNameAttribute(x);
-        _comment = parseRequiredString(x, "comment");
+        _help = parseString(x, "help", null);
+        _comment = parseString(x, "comment", null);
         _modelReferenceName = parseRequiredName(x, "modelName");
         _required = parseBoolean(x, "required");
 

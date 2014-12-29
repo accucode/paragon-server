@@ -2,7 +2,6 @@
 *.app03
 *.class
 *.swp
-.settings/*
 ant/output/*
 compile.txt
 bin/kmSetEnvLocal.bat

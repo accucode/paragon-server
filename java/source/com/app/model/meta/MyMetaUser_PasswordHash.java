@@ -50,6 +50,12 @@ public class MyMetaUser_PasswordHash
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The password sha hash used to authenticate the user. The actual password is not stored. If the user has no password the hash is set to empty string.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 40;

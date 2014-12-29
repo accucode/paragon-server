@@ -4,7 +4,7 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
-import com.kodemore.servlet.control.ScArray;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScNotebook;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
@@ -57,10 +57,10 @@ public class MyNotebookTestPage
         tab1.setLabel("One");
         tab1.setValue("One aaa bbb ccc.");
 
-        ScArray tab2;
-        tab2 = book.addColumn();
+        ScDiv tab2;
+        tab2 = book.addDiv();
         tab2.setLabel("Two");
-        tab2.addText("Two nnn ooo ppp.");
+        tab2.addTextParagraph("Two nnn ooo ppp.");
         tab2.addButton("Test", newTestAction());
 
         ScActionButton tab3;
@@ -69,7 +69,7 @@ public class MyNotebookTestPage
     }
 
     //##################################################
-    //# actions 
+    //# actions
     //##################################################
 
     private ScActionIF newTestAction()

@@ -59,7 +59,7 @@ public abstract class KmTelnetSession
     public KmTelnetSession()
     {
         _keyBuffer = new StringBuilder();
-        _attributes = new KmMap<Object,Object>();
+        _attributes = new KmMap<>();
     }
 
     //##################################################
@@ -522,7 +522,7 @@ public abstract class KmTelnetSession
 
     public KmMap<Integer,String> defineKeys()
     {
-        KmMap<Integer,String> m = new KmMap<Integer,String>();
+        KmMap<Integer,String> m = new KmMap<>();
         m.put(VK_UP, _key("<ESC>[A"));
         m.put(VK_DOWN, _key("<ESC>[B"));
         m.put(VK_RIGHT, _key("<ESC>[C"));
@@ -643,9 +643,7 @@ public abstract class KmTelnetSession
         {
             int[] arr =
             {
-                COMMAND_IAC,
-                COMMAND_DONT,
-                option
+                COMMAND_IAC, COMMAND_DONT, option
             };
             send(arr);
         }
@@ -653,9 +651,7 @@ public abstract class KmTelnetSession
         {
             int[] arr =
             {
-                COMMAND_IAC,
-                COMMAND_WONT,
-                option
+                COMMAND_IAC, COMMAND_WONT, option
             };
             send(arr);
         }
@@ -667,9 +663,7 @@ public abstract class KmTelnetSession
         {
             int[] arr =
             {
-                COMMAND_IAC,
-                COMMAND_DO,
-                option
+                COMMAND_IAC, COMMAND_DO, option
             };
             send(arr);
         }
@@ -677,9 +671,7 @@ public abstract class KmTelnetSession
         {
             int[] arr =
             {
-                COMMAND_IAC,
-                COMMAND_WILL,
-                option
+                COMMAND_IAC, COMMAND_WILL, option
             };
             send(arr);
         }
@@ -697,7 +689,7 @@ public abstract class KmTelnetSession
     public void setAttributes(KmMap<Object,Object> e)
     {
         if ( e == null )
-            e = new KmMap<Object,Object>();
+            e = new KmMap<>();
         _attributes = e;
     }
 

@@ -46,7 +46,7 @@ public abstract class ScState
     public ScState()
     {
         _parent = null;
-        _values = new KmMap<String,Object>();
+        _values = new KmMap<>();
     }
 
     //##################################################

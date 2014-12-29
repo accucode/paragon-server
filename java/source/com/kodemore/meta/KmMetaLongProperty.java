@@ -23,6 +23,7 @@ public abstract class KmMetaLongProperty<T>
         ScLongField e;
         e = new ScLongField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValidator(getValidator());
         e.setValueAdaptor(this);
         return e;
@@ -38,6 +39,7 @@ public abstract class KmMetaLongProperty<T>
         ScDropdown e;
         e = new ScDropdown();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValueAdaptor(this);
         e.addOptionRange(min, max);
         return e;

@@ -278,7 +278,7 @@ public abstract class MyEmailPartBase
 
     public void truncateAttachmentName(boolean ellipses)
     {
-        attachmentName = Kmu.truncate(attachmentName, 30, ellipses);
+        attachmentName = Kmu.truncate(attachmentName, 50, ellipses);
     }
 
     //##################################################

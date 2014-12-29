@@ -1,10 +1,10 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFilterBox;
+import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.servlet.field.ScTextField;
@@ -79,17 +79,19 @@ public class MyFilterTableRowTestPage
         box.setTitle("Filter");
 
         ScFieldTable fields;
-        fields = box.addFields();
+        fields = box.addFieldTable();
         fields.add(_searchAddressField);
 
-        ScArray row;
+        ScFlexbox row;
         row = fields.addRow();
+        row.crossAlignCenter();
         row.setLabel("Square Footage");
         row.add(_searchMinSquareFootageField);
-        row.addText(" - ");
+        row.addNonBreakingSpace();
+        row.addText("-");
+        row.addNonBreakingSpace();
         row.add(_searchMaxSquareFootageField);
 
         fields.add(_searchRoomNumberField1);
     }
-
 }

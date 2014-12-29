@@ -16,7 +16,7 @@ public class KmgModelFieldDependsOn
     //##################################################
 
     /**
-     * The list of values that
+     * The list of values that it depends on.
      */
     private KmList<String> _values;
 
@@ -63,7 +63,7 @@ public class KmgModelFieldDependsOn
 
     public KmList<KmgModelAttribute> getAttributes()
     {
-        KmList<KmgModelAttribute> v = new KmList<KmgModelAttribute>();
+        KmList<KmgModelAttribute> v = new KmList<>();
         KmgModel m = getModel();
         for ( String s : _values )
         {
@@ -88,7 +88,7 @@ public class KmgModelFieldDependsOn
 
     public KmList<KmgModelField> getFields()
     {
-        KmList<KmgModelField> v = new KmList<KmgModelField>();
+        KmList<KmgModelField> v = new KmList<>();
         for ( KmgModelAttribute e : getAttributes() )
             if ( e instanceof KmgModelField )
                 v.add((KmgModelField)e);
@@ -97,7 +97,7 @@ public class KmgModelFieldDependsOn
 
     public KmList<KmgModelAssociation> getAssociations()
     {
-        KmList<KmgModelAssociation> v = new KmList<KmgModelAssociation>();
+        KmList<KmgModelAssociation> v = new KmList<>();
         for ( KmgModelAttribute e : getAttributes() )
             if ( e instanceof KmgModelAssociation )
                 v.add((KmgModelAssociation)e);

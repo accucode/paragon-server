@@ -55,6 +55,16 @@ public class MyMetaTimeZone
     {
         return MyTimeZoneValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "The time zones supported by this application.\nIdeally, this should be replaced by a more modern and dynamic time zone mechanism.";
+    }
 
     //##################################################
     //# fields and delegates

@@ -46,9 +46,9 @@ public class KmGeneralValidationError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append(_message);
+        out.append(_message);
     }
 
 }

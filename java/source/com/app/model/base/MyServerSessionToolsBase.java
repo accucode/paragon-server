@@ -37,7 +37,7 @@ public abstract class MyServerSessionToolsBase
     public ScDomainDropdownField<MyServerSession,String> newDomainDropdown()
     {
         ScDomainDropdownField<MyServerSession,String> e;
-        e = new ScDomainDropdownField<MyServerSession,String>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyServerSessionFilter());
         e.setFinder(new MyServerSessionFinder());

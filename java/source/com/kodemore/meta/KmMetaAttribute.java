@@ -54,6 +54,10 @@ public abstract class KmMetaAttribute<T, V>
 
     public abstract boolean hasValueFor(T model, V value);
 
+    /**
+     * @param model unused, but defined for subclassing.
+     * @param value unused, but defined for subclassing.
+     */
     public void setValueFor(T model, V value)
     {
         throw new UnsupportedOperationException();

@@ -65,7 +65,7 @@ public class KmWordWrapUtility
 
     public KmWordWrapUtility()
     {
-        _rows = new KmList<String>();
+        _rows = new KmList<>();
         _line = new StringBuilder();
         _token = new StringBuilder();
     }

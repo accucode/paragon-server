@@ -55,6 +55,16 @@ public class MyMetaServerSession
     {
         return MyServerSessionValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "Server sessions are used in place of the Virtual Http Session.\nThis allow for a user session to be served by multiple web server machines.\nThe session is created as early as possible, even before the user actually logs in.";
+    }
 
     //##################################################
     //# fields and delegates
@@ -86,5 +96,5 @@ public class MyMetaServerSession
 
     public static final MyMetaServerSession_User User = new MyMetaServerSession_User();
     public static final MyMetaServerSession_AutoSignIn AutoSignIn = new MyMetaServerSession_AutoSignIn();
-    public static final MyMetaServerSession_CurrentAccount CurrentAccount = new MyMetaServerSession_CurrentAccount();
+    public static final MyMetaServerSession_CurrentProject CurrentProject = new MyMetaServerSession_CurrentProject();
 }

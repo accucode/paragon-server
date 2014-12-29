@@ -22,7 +22,7 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyPerformanceLogJunction
-    extends KmModelJunction<MyPerformanceLog>
+    extends KmModelJunction
     implements MyPerformanceLogDaoConstantsIF
 {
     //##################################################
@@ -55,7 +55,7 @@ public class MyPerformanceLogJunction
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmIntegerCriteria whereDurationMs()

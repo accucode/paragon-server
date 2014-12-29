@@ -50,6 +50,12 @@ public class MyMetaUserActivation_Token
     }
 
     @Override
+    public String getHelp()
+    {
+        return "A long unique code that allows access without a password.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

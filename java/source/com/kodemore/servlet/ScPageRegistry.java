@@ -40,7 +40,7 @@ public abstract class ScPageRegistry
 
     protected ScPageRegistry()
     {
-        _pages = new KmMap<String,ScPage>();
+        _pages = new KmMap<>();
         registerPages();
         installPages();
     }

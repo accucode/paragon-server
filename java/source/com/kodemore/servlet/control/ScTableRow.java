@@ -49,7 +49,7 @@ public class ScTableRow
     {
         super.install();
 
-        _cells = new KmList<ScTableCell>();
+        _cells = new KmList<>();
         _horizontalAlign = new ScLocalString();
         _verticalAlign = new ScLocalString();
     }
@@ -140,14 +140,12 @@ public class ScTableRow
     //##################################################
 
     @Override
-    public Iterator<ScControl> getComponents()
+    public Iterator<ScControlIF> getComponents()
     {
-        KmCompositeIterator<ScControl> i;
-        i = new KmCompositeIterator<ScControl>();
-
+        KmCompositeIterator<ScControlIF> i;
+        i = new KmCompositeIterator<>();
         i.addAll(super.getComponents());
         i.addAll(getCells());
-
         return i;
     }
 

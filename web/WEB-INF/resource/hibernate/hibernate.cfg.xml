@@ -30,8 +30,8 @@
         For c3p0 to find them, these settings must be set here, not in the Java file.
         These settings can have a significant impact on performance.
 
-        A critical setting: timeout.
-            This must be less than the mySql idle connection timeout.
+        IMPORTANT
+            The timeout must be less than the mySql idle connection timeout.
             If this is set too long you will see really ugly and obscure
                nested exceptions when hibernate attempts to use a stale
                connection.
@@ -45,8 +45,14 @@
         <property name="hibernate.c3p0.max_statements">0</property>
 
         <!--
-        <property name="hibernate.c3p0.idle_test_period">5</property>
-            seconds -->
+        The following are set to ensure that the application can be un-deployed
+        and politely garbage collected without shutting down tomcat.  For additional
+        detail see:
+        http://www.mchange.com/projects/c3p0/
+        -->
+        <property name="hibernate.c3p0.contextClassLoaderSource">library</property>
+        <property name="hibernate.c3p0.privilegeSpawnedThreads">true</property>
+
 
         <!-- ===== Misc Settings ============================================== -->
 

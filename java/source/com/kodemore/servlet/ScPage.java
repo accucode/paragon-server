@@ -1,8 +1,8 @@
 package com.kodemore.servlet;
 
 import com.kodemore.exception.KmApplicationException;
+import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
-import com.kodemore.servlet.action.ScActionContextIF;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.utility.ScFormatter;
@@ -16,7 +16,7 @@ import com.kodemore.utility.Kmu;
  * DOES generally add a page to the browser's history.
  */
 public abstract class ScPage
-    implements ScActionContextIF, ScModelApplicatorIF
+    implements ScPageIF
 {
     //##################################################
     //# variables
@@ -101,9 +101,9 @@ public abstract class ScPage
     /**
      * By default, simply call print(), to display the root control.
      * Subclasses may freely override this method and do NOT need
-     * to call super.start(). 
+     * to call super.start().
      */
-    public final void _push()
+    public final void _ajaxPush()
     {
         ajax().pushPage(this);
     }
@@ -123,7 +123,7 @@ public abstract class ScPage
 
     /*
      * Subclasses should genrally implement the following methods:
-     * 
+     *
      *      push(...)
      *      formatEntryUrl(...)
      *      formatQueryString(...)
@@ -140,16 +140,18 @@ public abstract class ScPage
      * will implement this with an empty method.  Any parameters set here
      * will need a management in the getEntryParameters method.
      */
+    @Override
     public abstract ScParameterList composeQueryParameters();
 
     /**
      * Get the entry parameters that were passed to the application as
      * part of the query string.
      */
+    @Override
     public abstract void applyQueryParameters(ScParameterList params);
 
     //==================================================
-    //= url :: protected 
+    //= url :: protected
     //==================================================
 
     public final String _formatQueryString()
@@ -165,7 +167,7 @@ public abstract class ScPage
         if ( v == null )
             v = new ScParameterList();
 
-        String pageKey = ScConstantsIF.PARAMETER_PAGE_KEY;
+        String pageKey = ScConstantsIF.PARAMETER_REQUESTED_PAGE_KEY;
         if ( v.hasKey(pageKey) )
             KmLog.warnTrace("Pages should NOT set a 'page' parameter; it is reserved.");
 
@@ -180,16 +182,19 @@ public abstract class ScPage
     /**
      * A convenience method that:
      *      - peforms the generic security,
-     *      - displays the root control in the layout's main area, 
+     *      - displays the root control in the layout's main area,
      *      - attempts to set focus on the root.
-     *      
+     *
      * Subclasses can use preRender and postRender to hook into
      * the print process.
      */
+    @Override
     public final void print()
     {
         checkSecurity();
         checkLayout();
+
+        ajax().updateCurrentPageKey(this);
 
         if ( !hasRoot() )
         {
@@ -345,6 +350,7 @@ public abstract class ScPage
     /**
      * A short string that may be used in the browser's title bar and/or tab.
      */
+    @Override
     public String getTitle()
     {
         String s;
@@ -352,7 +358,7 @@ public abstract class ScPage
         s = Kmu.removePrefix(s, "My");
         s = Kmu.removePrefix(s, "Dev");
         s = Kmu.removeSuffix(s, "Page");
-        s = Kmu.removeSuffix(s, "Menu");
+        s = Kmu.removeSuffix(s, "Test");
         s = Kmu.formatAsCapitalizedNames(s);
         return s;
     }
@@ -360,7 +366,26 @@ public abstract class ScPage
     @Override
     public String toString()
     {
-        return getTitle();
+        return getKey();
+    }
+
+    public String getSimpleClassName()
+    {
+        return getClass().getSimpleName();
+    }
+
+    //##################################################
+    //# help
+    //##################################################
+
+    public String getHelpMessage()
+    {
+        return null;
+    }
+
+    public boolean hasHelpMessage()
+    {
+        return getHelpMessage() != null;
     }
 
     //##################################################
@@ -379,7 +404,7 @@ public abstract class ScPage
 
     protected void cancel()
     {
-        Kmu.cancel();
+        Kmu.throwDaoRollback();
     }
 
     protected void error(String msg, Object... args)
@@ -397,15 +422,24 @@ public abstract class ScPage
     //##################################################
 
     @Override
-    public void checkSecurity()
+    public abstract void checkSecurity();
+
+    @Override
+    public boolean checkSecuritySilently()
     {
-        // subclass
+        try
+        {
+            checkSecurity();
+            return true;
+        }
+        catch ( KmSecurityException ex )
+        {
+            return false;
+        }
     }
 
-    public boolean requiresUser()
-    {
-        return true;
-    }
+    @Override
+    public abstract boolean requiresUser();
 
     @Override
     public void handleError(KmApplicationException ex)
@@ -417,7 +451,8 @@ public abstract class ScPage
     public void handleFatal(RuntimeException ex)
     {
         KmLog.fatal(ex);
-        ajax().openDialogError(ex);
+
+        ajax().openErrorDialog(ex);
     }
 
     protected void throwSecurityError(String msg, Object... args)

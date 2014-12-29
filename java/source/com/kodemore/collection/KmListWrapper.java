@@ -22,12 +22,12 @@ public class KmListWrapper<T>
 
     public KmListWrapper()
     {
-        _list = new ArrayList<T>();
+        _list = new ArrayList<>();
     }
 
     public KmListWrapper(int i)
     {
-        _list = new ArrayList<T>(i);
+        _list = new ArrayList<>(i);
     }
 
     protected KmListWrapper(List<T> e)

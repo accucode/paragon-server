@@ -44,10 +44,12 @@ public class KmaDoubleSpinnerField
     public KmaDoubleSpinnerField()
     {
         _step = 1;
+
         registerKeyboardAction(
             newAction("guiStepUp"),
             KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0),
             WHEN_FOCUSED);
+
         registerKeyboardAction(
             newAction("guiStepDown"),
             KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0),

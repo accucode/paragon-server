@@ -57,7 +57,7 @@ public class ScListCoder
     public Object decode(ScDecoder decoder, String s)
     {
         int n = Kmu.parseInteger(s);
-        KmList<Object> v = new KmList<Object>(n);
+        KmList<Object> v = new KmList<>(n);
         for ( int i = 0; i < n; i++ )
             v.add(decoder.nextValue());
         return v;

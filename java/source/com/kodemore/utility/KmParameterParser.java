@@ -98,7 +98,7 @@ public class KmParameterParser
     {
         _index = 0;
         _characters = s.toCharArray();
-        _parameters = new KmList<KmParameter>();
+        _parameters = new KmList<>();
         while ( true )
         {
             String key = readKey();

@@ -1,6 +1,7 @@
 package com.kodemore.servlet.action;
 
 import com.kodemore.exception.KmApplicationException;
+import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
 import com.kodemore.utility.Kmu;
 
@@ -48,6 +49,20 @@ public class ScGlobalContext
     public void checkSecurity()
     {
         // no security check
+    }
+
+    @Override
+    public boolean checkSecuritySilently()
+    {
+        try
+        {
+            checkSecurity();
+            return true;
+        }
+        catch ( KmSecurityException ex )
+        {
+            return false;
+        }
     }
 
     @Override

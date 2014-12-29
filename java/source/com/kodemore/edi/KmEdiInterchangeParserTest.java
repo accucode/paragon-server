@@ -103,8 +103,8 @@ public class KmEdiInterchangeParserTest
 
     private static void testCompare()
     {
-        String a = Kmu.readTextFile("c:/temp/edi/c.dat");
-        String b = Kmu.readTextFile("c:/temp/edi/c2.dat");
+        String a = Kmu.readFileString("c:/temp/edi/c.dat");
+        String b = Kmu.readFileString("c:/temp/edi/c2.dat");
         System.out.println("Match: " + a.equals(b));
     }
 }

@@ -49,6 +49,12 @@ public class MyMetaDownload_CreatedLocalTime
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time this record was created.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 10;

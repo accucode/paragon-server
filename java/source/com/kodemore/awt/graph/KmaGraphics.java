@@ -261,6 +261,7 @@ public class KmaGraphics
         int x2 = e.getRight();
         int y1 = e.getBottom();
         int y2 = e.getTop();
+
         drawPhysicalLine(x1, y1, x2, y1);
         drawPhysicalLine(x1, y2, x2, y2);
         drawPhysicalLine(x1, y1, x1, y2);
@@ -348,7 +349,8 @@ public class KmaGraphics
 
     public KmaGraphics getCopy()
     {
-        KmaGraphics g = new KmaGraphics();
+        KmaGraphics g;
+        g = new KmaGraphics();
         g.setScale(_scaleX, _scaleY);
         g.setTranslation(_translationX, _translationY);
         g.setGraphics((Graphics2D)_graphics.create());
@@ -362,6 +364,7 @@ public class KmaGraphics
     public GeneralPath _newGeneralPath(Collection<KmaGraphPoint> v)
     {
         GeneralPath gp = null;
+
         Iterator<KmaGraphPoint> i = v.iterator();
         while ( i.hasNext() )
         {
@@ -370,6 +373,7 @@ public class KmaGraphics
             double y = p.getY();
             int xx = xToPhysical(x);
             int yy = yToPhysical(y);
+
             if ( gp == null )
             {
                 gp = new GeneralPath();
@@ -378,6 +382,7 @@ public class KmaGraphics
             else
                 gp.lineTo(xx, yy);
         }
+
         return gp;
     }
 

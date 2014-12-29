@@ -81,7 +81,7 @@ public abstract class KmJob
     public void check()
     {
         if ( isReadyToRun() )
-            start();
+            run();
     }
 
     public boolean isReadyToRun()
@@ -94,12 +94,12 @@ public abstract class KmJob
         return _active;
     }
 
-    public void start()
+    public void run()
     {
-        _active = _start();
+        _active = _run();
     }
 
-    public boolean _start()
+    public boolean _run()
     {
         if ( !isRunnable() )
             return false;
@@ -108,7 +108,7 @@ public abstract class KmJob
         {
             _running = true;
             _lastStartTime = now();
-            return run();
+            return handle();
         }
         catch ( KmDaoLockException ex )
         {
@@ -269,7 +269,19 @@ public abstract class KmJob
      * against the database and still return false to indicate that
      * no work was done.
      */
-    protected abstract boolean run();
+    protected abstract boolean handle();
+
+    /**
+     * The job manager should call this ONCE if the loop stops.
+     * This allows the job to perform any cleanup and remove
+     * any resources that may be cached across multiple runs.
+     *
+     * By default, this does nothing.
+     */
+    protected void handleStop()
+    {
+        // subclass
+    }
 
     //##################################################
     //# log performance

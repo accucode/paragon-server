@@ -32,7 +32,7 @@ public class MyPerformanceLogDao
         if ( end != null )
             c.whereCreatedUtcTs().isLessThanOrEqualTo(end.getEndOfDay());
 
-        KmList<MyPerformanceLogSummaryVo> v = new KmList<MyPerformanceLogSummaryVo>();
+        KmList<MyPerformanceLogSummaryVo> v = new KmList<>();
 
         KmProjectionResult results = c.findResults();
         for ( KmProjectionRow row : results )

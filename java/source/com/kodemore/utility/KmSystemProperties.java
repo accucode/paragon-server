@@ -39,22 +39,22 @@ public class KmSystemProperties
 
     public static String getJavaVersion()
     {
-        return get("java.version");
+        return getValue("java.version");
     }
 
     public static String getJavaVendor()
     {
-        return get("java.vendor");
+        return getValue("java.vendor");
     }
 
     public static String getJavaVendorUrl()
     {
-        return get("java.vendor.url");
+        return getValue("java.vendor.url");
     }
 
     public static String getJavaHome()
     {
-        return get("java.home");
+        return getValue("java.home");
     }
 
     //##################################################
@@ -63,47 +63,47 @@ public class KmSystemProperties
 
     public static String getJavaVmSpecificationVersion()
     {
-        return get("java.vm.specification.version");
+        return getValue("java.vm.specification.version");
     }
 
     public static String getJavaVmSpecificationVendor()
     {
-        return get("java.vm.specification.vendor");
+        return getValue("java.vm.specification.vendor");
     }
 
     public static String getJavaVmSpecificationName()
     {
-        return get("java.vm.specificationName");
+        return getValue("java.vm.specificationName");
     }
 
     public static String getJavaVmVersion()
     {
-        return get("java.vm.version");
+        return getValue("java.vm.version");
     }
 
     public static String getJavaVmVendor()
     {
-        return get("java.vm.vendor");
+        return getValue("java.vm.vendor");
     }
 
     public static String getJavaVmName()
     {
-        return get("java.vm.name");
+        return getValue("java.vm.name");
     }
 
     public static String getJavaSpecificationVersion()
     {
-        return get("java.specification.version");
+        return getValue("java.specification.version");
     }
 
     public static String getJavaSpecificationVendor()
     {
-        return get("java.specification.vendor");
+        return getValue("java.specification.vendor");
     }
 
     public static String getJavaSpecificationName()
     {
-        return get("java.specificationName");
+        return getValue("java.specificationName");
     }
 
     //##################################################
@@ -112,32 +112,32 @@ public class KmSystemProperties
 
     public static String getJavaClassVersion()
     {
-        return get("java.class.version");
+        return getValue("java.class.version");
     }
 
     public static String getJavaClassPath()
     {
-        return get("java.class.path");
+        return getValue("java.class.path");
     }
 
     public static String getJavaLibraryPath()
     {
-        return get("java.library.path");
+        return getValue("java.library.path");
     }
 
     public static String getJavaIoTmpdir()
     {
-        return get("java.io.tmpdir");
+        return getValue("java.io.tmpdir");
     }
 
     public static String getJavaCompiler()
     {
-        return get("java.compiler");
+        return getValue("java.compiler");
     }
 
     public static String getJavaExtDirs()
     {
-        return get("java.ext.dirs");
+        return getValue("java.ext.dirs");
     }
 
     //##################################################
@@ -146,17 +146,17 @@ public class KmSystemProperties
 
     public static String getOsName()
     {
-        return get("os.name");
+        return getValue("os.name");
     }
 
     public static String getOsArch()
     {
-        return get("os.arch");
+        return getValue("os.arch");
     }
 
     public static String getOsVersion()
     {
-        return get("os.version");
+        return getValue("os.version");
     }
 
     //##################################################
@@ -165,17 +165,17 @@ public class KmSystemProperties
 
     public static String getFileSeparator()
     {
-        return get("file.separator");
+        return getValue("file.separator");
     }
 
     public static String getPathSeparator()
     {
-        return get("path.separator");
+        return getValue("path.separator");
     }
 
     public static String getLineSeparator()
     {
-        return get("line.separator");
+        return getValue("line.separator");
     }
 
     //##################################################
@@ -184,17 +184,17 @@ public class KmSystemProperties
 
     public static String getUserName()
     {
-        return get("user.name");
+        return getValue("user.name");
     }
 
     public static String getUserHome()
     {
-        return get("user.home");
+        return getValue("user.home");
     }
 
     public static String getUserDir()
     {
-        return get("user.dir");
+        return getValue("user.dir");
     }
 
     //##################################################
@@ -203,37 +203,78 @@ public class KmSystemProperties
 
     public static KmMap<String,String> getAll()
     {
-        KmMap<String,String> map = new KmMap<String,String>();
+        KmMap<String,String> map = new KmMap<>();
         Properties p = System.getProperties();
         Set<Object> keys = p.keySet();
+
         for ( Object oKey : keys )
         {
             String k = (String)oKey;
             String v = p.getProperty(k);
             map.put(k, v);
         }
+
         return map;
+    }
+
+    public static KmList<String> getAllKeys()
+    {
+        KmList<String> v;
+        v = getAll().getKeys();
+        v.sort();
+        return v;
     }
 
     public static void dumpAll()
     {
-        KmMap<String,String> m = getAll();
-
-        KmList<String> keys;
-        keys = m.getKeys();
-        keys.sort();
+        KmList<String> keys = getAllKeys();
 
         int pad = 0;
         for ( String key : keys )
             pad = Math.max(pad, key.length());
 
         for ( String key : keys )
-            System.out.printf("%s = %s\n", Kmu.rightPad(key, pad), m.get(key));
+            System.out.printf("%s = %s\n", Kmu.rightPad(key, pad), getValue(key));
     }
 
-    public static String get(String key)
+    public static String getValue(String key)
     {
         return System.getProperty(key);
+    }
+
+    //##################################################
+    //# prefixes
+    //##################################################
+
+    public static KmList<String> getAllPrefixes()
+    {
+        KmList<String> v = new KmList<>();
+
+        for ( String key : getAllKeys() )
+            v.addDistinct(getPrefixFor(key));
+
+        return v;
+    }
+
+    public static KmList<String> getAllKeysForPrefix(String prefix)
+    {
+        KmList<String> v = new KmList<>();
+
+        for ( String key : getAllKeys() )
+            if ( getPrefixFor(key).equals(prefix) )
+                v.add(key);
+
+        return v;
+    }
+
+    private static String getPrefixFor(String key)
+    {
+        int i = key.indexOf(".");
+
+        if ( i < 0 )
+            return key;
+
+        return key.substring(0, i);
     }
 
     //##################################################

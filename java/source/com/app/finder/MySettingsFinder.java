@@ -46,7 +46,7 @@ public class MySettingsFinder
     public MySettings findDao(Integer key)
     {
         MyDaoKeyFinder<MySettings,Integer> e;
-        e = new MyDaoKeyFinder<MySettings,Integer>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

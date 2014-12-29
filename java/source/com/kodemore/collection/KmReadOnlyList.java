@@ -54,6 +54,7 @@ public class KmReadOnlyList<T>
     public void setReadOnly(boolean b)
     {
         _readOnly = b;
+
         for ( T e : this )
             if ( e instanceof KmReadOnlyIF )
                 ((KmReadOnlyIF)e).setReadOnly(b);

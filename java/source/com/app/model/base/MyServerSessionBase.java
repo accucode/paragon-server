@@ -47,7 +47,7 @@ public abstract class MyServerSessionBase
     private Integer lockVersion;
     private MyUser user;
     private MyAutoSignIn autoSignIn;
-    private MyAccount currentAccount;
+    private MyProject currentProject;
 
     //##################################################
     //# constructor
@@ -287,7 +287,7 @@ public abstract class MyServerSessionBase
 
     public void truncateVersion(boolean ellipses)
     {
-        version = Kmu.truncate(version, 30, ellipses);
+        version = Kmu.truncate(version, 50, ellipses);
     }
 
     //##################################################
@@ -622,39 +622,39 @@ public abstract class MyServerSessionBase
     }
 
     //##################################################
-    //# currentAccount
+    //# currentProject
     //##################################################
 
-    public MyAccount getCurrentAccount()
+    public MyProject getCurrentProject()
     {
-        return currentAccount;
+        return currentProject;
     }
 
-    public void setCurrentAccount(MyAccount e)
+    public void setCurrentProject(MyProject e)
     {
         checkReadOnly();
-        currentAccount = e;
+        currentProject = e;
     }
 
-    public void _setCurrentAccount(MyAccount e)
+    public void _setCurrentProject(MyProject e)
     {
         checkReadOnly();
-        currentAccount = e;
+        currentProject = e;
     }
 
-    public void clearCurrentAccount()
+    public void clearCurrentProject()
     {
-        setCurrentAccount(null);
+        setCurrentProject(null);
     }
 
-    public boolean hasCurrentAccount()
+    public boolean hasCurrentProject()
     {
-        return getCurrentAccount() != null;
+        return getCurrentProject() != null;
     }
 
-    public boolean hasCurrentAccount(MyAccount e)
+    public boolean hasCurrentProject(MyProject e)
     {
-        return Kmu.isEqual(getCurrentAccount(), e);
+        return Kmu.isEqual(getCurrentProject(), e);
     }
 
 

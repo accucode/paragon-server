@@ -50,6 +50,12 @@ public class MyMetaInvitation_CreatedUtcTs
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when this invitation was created.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 16;

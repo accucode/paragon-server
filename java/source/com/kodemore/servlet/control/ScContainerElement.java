@@ -39,7 +39,7 @@ import com.kodemore.servlet.variable.ScLocalStyle;
 
 public abstract class ScContainerElement
     extends ScContainer
-    implements ScElementIF
+    implements ScElementIF, ScStyledControlIF
 {
     //##################################################
     //# variables
@@ -115,7 +115,6 @@ public abstract class ScContainerElement
         return ScJquery.formatSelector(this);
     }
 
-    @Override
     public String getJqueryReference()
     {
         return ScJquery.formatReference(this);
@@ -124,19 +123,19 @@ public abstract class ScContainerElement
     @Override
     public ScHtmlIdAjax ajax()
     {
-        return new ScHtmlIdAjax(getRootScript(), this);
+        return new ScHtmlIdAjax(this, getRootScript());
     }
 
     @Override
     public ScHtmlIdAjax getPostDomScript()
     {
-        return new ScHtmlIdAjax(super.getPostDomScript(), this);
+        return new ScHtmlIdAjax(this, super.getPostDomScript());
     }
 
     @Override
     public ScHtmlIdAjax getPostRenderScript()
     {
-        return new ScHtmlIdAjax(super.getPostRenderScript(), this);
+        return new ScHtmlIdAjax(this, super.getPostRenderScript());
     }
 
     //##################################################
@@ -162,29 +161,10 @@ public abstract class ScContainerElement
         _css.setValue(e);
     }
 
+    @Override
     public KmCssDefaultBuilder css()
     {
         return _css.toDefaultBuilder();
-    }
-
-    @Override
-    public void show()
-    {
-        css().remove().hide();
-    }
-
-    @Override
-    public void hide()
-    {
-        css().hide();
-    }
-
-    public void show(boolean visible)
-    {
-        if ( visible )
-            show();
-        else
-            hide();
     }
 
     protected KmCssDefaultBuilder formatCss()
@@ -206,6 +186,7 @@ public abstract class ScContainerElement
         _style.setValue(e);
     }
 
+    @Override
     public KmStyleBuilder style()
     {
         return _style.toBuilder();
@@ -214,6 +195,23 @@ public abstract class ScContainerElement
     protected KmStyleBuilder formatStyle()
     {
         return style();
+    }
+
+    @Override
+    public void show()
+    {
+        style().show();
+    }
+
+    @Override
+    public void hide()
+    {
+        style().hide();
+    }
+
+    public void show(boolean visible)
+    {
+        style().show(visible);
     }
 
     //##################################################
@@ -237,7 +235,15 @@ public abstract class ScContainerElement
 
     public void setOnClick(ScActionIF e)
     {
-        ScActionScript script = ScActionScript.create(e);
+        setOnClick(e, null);
+    }
+
+    public void setOnClick(ScActionIF e, Object arg)
+    {
+        ScActionScript script;
+        script = ScActionScript.create(e);
+        script.setArgument(arg);
+
         setOnClick(script);
     }
 

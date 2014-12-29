@@ -53,7 +53,7 @@ public class KmSqlPreparedStatement
         super(con.getAdaptor());
         setStatement(new KmSqlStatementWrapper(con, ps));
         _sql = sql;
-        _values = new KmList<Object>();
+        _values = new KmList<>();
         _columnIndex = 1;
     }
 

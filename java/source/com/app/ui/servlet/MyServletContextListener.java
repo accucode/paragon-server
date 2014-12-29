@@ -7,11 +7,11 @@ import com.kodemore.log.KmLog;
 
 import com.app.utility.MyEnvironment;
 import com.app.utility.MyInstaller;
-import com.app.utility.MyShutdown;
+import com.app.utility.MyShutdownManager;
 
 /**
  * I am registered in the web.xml to provide convenient hooks
- * that are called when the servlet container (tomcat) is 
+ * that are called when the servlet container (tomcat) is
  * initialized or shutdown.
  */
 public class MyServletContextListener
@@ -20,22 +20,29 @@ public class MyServletContextListener
     @Override
     public void contextInitialized(ServletContextEvent ev)
     {
-        KmLog.info("Servlet Context Initializing...");
+        try
+        {
+            KmLog.info("Servlet Context Initializing...");
 
-        String root = ev.getServletContext().getRealPath("");
-        KmLog.info("Servlet Context Path = " + root);
+            String root = ev.getServletContext().getRealPath("");
+            KmLog.info("Servlet Context Path = " + root);
 
-        MyEnvironment.install(root);
-        MyInstaller.install();
+            MyEnvironment.install(root);
+            MyInstaller.install();
 
-        KmLog.info("Servlet Context Initialized.");
+            KmLog.info("Servlet Context Initialized.");
+        }
+        catch ( Throwable ex )
+        {
+            ex.printStackTrace();
+        }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent ev)
     {
         KmLog.info("Servlet Context Destroying...");
-        MyShutdown.shutdown();
+        MyShutdownManager.shutdown();
         KmLog.info("Servlet Context Destroyed.");
     }
 }

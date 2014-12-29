@@ -63,9 +63,7 @@ public class KmWikiUnorderedList
     {
         String arr[] =
         {
-            "disk",
-            "circle",
-            "square"
+            "disk", "circle", "square"
         };
         return arr;
     }

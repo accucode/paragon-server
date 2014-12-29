@@ -130,12 +130,15 @@ public class KmaGridActionModel
         KmaGrid grid = getGrid();
         int x = getDot().x;
         int x1 = grid.getFirstVisibleColumn();
+
         while ( x1 > x )
         {
             x1--;
             grid.setFirstVisibleColumn(x1);
         }
+
         int x2 = grid.getLastFullyVisibleColumn();
+
         while ( x2 < x )
         {
             x1++;
@@ -149,12 +152,15 @@ public class KmaGridActionModel
         KmaGrid grid = getGrid();
         int y = getDot().y;
         int y1 = grid.getFirstVisibleRow();
+
         while ( y1 > y )
         {
             y1--;
             grid.setFirstVisibleRow(y1);
         }
+
         int y2 = grid.getLastFullyVisibleRow();
+
         while ( y2 < y )
         {
             y1++;
@@ -218,6 +224,7 @@ public class KmaGridActionModel
     {
         if ( !_hasToggleSelection )
             toggleAnchorSelection();
+
         extendSelection();
     }
 
@@ -225,6 +232,7 @@ public class KmaGridActionModel
     {
         if ( _selectionMode == 1 )
             extendSelection(_dot);
+
         if ( _selectionMode == 2 )
             extendToggleSelection(_dot);
     }

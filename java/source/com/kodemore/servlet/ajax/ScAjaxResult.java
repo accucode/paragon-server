@@ -26,7 +26,6 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.result.ScAbstractResult;
 import com.kodemore.servlet.script.ScBlockScript;
-import com.kodemore.servlet.script.ScSimpleBlockScript;
 
 public class ScAjaxResult
     extends ScAbstractResult
@@ -52,7 +51,7 @@ public class ScAjaxResult
 
     public ScAjaxResult()
     {
-        _script = new ScSimpleBlockScript();
+        _script = ScBlockScript.create();
     }
 
     //##################################################
@@ -68,7 +67,7 @@ public class ScAjaxResult
         setContentTypeJson();
 
         data.writeBytes(bytes);
-        data.logResults(getScript().formatMultilineScript());
+        data.logResults(formatMultiline());
     }
 
     @Override
@@ -86,11 +85,30 @@ public class ScAjaxResult
         return _script;
     }
 
-    public String formatJson()
+    //##################################################
+    //# support
+    //##################################################
+
+    private String formatJson()
     {
         KmJsonMap map;
         map = new KmJsonMap();
-        map.setString("script", getScript().formatScript());
+        map.setString("script", getEffectiveScript().formatScript());
         return map.toString();
     }
+
+    private String formatMultiline()
+    {
+        return getEffectiveScript().formatMultilineScript();
+    }
+
+    private ScBlockScript getEffectiveScript()
+    {
+        ScBlockScript e;
+        e = ScBlockScript.create();
+        e.run(getScript());
+        e.updatePageSession();
+        return e;
+    }
+
 }

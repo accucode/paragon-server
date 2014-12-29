@@ -62,7 +62,7 @@ public class MyUrlBridge
 
     private MyUrlBridge()
     {
-        _developmentVersion = "dev-" + KmRandom.getPositiveInteger();
+        _developmentVersion = "dev-" + KmRandom.getInstance().getPositiveInteger();
     }
 
     //##################################################
@@ -199,6 +199,40 @@ public class MyUrlBridge
         b = SLASH + b + SLASH;
 
         return uri.replace(a, b);
+    }
+
+    //##################################################
+    //# buttons
+    //##################################################
+
+    @Override
+    public String getEditButtonUrl()
+    {
+        return MyButtonUrls.edit();
+    }
+
+    @Override
+    public String getAddButtonUrl()
+    {
+        return MyButtonUrls.add();
+    }
+
+    @Override
+    public String getRemoveButtonUrl()
+    {
+        return MyButtonUrls.delete();
+    }
+
+    @Override
+    public String getDeleteButtonUrl()
+    {
+        return MyButtonUrls.delete();
+    }
+
+    @Override
+    public String getRefreshButtonUrl()
+    {
+        return MyButtonUrls.refresh();
     }
 
     //##################################################

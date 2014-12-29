@@ -268,7 +268,6 @@ public class MyHibernateCacheTestCriteria
     //##################################################
 
     @Override
-    @SuppressWarnings("rawtypes")
     public MyHibernateCacheTestCriteria createOn(KmModelJunction junction)
     {
         return new MyHibernateCacheTestCriteria(parent(), junction.context());

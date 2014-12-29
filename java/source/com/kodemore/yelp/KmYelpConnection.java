@@ -90,7 +90,7 @@ public class KmYelpConnection
 
     public KmYelpConnection()
     {
-        _parameters = new KmOrderedMap<String,String>();
+        _parameters = new KmOrderedMap<>();
     }
 
     //##################################################
@@ -248,7 +248,7 @@ public class KmYelpConnection
     private KmOrderedMap<String,String> getAuthorizationParameters()
     {
         KmOrderedMap<String,String> m;
-        m = new KmOrderedMap<String,String>();
+        m = new KmOrderedMap<>();
         m.putAll(getOauthParameters());
         m.put("oauth_signature", getSignature());
         return m;
@@ -312,7 +312,7 @@ public class KmYelpConnection
     private KmOrderedMap<String,String> getSignatureParameters()
     {
         KmOrderedMap<String,String> m;
-        m = new KmOrderedMap<String,String>();
+        m = new KmOrderedMap<>();
         m.putAll(getRequestParameters());
         m.putAll(getOauthParameters());
         m.sortOnKeys();
@@ -365,7 +365,7 @@ public class KmYelpConnection
     private KmOrderedMap<String,String> getOauthParameters()
     {
         KmOrderedMap<String,String> m;
-        m = new KmOrderedMap<String,String>();
+        m = new KmOrderedMap<>();
         m.put("oauth_version", OAUTH_VERSION);
         m.put("oauth_token", getAuthToken());
         m.put("oauth_consumer_key", getConsumerKey());

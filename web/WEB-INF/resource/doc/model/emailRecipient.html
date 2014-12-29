@@ -16,19 +16,25 @@
 <body>
 <h1>emailRecipient</h1>
 
-Emails.<br>
+${model.f_comment}<br>
 <br>
 
 <table cellspacing=0 cellpadding=3 border=1>
 <tr>
   <th>Attribute</th>
-  <th>Comment</th>
+  <th>Help / Comment</th>
   <th>Format</th>
   <th>Attributes</th>
 </tr>
 <tr>
   <td>uid&nbsp;</td>
-  <td>The unique key.&nbsp;</td>
+  
+  <td>
+                <br><i>Comment</i><br>
+        The unique key.
+        &nbsp;
+  </td>
+  
   <td>uid
         <br><nobr>max length: 30</nobr>           <br>allows(
                       printable
@@ -40,7 +46,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>address&nbsp;</td>
-  <td>e.g.: john@company.com&nbsp;</td>
+  
+  <td>
+                <br><i>Comment</i><br>
+        e.g.: john@company.com
+        &nbsp;
+  </td>
+  
   <td>email
         <br><nobr>max length: 50</nobr>           <br>allows(
                       printable
@@ -52,7 +64,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>typeCode&nbsp;</td>
-  <td>to, cc.&nbsp;</td>
+  
+  <td>
+                <br><i>Comment</i><br>
+        to, cc.
+        &nbsp;
+  </td>
+  
   <td>letterCode
         <br><nobr>max length: 1</nobr>           <br>allows(
                       letters
@@ -64,7 +82,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>lockVersion&nbsp;</td>
-  <td>Used for optimistic locking.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
+            &nbsp;
+  </td>
+  
   <td>lockVersion
               </td>
   <td>
@@ -73,9 +97,13 @@ Emails.<br>
 </tr>
 <tr>
   <td>typeName&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            &nbsp;
+  </td>
+  
   <td>name
-        <br><nobr>max length: 30</nobr>           <br>allows(
+        <br><nobr>max length: 50</nobr>           <br>allows(
                       printable
             )
       </td>

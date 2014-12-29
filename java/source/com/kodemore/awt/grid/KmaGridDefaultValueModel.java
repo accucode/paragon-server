@@ -72,6 +72,7 @@ public class KmaGridDefaultValueModel
     {
         int h = _size.height;
         int w = _size.width;
+
         _values = new Object[w][h];
         _rowHeaders = new Object[h];
         _columnHeaders = new Object[w];

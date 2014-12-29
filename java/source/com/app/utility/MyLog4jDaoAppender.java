@@ -9,8 +9,8 @@ import com.kodemore.command.KmDaoCommand;
 import com.kodemore.log.KmLog;
 import com.kodemore.utility.Kmu;
 
-import com.app.model.MySystemLog;
-import com.app.model.MySystemLogTrace;
+import com.app.model.MyApplicationLog;
+import com.app.model.MyApplicationLogTrace;
 
 public class MyLog4jDaoAppender
     extends AppenderSkeleton
@@ -77,8 +77,8 @@ public class MyLog4jDaoAppender
         String threadName = ev.getThreadName();
         String message = ev.getRenderedMessage();
 
-        MySystemLog e;
-        e = new MySystemLog();
+        MyApplicationLog e;
+        e = new MyApplicationLog();
 
         e.setLoggerName(loggerName);
         e.truncateLoggerName();
@@ -103,14 +103,13 @@ public class MyLog4jDaoAppender
 
             for ( String s : ti.getThrowableStrRep() )
             {
-                KmList<String> lines = Kmu.getLines(s);
+                KmList<String> lines = Kmu.parseLines(s);
                 for ( String line : lines )
                 {
-                    MySystemLogTrace trace;
-                    trace = new MySystemLogTrace();
+                    MyApplicationLogTrace trace;
+                    trace = e.addTrace();
                     trace.setValue(line);
                     trace.truncateValue();
-                    e.addTrace(trace);
                 }
             }
         }

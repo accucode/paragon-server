@@ -76,6 +76,7 @@ public class KmaBlockAction
     {
         if ( _block == null )
             return;
+
         _block.invoke();
     }
 

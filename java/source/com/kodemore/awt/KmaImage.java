@@ -71,6 +71,7 @@ public class KmaImage
     {
         if ( _observer == null )
             _observer = new Panel();
+
         return _observer;
     }
 
@@ -150,6 +151,7 @@ public class KmaImage
     public KmaImage getScaledInstance(int width, int height, int hints)
     {
         Image i = getImage().getScaledInstance(width, height, hints);
+
         KmaImage ii;
         ii = new KmaImage();
         ii.setImage(i);
@@ -164,10 +166,10 @@ public class KmaImage
     {
         try
         {
-            MediaTracker tracker;
-            tracker = new MediaTracker(new Panel());
-            tracker.addImage(_image, 1);
-            tracker.waitForAll();
+            MediaTracker t;
+            t = new MediaTracker(new Panel());
+            t.addImage(_image, 1);
+            t.waitForAll();
         }
         catch ( Exception ex )
         {

@@ -4,9 +4,10 @@ import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScArray;
 import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
+import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -90,10 +91,10 @@ public class MyLocalValueTestPage
         form = root.addForm();
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("Local Value Tests");
 
         ScBox body;
-        body = group.addPad();
+        body = group.getBody().addPad();
         body.addBox().addText(
             ""
                 + "'Local' allow the developer to manage state in multi-tenant "
@@ -108,14 +109,14 @@ public class MyLocalValueTestPage
         body.addBreak();
 
         ScFieldTable fields;
-        fields = body.addFields();
+        fields = body.addFieldTable();
         fields.add(_textField);
         fields.add(_integerField);
 
-        group.addDivider();
-
-        ScBox footer;
-        footer = group.addButtonBox();
+        ScDiv footer;
+        footer = group.getFooter();
+        footer.show();
+        footer.css().buttonGap();
         footer.addButton("Save", newSaveFieldsAction());
         footer.addButton("Reset", newResetFieldsAction());
         footer.addButton("Reset & Save", newResetAndSaveFieldsAction());
@@ -144,10 +145,10 @@ public class MyLocalValueTestPage
         form = root.addForm();
 
         ScGroup group;
-        group = form.addGroup();
+        group = form.addGroup("... With Lists");
 
         ScBox body;
-        body = group.addPad();
+        body = group.getBody().addPad();
         body.addBox().addText(
             ""
                 + "This sample tests ScLocalList directly, the field is used "
@@ -156,17 +157,21 @@ public class MyLocalValueTestPage
 
         body.addBreak();
 
-        ScArray col;
-        col = body.addColumns(2);
+        ScFlexbox col;
+        col = body.addInlineColumn();
         col.addLabelFor(_listField1);
-        col.addLabelFor(_listField2);
         col.add(_listField1);
+
+        body.addNonBreakingSpace();
+
+        col = body.addInlineColumn();
+        col.addLabelFor(_listField2);
         col.add(_listField2);
 
-        group.addDivider();
-
-        ScBox footer;
-        footer = group.addButtonBox();
+        ScDiv footer;
+        footer = group.getFooter();
+        footer.show();
+        footer.css().buttonGap();
         footer.addButton("Save", newSaveListAction());
         footer.addButton("Reset", newResetListAction());
         footer.addButton("Reset & Save", newResetAndSaveListAction());
@@ -350,10 +355,10 @@ public class MyLocalValueTestPage
 
     private KmList<String> parseList(ScTextArea field)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         String csv = field.getValue();
-        KmList<String> lines = Kmu.getLines(csv);
+        KmList<String> lines = Kmu.parseLines(csv);
 
         for ( String line : lines )
         {

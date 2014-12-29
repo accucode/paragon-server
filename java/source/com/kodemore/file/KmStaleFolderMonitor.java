@@ -61,7 +61,7 @@ public class KmStaleFolderMonitor
 
     public KmStaleFolderMonitor()
     {
-        _lastFilenameUtsTs = new KmMap<String,KmTimestamp>();
+        _lastFilenameUtsTs = new KmMap<>();
         _lastNewFileUtcTs = KmClock.getNowUtc();
     }
 
@@ -148,7 +148,7 @@ public class KmStaleFolderMonitor
 
     private KmList<String> getNotInListFirstNotLast(KmList<String> first, KmList<String> last)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
 
         for ( String e : first )
             if ( !last.contains(e) )
@@ -179,7 +179,7 @@ public class KmStaleFolderMonitor
 
     private void checkOutput(KmTimestamp now)
     {
-        KmMap<String,KmTimestamp> map = new KmMap<String,KmTimestamp>();
+        KmMap<String,KmTimestamp> map = new KmMap<>();
 
         for ( String e : _lastFilenameUtsTs.getKeys() )
         {
@@ -202,10 +202,11 @@ public class KmStaleFolderMonitor
     {
         String subject = Kmu.format("Folder Input Error: %s", _folderPath);
 
-        String msg = Kmu.format(
-            "No new files have been received in the folder %s for more than %s minutes.",
-            _folderPath,
-            _inactiveMinutes);
+        String msg =
+            Kmu.format(
+                "No new files have been received in the folder %s for more than %s minutes.",
+                _folderPath,
+                _inactiveMinutes);
 
         warn(subject, msg);
     }
@@ -214,11 +215,12 @@ public class KmStaleFolderMonitor
     {
         String subject = Kmu.format("Folder Output Error: %s", _folderPath);
 
-        String msg = Kmu.format(
-            "The following files have been in the folder %s for more than %s minutes: %s.",
-            _folderPath,
-            _staleMinutes,
-            getSortedFilenameString(map));
+        String msg =
+            Kmu.format(
+                "The following files have been in the folder %s for more than %s minutes: %s.",
+                _folderPath,
+                _staleMinutes,
+                getSortedFilenameString(map));
 
         warn(subject, msg);
     }

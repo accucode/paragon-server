@@ -94,6 +94,7 @@ public class KmaBevelBorder
     {
         if ( _highlight != null )
             return _highlight;
+
         return c.getBackground().brighter();
     }
 
@@ -101,6 +102,7 @@ public class KmaBevelBorder
     {
         if ( _shadow != null )
             return _shadow;
+
         return c.getBackground().darker();
     }
 
@@ -123,7 +125,10 @@ public class KmaBevelBorder
     @Override
     public Insets getBorderInsets(Component c, Insets insets)
     {
-        insets.left = insets.top = insets.right = insets.bottom = 1;
+        insets.left = 1;
+        insets.top = 1;
+        insets.right = 1;
+        insets.bottom = 1;
         return insets;
     }
 

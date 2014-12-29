@@ -32,7 +32,7 @@ import com.kodemore.servlet.variable.ScLocalRenderer;
 public abstract class ScAbstractLink
     extends ScElement
 {
-    //################################################## 
+    //##################################################
     //# variables
     //##################################################
 
@@ -55,6 +55,8 @@ public abstract class ScAbstractLink
 
         _text = new ScLocalRenderer();
         _focusable = new ScLocalBoolean(true);
+
+        css().link();
     }
 
     //##################################################
@@ -139,7 +141,7 @@ public abstract class ScAbstractLink
     @Override
     protected KmCssDefaultBuilder formatCss()
     {
-        return super.formatCss().link();
+        return super.formatCss();
     }
 
     //##################################################

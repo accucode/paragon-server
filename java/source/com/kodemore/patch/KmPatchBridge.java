@@ -48,13 +48,13 @@ public abstract class KmPatchBridge
     {
         KmFile folder = getLocalPatchFolder();
         if ( !folder.exists() )
-            return new KmList<KmPatch>();
+            return new KmList<>();
 
         KmList<KmFile> files;
         files = folder.getFiles();
         files.sort();
 
-        KmList<KmPatch> v = new KmList<KmPatch>();
+        KmList<KmPatch> v = new KmList<>();
         for ( KmFile file : files )
         {
             KmPatch e;

@@ -26,7 +26,7 @@ import com.kodemore.wiki.KmWikiReader;
 import com.kodemore.wiki.KmWikiSource;
 
 public class KmWikiDocumentParser
-extends KmWikiParser
+    extends KmWikiParser
 {
     //##################################################
     //# constructor

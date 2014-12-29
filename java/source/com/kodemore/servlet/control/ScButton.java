@@ -27,6 +27,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.meta.KmMetaAttribute;
+import com.kodemore.servlet.utility.ScUrlBridge;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalRenderer;
@@ -62,6 +63,8 @@ public abstract class ScButton
     private ScLocalString       _preImage;
     private ScLocalString       _postImage;
 
+    private ScLocalBoolean      _enabled;
+
     //##################################################
     //# initialize
     //##################################################
@@ -81,6 +84,8 @@ public abstract class ScButton
 
         _preImage = new ScLocalString();
         _postImage = new ScLocalString();
+
+        _enabled = new ScLocalBoolean(true);
     }
 
     //##################################################
@@ -126,11 +131,6 @@ public abstract class ScButton
         setFlavor(FLAVOR_NEGATIVE);
     }
 
-    public void setFlavorDisabled()
-    {
-        setFlavor(FLAVOR_DISABLED);
-    }
-
     public boolean hasFlavor(String e)
     {
         return Kmu.isEqual(getFlavor(), e);
@@ -140,14 +140,29 @@ public abstract class ScButton
     //# disabled
     //##################################################
 
+    public void setEnabled(boolean e)
+    {
+        _enabled.setValue(e);
+    }
+
+    public void setEnabled()
+    {
+        setEnabled(true);
+    }
+
     public void setDisabled()
     {
-        setFlavorDisabled();
+        setEnabled(false);
+    }
+
+    public boolean isEnabled()
+    {
+        return _enabled.getValue();
     }
 
     public boolean isDisabled()
     {
-        return hasFlavor(FLAVOR_DISABLED);
+        return !isEnabled();
     }
 
     //##################################################
@@ -206,7 +221,7 @@ public abstract class ScButton
     }
 
     //##################################################
-    //# pre image 
+    //# pre image
     //##################################################
 
     public String getPreImage()
@@ -312,8 +327,8 @@ public abstract class ScButton
 
     /**
      * Buttons are always wrapped in a div.
-     * The outer div is the usual target for animations and 
-     * and extra styles like layout margins.  The reason for 
+     * The outer div is the usual target for animations and
+     * and extra styles like layout margins.  The reason for
      * this is that the button's css style animates the margin
      * as part of the button's custom look-and-feel.  If we
      * don't wrap the button in a div, then the layouts get
@@ -354,7 +369,11 @@ public abstract class ScButton
         KmCssDefaultBuilder out;
         out = super.formatCss();
         out.button();
-        out.apply(PREFIX, PART, getFlavor());
+
+        if ( isEnabled() )
+            out.apply(PREFIX, PART, getFlavor());
+        else
+            out.apply(PREFIX, PART, FLAVOR_DISABLED);
 
         if ( isPrimary() )
             out.buttonPrimary();
@@ -411,6 +430,78 @@ public abstract class ScButton
     public void ajaxDisable()
     {
         getRootScript().run("Kmu.disableButton(%s);", json(getJquerySelector()));
+    }
+
+    //##################################################
+    //# chaining
+    //##################################################
+
+    public ScButton positive()
+    {
+        setFlavorPositive();
+        return this;
+    }
+
+    public ScButton negative()
+    {
+        setFlavorNegative();
+        return this;
+    }
+
+    public ScButton def()
+    {
+        setFlavorDefault();
+        return this;
+    }
+
+    public ScButton primary()
+    {
+        setPrimary();
+        return this;
+    }
+
+    //##################################################
+    //# style
+    //##################################################
+
+    public void styleAdd()
+    {
+        String img = ScUrlBridge.getInstance().getAddButtonUrl();
+
+        setImage(img);
+        setHoverText("Add");
+    }
+
+    public void styleEdit()
+    {
+        String img = ScUrlBridge.getInstance().getEditButtonUrl();
+
+        setImage(img);
+        setHoverText("Edit");
+    }
+
+    public void styleRemove()
+    {
+        String img = ScUrlBridge.getInstance().getRemoveButtonUrl();
+
+        setImage(img);
+        setHoverText("Remove");
+    }
+
+    public void styleDelete()
+    {
+        String img = ScUrlBridge.getInstance().getDeleteButtonUrl();
+
+        setImage(img);
+        setHoverText("Delete");
+    }
+
+    public void styleRefresh()
+    {
+        String img = ScUrlBridge.getInstance().getRefreshButtonUrl();
+
+        setImage(img);
+        setHoverText("Refresh");
     }
 
 }

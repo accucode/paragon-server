@@ -41,9 +41,8 @@ public class KmErrorUtility
 
     public static void throwConcurrentAccessError(String name)
     {
-        KmError e = new KmGeneralError("Another was modifying this "
-            + name
-            + ".  Please try again.");
+        KmError e;
+        e = new KmGeneralError("Another was modifying this " + name + ".  Please try again.");
         e.throwException();
     }
 }

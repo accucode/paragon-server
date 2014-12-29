@@ -61,12 +61,12 @@ public class MyPasswordResetCriteria
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereExpirationUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(EXPIRATION_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(EXPIRATION_UTC_TS));
     }
 
     public KmIntegerCriteria whereLockVersion()
@@ -469,7 +469,6 @@ public class MyPasswordResetCriteria
     //##################################################
 
     @Override
-    @SuppressWarnings("rawtypes")
     public MyPasswordResetCriteria createOn(KmModelJunction junction)
     {
         return new MyPasswordResetCriteria(parent(), junction.context());

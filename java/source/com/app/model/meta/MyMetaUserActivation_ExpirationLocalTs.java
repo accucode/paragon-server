@@ -49,6 +49,12 @@ public class MyMetaUserActivation_ExpirationLocalTs
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The date and time when this activation expires.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 16;

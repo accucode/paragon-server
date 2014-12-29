@@ -72,6 +72,7 @@ public class KmaDoubleField
     {
         if ( _value == null )
             return 0;
+
         return _value.doubleValue();
     }
 
@@ -89,6 +90,7 @@ public class KmaDoubleField
             setNoValue();
         else
             _value = d;
+
         updateText();
     }
 
@@ -119,6 +121,7 @@ public class KmaDoubleField
     {
         if ( _minimumValue == null )
             return Double.MIN_VALUE;
+
         return _minimumValue.doubleValue();
     }
 
@@ -197,22 +200,30 @@ public class KmaDoubleField
     {
         if ( n == 0 )
             return "0";
-        StringBuilder sb = new StringBuilder(2 + n);
-        sb.append("0.");
+
+        StringBuilder out;
+        out = new StringBuilder(2 + n);
+        out.append("0.");
+
         for ( int i = 0; i < n; i++ )
-            sb.append("0");
-        return sb.toString();
+            out.append("0");
+
+        return out.toString();
     }
 
     public String _getCommaFormat(int n)
     {
         if ( n == 0 )
             return "#,##0";
-        StringBuilder sb = new StringBuilder(6 + n);
-        sb.append("#,##0.");
+
+        StringBuilder out;
+        out = new StringBuilder(6 + n);
+        out.append("#,##0.");
+
         for ( int i = 0; i < n; i++ )
-            sb.append("0");
-        return sb.toString();
+            out.append("0");
+
+        return out.toString();
     }
 
     //##################################################
@@ -225,15 +236,13 @@ public class KmaDoubleField
         return _value != null;
     }
 
-    //###########################################
-    //##
-    //##  SUBCLASS OVERRIDE
-    //##
-    //###########################################
+    //##################################################
+    //# subclass override
+    //##################################################
 
-    //##################################################
-    //# update
-    //##################################################
+    //==================================================
+    //= update
+    //==================================================
 
     @Override
     public void updateValue()
@@ -257,9 +266,11 @@ public class KmaDoubleField
         String s = getText();
         if ( s.equals("") )
             return false;
+
         Double dd = getDoubleFor(s);
         if ( dd == null )
             return false;
+
         double d = dd.doubleValue();
         if ( hasMinimumValue() && d < getMinimumValue() )
         {
@@ -267,12 +278,14 @@ public class KmaDoubleField
             setValue(d);
             return true;
         }
+
         if ( hasMaximumValue() && d > getMaximumValue() )
         {
             d = getMaximumValue();
             setValue(d);
             return true;
         }
+
         return false;
     }
 
@@ -285,14 +298,18 @@ public class KmaDoubleField
     {
         if ( s.equals("") )
             return getAllowEmpty();
+
         Double dd = getDoubleFor(s);
         if ( dd == null )
             return false;
+
         double d = dd.doubleValue();
         if ( hasMinimumValue() && d < getMinimumValue() )
             return false;
+
         if ( hasMaximumValue() && d > getMaximumValue() )
             return false;
+
         return true;
     }
 
@@ -310,10 +327,13 @@ public class KmaDoubleField
     public String getHelpMessage()
     {
         String s = "Enter a decimal number.";
+
         if ( hasMinimumValue() )
             s += "\nMinimum: " + getMinimumValue();
+
         if ( hasMaximumValue() )
             s += "\nMaximum: " + getMaximumValue();
+
         return s;
     }
 

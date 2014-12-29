@@ -21,7 +21,7 @@ public abstract class KmWikiContainer
     public KmWikiContainer(KmWikiSource e)
     {
         super(e);
-        _children = new KmList<KmWikiElement>();
+        _children = new KmList<>();
     }
 
     //##################################################

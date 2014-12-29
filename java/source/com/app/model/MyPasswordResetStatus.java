@@ -23,22 +23,21 @@ public enum MyPasswordResetStatus
     New("N", "New"),
     Accepted("A", "Accepted"),
     Rejected("R", "Rejected"),
-    Cancelled("X", "Cancelled"),
-    ;
+    Cancelled("X", "Cancelled"), ;
 
     //##################################################
     //# find
     //##################################################
 
-    private static final KmList<MyPasswordResetStatus> _values;
+    private static final KmList<MyPasswordResetStatus>       _values;
     private static final KmMap<String,MyPasswordResetStatus> _codes;
 
     static
     {
-        _values = new KmList<MyPasswordResetStatus>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyPasswordResetStatus>();
+        _codes = new KmMap<>();
         for ( MyPasswordResetStatus e : EnumSet.allOf(MyPasswordResetStatus.class) )
             _codes.put(e.getCode(), e);
     }

@@ -50,6 +50,12 @@ public class MyMetaAutoSignIn_CreatedUtcTs
     }
 
     @Override
+    public String getHelp()
+    {
+        return null;
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 16;

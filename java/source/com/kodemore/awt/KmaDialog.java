@@ -141,10 +141,12 @@ public class KmaDialog
     {
         JComponent c;
         c = (JComponent)getContentPane();
+
         c.registerKeyboardAction(
             newAction("dispose"),
             KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
             JComponent.WHEN_IN_FOCUSED_WINDOW);
+
         c.registerKeyboardAction(
             newAction("guiHelp"),
             KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0),

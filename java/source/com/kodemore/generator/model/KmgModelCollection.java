@@ -315,6 +315,11 @@ public class KmgModelCollection
         return formatList(getHibernateCollectionType().getJavaImpl(), getf_ElementType());
     }
 
+    public String getf_ImplType_NoGeneric()
+    {
+        return formatList(getHibernateCollectionType().getJavaImpl(), "");
+    }
+
     public String getf_WrapperType()
     {
         return Kmu.format(
@@ -330,6 +335,11 @@ public class KmgModelCollection
             getHibernateCollectionType().getJavaImplWrapper(),
             getf_ElementType(),
             getModel().getf_Class());
+    }
+
+    public String getf_WrapperImplType_NoGeneric()
+    {
+        return Kmu.format("%s<>", getHibernateCollectionType().getJavaImplWrapper());
     }
 
     public String getf_implGetMethod()

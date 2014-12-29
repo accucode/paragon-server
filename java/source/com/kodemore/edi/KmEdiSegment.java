@@ -91,8 +91,10 @@ public class KmEdiSegment
     public void setElements(KmList<KmEdiElement> v)
     {
         int n = v.size();
+
         if ( _elements.length != n )
             _elements = new KmEdiElement[n];
+
         for ( int i = 0; i < n; i++ )
             _elements[i] = v.get(i);
     }
@@ -134,30 +136,38 @@ public class KmEdiSegment
     {
         if ( _elements.length > index )
             return;
+
         KmEdiElement[] arr = new KmEdiElement[index + 1];
+
         for ( int i = 0; i < _elements.length; i++ )
             arr[i] = _elements[i];
+
         for ( int i = _elements.length; i < index + 1; i++ )
             arr[i] = new KmEdiElement();
+
         _elements = arr;
     }
 
     //##################################################
     //# text representation
     //##################################################
+
     public String format()
     {
         try
         {
             StringWriter sw = new StringWriter();
-            KmEdiWriter ew = new KmEdiWriter(sw);
+
+            KmEdiWriter ew;
+            ew = new KmEdiWriter(sw);
             ew.writeSegment(this);
             ew.flush();
+
             return sw.toString();
         }
-        catch ( IOException e )
+        catch ( IOException ex )
         {
-            throw new RuntimeException(e);
+            throw new RuntimeException(ex);
         }
     }
 }

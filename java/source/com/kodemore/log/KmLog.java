@@ -1,5 +1,14 @@
 package com.kodemore.log;
 
+import java.io.PrintWriter;
+
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Layout;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.PatternLayout;
+
 /**
  * See KmLogger.
  */
@@ -10,6 +19,31 @@ public class KmLog
     //##################################################
 
     private static KmLogger root = KmLogger.createRoot();
+
+    //##################################################
+    //# install
+    //##################################################
+
+    public static void installConsole()
+    {
+        PrintWriter writer;
+        writer = new PrintWriter(System.out);
+
+        Layout layout;
+        layout = new PatternLayout("%d %-5p %c - %m %n");
+
+        ConsoleAppender e;
+        e = new ConsoleAppender();
+        e.setName("Console");
+        e.setThreshold(Level.INFO);
+        e.setWriter(writer);
+        e.setLayout(layout);
+
+        LogManager.shutdown();
+        BasicConfigurator.resetConfiguration();
+        BasicConfigurator.configure(e);
+        KmLogger.resetAll();
+    }
 
     //##################################################
     //# debug
@@ -97,6 +131,25 @@ public class KmLog
     public static boolean isInfoEnabled()
     {
         return root.isInfoEnabled();
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    public static void println()
+    {
+        info();
+    }
+
+    public static void println(Object e)
+    {
+        info(e + "");
+    }
+
+    public static void printfln(String msg, Object... args)
+    {
+        info(msg, args);
     }
 
     //##################################################

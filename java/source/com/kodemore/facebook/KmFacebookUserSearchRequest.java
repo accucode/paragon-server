@@ -83,7 +83,7 @@ public class KmFacebookUserSearchRequest
 
     private KmList<KmFacebookUser> toUsers(KmList<KmJsonMap> maps)
     {
-        KmList<KmFacebookUser> v = new KmList<KmFacebookUser>();
+        KmList<KmFacebookUser> v = new KmList<>();
 
         for ( KmJsonMap map : maps )
             v.add(parseUser(map));

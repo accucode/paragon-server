@@ -18,7 +18,7 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.sql;
 
@@ -39,6 +39,7 @@ import java.sql.Statement;
 import java.sql.Struct;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.Executor;
 
 /**
  * I provide a simply wrapper that makes a KmSqlConnection look like
@@ -397,6 +398,40 @@ public class KmSqlConnectionWrapper
     public <T> T unwrap(Class<T> iface) throws SQLException
     {
         return getJavaConnection().unwrap(iface);
+    }
+
+    //##################################################
+    //# jdk 1.7
+    //##################################################
+
+    @Override
+    public void setSchema(String schema) throws SQLException
+    {
+        getJavaConnection().setSchema(schema);
+    }
+
+    @Override
+    public String getSchema() throws SQLException
+    {
+        return getJavaConnection().getSchema();
+    }
+
+    @Override
+    public void abort(Executor executor) throws SQLException
+    {
+        getJavaConnection().abort(executor);
+    }
+
+    @Override
+    public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException
+    {
+        getJavaConnection().setNetworkTimeout(executor, milliseconds);
+    }
+
+    @Override
+    public int getNetworkTimeout() throws SQLException
+    {
+        return getJavaConnection().getNetworkTimeout();
     }
 
 }

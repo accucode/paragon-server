@@ -10,30 +10,31 @@
          
 .button
 {
-    padding: 3px 5px;
+    box-sizing: border-box;  
+    
+    height: 30px;
+    padding: 6px 7px;
+    
     overflow: hidden;
-    float: left;
+    display: inline-block;
     
     font-family: sans-serif;
     font-size: 1.4rem;
     text-decoration: none;
     
-    outline: none;
-    
-    /* FF, Chrome, IE9+ */
-    -moz-border-radius:    3px;
-    -webkit-border-radius: 3px;
-    border-radius:         3px;
-
-    -webkit-box-shadow: inset -1px -1px 1px #bbb;
-    -moz-box-shadow:    inset -1px -1px 1px #bbb;
-    box-shadow:         inset -1px -1px 1px #bbb;
+    outline: none; 
+    border-radius: 3px;
 
     border-top:     1px solid #bbb;
     border-left:    1px solid #bbb;
     border-bottom:  1px solid #999;
     border-right:   1px solid #999;
 }
+.button:focus
+{
+    box-shadow: 0 0 1px 1px #7294CB;
+}
+
 
 .button > img 
 {
@@ -55,9 +56,9 @@
          
 .button-element-default
 {
-    color: #369;
     cursor: pointer;
-    background: #fff url(buttonGradient.png) repeat-x 0 -25px;
+    color: #369;
+    background: #eee linear-gradient(to bottom, #fff, #ddd);
 }
 
 .button-element-default:hover
@@ -67,23 +68,17 @@
     border-bottom:  1px solid #999;
     border-right:   1px solid #999;
     
-    background: #eff url(buttonGradient.png) repeat-x 0 -25px;
+    background: #eff linear-gradient(to bottom, #fff, #dee);
 }        
 
 .button-element-default:active 
 {
-    padding: 4px 4px 2px 6px;
-
-    -webkit-box-shadow: inset 1px 1px 1px #bbb;
-    -moz-box-shadow:    inset 1px 1px 1px #bbb;
-    box-shadow:         inset 1px 1px 1px #bbb;
-    
     border-top:     1px solid #999;
     border-left:    1px solid #999;
     border-bottom:  1px solid #cdf;
     border-right:   1px solid #cdf;
 
-    background: #eff url(buttonGradient.png) repeat-x 0 0;
+    background: #eff linear-gradient(to bottom, #dee, #fff);
 }
 
 /******************************
@@ -93,14 +88,15 @@
 .button-element-positive
 {
     color: #591;
-    background: #fff url(buttonGradient.png) repeat-x 0 -25px;
+    background: #eee linear-gradient(to bottom, #fff, #ddd);
+
     cursor: pointer;
 }
 
 .button-element-positive:hover
 {
     color: #591;
-    background: #efc url(buttonGradient.png) repeat-x 0 -25px;
+    background: #eee linear-gradient(to bottom, #fff, #efc);
     
     border-top:     1px solid #cd8;
     border-left:    1px solid #cd8;
@@ -110,13 +106,7 @@
 
 .button-element-positive:active 
 {
-    background: #efc url(buttonGradient.png) repeat-x 0 0;
-    
-    padding: 4px 4px 2px 6px;
-    
-    -webkit-box-shadow: inset 1px 1px 1px #bbb;
-    -moz-box-shadow:    inset 1px 1px 1px #bbb;
-    box-shadow:         inset 1px 1px 1px #bbb;
+    background: #eee linear-gradient(to bottom, #efc, #fff);
     
     border-top:     1px solid #999;
     border-left:    1px solid #999;
@@ -131,14 +121,14 @@
 .button-element-negative
 {
     color: #d22;
+    background: #eee linear-gradient(to bottom, #fff, #ddd);
     cursor: pointer;
-    background: #fff url(buttonGradient.png) repeat-x 0 -25px;
 }
 
 .button-element-negative:hover
 {
     color: #d22;
-    background: #fee url(buttonGradient.png) repeat-x 0 -25px;
+    background: #fee linear-gradient(to bottom, #fff, #fee);
     
     border-top:     1px solid #fcc;
     border-left:    1px solid #fcc;
@@ -148,13 +138,7 @@
 
 .button-element-negative:active 
 {
-    background: #fee url(buttonGradient.png) repeat-x 0 0;
-    
-    padding: 4px 4px 2px 6px;
-    
-    -webkit-box-shadow: inset 1px 1px 1px #bbb;
-    -moz-box-shadow:    inset 1px 1px 1px #bbb;
-    box-shadow:         inset 1px 1px 1px #bbb;
+    background: #fee linear-gradient(to bottom, #fee, #fff);
     
     border-top:     1px solid #999;
     border-left:    1px solid #999;
@@ -169,43 +153,15 @@
 .button-element-disabled
 {
     color: #555;
-    background-color: #bbb;
-    border: 1px solid #888;
+    background-color: #ddd;
+    border: 1px solid #aaa;
     cursor: default;
 }
-
 
 /*******************************************************************
  ** layouts
  *******************************************************************/
 
-.buttonBox
-{
-    padding: 10px;
-}
-.buttonBox > * 
-{
-    margin-right: 5px;
-}
-
-
-.buttonBoxLeft
-{
-    float: left;
-    padding: 10px;
-}
-.buttonBoxLeft > * 
-{
-    margin-right: 5px;
-}
-
-.buttonBoxRight
-{
-    float: right;
-    padding: 10px;
-}
-.buttonBoxRight > *
-{
-    margin-left: 5px;
-}
-
+.buttonBox                  { padding: 10px; white-space: nowrap; }
+.buttonBox > *              { margin-left: 5px;  }
+.buttonBox > *:first-child  { margin-left: 0;    }

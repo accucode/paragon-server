@@ -49,6 +49,12 @@ public class MyMetaInvitation_StatusName
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The status of this invitation: pending, accepted, rejected, expired, or cancelled.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 15;

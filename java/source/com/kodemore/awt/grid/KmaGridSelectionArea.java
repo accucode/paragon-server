@@ -116,12 +116,14 @@ public class KmaGridSelectionArea
             top = bottom;
             bottom = z;
         }
+
         if ( left > right )
         {
             int z = left;
             left = right;
             right = z;
         }
+
         return new Insets(top, left, bottom, right);
     }
 
@@ -132,6 +134,7 @@ public class KmaGridSelectionArea
         int y = i.top;
         int w = i.right - i.left + 1;
         int h = i.bottom - i.top + 1;
+
         return new Rectangle(x, y, w, h);
     }
 
@@ -181,14 +184,17 @@ public class KmaGridSelectionArea
             return contains(p)
                 ? true
                 : b;
+
         if ( _mode == DESELECT_MODE )
             return contains(p)
                 ? false
                 : b;
+
         if ( _mode == TOGGLE_MODE )
             return contains(p)
                 ? !b
                 : b;
+
         return false;
     }
 

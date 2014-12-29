@@ -113,18 +113,23 @@ public class KmaGraphFont
     {
         if ( isBold() )
             return false;
+
         if ( isItalic() )
             return false;
+
         return true;
     }
 
     public int getStyle()
     {
         int i = 0;
+
         if ( isBold() )
             i |= Font.BOLD;
+
         if ( isItalic() )
             i |= Font.ITALIC;
+
         return i;
     }
 
@@ -151,6 +156,7 @@ public class KmaGraphFont
     {
         if ( _font == null )
             _font = new Font(getName(), getStyle(), getSize());
+
         return _font;
     }
 }

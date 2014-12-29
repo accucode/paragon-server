@@ -29,37 +29,13 @@ import com.kodemore.utility.Kmu;
 
 /**
  * A utility class to generate the phonetic encoding for a string.
+ *
+ * The default rules are loaded from the resource: phoneticRules.txt.
+ * However, alternate rule sets may be loaded from other sources, or
+ * encoded manually.
  */
 public class KmPhoneticEncoder
 {
-    //##################################################
-    //# static
-    //##################################################
-
-    private static KmPhoneticEncoder _instance;
-
-    public static KmPhoneticEncoder getInstance()
-    {
-        if ( _instance == null )
-        {
-            KmPhoneticEncoder e;
-            e = new KmPhoneticEncoder();
-            e.installDefaultRules();
-            _instance = e;
-        }
-        return _instance;
-    }
-
-    public static void setInstance(KmPhoneticEncoder e)
-    {
-        _instance = e;
-    }
-
-    public static String getPhonetic(String s)
-    {
-        return getInstance().encode(s);
-    }
-
     //##################################################
     //# variables
     //##################################################
@@ -72,8 +48,8 @@ public class KmPhoneticEncoder
 
     public KmPhoneticEncoder()
     {
-        _rules = new KmList<KmPhoneticRule>();
-        installDefaultRules();
+        _rules = new KmList<>();
+        loadDefaultRules();
     }
 
     //##################################################
@@ -164,153 +140,15 @@ public class KmPhoneticEncoder
         _rules = rp.parseResource(path);
     }
 
-    public void installDefaultRules()
+    public void loadDefaultRules()
     {
-        clearRules();
+        String pkg;
+        pkg = getClass().getPackage().getName();
+        pkg = Kmu.replaceAll(pkg, ".", "/");
 
-        // replace y's with i's (except if y is first letter of word).
-        addPrefixRule("y", "%");
-        addRule("y", "i");
-        addPrefixRule("%", "y");
+        String path;
+        path = Kmu.joinFilePath(pkg, "phoneticRules.txt");
 
-        addRule("laugh", "laf"); // laugh
-        addRule("ascis", "ashis"); // fashist
-
-        addPrefixRule("gn", "n"); // gnome
-        addPrefixRule("gh", "g"); // ghost
-        addPrefixRule("jua", "wa"); // juan
-        addPrefixRule("kn", "n"); // know
-        addPrefixRule("pn", "n"); // pneumonia
-        addPrefixRule("ps", "s"); // psycology
-        addPrefixRule("pf", "f"); // pfizer
-        addPrefixRule("rh", "r"); // rhombus
-        addPrefixRule("ts", "s"); // tsunami
-        addPrefixRule("who", "ho"); // whore
-        addPrefixRule("wh", "w"); // whale
-        addPrefixRule("x", "s"); // xerox
-
-        addSuffixRule("ajo", "aho"); // navajo
-        addSuffixRule("cht", "t"); // yacht
-        addSuffixRule("ejo", "eho"); // viejo
-        addSuffixRule("fth", "th"); // fifth
-        addSuffixRule("ght", "t"); // flight
-        addSuffixRule("gn", "n"); // foreign
-        addSuffixRule("gns", "ns"); // aligns
-        addSuffixRule("gned", "nd"); // aligned
-        addSuffixRule("illa", "ia"); // tortilla
-        addSuffixRule("illas", "ias"); // villas
-        addSuffixRule("mb", "m"); // dumb
-        addSuffixRule("mn", "m"); // condemn
-        addSuffixRule("ogh", "o"); // van gogh
-        addSuffixRule("ough", "of"); // enough
-        addSuffixRule("augh", "a"); // limbaugh
-
-        addRule("cce", "kse"); // success
-        addRule("cci", "ksi"); // succinct
-        addRule("ph", "f"); // pharmacy
-        addRule("sce", "se"); // scene
-        addRule("scho", "sko"); // school
-        addRule("sche", "ske"); // schema
-        addRule("sch", "sh"); // busch
-        addRule("sci", "si"); // science
-        addRule("gg", "k"); // egg
-
-        addRule("z", "s");
-        addRule("x", "ks");
-        addRule("q", "k");
-        addRule("v", "f");
-
-        // replace sh with x, unless sh is part of ssh.
-        addRule("ss", "%");
-        addRule("sh", "x");
-        addRule("%", "ss");
-
-        addRule("ck", "k"); // clock
-
-        addRule("aa", "a"); // double letters
-        addRule("bb", "b");
-        addRule("cc", "c");
-        addRule("dd", "d");
-        addRule("ee", "e");
-        addRule("ff", "f");
-        addRule("gg", "g");
-        addRule("hh", "h");
-        addRule("ii", "i");
-        addRule("jj", "j");
-        addRule("kk", "k");
-        addRule("ll", "l");
-        addRule("mm", "m");
-        addRule("nn", "n");
-        addRule("oo", "o");
-        addRule("pp", "p");
-        addRule("qq", "q");
-        addRule("rr", "r");
-        addRule("ss", "s");
-        addRule("tt", "t");
-        addRule("uu", "u");
-        addRule("vv", "v");
-        addRule("ww", "w");
-        addRule("xx", "x");
-        addRule("yy", "y");
-        addRule("zz", "z");
-
-        addRule("cia", "xa"); // official
-        addRule("dge", "je"); // judge
-        addRule("dgi", "ji"); //
-        addRule("gi", "ji"); // gin
-        addRule("ge", "je"); // gender
-        addRule("sia", "xa"); // persian
-        addRule("sio", "xa"); // tension
-        addRule("tch", "x"); // itch
-        addRule("tia", "xa"); // martian
-        addRule("tio", "xo"); // action
-        addRule("th", "z"); // this
-        addRule("ch", "x"); // sandwich
-        addRule("ci", "sa"); // cinder
-        addRule("ce", "sa"); // central
-        addRule("gh", "k"); // spaghetti
-
-        addRule("d", "t");
-        addRule("c", "k");
-        addRule("g", "k");
-
-        addSuffixRule("s", ""); // plurals
-
-        addRule("e", "a");
-        addRule("i", "a");
-        addRule("o", "a");
-        addRule("u", "a");
-
-        // remove h if after a vowel and no vowel follows
-        addRule("ah", "%");
-        addRule("%a", "aha");
-        addRule("%", "a");
-
-        // remove w if not followed by a vowel
-        addRule("w", "%");
-        addRule("%a", "wa");
-        addRule("%", "");
-
-        // remove vowels; keep a leading e if the first letter was a vowel.
-        addRule("a", "e");
-        addPrefixRule("e", "%");
-        addRule("e", "");
-        addPrefixRule("%", "e");
-    }
-
-    //##################################################
-    //# main
-    //##################################################
-
-    public static void main(String args[])
-    {
-        if ( args.length == 0 )
-        {
-            System.out.println("Specify the word to convert.");
-            return;
-        }
-        String s = args[0];
-        System.out.println("Source:  : " + s);
-        System.out.println("Phonic: " + KmPhoneticEncoder.getPhonetic(s));
+        loadRulesFromResource(path);
     }
 }

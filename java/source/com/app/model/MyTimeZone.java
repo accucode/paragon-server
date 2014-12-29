@@ -48,10 +48,10 @@ public enum MyTimeZone
 
     static
     {
-        _values = new KmList<MyTimeZone>();
+        _values = new KmList<>();
         _values.addAll(values());
 
-        _codes = new KmMap<String,MyTimeZone>();
+        _codes = new KmMap<>();
         for ( MyTimeZone e : EnumSet.allOf(MyTimeZone.class) )
             _codes.put(e.getCode(), e);
     }

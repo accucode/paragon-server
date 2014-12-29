@@ -35,7 +35,7 @@ public class MyOverridesReloaderJob
     //##################################################
 
     @Override
-    protected boolean run()
+    protected boolean handle()
     {
         return MyPropertyManager.reloadOverrides();
     }

@@ -127,30 +127,34 @@ public class KmaGraphBounds
     {
         double x = p.getX();
         double y = p.getY();
+
         if ( isUndefined() )
         {
             _left = x;
             _right = x;
             _bottom = y;
             _top = y;
+            return;
         }
-        else
-        {
-            if ( x < _left )
-                _left = x;
-            if ( x > _right )
-                _right = x;
-            if ( y < _bottom )
-                _bottom = y;
-            if ( y > _top )
-                _top = y;
-        }
+
+        if ( x < _left )
+            _left = x;
+
+        if ( x > _right )
+            _right = x;
+
+        if ( y < _bottom )
+            _bottom = y;
+
+        if ( y > _top )
+            _top = y;
     }
 
     public void add(KmaGraphBounds b)
     {
         if ( b.isUndefined() )
             return;
+
         if ( isUndefined() )
         {
             _left = b.getLeft();
@@ -162,10 +166,13 @@ public class KmaGraphBounds
         {
             if ( b.getLeft() < _left )
                 _left = b.getLeft();
+
             if ( b.getRight() > _right )
                 _right = b.getRight();
+
             if ( b.getBottom() < _bottom )
                 _bottom = b.getBottom();
+
             if ( b.getTop() > _top )
                 _top = b.getTop();
         }
@@ -179,16 +186,22 @@ public class KmaGraphBounds
     {
         if ( Double.isNaN(_left) )
             return false;
+
         if ( Double.isNaN(_right) )
             return false;
+
         if ( Double.isNaN(_bottom) )
             return false;
+
         if ( Double.isNaN(_top) )
             return false;
+
         if ( _right < _left )
             return false;
+
         if ( _top < _bottom )
             return false;
+
         return true;
     }
 
@@ -201,16 +214,22 @@ public class KmaGraphBounds
     {
         if ( isUndefined() )
             return false;
+
         double x = p.getX();
         double y = p.getY();
+
         if ( x < _left )
             return false;
+
         if ( x > _right )
             return false;
+
         if ( y < _bottom )
             return false;
+
         if ( y > _top )
             return false;
+
         return true;
     }
 

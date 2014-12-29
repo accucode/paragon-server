@@ -56,10 +56,10 @@ public class MyBarcodeTestPage
         root.css().gap();
 
         ScGroup group;
-        group = root.addGroup();
+        group = root.addGroup("Barcode Test");
 
         ScBox body;
-        body = group.addPad();
+        body = group.getBody().addPad();
 
         body.addText("Below is a code39 barcode that contains (valid entry): '" + VALID_CODE + "'");
 

@@ -22,7 +22,7 @@ public class KmTwoKeyMap<K1, K2, V>
 
     public KmTwoKeyMap()
     {
-        _values = new HashMap<K1,Map<K2,V>>();
+        _values = new HashMap<>();
     }
 
     //##################################################
@@ -45,7 +45,7 @@ public class KmTwoKeyMap<K1, K2, V>
 
         if ( map == null )
         {
-            map = new HashMap<K2,V>();
+            map = new HashMap<>();
             _values.put(key1, map);
         }
 
@@ -100,7 +100,7 @@ public class KmTwoKeyMap<K1, K2, V>
         Set<K1> set = _values.keySet();
 
         KmList<K1> v;
-        v = new KmList<K1>();
+        v = new KmList<>();
         v.addAll(set);
         return v;
     }

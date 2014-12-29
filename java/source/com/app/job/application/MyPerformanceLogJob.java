@@ -39,7 +39,7 @@ public class MyPerformanceLogJob
     //##################################################
 
     @Override
-    protected boolean run()
+    protected boolean handle()
     {
         KmList<MyPerformanceLog> v = MyPerformanceLogRegistry.pop();
         if ( v.isEmpty() )

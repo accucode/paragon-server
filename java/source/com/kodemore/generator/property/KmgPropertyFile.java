@@ -23,8 +23,8 @@ public class KmgPropertyFile
     public KmgPropertyFile(KmgElement parent)
     {
         super(parent);
-        _groups = new KmList<KmgPropertyGroup>();
-        _validFlags = new KmList<String>();
+        _groups = new KmList<>();
+        _validFlags = new KmList<>();
     }
 
     //##################################################
@@ -82,7 +82,7 @@ public class KmgPropertyFile
     @Override
     public void validate()
     {
-        KmList<String> names = new KmList<String>();
+        KmList<String> names = new KmList<>();
 
         KmList<KmgProperty> all = getAll();
         for ( KmgProperty e : all )
@@ -101,7 +101,7 @@ public class KmgPropertyFile
 
     private KmList<KmgProperty> getAll()
     {
-        KmList<KmgProperty> v = new KmList<KmgProperty>();
+        KmList<KmgProperty> v = new KmList<>();
         for ( KmgPropertyGroup g : _groups )
             v.addAll(g.getProperties());
         return v;

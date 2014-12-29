@@ -1,10 +1,9 @@
 package com.app.ui.control;
 
-import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.action.ScActions;
 import com.kodemore.servlet.control.ScDialog;
 
 import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MyProject;
 import com.app.property.MyPropertyRegistry;
 import com.app.utility.MyGlobals;
 
@@ -25,8 +24,13 @@ public class MyDialog
         return MyGlobals.getProperties();
     }
 
-    protected ScActionIF getCloseDialogAction()
+    protected void flushDao()
     {
-        return ScActions.getInstance().getCloseDialogAction();
+        MyGlobals.getDaoSession().flush();
+    }
+
+    protected MyProject getCurrentProject()
+    {
+        return MyGlobals.getServerSession().getCurrentProject();
     }
 }

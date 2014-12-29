@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import com.kodemore.utility.Kmu;
 
-@SuppressWarnings("unused")
 public class JkRegex
 {
     public static void main(String[] args)
@@ -21,7 +20,7 @@ public class JkRegex
         // testGroup();
     }
 
-    private void test()
+    protected void test()
     {
         String source;
         source = "a-bbb";
@@ -39,7 +38,7 @@ public class JkRegex
         System.out.println("    matches: " + matches);
     }
 
-    private void testGroup()
+    protected void testGroup()
     {
         String source;
         source = "abc---defg---hi";
@@ -66,7 +65,7 @@ public class JkRegex
         }
     }
 
-    private void testLog()
+    protected void testLog()
     {
         String regex;
 
@@ -100,7 +99,7 @@ public class JkRegex
         System.out.println("    group: " + group);
     }
 
-    private void testPath()
+    protected void testPath()
     {
         // Kmu.matchesPathPattern(path, pattern);
 

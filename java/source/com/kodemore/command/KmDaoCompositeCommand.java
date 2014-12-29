@@ -17,7 +17,7 @@ public class KmDaoCompositeCommand
 
     public KmDaoCompositeCommand()
     {
-        _list = new KmList<KmCommand>();
+        _list = new KmList<>();
     }
 
     //##################################################
@@ -51,7 +51,7 @@ public class KmDaoCompositeCommand
         if ( cmds.isEmpty() )
             return null;
 
-        KmList<String> locks = new KmList<String>();
+        KmList<String> locks = new KmList<>();
         for ( KmDaoCommand e : cmds )
             locks.addDistinct(e.getLockKey());
 
@@ -85,6 +85,7 @@ public class KmDaoCompositeCommand
         int i = v.getFirst().getLockRetryCount();
         for ( KmDaoCommand e : v )
             i = Math.min(i, e.getLockRetryCount());
+
         return i;
     }
 
@@ -98,6 +99,7 @@ public class KmDaoCompositeCommand
         int i = v.getFirst().getLockRetryDelayMs();
         for ( KmDaoCommand e : v )
             i = Math.min(i, e.getLockRetryDelayMs());
+
         return i;
     }
 
@@ -107,19 +109,21 @@ public class KmDaoCompositeCommand
 
     public KmList<KmDaoCommand> getDaoCommands()
     {
-        KmList<KmDaoCommand> v = new KmList<KmDaoCommand>();
+        KmList<KmDaoCommand> v = new KmList<>();
         for ( KmCommand e : _list )
             if ( e instanceof KmDaoCommand )
                 v.add((KmDaoCommand)e);
+
         return v;
     }
 
     public KmList<KmDaoCommand> getLockCommands()
     {
-        KmList<KmDaoCommand> v = new KmList<KmDaoCommand>();
+        KmList<KmDaoCommand> v = new KmList<>();
         for ( KmDaoCommand e : getDaoCommands() )
             if ( e.requiresLock() )
                 v.add(e);
+
         return v;
     }
 }

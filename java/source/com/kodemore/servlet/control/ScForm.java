@@ -28,6 +28,9 @@ import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
+import com.kodemore.servlet.script.ScBlockScript;
+import com.kodemore.servlet.script.ScScriptIF;
+import com.kodemore.servlet.script.ScSimpleBlockScript;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalHtmlId;
 import com.kodemore.servlet.variable.ScLocalObject;
@@ -93,6 +96,11 @@ public class ScForm
     public void setSubmitAction(ScActionIF e)
     {
         _submitAction = e;
+    }
+
+    public void clearSubmitAction()
+    {
+        setSubmitAction(null);
     }
 
     public boolean hasSubmitAction()
@@ -222,6 +230,42 @@ public class ScForm
     public boolean isForm()
     {
         return true;
+    }
+
+    //##################################################
+    //# ajax
+    //##################################################
+
+    public void ajaxOnSubmitDoNothing()
+    {
+        ajax().setAttribute("onsubmit", "return false;");
+    }
+
+    public void ajaxOnSubmit(ScScriptIF script)
+    {
+        if ( script == null )
+        {
+            ajaxOnSubmitDoNothing();
+            return;
+        }
+
+        ajax().setAttribute("onsubmit", script.formatScript());
+    }
+
+    public void ajaxOnSubmit(ScActionIF action)
+    {
+        if ( action == null )
+        {
+            ajaxOnSubmitDoNothing();
+            return;
+        }
+
+        ScBlockScript e;
+        e = new ScSimpleBlockScript();
+        e.run(action, this);
+        e.returnFalse();
+
+        ajaxOnSubmit(e);
     }
 
 }

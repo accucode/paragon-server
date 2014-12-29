@@ -49,6 +49,12 @@ public class MyMetaNamedCountVo_Name
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The display name.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

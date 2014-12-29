@@ -22,7 +22,7 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyAutoSignInJunction
-    extends KmModelJunction<MyAutoSignIn>
+    extends KmModelJunction
     implements MyAutoSignInDaoConstantsIF
 {
     //##################################################
@@ -50,12 +50,12 @@ public class MyAutoSignInJunction
 
     public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(CREATED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmPropertyCriteria<KmTimestamp> whereLastTouchedUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(LAST_TOUCHED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(LAST_TOUCHED_UTC_TS));
     }
 
     public KmIntegerCriteria whereLockVersion()

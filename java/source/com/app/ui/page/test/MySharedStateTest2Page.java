@@ -53,14 +53,14 @@ public class MySharedStateTest2Page
         group.css().width400();
 
         ScBox body;
-        body = group.addPad();
+        body = group.getBody().addPad();
         body.addParagraph("Test the page session.");
         body.addBreak();
 
-        group.addDivider();
+        group.addBodyDivider();
 
         ScBox footer;
-        footer = group.addButtonBoxLeft();
+        footer = group.getBody().addButtonBox();
         footer.addButton("red", newRedAction());
         footer.addButton("blue", newBlueAction());
         footer.addButton("toast", newToastAction());

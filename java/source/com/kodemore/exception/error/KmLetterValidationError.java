@@ -39,9 +39,9 @@ public class KmLetterValidationError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append("may only contain letters.");
+        out.append("may only contain letters.");
     }
 
 }

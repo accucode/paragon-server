@@ -4,6 +4,7 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -63,11 +64,14 @@ public class MyFormTestPage
 
         ScGroup group;
         group = form.addGroup("Form Test");
-        group.layoutNormalWithFooter();
-        group.addPad().addFields().add(_textField);
+        group.getBody().addPad().addFieldTable().add(_textField);
+
+        ScDiv footer;
+        footer = group.getFooter();
+        footer.show();
 
         ScBox buttons;
-        buttons = group.getFooter().addButtonBox();
+        buttons = footer.addButtonBox();
         buttons.addSubmitButton();
     }
 

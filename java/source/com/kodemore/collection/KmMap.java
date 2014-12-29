@@ -55,7 +55,7 @@ public class KmMap<K, V>
 
     public KmList<K> getKeys()
     {
-        KmList<K> v = new KmList<K>();
+        KmList<K> v = new KmList<>();
         v.addAll(keySet());
         return v;
     }
@@ -71,17 +71,19 @@ public class KmMap<K, V>
     public KmList<V> getValues()
     {
         KmList<V> v;
-        v = new KmList<V>();
+        v = new KmList<>();
         v.addAll(values());
         return v;
     }
 
     public KmList<K> getKeysFor(V value)
     {
-        KmList<K> keys = new KmList<K>();
+        KmList<K> keys = new KmList<>();
+
         for ( K key : getKeys() )
             if ( Kmu.isEqual(get(key), value) )
                 keys.add(key);
+
         return keys;
     }
 
@@ -100,22 +102,27 @@ public class KmMap<K, V>
     {
         if ( isEmpty() )
             return null;
+
         return get(keySet().iterator().next());
     }
 
     public KmMap<K,V> getShallowCopy()
     {
-        KmMap<K,V> m = new KmMap<K,V>();
+        KmMap<K,V> m = new KmMap<>();
+
         for ( Entry<K,V> e : entrySet() )
             m.put(e.getKey(), e.getValue());
+
         return m;
     }
 
     public KmList<KmAssociation<K,V>> getAssociations()
     {
-        KmList<KmAssociation<K,V>> v = new KmList<KmAssociation<K,V>>();
+        KmList<KmAssociation<K,V>> v = new KmList<>();
+
         for ( Map.Entry<K,V> e : entrySet() )
-            v.add(new KmAssociation<K,V>(e.getKey(), e.getValue()));
+            v.add(new KmAssociation<>(e.getKey(), e.getValue()));
+
         return v;
     }
 
@@ -146,8 +153,10 @@ public class KmMap<K, V>
     public int getMaximumKeyLength()
     {
         int n = 0;
+
         for ( K k : getKeys() )
             n = Math.max(n, formatKey(k).length());
+
         return n;
     }
 

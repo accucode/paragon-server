@@ -22,13 +22,19 @@ A file. A record of files managed on the file system.<br>
 <table cellspacing=0 cellpadding=3 border=1>
 <tr>
   <th>Attribute</th>
-  <th>Comment</th>
+  <th>Help / Comment</th>
   <th>Format</th>
   <th>Attributes</th>
 </tr>
 <tr>
   <td>id&nbsp;</td>
-  <td>The unique key.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The globally unique identifier.  This is a big ugly number and is generally not displayed.<br>
+            &nbsp;
+  </td>
+  
   <td>id
               </td>
   <td>
@@ -37,7 +43,13 @@ A file. A record of files managed on the file system.<br>
 </tr>
 <tr>
   <td>name&nbsp;</td>
-  <td>A record of the file's original name. The name on our system is different. This may be initially unknown (null).&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        A file's ORIGINAL name. The name on our system is different. This may be initially unknown (null).<br>
+            &nbsp;
+  </td>
+  
   <td>text100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -49,7 +61,13 @@ A file. A record of files managed on the file system.<br>
 </tr>
 <tr>
   <td>path&nbsp;</td>
-  <td>The local path to the file. This is not the full file system path, but rather the relative path based on the root directory that contains persistent files.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The local path to the file. This is not the full file system path, but rather the relative path based on the root directory that contains persistent files.<br>
+            &nbsp;
+  </td>
+  
   <td>text100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -61,7 +79,13 @@ A file. A record of files managed on the file system.<br>
 </tr>
 <tr>
   <td>createdUtcTs&nbsp;</td>
-  <td>The time when the file was created (in our system).&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the file was created (in our system).<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -70,7 +94,13 @@ A file. A record of files managed on the file system.<br>
 </tr>
 <tr>
   <td>statusCode&nbsp;</td>
-  <td>The status of the file. New: being created, should not use yet. Ready: Available for use; should not not edit. Deleted: The file has been deleted from the file system.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The status of the file. New: being created, should not use yet. Ready: Available for use; should not not edit. Deleted: The file has been deleted from the file system.<br>
+            &nbsp;
+  </td>
+  
   <td>letterCode
         <br><nobr>max length: 1</nobr>           <br>allows(
                       letters
@@ -82,7 +112,13 @@ A file. A record of files managed on the file system.<br>
 </tr>
 <tr>
   <td>size&nbsp;</td>
-  <td>The size of the file (in bytes).&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The size of the file (in bytes).<br>
+            &nbsp;
+  </td>
+  
   <td>integer
               </td>
   <td>
@@ -91,7 +127,13 @@ A file. A record of files managed on the file system.<br>
 </tr>
 <tr>
   <td>partialSize&nbsp;</td>
-  <td>This may be used to monitor file creation status. E.g.: for web uploads.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This is only used when coordinating an asynchronous file upload.  Once the file is fully uploaded (and available) this can be ignored.<br>
+            &nbsp;
+  </td>
+  
   <td>integer
               </td>
   <td>
@@ -100,7 +142,13 @@ A file. A record of files managed on the file system.<br>
 </tr>
 <tr>
   <td>lockVersion&nbsp;</td>
-  <td>Used for optimistic locking.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
+            &nbsp;
+  </td>
+  
   <td>lockVersion
               </td>
   <td>
@@ -109,9 +157,15 @@ A file. A record of files managed on the file system.<br>
 </tr>
 <tr>
   <td>statusName&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The status of the file. New: being created, should not use yet. Ready: Available for use; should not not edit. Deleted: The file has been deleted from the file system.<br>
+            &nbsp;
+  </td>
+  
   <td>name
-        <br><nobr>max length: 30</nobr>           <br>allows(
+        <br><nobr>max length: 50</nobr>           <br>allows(
                       printable
             )
       </td>
@@ -121,7 +175,13 @@ A file. A record of files managed on the file system.<br>
 </tr>
 <tr>
   <td>createdLocalTs&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the file was created (in our system).<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -130,7 +190,13 @@ A file. A record of files managed on the file system.<br>
 </tr>
 <tr>
   <td>createdLocalTsMessage&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the file was created (in our system).<br>
+            &nbsp;
+  </td>
+  
   <td>text100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -142,7 +208,13 @@ A file. A record of files managed on the file system.<br>
 </tr>
 <tr>
   <td>createdLocalDate&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the file was created (in our system).<br>
+            &nbsp;
+  </td>
+  
   <td>date
               </td>
   <td>
@@ -151,7 +223,13 @@ A file. A record of files managed on the file system.<br>
 </tr>
 <tr>
   <td>createdLocalTime&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the file was created (in our system).<br>
+            &nbsp;
+  </td>
+  
   <td>time
               </td>
   <td>

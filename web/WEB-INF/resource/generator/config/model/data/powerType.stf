@@ -1,0 +1,41 @@
+model
+: name      = powerType
+: help...
+    ===
+    Power types are used help coordinate hardware adapters, primarily for
+    international orders. For example, a typical switch may be designed to
+    work with typical U.S. power 120V-60Hz, but when we sell it overseas we
+    may need to include an adapter for 220V-50Hz.
+    === 
+
+database
+: alias = pt
+
+    index
+    : name      = projectName
+    : unique    = false
+    : on        = project
+    : on        = name
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The globally unique identifier.  This is a big ugly number and is generally not displayed.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    association
+    : name      = project
+    : help      = The project to which this power type belongs.
+    : modelName = project
+    : relation  = parent
+    : required  = true
+
+    field
+    : name      = name
+    : help      = The display name.
+    : type      = name
+    : required  = required

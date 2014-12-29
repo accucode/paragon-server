@@ -16,19 +16,25 @@
 <body>
 <h1>serverSession</h1>
 
-Server sessions are used in place of the Virtual Http Session. This allow for a user session to be served by multiple web server machines. The session is created as early as possible, even before the user actually logs in.<br>
+${model.f_comment}<br>
 <br>
 
 <table cellspacing=0 cellpadding=3 border=1>
 <tr>
   <th>Attribute</th>
-  <th>Comment</th>
+  <th>Help / Comment</th>
   <th>Format</th>
   <th>Attributes</th>
 </tr>
 <tr>
   <td>uid&nbsp;</td>
-  <td>The unique key.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The globally unique identifier.  This is a big ugly number and is generally not displayed.<br>
+            &nbsp;
+  </td>
+  
   <td>uid
         <br><nobr>max length: 30</nobr>           <br>allows(
                       printable
@@ -40,7 +46,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>active&nbsp;</td>
-  <td>Is the session currently active.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This indicates if the session is currently active, or if it has expired.<br>
+            &nbsp;
+  </td>
+  
   <td>boolean
               </td>
   <td>
@@ -49,7 +61,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>createdUtcTs&nbsp;</td>
-  <td>When was the session created.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was created.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -58,7 +76,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>closedUtcTs&nbsp;</td>
-  <td>Is the session current active.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was closed.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -67,7 +91,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>lastTouchedUtcTs&nbsp;</td>
-  <td>The last time the session was touched. Used to support automatic timeouts.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was last touched. Used to support automatic timeouts.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -76,9 +106,15 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>version&nbsp;</td>
-  <td>The application version. The server session is only valid if its version matches the application's current version. This is used to catch stale sessions when the application is upgraded.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The application version. The server session is only valid if its version matches the application's current version. This is used to catch stale sessions when the application is upgraded.<br>
+            &nbsp;
+  </td>
+  
   <td>name
-        <br><nobr>max length: 30</nobr>           <br>allows(
+        <br><nobr>max length: 50</nobr>           <br>allows(
                       printable
             )
       </td>
@@ -88,7 +124,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>lockVersion&nbsp;</td>
-  <td>Used for optimistic locking.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
+            &nbsp;
+  </td>
+  
   <td>lockVersion
               </td>
   <td>
@@ -97,7 +139,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>createdLocalTs&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was created.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -106,7 +154,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>createdLocalTsMessage&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was created.<br>
+            &nbsp;
+  </td>
+  
   <td>text100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -118,7 +172,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>createdLocalDate&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was created.<br>
+            &nbsp;
+  </td>
+  
   <td>date
               </td>
   <td>
@@ -127,7 +187,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>createdLocalTime&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was created.<br>
+            &nbsp;
+  </td>
+  
   <td>time
               </td>
   <td>
@@ -136,7 +202,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>closedLocalTs&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was closed.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -145,7 +217,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>closedLocalTsMessage&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was closed.<br>
+            &nbsp;
+  </td>
+  
   <td>text100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -157,7 +235,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>closedLocalDate&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was closed.<br>
+            &nbsp;
+  </td>
+  
   <td>date
               </td>
   <td>
@@ -166,7 +250,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>closedLocalTime&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was closed.<br>
+            &nbsp;
+  </td>
+  
   <td>time
               </td>
   <td>
@@ -175,7 +265,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>lastTouchedLocalTs&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was last touched. Used to support automatic timeouts.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -184,7 +280,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>lastTouchedLocalTsMessage&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was last touched. Used to support automatic timeouts.<br>
+            &nbsp;
+  </td>
+  
   <td>text100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -196,7 +298,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>lastTouchedLocalDate&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was last touched. Used to support automatic timeouts.<br>
+            &nbsp;
+  </td>
+  
   <td>date
               </td>
   <td>
@@ -205,7 +313,13 @@ Server sessions are used in place of the Virtual Http Session. This allow for a 
 </tr>
 <tr>
   <td>lastTouchedLocalTime&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time when the session was last touched. Used to support automatic timeouts.<br>
+            &nbsp;
+  </td>
+  
   <td>time
               </td>
   <td>

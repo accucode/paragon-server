@@ -164,6 +164,9 @@ public abstract class KmDaoCursor<T>
      */
     protected abstract KmList<T> getNextBatch();
 
+    /**
+     * @param e unused, but defined for subclass overrides.
+     */
     protected boolean passes(T e)
     {
         return true;

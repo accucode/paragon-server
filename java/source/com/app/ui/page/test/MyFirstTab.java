@@ -30,6 +30,6 @@ public class MyFirstTab
         ScGroup group;
         group = root.addGroup();
         group.setTitle("bbb");
-        group.addPad().addText("first test group");
+        group.getBody().addPad().addText("first test group");
     }
 }

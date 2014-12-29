@@ -83,7 +83,7 @@ public class KmDoubleLinkedList<E>
 
     public KmDoubleLinkedNode<E> addLast(E value)
     {
-        KmDoubleLinkedNode<E> o = new KmDoubleLinkedNode<E>(value);
+        KmDoubleLinkedNode<E> o = new KmDoubleLinkedNode<>(value);
         return addLast(o);
     }
 
@@ -105,11 +105,13 @@ public class KmDoubleLinkedList<E>
     {
         if ( _first == null )
             _first = o;
+
         if ( _last != null )
         {
             _last.setNext(o);
             o.setPrevious(_last);
         }
+
         _last = o;
         _count++;
         return o;

@@ -37,7 +37,7 @@ public abstract class MyUserActivationToolsBase
     public ScDomainDropdownField<MyUserActivation,String> newDomainDropdown()
     {
         ScDomainDropdownField<MyUserActivation,String> e;
-        e = new ScDomainDropdownField<MyUserActivation,String>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyUserActivationFilter());
         e.setFinder(new MyUserActivationFinder());

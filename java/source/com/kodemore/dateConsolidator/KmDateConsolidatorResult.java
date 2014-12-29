@@ -172,7 +172,7 @@ public class KmDateConsolidatorResult
     public static KmComparator<KmDateConsolidatorResult> getCategoryDateComparator()
     {
         KmCompositeComparator<KmDateConsolidatorResult> c;
-        c = new KmCompositeComparator<KmDateConsolidatorResult>();
+        c = new KmCompositeComparator<>();
         c.add(getCategoryComparator());
         c.add(getStartDateComparator());
         return c;

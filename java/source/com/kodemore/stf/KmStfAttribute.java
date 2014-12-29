@@ -99,8 +99,8 @@ public class KmStfAttribute
     public KmList<String> getValueLines()
     {
         if ( !hasValue() )
-            return new KmList<String>();
+            return new KmList<>();
 
-        return Kmu.getLines(getValue());
+        return Kmu.parseLines(getValue());
     }
 }

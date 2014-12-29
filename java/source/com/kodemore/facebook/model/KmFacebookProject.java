@@ -146,7 +146,7 @@ public class KmFacebookProject
     public static KmList<KmFacebookProject> createListWith(KmJsonArray arr)
     {
         KmList<KmFacebookProject> v;
-        v = new KmList<KmFacebookProject>();
+        v = new KmList<>();
 
         int n = arr.size();
         for ( int i = 0; i < n; i++ )

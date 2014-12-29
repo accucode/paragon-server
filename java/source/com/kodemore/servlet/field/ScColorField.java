@@ -207,7 +207,7 @@ public class ScColorField
         if ( !hasValidator() )
             return true;
 
-        KmList<KmErrorIF> errors = new KmList<KmErrorIF>();
+        KmList<KmErrorIF> errors = new KmList<>();
         _validator.validateOnly(getValue(), errors);
         if ( errors.isNotEmpty() )
         {

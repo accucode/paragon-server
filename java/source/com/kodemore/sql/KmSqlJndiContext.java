@@ -59,7 +59,7 @@ public class KmSqlJndiContext
         {
             if ( _initialContext == null )
             {
-                Hashtable<String,String> m = new Hashtable<String,String>();
+                Hashtable<String,String> m = new Hashtable<>();
                 m.put(Context.INITIAL_CONTEXT_FACTORY, initialContextFactory);
                 m.put(Context.PROVIDER_URL, providerUrl);
                 _initialContext = new InitialContext(m);

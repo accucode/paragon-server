@@ -151,9 +151,7 @@ public class KmDateUtility
         if ( fromDate.getOrdinal() >= toDate.getOrdinal() )
             return new int[]
             {
-                0,
-                0,
-                0
+                0, 0, 0
             };
 
         int fromYear = fromDate.getYear();
@@ -187,9 +185,7 @@ public class KmDateUtility
         }
         return new int[]
         {
-            diffYears,
-            diffMonths,
-            diffDays
+            diffYears, diffMonths, diffDays
         };
     }
 

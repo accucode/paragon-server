@@ -35,6 +35,11 @@ public class KmgModelField
     private String                 _comment;
 
     /**
+     * The help text, suitable for display to users.
+     */
+    private String                 _help;
+
+    /**
      * The data type.  All data types are defined in the types.stf file.
      */
     private KmgModelType           _type;
@@ -123,7 +128,7 @@ public class KmgModelField
     public KmgModelField(KmgElement parent)
     {
         super(parent);
-        _onChangeMethods = new KmList<String>();
+        _onChangeMethods = new KmList<>();
     }
 
     //##################################################
@@ -171,6 +176,27 @@ public class KmgModelField
     public void setComment(String e)
     {
         _comment = e;
+    }
+
+    public boolean hasComment()
+    {
+        return Kmu.hasValue(getComment());
+    }
+
+    @Override
+    public String getHelp()
+    {
+        return _help;
+    }
+
+    public void setHelp(String e)
+    {
+        _help = e;
+    }
+
+    public boolean hasHelp()
+    {
+        return Kmu.hasValue(getHelp());
     }
 
     @Override
@@ -464,9 +490,28 @@ public class KmgModelField
     @Override
     public void parse(KmStfElement x)
     {
+        checkAttributeKeys(
+            x,
+            "name",
+            "label",
+            "help",
+            "comment",
+            "primaryKey",
+            "identity",
+            "unique",
+            "required",
+            "available",
+            "singleton",
+            "default",
+            "getter",
+            "type");
+
+        checkChildrenNames(x, "enum", "dependsOn");
+
         _name = parseRequiredNameAttribute(x);
         _label = parseString(x, "label", null);
-        _comment = parseRequiredString(x, "comment");
+        _help = parseString(x, "help", null);
+        _comment = parseString(x, "comment", null);
         _primaryKey = parseBoolean(x, "primaryKey");
         _identity = parseBoolean(x, "identity");
         _unique = parseBoolean(x, "unique");
@@ -620,6 +665,11 @@ public class KmgModelField
         return getComment();
     }
 
+    public String getf_help()
+    {
+        return Kmu.escapeJavaString(getHelp());
+    }
+
     public String getf_sqlType()
     {
         return getProtoType().getDatabaseType(getType());
@@ -638,6 +688,11 @@ public class KmgModelField
     public String getf_CriteriaClass()
     {
         return getProtoType().format_CriteriaClass();
+    }
+
+    public String getf_CriteriaClass_NoGeneric()
+    {
+        return getProtoType().format_CriteriaClass_NoGeneric();
     }
 
     //##################################################

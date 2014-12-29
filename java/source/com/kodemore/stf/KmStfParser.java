@@ -115,9 +115,9 @@ public class KmStfParser
     public KmStfParser()
     {
         _tabSpaces = 4;
-        _singleLineCommentsPatterns = new KmList<String>();
-        _multiLineCommentPatterns = new KmMap<String,String>();
-        _shortcuts = new KmList<KmStfShortcut>();
+        _singleLineCommentsPatterns = new KmList<>();
+        _multiLineCommentPatterns = new KmMap<>();
+        _shortcuts = new KmList<>();
 
         installDefaults();
     }
@@ -190,7 +190,7 @@ public class KmStfParser
 
     public KmList<KmStfShortcut> getPrefixShortcuts()
     {
-        KmList<KmStfShortcut> v = new KmList<KmStfShortcut>();
+        KmList<KmStfShortcut> v = new KmList<>();
 
         for ( KmStfShortcut e : getShortcuts() )
             if ( e.hasArgumentPrefix() )
@@ -829,9 +829,9 @@ public class KmStfParser
 
     private void initLines()
     {
-        _lines = new KmList<String>();
+        _lines = new KmList<>();
 
-        KmList<String> v = Kmu.getLines(_source);
+        KmList<String> v = Kmu.parseLines(_source);
         for ( String e : v )
             _lines.add(normalizeLine(e));
     }
@@ -848,7 +848,7 @@ public class KmStfParser
 
     private KmList<String> normalizeLines(KmList<String> in)
     {
-        KmList<String> out = new KmList<String>();
+        KmList<String> out = new KmList<>();
 
         for ( String e : in )
             out.add(normalizeLine(e));

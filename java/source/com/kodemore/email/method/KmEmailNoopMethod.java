@@ -34,7 +34,7 @@ public class KmEmailNoopMethod
     @Override
     public KmList<KmEmailResult> send(List<KmEmailIF> emails)
     {
-        KmList<KmEmailResult> v = new KmList<KmEmailResult>();
+        KmList<KmEmailResult> v = new KmList<>();
 
         for ( KmEmailIF e : emails )
             v.add(_send(e));

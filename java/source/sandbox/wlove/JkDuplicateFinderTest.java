@@ -20,7 +20,7 @@ public class JkDuplicateFinderTest
 
     private void run()
     {
-        KmList<String> v = Kmu.readTextFileLines("C:/Temp/Code.txt");
+        KmList<String> v = Kmu.readFileLines("C:/Temp/Code.txt");
         KmList<String> dups = v.getDuplicates();
         if ( dups.isEmpty() )
             System.out.println("no duplicates");

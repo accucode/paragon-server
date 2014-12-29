@@ -32,15 +32,15 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I provide a wrapper for working with url parameters.
- * 
- * A given key will typically only have a single value, but 
- * urls do allow for multiple values and this is occasionally 
+ *
+ * A given key will typically only have a single value, but
+ * urls do allow for multiple values and this is occasionally
  * useful.  For example, with multi-selection lists.
- * 
+ *
  * I support multiple values per key, but also provide conenience
  * methods for the far more common situation where each key is
  * expected to have only a single value.
- * 
+ *
  * Convenience methods are also provided to convert to and from
  * url query strings.
  */
@@ -70,7 +70,7 @@ public class ScParameterList
 
     public ScParameterList()
     {
-        _map = new KmMap<String,KmList<String>>();
+        _map = new KmMap<>();
     }
 
     //##################################################
@@ -133,6 +133,11 @@ public class ScParameterList
         _map.put(key, v);
     }
 
+    public boolean hasValue(String key)
+    {
+        return Kmu.hasValue(getValue(key));
+    }
+
     //##################################################
     //# multi values
     //##################################################
@@ -140,20 +145,20 @@ public class ScParameterList
     public KmList<String> getValues(String key)
     {
         if ( !hasKey(key) )
-            return new KmList<String>();
+            return new KmList<>();
 
         KmList<String> v;
-        v = new KmList<String>();
+        v = new KmList<>();
         v.addAll(_map.get(key));
         return v;
     }
 
     public void addValue(String key, String value)
     {
-        KmList<String> v = _map.get(value);
+        KmList<String> v = _map.get(key);
         if ( v == null )
         {
-            v = new KmList<String>();
+            v = new KmList<>();
             _map.put(key, v);
         }
         v.add(value);
@@ -182,7 +187,7 @@ public class ScParameterList
 
     public KmMap<String,String> getMap()
     {
-        KmMap<String,String> m = new KmMap<String,String>();
+        KmMap<String,String> m = new KmMap<>();
 
         KmList<String> keys = getKeys();
         for ( String key : keys )
@@ -259,5 +264,16 @@ public class ScParameterList
 
         out.removeSuffix("&");
         return out.toString();
+    }
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    public void print()
+    {
+        KmList<String> keys = getKeys();
+        for ( String key : keys )
+            System.out.printf("    %s => %s\n", key, getValue(key));
     }
 }

@@ -49,6 +49,12 @@ public class MyMetaPerformanceLog_CreatedLocalTs
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The approximate date and time when the task was run. In practice this will be very close to when the task ended but may lag a few milliseconds.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 16;

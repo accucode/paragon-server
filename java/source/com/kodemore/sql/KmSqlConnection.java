@@ -59,7 +59,7 @@ public class KmSqlConnection
         _pool = null;
         _name = null;
         _adaptor = null;
-        _openStatements = new KmList<KmSqlStatementWrapper>();
+        _openStatements = new KmList<>();
     }
 
     //##################################################

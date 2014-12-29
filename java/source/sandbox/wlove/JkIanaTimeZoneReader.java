@@ -1,18 +1,17 @@
 package sandbox.wlove;
 
-import com.app.utility.MyInstaller;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
 import com.kodemore.file.KmFileRoot;
 import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
 
+import com.app.utility.MyInstaller;
+
 /**
  * Reads Iana time zone data files from:
  * http://www.iana.org/time-zones
  */
-@SuppressWarnings("unused")
 public class JkIanaTimeZoneReader
     implements KmConstantsIF
 {
@@ -32,8 +31,8 @@ public class JkIanaTimeZoneReader
     private KmList<String> _lines;
     private int            _index;
 
-    private KmList<Rule>   _rules = new KmList<JkIanaTimeZoneReader.Rule>();
-    private KmList<Zone>   _zones = new KmList<JkIanaTimeZoneReader.Zone>();
+    private KmList<Rule>   _rules = new KmList<>();
+    private KmList<Zone>   _zones = new KmList<>();
 
     //##################################################
     //# run
@@ -67,7 +66,7 @@ public class JkIanaTimeZoneReader
     {
         String source = getSource();
 
-        _lines = Kmu.getLines(source);
+        _lines = Kmu.parseLines(source);
         firstLine();
 
         while ( !eof() )
@@ -291,7 +290,7 @@ public class JkIanaTimeZoneReader
         printZones();
     }
 
-    private void printRules()
+    public void printRules()
     {
         System.out.println();
         System.out.println("Rules");
@@ -323,7 +322,7 @@ public class JkIanaTimeZoneReader
     //# rule
     //##################################################
 
-    private class Rule
+    public class Rule
     {
         String name;
         String fromYear;
@@ -335,7 +334,7 @@ public class JkIanaTimeZoneReader
         String save;
     }
 
-    private class Zone
+    public class Zone
     {
         String name;
         String country;

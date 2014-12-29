@@ -18,14 +18,14 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.awt;
 
 import javax.swing.AbstractListModel;
 
-public abstract class KmaListModel
-    extends AbstractListModel
+public abstract class KmaListModel<E>
+    extends AbstractListModel<E>
 {
     //##################################################
     //# abstract
@@ -35,7 +35,7 @@ public abstract class KmaListModel
     public abstract int getSize();
 
     @Override
-    public abstract Object getElementAt(int i);
+    public abstract E getElementAt(int i);
 
     //##################################################
     //# event notification

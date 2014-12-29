@@ -35,14 +35,17 @@ public abstract class KmaGridAbstractSizeModel
     {
         int z = getCellGap();
         int n = 0;
+
         while ( i < j )
         {
             n += getSizeAt(i);
             if ( n >= bounds )
                 break;
+
             n += z;
             i++;
         }
+
         return i;
     }
 
@@ -52,18 +55,23 @@ public abstract class KmaGridAbstractSizeModel
         int z = i;
         int n = 0;
         int dn = getCellGap();
+
         while ( i < j )
         {
             n += getSizeAt(i);
             if ( n >= bounds )
                 break;
+
             n += dn;
             i++;
         }
+
         if ( n > bounds )
             i--;
+
         if ( i < z )
             return -1;
+
         return i;
     }
 
@@ -71,11 +79,13 @@ public abstract class KmaGridAbstractSizeModel
     public int getRangeSize(int i, int j)
     {
         int n = 0;
+
         while ( i <= j )
         {
             n += getSizeAt(i);
             i++;
         }
+
         return n;
     }
 

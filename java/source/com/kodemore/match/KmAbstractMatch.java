@@ -28,6 +28,6 @@ public abstract class KmAbstractMatch<T>
     @Override
     public KmMatchIF<T> not()
     {
-        return new KmNegativeMatch<T>(this);
+        return new KmNegativeMatch<>(this);
     }
 }

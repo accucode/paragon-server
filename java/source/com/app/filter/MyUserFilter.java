@@ -5,7 +5,6 @@ import com.kodemore.utility.KmNamedEnumIF;
 import com.app.criteria.MyUserCriteria;
 import com.app.criteria.MyUserJunction;
 import com.app.filter.base.MyUserFilterBase;
-import com.app.model.MyAccount;
 
 public class MyUserFilter
     extends MyUserFilterBase
@@ -39,9 +38,6 @@ public class MyUserFilter
     //# variables
     //##################################################
 
-    private String  _accountUid;
-    private boolean _usesAccountUid;
-
     private String  _email;
     private boolean _usesEmail;
 
@@ -53,34 +49,6 @@ public class MyUserFilter
 
     private Sort    _sort;
     private boolean _sortAscending;
-
-    //##################################################
-    //# account
-    //##################################################
-
-    public String getAccountUid()
-    {
-        return _accountUid;
-    }
-
-    public void setAccountUid(String e)
-    {
-        _accountUid = e;
-        _usesAccountUid = true;
-    }
-
-    public void setAccount(MyAccount e)
-    {
-        if ( e == null )
-            setAccountUid(null);
-        else
-            setAccountUid(e.getUid());
-    }
-
-    public boolean usesAccountUid()
-    {
-        return _usesAccountUid;
-    }
 
     //##################################################
     //# email
@@ -206,9 +174,6 @@ public class MyUserFilter
     @Override
     public void applyConditionsTo(MyUserCriteria c)
     {
-        if ( usesAccountUid() )
-            c.joinToUserAccounts().whereAccountUid().is(getAccountUid());
-
         if ( usesEmail() )
             c.whereEmail().is(getEmail());
 

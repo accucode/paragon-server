@@ -14,7 +14,7 @@ public class JkGenericTest
     public void run()
     {
         JkGenericContainer<MyGenericPolicy> c;
-        c = new JkGenericContainer<MyGenericPolicy>();
+        c = new JkGenericContainer<>();
         c.getCss().jkMethod();
 
         // CANNOT do this...

@@ -37,7 +37,7 @@ public abstract class MyPatchToolsBase
     public ScDomainDropdownField<MyPatch,String> newDomainDropdown()
     {
         ScDomainDropdownField<MyPatch,String> e;
-        e = new ScDomainDropdownField<MyPatch,String>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyPatchFilter());
         e.setFinder(new MyPatchFinder());

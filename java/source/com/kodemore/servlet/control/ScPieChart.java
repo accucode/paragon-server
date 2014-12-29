@@ -89,7 +89,7 @@ public class ScPieChart
 
         setLabelType(LabelType.KEY);
 
-        _slices = new KmList<KmJsonMap>();
+        _slices = new KmList<>();
     }
 
     //##################################################

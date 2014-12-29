@@ -52,7 +52,7 @@ public class ScLineChart
     {
         super.install();
 
-        _dataSeries = new KmList<ScChartSeries>();
+        _dataSeries = new KmList<>();
     }
 
     //##################################################
@@ -101,7 +101,6 @@ public class ScLineChart
     {
         out.print("var chart;");
         out.print("chart = nv.models.lineChart().useInteractiveGuideline(true);");
-        out.print("chart.x(function(d,i){return d.x});");
 
         if ( hasYAxisLabel() )
             out.printf("chart.margin({left:%s});", Y_LABEL_MARGIN);

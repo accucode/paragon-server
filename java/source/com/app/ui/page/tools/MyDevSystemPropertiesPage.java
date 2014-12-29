@@ -1,15 +1,14 @@
 package com.app.ui.page.tools;
 
-import java.util.Set;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScGroup;
-import com.kodemore.servlet.control.ScLiteral;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTable;
 import com.kodemore.servlet.control.ScTableCell;
 import com.kodemore.servlet.control.ScTableRow;
+import com.kodemore.servlet.control.ScTransientContainer;
+import com.kodemore.utility.KmSystemProperties;
 
 public class MyDevSystemPropertiesPage
     extends MyDevAbstractPage
@@ -18,7 +17,7 @@ public class MyDevSystemPropertiesPage
     //# variables
     //##################################################
 
-    private ScLiteral                             _literal;
+    private ScTransientContainer                  _container;
 
     //##################################################
     //# singleton
@@ -56,10 +55,7 @@ public class MyDevSystemPropertiesPage
     {
         root.css().gap();
 
-        ScGroup group;
-        group = root.addGroup("System Properties");
-
-        _literal = group.addPad().addLiteral();
+        _container = root.addTransientContainer();
     }
 
     //##################################################
@@ -69,16 +65,25 @@ public class MyDevSystemPropertiesPage
     @Override
     protected void preRender()
     {
-        String html = composeProperties();
-        _literal.setValue(html);
+        KmList<String> prefixes = KmSystemProperties.getAllPrefixes();
+        for ( String e : prefixes )
+            preRenderPrefix(e);
     }
 
-    private String composeProperties()
+    private void preRenderPrefix(String prefix)
     {
-        ScTable table = new ScTable();
+        ScGroup group;
+        group = _container.addGroup(prefix);
+        group.bodyCss().pad();
 
-        for ( String key : getKeys() )
+        ScTable table;
+        table = group.getBody().addTable();
+
+        KmList<String> keys = KmSystemProperties.getAllKeysForPrefix(prefix);
+        for ( String key : keys )
         {
+            String value = KmSystemProperties.getValue(key);
+
             ScTableRow row = table.addRow();
 
             ScTableCell cell;
@@ -92,26 +97,7 @@ public class MyDevSystemPropertiesPage
 
             cell = row.addCell();
             cell.css().pad3().wordBreakAll();
-            cell.addText(getValueFor(key));
+            cell.addText(value);
         }
-
-        return table.renderHtml();
     }
-
-    private KmList<String> getKeys()
-    {
-        Set<String> names = System.getProperties().stringPropertyNames();
-
-        KmList<String> v;
-        v = new KmList<String>();
-        v.addAll(names);
-        v.sort();
-        return v;
-    }
-
-    private String getValueFor(String key)
-    {
-        return System.getProperty(key);
-    }
-
 }

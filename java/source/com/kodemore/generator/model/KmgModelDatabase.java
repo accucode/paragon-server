@@ -48,7 +48,7 @@ public class KmgModelDatabase
 
     private void parseIndexes(KmStfElement x)
     {
-        _indexes = new KmList<KmgModelIndex>();
+        _indexes = new KmList<>();
 
         for ( KmStfElement xi : x.getChildren("index") )
         {
@@ -63,7 +63,7 @@ public class KmgModelDatabase
     public void validate()
     {
         String engine = getEngine();
-        KmList<String> engines = new KmList<String>("innodb", "myisam");
+        KmList<String> engines = KmList.createWith("innodb", "myisam");
         if ( !engines.contains(engine) )
             error("Not a valid engine (%s).", engine);
         _validate(getIndexes());

@@ -50,6 +50,12 @@ public class MyMetaPasswordReset_Email
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The email to be reset.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

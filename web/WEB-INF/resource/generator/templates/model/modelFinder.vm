@@ -36,7 +36,7 @@ $utility.protocol("find")
     public ${model.f_Class} findDao(${model.primaryKeyField.f_Type} key)
     {
         MyDaoKeyFinder<${model.f_Class},${model.primaryKeyField.f_Type}> e;
-        e = new MyDaoKeyFinder<${model.f_Class},${model.primaryKeyField.f_Type}>(this, key);
+        e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();
     }

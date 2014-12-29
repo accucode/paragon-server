@@ -64,7 +64,7 @@ public class KmMapExpander
     public KmMap<String,String> _expand(KmMap<String,String> m)
     {
         _source = m;
-        _result = new KmMap<String,String>();
+        _result = new KmMap<>();
         for ( String key : _source.getKeys() )
             _result.put(key, getResult(key));
         return _result;
@@ -72,7 +72,7 @@ public class KmMapExpander
 
     public String getResult(String key)
     {
-        KmList<String> path = new KmList<String>();
+        KmList<String> path = new KmList<>();
         path.add(key);
         String value = _source.get(key);
         boolean changed = true;
@@ -106,7 +106,7 @@ public class KmMapExpander
 
     public static void main(String[] args)
     {
-        KmMap<String,String> m = new KmMap<String,String>();
+        KmMap<String,String> m = new KmMap<>();
         m.put("#(first)", "John");
         m.put("#(last)", "Smith");
         m.put("#(name)", "#(first) #(last)");

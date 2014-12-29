@@ -33,10 +33,10 @@ import com.kodemore.servlet.field.ScHtmlIdIF;
  * I provide convenience methods for a particular target.
  * Note that the ScHtmlIdIF interface implements an ajax()
  * method that returns an instance of ScHtmlIdAjax.
- * 
+ *
  * For example, instead of:
  *      ajax().hide(aControl);
- *      
+ *
  * We can use:
  *      aControl.ajax().hide();
  */
@@ -55,10 +55,10 @@ public class ScHtmlIdAjax
 
     public ScHtmlIdAjax(ScHtmlIdIF target)
     {
-        this(ScBlockScript.create(), target);
+        this(target, ScBlockScript.create());
     }
 
-    public ScHtmlIdAjax(ScBlockScript delegate, ScHtmlIdIF target)
+    public ScHtmlIdAjax(ScHtmlIdIF target, ScBlockScript delegate)
     {
         super(delegate);
 
@@ -79,23 +79,34 @@ public class ScHtmlIdAjax
         return getTarget().getJquerySelector();
     }
 
-    public String formatJqueryReference()
-    {
-        return getTarget().getJqueryReference();
-    }
-
     //##################################################
     //# when done
     //##################################################
 
     public ScWhenDoneAjax whenDone()
     {
-        return whenDone(getTarget());
+        ScHtmlIdIF target = getTarget();
+        ScHtmlIdIF waitFor = target;
+
+        return whenDone(target, waitFor);
+    }
+
+    public ScWhenDoneAjax whenDone(ScHtmlIdIF waitFor)
+    {
+        return whenDone(getTarget(), waitFor);
     }
 
     public ScWhenDoneAjax pushWhenDone()
     {
-        return pushWhenDone(getTarget());
+        ScHtmlIdIF target = getTarget();
+        ScHtmlIdIF waitFor = target;
+
+        return pushWhenDone(target, waitFor);
+    }
+
+    public ScWhenDoneAjax pushWhenDone(ScHtmlIdIF waitFor)
+    {
+        return pushWhenDone(getTarget(), waitFor);
     }
 
     //##################################################
@@ -105,6 +116,14 @@ public class ScHtmlIdAjax
     public ScShowScript show()
     {
         return show(getTarget());
+    }
+
+    public void show(boolean e)
+    {
+        if ( e )
+            show();
+        else
+            hide();
     }
 
     public ScHideScript hide()
@@ -120,6 +139,11 @@ public class ScHtmlIdAjax
     public ScGlowScript glow()
     {
         return glow(getTarget());
+    }
+
+    public ScGlowScript glowColor()
+    {
+        return glowColor(getTarget());
     }
 
     //##################################################
@@ -165,6 +189,11 @@ public class ScHtmlIdAjax
         prependContents(getTarget(), html);
     }
 
+    public void insertContentsAfter(CharSequence html)
+    {
+        insertContentsAfter(getTarget(), html);
+    }
+
     //##################################################
     //# remove / replace
     //##################################################
@@ -181,9 +210,9 @@ public class ScHtmlIdAjax
 
     /**
      * Attempt to replace the element identified by the target htmlId
-     * with the current version of itself.  
-     * 
-     * NOTE: HtmlIds are not necessarily renderable.  This only works if 
+     * with the current version of itself.
+     *
+     * NOTE: HtmlIds are not necessarily renderable.  This only works if
      * the target HtmlId is also an instance of ScControlIF.  Otherwise,
      * the element will simply be removed.
      */
@@ -248,7 +277,7 @@ public class ScHtmlIdAjax
 
     public void focus()
     {
-        getInner().focus(getTarget());
+        getInner().focus(getTarget().getFocusTarget());
     }
 
     //##################################################
@@ -304,6 +333,59 @@ public class ScHtmlIdAjax
     }
 
     //##################################################
+    //# on key up
+    //##################################################
+
+    public ScBlockScript onKeyUp()
+    {
+        return onKeyUp(getTarget());
+    }
+
+    public void onKeyUp(ScScriptIF script)
+    {
+        onKeyUp(getTarget(), script);
+    }
+
+    public void onKeyUp(String e)
+    {
+        onKeyUp(getTarget(), e);
+    }
+
+    public void onKeyUp(ScActionIF e)
+    {
+        onKeyUp(getTarget(), e);
+    }
+
+    //##################################################
+    //# on change
+    //##################################################
+
+    public ScBlockScript onChange()
+    {
+        return onChange(getTarget());
+    }
+
+    public void onChange(ScScriptIF script)
+    {
+        onChange(getTarget(), script);
+    }
+
+    public void onChange(String e)
+    {
+        onChange(getTarget(), e);
+    }
+
+    public void onChange(ScActionIF e)
+    {
+        onChange(getTarget(), e);
+    }
+
+    public void fireOnChange()
+    {
+        fireOnChange(getTarget());
+    }
+
+    //##################################################
     //# block
     //##################################################
 
@@ -342,26 +424,95 @@ public class ScHtmlIdAjax
     }
 
     //##################################################
-    //# sortable
-    //##################################################
-
-    public void sortableByHandle()
-    {
-        sortableByHandle(getTarget());
-    }
-
-    public void sortableUpdate(String childPath, String attr, ScActionIF action)
-    {
-        sortableUpdate(getTarget(), childPath, attr, action);
-    }
-
-    //##################################################
     //# tooltip
     //##################################################
 
     public void tooltip()
     {
         tooltip(getTarget());
+    }
+
+    //##################################################
+    //# html class
+    //##################################################
+
+    public void addCss(String css)
+    {
+        addCss(getTarget(), css);
+    }
+
+    public void removeCss(String css)
+    {
+        removeCss(getTarget(), css);
+    }
+
+    public void setCss(String css)
+    {
+        setAttribute(getTarget(), "class", css);
+    }
+
+    public void clearCss()
+    {
+        clearCss(getTarget());
+    }
+
+    //##################################################
+    //# scroll to
+    //##################################################
+
+    /**
+     * Scroll my target such that the child becomes visible.
+     */
+    public void scrollTo(ScHtmlIdIF child)
+    {
+        scrollTo(getTarget(), child);
+    }
+
+    public void scrollToTop()
+    {
+        scrollToTop(getTarget());
+    }
+
+    public void scrollToIfOffScreen(String childSel)
+    {
+        scrollToIfOffScreen(getTarget(), childSel);
+    }
+
+    public void scrollToIfOffScreen(ScHtmlIdIF child)
+    {
+        scrollToIfOffScreen(child.getJquerySelector());
+    }
+
+    //##################################################
+    //# html attributes
+    //##################################################
+
+    public void setAttribute(String key, String value)
+    {
+        setAttribute(getTarget(), key, value);
+    }
+
+    public void removeAttribute(String key)
+    {
+        removeAttribute(getTarget(), key);
+    }
+
+    //##################################################
+    //# sortable
+    //##################################################
+
+    public ScSortableScript sortable()
+    {
+        return sortable(getTarget());
+    }
+
+    //##################################################
+    //# dialog
+    //##################################################
+
+    public void closeDialog()
+    {
+        closeDialog(getTarget());
     }
 
 }

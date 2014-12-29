@@ -16,19 +16,25 @@
 <body>
 <h1>autoSignIn</h1>
 
-Track the tokens that authorize a person/browser to automatically sign in.<br>
+${model.f_comment}<br>
 <br>
 
 <table cellspacing=0 cellpadding=3 border=1>
 <tr>
   <th>Attribute</th>
-  <th>Comment</th>
+  <th>Help / Comment</th>
   <th>Format</th>
   <th>Attributes</th>
 </tr>
 <tr>
   <td>uid&nbsp;</td>
-  <td>The unique key.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The globally unique identifier.  This is a big ugly number and is generally not displayed.<br>
+            &nbsp;
+  </td>
+  
   <td>uid
         <br><nobr>max length: 30</nobr>           <br>allows(
                       printable
@@ -40,7 +46,13 @@ Track the tokens that authorize a person/browser to automatically sign in.<br>
 </tr>
 <tr>
   <td>createdUtcTs&nbsp;</td>
-  <td>When was the token created.&nbsp;</td>
+  
+  <td>
+                <br><i>Comment</i><br>
+        This date and time when the user initially logged in manually.
+        &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -49,7 +61,13 @@ Track the tokens that authorize a person/browser to automatically sign in.<br>
 </tr>
 <tr>
   <td>lastTouchedUtcTs&nbsp;</td>
-  <td>The last time this token was used.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time the user logged in.  This is generally updated each time the user logs in either manaully or automatically.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -58,7 +76,13 @@ Track the tokens that authorize a person/browser to automatically sign in.<br>
 </tr>
 <tr>
   <td>lockVersion&nbsp;</td>
-  <td>Used for optimistic locking.&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
+            &nbsp;
+  </td>
+  
   <td>lockVersion
               </td>
   <td>
@@ -67,7 +91,11 @@ Track the tokens that authorize a person/browser to automatically sign in.<br>
 </tr>
 <tr>
   <td>createdLocalTs&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -76,7 +104,11 @@ Track the tokens that authorize a person/browser to automatically sign in.<br>
 </tr>
 <tr>
   <td>createdLocalTsMessage&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            &nbsp;
+  </td>
+  
   <td>text100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -88,7 +120,11 @@ Track the tokens that authorize a person/browser to automatically sign in.<br>
 </tr>
 <tr>
   <td>createdLocalDate&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            &nbsp;
+  </td>
+  
   <td>date
               </td>
   <td>
@@ -97,7 +133,11 @@ Track the tokens that authorize a person/browser to automatically sign in.<br>
 </tr>
 <tr>
   <td>createdLocalTime&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            &nbsp;
+  </td>
+  
   <td>time
               </td>
   <td>
@@ -106,7 +146,13 @@ Track the tokens that authorize a person/browser to automatically sign in.<br>
 </tr>
 <tr>
   <td>lastTouchedLocalTs&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time the user logged in.  This is generally updated each time the user logs in either manaully or automatically.<br>
+            &nbsp;
+  </td>
+  
   <td>timestamp
               </td>
   <td>
@@ -115,7 +161,13 @@ Track the tokens that authorize a person/browser to automatically sign in.<br>
 </tr>
 <tr>
   <td>lastTouchedLocalTsMessage&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time the user logged in.  This is generally updated each time the user logs in either manaully or automatically.<br>
+            &nbsp;
+  </td>
+  
   <td>text100
         <br><nobr>max length: 100</nobr>           <br>allows(
                       printable
@@ -127,7 +179,13 @@ Track the tokens that authorize a person/browser to automatically sign in.<br>
 </tr>
 <tr>
   <td>lastTouchedLocalDate&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time the user logged in.  This is generally updated each time the user logs in either manaully or automatically.<br>
+            &nbsp;
+  </td>
+  
   <td>date
               </td>
   <td>
@@ -136,7 +194,13 @@ Track the tokens that authorize a person/browser to automatically sign in.<br>
 </tr>
 <tr>
   <td>lastTouchedLocalTime&nbsp;</td>
-  <td>${field.f_comment}&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date and time the user logged in.  This is generally updated each time the user logs in either manaully or automatically.<br>
+            &nbsp;
+  </td>
+  
   <td>time
               </td>
   <td>

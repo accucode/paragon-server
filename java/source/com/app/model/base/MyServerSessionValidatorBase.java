@@ -184,7 +184,7 @@ public class MyServerSessionValidatorBase
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(30);
+        e.setMaximumLength(50);
         e.setAllowsPrintable(true);
         e.setModel("serverSession");
         e.setField("version");

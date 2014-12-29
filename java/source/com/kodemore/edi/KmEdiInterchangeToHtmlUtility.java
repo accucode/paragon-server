@@ -49,25 +49,25 @@ public class KmEdiInterchangeToHtmlUtility
 
     private static String toHtml(String name, KmEdiInterchange e)
     {
-        StringBuilder sb;
-        sb = new StringBuilder();
-        sb.append("<html>");
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append("<html>");
 
-        sb.append("<head>");
-        sb.append("<title>");
-        sb.append(name);
-        sb.append("</title>");
-        sb.append("</head>");
+        out.append("<head>");
+        out.append("<title>");
+        out.append(name);
+        out.append("</title>");
+        out.append("</head>");
 
-        sb.append("<body>");
+        out.append("<body>");
         for ( KmEdiSegment s : e.getSegments() )
         {
-            sb.append(s.format());
-            sb.append("<br>");
+            out.append(s.format());
+            out.append("<br>");
         }
-        sb.append("</body>");
+        out.append("</body>");
 
-        sb.append("</html>");
-        return sb.toString();
+        out.append("</html>");
+        return out.toString();
     }
 }

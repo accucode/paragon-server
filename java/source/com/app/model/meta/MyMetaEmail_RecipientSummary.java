@@ -49,6 +49,12 @@ public class MyMetaEmail_RecipientSummary
     }
 
     @Override
+    public String getHelp()
+    {
+        return "A summary of the recipients.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 20;

@@ -2,31 +2,21 @@ package com.app.ui.page.tools;
 
 import com.kodemore.servlet.ScEntryPageIF;
 
-import com.app.ui.layout.MyLeftMenuItem;
 import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
 public abstract class MyDevAbstractPage
     extends MyPage
     implements ScEntryPageIF
 {
     //##################################################
-    //# setup
+    //# settings
     //##################################################
 
     @Override
-    protected boolean requiresDeveloper()
+    public MySecurityLevel getSecurityLevel()
     {
-        return true;
-    }
-
-    //##################################################
-    //# setup
-    //##################################################
-
-    @Override
-    public MyLeftMenuItem getMenuItem()
-    {
-        return MyLeftMenuItem.tools;
+        return MySecurityLevel.developer;
     }
 
     //##################################################
@@ -34,9 +24,9 @@ public abstract class MyDevAbstractPage
     //##################################################
 
     @Override
-    public final void push()
+    public final void ajaxPush()
     {
-        _push();
+        _ajaxPush();
     }
 
     @Override

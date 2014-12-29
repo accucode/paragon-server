@@ -23,6 +23,7 @@ public abstract class KmMetaRateProperty<T>
         ScRateField e;
         e = new ScRateField();
         e.setLabel(label);
+        e.setHelp(getHelp());
         e.setValueAdaptor(this);
         e.setValidator(getValidator());
         return e;

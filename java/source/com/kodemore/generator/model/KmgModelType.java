@@ -40,7 +40,7 @@ public class KmgModelType
     {
         super(parent);
 
-        _validCharacters = new KmList<String>();
+        _validCharacters = new KmList<>();
     }
 
     //##################################################

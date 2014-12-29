@@ -100,7 +100,7 @@ public class KmDbaseFile
 
     public void readFieldDescriptors()
     {
-        _fieldDescriptors = new KmList<KmDbaseFieldDescriptor>();
+        _fieldDescriptors = new KmList<>();
         int fieldOffset = 0;
         int n = getHeader().getFieldCount();
         for ( int i = 0; i < n; i++ )
@@ -113,6 +113,7 @@ public class KmDbaseFile
             fd = new KmDbaseFieldDescriptor();
             fd.setData(b);
             fd.setOffset(fieldOffset);
+
             _fieldDescriptors.add(fd);
 
             fieldOffset += fd.getLength();

@@ -24,8 +24,8 @@ public class KmAuthnetCustomerProfile
 
     public KmAuthnetCustomerProfile()
     {
-        _paymentProfiles = new KmList<KmAuthnetPaymentProfile>();
-        _shipToList = new KmList<KmAuthnetShipToAddress>();
+        _paymentProfiles = new KmList<>();
+        _shipToList = new KmList<>();
     }
 
     //##################################################

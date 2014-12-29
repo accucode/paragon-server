@@ -109,6 +109,9 @@ public abstract class KmXmlNode
         return false;
     }
 
+    /**
+     * @param tag unused, but defined for subclasses.
+     */
     public boolean isElement(String tag)
     {
         return false;

@@ -41,7 +41,7 @@ public class KmProperties
 
     public KmProperties()
     {
-        _map = new KmMap<String,String>();
+        _map = new KmMap<>();
     }
 
     //##################################################
@@ -65,7 +65,7 @@ public class KmProperties
 
     public KmList<String> getKeys()
     {
-        return new KmList<String>(_map.keySet());
+        return new KmList<>(_map.keySet());
     }
 
     public void clear()
@@ -90,7 +90,7 @@ public class KmProperties
 
     public KmList<String> getKeysStartingWith(String prefix)
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         for ( String key : _map.getKeys() )
             if ( key.startsWith(prefix) )
                 v.add(key);

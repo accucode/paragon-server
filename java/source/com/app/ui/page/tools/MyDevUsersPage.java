@@ -2,9 +2,10 @@ package com.app.ui.page.tools;
 
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.control.ScBorderLayout;
+import com.kodemore.servlet.control.ScAbsoluteLayout;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -17,10 +18,9 @@ import com.kodemore.servlet.field.ScTextField;
 import com.app.filter.MyUserFilter;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
-import com.app.ui.page.admin.MyAbstractAdminEntryPage;
 
 public class MyDevUsersPage
-    extends MyAbstractAdminEntryPage
+    extends MyDevAbstractPage
 {
     //##################################################
     //# singleton
@@ -30,7 +30,7 @@ public class MyDevUsersPage
 
     private MyDevUsersPage()
     {
-        // singleton 
+        // singleton
     }
 
     //##################################################
@@ -43,15 +43,33 @@ public class MyDevUsersPage
     private MyDevUserFrame _frame;
 
     //##################################################
+    //# navigation
+    //##################################################
+
+    @Override
+    public ScParameterList composeQueryParameters()
+    {
+        return null;
+    }
+
+    @Override
+    public void applyQueryParameters(ScParameterList v)
+    {
+        // none
+    }
+
+    //##################################################
     //# install
     //##################################################
 
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().fillOffset();
+        root.css();
 
-        ScBorderLayout layout = root.addBorderLayout();
+        ScAbsoluteLayout layout;
+        layout = root.addAbsoluteLayout();
+        layout.pad();
 
         ScDiv top = layout.addTop(140);
         layout.padTop();
@@ -72,11 +90,11 @@ public class MyDevUsersPage
         ScFilterBox box;
         box = root.addFilterBox();
         box.layoutFill();
-        box.setTitle("Users");
+        box.setTitle("Search");
         box.setAction(newSearchAction());
 
         ScFieldTable fields;
-        fields = box.addFields();
+        fields = box.addFieldTable();
         fields.add(_searchField);
 
         _filterBox = box;
@@ -93,11 +111,14 @@ public class MyDevUsersPage
         ScGroup group;
         group = root.addGroup();
         group.setTitle("Results");
-        group.layoutFill();
-        group.css().rightOffset();
+        group.css().fill().marginRight();
+
+        ScDiv body;
+        body = group.getBody();
+        body.css().relative().noBorder();
 
         ScGrid<MyUser> grid;
-        grid = group.addGrid();
+        grid = body.addGrid();
         grid.layoutFill();
         grid.trackAll(_filterBox);
         grid.setFilterFactory(newFetcher());
@@ -140,7 +161,7 @@ public class MyDevUsersPage
     {
         _frame = new MyDevUserFrame();
         _frame.setOnChangeAction(newOnChangeAction());
-        _frame.css().fill();
+        _frame.css().fill().marginLeft();
 
         root.add(_frame);
     }

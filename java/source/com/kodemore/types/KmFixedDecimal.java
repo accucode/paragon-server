@@ -445,7 +445,7 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
     private KmList<String> getSuffixes()
     {
         KmList<String> v;
-        v = new KmList<String>();
+        v = new KmList<>();
         v.add("K"); // thousand
         v.add("M"); // million
         v.add("B"); // billion

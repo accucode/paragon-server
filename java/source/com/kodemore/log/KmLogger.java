@@ -54,7 +54,7 @@ public class KmLogger
     //# static
     //##################################################
 
-    private static KmList<KmLogger> _all = new KmList<KmLogger>();
+    private static KmList<KmLogger> _all = new KmList<>();
 
     public static void resetAll()
     {
@@ -424,7 +424,8 @@ public class KmLogger
      * this should only be used by rare framework code that needs
      * to avoid unintended recursion.
      */
-    private static final Set<Thread> _disabledThreads = Collections.synchronizedSet(new HashSet<Thread>());
+    private static final Set<Thread> _disabledThreads = Collections
+                                                          .synchronizedSet(new HashSet<Thread>());
 
     public static void disableThread()
     {

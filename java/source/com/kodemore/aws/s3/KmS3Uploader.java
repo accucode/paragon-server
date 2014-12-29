@@ -23,18 +23,20 @@
 package com.kodemore.aws.s3;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.util.StringInputStream;
 
 import com.kodemore.utility.Kmu;
 
 public class KmS3Uploader
 {
-
     //##################################################
     //# variables
     //##################################################
@@ -70,47 +72,56 @@ public class KmS3Uploader
     //# public
     //##################################################
 
-    public void upload(String bucketName, String filePath, String data)
+    /**
+     * Upload the string to the remote s3 repository.
+     * The toPath (at s3) should NOT begin with a slash (/).
+     */
+    public void upload(String bucketName, String toPath, String fromSource)
     {
-        File f = writeToTemp(data);
-        upload(bucketName, filePath, f);
-        f.delete();
+        StringInputStream is = null;
+        try
+        {
+            is = new StringInputStream(fromSource);
+            upload(bucketName, toPath, is);
+        }
+        catch ( UnsupportedEncodingException ex )
+        {
+            Kmu.closeSafely(is);
+        }
     }
 
-    public void upload(String bucketName, String filePath, File f)
+    /**
+     * Upload the data from the input stream to the remote s3 repository.
+     * The toPath (at s3) should NOT begin with a slash (/).
+     */
+    public void upload(String bucketName, String toPath, InputStream is)
     {
-        //filePath should not begin with a '/'
+        ObjectMetadata meta = new ObjectMetadata();
 
-        AmazonS3 conn = createS3Client();
-        conn.putObject(bucketName, filePath, f);
+        AmazonS3 s3;
+        s3 = createClient();
+        s3.putObject(bucketName, toPath, is, meta);
+    }
+
+    /**
+     * Upload a file from the local file system to the remote s3 repository.
+     * The toPath (at s3) should NOT begin with a slash (/).
+     */
+    public void upload(String bucketName, String toPath, File fromFile)
+    {
+        AmazonS3 s3;
+        s3 = createClient();
+        s3.putObject(bucketName, toPath, fromFile);
     }
 
     //##################################################
     //# private
     //##################################################
 
-    private File writeToTemp(String data)
+    private AmazonS3Client createClient()
     {
-        File temp = null;
-
-        try
-        {
-            temp = File.createTempFile("temp", ".tmp");
-            Kmu.writeFile(temp, data);
-        }
-        catch ( IOException ex )
-        {
-            ex.printStackTrace();
-            Kmu.toRuntime(ex);
-        }
-
-        return temp;
-    }
-
-    private AmazonS3Client createS3Client()
-    {
-        AWSCredentials credentials = new BasicAWSCredentials(_accessKeyId, _secretKey);
-        return new AmazonS3Client(credentials);
+        AWSCredentials creds = new BasicAWSCredentials(_accessKeyId, _secretKey);
+        return new AmazonS3Client(creds);
     }
 
     //##################################################
@@ -119,18 +130,18 @@ public class KmS3Uploader
 
     public static void main(String[] args)
     {
+        System.out.println("Testing S3 Upload...");
 
-        KmS3Uploader e = new KmS3Uploader();
+        File f;
+        f = new File("{replace with filepath}");
+
+        KmS3Uploader e;
+        e = new KmS3Uploader();
         e.setAccessKeyId("{replace with IAM ACCESS ID}");
         e.setSecretKey("{replace with SECRET KEY}");
-
-        File f = new File("{replace with filepath}");
-
-        System.out.println("Starting upload.");
         e.upload("{replace with bucketName}", "{replace with filePath}", f);
 
         System.out.println("File written successfully to S3!");
-
     }
 
 }

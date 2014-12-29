@@ -50,8 +50,8 @@ public class KmaSpinner
 
     public KmaSpinner()
     {
-        _leftActions = new KmList<KmaAction>();
-        _rightActions = new KmList<KmaAction>();
+        _leftActions = new KmList<>();
+        _rightActions = new KmList<>();
 
         KmaArrowIcon a1;
         a1 = newArrowIcon();

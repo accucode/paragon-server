@@ -37,7 +37,7 @@ public abstract class MyPasswordResetToolsBase
     public ScDomainDropdownField<MyPasswordReset,String> newDomainDropdown()
     {
         ScDomainDropdownField<MyPasswordReset,String> e;
-        e = new ScDomainDropdownField<MyPasswordReset,String>();
+        e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyPasswordResetFilter());
         e.setFinder(new MyPasswordResetFinder());

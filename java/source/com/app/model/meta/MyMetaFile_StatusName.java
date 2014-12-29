@@ -49,6 +49,12 @@ public class MyMetaFile_StatusName
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The status of the file. New: being created, should not use yet. Ready: Available for use; should not not edit. Deleted: The file has been deleted from the file system.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 15;

@@ -128,11 +128,12 @@ public class KmZendeskTicketCreate
         req.setZendeskUserid("[zendesk Login]");
         req.setApiToken("[API Token]");
 
-        Integer i = req.submitNewTicket(
-            "The Customer",
-            "thecustomer@domaion.com",
-            "My printer is on fire!",
-            "The smoke is very colorful.");
+        Integer i =
+            req.submitNewTicket(
+                "The Customer",
+                "thecustomer@domaion.com",
+                "My printer is on fire!",
+                "The smoke is very colorful.");
 
         System.out.println("New Ticket Id = " + i);
     }

@@ -111,7 +111,7 @@ public class KmAuthnetCreditCard
         if ( hasExpiry() )
             out.value("expirationDate", getExpiry());
         else
-            out.value("expirationDate", "XXXX");
+            out.value("expirationDate", Kmu.repeat("X", 4));
 
         out.end();
     }

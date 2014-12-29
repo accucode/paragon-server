@@ -22,7 +22,7 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyPatchJunction
-    extends KmModelJunction<MyPatch>
+    extends KmModelJunction
     implements MyPatchDaoConstantsIF
 {
     //##################################################
@@ -50,7 +50,7 @@ public class MyPatchJunction
 
     public KmPropertyCriteria<KmTimestamp> whereInstalledUtcTs()
     {
-        return new KmPropertyCriteria<KmTimestamp>(context(), fullName(INSTALLED_UTC_TS));
+        return new KmPropertyCriteria<>(context(), fullName(INSTALLED_UTC_TS));
     }
 
     public KmStringCriteria whereSource()

@@ -50,6 +50,12 @@ public class MyMetaDownload_Name
     }
 
     @Override
+    public String getHelp()
+    {
+        return "The name of the file to be downloaded.  This is the name provided to the client browser, NOT the name we use internally.";
+    }
+    
+    @Override
     public int getColumnWidth()
     {
         return 15;

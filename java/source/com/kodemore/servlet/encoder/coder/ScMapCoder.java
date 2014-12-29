@@ -48,8 +48,7 @@ public class ScMapCoder
     @Override
     @SuppressWarnings(
     {
-        "unchecked",
-        "rawtypes"
+        "unchecked", "rawtypes"
     })
     public void encode(ScEncoder encoder, Object o)
     {
@@ -67,8 +66,7 @@ public class ScMapCoder
     @Override
     @SuppressWarnings(
     {
-        "unchecked",
-        "rawtypes"
+        "unchecked", "rawtypes"
     })
     public Object decode(ScDecoder decoder, String s)
     {

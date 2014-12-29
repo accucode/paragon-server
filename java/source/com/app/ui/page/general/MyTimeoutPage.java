@@ -8,6 +8,7 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 import com.app.utility.MyUrls;
 
 public class MyTimeoutPage
@@ -29,9 +30,9 @@ public class MyTimeoutPage
     //##################################################
 
     @Override
-    public boolean requiresUser()
+    public MySecurityLevel getSecurityLevel()
     {
-        return false;
+        return MySecurityLevel.any;
     }
 
     //##################################################
@@ -64,12 +65,15 @@ public class MyTimeoutPage
 
         ScGroup group;
         group = form.addGroup();
-        group.addText("For security reasons, your session has expired.");
-        group.addSpace();
-        group.addText("Please log back in.");
+
+        ScDiv body;
+        body = group.getBody();
+        body.addText("For security reasons, your session has expired.");
+        body.addSpace();
+        body.addText("Please log back in.");
 
         ScDiv buttons;
-        buttons = group.addFloatRight();
+        buttons = body.addFloatRight();
 
         ScGeneralButton button;
         button = buttons.addGeneralButton();

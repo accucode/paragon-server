@@ -71,4 +71,19 @@ public class MyButtonUrls
     {
         return ScUrls.getThemeImage("buttonSearch.png");
     }
+
+    public static String email()
+    {
+        return ScUrls.getThemeImage("buttonEmail.png");
+    }
+
+    public static String help()
+    {
+        return ScUrls.getThemeImage("buttonHelp.png");
+    }
+
+    public static String delete()
+    {
+        return ScUrls.getThemeImage("buttonDelete.png");
+    }
 }

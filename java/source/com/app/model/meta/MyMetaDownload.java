@@ -55,6 +55,16 @@ public class MyMetaDownload
     {
         return MyDownloadValidator.instance;
     }
+    
+    public static String getComment()
+    {
+        return "null";
+    }
+
+    public static String getHelp()
+    {
+        return "I am used to manage file downloads to the client browser.  When a client requests a file\nthe server returns a token (url) that redirects the user to the page where the download\ncan actually occur.  This helps avoid the problem of download interferring with the current\nuser interface, especially with the single page ajax ui we now use.  However, this also\nmeans that additional security is needed to ensure that users cannot access someone else's\ndownload.  Only the \"user\" identified in this record is allowed to download the specified\nfile.";
+    }
 
     //##################################################
     //# fields and delegates

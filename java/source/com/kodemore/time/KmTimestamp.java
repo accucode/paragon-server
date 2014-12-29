@@ -37,7 +37,7 @@ import com.kodemore.utility.Kmu;
  * Instances are assumed to be immutable.
  */
 public class KmTimestamp
-implements KmTimeConstantsIF, Comparable<KmTimestamp>, Serializable
+    implements KmTimeConstantsIF, Comparable<KmTimestamp>, Serializable
 {
     //##################################################
     //# instance creation
@@ -583,8 +583,8 @@ implements KmTimeConstantsIF, Comparable<KmTimestamp>, Serializable
     public int getMySqlOrdinal()
     {
         return (getDate().getOrdinal() - DAYS_DIFF_1800_1970)
-                        * SECONDS_PER_DAY
-                        + getTime().getTotalSeconds();
+            * SECONDS_PER_DAY
+            + getTime().getTotalSeconds();
     }
 
     public static KmTimestamp createMySqlOrdinal(int i)

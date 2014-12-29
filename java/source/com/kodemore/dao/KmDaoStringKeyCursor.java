@@ -45,7 +45,7 @@ public class KmDaoStringKeyCursor<T>
     public static <E> KmDaoStringKeyCursor<E> createOn(KmMetaDaoPropertyIF<E,String> attr)
     {
         KmDaoStringKeyCursor<E> e;
-        e = new KmDaoStringKeyCursor<E>();
+        e = new KmDaoStringKeyCursor<>();
         e.setProperty(attr);
         return e;
     }

@@ -22,7 +22,7 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyEmailRecipientJunction
-    extends KmModelJunction<MyEmailRecipient>
+    extends KmModelJunction
     implements MyEmailRecipientDaoConstantsIF
 {
     //##################################################

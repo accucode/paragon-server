@@ -22,6 +22,7 @@
 
 package com.kodemore.utility;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -30,30 +31,104 @@ import java.util.Random;
 public class KmRandom
 {
     //##################################################
+    //# instance
+    //##################################################
+
+    private static final KmRandom _instance = new KmRandom();
+
+    /**
+     * A single instance shared across all threads.  Although thread-safe
+     * clients that rely heavily on randoms should consider creating separate
+     * instances to avoid contention.
+     */
+    public static final KmRandom getInstance()
+    {
+        return _instance;
+    }
+
+    //##################################################
     //# constants
     //##################################################
 
-    private static final Random _random        = new Random();
+    /**
+     * The 26 american ascii letters a..z.
+     */
+    private static final String LOWER_STRING         = "abcdefghijklmnopqrstuvwxyz";
+    private static final char[] LOWER_ARRAY          = LOWER_STRING.toCharArray();
 
-    private static final String UNSAFE_LETTERS = "AEIOUVY";
+    /**
+     * The 26 american ascii letters A..Z.
+     */
+    private static final String UPPER_STRING         = LOWER_STRING.toUpperCase();
+    private static final char[] UPPER_ARRAY          = UPPER_STRING.toCharArray();
+
+    /**
+     * The combination of all upper and lower-case letters.
+     */
+    private static final String ALPHA_STRING         = LOWER_STRING + UPPER_STRING;
+    private static final char[] ALPHA_ARRAY          = ALPHA_STRING.toCharArray();
+
+    /**
+     * The 10 digits 0..9.
+     */
+    private static final String DIGIT_STRING         = "0123456789";
+    private static final char[] DIGIT_ARRAY          = DIGIT_STRING.toCharArray();
+
+    /**
+     * The combination of all letters and digits.
+     */
+    private static final String ALPHA_NUMERIC_STRING = ALPHA_STRING + DIGIT_STRING;
+    private static final char[] ALPHA_NUMERIC_ARRAY  = ALPHA_NUMERIC_STRING.toCharArray();
+
+    /**
+     * The standard (lower) ascii symbols, the ones found on a typical keyboard.
+     */
+    private static final String SYMBOL_STRING        = "`~!@#$%^&*()-_=+[]{}|;:,.<>/?'\"\\";
+    private static final char[] SYMBOL_ARRAY         = SYMBOL_STRING.toCharArray();
+
+    /**
+     * A list of letters that are relatively safe to use in auto-generated
+     * passwords and such.  We leave out all of the vowels (and y) to avoid
+     * accidentally generating undesirable results (such as curse words).
+     */
+    private static final char[] SAFE_ARRAY           = "BCDFGHJKLMNPQRSTVWXZ".toCharArray();
 
     //##################################################
-    //# accessing
+    //# variables
+    //##################################################
+
+    private Random              _random;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public KmRandom()
+    {
+        _random = new Random();
+    }
+
+    public KmRandom(long seed)
+    {
+        _random = new Random(seed);
+    }
+
+    //##################################################
+    //# basics
     //##################################################
 
     /**
      * Return a random byte in the range -128..127.
      */
-    public static byte getByte()
+    public byte getByte()
     {
         return getBytes(1)[0];
     }
 
     /**
-     * Return an array of random bytes.  The length of the array
-     * is passed as a parameter.
+     * Return an array of random bytes.
      */
-    public static byte[] getBytes(int n)
+    public byte[] getBytes(int n)
     {
         byte[] arr = new byte[n];
         _random.nextBytes(arr);
@@ -63,7 +138,7 @@ public class KmRandom
     /**
      * Return a random integer.
      */
-    public static int getInteger()
+    public int getInteger()
     {
         return _random.nextInt();
     }
@@ -71,15 +146,15 @@ public class KmRandom
     /**
      * Return a random integer greater than zero.
      */
-    public static int getPositiveInteger()
+    public int getPositiveInteger()
     {
-        return getInteger(Integer.MAX_VALUE) + 1;
+        return getInteger(Integer.MAX_VALUE - 1) + 1;
     }
 
     /**
      * Return a random integer in the range 1..n-1;
      */
-    public static int getPositiveInteger(int n)
+    public int getPositiveInteger(int n)
     {
         return getInteger(n - 1) + 1;
     }
@@ -87,7 +162,7 @@ public class KmRandom
     /**
      * Return a random integer in the range 0..n-1
      */
-    public static int getInteger(int n)
+    public int getInteger(int n)
     {
         return _random.nextInt(n);
     }
@@ -95,7 +170,7 @@ public class KmRandom
     /**
      * Return a random long.
      */
-    public static long getLong()
+    public long getLong()
     {
         return _random.nextLong();
     }
@@ -103,15 +178,27 @@ public class KmRandom
     /**
      * Return a random boolean.
      */
-    public static boolean getBoolean()
+    public boolean getBoolean()
     {
         return _random.nextBoolean();
     }
 
     /**
+     * Return a random double.
+     */
+    public double getDouble()
+    {
+        return _random.nextDouble();
+    }
+
+    //##################################################
+    //# characters
+    //##################################################
+
+    /**
      * Return a random character.
      */
-    public static char getCharacter()
+    public char getCharacter()
     {
         return (char)getInteger();
     }
@@ -119,7 +206,7 @@ public class KmRandom
     /**
      * Return a random character in the ASCII range 32..126.
      */
-    public static char getPrintableCharacter()
+    public char getPrintableCharacter()
     {
         int min = 33;
         int max = 126;
@@ -127,59 +214,100 @@ public class KmRandom
     }
 
     /**
-     * Return a random character in the ASCII range 97..122.
+     * Return a random character a..z.
      */
-    public static char getLowerCaseCharacter()
+    public char getLowerCaseCharacter()
     {
-        int min = 97;
-        int max = 122;
-        return getCharacterInRange(min, max);
+        return getCharacterIn(LOWER_ARRAY);
     }
 
     /**
      * Return a random character in the ASCII range 65..90.
      */
-    public static char getUpperCaseCharacter()
+    public char getUpperCaseCharacter()
     {
-        int min = 65;
-        int max = 90;
-        return getCharacterInRange(min, max);
+        return getCharacterIn(UPPER_ARRAY);
+    }
+
+    public char getDigit()
+    {
+        return getCharacterIn(DIGIT_ARRAY);
+    }
+
+    public char getCharacterIn(char[] chars)
+    {
+        return chars[getInteger(chars.length)];
     }
 
     /**
-     * Return a String of random characters with a length of n.  All
-     * characters will be in the ASCII range of 32..126.
+     * Get single character in the ascii range min-max, inclusive.
      */
-    public static String getPrintableString(int n)
+    public char getCharacterInRange(int min, int max)
     {
-        StringBuilder sb = new StringBuilder(n);
+        return (char)(getInteger(max - min + 1) + min);
+    }
+
+    //##################################################
+    //# strings
+    //##################################################
+
+    /**
+     * Return a String of random characters with a length of n.
+     * All characters will be in the ASCII range of 32..126.
+     */
+    public String getPrintableString(int n)
+    {
+        StringBuilder out = new StringBuilder(n);
+
         for ( int i = 0; i < n; i++ )
-            sb.append(getPrintableCharacter());
-        return sb.toString();
+            out.append(getPrintableCharacter());
+
+        return out.toString();
     }
 
     /**
-     * Return a String of random characters with a length of n.  All
-     * characters will be in the ASCII range of 97..122.
+     * Return a String of random characters with a length of n.
+     * All characters will be in the ASCII range of 97..122.
      */
-    public static String getLowerCaseString(int n)
+    public String getLowerString(int n)
     {
-        StringBuilder sb = new StringBuilder(n);
-        for ( int i = 0; i < n; i++ )
-            sb.append(getLowerCaseCharacter());
-        return sb.toString();
+        return getRun(LOWER_ARRAY, n);
     }
 
     /**
-     * Return a String of random characters with a length of n.  All
-     * characters will be in the ASCII range of 65..90.
+     * Return a String of random characters with a length of n.
+     * All characters will be in the ASCII range of 65..90.
      */
-    public static String getUpperCaseString(int n)
+    public String getUpperString(int n)
     {
-        StringBuilder sb = new StringBuilder(n);
-        for ( int i = 0; i < n; i++ )
-            sb.append(getUpperCaseCharacter());
-        return sb.toString();
+        return getRun(UPPER_ARRAY, n);
+    }
+
+    /**
+     * Return a String of random letters, of length n.
+     * This will include both upper and lower case letters.
+     */
+    public String getAlphaString(int n)
+    {
+        return getRun(ALPHA_ARRAY, n);
+    }
+
+    /**
+     * Return a String of random alpha-numeric characters, of length n.
+     * This includes both upper and lower case letters, as well as the 10 digits.
+     */
+    public String getAlphaNumericString(int n)
+    {
+        return getRun(ALPHA_NUMERIC_ARRAY, n);
+    }
+
+    /**
+     * Return a String of random symbols, of length n.
+     * This includes the lower ascii symbols commonly found on keyboards.
+     */
+    public String getSymbolString(int n)
+    {
+        return getRun(SYMBOL_ARRAY, n);
     }
 
     /**
@@ -188,63 +316,38 @@ public class KmRandom
      * letters, we avoid generating words that are offensive.  Specifically,
      * we do not use any of the following letters: aeiouvy
      */
-    public static String getSafeUpperCaseString(int n)
+    public String getSafeString(int n)
     {
-        StringBuilder sb = new StringBuilder(n);
+        return getRun(SAFE_ARRAY, n);
+    }
+
+    public String getDigits(int n)
+    {
+        return getRun(DIGIT_ARRAY, n);
+    }
+
+    /**
+     * Return a string of length n, composed of random characters from the arr.
+     */
+    public String getRun(char[] arr, int n)
+    {
+        StringBuilder out = new StringBuilder();
+
         for ( int i = 0; i < n; i++ )
-            sb.append(getSafeUpperCaseCharacter());
-        return sb.toString();
+            out.append(getCharacterIn(arr));
+
+        return out.toString();
     }
 
-    public static char getSafeUpperCaseCharacter()
-    {
-        while ( true )
-        {
-            char c = getUpperCaseCharacter();
-            if ( UNSAFE_LETTERS.indexOf(c) < 0 )
-                return c;
-        }
-    }
+    //##################################################
+    //# list
+    //##################################################
 
     /**
-     * Get a 'safe' lowercase string.  Safe strings are used for random
-     * passwords and tokens that are displayed to users.  By leaving certain
-     * letters, we avoid generating words that are offensive.  Specifically,
-     * we do not use any of the following letters: aeiouvy
+     * Return a random element from the list.
      */
-    public static String getSafeLowerCaseString(int n)
+    public <E> E getElement(List<E> v)
     {
-        return getSafeUpperCaseString(n).toLowerCase();
-    }
-
-    public static String getDigits(int n)
-    {
-        StringBuilder sb = new StringBuilder(n);
-        for ( int i = 0; i < n; i++ )
-            sb.append(getDigit());
-        return sb.toString();
-    }
-
-    public static char getDigit()
-    {
-        int min = 48;
-        int max = 57;
-        return getCharacterInRange(min, max);
-    }
-
-    /**
-     * Return a random double.
-     */
-    public static double getDouble()
-    {
-        return _random.nextDouble();
-    }
-
-    /**
-     * Get single character in the range min-max, inclusive.
-     */
-    private static char getCharacterInRange(int min, int max)
-    {
-        return (char)(getInteger(max - min + 1) + min);
+        return v.get(getPositiveInteger(v.size()));
     }
 }

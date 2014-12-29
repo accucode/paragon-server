@@ -35,7 +35,7 @@ public class KmgModelIndex
         _name = parseRequiredString(x, "name");
         _unique = parseBoolean(x, "unique");
 
-        _attributeNames = new KmList<String>();
+        _attributeNames = new KmList<>();
 
         KmList<String> ons = parseStrings(x, "on");
         for ( String on : ons )
@@ -95,7 +95,7 @@ public class KmgModelIndex
 
     public KmList<KmgModelAttribute> getAttributes()
     {
-        KmList<KmgModelAttribute> v = new KmList<KmgModelAttribute>();
+        KmList<KmgModelAttribute> v = new KmList<>();
         for ( String e : getAttributeNames() )
             v.add(getModel().getAttributeNamed(e));
         return v;
@@ -103,7 +103,7 @@ public class KmgModelIndex
 
     public KmList<String> getColumnNames()
     {
-        KmList<String> v = new KmList<String>();
+        KmList<String> v = new KmList<>();
         for ( KmgModelAttribute e : getAttributes() )
             v.add(e.getf_sqlColumn());
         return v;

@@ -45,7 +45,7 @@ public class ScCardFrame
     //##################################################
 
     /**
-     * The cards to be displayed in this frame.  Only 
+     * The cards to be displayed in this frame.  Only
      * one card is displayed at a time.  We need to explicitly
      * store this list so that we can implement getComponents().
      */
@@ -73,7 +73,7 @@ public class ScCardFrame
     {
         super.install();
 
-        _cards = new KmList<ScCard>();
+        _cards = new KmList<>();
 
         _showEffect = ScConstantsIF.DEFAULT_EFFECT;
         _showEasing = ScConstantsIF.DEFAULT_EASING;
@@ -314,10 +314,10 @@ public class ScCardFrame
     //##################################################
 
     @Override
-    public Iterator<ScControl> getComponents()
+    public Iterator<ScControlIF> getComponents()
     {
-        KmCompositeIterator<ScControl> i;
-        i = new KmCompositeIterator<ScControl>();
+        KmCompositeIterator<ScControlIF> i;
+        i = new KmCompositeIterator<>();
         i.addAll(super.getComponents());
         i.addAll(getCards());
         return i;
@@ -335,6 +335,11 @@ public class ScCardFrame
     public void ajaxPrint()
     {
         ajaxPrint(getDefaultCard());
+    }
+
+    public void ajaxPrintFast()
+    {
+        ajaxPrintFast(getDefaultCard());
     }
 
     public void ajaxPrint(ScCard e)
@@ -357,8 +362,16 @@ public class ScCardFrame
         show.setEasing(getShowEasing());
         show.setSpeedMs(getShowSpeed());
 
-        ajax = ajax.whenDone();
-        ajax.focus();
+        ajax.pushWhenDone();
+        ajax.focus(e);
+    }
+
+    public void ajaxPrintFast(ScCard e)
+    {
+        ScHtmlIdAjax ajax;
+        ajax = ajax();
+        ajax.setContents(e);
+        ajax.focus(e);
     }
 
     //##################################################
