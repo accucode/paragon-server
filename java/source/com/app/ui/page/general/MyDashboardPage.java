@@ -37,7 +37,7 @@ public class MyDashboardPage
     protected void installRoot(ScPageRoot root)
     {
         root.css().pad();
-        root.addText("Welcome to the Field Service Portal.");
+        root.addText("Welcome to the KodeMore demo.");
     }
 
 }
