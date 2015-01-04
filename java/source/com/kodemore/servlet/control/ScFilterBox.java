@@ -205,7 +205,7 @@ public class ScFilterBox
     @Override
     public Iterator<ScControlIF> getComponents()
     {
-        return new KmSingletonIterator<ScControlIF>(_form);
+        return new KmSingletonIterator<>(_form);
     }
 
     public ScBox getLeftButtons()
