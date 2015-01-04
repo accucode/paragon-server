@@ -23,7 +23,6 @@
 package com.kodemore.generator;
 
 import java.io.File;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.apache.velocity.Template;
@@ -36,6 +35,7 @@ import com.kodemore.generator.model.KmgModel;
 import com.kodemore.generator.model.KmgModelEnum;
 import com.kodemore.generator.setup.KmgSetup;
 import com.kodemore.generator.setup.KmgSetupReader;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 public class KmgGenerator
@@ -460,11 +460,9 @@ public class KmgGenerator
 
     private String formatTemplate(Template template, VelocityContext context)
     {
-        try
+        try ( StringWriter out = new StringWriter() )
         {
-            StringWriter out = new StringWriter();
             template.merge(context, out);
-            out.close();
             return out.toString();
         }
         catch ( Exception ex )
@@ -475,13 +473,13 @@ public class KmgGenerator
 
     private String evaluate(String template, VelocityContext context)
     {
-        try
+        try ( StringWriter out = new StringWriter() )
         {
-            StringWriter out = new StringWriter();
             boolean ok = _velocity.evaluate(context, out, "dynamic", template);
-            out.close();
+
             if ( !ok )
                 fatal("Cannot evaluate template: (%s).", template);
+
             return out.toString();
         }
         catch ( Exception ex )
@@ -503,17 +501,16 @@ public class KmgGenerator
 
     private String composeJavaAutoGenerationComment()
     {
-        StringWriter sw = new StringWriter();
-        PrintWriter out = new PrintWriter(sw);
+        KmStringBuilder out;
+        out = new KmStringBuilder();
         out.println("//###############################################################");
         out.println("//###############################################################");
         out.println("//##");
         out.println("//##  AUTO GENERATED - DO NOT EDIT");
         out.println("//##");
         out.println("//###############################################################");
-        out.print("//###############################################################");
-        out.close();
-        return sw.toString();
+        out.println("//###############################################################");
+        return out.toString();
     }
 
     private String getXmlAutoGenerationComment()
@@ -526,8 +523,8 @@ public class KmgGenerator
 
     private String composeXmlAutoGenerationComment()
     {
-        StringWriter sw = new StringWriter();
-        PrintWriter out = new PrintWriter(sw);
+        KmStringBuilder out;
+        out = new KmStringBuilder();
         out.println("<!--");
         out.println("###############################################################");
         out.println("###############################################################");
@@ -537,8 +534,7 @@ public class KmgGenerator
         out.println("###############################################################");
         out.println("###############################################################");
         out.print("-->");
-        out.close();
-        return sw.toString();
+        return out.toString();
     }
 
     private String getHtmlAutoGenerationComment()
@@ -555,8 +551,8 @@ public class KmgGenerator
 
     private String composeDdlAutoGenerationComment()
     {
-        StringWriter sw = new StringWriter();
-        PrintWriter out = new PrintWriter(sw);
+        KmStringBuilder out;
+        out = new KmStringBuilder();
         out.println("###############################################################");
         out.println("###############################################################");
         out.println("##");
@@ -564,8 +560,7 @@ public class KmgGenerator
         out.println("##");
         out.println("###############################################################");
         out.print("###############################################################");
-        out.close();
-        return sw.toString();
+        return out.toString();
     }
 
     //##################################################

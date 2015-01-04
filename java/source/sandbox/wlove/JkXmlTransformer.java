@@ -56,14 +56,15 @@ public class JkXmlTransformer
         transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
-        StringWriter out = new StringWriter();
-        StreamResult result = new StreamResult(out);
-        DOMSource source = new DOMSource(doc);
-        transformer.transform(source, result);
-        out.close();
+        try ( StringWriter out = new StringWriter() )
+        {
+            StreamResult result = new StreamResult(out);
+            DOMSource source = new DOMSource(doc);
+            transformer.transform(source, result);
 
-        String xml = out.toString();
-        System.out.println(xml);
+            String xml = out.toString();
+            System.out.println(xml);
+        }
     }
 
 }

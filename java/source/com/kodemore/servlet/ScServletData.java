@@ -31,7 +31,6 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -1268,22 +1267,19 @@ public class ScServletData
 
     public String readStringResource(String path)
     {
-        try
+        try ( InputStream is = _servlet.getServletContext().getResourceAsStream(path);
+            StringWriter sw = new StringWriter(); )
         {
-            ServletContext c = _servlet.getServletContext();
-            InputStream is = c.getResourceAsStream(path);
-            if ( is == null )
-                throw new RuntimeException("Cannot read servlet resource: " + path);
-            StringWriter sw = new StringWriter();
             while ( true )
             {
                 int i = is.read();
+
                 if ( i < 0 )
                     break;
+
                 sw.write((char)i);
             }
-            sw.close();
-            is.close();
+
             return sw.toString();
         }
         catch ( Exception ex )

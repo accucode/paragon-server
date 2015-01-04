@@ -1,6 +1,7 @@
 package sandbox.wlove;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -36,18 +37,23 @@ public class JkXmlChanger
         if ( !fixRoot(root) )
             return;
 
-        StringWriter out = new StringWriter();
-        PrintWriter pw = new PrintWriter(out);
+        try ( StringWriter out = new StringWriter();
+            PrintWriter pw = new PrintWriter(out) )
+        {
+            pw.println(doctype);
+            doc.prettyPrintOn(pw);
+            pw.flush();
 
-        pw.println(doctype);
-        doc.prettyPrintOn(pw);
-        pw.close();
+            String eol = KmSystemProperties.getLineSeparator();
+            String result = out.toString().trim() + eol;
 
-        String eol = KmSystemProperties.getLineSeparator();
-        String result = out.toString().trim() + eol;
-
-        Kmu.writeFile(file, result);
-        System.out.println("File: " + file);
+            Kmu.writeFile(file, result);
+            System.out.println("File: " + file);
+        }
+        catch ( IOException ex )
+        {
+            throw Kmu.toRuntime(ex);
+        }
     }
 
     private static boolean fixRoot(KmXmlElement root)

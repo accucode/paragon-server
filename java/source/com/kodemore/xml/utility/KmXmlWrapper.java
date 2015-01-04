@@ -25,6 +25,7 @@ package com.kodemore.xml.utility;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -485,11 +486,16 @@ public class KmXmlWrapper
 
     public String printPrettyXmlToString()
     {
-        StringWriter sw = new StringWriter();
-        PrintWriter out = new PrintWriter(sw);
-        printPrettyXmlOn(out, 0);
-        out.close();
-        return sw.toString();
+        try ( StringWriter sw = new StringWriter();
+            PrintWriter out = new PrintWriter(sw) )
+        {
+            printPrettyXmlOn(out, 0);
+            return sw.toString();
+        }
+        catch ( IOException ex )
+        {
+            throw Kmu.toRuntime(ex);
+        }
     }
 
     private void printPrettyXmlOn(PrintWriter out, int indent)

@@ -3901,22 +3901,26 @@ public class Kmu
                 maxKey = k.length();
         }
 
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-
-        i = keys.iterator();
-        while ( i.hasNext() )
+        try ( StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw) )
         {
-            String k = i.next();
-            String v = m.get(k);
-            pw.print(rightPad(k, maxKey));
-            pw.print(" = ");
-            pw.print(v);
-            pw.println();
-        }
+            i = keys.iterator();
+            while ( i.hasNext() )
+            {
+                String k = i.next();
+                String v = m.get(k);
+                pw.print(rightPad(k, maxKey));
+                pw.print(" = ");
+                pw.print(v);
+                pw.println();
+            }
 
-        pw.close();
-        writeFile(path, sw.toString());
+            writeFile(path, sw.toString());
+        }
+        catch ( IOException ex )
+        {
+            throw Kmu.toRuntime(ex);
+        }
     }
 
     /**
@@ -4182,20 +4186,15 @@ public class Kmu
      */
     public static int getSerializedObjectSize(Serializable o)
     {
-        try
+        try ( ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos) )
         {
-            ByteArrayOutputStream baos;
-            baos = new ByteArrayOutputStream();
-
-            ObjectOutputStream oos;
-            oos = new ObjectOutputStream(baos);
             oos.writeObject(o);
             oos.flush();
-            oos.close();
 
             return baos.toByteArray().length;
         }
-        catch ( Exception ex )
+        catch ( IOException ex )
         {
             throw toRuntime(ex);
         }

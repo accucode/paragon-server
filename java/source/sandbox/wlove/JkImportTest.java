@@ -66,21 +66,21 @@ public class JkImportTest
 
     private void readFile() throws Exception
     {
-        BufferedReader in = new BufferedReader(new FileReader(FILE_PATH));
-
-        while ( true )
+        try ( FileReader fr = new FileReader(FILE_PATH);
+            BufferedReader in = new BufferedReader(fr) )
         {
-            _line = in.readLine();
-            if ( _line == null )
-                break;
+            while ( true )
+            {
+                _line = in.readLine();
+                if ( _line == null )
+                    break;
 
-            _lineNumber++;
-            handleLine();
+                _lineNumber++;
+                handleLine();
 
-            printProgress();
+                printProgress();
+            }
         }
-
-        in.close();
     }
 
     private void handleLine()

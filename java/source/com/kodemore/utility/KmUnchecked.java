@@ -44,7 +44,8 @@ import java.util.List;
  */
 @SuppressWarnings(
 {
-    "rawtypes", "unchecked"
+    "rawtypes",
+    "unchecked"
 })
 public class KmUnchecked
 {
@@ -116,18 +117,14 @@ public class KmUnchecked
             if ( e == null )
                 return null;
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeObject(e);
-            oos.flush();
-            oos.close();
-            byte[] ba = baos.toByteArray();
-
-            ByteArrayInputStream bais = new ByteArrayInputStream(ba);
-            ObjectInputStream ois = new ObjectInputStream(bais);
-            Object x = ois.readObject();
-            ois.close();
-            return (T)x;
+            try ( ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+                ObjectOutputStream out = new ObjectOutputStream(byteOut);
+                ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());
+                ObjectInputStream in = new ObjectInputStream(byteIn); )
+            {
+                out.writeObject(e);
+                return (T)in.readObject();
+            }
         }
         catch ( Exception ex )
         {

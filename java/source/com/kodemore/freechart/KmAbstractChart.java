@@ -172,11 +172,9 @@ public abstract class KmAbstractChart
 
     protected byte[] toPngBytes(JFreeChart chart)
     {
-        try
+        try ( ByteArrayOutputStream out = new ByteArrayOutputStream() )
         {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
             ChartUtilities.writeChartAsPNG(out, chart, getWidth(), getHeight());
-            out.close();
             return out.toByteArray();
         }
         catch ( IOException ex )

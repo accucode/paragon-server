@@ -86,12 +86,10 @@ public abstract class KmWikiElement
 
     public final String printTree()
     {
-        try
+        try ( StringWriter out = new StringWriter() )
         {
-            StringWriter w = new StringWriter();
-            printTreeOn(w);
-            w.close();
-            return w.toString();
+            printTreeOn(out);
+            return out.toString();
         }
         catch ( IOException ex )
         {
@@ -104,20 +102,16 @@ public abstract class KmWikiElement
         printTreeOn(System.out);
     }
 
+    @SuppressWarnings("resource")
     public final void printTreeOn(OutputStream os)
     {
-        @SuppressWarnings("resource")
-        KmIndentPrintWriter out = new KmIndentPrintWriter(os);
-        printTreeOn(out);
-        out.flush();
+        printTreeOn(new KmIndentPrintWriter(os));
     }
 
+    @SuppressWarnings("resource")
     public final void printTreeOn(Writer w)
     {
-        @SuppressWarnings("resource")
-        KmIndentPrintWriter out = new KmIndentPrintWriter(w);
-        printTreeOn(out);
-        out.flush();
+        printTreeOn(new KmIndentPrintWriter(w));
     }
 
     public void printTreeOn(KmIndentPrintWriter out)

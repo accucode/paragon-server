@@ -1,5 +1,6 @@
 package com.kodemore.authnet.request;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -245,11 +246,16 @@ public class KmAuthnetAbstractResponse
 
     public final String printFieldsToString()
     {
-        StringWriter sw = new StringWriter();
-        PrintWriter out = new PrintWriter(sw);
-        printFieldsOn(out);
-        out.close();
-        return sw.toString();
+        try ( StringWriter sw = new StringWriter();
+            PrintWriter out = new PrintWriter(sw) )
+        {
+            printFieldsOn(out);
+            return sw.toString();
+        }
+        catch ( IOException ex )
+        {
+            throw Kmu.toRuntime(ex);
+        }
     }
 
     public void printFieldsOn(PrintWriter out)
@@ -257,6 +263,7 @@ public class KmAuthnetAbstractResponse
         out.println("======= Response Base =======");
         out.println("resultCode: " + getResultCode());
         out.println("refId:      " + getRefId());
+
         for ( KmAuthnetResponseMessage e : _responseMessages )
             out.println("message:    " + e);
     }

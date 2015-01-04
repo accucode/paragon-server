@@ -22,6 +22,7 @@
 
 package com.kodemore.utility;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
@@ -49,37 +50,42 @@ public class KmExceptionUtility
     //# format
     //##################################################
 
-    public static String format(Throwable ex)
+    public static String format(Throwable subject)
     {
-        StringBuilder sb = new StringBuilder();
-        formatOn(sb, ex);
-        return sb.toString();
+        StringBuilder out = new StringBuilder();
+        formatOn(out, subject);
+        return out.toString();
     }
 
-    public static String formatNormal(Throwable ex)
+    public static String formatNormal(Throwable subject)
     {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        ex.printStackTrace(pw);
-        pw.close();
-        return sw.toString();
+        try ( StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw) )
+        {
+            subject.printStackTrace(pw);
+            return sw.toString();
+        }
+        catch ( IOException ex )
+        {
+            throw Kmu.toRuntime(ex);
+        }
     }
 
     //##################################################
     //# format (support)
     //##################################################
 
-    public static void formatOn(StringBuilder sb, Throwable ex)
+    public static void formatOn(StringBuilder out, Throwable ex)
     {
         KmList<Throwable> v = getExceptionChain(ex);
         v.reverse();
 
         Iterator<Throwable> i = v.iterator();
         Throwable cause = i.next();
-        formatLongOn(sb, cause);
+        formatLongOn(out, cause);
 
         while ( i.hasNext() )
-            formatShortOn(sb, i.next(), cause);
+            formatShortOn(out, i.next(), cause);
     }
 
     public static void formatLongOn(StringBuilder sb, Throwable ex)
