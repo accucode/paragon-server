@@ -46,6 +46,7 @@ public abstract class KmSqlUtility
      * driver: "COM.ibm.db2.jdbc.app.DB2Driver"
      * url:    "jdbc:db2:d_hs"
      */
+    @SuppressWarnings("resource")
     public static KmSqlConnection openDriverConnection(
         String driver,
         String url,
@@ -77,10 +78,10 @@ public abstract class KmSqlUtility
             log("   password:   " + password);
             loadDriver(driver);
 
-            Connection c;
-            c = DriverManager.getConnection(url, username, password);
-            c.setAutoCommit(false);
-            return c;
+            Connection con;
+            con = DriverManager.getConnection(url, username, password);
+            con.setAutoCommit(false);
+            return con;
         }
         catch ( SQLException ex )
         {
@@ -88,6 +89,7 @@ public abstract class KmSqlUtility
         }
     }
 
+    @SuppressWarnings("resource")
     public static KmSqlConnection openDataSourceConnection(
         String path,
         String factory,

@@ -23,7 +23,6 @@
 package com.kodemore.sql;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -313,11 +312,12 @@ public class KmSqlConnection
     //# statements
     //##################################################
 
+    @SuppressWarnings("resource")
     public KmSqlStatementWrapper createSqlStatement()
     {
+        Statement st = null;
         try
         {
-            Statement st;
             st = _connection.createStatement();
             st.setEscapeProcessing(false);
 
@@ -327,16 +327,20 @@ public class KmSqlConnection
         }
         catch ( SQLException ex )
         {
+            Kmu.closeSafely(st);
             throw Kmu.toRuntime(ex);
         }
     }
 
+    /**
+     * Create a prepared statement.
+     * The client is responsible for closing the statement.
+     */
     public KmSqlPreparedStatement prepareStatement(String sql)
     {
         try
         {
-            PreparedStatement ps = _connection.prepareStatement(sql);
-            return new KmSqlPreparedStatement(this, ps, sql);
+            return new KmSqlPreparedStatement(this, _connection.prepareStatement(sql), sql);
         }
         catch ( SQLException ex )
         {

@@ -23,8 +23,8 @@
 package com.kodemore.aws.s3;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -78,15 +78,13 @@ public class KmS3Uploader
      */
     public void upload(String bucketName, String toPath, String fromSource)
     {
-        StringInputStream is = null;
-        try
+        try ( StringInputStream is = new StringInputStream(fromSource) )
         {
-            is = new StringInputStream(fromSource);
             upload(bucketName, toPath, is);
         }
-        catch ( UnsupportedEncodingException ex )
+        catch ( IOException ex )
         {
-            Kmu.closeSafely(is);
+            throw Kmu.toRuntime(ex);
         }
     }
 

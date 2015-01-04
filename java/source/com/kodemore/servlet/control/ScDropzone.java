@@ -162,10 +162,9 @@ public class ScDropzone
 
         if ( hasRemoveAction() )
         {
-            String fn =
-                Kmu.format(
-                    "function(){this.on('removedfile',function(file){%s})}",
-                    formatOnRemoveAction());
+            String fn = Kmu.format(
+                "function(){this.on('removedfile',function(file){%s})}",
+                formatOnRemoveAction());
             map.setLiteral("init", fn);
         }
 
@@ -265,16 +264,13 @@ public class ScDropzone
             KmList<FileItem> files = getData().getUploadedFiles();
 
             for ( FileItem item : files )
-            {
-                String fileName = FilenameUtils.getName(item.getName());
-                BufferedInputStream is = Kmu.toBufferedInputStream(item.getInputStream());
+                try ( BufferedInputStream in = Kmu.toBufferedInputStream(item.getInputStream()) )
+                {
+                    String fileName = FilenameUtils.getName(item.getName());
+                    byte[] data = Kmu.readBytesFrom(in);
 
-                byte[] data;
-                data = Kmu.readBytesFrom(is);
-                Kmu.closeSafely(is);
-
-                getUploadHandler().upload(fileName, data);
-            }
+                    getUploadHandler().upload(fileName, data);
+                }
         }
         catch ( IOException ex )
         {

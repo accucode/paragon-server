@@ -27,6 +27,18 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+/**
+ * I wrap a writer.  I do not directly provide additional functionality, but
+ * instead provide a basis for subclass extension.
+ *
+ * Although I reference the delegate writer, I do NOT bind any other resources.
+ * This means that clients can create a wrapper without needing to explicitly
+ * close it.  A call to close on the wrapper will delegate the close to the underlying
+ * writer.  However, clients may also simply close the underlying writer directly.
+ * As long as the client closes the underlying writer, it is not necessary to
+ * close the wrapper as well.
+ */
+
 public abstract class KmWrapperWriter
     extends Writer
 {

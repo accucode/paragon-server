@@ -29,6 +29,11 @@ import java.io.Writer;
 import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
 
+/**
+ * I wrap other writers to provide indentation.  In general, the stream
+ * is simply delegated to the underwriting writer, but text will be injected
+ * at the start of each line depending on the level of indentation.
+ */
 public class KmIndentWriter
     extends KmWrapperWriter
     implements KmConstantsIF

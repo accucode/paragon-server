@@ -192,21 +192,24 @@ public class JkRetrieveTest
         System.out.println("Attachment");
         System.out.println("Filename: " + part.getFileName());
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        InputStream is = part.getInputStream();
-        while ( true )
+        try ( InputStream in = part.getInputStream();
+            ByteArrayOutputStream out = new ByteArrayOutputStream() )
         {
-            int i = is.read();
-            if ( i < 0 )
-                break;
-            baos.write((byte)i);
+            while ( true )
+            {
+                int i = in.read();
+                if ( i < 0 )
+                    break;
+
+                out.write((byte)i);
+            }
+
+            byte[] arr = out.toByteArray();
+
+            System.out.println("Bytes...");
+            System.out.println(Kmu.formatHexString(arr, " "));
+
+            return true;
         }
-        baos.close();
-        byte[] arr = baos.toByteArray();
-
-        System.out.println("Bytes...");
-        System.out.println(Kmu.formatHexString(arr, " "));
-
-        return true;
     }
 }

@@ -1688,14 +1688,10 @@ public class ScServletData
 
     public void writeBytes(byte[] value)
     {
-        try
+        try ( OutputStream out = getOutputStream() )
         {
             setContentLength(value.length);
-
-            OutputStream out;
-            out = getOutputStream();
             out.write(value);
-            out.flush();
         }
         catch ( IOException ex )
         {
@@ -1705,18 +1701,14 @@ public class ScServletData
 
     public void writeFile(KmFile file)
     {
-        OutputStream out = null;
-        try
+        try ( OutputStream out = getOutputStream() )
         {
-            int length = (int)file.getLength();
-            setContentLength(length);
-
-            out = getOutputStream();
-            file.writeTo(getOutputStream());
+            setContentLength((int)file.getLength());
+            file.writeTo(out);
         }
-        finally
+        catch ( IOException ex )
         {
-            Kmu.closeSafely(out);
+            KmLog.warn(ex, "Error writing http response.");
         }
     }
 

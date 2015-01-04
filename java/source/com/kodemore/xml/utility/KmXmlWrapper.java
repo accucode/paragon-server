@@ -649,13 +649,11 @@ public class KmXmlWrapper
 
     public static void test2()
     {
-        FileInputStream in = null;
-        try
-        {
-            String xsd = Kmu.getHardcodedPath("/temp/xml/person.xsd");
-            String xml = Kmu.getHardcodedPath("/temp/xml/person3.xml");
+        String xsd = Kmu.getHardcodedPath("/temp/xml/person.xsd");
+        String xml = Kmu.getHardcodedPath("/temp/xml/person3.xml");
 
-            in = new FileInputStream(xml);
+        try ( FileInputStream in = new FileInputStream(xml) )
+        {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document d = db.parse(in);
@@ -671,10 +669,6 @@ public class KmXmlWrapper
         catch ( Exception ex )
         {
             throw Kmu.toRuntime(ex);
-        }
-        finally
-        {
-            Kmu.closeSafely(in);
         }
     }
 

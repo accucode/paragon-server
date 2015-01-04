@@ -187,11 +187,12 @@ public final class KmFilerUtility
         try
         {
             _fileInputStream = new FileInputStream(path);
-            InputStream in;
-            in = _fileInputStream;
-            in = new BufferedInputStream(in, _bufferSize);
+
+            InputStream in = new BufferedInputStream(_fileInputStream, _bufferSize);
+
             if ( _compress )
                 in = new InflaterInputStream(in);
+
             if ( _debug )
                 _filerInputStream = new KmFilerDebugInputStream(in);
             else
@@ -209,11 +210,12 @@ public final class KmFilerUtility
         try
         {
             _fileOutputStream = new FileOutputStream(path);
-            OutputStream out;
-            out = _fileOutputStream;
-            out = new BufferedOutputStream(out, _bufferSize);
+
+            OutputStream out = new BufferedOutputStream(_fileOutputStream, _bufferSize);
+
             if ( _compress )
                 out = new DeflaterOutputStream(out);
+
             if ( _debug )
                 _filerOutputStream = new KmFilerDebugOutputStream(out);
             else

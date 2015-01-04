@@ -3471,23 +3471,17 @@ public class Kmu
 
     public static Object process(String path, KmReaderProcessorIF p, Object... args)
     {
-        BufferedReader in = null;
-        try
-        {
-            if ( CHECK_FILE_NAME_CASE && !checkFileNameCase(path) )
-                fatal("Cannot find file: %s.", path);
+        if ( CHECK_FILE_NAME_CASE && !checkFileNameCase(path) )
+            fatal("Cannot find file: %s.", path);
 
-            in = new BufferedReader(new FileReader(path));
+        try ( BufferedReader in = new BufferedReader(new FileReader(path)); )
+        {
             return p.process(in, args);
         }
         catch ( IOException ex )
         {
             KmLog.error(ex, "Cannot read file(%s)", path);
             return null;
-        }
-        finally
-        {
-            closeSafely(in);
         }
     }
 
@@ -3509,10 +3503,8 @@ public class Kmu
     }
 
     /**
-     * Read all remaining bytes from the input stream
-     * and return them as a String.
-     * The stream is NOT closed.  Any exceptions will
-     * be wrapped and thrown as Runtime exceptions.
+     * Read all remaining bytes from the input stream, then close it.
+     * Any exceptions will be wrapped and thrown as Runtime exceptions.
      */
     public static String readStringFrom(InputStream is)
     {
@@ -3520,19 +3512,14 @@ public class Kmu
     }
 
     /**
-     * Read all remaining bytes from the input stream.
-     * The stream is NOT closed.  Any exceptions will
-     * be wrapped and thrown as Runtime exceptions.
+     * Read all remaining bytes from the input stream, then close it.
+     * Any exceptions will be wrapped and thrown as Runtime exceptions.
      */
-    public static byte[] readBytesFrom(InputStream in)
+    public static byte[] readBytesFrom(InputStream is)
     {
-        try
+        try ( BufferedInputStream in = toBufferedInputStream(is);
+            ByteArrayOutputStream out = new ByteArrayOutputStream() )
         {
-            ByteArrayOutputStream out;
-            out = new ByteArrayOutputStream();
-
-            in = toBufferedInputStream(in);
-
             while ( true )
             {
                 int i = in.read();
@@ -3542,10 +3529,9 @@ public class Kmu
                 out.write(i);
             }
 
-            out.close();
             return out.toByteArray();
         }
-        catch ( Exception ex )
+        catch ( IOException ex )
         {
             throw toRuntime(ex);
         }
@@ -3609,20 +3595,15 @@ public class Kmu
      */
     public static void writeFile(String path, String text, boolean append)
     {
-        BufferedWriter out = null;
-        try
+        try ( FileWriter fw = new FileWriter(path, append);
+            BufferedWriter out = new BufferedWriter(fw) )
         {
-            out = new BufferedWriter(new FileWriter(path, append));
             out.write(text, 0, text.length());
             out.flush();
         }
         catch ( IOException ex )
         {
             throw toRuntime(ex);
-        }
-        finally
-        {
-            closeSafely(out);
         }
     }
 
@@ -3632,20 +3613,15 @@ public class Kmu
      */
     public static void writeFile(String path, KmWriteableIF writeable)
     {
-        BufferedWriter out = null;
-        try
+        try ( FileWriter fw = new FileWriter(path);
+            BufferedWriter out = new BufferedWriter(fw); )
         {
-            out = new BufferedWriter(new FileWriter(path));
             writeable.writeOn(out);
             out.flush();
         }
         catch ( IOException ex )
         {
             throw toRuntime(ex);
-        }
-        finally
-        {
-            closeSafely(out);
         }
     }
 
@@ -3664,18 +3640,14 @@ public class Kmu
      */
     public static byte[] readFileBytes(String path)
     {
-        BufferedInputStream in = null;
-        ByteArrayOutputStream out = null;
+        if ( CHECK_FILE_NAME_CASE && !checkFileNameCase(path) )
+            throw new RuntimeException("Cannot find file: " + path);
 
-        try
+        int n = (int)new File(path).length();
+
+        try ( BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
+            ByteArrayOutputStream out = new ByteArrayOutputStream(n) )
         {
-            if ( CHECK_FILE_NAME_CASE && !checkFileNameCase(path) )
-                throw new RuntimeException("Cannot find file: " + path);
-
-            int n = (int)new File(path).length();
-            in = new BufferedInputStream(new FileInputStream(path));
-            out = new ByteArrayOutputStream(n);
-
             while ( true )
             {
                 int i = in.read();
@@ -3691,11 +3663,6 @@ public class Kmu
         catch ( IOException ex )
         {
             throw toRuntime(ex);
-        }
-        finally
-        {
-            closeSafely(in);
-            closeSafely(out);
         }
     }
 
@@ -3777,20 +3744,14 @@ public class Kmu
      */
     public static void writeFile(File f, byte[] arr, boolean append)
     {
-        BufferedOutputStream out = null;
-        try
+        try ( FileOutputStream fos = new FileOutputStream(f, append);
+            BufferedOutputStream out = new BufferedOutputStream(fos) )
         {
-            out = new BufferedOutputStream(new FileOutputStream(f, append));
             out.write(arr);
-            out.flush();
         }
         catch ( IOException ex )
         {
             throw toRuntime(ex);
-        }
-        finally
-        {
-            closeSafely(out);
         }
     }
 
@@ -5616,14 +5577,11 @@ public class Kmu
      */
     public static byte[] readResourceBytes(String path)
     {
-        InputStream in = null;
-        ByteArrayOutputStream out = null;
-        try
-        {
-            URL url = ClassLoader.getSystemResource(path);
-            in = url.openStream();
-            out = new ByteArrayOutputStream();
+        URL url = ClassLoader.getSystemResource(path);
 
+        try ( InputStream in = url.openStream();
+            ByteArrayOutputStream out = new ByteArrayOutputStream() )
+        {
             while ( true )
             {
                 int b = in.read();
@@ -5639,11 +5597,6 @@ public class Kmu
         {
             KmLog.error(ex, "Cannot read class resource(%s)", path);
             return null;
-        }
-        finally
-        {
-            closeSafely(in);
-            closeSafely(out);
         }
     }
 

@@ -22,10 +22,9 @@
 
 package com.kodemore.telnet;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import com.kodemore.utility.Kmu;
 
 public class KmTelnetServer
     implements KmTelnetConstantsIF
@@ -89,25 +88,25 @@ public class KmTelnetServer
 
     public void start()
     {
-        ServerSocket ss = null;
-        try
+        try ( ServerSocket ss = new ServerSocket(getPort()) )
         {
-            ss = new ServerSocket(getPort());
             while ( true )
-            {
-                Socket socket = ss.accept();
-                KmTelnetSession session = _factory.create();
-                session.setSocket(socket);
-                session.start();
-            }
+                accept(ss);
         }
         catch ( Exception ex )
         {
             ex.printStackTrace();
         }
-        finally
+    }
+
+    private void accept(ServerSocket ss) throws IOException
+    {
+        try ( Socket socket = ss.accept() )
         {
-            Kmu.closeSafely(ss);
+            KmTelnetSession session;
+            session = _factory.create();
+            session.setSocket(socket);
+            session.start();
         }
     }
 

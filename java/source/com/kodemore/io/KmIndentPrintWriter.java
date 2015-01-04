@@ -30,6 +30,18 @@ public class KmIndentPrintWriter
     extends KmPrintWriter
 {
     //##################################################
+    //# instance creation
+    //##################################################
+
+    public static KmIndentPrintWriter toIndentPrintWriter(Writer e)
+    {
+        if ( e instanceof KmIndentPrintWriter )
+            return (KmIndentPrintWriter)e;
+
+        return new KmIndentPrintWriter(e);
+    }
+
+    //##################################################
     //# variables
     //##################################################
 
@@ -44,6 +56,7 @@ public class KmIndentPrintWriter
         this(e, false);
     }
 
+    @SuppressWarnings("resource")
     public KmIndentPrintWriter(Writer e, boolean autoFlush)
     {
         this(new KmIndentWriter(e), autoFlush);

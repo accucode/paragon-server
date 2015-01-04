@@ -449,34 +449,25 @@ public abstract class KmHttpRequest
      */
     private void _readResponseValue() throws IOException
     {
-        InputStream in = null;
-        try
-        {
-            if ( isSuccessfullResponse(_connection.getResponseMessage()) )
-                in = _connection.getInputStream();
-            else
-                in = _connection.getErrorStream();
-
-            _responseValue = Kmu.readBytesFrom(in);
-        }
-        finally
-        {
-            Kmu.closeSafely(in);
-        }
+        _responseValue = Kmu.readBytesFrom(getInputOrErrorStream());
     }
 
-    protected boolean isSuccessfullResponse(String responseMessage)
+    protected InputStream getInputOrErrorStream() throws IOException
     {
-        if ( Kmu.isEmpty(responseMessage) )
-            return false;
-
-        return responseMessage.equalsIgnoreCase("OK");
+        return isSuccessfullResponse()
+            ? _connection.getInputStream()
+            : _connection.getErrorStream();
     }
 
     public boolean isSuccessfullResponse() throws IOException
     {
         String msg = _connection.getResponseMessage();
 
+        return isSuccessfullResponse(msg);
+    }
+
+    protected boolean isSuccessfullResponse(String msg)
+    {
         if ( Kmu.isEmpty(msg) )
             return false;
 

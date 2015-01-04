@@ -1,6 +1,7 @@
 package com.kodemore.file;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -463,11 +464,10 @@ public class KmFile
 
     public void writeTo(OutputStream out)
     {
-        BufferedInputStream in = null;
-        try
+        try ( BufferedInputStream in = getBufferedInputStream(); )
         {
-            in = getBufferedInputStream();
-            out = Kmu.toBufferedOutputStream(out);
+            @SuppressWarnings("resource")
+            BufferedOutputStream buf = Kmu.toBufferedOutputStream(out);
 
             while ( true )
             {
@@ -475,17 +475,14 @@ public class KmFile
                 if ( i < 0 )
                     break;
 
-                out.write(i);
+                buf.write(i);
             }
+
+            buf.flush();
         }
         catch ( IOException ex )
         {
             KmLog.warn(ex, "Error writing http response.");
         }
-        finally
-        {
-            Kmu.closeSafely(in);
-        }
     }
-
 }

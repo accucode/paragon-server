@@ -26,12 +26,9 @@ public class JkSqlDumpStripper
         boolean echo = false;
         int lines = 0;
 
-        BufferedReader in = null;
-        BufferedWriter out = null;
-        try
+        try ( BufferedReader in = new BufferedReader(new FileReader(inFile));
+            BufferedWriter out = new BufferedWriter(new FileWriter(outFile)) )
         {
-            in = new BufferedReader(new FileReader(inFile));
-            out = new BufferedWriter(new FileWriter(outFile));
 
             while ( true )
             {
@@ -63,11 +60,6 @@ public class JkSqlDumpStripper
         catch ( Exception ex )
         {
             throw Kmu.toRuntime(ex);
-        }
-        finally
-        {
-            Kmu.closeSafely(in);
-            Kmu.closeSafely(out);
         }
     }
 }

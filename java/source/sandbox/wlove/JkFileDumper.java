@@ -17,10 +17,9 @@ public class JkFileDumper
     {
         int lines = 0;
 
-        BufferedReader in = null;
-        try
+        try ( FileReader fr = new FileReader(inFile);
+            BufferedReader in = new BufferedReader(fr) )
         {
-            in = new BufferedReader(new FileReader(inFile));
             String line = null;
             while ( true )
             {
@@ -40,10 +39,6 @@ public class JkFileDumper
         catch ( Exception ex )
         {
             throw Kmu.toRuntime(ex);
-        }
-        finally
-        {
-            Kmu.closeSafely(in);
         }
     }
 }

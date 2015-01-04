@@ -38,12 +38,10 @@ public class KmFilerDebugUtility
      */
     public static void writeObject(String path, KmFilerIF e)
     {
-        KmFilerDebugOutputStream out = null;
-        try
+        try ( FileOutputStream fs = new FileOutputStream(path);
+            BufferedOutputStream bs = new BufferedOutputStream(fs) )
         {
-            FileOutputStream fs = new FileOutputStream(path);
-            BufferedOutputStream bs = new BufferedOutputStream(fs);
-
+            KmFilerDebugOutputStream out;
             out = new KmFilerDebugOutputStream(bs);
             out.writeObject(e);
             out.flush();
@@ -51,11 +49,6 @@ public class KmFilerDebugUtility
         catch ( Exception ex )
         {
             throw Kmu.toRuntime(ex);
-        }
-        finally
-        {
-            if ( out != null )
-                out.closeSafely();
         }
     }
 
@@ -65,12 +58,10 @@ public class KmFilerDebugUtility
      */
     public static void writeList(String path, List<KmFilerIF> v)
     {
-        KmFilerDebugOutputStream out = null;
-        try
+        try ( FileOutputStream fs = new FileOutputStream(path);
+            BufferedOutputStream bs = new BufferedOutputStream(fs) )
         {
-            FileOutputStream fs = new FileOutputStream(path);
-            BufferedOutputStream bs = new BufferedOutputStream(fs);
-
+            KmFilerDebugOutputStream out;
             out = new KmFilerDebugOutputStream(bs);
             out.writeList(v);
             out.flush();
@@ -79,11 +70,6 @@ public class KmFilerDebugUtility
         {
             throw Kmu.toRuntime(ex);
         }
-        finally
-        {
-            if ( out != null )
-                out.closeSafely();
-        }
     }
 
     /**
@@ -91,23 +77,15 @@ public class KmFilerDebugUtility
      */
     public static KmFilerIF readObject(String path, Class<?> c)
     {
-        KmFilerDebugInputStream in = null;
-        try
+        try ( FileInputStream fs = new FileInputStream(new File(path));
+            BufferedInputStream bs = new BufferedInputStream(fs) )
         {
-            FileInputStream fs = new FileInputStream(new File(path));
-            BufferedInputStream bs = new BufferedInputStream(fs);
-            in = new KmFilerDebugInputStream(bs);
-            KmFilerIF e = in.readObject(c);
-            return e;
+            KmFilerDebugInputStream in = new KmFilerDebugInputStream(bs);
+            return in.readObject(c);
         }
         catch ( Exception ex )
         {
             throw Kmu.toRuntime(ex);
-        }
-        finally
-        {
-            if ( in != null )
-                in.closeSafely();
         }
     }
 
@@ -116,22 +94,15 @@ public class KmFilerDebugUtility
      */
     public static List<?> readList(String path, Class<?> c)
     {
-        KmFilerDebugInputStream in = null;
-        try
+        try ( FileInputStream fs = new FileInputStream(path);
+            BufferedInputStream bs = new BufferedInputStream(fs) )
         {
-            FileInputStream fs = new FileInputStream(path);
-            BufferedInputStream bs = new BufferedInputStream(fs);
-            in = new KmFilerDebugInputStream(bs);
+            KmFilerDebugInputStream in = new KmFilerDebugInputStream(bs);
             return in.readList(c);
         }
         catch ( Exception ex )
         {
             throw Kmu.toRuntime(ex);
-        }
-        finally
-        {
-            if ( in != null )
-                in.closeSafely();
         }
     }
 

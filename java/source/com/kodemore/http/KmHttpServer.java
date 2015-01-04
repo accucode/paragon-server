@@ -95,24 +95,25 @@ public abstract class KmHttpServer
     {
         StringBuilder out = new StringBuilder();
 
-        InputStream is = _socket.getInputStream();
-        InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader r = new BufferedReader(isr);
-
-        while ( true )
+        try ( InputStream is = _socket.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader r = new BufferedReader(isr); )
         {
-            String s = r.readLine();
-            if ( s == null )
-                break;
+            while ( true )
+            {
+                String s = r.readLine();
+                if ( s == null )
+                    break;
 
-            if ( s.length() == 0 )
-                break;
+                if ( s.length() == 0 )
+                    break;
 
-            out.append(s);
-            out.append("\r\n");
+                out.append(s);
+                out.append("\r\n");
+            }
+
+            _request = out.toString();
         }
-
-        _request = out.toString();
     }
 
     public String getRequest()
@@ -138,10 +139,14 @@ public abstract class KmHttpServer
     {
         String s = getResponse();
 
-        System.out.println("\n\nKmHttpServer.writeResponse");
+        System.out.println();
+        System.out.println();
+        System.out.println("KmHttpServer.writeResponse");
         System.out.println(s);
 
         OutputStream os = _socket.getOutputStream();
+
+        @SuppressWarnings("resource")
         BufferedOutputStream out = new BufferedOutputStream(os);
 
         writeln(out, "HTTP/1.0 200 OK");

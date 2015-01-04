@@ -44,7 +44,7 @@ public class KmStfElement
 
     /**
      * The element's name.
-     * Element names must start with a letter and cannot 
+     * Element names must start with a letter and cannot
      * contain whitespace.
      */
     private String                 _name;
@@ -356,17 +356,18 @@ public class KmStfElement
         printTreeOn(new OutputStreamWriter(System.out));
     }
 
+    /**
+     * The print writer is intentionally NOT closed.
+     */
+    @SuppressWarnings("resource")
     public void printTreeOn(Writer out)
     {
         int tab = 4;
 
         KmIndentPrintWriter pw;
-        if ( out instanceof KmIndentPrintWriter )
-            pw = (KmIndentPrintWriter)out;
-        else
-            pw = new KmIndentPrintWriter(out);
-
+        pw = KmIndentPrintWriter.toIndentPrintWriter(out);
         pw.getIndentWriter().setIndentSpaces(4);
+
         _printTreeOn(pw, tab);
     }
 

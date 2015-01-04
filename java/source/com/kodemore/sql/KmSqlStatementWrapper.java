@@ -112,15 +112,18 @@ public class KmSqlStatementWrapper
      * The statement is not closed since it must remain open
      * while processing the result set.
      */
+    @SuppressWarnings("resource")
     public KmSqlResultSet executeQuery(String sql)
     {
         try
         {
             long nanos = System.nanoTime();
-            ResultSet rs = _statement.executeQuery(sql);
-            KmSqlResultSet e = new KmSqlResultSet(getAdaptor(), rs);
+            ResultSet inner = _statement.executeQuery(sql);
+
+            KmSqlResultSet rs;
+            rs = new KmSqlResultSet(getAdaptor(), inner);
             debug(sql, nanos);
-            return e;
+            return rs;
         }
         catch ( SQLException ex )
         {
@@ -210,6 +213,7 @@ public class KmSqlStatementWrapper
         }
     }
 
+    @SuppressWarnings("resource")
     public KmSqlResultSet _getResultSet()
     {
         try
