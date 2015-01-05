@@ -44,8 +44,9 @@ public class MyWyattTestPage
         root.css().fill().pad();
 
         ScGroup group;
-        group = root.addGroup("hello");
-        group.getBody().addText("world");
+        group = root.addGroup();
+        group.setTitle("hello");
+        group.getBody().addPad().addText("world");
     }
 
 }

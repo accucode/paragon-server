@@ -2431,6 +2431,10 @@ public class Kmu
         }
     }
 
+    //##################################################
+    //# match
+    //##################################################
+
     /**
      * Determine is the first parameter matches any of the arguments.
      */
@@ -2457,68 +2461,9 @@ public class Kmu
         return false;
     }
 
-    public static String formatList(String... arr)
-    {
-        if ( arr == null )
-            return "";
-
-        StringBuilder out = new StringBuilder();
-
-        int n = arr.length;
-        for ( int i = 0; i < n; i++ )
-        {
-            out.append(arr[i]);
-            if ( i < n - 1 )
-                out.append(",");
-        }
-
-        return out.toString();
-    }
-
-    public static <E> String formatList(Iterable<E> v)
-    {
-        return formatList(v, (KmAdaptorIF<E,?>)null, LIST_SEPARATOR);
-    }
-
-    public static <E> String formatList(Iterable<E> v, KmAdaptorIF<E,?> adapter, Object separator)
-    {
-        if ( v == null )
-            return "";
-
-        StringBuilder out = new StringBuilder();
-
-        Iterator<E> i = v.iterator();
-        while ( i.hasNext() )
-        {
-            E e = i.next();
-
-            Object o = e;
-            if ( adapter != null )
-                o = adapter.getValue(e);
-
-            out.append(o);
-
-            if ( i.hasNext() && separator != null )
-                out.append(separator);
-        }
-
-        return out.toString();
-    }
-
-    public static <E> String formatList(Iterable<E> v, KmAdaptorIF<E,?> adapter)
-    {
-        return formatList(v, adapter, LIST_SEPARATOR);
-    }
-
-    public static <E> String formatList(Iterable<E> v, Object separator)
-    {
-        return formatList(v, (KmAdaptorIF<E,?>)null, separator);
-    }
-
-    public static <E> String formatList(Iterable<E> v, KmMetaAttribute<E,?> attr, Object separator)
-    {
-        return formatList(v, attr.getAdaptor(), separator);
-    }
+    //##################################################
+    //# string utils
+    //##################################################
 
     public static <E> String formatLines(Iterable<E> v)
     {
@@ -2546,7 +2491,7 @@ public class Kmu
             return "";
 
         if ( args.length == 0 )
-            return "";
+            return msg.toString();
 
         return String.format(msg.toString(), args);
     }
@@ -2683,6 +2628,73 @@ public class Kmu
             return ((KmDisplayStringIF)e).getDisplayString();
 
         return e.toString();
+    }
+
+    //##################################################
+    //# format list
+    //##################################################
+
+    public static String formatList(String... arr)
+    {
+        if ( arr == null )
+            return "";
+
+        StringBuilder out = new StringBuilder();
+
+        int n = arr.length;
+        for ( int i = 0; i < n; i++ )
+        {
+            out.append(arr[i]);
+            if ( i < n - 1 )
+                out.append(",");
+        }
+
+        return out.toString();
+    }
+
+    public static <E> String formatList(Iterable<E> v)
+    {
+        return formatList(v, (KmAdaptorIF<E,?>)null, LIST_SEPARATOR);
+    }
+
+    public static <E> String formatList(Iterable<E> v, KmAdaptorIF<E,?> adapter, Object separator)
+    {
+        if ( v == null )
+            return "";
+
+        StringBuilder out = new StringBuilder();
+
+        Iterator<E> i = v.iterator();
+        while ( i.hasNext() )
+        {
+            E e = i.next();
+
+            Object o = e;
+            if ( adapter != null )
+                o = adapter.getValue(e);
+
+            out.append(o);
+
+            if ( i.hasNext() && separator != null )
+                out.append(separator);
+        }
+
+        return out.toString();
+    }
+
+    public static <E> String formatList(Iterable<E> v, KmAdaptorIF<E,?> adapter)
+    {
+        return formatList(v, adapter, LIST_SEPARATOR);
+    }
+
+    public static <E> String formatList(Iterable<E> v, Object separator)
+    {
+        return formatList(v, (KmAdaptorIF<E,?>)null, separator);
+    }
+
+    public static <E> String formatList(Iterable<E> v, KmMetaAttribute<E,?> attr, Object separator)
+    {
+        return formatList(v, attr.getAdaptor(), separator);
     }
 
     //##################################################
