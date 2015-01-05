@@ -30,7 +30,7 @@ public class MyEnvironment
         String webInf = Kmu.joinFilePath(path, "WEB-INF");
 
         if ( !Kmu.fileExists(webInf) )
-            Kmu.fatal(
+            throw Kmu.newFatal(
                 "Attempt to install web path failed (%s).  Cannot find (%s).",
                 webRoot,
                 webInf);

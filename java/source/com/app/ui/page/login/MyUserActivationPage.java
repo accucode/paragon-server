@@ -305,7 +305,10 @@ public class MyUserActivationPage
         String pw2 = _password2Field.getValue();
 
         if ( Kmu.isNotEqual(pw1, pw2) )
-            _password1Field.error("Passwords did not match.");
+        {
+            _password1Field.addError("Passwords did not match.");
+            throw newCancel();
+        }
 
         createUser();
         setEmailCookie();

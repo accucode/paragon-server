@@ -23,7 +23,7 @@ public class KmPropertyTypeBoolean
 
         Boolean e = Kmu.parseBoolean(value);
         if ( e == null )
-            error("Property %s: Value (%s) is not a boolean.", key, value);
+            throw Kmu.newFatal("Property %s: Value (%s) is not a boolean.", key, value);
 
         return e;
     }

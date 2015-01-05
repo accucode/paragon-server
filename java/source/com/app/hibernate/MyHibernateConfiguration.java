@@ -19,7 +19,7 @@ public class MyHibernateConfiguration
     public static void install()
     {
         if ( _instance != null )
-            Kmu.fatal("Already installed.");
+            throw Kmu.newFatal("Already installed.");
 
         _instance = new MyHibernateConfiguration();
     }
@@ -27,7 +27,7 @@ public class MyHibernateConfiguration
     public static MyHibernateConfiguration getInstance()
     {
         if ( _instance == null )
-            Kmu.fatal("Not installed.");
+            throw Kmu.newFatal("Not installed.");
 
         return _instance;
     }

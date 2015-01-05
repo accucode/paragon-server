@@ -254,7 +254,10 @@ public class KmgModelDelegate
     public void validate()
     {
         if ( getField() == null )
-            error("Cannot resolve attribute(%s) field(%s).", getAttribute().getName(), _fieldName);
+            throw newFatal(
+                "Cannot resolve attribute(%s) field(%s).",
+                getAttribute().getName(),
+                _fieldName);
     }
 
     @Override

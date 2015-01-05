@@ -413,7 +413,7 @@ public class KmgModel
     {
         KmList<KmgModelField> v = getPrimaryKeyFields();
         if ( !v.isSingleton() )
-            error("This model must have exactly one primary key field.");
+            throw newFatal("This model must have exactly one primary key field.");
         return getPrimaryKeyFields().getFirst();
     }
 
@@ -636,7 +636,7 @@ public class KmgModel
                 i++;
 
         if ( i > 1 )
-            error("Model cannot contain multiple (strong) parent associations.");
+            throw newFatal("Model cannot contain multiple (strong) parent associations.");
     }
 
     @Override

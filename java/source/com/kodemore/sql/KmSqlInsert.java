@@ -177,10 +177,10 @@ public class KmSqlInsert
     public void validate()
     {
         if ( !hasTable() )
-            fatal("Must specify a table to insert.");
+            throw newFatal("Must specify a table to insert.");
 
         if ( !hasColumns() )
-            fatal("Must specify the columns to update.");
+            throw newFatal("Must specify the columns to update.");
     }
 
     //##################################################

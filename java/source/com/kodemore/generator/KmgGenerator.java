@@ -240,7 +240,7 @@ public class KmgGenerator
             return;
         }
 
-        fatal("Unknown file mode: " + t.getFileMode());
+        throw Kmu.newFatal("Unknown file mode: " + t.getFileMode());
     }
 
     private void processOneFile(KmgSetup gs)
@@ -478,7 +478,7 @@ public class KmgGenerator
             boolean ok = _velocity.evaluate(context, out, "dynamic", template);
 
             if ( !ok )
-                fatal("Cannot evaluate template: (%s).", template);
+                throw Kmu.newFatal("Cannot evaluate template: (%s).", template);
 
             return out.toString();
         }
@@ -561,15 +561,6 @@ public class KmgGenerator
         out.println("###############################################################");
         out.print("###############################################################");
         return out.toString();
-    }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    public void fatal(String s, Object... args)
-    {
-        Kmu.fatal(s, args);
     }
 
     //##################################################

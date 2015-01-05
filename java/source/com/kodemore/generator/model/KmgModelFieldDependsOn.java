@@ -81,7 +81,7 @@ public class KmgModelFieldDependsOn
                 continue;
             }
 
-            error("Unknown depend value (%s).", s);
+            throw newFatal("Unknown depend value (%s).", s);
         }
         return v;
     }
@@ -114,7 +114,7 @@ public class KmgModelFieldDependsOn
         _values = parseStrings(e, "value");
 
         if ( _values.isEmpty() )
-            error(e, "depend values is empty.");
+            throw newFatal(e, "depend values is empty.");
 
         String def = "update" + getField().getf_Name();
 

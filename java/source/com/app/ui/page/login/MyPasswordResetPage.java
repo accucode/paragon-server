@@ -307,14 +307,16 @@ public class MyPasswordResetPage
         String pw2 = _password2Field.getValue();
 
         if ( Kmu.isNotEqual(pw1, pw2) )
-            _password1Field.error("Passwords did not match.");
+        {
+            _password1Field.addError("Passwords did not match.");
+            throw newCancel();
+        }
 
         MyUser user = pr.findUser();
         if ( user == null )
         {
             printError("The requested email is not valid.");
             return;
-
         }
 
         user.setPassword(pw1);

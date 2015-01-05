@@ -162,7 +162,7 @@ public class KmgProperty
     public void parse(KmStfElement e)
     {
         if ( !e.hasName("property") )
-            Kmu.fatal("Invalid properties file.  Expected root: 'properties'.");
+            throw Kmu.newFatal("Invalid properties file.  Expected root: 'properties'.");
 
         _name = parseRequiredName(e, "name");
 
@@ -170,12 +170,13 @@ public class KmgProperty
 
         _type = KmPropertyTypes.getType(typeName);
         if ( _type == null )
-            Kmu.fatal("Unknown type (%s) in property (%s).", typeName, _name);
+            throw Kmu.newFatal("Unknown type (%s) in property (%s).", typeName, _name);
 
         _defaultValue = e.getValue("default");
         _comment = e.getValue("comment");
 
-        KmList<String> validTags = KmList.createStrings("name", "type", "default", "comment");
+        KmList<String> validTags;
+        validTags = KmList.createStrings("name", "type", "default", "comment");
 
         KmList<String> keys;
         keys = e.getKeys().toDistinctList();

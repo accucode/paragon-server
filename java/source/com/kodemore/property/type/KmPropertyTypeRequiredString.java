@@ -19,7 +19,8 @@ public class KmPropertyTypeRequiredString
     public Object validateValue(String key, String value)
     {
         if ( Kmu.isEmpty(value) )
-            error("Property %s: Value cannot not be blank.", key);
+            throw Kmu.newFatal("Property %s: Value cannot not be blank.", key);
+
         return value;
     }
 

@@ -17,7 +17,7 @@ public class MySharedFiles
     public static void install()
     {
         if ( _instance != null )
-            Kmu.fatal("Already Installed.");
+            throw Kmu.newFatal("Already Installed.");
 
         _instance = new MySharedFiles();
     }
@@ -25,7 +25,7 @@ public class MySharedFiles
     public static MySharedFiles getInstance()
     {
         if ( _instance == null )
-            Kmu.fatal("Not Installed.");
+            throw Kmu.newFatal("Not Installed.");
 
         return _instance;
     }

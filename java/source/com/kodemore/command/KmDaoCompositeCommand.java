@@ -1,6 +1,7 @@
 package com.kodemore.command;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.utility.Kmu;
 
 public class KmDaoCompositeCommand
     extends KmDaoCommand
@@ -58,8 +59,10 @@ public class KmDaoCompositeCommand
         if ( locks.isSingleton() )
             return locks.getFirst();
 
-        fatal("Command(%s) requires conflicting locks(%s).", getSimpleClassName(), locks.format());
-        return null;
+        throw Kmu.newFatal(
+            "Command(%s) requires conflicting locks(%s).",
+            getSimpleClassName(),
+            locks.format());
     }
 
     @Override
@@ -70,8 +73,10 @@ public class KmDaoCompositeCommand
             return 0;
 
         int i = v.getFirst().getLockTimeoutSeconds();
+
         for ( KmDaoCommand e : v )
             i = Math.min(i, e.getLockTimeoutSeconds());
+
         return i;
     }
 

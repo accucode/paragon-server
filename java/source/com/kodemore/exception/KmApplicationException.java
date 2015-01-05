@@ -69,7 +69,7 @@ public class KmApplicationException
         setErrors(errors);
     }
 
-    public KmApplicationException(String msg, Object... args)
+    public KmApplicationException(CharSequence msg, Object... args)
     {
         addError(msg, args);
     }
@@ -161,7 +161,7 @@ public class KmApplicationException
         _errors.add(e);
     }
 
-    public void addError(String msg, Object... args)
+    public void addError(CharSequence msg, Object... args)
     {
         addError(new KmGeneralError(msg, args));
     }

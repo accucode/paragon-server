@@ -61,8 +61,10 @@ $utility.protocol("delete")
     public void delete${model.primaryKeyField.f_Name}(${model.primaryKeyField.f_Type} e)
     {
         ${model.f_Class} m = find${model.primaryKeyField.f_Name}(e);
+        
         if ( m == null )
-            fatal("Cannot delete; key not found(%s).", e);
+            throw Kmu.newFatal("Cannot delete; key not found(%s).", e);
+            
         delete(m);
     }
 

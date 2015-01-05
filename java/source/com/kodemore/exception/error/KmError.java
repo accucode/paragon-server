@@ -76,9 +76,9 @@ public abstract class KmError
     @Override
     public String formatProblem()
     {
-        StringBuilder sb = new StringBuilder();
-        formatProblem(sb);
-        return sb.toString();
+        StringBuilder out = new StringBuilder();
+        formatProblem(out);
+        return out.toString();
     }
 
     public abstract void formatProblem(StringBuilder out);

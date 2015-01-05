@@ -25,7 +25,7 @@ public class ScGlobalContext
     public static ScActionContextIF getInstance()
     {
         if ( _instance == null )
-            Kmu.fatal("Not installed.");
+            throw Kmu.newFatal("Not installed.");
 
         return _instance;
     }

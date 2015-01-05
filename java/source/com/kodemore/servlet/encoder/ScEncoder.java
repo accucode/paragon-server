@@ -70,14 +70,16 @@ public class ScEncoder
     public void encode(Object e)
     {
         ScCoderIF c = getRegistry().getCoderFor(e);
+
         if ( c == null )
-            Kmu.fatal("Cannot encode (%s): %s", e.getClass().getName(), e.toString());
+            throw Kmu.newFatal("Cannot encode (%s): %s", e.getClass().getName(), e);
 
         if ( _buffer.length() > 0 )
             _buffer.append(COMMA);
 
         _buffer.append(c.getKey());
         _buffer.append(COMMA);
+
         c.encode(this, e);
     }
 

@@ -73,10 +73,10 @@ public abstract class KmValidationError
     @Override
     public String formatMessage()
     {
-        StringBuilder sb = new StringBuilder();
-        formatSubject(sb);
-        formatProblem(sb);
-        return sb.toString();
+        StringBuilder out = new StringBuilder();
+        formatSubject(out);
+        formatProblem(out);
+        return out.toString();
     }
 
     public void formatSubject(StringBuilder out)

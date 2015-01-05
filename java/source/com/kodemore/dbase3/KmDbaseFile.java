@@ -159,7 +159,7 @@ public class KmDbaseFile
 
             int n = in.read(arr);
             if ( n != length )
-                Kmu.fatal("Cannot read offset(%s) length(%s).", offset, length);
+                throw Kmu.newFatal("Cannot read offset(%s) length(%s).", offset, length);
 
             return arr;
         }

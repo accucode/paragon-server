@@ -72,7 +72,7 @@ public class ScFormatter
     public static ScFormatter getInstance()
     {
         if ( _instance == null )
-            Kmu.fatal("Not installed.");
+            throw Kmu.newFatal("Not installed.");
 
         return _instance;
     }
@@ -85,7 +85,7 @@ public class ScFormatter
     public static void setInstance(ScFormatter e)
     {
         if ( _instance != null )
-            Kmu.fatal("Already installed.");
+            throw Kmu.newFatal("Already installed.");
 
         _instance = e;
     }

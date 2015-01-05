@@ -115,7 +115,7 @@ public class MyPatchBridge
 
             int n = st.execute(con);
             if ( n != 1 )
-                Kmu.fatal("Unexpected updated count(%s).", n);
+                throw newFatal("Unexpected updated count(%s).", n);
 
             con.commit();
         }
@@ -142,7 +142,7 @@ public class MyPatchBridge
 
             int n = st.execute(con);
             if ( n != 1 )
-                Kmu.fatal("Unexpected delete count(%s).", n);
+                throw newFatal("Unexpected delete count(%s).", n);
 
             con.commit();
         }
@@ -176,4 +176,8 @@ public class MyPatchBridge
             con.close();
     }
 
+    private RuntimeException newFatal(String msg, Object... args)
+    {
+        return Kmu.newFatal(msg, args);
+    }
 }

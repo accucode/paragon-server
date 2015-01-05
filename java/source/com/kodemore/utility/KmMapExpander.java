@@ -85,7 +85,11 @@ public class KmMapExpander
                 if ( value.contains(k) )
                 {
                     if ( path.contains(k) )
-                        error("A value cannot contain itself. Key=%s. Path=%s.", key, path);
+                        throw Kmu.newFatal(
+                            "A value cannot contain itself. Key=%s. Path=%s.",
+                            key,
+                            path);
+
                     path.add(k);
                     value = Kmu.replaceAll(value, k, v);
                     changed = true;
@@ -93,11 +97,6 @@ public class KmMapExpander
             }
         }
         return value;
-    }
-
-    public void error(String s, Object... args)
-    {
-        Kmu.fatal(s, args);
     }
 
     //##################################################

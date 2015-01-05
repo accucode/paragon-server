@@ -246,7 +246,7 @@ public class KmEmailSmtpMethod
         List<KmEmailPartIF> parts = email.getParts();
 
         if ( parts.isEmpty() )
-            fatal("No parts to send.");
+            throw Kmu.newFatal("No parts to send.");
 
         if ( parts.size() == 1 )
             return composeSinglePart(email);
@@ -443,14 +443,13 @@ public class KmEmailSmtpMethod
         {
             String file = null; // not used
 
-            URLName urlName =
-                new URLName(
-                    getSmtpScheme(),
-                    getSmtpHost(),
-                    getSmtpPort(),
-                    file,
-                    getSmtpUser(),
-                    getSmtpPassword());
+            URLName urlName = new URLName(
+                getSmtpScheme(),
+                getSmtpHost(),
+                getSmtpPort(),
+                file,
+                getSmtpUser(),
+                getSmtpPassword());
 
             _transport = createTransport(urlName);
             _transport.connect();
@@ -526,10 +525,4 @@ public class KmEmailSmtpMethod
         for ( KmEmailResult r : _results.values() )
             r.setError(ex);
     }
-
-    private void fatal(String msg, Object... args)
-    {
-        Kmu.fatal(msg, args);
-    }
-
 }

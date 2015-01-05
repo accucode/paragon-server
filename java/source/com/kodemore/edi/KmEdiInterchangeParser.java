@@ -156,7 +156,7 @@ public class KmEdiInterchangeParser
             KmEdiElement e = readElement();
 
             if ( e == null )
-                error("Cannot read element.");
+                throw newFatal("Cannot read element.");
 
             _elements.add(e);
         }
@@ -170,7 +170,7 @@ public class KmEdiInterchangeParser
     private void validate(String tag)
     {
         if ( tag.length() != TAG_LENGTH )
-            error("Segment tag has incorrect length");
+            throw newFatal("Segment tag has incorrect length");
     }
 
     private String readElementTag()
@@ -178,10 +178,10 @@ public class KmEdiInterchangeParser
         KmEdiElement e = readElement();
 
         if ( e == null )
-            error("Cannot read tag element.");
+            throw newFatal("Cannot read tag element.");
 
         if ( !e.isSimple() )
-            error("Segment tag must be simple.");
+            throw newFatal("Segment tag must be simple.");
 
         return e.getValue();
     }
@@ -230,7 +230,7 @@ public class KmEdiInterchangeParser
 
         int n = v.size();
         if ( n == 0 )
-            error("Element must have at least 1 value.");
+            throw newFatal("Element must have at least 1 value.");
 
         return new KmEdiElement(v);
     }
@@ -267,7 +267,7 @@ public class KmEdiInterchangeParser
 
             i = _read();
             if ( i < 0 )
-                error("File cannot end with escape character.");
+                throw newFatal("File cannot end with escape character.");
 
             _next = (char)i;
         }
@@ -343,7 +343,8 @@ public class KmEdiInterchangeParser
     private void skip(char c)
     {
         if ( _next != c )
-            error("Cannot skip %1, found %2 instead.", c, _next);
+            throw newFatal("Cannot skip %1, found %2 instead.", c, _next);
+
         read();
     }
 
@@ -379,8 +380,8 @@ public class KmEdiInterchangeParser
     //# utility
     //##################################################
 
-    private void error(String s, Object... args)
+    private RuntimeException newFatal(String msg, Object... args)
     {
-        Kmu.fatal(s, args);
+        return Kmu.newFatal(msg, args);
     }
 }

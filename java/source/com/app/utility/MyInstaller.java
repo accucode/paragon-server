@@ -130,7 +130,7 @@ public class MyInstaller
     public void checkPreInstalled()
     {
         if ( isInstalled() )
-            Kmu.fatal("Operation not allowed after install.");
+            throw Kmu.newFatal("Operation not allowed after install.");
     }
 
     //##################################################

@@ -71,7 +71,7 @@ public class KmgPropertyGroup
     public void parse(KmStfElement e)
     {
         if ( !e.hasName("group") )
-            Kmu.fatal("Expected element: 'group'");
+            throw Kmu.newFatal("Expected element: 'group'");
 
         _name = parseRequiredName(e, "name");
 

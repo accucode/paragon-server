@@ -211,7 +211,7 @@ public class KmgModelType
     public Integer getFixedLength()
     {
         if ( !hasFixedLength() )
-            error("Field (%s) does not have a fixed length.", this);
+            throw newFatal("Field (%s) does not have a fixed length.", this);
 
         return getMaximumLength();
     }
@@ -405,9 +405,10 @@ public class KmgModelType
         _comment = parseRequiredString(x, "comment");
 
         String baseTypeName = parseRequiredString(x, "baseType");
+
         _protoType = KmProtoTypes.get(baseTypeName);
         if ( _protoType == null )
-            error(x, "Unknown baseType: %s", baseTypeName);
+            throw newFatal(x, "Unknown baseType: %s", baseTypeName);
 
         _minimumLength = parseInteger(x, "minimumLength", null);
         _maximumLength = parseInteger(x, "maximumLength", null);

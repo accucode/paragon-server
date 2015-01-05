@@ -223,10 +223,17 @@ public class MyDevSharedFileBrowserPage
         KmFile dir = getDirectory();
 
         if ( dir.exists() )
-            _directoryField.error("Already exists.");
+        {
+            _directoryField.addError("Already exists.");
+            throw newCancel();
+        }
 
         if ( dir.createFolder() )
-            _directoryField.error("Cannot create directory.");
+        {
+            _directoryField.addError("Cannot create directory.");
+            throw newCancel();
+        }
+
         Object[] args = {};
 
         ajax().toast("Created Directory: " + dir, args);
@@ -236,8 +243,9 @@ public class MyDevSharedFileBrowserPage
     private void handleOpenFolder()
     {
         String path = _folderList.getStringValue();
+
         if ( Kmu.isEmpty(path) )
-            error("No folder selected.");
+            throw Kmu.newError("No folder selected.");
 
         open(getFile(path));
         print();
@@ -246,8 +254,9 @@ public class MyDevSharedFileBrowserPage
     private void handleGetFile()
     {
         String path = _fileList.getStringValue();
+
         if ( Kmu.isEmpty(path) )
-            error("No file selected.");
+            throw Kmu.newError("No file selected.");
 
         KmFile file = getFile(path);
         byte[] bytes = file.readBytes();
@@ -266,10 +275,10 @@ public class MyDevSharedFileBrowserPage
     private void open(KmFile dir)
     {
         if ( !dir.exists() )
-            error("Does not exist: " + dir);
+            throw Kmu.newError("Does not exist: " + dir);
 
         if ( !dir.isFolder() )
-            error("Not a directory.");
+            throw Kmu.newError("Not a directory.");
 
         _directoryField.setValue(dir.getPath());
     }

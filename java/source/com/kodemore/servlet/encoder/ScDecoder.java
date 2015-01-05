@@ -261,7 +261,7 @@ public class ScDecoder
 
         ScCoderIF coder = getRegistry().findKey(c);
         if ( coder == null )
-            Kmu.fatal("Cannot find decoder for: (%s)", c);
+            throw Kmu.newFatal("Cannot find decoder for: (%s)", c);
 
         return coder.decode(this, s);
     }

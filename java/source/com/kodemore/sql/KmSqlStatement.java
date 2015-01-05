@@ -238,9 +238,9 @@ public abstract class KmSqlStatement
     //# error
     //##################################################
 
-    public void fatal(String s)
+    public RuntimeException newFatal(String s)
     {
-        Kmu.fatal(s + "::" + toString());
+        return Kmu.newFatal("%s :: %s", s, toString());
     }
 
     //##################################################

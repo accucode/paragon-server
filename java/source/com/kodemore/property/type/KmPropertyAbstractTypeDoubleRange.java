@@ -28,17 +28,17 @@ public abstract class KmPropertyAbstractTypeDoubleRange
     {
         Double e = Kmu.parseDouble(value);
         if ( e == null )
-            error("Property %s: Value (%s) is not a double.", key, value);
+            throw Kmu.newFatal("Property %s: Value (%s) is not a double.", key, value);
 
         double d = e.doubleValue();
 
         Double min = getMinimum();
         if ( min != null && e < min )
-            error("Property %s: Value (%s) is less than %s.", key, d, min);
+            throw Kmu.newFatal("Property %s: Value (%s) is less than %s.", key, d, min);
 
         Double max = getMaximum();
         if ( max != null && e > max )
-            error("Property %s: Value (%s) is greater than %s.", key, d, max);
+            throw Kmu.newFatal("Property %s: Value (%s) is greater than %s.", key, d, max);
 
         return e;
     }

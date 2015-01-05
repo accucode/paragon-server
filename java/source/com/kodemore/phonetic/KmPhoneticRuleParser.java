@@ -115,7 +115,7 @@ public class KmPhoneticRuleParser
         KmPhoneticRule r = new KmPhoneticRule();
 
         if ( mode == null )
-            error("Mode is required.");
+            throw newFatal("Mode is required.");
 
         if ( mode.equals("all") )
             r.setMode(KmPhoneticRule.MODE_ALL);
@@ -126,24 +126,24 @@ public class KmPhoneticRuleParser
                 if ( mode.equals("suffix") )
                     r.setMode(KmPhoneticRule.MODE_SUFFIX);
                 else
-                    error("Unknown mode: " + mode);
+                    throw newFatal("Unknown mode: " + mode);
 
         if ( oldValue == null )
-            error("Old value is required.");
+            throw newFatal("Old value is required.");
 
         if ( oldValue.equals("") )
-            error("Old value cannot be empty.");
+            throw newFatal("Old value cannot be empty.");
 
         r.setOldValue(oldValue);
 
         if ( newValue == null )
-            error("New value is required.");
+            throw newFatal("New value is required.");
 
         r.setNewValue(newValue);
         return r;
     }
 
-    private void error(String msg)
+    private RuntimeException newFatal(String msg)
     {
         String s = "Phonetic Rule Parser";
 
@@ -152,7 +152,7 @@ public class KmPhoneticRuleParser
 
         s += " " + msg;
 
-        throw new RuntimeException(s);
+        return Kmu.newFatal(s);
     }
 
 }

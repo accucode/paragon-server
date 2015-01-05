@@ -151,7 +151,7 @@ public class KmgModelEnum
         }
 
         if ( _name == null )
-            error(x, "Cannot determine enum name.");
+            throw newFatal(x, "Cannot determine enum name.");
     }
 
     private void parseValues(KmStfElement x)

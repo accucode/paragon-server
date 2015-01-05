@@ -64,8 +64,10 @@ public class KmgModelDatabase
     {
         String engine = getEngine();
         KmList<String> engines = KmList.createWith("innodb", "myisam");
+
         if ( !engines.contains(engine) )
-            error("Not a valid engine (%s).", engine);
+            throw newFatal("Not a valid engine (%s).", engine);
+
         _validate(getIndexes());
     }
 

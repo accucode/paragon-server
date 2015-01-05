@@ -1,6 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyWyattTestPage
@@ -40,7 +41,11 @@ public class MyWyattTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().fill();
+        root.css().fill().pad();
+
+        ScGroup group;
+        group = root.addGroup("hello");
+        group.getBody().addText("world");
     }
 
 }

@@ -335,7 +335,7 @@ public class KmDatabaseTool
     public boolean lock(String key, int timeoutSeconds, int retryCount, int retryDelayMs)
     {
         if ( Kmu.isEmpty(key) )
-            Kmu.fatal("Cannot create lock on empty key.");
+            throw newFatal("Cannot create lock on empty key.");
 
         String sql = Kmu.format("select get_lock('%s', %s)", key, timeoutSeconds);
 
@@ -357,7 +357,7 @@ public class KmDatabaseTool
     {
         Integer x = _executeLockCommand(sql);
         if ( x == null )
-            Kmu.fatal("Locking error; database error for: %s", sql);
+            throw newFatal("Locking error; database error for: %s", sql);
 
         // success
         if ( x == 1 )
@@ -367,8 +367,7 @@ public class KmDatabaseTool
         if ( x == 0 )
             return false;
 
-        Kmu.fatal("Locking error; unhandled result(%s) for: %s", x, sql);
-        return false;
+        throw newFatal("Locking error; unhandled result(%s) for: %s", x, sql);
     }
 
     private Integer _executeLockCommand(String sql)
@@ -377,20 +376,19 @@ public class KmDatabaseTool
         {
             boolean isResultSet = st.execute(sql);
             if ( !isResultSet )
-                Kmu.fatal("Locking error; no result set for: %s", sql);
+                throw newFatal("Locking error; no result set for: %s", sql);
 
             try ( ResultSet rs = st.getResultSet() )
             {
                 if ( !rs.next() )
-                    Kmu.fatal("Locking error; empty result set for: %s", sql);
+                    throw newFatal("Locking error; empty result set for: %s", sql);
 
                 return rs.getInt(1);
             }
         }
         catch ( Exception ex )
         {
-            Kmu.fatal(ex, "Locking error; %s", sql);
-            return null;
+            throw Kmu.newFatal(ex, "Locking error; %s", sql);
         }
     }
 
@@ -400,21 +398,21 @@ public class KmDatabaseTool
     public void unlock(String key)
     {
         if ( key == null )
-            Kmu.fatal("Cannot unlock; no current lock.");
+            throw newFatal("Cannot unlock; no current lock.");
 
         String sql = Kmu.format("select release_lock('%s')", key);
         Integer x = _executeLockCommand(sql);
 
         if ( x == null )
-            Kmu.fatal("Cannot release lock(%s); lock does not exist.", key);
+            throw newFatal("Cannot release lock(%s); lock does not exist.", key);
 
         if ( x == 0 )
-            Kmu.fatal("Cannot release lock(%s); lock is held by another connection.", key);
+            throw newFatal("Cannot release lock(%s); lock is held by another connection.", key);
 
         if ( x == 1 )
             return;
 
-        Kmu.fatal("Cannot release lock(%s); unknown response code(%s).", key, x);
+        throw newFatal("Cannot release lock(%s); unknown response code(%s).", key, x);
     }
 
     public void unlockSafely(String key)
@@ -433,9 +431,14 @@ public class KmDatabaseTool
     //# convenience
     //##################################################
 
-    public KmDatabaseConnectionFactory getConnectionFactory()
+    private KmDatabaseConnectionFactory getConnectionFactory()
     {
         return KmDatabaseConnectionFactory.getInstance();
+    }
+
+    private RuntimeException newFatal(String msg, Object... args)
+    {
+        return Kmu.newFatal(msg, args);
     }
 
 }

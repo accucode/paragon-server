@@ -228,7 +228,10 @@ public class MyAddMemberDialog
         boolean isValid = Kmu.isValidEmailAddress(email);
 
         if ( !isValid )
-            _checkEmailField.error("Invalid email.");
+        {
+            _checkEmailField.addError("Invalid email.");
+            throw newRollback();
+        }
 
         MyUser user;
         user = getAccess().getUserDao().findEmail(email);
@@ -240,7 +243,10 @@ public class MyAddMemberDialog
         }
 
         if ( getCurrentProject().hasMember(user) )
-            _checkEmailField.error("Already a member.");
+        {
+            _checkEmailField.addError("Already a member.");
+            throw newRollback();
+        }
 
         ajaxShowJoinUserCardFor(user);
     }
@@ -304,7 +310,10 @@ public class MyAddMemberDialog
 
         MyUser user = getAccess().getUserDao().findEmail(email);
         if ( user == null )
-            _joinEmailField.error("Invalid email.");
+        {
+            _joinEmailField.addError("Invalid email.");
+            throw newRollback();
+        }
 
         MyProject project = getCurrentProject();
         MyMember member = project.getMemberFor(user);

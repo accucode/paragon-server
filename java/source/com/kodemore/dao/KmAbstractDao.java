@@ -213,7 +213,8 @@ public abstract class KmAbstractDao<T, K extends Serializable>
      */
     @SuppressWarnings(
     {
-        "unchecked", "rawtypes"
+        "unchecked",
+        "rawtypes"
     })
     public KmList<Object> runHql(String s)
     {
@@ -246,9 +247,9 @@ public abstract class KmAbstractDao<T, K extends Serializable>
         return KmClock.getNowUtc();
     }
 
-    protected void fatal(String msg, Object... args)
+    protected RuntimeException newFatal(String msg, Object... args)
     {
-        Kmu.fatal(msg, args);
+        return Kmu.newFatal(msg, args);
     }
 
 }

@@ -306,7 +306,7 @@ public abstract class ScControl
     public final void setParent(ScControl e)
     {
         if ( _parent != null )
-            Kmu.fatal("Attempt to change parent after initial assignment.");
+            throw Kmu.newFatal("Attempt to change parent after initial assignment.");
 
         _parent = e;
         attached();
@@ -457,6 +457,9 @@ public abstract class ScControl
     //# validate
     //##################################################
 
+    /**
+     * Validate
+     */
     @Override
     public final void validate()
     {
@@ -477,13 +480,22 @@ public abstract class ScControl
         return ok;
     }
 
+    public RuntimeException newRollback()
+    {
+        return Kmu.newRollback();
+    }
+
+    /**
+     * Check if there are any errors in the control hierarchy; and, if so,
+     * show the error messages and throw a rollback throwable.
+     */
     public void checkErrors()
     {
         if ( !hasErrors() )
             return;
 
         ajaxShowErrors();
-        Kmu.throwDaoRollback();
+        throw Kmu.newRollback();
     }
 
     @Override

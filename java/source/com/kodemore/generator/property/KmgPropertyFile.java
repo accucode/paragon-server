@@ -90,7 +90,7 @@ public class KmgPropertyFile
 
         KmList<String> dups = names.getDuplicates();
         if ( dups.isNotEmpty() )
-            error("Duplicate property names(%s). ", dups.format());
+            throw newFatal("Duplicate property names(%s). ", dups.format());
     }
 
     @Override
@@ -102,8 +102,10 @@ public class KmgPropertyFile
     private KmList<KmgProperty> getAll()
     {
         KmList<KmgProperty> v = new KmList<>();
+
         for ( KmgPropertyGroup g : _groups )
             v.addAll(g.getProperties());
+
         return v;
     }
 

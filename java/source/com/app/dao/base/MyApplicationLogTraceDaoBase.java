@@ -8,16 +8,12 @@
 
 package com.app.dao.base;
 
-import com.kodemore.collection.*;
-import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.dao.KmAbstractDao;
+import com.kodemore.utility.Kmu;
 
-import com.app.criteria.*;
-import com.app.dao.core.*;
-import com.app.filter.*;
-import com.app.model.*;
-import com.app.model.meta.*;
+import com.app.criteria.MyApplicationLogTraceCriteria;
+import com.app.model.MyApplicationLogTrace;
+import com.app.model.meta.MyMetaApplicationLogTrace;
 
 public abstract class MyApplicationLogTraceDaoBase
     extends KmAbstractDao<MyApplicationLogTrace,Integer>
@@ -75,8 +71,10 @@ public abstract class MyApplicationLogTraceDaoBase
     public void deleteId(Integer e)
     {
         MyApplicationLogTrace m = findId(e);
+
         if ( m == null )
-            fatal("Cannot delete; key not found(%s).", e);
+            throw Kmu.newFatal("Cannot delete; key not found(%s).", e);
+
         delete(m);
     }
 

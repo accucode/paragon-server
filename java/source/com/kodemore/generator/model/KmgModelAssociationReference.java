@@ -59,8 +59,10 @@ public class KmgModelAssociationReference
     public KmgModelAssociation getAssociation()
     {
         KmgModel m = getReferenceModel();
+
         if ( m == null )
-            error("Cannot get association for model(%s).", getModelName());
+            throw newFatal("Cannot get association for model(%s).", getModelName());
+
         return m.getAssociation(getAssociationName());
     }
 
@@ -79,10 +81,13 @@ public class KmgModelAssociationReference
     public void validate()
     {
         if ( getReferenceModel() == null )
-            error("Cannot find reference model(%s).", _modelName);
+            throw newFatal("Cannot find reference model(%s).", _modelName);
 
         if ( getAssociation() == null )
-            error("Cannot find reference model(%s) association(%s).", _modelName, _associationName);
+            throw newFatal(
+                "Cannot find reference model(%s) association(%s).",
+                _modelName,
+                _associationName);
     }
 
     @Override

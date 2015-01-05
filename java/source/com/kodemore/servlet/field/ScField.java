@@ -382,16 +382,6 @@ public abstract class ScField<T>
         addError(e.formatProblem());
     }
 
-    /**
-     * Add an error, then display it, and throw a rollback exception.
-     * If you want to display multiple errors, use addError and checkErrors.
-     */
-    public void error(String msg, Object... args)
-    {
-        addError(msg, args);
-        getErrorRoot().checkErrors();
-    }
-
     @Override
     public void collectErrorsOn(KmList<String> v)
     {

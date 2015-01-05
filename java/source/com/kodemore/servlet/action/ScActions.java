@@ -19,7 +19,7 @@ public class ScActions
     public static ScActions getInstance()
     {
         if ( _instance == null )
-            Kmu.fatal("Not installed.");
+            throw Kmu.newFatal("Not installed.");
 
         return _instance;
     }

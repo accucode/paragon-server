@@ -194,7 +194,7 @@ public class MyDevUtilityPage
             @Override
             public void handle()
             {
-                error("test");
+                throw Kmu.newError("test");
             }
         };
     }
@@ -206,7 +206,7 @@ public class MyDevUtilityPage
             @Override
             public void handle()
             {
-                fatal("test");
+                throw Kmu.newFatal("test");
             }
         };
     }

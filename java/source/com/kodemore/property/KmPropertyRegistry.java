@@ -150,10 +150,10 @@ public class KmPropertyRegistry
     public void loadFile(KmFile file)
     {
         if ( file == null )
-            fatal("Cannot load properties.  File is NULL.");
+            throw Kmu.newFatal("Cannot load properties.  File is NULL.");
 
         if ( !file.exists() || !file.isFile() )
-            fatal("Cannot load properties.  File does not exist: %s.", file);
+            throw Kmu.newFatal("Cannot load properties.  File does not exist: %s.", file);
 
         KmPropertyFileReader r;
         r = new KmPropertyFileReader();
@@ -200,11 +200,6 @@ public class KmPropertyRegistry
             v.addAllDistinct(getOverrides().getAllKeys());
 
         return v;
-    }
-
-    private void fatal(String msg, Object... args)
-    {
-        Kmu.fatal(msg, args);
     }
 
     //##################################################

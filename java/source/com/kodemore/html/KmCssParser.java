@@ -77,7 +77,7 @@ public class KmCssParser
         String css = Kmu.readFileString(path);
 
         if ( css == null )
-            Kmu.fatal("Unable to read css file: " + path);
+            throw Kmu.newFatal("Unable to read css file: " + path);
 
         parseCss(css);
     }
@@ -87,7 +87,7 @@ public class KmCssParser
         String css = file.readString();
 
         if ( css == null )
-            Kmu.fatal("Unable to read css file: " + file);
+            throw Kmu.newFatal("Unable to read css file: " + file);
 
         parseCss(css);
     }

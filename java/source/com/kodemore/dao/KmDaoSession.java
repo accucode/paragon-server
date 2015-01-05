@@ -83,7 +83,7 @@ public abstract class KmDaoSession
         }
 
         if ( _transaction.isActive() )
-            fatal("Attempt to begin transaction, but transaction is already 'active'.");
+            throw Kmu.newFatal("Attempt to begin transaction, but transaction is already 'active'.");
 
         _transaction.begin();
         clearCache();
@@ -242,10 +242,10 @@ public abstract class KmDaoSession
     public boolean lock(String key, int timeoutSeconds, int retryCount, int retryDelayMs)
     {
         if ( Kmu.isEmpty(key) )
-            Kmu.fatal("Cannot create lock on empty key.");
+            throw Kmu.newFatal("Cannot create lock on empty key.");
 
         if ( Kmu.hasValue(_lockKey) )
-            Kmu.fatal("Cannot lock(%s), already locked on(%s).", key, _lockKey);
+            throw Kmu.newFatal("Cannot lock(%s), already locked on(%s).", key, _lockKey);
 
         String sql = Kmu.format("select get_lock('%s', %s)", key, timeoutSeconds);
 
@@ -290,16 +290,18 @@ public abstract class KmDaoSession
     public void unlock()
     {
         if ( _lockKey == null )
-            Kmu.fatal("Cannot unlock; no current lock.");
+            throw Kmu.newFatal("Cannot unlock; no current lock.");
 
         String sql = Kmu.format("select release_lock('%s')", _lockKey);
         Integer x = _executeLockCommand(sql);
 
         if ( x == null )
-            Kmu.fatal("Cannot release lock(%s); lock does not exist.", _lockKey);
+            throw Kmu.newFatal("Cannot release lock(%s); lock does not exist.", _lockKey);
 
         if ( x == 0 )
-            Kmu.fatal("Cannot release lock(%s); lock is held by another connection.", _lockKey);
+            throw Kmu.newFatal(
+                "Cannot release lock(%s); lock is held by another connection.",
+                _lockKey);
 
         if ( x == 1 )
         {
@@ -307,7 +309,7 @@ public abstract class KmDaoSession
             return;
         }
 
-        Kmu.fatal("Cannot release lock(%s); unknown response code(%s).", _lockKey, x);
+        throw Kmu.newFatal("Cannot release lock(%s); unknown response code(%s).", _lockKey, x);
     }
 
     /**
@@ -370,13 +372,13 @@ public abstract class KmDaoSession
     public boolean isLockFree(String key)
     {
         if ( Kmu.isEmpty(key) )
-            Kmu.fatal("Cannot check lock status for empty key.");
+            throw Kmu.newFatal("Cannot check lock status for empty key.");
 
         String sql = Kmu.format("select is_free_lock('%s')", key);
         Integer x = _executeLockCommand(sql);
 
         if ( x == null )
-            Kmu.fatal("Database error for: %s", sql);
+            throw Kmu.newFatal("Database error for: %s", sql);
 
         if ( x == 1 )
             return true;
@@ -384,8 +386,7 @@ public abstract class KmDaoSession
         if ( x == 0 )
             return false;
 
-        Kmu.fatal("Unhandled database response(%s) for: %s", x, sql);
-        return false;
+        throw Kmu.newFatal("Unhandled database response(%s) for: %s", x, sql);
     }
 
     //##################################################
@@ -407,8 +408,7 @@ public abstract class KmDaoSession
         }
         catch ( Exception ex )
         {
-            Kmu.fatal(ex, "Locking error; %s", sql);
-            return null;
+            throw Kmu.newFatal(ex, "Locking error; %s", sql);
         }
     }
 
@@ -416,7 +416,7 @@ public abstract class KmDaoSession
     {
         Integer x = _executeLockCommand(sql);
         if ( x == null )
-            Kmu.fatal("Locking error; database error for: %s", sql);
+            throw Kmu.newFatal("Locking error; database error for: %s", sql);
 
         // success
         if ( x == 1 )
@@ -426,8 +426,7 @@ public abstract class KmDaoSession
         if ( x == 0 )
             return false;
 
-        Kmu.fatal("Locking error; unhandled result(%s) for: %s", x, sql);
-        return false;
+        throw Kmu.newFatal("Locking error; unhandled result(%s) for: %s", x, sql);
     }
 
     private void checkLockOnClose()
@@ -459,15 +458,6 @@ public abstract class KmDaoSession
     public Transaction getTransaction()
     {
         return _transaction;
-    }
-
-    //##################################################
-    //# private
-    //##################################################
-
-    private void fatal(String msg, Object... args)
-    {
-        Kmu.fatal(msg, args);
     }
 
     //##################################################

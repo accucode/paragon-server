@@ -422,7 +422,7 @@ public class KmgRoot
         e.parse(root);
 
         if ( !f.hasShortName(e.getName()) )
-            error("Model name (%s) should match file name (%s).", e.getName(), f.getName());
+            throw newFatal("Model name (%s) should match file name (%s).", e.getName(), f.getName());
 
         _models.add(e);
     }
@@ -463,7 +463,7 @@ public class KmgRoot
         for ( KmgModel m : models )
             names.add(m.getName());
 
-        error("Cannot have duplicate alias(%s), see models: %s.", alias, names.format());
+        throw newFatal("Cannot have duplicate alias(%s), see models: %s.", alias, names.format());
     }
 
     public void installExtensions()

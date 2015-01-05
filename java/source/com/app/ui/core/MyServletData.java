@@ -181,10 +181,4 @@ public class MyServletData
     {
         return MyGlobals.getProperties();
     }
-
-    protected void error(String msg, Object... args)
-    {
-        Kmu.error(msg, args);
-    }
-
 }

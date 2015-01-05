@@ -186,20 +186,23 @@ public class MyUserProfileChangePasswordCard
         if ( !getCurrentUser().hasPassword(oldPassword) )
         {
             _oldPasswordField.ajax().focus();
-            _oldPasswordField.error("Invalid.");
+            _oldPasswordField.addError("Invalid.");
+            throw newRollback();
         }
 
         if ( newPassword == null )
         {
             _newPasswordField.ajax().focus();
-            _newPasswordField.error("Required.");
+            _newPasswordField.addError("Required.");
+            throw newRollback();
         }
 
         if ( Kmu.isNotEqual(newPassword, retypePassword) )
         {
             _retypePasswordField.ajax().clearValue();
             _retypePasswordField.ajax().focus();
-            _retypePasswordField.error("Passwords did not match.");
+            _retypePasswordField.addError("Passwords did not match.");
+            throw newRollback();
         }
 
         getCurrentUser().setPassword(newPassword);

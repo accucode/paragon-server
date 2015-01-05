@@ -54,7 +54,7 @@ public class KmgModelIndex
         {
             KmgModelAttribute a = getModel().getAttributeNamed(name);
             if ( a == null )
-                error("Unknown index attribute (%s).", name);
+                throw newFatal("Unknown index attribute (%s).", name);
         }
     }
 

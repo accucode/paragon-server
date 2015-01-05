@@ -2540,15 +2540,15 @@ public class Kmu
         return out.toString();
     }
 
-    public static String format(String msg, Object... args)
+    public static String format(CharSequence msg, Object... args)
     {
         if ( isEmpty(msg) )
-            return msg;
+            return "";
 
         if ( args.length == 0 )
-            return msg;
+            return "";
 
-        return String.format(msg, args);
+        return String.format(msg.toString(), args);
     }
 
     /**
@@ -3472,7 +3472,7 @@ public class Kmu
     public static Object process(String path, KmReaderProcessorIF p, Object... args)
     {
         if ( CHECK_FILE_NAME_CASE && !checkFileNameCase(path) )
-            fatal("Cannot find file: %s.", path);
+            throw newFatal("Cannot find file: %s.", path);
 
         try ( BufferedReader in = new BufferedReader(new FileReader(path)); )
         {
@@ -3947,7 +3947,7 @@ public class Kmu
         File[] arr = directory.listFiles();
 
         if ( arr == null )
-            fatal("Null file array for: " + directory);
+            throw newFatal("Null file array for: " + directory);
 
         for ( File f : arr )
         {
@@ -4651,7 +4651,7 @@ public class Kmu
     public static byte parseHexByte(String s)
     {
         if ( s.length() != 2 )
-            fatal("Hex string must be exactly two characters.");
+            throw newFatal("Hex string must be exactly two characters.");
 
         s = s.toUpperCase();
 
@@ -4838,27 +4838,16 @@ public class Kmu
      * message screen.  After which they system will redirect them to the "top"
      * of the current module.
      */
-    public static void fatal(String msg, Object... args)
-    {
-        throw createFatal(msg, args);
-    }
-
-    public static RuntimeException createFatal(String msg, Object... args)
+    public static RuntimeException newFatal(CharSequence msg, Object... args)
     {
         String s = format(msg, args);
         return new RuntimeException(s);
     }
 
-    public static RuntimeException createFatal(Exception ex, String msg, Object... args)
+    public static RuntimeException newFatal(Exception ex, CharSequence msg, Object... args)
     {
         String s = format(msg, args);
         return new RuntimeException(s, ex);
-    }
-
-    public static void fatal(Exception ex, String msg, Object... args)
-    {
-        String s = format(msg, args);
-        throw new RuntimeException(s, ex);
     }
 
     /**
@@ -4866,9 +4855,9 @@ public class Kmu
      * The error is shown at the top of the redisplayed page and the user is
      * expected to correct the error and resubmit.
      */
-    public static void error(String msg, Object... args)
+    public static KmApplicationException newError(CharSequence msg, Object... args)
     {
-        throw new KmApplicationException(msg, args);
+        return new KmApplicationException(msg, args);
     }
 
     /**
@@ -4878,7 +4867,7 @@ public class Kmu
      * have been added to the http response.  The database transaction
      * will be rolled back.
      */
-    public static void throwDaoRollback()
+    public static RuntimeException newRollback()
     {
         throw new KmDaoRollbackException();
     }
@@ -4908,7 +4897,7 @@ public class Kmu
     public static void checkInstalled(boolean installed)
     {
         if ( installed )
-            fatal("Already installed.");
+            throw newFatal("Already installed.");
     }
 
     //##################################################

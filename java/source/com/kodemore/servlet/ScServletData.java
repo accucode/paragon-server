@@ -1665,7 +1665,7 @@ public class ScServletData
 
     private RuntimeException newArgumentCastException(Exception ex, String type)
     {
-        return Kmu.createFatal(
+        return Kmu.newFatal(
             ex,
             "Cannot cast argument(%s) to (%s).  Argument parameter was(%s).",
             _argument,

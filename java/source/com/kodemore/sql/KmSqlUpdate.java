@@ -100,10 +100,10 @@ public class KmSqlUpdate
     public void validate()
     {
         if ( !hasTable() )
-            fatal("Must specify a table to update.");
+            throw newFatal("Must specify a table to update.");
 
         if ( _values.isEmpty() )
-            fatal("Must specify the values to update.");
+            throw newFatal("Must specify the values to update.");
     }
 
     //##################################################
@@ -113,13 +113,16 @@ public class KmSqlUpdate
     @Override
     public String getSqlString()
     {
-        KmSqlBuffer b = newBuffer();
-        b.printLiteral("UPDATE ");
-        b.printLiteral(_table);
-        b.printLiteral(" SET ");
-        b.printBuffer(_values);
-        printWhereConditionsOn(b);
-        return b.toString();
+        KmSqlBuffer out;
+        out = newBuffer();
+        out.printLiteral("UPDATE ");
+        out.printLiteral(_table);
+        out.printLiteral(" SET ");
+        out.printBuffer(_values);
+
+        printWhereConditionsOn(out);
+
+        return out.toString();
     }
 
     //##################################################

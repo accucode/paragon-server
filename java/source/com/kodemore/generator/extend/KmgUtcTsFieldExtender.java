@@ -12,8 +12,9 @@ public class KmgUtcTsFieldExtender
     public void extend(KmgModelField field)
     {
         KmProtoType baseType = field.getProtoType();
+
         if ( baseType == null )
-            Kmu.error("invalid base type for: " + field.getType().getName());
+            throw Kmu.newFatal("invalid base type for: " + field.getType().getName());
 
         if ( !baseType.isTimestamp() )
             return;
@@ -44,9 +45,9 @@ public class KmgUtcTsFieldExtender
         name = prefix + "LocalTsMessage";
         label = Kmu.capitalizeWords(prefix);
         help = field.getHelp();
-        body =
-            Kmu.format("return KmTimestampUtility.formatLocalMessage(%s());", field
-                .getf_getMethod());
+        body = Kmu.format(
+            "return KmTimestampUtility.formatLocalMessage(%s());",
+            field.getf_getMethod());
         type = "text100";
         model.addCustomGetter(name, label, help, body, type);
 

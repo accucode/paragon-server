@@ -34,14 +34,9 @@ public abstract class KmCommand
     //# convenience
     //##################################################
 
-    protected void error(String msg, Object... args)
+    protected RuntimeException newFata(String msg, Object... args)
     {
-        Kmu.error(msg, args);
-    }
-
-    protected void fatal(String msg, Object... args)
-    {
-        Kmu.fatal(msg, args);
+        return Kmu.newFatal(msg, args);
     }
 
     protected String getSimpleClassName()

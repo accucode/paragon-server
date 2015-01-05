@@ -37,7 +37,7 @@ public abstract class KmDaoSessionManager
     public static void install(KmDaoSessionManager e)
     {
         if ( _instance != null )
-            Kmu.fatal("Already installed.");
+            throw Kmu.newFatal("Already installed.");
 
         _instance = e;
     }
@@ -50,7 +50,7 @@ public abstract class KmDaoSessionManager
     public static KmDaoSessionManager getInstance()
     {
         if ( _instance == null )
-            Kmu.fatal("Not installed.");
+            throw Kmu.newFatal("Not installed.");
 
         return _instance;
     }
@@ -69,7 +69,7 @@ public abstract class KmDaoSessionManager
     {
         KmDaoSession e = _getDaoSession();
         if ( e != null )
-            Kmu.fatal("Session already open.");
+            throw Kmu.newFatal("Session already open.");
 
         e = newSession();
         e.open();
@@ -166,7 +166,7 @@ public abstract class KmDaoSessionManager
         KmDaoSession e = _getDaoSession();
 
         if ( e == null )
-            Kmu.fatal("Dao session NOT installed.");
+            throw Kmu.newFatal("Dao session NOT installed.");
 
         return e;
     }

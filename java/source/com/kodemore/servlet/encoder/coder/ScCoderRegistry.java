@@ -40,11 +40,11 @@ public class ScCoderRegistry
     {
         String key = c.getKey();
         if ( key == null )
-            Kmu.fatal("Coder key is null.");
+            throw Kmu.newFatal("Coder key is null.");
 
         ScCoderIF e = findKey(key);
         if ( e != null )
-            Kmu.fatal("Duplicate coder (%s), %s, %s.", key, c, e);
+            throw Kmu.newFatal("Duplicate coder (%s), %s, %s.", key, c, e);
 
         _coders.put(key, c);
     }

@@ -283,17 +283,24 @@ public class MySignInPage
         setEmailCookie(email);
 
         if ( user == null )
-            _emailField.error("No such user.");
+        {
+            _emailField.addError("No such user.");
+            throw newCancel();
+        }
 
         if ( !user.isVerified() )
-            _emailField.error("Not yet activated.");
+        {
+            _emailField.addError("Not yet activated.");
+            throw newCancel();
+        }
 
         String pwd = _passwordField.getValue();
 
         if ( !user.hasPassword(pwd) )
         {
             _passwordField.ajax().focus();
-            _passwordField.error("Invalid.");
+            _passwordField.addError("Invalid.");
+            throw newCancel();
         }
 
         getAccess().getAutoSignInDao().deleteAllFor(user);

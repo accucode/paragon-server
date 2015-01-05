@@ -72,21 +72,6 @@ public abstract class MyAbstractDomain
         return getNowUtc().getDate();
     }
 
-    protected void error(String s, Object... args)
-    {
-        Kmu.error(s, args);
-    }
-
-    protected void unsupported()
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    protected void fatal(String msg, Object... args)
-    {
-        Kmu.fatal(msg, args);
-    }
-
     protected MyPropertyRegistry getProperties()
     {
         return MyGlobals.getProperties();

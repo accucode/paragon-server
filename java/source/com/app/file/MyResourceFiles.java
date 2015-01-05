@@ -17,7 +17,7 @@ public class MyResourceFiles
     public static void install()
     {
         if ( _instance != null )
-            Kmu.fatal("Already Installed.");
+            throw Kmu.newFatal("Already Installed.");
 
         _instance = new MyResourceFiles();
     }
@@ -25,7 +25,7 @@ public class MyResourceFiles
     public static MyResourceFiles getInstance()
     {
         if ( _instance == null )
-            Kmu.fatal("Not Installed.");
+            throw Kmu.newFatal("Not Installed.");
 
         return _instance;
     }
@@ -49,7 +49,7 @@ public class MyResourceFiles
 
         KmFile root = getRoot();
         if ( !root.exists() )
-            Kmu.fatal("Resources not found at: %s.", root.getRealPath());
+            throw Kmu.newFatal("Resources not found at: %s.", root.getRealPath());
     }
 
     //##################################################

@@ -12,8 +12,12 @@ public abstract class KmPropertyAbstractTypeMatchingString
         for ( String e : getOptions() )
             if ( Kmu.isEqual(e, value) )
                 return value;
-        error("Property %s: Value (%s) is not valid: %s.", key, value, getPossibleMatchString());
-        return null;
+
+        throw Kmu.newFatal(
+            "Property %s: Value (%s) is not valid: %s.",
+            key,
+            value,
+            getPossibleMatchString());
     }
 
     @Override

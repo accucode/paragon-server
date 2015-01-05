@@ -26,16 +26,16 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I am used to read pieces of a string.
- * 
- * E.g.: 
- * 
+ *
+ * E.g.:
+ *
  * KmStringReader r = new KmStringReader("2007-01-31");
  * int year = r.readInteger(4);
  * r.skip();
- * int month = r.readInteger(2); 
+ * int month = r.readInteger(2);
  * r.skip();
- * int day = r.readInteger(2); 
- * 
+ * int day = r.readInteger(2);
+ *
  */
 public class KmStringReader
 {
@@ -94,12 +94,12 @@ public class KmStringReader
     }
 
     //##################################################
-    //# private 
+    //# private
     //##################################################
 
     private void checkIndex(int i)
     {
         if ( _index + i > _source.length() )
-            Kmu.fatal("Index out of bounds.");
+            throw Kmu.newFatal("Index out of bounds.");
     }
 }

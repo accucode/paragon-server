@@ -403,19 +403,9 @@ public abstract class ScPage
     //# errors
     //##################################################
 
-    protected void cancel()
+    protected RuntimeException newCancel()
     {
-        Kmu.throwDaoRollback();
-    }
-
-    protected void error(String msg, Object... args)
-    {
-        Kmu.error(msg, args);
-    }
-
-    protected void fatal(String msg, Object... args)
-    {
-        Kmu.fatal(msg, args);
+        return Kmu.newRollback();
     }
 
     //##################################################
@@ -452,13 +442,7 @@ public abstract class ScPage
     public void handleFatal(RuntimeException ex)
     {
         KmLog.fatal(ex);
-
         ajax().openErrorDialog(ex);
-    }
-
-    protected void throwSecurityError(String msg, Object... args)
-    {
-        Kmu.throwSecurityError(msg, args);
     }
 
     //##################################################

@@ -220,7 +220,7 @@ public class KmgModelField
     {
         KmgModelType type = getRoot().getType(name);
         if ( type == null )
-            error("Unknown type: " + type);
+            throw newFatal("Unknown type: " + type);
 
         _type = type;
     }
@@ -523,8 +523,9 @@ public class KmgModelField
 
         String typeName = parseRequiredString(x, "type");
         _type = getRoot().getType(typeName);
+
         if ( _type == null )
-            error(x, "Unknown type: %s", typeName);
+            throw newFatal(x, "Unknown type: %s", typeName);
 
         _enum = parseEnum(x);
         _dependsOn = parseDependsOn(x);
@@ -558,11 +559,11 @@ public class KmgModelField
     public void validate()
     {
         if ( !hasBaseType() )
-            error("Cannnot resolve base type.");
+            throw newFatal("Cannnot resolve base type.");
 
         if ( hasBaseType("string") )
             if ( !getType().hasMaximumLength() )
-                error("String baseType requires maximum length.");
+                throw newFatal("String baseType requires maximum length.");
 
         if ( hasEnum() )
             getEnum().validate();

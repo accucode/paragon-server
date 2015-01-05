@@ -15,7 +15,7 @@ public abstract class ScPageRegistry
     protected static synchronized void install(ScPageRegistry e)
     {
         if ( _instance != null )
-            Kmu.fatal("Already installed.");
+            throw Kmu.newFatal("Already installed.");
 
         _instance = e;
     }
@@ -23,7 +23,7 @@ public abstract class ScPageRegistry
     public static ScPageRegistry getInstance()
     {
         if ( _instance == null )
-            Kmu.fatal("Not installed.");
+            throw Kmu.newFatal("Not installed.");
 
         return _instance;
     }
@@ -74,10 +74,10 @@ public abstract class ScPageRegistry
         String key = e.getKey();
 
         if ( key == null )
-            Kmu.fatal("Attempt to register null page key.");
+            throw Kmu.newFatal("Attempt to register null page key.");
 
         if ( _pages.containsKey(key) )
-            Kmu.fatal("Attempt to register duplicate page key (%s)", key);
+            throw Kmu.newFatal("Attempt to register duplicate page key (%s)", key);
 
         _pages.put(key, e);
     }

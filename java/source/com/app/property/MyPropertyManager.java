@@ -27,7 +27,7 @@ public class MyPropertyManager
     public static synchronized void install()
     {
         if ( isInstalled() )
-            Kmu.fatal("Already installed.");
+            throw Kmu.newFatal("Already installed.");
 
         installDefaults();
         installOverrides();
@@ -101,7 +101,7 @@ public class MyPropertyManager
         MyInstaller.printfln("overrides file = %s", file);
 
         if ( !file.exists() )
-            Kmu.fatal("OVERRIDES FILE DOES NOT EXIST!  file(%s).", file);
+            throw Kmu.newFatal("OVERRIDES FILE DOES NOT EXIST!  file(%s).", file);
 
         MyPropertyRegistry r;
         r = new MyPropertyRegistry();

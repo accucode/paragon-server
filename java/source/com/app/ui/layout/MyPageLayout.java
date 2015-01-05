@@ -27,7 +27,7 @@ public class MyPageLayout
     public static void installInstance()
     {
         if ( _instance != null )
-            Kmu.fatal("Already installed.");
+            throw Kmu.newFatal("Already installed.");
 
         _instance = new MyPageLayout();
     }

@@ -100,7 +100,7 @@ public class KmSqlDelete
     public void validate()
     {
         if ( !hasTable() )
-            fatal("Must specify a table to delete from.");
+            throw newFatal("Must specify a table to delete from.");
     }
 
 }

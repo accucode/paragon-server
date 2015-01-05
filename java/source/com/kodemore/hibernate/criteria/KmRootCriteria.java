@@ -76,10 +76,12 @@ public class KmRootCriteria
     public KmJoin _join(KmCriteria parent, String entityName, JoinType type)
     {
         KmJoin j = _joins.get(entityName);
+
         if ( j != null )
         {
             if ( !j.hasType(type) )
-                Kmu.fatal("Rejoin to entity(%s), with wrong join type.", entityName);
+                throw Kmu.newFatal("Rejoin to entity(%s), with wrong join type.", entityName);
+
             return j;
         }
 

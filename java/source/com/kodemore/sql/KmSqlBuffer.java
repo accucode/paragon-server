@@ -239,7 +239,7 @@ public class KmSqlBuffer
             return;
         }
 
-        error("Unknown type: (%s)", e.getClass().getName());
+        throw Kmu.newFatal("Unknown type: (%s)", e.getClass().getName());
     }
 
     //##################################################
@@ -959,11 +959,6 @@ public class KmSqlBuffer
     public void trimListDelimiter()
     {
         trimSuffix(STRING_LIST_DELIMITER);
-    }
-
-    public void error(String s, Object... args)
-    {
-        Kmu.fatal(s, args);
     }
 
     public void unsupported()

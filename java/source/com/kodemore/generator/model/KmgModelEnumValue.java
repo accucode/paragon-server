@@ -81,10 +81,10 @@ public class KmgModelEnumValue
         _label = parseStringAttribute(x, "label", null);
 
         if ( Kmu.isEmpty(_code) )
-            error(x, "No code.");
+            throw newFatal(x, "No code.");
 
         if ( Kmu.isEmpty(_name) )
-            error(x, "No name.");
+            throw newFatal(x, "No name.");
 
         _code = _code.trim();
         _name = _name.trim();

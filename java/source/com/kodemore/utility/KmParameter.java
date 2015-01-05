@@ -155,8 +155,12 @@ public class KmParameter
         for ( KmParameter e : v )
         {
             String k = e.getKey();
+
             if ( m.containsKey(k) )
-                Kmu.fatal("Cannot convert to map, found two parameters with the same key(%s).", k);
+                throw Kmu.newFatal(
+                    "Cannot convert to map, found two parameters with the same key(%s).",
+                    k);
+
             m.put(k, e);
         }
         return m;

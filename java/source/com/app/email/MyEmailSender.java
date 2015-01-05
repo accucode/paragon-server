@@ -20,9 +20,9 @@ import com.app.property.MyPropertyRegistry;
 import com.app.utility.MyGlobals;
 
 /**
- * I send the email messages that are already queued in the 
+ * I send the email messages that are already queued in the
  * database email table.
- * 
+ *
  * I should NOT be run inside an existing database transaction.
  * Although I do require database access, I manage this access
  * internally in order to "safely" coordinate transactions with
@@ -183,8 +183,9 @@ public class MyEmailSender
     private KmEmailMethod getMethod()
     {
         String m = getProperties().getSendEmailMethod();
+
         if ( m == null )
-            Kmu.fatal("Property sendEmailMethod is null.");
+            throw Kmu.newFatal("Property sendEmailMethod is null.");
 
         if ( m.equals("smtp") )
             return new MyEmailSmtpMethod();
@@ -198,8 +199,7 @@ public class MyEmailSender
         if ( m.equals("noop") )
             return new KmEmailNoopMethod();
 
-        Kmu.fatal("Property sendEmailMethod is unknown: %s.", m);
-        return null;
+        throw Kmu.newFatal("Property sendEmailMethod is unknown: %s.", m);
     }
 
     //##################################################

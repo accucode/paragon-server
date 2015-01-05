@@ -1,7 +1,7 @@
 package com.kodemore.property.type;
 
-import com.kodemore.time.KmTime;
 import com.kodemore.time.KmTimeUtility;
+import com.kodemore.utility.Kmu;
 
 public class KmPropertyTypeTime24hhmm
     extends KmPropertyAbstractType
@@ -19,19 +19,14 @@ public class KmPropertyTypeTime24hhmm
     @Override
     public Object validateValue(String key, String value)
     {
-        KmTime t = null;
         try
         {
-            t = KmTimeUtility.parse_24HHMM(value);
+            return KmTimeUtility.parse_24HHMM(value);
         }
         catch ( NumberFormatException ex )
         {
-            error("Property %s: Value (%s) is not a Time (24HH:MM).", key, value);
-            return null;
+            throw Kmu.newFatal("Property %s: Value (%s) is not a Time (24HH:MM).", key, value);
         }
-
-        return t;
-
     }
 
     @Override

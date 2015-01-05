@@ -221,7 +221,7 @@ public class KmgModelCollection
         String s = parseRequiredString(e, "relation");
         _relation = Relation.findName(s);
         if ( _relation == null )
-            error("Unknown relation: " + s);
+            throw newFatal("Unknown relation: " + s);
 
         String elementModel = parseRequiredString(e, "elementModel");
         String elementField = parseRequiredString(e, "elementField");
@@ -239,16 +239,16 @@ public class KmgModelCollection
         KmgModelHibernateCollectionType ctype = getHibernateCollectionType();
 
         if ( ctype == null )
-            error("Unknown hibernate collection type(%s).", getType());
+            throw newFatal("Unknown hibernate collection type(%s).", getType());
 
         if ( ctype.getUsesSequence() )
         {
             if ( Kmu.isEmpty(_sequence) )
-                error("Sequence is required for collection type(%s)", getType());
+                throw newFatal("Sequence is required for collection type(%s)", getType());
 
             KmgModelField f = getSequenceField();
             if ( f == null )
-                error(
+                throw newFatal(
                     "Sequence field(%s) not found in (%s).",
                     _sequence,
                     getAssociation().getModel().getName());
@@ -256,10 +256,10 @@ public class KmgModelCollection
 
         if ( !ctype.getUsesSequence() )
             if ( _sequence != null )
-                error("Sequence not allowed for collection type(%s)", getType());
+                throw newFatal("Sequence not allowed for collection type(%s)", getType());
 
         if ( !getAssociation().isRelationParent() )
-            error("The child association must have a Parent relation.");
+            throw newFatal("The child association must have a Parent relation.");
     }
 
     @Override

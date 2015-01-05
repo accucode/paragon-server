@@ -92,7 +92,7 @@ public abstract class KmgElement
 
         for ( String key : p.getKeys() )
             if ( !options.contains(key) )
-                error(p, "(%s) must match one of [%s]", key, options.format());
+                throw newFatal(p, "(%s) must match one of [%s]", key, options.format());
     }
 
     public void checkChildrenNames(KmStfElement p, String... namesArr)
@@ -103,7 +103,7 @@ public abstract class KmgElement
         {
             String name = child.getName();
             if ( !names.contains(name) )
-                error(p, "(%s) must match one of [%s]", name, names.format());
+                throw newFatal(p, "(%s) must match one of [%s]", name, names.format());
         }
     }
 
@@ -118,7 +118,7 @@ public abstract class KmgElement
         KmList<String> values = p.getValues(attr);
         for ( String value : values )
             if ( !options.contains(value) )
-                error(p, "(%s) must match one of [%s]", attr, Kmu.formatList(options));
+                throw newFatal(p, "(%s) must match one of [%s]", attr, Kmu.formatList(options));
     }
 
     public void checkDuplicates(String key, KmList<String> values)
@@ -126,7 +126,7 @@ public abstract class KmgElement
         KmList<String> dups = values.getDuplicates();
 
         if ( dups.isNotEmpty() )
-            error("(%s) cannot contain duplicates: [%s]", key, dups.format());
+            throw newFatal("(%s) cannot contain duplicates: [%s]", key, dups.format());
     }
 
     public String parseStringAttribute(KmStfElement p, String attr, String def)
@@ -144,13 +144,13 @@ public abstract class KmgElement
         String s = p.getValue("name");
 
         if ( s == null )
-            error(p, "Required attribute (name) is missing");
+            throw newFatal(p, "Required attribute (name) is missing");
 
         if ( s.length() == 0 )
-            error(p, "Required attribute (name) is empty.");
+            throw newFatal(p, "Required attribute (name) is empty.");
 
         if ( !Kmu.isAllAlphaNumeric(s) )
-            error("Names must only contain letters(%s).", s);
+            throw newFatal("Names must only contain letters(%s).", s);
 
         return Kmu.lowercaseFirstLetter(s);
     }
@@ -160,7 +160,7 @@ public abstract class KmgElement
         String s = parseRequiredString(p, tag);
 
         if ( !Kmu.isAllAlphaNumeric(s) )
-            error("Names must only contain letters(%s).", s);
+            throw newFatal("Names must only contain letters(%s).", s);
 
         return Kmu.lowercaseFirstLetter(s);
     }
@@ -173,7 +173,7 @@ public abstract class KmgElement
             return null;
 
         if ( !Kmu.isAllAlphaNumeric(s) )
-            error("Names must only contain letters(%s).", s);
+            throw newFatal("Names must only contain letters(%s).", s);
 
         return s;
     }
@@ -183,10 +183,10 @@ public abstract class KmgElement
         String s = parseString(p, tag, null);
 
         if ( s == null )
-            error(p, "Required field (%s) is missing", tag);
+            throw newFatal(p, "Required field (%s) is missing", tag);
 
         if ( s.length() == 0 )
-            error(p, "Required field (%s) is empty.", tag);
+            throw newFatal(p, "Required field (%s) is empty.", tag);
 
         return s;
     }
@@ -215,7 +215,7 @@ public abstract class KmgElement
         KmProtoType e = getRoot().getBaseType(name);
 
         if ( e == null )
-            error(p, "Unknown base type (%s).", name);
+            throw newFatal(p, "Unknown base type (%s).", name);
 
         return e;
     }
@@ -223,7 +223,7 @@ public abstract class KmgElement
     /**
      * If the attribute is NOT present, return false.
      * If the attribute IS present, but has no value, return true.
-     * Otherwise, return the specified value. 
+     * Otherwise, return the specified value.
      */
     public Boolean parseBoolean(KmStfElement p, String attr)
     {
@@ -233,7 +233,7 @@ public abstract class KmgElement
     /**
      * If the attribute is NOT present, return the default.
      * If the attribute IS present, but has no value, return true.
-     * Otherwise, return the specified value. 
+     * Otherwise, return the specified value.
      */
     public Boolean parseBoolean(KmStfElement p, String attr, boolean def)
     {
@@ -249,7 +249,7 @@ public abstract class KmgElement
 
         Boolean b = Kmu.parseBoolean(value);
         if ( b == null )
-            error(p, "Cannot parse boolean (%s).", value);
+            throw newFatal(p, "Cannot parse boolean (%s).", value);
 
         return b;
     }
@@ -262,7 +262,7 @@ public abstract class KmgElement
 
         Integer i = Kmu.parseInteger(s);
         if ( i == null )
-            error(p, "Cannot parse integer (%s).", tag);
+            throw newFatal(p, "Cannot parse integer (%s).", tag);
 
         return i;
     }
@@ -271,7 +271,8 @@ public abstract class KmgElement
     {
         Integer i = parseInteger(p, tag, null);
         if ( i == null )
-            error(p, "Cannot parse required integer (%s).", tag);
+            throw newFatal(p, "Cannot parse required integer (%s).", tag);
+
         return i;
     }
 
@@ -326,7 +327,7 @@ public abstract class KmgElement
     //# utility
     //##################################################
 
-    public void error(KmStfElement x, String msg, Object... args)
+    public RuntimeException newFatal(KmStfElement x, String msg, Object... args)
     {
         String error = "Error: " + Kmu.format(msg, args);
         String path = "xPath: " + formatPath();
@@ -335,19 +336,22 @@ public abstract class KmgElement
         System.out.println("\n");
         System.out.println(error);
         System.out.println(path);
+
         if ( x != null )
         {
             System.out.println();
             System.out.println("Location: " + x.getLocation());
         }
+
         System.out.println("=======================================================");
         System.out.println();
-        throw new RuntimeException(error + " " + path);
+
+        return Kmu.newFatal(error + " " + path);
     }
 
-    public void error(String msg, Object... args)
+    public RuntimeException newFatal(String msg, Object... args)
     {
-        error(null, msg, args);
+        return newFatal(null, msg, args);
     }
 
     //##################################################
@@ -411,41 +415,50 @@ public abstract class KmgElement
 
     public String toConstant(String s)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder out = new StringBuilder();
+
         Iterator<String> i = toWords(s).iterator();
         while ( i.hasNext() )
         {
-            sb.append(i.next().toUpperCase());
+            out.append(i.next().toUpperCase());
             if ( i.hasNext() )
-                sb.append("_");
+                out.append("_");
         }
-        return sb.toString();
+
+        return out.toString();
     }
 
     public KmList<String> toWords(String s)
     {
         KmList<String> v = new KmList<>();
-        StringBuilder sb = new StringBuilder();
+        StringBuilder out = new StringBuilder();
+
         if ( Kmu.isEmpty(s) )
             return v;
+
         s = s.trim();
+
         int n = s.length();
         for ( int i = 0; i < n; i++ )
         {
             char c = s.charAt(i);
             if ( !Character.isLetter(c) )
                 continue;
+
             if ( Character.isUpperCase(c) )
             {
-                if ( sb.length() > 0 )
-                    v.add(sb.toString());
-                sb.setLength(0);
+                if ( out.length() > 0 )
+                    v.add(out.toString());
+                out.setLength(0);
                 c = Character.toLowerCase(c);
             }
-            sb.append(c);
+
+            out.append(c);
         }
-        if ( sb.length() > 0 )
-            v.add(sb.toString());
+
+        if ( out.length() > 0 )
+            v.add(out.toString());
+
         return v;
     }
 

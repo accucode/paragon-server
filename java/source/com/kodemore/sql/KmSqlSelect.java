@@ -221,10 +221,10 @@ public class KmSqlSelect
     public void validate()
     {
         if ( !hasTables() )
-            fatal("Must specify a table to select from.");
+            throw newFatal("Must specify a table to select from.");
 
         if ( !hasColumns() )
-            fatal("Must specify a value to select.");
+            throw newFatal("Must specify a value to select.");
     }
 
     //##################################################

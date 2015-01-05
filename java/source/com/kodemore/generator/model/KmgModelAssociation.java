@@ -413,8 +413,9 @@ public class KmgModelAssociation
         {
             String s = parseRequiredString(x, "relation");
             _relation = Relation.findName(s);
+
             if ( _relation == null )
-                error("Invalid relation: " + s);
+                throw newFatal("Invalid relation: " + s);
         }
 
         KmList<KmStfElement> v = x.getChildren("delegate");
@@ -426,7 +427,7 @@ public class KmgModelAssociation
     public void validate()
     {
         if ( getModelReference() == null )
-            error("Cannot resolve model reference: " + getModelReferenceName());
+            throw newFatal("Cannot resolve model reference: " + getModelReferenceName());
 
         validateRelation();
 
@@ -440,22 +441,22 @@ public class KmgModelAssociation
         {
             case Child:
                 if ( ic != null )
-                    error("Child association should not have inverse collection.");
+                    throw newFatal("Child association should not have inverse collection.");
                 return;
 
             case Parent:
                 if ( ic == null )
-                    error("Parent association must have inverse collection.");
+                    throw newFatal("Parent association must have inverse collection.");
                 return;
 
             case Reference:
                 if ( ic != null )
-                    error("Reference association should not have inverse collection.");
+                    throw newFatal("Reference association should not have inverse collection.");
                 return;
 
             case WeakReference:
                 if ( ic != null )
-                    error("Weak reference association should not have inverse collection.");
+                    throw newFatal("Weak reference association should not have inverse collection.");
                 return;
 
             case Calculated:
@@ -478,7 +479,7 @@ public class KmgModelAssociation
         KmList<KmgModelField> pks = getModelReference().getPrimaryKeyFields();
 
         if ( pks.size() != 1 )
-            error("manyToOne must reference a model that has a single field primary key.");
+            throw newFatal("manyToOne must reference a model that has a single field primary key.");
 
         KmgModelField f = pks.getFirst();
         return f;

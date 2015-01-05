@@ -107,7 +107,7 @@ public class MyMenuRegistry
     public static synchronized void install()
     {
         if ( _instance != null )
-            Kmu.fatal("Already installed.");
+            throw Kmu.newFatal("Already installed.");
 
         _instance = new MyMenuRegistry();
     }
@@ -115,7 +115,7 @@ public class MyMenuRegistry
     public static MyMenuRegistry getInstance()
     {
         if ( _instance == null )
-            Kmu.fatal("Not installed.");
+            throw Kmu.newFatal("Not installed.");
 
         return _instance;
     }

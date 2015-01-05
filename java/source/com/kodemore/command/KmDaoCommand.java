@@ -316,14 +316,15 @@ public abstract class KmDaoCommand
             return;
 
         KmDaoSession session = getDaoSession();
+
         if ( !session.isLocked() )
-            fatal(
+            throw Kmu.newFatal(
                 "Command(%s) requires lock(%s), but is running in unlocked transaction.",
                 getSimpleClassName(),
                 getLockKey());
 
         if ( !session.hasLock(getLockKey()) )
-            fatal(
+            throw Kmu.newFatal(
                 "Command(%s) requires lock(%s), but is running in transaction with lock(%s).",
                 getSimpleClassName(),
                 getLockKey(),

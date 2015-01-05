@@ -149,7 +149,8 @@ public class KmXmlContentHandler
     public void applyLocation(KmXmlNode n)
     {
         if ( _locator == null )
-            Kmu.fatal("Locator is required.");
+            throw Kmu.newFatal("Locator is required.");
+
         KmXmlSourceLocation e;
         e = new KmXmlSourceLocation();
         e.setName(_locationName);

@@ -45,7 +45,7 @@ public class ScControlRegistry
     public static synchronized void install()
     {
         if ( _instance != null )
-            Kmu.fatal("Already installed.");
+            throw Kmu.newFatal("Already installed.");
 
         _instance = new ScControlRegistry();
     }
@@ -53,7 +53,7 @@ public class ScControlRegistry
     public static ScControlRegistry getInstance()
     {
         if ( _instance == null )
-            Kmu.fatal("Not installed.");
+            throw Kmu.newFatal("Not installed.");
 
         return _instance;
     }

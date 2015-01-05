@@ -35,7 +35,7 @@ public class KmGeneralError
     //# constructor
     //##################################################
 
-    public KmGeneralError(String msg, Object... args)
+    public KmGeneralError(CharSequence msg, Object... args)
     {
         setMessage(msg, args);
     }
@@ -55,7 +55,7 @@ public class KmGeneralError
         return _message;
     }
 
-    public void setMessage(String msg, Object... args)
+    public void setMessage(CharSequence msg, Object... args)
     {
         _message = Kmu.format(msg, args);
     }
@@ -65,8 +65,8 @@ public class KmGeneralError
     //##################################################
 
     @Override
-    public void formatProblem(StringBuilder sb)
+    public void formatProblem(StringBuilder out)
     {
-        sb.append(_message);
+        out.append(_message);
     }
 }

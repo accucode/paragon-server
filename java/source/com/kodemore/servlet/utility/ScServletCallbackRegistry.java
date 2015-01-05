@@ -4,19 +4,18 @@ import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScDropzone;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.field.ScAutoCompleteField;
-import com.kodemore.servlet.utility.ScServletCallback;
 import com.kodemore.utility.Kmu;
 
 /**
- * I am used by various tools to coordinate dynamic 
+ * I am used by various tools to coordinate dynamic
  * server side responses to client side requests.
- * 
+ *
  * Tools register a url path suffix, and a callback
- * function.  When a url is receiced matching the 
- * path suffix, the request is passed to the 
+ * function.  When a url is receiced matching the
+ * path suffix, the request is passed to the
  * callback function.
- * 
- * This is an experiment and is intended as an 
+ *
+ * This is an experiment and is intended as an
  * alternative to creating separate servlets and
  * web.xml entries for each new tool.
  */
@@ -59,7 +58,7 @@ public class ScServletCallbackRegistry
 
     /**
      * The path prefix.  Tools need this in order
-     * to correctly compose the url. 
+     * to correctly compose the url.
      */
     private String                    _prefix;
 
@@ -131,10 +130,10 @@ public class ScServletCallbackRegistry
         String key = e.getKey();
 
         if ( Kmu.isEmpty(key) )
-            Kmu.fatal("Callback key is required.");
+            throw Kmu.newFatal("Callback key is required.");
 
         if ( hasCallbackKey(key) )
-            Kmu.fatal("Callback key is already registered: %s.", key);
+            throw Kmu.newFatal("Callback key is already registered: %s.", key);
 
         _callbacks.add(e);
     }

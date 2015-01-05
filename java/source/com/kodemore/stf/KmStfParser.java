@@ -31,7 +31,7 @@ import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
 
 /**
- * I am used to parse the stf format.  Structured Text Files.  
+ * I am used to parse the stf format.  Structured Text Files.
  */
 public class KmStfParser
     implements KmStfConstantsIF, KmConstantsIF
@@ -46,7 +46,7 @@ public class KmStfParser
     private String                _source;
 
     /**
-     * The folder where the source is assumed to live.  This is 
+     * The folder where the source is assumed to live.  This is
      * not required and the parser can be used to simple parse
      * freeform strings.  However, the #include command needs to
      * know where this folder lives.
@@ -55,7 +55,7 @@ public class KmStfParser
 
     /**
      * The normalized lines being parsed.
-     * Lines are normalized by doing things like 
+     * Lines are normalized by doing things like
      * trimming trailing whitespace and converting
      * tabs to spaces.  See normalize method below.
      */
@@ -68,7 +68,7 @@ public class KmStfParser
     private int                   _index;
 
     /**
-     * Using tabs is not recommended, but is supported by 
+     * Using tabs is not recommended, but is supported by
      * converting each tab to a specified number of spaces.
      * Must be set to a value >= 1; defaults to 4.
      */
@@ -86,20 +86,20 @@ public class KmStfParser
      * comments.  Multiline comments must start at the start
      * of a line, and end at the end of a line (not counting
      * whitespace).
-     * 
+     *
      * The following multiline comments are installed
      * by default.  Additional patterns may be added
      * or the defaults may be cleared.
-     * 
+     *
      *      java-style: slash-star ... star-slash
-     *      html-style: <!-- ... -->  
-     * 
+     *      html-style: <!-- ... -->
+     *
      */
     private KmMap<String,String>  _multiLineCommentPatterns;
 
     /**
      * Shortcuts can be used to convert element arguments
-     * into attributes. 
+     * into attributes.
      */
     private KmList<KmStfShortcut> _shortcuts;
 
@@ -352,8 +352,7 @@ public class KmStfParser
         if ( parseInclude(cmd, detail) )
             return true;
 
-        parseError("Unknown command (%s).", cmd);
-        return false;
+        throw newParseError("Unknown command (%s).", cmd);
     }
 
     private boolean parseInclude(String cmd, String detail)
@@ -362,13 +361,13 @@ public class KmStfParser
             return false;
 
         if ( !hasIncludeFolder() )
-            parseError("Cannot include; no folder specified.");
+            throw newParseError("Cannot include; no folder specified.");
 
         KmFile folder = getIncludeFolder();
         KmFile file = folder.getChild(detail);
 
         if ( !file.exists() )
-            parseError("Include file not found: %s.", file);
+            throw newParseError("Include file not found: %s.", file);
 
         nextLine();
 
@@ -463,7 +462,7 @@ public class KmStfParser
             nextLine();
 
             if ( eof() )
-                parseError(startLine, "Comment not terminated.");
+                throw newParseError(startLine, "Comment not terminated.");
         }
     }
 
@@ -483,10 +482,10 @@ public class KmStfParser
 
         KmStfElement tail = getTail();
         if ( tail == null )
-            parseError("Attribute found, but no parent element.");
+            throw newParseError("Attribute found, but no parent element.");
 
         if ( !tail.hasIndent(getIndent()) )
-            parseError("Attribute indent must match parent element.");
+            throw newParseError("Attribute indent must match parent element.");
 
         if ( _parseSingleLineAttribute() )
             return true;
@@ -497,8 +496,7 @@ public class KmStfParser
         if ( _parseSimpleAttribute() )
             return true;
 
-        parseError("Cannot parse attribute.");
-        return false;
+        throw newParseError("Cannot parse attribute.");
     }
 
     private boolean _parseSingleLineAttribute()
@@ -544,17 +542,17 @@ public class KmStfParser
         validateAttributeKey(key);
 
         if ( Kmu.hasValue(value) )
-            parseError("Attribute value should be moved to next line.");
+            throw newParseError("Attribute value should be moved to next line.");
 
         nextLine();
 
         KmStfElement string = parseString();
         if ( string == null )
-            parseError("Attribute value not found on next line.");
+            throw newParseError("Attribute value not found on next line.");
 
         KmStfElement tail = getTail();
         if ( string.getIndent() <= tail.getIndent() )
-            parseError("Attribute value not indented.");
+            throw newParseError("Attribute value not indented.");
 
         tail.addAttribute(key, string.getValue(STRING_ATTRIBUTE_KEY));
 
@@ -586,7 +584,7 @@ public class KmStfParser
     private void validateAttributeKey(String key)
     {
         if ( key.contains(SPACE) )
-            parseError("Attribute key cannot contain whitespace.");
+            throw newParseError("Attribute key cannot contain whitespace.");
     }
 
     //##################################################
@@ -594,7 +592,7 @@ public class KmStfParser
     //##################################################
 
     /**
-     * Anything not already parsed is assumed to be a 
+     * Anything not already parsed is assumed to be a
      * new element.  We throw an error if the element cannot
      * be parsed.
      */
@@ -604,7 +602,7 @@ public class KmStfParser
         char c = line.charAt(0);
 
         if ( !Kmu.isLetter(c) )
-            parseError("Elements must start with a letter.");
+            throw newParseError("Elements must start with a letter.");
 
         KmStfElement parent = null;
         int indent = getIndent();
@@ -619,7 +617,7 @@ public class KmStfParser
             if ( i >= 0 )
             {
                 if ( !token.endsWith(CLOSE_PAREN) )
-                    parseError("Element arguments not terminated.");
+                    throw newParseError("Element arguments not terminated.");
 
                 name = token.substring(0, i);
 
@@ -662,7 +660,7 @@ public class KmStfParser
         if ( applyDefaultShortcut(e, arg) )
             return;
 
-        parseError("Cannot parse argument %s.", arg);
+        throw newParseError("Cannot parse argument %s.", arg);
     }
 
     private boolean applyPrefixShortcuts(KmStfElement e, String arg)
@@ -680,7 +678,7 @@ public class KmStfParser
     {
         KmStfShortcut sc = getDefaultShortcut();
         if ( sc == null )
-            parseError("Cannot parse argument %s.", arg);
+            throw newParseError("Cannot parse argument %s.", arg);
 
         return sc.applyTo(e, arg);
     }
@@ -741,7 +739,7 @@ public class KmStfParser
             return null;
 
         if ( !line.endsWith(suffix) )
-            parseError("String literal not terminated.");
+            throw newParseError("String literal not terminated.");
 
         line = Kmu.removePrefix(line, prefix);
         line = Kmu.removeSuffix(line, suffix);
@@ -786,17 +784,17 @@ public class KmStfParser
             nextLine();
 
             if ( eof() )
-                parseError("Multiline string not terminated.");
+                throw newParseError("Multiline string not terminated.");
 
             if ( getIndent() < indent )
-                parseError("Multiline string cannot indent less than first line.");
+                throw newParseError("Multiline string cannot indent less than first line.");
 
             line = getLine().trim();
 
             if ( line.equals(suffix) )
             {
                 if ( getIndent() != indent )
-                    parseError("Muliline string suffix should align with prefix.");
+                    throw newParseError("Muliline string suffix should align with prefix.");
 
                 nextLine();
                 break;
@@ -951,12 +949,12 @@ public class KmStfParser
         KmLog.warn(msg, args);
     }
 
-    private void parseError(String msg, Object... args)
+    private RuntimeException newParseError(String msg, Object... args)
     {
-        parseError(_index, msg, args);
+        return newParseError(_index, msg, args);
     }
 
-    private void parseError(int index, String msg, Object... args)
+    private RuntimeException newParseError(int index, String msg, Object... args)
     {
         KmStfError ex;
         ex = new KmStfError(msg, args);

@@ -28,17 +28,17 @@ public abstract class KmPropertyAbstractTypeIntegerRange
     {
         Integer e = Kmu.parseInteger(value);
         if ( e == null )
-            error("Property %s: Value (%s) is not an integer.", key, value);
+            throw Kmu.newFatal("Property %s: Value (%s) is not an integer.", key, value);
 
         int n = e.intValue();
 
         Integer min = getMinimum();
         if ( min != null && e < min )
-            error("Property %s: Value (%s) is less than %s.", key, n, min);
+            throw Kmu.newFatal("Property %s: Value (%s) is less than %s.", key, n, min);
 
         Integer max = getMaximum();
         if ( max != null && e > max )
-            error("Property %s: Value (%s) is greater than %s.", key, n, max);
+            throw Kmu.newFatal("Property %s: Value (%s) is greater than %s.", key, n, max);
 
         return e;
     }

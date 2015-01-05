@@ -61,7 +61,7 @@ public class KmFile
         _realPath = Kmu.getCanonicalPath(file);
 
         if ( !_realPath.startsWith(rootPath) )
-            accessError();
+            throw newAccessError();
     }
 
     //##################################################
@@ -453,9 +453,9 @@ public class KmFile
         return KmFileUtility.normalize(realFile.getPath());
     }
 
-    private void accessError()
+    private RuntimeException newAccessError()
     {
-        Kmu.fatal("Attempt to access file outside root folder.");
+        return Kmu.newFatal("Attempt to access file outside root folder.");
     }
 
     //##################################################

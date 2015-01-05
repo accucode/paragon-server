@@ -31,9 +31,9 @@ public class ScThreadLocal<T>
     //# variables
     //##################################################
 
-    private T                   _default;
-    private ThreadLocal<T>      _local;
-    public ThreadLocal<Boolean> _set;
+    private T                    _default;
+    private ThreadLocal<T>       _local;
+    private ThreadLocal<Boolean> _set;
 
     //##################################################
     //# constructor
@@ -41,7 +41,6 @@ public class ScThreadLocal<T>
 
     public ScThreadLocal()
     {
-        _default = null;
         _local = newLocal();
         _set = newLocal();
     }
@@ -70,8 +69,8 @@ public class ScThreadLocal<T>
 
     public void reset()
     {
-        _local.set(null);
-        _set.set(null);
+        _local.remove();
+        _set.remove();
     }
 
     public boolean isSet()
