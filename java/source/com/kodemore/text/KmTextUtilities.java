@@ -67,22 +67,22 @@ public class KmTextUtilities
 
     private static void printSoundex(String s)
     {
-        System.out.printf("%s => %s\n", s, soundex(s));
+        System.out.printf("%s => %s%n", s, soundex(s));
     }
 
     private static void printMetaphone(String s)
     {
-        System.out.printf("%s => %s\n", s, metaphone(s));
+        System.out.printf("%s => %s%n", s, metaphone(s));
     }
 
     private static void printDoubleMetaphone(String s)
     {
-        System.out.printf("%s => %s\n", s, doubleMetaphone(s));
+        System.out.printf("%s => %s%n", s, doubleMetaphone(s));
     }
 
     private static void printEditDistance(String a, String b)
     {
-        System.out.printf("%s, %s => %s\n", a, b, editDistance(a, b));
+        System.out.printf("%s, %s => %s%n", a, b, editDistance(a, b));
     }
 
     //##################################################

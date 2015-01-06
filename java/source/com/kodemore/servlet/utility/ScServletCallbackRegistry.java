@@ -32,8 +32,15 @@ public class ScServletCallbackRegistry
         if ( _instance != null )
             throw new RuntimeException("Already installed.");
 
-        _instance = new ScServletCallbackRegistry();
-        _instance._prefix = prefix;
+        _instance = createInstance(prefix);
+    }
+
+    private static ScServletCallbackRegistry createInstance(String prefix)
+    {
+        ScServletCallbackRegistry e;
+        e = new ScServletCallbackRegistry();
+        e._prefix = prefix;
+        return e;
     }
 
     public static ScServletCallbackRegistry getInstance()

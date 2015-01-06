@@ -244,6 +244,6 @@ public class KmStringTokenizer
 
         System.out.println("Size: " + n);
         for ( int i = 0; i < n; i++ )
-            System.out.printf("%2s - [%s]\n", i, v.get(i));
+            System.out.printf("%2s - [%s]%n", i, v.get(i));
     }
 }

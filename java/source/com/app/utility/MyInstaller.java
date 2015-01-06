@@ -7,6 +7,7 @@ import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.utility.ScServletCallbackRegistry;
 import com.kodemore.time.KmTimeZoneBridge;
+import com.kodemore.utility.KmBenchmarking;
 import com.kodemore.utility.Kmu;
 
 import com.app.bridge.MyApplicationBridge;
@@ -484,7 +485,7 @@ public class MyInstaller
 
     private static long getUsedMemory()
     {
-        return Kmu.getUsedMemory();
+        return KmBenchmarking.getUsedMemory();
     }
 
     //##################################################

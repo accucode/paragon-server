@@ -63,6 +63,7 @@ public class KmSha1
     {
         String a = args[0];
         String b = hash(a);
+
         System.out.println(a);
         System.out.println(b);
     }
@@ -102,8 +103,6 @@ public class KmSha1
     {
         state = new int[5];
         count = 0;
-        if ( block == null )
-            block = new int[16];
         digestBits = new byte[20];
         digestValid = false;
     }
@@ -174,22 +173,28 @@ public class KmSha1
 
     final int blk(int i)
     {
-        block[i & 15] =
-            rol(block[i + 13 & 15] ^ block[i + 8 & 15] ^ block[i + 2 & 15] ^ block[i & 15], 1);
+        block[i & 15] = rol(block[i + 13 & 15]
+            ^ block[i + 8 & 15]
+            ^ block[i + 2 & 15]
+            ^ block[i & 15], 1);
         return block[i & 15];
     }
 
     final void R0(int data[], int v, int w, int x, int y, int z, int i)
     {
-        data[z] +=
-            (data[w] & (data[x] ^ data[y]) ^ data[y]) + blk0(i) + 0x5A827999 + rol(data[v], 5);
+        data[z] += (data[w] & (data[x] ^ data[y]) ^ data[y])
+            + blk0(i)
+            + 0x5A827999
+            + rol(data[v], 5);
         data[w] = rol(data[w], 30);
     }
 
     final void R1(int data[], int v, int w, int x, int y, int z, int i)
     {
-        data[z] +=
-            (data[w] & (data[x] ^ data[y]) ^ data[y]) + blk(i) + 0x5A827999 + rol(data[v], 5);
+        data[z] += (data[w] & (data[x] ^ data[y]) ^ data[y])
+            + blk(i)
+            + 0x5A827999
+            + rol(data[v], 5);
         data[w] = rol(data[w], 30);
     }
 
@@ -201,11 +206,10 @@ public class KmSha1
 
     final void R3(int data[], int v, int w, int x, int y, int z, int i)
     {
-        data[z] +=
-            ((data[w] | data[x]) & data[y] | data[w] & data[x])
-                + blk(i)
-                + 0x8F1BBCDC
-                + rol(data[v], 5);
+        data[z] += ((data[w] | data[x]) & data[y] | data[w] & data[x])
+            + blk(i)
+            + 0x8F1BBCDC
+            + rol(data[v], 5);
         data[w] = rol(data[w], 30);
     }
 

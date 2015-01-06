@@ -230,12 +230,6 @@ public class ScGoogleChart
 
     public void addSeries(KmList<Double> values)
     {
-        KmList<KmList<Double>> vv = _valueSets.getValue();
-        if ( vv == null )
-        {
-            vv = new KmList<>();
-            _valueSets.setValue(vv);
-        }
         _valueSets.add(values);
     }
 
@@ -602,8 +596,10 @@ public class ScGoogleChart
         if ( _yAxisMinimum.hasValue() )
         {
             String axis = "chxt=y";
-            String range =
-                Kmu.format("chxr=0,%s,%s", _yAxisMinimum.getValue(), _yAxisMaximum.getValue());
+            String range = Kmu.format(
+                "chxr=0,%s,%s",
+                _yAxisMinimum.getValue(),
+                _yAxisMaximum.getValue());
 
             append(args, axis);
             append(args, range);
@@ -748,10 +744,9 @@ public class ScGoogleChart
 
     private String formatColor(Color c)
     {
-        String s =
-            Kmu.formatHexString((byte)c.getRed())
-                + Kmu.formatHexString((byte)c.getGreen())
-                + Kmu.formatHexString((byte)c.getBlue());
+        String s = Kmu.formatHexString((byte)c.getRed())
+            + Kmu.formatHexString((byte)c.getGreen())
+            + Kmu.formatHexString((byte)c.getBlue());
 
         int alpha = c.getAlpha();
         if ( alpha != 255 )

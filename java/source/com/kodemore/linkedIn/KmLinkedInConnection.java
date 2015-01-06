@@ -1,6 +1,7 @@
 package com.kodemore.linkedIn;
 
 import java.util.Calendar;
+import java.util.Map.Entry;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -35,7 +36,7 @@ public class KmLinkedInConnection
     //##################################################
 
     /**
-     * The encryption method specified in the message header. 
+     * The encryption method specified in the message header.
      * This should correspond to the CRYPTO_METHOD.
      */
     private static String               AUTHORIZATION_METHOD = "HMAC-SHA1";
@@ -65,8 +66,8 @@ public class KmLinkedInConnection
     /**
      * "Number used Once".
      * http://hueniverse.com/2008/10/beginners-guide-to-oauth-part-iii-security-architecture/
-     * 
-     * Each request should use a different nonce. 
+     *
+     * Each request should use a different nonce.
      * Any relatively random alphanumeric string will work here.
      * In this case we use a standard UUID but strip the dashes.
      */
@@ -235,11 +236,8 @@ public class KmLinkedInConnection
         KmStringBuilder out = new KmStringBuilder();
 
         KmOrderedMap<String,String> m = getAuthorizationParameters();
-        for ( String key : m.keySet() )
-        {
-            String value = m.get(key);
-            appendAuthorizationParameter(out, key, value);
-        }
+        for ( Entry<String,String> e : m.entrySet() )
+            appendAuthorizationParameter(out, e.getKey(), e.getValue());
 
         return "OAuth " + out.toString();
     }
@@ -268,7 +266,7 @@ public class KmLinkedInConnection
     //##################################################
 
     /**
-     * Get the encrypted signature as a base-64 string. 
+     * Get the encrypted signature as a base-64 string.
      */
     private String getSignature()
     {
@@ -295,11 +293,8 @@ public class KmLinkedInConnection
         KmStringBuilder out = new KmStringBuilder();
 
         KmOrderedMap<String,String> m = getSignatureParameters();
-        for ( String key : m.keySet() )
-        {
-            String value = m.get(key);
-            appendSignatureParameter(out, key, value);
-        }
+        for ( Entry<String,String> e : m.entrySet() )
+            appendSignatureParameter(out, e.getKey(), e.getValue());
 
         return out.toString();
     }

@@ -22,6 +22,8 @@
 
 package com.kodemore.text;
 
+import com.kodemore.string.KmStringBuilder;
+
 /**
  * I implement the SoundEx alghorithm.
  *
@@ -74,7 +76,7 @@ public class KmSoundexOld
             ? "ok"
             : "ERROR, expected " + expected;
 
-        System.out.printf("%s => %s (%s)\n", word, actual, result);
+        System.out.printf("%s => %s (%s)%n", word, actual, result);
     }
 
     //##################################################
@@ -140,14 +142,12 @@ public class KmSoundexOld
     private static String normalizeLength(String s)
     {
         int n = 4;
+        KmStringBuilder out = new KmStringBuilder(s);
 
-        while ( s.length() < n )
-            s += "0";
+        while ( out.length() < n )
+            out.insert(0, "0");
 
-        if ( s.length() > n )
-            s = s.substring(0, n);
-
-        return s;
+        return out.substring(0, n);
     }
 
     private static String toBase(String s)

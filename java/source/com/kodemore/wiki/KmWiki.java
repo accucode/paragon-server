@@ -141,8 +141,11 @@ public class KmWiki
             KmWikiSource source = error.getSource();
 
             System.out.println("ERROR");
-            System.out.printf("%s Location(%s,%s).\n", error.getMessage(), source.getRow(), source
-                .getColumn());
+            System.out.printf(
+                "%s Location(%s,%s).%n",
+                error.getMessage(),
+                source.getRow(),
+                source.getColumn());
             System.out.println(source.getLine());
             System.out.println(source.getLinePointer());
             System.out.println();

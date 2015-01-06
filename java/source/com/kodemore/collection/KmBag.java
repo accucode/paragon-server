@@ -47,9 +47,11 @@ public class KmBag<E>
     public Integer getCount(E e)
     {
         Integer i = _map.get(e);
-        return i == null
-            ? 0
-            : i;
+
+        if ( i == null )
+            return 0;
+
+        return i;
     }
 
     public Integer getTotalCount()

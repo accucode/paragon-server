@@ -19,29 +19,32 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
  */
-
-package com.kodemore.phonetic;
+package com.kodemore.utility;
 
 /**
- * A simple example of the default behavior.
+ * Methods in this class may be flagged as dubious by style checkers.
+ * These methods are not directly unsafe, but they generally shouldn't be used
+ * except for benchmarking, start up info, and debugging.
  */
-public class KmPhoneticTest
+public class KmBenchmarking
+    implements KmConstantsIF
 {
-    public static void main(String args[])
+    //##################################################
+    //# runtime
+    //##################################################
+
+    /**
+     * Just checking freeMemory before/after some action isn't enough.
+     * You might see the free memory stay the same, but if the totalMemory
+     * increased by 100Mg, then that means that the action actually used
+     * 100Mg even though the free memory didn't change.
+     */
+    public static long getUsedMemory()
     {
-        KmPhoneticEncoder e;
-        e = new KmPhoneticEncoder();
-        e.loadDefaultRules();
-
-        print(e, "elephant");
-        print(e, "tiger");
-        print(e, "lepard");
-        print(e, "leapt");
+        Runtime rt;
+        rt = Runtime.getRuntime();
+        rt.gc();
+        rt.gc(); // the double gc seems to generate more consistent results.
+        return rt.totalMemory() - rt.freeMemory();
     }
-
-    public static void print(KmPhoneticEncoder e, String s)
-    {
-        System.out.printf("%s => %s%n", s, e.encode(s));
-    }
-
 }

@@ -28,7 +28,7 @@ public class KmSecurityException
         String s = "Security Violation.";
 
         if ( hasMessage() )
-            return s += "\n" + getMessage();
+            return s + "\n" + getMessage();
 
         return s;
     }

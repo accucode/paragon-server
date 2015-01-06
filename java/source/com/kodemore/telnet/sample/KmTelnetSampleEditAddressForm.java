@@ -68,14 +68,17 @@ public class KmTelnetSampleEditAddressForm
     public void handleVirtualKey(int key, boolean alt)
     {
         super.handleVirtualKey(key, alt);
-        switch ( key )
+
+        if ( key == VK_F8 )
         {
-            case VK_F8:
-                handleCancel();
-                break;
-            case VK_F9:
-                handleSave();
-                break;
+            handleCancel();
+            return;
+        }
+
+        if ( key == VK_F9 )
+        {
+            handleSave();
+            return;
         }
     }
 

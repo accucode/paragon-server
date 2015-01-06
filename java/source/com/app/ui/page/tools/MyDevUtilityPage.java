@@ -10,7 +10,6 @@ import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
-import com.kodemore.string.KmStringBuilder;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
 
@@ -86,7 +85,6 @@ public class MyDevUtilityPage
 
         ScBox box;
         box = group.getBody().addLinkBox();
-        box.addLink("garbage collection", newGarbageCollectionAction());
         box.addLink("reload properties", newReloadPropertiesAction());
     }
 
@@ -149,18 +147,6 @@ public class MyDevUtilityPage
     //##################################################
     //# actions
     //##################################################
-
-    private ScActionIF newGarbageCollectionAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleGarbageCollection();
-            }
-        };
-    }
 
     private ScActionIF newReloadPropertiesAction()
     {
@@ -255,24 +241,6 @@ public class MyDevUtilityPage
     //##################################################
     //# handle
     //##################################################
-
-    private void handleGarbageCollection()
-    {
-        Runtime rt = Runtime.getRuntime();
-        long max = rt.maxMemory();
-        long free1 = rt.freeMemory();
-        rt.gc();
-        long free2 = rt.freeMemory();
-
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.printfln("Max: %s", Kmu.formatInteger(max));
-        out.printfln("Free Before: %s", Kmu.formatInteger(free1));
-        out.printfln("Free After: %s", Kmu.formatInteger(free2));
-        out.printfln("Reclaimed: %s", Kmu.formatInteger(free2 - free1));
-
-        ajax().toast(out.toString()).sticky();
-    }
 
     private void handleReloadProperties()
     {

@@ -365,8 +365,12 @@ public class MyMenuItem
     public void printTree(int indent)
     {
         System.out.print(Kmu.repeat("    ", indent));
-        System.out.printf("%s, key(%s), pages(%s), visible(%s)\n", getTitle(), getKey(), getPages()
-            .size(), isVisible());
+        System.out.printf(
+            "%s, key(%s), pages(%s), visible(%s)%n",
+            getTitle(),
+            getKey(),
+            getPages().size(),
+            isVisible());
 
         for ( MyMenuItem e : getSubMenus() )
             e.printTree(indent + 1);

@@ -219,8 +219,9 @@ public class KmgModelField
     public void setType(String name)
     {
         KmgModelType type = getRoot().getType(name);
+
         if ( type == null )
-            throw newFatal("Unknown type: " + type);
+            throw newFatal("Unknown type: " + name);
 
         _type = type;
     }

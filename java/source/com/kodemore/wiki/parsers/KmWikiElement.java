@@ -116,6 +116,6 @@ public abstract class KmWikiElement
 
     public void printTreeOn(KmIndentPrintWriter out)
     {
-        out.printf("%s (%s,%s)\n", getName(), getSource().getRow(), getSource().getColumn());
+        out.printf("%s (%s,%s)%n", getName(), getSource().getRow(), getSource().getColumn());
     }
 }

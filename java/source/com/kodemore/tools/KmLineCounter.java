@@ -49,12 +49,12 @@ public class KmLineCounter
         e.addIgnoredPrefix("import");
 
         e.processAll(root);
-        System.out.printf("  total bytes:  %,10d\n", e.getTotalBytes());
-        System.out.printf("  total lines:  %,10d\n", e.getLines());
-        System.out.printf("  blank lines:  %,10d\n", e.getBlankLines());
-        System.out.printf("  1-char lines: %,10d\n", e.getSingleCharacterLines());
-        System.out.printf("  prefix lines: %,10d\n", e.getIgnoredPrefixLines());
-        System.out.printf("  comment lines:%,10d\n", e.getCommentLines());
+        System.out.printf("  total bytes:  %,10d%n", e.getTotalBytes());
+        System.out.printf("  total lines:  %,10d%n", e.getLines());
+        System.out.printf("  blank lines:  %,10d%n", e.getBlankLines());
+        System.out.printf("  1-char lines: %,10d%n", e.getSingleCharacterLines());
+        System.out.printf("  prefix lines: %,10d%n", e.getIgnoredPrefixLines());
+        System.out.printf("  comment lines:%,10d%n", e.getCommentLines());
 
     }
 

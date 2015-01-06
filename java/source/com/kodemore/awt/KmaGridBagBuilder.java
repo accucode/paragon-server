@@ -153,10 +153,12 @@ public class KmaGridBagBuilder
             for ( int j = 0; j < _fillArray[i].length; j++ )
                 if ( !_fillArray[i][j] )
                 {
-                    JPanel p = new JPanel();
+                    JPanel p;
+                    p = new JPanel();
                     p.setMinimumSize(d);
                     p.setMaximumSize(d);
                     p.setPreferredSize(d);
+
                     addAt(p, i, j, 1, 1);
                 }
     }

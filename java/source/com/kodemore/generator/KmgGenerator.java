@@ -596,13 +596,13 @@ public class KmgGenerator
         System.out.println();
         System.out.println();
         System.out.println("Summary");
-        System.out.printf("%8s: %10s %10s\n", "Ext", "Lines", "Bytes");
+        System.out.printf("%8s: %10s %10s%n", "Ext", "Lines", "Bytes");
 
         KmList<String> exts;
         exts = bytes.getKeys();
         exts.sort();
         for ( String s : exts )
-            System.out.printf("%8s: %,10d %,10d\n", s, lines.get(s), bytes.get(s));
+            System.out.printf("%8s: %,10d %,10d%n", s, lines.get(s), bytes.get(s));
     }
 
 }

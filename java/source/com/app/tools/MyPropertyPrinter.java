@@ -14,7 +14,7 @@ public class MyPropertyPrinter
     public static void main(String[] args)
     {
         System.out.printf(
-            "%s (%s)\n\n",
+            "%s (%s)%n%n",
             MyConstantsIF.APPLICATION_NAME,
             MyConstantsIF.APPLICATION_VERSION);
 
@@ -27,7 +27,7 @@ public class MyPropertyPrinter
 
         for ( String group : groups )
         {
-            System.out.println("\nGROUP: " + group);
+            System.out.println("%nGROUP: " + group);
 
             KmList<MyPropertyDefinition> defs;
             defs = MyPropertyDefinitions.getAllInGroup(group);
@@ -37,7 +37,7 @@ public class MyPropertyPrinter
             {
                 String key = def.getKey();
                 Object value = def.getObjectFor(p);
-                System.out.printf("  %s = %s\n", key, value);
+                System.out.printf("  %s = %s%n", key, value);
             }
         }
     }

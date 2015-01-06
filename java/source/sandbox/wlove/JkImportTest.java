@@ -199,8 +199,8 @@ public class JkImportTest
     private void printMaximumLengths()
     {
         System.out.println();
-        System.out.printf("Max Output: %s\n", _maximumOutputLength);
-        System.out.printf("Max Perf:   %s\n", _maximumPerformanceLength);
+        System.out.printf("Max Output: %s%n", _maximumOutputLength);
+        System.out.printf("Max Perf:   %s%n", _maximumPerformanceLength);
     }
 
     private void printTimes()
@@ -209,8 +209,8 @@ public class JkImportTest
         double recsPerSec = _lineNumber / secs;
 
         System.out.println();
-        System.out.printf("Min Time: %s\n", _minimumTime);
-        System.out.printf("Max Time: %s\n", _maximumTime);
+        System.out.printf("Min Time: %s%n", _minimumTime);
+        System.out.printf("Max Time: %s%n", _maximumTime);
         System.out.printf("Records / sec: %s", Kmu.formatDouble(recsPerSec, 1));
     }
 }

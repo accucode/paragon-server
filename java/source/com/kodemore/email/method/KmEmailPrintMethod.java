@@ -101,12 +101,6 @@ public class KmEmailPrintMethod
             switch ( type )
             {
                 case Text:
-                {
-                    String s = new String(arr);
-                    println(s);
-                    continue;
-                }
-
                 case Html:
                 {
                     String s = new String(arr);

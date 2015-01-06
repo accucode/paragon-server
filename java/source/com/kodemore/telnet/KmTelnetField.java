@@ -305,23 +305,32 @@ public class KmTelnetField
             case VK_LEFT:
                 handleLeft();
                 break;
+
             case VK_RIGHT:
                 handleRight();
                 break;
+
             case VK_HOME:
                 handleHome();
                 break;
+
             case VK_END:
                 handleEnd();
                 break;
+
             case VK_BACKSPACE:
                 handleBackspace();
                 break;
+
             case VK_DELETE:
                 handleDelete();
                 break;
+
             case VK_F10:
                 handleF10();
+                break;
+
+            default:
                 break;
         }
     }

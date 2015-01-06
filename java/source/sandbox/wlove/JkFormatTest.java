@@ -9,11 +9,11 @@ public class JkFormatTest
 
     public void run()
     {
-        System.out.printf("text: %,10d\n", 1);
-        System.out.printf("text: %,10d\n", 12345);
+        System.out.printf("text: %,10d%n", 1);
+        System.out.printf("text: %,10d%n", 12345);
         System.out.println();
-        System.out.printf("text: %,10.3f\n", 1.23);
-        System.out.printf("text: %,10.3f\n", 12345.2345);
+        System.out.printf("text: %,10.3f%n", 1.23);
+        System.out.printf("text: %,10.3f%n", 12345.2345);
     }
 
 }

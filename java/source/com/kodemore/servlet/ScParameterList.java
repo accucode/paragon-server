@@ -274,6 +274,6 @@ public class ScParameterList
     {
         KmList<String> keys = getKeys();
         for ( String key : keys )
-            System.out.printf("    %s => %s\n", key, getValue(key));
+            System.out.printf("    %s => %s%n", key, getValue(key));
     }
 }

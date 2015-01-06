@@ -640,7 +640,7 @@ public class ScServletData
 
         System.out.println("Parameters: " + keys.size());
         for ( String key : keys )
-            System.out.printf("    %s = %s\n", key, getParameters(key).format());
+            System.out.printf("    %s = %s%n", key, getParameters(key).format());
     }
 
     public String formatParametersAsQueryString()

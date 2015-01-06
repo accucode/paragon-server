@@ -77,9 +77,6 @@ public class ScRepeater
         ScControl body = _body.getValue();
         ScControl split = _split.getValue();
 
-        if ( v == null )
-            return;
-
         if ( body == null )
             return;
 

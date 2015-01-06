@@ -315,9 +315,11 @@ public class KmString
     public Double asDouble(double def)
     {
         Double d = asDouble();
-        return d == null
-            ? def
-            : d;
+
+        if ( d == null )
+            return def;
+
+        return d;
     }
 
     //##################################################

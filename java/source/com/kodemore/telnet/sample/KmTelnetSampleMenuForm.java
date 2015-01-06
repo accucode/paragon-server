@@ -44,16 +44,22 @@ public class KmTelnetSampleMenuForm
     public void handleVirtualKey(int key, boolean alt)
     {
         super.handleVirtualKey(key, alt);
+
         switch ( key )
         {
             case VK_F1:
                 handleEditAccount();
                 break;
+
             case VK_F2:
                 handleEditAddress();
                 break;
+
             case VK_F3:
                 handleLogout();
+                break;
+
+            default:
                 break;
         }
     }

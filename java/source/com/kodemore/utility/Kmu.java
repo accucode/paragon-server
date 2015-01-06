@@ -167,7 +167,7 @@ public class Kmu
             if ( s.length() == 0 )
                 return 0;
 
-            return new Integer(s);
+            return Integer.valueOf(s);
         }
         catch ( NumberFormatException ex )
         {
@@ -246,7 +246,8 @@ public class Kmu
 
             s = s.trim();
             s = stripLeadingZeros(s);
-            return new Long(s);
+
+            return Long.valueOf(s);
         }
         catch ( NumberFormatException ex )
         {
@@ -3574,8 +3575,8 @@ public class Kmu
     }
 
     /**
-     * Create or overwrite the contents of a file. Any exceptions are throw as a
-     * RuntimeException.
+     * Create or overwrite the contents of a file.
+     * Any exceptions are thrown as a RuntimeException.
      */
     public static void writeFile(File f, String text)
     {
@@ -3583,8 +3584,8 @@ public class Kmu
     }
 
     /**
-     * Create or overwrite the contents of a file. Any exceptions are throw as a
-     * RuntimeException.
+     * Create or overwrite the contents of a file.
+     * Any exceptions are thrown as a RuntimeException.
      */
     public static void writeFile(String path, String text)
     {
@@ -3594,6 +3595,7 @@ public class Kmu
 
     /**
      * Append the value to a file.  Create the file if missing.
+     * Any exceptions are thrown as a RuntimeException.
      */
     public static void appendToFile(String path, String text)
     {
@@ -3602,8 +3604,8 @@ public class Kmu
     }
 
     /**
-     * Create or overwrite the contents of a file. Any exceptions are throw as a
-     * RuntimeException.
+     * Create or overwrite the contents of a file.
+     * Any exceptions are thrown as a RuntimeException.
      */
     public static void writeFile(String path, String text, boolean append)
     {
@@ -3620,8 +3622,8 @@ public class Kmu
     }
 
     /**
-     * Create or overwrite the contents of a file. Any exceptions are throw as a
-     * RuntimeException.
+     * Create or overwrite the contents of a file.
+     * Any exceptions are thrown as a RuntimeException.
      */
     public static void writeFile(String path, KmWriteableIF writeable)
     {
@@ -3638,8 +3640,8 @@ public class Kmu
     }
 
     /**
-     * Read the contents of the file into a byte array. Exceptions are printed
-     * to System.out but are not thrown.
+     * Read the contents of the file into a byte array.
+     * Any exceptions are thrown as a RuntimeException.
      */
     public static byte[] readFileBytes(File f)
     {
@@ -3647,8 +3649,8 @@ public class Kmu
     }
 
     /**
-     * Read the contents of the file into a byte array. Exceptions are printed
-     * to System.out but are not thrown.
+     * Read the contents of the file into a byte array.
+     * Any exceptions are thrown as a RuntimeException.
      */
     public static byte[] readFileBytes(String path)
     {
@@ -3669,7 +3671,6 @@ public class Kmu
                 out.write(i);
             }
 
-            out.flush();
             return out.toByteArray();
         }
         catch ( IOException ex )
@@ -3722,8 +3723,8 @@ public class Kmu
     }
 
     /**
-     * Write the byte array to the file. Exceptions are printed to System.out
-     * but are not thrown.
+     * Write the byte array to the file.
+     * Any exceptions are thrown as a RuntimeException.
      */
     public static void writeFile(String path, byte[] arr)
     {
@@ -3732,8 +3733,8 @@ public class Kmu
     }
 
     /**
-     * Write the byte array to the file. Exceptions are printed to System.out
-     * but are not thrown.
+     * Write the byte array to the file.
+     * Any exceptions are thrown as a RuntimeException.
      */
     public static void writeFile(File f, byte[] arr)
     {
@@ -3751,8 +3752,8 @@ public class Kmu
     }
 
     /**
-     * Write the byte array to the file. Exceptions are printed to System.out
-     * but are not thrown.
+     * Write the byte array to the file.
+     * Any exceptions are thrown as a RuntimeException.
      */
     public static void writeFile(File f, byte[] arr, boolean append)
     {
@@ -3771,7 +3772,7 @@ public class Kmu
      * Ensure that the specified path exists. If it does not exist then attempt
      * to create it. Return true if the path was successfully created.  The entire
      * path is assumed to be a directory.
-     * Exceptions are printed to System.out but are not thrown.
+     * Any exceptions are thrown as runtime exceptions.
      */
     public static boolean createFolder(String s)
     {
@@ -3783,7 +3784,6 @@ public class Kmu
      * Ensure that the specified path exists. If it does not exist then attempt
      * to create it. Return true if the path was successfully created.
      * The entire path is assumed to be a directory.
-     * Exceptions are logged but are not thrown.
      */
     public static boolean createFolder(File f)
     {
@@ -3801,8 +3801,7 @@ public class Kmu
         }
         catch ( IOException ex )
         {
-            KmLog.error(ex, "Cannot create directory (%s).", f.getPath());
-            return false;
+            throw toRuntime(ex);
         }
     }
 
@@ -5612,25 +5611,6 @@ public class Kmu
     public static KmList<String> readResourceLines(String path)
     {
         return parseLines(readResourceString(path));
-    }
-
-    //##################################################
-    //# runtime
-    //##################################################
-
-    /**
-     * Just checking freeMemory before/after some action isn't enough.
-     * You might see the free memory stay the same, but if the totalMemory
-     * increased by 100Mg, then that means that the action actually used
-     * 100Mg even though the free memory didn't change.
-     */
-    public static long getUsedMemory()
-    {
-        Runtime rt;
-        rt = Runtime.getRuntime();
-        rt.gc();
-        rt.gc(); // the double gc seems to generate more consistent results.
-        return rt.totalMemory() - rt.freeMemory();
     }
 
     //##################################################

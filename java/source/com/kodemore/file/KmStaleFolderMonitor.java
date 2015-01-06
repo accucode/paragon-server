@@ -34,7 +34,7 @@ import com.kodemore.utility.Kmu;
 /**
  * I am used to a folder to make sure that it is active.
  * That is, that it has files being added and removed from it.
- * 
+ *
  * I may be used to monitor a folder used to coordinate
  * files that are shared via ftp, and to make sure that files
  * are moving back and forth, and that no files are getting
@@ -121,9 +121,6 @@ public class KmStaleFolderMonitor
         if ( _folder == null )
             _folder = new File(_folderPath);
 
-        if ( _folder == null )
-            return;
-
         if ( !_folder.exists() )
             return;
 
@@ -202,11 +199,10 @@ public class KmStaleFolderMonitor
     {
         String subject = Kmu.format("Folder Input Error: %s", _folderPath);
 
-        String msg =
-            Kmu.format(
-                "No new files have been received in the folder %s for more than %s minutes.",
-                _folderPath,
-                _inactiveMinutes);
+        String msg = Kmu.format(
+            "No new files have been received in the folder %s for more than %s minutes.",
+            _folderPath,
+            _inactiveMinutes);
 
         warn(subject, msg);
     }
@@ -215,12 +211,11 @@ public class KmStaleFolderMonitor
     {
         String subject = Kmu.format("Folder Output Error: %s", _folderPath);
 
-        String msg =
-            Kmu.format(
-                "The following files have been in the folder %s for more than %s minutes: %s.",
-                _folderPath,
-                _staleMinutes,
-                getSortedFilenameString(map));
+        String msg = Kmu.format(
+            "The following files have been in the folder %s for more than %s minutes: %s.",
+            _folderPath,
+            _staleMinutes,
+            getSortedFilenameString(map));
 
         warn(subject, msg);
     }

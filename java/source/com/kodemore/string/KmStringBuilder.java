@@ -52,6 +52,11 @@ public class KmStringBuilder
         _buffer = new StringBuilder();
     }
 
+    public KmStringBuilder(String s)
+    {
+        _buffer = new StringBuilder(s);
+    }
+
     //##################################################
     //# print
     //##################################################

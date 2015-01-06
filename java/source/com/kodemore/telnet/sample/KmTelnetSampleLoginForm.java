@@ -59,10 +59,14 @@ public class KmTelnetSampleLoginForm
     public void handleVirtualKey(int key, boolean alt)
     {
         super.handleVirtualKey(key, alt);
+
         switch ( key )
         {
             case VK_F9:
                 handleLogin();
+                break;
+
+            default:
                 break;
         }
     }

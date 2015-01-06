@@ -55,12 +55,6 @@ public class MyAjaxServlet
                 return;
 
             ScActionIF action = getAction(data);
-            if ( action == null )
-            {
-                toastFatal("Invalid Action Key.");
-                return;
-            }
-
             runAction(action);
         }
         catch ( KmSecurityException ex )

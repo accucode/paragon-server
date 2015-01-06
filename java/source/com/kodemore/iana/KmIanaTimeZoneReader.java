@@ -1,4 +1,4 @@
-package sandbox.wlove;
+package com.kodemore.iana;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
@@ -12,7 +12,7 @@ import com.app.utility.MyInstaller;
  * Reads Iana time zone data files from:
  * http://www.iana.org/time-zones
  */
-public class JkIanaTimeZoneReader
+public class KmIanaTimeZoneReader
     implements KmConstantsIF
 {
     //##################################################
@@ -21,18 +21,18 @@ public class JkIanaTimeZoneReader
 
     public static void main(String[] args)
     {
-        new JkIanaTimeZoneReader().run();
+        new KmIanaTimeZoneReader().run();
     }
 
     //##################################################
     //# variables
     //##################################################
 
-    private KmList<String> _lines;
-    private int            _index;
+    private KmList<String>         _lines;
+    private int                    _index;
 
-    private KmList<Rule>   _rules = new KmList<>();
-    private KmList<Zone>   _zones = new KmList<>();
+    private KmList<KmIanaRule>     _rules = new KmList<>();
+    private KmList<KmIanaTimeZone> _zones = new KmList<>();
 
     //##################################################
     //# run
@@ -114,16 +114,16 @@ public class JkIanaTimeZoneReader
         else
             name = tokens.removeFirst();
 
-        Rule rule;
-        rule = new Rule();
-        rule.name = name;
-        rule.fromYear = tokens.removeFirst();
-        rule.toYear = tokens.removeFirst();
-        rule.type = tokens.removeFirst();
-        rule.inMonth = tokens.removeFirst();
-        rule.onDay = tokens.removeFirst();
-        rule.atTime = tokens.removeFirst();
-        rule.save = tokens.removeFirst();
+        KmIanaRule rule;
+        rule = new KmIanaRule();
+        rule.setName(name);
+        rule.setFromYear(tokens.removeFirst());
+        rule.setToYear(tokens.removeFirst());
+        rule.setType(tokens.removeFirst());
+        rule.setInMonth(tokens.removeFirst());
+        rule.setOnDay(tokens.removeFirst());
+        rule.setAtTime(tokens.removeFirst());
+        rule.setSave(tokens.removeFirst());
 
         _rules.add(rule);
 
@@ -169,11 +169,11 @@ public class JkIanaTimeZoneReader
 
         region = Kmu.replaceAll(region, UNDERSCORE, SPACE);
 
-        Zone zone;
-        zone = new Zone();
-        zone.name = name;
-        zone.country = country;
-        zone.region = region;
+        KmIanaTimeZone zone;
+        zone = new KmIanaTimeZone();
+        zone.setName(name);
+        zone.setCountry(country);
+        zone.setRegion(region);
 
         boolean active = false;
 
@@ -198,8 +198,8 @@ public class JkIanaTimeZoneReader
 
             if ( until == null )
             {
-                zone.offset = offset;
-                zone.rule = rule;
+                zone.setOffset(offset);
+                zone.setRule(rule);
                 active = true;
             }
         }
@@ -295,17 +295,16 @@ public class JkIanaTimeZoneReader
         System.out.println();
         System.out.println("Rules");
 
-        KmList<Rule> v = _rules;
-        for ( Rule e : v )
-            // if ( e.name.equals("US") )
-            if ( e.toYear.equals("max") )
+        KmList<KmIanaRule> v = _rules;
+        for ( KmIanaRule e : v )
+            if ( e.getToYear().equals("max") )
                 System.out.printf(
-                    "Name(%s), in(%s), on(%s), at(%s), save(%s).\n",
-                    e.name,
-                    e.inMonth,
-                    e.onDay,
-                    e.atTime,
-                    e.save);
+                    "Name(%s), in(%s), on(%s), at(%s), save(%s).%n",
+                    e.getName(),
+                    e.getInMonth(),
+                    e.getOnDay(),
+                    e.getAtTime(),
+                    e.getSave());
     }
 
     private void printZones()
@@ -313,33 +312,14 @@ public class JkIanaTimeZoneReader
         System.out.println();
         System.out.println("Zones");
 
-        KmList<Zone> v = _zones;
-        for ( Zone e : v )
-            System.out.printf("%s, %s, %s, %s.\n", e.offset, e.country, e.region, e.rule);
+        KmList<KmIanaTimeZone> v = _zones;
+        for ( KmIanaTimeZone e : v )
+            System.out.printf(
+                "%s, %s, %s, %s.%n",
+                e.getOffset(),
+                e.getCountry(),
+                e.getRegion(),
+                e.getRule());
     }
 
-    //##################################################
-    //# rule
-    //##################################################
-
-    public class Rule
-    {
-        String name;
-        String fromYear;
-        String toYear;
-        String type;
-        String inMonth;
-        String onDay;
-        String atTime;
-        String save;
-    }
-
-    public class Zone
-    {
-        String name;
-        String country;
-        String region;
-        String offset;
-        String rule;
-    }
 }

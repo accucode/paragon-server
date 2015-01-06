@@ -219,10 +219,4 @@ public class KmaDialog
     {
         return KmaAwtUtility.showYesNo(this, title, message);
     }
-
-    public Boolean showYesNoCancel(String title, String message)
-    {
-        return KmaAwtUtility.showYesNoCancel(this, title, message);
-    }
-
 }

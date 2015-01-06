@@ -1,8 +1,5 @@
 package sandbox.wlove;
 
-import com.app.file.MyDevelopmentFiles;
-import com.app.utility.MyInstaller;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmSet;
 import com.kodemore.collection.KmSetImpl;
@@ -10,6 +7,9 @@ import com.kodemore.console.KmConsoleInput;
 import com.kodemore.file.KmFile;
 import com.kodemore.file.KmFileTraverser;
 import com.kodemore.utility.Kmu;
+
+import com.app.file.MyDevelopmentFiles;
+import com.app.utility.MyInstaller;
 
 public class JkNameTest
 {
@@ -88,9 +88,9 @@ public class JkNameTest
         System.out.println("Prefixes: " + prefixes.format());
         System.out.println("Suffixes: " + suffixes.format());
         System.out.println();
-        System.out.printf("P. Add Prefix(%s)\n", getPrefixCandidates().size());
-        System.out.printf("S. Add Suffix(%s)\n", getSuffixCandidates().size());
-        System.out.printf("Q. Quit\n");
+        System.out.printf("P. Add Prefix(%s)%n", getPrefixCandidates().size());
+        System.out.printf("S. Add Suffix(%s)%n", getSuffixCandidates().size());
+        System.out.printf("Q. Quit%n");
         System.out.println();
 
         String s = KmConsoleInput.readString("Enter: ").trim().toUpperCase();
@@ -111,7 +111,7 @@ public class JkNameTest
             int i = 1;
             KmList<String> v = getPrefixCandidates();
             for ( String e : v )
-                System.out.printf("%s.\t%s\n", i++, e);
+                System.out.printf("%s.\t%s%n", i++, e);
             i = KmConsoleInput.readInteger("Enter: ");
             s = v.getAtSafe(i);
             prefixes.addNonNull(s);
@@ -124,7 +124,7 @@ public class JkNameTest
             int i = 1;
             KmList<String> v = getSuffixCandidates();
             for ( String e : v )
-                System.out.printf("%s.\t%s\n", i++, e);
+                System.out.printf("%s.\t%s%n", i++, e);
             i = KmConsoleInput.readInteger("Enter: ");
             s = v.getAtSafe(i);
             suffixes.addNonNull(s);

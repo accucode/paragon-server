@@ -22,6 +22,8 @@
 
 package com.kodemore.servlet.utility;
 
+import com.sun.istack.internal.NotNull;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.log.KmLog;
@@ -119,7 +121,7 @@ public class ScControlRegistry
     //# accessing
     //##################################################
 
-    public ScActionIF getAction(String key)
+    public @NotNull ScActionIF getAction(String key)
     {
         Object e = findKey(key);
 

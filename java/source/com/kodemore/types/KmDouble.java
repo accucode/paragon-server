@@ -68,13 +68,6 @@ public class KmDouble
         return Double.isNaN(_value);
     }
 
-    public boolean hasValue(double e)
-    {
-        return Double.isNaN(e)
-            ? Double.isNaN(_value)
-            : _value == e;
-    }
-
     public void clear()
     {
         _value = Double.NaN;

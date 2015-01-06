@@ -71,6 +71,9 @@ public class KmaGridKeyModel
             case KeyEvent.VK_SPACE:
                 space(ev);
                 break;
+
+            default:
+                break;
         }
     }
 

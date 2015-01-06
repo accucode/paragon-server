@@ -234,7 +234,7 @@ public class KmSystemProperties
             pad = Math.max(pad, key.length());
 
         for ( String key : keys )
-            System.out.printf("%s = %s\n", Kmu.rightPad(key, pad), getValue(key));
+            System.out.printf("%s = %s%n", Kmu.rightPad(key, pad), getValue(key));
     }
 
     public static String getValue(String key)

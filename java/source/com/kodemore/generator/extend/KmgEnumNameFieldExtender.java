@@ -4,6 +4,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.generator.model.KmgModel;
 import com.kodemore.generator.model.KmgModelEnum;
 import com.kodemore.generator.model.KmgModelField;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 public class KmgEnumNameFieldExtender
@@ -32,12 +33,14 @@ public class KmgEnumNameFieldExtender
     private String getLabelFor(KmgModelEnum e)
     {
         KmList<String> words = Kmu.getCamelCaseWords(e.getName());
-        String label = "";
+        KmStringBuilder out = new KmStringBuilder();
 
         for ( String s : words )
-            label += Kmu.capitalizeFirstLetter(s) + " ";
+        {
+            out.print(Kmu.capitalizeFirstLetter(s));
+            out.print(" ");
+        }
 
-        label = label.trim();
-        return label;
+        return out.toString().trim();
     }
 }

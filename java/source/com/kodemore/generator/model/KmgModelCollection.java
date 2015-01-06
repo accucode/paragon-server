@@ -238,9 +238,6 @@ public class KmgModelCollection
 
         KmgModelHibernateCollectionType ctype = getHibernateCollectionType();
 
-        if ( ctype == null )
-            throw newFatal("Unknown hibernate collection type(%s).", getType());
-
         if ( ctype.getUsesSequence() )
         {
             if ( Kmu.isEmpty(_sequence) )

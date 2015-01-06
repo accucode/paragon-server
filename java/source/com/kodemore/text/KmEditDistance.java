@@ -46,7 +46,7 @@ public class KmEditDistance
 
     private static void print(String a, String b)
     {
-        System.out.printf("%s => %s = %s\n", a, b, getEditDistance(a, b));
+        System.out.printf("%s => %s = %s%n", a, b, getEditDistance(a, b));
     }
 
     //##################################################

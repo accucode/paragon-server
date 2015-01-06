@@ -489,10 +489,11 @@ public abstract class ScBlockScript
 
     public void focus(ScHtmlIdIF e)
     {
-        e = e.getFocusTarget();
+        if ( e == null )
+            return;
 
-        if ( e != null )
-            focus(e.getJquerySelector());
+        e = e.getFocusTarget();
+        focus(e.getJquerySelector());
     }
 
     public void focus(String sel)

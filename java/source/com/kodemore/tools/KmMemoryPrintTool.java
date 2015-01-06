@@ -43,9 +43,9 @@ public class KmMemoryPrintTool
         long free = rt.freeMemory() / mg;
         long used = total - free;
 
-        System.out.printf("Max:   %,5d MB\n", max);
-        System.out.printf("Total: %,5d MB\n", total);
-        System.out.printf("Free:  %,5d MB\n", free);
-        System.out.printf("Used:  %,5d MB\n", used);
+        System.out.printf("Max:   %,5d MB%n", max);
+        System.out.printf("Total: %,5d MB%n", total);
+        System.out.printf("Free:  %,5d MB%n", free);
+        System.out.printf("Used:  %,5d MB%n", used);
     }
 }

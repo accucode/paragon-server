@@ -1,6 +1,7 @@
 package com.kodemore.flickr;
 
 import java.util.Calendar;
+import java.util.Map.Entry;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -19,15 +20,15 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I am used connect to Twitter make various requests.
- * 
+ *
  * when applying for an app key and secret, (http://www.flickr.com/services/apps/create/apply/?)
- * 
+ *
  * Choose Non-Commercial if:
  * Your app doesn't make money.
  * Your app makes money, but you're a family-run, small, or independent business.
  * You're developing a product which is not currently commercial, but might be in the future.
  * You're building a personal website or blog where you are only using your own images.
- * 
+ *
  * Choose Commercial if:
  * You or your agency works for a major brand.
  * AND one of the following:
@@ -50,7 +51,7 @@ public class KmFlickrConnection
     //##################################################
 
     /**
-     * The encryption method specified in the message header. 
+     * The encryption method specified in the message header.
      * This should correspond to the CRYPTO_METHOD.
      */
     private static String               AUTHORIZATION_METHOD = "HMAC-SHA1";
@@ -80,8 +81,8 @@ public class KmFlickrConnection
     /**
      * "Number used Once".
      * http://hueniverse.com/2008/10/beginners-guide-to-oauth-part-iii-security-architecture/
-     * 
-     * Each request should use a different nonce. 
+     *
+     * Each request should use a different nonce.
      * Any relatively random alphanumeric string will work here.
      * In this case we use a standard UUID but strip the dashes.
      */
@@ -250,11 +251,8 @@ public class KmFlickrConnection
         KmStringBuilder out = new KmStringBuilder();
 
         KmOrderedMap<String,String> m = getAuthorizationParameters();
-        for ( String key : m.keySet() )
-        {
-            String value = m.get(key);
-            appendAuthorizationParameter(out, key, value);
-        }
+        for ( Entry<String,String> e : m.entrySet() )
+            appendAuthorizationParameter(out, e.getKey(), e.getValue());
 
         return "OAuth " + out.toString();
     }
@@ -283,7 +281,7 @@ public class KmFlickrConnection
     //##################################################
 
     /**
-     * Get the encrypted signature as a base-64 string. 
+     * Get the encrypted signature as a base-64 string.
      */
     private String getSignature()
     {
@@ -310,11 +308,8 @@ public class KmFlickrConnection
         KmStringBuilder out = new KmStringBuilder();
 
         KmOrderedMap<String,String> m = getSignatureParameters();
-        for ( String key : m.keySet() )
-        {
-            String value = m.get(key);
-            appendSignatureParameter(out, key, value);
-        }
+        for ( Entry<String,String> e : m.entrySet() )
+            appendSignatureParameter(out, e.getKey(), e.getValue());
 
         return out.toString();
     }

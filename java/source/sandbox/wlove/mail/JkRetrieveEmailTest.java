@@ -69,7 +69,7 @@ public class JkRetrieveEmailTest
 
         Message messages[] = folder.getMessages();
 
-        System.out.printf("Found %s messages.\n", messages.length);
+        System.out.printf("Found %s messages.%n", messages.length);
 
         for ( Message message : messages )
             handleMessage(message);

@@ -259,7 +259,7 @@ public class KmHeadwords
 
     public void print(String s)
     {
-        System.out.printf("%s => %s\n", s, getHeadFor(s));
+        System.out.printf("%s => %s%n", s, getHeadFor(s));
     }
 
 }

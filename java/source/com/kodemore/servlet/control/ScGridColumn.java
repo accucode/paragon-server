@@ -68,15 +68,15 @@ public class ScGridColumn<T>
     private ScLocalBoolean      _defaultSort;
 
     /**
-     * Convert each row's model into a value for display in the 
-     * table's column.  The result must be compatible with the 
+     * Convert each row's model into a value for display in the
+     * table's column.  The result must be compatible with the
      * default formatter, ScFormatter.printAny(Object)
      */
     private ScLocalRenderer     _displayRenderer;
 
     /**
      * If non-null, include the column in the csv export.
-     * The result is passed to KmCsvBuffer.printAny(); 
+     * The result is passed to KmCsvBuffer.printAny();
      */
     private ScLocalAdaptor      _csvAdaptor;
 
@@ -390,7 +390,7 @@ public class ScGridColumn<T>
     }
 
     //##################################################
-    //# compose 
+    //# compose
     //##################################################
 
     public void addCellDefinitionTo(KmJsonArray cells)
