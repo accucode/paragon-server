@@ -29,6 +29,8 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.comparator.KmComparator;
@@ -1037,6 +1039,15 @@ public class KmList<T>
     }
 
     //##################################################
+    //# system.out
+    //##################################################
+
+    public void print()
+    {
+        System.out.println(format());
+    }
+
+    //##################################################
     //# copying
     //##################################################
 
@@ -1449,6 +1460,7 @@ public class KmList<T>
 
     public KmList<T> repeat(int n)
     {
+        stream();
         KmList<T> v = new KmList<>();
 
         for ( int i = 0; i < n; i++ )
@@ -1456,4 +1468,42 @@ public class KmList<T>
 
         return v;
     }
+
+    //##################################################
+    //# lambdas
+    //##################################################
+
+    public KmList<T> select(Predicate<T> p)
+    {
+        KmList<T> v = new KmList<>();
+
+        for ( T e : this )
+            if ( p.test(e) )
+                v.add(e);
+
+        return v;
+    }
+
+    public <R> KmList<R> collect(Function<T,R> f)
+    {
+        KmList<R> v = new KmList<>();
+
+        for ( T e : this )
+            v.add(f.apply(e));
+
+        return v;
+    }
+
+    public <R extends Comparable<R>> void sortOn(Function<T,R> f)
+    {
+        sortOn(new KmComparator<T>()
+        {
+            @Override
+            public int compare(T a, T b)
+            {
+                return c(f.apply(a), f.apply(b));
+            }
+        });
+    }
+
 }

@@ -9,9 +9,9 @@ Purpose
     apps.
 
     AccuCode Inc has allowed this entire project to be licenced as
-    open source under the Apache License.  This is done to encourage 
-    staff contribution, and to provide an open source foundation that
-    we can utilize on various project.
+    open source.  This is done to encourage staff contribution, 
+    and to provide an open source foundation that we can utilize 
+    on various projects.
     
     Because this project is developed as open source, every effort
     must be made to avoid including anything that would violate the
@@ -25,7 +25,7 @@ License
 Minimum requirements
 --------------------
 
-    Java 1.7
+    Java 1.8
     Tomcat 7
     Ant 1.8
 
