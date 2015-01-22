@@ -5,11 +5,11 @@ Introduction
     This describes how to set up a machine to act as a development box.
 
 -----------------
-Java JDK 1.7
+Java JDK 1.8
 -----------------
 
     This is a java project.
-    Required version: 1.7.x
+    Required version: 1.8.x
 
 -----------------
 Tomcat 7
@@ -222,5 +222,24 @@ Eclipse Debugging
     are running Tomcat through Eclipse - Eclipse will automatically Hot Update
     (assuming you are using Sysdeo or equivalent) any code changes as soon as
     they are saved (and therefore automatically compiled).
+
+-----------------
+Launching Tomcat
+-----------------
+
+    Create a .bat file inside $tomcat/bin named something like "_startParagon.bat", 
+    this will be the firle responsible for launching tomcat for this project.  The .bat
+    file should contain the following:
+   
+        @setlocal
+        set JAVA_HOME=<<your tomcat/catalina folder>>
+        set TOMCAT_HOME=%~dp0%..
+        set CATALINA_HOME=%~dp0%..
+        set CATALINA_OPTS=-Xms512m -Xmx512m -XX:MaxPermSize=256m
+        
+        call %~dp0%startup.bat
+
+    Create a shortcut to this file so you can easily launch tomcat with the appropriate 
+    settings for this project.
 
 [end]
