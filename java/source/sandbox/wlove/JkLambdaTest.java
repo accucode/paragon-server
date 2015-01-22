@@ -3,11 +3,11 @@ package sandbox.wlove;
 import com.kodemore.collection.KmList;
 import com.kodemore.utility.Kmu;
 
-public class JkLambda
+public class JkLambdaTest
 {
     public static void main(String[] args)
     {
-        new JkLambda().run();
+        new JkLambdaTest().run();
     }
 
     private void run()
