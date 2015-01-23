@@ -614,6 +614,10 @@ public class KmList<T>
         KmUnchecked.sort(this);
     }
 
+    //==================================================
+    //= sort (comparators)
+    //==================================================
+
     public void sortOn(Comparator<? super T> c)
     {
         if ( c != null )
@@ -638,6 +642,10 @@ public class KmList<T>
         cc.add(c);
         Collections.sort(this, cc);
     }
+
+    //==================================================
+    //= sort (meta)
+    //==================================================
 
     public void sortOn(KmMetaProperty<T,?> e)
     {
@@ -667,6 +675,38 @@ public class KmList<T>
     public void sortWithNullsOn(KmMetaProperty<T,?> e)
     {
         sortOn(e.getComparator().toNullComparator());
+    }
+
+    //==================================================
+    //= sort (functions)
+    //==================================================
+
+    public void sortOn(Function<T,Comparable<?>> a)
+    {
+        KmComparator<T> cc = KmComparator.createWith(a);
+        sortOn(cc);
+    }
+
+    public void sortOn(Function<T,Comparable<?>> a, Function<T,Comparable<?>> b)
+    {
+        KmCompositeComparator<T> cc;
+        cc = new KmCompositeComparator<>();
+        cc.add(a);
+        cc.add(b);
+        sortOn(cc);
+    }
+
+    public void sortOn(
+        Function<T,Comparable<?>> a,
+        Function<T,Comparable<?>> b,
+        Function<T,Comparable<?>> c)
+    {
+        KmCompositeComparator<T> cc;
+        cc = new KmCompositeComparator<>();
+        cc.add(a);
+        cc.add(b);
+        cc.add(c);
+        sortOn(cc);
     }
 
     //##################################################
@@ -1492,18 +1532,6 @@ public class KmList<T>
             v.add(f.apply(e));
 
         return v;
-    }
-
-    public <R extends Comparable<R>> void sortOn(Function<T,R> f)
-    {
-        sortOn(new KmComparator<T>()
-        {
-            @Override
-            public int compare(T a, T b)
-            {
-                return c(f.apply(a), f.apply(b));
-            }
-        });
     }
 
 }

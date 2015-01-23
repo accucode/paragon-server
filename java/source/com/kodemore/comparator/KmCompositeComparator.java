@@ -24,6 +24,7 @@ package com.kodemore.comparator;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.meta.KmMetaProperty;
@@ -40,132 +41,39 @@ public class KmCompositeComparator<T>
     extends KmComparator<T>
 {
     //##################################################
-    //# instance creation
+    //# instance creation (comparators)
     //##################################################
 
-    public static <T> KmCompositeComparator<T> createWith(Comparator<T> a)
+    @SafeVarargs
+    public static <T> KmCompositeComparator<T> createWith(Comparator<T>... arr)
     {
-        KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<>();
-        x.add(a);
-        return x;
+        KmCompositeComparator<T> cc;
+        cc = new KmCompositeComparator<>();
+        cc.addAll(arr);
+        return cc;
     }
 
-    public static <T> KmCompositeComparator<T> createWith(Comparator<T> a, Comparator<T> b)
-    {
-        KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<>();
-        x.add(a);
-        x.add(b);
-        return x;
-    }
+    //==================================================
+    //= instance creations (functions)
+    //==================================================
 
-    public static <T> KmCompositeComparator<T> createWith(
-        Comparator<T> a,
-        Comparator<T> b,
-        Comparator<T> c)
+    public static <T> KmCompositeComparator<T> createWith(Function<T,Comparable<?>> a)
     {
-        KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<>();
-        x.add(a);
-        x.add(b);
-        x.add(c);
-        return x;
+        KmCompositeComparator<T> cc;
+        cc = new KmCompositeComparator<>();
+        cc.add(a);
+        return cc;
     }
 
     public static <T> KmCompositeComparator<T> createWith(
-        Comparator<T> a,
-        Comparator<T> b,
-        Comparator<T> c,
-        Comparator<T> d)
+        Function<T,Comparable<?>> a,
+        Function<T,Comparable<?>> b)
     {
-        KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<>();
-        x.add(a);
-        x.add(b);
-        x.add(c);
-        x.add(d);
-        return x;
-    }
-
-    public static <T> KmCompositeComparator<T> createWith(
-        Comparator<T> a,
-        Comparator<T> b,
-        Comparator<T> c,
-        Comparator<T> d,
-        Comparator<T> e)
-    {
-        KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<>();
-        x.add(a);
-        x.add(b);
-        x.add(c);
-        x.add(d);
-        x.add(e);
-        return x;
-    }
-
-    public static <T> KmCompositeComparator<T> createWith(
-        Comparator<T> a,
-        Comparator<T> b,
-        Comparator<T> c,
-        Comparator<T> d,
-        Comparator<T> e,
-        Comparator<T> f)
-    {
-        KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<>();
-        x.add(a);
-        x.add(b);
-        x.add(c);
-        x.add(d);
-        x.add(e);
-        x.add(f);
-        return x;
-    }
-
-    public static <T> KmCompositeComparator<T> createWith(
-        Comparator<T> a,
-        Comparator<T> b,
-        Comparator<T> c,
-        Comparator<T> d,
-        Comparator<T> e,
-        Comparator<T> f,
-        Comparator<T> g)
-    {
-        KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<>();
-        x.add(a);
-        x.add(b);
-        x.add(c);
-        x.add(d);
-        x.add(e);
-        x.add(f);
-        x.add(g);
-        return x;
-    }
-
-    public static <T> KmCompositeComparator<T> createWith(
-        Comparator<T> a,
-        Comparator<T> b,
-        Comparator<T> c,
-        Comparator<T> d,
-        Comparator<T> e,
-        Comparator<T> f,
-        Comparator<T> g,
-        Comparator<T> h)
-    {
-        KmCompositeComparator<T> x;
-        x = new KmCompositeComparator<>();
-        x.add(a);
-        x.add(b);
-        x.add(c);
-        x.add(d);
-        x.add(e);
-        x.add(f);
-        x.add(g);
-        x.add(h);
-        return x;
+        KmCompositeComparator<T> cc;
+        cc = new KmCompositeComparator<>();
+        cc.add(a);
+        cc.add(b);
+        return cc;
     }
 
     //##################################################
@@ -194,29 +102,53 @@ public class KmCompositeComparator<T>
 
     public void setComparators(KmList<Comparator<T>> e)
     {
+        if ( e == null )
+            e = new KmList<>();
+
         _comparators = e;
     }
+
+    //==================================================
+    //= add
+    //==================================================
 
     public void add(Comparator<T> c)
     {
         _comparators.add(c);
     }
 
+    public void add(Function<T,Comparable<?>> f)
+    {
+        add(KmComparator.createWith(f));
+    }
+
+    public void add(KmMetaProperty<T,?> e)
+    {
+        add(e.getComparator());
+    }
+
+    //==================================================
+    //= add all
+    //==================================================
+
     @SuppressWarnings("unchecked")
     public void addAll(Comparator<T>... arr)
     {
-        addAll(KmList.createWith(arr));
+        for ( Comparator<T> e : arr )
+            add(e);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void addAll(Function<T,Comparable<?>>... arr)
+    {
+        for ( Function<T,Comparable<?>> e : arr )
+            add(e);
     }
 
     public void addAll(List<Comparator<T>> v)
     {
         for ( Comparator<T> e : v )
             add(e);
-    }
-
-    public void add(KmMetaProperty<T,?> e)
-    {
-        add(e.getComparator());
     }
 
     //##################################################

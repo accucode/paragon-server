@@ -24,6 +24,7 @@ package com.kodemore.comparator;
 
 import java.io.Serializable;
 import java.util.Comparator;
+import java.util.function.Function;
 
 /**
  * I provide an abstract superclass for comparators and implement
@@ -32,6 +33,22 @@ import java.util.Comparator;
 public abstract class KmComparator<T>
     implements Comparator<T>, Serializable
 {
+    //##################################################
+    //# instance creation
+    //##################################################
+
+    public static <T> KmComparator<T> createWith(Function<T,Comparable<?>> f)
+    {
+        return new KmComparator<T>()
+        {
+            @Override
+            public int compare(T a, T b)
+            {
+                return c(f.apply(a), f.apply(b));
+            }
+        };
+    }
+
     //##################################################
     //# variables
     //##################################################
