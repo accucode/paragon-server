@@ -36,6 +36,7 @@ import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScElementIF;
 import com.kodemore.servlet.control.ScForm;
@@ -452,9 +453,15 @@ public class ScDropdown
         return _onChangeAction;
     }
 
+    @Deprecated
     public void setOnChangeAction(ScActionIF e)
     {
         _onChangeAction = e;
+    }
+
+    public void setOnChangeAction(Runnable e)
+    {
+        _onChangeAction = ScAction.create(this, e);
     }
 
     public boolean hasOnChangeAction()

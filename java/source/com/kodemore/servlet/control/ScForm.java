@@ -25,6 +25,7 @@ package com.kodemore.servlet.control;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.ScConstantsIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
@@ -93,14 +94,20 @@ public class ScForm
         return _submitAction;
     }
 
+    @Deprecated
     public void setSubmitAction(ScActionIF e)
     {
         _submitAction = e;
     }
 
+    public void setSubmitAction(Runnable r)
+    {
+        _submitAction = ScAction.create(this, r);
+    }
+
     public void clearSubmitAction()
     {
-        setSubmitAction(null);
+        _submitAction = null;
     }
 
     public boolean hasSubmitAction()
@@ -252,6 +259,7 @@ public class ScForm
         ajax().setAttribute("onsubmit", script.formatScript());
     }
 
+    @Deprecated
     public void ajaxOnSubmit(ScActionIF action)
     {
         if ( action == null )
@@ -263,6 +271,22 @@ public class ScForm
         ScBlockScript e;
         e = new ScSimpleBlockScript();
         e.run(action, this);
+        e.returnFalse();
+
+        ajaxOnSubmit(e);
+    }
+
+    public void ajaxOnSubmit(Runnable action)
+    {
+        if ( action == null )
+        {
+            ajaxOnSubmitDoNothing();
+            return;
+        }
+
+        ScBlockScript e;
+        e = new ScSimpleBlockScript();
+        e.run(this, action);
         e.returnFalse();
 
         ajaxOnSubmit(e);

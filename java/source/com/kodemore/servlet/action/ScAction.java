@@ -7,12 +7,28 @@ public abstract class ScAction
     extends ScAbstractAction
 {
     //##################################################
+    //# instance creation
+    //##################################################
+
+    public static ScAction create(ScContextSupplierIF ctx, Runnable r)
+    {
+        return new ScAction(ctx)
+        {
+            @Override
+            public void handle()
+            {
+                r.run();
+            }
+        };
+    }
+
+    //##################################################
     //# constructor
     //##################################################
 
-    protected ScAction(ScActionContextIF context)
+    protected ScAction(ScContextSupplierIF e)
     {
-        super(context);
+        super(e);
     }
 
     //##################################################

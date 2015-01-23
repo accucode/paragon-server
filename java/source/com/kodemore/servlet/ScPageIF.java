@@ -1,9 +1,9 @@
 package com.kodemore.servlet;
 
-import com.kodemore.servlet.action.ScActionContextIF;
+import com.kodemore.servlet.action.ScContextSupplierIF;
 
 public interface ScPageIF
-    extends ScActionContextIF, ScModelApplicatorIF
+    extends ScContextSupplierIF, ScModelApplicatorIF
 {
     String getTitle();
 

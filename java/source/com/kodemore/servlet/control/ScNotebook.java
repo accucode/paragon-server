@@ -25,15 +25,16 @@ package com.kodemore.servlet.control;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.script.ScActionScript;
 
 /**
  * I implement a tabbed notebook control using the jquery-ui toolkit.
- * 
+ *
  * Simple add controls as children.  The control's standard label
  * attribute is used as the tab's title.
- * 
+ *
  * Note that my theming is based on the jquery-ui theme, not the standard
  * application theme.css file.
  */
@@ -69,9 +70,15 @@ public class ScNotebook
         return _tabChangedAction;
     }
 
+    @Deprecated
     public void setTabChangedAction(ScActionIF e)
     {
         _tabChangedAction = e;
+    }
+
+    public void setTabChangedAction(Runnable e)
+    {
+        _tabChangedAction = ScAction.create(this, e);
     }
 
     public boolean hasTabChangedAction()

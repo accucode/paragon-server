@@ -1,7 +1,5 @@
 package com.app.ui.page.manageMembers;
 
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScDiv;
@@ -28,18 +26,18 @@ public class MyAddMemberDialog
 
     private ScCardFrame _frame;
 
-    private ScActionIF  _checkEmailAction;
+    private Runnable    _checkEmailAction;
     private ScCard      _checkEmailCard;
     private ScTextField _checkEmailField;
 
     private ScCard      _joinUserCard;
-    private ScActionIF  _joinUserAction;
+    private Runnable    _joinUserAction;
     private ScTextField _joinEmailField;
     private ScTextField _joinNameField;
     private ScDropdown  _joinRoleField;
 
     private ScCard      _createUserCard;
-    private ScActionIF  _createUserAction;
+    private Runnable    _createUserAction;
     private ScTextField _createEmailField;
     private ScTextField _createNameField;
     private ScDropdown  _createRoleField;
@@ -71,7 +69,7 @@ public class MyAddMemberDialog
 
     private void installCheckEmailCard()
     {
-        _checkEmailAction = newCheckEmailAction();
+        _checkEmailAction = this::handleCheckEmail;
 
         _checkEmailCard = _frame.addCard();
         _checkEmailCard.beDefault();
@@ -99,7 +97,7 @@ public class MyAddMemberDialog
     private void installJoinUserCard()
     {
         _joinUserCard = _frame.addCard();
-        _joinUserAction = newJoinUserAction();
+        _joinUserAction = this::handleJoinUser;
 
         ScFieldset set;
         set = _joinUserCard.addFieldset("Join Existing User");
@@ -115,7 +113,7 @@ public class MyAddMemberDialog
         _joinEmailField = emailRow.addTextField();
         _joinEmailField.setReadOnly();
 
-        emailRow.addLink("change", newChangeEmailAction());
+        emailRow.addLink("change", this::handleChangeEmail);
 
         _joinNameField = fields.addTextField();
         _joinNameField.setLabel("Name");
@@ -127,7 +125,7 @@ public class MyAddMemberDialog
     private void installCreateUserCard()
     {
         _createUserCard = _frame.addCard();
-        _createUserAction = newCreateUserAction();
+        _createUserAction = this::handleCreateUser;
 
         ScFieldset set;
         set = _createUserCard.addFieldset("Create New User");
@@ -143,65 +141,13 @@ public class MyAddMemberDialog
         _createEmailField = emailRow.addTextField();
         _createEmailField.setReadOnly();
 
-        emailRow.addLink("change", newChangeEmailAction());
+        emailRow.addLink("change", this::handleChangeEmail);
 
         _createNameField = fields.addTextField();
         _createNameField.setLabel("Name");
         _createNameField.setValidator(MyUser.Meta.Name);
 
         _createRoleField = fields.add(newRoleDropdown());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newCheckEmailAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleCheckEmail();
-            }
-        };
-    }
-
-    private ScActionIF newChangeEmailAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleChangeEmail();
-            }
-        };
-    }
-
-    private ScActionIF newCreateUserAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleCreateUser();
-            }
-        };
-    }
-
-    private ScActionIF newJoinUserAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleJoinUser();
-            }
-        };
     }
 
     //##################################################

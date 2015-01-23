@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -57,7 +55,7 @@ public class MyColorFieldTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newSubmitAction());
+        form.setSubmitAction(this::handleSubmit);
         form.css().pad();
 
         ScGroup group;
@@ -69,18 +67,6 @@ public class MyColorFieldTestPage
 
         group.addBodyDivider();
         group.getBody().addButtonBox().addSubmitButton();
-    }
-
-    private ScActionIF newSubmitAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSubmit();
-            }
-        };
     }
 
     //##################################################

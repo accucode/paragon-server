@@ -1,8 +1,6 @@
 package com.app.ui.page.login;
 
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
@@ -41,7 +39,7 @@ public class MyRequestPasswordResetDialog
 
         setLabel("Reset Password");
         setWidth(400);
-        setSubmitAction(newSendAction());
+        setSubmitAction(this::handleSend);
 
         ScDiv body;
         body = getBody();
@@ -55,7 +53,7 @@ public class MyRequestPasswordResetDialog
         footer.alignEnd();
         footer.css().buttonBox();
         _sendButton = footer.addSubmitButton("Email Password Reset");
-        footer.addButton("Close", newAjaxCloseAction());
+        footer.addButton("Close", this::ajaxClose);
     }
 
     private void installEmailBoxOn(ScContainer root)
@@ -93,22 +91,6 @@ public class MyRequestPasswordResetDialog
     {
         _emailField.setValue(email);
         ajaxOpen();
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSendAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleSend();
-            }
-        };
     }
 
     //##################################################

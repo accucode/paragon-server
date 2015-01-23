@@ -3,8 +3,6 @@ package com.app.ui.page.tools;
 import com.kodemore.collection.KmList;
 import com.kodemore.file.KmFile;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScFlexbox;
@@ -64,7 +62,7 @@ public class MyDevSharedFileBrowserPage
     {
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newFindDirectoryAction());
+        form.setSubmitAction(this::handleFind);
         form.css().gap();
 
         installPath(form);
@@ -90,7 +88,7 @@ public class MyDevSharedFileBrowserPage
         row.addNonBreakingSpace();
         row.addSubmitButton("Open");
 
-        body.addLink("Create", newCreatePathAction());
+        body.addLink("Create", this::handleCreatePath);
     }
 
     private void installFolders(ScContainer root)
@@ -103,7 +101,7 @@ public class MyDevSharedFileBrowserPage
         ScBox body;
         body = group.getBody().addPad();
         body.add(_folderList);
-        body.addLink("Open", newOpenFolderAction());
+        body.addLink("Open", this::handleOpenFolder);
     }
 
     private void installFiles(ScContainer root)
@@ -116,59 +114,7 @@ public class MyDevSharedFileBrowserPage
         ScBox body;
         body = group.getBody().addPad();
         body.add(_fileList);
-        body.addLink("Get", newGetFileAction());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newFindDirectoryAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleFind();
-            }
-        };
-    }
-
-    private ScActionIF newCreatePathAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleCreatePath();
-            }
-        };
-    }
-
-    private ScActionIF newOpenFolderAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleOpenFolder();
-            }
-        };
-    }
-
-    private ScActionIF newGetFileAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleGetFile();
-            }
-        };
+        body.addLink("Get", this::handleGetFile);
     }
 
     //##################################################

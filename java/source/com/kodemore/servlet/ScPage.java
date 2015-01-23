@@ -3,6 +3,7 @@ package com.kodemore.servlet;
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
+import com.kodemore.servlet.action.ScContextIF;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.utility.ScBridge;
@@ -17,7 +18,7 @@ import com.kodemore.utility.Kmu;
  * DOES generally add a page to the browser's history.
  */
 public abstract class ScPage
-    implements ScPageIF
+    implements ScPageIF, ScContextIF
 {
     //##################################################
     //# variables
@@ -409,7 +410,7 @@ public abstract class ScPage
     }
 
     //##################################################
-    //# action context
+    //# context
     //##################################################
 
     @Override
@@ -443,6 +444,12 @@ public abstract class ScPage
     {
         KmLog.fatal(ex);
         ajax().openErrorDialog(ex);
+    }
+
+    @Override
+    public ScContextIF getContext()
+    {
+        return this;
     }
 
     //##################################################

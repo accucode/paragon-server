@@ -2,8 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScFieldset;
@@ -159,7 +157,7 @@ public class MyFieldTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newValidateAction());
+        form.setSubmitAction(this::handleValidate);
 
         ScGroup group;
         group = form.addGroup("Field Test");
@@ -191,7 +189,7 @@ public class MyFieldTestPage
         ScBox footer;
         footer = group.getBody().addButtonBox();
         footer.addSubmitButton("Validate");
-        footer.addButton("Reset", newResetValuesAction());
+        footer.addButton("Reset", this::handleResetValues);
 
         _fieldGroup = group;
     }
@@ -253,34 +251,6 @@ public class MyFieldTestPage
         fields.addTextField().setLabel("Home");
         fields.addTextField().setLabel("Work");
         fields.addTextField().setLabel("Cell");
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newValidateAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleValidate();
-            }
-        };
-    }
-
-    private ScActionIF newResetValuesAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleResetValues();
-            }
-        };
     }
 
     //##################################################

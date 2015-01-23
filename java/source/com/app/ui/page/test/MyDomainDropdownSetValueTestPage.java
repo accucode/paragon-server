@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDialog;
 import com.kodemore.servlet.control.ScDiv;
@@ -98,8 +96,8 @@ public class MyDomainDropdownSetValueTestPage
 
         ScBox buttons;
         buttons = form.addButtonBox();
-        buttons.addButton("Select User", newSelectUserAction());
-        buttons.addButton("Select User (in dialog)", newShowDialogAction());
+        buttons.addButton("Select User", this::handleSelectUser);
+        buttons.addButton("Select User (in dialog)", this::handleShowDialog);
     }
 
     private void installTargetGroupOn(ScPageRoot root)
@@ -122,7 +120,7 @@ public class MyDomainDropdownSetValueTestPage
 
         _dialog = new ScDialog();
         _dialog.setLabel("Select User");
-        _dialog.setSubmitAction(newDialogSubmitAction());
+        _dialog.setSubmitAction(this::handleDialogSubmit);
 
         ScDiv body;
         body = _dialog.getBody();
@@ -137,46 +135,6 @@ public class MyDomainDropdownSetValueTestPage
         footer.alignEnd();
         footer.css().buttonBox();
         footer.addSubmitButton();
-    }
-
-    //##################################################
-    //# action
-    //##################################################
-
-    private ScActionIF newSelectUserAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleSelectUser();
-            }
-        };
-    }
-
-    private ScActionIF newShowDialogAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleShowDialog();
-            }
-        };
-    }
-
-    private ScActionIF newDialogSubmitAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleDialogSubmit();
-            }
-        };
     }
 
     //##################################################

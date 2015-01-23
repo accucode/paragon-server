@@ -1,7 +1,5 @@
 package com.app.ui.page.manageCategories;
 
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -47,7 +45,7 @@ public class MyViewCategoryCard
 
         _editButton = _banner.addButton();
         _editButton.styleEdit();
-        _editButton.setAction(newEditAction());
+        _editButton.setAction(this::handleEdit);
     }
 
     private void installBody()
@@ -74,18 +72,7 @@ public class MyViewCategoryCard
     //# actions
     //##################################################
 
-    private ScActionIF newEditAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleEdit();
-            }
-        };
-    }
-
+    // todo_wyatt: review
     private MyModelListener<MyCategory> newSaveListener()
     {
         return new MyModelListener<MyCategory>()

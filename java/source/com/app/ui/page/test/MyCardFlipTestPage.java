@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
@@ -64,8 +62,8 @@ public class MyCardFlipTestPage
 
         ScBox buttons;
         buttons = root.addButtonBox();
-        buttons.addButton("Show Front", newShowFrontAction());
-        buttons.addButton("Show Back", newShowBackAction());
+        buttons.addButton("Show Front", this::handleShowFront);
+        buttons.addButton("Show Back", this::handleShowBack);
 
         _flipFrame = root.addFrame();
         _flipFrame.style().floatLeft().width(300);
@@ -103,34 +101,6 @@ public class MyCardFlipTestPage
         back = _fadeBack.addGroup("Fade");
         back.getBody().addPad().addText("THIS IS THE BACK!");
         back.bodyStyle().height(400);
-    }
-
-    //##################################################
-    //# action
-    //##################################################
-
-    private ScActionIF newShowFrontAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleShowFront();
-            }
-        };
-    }
-
-    private ScActionIF newShowBackAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleShowBack();
-            }
-        };
     }
 
     //##################################################

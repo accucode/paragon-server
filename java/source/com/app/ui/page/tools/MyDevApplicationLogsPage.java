@@ -6,8 +6,6 @@ import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScAbsoluteLayout;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScArray;
@@ -122,7 +120,7 @@ public class MyDevApplicationLogsPage
 
         _filterBox = root.addFilterBox("System Logs");
         _filterBox.layoutFill();
-        _filterBox.setAction(newFilterAction());
+        _filterBox.setAction(this::handleFilter);
 
         ScArray row;
         row = _filterBox.addArraySpacedRow();
@@ -138,7 +136,7 @@ public class MyDevApplicationLogsPage
         fields.add(_endDateField);
 
         ScActionButton button;
-        button = _filterBox.getLeftButtons().addButton("Delete All", newDeleteAllAction());
+        button = _filterBox.getLeftButtons().addButton("Delete All", this::handleDeleteAll);
         button.setConfirmationMessage("Delete All Logs?");
 
         installTestButtons();
@@ -148,9 +146,9 @@ public class MyDevApplicationLogsPage
     {
         ScBox buttons;
         buttons = _filterBox.getRightButtons();
-        buttons.addButton("Add Debug", newAddDebugLogAction());
-        buttons.addButton("Add Info", newAddInfoLogAction());
-        buttons.addButton("Add Fatal", newAddFatalLogAction());
+        buttons.addButton("Add Debug", this::handleAddDebugLog);
+        buttons.addButton("Add Info", this::handleAddInfoLog);
+        buttons.addButton("Add Fatal", this::handleAddFatalLog);
     }
 
     private void installGrid(ScDiv root)
@@ -171,7 +169,7 @@ public class MyDevApplicationLogsPage
         _grid.layoutFill();
 
         ScGridColumn<MyApplicationLog> col;
-        col = _grid.addLinkColumn(x.Id, newSelectAction());
+        col = _grid.addLinkColumn(x.Id, this::handleSelect);
         col.setWidth(50);
         col.setHeader("Id");
 
@@ -199,7 +197,7 @@ public class MyDevApplicationLogsPage
         idRow.addText(x.Id);
         idRow.addSpace();
 
-        _deleteLogLink = idRow.addLink("delete", newDeleteAction(), x.Id);
+        _deleteLogLink = idRow.addLink("delete", this::handleDelete, x.Id);
         _deleteLogLink.setConfirmationMessage("Delete?");
 
         ScBox body;
@@ -220,94 +218,6 @@ public class MyDevApplicationLogsPage
         body.addBreak();
         body.addParagraph().addBold("Trace");
         body.addParagraph().addText(x.FullTrace);
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newFilterAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleFilter();
-            }
-        };
-    }
-
-    private ScActionIF newSelectAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSelect();
-            }
-        };
-    }
-
-    private ScActionIF newDeleteAllAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleDeleteAll();
-            }
-        };
-    }
-
-    private ScActionIF newDeleteAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleDelete();
-            }
-        };
-    }
-
-    private ScActionIF newAddDebugLogAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleAddDebugLog();
-            }
-        };
-    }
-
-    private ScActionIF newAddInfoLogAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleAddInfoLog();
-            }
-        };
-    }
-
-    private ScActionIF newAddFatalLogAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleAddFatalLog();
-            }
-        };
     }
 
     //##################################################

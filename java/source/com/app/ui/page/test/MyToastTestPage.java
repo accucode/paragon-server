@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -54,172 +52,29 @@ public class MyToastTestPage
 
         ScBox links;
         links = group.getBody().addLinkBox();
-        links.addLink("Default", newDefaultAction());
-        links.addLink("Notice", newNoticeAction());
-        links.addLink("Success", newSuccessAction());
-        links.addLink("Warn", newWarnAction());
-        links.addLink("Error", newErrorAction());
+        links.addLink("Default", this::handleDefault);
+        links.addLink("Notice", this::handleNotice);
+        links.addLink("Success", this::handleSuccess);
+        links.addLink("Warn", this::handleWarn);
+        links.addLink("Error", this::handleError);
 
         group = form.addGroup("Sticky");
         links = group.getBody().addLinkBox();
-        links.addLink("Default", newDefaultStickyAction());
-        links.addLink("Notice", newNoticeStickyAction());
-        links.addLink("Success", newSuccessStickyAction());
-        links.addLink("Warn", newWarnStickyAction());
-        links.addLink("Error", newErrorStickyAction());
+        links.addLink("Default", this::handleDefaultSticky);
+        links.addLink("Notice", this::handleNoticeSticky);
+        links.addLink("Success", this::handleSuccessSticky);
+        links.addLink("Warn", this::handleWarnSticky);
+        links.addLink("Error", this::handleErrorSticky);
 
         group = form.addGroup("Html");
         group.style().width(300);
         links = group.getBody().addLinkBox();
-        links
-            .addText("By default, toast messages are escaped.  However, you can easily set raw html if desired.");
+        links.addText(""
+            + "By default, toast messages are escaped.  "
+            + "However, you can easily set raw html if desired.");
         links.addBreak();
-        links.addLink("Text (default)", newTextMessageAction());
-        links.addLink("Html", newHtmlMessageAction());
-    }
-
-    private ScActionIF newDefaultAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleDefault();
-            }
-        };
-    }
-
-    private ScActionIF newNoticeAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleNotice();
-            }
-        };
-    }
-
-    private ScActionIF newSuccessAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSuccess();
-            }
-        };
-    }
-
-    private ScActionIF newWarnAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleWarn();
-            }
-        };
-    }
-
-    private ScActionIF newErrorAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleError();
-            }
-        };
-    }
-
-    private ScActionIF newDefaultStickyAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleDefaultSticky();
-            }
-        };
-    }
-
-    private ScActionIF newNoticeStickyAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleNoticeSticky();
-            }
-        };
-    }
-
-    private ScActionIF newSuccessStickyAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSuccessSticky();
-            }
-        };
-    }
-
-    private ScActionIF newWarnStickyAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleWarnSticky();
-            }
-        };
-    }
-
-    private ScActionIF newErrorStickyAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleErrorSticky();
-            }
-        };
-    }
-
-    private ScActionIF newTextMessageAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleTextMessage();
-            }
-        };
-    }
-
-    private ScActionIF newHtmlMessageAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleHtmlMessage();
-            }
-        };
+        links.addLink("Text (default)", this::handleTextMessage);
+        links.addLink("Html", this::handleHtmlMessage);
     }
 
     //##################################################

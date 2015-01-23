@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFlexbox;
@@ -76,7 +74,7 @@ public class MyStaticIncludeTestPage
         row.css().boxBlue().gap();
 
         ScActionButton button;
-        button = row.addButton("Reload", newReloadAction());
+        button = row.addButton("Reload", this::handleReload);
         button.setImage(MyButtonUrls.refresh());
 
         row.addTextSpan("The contents below are loaded from:");
@@ -84,22 +82,6 @@ public class MyStaticIncludeTestPage
 
         _contents = col.addFiller();
         _contents.css().relative();
-    }
-
-    //##################################################
-    //# action
-    //##################################################
-
-    private ScActionIF newReloadAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleReload();
-            }
-        };
     }
 
     //##################################################

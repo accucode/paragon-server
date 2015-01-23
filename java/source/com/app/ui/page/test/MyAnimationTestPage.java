@@ -2,8 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
@@ -61,8 +59,8 @@ public class MyAnimationTestPage
         ScDiv right;
         right = group.getBanner().addFloatRight();
         right.css().gap5();
-        right.addButton("Async", newAsyncToggleAction());
-        right.addButton("Sync", newSyncToggleAction());
+        right.addButton("Async", this::handleAsyncToggle);
+        right.addButton("Sync", this::handleSyncToggle);
 
         _group = addBoxesTo(group);
     }
@@ -102,30 +100,6 @@ public class MyAnimationTestPage
         e.css().boxBlue().pad().hide();
         e.addText("box " + (i + 1));
         return e;
-    }
-
-    private ScActionIF newAsyncToggleAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleAsyncToggle();
-            }
-        };
-    }
-
-    private ScActionIF newSyncToggleAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSyncToggle();
-            }
-        };
     }
 
     //##################################################

@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
@@ -59,7 +57,7 @@ public class MyFormTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newSubmitAction());
+        form.setSubmitAction(this::handleOk);
         form.css().gap();
 
         ScGroup group;
@@ -73,22 +71,6 @@ public class MyFormTestPage
         ScBox buttons;
         buttons = footer.addButtonBox();
         buttons.addSubmitButton();
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSubmitAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleOk();
-            }
-        };
     }
 
     //##################################################

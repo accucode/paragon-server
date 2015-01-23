@@ -2,8 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -117,9 +115,9 @@ public class MyLocalValueTestPage
         footer = group.getFooter();
         footer.show();
         footer.css().buttonGap();
-        footer.addButton("Save", newSaveFieldsAction());
-        footer.addButton("Reset", newResetFieldsAction());
-        footer.addButton("Reset & Save", newResetAndSaveFieldsAction());
+        footer.addButton("Save", this::handleSaveFields);
+        footer.addButton("Reset", this::handleResetFields);
+        footer.addButton("Reset & Save", this::handleResetAndSaveFields);
 
         _fieldGroup = group;
     }
@@ -172,85 +170,9 @@ public class MyLocalValueTestPage
         footer = group.getFooter();
         footer.show();
         footer.css().buttonGap();
-        footer.addButton("Save", newSaveListAction());
-        footer.addButton("Reset", newResetListAction());
-        footer.addButton("Reset & Save", newResetAndSaveListAction());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSaveFieldsAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSaveFields();
-            }
-        };
-    }
-
-    private ScActionIF newResetFieldsAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleResetFields();
-            }
-        };
-    }
-
-    private ScActionIF newResetAndSaveFieldsAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleResetAndSaveFields();
-            }
-        };
-    }
-
-    private ScActionIF newSaveListAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSaveList();
-            }
-        };
-    }
-
-    private ScActionIF newResetListAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleResetList();
-            }
-        };
-    }
-
-    private ScActionIF newResetAndSaveListAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleResetAndSaveList();
-            }
-        };
+        footer.addButton("Save", this::handleSaveList);
+        footer.addButton("Reset", this::handleResetList);
+        footer.addButton("Reset & Save", this::handleResetAndSaveList);
     }
 
     //##################################################

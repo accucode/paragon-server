@@ -41,6 +41,16 @@ public class JkLambdaTest
         v.print();
         v.sortOn(e -> e.name.length());
         v.print();
+
+        System.out.println();
+        System.out.println("A simple runnable; no arguments, no return value.");
+        Runnable f = this::handleHello;
+        f.run();
+    }
+
+    private void handleHello()
+    {
+        System.out.println("hello world!");
     }
 
     private KmList<Person> newList()

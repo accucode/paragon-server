@@ -1,8 +1,6 @@
 package com.app.ui.control;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScFlexbox;
 
 public abstract class MyRemoveDialog<T>
@@ -34,24 +32,8 @@ public abstract class MyRemoveDialog<T>
         footer = showFooter();
         footer.alignEnd();
         footer.css().buttonBox();
-        footer.addButton("Remove", newRemoveAction());
-        footer.addCancelButton(newAjaxCloseAction());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newRemoveAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleRemove();
-            }
-        };
+        footer.addButton("Remove", this::handleRemove);
+        footer.addCancelButton(this::ajaxClose);
     }
 
     //##################################################

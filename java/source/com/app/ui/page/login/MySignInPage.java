@@ -1,8 +1,6 @@
 package com.app.ui.page.login;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
@@ -138,7 +136,7 @@ public class MySignInPage
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newSignInAction());
+        form.setSubmitAction(this::handleSignIn);
         form.style().width(300);
         _form = form;
 
@@ -183,7 +181,7 @@ public class MySignInPage
         right = box.addBox().addFloatRight();
 
         ScLink link;
-        link = right.addLink("Forgot password?", newForgotPasswordAction());
+        link = right.addLink("Forgot password?", this::handleForgotPassword);
         link.setNoFocus();
 
         box.addBreak();
@@ -211,34 +209,6 @@ public class MySignInPage
     private void installPasswordResetDialog()
     {
         _resetDialog = new MyRequestPasswordResetDialog();
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSignInAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleSignIn();
-            }
-        };
-    }
-
-    private ScActionIF newForgotPasswordAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleForgotPassword();
-            }
-        };
     }
 
     //##################################################

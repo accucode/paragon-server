@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
@@ -71,12 +69,12 @@ public class MyBlockTestPage
     {
         ScBox buttons;
         buttons = root.addButtonBox();
-        buttons.addButton("Block Page", newBlockPageAction());
-        buttons.addButton("Block Group", newBlockGroupAction());
-        buttons.addButton("Unblock Group", newUnblockGroupAction());
+        buttons.addButton("Block Page", this::handleBlockPage);
+        buttons.addButton("Block Group", this::handleBlockGroup);
+        buttons.addButton("Unblock Group", this::handleUnblockGroup);
 
         ScActionButton button;
-        button = buttons.addButton("Block on Request", newBlockRequestAction());
+        button = buttons.addButton("Block on Request", this::handleBlockRequest);
 
         ScGroup group;
         group = root.addPad().addGroup("Block Tests");
@@ -101,7 +99,7 @@ public class MyBlockTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newFormTestAction());
+        form.setSubmitAction(this::handleFormTest);
         form.css().pad();
 
         form.addText(""
@@ -126,7 +124,7 @@ public class MyBlockTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newFormTestAction());
+        form.setSubmitAction(this::handleFormTest);
         form.css().pad();
 
         form.addText(""
@@ -152,7 +150,7 @@ public class MyBlockTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newFormTestAction());
+        form.setSubmitAction(this::handleFormTest);
         form.setBlockWrapper(false); // DISABLE BLOCK WRAPPER
         form.css().pad();
 
@@ -168,70 +166,6 @@ public class MyBlockTestPage
         lines = group.getBody().addLines();
         lines.addFieldTable().add(_nameField);
         lines.addSubmitButton();
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newBlockPageAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleBlockPage();
-            }
-        };
-    }
-
-    private ScActionIF newBlockGroupAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleBlockGroup();
-            }
-        };
-    }
-
-    private ScActionIF newUnblockGroupAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleUnblockGroup();
-            }
-        };
-    }
-
-    private ScAction newBlockRequestAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleBlockRequest();
-            }
-        };
-    }
-
-    private ScActionIF newFormTestAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleFormTest();
-            }
-        };
     }
 
     //##################################################

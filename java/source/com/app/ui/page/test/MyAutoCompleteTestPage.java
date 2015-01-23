@@ -2,8 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -75,7 +73,7 @@ public class MyAutoCompleteTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newSubmitAction());
+        form.setSubmitAction(this::handleSubmit);
 
         ScGroup group;
         group = form.addGroup("Auto Complete Tests");
@@ -106,22 +104,6 @@ public class MyAutoCompleteTestPage
                 v.add(term + "4");
                 v.add(term + "5");
                 return v;
-            }
-        };
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSubmitAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSubmit();
             }
         };
     }

@@ -11,7 +11,7 @@ import com.kodemore.utility.Kmu;
  * doesn't display errors to the user.
  */
 public class ScGlobalContext
-    implements ScActionContextIF
+    implements ScContextIF, ScContextSupplierIF
 {
     //##################################################
     //# instance
@@ -22,7 +22,7 @@ public class ScGlobalContext
         _instance = new ScGlobalContext();
     }
 
-    public static ScActionContextIF getInstance()
+    public static ScGlobalContext getInstance()
     {
         if ( _instance == null )
             throw Kmu.newFatal("Not installed.");
@@ -30,7 +30,7 @@ public class ScGlobalContext
         return _instance;
     }
 
-    private static ScActionContextIF _instance;
+    private static ScGlobalContext _instance;
 
     //##################################################
     //# constructor
@@ -75,5 +75,15 @@ public class ScGlobalContext
     public void handleFatal(RuntimeException ex)
     {
         KmLog.fatal(ex, "Fatal error in global context.");
+    }
+
+    //##################################################
+    //# supplier
+    //##################################################
+
+    @Override
+    public ScContextIF getContext()
+    {
+        return this;
     }
 }

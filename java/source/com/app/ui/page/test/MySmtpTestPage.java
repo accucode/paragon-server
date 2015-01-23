@@ -2,8 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.email.KmEmail;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
@@ -79,7 +77,7 @@ public class MySmtpTestPage
         ScForm form;
         form = root.addForm();
         form.css().pad();
-        form.setSubmitAction(newSendAction());
+        form.setSubmitAction(this::handleSend);
 
         ScGroup group;
         group = form.addGroup("Smtp Test");
@@ -101,22 +99,6 @@ public class MySmtpTestPage
     }
 
     //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSendAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleSend();
-            }
-        };
-    }
-
-    //##################################################
     //# handle
     //##################################################
 
@@ -134,8 +116,7 @@ public class MySmtpTestPage
         MyEmailSmtpMethod m;
         m = new MyEmailSmtpMethod();
         m.send(e);
-        Object[] args =
-        {};
+        Object[] args = {};
 
         ajax().toast("Your email has been sent.", args);
     }

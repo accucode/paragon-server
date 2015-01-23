@@ -1,7 +1,5 @@
 package com.app.ui.page.tools;
 
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScDiv;
@@ -29,7 +27,7 @@ public class MyDevUserFrame
     private ScCard        _viewChild;
     private ScCard        _editChild;
 
-    private ScActionIF    _onChangeAction;
+    private Runnable      _onChangeAction;
 
     //##################################################
     //# install
@@ -64,7 +62,7 @@ public class MyDevUserFrame
         header.css().pad5();
 
         ScActionButton button;
-        button = header.addButton("Edit", newEditAction());
+        button = header.addButton("Edit", this::handleEdit);
         button.setImage(MyButtonUrls.edit());
 
         ScFieldTable fields;
@@ -81,8 +79,8 @@ public class MyDevUserFrame
     {
         MyMetaUser x = MyUser.Meta;
 
-        ScActionIF saveAction = newEditSaveAction();
-        ScActionIF cancelAction = newEditCancelAction();
+        Runnable saveRunnable = this::handleEditSave;
+        Runnable cancelRunnable = this::handleEditCancel;
 
         ScTextField emailField;
         emailField = x.Email.newField();
@@ -102,8 +100,8 @@ public class MyDevUserFrame
 
         ScForm form;
         form = child.addForm();
-        form.setSubmitAction(saveAction);
-        form.onEscape().run(cancelAction);
+        form.setSubmitAction(saveRunnable);
+        form.onEscape().run(this, cancelRunnable);
 
         ScGroup group;
         group = form.addGroup("Edit");
@@ -121,62 +119,22 @@ public class MyDevUserFrame
 
         ScDiv footer;
         footer = group.getBody().addButtonBox();
-        footer.addCancelButton(cancelAction);
+        footer.addCancelButton(cancelRunnable);
         footer.addSubmitButton("Save");
 
         return child;
     }
 
     //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newEditAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleEdit();
-            }
-        };
-    }
-
-    private ScActionIF newEditCancelAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleEditCancel();
-            }
-        };
-    }
-
-    private ScActionIF newEditSaveAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleEditSave();
-            }
-        };
-    }
-
-    //##################################################
     //# accessing
     //##################################################
 
-    public ScActionIF getOnChangeAction()
+    public Runnable getOnChangeAction()
     {
         return _onChangeAction;
     }
 
-    public void setOnChangeAction(ScActionIF e)
+    public void setOnChangeAction(Runnable e)
     {
         _onChangeAction = e;
     }

@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.time.KmTimestamp;
@@ -48,19 +46,7 @@ public class MyDownloadTestPage
     protected void installRoot(ScPageRoot root)
     {
         root.css().gap();
-        root.addButton("Download", newDownloadAction());
-    }
-
-    private ScActionIF newDownloadAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleDownload();
-            }
-        };
+        root.addButton("Download", this::handleDownload);
     }
 
     //##################################################

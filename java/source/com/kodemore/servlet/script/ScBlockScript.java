@@ -27,7 +27,9 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScPage;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScContextSupplierIF;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.field.ScHtmlIdIF;
@@ -79,6 +81,17 @@ public abstract class ScBlockScript
         return e;
     }
 
+    public ScActionScript run(ScContextSupplierIF ctx, Runnable r)
+    {
+        ScAction action = ScAction.create(ctx, r);
+
+        ScActionScript e;
+        e = ScActionScript.create(action);
+        run(e);
+        return e;
+    }
+
+    @Deprecated
     public ScActionScript run(ScActionIF action)
     {
         ScActionScript e;
@@ -87,6 +100,7 @@ public abstract class ScBlockScript
         return e;
     }
 
+    @Deprecated
     public ScActionScript run(ScActionIF action, ScForm form)
     {
         ScActionScript e;

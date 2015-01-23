@@ -1,8 +1,6 @@
 package com.app.ui.page.manageShipCarriers;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
@@ -60,7 +58,7 @@ public class MyViewShipCarrierCard
 
         _editButton = _banner.addButton();
         _editButton.styleEdit();
-        _editButton.setAction(newEditAction());
+        _editButton.setAction(this::handleEdit);
     }
 
     private void installBody()
@@ -115,18 +113,6 @@ public class MyViewShipCarrierCard
     //##################################################
     //# actions
     //##################################################
-
-    private ScActionIF newEditAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleEdit();
-            }
-        };
-    }
 
     private MyModelListener<MyShipCarrier> newSaveListener()
     {

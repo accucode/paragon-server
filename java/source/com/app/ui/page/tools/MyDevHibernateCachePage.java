@@ -3,8 +3,6 @@ package com.app.ui.page.tools;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -94,7 +92,7 @@ public class MyDevHibernateCachePage
         box.css().marginRightChildren5();
 
         box.add(_runCount);
-        box.addButton("Run Test", runTest());
+        box.addButton("Run Test", this::handleTestRun);
 
         return box;
     }
@@ -111,37 +109,9 @@ public class MyDevHibernateCachePage
         box.css().marginRightChildren5();
 
         box.add(_recordCount);
-        box.addButton("Add Records", insertNewRecords());
+        box.addButton("Add Records", this::handleInsertNewRecords);
 
         return box;
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF insertNewRecords()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleInsertNewRecords();
-            }
-        };
-    }
-
-    private ScActionIF runTest()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleTestRun();
-            }
-        };
     }
 
     //##################################################

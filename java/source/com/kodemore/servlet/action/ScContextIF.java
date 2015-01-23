@@ -2,7 +2,7 @@ package com.kodemore.servlet.action;
 
 import com.kodemore.exception.KmApplicationException;
 
-public interface ScActionContextIF
+public interface ScContextIF
 {
     /**
      * Run any general security checks that apply to this context.

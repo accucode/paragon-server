@@ -70,7 +70,7 @@ public class ScFilterBox
 
         _form = new ScForm();
         _form.setParent(this);
-        _form.setSubmitAction(newSearchAction());
+        _form.setSubmitAction(this::handleSearch);
 
         _group = _form.addGroup();
         _group.setTitle("Filter");
@@ -83,33 +83,9 @@ public class ScFilterBox
 
         _leftButtons = footer.addButtonBox();
         _leftButtons.addSubmitButton("Search");
-        _leftButtons.addButton("Clear", newClearAction());
+        _leftButtons.addButton("Clear", this::handleClear);
 
         _rightButtons = footer.addButtonBox();
-    }
-
-    protected ScActionIF newSearchAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSearch();
-            }
-        };
-    }
-
-    protected ScActionIF newClearAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleClear();
-            }
-        };
     }
 
     //##################################################
@@ -155,9 +131,15 @@ public class ScFilterBox
         return _action;
     }
 
+    @Deprecated
     public void setAction(ScActionIF e)
     {
         _action = e;
+    }
+
+    public void setAction(Runnable e)
+    {
+        _action = ScAction.create(this, e);
     }
 
     private void runAction()

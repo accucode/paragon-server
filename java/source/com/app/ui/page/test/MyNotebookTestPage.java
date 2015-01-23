@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScNotebook;
@@ -50,7 +48,7 @@ public class MyNotebookTestPage
 
         ScNotebook book;
         book = root.addNotebook();
-        book.setTabChangedAction(newTabChangeAction());
+        book.setTabChangedAction(this::handleTabChange);
 
         ScText tab1;
         tab1 = book.addText();
@@ -61,39 +59,11 @@ public class MyNotebookTestPage
         tab2 = book.addDiv();
         tab2.setLabel("Two");
         tab2.addTextParagraph("Two nnn ooo ppp.");
-        tab2.addButton("Test", newTestAction());
+        tab2.addButton("Test", this::handleTest);
 
         ScActionButton tab3;
-        tab3 = book.addButton("Test", newTestAction());
+        tab3 = book.addButton("Test", this::handleTest);
         tab3.setLabel("Three");
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newTestAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleTest();
-            }
-        };
-    }
-
-    private ScActionIF newTabChangeAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleTabChange();
-            }
-        };
     }
 
     //##################################################

@@ -2,8 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScAbstractChart;
 import com.kodemore.servlet.control.ScBarChart;
 import com.kodemore.servlet.control.ScBox;
@@ -68,7 +66,7 @@ public class MyNvd3ChartTestPage
 
         ScNotebook tabs;
         tabs = root.addNotebook();
-        tabs.setTabChangedAction(newTabChangedAction());
+        tabs.setTabChangedAction(this::handleTabChanged);
 
         installLineTabOn(tabs);
         installBarTabOn(tabs);
@@ -315,22 +313,6 @@ public class MyNvd3ChartTestPage
         pie.addSlice("gamma", 1.4);
         pie.addSlice("e", 2.72);
         pie.addSlice("1", 1);
-    }
-
-    //##################################################
-    //# action
-    //##################################################
-
-    private ScActionIF newTabChangedAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleTabChanged();
-            }
-        };
     }
 
     //##################################################

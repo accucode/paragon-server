@@ -1,7 +1,5 @@
 package com.app.ui.page.userProfile;
 
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -59,7 +57,7 @@ public class MyUserProfileEditCard
         ScForm form;
         form = addForm();
         form.css().gap();
-        form.setSubmitAction(newSaveAction());
+        form.setSubmitAction(this::handleSave);
 
         ScGroup group;
         group = form.addGroup("Edit User");
@@ -86,7 +84,7 @@ public class MyUserProfileEditCard
         ScBox buttons;
         buttons = footer.addButtonBox();
         buttons.addSubmitButton("Save");
-        buttons.addCancelButton(newCancelAction());
+        buttons.addCancelButton(this::ajaxClose);
     }
 
     //##################################################
@@ -110,41 +108,8 @@ public class MyUserProfileEditCard
     }
 
     //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newCancelAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleCancel();
-            }
-        };
-    }
-
-    private ScActionIF newSaveAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleSave();
-            }
-        };
-    }
-
-    //##################################################
     //# handle
     //##################################################
-
-    private void handleCancel()
-    {
-        ajaxClose();
-    }
 
     private void handleSave()
     {

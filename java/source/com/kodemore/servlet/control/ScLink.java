@@ -22,6 +22,7 @@
 
 package com.kodemore.servlet.control;
 
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.variable.ScLocalAction;
@@ -74,6 +75,14 @@ public class ScLink
     public void setAction(ScActionIF e, Object arg)
     {
         setAction(e);
+        setArgument(arg);
+    }
+
+    public void setAction(Runnable r, Object arg)
+    {
+        ScAction action = ScAction.create(this, r);
+
+        setAction(action);
         setArgument(arg);
     }
 

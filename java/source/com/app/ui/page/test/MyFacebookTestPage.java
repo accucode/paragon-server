@@ -2,8 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.http.KmHttpGet;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScPageRoot;
 
 public class MyFacebookTestPage
@@ -44,23 +42,7 @@ public class MyFacebookTestPage
     protected void installRoot(ScPageRoot root)
     {
         root.css().gap();
-        root.addButton("Request Token", newRequestAction());
-    }
-
-    //##################################################
-    //# action
-    //##################################################
-
-    private ScActionIF newRequestAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleRequest();
-            }
-        };
+        root.addButton("Request Token", this::handleRequest);
     }
 
     //##################################################

@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScButton;
@@ -85,16 +83,16 @@ public class MySlowTestPage
         ScActionButton e;
         e = new ScActionButton();
         e.setText(ms + " ms");
-        e.setAction(newDelayAction(ms));
+        e.setAction(newDelayRunnable(ms));
         return e;
     }
 
-    private ScActionIF newDelayAction(final int ms)
+    private Runnable newDelayRunnable(final int ms)
     {
-        return new ScAction(this)
+        return new Runnable()
         {
             @Override
-            public void handle()
+            public void run()
             {
                 handleDelay(ms);
             }

@@ -2,7 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
@@ -83,24 +82,8 @@ public class MyHoverTestPage
         group.addBodyDivider();
 
         ScButton button;
-        button = group.getBody().addButtonBox().addButton("Clear", newClearAction());
+        button = group.getBody().addButtonBox().addButton("Clear", this::handleClear);
         button.setHoverText("This button is used for clearing the field.");
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newClearAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleClear();
-            }
-        };
     }
 
     //##################################################

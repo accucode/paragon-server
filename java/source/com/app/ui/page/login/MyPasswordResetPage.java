@@ -1,8 +1,6 @@
 package com.app.ui.page.login;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
@@ -148,7 +146,7 @@ public class MyPasswordResetPage
     {
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newResetPasswordAction());
+        form.setSubmitAction(this::handleResetPassword);
 
         ScGroup group;
         group = form.addGroup();
@@ -232,22 +230,6 @@ public class MyPasswordResetPage
         footer.addButton("Sign In", MySignInPage.instance);
 
         return card;
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newResetPasswordAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleResetPassword();
-            }
-        };
     }
 
     //##################################################

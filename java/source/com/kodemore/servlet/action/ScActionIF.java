@@ -14,7 +14,7 @@ public interface ScActionIF
 
     void run();
 
-    ScActionContextIF getContext();
+    ScContextIF getContext();
 
     //##################################################
     //# other

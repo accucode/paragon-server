@@ -1,7 +1,5 @@
 package com.app.ui.page.manageMembers;
 
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -50,11 +48,11 @@ public class MyViewMemberCard
 
         _editButton = _banner.addButton();
         _editButton.styleEdit();
-        _editButton.setAction(newEditAction());
+        _editButton.setAction(this::handleEdit);
 
         _removeButton = _banner.addButton();
         _removeButton.styleRemove();
-        _removeButton.setAction(newRemoveAction());
+        _removeButton.setAction(this::handleRemove);
     }
 
     private void installBody()
@@ -90,30 +88,6 @@ public class MyViewMemberCard
     //##################################################
     //# actions
     //##################################################
-
-    private ScActionIF newEditAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleEdit();
-            }
-        };
-    }
-
-    private ScActionIF newRemoveAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleRemove();
-            }
-        };
-    }
 
     private MyModelListener<MyMember> newSaveListener()
     {

@@ -1,7 +1,5 @@
 package com.app.ui.page.userProfile;
 
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
@@ -77,7 +75,7 @@ public class MyUserProfileViewCard
         banner.css().pad5();
 
         ScActionButton editButton;
-        editButton = banner.addButton("Edit", newEditAction());
+        editButton = banner.addButton("Edit", this::handleEdit);
         editButton.setImage(MyButtonUrls.edit());
     }
 
@@ -98,7 +96,7 @@ public class MyUserProfileViewCard
 
         ScBox buttons;
         buttons = footer.addButtonBox();
-        buttons.addButton("Change Password", newChangePasswordAction());
+        buttons.addButton("Change Password", this::handleChangePassword);
     }
 
     //##################################################
@@ -119,34 +117,6 @@ public class MyUserProfileViewCard
     public void preRender()
     {
         refreshFields();
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newEditAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleEdit();
-            }
-        };
-    }
-
-    private ScActionIF newChangePasswordAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleChangePassword();
-            }
-        };
     }
 
     //##################################################

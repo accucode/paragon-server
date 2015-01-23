@@ -3,8 +3,6 @@ package com.app.ui.page.tools;
 import com.kodemore.collection.KmList;
 import com.kodemore.database.KmDatabaseTool;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
@@ -82,7 +80,7 @@ public class MyDevSqlPage
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newSubmitAction());
+        form.setSubmitAction(this::handleSubmit);
 
         installQueryOn(form);
         installResultsOn(root);
@@ -153,11 +151,11 @@ public class MyDevSqlPage
         ScActionButton b;
         b = box.addButton();
         b.setImage(MyButtonUrls.refresh());
-        b.setAction(newRefreshTablesAction());
+        b.setAction(this::handleRefreshTables);
 
-        box.addButton("select *", newSelectAllAction());
-        box.addButton("count", newCountAction());
-        box.addButton("describe", newDescribeTableAction());
+        box.addButton("select *", this::handleSelectAll);
+        box.addButton("count", this::handleCount);
+        box.addButton("describe", this::handleDescribeTable);
 
         return box;
     }
@@ -180,70 +178,6 @@ public class MyDevSqlPage
         _results = new ScBox();
 
         root.add(_results);
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSubmitAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSubmit();
-            }
-        };
-    }
-
-    private ScActionIF newRefreshTablesAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleRefreshTables();
-            }
-        };
-    }
-
-    private ScActionIF newSelectAllAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSelectAll();
-            }
-        };
-    }
-
-    private ScActionIF newCountAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleCount();
-            }
-        };
-    }
-
-    private ScActionIF newDescribeTableAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleDescribeTable();
-            }
-        };
     }
 
     //##################################################

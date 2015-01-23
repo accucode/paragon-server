@@ -1,8 +1,6 @@
 package com.app.ui.page.login;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
@@ -149,7 +147,7 @@ public class MyUserActivationPage
     {
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newActivateAction());
+        form.setSubmitAction(this::handleActivate);
 
         ScGroup group;
         group = form.addGroup();
@@ -233,22 +231,6 @@ public class MyUserActivationPage
         footer.addButton("Sign In", MySignInPage.instance);
 
         return card;
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newActivateAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleActivate();
-            }
-        };
     }
 
     //##################################################

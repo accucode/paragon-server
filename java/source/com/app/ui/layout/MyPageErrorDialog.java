@@ -42,7 +42,7 @@ public class MyPageErrorDialog
         footer = showFooter();
         footer.alignEnd();
         footer.css().buttonBox();
-        footer.addButton("Close", newAjaxCloseAction());
+        footer.addButton("Close", this::ajaxClose);
     }
 
     //##################################################

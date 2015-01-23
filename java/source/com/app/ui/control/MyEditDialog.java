@@ -1,8 +1,6 @@
 package com.app.ui.control;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScFlexbox;
 
 public abstract class MyEditDialog<T>
@@ -25,7 +23,7 @@ public abstract class MyEditDialog<T>
 
         _saveListeners = new KmList<>();
 
-        setSubmitAction(newSaveAction());
+        setSubmitAction(this::handleSave);
         installButtons();
     }
 
@@ -36,23 +34,7 @@ public abstract class MyEditDialog<T>
         footer.alignEnd();
         footer.css().buttonBox();
         footer.addSubmitButton("Save");
-        footer.addCancelButton(newAjaxCloseAction());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSaveAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSave();
-            }
-        };
+        footer.addCancelButton(this::ajaxClose);
     }
 
     //##################################################

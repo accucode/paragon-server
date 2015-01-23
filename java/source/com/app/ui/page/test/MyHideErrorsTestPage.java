@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -54,7 +52,7 @@ public class MyHideErrorsTestPage
     {
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newSubmitAction());
+        form.setSubmitAction(this::handleSubmit);
         form.css().gap();
 
         ScGroup group;
@@ -63,14 +61,14 @@ public class MyHideErrorsTestPage
         ScBox lines;
         lines = group.getBody().addLines();
         lines.addFieldTable().addIntegerField().setLabel("Integer");
-        lines.addButton("Hide Errors", newHideGroupOneErrors());
+        lines.addButton("Hide Errors", this::handleHideGroupOneErrors);
         _groupOne = group;
 
         group = form.addGroup("Group Two");
 
         lines = group.getBody().addLines();
         lines.addFieldTable().addIntegerField().setLabel("Integer");
-        lines.addButton("Hide Errors", newHideGroupTwoErrors());
+        lines.addButton("Hide Errors", this::handleHideGroupTwoErrors);
         _groupTwo = group;
 
         group = form.addGroup("Form");
@@ -78,55 +76,7 @@ public class MyHideErrorsTestPage
         ScBox buttons;
         buttons = group.getBody().addButtonBox();
         buttons.addSubmitButton("Validate");
-        buttons.addButton("Hide All Errors", newHideAllErrorsAction());
-    }
-
-    private ScActionIF newSubmitAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSubmit();
-            }
-        };
-    }
-
-    private ScActionIF newHideGroupOneErrors()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleHideGroupOneErrors();
-            }
-        };
-    }
-
-    private ScActionIF newHideGroupTwoErrors()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleHideGroupTwoErrors();
-            }
-        };
-    }
-
-    private ScActionIF newHideAllErrorsAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleHideAllErrors();
-            }
-        };
+        buttons.addButton("Hide All Errors", this::handleHideAllErrors);
     }
 
     //##################################################

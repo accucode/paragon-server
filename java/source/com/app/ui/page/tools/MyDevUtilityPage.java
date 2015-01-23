@@ -1,8 +1,6 @@
 package com.app.ui.page.tools;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -85,7 +83,7 @@ public class MyDevUtilityPage
 
         ScBox box;
         box = group.getBody().addLinkBox();
-        box.addLink("reload properties", newReloadPropertiesAction());
+        box.addLink("reload properties", this::handleReloadProperties);
     }
 
     private void installExceptionGroup(ScContainer root)
@@ -95,10 +93,10 @@ public class MyDevUtilityPage
 
         ScBox box;
         box = group.getBody().addLinkBox();
-        box.addLink("message", newMessageAction());
-        box.addLink("error", newErrorAction());
-        box.addLink("fatal", newFatalAction());
-        box.addLink("runtime exception", newRuntimeExceptionAction());
+        box.addLink("message", this::handleMessage);
+        box.addLink("error", this::handleError);
+        box.addLink("fatal", this::handleFatal);
+        box.addLink("runtime exception", this::handleRuntimeException);
     }
 
     private void installTimeGroup(ScContainer root)
@@ -145,71 +143,6 @@ public class MyDevUtilityPage
     }
 
     //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newReloadPropertiesAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleReloadProperties();
-            }
-        };
-    }
-
-    private ScActionIF newMessageAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                Object[] args = {};
-                ajax().toast("test", args);
-            }
-        };
-    }
-
-    private ScActionIF newErrorAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                throw Kmu.newError("test");
-            }
-        };
-    }
-
-    private ScActionIF newFatalAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                throw Kmu.newFatal("test");
-            }
-        };
-    }
-
-    private ScActionIF newRuntimeExceptionAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                throw new RuntimeException("test");
-            }
-        };
-    }
-
-    //##################################################
     //# print
     //##################################################
 
@@ -247,4 +180,26 @@ public class MyDevUtilityPage
         MyPropertyManager.reloadOverrides();
         ajax().toast("Properties reloaded.");
     }
+
+    private void handleMessage()
+    {
+        Object[] args = {};
+        ajax().toast("test", args);
+    }
+
+    private void handleRuntimeException()
+    {
+        throw new RuntimeException("test");
+    }
+
+    private void handleFatal()
+    {
+        throw Kmu.newFatal("test");
+    }
+
+    private void handleError()
+    {
+        throw Kmu.newError("test");
+    }
+
 }

@@ -36,6 +36,7 @@ import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScEncodedValueIF;
 import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
@@ -706,6 +707,7 @@ public class ScGrid<T>
         return c;
     }
 
+    @Deprecated
     public ScGridColumn<T> addLinkColumn(
         KmMetaProperty<T,?> text,
         ScActionIF action,
@@ -723,6 +725,26 @@ public class ScGrid<T>
         return col;
     }
 
+    public ScGridColumn<T> addLinkColumn(
+        KmMetaProperty<T,?> text,
+        Runnable r,
+        KmMetaProperty<T,?> arg)
+    {
+        ScAction action = ScAction.create(this, r);
+
+        ScLink link;
+        link = new ScLink();
+        link.setText(text);
+        link.setAction(action, arg);
+
+        ScGridColumn<T> col;
+        col = addColumn(link);
+        col.setHeader(text.getLabel());
+        col.setCharacterWidth(text.getColumnWidth());
+        return col;
+    }
+
+    @Deprecated
     public ScGridColumn<T> addLinkColumn(KmMetaAttribute<T,?> text, ScActionIF action)
     {
         ScLink link;
@@ -733,8 +755,31 @@ public class ScGrid<T>
         return addColumn(link);
     }
 
+    public ScGridColumn<T> addLinkColumn(KmMetaAttribute<T,?> text, Runnable action)
+    {
+        ScLink link;
+        link = new ScLink();
+        link.setText(text);
+        link.setAction(action, text);
+
+        return addColumn(link);
+    }
+
+    @Deprecated
     public ScGridColumn<T> addLinkColumn(String text, ScActionIF action, KmMetaProperty<T,?> arg)
     {
+        ScLink link;
+        link = new ScLink();
+        link.setText(text);
+        link.setAction(action, arg);
+
+        return addColumn(link);
+    }
+
+    public ScGridColumn<T> addLinkColumn(String text, Runnable r, KmMetaProperty<T,?> arg)
+    {
+        ScAction action = ScAction.create(this, r);
+
         ScLink link;
         link = new ScLink();
         link.setText(text);
@@ -933,7 +978,8 @@ public class ScGrid<T>
 
     @SuppressWarnings(
     {
-        "unchecked", "rawtypes"
+        "unchecked",
+        "rawtypes"
     })
     private void renderCsvAdaptor(KmCsvBuilder out, Object adaptor, Object model)
     {

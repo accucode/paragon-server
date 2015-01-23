@@ -2,8 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScDraggableMultiSelectList;
 import com.kodemore.servlet.control.ScForm;
@@ -19,8 +17,7 @@ public class MyDraggableMultiSelectTestPage
     //# singleton
     //##################################################
 
-    public static final MyDraggableMultiSelectTestPage instance =
-                                                                    new MyDraggableMultiSelectTestPage();
+    public static final MyDraggableMultiSelectTestPage instance = new MyDraggableMultiSelectTestPage();
 
     private MyDraggableMultiSelectTestPage()
     {
@@ -57,7 +54,7 @@ public class MyDraggableMultiSelectTestPage
         ScForm form;
         form = root.addForm();
         form.css().fill().gap();
-        form.setSubmitAction(newSubmitAction());
+        form.setSubmitAction(this::handleSubmit);
 
         ScGroup group;
         group = form.addGroup("Skills");
@@ -77,22 +74,6 @@ public class MyDraggableMultiSelectTestPage
         footer.css().smallGap();
         footer.addSubmitButton();
         footer.show();
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSubmitAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSubmit();
-            }
-        };
     }
 
     //##################################################

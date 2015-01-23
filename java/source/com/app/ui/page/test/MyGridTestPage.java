@@ -3,8 +3,6 @@ package com.app.ui.page.test;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFilterBox;
@@ -80,7 +78,7 @@ public class MyGridTestPage
 
         _filterBox = root.addFilterBox();
         _filterBox.addFieldTable().add(_nameField);
-        _filterBox.setAction(newSearchAction());
+        _filterBox.setAction(this::handleSearch);
     }
 
     private void installGrid(ScContainer root)
@@ -95,15 +93,15 @@ public class MyGridTestPage
         buttons = group.getBanner().addBox();
         buttons.css().floatRight().gap5();
 
-        buttons.addButton("Add Sample Users", newAddUsersAction());
-        buttons.addButton("Export CSV", newExportAction());
+        buttons.addButton("Add Sample Users", this::handleAddUsers);
+        buttons.addButton("Export CSV", this::handleExport);
 
         ScGrid<MyUser> grid;
         grid = group.getBody().addGrid();
         grid.trackAll(_filterBox);
         grid.setFilterFactory(newFetcher());
         grid.setWidthAuto();
-        grid.addLinkColumn("Select", newSelectAction(), x.Uid).width(50);
+        grid.addLinkColumn("Select", this::handleSelect, x.Uid).width(50);
         grid.addColumn(x.Uid).width(200).hide();
 
         _nameColumn = grid.addColumn(x.Name);
@@ -149,58 +147,6 @@ public class MyGridTestPage
         }
 
         return f;
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSelectAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSelect();
-            }
-        };
-    }
-
-    private ScActionIF newSearchAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSearch();
-            }
-        };
-    }
-
-    private ScActionIF newAddUsersAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleAddUsers();
-            }
-        };
-    }
-
-    private ScActionIF newExportAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleExport();
-            }
-        };
     }
 
     //##################################################

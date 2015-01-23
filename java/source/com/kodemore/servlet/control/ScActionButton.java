@@ -22,6 +22,7 @@
 
 package com.kodemore.servlet.control;
 
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
@@ -81,9 +82,16 @@ public class ScActionButton
         return _action.getValue();
     }
 
+    @Deprecated
     public void setAction(ScActionIF e)
     {
         _action.setValue(e);
+    }
+
+    public void setAction(Runnable r)
+    {
+        ScAction action = ScAction.create(this, r);
+        _action.setValue(action);
     }
 
     public void setAction(ScActionIF e, Object arg)

@@ -3,8 +3,6 @@ package com.app.ui.page.tools;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScAbsoluteLayout;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
@@ -91,7 +89,7 @@ public class MyDevUsersPage
         box = root.addFilterBox();
         box.layoutFill();
         box.setTitle("Search");
-        box.setAction(newSearchAction());
+        box.setAction(this::handleSearch);
 
         ScFieldTable fields;
         fields = box.addFieldTable();
@@ -122,7 +120,7 @@ public class MyDevUsersPage
         grid.layoutFill();
         grid.trackAll(_filterBox);
         grid.setFilterFactory(newFetcher());
-        grid.addLinkColumn(x.Name, newViewAction(), x.Uid);
+        grid.addLinkColumn(x.Name, this::handleView, x.Uid);
         grid.addColumn(x.Email);
         grid.addColumn(x.RoleName);
 
@@ -160,50 +158,10 @@ public class MyDevUsersPage
     private void installFrame(ScContainer root)
     {
         _frame = new MyDevUserFrame();
-        _frame.setOnChangeAction(newOnChangeAction());
+        _frame.setOnChangeAction(this::handleOnChange);
         _frame.css().fill().marginLeft();
 
         root.add(_frame);
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSearchAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSearch();
-            }
-        };
-    }
-
-    private ScActionIF newViewAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleView();
-            }
-        };
-    }
-
-    private ScActionIF newOnChangeAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleOnChange();
-            }
-        };
     }
 
     //##################################################

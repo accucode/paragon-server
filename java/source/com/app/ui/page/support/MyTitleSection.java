@@ -1,6 +1,5 @@
 package com.app.ui.page.support;
 
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScDivWrapper;
@@ -88,10 +87,4 @@ public class MyTitleSection
     {
         return getRight().addButton();
     }
-
-    public ScActionButton addButton(String text, ScActionIF action)
-    {
-        return getRight().addButton(text, action);
-    }
-
 }

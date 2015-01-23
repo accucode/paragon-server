@@ -4,8 +4,6 @@ import com.kodemore.collection.KmIntegerRange;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
@@ -71,7 +69,7 @@ public class MyDragTestPage
         root.css().gap();
 
         _form = getRoot().addForm();
-        _form.setSubmitAction(newSubmitAction());
+        _form.setSubmitAction(this::handleSubmit);
 
         installActionsOn(_form);
         installContainerOn(_form);
@@ -86,7 +84,7 @@ public class MyDragTestPage
         ScBox row;
         row = root.addBox();
         row.css().boxGreen().gap();
-        row.addButton("Scroll to:", newScrollAction());
+        row.addButton("Scroll to:", this::handleScroll);
         row.add(_dropdown);
         row.addSubmitButton();
     }
@@ -151,34 +149,6 @@ public class MyDragTestPage
     protected void preRender()
     {
         super.preRender();
-    }
-
-    //##################################################
-    //# action
-    //##################################################
-
-    private ScActionIF newSubmitAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleSubmit();
-            }
-        };
-    }
-
-    private ScActionIF newScrollAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleScroll();
-            }
-        };
     }
 
     //##################################################

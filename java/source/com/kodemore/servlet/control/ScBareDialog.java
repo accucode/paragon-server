@@ -26,7 +26,6 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.json.KmJsonMap;
-import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.script.ScAddContentScript;
 import com.kodemore.servlet.script.ScBlockScript;
@@ -122,7 +121,13 @@ public class ScBareDialog
         return getInner();
     }
 
+    @Deprecated
     public void setSubmitAction(ScActionIF e)
+    {
+        getForm().setSubmitAction(e);
+    }
+
+    public void setSubmitAction(Runnable e)
     {
         getForm().setSubmitAction(e);
     }
@@ -357,30 +362,6 @@ public class ScBareDialog
     //##################################################
     //# support
     //##################################################
-
-    public ScActionIF newAjaxOpenAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                ajaxOpen();
-            }
-        };
-    }
-
-    public ScActionIF newAjaxCloseAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                ajaxClose();
-            }
-        };
-    }
 
     @Override
     public ScControl getErrorRoot()

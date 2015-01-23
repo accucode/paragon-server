@@ -2,8 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -16,7 +14,7 @@ public class MyGroupIconHeaderTestPage
 {
     /**
      * this is an example of how to use the ScGroupIconHeadder
-     * to dynamically change the title and icon in a group's 
+     * to dynamically change the title and icon in a group's
      * headder.
      */
     //##################################################
@@ -71,7 +69,7 @@ public class MyGroupIconHeaderTestPage
 
         _dropdown = new ScDropdown();
         _dropdown.setOptions(list);
-        _dropdown.setOnChangeAction(newChangeIconAction());
+        _dropdown.setOnChangeAction(this::handleChangeIcon);
 
         ScGroup group;
         group = form.addGroup();
@@ -80,24 +78,8 @@ public class MyGroupIconHeaderTestPage
 
         ScBox body;
         body = group.getBody().addPad();
-        body.addButton("change Icon", newChangeIconAction());
+        body.addButton("change Icon", this::handleChangeIcon);
         body.add(_dropdown);
-    }
-
-    //##################################################
-    //# action
-    //##################################################
-
-    private ScActionIF newChangeIconAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleChangeIcon();
-            }
-        };
     }
 
     //##################################################

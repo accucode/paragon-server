@@ -3,8 +3,6 @@ package com.app.ui.page.support;
 import com.kodemore.collection.KmList;
 import com.kodemore.meta.KmMetaStringProperty;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
@@ -179,12 +177,12 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
 
         _refreshButton = right.addButton();
         _refreshButton.setImage(MyButtonUrls.refresh());
-        _refreshButton.setAction(newRefreshAction());
+        _refreshButton.setAction(this::handleRefresh);
         _refreshButton.setHoverText("Refresh");
 
         _addButton = right.addButton();
         _addButton.setImage(MyButtonUrls.add());
-        _addButton.setAction(newAddAction());
+        _addButton.setAction(this::handleAdd);
         _addButton.setHoverText("Add");
     }
 
@@ -204,14 +202,14 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
 
     private void installListOn(ScFlexbox root)
     {
-        ScActionIF selectAction = newSelectAction();
+        Runnable selectRunnable = this::handleSelect;
 
         _list = new ScSimpleModelList<>();
         _list.setKeyAdapter(getDomainUidProperty());
         _list.setTitleAdapter(getDomainTitleProperty());
         _list.setSubtitleAdapter(getDomainSubtitleProperty());
-        _list.addLink("Select", selectAction);
-        _list.setItemAction(selectAction);
+        _list.addLink("Select", selectRunnable);
+        _list.setItemAction(selectRunnable);
 
         ScDiv center;
         center = root.addDiv();
@@ -246,43 +244,6 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
     //##################################################
     //# actions
     //##################################################
-
-    private ScActionIF newSelectAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSelect();
-            }
-        };
-    }
-
-    private ScActionIF newRefreshAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleRefresh();
-            }
-        };
-    }
-
-    private ScActionIF newAddAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                ajaxClearDomain();
-                ajaxOpenAddDialog();
-            }
-        };
-    }
 
     protected abstract void ajaxOpenAddDialog();
 
@@ -320,6 +281,12 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
     {
         String uid = getStringArgument();
         ajaxSelectDomain(uid);
+    }
+
+    private void handleAdd()
+    {
+        ajaxClearDomain();
+        ajaxOpenAddDialog();
     }
 
     private void handleRefresh()

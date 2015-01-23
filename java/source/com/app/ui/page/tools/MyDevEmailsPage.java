@@ -3,8 +3,6 @@ package com.app.ui.page.tools;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScAbsoluteLayout;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScCard;
@@ -137,7 +135,7 @@ public class MyDevEmailsPage
         _grid.trackAll(_filterBox);
 
         ScGridColumn<MyEmail> link;
-        link = _grid.addLinkColumn("View", newViewAction(), x.Uid);
+        link = _grid.addLinkColumn("View", this::handleView, x.Uid);
         link.setWidth(50);
 
         _grid.addColumn(x.StatusName, 50);
@@ -151,8 +149,8 @@ public class MyDevEmailsPage
 
         ScBox buttons;
         buttons = footer.addButtonBox();
-        buttons.addButton("Resend All Pending", newResendAllPendingAction());
-        buttons.addButton("Resend All Errors", newResendAllErrorsAction());
+        buttons.addButton("Resend All Pending", this::handleResendAllPending);
+        buttons.addButton("Resend All Errors", this::handleResendAllErrors);
     }
 
     private KmFilterFactoryIF<MyEmail> newFetcher()
@@ -212,72 +210,8 @@ public class MyDevEmailsPage
 
         ScBox buttons;
         buttons = footer.addButtonBox();
-        buttons.addButton("Re-Send", newResendAction(), x.Uid);
-        buttons.addButton("Ignore", newIgnoreAction(), x.Uid);
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newViewAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleView();
-            }
-        };
-    }
-
-    private ScActionIF newResendAllPendingAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleResendAllPending();
-            }
-        };
-    }
-
-    private ScActionIF newResendAllErrorsAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleResendAllErrors();
-            }
-        };
-    }
-
-    private ScActionIF newResendAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleResend();
-            }
-        };
-    }
-
-    private ScActionIF newIgnoreAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleIgnore();
-            }
-        };
+        buttons.addButton("Re-Send", this::handleResend, x.Uid);
+        buttons.addButton("Ignore", this::handleIgnore, x.Uid);
     }
 
     //##################################################

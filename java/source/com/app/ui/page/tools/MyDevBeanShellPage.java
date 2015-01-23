@@ -1,8 +1,6 @@
 package com.app.ui.page.tools;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -57,15 +55,13 @@ public class MyDevBeanShellPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        ScActionIF submitAction = newSubmitAction();
-
         _scriptField = new ScTextArea();
         _scriptField.style().height(100);
         _scriptField.setWidthFull();
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(submitAction);
+        form.setSubmitAction(this::handleSubmit);
         form.css().pad();
 
         ScGroup group;
@@ -76,18 +72,6 @@ public class MyDevBeanShellPage
 
         _resultsBox = root.addBox();
         _resultsBox.css().gap();
-    }
-
-    private ScActionIF newSubmitAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSubmit();
-            }
-        };
     }
 
     //##################################################

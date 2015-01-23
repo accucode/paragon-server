@@ -25,6 +25,7 @@ package com.kodemore.servlet.field;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.ScDropdownMenuItem;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScElement;
 import com.kodemore.servlet.variable.ScLocalList;
@@ -32,8 +33,8 @@ import com.kodemore.servlet.variable.ScLocalString;
 
 /**
  * I implement a dropdown menu using a list, css, and a little javascript.
- * 
- * See 
+ *
+ * See
  *      kmDropdownMenu.js
  *      dropdownMenu.css.
  *      testDropdownMenu.html
@@ -79,13 +80,35 @@ public class ScDropdownMenu
     //# items
     //##################################################
 
+    @Deprecated
     public ScDropdownMenuItem addItem(String text, ScActionIF action)
     {
         return addItem(text, action, null);
     }
 
+    public ScDropdownMenuItem addItem(String text, Runnable r)
+    {
+        ScAction action = ScAction.create(this, r);
+        return addItem(text, action, null);
+    }
+
+    @Deprecated
     public ScDropdownMenuItem addItem(String text, ScActionIF action, Object arg)
     {
+        ScDropdownMenuItem e;
+        e = new ScDropdownMenuItem();
+        e.setText(text);
+        e.setAction(action, arg);
+
+        _items.add(e);
+
+        return e;
+    }
+
+    public ScDropdownMenuItem addItem(String text, Runnable r, Object arg)
+    {
+        ScAction action = ScAction.create(this, r);
+
         ScDropdownMenuItem e;
         e = new ScDropdownMenuItem();
         e.setText(text);

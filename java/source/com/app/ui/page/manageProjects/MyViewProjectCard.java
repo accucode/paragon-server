@@ -1,7 +1,5 @@
 package com.app.ui.page.manageProjects;
 
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -47,7 +45,7 @@ public class MyViewProjectCard
 
         _editButton = _banner.addButton();
         _editButton.styleEdit();
-        _editButton.setAction(newEditAction());
+        _editButton.setAction(this::handleEdit);
     }
 
     private void installBody()
@@ -73,18 +71,6 @@ public class MyViewProjectCard
     //##################################################
     //# actions
     //##################################################
-
-    private ScActionIF newEditAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleEdit();
-            }
-        };
-    }
 
     private MyModelListener<MyProject> newSaveListener()
     {

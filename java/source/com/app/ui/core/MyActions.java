@@ -2,15 +2,13 @@ package com.app.ui.core;
 
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.exception.KmSecurityException;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionContextIF;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScContextIF;
 import com.kodemore.servlet.script.ScBlockScript;
 
 import com.app.ui.page.general.MySignOutPage;
 
 public class MyActions
-    implements ScActionContextIF
+    implements ScContextIF
 {
     //##################################################
     //# instance
@@ -32,8 +30,8 @@ public class MyActions
     //# variables
     //##################################################
 
-    private ScActionIF _settingsAction;
-    private ScActionIF _signOutAction;
+    private Runnable _settingsRunnable;
+    private Runnable _signOutRunnable;
 
     //##################################################
     //# constructor
@@ -41,50 +39,22 @@ public class MyActions
 
     private MyActions()
     {
-        _settingsAction = newSettingsAction();
-        _signOutAction = newSignOutAction();
+        _settingsRunnable = this::handleSettings;
+        _signOutRunnable = this::handleSignOut;
     }
 
     //##################################################
     //# accessing
     //##################################################
 
-    public ScActionIF getSettingsAction()
+    public Runnable getSettingsRunnable()
     {
-        return _settingsAction;
+        return _settingsRunnable;
     }
 
-    public ScActionIF getSignOutAction()
+    public Runnable getSignOutRunnable()
     {
-        return _signOutAction;
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSettingsAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleSettings();
-            }
-        };
-    }
-
-    private ScActionIF newSignOutAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleSignOut();
-            }
-        };
+        return _signOutRunnable;
     }
 
     //##################################################
@@ -150,4 +120,5 @@ public class MyActions
     {
         return getData().ajax();
     }
+
 }

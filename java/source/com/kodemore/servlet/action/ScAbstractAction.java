@@ -20,8 +20,8 @@ public abstract class ScAbstractAction
     //# variables
     //##################################################
 
-    private String            _key;
-    private ScActionContextIF _context;
+    private String                    _key;
+    private ScContextSupplierIF _contextSupplier;
 
     //##################################################
     //# constructor
@@ -32,10 +32,10 @@ public abstract class ScAbstractAction
         this(null);
     }
 
-    protected ScAbstractAction(ScActionContextIF context)
+    protected ScAbstractAction(ScContextSupplierIF e)
     {
         _key = nextKey();
-        _context = context;
+        _contextSupplier = e;
 
         ScControlRegistry.getInstance().register(this);
     }
@@ -60,14 +60,17 @@ public abstract class ScAbstractAction
     //##################################################
 
     @Override
-    public ScActionContextIF getContext()
+    public ScContextIF getContext()
     {
-        return _context;
+        if ( _contextSupplier == null )
+            return null;
+
+        return _contextSupplier.getContext();
     }
 
     public boolean hasContext()
     {
-        return _context != null;
+        return getContext() != null;
     }
 
     //##################################################

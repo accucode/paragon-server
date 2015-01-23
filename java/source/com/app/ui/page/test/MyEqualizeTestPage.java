@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScFlexbox;
@@ -62,8 +60,8 @@ public class MyEqualizeTestPage
 
         ScBox buttons;
         buttons = info.getBody().addButtonBox();
-        buttons.addButton("Equalize Groups", newEqualizeAction());
-        buttons.addButton("Click here to equalize all the buttons.", newEqualizeButtonsAction());
+        buttons.addButton("Equalize Groups", this::handleEqualize);
+        buttons.addButton("Click here to equalize all the buttons.", this::handleEqualizeButtons);
 
         _groups = root.addBox();
 
@@ -131,34 +129,6 @@ public class MyEqualizeTestPage
             + "will achieve the same effect and with far fewer problems and complications.");
 
         return out.toString();
-    }
-
-    //##################################################
-    //# action
-    //##################################################
-
-    private ScActionIF newEqualizeAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleEqualize();
-            }
-        };
-    }
-
-    private ScActionIF newEqualizeButtonsAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            protected void handle()
-            {
-                handleEqualizeButtons();
-            }
-        };
     }
 
     //##################################################

@@ -22,8 +22,7 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.exception.KmApplicationException;
-import com.kodemore.servlet.action.ScActionContextIF;
+import com.kodemore.servlet.action.ScContextIF;
 
 /**
  * I am typically the root control for each page.  I act as
@@ -38,13 +37,13 @@ public class ScPageRoot
     //# variables
     //##################################################
 
-    private ScActionContextIF _context;
+    private ScContextIF _context;
 
     //##################################################
     //# constructor
     //##################################################
 
-    public ScPageRoot(ScActionContextIF e)
+    public ScPageRoot(ScContextIF e)
     {
         _context = e;
     }
@@ -54,30 +53,8 @@ public class ScPageRoot
     //##################################################
 
     @Override
-    public ScActionContextIF getContext()
+    public ScContextIF getContext()
     {
         return _context;
-    }
-
-    //##################################################
-    //# context
-    //##################################################
-
-    @Override
-    public void checkSecurity()
-    {
-        getContext().checkSecurity();
-    }
-
-    @Override
-    public void handleError(KmApplicationException ex)
-    {
-        getContext().handleError(ex);
-    }
-
-    @Override
-    public void handleFatal(RuntimeException ex)
-    {
-        getContext().handleFatal(ex);
     }
 }

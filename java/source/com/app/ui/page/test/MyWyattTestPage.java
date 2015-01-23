@@ -1,6 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
@@ -46,7 +47,15 @@ public class MyWyattTestPage
         ScGroup group;
         group = root.addGroup();
         group.setTitle("hello");
-        group.getBody().addPad().addText("world");
+
+        ScBox body;
+        body = group.getBody().addPad();
+        body.addButton("hello", this::handleHello);
+    }
+
+    private void handleHello()
+    {
+        ajax().toast("world!");
     }
 
 }

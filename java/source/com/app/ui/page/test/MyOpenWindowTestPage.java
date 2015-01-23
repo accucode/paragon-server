@@ -3,8 +3,6 @@ package com.app.ui.page.test;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
@@ -50,19 +48,7 @@ public class MyOpenWindowTestPage
     protected void installRoot(ScPageRoot root)
     {
         root.css().gap();
-        root.addButton("Open Window", newTestAction());
-    }
-
-    private ScActionIF newTestAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleTest();
-            }
-        };
+        root.addButton("Open Window", this::handleTest);
     }
 
     //##################################################

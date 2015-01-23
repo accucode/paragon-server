@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScButton;
 import com.kodemore.servlet.control.ScContainer;
@@ -60,7 +58,7 @@ public class MyScriptTestPage
     {
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(newRunAction());
+        form.setSubmitAction(this::handleRun);
         form.css().gap();
 
         installScript(form);
@@ -114,22 +112,6 @@ public class MyScriptTestPage
 
         textField = fields.addTextField();
         textField.setLabel(textField.getHtmlId());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newRunAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleRun();
-            }
-        };
     }
 
     //##################################################

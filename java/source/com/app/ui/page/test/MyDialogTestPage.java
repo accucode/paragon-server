@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
 import com.kodemore.servlet.control.ScFlexbox;
@@ -60,7 +58,7 @@ public class MyDialogTestPage
     protected void installRoot(ScPageRoot root)
     {
         root.css().gap();
-        root.addButton("Show", newOpenDialogAction());
+        root.addButton("Show", this::handleOpenDialog);
         root.onEscape().toast("Page escape");
 
         installDialog();
@@ -74,7 +72,7 @@ public class MyDialogTestPage
         dialog = new MyDialog();
         dialog.setLabel("test");
         dialog.setWidth(500);
-        dialog.setSubmitAction(newSubmitAction());
+        dialog.setSubmitAction(this::handleSubmit);
 
         ScDiv body;
         body = dialog.getBody();
@@ -112,8 +110,8 @@ public class MyDialogTestPage
         footer = dialog.showFooter();
         footer.alignEnd();
         footer.css().buttonBox();
-        footer.addButton("Yes", newYesAction()).positive().primary();
-        footer.addButton("No", newNoAction()).negative();
+        footer.addButton("Yes", this::handleYes).positive().primary();
+        footer.addButton("No", this::handleNo).negative();
 
         _nestedDialog = dialog;
     }
@@ -133,86 +131,10 @@ public class MyDialogTestPage
         footer = dialog.showFooter();
         footer.alignEnd();
         footer.css().buttonBox();
-        footer.addButton("Yes", newDoubleYesAction()).positive().primary();
-        footer.addButton("No", newDoubleNoAction()).negative();
+        footer.addButton("Yes", this::handleDoubleYes).positive().primary();
+        footer.addButton("No", this::handleDoubleNo).negative();
 
         _doubleNestedDialog = dialog;
-    }
-
-    //##################################################
-    //# action
-    //##################################################
-
-    private ScActionIF newOpenDialogAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleOpenDialog();
-            }
-        };
-    }
-
-    private ScActionIF newSubmitAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSubmit();
-            }
-        };
-    }
-
-    private ScActionIF newYesAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleYes();
-            }
-        };
-    }
-
-    private ScActionIF newNoAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleNo();
-            }
-        };
-    }
-
-    private ScActionIF newDoubleYesAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleDoubleYes();
-            }
-        };
-    }
-
-    private ScActionIF newDoubleNoAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleDoubleNo();
-            }
-        };
     }
 
     //##################################################

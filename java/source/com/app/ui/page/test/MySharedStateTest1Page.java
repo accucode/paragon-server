@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -84,11 +82,11 @@ public class MySharedStateTest1Page
 
         ScBox footer;
         footer = group.getBody().addButtonBox();
-        footer.addButton("red", newRedAction());
-        footer.addButton("blue", newBlueAction());
-        footer.addButton("toast", newToastAction());
+        footer.addButton("red", this::handleRed);
+        footer.addButton("blue", this::handleBlue);
+        footer.addButton("toast", this::handleToast);
         // footer.addButton("page 2", MySharedStateTest2Page.instance);
-        footer.addButton("page 2", newPage2Action());
+        footer.addButton("page 2", this::handlePage2);
     }
 
     //##################################################
@@ -99,58 +97,6 @@ public class MySharedStateTest1Page
     protected void preRender()
     {
         super.preRender();
-    }
-
-    //##################################################
-    //# action
-    //##################################################
-
-    private ScActionIF newRedAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleRed();
-            }
-        };
-    }
-
-    private ScActionIF newBlueAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleBlue();
-            }
-        };
-    }
-
-    private ScActionIF newToastAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleToast();
-            }
-        };
-    }
-
-    private ScActionIF newPage2Action()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handlePage2();
-            }
-        };
     }
 
     //##################################################

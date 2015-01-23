@@ -5,8 +5,6 @@ import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFilterBox;
 import com.kodemore.servlet.control.ScFlexbox;
@@ -121,7 +119,7 @@ public class MyDevPerformanceLogPage
         root.css().flexStatic().relative();
 
         _filterBox = root.addFilterBox("Search");
-        _filterBox.setAction(newSearchAction());
+        _filterBox.setAction(this::handleSearch);
 
         ScFlexbox row;
         row = _filterBox.addRow();
@@ -176,35 +174,7 @@ public class MyDevPerformanceLogPage
         ScDiv buttons;
         buttons = group.getBanner().addFloatRight();
         buttons.css().smallPad();
-        buttons.addButton("Delete All", newDeleteAllAction());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSearchAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSearch();
-            }
-        };
-    }
-
-    private ScActionIF newDeleteAllAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleDeleteAll();
-            }
-        };
+        buttons.addButton("Delete All", this::handleDeleteAll);
     }
 
     //##################################################

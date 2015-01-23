@@ -28,6 +28,7 @@ import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScEntryPageIF;
 import com.kodemore.servlet.ScPage;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScColorField;
@@ -218,8 +219,19 @@ public abstract class ScContainer
         return e;
     }
 
+    @Deprecated
     public ScLink addLink(String title, ScActionIF action)
     {
+        ScLink e;
+        e = addLink(title);
+        e.setAction(action);
+        return e;
+    }
+
+    public ScLink addLink(String title, Runnable r)
+    {
+        ScActionIF action = ScAction.create(this, r);
+
         ScLink e;
         e = addLink(title);
         e.setAction(action);
@@ -250,7 +262,16 @@ public abstract class ScContainer
         return e;
     }
 
+    @Deprecated
     public ScLink addLink(String title, ScActionIF action, Object arg)
+    {
+        ScLink e;
+        e = addLink(title, action);
+        e.setArgument(arg);
+        return e;
+    }
+
+    public ScLink addLink(String title, Runnable action, Object arg)
     {
         ScLink e;
         e = addLink(title, action);
@@ -320,6 +341,7 @@ public abstract class ScContainer
         return add(b);
     }
 
+    @Deprecated
     public ScActionButton addButton(String text, ScActionIF e)
     {
         ScActionButton b;
@@ -328,6 +350,15 @@ public abstract class ScContainer
         return b;
     }
 
+    public ScActionButton addButton(String text, final Runnable r)
+    {
+        ScActionButton b;
+        b = addButton(text);
+        b.setAction(r);
+        return b;
+    }
+
+    @Deprecated
     public ScActionButton addButton(String text, ScActionIF action, KmMetaProperty<?,?> arg)
     {
         ScActionButton e;
@@ -337,10 +368,28 @@ public abstract class ScContainer
         return e;
     }
 
+    public ScActionButton addButton(String text, Runnable runnable, KmMetaProperty<?,?> arg)
+    {
+        ScActionButton e;
+        e = addButton(text);
+        e.setAction(runnable);
+        e.setArgument(arg);
+        return e;
+    }
+
+    @Deprecated
     public ScActionButton addCancelButton(ScActionIF action)
     {
         ScActionButton e;
         e = addButton("Cancel", action);
+        e.applyNegativeFlavor();
+        return e;
+    }
+
+    public ScActionButton addCancelButton(Runnable r)
+    {
+        ScActionButton e;
+        e = addButton("Cancel", r);
         e.applyNegativeFlavor();
         return e;
     }

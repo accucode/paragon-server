@@ -26,6 +26,7 @@ import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmOrderedMap;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.meta.KmMetaAttribute;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.script.ScFilterScript;
@@ -53,13 +54,13 @@ public class ScSimpleModelList<T>
      * The title should be relatively unique, and short enough to fit on a single line.
      * This is required.
      */
-    private KmAdaptorIF<T,String>           _titleAdapter;
+    private KmAdaptorIF<T,String>         _titleAdapter;
 
     /**
      * I am applied to each model to create a subtitle.
      * The subtitle optionally provides extra information.
      */
-    private KmAdaptorIF<T,String>           _subtitleAdapter;
+    private KmAdaptorIF<T,String>         _subtitleAdapter;
 
     /**
      * The list of actions to be displayed.  Each action is displayed
@@ -67,14 +68,14 @@ public class ScSimpleModelList<T>
      * configured with model's key as as the argument, based on the key
      * adapter.  The labels must be unique.
      */
-    private KmOrderedMap<String,ScActionIF> _links;
+    private KmOrderedMap<String,Runnable> _links;
 
     /**
      * If set, this action will be exectuted when the list item is clicked.
      * This allows the entire row to be clickable, not just the individual
      * links.  The value's key is passed as an argument.
      */
-    private ScActionIF                      _itemAction;
+    private ScActionIF                    _itemAction;
 
     //##################################################
     //# init
@@ -163,7 +164,7 @@ public class ScSimpleModelList<T>
     //# links
     //##################################################
 
-    public void addLink(String label, ScActionIF action)
+    public void addLink(String label, Runnable action)
     {
         _links.put(label, action);
     }
@@ -177,9 +178,15 @@ public class ScSimpleModelList<T>
         return _itemAction;
     }
 
+    @Deprecated
     public void setItemAction(ScActionIF e)
     {
         _itemAction = e;
+    }
+
+    public void setItemAction(Runnable e)
+    {
+        _itemAction = ScAction.create(this, e);
     }
 
     //##################################################
@@ -216,7 +223,7 @@ public class ScSimpleModelList<T>
 
         for ( String label : _links.getKeys() )
         {
-            ScActionIF action = _links.get(label);
+            Runnable action = _links.get(label);
             right.addLink(label, action, key);
         }
     }

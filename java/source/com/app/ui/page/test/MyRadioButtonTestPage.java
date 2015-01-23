@@ -2,8 +2,6 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -68,7 +66,7 @@ public class MyRadioButtonTestPage
         root.css().pad();
 
         _form = root.addForm();
-        _form.setSubmitAction(newSubmitAction());
+        _form.setSubmitAction(this::handleSubmit);
 
         ScGroup group;
         group = _form.addGroup("Radio Buttons");
@@ -134,22 +132,6 @@ public class MyRadioButtonTestPage
         cell = _row.addCell();
         cell.css().pad3();
         cell.addSpace();
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private ScActionIF newSubmitAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleSubmit();
-            }
-        };
     }
 
     //##################################################

@@ -2,10 +2,6 @@ package com.app.ui.layout;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionContextIF;
-import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.field.ScDropdownMenu;
 import com.kodemore.servlet.utility.ScUrls;
@@ -40,7 +36,7 @@ public class MyPageHeader
 
     private ScDropdownMenu _userDropdown;
     private ScDropdownMenu _projectDropdown;
-    private ScActionIF     _selectProjectAction;
+    private Runnable       _selectProjectAction;
 
     //##################################################
     //# install
@@ -75,34 +71,8 @@ public class MyPageHeader
     {
         _userDropdown = new ScDropdownMenu();
         _userDropdown.setTitle("User");
-        _userDropdown.addItem("Profile", newEditUserProfileAction());
-        _userDropdown.addItem("Log out", newLogoutAction());
-    }
-
-    private ScActionIF newEditUserProfileAction()
-    {
-        ScActionContextIF context = ScGlobalContext.getInstance();
-        return new ScAction(context)
-        {
-            @Override
-            public void handle()
-            {
-                handleEditUserProfile();
-            }
-        };
-    }
-
-    private ScActionIF newLogoutAction()
-    {
-        ScActionContextIF context = ScGlobalContext.getInstance();
-        return new ScAction(context)
-        {
-            @Override
-            public void handle()
-            {
-                handleLogout();
-            }
-        };
+        _userDropdown.addItem("Profile", this::handleEditUserProfile);
+        _userDropdown.addItem("Log out", this::handleLogout);
     }
 
     private void handleEditUserProfile()
@@ -124,7 +94,7 @@ public class MyPageHeader
 
     private void installProjectDropdown()
     {
-        _selectProjectAction = newSelectProjectAction();
+        _selectProjectAction = this::handleSelectProject;
 
         _projectDropdown = new ScDropdownMenu();
         _projectDropdown.setTitle("Project");
@@ -134,22 +104,9 @@ public class MyPageHeader
     //= install :: select project
     //==================================================
 
-    private ScActionIF getSelectProjectAction()
+    private Runnable getSelectProjectAction()
     {
         return _selectProjectAction;
-    }
-
-    private ScActionIF newSelectProjectAction()
-    {
-        ScActionContextIF context = ScGlobalContext.getInstance();
-        return new ScAction(context)
-        {
-            @Override
-            public void handle()
-            {
-                handleSelectProject();
-            }
-        };
     }
 
     private void handleSelectProject()

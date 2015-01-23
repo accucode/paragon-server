@@ -26,8 +26,6 @@ import java.util.Iterator;
 
 import com.kodemore.collection.KmEmptyIterator;
 import com.kodemore.collection.KmList;
-import com.kodemore.exception.KmApplicationException;
-import com.kodemore.exception.KmSecurityException;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.json.KmJsonUtility;
@@ -36,7 +34,8 @@ import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScModelApplicatorIF;
 import com.kodemore.servlet.ScServletData;
-import com.kodemore.servlet.action.ScActionContextIF;
+import com.kodemore.servlet.action.ScContextIF;
+import com.kodemore.servlet.action.ScContextSupplierIF;
 import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
@@ -55,7 +54,7 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 public abstract class ScControl
-    implements ScControlIF, ScKeyIF, ScModelApplicatorIF, ScActionContextIF
+    implements ScControlIF, ScKeyIF, ScModelApplicatorIF, ScContextSupplierIF
 {
     //##################################################
     //# constants
@@ -228,38 +227,7 @@ public abstract class ScControl
     //##################################################
 
     @Override
-    public void checkSecurity()
-    {
-        getContext().checkSecurity();
-    }
-
-    @Override
-    public boolean checkSecuritySilently()
-    {
-        try
-        {
-            checkSecurity();
-            return true;
-        }
-        catch ( KmSecurityException ex )
-        {
-            return false;
-        }
-    }
-
-    @Override
-    public void handleError(KmApplicationException ex)
-    {
-        getContext().handleError(ex);
-    }
-
-    @Override
-    public void handleFatal(RuntimeException ex)
-    {
-        getContext().handleFatal(ex);
-    }
-
-    public ScActionContextIF getContext()
+    public ScContextIF getContext()
     {
         if ( isRoot() )
             return ScGlobalContext.getInstance();

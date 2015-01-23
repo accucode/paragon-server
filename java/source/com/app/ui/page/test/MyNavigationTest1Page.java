@@ -1,8 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -82,8 +80,8 @@ public class MyNavigationTest1Page
 
         ScBox footer;
         footer = group.getBody().addButtonBox();
-        footer.addButton("Update", newUpdateHistoryAction());
-        footer.addButton("Navigate", newNavigateAction());
+        footer.addButton("Update", this::handleUpdateHistory);
+        footer.addButton("Navigate", this::handleNavigate);
     }
 
     //##################################################
@@ -94,34 +92,6 @@ public class MyNavigationTest1Page
     protected void preRender()
     {
         super.preRender();
-    }
-
-    //##################################################
-    //# action
-    //##################################################
-
-    private ScActionIF newNavigateAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleNavigate();
-            }
-        };
-    }
-
-    private ScActionIF newUpdateHistoryAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                handleUpdateHistory();
-            }
-        };
     }
 
     //##################################################

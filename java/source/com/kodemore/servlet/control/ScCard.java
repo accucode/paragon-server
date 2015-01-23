@@ -22,8 +22,6 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 
 /**
  * I am used in conjuction with the ScCardFrame.
@@ -111,19 +109,4 @@ public class ScCard
         return getFrame().isDefaultCard(this);
     }
 
-    //##################################################
-    //# actions
-    //##################################################
-
-    public ScActionIF newPrintAction()
-    {
-        return new ScAction(this)
-        {
-            @Override
-            public void handle()
-            {
-                ajaxPrint();
-            }
-        };
-    }
 }
