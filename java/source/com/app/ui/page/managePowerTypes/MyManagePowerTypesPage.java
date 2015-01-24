@@ -54,14 +54,14 @@ public class MyManagePowerTypesPage
     protected void installDialogsOn(ScContainer root)
     {
         _addDialog = root.add(new MyAddPowerTypeDialog());
-        _addDialog.addSaveListener(newAddListener());
+        _addDialog.addSaveListener(this::handleAdded);
     }
 
     @Override
     protected void installCardsOn(ScCardFrame frame)
     {
         _viewCard = frame.addCard(new MyViewPowerTypeCard());
-        _viewCard.addSaveListener(newEditListener());
+        _viewCard.addSaveListener(this::handleEdited);
     }
 
     //##################################################

@@ -1,5 +1,7 @@
 package com.app.ui.control;
 
+import java.util.function.Consumer;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScFlexbox;
 
@@ -10,7 +12,7 @@ public abstract class MyRemoveDialog<T>
     //# variables
     //##################################################
 
-    private KmList<MyModelListener<T>> _removeListeners;
+    private KmList<Consumer<T>> _removeListeners;
 
     //##################################################
     //# install
@@ -50,15 +52,15 @@ public abstract class MyRemoveDialog<T>
     //# save listener
     //##################################################
 
-    public void addRemoveListener(MyModelListener<T> e)
+    public void addRemoveListener(Consumer<T> e)
     {
         _removeListeners.add(e);
     }
 
     private void fireRemoveListeners(T e)
     {
-        for ( MyModelListener<T> ve : _removeListeners )
-            ve.run(e);
+        for ( Consumer<T> ve : _removeListeners )
+            ve.accept(e);
     }
 
     //##################################################

@@ -1,5 +1,7 @@
 package com.app.ui.page.manageProjects;
 
+import java.util.function.Consumer;
+
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -7,7 +9,6 @@ import com.kodemore.servlet.control.ScFieldLayout;
 import com.app.model.MyProject;
 import com.app.model.meta.MyMetaProject;
 import com.app.ui.control.MyCard;
-import com.app.ui.control.MyModelListener;
 import com.app.ui.page.support.MyTitleSection;
 
 public class MyViewProjectCard
@@ -65,23 +66,7 @@ public class MyViewProjectCard
     {
         _editDialog = new MyEditProjectDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(newSaveListener());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private MyModelListener<MyProject> newSaveListener()
-    {
-        return new MyModelListener<MyProject>()
-        {
-            @Override
-            protected void handle(MyProject e)
-            {
-                handleSaved(e);
-            }
-        };
+        _editDialog.addSaveListener(this::handleSaved);
     }
 
     //##################################################
@@ -93,7 +78,7 @@ public class MyViewProjectCard
         return _editDialog;
     }
 
-    public void addSaveListener(MyModelListener<MyProject> e)
+    public void addSaveListener(Consumer<MyProject> e)
     {
         getEditDialog().addSaveListener(e);
     }

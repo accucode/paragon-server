@@ -1,5 +1,7 @@
 package com.app.ui.control;
 
+import java.util.function.Consumer;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScFlexbox;
 
@@ -10,7 +12,7 @@ public abstract class MyEditDialog<T>
     //# variables
     //##################################################
 
-    private KmList<MyModelListener<T>> _saveListeners;
+    private KmList<Consumer<T>> _saveListeners;
 
     //##################################################
     //# install
@@ -51,15 +53,15 @@ public abstract class MyEditDialog<T>
     //# save listener
     //##################################################
 
-    public void addSaveListener(MyModelListener<T> e)
+    public void addSaveListener(Consumer<T> e)
     {
         _saveListeners.add(e);
     }
 
-    private void fireSaveListeners(T e)
+    private void fireSaveListeners(T model)
     {
-        for ( MyModelListener<T> ve : _saveListeners )
-            ve.run(e);
+        for ( Consumer<T> e : _saveListeners )
+            e.accept(model);
     }
 
     //##################################################

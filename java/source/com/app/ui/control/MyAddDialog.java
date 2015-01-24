@@ -1,5 +1,7 @@
 package com.app.ui.control;
 
+import java.util.function.Consumer;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScActionButton;
@@ -13,10 +15,10 @@ public abstract class MyAddDialog<T>
     //# variables
     //##################################################
 
-    private KmList<MyModelListener<T>> _saveListeners;
+    private KmList<Consumer<T>> _saveListeners;
 
-    private ScSubmitButton             _saveButton;
-    private ScActionButton             _cancelButton;
+    private ScSubmitButton      _saveButton;
+    private ScActionButton      _cancelButton;
 
     //##################################################
     //# install
@@ -59,15 +61,15 @@ public abstract class MyAddDialog<T>
     //# save listener
     //##################################################
 
-    public void addSaveListener(MyModelListener<T> e)
+    public void addSaveListener(Consumer<T> e)
     {
         _saveListeners.add(e);
     }
 
     private void fireSaveListeners(T e)
     {
-        for ( MyModelListener<T> ve : _saveListeners )
-            ve.run(e);
+        for ( Consumer<T> ve : _saveListeners )
+            ve.accept(e);
     }
 
     //##################################################

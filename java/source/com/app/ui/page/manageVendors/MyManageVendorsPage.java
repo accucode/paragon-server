@@ -54,14 +54,14 @@ public class MyManageVendorsPage
     protected void installDialogsOn(ScContainer root)
     {
         _addDialog = root.add(new MyAddVendorDialog());
-        _addDialog.addSaveListener(newAddListener());
+        _addDialog.addSaveListener(this::handleAdded);
     }
 
     @Override
     protected void installCardsOn(ScCardFrame frame)
     {
         _viewCard = frame.addCard(new MyViewVendorCard());
-        _viewCard.addSaveListener(newEditListener());
+        _viewCard.addSaveListener(this::handleEdited);
     }
 
     //##################################################

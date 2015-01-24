@@ -1,6 +1,7 @@
 package com.app.ui.page.general;
 
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
@@ -77,11 +78,15 @@ public class MySignOutPage
 
         _titleText = group.setTitle(getDefaultTitle());
 
-        _messageText = group.getBody().addPad().addText(getDefaultMessage());
+        ScDiv body;
+        body = group.getBody();
+        body.css().pad();
 
-        group.getBody().addBreak();
-        group.getBody().addBreak();
-        group.getBody().addPad().addUrlLink("Sign In", MyUrls.getEntryUrl());
+        _messageText = body.addText(getDefaultMessage());
+
+        body.addBreak();
+        body.addBreak();
+        body.addUrlLink("Sign In", MyUrls.getEntryUrl());
     }
 
     //##################################################
@@ -109,7 +114,6 @@ public class MySignOutPage
 
     private String getDefaultMessage()
     {
-        return Kmu
-            .format("You have successfully signed out of %s.", MyConstantsIF.APPLICATION_NAME);
+        return Kmu.format("You have successfully signed out of %s.", MyConstantsIF.APPLICATION_NAME);
     }
 }

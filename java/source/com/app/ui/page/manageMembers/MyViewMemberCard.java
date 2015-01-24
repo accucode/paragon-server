@@ -1,5 +1,7 @@
 package com.app.ui.page.manageMembers;
 
+import java.util.function.Consumer;
+
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -7,7 +9,6 @@ import com.kodemore.servlet.control.ScFieldLayout;
 import com.app.model.MyMember;
 import com.app.model.meta.MyMetaMember;
 import com.app.ui.control.MyCard;
-import com.app.ui.control.MyModelListener;
 import com.app.ui.page.support.MyTitleSection;
 
 public class MyViewMemberCard
@@ -75,54 +76,26 @@ public class MyViewMemberCard
     {
         _editDialog = new MyEditMemberDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(newSaveListener());
+        _editDialog.addSaveListener(this::handleSaved);
     }
 
     private void installRemoveDialog()
     {
         _removeDialog = new MyRemoveMemberDialog();
         _removeDialog.setParent(this);
-        _removeDialog.addRemoveListener(newRemoveListener());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private MyModelListener<MyMember> newSaveListener()
-    {
-        return new MyModelListener<MyMember>()
-        {
-            @Override
-            protected void handle(MyMember e)
-            {
-                handleSaved(e);
-            }
-        };
-    }
-
-    private MyModelListener<MyMember> newRemoveListener()
-    {
-        return new MyModelListener<MyMember>()
-        {
-            @Override
-            protected void handle(MyMember e)
-            {
-                handleRemoved(e);
-            }
-        };
+        _removeDialog.addRemoveListener(this::handleRemoved);
     }
 
     //##################################################
     //# accessing
     //##################################################
 
-    public void addSaveListener(MyModelListener<MyMember> e)
+    public void addSaveListener(Consumer<MyMember> e)
     {
         _editDialog.addSaveListener(e);
     }
 
-    public void addRemoveListener(MyModelListener<MyMember> e)
+    public void addRemoveListener(Consumer<MyMember> e)
     {
         _removeDialog.addRemoveListener(e);
     }

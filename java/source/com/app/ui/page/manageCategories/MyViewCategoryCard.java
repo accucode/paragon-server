@@ -1,5 +1,7 @@
 package com.app.ui.page.manageCategories;
 
+import java.util.function.Consumer;
+
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -7,7 +9,6 @@ import com.kodemore.servlet.control.ScFieldLayout;
 import com.app.model.MyCategory;
 import com.app.model.meta.MyMetaCategory;
 import com.app.ui.control.MyCard;
-import com.app.ui.control.MyModelListener;
 import com.app.ui.page.support.MyTitleSection;
 
 public class MyViewCategoryCard
@@ -65,24 +66,7 @@ public class MyViewCategoryCard
     {
         _editDialog = new MyEditCategoryDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(newSaveListener());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    // todo_wyatt: review
-    private MyModelListener<MyCategory> newSaveListener()
-    {
-        return new MyModelListener<MyCategory>()
-        {
-            @Override
-            protected void handle(MyCategory e)
-            {
-                handleSaved(e);
-            }
-        };
+        _editDialog.addSaveListener(this::handleSaved);
     }
 
     //##################################################
@@ -94,7 +78,7 @@ public class MyViewCategoryCard
         return _editDialog;
     }
 
-    public void addSaveListener(MyModelListener<MyCategory> e)
+    public void addSaveListener(Consumer<MyCategory> e)
     {
         getEditDialog().addSaveListener(e);
     }

@@ -20,7 +20,6 @@ import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.servlet.variable.ScLocalString;
 
 import com.app.model.core.MyAbstractDomain;
-import com.app.ui.control.MyModelListener;
 import com.app.ui.page.MyAbstractEntryPage;
 import com.app.utility.MyButtonUrls;
 
@@ -470,43 +469,22 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
     //# listeners
     //##################################################
 
-    protected MyModelListener<T> newAddListener()
+    protected void handleAdded(T e)
     {
-        return new MyModelListener<T>()
-        {
-            @Override
-            protected void handle(T e)
-            {
-                ajaxAddDomain(e);
-                ajaxSelectDomain(e);
-            }
-        };
+        ajaxAddDomain(e);
+        ajaxSelectDomain(e);
     }
 
-    protected MyModelListener<T> newEditListener()
+    protected void handleEdited(T e)
     {
-        return new MyModelListener<T>()
-        {
-            @Override
-            protected void handle(T e)
-            {
-                ajaxRefreshDomain(e);
-                ajaxSelectDomain(e);
-            }
-        };
+        ajaxRefreshDomain(e);
+        ajaxSelectDomain(e);
     }
 
-    protected MyModelListener<T> newRemoveListener()
+    protected void handleRemoved(T e)
     {
-        return new MyModelListener<T>()
-        {
-            @Override
-            protected void handle(T e)
-            {
-                ajaxClearDomain();
-                _list.ajaxRemoveValue(e);
-            }
-        };
+        ajaxClearDomain();
+        _list.ajaxRemoveValue(e);
     }
 
 }

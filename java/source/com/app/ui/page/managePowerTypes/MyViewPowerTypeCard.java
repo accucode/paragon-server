@@ -1,5 +1,7 @@
 package com.app.ui.page.managePowerTypes;
 
+import java.util.function.Consumer;
+
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -7,7 +9,6 @@ import com.kodemore.servlet.control.ScFieldLayout;
 import com.app.model.MyPowerType;
 import com.app.model.meta.MyMetaPowerType;
 import com.app.ui.control.MyCard;
-import com.app.ui.control.MyModelListener;
 import com.app.ui.page.support.MyTitleSection;
 
 public class MyViewPowerTypeCard
@@ -65,23 +66,7 @@ public class MyViewPowerTypeCard
     {
         _editDialog = new MyEditPowerTypeDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(newSaveListener());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private MyModelListener<MyPowerType> newSaveListener()
-    {
-        return new MyModelListener<MyPowerType>()
-        {
-            @Override
-            protected void handle(MyPowerType e)
-            {
-                handleSaved(e);
-            }
-        };
+        _editDialog.addSaveListener(this::handleSaved);
     }
 
     //##################################################
@@ -93,7 +78,7 @@ public class MyViewPowerTypeCard
         return _editDialog;
     }
 
-    public void addSaveListener(MyModelListener<MyPowerType> e)
+    public void addSaveListener(Consumer<MyPowerType> e)
     {
         getEditDialog().addSaveListener(e);
     }

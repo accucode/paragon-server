@@ -1,5 +1,7 @@
 package com.app.ui.page.manageVisitTypes;
 
+import java.util.function.Consumer;
+
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -7,7 +9,6 @@ import com.kodemore.servlet.control.ScFieldLayout;
 import com.app.model.MyVisitType;
 import com.app.model.meta.MyMetaVisitType;
 import com.app.ui.control.MyCard;
-import com.app.ui.control.MyModelListener;
 import com.app.ui.page.support.MyTitleSection;
 
 public class MyViewVisitTypeCard
@@ -65,23 +66,7 @@ public class MyViewVisitTypeCard
     {
         _editDialog = new MyEditVisitTypeDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(newSaveListener());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private MyModelListener<MyVisitType> newSaveListener()
-    {
-        return new MyModelListener<MyVisitType>()
-        {
-            @Override
-            protected void handle(MyVisitType e)
-            {
-                handleSaved(e);
-            }
-        };
+        _editDialog.addSaveListener(this::handleSaved);
     }
 
     //##################################################
@@ -93,7 +78,7 @@ public class MyViewVisitTypeCard
         return _editDialog;
     }
 
-    public void addSaveListener(MyModelListener<MyVisitType> e)
+    public void addSaveListener(Consumer<MyVisitType> e)
     {
         getEditDialog().addSaveListener(e);
     }

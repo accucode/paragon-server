@@ -1,5 +1,7 @@
 package com.app.ui.page.manageDepots;
 
+import java.util.function.Consumer;
+
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -7,7 +9,6 @@ import com.kodemore.servlet.control.ScFieldLayout;
 import com.app.model.MyDepot;
 import com.app.model.meta.MyMetaDepot;
 import com.app.ui.control.MyCard;
-import com.app.ui.control.MyModelListener;
 import com.app.ui.page.support.MyTitleSection;
 
 public class MyViewDepotCard
@@ -65,23 +66,7 @@ public class MyViewDepotCard
     {
         _editDialog = new MyEditDepotDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(newSaveListener());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private MyModelListener<MyDepot> newSaveListener()
-    {
-        return new MyModelListener<MyDepot>()
-        {
-            @Override
-            protected void handle(MyDepot e)
-            {
-                handleSaved(e);
-            }
-        };
+        _editDialog.addSaveListener(this::handleSaved);
     }
 
     //##################################################
@@ -93,7 +78,7 @@ public class MyViewDepotCard
         return _editDialog;
     }
 
-    public void addSaveListener(MyModelListener<MyDepot> e)
+    public void addSaveListener(Consumer<MyDepot> e)
     {
         getEditDialog().addSaveListener(e);
     }

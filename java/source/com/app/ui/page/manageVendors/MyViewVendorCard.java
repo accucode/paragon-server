@@ -1,5 +1,7 @@
 package com.app.ui.page.manageVendors;
 
+import java.util.function.Consumer;
+
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -7,7 +9,6 @@ import com.kodemore.servlet.control.ScFieldLayout;
 import com.app.model.MyVendor;
 import com.app.model.meta.MyMetaVendor;
 import com.app.ui.control.MyCard;
-import com.app.ui.control.MyModelListener;
 import com.app.ui.page.support.MyTitleSection;
 
 public class MyViewVendorCard
@@ -65,23 +66,7 @@ public class MyViewVendorCard
     {
         _editDialog = new MyEditVendorDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(newSaveListener());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private MyModelListener<MyVendor> newSaveListener()
-    {
-        return new MyModelListener<MyVendor>()
-        {
-            @Override
-            protected void handle(MyVendor e)
-            {
-                handleSaved(e);
-            }
-        };
+        _editDialog.addSaveListener(this::handleSaved);
     }
 
     //##################################################
@@ -93,7 +78,7 @@ public class MyViewVendorCard
         return _editDialog;
     }
 
-    public void addSaveListener(MyModelListener<MyVendor> e)
+    public void addSaveListener(Consumer<MyVendor> e)
     {
         getEditDialog().addSaveListener(e);
     }

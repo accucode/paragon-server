@@ -1,5 +1,7 @@
 package com.app.ui.page.manageUsers;
 
+import java.util.function.Consumer;
+
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -7,7 +9,6 @@ import com.kodemore.servlet.control.ScFieldLayout;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
 import com.app.ui.control.MyCard;
-import com.app.ui.control.MyModelListener;
 import com.app.ui.page.support.MyTitleSection;
 
 public class MyViewUserCard
@@ -67,23 +68,7 @@ public class MyViewUserCard
     {
         _editDialog = new MyEditUserDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(newSaveListener());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private MyModelListener<MyUser> newSaveListener()
-    {
-        return new MyModelListener<MyUser>()
-        {
-            @Override
-            protected void handle(MyUser e)
-            {
-                handleSaved(e);
-            }
-        };
+        _editDialog.addSaveListener(this::handleSaved);
     }
 
     //##################################################
@@ -95,7 +80,7 @@ public class MyViewUserCard
         return _editDialog;
     }
 
-    public void addSaveListener(MyModelListener<MyUser> e)
+    public void addSaveListener(Consumer<MyUser> e)
     {
         getEditDialog().addSaveListener(e);
     }

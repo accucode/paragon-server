@@ -1,5 +1,7 @@
 package com.app.ui.page.manageShipCarriers;
 
+import java.util.function.Consumer;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScContainer;
@@ -13,7 +15,6 @@ import com.app.model.MyShipCarrier;
 import com.app.model.MyShipMethod;
 import com.app.model.meta.MyMetaShipCarrier;
 import com.app.ui.control.MyCard;
-import com.app.ui.control.MyModelListener;
 import com.app.ui.page.support.MyTitleSection;
 
 public class MyViewShipCarrierCard
@@ -107,23 +108,7 @@ public class MyViewShipCarrierCard
     {
         _editDialog = new MyEditShipCarrierDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(newSaveListener());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private MyModelListener<MyShipCarrier> newSaveListener()
-    {
-        return new MyModelListener<MyShipCarrier>()
-        {
-            @Override
-            protected void handle(MyShipCarrier e)
-            {
-                handleSaved(e);
-            }
-        };
+        _editDialog.addSaveListener(this::handleSaved);
     }
 
     //##################################################
@@ -135,7 +120,7 @@ public class MyViewShipCarrierCard
         return _editDialog;
     }
 
-    public void addSaveListener(MyModelListener<MyShipCarrier> e)
+    public void addSaveListener(Consumer<MyShipCarrier> e)
     {
         getEditDialog().addSaveListener(e);
     }

@@ -1,5 +1,7 @@
 package com.app.ui.page.manageProducts;
 
+import java.util.function.Consumer;
+
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -7,7 +9,6 @@ import com.kodemore.servlet.control.ScFieldLayout;
 import com.app.model.MyProduct;
 import com.app.model.meta.MyMetaProduct;
 import com.app.ui.control.MyCard;
-import com.app.ui.control.MyModelListener;
 import com.app.ui.page.support.MyTitleSection;
 
 public class MyViewProductCard
@@ -66,23 +67,7 @@ public class MyViewProductCard
     {
         _editDialog = new MyEditProductDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(newSaveListener());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private MyModelListener<MyProduct> newSaveListener()
-    {
-        return new MyModelListener<MyProduct>()
-        {
-            @Override
-            protected void handle(MyProduct e)
-            {
-                handleSaved(e);
-            }
-        };
+        _editDialog.addSaveListener(this::handleSaved);
     }
 
     //##################################################
@@ -94,7 +79,7 @@ public class MyViewProductCard
         return _editDialog;
     }
 
-    public void addSaveListener(MyModelListener<MyProduct> e)
+    public void addSaveListener(Consumer<MyProduct> e)
     {
         getEditDialog().addSaveListener(e);
     }

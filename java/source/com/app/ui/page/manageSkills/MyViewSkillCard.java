@@ -1,5 +1,7 @@
 package com.app.ui.page.manageSkills;
 
+import java.util.function.Consumer;
+
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -7,7 +9,6 @@ import com.kodemore.servlet.control.ScFieldLayout;
 import com.app.model.MySkill;
 import com.app.model.meta.MyMetaSkill;
 import com.app.ui.control.MyCard;
-import com.app.ui.control.MyModelListener;
 import com.app.ui.page.support.MyTitleSection;
 
 public class MyViewSkillCard
@@ -65,23 +66,7 @@ public class MyViewSkillCard
     {
         _editDialog = new MyEditSkillDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(newSaveListener());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private MyModelListener<MySkill> newSaveListener()
-    {
-        return new MyModelListener<MySkill>()
-        {
-            @Override
-            protected void handle(MySkill e)
-            {
-                handleSaved(e);
-            }
-        };
+        _editDialog.addSaveListener(this::handleSaved);
     }
 
     //##################################################
@@ -93,7 +78,7 @@ public class MyViewSkillCard
         return _editDialog;
     }
 
-    public void addSaveListener(MyModelListener<MySkill> e)
+    public void addSaveListener(Consumer<MySkill> e)
     {
         getEditDialog().addSaveListener(e);
     }

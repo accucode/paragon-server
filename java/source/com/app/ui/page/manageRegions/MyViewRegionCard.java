@@ -1,5 +1,7 @@
 package com.app.ui.page.manageRegions;
 
+import java.util.function.Consumer;
+
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
@@ -7,7 +9,6 @@ import com.kodemore.servlet.control.ScFieldLayout;
 import com.app.model.MyRegion;
 import com.app.model.meta.MyMetaRegion;
 import com.app.ui.control.MyCard;
-import com.app.ui.control.MyModelListener;
 import com.app.ui.page.support.MyTitleSection;
 
 public class MyViewRegionCard
@@ -65,23 +66,7 @@ public class MyViewRegionCard
     {
         _editDialog = new MyEditRegionDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(newSaveListener());
-    }
-
-    //##################################################
-    //# actions
-    //##################################################
-
-    private MyModelListener<MyRegion> newSaveListener()
-    {
-        return new MyModelListener<MyRegion>()
-        {
-            @Override
-            protected void handle(MyRegion e)
-            {
-                handleSaved(e);
-            }
-        };
+        _editDialog.addSaveListener(this::handleSaved);
     }
 
     //##################################################
@@ -93,7 +78,7 @@ public class MyViewRegionCard
         return _editDialog;
     }
 
-    public void addSaveListener(MyModelListener<MyRegion> e)
+    public void addSaveListener(Consumer<MyRegion> e)
     {
         getEditDialog().addSaveListener(e);
     }

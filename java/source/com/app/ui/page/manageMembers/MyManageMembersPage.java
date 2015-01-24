@@ -54,15 +54,15 @@ public class MyManageMembersPage
     protected void installDialogsOn(ScContainer root)
     {
         _addDialog = root.add(new MyAddMemberDialog());
-        _addDialog.addSaveListener(newAddListener());
+        _addDialog.addSaveListener(this::handleAdded);
     }
 
     @Override
     protected void installCardsOn(ScCardFrame frame)
     {
         _viewCard = frame.addCard(new MyViewMemberCard());
-        _viewCard.addSaveListener(newEditListener());
-        _viewCard.addRemoveListener(newRemoveListener());
+        _viewCard.addSaveListener(this::handleEdited);
+        _viewCard.addRemoveListener(this::handleRemoved);
     }
 
     //##################################################
