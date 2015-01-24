@@ -34,7 +34,7 @@ public class JkEmailBulkLoad
                     email.addToRecipient("nobody@nowhere.com");
                     email.setFromAddress("nobody@here.com");
                     email.addTextPart("message");
-                    email.saveDao();
+                    email.attachDao();
 
                     System.out.println(i);
                 }

@@ -110,7 +110,7 @@ public class MySignInUtility
         MyAutoSignIn auto;
         auto = new MyAutoSignIn();
         auto.setUser(user);
-        auto.saveDao();
+        auto.attachDao();
 
         signIn(auto);
         return true;

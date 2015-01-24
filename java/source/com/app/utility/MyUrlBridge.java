@@ -130,7 +130,7 @@ public class MyUrlBridge
         d = new MyDownload();
         d.setName(name);
         d.setUser(user);
-        d.saveDao();
+        d.attachDao();
 
         d.getFile().write(value);
 

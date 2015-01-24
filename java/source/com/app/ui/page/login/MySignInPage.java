@@ -282,7 +282,7 @@ public class MySignInPage
             MyAutoSignIn auto;
             auto = new MyAutoSignIn();
             auto.setUser(user);
-            auto.saveDao();
+            auto.attachDao();
 
             MySignInUtility.signIn(auto);
         }

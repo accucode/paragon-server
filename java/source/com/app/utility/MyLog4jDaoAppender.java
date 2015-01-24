@@ -114,6 +114,6 @@ public class MyLog4jDaoAppender
             }
         }
 
-        e.saveDao();
+        e.attachDao();
     }
 }

@@ -51,7 +51,7 @@ public class MyUserDao
         u.setEmail(email);
         u.setRandomPassword();
         u.setVerified(true);
-        u.saveDao();
+        u.attachDao();
         return u;
     }
 

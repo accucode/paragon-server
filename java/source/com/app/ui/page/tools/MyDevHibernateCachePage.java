@@ -126,7 +126,7 @@ public class MyDevHibernateCachePage
             MyHibernateCacheTest e;
             e = new MyHibernateCacheTest();
             e.setData(Kmu.getLoremIpsum(100));
-            e.saveDao();
+            e.attachDao();
         }
         _results.ajax().setHtml(n + " inserted into database");
     }

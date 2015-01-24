@@ -63,7 +63,7 @@ public class MyAddUserDialog
         e = new MyUser();
         e.applyFrom(this);
         validateEmail(e);
-        e.saveDao();
+        e.attachDao();
 
         flushDao();
 

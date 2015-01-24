@@ -154,17 +154,35 @@ public abstract class MyAbstractDomain
         return MyDaoRegistry.getInstance();
     }
 
-    public void saveDao()
+    public void attachDao()
     {
-        saveDao(true);
+        attachDao(true);
     }
 
-    public void saveDao(boolean validate)
+    public void attachDao(boolean validate)
     {
         if ( validate )
             validate();
 
         getDaoSession().save(this);
+    }
+
+    /**
+     * Use attachDao instead.
+     */
+    @Deprecated
+    public void saveDao()
+    {
+        attachDao();
+    }
+
+    /**
+     * Use attachDao instead.
+     */
+    @Deprecated
+    public void saveDao(boolean validate)
+    {
+        attachDao(validate);
     }
 
     public void deleteDao()

@@ -170,7 +170,7 @@ public class MyGridTestPage
             e.setVerified(true);
             e.setEmail("email-" + suffix);
             e.setName("name-" + suffix);
-            e.saveDao();
+            e.attachDao();
         }
 
         ajax().toast("Added %s user(s).", n);

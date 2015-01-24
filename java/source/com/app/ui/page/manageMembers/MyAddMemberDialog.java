@@ -210,7 +210,7 @@ public class MyAddMemberDialog
         MyMember e;
         e = getCurrentProject().addMember();
         e.applyFrom(this);
-        e.saveDao();
+        e.attachDao();
 
         flushDao();
 
@@ -231,7 +231,7 @@ public class MyAddMemberDialog
             user.setEmail(email);
             user.setName(name);
             user.setRoleOther();
-            user.saveDao();
+            user.attachDao();
         }
 
         MyProject project = getCurrentProject();
@@ -315,60 +315,5 @@ public class MyAddMemberDialog
         e.setValue(MyMemberRole.Worker);
         return e;
     }
-
-    //    //##################################################
-    //    //# install
-    //    //##################################################
-    //
-    //    @Override
-    //    protected void install()
-    //    {
-    //        super.install();
-    //
-    //        setLabel("ADD Member");
-    //        setWidth(400);
-    //        installFields();
-    //    }
-    //
-    //    private void installFields()
-    //    {
-    //        MyMetaMember x = MyMember.Meta;
-    //
-    //        ScDiv body;
-    //        body = getBody();
-    //        body.css().pad();
-    //
-    //        ScFieldLayout fields;
-    //        fields = body.addFieldLayout();
-    //        fields.addField(x.UserName);
-    //    }
-    //
-    //    //##################################################
-    //    //# prepare
-    //    //##################################################
-    //
-    //    @Override
-    //    protected void prepare()
-    //    {
-    //        // none
-    //    }
-    //
-    //    //##################################################
-    //    //# save
-    //    //##################################################
-    //
-    //    @Override
-    //    protected MyMember save()
-    //    {
-    //        validate();
-    //
-    //        MyMember e;
-    //        e = getCurrentProject().addMember();
-    //        e.applyFrom(this);
-    //
-    //        flushDao();
-    //
-    //        return e;
-    //    }
 
 }

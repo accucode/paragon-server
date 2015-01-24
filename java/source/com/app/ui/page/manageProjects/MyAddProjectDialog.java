@@ -59,7 +59,7 @@ public class MyAddProjectDialog
         MyProject e;
         e = new MyProject();
         e.applyFrom(this);
-        e.saveDao();
+        e.attachDao();
 
         flushDao();
 

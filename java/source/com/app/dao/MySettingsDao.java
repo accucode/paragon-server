@@ -32,6 +32,6 @@ public class MySettingsDao
         MySettings e;
         e = new MySettings();
         e.setCode(UNIQUE_CODE);
-        e.saveDao();
+        e.attachDao();
     }
 }

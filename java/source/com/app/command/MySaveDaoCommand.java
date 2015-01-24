@@ -46,7 +46,7 @@ public class MySaveDaoCommand<T extends MyAbstractDomain>
         T e;
         e = getValue();
         e.validate();
-        e.saveDao();
+        e.attachDao();
     }
 
 }

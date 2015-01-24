@@ -30,7 +30,7 @@ public class MyServerSessionManager
         MyServerSession ss;
         ss = new MyServerSession();
         ss.setVersion(MyConstantsIF.APPLICATION_VERSION);
-        ss.saveDao();
+        ss.attachDao();
 
         setCookieUid(ss.getUid());
     }

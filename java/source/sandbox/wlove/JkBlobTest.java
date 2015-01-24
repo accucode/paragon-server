@@ -43,7 +43,7 @@ public class JkBlobTest
                 email.setSubject("subject");
                 email.addTextPart(msg);
                 email.markReady();
-                email.saveDao();
+                email.attachDao();
 
                 return email.getUid();
             }

@@ -57,7 +57,7 @@ public class MyPerformanceLogJob
             protected void handle()
             {
                 for ( MyPerformanceLog e : v )
-                    e.saveDao();
+                    e.attachDao();
             }
         };
     }

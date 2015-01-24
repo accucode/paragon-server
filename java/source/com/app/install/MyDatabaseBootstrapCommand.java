@@ -58,7 +58,7 @@ public class MyDatabaseBootstrapCommand
             p = new MyPatch();
             p.setName(e.getName());
             p.setSource(e.getSource());
-            p.saveDao();
+            p.attachDao();
         }
     }
 
@@ -103,7 +103,7 @@ public class MyDatabaseBootstrapCommand
         MyProject e;
         e = new MyProject();
         e.setName(name);
-        e.saveDao();
+        e.attachDao();
 
         installFakeDepotsOn(e);
         installFakePowerTypesOn(e);

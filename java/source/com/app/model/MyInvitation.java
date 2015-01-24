@@ -65,7 +65,7 @@ public class MyInvitation
         e.setSubject(formatSubject());
         e.addHtmlPart(formatHtmlMessage());
         e.setStatusReady();
-        e.saveDao();
+        e.attachDao();
     }
 
     //##################################################

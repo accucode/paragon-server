@@ -129,7 +129,7 @@ public class MyRequestPasswordResetDialog
         MyPasswordReset e;
         e = new MyPasswordReset();
         e.setUser(user);
-        e.saveDao();
+        e.attachDao();
         return e;
     }
 
@@ -165,7 +165,7 @@ public class MyRequestPasswordResetDialog
         e.setSubject(subject);
         e.addHtmlPart(msg.toString());
         e.markReady();
-        e.saveDao();
+        e.attachDao();
     }
 
     private void showSentMessage(MyPasswordReset pr)
