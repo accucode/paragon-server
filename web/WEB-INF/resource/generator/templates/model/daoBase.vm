@@ -6,6 +6,7 @@ import com.kodemore.collection.*;
 import com.kodemore.dao.*;
 import com.kodemore.hibernate.*;
 import com.kodemore.hibernate.criteria.*;
+import com.kodemore.utility.*;
 
 import ${package}.criteria.*;
 import ${package}.dao.core.*;

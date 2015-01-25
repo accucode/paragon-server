@@ -13,6 +13,7 @@ import com.kodemore.collection.*;
 import com.kodemore.dao.*;
 import com.kodemore.hibernate.*;
 import com.kodemore.hibernate.criteria.*;
+import com.kodemore.utility.*;
 
 import com.app.criteria.*;
 import com.app.dao.core.*;
