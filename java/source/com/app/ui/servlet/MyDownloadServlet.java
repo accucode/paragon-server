@@ -17,8 +17,8 @@ import com.app.utility.MyGlobals;
  * have been previously stored; this servlet should do nothing
  * more than verify the user, and download the preexisting file
  * as an http attachment.
- * 
- * POSTs are recommended, but GETs are also allowed. 
+ *
+ * POSTs are recommended, but GETs are also allowed.
  */
 public class MyDownloadServlet
     extends MyServlet

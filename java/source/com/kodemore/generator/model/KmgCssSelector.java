@@ -58,7 +58,7 @@ public class KmgCssSelector
      * Composites are identified by the use of one or two
      * dashes in the name.  The format is:
      *      prefix-part-flavor
-     *      
+     *
      * The flavor is optional.
      */
     private KmList<String> getCompositeElements()

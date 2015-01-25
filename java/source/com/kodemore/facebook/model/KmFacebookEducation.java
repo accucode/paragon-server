@@ -23,7 +23,7 @@ public class KmFacebookEducation
     private static final String      CLASSES_KEY      = "classes";
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private KmFacebookIdName         _school;

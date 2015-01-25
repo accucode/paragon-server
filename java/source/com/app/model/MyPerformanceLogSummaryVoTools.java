@@ -12,8 +12,7 @@ public class MyPerformanceLogSummaryVoTools
     //# singleton
     //##################################################
 
-    public static final MyPerformanceLogSummaryVoTools instance =
-                                                                    new MyPerformanceLogSummaryVoTools();
+    public static final MyPerformanceLogSummaryVoTools instance = new MyPerformanceLogSummaryVoTools();
 
     //##################################################
     //# constructor

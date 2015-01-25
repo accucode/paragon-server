@@ -26,7 +26,6 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScBlockScript;
@@ -46,7 +45,7 @@ public class ScForm
     /**
      * The action to run when users press the enter key in a field.
      */
-    private ScAction     _submitAction;
+    private ScAction       _submitAction;
 
     /**
      * The argument passed with the submit action.

@@ -65,7 +65,7 @@ public class ScAppendContentsScript
 
     /**
      * The speed of the transition.  Ignored if the transition
-     * does not support it.  
+     * does not support it.
      */
     private Integer      _speed;
 

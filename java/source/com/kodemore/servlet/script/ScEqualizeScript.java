@@ -51,7 +51,7 @@ public class ScEqualizeScript
     private Mode    _mode;
 
     /**
-     * The min/max values for height and width.  The 
+     * The min/max values for height and width.  The
      * equalized elements will always fall between these values
      * if they are defined.
      */

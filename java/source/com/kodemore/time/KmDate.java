@@ -80,10 +80,13 @@ public class KmDate
         int daysSince1970 = (int)(ms / MS_PER_DAY);
         int x = DAYS_DIFF_1800_1970 + daysSince1970;
         KmDate e = new KmDate(x);
-        int padMs =
-            UTC_TIME_ZONE.getOffset(1, e.getYear(), e.getMonth() - 1, e.getDay(), e
-                .getWeekDay()
-                .getJdkIndex(), 0);
+        int padMs = UTC_TIME_ZONE.getOffset(
+            1,
+            e.getYear(),
+            e.getMonth() - 1,
+            e.getDay(),
+            e.getWeekDay().getJdkIndex(),
+            0);
         int excessMillis = (int)(ms % MS_PER_DAY);
         if ( excessMillis + padMs < 0 )
             return new KmDate(x - 1);
@@ -108,14 +111,13 @@ public class KmDate
         int daysSince1970 = (int)(msSince1970 / MS_PER_DAY);
         int x = DAYS_DIFF_1800_1970 + daysSince1970;
         KmDate e = new KmDate(x);
-        int padMs =
-            TimeZone.getDefault().getOffset(
-                1,
-                e.getYear(),
-                e.getMonth() - 1,
-                e.getDay(),
-                e.getWeekDay().getJdkIndex(),
-                0);
+        int padMs = TimeZone.getDefault().getOffset(
+            1,
+            e.getYear(),
+            e.getMonth() - 1,
+            e.getDay(),
+            e.getWeekDay().getJdkIndex(),
+            0);
         int excessMillis = (int)(msSince1970 % MS_PER_DAY);
         if ( excessMillis + padMs < 0 )
             return new KmDate(x - 1);
@@ -141,10 +143,10 @@ public class KmDate
 
     /**
      * The ordinal is what fundamentally defines the date.
-     * An ordinal value of zero means Jan 1, 1800, 
+     * An ordinal value of zero means Jan 1, 1800,
      * An ordinal value of one means Jan 2, 1800, etc...
-     * 
-     * Changing the meaning of ordinal will break the contract 
+     *
+     * Changing the meaning of ordinal will break the contract
      * for weekDays.  However, if necessary, this is easy to
      * fix, see KmWeekDay.DATE_ORDINAL_ADJUSTMENT.
      */
@@ -526,7 +528,7 @@ public class KmDate
 
     /**
      * Return the closest date matching the requested week day.
-     * Optionally include myself in the search. 
+     * Optionally include myself in the search.
      */
     public KmDate getPreviousDayOfWeek(KmWeekDay day, boolean includeToday)
     {
@@ -849,7 +851,7 @@ public class KmDate
 
     /**
      * Return the duration from myself until the specified ts.
-     * 
+     *
      * Durations may be positive or negative:
      *      today.getDurationUntil(tomorrow)  ==  1 day.
      *      today.getDurationUntil(yesterday) == -1 day.

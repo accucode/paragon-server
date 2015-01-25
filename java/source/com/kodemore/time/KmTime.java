@@ -333,7 +333,7 @@ public class KmTime
 
     /**
      * Return the duration from myself until the specified time.
-     * 
+     *
      * The result will be positive if t is after myself, and
      * negative if t is before myself.
      */

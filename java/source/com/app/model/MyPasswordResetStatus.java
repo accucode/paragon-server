@@ -8,10 +8,11 @@
 
 package com.app.model;
 
-import java.util.*;
+import java.util.EnumSet;
 
-import com.kodemore.collection.*;
-import com.kodemore.utility.*;
+import com.kodemore.collection.KmList;
+import com.kodemore.collection.KmMap;
+import com.kodemore.utility.KmCodedEnumIF;
 
 public enum MyPasswordResetStatus
     implements KmCodedEnumIF

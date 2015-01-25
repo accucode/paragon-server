@@ -222,8 +222,9 @@ public class KmAuthnetPost
         }
         catch ( UnknownHostException ex )
         {
-            String s =
-                Kmu.format("Cannot connect to Authnet (%s).", KmAuthnetConfiguration.getDomain());
+            String s = Kmu.format(
+                "Cannot connect to Authnet (%s).",
+                KmAuthnetConfiguration.getDomain());
 
             KmAuthnetRetryableError error;
             error = new KmAuthnetRetryableError(s);

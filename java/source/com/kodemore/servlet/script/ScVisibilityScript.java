@@ -42,7 +42,7 @@ public abstract class ScVisibilityScript
 
     /**
      * The target selector.  This can be any valid jquery
-     * selector, and may match zero, one, or many elements. 
+     * selector, and may match zero, one, or many elements.
      */
     private String   _selector;
 
@@ -55,7 +55,7 @@ public abstract class ScVisibilityScript
 
     /**
      * The optional easing to control the animation effect.
-     * 
+     *
      * We have a wide library of functions available due
      * to the use of the jquery ui effects library.  See...
      *      http://jqueryui.com/resources/demos/effect/easing.html

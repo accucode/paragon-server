@@ -64,7 +64,7 @@ public class ScActionScript
      * The primary attribute; the action to run.  If null
      * the resulting script will be null as well.
      */
-    private ScAction _action;
+    private ScAction   _action;
 
     /**
      * The optional form.  This needs to be set in order for
@@ -147,7 +147,8 @@ public class ScActionScript
 
     @SuppressWarnings(
     {
-        "unchecked", "rawtypes"
+        "unchecked",
+        "rawtypes"
     })
     private Object evalArgument()
     {

@@ -5,7 +5,7 @@ public class KmZendeskSatisfactionRating
 
     /**
      * I am a satisfaction rating
-     * 
+     *
      * Api documentation
      *     http://developer.zendesk.com/documentation/rest_api/satisfaction_ratings.html
      */

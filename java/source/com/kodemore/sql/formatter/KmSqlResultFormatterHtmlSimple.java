@@ -115,8 +115,9 @@ public class KmSqlResultFormatterHtmlSimple
 
     private void printCell(String value, String color)
     {
-        String style =
-            Kmu.format("background-color: %s; padding: 2px; border: 1px solid #000;", color);
+        String style = Kmu.format(
+            "background-color: %s; padding: 2px; border: 1px solid #000;",
+            color);
 
         _out.open("td");
         _out.printAttribute("style", style);

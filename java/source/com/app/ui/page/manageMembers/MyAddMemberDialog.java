@@ -27,18 +27,18 @@ public class MyAddMemberDialog
 
     private ScCardFrame _frame;
 
-    private ScAction  _checkEmailAction;
+    private ScAction    _checkEmailAction;
     private ScCard      _checkEmailCard;
     private ScTextField _checkEmailField;
 
     private ScCard      _joinUserCard;
-    private ScAction  _joinUserAction;
+    private ScAction    _joinUserAction;
     private ScTextField _joinEmailField;
     private ScTextField _joinNameField;
     private ScDropdown  _joinRoleField;
 
     private ScCard      _createUserCard;
-    private ScAction  _createUserAction;
+    private ScAction    _createUserAction;
     private ScTextField _createEmailField;
     private ScTextField _createNameField;
     private ScDropdown  _createRoleField;

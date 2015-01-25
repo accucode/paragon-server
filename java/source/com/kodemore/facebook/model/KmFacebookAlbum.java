@@ -31,7 +31,7 @@ public class KmFacebookAlbum
     private static final String CAN_UPLOAD_KEY   = "can_upload";
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private String              _id;
@@ -52,7 +52,7 @@ public class KmFacebookAlbum
     //= variables :: connections
     //==================================================
 
-    // todo_aaron: add connections 
+    // todo_aaron: add connections
 
     //##################################################
     //# accessing
@@ -219,7 +219,7 @@ public class KmFacebookAlbum
 
     private static KmTimestamp parseTime(String s)
     {
-        // todo_aaron: parse time 
+        // todo_aaron: parse time
 
         return new KmTimestampParser().parse(s);
     }

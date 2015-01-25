@@ -39,8 +39,15 @@ public class KmGeometry
 
     public static Point2D getIntersection(Point2D p1a, Point2D p1b, Point2D p2a, Point2D p2b)
     {
-        return getIntersection(p1a.getX(), p1a.getY(), p1b.getX(), p1b.getY(), p2a.getX(), p2a
-            .getY(), p2b.getX(), p2b.getY());
+        return getIntersection(
+            p1a.getX(),
+            p1a.getY(),
+            p1b.getX(),
+            p1b.getY(),
+            p2a.getX(),
+            p2a.getY(),
+            p2b.getX(),
+            p2b.getY());
     }
 
     public static Point2D getIntersection(

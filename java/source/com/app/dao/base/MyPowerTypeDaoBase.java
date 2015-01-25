@@ -6,14 +6,19 @@
 //###############################################################
 //###############################################################
 
+
 package com.app.dao.base;
 
-import com.kodemore.dao.KmAbstractDao;
-import com.kodemore.utility.Kmu;
+import com.kodemore.collection.*;
+import com.kodemore.dao.*;
+import com.kodemore.hibernate.*;
+import com.kodemore.hibernate.criteria.*;
 
-import com.app.criteria.MyPowerTypeCriteria;
-import com.app.model.MyPowerType;
-import com.app.model.meta.MyMetaPowerType;
+import com.app.criteria.*;
+import com.app.dao.core.*;
+import com.app.filter.*;
+import com.app.model.*;
+import com.app.model.meta.*;
 
 public abstract class MyPowerTypeDaoBase
     extends KmAbstractDao<MyPowerType,String>
@@ -71,8 +76,10 @@ public abstract class MyPowerTypeDaoBase
     public void deleteUid(String e)
     {
         MyPowerType m = findUid(e);
+        
         if ( m == null )
             throw Kmu.newFatal("Cannot delete; key not found(%s).", e);
+            
         delete(m);
     }
 

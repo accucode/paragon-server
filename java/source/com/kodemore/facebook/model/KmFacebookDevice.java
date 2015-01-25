@@ -15,7 +15,7 @@ public class KmFacebookDevice
     private static final String HARDWARE_KEY = "username";
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private String              _os;

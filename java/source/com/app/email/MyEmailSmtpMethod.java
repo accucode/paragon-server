@@ -6,8 +6,8 @@ import com.app.property.MyPropertyRegistry;
 import com.app.utility.MyGlobals;
 
 /**
- * I extend the generic framework method to provide 
- * default settings based on application specific properties. 
+ * I extend the generic framework method to provide
+ * default settings based on application specific properties.
  */
 public class MyEmailSmtpMethod
     extends KmEmailSmtpMethod

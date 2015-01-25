@@ -6,14 +6,19 @@
 //###############################################################
 //###############################################################
 
+
 package com.app.dao.base;
 
-import com.kodemore.dao.KmAbstractDao;
-import com.kodemore.utility.Kmu;
+import com.kodemore.collection.*;
+import com.kodemore.dao.*;
+import com.kodemore.hibernate.*;
+import com.kodemore.hibernate.criteria.*;
 
-import com.app.criteria.MyUserActivationCriteria;
-import com.app.model.MyUserActivation;
-import com.app.model.meta.MyMetaUserActivation;
+import com.app.criteria.*;
+import com.app.dao.core.*;
+import com.app.filter.*;
+import com.app.model.*;
+import com.app.model.meta.*;
 
 public abstract class MyUserActivationDaoBase
     extends KmAbstractDao<MyUserActivation,String>
@@ -71,8 +76,10 @@ public abstract class MyUserActivationDaoBase
     public void deleteUid(String e)
     {
         MyUserActivation m = findUid(e);
+        
         if ( m == null )
             throw Kmu.newFatal("Cannot delete; key not found(%s).", e);
+            
         delete(m);
     }
 

@@ -72,7 +72,7 @@ public class ScDropzone
      * that the user removed/cancelled an upload, but doesn't tell the server WHICH file
      * was removed/cancelled.
      */
-    private ScAction                _removeAction;
+    private ScAction                  _removeAction;
 
     //##################################################
     //# init

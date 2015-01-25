@@ -50,13 +50,13 @@ public class ScFilterBox
     //# variables
     //##################################################
 
-    private ScForm     _form;
-    private ScGroup    _group;
-    private ScBox      _body;
+    private ScForm   _form;
+    private ScGroup  _group;
+    private ScBox    _body;
 
     private ScAction _action;
-    private ScBox      _leftButtons;
-    private ScBox      _rightButtons;
+    private ScBox    _leftButtons;
+    private ScBox    _rightButtons;
 
     //##################################################
     //# init

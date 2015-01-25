@@ -27,7 +27,7 @@ import com.kodemore.stf.KmStfParser;
 import com.kodemore.utility.Kmu;
 
 /**
- * I am used to test the parser.  
+ * I am used to test the parser.
  */
 public class KmStfTest
 {

@@ -58,7 +58,7 @@ public interface ScLocalIF
      * I.e.: there is an accessible ScServletData instance.
      *
      * If there is NO available http request, then set() should
-     * set the local's default value, which is subsequently 
+     * set the local's default value, which is subsequently
      * shared by all thread and all http requests.  Since all pages
      * are created prior to processing any http requests, this applies
      * to all locals created and configured downstread of aPage.createRoot().

@@ -7,7 +7,7 @@ public class KmZendeskTicketCreate
 {
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private KmZendeskConnection _connection;
@@ -96,7 +96,7 @@ public class KmZendeskTicketCreate
         KmJsonMap m = new KmJsonMap();
         KmJsonMap ticket = new KmJsonMap();
 
-        //requester 
+        //requester
         KmJsonMap requester = new KmJsonMap();
         requester.setString("name", name);
         requester.setString("email", email);
@@ -128,12 +128,11 @@ public class KmZendeskTicketCreate
         req.setZendeskUserid("[zendesk Login]");
         req.setApiToken("[API Token]");
 
-        Integer i =
-            req.submitNewTicket(
-                "The Customer",
-                "thecustomer@domaion.com",
-                "My printer is on fire!",
-                "The smoke is very colorful.");
+        Integer i = req.submitNewTicket(
+            "The Customer",
+            "thecustomer@domaion.com",
+            "My printer is on fire!",
+            "The smoke is very colorful.");
 
         System.out.println("New Ticket Id = " + i);
     }

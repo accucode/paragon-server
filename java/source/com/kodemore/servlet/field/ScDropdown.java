@@ -87,7 +87,7 @@ public class ScDropdown
     private ScLocalCss           _css;
     private ScLocalStyle         _style;
 
-    private ScAction           _onChangeAction;
+    private ScAction             _onChangeAction;
 
     /**
      * If true, dropdowns will be rendered using the boostrap

@@ -55,7 +55,8 @@ public class KmModelJunction
 
     @SuppressWarnings(
     {
-        "unchecked", "rawtypes"
+        "unchecked",
+        "rawtypes"
     })
     public <E extends KmModelCriteria> E join(E c)
     {

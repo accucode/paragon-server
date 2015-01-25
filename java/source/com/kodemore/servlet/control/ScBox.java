@@ -27,7 +27,7 @@ import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 /**
  * Boxes are really just divs, that have an expectation
  * to render as blocks that fully contain their children.
- * 
+ *
  * The "clearfix" css class is ALWAYS included.
  */
 public class ScBox

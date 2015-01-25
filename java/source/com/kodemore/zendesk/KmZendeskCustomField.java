@@ -5,7 +5,7 @@ public class KmZendeskCustomField
 
     /**
      * I am a custom field object
-     * 
+     *
      * Api documentation
      *      http://developer.zendesk.com/documentation/rest_api/introduction.html
      */

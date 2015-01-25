@@ -127,17 +127,16 @@ public class KmXmlParser
 
     public static void main(String[] args)
     {
-        String xml =
-            "<?xml version='1.0'?>"
-                + "\n<root>"
-                + "\n  <a>aaa</a>"
-                + "\n  <b>"
-                + "\n    bbb"
-                + "\n  </b>"
-                + "\n  <![CDATA[cdata... Embedded <xml> tags. Line \r\n feeds.  Escaped &lt; &gr; chars.]]>"
-                + "\n  <c x='1' y='&amp;2\n' z='3&lt;'/>"
-                + "\n</root>"
-                + "\n";
+        String xml = "<?xml version='1.0'?>"
+            + "\n<root>"
+            + "\n  <a>aaa</a>"
+            + "\n  <b>"
+            + "\n    bbb"
+            + "\n  </b>"
+            + "\n  <![CDATA[cdata... Embedded <xml> tags. Line \r\n feeds.  Escaped &lt; &gr; chars.]]>"
+            + "\n  <c x='1' y='&amp;2\n' z='3&lt;'/>"
+            + "\n</root>"
+            + "\n";
         KmXmlDocument d = KmXmlParser.parse("test", xml);
 
         System.out.println("-------------------------------------");

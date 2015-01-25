@@ -52,7 +52,7 @@ public abstract class MyJob
     }
 
     /**
-     * Determines when maintenance jobs should run.  Typically 
+     * Determines when maintenance jobs should run.  Typically
      * returns from for something like 1am-4am, daily.  Or
      * once a week on Sunday night.
      */

@@ -26,10 +26,10 @@ import com.kodemore.html.KmHtmlBuilder;
 
 /**
  * An html UL element.
- * 
+ *
  * This is used when you want fine grained control over the UL and LI elements.
  * The client is reponsible for manually adding the LI elements by hand (or not).
- * 
+ *
  * For simple cases, it may be more convenient to use the ScBullettedList class
  * with automatically wraps the contents of the UL with the required LI elements.
  */

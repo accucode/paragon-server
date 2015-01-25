@@ -32,13 +32,13 @@ import com.kodemore.servlet.variable.ScLocalStyle;
 
 /**
  * I am a fancy <table> - my outermost html element is literally
- * a <table> tag.  
- * 
- * Clients use me to easily organize a collection of controls into 
+ * a <table> tag.
+ *
+ * Clients use me to easily organize a collection of controls into
  * rows and/or columns.  By default, my children are all displayed
  * in a single vertical column; however the layout is easily changed
  * by calling either setColumnCount or setRowCount.
- * 
+ *
  * A gap may be displayed between each of the rows and columns.
  * See DEFAULT_GAP.  Gaps are displayed using extra rows and cell
  * to avoid any layout interference with the actual child controls.
@@ -64,7 +64,7 @@ public class ScArray
      * The cell class and style are applied to the TDs of
      * those cells that contain child controls, even if the
      * cell is "empty".  However, the cell class/style is
-     * not applied to the gaps.  
+     * not applied to the gaps.
      */
     private ScLocalCss       _cellCss;
 

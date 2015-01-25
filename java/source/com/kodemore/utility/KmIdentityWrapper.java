@@ -76,7 +76,8 @@ public class KmIdentityWrapper<T>
     @Override
     @SuppressWarnings(
     {
-        "unchecked", "rawtypes"
+        "unchecked",
+        "rawtypes"
     })
     public boolean equals(Object e)
     {

@@ -9,15 +9,15 @@ import com.app.ui.core.MyServerSessionManager;
 import com.app.utility.MyUrls;
 
 /**
- * I am used by various tools to coordinate dynamic 
+ * I am used by various tools to coordinate dynamic
  * server side responses to client side requests.
- * 
+ *
  * Tools register a url path suffix, and a callback
- * function.  When a url is received matching the 
- * path suffix, the request is passed to the 
+ * function.  When a url is received matching the
+ * path suffix, the request is passed to the
  * callback function.
- * 
- * This is an experiment and is intended as an 
+ *
+ * This is an experiment and is intended as an
  * alternative to creating separate servlets and
  * web.xml entries for each new tool.
  */

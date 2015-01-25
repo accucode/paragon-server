@@ -53,13 +53,13 @@ public class ScSimpleModelList<T>
      * The title should be relatively unique, and short enough to fit on a single line.
      * This is required.
      */
-    private KmAdaptorIF<T,String>           _titleAdapter;
+    private KmAdaptorIF<T,String>         _titleAdapter;
 
     /**
      * I am applied to each model to create a subtitle.
      * The subtitle optionally provides extra information.
      */
-    private KmAdaptorIF<T,String>           _subtitleAdapter;
+    private KmAdaptorIF<T,String>         _subtitleAdapter;
 
     /**
      * The list of actions to be displayed.  Each action is displayed

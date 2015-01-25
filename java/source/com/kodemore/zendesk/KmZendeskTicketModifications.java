@@ -6,7 +6,7 @@ import com.kodemore.json.KmJsonMap;
 
 /**
  * I am used get all ticket modifications
- * 
+ *
  * Api documentation
  *      http://developer.zendesk.com/documentation/rest_api/tickets.html
  */
@@ -14,7 +14,7 @@ import com.kodemore.json.KmJsonMap;
 public class KmZendeskTicketModifications
 {
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private KmZendeskConnection _connection;

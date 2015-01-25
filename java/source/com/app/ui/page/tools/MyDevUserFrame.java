@@ -28,7 +28,7 @@ public class MyDevUserFrame
     private ScCard        _viewChild;
     private ScCard        _editChild;
 
-    private ScAction    _onChangeAction;
+    private ScAction      _onChangeAction;
 
     //##################################################
     //# install

@@ -76,7 +76,7 @@ public class KmFacebookUser
     // todo_aaron: add connections
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     //==================================================
@@ -134,7 +134,7 @@ public class KmFacebookUser
     //= variables :: connections
     //==================================================
 
-    // todo_aaron: add connections 
+    // todo_aaron: add connections
 
     //##################################################
     //# constructor
@@ -236,7 +236,7 @@ public class KmFacebookUser
     }
 
     //==================================================
-    //= accesssing :: personal info 
+    //= accesssing :: personal info
     //==================================================
 
     public String getName()
@@ -440,7 +440,7 @@ public class KmFacebookUser
     }
 
     //==================================================
-    //= accesssing :: Interests 
+    //= accesssing :: Interests
     //==================================================
 
     public KmList<String> getInterestedIn()

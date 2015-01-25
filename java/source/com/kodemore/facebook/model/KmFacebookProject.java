@@ -25,7 +25,7 @@ public class KmFacebookProject
     private static final String      FROM_KEY        = "from";
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private String                   _id;

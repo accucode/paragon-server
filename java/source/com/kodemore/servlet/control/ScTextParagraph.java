@@ -28,7 +28,7 @@ import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.variable.ScLocalRenderer;
 
 /**
- * I am used to manage text in a paragraph.  
+ * I am used to manage text in a paragraph.
  * I am a BLOCK element and apply styling via a 'p' element.
  */
 public class ScTextParagraph

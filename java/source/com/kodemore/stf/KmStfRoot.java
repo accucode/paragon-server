@@ -27,7 +27,7 @@ import com.kodemore.io.KmIndentPrintWriter;
 /**
  * I represent the anonymous root element parsed from an stf file.
  * My name and attributes are generally left empty, and are ignored
- * when I print myself. 
+ * when I print myself.
  */
 public class KmStfRoot
     extends KmStfElement

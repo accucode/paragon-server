@@ -29,7 +29,7 @@ import com.kodemore.meta.KmMetaDaoPropertyIF;
 /**
  * A simple cursor used to iterate through the database.
  * The attribute must represent a unique, non-null key.
- * 
+ *
  * NOTE! : The session will be flushed and cleared at the beginning
  * of each batch.
  *

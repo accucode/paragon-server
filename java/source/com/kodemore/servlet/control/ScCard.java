@@ -22,7 +22,6 @@
 
 package com.kodemore.servlet.control;
 
-
 /**
  * I am used in conjuction with the ScCardFrame.
  */

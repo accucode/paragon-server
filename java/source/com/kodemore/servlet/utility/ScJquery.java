@@ -76,7 +76,7 @@ public class ScJquery
     }
 
     //##################################################
-    //# run on ready 
+    //# run on ready
     //##################################################
 
     public static String runOnReady(String script)

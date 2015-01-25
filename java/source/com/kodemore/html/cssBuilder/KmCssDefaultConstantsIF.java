@@ -6,6 +6,7 @@
 //###############################################################
 //###############################################################
 
+
 package com.kodemore.html.cssBuilder;
 
 import com.kodemore.html.KmCssBuilder;
@@ -571,12 +572,6 @@ public interface KmCssDefaultConstantsIF
     //# composites
     //##################################################
 
-    String ui_prefix = "ui";
-    String ui_part_dialog = "dialog";
-    String ui_part_widget = "widget";
-    String ui_flavor_title = "title";
-    String ui_flavor_overlay = "overlay";
-    
     String button_prefix = "button";
     String button_part_element = "element";
     String button_flavor_default = "default";
@@ -584,16 +579,22 @@ public interface KmCssDefaultConstantsIF
     String button_flavor_negative = "negative";
     String button_flavor_positive = "positive";
     
-    String errorBox_prefix = "errorBox";
-    String errorBox_part_message = "message";
-    String errorBox_part_wrapper = "wrapper";
-    String errorBox_flavor_attached = "attached";
-    String errorBox_flavor_detached = "detached";
+    String ui_prefix = "ui";
+    String ui_part_dialog = "dialog";
+    String ui_part_widget = "widget";
+    String ui_flavor_title = "title";
+    String ui_flavor_overlay = "overlay";
     
     String divider_prefix = "divider";
     String divider_part_inner = "inner";
     String divider_flavor_bevel = "bevel";
     String divider_flavor_groove = "groove";
+    
+    String errorBox_prefix = "errorBox";
+    String errorBox_part_message = "message";
+    String errorBox_part_wrapper = "wrapper";
+    String errorBox_flavor_attached = "attached";
+    String errorBox_flavor_detached = "detached";
     
     String fieldset_prefix = "fieldset";
     String fieldset_part_body = "body";

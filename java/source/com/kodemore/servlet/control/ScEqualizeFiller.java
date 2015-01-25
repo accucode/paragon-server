@@ -26,11 +26,11 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 
 /**
- * I am used in conjunction with the equalize javascript tool.  When 
+ * I am used in conjunction with the equalize javascript tool.  When
  * elements are equalized, they will attempt to distribute the extra
  * space into any filler elements inside the target.  If no filler elements
  * are found, then the original target is resized directly.
- * 
+ *
  * This is a simple div designed to fill the remaining available
  * space when equalize is called on the parent container.  This is
  * useful if there is content that should always remain at the bottom
@@ -40,7 +40,7 @@ public class ScEqualizeFiller
     extends ScControl
 {
     //##################################################
-    //# render 
+    //# render
     //##################################################
 
     @Override

@@ -13,14 +13,14 @@ import org.apache.log4j.spi.LoggingEvent;
  *      level = ERROR
  *      logger = org.hibernate.event.def.AbstractFlushingEventListener
  *      message = Could not synchronize database state with session
- *      throwable prefix = org.hibernate.StaleObjectStateException: 
- *      
+ *      throwable prefix = org.hibernate.StaleObjectStateException:
+ *
  *      --or--
- *      
+ *
  *      level = ERROR
- *      logger =  org.hibernate.jdbc.AbstractBatcher 
- *      message = Exception executing batch: 
- *      throwable prefix = org.hibernate.StaleStateException:  
+ *      logger =  org.hibernate.jdbc.AbstractBatcher
+ *      message = Exception executing batch:
+ *      throwable prefix = org.hibernate.StaleStateException:
  */
 public class KmHibernateStaleObjectLogFilter
     extends Filter

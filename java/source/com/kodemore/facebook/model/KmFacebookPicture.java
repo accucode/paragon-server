@@ -16,7 +16,7 @@ public class KmFacebookPicture
     public static final String IS_SILOUETTE_KEY = "is_silhouette";
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     // review_aaron: do we want to save the actual photo?

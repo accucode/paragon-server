@@ -22,7 +22,7 @@ public class KmProjectionResult
     }
 
     //##################################################
-    //# accessing 
+    //# accessing
     //##################################################
 
     public int getRowCount()

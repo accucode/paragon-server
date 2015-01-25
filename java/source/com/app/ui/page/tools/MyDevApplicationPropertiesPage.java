@@ -20,8 +20,7 @@ public class MyDevApplicationPropertiesPage
     //# singleton
     //##################################################
 
-    public static final MyDevApplicationPropertiesPage instance =
-                                                                    new MyDevApplicationPropertiesPage();
+    public static final MyDevApplicationPropertiesPage instance = new MyDevApplicationPropertiesPage();
 
     private MyDevApplicationPropertiesPage()
     {

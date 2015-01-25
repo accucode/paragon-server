@@ -26,8 +26,8 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I am used to identify parse errors for specific conditions
- * such as unterminated comments, or element names with 
- * invalid characters.  All polite errors thrown by the 
+ * such as unterminated comments, or element names with
+ * invalid characters.  All polite errors thrown by the
  * parser should be a parseError.  Any generic RuntimeExceptions
  * are due to some unexpected condition and are likely a bug in
  * the parse.

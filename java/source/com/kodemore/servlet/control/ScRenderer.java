@@ -184,7 +184,8 @@ public class ScRenderer
      */
     @SuppressWarnings(
     {
-        "unchecked", "rawtypes"
+        "unchecked",
+        "rawtypes"
     })
     private void renderAdaptorOn(KmHtmlBuilder out, Object oAdaptor, ScControl parent, Object model)
     {

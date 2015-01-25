@@ -28,16 +28,16 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I encapsulate the idea of a length of time, rather than a specific
- * time.  I am some number of hours, minutes, seconds, and ms.  
- * 
+ * time.  I am some number of hours, minutes, seconds, and ms.
+ *
  * I may be either positive or negative.
- * 
- * Durations are accurate to 1 ms and have a maximum range of roughly 
- * plus or minus 290 million years.  Operations outside this range 
+ *
+ * Durations are accurate to 1 ms and have a maximum range of roughly
+ * plus or minus 290 million years.  Operations outside this range
  * are undefined.
- * 
+ *
  * Durations are immutable.  Once created, the value of the duration cannot
- * be changed.  All of the ~math methods return a new instance rather than 
+ * be changed.  All of the ~math methods return a new instance rather than
  * mutating the original instance.
  */
 public class KmDuration

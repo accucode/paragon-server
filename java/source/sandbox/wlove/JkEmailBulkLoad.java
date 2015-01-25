@@ -1,9 +1,9 @@
 package sandbox.wlove;
 
+import com.kodemore.command.KmDaoCommand;
+
 import com.app.model.MyEmail;
 import com.app.utility.MyInstaller;
-
-import com.kodemore.command.KmDaoCommand;
 
 public class JkEmailBulkLoad
 {

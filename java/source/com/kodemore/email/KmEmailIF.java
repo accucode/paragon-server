@@ -21,12 +21,12 @@ public interface KmEmailIF
 
     /**
      * The subject line for the email.
-     * Typically a single line of text and relatively short. 
+     * Typically a single line of text and relatively short.
      */
     String getSubject();
 
     /**
-     * The from address, as displayed.  This is not necessarily 
+     * The from address, as displayed.  This is not necessarily
      * the user that sent the email, just the from address to
      * be shows to the recipient.
      */

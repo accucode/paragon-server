@@ -18,7 +18,7 @@ public class KmFacebookIdName
     private static final String NAME_KEY = "name";
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private String              _id;

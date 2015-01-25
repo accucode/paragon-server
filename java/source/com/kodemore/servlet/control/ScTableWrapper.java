@@ -31,12 +31,12 @@ import com.kodemore.servlet.variable.ScLocalStyle;
  * I am used to wrap a simple table around content.  I render
  * a table with a single row (tr), and a single cell (td).
  * My children are rendered inside the cell.
- * 
+ *
  * The css and style are applied to the outer table.
- * 
+ *
  * Mostly, we avoid the use of tables as a primary layout tool.
- * However, some layouts are still only reliably possible with 
- * tables.  
+ * However, some layouts are still only reliably possible with
+ * tables.
  */
 public class ScTableWrapper
     extends ScChildContainerElement
@@ -62,7 +62,7 @@ public class ScTableWrapper
     }
 
     //##################################################
-    //# cell 
+    //# cell
     //##################################################
 
     public String getCellCss()

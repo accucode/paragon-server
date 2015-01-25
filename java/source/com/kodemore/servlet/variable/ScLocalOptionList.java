@@ -60,7 +60,8 @@ public class ScLocalOptionList
      */
     @SuppressWarnings(
     {
-        "unchecked", "rawtypes"
+        "unchecked",
+        "rawtypes"
     })
     public void add(Collection<?> v, KmAdaptorIF valueAdaptor, KmAdaptorIF labelAdaptor)
     {

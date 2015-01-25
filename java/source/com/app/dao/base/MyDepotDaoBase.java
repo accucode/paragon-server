@@ -6,14 +6,19 @@
 //###############################################################
 //###############################################################
 
+
 package com.app.dao.base;
 
-import com.kodemore.dao.KmAbstractDao;
-import com.kodemore.utility.Kmu;
+import com.kodemore.collection.*;
+import com.kodemore.dao.*;
+import com.kodemore.hibernate.*;
+import com.kodemore.hibernate.criteria.*;
 
-import com.app.criteria.MyDepotCriteria;
-import com.app.model.MyDepot;
-import com.app.model.meta.MyMetaDepot;
+import com.app.criteria.*;
+import com.app.dao.core.*;
+import com.app.filter.*;
+import com.app.model.*;
+import com.app.model.meta.*;
 
 public abstract class MyDepotDaoBase
     extends KmAbstractDao<MyDepot,String>
@@ -71,8 +76,10 @@ public abstract class MyDepotDaoBase
     public void deleteUid(String e)
     {
         MyDepot m = findUid(e);
+        
         if ( m == null )
             throw Kmu.newFatal("Cannot delete; key not found(%s).", e);
+            
         delete(m);
     }
 

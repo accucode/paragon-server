@@ -30,7 +30,7 @@ public interface KmEmailPartIF
     KmEmailPartType getType();
 
     /**
-     * The name of the attachment. 
+     * The name of the attachment.
      */
     String getAttachmentName();
 

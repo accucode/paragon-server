@@ -643,7 +643,9 @@ public abstract class KmTelnetSession
         {
             int[] arr =
             {
-                COMMAND_IAC, COMMAND_DONT, option
+                COMMAND_IAC,
+                COMMAND_DONT,
+                option
             };
             send(arr);
         }
@@ -651,7 +653,9 @@ public abstract class KmTelnetSession
         {
             int[] arr =
             {
-                COMMAND_IAC, COMMAND_WONT, option
+                COMMAND_IAC,
+                COMMAND_WONT,
+                option
             };
             send(arr);
         }
@@ -663,7 +667,9 @@ public abstract class KmTelnetSession
         {
             int[] arr =
             {
-                COMMAND_IAC, COMMAND_DO, option
+                COMMAND_IAC,
+                COMMAND_DO,
+                option
             };
             send(arr);
         }
@@ -671,7 +677,9 @@ public abstract class KmTelnetSession
         {
             int[] arr =
             {
-                COMMAND_IAC, COMMAND_WILL, option
+                COMMAND_IAC,
+                COMMAND_WILL,
+                option
             };
             send(arr);
         }

@@ -6,14 +6,19 @@
 //###############################################################
 //###############################################################
 
+
 package com.app.dao.base;
 
-import com.kodemore.dao.KmAbstractDao;
-import com.kodemore.utility.Kmu;
+import com.kodemore.collection.*;
+import com.kodemore.dao.*;
+import com.kodemore.hibernate.*;
+import com.kodemore.hibernate.criteria.*;
 
-import com.app.criteria.MyEmailPartCriteria;
-import com.app.model.MyEmailPart;
-import com.app.model.meta.MyMetaEmailPart;
+import com.app.criteria.*;
+import com.app.dao.core.*;
+import com.app.filter.*;
+import com.app.model.*;
+import com.app.model.meta.*;
 
 public abstract class MyEmailPartDaoBase
     extends KmAbstractDao<MyEmailPart,String>
@@ -71,8 +76,10 @@ public abstract class MyEmailPartDaoBase
     public void deleteUid(String e)
     {
         MyEmailPart m = findUid(e);
+        
         if ( m == null )
             throw Kmu.newFatal("Cannot delete; key not found(%s).", e);
+            
         delete(m);
     }
 

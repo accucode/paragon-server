@@ -1,9 +1,9 @@
 package com.app.filter;
 
-import com.kodemore.utility.*;
+import com.kodemore.utility.KmNamedEnumIF;
 
-import com.app.criteria.*;
-import com.app.filter.base.*;
+import com.app.criteria.MyShipMethodCriteria;
+import com.app.filter.base.MyShipMethodFilterBase;
 
 public class MyShipMethodFilter
     extends MyShipMethodFilterBase
@@ -24,7 +24,7 @@ public class MyShipMethodFilter
             _name = name;
         }
 
-		@Override
+        @Override
         public String getName()
         {
             return _name;
@@ -35,7 +35,7 @@ public class MyShipMethodFilter
     //# variables
     //##################################################
 
-    private Sort _sort;
+    private Sort    _sort;
     private boolean _sortAscending;
 
     //##################################################

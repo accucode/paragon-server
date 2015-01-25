@@ -258,8 +258,7 @@ public class KmAuthnetTest
 
         System.out.println("PAYMENT PROFILE WAS:");
         payment.printFields();
-        System.out
-            .println("======================================================================================");
+        System.out.println("======================================================================================");
 
         // change some stuff...
         payment.getBillTo().setStreet("new address 123 street");
@@ -286,8 +285,7 @@ public class KmAuthnetTest
 
         System.out.println("UPDATED PROFILE IS:");
         getResponse.getPaymentProfile().printFields();
-        System.out
-            .println("======================================================================================");
+        System.out.println("======================================================================================");
     }
 
     private void deletePaymentProfile()

@@ -37,7 +37,7 @@ public class MyPageHeader
 
     private ScDropdownMenu _userDropdown;
     private ScDropdownMenu _projectDropdown;
-    private ScAction     _selectProjectAction;
+    private ScAction       _selectProjectAction;
 
     //##################################################
     //# install

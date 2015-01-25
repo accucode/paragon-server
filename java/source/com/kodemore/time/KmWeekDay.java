@@ -36,12 +36,12 @@ public enum KmWeekDay
 
     /**
      * The enumerated values.
-     *   
+     *
      * The values are assumed to be in the correct sequence, but
      * the first enum is NOT assumed to be the first day of the week.
      * E.g.: The enumeration may list the days as Mon..Sun, but the
      * first day of the week may be Saturday.
-     * 
+     *
      * If you change the sequence of these values, the conversion
      * between dates and weekDays may break.  See the constant
      * KmWeekDay.DATE_ORDINAL_ADJUSTMENT.
@@ -71,10 +71,10 @@ public enum KmWeekDay
 
     /**
      * This is used to convert a date's ordinal value into a week day.
-     * If you change the sequence of the enum, or change the date's 
+     * If you change the sequence of the enum, or change the date's
      * ordinal implementation, then this value may need to change.
      * Current assumes that KmDate.createOrdinal(0) = Jan 1, 1800
-     * 
+     *
      */
     public static final int       DATE_ORDINAL_ADJUSTMENT = 2;
 
@@ -125,7 +125,7 @@ public enum KmWeekDay
      * Get my 0-based index relative to the first day of the week.
      * For example if Wednesday is the first day of the week, then
      * Wed=0, Thu=1, Fri=2, etc...
-     * 
+     *
      * See also, getJdkIndex()
      */
     public int getIndex()
@@ -136,10 +136,10 @@ public enum KmWeekDay
     /**
      * Returns the index compatible with Calendar.
      * Values returned are 1..7, corresponding to Sunday..Saturday.
-     * 
-     * This implementation does NOT take multiple calendars 
-     * or countries into account, it simply assumes that Sunday 
-     * is the first day of the week as defined in Calendar for 
+     *
+     * This implementation does NOT take multiple calendars
+     * or countries into account, it simply assumes that Sunday
+     * is the first day of the week as defined in Calendar for
      * the United States.
      */
     public int getJdkIndex()
@@ -205,7 +205,7 @@ public enum KmWeekDay
     //##################################################
 
     /**
-     * Get the next week day.  
+     * Get the next week day.
      * This wraps around so that LAST_DAY.getNextDay == FIRST_DAY.
      */
     public KmWeekDay getNextDay()
@@ -219,7 +219,7 @@ public enum KmWeekDay
     }
 
     /**
-     * Get the previous week day.  
+     * Get the previous week day.
      * This wraps around so that FIRST_DAY.getPreviousDay == LAST_DAY.
      */
     public KmWeekDay getPreviousDay()

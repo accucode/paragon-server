@@ -29,8 +29,8 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 /**
- * Add some (html) content to the dom.  
- * 
+ * Add some (html) content to the dom.
+ *
  * Animations are NOT supported.  If you need to
  * animate the new content, simply add it as a hidden
  * element, then use the ScShowScript to animate the
@@ -46,14 +46,14 @@ public class ScAddContentScript
     /**
      * The jquery selector that identifies where the content
      * should be added.  This is typically an id selector
-     * like "#someId", but any selector will generally work. 
+     * like "#someId", but any selector will generally work.
      */
     private String        _selector;
 
     /**
      * The method used to add new content.
      * Supported values are: append, prepend, before, after.
-     * The default is: append.  
+     * The default is: append.
      */
     private String        _mode;
 

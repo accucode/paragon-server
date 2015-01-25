@@ -5,13 +5,13 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I am used to search for users.
- * 
+ *
  * api documentation https://dev.twitter.com/docs/api/1.1/get/users/show
  */
 public class KmTwitterShowUserRequest
 {
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private KmTwitterConnection _connection;

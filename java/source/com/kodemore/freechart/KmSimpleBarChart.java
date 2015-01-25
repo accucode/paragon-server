@@ -61,7 +61,7 @@ public class KmSimpleBarChart
     private KmList<KmSimpleBarChartGroup> _groups;
 
     /**
-     * If true, the chart will draw with lines connected to dots, 
+     * If true, the chart will draw with lines connected to dots,
      * rather than as raised bars.   False by default.
      */
     private boolean                       _formatWithLines;
@@ -292,16 +292,15 @@ public class KmSimpleBarChart
             ? PlotOrientation.HORIZONTAL
             : PlotOrientation.VERTICAL;
 
-        JFreeChart chart =
-            ChartFactory.createBarChart3D(
-                getTitle(),
-                getCategoryAxisLabel(),
-                getValueAxisLabel(),
-                dataset,
-                orientation,
-                isShowsLegend(),
-                tooltips,
-                urls);
+        JFreeChart chart = ChartFactory.createBarChart3D(
+            getTitle(),
+            getCategoryAxisLabel(),
+            getValueAxisLabel(),
+            dataset,
+            orientation,
+            isShowsLegend(),
+            tooltips,
+            urls);
 
         if ( getFormatWithLines() )
         {

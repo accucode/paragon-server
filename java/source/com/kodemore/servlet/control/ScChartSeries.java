@@ -34,7 +34,7 @@ public class ScChartSeries
     //##################################################
 
     /**
-     * The unique identifier of the data series, and can 
+     * The unique identifier of the data series, and can
      * not be null.  Doubles as the series label.
      */
     private String      _key;

@@ -35,7 +35,8 @@ public class KmAssociationValueComparator<K, V>
     @Override
     @SuppressWarnings(
     {
-        "unchecked", "rawtypes"
+        "unchecked",
+        "rawtypes"
     })
     public int compare(KmAssociation<K,V> o1, KmAssociation<K,V> o2)
     {

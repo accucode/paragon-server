@@ -1,9 +1,9 @@
 package com.app.filter;
 
-import com.kodemore.utility.*;
+import com.kodemore.utility.KmNamedEnumIF;
 
-import com.app.criteria.*;
-import com.app.filter.base.*;
+import com.app.criteria.MySkillCriteria;
+import com.app.filter.base.MySkillFilterBase;
 
 public class MySkillFilter
     extends MySkillFilterBase

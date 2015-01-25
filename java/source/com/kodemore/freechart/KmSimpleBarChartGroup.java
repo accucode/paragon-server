@@ -37,7 +37,7 @@ public class KmSimpleBarChartGroup
     //##################################################
 
     /**
-     * The display name.  
+     * The display name.
      */
     private String                      _name;
 

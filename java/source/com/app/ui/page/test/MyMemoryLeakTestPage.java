@@ -38,7 +38,7 @@ public class MyMemoryLeakTestPage
     //# variables
     //##################################################
 
-    private ScAction  _loopAction;
+    private ScAction    _loopAction;
     private ScDateField _field;
 
     //##################################################

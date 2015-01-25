@@ -229,7 +229,7 @@ public class KmPatchManager
     }
 
     /**
-     * fixme_ryan: this uses a different locking pattern than the methods above.  
+     * fixme_ryan: this uses a different locking pattern than the methods above.
      */
     public void create()
     {

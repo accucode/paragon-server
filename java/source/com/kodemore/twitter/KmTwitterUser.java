@@ -2,16 +2,16 @@ package com.kodemore.twitter;
 
 /**
  * I am and object with values for all the returned paramaters of a twitter user.
- * 
+ *
  * https://dev.twitter.com/docs/platform-objects/users
- * 
+ *
  * review_steve KmTwitterUser
  */
 public class KmTwitterUser
     extends Object
 {
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private String          _id;

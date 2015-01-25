@@ -29,9 +29,9 @@ import com.kodemore.servlet.field.ScHtmlIdIF;
  * I manage a list of scripts, roughly representing the
  * contents of a "block".  That is, the code _between_
  * matching braces {...}.
- * 
+ *
  * NOTE: In many cases, clients will simply use my helper
- * methods such as toast(...).  However, when clients 
+ * methods such as toast(...).  However, when clients
  * directly compose their own script, then those clients
  * are responsible for manually including any appropriate
  * whitespace or terminators.  The basic add/run methods
@@ -51,14 +51,14 @@ public class ScSimpleBlockScript
      * value is deferred until the script is subsequently
      * composed (e.g.: by toString).  This also means that
      * given the following:
-     * 
+     *
      *      ScScriptBuilder out;
      *      out = new ScScriptBuilder();
      *      out.run(...)
-     * 
+     *
      *      String a = out.toString();
      *      String b = out.toString();
-     * 
+     *
      * Then, a and b cannot be assumed to be the same.
      * If any of the scripts added to the builder use
      * dynamic/deferred binding then the values may be

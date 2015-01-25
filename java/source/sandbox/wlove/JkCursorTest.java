@@ -1,11 +1,11 @@
 package sandbox.wlove;
 
+import com.kodemore.command.KmDaoCommand;
+import com.kodemore.dao.KmDaoStringKeyCursor;
+
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
 import com.app.utility.MyInstaller;
-
-import com.kodemore.command.KmDaoCommand;
-import com.kodemore.dao.KmDaoStringKeyCursor;
 
 public class JkCursorTest
 {

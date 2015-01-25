@@ -1,10 +1,10 @@
 package sandbox.wlove;
 
-import com.app.file.MyFilePaths;
-import com.app.utility.MyInstaller;
-
 import com.kodemore.utility.Kmu;
 import com.kodemore.wiki.KmWikiSample;
+
+import com.app.file.MyFilePaths;
+import com.app.utility.MyInstaller;
 
 public class JkWikiSample
 {

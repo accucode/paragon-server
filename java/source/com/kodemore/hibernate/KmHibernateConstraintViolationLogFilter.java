@@ -5,14 +5,14 @@ import org.apache.log4j.spi.Filter;
 import org.apache.log4j.spi.LoggingEvent;
 
 /**
- * There are certain situations where database inserts can result in 
+ * There are certain situations where database inserts can result in
  * collisions on well known primary keys.  Although these are errors
  * and need to be thrown up the stack and exceptions; the problem is
  * that hibernate generates verbose stack traces.
- * 
+ *
  * While the application will almost certainly need to handle the
  * exception, it doesn't necessary warrant a verbose stack trace.
- * 
+ *
  * The event is only filtered if all of the following are true:
  *      level = ERROR
  *      logger = org.hibernate.event.def.AbstractFlushingEventListener

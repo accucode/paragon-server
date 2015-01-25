@@ -48,7 +48,7 @@ public class ScToastScript
 
     /**
      * If true, the message will remain on screen until the user
-     * (or application) explicitly closes it.  Otherwise, the 
+     * (or application) explicitly closes it.  Otherwise, the
      * message will automatically disappear after the durationMs.
      * The default is NOT sticky.
      */
@@ -153,7 +153,7 @@ public class ScToastScript
     }
 
     /**
-     * Set the html message to the exact value of the parameter.   
+     * Set the html message to the exact value of the parameter.
      * Any html formatting characters are preserved and passed
      * to the browser.  Extra care needs to be used with this
      * method to avoid accidentally corrupting the web page.

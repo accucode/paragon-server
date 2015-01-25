@@ -50,7 +50,7 @@ public class MyUrls
     }
 
     //##################################################
-    //# private 
+    //# private
     //##################################################
 
     public static String formatServletPath(String servlet)

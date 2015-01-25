@@ -28,13 +28,13 @@ import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.string.KmStringBuilder;
 
 /**
- * Search a series a items for matching text.  
+ * Search a series a items for matching text.
  * All items that match are shown; all items that do not match are hidden.
- * 
+ *
  * This is typically used for situations where you have a single text field
- * to specify some substring, and a client side list of items that you want to 
+ * to specify some substring, and a client side list of items that you want to
  * match against.
- * 
+ *
  * Once configured, the search is triggered and executed 100% client side,
  * and assumes that all of the items have already been loaded into the page.
  */

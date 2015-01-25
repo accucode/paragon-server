@@ -24,8 +24,7 @@ public class MyDevEnvironmentVariablesPage
     //# singleton
     //##################################################
 
-    public static final MyDevEnvironmentVariablesPage instance =
-                                                                   new MyDevEnvironmentVariablesPage();
+    public static final MyDevEnvironmentVariablesPage instance = new MyDevEnvironmentVariablesPage();
 
     private MyDevEnvironmentVariablesPage()
     {

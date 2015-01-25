@@ -3,7 +3,7 @@ package com.app.convert;
 public class MyXmlConverter
 {
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private MyXmlLabelParser  _parser;

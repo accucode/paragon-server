@@ -34,7 +34,7 @@ public class ScGlowScript
     //##################################################
 
     /**
-     * The jquery selector for the element(s) to glow. 
+     * The jquery selector for the element(s) to glow.
      * This is required.
      */
     private String  _target;

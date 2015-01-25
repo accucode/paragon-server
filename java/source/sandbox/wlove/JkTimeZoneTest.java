@@ -1,9 +1,9 @@
 package sandbox.wlove;
 
+import com.kodemore.time.KmTimestamp;
+
 import com.app.model.MyTimeZone;
 import com.app.utility.MyInstaller;
-
-import com.kodemore.time.KmTimestamp;
 
 public class JkTimeZoneTest
 {

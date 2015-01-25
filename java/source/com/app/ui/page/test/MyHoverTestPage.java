@@ -1,7 +1,6 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
