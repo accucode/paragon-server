@@ -3,6 +3,8 @@ package com.kodemore.servlet;
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScContextIF;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.script.ScBlockScript;
@@ -469,6 +471,14 @@ public abstract class ScPage
     protected ScBridge getBridge()
     {
         return ScBridge.getInstance();
+    }
+
+    protected ScAction createAction(Runnable r)
+    {
+        if ( r == null )
+            return null;
+
+        return new ScAction(this, r);
     }
 
 }

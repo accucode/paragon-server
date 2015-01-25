@@ -2,6 +2,7 @@ package com.app.ui.layout;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.field.ScDropdownMenu;
 import com.kodemore.servlet.utility.ScUrls;
@@ -36,7 +37,7 @@ public class MyPageHeader
 
     private ScDropdownMenu _userDropdown;
     private ScDropdownMenu _projectDropdown;
-    private Runnable       _selectProjectAction;
+    private ScAction     _selectProjectAction;
 
     //##################################################
     //# install
@@ -94,7 +95,7 @@ public class MyPageHeader
 
     private void installProjectDropdown()
     {
-        _selectProjectAction = this::handleSelectProject;
+        _selectProjectAction = createAction(this::handleSelectProject);
 
         _projectDropdown = new ScDropdownMenu();
         _projectDropdown.setTitle("Project");
@@ -104,7 +105,7 @@ public class MyPageHeader
     //= install :: select project
     //==================================================
 
-    private Runnable getSelectProjectAction()
+    private ScAction getSelectProjectAction()
     {
         return _selectProjectAction;
     }

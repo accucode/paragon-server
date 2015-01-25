@@ -1,5 +1,6 @@
 package com.app.ui.page.manageMembers;
 
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScDiv;
@@ -26,18 +27,18 @@ public class MyAddMemberDialog
 
     private ScCardFrame _frame;
 
-    private Runnable    _checkEmailAction;
+    private ScAction  _checkEmailAction;
     private ScCard      _checkEmailCard;
     private ScTextField _checkEmailField;
 
     private ScCard      _joinUserCard;
-    private Runnable    _joinUserAction;
+    private ScAction  _joinUserAction;
     private ScTextField _joinEmailField;
     private ScTextField _joinNameField;
     private ScDropdown  _joinRoleField;
 
     private ScCard      _createUserCard;
-    private Runnable    _createUserAction;
+    private ScAction  _createUserAction;
     private ScTextField _createEmailField;
     private ScTextField _createNameField;
     private ScDropdown  _createRoleField;
@@ -69,7 +70,7 @@ public class MyAddMemberDialog
 
     private void installCheckEmailCard()
     {
-        _checkEmailAction = this::handleCheckEmail;
+        _checkEmailAction = createAction(this::handleCheckEmail);
 
         _checkEmailCard = _frame.addCard();
         _checkEmailCard.beDefault();
@@ -97,7 +98,7 @@ public class MyAddMemberDialog
     private void installJoinUserCard()
     {
         _joinUserCard = _frame.addCard();
-        _joinUserAction = this::handleJoinUser;
+        _joinUserAction = createAction(this::handleJoinUser);
 
         ScFieldset set;
         set = _joinUserCard.addFieldset("Join Existing User");
@@ -125,7 +126,7 @@ public class MyAddMemberDialog
     private void installCreateUserCard()
     {
         _createUserCard = _frame.addCard();
-        _createUserAction = this::handleCreateUser;
+        _createUserAction = createAction(this::handleCreateUser);
 
         ScFieldset set;
         set = _createUserCard.addFieldset("Create New User");

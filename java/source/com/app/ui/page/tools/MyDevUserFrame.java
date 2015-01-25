@@ -1,5 +1,6 @@
 package com.app.ui.page.tools;
 
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScDiv;
@@ -27,7 +28,7 @@ public class MyDevUserFrame
     private ScCard        _viewChild;
     private ScCard        _editChild;
 
-    private Runnable      _onChangeAction;
+    private ScAction    _onChangeAction;
 
     //##################################################
     //# install
@@ -79,8 +80,8 @@ public class MyDevUserFrame
     {
         MyMetaUser x = MyUser.Meta;
 
-        Runnable saveRunnable = this::handleEditSave;
-        Runnable cancelRunnable = this::handleEditCancel;
+        ScAction saveAction = createAction(this::handleEditSave);
+        ScAction cancelAction = createAction(this::handleEditCancel);
 
         ScTextField emailField;
         emailField = x.Email.newField();
@@ -100,8 +101,8 @@ public class MyDevUserFrame
 
         ScForm form;
         form = child.addForm();
-        form.setSubmitAction(saveRunnable);
-        form.onEscape().run(this, cancelRunnable);
+        form.setSubmitAction(saveAction);
+        form.onEscape().run(cancelAction);
 
         ScGroup group;
         group = form.addGroup("Edit");
@@ -119,7 +120,7 @@ public class MyDevUserFrame
 
         ScDiv footer;
         footer = group.getBody().addButtonBox();
-        footer.addCancelButton(cancelRunnable);
+        footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Save");
 
         return child;
@@ -129,14 +130,19 @@ public class MyDevUserFrame
     //# accessing
     //##################################################
 
-    public Runnable getOnChangeAction()
+    public ScAction getOnChangeAction()
     {
         return _onChangeAction;
     }
 
-    public void setOnChangeAction(Runnable e)
+    public void setOnChangeAction(ScAction e)
     {
         _onChangeAction = e;
+    }
+
+    public void setOnChangeAction(Runnable e)
+    {
+        setOnChangeAction(createAction(e));
     }
 
     public void fireOnChangeAction()

@@ -24,7 +24,7 @@ package com.kodemore.servlet.script;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
@@ -298,7 +298,7 @@ public class ScHtmlIdAjax
     //# on escape
     //##################################################
 
-    public void onEscape(ScActionIF action)
+    public void onEscape(ScAction action)
     {
         onEscape(getTarget(), action);
     }
@@ -327,7 +327,7 @@ public class ScHtmlIdAjax
         onControlEnter(getTarget(), e);
     }
 
-    public void onControlEnter(ScActionIF e)
+    public void onControlEnter(ScAction e)
     {
         onControlEnter(getTarget(), e);
     }
@@ -351,7 +351,7 @@ public class ScHtmlIdAjax
         onKeyUp(getTarget(), e);
     }
 
-    public void onKeyUp(ScActionIF e)
+    public void onKeyUp(ScAction e)
     {
         onKeyUp(getTarget(), e);
     }
@@ -375,7 +375,7 @@ public class ScHtmlIdAjax
         onChange(getTarget(), e);
     }
 
-    public void onChange(ScActionIF e)
+    public void onChange(ScAction e)
     {
         onChange(getTarget(), e);
     }

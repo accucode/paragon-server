@@ -34,6 +34,8 @@ import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScModelApplicatorIF;
 import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScContextIF;
 import com.kodemore.servlet.action.ScContextSupplierIF;
 import com.kodemore.servlet.action.ScGlobalContext;
@@ -223,9 +225,20 @@ public abstract class ScControl
     }
 
     //##################################################
-    //# context
+    //# action
     //##################################################
 
+    protected ScAction createAction(Runnable r)
+    {
+        if ( r == null )
+            return null;
+
+        return new ScAction(this, r);
+    }
+
+    //##################################################
+    //# context
+    //##################################################
     @Override
     public ScContextIF getContext()
     {

@@ -1,6 +1,6 @@
 package com.kodemore.servlet;
 
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScScriptIF;
 
@@ -68,12 +68,12 @@ public class ScDropdownMenuItem
     //# script (action)
     //##################################################
 
-    public void setAction(ScActionIF a)
+    public void setAction(ScAction a)
     {
         setAction(a, null);
     }
 
-    public void setAction(ScActionIF a, Object arg)
+    public void setAction(ScAction a, Object arg)
     {
         ScActionScript s;
         s = new ScActionScript();

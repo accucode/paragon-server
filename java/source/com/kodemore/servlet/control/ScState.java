@@ -24,7 +24,7 @@ package com.kodemore.servlet.control;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.utility.KmReadOnlyException;
 import com.kodemore.utility.KmReadOnlyIF;
 
@@ -164,9 +164,9 @@ public abstract class ScState
         return (String)_get(key);
     }
 
-    public ScActionIF _getCommand(String key)
+    public ScAction _getCommand(String key)
     {
-        return (ScActionIF)_get(key);
+        return (ScAction)_get(key);
     }
 
     public ScControl _getControl(String key)

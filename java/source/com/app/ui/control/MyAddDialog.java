@@ -3,7 +3,7 @@ package com.app.ui.control;
 import java.util.function.Consumer;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScSubmitButton;
@@ -127,8 +127,7 @@ public abstract class MyAddDialog<T>
     /**
      * Enable the save button and set the form's onSubmit action.
      */
-    @Deprecated
-    protected void ajaxEnableSave(ScActionIF action)
+    protected void ajaxEnableSave(ScAction action)
     {
         getSaveButton().ajaxEnable();
         getForm().ajaxOnSubmit(action);
@@ -137,10 +136,10 @@ public abstract class MyAddDialog<T>
     /**
      * Enable the save button and set the form's onSubmit action.
      */
-    protected void ajaxEnableSave(Runnable action)
+    protected void ajaxEnableSave(Runnable runnable)
     {
         getSaveButton().ajaxEnable();
-        getForm().ajaxOnSubmit(action);
+        getForm().ajaxOnSubmit(runnable);
     }
 
     /**
@@ -149,8 +148,7 @@ public abstract class MyAddDialog<T>
      * on the form.  You should ensure that there is a second submit button
      * on the form is you use this.
      */
-    @Deprecated
-    protected void ajaxDisableSave(ScActionIF action)
+    protected void ajaxDisableSave(ScAction action)
     {
         getSaveButton().ajaxDisable();
         getForm().ajaxOnSubmit(action);

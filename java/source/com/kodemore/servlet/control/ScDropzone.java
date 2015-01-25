@@ -32,7 +32,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.log.KmLog;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScBlockScript;
@@ -72,7 +72,7 @@ public class ScDropzone
      * that the user removed/cancelled an upload, but doesn't tell the server WHICH file
      * was removed/cancelled.
      */
-    private ScActionIF                _removeAction;
+    private ScAction                _removeAction;
 
     //##################################################
     //# init
@@ -109,12 +109,12 @@ public class ScDropzone
     //# remove action
     //##################################################
 
-    public ScActionIF getRemoveAction()
+    public ScAction getRemoveAction()
     {
         return _removeAction;
     }
 
-    public void setRemoveAction(ScActionIF e)
+    public void setRemoveAction(ScAction e)
     {
         _removeAction = e;
     }

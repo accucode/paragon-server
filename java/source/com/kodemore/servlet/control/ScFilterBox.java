@@ -27,7 +27,6 @@ import java.util.Iterator;
 import com.kodemore.collection.KmSingletonIterator;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScHtmlIdAjax;
 
@@ -55,7 +54,7 @@ public class ScFilterBox
     private ScGroup    _group;
     private ScBox      _body;
 
-    private ScActionIF _action;
+    private ScAction _action;
     private ScBox      _leftButtons;
     private ScBox      _rightButtons;
 
@@ -126,20 +125,20 @@ public class ScFilterBox
     //# action
     //##################################################
 
-    public ScActionIF getAction()
+    public ScAction getAction()
     {
         return _action;
     }
 
     @Deprecated
-    public void setAction(ScActionIF e)
+    public void setAction(ScAction e)
     {
         _action = e;
     }
 
-    public void setAction(Runnable e)
+    public void setAction(Runnable r)
     {
-        _action = ScAction.create(this, e);
+        _action = createAction(r);
     }
 
     private void runAction()

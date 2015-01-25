@@ -29,7 +29,7 @@ import com.kodemore.collection.KmMap;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScSessionTimeoutException;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.thread.KmThreadLocalManager;
@@ -109,7 +109,15 @@ public class ScControlRegistry
         if ( _locked )
             return getNextTransientKey();
 
-        return getNextPersistentKey();
+        return _getNextPersistentKey();
+    }
+
+    public String getNextPersistentKey()
+    {
+        if ( _locked )
+            throw new RuntimeException("Registry is locked; cannot get persistent key.");
+
+        return _getNextPersistentKey();
     }
 
     public void setLocked()
@@ -121,12 +129,12 @@ public class ScControlRegistry
     //# accessing
     //##################################################
 
-    public @NotNull ScActionIF getAction(String key)
+    public @NotNull ScAction getAction(String key)
     {
         Object e = findKey(key);
 
-        if ( e instanceof ScActionIF )
-            return (ScActionIF)e;
+        if ( e instanceof ScAction )
+            return (ScAction)e;
 
         throw newTimeout("Unknown Action: %s.", key);
     }
@@ -160,10 +168,10 @@ public class ScControlRegistry
     }
 
     //##################################################
-    //# private (persistent)
+    //# private (keys)
     //##################################################
 
-    private String getNextPersistentKey()
+    private String _getNextPersistentKey()
     {
         return PERSISTENT_KEY_PREFIX + getNextPersistentId();
     }

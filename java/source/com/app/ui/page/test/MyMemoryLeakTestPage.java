@@ -4,6 +4,7 @@ import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGroup;
@@ -37,7 +38,7 @@ public class MyMemoryLeakTestPage
     //# variables
     //##################################################
 
-    private Runnable    _loopAction;
+    private ScAction  _loopAction;
     private ScDateField _field;
 
     //##################################################
@@ -76,7 +77,7 @@ public class MyMemoryLeakTestPage
 
         form.add(newUserGrid());
 
-        _loopAction = this::handleLoop;
+        _loopAction = createAction(this::handleLoop);
     }
 
     private ScGrid<MyUser> newUserGrid()
@@ -129,7 +130,7 @@ public class MyMemoryLeakTestPage
         ScDelayedScript delay;
         delay = ajax().runDelayed();
         delay.setDelayMs(ms);
-        delay.getScript().run(this, _loopAction);
+        delay.getScript().run(_loopAction);
     }
 
     private void handleLoop()

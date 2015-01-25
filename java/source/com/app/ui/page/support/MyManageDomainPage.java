@@ -201,14 +201,12 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
 
     private void installListOn(ScFlexbox root)
     {
-        Runnable selectRunnable = this::handleSelect;
-
         _list = new ScSimpleModelList<>();
         _list.setKeyAdapter(getDomainUidProperty());
         _list.setTitleAdapter(getDomainTitleProperty());
         _list.setSubtitleAdapter(getDomainSubtitleProperty());
-        _list.addLink("Select", selectRunnable);
-        _list.setItemAction(selectRunnable);
+        _list.addLink("Select", this::handleSelect);
+        _list.setItemAction(this::handleSelect);
 
         ScDiv center;
         center = root.addDiv();

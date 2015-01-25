@@ -28,8 +28,6 @@ import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
-import com.kodemore.servlet.action.ScContextSupplierIF;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.field.ScHtmlIdIF;
@@ -81,18 +79,7 @@ public abstract class ScBlockScript
         return e;
     }
 
-    public ScActionScript run(ScContextSupplierIF ctx, Runnable r)
-    {
-        ScAction action = ScAction.create(ctx, r);
-
-        ScActionScript e;
-        e = ScActionScript.create(action);
-        run(e);
-        return e;
-    }
-
-    @Deprecated
-    public ScActionScript run(ScActionIF action)
+    public ScActionScript run(ScAction action)
     {
         ScActionScript e;
         e = ScActionScript.create(action);
@@ -100,8 +87,7 @@ public abstract class ScBlockScript
         return e;
     }
 
-    @Deprecated
-    public ScActionScript run(ScActionIF action, ScForm form)
+    public ScActionScript run(ScAction action, ScForm form)
     {
         ScActionScript e;
         e = ScActionScript.create(action, form);
@@ -814,7 +800,7 @@ public abstract class ScBlockScript
         onEscape(target, ScSimpleScript.create(e));
     }
 
-    public void onEscape(ScHtmlIdIF target, ScActionIF action)
+    public void onEscape(ScHtmlIdIF target, ScAction action)
     {
         onEscape(target, ScActionScript.create(action));
     }
@@ -847,7 +833,7 @@ public abstract class ScBlockScript
         onControlEnter(target, ScSimpleScript.create(e));
     }
 
-    public void onControlEnter(ScHtmlIdIF target, ScActionIF e)
+    public void onControlEnter(ScHtmlIdIF target, ScAction e)
     {
         onControlEnter(target, ScActionScript.create(e));
     }
@@ -880,7 +866,7 @@ public abstract class ScBlockScript
         onKeyUp(target, ScSimpleScript.create(e));
     }
 
-    public void onKeyUp(ScHtmlIdIF target, ScActionIF e)
+    public void onKeyUp(ScHtmlIdIF target, ScAction e)
     {
         onKeyUp(target, ScActionScript.create(e));
     }
@@ -913,7 +899,7 @@ public abstract class ScBlockScript
         onChange(target, ScSimpleScript.create(e));
     }
 
-    public void onChange(ScHtmlIdIF target, ScActionIF e)
+    public void onChange(ScHtmlIdIF target, ScAction e)
     {
         onChange(target, ScActionScript.create(e));
     }

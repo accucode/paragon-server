@@ -2,7 +2,10 @@ package com.app.ui.core;
 
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.exception.KmSecurityException;
+import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScContextIF;
+import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.script.ScBlockScript;
 
 import com.app.ui.page.general.MySignOutPage;
@@ -30,8 +33,11 @@ public class MyActions
     //# variables
     //##################################################
 
-    private Runnable _settingsRunnable;
-    private Runnable _signOutRunnable;
+    // todo_wyatt: senders?
+    private ScAction _settingsAction;
+
+    // todo_wyatt: senders?
+    private ScAction _signOutAction;
 
     //##################################################
     //# constructor
@@ -39,22 +45,22 @@ public class MyActions
 
     private MyActions()
     {
-        _settingsRunnable = this::handleSettings;
-        _signOutRunnable = this::handleSignOut;
+        _settingsAction = createAction(this::handleSettings);
+        _signOutAction = createAction(this::handleSignOut);
     }
 
     //##################################################
     //# accessing
     //##################################################
 
-    public Runnable getSettingsRunnable()
+    public ScAction getSettingsAction()
     {
-        return _settingsRunnable;
+        return _settingsAction;
     }
 
-    public Runnable getSignOutRunnable()
+    public ScAction getSignOutAction()
     {
-        return _signOutRunnable;
+        return _signOutAction;
     }
 
     //##################################################
@@ -119,6 +125,11 @@ public class MyActions
     private ScBlockScript ajax()
     {
         return getData().ajax();
+    }
+
+    private ScAction createAction(Runnable r)
+    {
+        return new ScAction(ScGlobalContext.getInstance(), r);
     }
 
 }

@@ -25,7 +25,7 @@ package com.kodemore.servlet.script;
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.meta.KmMetaAttribute;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.field.ScHtmlIdIF;
@@ -39,7 +39,7 @@ public class ScActionScript
     //# instance creation
     //##################################################
 
-    public static ScActionScript create(ScActionIF action)
+    public static ScActionScript create(ScAction action)
     {
         ScActionScript e;
         e = new ScActionScript();
@@ -47,7 +47,7 @@ public class ScActionScript
         return e;
     }
 
-    public static ScActionScript create(ScActionIF action, ScForm form)
+    public static ScActionScript create(ScAction action, ScForm form)
     {
         ScActionScript e;
         e = create(action);
@@ -64,7 +64,7 @@ public class ScActionScript
      * The primary attribute; the action to run.  If null
      * the resulting script will be null as well.
      */
-    private ScActionIF _action;
+    private ScAction _action;
 
     /**
      * The optional form.  This needs to be set in order for
@@ -116,12 +116,12 @@ public class ScActionScript
     //# action
     //##################################################
 
-    public ScActionIF getAction()
+    public ScAction getAction()
     {
         return _action;
     }
 
-    public void setAction(ScActionIF e)
+    public void setAction(ScAction e)
     {
         _action = e;
     }

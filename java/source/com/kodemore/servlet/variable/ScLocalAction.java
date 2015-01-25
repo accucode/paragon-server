@@ -22,10 +22,10 @@
 
 package com.kodemore.servlet.variable;
 
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 
 public class ScLocalAction
-    extends ScSimpleLocal<ScActionIF>
+    extends ScSimpleLocal<ScAction>
 {
     //##################################################
     //# convenience

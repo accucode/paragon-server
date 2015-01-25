@@ -26,7 +26,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.ScPage;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScBlockScript;
@@ -233,12 +233,12 @@ public abstract class ScContainerElement
         _onClick.setValue(e.formatScript());
     }
 
-    public void setOnClick(ScActionIF e)
+    public void setOnClick(ScAction e)
     {
         setOnClick(e, null);
     }
 
-    public void setOnClick(ScActionIF e, Object arg)
+    public void setOnClick(ScAction e, Object arg)
     {
         ScActionScript script;
         script = ScActionScript.create(e);

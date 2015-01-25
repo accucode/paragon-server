@@ -7,7 +7,7 @@ import com.kodemore.log.KmLog;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 
 import com.app.dao.base.MyDaoRegistry;
 import com.app.ui.core.MyServletData;
@@ -54,7 +54,7 @@ public class MyAjaxServlet
             if ( data.hasResult() )
                 return;
 
-            ScActionIF action = getAction(data);
+            ScAction action = getAction(data);
             runAction(action);
         }
         catch ( KmSecurityException ex )
@@ -68,7 +68,7 @@ public class MyAjaxServlet
         }
     }
 
-    private ScActionIF getAction(MyServletData data)
+    private ScAction getAction(MyServletData data)
     {
         String key = data.getActionKey();
 
@@ -169,7 +169,7 @@ public class MyAjaxServlet
     //# run action
     //##################################################
 
-    private void runAction(ScActionIF e)
+    private void runAction(ScAction e)
     {
         try
         {
@@ -181,7 +181,7 @@ public class MyAjaxServlet
         }
     }
 
-    private void runActionDao(final ScActionIF e)
+    private void runActionDao(final ScAction e)
     {
         new KmDaoCommand()
         {
@@ -193,7 +193,7 @@ public class MyAjaxServlet
         }.run();
     }
 
-    private void handleAction(ScActionIF e)
+    private void handleAction(ScAction e)
     {
         e.run();
     }

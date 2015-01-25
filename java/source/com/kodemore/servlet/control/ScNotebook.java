@@ -26,7 +26,6 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.script.ScActionScript;
 
 /**
@@ -59,26 +58,27 @@ public class ScNotebook
      * This is the optional tab changed action,
      * appropriate getters/setters are below.
      */
-    private ScActionIF _tabChangedAction;
+    private ScAction _tabChangedAction;
 
     //##################################################
     //# accessing
     //##################################################
 
-    public ScActionIF getTabChangedAction()
+    public ScAction getTabChangedAction()
     {
         return _tabChangedAction;
     }
 
-    @Deprecated
-    public void setTabChangedAction(ScActionIF e)
+    public void setTabChangedAction(ScAction e)
     {
         _tabChangedAction = e;
     }
 
     public void setTabChangedAction(Runnable e)
     {
-        _tabChangedAction = ScAction.create(this, e);
+        ScAction action = createAction(e);
+
+        setTabChangedAction(action);
     }
 
     public boolean hasTabChangedAction()

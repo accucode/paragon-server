@@ -26,7 +26,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.script.ScBlockScript;
@@ -46,7 +46,7 @@ public class ScForm
     /**
      * The action to run when users press the enter key in a field.
      */
-    private ScActionIF     _submitAction;
+    private ScAction     _submitAction;
 
     /**
      * The argument passed with the submit action.
@@ -89,20 +89,21 @@ public class ScForm
     //# action
     //##################################################
 
-    public ScActionIF getSubmitAction()
+    public ScAction getSubmitAction()
     {
         return _submitAction;
     }
 
-    @Deprecated
-    public void setSubmitAction(ScActionIF e)
+    public void setSubmitAction(ScAction e)
     {
         _submitAction = e;
     }
 
     public void setSubmitAction(Runnable r)
     {
-        _submitAction = ScAction.create(this, r);
+        ScAction action = createAction(r);
+
+        setSubmitAction(action);
     }
 
     public void clearSubmitAction()
@@ -259,8 +260,7 @@ public class ScForm
         ajax().setAttribute("onsubmit", script.formatScript());
     }
 
-    @Deprecated
-    public void ajaxOnSubmit(ScActionIF action)
+    public void ajaxOnSubmit(ScAction action)
     {
         if ( action == null )
         {
@@ -276,20 +276,10 @@ public class ScForm
         ajaxOnSubmit(e);
     }
 
-    public void ajaxOnSubmit(Runnable action)
+    // todo_wyatt: senders?
+    public void ajaxOnSubmit(Runnable runnable)
     {
-        if ( action == null )
-        {
-            ajaxOnSubmitDoNothing();
-            return;
-        }
-
-        ScBlockScript e;
-        e = new ScSimpleBlockScript();
-        e.run(this, action);
-        e.returnFalse();
-
-        ajaxOnSubmit(e);
+        ajaxOnSubmit(createAction(runnable));
     }
 
 }

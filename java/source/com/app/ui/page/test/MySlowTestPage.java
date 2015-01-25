@@ -1,6 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScButton;
@@ -63,44 +64,36 @@ public class MySlowTestPage
                 + " value can be found in the javascript file KmUtility.js; see"
                 + " blockDelayMs variable.");
 
+        ScAction action = createAction(this::handleDelay);
+        // todo_wyatt: test
+
         ScBox buttons;
         buttons = group.getBody().addButtonBox();
-        buttons.add(newButton(0));
-        buttons.add(newButton(10));
-        buttons.add(newButton(20));
-        buttons.add(newButton(50));
-        buttons.add(newButton(100));
-        buttons.add(newButton(200));
-        buttons.add(newButton(500));
-        buttons.add(newButton(1000));
-        buttons.add(newButton(2000));
-        buttons.add(newButton(5000));
-        buttons.add(newButton(10000));
+        buttons.add(newButton(action, 0));
+        buttons.add(newButton(action, 10));
+        buttons.add(newButton(action, 20));
+        buttons.add(newButton(action, 50));
+        buttons.add(newButton(action, 100));
+        buttons.add(newButton(action, 200));
+        buttons.add(newButton(action, 500));
+        buttons.add(newButton(action, 1000));
+        buttons.add(newButton(action, 2000));
+        buttons.add(newButton(action, 5000));
+        buttons.add(newButton(action, 10000));
     }
 
-    private ScButton newButton(int ms)
+    private ScButton newButton(ScAction action, int ms)
     {
         ScActionButton e;
         e = new ScActionButton();
         e.setText(ms + " ms");
-        e.setAction(newDelayRunnable(ms));
+        e.setAction(action, ms);
         return e;
     }
 
-    private Runnable newDelayRunnable(final int ms)
+    private void handleDelay()
     {
-        return new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                handleDelay(ms);
-            }
-        };
-    }
-
-    private void handleDelay(int ms)
-    {
+        Integer ms = getData().getIntegerArgument();
         Kmu.sleepMs(ms);
         ajax().toast("Delayed %s ms.", ms);
     }

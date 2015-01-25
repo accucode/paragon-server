@@ -26,7 +26,6 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.servlet.ScDropdownMenuItem;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.control.ScElement;
 import com.kodemore.servlet.variable.ScLocalList;
 import com.kodemore.servlet.variable.ScLocalString;
@@ -80,20 +79,17 @@ public class ScDropdownMenu
     //# items
     //##################################################
 
-    @Deprecated
-    public ScDropdownMenuItem addItem(String text, ScActionIF action)
+    public ScDropdownMenuItem addItem(String text, ScAction action)
     {
         return addItem(text, action, null);
     }
 
     public ScDropdownMenuItem addItem(String text, Runnable r)
     {
-        ScAction action = ScAction.create(this, r);
-        return addItem(text, action, null);
+        return addItem(text, createAction(r), null);
     }
 
-    @Deprecated
-    public ScDropdownMenuItem addItem(String text, ScActionIF action, Object arg)
+    public ScDropdownMenuItem addItem(String text, ScAction action, Object arg)
     {
         ScDropdownMenuItem e;
         e = new ScDropdownMenuItem();
@@ -107,12 +103,10 @@ public class ScDropdownMenu
 
     public ScDropdownMenuItem addItem(String text, Runnable r, Object arg)
     {
-        ScAction action = ScAction.create(this, r);
-
         ScDropdownMenuItem e;
         e = new ScDropdownMenuItem();
         e.setText(text);
-        e.setAction(action, arg);
+        e.setAction(createAction(r), arg);
 
         _items.add(e);
 

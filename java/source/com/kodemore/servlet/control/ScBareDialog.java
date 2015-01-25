@@ -26,7 +26,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.json.KmJsonMap;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.script.ScAddContentScript;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.variable.ScLocalBoolean;
@@ -121,8 +121,7 @@ public class ScBareDialog
         return getInner();
     }
 
-    @Deprecated
-    public void setSubmitAction(ScActionIF e)
+    public void setSubmitAction(ScAction e)
     {
         getForm().setSubmitAction(e);
     }

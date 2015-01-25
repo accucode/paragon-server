@@ -27,7 +27,6 @@ import com.kodemore.collection.KmOrderedMap;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.script.ScFilterScript;
 import com.kodemore.servlet.utility.ScJquery;
@@ -54,13 +53,13 @@ public class ScSimpleModelList<T>
      * The title should be relatively unique, and short enough to fit on a single line.
      * This is required.
      */
-    private KmAdaptorIF<T,String>         _titleAdapter;
+    private KmAdaptorIF<T,String>           _titleAdapter;
 
     /**
      * I am applied to each model to create a subtitle.
      * The subtitle optionally provides extra information.
      */
-    private KmAdaptorIF<T,String>         _subtitleAdapter;
+    private KmAdaptorIF<T,String>           _subtitleAdapter;
 
     /**
      * The list of actions to be displayed.  Each action is displayed
@@ -68,14 +67,14 @@ public class ScSimpleModelList<T>
      * configured with model's key as as the argument, based on the key
      * adapter.  The labels must be unique.
      */
-    private KmOrderedMap<String,Runnable> _links;
+    private KmOrderedMap<String,ScAction> _links;
 
     /**
      * If set, this action will be exectuted when the list item is clicked.
      * This allows the entire row to be clickable, not just the individual
      * links.  The value's key is passed as an argument.
      */
-    private ScActionIF                    _itemAction;
+    private ScAction                      _itemAction;
 
     //##################################################
     //# init
@@ -164,7 +163,12 @@ public class ScSimpleModelList<T>
     //# links
     //##################################################
 
-    public void addLink(String label, Runnable action)
+    public void addLink(String label, Runnable runnable)
+    {
+        _links.put(label, createAction(runnable));
+    }
+
+    public void addLink(String label, ScAction action)
     {
         _links.put(label, action);
     }
@@ -173,20 +177,19 @@ public class ScSimpleModelList<T>
     //# item action
     //##################################################
 
-    public ScActionIF getItemAction()
+    public ScAction getItemAction()
     {
         return _itemAction;
     }
 
-    @Deprecated
-    public void setItemAction(ScActionIF e)
+    public void setItemAction(ScAction e)
     {
         _itemAction = e;
     }
 
     public void setItemAction(Runnable e)
     {
-        _itemAction = ScAction.create(this, e);
+        _itemAction = createAction(e);
     }
 
     //##################################################
@@ -223,10 +226,12 @@ public class ScSimpleModelList<T>
 
         for ( String label : _links.getKeys() )
         {
-            Runnable action = _links.get(label);
+            ScAction action = _links.get(label);
             right.addLink(label, action, key);
         }
     }
+
+    // todo_wyatt: review all deprecated methods.
 
     //##################################################
     //# ajax (select)

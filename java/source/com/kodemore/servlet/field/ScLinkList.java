@@ -27,7 +27,7 @@ import java.util.Collection;
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.meta.KmMetaAttribute;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScLink;
 import com.kodemore.servlet.variable.ScLocalAction;
@@ -113,7 +113,7 @@ public class ScLinkList
     //# state
     //##################################################
 
-    public void setAction(ScActionIF e)
+    public void setAction(ScAction e)
     {
         _action.setValue(e);
     }

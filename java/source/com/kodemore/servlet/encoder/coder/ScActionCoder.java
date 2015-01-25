@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.encoder.coder;
 
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.utility.ScControlRegistry;
@@ -39,13 +39,13 @@ public class ScActionCoder
     @Override
     public boolean matches(Object e)
     {
-        return e instanceof ScActionIF;
+        return e instanceof ScAction;
     }
 
     @Override
     public void encode(ScEncoder encoder, Object o)
     {
-        ScActionIF e = (ScActionIF)o;
+        ScAction e = (ScAction)o;
         encoder._print(e.getKey());
     }
 

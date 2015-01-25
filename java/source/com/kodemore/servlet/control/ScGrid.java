@@ -37,7 +37,6 @@ import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScEncodedValueIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.encoder.ScDecoder;
 import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.field.ScHtmlIdIF;
@@ -710,7 +709,7 @@ public class ScGrid<T>
     @Deprecated
     public ScGridColumn<T> addLinkColumn(
         KmMetaProperty<T,?> text,
-        ScActionIF action,
+        ScAction action,
         KmMetaProperty<T,?> arg)
     {
         ScLink link;
@@ -730,12 +729,10 @@ public class ScGrid<T>
         Runnable r,
         KmMetaProperty<T,?> arg)
     {
-        ScAction action = ScAction.create(this, r);
-
         ScLink link;
         link = new ScLink();
         link.setText(text);
-        link.setAction(action, arg);
+        link.setAction(createAction(r), arg);
 
         ScGridColumn<T> col;
         col = addColumn(link);
@@ -744,8 +741,7 @@ public class ScGrid<T>
         return col;
     }
 
-    @Deprecated
-    public ScGridColumn<T> addLinkColumn(KmMetaAttribute<T,?> text, ScActionIF action)
+    public ScGridColumn<T> addLinkColumn(KmMetaAttribute<T,?> text, ScAction action)
     {
         ScLink link;
         link = new ScLink();
@@ -766,7 +762,7 @@ public class ScGrid<T>
     }
 
     @Deprecated
-    public ScGridColumn<T> addLinkColumn(String text, ScActionIF action, KmMetaProperty<T,?> arg)
+    public ScGridColumn<T> addLinkColumn(String text, ScAction action, KmMetaProperty<T,?> arg)
     {
         ScLink link;
         link = new ScLink();
@@ -778,12 +774,10 @@ public class ScGrid<T>
 
     public ScGridColumn<T> addLinkColumn(String text, Runnable r, KmMetaProperty<T,?> arg)
     {
-        ScAction action = ScAction.create(this, r);
-
         ScLink link;
         link = new ScLink();
         link.setText(text);
-        link.setAction(action, arg);
+        link.setAction(createAction(r), arg);
 
         return addColumn(link);
     }

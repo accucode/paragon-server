@@ -25,7 +25,7 @@ package com.kodemore.servlet.field;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
-import com.kodemore.servlet.action.ScActionIF;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScElementIF;
 import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.servlet.variable.ScLocalBoolean;
@@ -178,7 +178,7 @@ public abstract class ScInputField<T>
         getPostDomScript().onEscape(this, e);
     }
 
-    public void onEscape(ScActionIF e)
+    public void onEscape(ScAction e)
     {
         getPostDomScript().onEscape(this, e);
     }

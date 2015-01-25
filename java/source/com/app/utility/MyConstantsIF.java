@@ -45,7 +45,7 @@ public interface MyConstantsIF
     /**
      * This should be replaced with a copyright notice appropriate to your project.
      */
-    String COPYRIGHT_TEXT       = "Copyright 2014, Accucode Inc., (Apache License, Open Source)";
-    String COPYRIGHT_HTML       = "&copy; 2014, Accucode Inc., (Apache License, Open Source)";
+    String COPYRIGHT_TEXT       = "Copyright 2015, Accucode Inc., (Apache License, Open Source)";
+    String COPYRIGHT_HTML       = "&copy; 2015, Accucode Inc., (Apache License, Open Source)";
 
 }

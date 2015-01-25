@@ -29,7 +29,6 @@ import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScEntryPageIF;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.action.ScAction;
-import com.kodemore.servlet.action.ScActionIF;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScColorField;
 import com.kodemore.servlet.field.ScDropdown;
@@ -219,8 +218,7 @@ public abstract class ScContainer
         return e;
     }
 
-    @Deprecated
-    public ScLink addLink(String title, ScActionIF action)
+    public ScLink addLink(String title, ScAction action)
     {
         ScLink e;
         e = addLink(title);
@@ -230,7 +228,7 @@ public abstract class ScContainer
 
     public ScLink addLink(String title, Runnable r)
     {
-        ScActionIF action = ScAction.create(this, r);
+        ScAction action = createAction(r);
 
         ScLink e;
         e = addLink(title);
@@ -253,7 +251,7 @@ public abstract class ScContainer
     }
 
     @SuppressWarnings("rawtypes")
-    public ScLink addLink(KmAdaptorIF title, ScActionIF action)
+    public ScLink addLink(KmAdaptorIF title, ScAction action)
     {
         ScLink e;
         e = addLink();
@@ -262,8 +260,7 @@ public abstract class ScContainer
         return e;
     }
 
-    @Deprecated
-    public ScLink addLink(String title, ScActionIF action, Object arg)
+    public ScLink addLink(String title, ScAction action, Object arg)
     {
         ScLink e;
         e = addLink(title, action);
@@ -280,7 +277,7 @@ public abstract class ScContainer
     }
 
     @SuppressWarnings("rawtypes")
-    public ScLink addLink(KmAdaptorIF title, ScActionIF action, Object arg)
+    public ScLink addLink(KmAdaptorIF title, ScAction action, Object arg)
     {
         ScLink e;
         e = addLink(title, action);
@@ -288,7 +285,7 @@ public abstract class ScContainer
         return e;
     }
 
-    public ScLink addLink(KmMetaProperty<?,?> title, ScActionIF action, Object arg)
+    public ScLink addLink(KmMetaProperty<?,?> title, ScAction action, Object arg)
     {
         return addLink(title.getAdaptor(), action, arg);
     }
@@ -341,8 +338,7 @@ public abstract class ScContainer
         return add(b);
     }
 
-    @Deprecated
-    public ScActionButton addButton(String text, ScActionIF e)
+    public ScActionButton addButton(String text, ScAction e)
     {
         ScActionButton b;
         b = addButton(text);
@@ -359,7 +355,7 @@ public abstract class ScContainer
     }
 
     @Deprecated
-    public ScActionButton addButton(String text, ScActionIF action, KmMetaProperty<?,?> arg)
+    public ScActionButton addButton(String text, ScAction action, KmMetaProperty<?,?> arg)
     {
         ScActionButton e;
         e = addButton(text);
@@ -377,8 +373,7 @@ public abstract class ScContainer
         return e;
     }
 
-    @Deprecated
-    public ScActionButton addCancelButton(ScActionIF action)
+    public ScActionButton addCancelButton(ScAction action)
     {
         ScActionButton e;
         e = addButton("Cancel", action);
