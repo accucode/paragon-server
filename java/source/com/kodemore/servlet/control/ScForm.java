@@ -275,7 +275,6 @@ public class ScForm
         ajaxOnSubmit(e);
     }
 
-    // todo_wyatt: senders?
     public void ajaxOnSubmit(Runnable runnable)
     {
         ajaxOnSubmit(createAction(runnable));

@@ -65,7 +65,6 @@ public class MySlowTestPage
                 + " blockDelayMs variable.");
 
         ScAction action = createAction(this::handleDelay);
-        // todo_wyatt: test
 
         ScBox buttons;
         buttons = group.getBody().addButtonBox();
