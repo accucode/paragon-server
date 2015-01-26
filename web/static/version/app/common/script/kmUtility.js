@@ -89,9 +89,13 @@ Kmu.ajax = function(options)
     if ( !Kmu.checkAjaxConfirmation(options) )
         return;
 
-    var onSuccessArr;
-    onSuccessArr = Kmu.initAjaxBlocking(options);
+    var onSuccessArr = [];
+    var onErrorArr = [];
+    
+    Kmu.initAjaxBlocking(options, onSuccessArr, onErrorArr);
+    
     onSuccessArr.push(Kmu.ajaxSuccess);
+    onErrorArr.push(Kmu.ajaxError);
     
     var data = Kmu.formatAjaxData(options);
     
@@ -103,7 +107,7 @@ Kmu.ajax = function(options)
     	dataType: 	'json',
     	data: 		data,
     	success: 	onSuccessArr,
-    	error: 		Kmu.ajaxError,
+    	error: 		onErrorArr,
     	complete: 	Kmu.ajaxComplete
     });
 }
@@ -117,10 +121,8 @@ Kmu.checkAjaxConfirmation = function(options)
 	return confirm(msg);
 }
 
-Kmu.initAjaxBlocking = function(options)
+Kmu.initAjaxBlocking = function(options, onSuccessArr, onErrorArr)
 {
-   	var onSuccessArr = [];
-   	
     if ( options.block )
     {
       	var sel = options.block;
@@ -129,17 +131,16 @@ Kmu.initAjaxBlocking = function(options)
         
         var fn = function() { Kmu.unblockControl(sel); };
         onSuccessArr.push(fn);
+        onErrorArr.push(fn);
+        return;
     }
-    else
-    {
-      	var delay = Kmu.blockDelayMs;
-        Kmu.blockPageQuietly(delay);
-        
-        var fn = function() { Kmu.unblockPage(); };
-        onSuccessArr.push(fn);
-    }
-
-    return onSuccessArr;
+    
+  	var delay = Kmu.blockDelayMs;
+    Kmu.blockPageQuietly(delay);
+    
+    var fn = function() { Kmu.unblockPage(); };
+    onSuccessArr.push(fn);
+    onErrorArr.push(fn);
 }
 
 Kmu.formatAjaxData = function(options)
@@ -215,10 +216,20 @@ Kmu.ajaxSuccess = function(result)
 
 Kmu.ajaxError = function(req, status, error)
 {
-    alert('Ajax error'
-        + '\nStatus: ' + status
-        + '\nError: ' + error
-        );
+	if ( req.responseHeader === undefined )
+	{
+	    alert('The server is temporarily down for maintenance.' 
+            + '\nPlease check back shortly.'
+            );
+	    return;
+	}
+	
+	alert('An unexpected error has occurred.' 
+	        + '\nStatus: ' + status
+	        + '\nError: ' + error
+	        + '\nResponseText: ' + req.responseText
+	        + '\nResponseHeader: ' + req.responseHeader
+	        );
 }
 
 /*
