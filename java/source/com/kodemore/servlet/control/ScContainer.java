@@ -354,7 +354,6 @@ public abstract class ScContainer
         return b;
     }
 
-    @Deprecated
     public ScActionButton addButton(String text, ScAction action, KmMetaProperty<?,?> arg)
     {
         ScActionButton e;

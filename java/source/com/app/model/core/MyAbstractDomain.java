@@ -154,11 +154,26 @@ public abstract class MyAbstractDomain
         return MyDaoRegistry.getInstance();
     }
 
+    /**
+     * Attach the object to hibernate for subsequent persistence.
+     * Once attached, hibernate will take care of automatically saving
+     * the object to the database when necessary.
+     *
+     * This only needs to be called once for any given object.  Thereafter,
+     * hibernate will persist any changes automatically.  You should not need to
+     * call this every time you modify the object, and doing do is misleading.
+     *
+     * The standard domain validation is run before attaching the instance to
+     * hibernate.
+     */
     public void attachDao()
     {
         attachDao(true);
     }
 
+    /**
+     * Attach the instance to hibernate, optionally disabling normal validation.
+     */
     public void attachDao(boolean validate)
     {
         if ( validate )

@@ -231,8 +231,6 @@ public class ScSimpleModelList<T>
         }
     }
 
-    // todo_wyatt: review all deprecated methods.
-
     //##################################################
     //# ajax (select)
     //##################################################

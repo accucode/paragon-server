@@ -706,7 +706,6 @@ public class ScGrid<T>
         return c;
     }
 
-    @Deprecated
     public ScGridColumn<T> addLinkColumn(
         KmMetaProperty<T,?> text,
         ScAction action,
@@ -729,16 +728,9 @@ public class ScGrid<T>
         Runnable r,
         KmMetaProperty<T,?> arg)
     {
-        ScLink link;
-        link = new ScLink();
-        link.setText(text);
-        link.setAction(createAction(r), arg);
+        ScAction action = createAction(r);
 
-        ScGridColumn<T> col;
-        col = addColumn(link);
-        col.setHeader(text.getLabel());
-        col.setCharacterWidth(text.getColumnWidth());
-        return col;
+        return addLinkColumn(text, action, arg);
     }
 
     public ScGridColumn<T> addLinkColumn(KmMetaAttribute<T,?> text, ScAction action)
@@ -761,7 +753,6 @@ public class ScGrid<T>
         return addColumn(link);
     }
 
-    @Deprecated
     public ScGridColumn<T> addLinkColumn(String text, ScAction action, KmMetaProperty<T,?> arg)
     {
         ScLink link;
@@ -774,12 +765,9 @@ public class ScGrid<T>
 
     public ScGridColumn<T> addLinkColumn(String text, Runnable r, KmMetaProperty<T,?> arg)
     {
-        ScLink link;
-        link = new ScLink();
-        link.setText(text);
-        link.setAction(createAction(r), arg);
+        ScAction action = createAction(r);
 
-        return addColumn(link);
+        return addLinkColumn(text, action, arg);
     }
 
     private ScGridColumn<T> addColumn(ScControl e)

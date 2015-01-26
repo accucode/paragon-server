@@ -130,7 +130,6 @@ public class ScFilterBox
         return _action;
     }
 
-    @Deprecated
     public void setAction(ScAction e)
     {
         _action = e;
@@ -138,7 +137,9 @@ public class ScFilterBox
 
     public void setAction(Runnable r)
     {
-        _action = createAction(r);
+        ScAction action = createAction(r);
+
+        setAction(action);
     }
 
     private void runAction()
