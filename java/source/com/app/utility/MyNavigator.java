@@ -7,6 +7,8 @@ import com.app.model.MyProject;
 import com.app.model.MyServerSession;
 import com.app.ui.layout.MyPageLayout;
 import com.app.ui.page.general.MyDashboardPage;
+import com.app.ui.page.general.MySignOutPage;
+import com.app.ui.page.login.MySignInUtility;
 
 public class MyNavigator
 {
@@ -59,6 +61,14 @@ public class MyNavigator
         layout.ajaxRefreshHeaderContent();
         layout.ajaxRefreshTitleContentFor(page);
         pushDefaultPage();
+    }
+
+    public static void logout()
+    {
+        MySignInUtility.signOut();
+        MyPageLayout.getInstance().ajaxRefreshHeaderContent();
+        MyPageLayout.getInstance().ajaxClearContent();
+        MySignOutPage.instance.ajaxPush();
     }
 
     //##################################################

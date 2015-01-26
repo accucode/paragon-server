@@ -22,7 +22,6 @@ import com.app.file.MySharedFiles;
 import com.app.hibernate.MyHibernateConfiguration;
 import com.app.job.MyMasterJobManager;
 import com.app.property.MyPropertyManager;
-import com.app.ui.core.MyActions;
 import com.app.ui.layout.MyPageLayout;
 import com.app.ui.layout.MyPageLayoutBridge;
 import com.app.ui.page.MyMenuRegistry;
@@ -381,7 +380,6 @@ public class MyInstaller
         printfHeader("Actions");
         ScGlobalContext.install();
         ScActions.install();
-        MyActions.install();
         printOk();
     }
 

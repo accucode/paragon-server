@@ -10,8 +10,6 @@ import com.kodemore.servlet.utility.ScUrls;
 import com.app.model.MyProject;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
-import com.app.ui.page.general.MySignOutPage;
-import com.app.ui.page.login.MySignInUtility;
 import com.app.ui.page.userProfile.MyUserProfilePage;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
@@ -83,10 +81,7 @@ public class MyPageHeader
 
     private void handleLogout()
     {
-        MySignInUtility.signOut();
-        MyPageLayout.getInstance().ajaxRefreshHeaderContent();
-        MyPageLayout.getInstance().ajaxClearContent();
-        MySignOutPage.instance.ajaxPush();
+        MyNavigator.logout();
     }
 
     //==================================================
