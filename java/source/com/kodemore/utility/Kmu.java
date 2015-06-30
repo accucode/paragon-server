@@ -45,7 +45,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
@@ -5574,11 +5573,9 @@ public class Kmu
      * located in the package com.kodemore you could use:
      * Kmu.readClassResource("com/kodemore/abc.txt");
      */
-    public static byte[] readResourceBytes(String path)
+    public static byte[] readResourceBytes(Class<?> c, String path)
     {
-        URL url = ClassLoader.getSystemResource(path);
-
-        try ( InputStream in = url.openStream();
+        try ( InputStream in = c.getResourceAsStream(path);
             ByteArrayOutputStream out = new ByteArrayOutputStream() )
         {
             while ( true )
@@ -5599,18 +5596,18 @@ public class Kmu
         }
     }
 
-    public static String readResourceString(String path)
+    public static String readResourceString(Class<?> c, String path)
     {
-        byte[] bytes = readResourceBytes(path);
+        byte[] bytes = readResourceBytes(c, path);
         if ( bytes == null )
             return null;
 
         return new String(bytes);
     }
 
-    public static KmList<String> readResourceLines(String path)
+    public static KmList<String> readResourceLines(Class<?> c, String path)
     {
-        return parseLines(readResourceString(path));
+        return parseLines(readResourceString(c, path));
     }
 
     //##################################################

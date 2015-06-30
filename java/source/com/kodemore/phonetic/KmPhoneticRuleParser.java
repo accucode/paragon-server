@@ -49,7 +49,7 @@ public class KmPhoneticRuleParser
      */
     public KmList<KmPhoneticRule> parseResource(String path)
     {
-        KmList<String> lines = Kmu.readResourceLines(path);
+        KmList<String> lines = Kmu.readResourceLines(getClass(), path);
         return parseLines(lines);
     }
 

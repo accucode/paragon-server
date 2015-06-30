@@ -80,7 +80,7 @@ public class KmWikiTest
     {
         String file = "wikiSample.txt";
         String path = "com/kodemore/wiki/" + file;
-        return Kmu.readResourceString(path);
+        return Kmu.readResourceString(getClass(), path);
     }
 
     /**

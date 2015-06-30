@@ -142,13 +142,6 @@ public class KmPhoneticEncoder
 
     public void loadDefaultRules()
     {
-        String pkg;
-        pkg = getClass().getPackage().getName();
-        pkg = Kmu.replaceAll(pkg, ".", "/");
-
-        String path;
-        path = Kmu.joinFilePath(pkg, "phoneticRules.txt");
-
-        loadRulesFromResource(path);
+        loadRulesFromResource("phoneticRules.txt");
     }
 }

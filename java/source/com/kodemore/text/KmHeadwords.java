@@ -136,7 +136,7 @@ public class KmHeadwords
 
     public void loadFromResource(String path)
     {
-        KmList<String> lines = Kmu.readResourceLines(path);
+        KmList<String> lines = Kmu.readResourceLines(getClass(), path);
         loadLines(lines);
     }
 
@@ -146,11 +146,7 @@ public class KmHeadwords
 
     private String getDefaultResourcePath()
     {
-        String pkg;
-        pkg = getClass().getPackage().getName();
-        pkg = Kmu.replaceAll(pkg, ".", "/");
-
-        return Kmu.joinFilePath(pkg, "headwords.txt");
+        return "headwords.txt";
     }
 
     //==================================================
