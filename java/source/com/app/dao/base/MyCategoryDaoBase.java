@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MyCategoryDaoBase
     @Override
     public MyCategoryCriteria createCriteria()
     {
-        return new MyCategoryCriteria(createGenericCriteria());
+        return new MyCategoryCriteria(_createCriteria());
+    }
+
+    @Override
+    public MyCategoryCriteria createDetachedCriteria(String alias)
+    {
+        return new MyCategoryCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaCategory getMeta()

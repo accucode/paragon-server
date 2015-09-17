@@ -44,8 +44,8 @@ public class ScErrorWrapper
     //# variables
     //##################################################
 
-    private ScLocalString       _flavor;
-    private ScBox               _messageBox;
+    private ScLocalString _flavor;
+    private ScBox         _messageBox;
 
     //##################################################
     //# init

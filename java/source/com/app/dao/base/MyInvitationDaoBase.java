@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MyInvitationDaoBase
     @Override
     public MyInvitationCriteria createCriteria()
     {
-        return new MyInvitationCriteria(createGenericCriteria());
+        return new MyInvitationCriteria(_createCriteria());
+    }
+
+    @Override
+    public MyInvitationCriteria createDetachedCriteria(String alias)
+    {
+        return new MyInvitationCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaInvitation getMeta()

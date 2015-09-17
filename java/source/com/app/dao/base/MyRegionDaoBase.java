@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MyRegionDaoBase
     @Override
     public MyRegionCriteria createCriteria()
     {
-        return new MyRegionCriteria(createGenericCriteria());
+        return new MyRegionCriteria(_createCriteria());
+    }
+
+    @Override
+    public MyRegionCriteria createDetachedCriteria(String alias)
+    {
+        return new MyRegionCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaRegion getMeta()

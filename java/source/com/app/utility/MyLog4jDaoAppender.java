@@ -5,7 +5,7 @@ import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ThrowableInformation;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.command.KmDaoCommand;
+import com.kodemore.command.KmDao;
 import com.kodemore.log.KmLog;
 import com.kodemore.utility.Kmu;
 
@@ -16,19 +16,33 @@ public class MyLog4jDaoAppender
     extends AppenderSkeleton
 {
     //##################################################
+    //# constants
+    //##################################################
+
+    private static final boolean ENABLED = false;
+
+    //##################################################
     //# override
     //##################################################
 
     @Override
-    protected void append(final LoggingEvent ev)
+    protected void append(LoggingEvent ev)
     {
         try
         {
-            newCommand(ev).run();
+            if ( !ENABLED )
+                return;
+
+            KmLog.disableThread();
+            KmDao.run(this::saveDao, ev);
         }
         catch ( Exception ex )
         {
             ex.printStackTrace();
+        }
+        finally
+        {
+            KmLog.enableThread();
         }
     }
 
@@ -48,27 +62,7 @@ public class MyLog4jDaoAppender
     //# command
     //##################################################
 
-    private KmDaoCommand newCommand(final LoggingEvent ev)
-    {
-        return new KmDaoCommand()
-        {
-            @Override
-            public void handle()
-            {
-                KmLog.disableThread();
-                try
-                {
-                    save(ev);
-                }
-                finally
-                {
-                    KmLog.enableThread();
-                }
-            }
-        };
-    }
-
-    private void save(final LoggingEvent ev)
+    private void saveDao(LoggingEvent ev)
     {
         String loggerName = ev.getLoggerName();
         String context = ev.getNDC();

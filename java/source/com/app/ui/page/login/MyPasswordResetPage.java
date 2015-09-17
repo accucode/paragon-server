@@ -19,14 +19,24 @@ import com.app.model.MyUser;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
 
-public class MyPasswordResetPage
+public final class MyPasswordResetPage
     extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPasswordResetPage instance = new MyPasswordResetPage();
+    private static MyPasswordResetPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyPasswordResetPage();
+    }
+
+    public static MyPasswordResetPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyPasswordResetPage()
     {
@@ -34,22 +44,28 @@ public class MyPasswordResetPage
     }
 
     //##################################################
+    //# constants
+    //##################################################
+
+    private static final String PARAM_TOKEN = "token";
+
+    //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString   _token;
+    private ScLocalString _token;
 
-    private ScCardFrame     _frame;
+    private ScCardFrame _frame;
 
     private ScCard          _entryCard;
     private ScTextSpan      _emailText;
     private ScPasswordField _password1Field;
     private ScPasswordField _password2Field;
 
-    private ScCard          _successCard;
+    private ScCard _successCard;
 
-    private ScCard          _errorCard;
-    private ScText          _errorMessage;
+    private ScCard _errorCard;
+    private ScText _errorMessage;
 
     //##################################################
     //# settings
@@ -58,40 +74,34 @@ public class MyPasswordResetPage
     @Override
     public MySecurityLevel getSecurityLevel()
     {
-        return MySecurityLevel.any;
+        return MySecurityLevel.none;
     }
 
     //##################################################
-    //# navigation
+    //# url
     //##################################################
-
-    public void ajaxPushToken(MyPasswordReset e)
-    {
-        setToken(e.getToken());
-
-        _ajaxPush();
-    }
 
     public String formatEntryUrl(MyPasswordReset e)
     {
         setToken(e.getToken());
 
-        return _formatEntryUrl();
+        return formatEntryUrl();
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        v.setValue(PARAM_TOKEN, getToken());
     }
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public void applyBookmark(ScParameterList v)
     {
-        ScParameterList v;
-        v = new ScParameterList();
-        v.setValue("token", getToken());
-        return v;
-    }
-
-    @Override
-    public void applyQueryParameters(ScParameterList v)
-    {
-        setToken(v.getValue("token"));
+        setToken(v.getValue(PARAM_TOKEN));
     }
 
     //##################################################
@@ -191,15 +201,16 @@ public class MyPasswordResetPage
         ScBox body;
         body = group.getBody().addBox();
         body.css().pad();
-        body.addText(""
-            + "Success! Your password has been reset. "
-            + "Please click the following link to sign in.");
+        body.addText(
+            ""
+                + "Success! Your password has been reset. "
+                + "Please click the following link to sign in.");
 
         group.addBodyDivider();
 
         ScBox footer;
         footer = group.getBody().addButtonBox();
-        footer.addButton("Sign In", MySignInPage.instance);
+        footer.addButton("Sign In", MySignInPage.getInstance());
 
         return card;
     }
@@ -227,7 +238,7 @@ public class MyPasswordResetPage
 
         ScBox footer;
         footer = group.getBody().addButtonBox();
-        footer.addButton("Sign In", MySignInPage.instance);
+        footer.addButton("Sign In", MySignInPage.getInstance());
 
         return card;
     }
@@ -239,8 +250,6 @@ public class MyPasswordResetPage
     @Override
     protected void preRender()
     {
-        super.preRender();
-
         MyPasswordReset pr = getPasswordReset();
         if ( pr == null || pr.isExpired() )
         {
@@ -272,9 +281,10 @@ public class MyPasswordResetPage
         MyPasswordReset pr = getPasswordReset();
         if ( pr == null || pr.isExpired() )
         {
-            printError(""
-                + "The requested password reset is invalid or has expired. "
-                + "Please return to the sign in page to try again.");
+            printError(
+                ""
+                    + "The requested password reset is invalid or has expired. "
+                    + "Please return to the sign in page to try again.");
             return;
         }
 
@@ -289,16 +299,14 @@ public class MyPasswordResetPage
         String pw2 = _password2Field.getValue();
 
         if ( Kmu.isNotEqual(pw1, pw2) )
-        {
-            _password1Field.addError("Passwords did not match.");
-            throw newCancel();
-        }
+            _password1Field.error("Passwords did not match.");
 
         MyUser user = pr.findUser();
         if ( user == null )
         {
             printError("The requested email is not valid.");
             return;
+
         }
 
         user.setPassword(pw1);

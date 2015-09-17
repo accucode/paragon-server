@@ -16,10 +16,10 @@ import com.kodemore.utility.KmConstantsIF;
 import com.app.utility.MyUrlBridge;
 
 /**
- * I am used to rewrite all of the application uri's.  More
+ * I am used to rewrite all of the application uri's.  More 
  * specifically, I look for uri's that contain the application
  * version and rewrite them in a normalized format.  Thus...
- *
+ * 
  *      Change: /app/static/version-Build-120701-1/app/theme/default/image/a.png
  *      To:     /app/static/version/app/theme/default/image/a.png
  */

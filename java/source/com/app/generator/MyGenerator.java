@@ -53,7 +53,7 @@ public class MyGenerator
      * specific classes.  In particular this prefix is used during code
      * generation.
      */
-    private static final String APPLICATION_PREFIX  = "my";
+    private static final String APPLICATION_PREFIX = "my";
 
     /**
      * The root package that contains the application specific code.
@@ -64,13 +64,13 @@ public class MyGenerator
     //# variables
     //##################################################
 
-    private KmgRoot             _root;
-    private KmList<String>      _args;
+    private KmgRoot        _root;
+    private KmList<String> _args;
 
-    private boolean             _installedModels;
-    private boolean             _installedProperties;
-    private boolean             _installedPages;
-    private boolean             _installedCss;
+    private boolean _installedModels;
+    private boolean _installedProperties;
+    private boolean _installedPages;
+    private boolean _installedCss;
 
     //##################################################
     //# constructor

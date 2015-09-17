@@ -7,14 +7,27 @@ import com.kodemore.servlet.control.ScNotebook;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 
-public class MyNotebookTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyNotebookTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyNotebookTestPage instance = new MyNotebookTestPage();
+    private static MyNotebookTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyNotebookTestPage();
+    }
+
+    public static MyNotebookTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyNotebookTestPage()
     {
@@ -22,17 +35,27 @@ public class MyNotebookTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -64,6 +87,16 @@ public class MyNotebookTestPage
         ScActionButton tab3;
         tab3 = book.addButton("Test", this::handleTest);
         tab3.setLabel("Three");
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

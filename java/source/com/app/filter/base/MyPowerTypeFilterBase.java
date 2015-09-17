@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyPowerTypeFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyPowerType> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyPowerType> c)
     {
         applyConditionsTo((MyPowerTypeCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyPowerType> c)
+    protected void applySortsTo(KmhModelCriteria<MyPowerType> c)
     {
         applySortsTo((MyPowerTypeCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyPowerTypeFilterBase
     @Override
     protected MyPowerTypeCriteria createCriteria()
     {
-        return new MyPowerTypeCriteria(createGenericCriteria());
+        return new MyPowerTypeCriteria(_createCriteria());
     }
 }

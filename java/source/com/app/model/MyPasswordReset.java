@@ -41,7 +41,7 @@ public class MyPasswordReset
 
     public String formatEntryUrl()
     {
-        return MyPasswordResetPage.instance.formatEntryUrl(this);
+        return MyPasswordResetPage.getInstance().formatEntryUrl(this);
     }
 
     public MyUser findUser()

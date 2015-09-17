@@ -10,14 +10,27 @@ import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.time.KmDate;
 
-public class MyDateFieldTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyDateFieldTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDateFieldTestPage instance = new MyDateFieldTestPage();
+    private static MyDateFieldTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDateFieldTestPage();
+    }
+
+    public static MyDateFieldTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDateFieldTestPage()
     {
@@ -33,17 +46,27 @@ public class MyDateFieldTestPage
     private ScDateField _endField;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -81,6 +104,16 @@ public class MyDateFieldTestPage
 
         group.addBodyDivider();
         group.getBody().addButtonBox().addSubmitButton();
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

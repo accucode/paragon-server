@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -525,7 +524,7 @@ public abstract class MyApplicationLogBase
     {
         KmList<MyApplicationLogTrace> v;
         v = getTraces().toList();
-        v.sortOn(MyApplicationLogTrace.Meta.Sequence);
+        v.sortOn(MyApplicationLogTrace::getSequence);
         return v;
     }
 
@@ -682,74 +681,6 @@ public abstract class MyApplicationLogBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("id") )
-            setId(p.getInteger("id"));
-
-        if ( p.hasKey("loggerName") )
-            setLoggerName(p.getString("loggerName"));
-
-        if ( p.hasKey("context") )
-            setContext(p.getString("context"));
-
-        if ( p.hasKey("message") )
-            setMessage(p.getString("message"));
-
-        if ( p.hasKey("levelName") )
-            setLevelName(p.getString("levelName"));
-
-        if ( p.hasKey("levelCode") )
-            setLevelCode(p.getInteger("levelCode"));
-
-        if ( p.hasKey("threadName") )
-            setThreadName(p.getString("threadName"));
-
-        if ( p.hasKey("exceptionText") )
-            setExceptionText(p.getString("exceptionText"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasId() )
-            p.setInteger("id", getId());
-
-        if ( hasLoggerName() )
-            p.setString("loggerName", getLoggerName());
-
-        if ( hasContext() )
-            p.setString("context", getContext());
-
-        if ( hasMessage() )
-            p.setString("message", getMessage());
-
-        if ( hasLevelName() )
-            p.setString("levelName", getLevelName());
-
-        if ( hasLevelCode() )
-            p.setInteger("levelCode", getLevelCode());
-
-        if ( hasThreadName() )
-            p.setString("threadName", getThreadName());
-
-        if ( hasExceptionText() )
-            p.setString("exceptionText", getExceptionText());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

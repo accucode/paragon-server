@@ -34,6 +34,9 @@ public class MyPageLayout
 
     public static MyPageLayout getInstance()
     {
+        if ( _instance == null )
+            throw Kmu.newFatal("Not installed.");
+
         return _instance;
     }
 

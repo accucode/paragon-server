@@ -121,7 +121,7 @@ public class MyMainServlet
         String s = getData().formatParametersAsQueryString();
 
         if ( Kmu.isEmpty(s) )
-            s = MyNavigator.formatDefaultPageQueryString();
+            s = MyNavigator.formatEntryPageQueryString();
 
         return s;
     }

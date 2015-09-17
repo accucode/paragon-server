@@ -9,14 +9,24 @@ import com.app.model.MyPowerType;
 import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.support.MyManageDomainPage;
 
-public class MyManagePowerTypesPage
+public final class MyManagePowerTypesPage
     extends MyManageDomainPage<MyPowerType>
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManagePowerTypesPage instance = new MyManagePowerTypesPage();
+    private static MyManagePowerTypesPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyManagePowerTypesPage();
+    }
+
+    public static MyManagePowerTypesPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyManagePowerTypesPage()
     {

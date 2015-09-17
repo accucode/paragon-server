@@ -111,7 +111,7 @@ public class KmgModelIndex
 
     public String getf_columnNames()
     {
-        return getColumnNames().format(", ");
+        return getColumnNames().join(", ");
     }
 
     public String getf_unique()

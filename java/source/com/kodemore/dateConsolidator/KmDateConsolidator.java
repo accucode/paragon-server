@@ -55,7 +55,7 @@ public class KmDateConsolidator
     /**
      * The list of input values.  Input values MAY contain duplicate dates.
      */
-    private KmList<KmDateConsolidatorValue>                            _values;
+    private KmList<KmDateConsolidatorValue> _values;
 
     /**
      * An internally generated map, this provides effecient access
@@ -69,28 +69,28 @@ public class KmDateConsolidator
      * still exceeds the max.  If null, then the data will be grouped by date,
      * with no maximum number of groups.
      */
-    private Integer                                                    _maxGroupCount;
+    private Integer _maxGroupCount;
 
     /**
      * The minimum date in the input set.
      */
-    private KmDate                                                     _minDate;
+    private KmDate _minDate;
 
     /**
      * The maximum date in the input set.
      */
-    private KmDate                                                     _maxDate;
+    private KmDate _maxDate;
 
     /**
      * The day used as the start of each week.  This is used
      * when grouping information by week.  Defaults to Monday.
      */
-    private KmWeekDay                                                  _startOfWeek;
+    private KmWeekDay _startOfWeek;
 
     /**
      * The generated list of output values.
      */
-    private KmList<KmDateConsolidatorResult>                           _results;
+    private KmList<KmDateConsolidatorResult> _results;
 
     //##################################################
     //# constructor

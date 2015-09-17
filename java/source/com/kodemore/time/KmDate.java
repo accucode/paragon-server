@@ -143,10 +143,10 @@ public class KmDate
 
     /**
      * The ordinal is what fundamentally defines the date.
-     * An ordinal value of zero means Jan 1, 1800,
+     * An ordinal value of zero means Jan 1, 1800, 
      * An ordinal value of one means Jan 2, 1800, etc...
-     *
-     * Changing the meaning of ordinal will break the contract
+     * 
+     * Changing the meaning of ordinal will break the contract 
      * for weekDays.  However, if necessary, this is easy to
      * fix, see KmWeekDay.DATE_ORDINAL_ADJUSTMENT.
      */
@@ -528,7 +528,7 @@ public class KmDate
 
     /**
      * Return the closest date matching the requested week day.
-     * Optionally include myself in the search.
+     * Optionally include myself in the search. 
      */
     public KmDate getPreviousDayOfWeek(KmWeekDay day, boolean includeToday)
     {
@@ -851,7 +851,7 @@ public class KmDate
 
     /**
      * Return the duration from myself until the specified ts.
-     *
+     * 
      * Durations may be positive or negative:
      *      today.getDurationUntil(tomorrow)  ==  1 day.
      *      today.getDurationUntil(yesterday) == -1 day.

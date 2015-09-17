@@ -3,6 +3,7 @@ package com.app.ui.page.support;
 import com.kodemore.collection.KmList;
 import com.kodemore.meta.KmMetaStringProperty;
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScCard;
 import com.kodemore.servlet.control.ScCardFrame;
@@ -20,51 +21,53 @@ import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.servlet.variable.ScLocalString;
 
 import com.app.model.core.MyAbstractDomain;
-import com.app.ui.page.MyAbstractEntryPage;
+import com.app.ui.page.MyPage;
 import com.app.utility.MyButtonUrls;
 
 public abstract class MyManageDomainPage<T extends MyAbstractDomain>
-    extends MyAbstractEntryPage
+    extends MyPage
 {
+    //##################################################
+    //# constants
+    //##################################################
+
+    /**
+     * If provided as a query parameter, attempt to select the
+     * associated model upon page entry.
+     */
+    private static final String PARAM_UID = "uid";
+
     //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString        _uid;
+    private ScLocalString _uid;
 
-    private ScFlexbox            _filterSection;
-    private ScTextField          _filterField;
-    private ScActionButton       _refreshButton;
-    private ScActionButton       _addButton;
+    private ScFlexbox      _filterSection;
+    private ScTextField    _filterField;
+    private ScActionButton _refreshButton;
+    private ScActionButton _addButton;
 
     private ScSimpleModelList<T> _list;
     private ScCardFrame          _frame;
 
     //##################################################
-    //# navigation
+    //# bookmark
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final void composeBookmarkOn(ScParameterList v)
     {
-        ScParameterList v = super.composeQueryParameters();
-        if ( v == null )
-            v = new ScParameterList();
-
         if ( _uid.hasValue() )
-            v.setValue("uid", _uid.getValue());
-
-        return v;
+            v.setValue(PARAM_UID, _uid.getValue());
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList params)
+    public final void applyBookmark(ScParameterList v)
     {
-        super.applyQueryParameters(params);
-
-        if ( params.hasValue("uid") )
+        if ( v.hasValue(PARAM_UID) )
         {
-            String uid = params.getValue("uid");
+            String uid = v.getValue(PARAM_UID);
             T e = findDomain(uid);
             if ( e != null )
                 _uid.setValue(uid);
@@ -201,12 +204,14 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
 
     private void installListOn(ScFlexbox root)
     {
+        ScAction selectAction = newAction(this::handleSelect);
+
         _list = new ScSimpleModelList<>();
         _list.setKeyAdapter(getDomainUidProperty());
         _list.setTitleAdapter(getDomainTitleProperty());
         _list.setSubtitleAdapter(getDomainSubtitleProperty());
-        _list.addLink("Select", this::handleSelect);
-        _list.setItemAction(this::handleSelect);
+        _list.addLink("Select", selectAction);
+        _list.setItemAction(selectAction);
 
         ScDiv center;
         center = root.addDiv();
@@ -239,7 +244,7 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
     protected abstract void installCardsOn(ScCardFrame frame);
 
     //##################################################
-    //# actions
+    //# abstract
     //##################################################
 
     protected abstract void ajaxOpenAddDialog();
@@ -251,8 +256,6 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
     @Override
     protected void preRender()
     {
-        super.preRender();
-
         _list.setValues(findSortedDomains());
     }
 
@@ -274,16 +277,16 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
     //# handle
     //##################################################
 
-    private void handleSelect()
-    {
-        String uid = getStringArgument();
-        ajaxSelectDomain(uid);
-    }
-
     private void handleAdd()
     {
         ajaxClearDomain();
         ajaxOpenAddDialog();
+    }
+
+    private void handleSelect()
+    {
+        String uid = getStringArgument();
+        ajaxSelectDomain(uid);
     }
 
     private void handleRefresh()
@@ -464,25 +467,33 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
     protected abstract T findDomain(String uid);
 
     //##################################################
-    //# listeners
+    //# handlers
     //##################################################
 
+    /**
+     * Called to update the ui, after a domain has been added.
+     */
     protected void handleAdded(T e)
     {
         ajaxAddDomain(e);
         ajaxSelectDomain(e);
     }
 
+    /**
+     * Called to update the ui, after a domain has been edited.
+     */
     protected void handleEdited(T e)
     {
         ajaxRefreshDomain(e);
         ajaxSelectDomain(e);
     }
 
-    protected void handleRemoved(T e)
+    /**
+     * Called to update the ui, after a domain has been removed.
+     */
+    protected void handleRemove(T e)
     {
         ajaxClearDomain();
         _list.ajaxRemoveValue(e);
     }
-
 }

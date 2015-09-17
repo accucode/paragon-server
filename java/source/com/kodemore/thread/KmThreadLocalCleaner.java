@@ -71,7 +71,7 @@ public class KmThreadLocalCleaner
      * If set, only this thread will be cleaned.
      * If null, all threads will be cleaned.
      */
-    private Thread   _threadFilter;
+    private Thread _threadFilter;
 
     /**
      * If set, only values of this type of threadLocal class

@@ -6,14 +6,27 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.variable.ScLocalString;
 
-public class MySharedStateTest2Page
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MySharedStateTest2Page
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MySharedStateTest2Page instance = new MySharedStateTest2Page();
+    private static MySharedStateTest2Page _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MySharedStateTest2Page();
+    }
+
+    public static MySharedStateTest2Page getInstance()
+    {
+        return _instance;
+    }
 
     private MySharedStateTest2Page()
     {
@@ -21,17 +34,27 @@ public class MySharedStateTest2Page
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -71,7 +94,7 @@ public class MySharedStateTest2Page
     @Override
     protected void preRender()
     {
-        super.preRender();
+        // none
     }
 
     //##################################################
@@ -101,6 +124,6 @@ public class MySharedStateTest2Page
 
     private ScLocalString getTestValueHolder()
     {
-        return MySharedStateTest1Page.instance.getTestValueHolder();
+        return MySharedStateTest1Page.getInstance().getTestValueHolder();
     }
 }

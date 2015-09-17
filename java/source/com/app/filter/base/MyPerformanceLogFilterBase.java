@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyPerformanceLogFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyPerformanceLog> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyPerformanceLog> c)
     {
         applyConditionsTo((MyPerformanceLogCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyPerformanceLog> c)
+    protected void applySortsTo(KmhModelCriteria<MyPerformanceLog> c)
     {
         applySortsTo((MyPerformanceLogCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyPerformanceLogFilterBase
     @Override
     protected MyPerformanceLogCriteria createCriteria()
     {
-        return new MyPerformanceLogCriteria(createGenericCriteria());
+        return new MyPerformanceLogCriteria(_createCriteria());
     }
 }

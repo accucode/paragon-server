@@ -1,7 +1,6 @@
 package com.kodemore.yelp;
 
 import java.util.Calendar;
-import java.util.Map.Entry;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -20,7 +19,7 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I am used connect to Yelp make various requests.
- *
+ * 
  */
 public class KmYelpConnection
 {
@@ -28,34 +27,34 @@ public class KmYelpConnection
     //# constants
     //##################################################
 
-    private static String               HOST                 = "api.yelp.com";
-    private static String               HTTP_METHOD          = "GET";
-    private static String               OAUTH_VERSION        = "1.0";
+    private static String HOST          = "api.yelp.com";
+    private static String HTTP_METHOD   = "GET";
+    private static String OAUTH_VERSION = "1.0";
 
     //##################################################
     //# constants (encryption)
     //##################################################
 
     /**
-     * The encryption method specified in the message header.
+     * The encryption method specified in the message header. 
      * This should correspond to the CRYPTO_METHOD.
      */
-    private static String               AUTHORIZATION_METHOD = "HMAC-SHA1";
+    private static String AUTHORIZATION_METHOD = "HMAC-SHA1";
 
     /**
      * The encryption method actually used by the javax.crypto.spec.SecretKeySpec.
      * This should correspond to the AUTHORIZATION_METHOD.
      */
-    private static String               CRYPTO_METHOD        = "HmacSHA1";
+    private static String CRYPTO_METHOD = "HmacSHA1";
 
     //##################################################
     //# variables (public)
     //##################################################
 
-    private String                      _consumerKey;
-    private String                      _consumerSecret;
-    private String                      _authToken;
-    private String                      _authSecret;
+    private String _consumerKey;
+    private String _consumerSecret;
+    private String _authToken;
+    private String _authSecret;
 
     private String                      _path;
     private KmOrderedMap<String,String> _parameters;
@@ -67,23 +66,23 @@ public class KmYelpConnection
     /**
      * "Number used Once".
      * http://hueniverse.com/2008/10/beginners-guide-to-oauth-part-iii-security-architecture/
-     *
-     * Each request should use a different nonce.
+     * 
+     * Each request should use a different nonce. 
      * Any relatively random alphanumeric string will work here.
      * In this case we use a standard UUID but strip the dashes.
      */
-    private String                      _nonce;
+    private String _nonce;
 
     /**
      * The timestamp is used as part of the authentication process.
      * It is updated for each submit, but not guarnateed to be unique.
      */
-    private String                      _timestamp;
+    private String _timestamp;
 
     /**
      * The http request wrapper.
      */
-    private KmHttpRequest               _request;
+    private KmHttpRequest _request;
 
     //##################################################
     //# constructor
@@ -237,8 +236,11 @@ public class KmYelpConnection
         KmStringBuilder out = new KmStringBuilder();
 
         KmOrderedMap<String,String> m = getAuthorizationParameters();
-        for ( Entry<String,String> e : m.entrySet() )
-            appendAuthorizationParameter(out, e.getKey(), e.getValue());
+        for ( String key : m.keySet() )
+        {
+            String value = m.get(key);
+            appendAuthorizationParameter(out, key, value);
+        }
 
         return "OAuth " + out.toString();
     }
@@ -267,7 +269,7 @@ public class KmYelpConnection
     //##################################################
 
     /**
-     * Get the encrypted signature as a base-64 string.
+     * Get the encrypted signature as a base-64 string. 
      */
     private String getSignature()
     {
@@ -294,8 +296,11 @@ public class KmYelpConnection
         KmStringBuilder out = new KmStringBuilder();
 
         KmOrderedMap<String,String> m = getSignatureParameters();
-        for ( Entry<String,String> e : m.entrySet() )
-            appendSignatureParameter(out, e.getKey(), e.getValue());
+        for ( String key : m.keySet() )
+        {
+            String value = m.get(key);
+            appendSignatureParameter(out, key, value);
+        }
 
         return out.toString();
     }

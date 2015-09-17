@@ -86,4 +86,13 @@ public class ScGlobalContext
     {
         return this;
     }
+
+    //##################################################
+    //# action
+    //##################################################
+
+    public ScAction newAction(Runnable r)
+    {
+        return new ScAction(this, r);
+    }
 }

@@ -2,7 +2,7 @@ package com.kodemore.proto;
 
 import com.kodemore.generator.model.KmgModelField;
 import com.kodemore.generator.model.KmgModelType;
-import com.kodemore.hibernate.criteria.KmPropertyCriteria;
+import com.kodemore.hibernate.KmhPropertyCondition;
 import com.kodemore.utility.Kmu;
 
 public abstract class KmProtoType
@@ -157,7 +157,7 @@ public abstract class KmProtoType
 
     public String format_CriteriaClass()
     {
-        String className = KmPropertyCriteria.class.getSimpleName();
+        String className = KmhPropertyCondition.class.getSimpleName();
         String type = format_JavaType();
 
         return Kmu.format("%s<%s>", className, type);
@@ -165,7 +165,7 @@ public abstract class KmProtoType
 
     public String format_CriteriaClass_NoGeneric()
     {
-        String className = KmPropertyCriteria.class.getSimpleName();
+        String className = KmhPropertyCondition.class.getSimpleName();
 
         return Kmu.format("%s<>", className);
     }

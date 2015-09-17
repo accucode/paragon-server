@@ -57,13 +57,13 @@ public class KmSqlSelect
     //# variables
     //##################################################
 
-    private KmSqlBuffer        _columns;
-    private KmSqlBuffer        _tables;
-    private KmSqlBuffer        _groupBys;
-    private KmSqlBuffer        _orderBys;
-    private Integer            _rowLimit;
-    private String             _suffix;
-    private KmSqlCondition     _having;
+    private KmSqlBuffer    _columns;
+    private KmSqlBuffer    _tables;
+    private KmSqlBuffer    _groupBys;
+    private KmSqlBuffer    _orderBys;
+    private Integer        _rowLimit;
+    private String         _suffix;
+    private KmSqlCondition _having;
 
     //##################################################
     //# constructor
@@ -221,10 +221,10 @@ public class KmSqlSelect
     public void validate()
     {
         if ( !hasTables() )
-            throw newFatal("Must specify a table to select from.");
+            throw Kmu.newFatal("Must specify a table to select from.");
 
         if ( !hasColumns() )
-            throw newFatal("Must specify a value to select.");
+            throw Kmu.newFatal("Must specify a value to select.");
     }
 
     //##################################################

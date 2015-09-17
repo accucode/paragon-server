@@ -11,14 +11,27 @@ import com.kodemore.servlet.control.ScTableCell;
 import com.kodemore.servlet.control.ScTableRow;
 import com.kodemore.servlet.field.ScRadioField;
 
-public class MyRadioButtonTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyRadioButtonTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyRadioButtonTestPage instance = new MyRadioButtonTestPage();
+    private static MyRadioButtonTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyRadioButtonTestPage();
+    }
+
+    public static MyRadioButtonTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyRadioButtonTestPage()
     {
@@ -29,29 +42,39 @@ public class MyRadioButtonTestPage
     //# constants
     //##################################################
 
-    private static final String  RADIO_NAME = "radio";
+    private static final String RADIO_NAME = "radio";
 
     //##################################################
     //# variables
     //##################################################
 
-    private ScTableRow           _row;
-    private ScForm               _form;
+    private ScTableRow _row;
+    private ScForm     _form;
 
     private KmList<ScRadioField> _buttons;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -135,6 +158,16 @@ public class MyRadioButtonTestPage
     }
 
     //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
+    //##################################################
     //# handle
     //##################################################
 
@@ -148,7 +181,7 @@ public class MyRadioButtonTestPage
             if ( button.isChecked() )
                 values.add(button.getStringValue());
 
-        String msg = "Ok... " + values.format();
+        String msg = "Ok... " + values.join();
         ajax().toast(msg).success();
     }
 }

@@ -61,7 +61,7 @@ public class KmFile
         _realPath = Kmu.getCanonicalPath(file);
 
         if ( !_realPath.startsWith(rootPath) )
-            throw newAccessError();
+            throw Kmu.newFatal("Attempt to access file outside root folder.");
     }
 
     //##################################################
@@ -453,20 +453,16 @@ public class KmFile
         return KmFileUtility.normalize(realFile.getPath());
     }
 
-    private RuntimeException newAccessError()
-    {
-        return Kmu.newFatal("Attempt to access file outside root folder.");
-    }
-
     //##################################################
     //# convenience
     //##################################################
 
     public void writeTo(OutputStream out)
     {
-        try ( BufferedInputStream in = getBufferedInputStream(); )
+        try (BufferedInputStream in = getBufferedInputStream();)
         {
-            @SuppressWarnings("resource")
+            // Do NOT put in try-resource.
+            // We don't want to close it (just flush it).
             BufferedOutputStream buf = Kmu.toBufferedOutputStream(out);
 
             while ( true )
@@ -485,4 +481,5 @@ public class KmFile
             KmLog.warn(ex, "Error writing http response.");
         }
     }
+
 }

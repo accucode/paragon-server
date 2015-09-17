@@ -23,13 +23,13 @@ public enum MyUserVendorRole
 
     Account("A", "Account"),
     Manager("M", "Manager"),
-    User("U", "User"), ;
+    User("U", "User"),;
 
     //##################################################
     //# find
     //##################################################
 
-    private static final KmList<MyUserVendorRole>       _values;
+    private static final KmList<MyUserVendorRole> _values;
     private static final KmMap<String,MyUserVendorRole> _codes;
 
     static

@@ -1,6 +1,6 @@
 package com.app.ui.servlet;
 
-import com.kodemore.command.KmDaoCommand;
+import com.kodemore.command.KmDao;
 import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.utility.ScServletCallbackRegistry;
@@ -48,23 +48,7 @@ public class MyCallbackServlet
     {
         try
         {
-            new KmDaoCommand()
-            {
-                @Override
-                protected void handle()
-                {
-                    String uri;
-                    uri = getData().getRequestUri();
-
-                    checkServerSession();
-                    if ( getData().hasResult() )
-                        return;
-
-                    ScServletCallbackRegistry reg;
-                    reg = ScServletCallbackRegistry.getInstance();
-                    reg.runPath(uri);
-                }
-            }.run();
+            KmDao.run(this::handleDao);
         }
         catch ( KmSecurityException ex )
         {
@@ -75,6 +59,20 @@ public class MyCallbackServlet
             KmLog.fatal(ex);
             printErrorMessage("Unhandled exception: " + ex.getMessage());
         }
+    }
+
+    private void handleDao()
+    {
+        String uri;
+        uri = getData().getRequestUri();
+
+        checkServerSession();
+        if ( getData().hasResult() )
+            return;
+
+        ScServletCallbackRegistry reg;
+        reg = ScServletCallbackRegistry.getInstance();
+        reg.runPath(uri);
     }
 
     //##################################################

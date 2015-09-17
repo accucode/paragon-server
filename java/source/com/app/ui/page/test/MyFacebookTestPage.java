@@ -4,14 +4,27 @@ import com.kodemore.http.KmHttpGet;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyFacebookTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyFacebookTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyFacebookTestPage instance = new MyFacebookTestPage();
+    private static MyFacebookTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyFacebookTestPage();
+    }
+
+    public static MyFacebookTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyFacebookTestPage()
     {
@@ -19,17 +32,27 @@ public class MyFacebookTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -43,6 +66,16 @@ public class MyFacebookTestPage
     {
         root.css().gap();
         root.addButton("Request Token", this::handleRequest);
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

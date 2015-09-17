@@ -53,11 +53,11 @@ public class KmaGridActionModel
     //# variables
     //##################################################
 
-    private Point              _dot;
-    private Point              _anchor;
-    private boolean            _hasToggleSelection;
-    private int                _selectionMode;
-    private KmaActionGroup     _actions;
+    private Point          _dot;
+    private Point          _anchor;
+    private boolean        _hasToggleSelection;
+    private int            _selectionMode;
+    private KmaActionGroup _actions;
 
     //##################################################
     //# constructors

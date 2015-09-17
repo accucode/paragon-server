@@ -3,8 +3,6 @@ package com.kodemore.collection;
 import java.util.Collection;
 import java.util.List;
 
-import com.sun.istack.internal.Nullable;
-
 import com.kodemore.utility.KmReadOnlyException;
 import com.kodemore.utility.KmReadOnlyIF;
 
@@ -73,7 +71,7 @@ public class KmReadOnlyList<T>
     //##################################################
 
     @Override
-    public boolean add(@Nullable T o)
+    public boolean add(T o)
     {
         checkReadOnly();
         return super.add(o);

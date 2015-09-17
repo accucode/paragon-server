@@ -43,9 +43,9 @@ public class KmaEtchedBorder
     //# variables
     //##################################################
 
-    private int             _etchType;
-    private Color           _highlight;
-    private Color           _shadow;
+    private int   _etchType;
+    private Color _highlight;
+    private Color _shadow;
 
     //##################################################
     //# constructor

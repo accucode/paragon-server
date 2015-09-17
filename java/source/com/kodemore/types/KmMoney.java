@@ -41,10 +41,10 @@ public class KmMoney
     //# constants (database)
     //##################################################
 
-    public static final KmMoney ZERO               = new KmMoney(0);
+    public static final KmMoney ZERO = new KmMoney(0);
 
-    public static final int     DATABASE_PRECISION = 20;
-    public static final int     SCALE              = 2;
+    public static final int DATABASE_PRECISION = 20;
+    public static final int SCALE              = 2;
 
     //##################################################
     //# constructor

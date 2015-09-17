@@ -2,8 +2,8 @@ model
 : name      = vendor
 : help...
     ===
-    Vendors are used to help organized products and services.  
-    Typical examples: Acme Inc, Smith Co 
+    Vendors are used to help organized products and services.  Typical examples
+    Accucode, Motorola, Meraki, and Netpulse.
     === 
 
 database

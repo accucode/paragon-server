@@ -9,14 +9,27 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
 
-public class MySlowTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MySlowTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MySlowTestPage instance = new MySlowTestPage();
+    private static MySlowTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MySlowTestPage();
+    }
+
+    public static MySlowTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MySlowTestPage()
     {
@@ -24,17 +37,27 @@ public class MySlowTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -50,49 +73,67 @@ public class MySlowTestPage
 
         ScGroup group;
         group = root.addGroup("Slow Response Tests");
-        group.getBody().addPad().addText(
-            ""
-                + "Test slow server side response.  The framework automatically"
-                + " blocks the user interface during ajax submits.  The blocking"
-                + " is controlled by client side code.  The general pattern is"
-                + " to immediately block the pertinent section BEFORE submiting"
-                + " the ajax request.  The initial block is transparent but "
-                + " captures all key and mouse input.  Additionally, the tranparent"
-                + " block is changed to semi-opaque (with a message) if a client"
-                + " side timer expires before the ajax response is received.  The"
-                + " timerout is typically set to something like 200ms.  The current"
-                + " value can be found in the javascript file KmUtility.js; see"
-                + " blockDelayMs variable.");
-
-        ScAction action = createAction(this::handleDelay);
+        group.getBody()
+            .addPad()
+            .addText(
+                ""
+                    + "Test slow server side response.  The framework automatically"
+                    + " blocks the user interface during ajax submits.  The blocking"
+                    + " is controlled by client side code.  The general pattern is"
+                    + " to immediately block the pertinent section BEFORE submiting"
+                    + " the ajax request.  The initial block is transparent but "
+                    + " captures all key and mouse input.  Additionally, the tranparent"
+                    + " block is changed to semi-opaque (with a message) if a client"
+                    + " side timer expires before the ajax response is received.  The"
+                    + " timerout is typically set to something like 200ms.  The current"
+                    + " value can be found in the javascript file KmUtility.js; see"
+                    + " blockDelayMs variable.");
 
         ScBox buttons;
         buttons = group.getBody().addButtonBox();
-        buttons.add(newButton(action, 0));
-        buttons.add(newButton(action, 10));
-        buttons.add(newButton(action, 20));
-        buttons.add(newButton(action, 50));
-        buttons.add(newButton(action, 100));
-        buttons.add(newButton(action, 200));
-        buttons.add(newButton(action, 500));
-        buttons.add(newButton(action, 1000));
-        buttons.add(newButton(action, 2000));
-        buttons.add(newButton(action, 5000));
-        buttons.add(newButton(action, 10000));
+        buttons.add(newButton(0));
+        buttons.add(newButton(10));
+        buttons.add(newButton(20));
+        buttons.add(newButton(50));
+        buttons.add(newButton(100));
+        buttons.add(newButton(200));
+        buttons.add(newButton(500));
+        buttons.add(newButton(1000));
+        buttons.add(newButton(2000));
+        buttons.add(newButton(5000));
+        buttons.add(newButton(10000));
     }
 
-    private ScButton newButton(ScAction action, int ms)
+    private ScButton newButton(int ms)
     {
         ScActionButton e;
         e = new ScActionButton();
         e.setText(ms + " ms");
-        e.setAction(action, ms);
+        e.setAction(newDelayAction(ms));
         return e;
     }
 
-    private void handleDelay()
+    private ScAction newDelayAction(final int ms)
     {
-        Integer ms = getData().getIntegerArgument();
+        return newAction(this::handleDelay, ms);
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
+    //##################################################
+    //# handle
+    //##################################################
+
+    private void handleDelay(int ms)
+    {
         Kmu.sleepMs(ms);
         ajax().toast("Delayed %s ms.", ms);
     }

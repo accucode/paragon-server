@@ -15,20 +15,23 @@ public class KmMemoryPrintTool
 
     public static void printDescriptions()
     {
-        System.out.println(""
-            + "Max:   "
-            + "The maximum amount of memory that "
-            + "the virtual machine will attempt to use.");
+        System.out.println(
+            ""
+                + "Max:   "
+                + "The maximum amount of memory that "
+                + "the virtual machine will attempt to use.");
 
-        System.out.println(""
-            + "Total: "
-            + "the total amount of memory currently "
-            + "available for current and future objects.");
+        System.out.println(
+            ""
+                + "Total: "
+                + "the total amount of memory currently "
+                + "available for current and future objects.");
 
-        System.out.println(""
-            + "Free:  "
-            + "An approximation to the total amount of memory "
-            + "currently available for future allocated objects.");
+        System.out.println(
+            ""
+                + "Free:  "
+                + "An approximation to the total amount of memory "
+                + "currently available for future allocated objects.");
 
         System.out.println("Used:  Total - Free.");
     }

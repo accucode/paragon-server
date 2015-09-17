@@ -88,7 +88,7 @@ public class KmTelnetServer
 
     public void start()
     {
-        try ( ServerSocket ss = new ServerSocket(getPort()) )
+        try (ServerSocket ss = new ServerSocket(getPort()))
         {
             while ( true )
                 accept(ss);
@@ -101,7 +101,7 @@ public class KmTelnetServer
 
     private void accept(ServerSocket ss) throws IOException
     {
-        try ( Socket socket = ss.accept() )
+        try (Socket socket = ss.accept())
         {
             KmTelnetSession session;
             session = _factory.create();

@@ -14,7 +14,7 @@ public enum MySecurityLevel
     /**
      * No security.
      */
-    any,
+    none,
 
     /**
      * Requires sign in.  The user must be logged in.
@@ -57,7 +57,7 @@ public enum MySecurityLevel
         MySecurityLevel e = this;
         switch ( e )
         {
-            case any:
+            case none:
                 return false;
 
             case user:
@@ -76,7 +76,7 @@ public enum MySecurityLevel
         MySecurityLevel e = this;
         switch ( e )
         {
-            case any:
+            case none:
                 checkAny();
                 break;
 

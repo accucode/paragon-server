@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,53 +30,48 @@ public class MyServerSessionCriteria
     //# constructor
     //##################################################
 
-    public MyServerSessionCriteria(KmCriteria parent)
+    public MyServerSessionCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyServerSessionCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmBooleanCriteria whereActive()
+    public KmhBooleanCondition whereActive()
     {
-        return new KmBooleanCriteria(context(), fullName(ACTIVE));
+        return new KmhBooleanCondition(context(), fullName(ACTIVE));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereClosedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereClosedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CLOSED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CLOSED_UTC_TS));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereLastTouchedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereLastTouchedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(LAST_TOUCHED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(LAST_TOUCHED_UTC_TS));
     }
 
-    public KmStringCriteria whereVersion()
+    public KmhStringCondition whereVersion()
     {
-        return new KmStringCriteria(context(), fullName(VERSION));
+        return new KmhStringCondition(context(), fullName(VERSION));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
@@ -552,9 +546,9 @@ public class MyServerSessionCriteria
         return new MyUserCriteria(leftJoinTo(USER));
     }
 
-    public KmStringCriteria whereUserUid()
+    public KmhStringCondition whereUserUid()
     {
-        return new KmStringCriteria(parent(), fullName(USER_UID));
+        return new KmhStringCondition(parent(), fullName(USER_UID));
     }
 
     public void whereUserIs(MyUser e)
@@ -599,9 +593,9 @@ public class MyServerSessionCriteria
         return new MyAutoSignInCriteria(leftJoinTo(AUTO_SIGN_IN));
     }
 
-    public KmStringCriteria whereAutoSignInUid()
+    public KmhStringCondition whereAutoSignInUid()
     {
-        return new KmStringCriteria(parent(), fullName(AUTO_SIGN_IN_UID));
+        return new KmhStringCondition(parent(), fullName(AUTO_SIGN_IN_UID));
     }
 
     public void whereAutoSignInIs(MyAutoSignIn e)
@@ -646,9 +640,9 @@ public class MyServerSessionCriteria
         return new MyProjectCriteria(leftJoinTo(CURRENT_PROJECT));
     }
 
-    public KmStringCriteria whereCurrentProjectUid()
+    public KmhStringCondition whereCurrentProjectUid()
     {
-        return new KmStringCriteria(parent(), fullName(CURRENT_PROJECT_UID));
+        return new KmhStringCondition(parent(), fullName(CURRENT_PROJECT_UID));
     }
 
     public void whereCurrentProjectIs(MyProject e)
@@ -672,15 +666,4 @@ public class MyServerSessionCriteria
     {
         return new MyServerSessionJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyServerSessionCriteria createOn(KmModelJunction junction)
-    {
-        return new MyServerSessionCriteria(parent(), junction.context());
-    }
-
 }

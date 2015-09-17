@@ -18,13 +18,15 @@ public class MyXmlLabelParser
 
     public MyLabelJob parse(String xml)
     {
-        KmXmlDocument doc = KmXmlParser.parse(xml);
+        KmXmlDocument doc;
+        doc = KmXmlParser.parse(xml);
         if ( doc == null )
-            throw newFatal("Cannot parse xml.");
+            error("Cannot parse xml.");
 
-        KmXmlElement root = doc.getRoot();
+        KmXmlElement root;
+        root = doc.getRoot();
         if ( root == null )
-            throw newFatal("No root element.");
+            error("No root element.");
 
         return parseJob(root);
     }
@@ -36,9 +38,8 @@ public class MyXmlLabelParser
     private MyLabelJob parseJob(KmXmlElement root)
     {
         String expectedTag = "print";
-
         if ( !root.hasTag(expectedTag) )
-            throw newFatalAt(root, "Invalid root(%s), expected(%s).", root.getTag(), expectedTag);
+            errorAt(root, "Invalid root(%s), expected(%s).", root.getTag(), expectedTag);
 
         MyLabelJob job;
         job = new MyLabelJob();
@@ -61,7 +62,7 @@ public class MyXmlLabelParser
         if ( parseJobQuantity(job, root, e) )
             return;
 
-        throw newFatalAt(root, "Unknown attribute(%s).", e.getKey());
+        errorAt(root, "Unknown attribute(%s).", e.getKey());
     }
 
     private boolean parseJobQuantity(MyLabelJob job, KmXmlElement root, KmXmlAttribute attr)
@@ -71,9 +72,8 @@ public class MyXmlLabelParser
 
         String s = attr.getValue();
         Integer i = Kmu.parseInteger(s);
-
         if ( i == null || i < 1 )
-            throw newFatalAt(root, "Invalid quantity.");
+            errorAt(root, "Invalid quantity.");
 
         job.setQuantity(i);
         return true;
@@ -94,7 +94,7 @@ public class MyXmlLabelParser
         if ( parseBarcode(job, e) )
             return;
 
-        throw newFatalAt(e, "Unknown element(%s).", e.getTag());
+        errorAt(e, "Unknown element(%s).", e.getTag());
     }
 
     //##################################################
@@ -137,7 +137,7 @@ public class MyXmlLabelParser
         if ( parseTextValue(text, root, attr) )
             return;
 
-        throw newFatalAt(root, "Unknown attribute(%s)", attr.getKey());
+        errorAt(root, "Unknown attribute(%s)", attr.getKey());
     }
 
     private boolean parseTextX(MyLabelText text, KmXmlElement root, KmXmlAttribute attr)
@@ -148,7 +148,7 @@ public class MyXmlLabelParser
         String s = attr.getValue();
         Double d = Kmu.parseDouble(s);
         if ( d == null )
-            throw newFatalAt(root, "Invalid x value(%s).", s);
+            errorAt(root, "Invalid x value(%s).", s);
 
         text.setX(d);
         return true;
@@ -161,9 +161,8 @@ public class MyXmlLabelParser
 
         String s = attr.getValue();
         Double d = Kmu.parseDouble(s);
-
         if ( d == null )
-            throw newFatalAt(root, "Invalid y value(%s).", s);
+            errorAt(root, "Invalid y value(%s).", s);
 
         text.setY(d);
         return true;
@@ -176,9 +175,8 @@ public class MyXmlLabelParser
 
         String s = attr.getValue();
         Double d = Kmu.parseDouble(s);
-
         if ( d == null )
-            throw newFatalAt(root, "Invalid height value(%s).", s);
+            errorAt(root, "Invalid height value(%s).", s);
 
         text.setHeight(d);
         return true;
@@ -191,16 +189,15 @@ public class MyXmlLabelParser
 
         String s = attr.getValue();
         MyLabelOrientation e = MyLabelOrientation.findCode(s);
-
         if ( e == null )
-            throw newFatalAt(root, "Invalid orientation value(%s).", s);
+            errorAt(root, "Invalid orientation value(%s).", s);
 
         text.setOrientation(e);
         return true;
     }
 
     /**
-     * @param root unused, but included for consistency.
+     * @param root unused, but included for consistency. 
      */
     private boolean parseTextValue(MyLabelText text, KmXmlElement root, KmXmlAttribute attr)
     {
@@ -257,7 +254,7 @@ public class MyXmlLabelParser
         if ( parseBarcodeValue(barcode, root, attr) )
             return;
 
-        throw newFatalAt(root, "Unknown attribute(%s)", attr.getKey());
+        errorAt(root, "Unknown attribute(%s)", attr.getKey());
     }
 
     private boolean parseBarcodeX(MyLabelBarcode barcode, KmXmlElement root, KmXmlAttribute attr)
@@ -267,9 +264,8 @@ public class MyXmlLabelParser
 
         String s = attr.getValue();
         Double d = Kmu.parseDouble(s);
-
         if ( d == null )
-            throw newFatalAt(root, "Invalid x value(%s).", s);
+            errorAt(root, "Invalid x value(%s).", s);
 
         barcode.setX(d);
         return true;
@@ -282,9 +278,8 @@ public class MyXmlLabelParser
 
         String s = attr.getValue();
         Double d = Kmu.parseDouble(s);
-
         if ( d == null )
-            throw newFatalAt(root, "Invalid y value(%s).", s);
+            errorAt(root, "Invalid y value(%s).", s);
 
         barcode.setY(d);
         return true;
@@ -300,9 +295,8 @@ public class MyXmlLabelParser
 
         String s = attr.getValue();
         Double d = Kmu.parseDouble(s);
-
         if ( d == null )
-            throw newFatalAt(root, "Invalid height value(%s).", s);
+            errorAt(root, "Invalid height value(%s).", s);
 
         barcode.setHeight(d);
         return true;
@@ -318,9 +312,8 @@ public class MyXmlLabelParser
 
         String s = attr.getValue();
         MyLabelOrientation e = MyLabelOrientation.findCode(s);
-
         if ( e == null )
-            throw newFatalAt(root, "Invalid orientation value(%s).", s);
+            errorAt(root, "Invalid orientation value(%s).", s);
 
         barcode.setOrientation(e);
         return true;
@@ -333,9 +326,8 @@ public class MyXmlLabelParser
 
         String s = attr.getValue();
         MyLabelBarcodeType e = MyLabelBarcodeType.findCode(s);
-
         if ( e == null )
-            throw newFatalAt(root, "Invalid type value(%s).", s);
+            errorAt(root, "Invalid type value(%s).", s);
 
         barcode.setType(e);
         return true;
@@ -344,7 +336,10 @@ public class MyXmlLabelParser
     /**
      * @param root unused, but defined for consistency.
      */
-    private boolean parseBarcodeValue(MyLabelBarcode barcode, KmXmlElement root, KmXmlAttribute attr)
+    private boolean parseBarcodeValue(
+        MyLabelBarcode barcode,
+        KmXmlElement root,
+        KmXmlAttribute attr)
     {
         if ( !attr.hasKey("value") )
             return false;
@@ -358,7 +353,7 @@ public class MyXmlLabelParser
     //# support
     //##################################################
 
-    private RuntimeException newFatalAt(KmXmlNode node, String msg, Object... args)
+    private void errorAt(KmXmlNode node, String msg, Object... args)
     {
         KmXmlSourceLocation loc;
         loc = node.getLocation();
@@ -370,12 +365,16 @@ public class MyXmlLabelParser
         out.println(loc.getSourceLine());
         out.println(loc.getMarkerLine());
 
-        return Kmu.newFatal(out);
+        throw new RuntimeException(out.toString());
     }
 
-    private RuntimeException newFatal(String msg, Object... args)
+    private void error(String msg, Object... args)
     {
-        return Kmu.newFatal(msg, args);
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.printfln(msg, args);
+
+        throw new RuntimeException(out.toString());
     }
 
 }

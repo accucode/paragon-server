@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,33 +30,28 @@ public class MyShipCarrierCriteria
     //# constructor
     //##################################################
 
-    public MyShipCarrierCriteria(KmCriteria parent)
+    public MyShipCarrierCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyShipCarrierCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereName()
+    public KmhStringCondition whereName()
     {
-        return new KmStringCriteria(context(), fullName(NAME));
+        return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
@@ -284,9 +278,9 @@ public class MyShipCarrierCriteria
         return new MyProjectCriteria(leftJoinTo(PROJECT));
     }
 
-    public KmStringCriteria whereProjectUid()
+    public KmhStringCondition whereProjectUid()
     {
-        return new KmStringCriteria(parent(), fullName(PROJECT_UID));
+        return new KmhStringCondition(parent(), fullName(PROJECT_UID));
     }
 
     public void whereProjectIs(MyProject e)
@@ -324,15 +318,4 @@ public class MyShipCarrierCriteria
     {
         return new MyShipCarrierJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyShipCarrierCriteria createOn(KmModelJunction junction)
-    {
-        return new MyShipCarrierCriteria(parent(), junction.context());
-    }
-
 }

@@ -7,14 +7,27 @@ import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTitlePanelLayout;
 
-public class MyTitlePanelTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyTitlePanelTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyTitlePanelTestPage instance = new MyTitlePanelTestPage();
+    private static MyTitlePanelTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyTitlePanelTestPage();
+    }
+
+    public static MyTitlePanelTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyTitlePanelTestPage()
     {
@@ -22,17 +35,27 @@ public class MyTitlePanelTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -60,7 +83,7 @@ public class MyTitlePanelTestPage
         top = layout.addTop(100);
         top.css().pad().grooveBottom().overflowAuto();
 
-        addLinesTo(top, "top 100px");
+        installLinesOn(top, "top 100px");
     }
 
     private void installLeft(ScAbsoluteLayout layout)
@@ -75,7 +98,7 @@ public class MyTitlePanelTestPage
         leftTitle.headerCss().grooveBottom();
         leftTitle.bodyCss().pad();
 
-        addLinesTo(leftTitle, "left 30%");
+        installLinesOn(leftTitle, "left 30%");
     }
 
     private void installCenter(ScAbsoluteLayout layout)
@@ -89,10 +112,10 @@ public class MyTitlePanelTestPage
         centerTitle.headerCss().grooveBottom();
         centerTitle.bodyCss().pad();
 
-        addLinesTo(centerTitle, "center title");
+        installLinesOn(centerTitle, "center title");
     }
 
-    private void addLinesTo(ScContainer root, String text)
+    private void installLinesOn(ScContainer root, String text)
     {
         root.addParagraph(text + " start");
 
@@ -102,4 +125,15 @@ public class MyTitlePanelTestPage
 
         root.addParagraph(text + " end");
     }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
 }

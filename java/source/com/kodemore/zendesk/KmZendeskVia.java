@@ -4,7 +4,7 @@ import com.kodemore.json.KmJsonMap;
 
 /**
  * I am a via object
- *
+ * 
  * Api documentation
  *      http://developer.zendesk.com/documentation/rest_api/ticket_audits.html#the-via-object
  */

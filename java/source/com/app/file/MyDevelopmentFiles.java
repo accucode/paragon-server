@@ -10,10 +10,10 @@ import com.app.utility.MyEnvironment;
  *
  * These paths are typically used for things like code generation
  * and other tools that can only be run in a development environment.
- *
+ * 
  * It is important that there are no dependencies on any auto-generated code.
  * In particular, be sure to avoid any dependencies on MyPropertyRegistry.
- *
+ * 
  * To use, you must first call MyEnvironment.install().
  */
 public class MyDevelopmentFiles

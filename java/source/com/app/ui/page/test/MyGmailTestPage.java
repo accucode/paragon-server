@@ -11,15 +11,27 @@ import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.email.MyEmailGmailMethod;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MyGmailTestPage
-    extends MyAbstractTestEntryPage
+public final class MyGmailTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyGmailTestPage instance = new MyGmailTestPage();
+    private static MyGmailTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyGmailTestPage();
+    }
+
+    public static MyGmailTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyGmailTestPage()
     {
@@ -36,17 +48,27 @@ public class MyGmailTestPage
     private ScTextArea  _messageField;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -96,6 +118,16 @@ public class MyGmailTestPage
 
         group.addBodyDivider();
         group.getBody().addButtonBox().addSubmitButton("Send");
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

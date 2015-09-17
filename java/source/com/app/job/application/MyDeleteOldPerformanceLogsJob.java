@@ -1,7 +1,12 @@
 package com.app.job.application;
 
-import com.app.command.MyDeleteOldPerformanceLogsCommand;
+import com.kodemore.collection.KmList;
+import com.kodemore.command.KmDao;
+import com.kodemore.time.KmTimestamp;
+
+import com.app.filter.MyPerformanceLogFilter;
 import com.app.job.MyJob;
+import com.app.model.MyPerformanceLog;
 
 public class MyDeleteOldPerformanceLogsJob
     extends MyJob
@@ -43,9 +48,26 @@ public class MyDeleteOldPerformanceLogsJob
     @Override
     protected boolean handle()
     {
-        MyDeleteOldPerformanceLogsCommand cmd;
-        cmd = new MyDeleteOldPerformanceLogsCommand();
-        cmd.run();
-        return cmd.hasMore();
+        return KmDao.fetch(this::deleteBatchDao);
+    }
+
+    private boolean deleteBatchDao()
+    {
+        int limit = 100;
+        KmTimestamp latest = getNowUtc().subtractDay();
+
+        MyPerformanceLogFilter f;
+        f = new MyPerformanceLogFilter();
+        f.setMaximumCreatedUtcTs(latest);
+        f.sortOnCreatedUtcTs();
+
+        KmList<MyPerformanceLog> v = f.findFirst(limit);
+        if ( v.isEmpty() )
+            return false;
+
+        for ( MyPerformanceLog e : v )
+            e.deleteDao();
+
+        return true;
     }
 }

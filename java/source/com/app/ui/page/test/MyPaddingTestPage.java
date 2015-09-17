@@ -5,18 +5,31 @@ import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
 
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
 /**
  * Test layouts using simple boxes (divs) along with
  * basic padding and margin styles.
  */
-public class MyPaddingTestPage
-    extends MyAbstractTestEntryPage
+public final class MyPaddingTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyPaddingTestPage instance = new MyPaddingTestPage();
+    private static MyPaddingTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyPaddingTestPage();
+    }
+
+    public static MyPaddingTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyPaddingTestPage()
     {
@@ -24,17 +37,27 @@ public class MyPaddingTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -81,4 +104,15 @@ public class MyPaddingTestPage
         box.addParagraph(msg);
         return box;
     }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
 }

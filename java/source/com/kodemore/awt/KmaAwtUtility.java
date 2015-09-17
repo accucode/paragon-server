@@ -172,6 +172,46 @@ public class KmaAwtUtility
             JOptionPane.YES_NO_CANCEL_OPTION);
     }
 
+    public static Boolean showYesNoCancel(Component parent, String title, String message)
+    {
+        int IGNORED = -1;
+        Object cancel = "Cancel";
+        Object yes = "Yes";
+        Object no = "No";
+
+        Object arr[];
+        arr = new Object[3];
+        arr[0] = cancel;
+        arr[1] = yes;
+        arr[2] = no;
+
+        JOptionPane p;
+        p = new JOptionPane(message, JOptionPane.QUESTION_MESSAGE, IGNORED);
+        p.setOptions(arr);
+        p.setInitialValue(cancel);
+
+        int i = _show(p, parent, title);
+        if ( i == 0 )
+            return null;
+
+        if ( i == 1 )
+            return true;
+
+        if ( i == 2 )
+            return false;
+
+        return null;
+    }
+
+    /**
+     * This works fine except that the YES button is initially selected and is
+     * also the default button.
+     */
+    public static int showYesNo_old(Component parent, String title, String message)
+    {
+        return JOptionPane.showConfirmDialog(parent, message, title, JOptionPane.YES_NO_OPTION);
+    }
+
     public static boolean showYesNo(Component parent, String title, String message)
     {
         int IGNORED = -1;

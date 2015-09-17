@@ -46,13 +46,13 @@ public class MyMember
 
     public KmList<MySkill> getSkills()
     {
-        return getSortedMemberSkills().collect(MyMemberSkill.Meta.Skill);
+        return getSortedMemberSkills().collect(e -> e.getSkill());
     }
 
     @Override
     public String getSkillNames()
     {
-        return getSkills().collect(MySkill.Meta.Name).format(", ");
+        return getSkills().join(e -> e.getName());
     }
 
     public void setSkills(List<MySkill> v)

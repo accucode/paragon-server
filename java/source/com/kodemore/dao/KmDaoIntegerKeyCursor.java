@@ -23,7 +23,7 @@
 package com.kodemore.dao;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.hibernate.criteria.KmModelCriteria;
+import com.kodemore.hibernate.KmhModelCriteria;
 import com.kodemore.meta.KmMetaDaoPropertyIF;
 
 /**
@@ -56,7 +56,7 @@ public class KmDaoIntegerKeyCursor<T>
 
     private KmMetaDaoPropertyIF<T,Integer> _property;
 
-    private int                            _batchSize;
+    private int _batchSize;
 
     //##################################################
     //# constructor
@@ -101,7 +101,7 @@ public class KmDaoIntegerKeyCursor<T>
         KmMetaDaoPropertyIF<T,Integer> attr;
         attr = getProperty();
 
-        KmModelCriteria<T> c;
+        KmhModelCriteria<T> c;
         c = attr.getDao().createCriteria();
         c.whereInteger(attr);
 

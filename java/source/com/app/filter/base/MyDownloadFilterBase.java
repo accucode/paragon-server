@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyDownloadFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyDownload> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyDownload> c)
     {
         applyConditionsTo((MyDownloadCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyDownload> c)
+    protected void applySortsTo(KmhModelCriteria<MyDownload> c)
     {
         applySortsTo((MyDownloadCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyDownloadFilterBase
     @Override
     protected MyDownloadCriteria createCriteria()
     {
-        return new MyDownloadCriteria(createGenericCriteria());
+        return new MyDownloadCriteria(_createCriteria());
     }
 }

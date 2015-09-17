@@ -22,10 +22,12 @@
 
 package com.kodemore.servlet.control;
 
+import java.util.function.Function;
+
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.variable.ScLocalAction;
-import com.kodemore.servlet.variable.ScLocalObject;
+import com.kodemore.servlet.variable.ScLocalRawFunction;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
@@ -39,9 +41,9 @@ public class ScLink
     //# variables
     //##################################################
 
-    private ScLocalAction _action;
-    private ScLocalObject _argument;
-    private ScLocalString _confirmationMessage;
+    private ScLocalAction      _action;
+    private ScLocalRawFunction _argument;
+    private ScLocalString      _confirmationMessage;
 
     //##################################################
     //# init
@@ -53,7 +55,7 @@ public class ScLink
         super.install();
 
         _action = new ScLocalAction();
-        _argument = new ScLocalObject();
+        _argument = new ScLocalRawFunction();
         _confirmationMessage = new ScLocalString();
     }
 
@@ -79,7 +81,7 @@ public class ScLink
 
     public void setAction(Runnable r)
     {
-        setAction(createAction(r));
+        setAction(newAction(r));
     }
 
     public void setAction(Runnable r, Object arg)
@@ -88,12 +90,15 @@ public class ScLink
         setArgument(arg);
     }
 
+    @SuppressWarnings("rawtypes")
     public void setArgument(Object e)
     {
-        _argument.setValue(e);
+        Function fn = ScUtility.toFunction(e);
+        _argument.setValue(fn);
     }
 
-    public Object getArgument()
+    @SuppressWarnings("rawtypes")
+    public Function getArgument()
     {
         return _argument.getValue();
     }

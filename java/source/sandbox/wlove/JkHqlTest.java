@@ -1,7 +1,7 @@
 package sandbox.wlove;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.command.KmDaoCommand;
+import com.kodemore.command.KmDao;
 
 import com.app.dao.base.MyDaoRegistry;
 import com.app.utility.MyGlobals;
@@ -17,25 +17,20 @@ public class JkHqlTest
     private void run()
     {
         MyInstaller.installDatabase();
-        new HqlCommand().run();
+        KmDao.run(this::handle);
     }
 
-    private class HqlCommand
-        extends KmDaoCommand
+    public void handle()
     {
-        @Override
-        public void handle()
-        {
-            String s = "select count(*) from MyUser";
+        String s = "select count(*) from MyUser";
 
-            System.out.println("Hql Test");
-            System.out.println("    hql: " + s);
+        System.out.println("Hql Test");
+        System.out.println("    hql: " + s);
 
-            KmList<Object> v = getAccess().getUserDao().runHql(s);
-            System.out.println("    v.size(): " + v.size());
-            for ( Object e : v )
-                System.out.println("e: " + e);
-        }
+        KmList<Object> v = getAccess().getUserDao().runHql(s);
+        System.out.println("    v.size(): " + v.size());
+        for ( Object e : v )
+            System.out.println("e: " + e);
     }
 
     private MyDaoRegistry getAccess()

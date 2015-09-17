@@ -24,15 +24,15 @@ public class MyViewShipCarrierCard
     //# constants
     //##################################################
 
-    private static final int        METHOD_COUNT = MyShipCarrier.MAX_PER_PROJECT;
+    private static final int METHOD_COUNT = MyShipCarrier.MAX_PER_PROJECT;
 
     //##################################################
     //# variables
     //##################################################
 
-    private MyTitleSection          _banner;
-    private ScActionButton          _editButton;
-    private ScText[]                _methodTexts;
+    private MyTitleSection _banner;
+    private ScActionButton _editButton;
+    private ScText[]       _methodTexts;
 
     private MyEditShipCarrierDialog _editDialog;
 

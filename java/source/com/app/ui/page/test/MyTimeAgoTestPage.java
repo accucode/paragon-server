@@ -10,14 +10,27 @@ import com.kodemore.servlet.control.ScTimeAgo;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 
-public class MyTimeAgoTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyTimeAgoTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyTimeAgoTestPage instance = new MyTimeAgoTestPage();
+    private static MyTimeAgoTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyTimeAgoTestPage();
+    }
+
+    public static MyTimeAgoTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyTimeAgoTestPage()
     {
@@ -25,17 +38,27 @@ public class MyTimeAgoTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -156,4 +179,15 @@ public class MyTimeAgoTestPage
         e.setLabel(label);
         e.setDate(date);
     }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
 }

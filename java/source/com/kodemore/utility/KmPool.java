@@ -39,8 +39,8 @@ public abstract class KmPool
     private KmList<Object> _inList;
     private KmList<Object> _outList;
 
-    private int            _retryCount;
-    private int            _retryDelayMs;
+    private int _retryCount;
+    private int _retryDelayMs;
 
     // ##################################################
     // # constructor

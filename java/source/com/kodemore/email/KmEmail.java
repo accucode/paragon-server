@@ -33,13 +33,13 @@ public class KmEmail
     //# variables
     //##################################################
 
-    private Object              _key;
-    private String              _subject;
-    private String              _from;
+    private Object _key;
+    private String _subject;
+    private String _from;
 
-    private List<String>        _toList;
-    private List<String>        _ccList;
-    private List<String>        _bccList;
+    private List<String> _toList;
+    private List<String> _ccList;
+    private List<String> _bccList;
 
     private List<KmEmailPartIF> _parts;
 

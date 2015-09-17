@@ -30,7 +30,7 @@ public class MyShipCarrier
     {
         KmList<MyShipMethod> v;
         v = getShipMethods().toList();
-        v.sortOn(MyShipMethod.Meta.Name);
+        v.sortOn(MyShipMethod::getName);
         return v;
     }
 
@@ -45,6 +45,6 @@ public class MyShipCarrier
     @Override
     public String getMethodNames()
     {
-        return getShipMethodsByName().collect(MyShipMethod.Meta.Name).format();
+        return getShipMethodsByName().join(e -> e.getName());
     }
 }

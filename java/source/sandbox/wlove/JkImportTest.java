@@ -28,18 +28,18 @@ public class JkImportTest
     //# variables
     //##################################################
 
-    private int                 _lineNumber;
-    private String              _line;
-    private String[]            _parts;
+    private int      _lineNumber;
+    private String   _line;
+    private String[] _parts;
 
-    private KmList<String>      _hostNames;
-    private KmList<String>      _serviceNames;
+    private KmList<String> _hostNames;
+    private KmList<String> _serviceNames;
 
-    private int                 _maximumOutputLength;
-    private int                 _maximumPerformanceLength;
+    private int _maximumOutputLength;
+    private int _maximumPerformanceLength;
 
-    private KmTimestamp         _minimumTime;
-    private KmTimestamp         _maximumTime;
+    private KmTimestamp _minimumTime;
+    private KmTimestamp _maximumTime;
 
     //##################################################
     //# constructor
@@ -66,8 +66,7 @@ public class JkImportTest
 
     private void readFile() throws Exception
     {
-        try ( FileReader fr = new FileReader(FILE_PATH);
-            BufferedReader in = new BufferedReader(fr) )
+        try (BufferedReader in = new BufferedReader(new FileReader(FILE_PATH)))
         {
             while ( true )
             {
@@ -199,8 +198,8 @@ public class JkImportTest
     private void printMaximumLengths()
     {
         System.out.println();
-        System.out.printf("Max Output: %s%n", _maximumOutputLength);
-        System.out.printf("Max Perf:   %s%n", _maximumPerformanceLength);
+        System.out.printf("Max Output: %s\n", _maximumOutputLength);
+        System.out.printf("Max Perf:   %s\n", _maximumPerformanceLength);
     }
 
     private void printTimes()
@@ -209,8 +208,8 @@ public class JkImportTest
         double recsPerSec = _lineNumber / secs;
 
         System.out.println();
-        System.out.printf("Min Time: %s%n", _minimumTime);
-        System.out.printf("Max Time: %s%n", _maximumTime);
+        System.out.printf("Min Time: %s\n", _minimumTime);
+        System.out.printf("Max Time: %s\n", _maximumTime);
         System.out.printf("Records / sec: %s", Kmu.formatDouble(recsPerSec, 1));
     }
 }

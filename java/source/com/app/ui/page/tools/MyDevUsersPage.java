@@ -16,15 +16,27 @@ import com.kodemore.servlet.field.ScTextField;
 import com.app.filter.MyUserFilter;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MyDevUsersPage
-    extends MyDevAbstractPage
+public final class MyDevUsersPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDevUsersPage instance = new MyDevUsersPage();
+    private static MyDevUsersPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDevUsersPage();
+    }
+
+    public static MyDevUsersPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDevUsersPage()
     {
@@ -41,17 +53,27 @@ public class MyDevUsersPage
     private MyDevUserFrame _frame;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -98,9 +120,9 @@ public class MyDevUsersPage
         _filterBox = box;
     }
 
-    //##################################################
-    //# grid
-    //##################################################
+    //==================================================
+    //= install :: grid
+    //==================================================
 
     private void installGrid(ScContainer root)
     {
@@ -151,9 +173,9 @@ public class MyDevUsersPage
         return f;
     }
 
-    //##################################################
-    //# frames
-    //##################################################
+    //==================================================
+    //= install :: frame
+    //==================================================
 
     private void installFrame(ScContainer root)
     {
@@ -162,6 +184,16 @@ public class MyDevUsersPage
         _frame.css().fill().marginLeft();
 
         root.add(_frame);
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

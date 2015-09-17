@@ -1,5 +1,6 @@
 package com.kodemore.property.type;
 
+import com.kodemore.time.KmTime;
 import com.kodemore.time.KmTimeUtility;
 import com.kodemore.utility.Kmu;
 
@@ -19,14 +20,16 @@ public class KmPropertyTypeTime24hhmm
     @Override
     public Object validateValue(String key, String value)
     {
+        KmTime t = null;
         try
         {
-            return KmTimeUtility.parse_24HHMM(value);
+            t = KmTimeUtility.parse_24HHMM(value);
         }
         catch ( NumberFormatException ex )
         {
             throw Kmu.newFatal("Property %s: Value (%s) is not a Time (24HH:MM).", key, value);
         }
+        return t;
     }
 
     @Override

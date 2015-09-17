@@ -37,16 +37,16 @@ public class ScCustomModelList<T>
     /**
      * I am responsible for rendering each model.
      * I am a REQUIRED attribute.
-     *
-     * Although optional, clients will normally need to specify this
-     * in order to get something useful.  The default is to simply
+     * 
+     * Although optional, clients will normally need to specify this 
+     * in order to get something useful.  The default is to simply 
      * display the toString of each model.
-     *
+     * 
      * The root is a transient object and may be safely manipulated by the client.
      * The client may add and remove child elements, and may also manipulate the
      * root's style as needed.  By default, the root has the default (box) style,
      * which means it has no visible border or background.
-     *
+     * 
      * The root DOES have a specific htmlId already set, and clients should
      * NOT change this.  The htmlId is used to coordinate dynamic ajax changes
      * with the dynamic view.

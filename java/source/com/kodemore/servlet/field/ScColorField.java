@@ -43,7 +43,7 @@ public class ScColorField
     private ScLocalString        _text;
     private KmHtmlColorValidator _validator;
 
-    private ScLocalBoolean       _fullWrapper;
+    private ScLocalBoolean _fullWrapper;
 
     //##################################################
     //# init

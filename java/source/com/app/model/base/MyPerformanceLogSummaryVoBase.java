@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -318,62 +317,6 @@ public abstract class MyPerformanceLogSummaryVoBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("name") )
-            setName(p.getString("name"));
-
-        if ( p.hasKey("count") )
-            setCount(p.getInteger("count"));
-
-        if ( p.hasKey("minimumMs") )
-            setMinimumMs(p.getInteger("minimumMs"));
-
-        if ( p.hasKey("maximumMs") )
-            setMaximumMs(p.getInteger("maximumMs"));
-
-        if ( p.hasKey("averageMs") )
-            setAverageMs(p.getInteger("averageMs"));
-
-        if ( p.hasKey("totalMs") )
-            setTotalMs(p.getInteger("totalMs"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasName() )
-            p.setString("name", getName());
-
-        if ( hasCount() )
-            p.setInteger("count", getCount());
-
-        if ( hasMinimumMs() )
-            p.setInteger("minimumMs", getMinimumMs());
-
-        if ( hasMaximumMs() )
-            p.setInteger("maximumMs", getMaximumMs());
-
-        if ( hasAverageMs() )
-            p.setInteger("averageMs", getAverageMs());
-
-        if ( hasTotalMs() )
-            p.setInteger("totalMs", getTotalMs());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

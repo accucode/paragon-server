@@ -22,8 +22,8 @@ public class MyRequestPasswordResetDialog
     //# variables
     //##################################################
 
-    private ScBox          _emailBox;
-    private ScTextField    _emailField;
+    private ScBox       _emailBox;
+    private ScTextField _emailField;
 
     private ScBox          _messageBox;
     private ScSubmitButton _sendButton;
@@ -108,12 +108,10 @@ public class MyRequestPasswordResetDialog
 
         MyUser user = getAccess().getUserDao().findEmail(email);
         if ( user == null )
-        {
-            _emailField.addError("No such user.");
-            throw newRollback();
-        }
+            _emailField.error("No such user.");
 
-        MyPasswordReset pr = createPasswordReset(user);
+        MyPasswordReset pr;
+        pr = createPasswordReset(user);
 
         sendEmail(pr);
         showSentMessage(pr);
@@ -130,6 +128,7 @@ public class MyRequestPasswordResetDialog
         e = new MyPasswordReset();
         e.setUser(user);
         e.attachDao();
+
         return e;
     }
 
@@ -139,10 +138,7 @@ public class MyRequestPasswordResetDialog
 
         MyUser user = getAccess().getUserDao().findEmail(to);
         if ( user == null )
-        {
-            _emailField.addError("We have no record of a user with with that email.");
-            throw newRollback();
-        }
+            _emailField.error("We have no record of a user with with that email.");
 
         String app = MyConstantsIF.APPLICATION_NAME;
         String subject = Kmu.format("Password Reset Request");

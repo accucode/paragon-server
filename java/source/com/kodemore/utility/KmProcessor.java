@@ -38,8 +38,8 @@ public class KmProcessor
     private boolean     _ok;
     private Object      _result;
 
-    private int         _delayMs;
-    private int         _timeoutMs;
+    private int _delayMs;
+    private int _timeoutMs;
 
     //##################################################
     //# constructor

@@ -66,7 +66,7 @@ public class ScUrlLink
 
     /**
      * Used to navigate within the current page using the #tag
-     * notation.  With an ajax application this is used to
+     * notation.  With an ajax application this is used to 
      * manage the use of the browser back button.  The parameter
      * should be provided WITHOUT the leading hash.
      */

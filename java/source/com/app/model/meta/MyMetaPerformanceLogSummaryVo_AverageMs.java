@@ -6,16 +6,13 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.meta;
 
 import java.util.*;
 
 import com.kodemore.adaptor.*;
 import com.kodemore.collection.*;
-import com.kodemore.comparator.*;
 import com.kodemore.exception.*;
-import com.kodemore.match.*;
 import com.kodemore.meta.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.field.*;
@@ -93,12 +90,6 @@ public class MyMetaPerformanceLogSummaryVo_AverageMs
     public boolean hasValueFor(MyPerformanceLogSummaryVo model, Integer value)
     {
         return model.hasAverageMs(value);
-    }
-    
-    @Override
-    public int compareValues(MyPerformanceLogSummaryVo o1, MyPerformanceLogSummaryVo o2, boolean nullsOnTop)
-    {
-        return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }
     
 }

@@ -90,9 +90,18 @@ public class KmDbaseData
         String m = getString(index + 4, 2);
         String d = getString(index + 6, 2);
 
-        int yy = Kmu.parse_int(y);
-        int mm = Kmu.parse_int(m);
-        int dd = Kmu.parse_int(d);
+        int yy = Kmu.parse_int(y, -1);
+        int mm = Kmu.parse_int(m, -1);
+        int dd = Kmu.parse_int(d, -1);
+
+        if ( yy < 0 )
+            return null;
+
+        if ( mm < 0 )
+            return null;
+
+        if ( dd < 0 )
+            return null;
 
         return KmDate.create(yy, mm, dd);
     }

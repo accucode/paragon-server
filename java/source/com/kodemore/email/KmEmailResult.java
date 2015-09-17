@@ -31,7 +31,7 @@ public class KmEmailResult
     /**
      * The email's key.
      */
-    private Object  _emailKey;
+    private Object _emailKey;
 
     /**
      * Was the email sent successfully.
@@ -41,7 +41,7 @@ public class KmEmailResult
     /**
      * The error message, if not ok.
      */
-    private String  _errorMessage;
+    private String _errorMessage;
 
     //##################################################
     //# key

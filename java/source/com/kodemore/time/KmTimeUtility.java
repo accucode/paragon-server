@@ -193,10 +193,16 @@ public class KmTimeUtility
         if ( s.charAt(2) != ':' )
             throw new NumberFormatException(Kmu.format("Invalid format for HH24:MM (%s)", s));
 
-        int hh = Kmu.parse_int(s.substring(0, 2));
-        int mm = Kmu.parse_int(s.substring(3));
-        return KmTime.create(hh, mm, 0, 0);
+        int hh = Kmu.parse_int(s.substring(0, 2), -1);
+        int mm = Kmu.parse_int(s.substring(3), -1);
 
+        if ( hh < 0 )
+            return null;
+
+        if ( mm < 0 )
+            return null;
+
+        return KmTime.create(hh, mm, 0, 0);
     }
 
     //##################################################

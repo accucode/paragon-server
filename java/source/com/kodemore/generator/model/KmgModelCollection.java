@@ -238,6 +238,9 @@ public class KmgModelCollection
 
         KmgModelHibernateCollectionType ctype = getHibernateCollectionType();
 
+        if ( ctype == null )
+            throw newFatal("Unknown hibernate collection type(%s).", getType());
+
         if ( ctype.getUsesSequence() )
         {
             if ( Kmu.isEmpty(_sequence) )
@@ -245,10 +248,10 @@ public class KmgModelCollection
 
             KmgModelField f = getSequenceField();
             if ( f == null )
-                throw newFatal(
-                    "Sequence field(%s) not found in (%s).",
-                    _sequence,
-                    getAssociation().getModel().getName());
+            {
+                String modelName = getAssociation().getModel().getName();
+                throw newFatal("Sequence field(%s) not found in (%s).", _sequence, modelName);
+            }
         }
 
         if ( !ctype.getUsesSequence() )

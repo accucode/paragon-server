@@ -53,13 +53,13 @@ public class ScSimpleModelList<T>
      * The title should be relatively unique, and short enough to fit on a single line.
      * This is required.
      */
-    private KmAdaptorIF<T,String>         _titleAdapter;
+    private KmAdaptorIF<T,String> _titleAdapter;
 
     /**
      * I am applied to each model to create a subtitle.
      * The subtitle optionally provides extra information.
      */
-    private KmAdaptorIF<T,String>         _subtitleAdapter;
+    private KmAdaptorIF<T,String> _subtitleAdapter;
 
     /**
      * The list of actions to be displayed.  Each action is displayed
@@ -74,7 +74,7 @@ public class ScSimpleModelList<T>
      * This allows the entire row to be clickable, not just the individual
      * links.  The value's key is passed as an argument.
      */
-    private ScAction                      _itemAction;
+    private ScAction _itemAction;
 
     //##################################################
     //# init
@@ -165,7 +165,7 @@ public class ScSimpleModelList<T>
 
     public void addLink(String label, Runnable runnable)
     {
-        _links.put(label, createAction(runnable));
+        _links.put(label, newAction(runnable));
     }
 
     public void addLink(String label, ScAction action)
@@ -189,7 +189,7 @@ public class ScSimpleModelList<T>
 
     public void setItemAction(Runnable e)
     {
-        _itemAction = createAction(e);
+        _itemAction = newAction(e);
     }
 
     //##################################################

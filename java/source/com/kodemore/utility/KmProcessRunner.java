@@ -21,10 +21,10 @@ public class KmProcessRunner
     //# variables
     //##################################################
 
-    private String[]      _command;
-    private Process       _process;
-    private InputStream   _standardOutputStream;
-    private InputStream   _standardErrorStream;
+    private String[]    _command;
+    private Process     _process;
+    private InputStream _standardOutputStream;
+    private InputStream _standardErrorStream;
 
     private StringBuilder _outputBuffer;
     private StringBuilder _errorBuffer;
@@ -76,7 +76,7 @@ public class KmProcessRunner
 
     public void printResults()
     {
-        System.out.println("Command: " + Kmu.formatList(_command));
+        System.out.println("Command: " + Kmu.join(_command));
         System.out.println("Exit: " + _exitValue);
         System.out.println();
         System.out.println("Output...");
@@ -96,6 +96,7 @@ public class KmProcessRunner
         ProcessBuilder pb;
         pb = new ProcessBuilder();
         pb.command(_command);
+
         _process = pb.start();
         _standardOutputStream = _process.getInputStream();
         _standardErrorStream = _process.getErrorStream();

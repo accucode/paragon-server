@@ -18,9 +18,9 @@ public class MyViewMemberCard
     //# variables
     //##################################################
 
-    private MyTitleSection       _banner;
-    private ScActionButton       _editButton;
-    private ScActionButton       _removeButton;
+    private MyTitleSection _banner;
+    private ScActionButton _editButton;
+    private ScActionButton _removeButton;
 
     private MyEditMemberDialog   _editDialog;
     private MyRemoveMemberDialog _removeDialog;

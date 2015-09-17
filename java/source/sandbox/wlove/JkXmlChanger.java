@@ -1,7 +1,6 @@
 package sandbox.wlove;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -16,7 +15,8 @@ public class JkXmlChanger
 {
     public static void main(String[] args)
     {
-        String path = Kmu.getHardcodedPath("/projects/service/resource/generator/config/model/data");
+        String path = Kmu.getHardcodedPath(
+            "/projects/service/resource/generator/config/model/data");
         File dir = new File(path);
 
         KmList<File> v = Kmu.getFiles(dir, null, ".xml");
@@ -37,23 +37,20 @@ public class JkXmlChanger
         if ( !fixRoot(root) )
             return;
 
-        try ( StringWriter out = new StringWriter();
-            PrintWriter pw = new PrintWriter(out) )
+        StringWriter out = new StringWriter();
+        try (PrintWriter pw = new PrintWriter(out))
         {
             pw.println(doctype);
             doc.prettyPrintOn(pw);
-            pw.flush();
+            pw.close();
 
             String eol = KmSystemProperties.getLineSeparator();
             String result = out.toString().trim() + eol;
 
             Kmu.writeFile(file, result);
-            System.out.println("File: " + file);
         }
-        catch ( IOException ex )
-        {
-            throw Kmu.toRuntime(ex);
-        }
+
+        System.out.println("File: " + file);
     }
 
     private static boolean fixRoot(KmXmlElement root)

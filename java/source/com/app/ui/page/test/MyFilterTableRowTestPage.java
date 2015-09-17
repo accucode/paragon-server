@@ -9,14 +9,27 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.servlet.field.ScTextField;
 
-public class MyFilterTableRowTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyFilterTableRowTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyFilterTableRowTestPage instance = new MyFilterTableRowTestPage();
+    private static MyFilterTableRowTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyFilterTableRowTestPage();
+    }
+
+    public static MyFilterTableRowTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyFilterTableRowTestPage()
     {
@@ -33,17 +46,27 @@ public class MyFilterTableRowTestPage
     private ScTextField    _searchRoomNumberField1;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -94,4 +117,15 @@ public class MyFilterTableRowTestPage
 
         fields.add(_searchRoomNumberField1);
     }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
 }

@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyMemberSkillFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyMemberSkill> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyMemberSkill> c)
     {
         applyConditionsTo((MyMemberSkillCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyMemberSkill> c)
+    protected void applySortsTo(KmhModelCriteria<MyMemberSkill> c)
     {
         applySortsTo((MyMemberSkillCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyMemberSkillFilterBase
     @Override
     protected MyMemberSkillCriteria createCriteria()
     {
-        return new MyMemberSkillCriteria(createGenericCriteria());
+        return new MyMemberSkillCriteria(_createCriteria());
     }
 }

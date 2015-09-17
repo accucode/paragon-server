@@ -21,11 +21,11 @@ public class MyMenuItem
      * We cannot rely on the page key, since not all menus
      * have a direct page.
      */
-    private String             _key;
+    private String _key;
     /**
      * The text to display.
      */
-    private String             _title;
+    private String _title;
 
     /**
      * The page this menu item opens.
@@ -40,12 +40,12 @@ public class MyMenuItem
      * highlight the correct menu option when navigation is performed via the browser
      * navigation bar or back button.
      */
-    private KmList<ScPage>     _pages;
+    private KmList<ScPage> _pages;
 
     /**
      * The parent menu.  Used to navigate the hierarchy from any starting point.
      */
-    private MyMenuItem         _parent;
+    private MyMenuItem _parent;
 
     /**
      * The nested child menus.
@@ -58,7 +58,7 @@ public class MyMenuItem
      * The depth of this item in the tree.  This is a cached value, and
      * assumes that the trees composition is static once created.
      */
-    private int                _depth;
+    private int _depth;
 
     //##################################################
     //# constructor
@@ -366,7 +366,7 @@ public class MyMenuItem
     {
         System.out.print(Kmu.repeat("    ", indent));
         System.out.printf(
-            "%s, key(%s), pages(%s), visible(%s)%n",
+            "%s, key(%s), pages(%s), visible(%s)\n",
             getTitle(),
             getKey(),
             getPages().size(),
@@ -394,7 +394,7 @@ public class MyMenuItem
     {
         ScBlockScript e;
         e = new ScSimpleBlockScript();
-        e.pushPage(getEffectivePage());
+        e.enterPage(getEffectivePage());
         return e;
     }
 

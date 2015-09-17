@@ -275,7 +275,7 @@ $utility.protocol("${collection.f_Name} (collection)")
     {
         KmList<${collection.elementModel.f_Type}> v;
         v = ${collection.f_getMethod}().toList();
-        v.sortOn(${collection.elementModel.f_Type}.Meta.Sequence);
+        v.sortOn(${collection.elementModel.f_Type}::getSequence);
         return v;
     }
 
@@ -482,34 +482,6 @@ $utility.protocol("compare")
     {
         return !isSameIgnoringKey(e);
     }
-
-$utility.protocol("property")
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-#foreach ( $field in ${model.propertyFields} )
-
-        if ( p.hasKey("${field.f_name}") )
-            ${field.f_setMethod}(p.get${field.f_Type}("${field.f_name}"));
-#end
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-#foreach ( $field in ${model.propertyFields} )
-        if ( ${field.f_hasMethod}() )
-            p.set${field.f_Type}("${field.f_name}", ${field.f_getMethod}());
-
-#end
-        return p.getMap();
-    }
-
 
 $utility.protocol("display")
 

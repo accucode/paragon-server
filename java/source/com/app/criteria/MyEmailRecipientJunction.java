@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -23,65 +22,45 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyEmailRecipientJunction
-    extends KmModelJunction
+    extends KmhModelJunction
     implements MyEmailRecipientDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyEmailRecipientJunction(KmJunction context)
+    public MyEmailRecipientJunction(KmhJunction context)
     {
         super(context);
-    }
-
-    public MyEmailRecipientJunction(KmJunction context, KmAbstractCriteria parent)
-    {
-        super(context, parent);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereAddress()
+    public KmhStringCondition whereAddress()
     {
-        return new KmStringCriteria(context(), fullName(ADDRESS));
+        return new KmhStringCondition(context(), fullName(ADDRESS));
     }
 
-    public KmStringCriteria whereTypeCode()
+    public KmhStringCondition whereTypeCode()
     {
-        return new KmStringCriteria(context(), fullName(TYPE_CODE));
+        return new KmhStringCondition(context(), fullName(TYPE_CODE));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
     //# associations
     //##################################################
-
-    public MyEmailCriteria joinToEmail()
-    {
-        return join(new MyEmailCriteria(root().joinTo(EMAIL)));
-    }
-
-    public MyEmailCriteria leftJoinToEmail()
-    {
-        return join(new MyEmailCriteria(root().leftJoinTo(EMAIL)));
-    }
-
-    public KmStringCriteria whereEmailUid()
-    {
-        return new KmStringCriteria(context(), fullName(EMAIL_UID));
-    }
 
     //##################################################
     //# junction
@@ -89,12 +68,12 @@ public class MyEmailRecipientJunction
 
     public MyEmailRecipientJunction addAnd()
     {
-        return new MyEmailRecipientJunction(context().addAnd(), parent());
+        return new MyEmailRecipientJunction(context().addAnd());
     }
 
     public MyEmailRecipientJunction addOr()
     {
-        return new MyEmailRecipientJunction(context().addOr(), parent());
+        return new MyEmailRecipientJunction(context().addOr());
     }
 
 }

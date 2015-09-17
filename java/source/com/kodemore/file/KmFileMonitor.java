@@ -76,38 +76,38 @@ public class KmFileMonitor
      * The list of known files, along with their last modified
      * timestamp (as an ordinal value).
      */
-    private KmMap<KmFile,Long>        _files;
+    private KmMap<KmFile,Long> _files;
 
     /**
      * The handler responsible for performing a custom action
      * any time a file is added or changed.
      */
-    private KmFileMonitorHandler      _handler;
+    private KmFileMonitorHandler _handler;
 
     /**
      * The background thread that is responsible for scanning
      * for file changes.
      */
-    private KmThread                  _thread;
+    private KmThread _thread;
 
     /**
      * The frequency at which we scan for modified files.
      */
-    private int                       _modifiedScanFrequencyMs;
+    private int _modifiedScanFrequencyMs;
 
     /**
      * The frequency at which we scan for new files.
      */
-    private int                       _newScanFrequencyMs;
+    private int _newScanFrequencyMs;
 
     /**
      * If true, print a brief log message each time the scan
      * process completes.
      */
-    private boolean                   _logScan;
+    private boolean _logScan;
 
-    private KmTimestamp               _lastNewScanTs;
-    private KmTimestamp               _lastModifiedScanTs;
+    private KmTimestamp _lastNewScanTs;
+    private KmTimestamp _lastModifiedScanTs;
 
     //##################################################
     //# constructor

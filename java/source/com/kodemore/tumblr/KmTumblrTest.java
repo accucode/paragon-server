@@ -2,7 +2,7 @@ package com.kodemore.tumblr;
 
 /**
  * I am used connect to Twitter make various requests.
- *
+ * 
  */
 public class KmTumblrTest
 {
@@ -11,7 +11,7 @@ public class KmTumblrTest
         KmTumblrConnection c = new KmTumblrConnection();
         /**
          * these apis require authentication
-         * We will need to figure out the login with tumblr button
+         * We will need to figure out the login with tumblr button 
          * to get the users auth token/secret inorder to make requests on
          * the user's behalf (find their private info)
          */

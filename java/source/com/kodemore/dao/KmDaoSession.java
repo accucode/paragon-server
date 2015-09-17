@@ -29,7 +29,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.kodemore.hibernate.lock.KmDaoPessimisticLockException;
+import com.kodemore.hibernate.lock.KmhDaoPessimisticLockException;
 import com.kodemore.log.KmLog;
 import com.kodemore.utility.Kmu;
 
@@ -42,7 +42,7 @@ public abstract class KmDaoSession
     private Session     _session;
     private Transaction _transaction;
 
-    private String      _lockKey;
+    private String _lockKey;
 
     //##################################################
     //# constructor
@@ -83,7 +83,8 @@ public abstract class KmDaoSession
         }
 
         if ( _transaction.isActive() )
-            throw Kmu.newFatal("Attempt to begin transaction, but transaction is already 'active'.");
+            throw Kmu.newFatal(
+                "Attempt to begin transaction, but transaction is already 'active'.");
 
         _transaction.begin();
         clearCache();
@@ -275,13 +276,13 @@ public abstract class KmDaoSession
     public void lockFailing(String key)
     {
         if ( !lock(key) )
-            throw new KmDaoPessimisticLockException(key);
+            throw new KmhDaoPessimisticLockException(key);
     }
 
     public void lockFailing(String key, int timeoutSeconds, int retryCount, int retryDelayMs)
     {
         if ( !lock(key, timeoutSeconds, retryCount, retryDelayMs) )
-            throw new KmDaoPessimisticLockException(key);
+            throw new KmhDaoPessimisticLockException(key);
     }
 
     /**

@@ -51,7 +51,7 @@ public class KmaTable
     //# variables
     //##################################################
 
-    private KmaActionGroup     _actions;
+    private KmaActionGroup _actions;
 
     //##################################################
     //# constructor
@@ -78,10 +78,8 @@ public class KmaTable
         addMouseListener(newMouseListener());
         setSingleRowSelection();
 
-        registerKeyboardAction(
-            new KmaBlockAction(this, "fireAcceptListeners"),
-            KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
-            WHEN_FOCUSED);
+        KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+        registerKeyboardAction(newAction("fireAcceptListeners"), enterKey, WHEN_FOCUSED);
     }
 
     //##################################################
@@ -247,4 +245,14 @@ public class KmaTable
             }
         };
     }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private KmaBlockAction newAction(String s)
+    {
+        return new KmaBlockAction(this, s);
+    }
+
 }

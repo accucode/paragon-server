@@ -22,11 +22,16 @@
 
 package com.kodemore.servlet.variable;
 
+import java.util.function.Function;
+
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.control.ScControl;
-import com.kodemore.servlet.control.ScRenderer;
+import com.kodemore.servlet.renderer.ScControlRenderer;
+import com.kodemore.servlet.renderer.ScFunctionRenderer;
+import com.kodemore.servlet.renderer.ScRenderer;
+import com.kodemore.servlet.renderer.ScValueRenderer;
 
 public class ScLocalRenderer
     extends ScSimpleLocal<ScRenderer>
@@ -44,71 +49,49 @@ public class ScLocalRenderer
     //# convenience
     //##################################################
 
-    public ScRenderer setValue(CharSequence e)
+    public void setValue(CharSequence e)
     {
-        return setFormattable(e);
+        ScValueRenderer r = new ScValueRenderer(e);
+        setValue(r);
     }
 
-    @Override
-    public void setNull()
+    public void setFormattable(Object e)
     {
-        setFormattable(null);
+        ScValueRenderer r = new ScValueRenderer(e);
+        setValue(r);
     }
 
-    public ScRenderer setFormattable(Object e)
+    public void setControl(ScControl e)
     {
-        ScRenderer r;
-        r = setNewRenderer();
-        r.setFormattable(e);
-        return r;
+        ScControlRenderer r = new ScControlRenderer(e);
+        setValue(r);
     }
 
-    public ScRenderer setControl(ScControl e)
+    public void setFunction(Function<?,?> e)
     {
-        ScRenderer r;
-        r = setNewRenderer();
-        r.setControl(e);
-        return r;
+        ScFunctionRenderer r = new ScFunctionRenderer(e);
+        setValue(r);
     }
 
-    @SuppressWarnings("rawtypes")
-    public ScRenderer setAdaptor(KmAdaptorIF e)
+    public void setAdaptor(KmAdaptorIF<?,?> e)
     {
-        ScRenderer r;
-        r = setNewRenderer();
-        r.setAdaptor(e);
-        return r;
+        ScFunctionRenderer r = new ScFunctionRenderer(e);
+        setValue(r);
     }
 
-    @SuppressWarnings("rawtypes")
-    public ScRenderer setAttribute(KmMetaAttribute e)
+    public void setAttribute(KmMetaAttribute<?,?> e)
     {
-        ScRenderer r;
-        r = setNewRenderer();
-        r.setAttribute(e);
-        return r;
+        ScFunctionRenderer r = new ScFunctionRenderer(e);
+        setValue(r);
     }
 
     //##################################################
     //# render
     //##################################################
 
-    public void renderOn(KmHtmlBuilder out, ScControl parent)
+    public void renderOn(KmHtmlBuilder out, ScControl parent, Object model)
     {
         if ( hasValue() )
-            getValue().renderOn(out, parent);
+            getValue().renderOn(out, parent, model);
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private ScRenderer setNewRenderer()
-    {
-        ScRenderer r;
-        r = new ScRenderer();
-        setValue(r);
-        return r;
-    }
-
 }

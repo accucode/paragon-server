@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -236,44 +235,6 @@ public abstract class MySettingsBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("code") )
-            setCode(p.getInteger("code"));
-
-        if ( p.hasKey("someMessage") )
-            setSomeMessage(p.getString("someMessage"));
-
-        if ( p.hasKey("lockVersion") )
-            setLockVersion(p.getInteger("lockVersion"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasCode() )
-            p.setInteger("code", getCode());
-
-        if ( hasSomeMessage() )
-            p.setString("someMessage", getSomeMessage());
-
-        if ( hasLockVersion() )
-            p.setInteger("lockVersion", getLockVersion());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

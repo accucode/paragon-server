@@ -43,10 +43,10 @@ public class KmaGridSelectionArea
     //# variables
     //##################################################
 
-    private Point           _dot;
-    private Point           _anchor;
-    private Rectangle       _area;
-    private int             _mode;
+    private Point     _dot;
+    private Point     _anchor;
+    private Rectangle _area;
+    private int       _mode;
 
     //##################################################
     //# constructors

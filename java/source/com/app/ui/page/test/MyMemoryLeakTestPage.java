@@ -15,19 +15,31 @@ import com.kodemore.servlet.script.ScDelayedScript;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
 import com.app.property.MyPropertyRegistry;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
 /**
  * Automatically, and repeatedly, loop through page content
  * to see if a client browser memory leak manifests.
  */
-public class MyMemoryLeakTestPage
-    extends MyAbstractTestEntryPage
+public final class MyMemoryLeakTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyMemoryLeakTestPage instance = new MyMemoryLeakTestPage();
+    private static MyMemoryLeakTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyMemoryLeakTestPage();
+    }
+
+    public static MyMemoryLeakTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyMemoryLeakTestPage()
     {
@@ -42,17 +54,27 @@ public class MyMemoryLeakTestPage
     private ScDateField _field;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -77,7 +99,7 @@ public class MyMemoryLeakTestPage
 
         form.add(newUserGrid());
 
-        _loopAction = createAction(this::handleLoop);
+        _loopAction = newAction(this::handleLoop);
     }
 
     private ScGrid<MyUser> newUserGrid()
@@ -136,7 +158,7 @@ public class MyMemoryLeakTestPage
     private void handleLoop()
     {
         KmLog.info("MyMemoryLeakTestActivity.handleLoop");
-        print();
+        ajaxPrint();
     }
 
 }

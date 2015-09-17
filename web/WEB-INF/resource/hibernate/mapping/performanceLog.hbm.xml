@@ -40,7 +40,7 @@
         <property
             name="createdUtcTs"
             column="createdUtcTs"
-            type="com.kodemore.hibernate.KmHibernateTimestampType"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property

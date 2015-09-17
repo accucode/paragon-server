@@ -145,7 +145,7 @@ public class KmMap<K, V>
         {
             String key = Kmu.rightPad(formatKey(k), pad);
             String value = formatValue(get(k));
-            System.out.printf("%s = %s%n", key, value);
+            System.out.printf("%s = %s\n", key, value);
         }
     }
 

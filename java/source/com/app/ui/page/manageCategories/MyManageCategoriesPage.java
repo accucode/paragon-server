@@ -9,14 +9,24 @@ import com.app.model.MyCategory;
 import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.support.MyManageDomainPage;
 
-public class MyManageCategoriesPage
+public final class MyManageCategoriesPage
     extends MyManageDomainPage<MyCategory>
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManageCategoriesPage instance = new MyManageCategoriesPage();
+    private static MyManageCategoriesPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyManageCategoriesPage();
+    }
+
+    public static MyManageCategoriesPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyManageCategoriesPage()
     {

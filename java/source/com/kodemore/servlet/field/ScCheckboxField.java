@@ -39,7 +39,7 @@ public class ScCheckboxField
 
     private KmValidator<Boolean> _validator;
 
-    private ScLocalBoolean       _checked;
+    private ScLocalBoolean _checked;
 
     //##################################################
     //# init

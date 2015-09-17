@@ -424,7 +424,8 @@ public class KmLogger
      * this should only be used by rare framework code that needs
      * to avoid unintended recursion.
      */
-    private static final Set<Thread> _disabledThreads = Collections.synchronizedSet(new HashSet<Thread>());
+    private static final Set<Thread> _disabledThreads = Collections.synchronizedSet(
+        new HashSet<Thread>());
 
     public static void disableThread()
     {

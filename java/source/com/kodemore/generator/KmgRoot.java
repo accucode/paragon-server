@@ -35,18 +35,18 @@ public class KmgRoot
     private KmList<KmgModel>          _models;
     private KmgPropertyFile           _propertyFile;
 
-    private KmList<String>            _pageClassNames;
-    private KmList<String>            _pagePackageNames;
+    private KmList<String> _pageClassNames;
+    private KmList<String> _pagePackageNames;
 
-    private String                    _applicationName;
-    private String                    _applicationPackage;
-    private String                    _applicationPrefix;
+    private String _applicationName;
+    private String _applicationPackage;
+    private String _applicationPrefix;
 
-    private String                    _defaultModelSuperClass;
+    private String _defaultModelSuperClass;
 
-    private KmList<KmgFieldExtender>  _extenders;
+    private KmList<KmgFieldExtender> _extenders;
 
-    private KmList<KmgCssBundle>      _cssBundles;
+    private KmList<KmgCssBundle> _cssBundles;
 
     //##################################################
     //# constructor
@@ -422,7 +422,10 @@ public class KmgRoot
         e.parse(root);
 
         if ( !f.hasShortName(e.getName()) )
-            throw newFatal("Model name (%s) should match file name (%s).", e.getName(), f.getName());
+            throw newFatal(
+                "Model name (%s) should match file name (%s).",
+                e.getName(),
+                f.getName());
 
         _models.add(e);
     }
@@ -463,7 +466,7 @@ public class KmgRoot
         for ( KmgModel m : models )
             names.add(m.getName());
 
-        throw newFatal("Cannot have duplicate alias(%s), see models: %s.", alias, names.format());
+        throw newFatal("Cannot have duplicate alias(%s), see models: %s.", alias, names.join());
     }
 
     public void installExtensions()

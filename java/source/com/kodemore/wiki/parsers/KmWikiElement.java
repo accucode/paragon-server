@@ -86,10 +86,10 @@ public abstract class KmWikiElement
 
     public final String printTree()
     {
-        try ( StringWriter out = new StringWriter() )
+        try (StringWriter w = new StringWriter())
         {
-            printTreeOn(out);
-            return out.toString();
+            printTreeOn(w);
+            return w.toString();
         }
         catch ( IOException ex )
         {
@@ -102,20 +102,29 @@ public abstract class KmWikiElement
         printTreeOn(System.out);
     }
 
-    @SuppressWarnings("resource")
     public final void printTreeOn(OutputStream os)
     {
-        printTreeOn(new KmIndentPrintWriter(os));
+        KmIndentPrintWriter out;
+        out = new KmIndentPrintWriter(os);
+        printTreeOn(out);
+        out.flush();
     }
 
-    @SuppressWarnings("resource")
     public final void printTreeOn(Writer w)
     {
-        printTreeOn(new KmIndentPrintWriter(w));
+        KmIndentPrintWriter out;
+        out = new KmIndentPrintWriter(w);
+        printTreeOn(out);
+        out.flush();
     }
 
     public void printTreeOn(KmIndentPrintWriter out)
     {
-        out.printf("%s (%s,%s)%n", getName(), getSource().getRow(), getSource().getColumn());
+        String s = Kmu.format(
+            "%s (%s,%s)",
+            getName(),
+            getSource().getRow(),
+            getSource().getColumn());
+        out.println(s);
     }
 }

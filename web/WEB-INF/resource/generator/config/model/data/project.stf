@@ -81,6 +81,13 @@ attributes
     : elementField  = project
 
     collection
+    : name          = attentionGroup
+    : comment       = The groups for this project.
+    : relation      = children
+    : elementModel  = attentionGroup
+    : elementField  = project
+
+    collection
     : name          = product
     : comment       = The products for this project.
     : relation      = children

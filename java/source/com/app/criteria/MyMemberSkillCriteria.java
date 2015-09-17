@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,33 +30,28 @@ public class MyMemberSkillCriteria
     //# constructor
     //##################################################
 
-    public MyMemberSkillCriteria(KmCriteria parent)
+    public MyMemberSkillCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyMemberSkillCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmIntegerCriteria whereSequence()
+    public KmhIntegerCondition whereSequence()
     {
-        return new KmIntegerCriteria(context(), fullName(SEQUENCE));
+        return new KmhIntegerCondition(context(), fullName(SEQUENCE));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
@@ -284,9 +278,9 @@ public class MyMemberSkillCriteria
         return new MyMemberCriteria(leftJoinTo(MEMBER));
     }
 
-    public KmStringCriteria whereMemberUid()
+    public KmhStringCondition whereMemberUid()
     {
-        return new KmStringCriteria(parent(), fullName(MEMBER_UID));
+        return new KmhStringCondition(parent(), fullName(MEMBER_UID));
     }
 
     public void whereMemberIs(MyMember e)
@@ -331,9 +325,9 @@ public class MyMemberSkillCriteria
         return new MySkillCriteria(leftJoinTo(SKILL));
     }
 
-    public KmStringCriteria whereSkillUid()
+    public KmhStringCondition whereSkillUid()
     {
-        return new KmStringCriteria(parent(), fullName(SKILL_UID));
+        return new KmhStringCondition(parent(), fullName(SKILL_UID));
     }
 
     public void whereSkillIs(MySkill e)
@@ -357,15 +351,4 @@ public class MyMemberSkillCriteria
     {
         return new MyMemberSkillJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyMemberSkillCriteria createOn(KmModelJunction junction)
-    {
-        return new MyMemberSkillCriteria(parent(), junction.context());
-    }
-
 }

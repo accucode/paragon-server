@@ -48,15 +48,15 @@ public class KmStringSplitter
     //# variables
     //##################################################
 
-    private int             _width;
-    private int             _firstWidth;
-    private int             _mode;
-    private FontMetrics     _fontMetrics;
-    private boolean         _collapseWordBreaks;
-    private String          _wordBreakCharacters;
-    private String          _lineBreakCharacters;
-    private boolean         _convertWordBreaksToSpace;
-    private boolean         _allowTrailingWhiteSpace;
+    private int         _width;
+    private int         _firstWidth;
+    private int         _mode;
+    private FontMetrics _fontMetrics;
+    private boolean     _collapseWordBreaks;
+    private String      _wordBreakCharacters;
+    private String      _lineBreakCharacters;
+    private boolean     _convertWordBreaksToSpace;
+    private boolean     _allowTrailingWhiteSpace;
 
     //##################################################
     //# constructor

@@ -87,19 +87,19 @@ public class KmgModelAssociation
      * The name of the field.  The name should be all lower case
      * using a space to separate the words.
      */
-    private String                   _name;
+    private String _name;
 
     /**
      * A description suitable for display to users.
      */
-    private String                   _help;
+    private String _help;
 
     /**
      * Additional description intended for developers.
      */
-    private String                   _comment;
+    private String _comment;
 
-    private String                   _modelReferenceName;
+    private String _modelReferenceName;
 
     private KmList<KmgModelDelegate> _delegates;
 
@@ -111,13 +111,13 @@ public class KmgModelAssociation
      *      weakReference: car -> driver
      *
      */
-    private Relation                 _relation;
+    private Relation _relation;
 
-    private boolean                  _required;
+    private boolean _required;
 
-    private boolean                  _abstract;
+    private boolean _abstract;
 
-    private KmList<String>           _onChangeMethods;
+    private KmList<String> _onChangeMethods;
 
     //##################################################
     //# abstract
@@ -413,7 +413,6 @@ public class KmgModelAssociation
         {
             String s = parseRequiredString(x, "relation");
             _relation = Relation.findName(s);
-
             if ( _relation == null )
                 throw newFatal("Invalid relation: " + s);
         }
@@ -456,7 +455,8 @@ public class KmgModelAssociation
 
             case WeakReference:
                 if ( ic != null )
-                    throw newFatal("Weak reference association should not have inverse collection.");
+                    throw newFatal(
+                        "Weak reference association should not have inverse collection.");
                 return;
 
             case Calculated:

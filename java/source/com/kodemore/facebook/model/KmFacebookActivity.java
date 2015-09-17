@@ -22,13 +22,13 @@ public class KmFacebookActivity
     private static final String CREATE_TIMESTAMP_KEY = "create_time";
 
     //##################################################
-    //# variables
+    //# variables 
     //##################################################
 
-    private String              _id;
-    private String              _name;
-    private String              _category;
-    private KmTimestamp         _createTime;
+    private String      _id;
+    private String      _name;
+    private String      _category;
+    private KmTimestamp _createTime;
 
     //##################################################
     //# accessing

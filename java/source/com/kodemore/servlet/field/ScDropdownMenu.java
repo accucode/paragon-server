@@ -32,8 +32,8 @@ import com.kodemore.servlet.variable.ScLocalString;
 
 /**
  * I implement a dropdown menu using a list, css, and a little javascript.
- *
- * See
+ * 
+ * See 
  *      kmDropdownMenu.js
  *      dropdownMenu.css.
  *      testDropdownMenu.html
@@ -86,7 +86,7 @@ public class ScDropdownMenu
 
     public ScDropdownMenuItem addItem(String text, Runnable r)
     {
-        return addItem(text, createAction(r), null);
+        return addItem(text, newAction(r), null);
     }
 
     public ScDropdownMenuItem addItem(String text, ScAction action, Object arg)
@@ -106,7 +106,7 @@ public class ScDropdownMenu
         ScDropdownMenuItem e;
         e = new ScDropdownMenuItem();
         e.setText(text);
-        e.setAction(createAction(r), arg);
+        e.setAction(newAction(r), arg);
 
         _items.add(e);
 

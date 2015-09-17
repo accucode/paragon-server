@@ -26,9 +26,9 @@ import com.kodemore.string.KmStringBuilder;
 
 /**
  * I represent a simple callback function in the form:
- *
+ * 
  *      function() { ... }
- *
+ *      
  * The contents of my block are managed by my superclass.
  */
 public class ScCallbackScript

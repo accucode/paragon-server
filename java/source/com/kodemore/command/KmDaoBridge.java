@@ -2,7 +2,7 @@ package com.kodemore.command;
 
 /**
  * Defaults for all commands, including those implemented
- * by the kodemore framework classes.
+ * by the kodemore framework classes.  
  */
 public class KmDaoBridge
 {
@@ -46,7 +46,7 @@ public class KmDaoBridge
 
     /**
      * The number of times that the command should
-     * attempt to grab the required lock, if any.
+     * attempt to grab the required lock, if any. 
      */
     public int getLockRetryCount()
     {
@@ -99,7 +99,7 @@ public class KmDaoBridge
     /**
      * Called after the retry delay, but before the
      * next try.  Typically, used to reset state back
-     * to the original condition.
+     * to the original condition.  
      */
     protected void onStaleObjectRetry()
     {

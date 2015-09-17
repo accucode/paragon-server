@@ -43,9 +43,9 @@ public class KmPhoneticRule
     //# variables
     //##################################################
 
-    private String             _mode;
-    private String             _oldValue;
-    private String             _newValue;
+    private String _mode;
+    private String _oldValue;
+    private String _newValue;
 
     //##################################################
     //# constructor
@@ -163,7 +163,7 @@ public class KmPhoneticRule
     private void printRuleApplication(String s1, String s2)
     {
         System.out.printf(
-            "Rule: %s, %s, %s :: %s -> %s%n",
+            "Rule: %s, %s, %s :: %s -> %s\n",
             getMode(),
             getOldValue(),
             getNewValue(),

@@ -13,7 +13,7 @@ public class ScDropdownMenuItem
     /**
      * The text to display.
      */
-    private String     _text;
+    private String _text;
 
     /**
      * The action to run.

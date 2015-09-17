@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -247,44 +246,6 @@ public abstract class MyHibernateCacheTestBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("uid") )
-            setUid(p.getString("uid"));
-
-        if ( p.hasKey("data") )
-            setData(p.getString("data"));
-
-        if ( p.hasKey("lockVersion") )
-            setLockVersion(p.getInteger("lockVersion"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasUid() )
-            p.setString("uid", getUid());
-
-        if ( hasData() )
-            p.setString("data", getData());
-
-        if ( hasLockVersion() )
-            p.setInteger("lockVersion", getLockVersion());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

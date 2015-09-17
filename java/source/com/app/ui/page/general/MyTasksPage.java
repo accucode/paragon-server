@@ -1,19 +1,30 @@
 package com.app.ui.page.general;
 
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 
-import com.app.ui.page.MyAbstractEntryPage;
+import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
 
-public class MyTasksPage
-    extends MyAbstractEntryPage
+public final class MyTasksPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyTasksPage instance = new MyTasksPage();
+    private static MyTasksPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyTasksPage();
+    }
+
+    public static MyTasksPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyTasksPage()
     {
@@ -37,6 +48,22 @@ public class MyTasksPage
     }
 
     //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyBookmark(ScParameterList v)
+    {
+        // none
+    }
+
+    //##################################################
     //# install
     //##################################################
 
@@ -54,8 +81,6 @@ public class MyTasksPage
     @Override
     protected void preRender()
     {
-        super.preRender();
-
         if ( !hasCurrentProject() )
             _message.setValue("Please select a project.");
     }

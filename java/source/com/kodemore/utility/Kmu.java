@@ -45,10 +45,12 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -57,12 +59,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.UUID;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.velocity.util.ArrayIterator;
 
-import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.collection.KmSetImpl;
@@ -71,7 +78,6 @@ import com.kodemore.exception.KmApplicationException;
 import com.kodemore.exception.KmSecurityException;
 import com.kodemore.file.KmFileUtility;
 import com.kodemore.log.KmLog;
-import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.string.KmNameTokenizer;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.text.KmEditDistance;
@@ -98,41 +104,40 @@ public class Kmu
 
     private static final boolean CHECK_FILE_NAME_CASE = true;
 
-    private static final String  DIGITS               = "0123456789";
-    private static final String  UPPERCASE_LETTERS    = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private static final String  LOWERCASE_LETTERS    = "abcdefghijklmnopqrstuvwxyz";
+    private static final String DIGITS            = "0123456789";
+    private static final String UPPERCASE_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String LOWERCASE_LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
-    private static final String  LETTERS              = UPPERCASE_LETTERS + LOWERCASE_LETTERS;
-    private static final String  DIGITS_AND_LETTERS   = DIGITS + LETTERS;
+    private static final String LETTERS            = UPPERCASE_LETTERS + LOWERCASE_LETTERS;
+    private static final String DIGITS_AND_LETTERS = DIGITS + LETTERS;
 
-    private static final String  HEX_CHAR_STRING      = "0123456789ABCDEF";
-    private static final char[]  HEX_CHAR_ARRAY       = HEX_CHAR_STRING.toCharArray();
+    private static final String HEX_CHAR_STRING = "0123456789ABCDEF";
+    private static final char[] HEX_CHAR_ARRAY  = HEX_CHAR_STRING.toCharArray();
 
-    private static final String  BASE_62_STRING       = DIGITS
-                                                          + UPPERCASE_LETTERS
-                                                          + LOWERCASE_LETTERS;
-    private static final char[]  BASE_62_ARRAY        = BASE_62_STRING.toCharArray();
+    private static final String BASE_62_STRING = DIGITS + UPPERCASE_LETTERS + LOWERCASE_LETTERS;
+    private static final char[] BASE_62_ARRAY  = BASE_62_STRING.toCharArray();
 
-    private static final String  BASE_36_STRING       = DIGITS + UPPERCASE_LETTERS;
-    private static final char[]  BASE_36_ARRAY        = BASE_36_STRING.toCharArray();
+    private static final String BASE_36_STRING = DIGITS + UPPERCASE_LETTERS;
+    private static final char[] BASE_36_ARRAY  = BASE_36_STRING.toCharArray();
 
-    private static final String  BASE_20_STRING       = "BCDFGHJKLMNPQRSTWXZ";
-    private static final char[]  BASE_20_ARRAY        = BASE_20_STRING.toCharArray();
+    private static final String BASE_20_STRING = "BCDFGHJKLMNPQRSTWXZ";
+    private static final char[] BASE_20_ARRAY  = BASE_20_STRING.toCharArray();
 
-    private static final String  BASE_16_STRING       = HEX_CHAR_STRING;
-    private static final char[]  BASE_16_ARRAY        = BASE_16_STRING.toCharArray();
+    private static final String BASE_16_STRING = HEX_CHAR_STRING;
+    private static final char[] BASE_16_ARRAY  = BASE_16_STRING.toCharArray();
 
-    private static final char    CHAR_CR              = (char)13;
-    private static final char    CHAR_LF              = (char)10;
-    private static final char    CHAR_NON_PRINTABLE   = '?';
+    private static final char CHAR_CR            = (char)13;
+    private static final char CHAR_LF            = (char)10;
+    private static final char CHAR_NON_PRINTABLE = '?';
 
-    private static final String  STRING_CR            = "" + CHAR_CR;
-    private static final String  STRING_LF            = "" + CHAR_LF;
-    private static final String  STRING_CRLF          = "" + CHAR_CR + CHAR_LF;
+    private static final String STRING_CR   = "" + CHAR_CR;
+    private static final String STRING_LF   = "" + CHAR_LF;
+    private static final String STRING_CRLF = "" + CHAR_CR + CHAR_LF;
 
-    private static final String  CHARSET_UTF_8        = "UTF-8";
+    private static final String CHARSET_UTF_8 = "UTF-8";
 
-    private static final String  LIST_SEPARATOR       = ", ";
+    private static final String LIST_DELIMITER      = ", ";
+    private static final String LIST_LINE_DELIMITER = "\n";
 
     //##################################################
     //# parse integer
@@ -166,7 +171,7 @@ public class Kmu
             if ( s.length() == 0 )
                 return 0;
 
-            return Integer.valueOf(s);
+            return new Integer(s);
         }
         catch ( NumberFormatException ex )
         {
@@ -245,8 +250,7 @@ public class Kmu
 
             s = s.trim();
             s = stripLeadingZeros(s);
-
-            return Long.valueOf(s);
+            return new Long(s);
         }
         catch ( NumberFormatException ex )
         {
@@ -2074,41 +2078,6 @@ public class Kmu
         return !isVowel(c);
     }
 
-    public static String escapeXml(String s)
-    {
-        s = replaceAll(s, "&", "&amp;");
-        s = replaceAll(s, "'", "&apos;");
-        s = replaceAll(s, "\"", "&quot;");
-        s = replaceAll(s, "<", "&lt;");
-        s = replaceAll(s, ">", "&gt;");
-        return s;
-    }
-
-    /**
-     * Useful for representing java generic types in xml.
-     * E.g.: convert KmList<Person> to KmList(Person)
-     */
-    public static String escapeXmlType(String s)
-    {
-        s = replaceAll(s, "<", "(");
-        s = replaceAll(s, ">", ")");
-        s = escapeXml(s);
-        return s;
-    }
-
-    public static String escapeJavaString(String s)
-    {
-        if ( s == null )
-            return null;
-
-        s = StringEscapeUtils.escapeJava(s);
-
-        // kludge to fix mistake in StringEscapeUtils.
-        s = replaceAll(s, "\\/", "/");
-
-        return s;
-    }
-
     /**
      * Return the list of lines (without the line separator characters) using
      * the standard line reading mechanism of BufferedReader.
@@ -2292,6 +2261,42 @@ public class Kmu
         return source.substring(i + split.length());
     }
 
+    /**
+     * Safe version of String compare. This function does not throw a
+     * NullPointerException if any of the parameters are null.
+     *
+     * Also, this method should generally compare string the same way
+     * MySql does.  By default, MySql compares by converting all strings
+     * to uppercase.  But Java String.compareToIgnoreCase compares by converting
+     * strings to lowercase.  This difference doesn't normally matter but
+     * results in discrepancies when comparing characters between the lower
+     * and uppercase letter; e.g.: the underscore (_).
+     *
+     * For example, here's a comparison of MySql vs String.compareToIgnoreCase.
+     *
+     * MySql    Java
+     * ===============
+     * A        _A
+     * B        _B
+     * C        _C
+     * _A       A
+     * _B       B
+     * _C       C
+     */
+    public static int compare(String a, String b)
+    {
+        if ( a == null && b == null )
+            return 0;
+
+        if ( a == null )
+            return -1;
+
+        if ( b == null )
+            return 1;
+
+        return a.toUpperCase().compareTo(b.toUpperCase());
+    }
+
     //##################################################
     //# text
     //##################################################
@@ -2431,10 +2436,6 @@ public class Kmu
         }
     }
 
-    //##################################################
-    //# match
-    //##################################################
-
     /**
      * Determine is the first parameter matches any of the arguments.
      */
@@ -2462,38 +2463,18 @@ public class Kmu
     }
 
     //##################################################
-    //# string utils
+    //# string
     //##################################################
 
-    public static <E> String formatLines(Iterable<E> v)
-    {
-        return formatList(v, "\n");
-    }
-
-    public static String formatSeparated(String separator, Object... arr)
-    {
-        StringBuilder out = new StringBuilder();
-
-        for ( Object e : arr )
-        {
-            if ( out.length() > 0 )
-                out.append(separator);
-
-            out.append(e);
-        }
-
-        return out.toString();
-    }
-
-    public static String format(CharSequence msg, Object... args)
+    public static String format(String msg, Object... args)
     {
         if ( isEmpty(msg) )
-            return "";
+            return msg;
 
         if ( args.length == 0 )
-            return msg.toString();
+            return msg;
 
-        return String.format(msg.toString(), args);
+        return String.format(msg, args);
     }
 
     /**
@@ -2577,41 +2558,6 @@ public class Kmu
         return ss.substring(start, end);
     }
 
-    /**
-     * Take html and reformat it into a javascript string literal.
-     *
-     * E.g.:
-     * Input...
-     *
-     *      Hello world
-     *      <b>Bold text</b>
-     *      A "quoted" value.
-     *      <script>some javascript</script>
-     *
-     * Output...
-     *
-     *      var s = "";
-     *      s += "Hello world\n";
-     *      s += "<b>Bold text</b>\n";
-     *      s += "A \"quoted\" value.\n";
-     *      s += "<scr"+"ipt>some javascript</scr"+"ipt>\n";
-     */
-    public static String formatHtmlAsJavascriptString(String var, String html)
-    {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.printfln("var %s = \"\";", var);
-
-        KmList<String> lines = parseLines(html);
-        for ( String line : lines )
-        {
-            String escaped = escapeJavascriptStringLiteral(line);
-            out.printfln("%s += \"%s\\n\";", var, escaped);
-        }
-
-        return out.toString();
-    }
-
     public static String toStringSafe(Object e)
     {
         return e == null
@@ -2631,70 +2577,108 @@ public class Kmu
     }
 
     //##################################################
-    //# format list
+    //# join strings
     //##################################################
 
-    public static String formatList(String... arr)
+    @SuppressWarnings("unchecked")
+    public static String join(String... arr)
     {
-        if ( arr == null )
-            return "";
-
-        StringBuilder out = new StringBuilder();
-
-        int n = arr.length;
-        for ( int i = 0; i < n; i++ )
-        {
-            out.append(arr[i]);
-            if ( i < n - 1 )
-                out.append(",");
-        }
-
-        return out.toString();
+        ArrayIterator i = new ArrayIterator(arr);
+        return join(i, null, LIST_DELIMITER);
     }
 
-    public static <E> String formatList(Iterable<E> v)
-    {
-        return formatList(v, (KmAdaptorIF<E,?>)null, LIST_SEPARATOR);
-    }
-
-    public static <E> String formatList(Iterable<E> v, KmAdaptorIF<E,?> adapter, Object separator)
+    public static <E> String join(Iterable<E> v)
     {
         if ( v == null )
             return "";
 
+        return join(v.iterator(), null, LIST_DELIMITER);
+    }
+
+    public static <E> String join(Iterator<E> v)
+    {
+        return join(v, null, LIST_DELIMITER);
+    }
+
+    public static <E> String join(Iterable<E> v, Function<E,?> fn)
+    {
+        if ( v == null )
+            return "";
+
+        return join(v.iterator(), fn, LIST_DELIMITER);
+    }
+
+    public static <E> String join(Iterator<E> v, Function<E,?> fn)
+    {
+        return join(v, fn, LIST_DELIMITER);
+    }
+
+    public static <E> String join(Iterable<E> v, String delim)
+    {
+        return join(v, null, delim);
+    }
+
+    public static <E> String join(Iterator<E> i, String delim)
+    {
+        return join(i, null, delim);
+    }
+
+    public static <E> String join(Iterable<E> v, Function<E,?> fn, String delim)
+    {
+        if ( v == null )
+            return "";
+
+        return join(v.iterator(), fn, delim);
+    }
+
+    /**
+     * Join multiple values together into a single string with a separator between
+     * each value.  Any values may be used; they are converted to strings via the
+     * default behavior of StringBuilder.append.
+     */
+    public static <E> String join(Iterator<E> i, Function<E,?> fn, String delim)
+    {
+        if ( i == null )
+            return "";
+
+        if ( delim == null )
+            delim = "";
+
         StringBuilder out = new StringBuilder();
 
-        Iterator<E> i = v.iterator();
         while ( i.hasNext() )
         {
             E e = i.next();
 
-            Object o = e;
-            if ( adapter != null )
-                o = adapter.getValue(e);
+            if ( fn == null )
+                out.append(e);
+            else
+                out.append(fn.apply(e));
 
-            out.append(o);
-
-            if ( i.hasNext() && separator != null )
-                out.append(separator);
+            if ( i.hasNext() )
+                out.append(delim);
         }
 
         return out.toString();
     }
 
-    public static <E> String formatList(Iterable<E> v, KmAdaptorIF<E,?> adapter)
+    //==================================================
+    //= join lines
+    //==================================================
+
+    public static <E> String joinLines(Iterable<E> v)
     {
-        return formatList(v, adapter, LIST_SEPARATOR);
+        return join(v, null, LIST_LINE_DELIMITER);
     }
 
-    public static <E> String formatList(Iterable<E> v, Object separator)
+    public static <E> String joinLines(Iterator<E> i)
     {
-        return formatList(v, (KmAdaptorIF<E,?>)null, separator);
+        return join(i, null, LIST_LINE_DELIMITER);
     }
 
-    public static <E> String formatList(Iterable<E> v, KmMetaAttribute<E,?> attr, Object separator)
+    public static <E> String joinLines(Iterable<E> v, Function<E,?> fn)
     {
-        return formatList(v, attr.getAdaptor(), separator);
+        return join(v, fn, LIST_LINE_DELIMITER);
     }
 
     //##################################################
@@ -3477,23 +3461,52 @@ public class Kmu
     public static String readFileUnicode(String path)
     {
         byte[] bytes = readFileBytes(path);
-        return new String(
-            Charset.forName(KmConstantsIF.UTF_16).decode(ByteBuffer.wrap(bytes)).array());
+        Charset charset = Charset.forName(KmConstantsIF.UTF_16);
+        CharBuffer chars = charset.decode(ByteBuffer.wrap(bytes));
+
+        return new String(chars.array());
+    }
+
+    public static byte[] readBytes(javax.mail.Part part)
+    {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            InputStream is = part.getInputStream())
+        {
+            while ( true )
+            {
+                int i = is.read();
+                if ( i < 0 )
+                    break;
+
+                baos.write((byte)i);
+            }
+            return baos.toByteArray();
+        }
+        catch ( Exception ex )
+        {
+            throw toRuntime(ex);
+        }
     }
 
     public static Object process(String path, KmReaderProcessorIF p, Object... args)
     {
-        if ( CHECK_FILE_NAME_CASE && !checkFileNameCase(path) )
-            throw newFatal("Cannot find file: %s.", path);
-
-        try ( BufferedReader in = new BufferedReader(new FileReader(path)); )
+        BufferedReader in = null;
+        try
         {
+            if ( CHECK_FILE_NAME_CASE && !checkFileNameCase(path) )
+                throw newFatal("Cannot find file: %s.", path);
+
+            in = new BufferedReader(new FileReader(path));
             return p.process(in, args);
         }
         catch ( IOException ex )
         {
             KmLog.error(ex, "Cannot read file(%s)", path);
             return null;
+        }
+        finally
+        {
+            closeSafely(in);
         }
     }
 
@@ -3515,8 +3528,10 @@ public class Kmu
     }
 
     /**
-     * Read all remaining bytes from the input stream, then close it.
-     * Any exceptions will be wrapped and thrown as Runtime exceptions.
+     * Read all remaining bytes from the input stream
+     * and return them as a String.
+     * The stream is NOT closed.  Any exceptions will
+     * be wrapped and thrown as Runtime exceptions.
      */
     public static String readStringFrom(InputStream is)
     {
@@ -3524,14 +3539,16 @@ public class Kmu
     }
 
     /**
-     * Read all remaining bytes from the input stream, then close it.
-     * Any exceptions will be wrapped and thrown as Runtime exceptions.
+     * Read all remaining bytes from the input stream.
+     * The stream is NOT closed.  Any exceptions will
+     * be wrapped and thrown as Runtime exceptions.
      */
-    public static byte[] readBytesFrom(InputStream is)
+    public static byte[] readBytesFrom(InputStream in)
     {
-        try ( BufferedInputStream in = toBufferedInputStream(is);
-            ByteArrayOutputStream out = new ByteArrayOutputStream() )
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream())
         {
+            in = toBufferedInputStream(in);
+
             while ( true )
             {
                 int i = in.read();
@@ -3541,9 +3558,10 @@ public class Kmu
                 out.write(i);
             }
 
+            out.flush();
             return out.toByteArray();
         }
-        catch ( IOException ex )
+        catch ( Exception ex )
         {
             throw toRuntime(ex);
         }
@@ -3574,8 +3592,8 @@ public class Kmu
     }
 
     /**
-     * Create or overwrite the contents of a file.
-     * Any exceptions are thrown as a RuntimeException.
+     * Create or overwrite the contents of a file. Any exceptions are throw as a
+     * RuntimeException.
      */
     public static void writeFile(File f, String text)
     {
@@ -3583,8 +3601,8 @@ public class Kmu
     }
 
     /**
-     * Create or overwrite the contents of a file.
-     * Any exceptions are thrown as a RuntimeException.
+     * Create or overwrite the contents of a file. Any exceptions are throw as a
+     * RuntimeException.
      */
     public static void writeFile(String path, String text)
     {
@@ -3594,7 +3612,6 @@ public class Kmu
 
     /**
      * Append the value to a file.  Create the file if missing.
-     * Any exceptions are thrown as a RuntimeException.
      */
     public static void appendToFile(String path, String text)
     {
@@ -3603,14 +3620,15 @@ public class Kmu
     }
 
     /**
-     * Create or overwrite the contents of a file.
-     * Any exceptions are thrown as a RuntimeException.
+     * Create or overwrite the contents of a file. Any exceptions are throw as a
+     * RuntimeException.
      */
     public static void writeFile(String path, String text, boolean append)
     {
-        try ( FileWriter fw = new FileWriter(path, append);
-            BufferedWriter out = new BufferedWriter(fw) )
+        BufferedWriter out = null;
+        try
         {
+            out = new BufferedWriter(new FileWriter(path, append));
             out.write(text, 0, text.length());
             out.flush();
         }
@@ -3618,17 +3636,22 @@ public class Kmu
         {
             throw toRuntime(ex);
         }
+        finally
+        {
+            closeSafely(out);
+        }
     }
 
     /**
-     * Create or overwrite the contents of a file.
-     * Any exceptions are thrown as a RuntimeException.
+     * Create or overwrite the contents of a file. Any exceptions are throw as a
+     * RuntimeException.
      */
     public static void writeFile(String path, KmWriteableIF writeable)
     {
-        try ( FileWriter fw = new FileWriter(path);
-            BufferedWriter out = new BufferedWriter(fw); )
+        BufferedWriter out = null;
+        try
         {
+            out = new BufferedWriter(new FileWriter(path));
             writeable.writeOn(out);
             out.flush();
         }
@@ -3636,11 +3659,15 @@ public class Kmu
         {
             throw toRuntime(ex);
         }
+        finally
+        {
+            closeSafely(out);
+        }
     }
 
     /**
-     * Read the contents of the file into a byte array.
-     * Any exceptions are thrown as a RuntimeException.
+     * Read the contents of the file into a byte array. Exceptions are printed
+     * to System.out but are not thrown.
      */
     public static byte[] readFileBytes(File f)
     {
@@ -3648,19 +3675,23 @@ public class Kmu
     }
 
     /**
-     * Read the contents of the file into a byte array.
-     * Any exceptions are thrown as a RuntimeException.
+     * Read the contents of the file into a byte array. Exceptions are printed
+     * to System.out but are not thrown.
      */
     public static byte[] readFileBytes(String path)
     {
-        if ( CHECK_FILE_NAME_CASE && !checkFileNameCase(path) )
-            throw new RuntimeException("Cannot find file: " + path);
+        BufferedInputStream in = null;
+        ByteArrayOutputStream out = null;
 
-        int n = (int)new File(path).length();
-
-        try ( BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
-            ByteArrayOutputStream out = new ByteArrayOutputStream(n) )
+        try
         {
+            if ( CHECK_FILE_NAME_CASE && !checkFileNameCase(path) )
+                throw new RuntimeException("Cannot find file: " + path);
+
+            int n = (int)new File(path).length();
+            in = new BufferedInputStream(new FileInputStream(path));
+            out = new ByteArrayOutputStream(n);
+
             while ( true )
             {
                 int i = in.read();
@@ -3670,11 +3701,17 @@ public class Kmu
                 out.write(i);
             }
 
+            out.flush();
             return out.toByteArray();
         }
         catch ( IOException ex )
         {
             throw toRuntime(ex);
+        }
+        finally
+        {
+            closeSafely(in);
+            closeSafely(out);
         }
     }
 
@@ -3722,8 +3759,8 @@ public class Kmu
     }
 
     /**
-     * Write the byte array to the file.
-     * Any exceptions are thrown as a RuntimeException.
+     * Write the byte array to the file. Exceptions are printed to System.out
+     * but are not thrown.
      */
     public static void writeFile(String path, byte[] arr)
     {
@@ -3732,8 +3769,8 @@ public class Kmu
     }
 
     /**
-     * Write the byte array to the file.
-     * Any exceptions are thrown as a RuntimeException.
+     * Write the byte array to the file. Exceptions are printed to System.out
+     * but are not thrown.
      */
     public static void writeFile(File f, byte[] arr)
     {
@@ -3751,19 +3788,25 @@ public class Kmu
     }
 
     /**
-     * Write the byte array to the file.
-     * Any exceptions are thrown as a RuntimeException.
+     * Write the byte array to the file. Exceptions are printed to System.out
+     * but are not thrown.
      */
     public static void writeFile(File f, byte[] arr, boolean append)
     {
-        try ( FileOutputStream fos = new FileOutputStream(f, append);
-            BufferedOutputStream out = new BufferedOutputStream(fos) )
+        BufferedOutputStream out = null;
+        try
         {
+            out = new BufferedOutputStream(new FileOutputStream(f, append));
             out.write(arr);
+            out.flush();
         }
         catch ( IOException ex )
         {
             throw toRuntime(ex);
+        }
+        finally
+        {
+            closeSafely(out);
         }
     }
 
@@ -3771,7 +3814,7 @@ public class Kmu
      * Ensure that the specified path exists. If it does not exist then attempt
      * to create it. Return true if the path was successfully created.  The entire
      * path is assumed to be a directory.
-     * Any exceptions are thrown as runtime exceptions.
+     * Exceptions are printed to System.out but are not thrown.
      */
     public static boolean createFolder(String s)
     {
@@ -3783,6 +3826,7 @@ public class Kmu
      * Ensure that the specified path exists. If it does not exist then attempt
      * to create it. Return true if the path was successfully created.
      * The entire path is assumed to be a directory.
+     * Exceptions are logged but are not thrown.
      */
     public static boolean createFolder(File f)
     {
@@ -3800,7 +3844,8 @@ public class Kmu
         }
         catch ( IOException ex )
         {
-            throw toRuntime(ex);
+            KmLog.error(ex, "Cannot create directory (%s).", f.getPath());
+            return false;
         }
     }
 
@@ -3911,26 +3956,24 @@ public class Kmu
                 maxKey = k.length();
         }
 
-        try ( StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw) )
+        StringWriter sw = new StringWriter();
+        try (PrintWriter pw = new PrintWriter(sw))
         {
             i = keys.iterator();
             while ( i.hasNext() )
             {
                 String k = i.next();
                 String v = m.get(k);
+
                 pw.print(rightPad(k, maxKey));
                 pw.print(" = ");
                 pw.print(v);
                 pw.println();
             }
+            pw.flush();
+        }
 
-            writeFile(path, sw.toString());
-        }
-        catch ( IOException ex )
-        {
-            throw Kmu.toRuntime(ex);
-        }
+        writeFile(path, sw.toString());
     }
 
     /**
@@ -4196,15 +4239,14 @@ public class Kmu
      */
     public static int getSerializedObjectSize(Serializable o)
     {
-        try ( ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos) )
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos))
         {
             oos.writeObject(o);
             oos.flush();
-
             return baos.toByteArray().length;
         }
-        catch ( IOException ex )
+        catch ( Exception ex )
         {
             throw toRuntime(ex);
         }
@@ -4830,7 +4872,7 @@ public class Kmu
     //##################################################
 
     /**
-     * Conver the exception to one that can be throw 'unchecked'.
+     * Convert the exception to one that can be throw 'unchecked'.
      * If the exception is already a runtime exception then simply return it.
      * Otherwise, wrap it in a RuntimeException.
      */
@@ -4844,17 +4886,17 @@ public class Kmu
 
     /**
      * An error that is severe enough that the user will not be able to continue
-     * after viewing the error message.  Direct the user to an independent error
-     * message screen.  After which they system will redirect them to the "top"
-     * of the current module.
+     * after viewing the error message.  Fatal exceptions will generally redirect
+     * the user to a generic error screen, after which they will likely be required
+     * to log back in.  All fatal exceptions should be considered a bug.
      */
-    public static RuntimeException newFatal(CharSequence msg, Object... args)
+    public static RuntimeException newFatal(String msg, Object... args)
     {
         String s = format(msg, args);
         return new RuntimeException(s);
     }
 
-    public static RuntimeException newFatal(Exception ex, CharSequence msg, Object... args)
+    public static RuntimeException newFatal(Exception ex, String msg, Object... args)
     {
         String s = format(msg, args);
         return new RuntimeException(s, ex);
@@ -4865,7 +4907,7 @@ public class Kmu
      * The error is shown at the top of the redisplayed page and the user is
      * expected to correct the error and resubmit.
      */
-    public static KmApplicationException newError(CharSequence msg, Object... args)
+    public static KmApplicationException newError(String msg, Object... args)
     {
         return new KmApplicationException(msg, args);
     }
@@ -4877,7 +4919,7 @@ public class Kmu
      * have been added to the http response.  The database transaction
      * will be rolled back.
      */
-    public static RuntimeException newRollback()
+    public static void throwDaoRollback()
     {
         throw new KmDaoRollbackException();
     }
@@ -4902,12 +4944,6 @@ public class Kmu
     public static String getRootMessage(Throwable ex)
     {
         return getRootCause(ex).getMessage();
-    }
-
-    public static void checkInstalled(boolean installed)
-    {
-        if ( installed )
-            throw newFatal("Already installed.");
     }
 
     //##################################################
@@ -5455,29 +5491,135 @@ public class Kmu
     }
 
     //##################################################
-    //# html
+    //# encoding
     //##################################################
 
-    public static String escapeHtml(String s)
+    public static String encodeXml(String s)
     {
         s = replaceAll(s, "&", "&amp;");
-        // why is this not also in KmHtmlBuffer.format(Object e)?
         s = replaceAll(s, "'", "&apos;");
         s = replaceAll(s, "\"", "&quot;");
         s = replaceAll(s, "<", "&lt;");
         s = replaceAll(s, ">", "&gt;");
-        s = replaceAll(s, "\r\n", "<br>");
-        s = replaceAll(s, "\r", "<br>");
-        s = replaceAll(s, "\n", "<br>");
         return s;
+    }
+
+    public static String encodeJavaString(String s)
+    {
+        if ( s == null )
+            return null;
+
+        s = StringEscapeUtils.escapeJava(s);
+
+        // kludge to fix a bug in StringEscapeUtils.
+        s = replaceAll(s, "\\/", "/");
+
+        return s;
+    }
+
+    //##################################################
+    //# encode (javascript)
+    //##################################################
+
+    /**
+     * Take html and reformat it into a javascript string literal.
+     *
+     * E.g.:
+     * Input...
+     *
+     *      Hello world
+     *      <b>Bold text</b>
+     *      A "quoted" value.
+     *      <script>some javascript</script>
+     *
+     * Output...
+     *
+     *      var s = "";
+     *      s += "Hello world\n";
+     *      s += "<b>Bold text</b>\n";
+     *      s += "A \"quoted\" value.\n";
+     *      s += "<scr"+"ipt>some javascript</scr"+"ipt>\n";
+     */
+    public static String formatHtmlAsJavascriptString(String var, String html)
+    {
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.printfln("var %s = \"\";", var);
+
+        KmList<String> lines = parseLines(html);
+        for ( String line : lines )
+        {
+            String escaped = escapeJavascriptStringLiteral(line);
+            out.printfln("%s += \"%s\\n\";", var, escaped);
+        }
+
+        return out.toString();
     }
 
     public static String escapeJavascriptStringLiteral(String s)
     {
         s = replaceAll(s, "\"", "\\\"");
+        s = replaceAll(s, "'", "\\'");
         s = replaceAll(s, "<script>", "<scr\"+\"ipt>");
         s = replaceAll(s, "</script>", "</scr\"+\"ipt>");
         return s;
+    }
+
+    //##################################################
+    //# encode (html)
+    //##################################################
+
+    public static String escapeHtml(String s, boolean useBreaks)
+    {
+        StringBuilder out = new StringBuilder();
+
+        s = Kmu.replaceAll(s, "\r\n", "\n");
+
+        char[] arr = s.toCharArray();
+        for ( char c : arr )
+        {
+            if ( c >= 'a' && c <= 'z' )
+            {
+                out.append(c);
+                continue;
+            }
+
+            if ( c >= 'A' && c <= 'Z' )
+            {
+                out.append(c);
+                continue;
+            }
+
+            if ( c >= '0' && c <= '9' )
+            {
+                out.append(c);
+                continue;
+            }
+
+            if ( c == 32 )
+            {
+                out.append(c);
+                continue;
+            }
+
+            if ( c >= 33 && c <= 126 )
+            {
+                out.append("&#");
+                out.append((int)c);
+                out.append(";");
+                continue;
+            }
+
+            if ( c == '\r' || c == '\n' )
+            {
+                if ( useBreaks )
+                    out.append("<br>");
+                else
+                    out.append("\n");
+                continue;
+            }
+        }
+        return out.toString();
     }
 
     //##################################################
@@ -5573,11 +5715,16 @@ public class Kmu
      * located in the package com.kodemore you could use:
      * Kmu.readClassResource("com/kodemore/abc.txt");
      */
-    public static byte[] readResourceBytes(Class<?> c, String path)
+    public static byte[] readResourceBytes(String path)
     {
-        try ( InputStream in = c.getResourceAsStream(path);
-            ByteArrayOutputStream out = new ByteArrayOutputStream() )
+        InputStream in = null;
+        ByteArrayOutputStream out = null;
+        try
         {
+            URL url = ClassLoader.getSystemResource(path);
+            in = url.openStream();
+            out = new ByteArrayOutputStream();
+
             while ( true )
             {
                 int b = in.read();
@@ -5594,20 +5741,44 @@ public class Kmu
             KmLog.error(ex, "Cannot read class resource(%s)", path);
             return null;
         }
+        finally
+        {
+            closeSafely(in);
+            closeSafely(out);
+        }
     }
 
-    public static String readResourceString(Class<?> c, String path)
+    public static String readResourceString(String path)
     {
-        byte[] bytes = readResourceBytes(c, path);
+        byte[] bytes = readResourceBytes(path);
         if ( bytes == null )
             return null;
 
         return new String(bytes);
     }
 
-    public static KmList<String> readResourceLines(Class<?> c, String path)
+    public static KmList<String> readResourceLines(String path)
     {
-        return parseLines(readResourceString(c, path));
+        return parseLines(readResourceString(path));
+    }
+
+    //##################################################
+    //# runtime
+    //##################################################
+
+    /**
+     * Just checking freeMemory before/after some action isn't enough.
+     * You might see the free memory stay the same, but if the totalMemory
+     * increased by 100Mg, then that means that the action actually used
+     * 100Mg even though the free memory didn't change.
+     */
+    public static long getUsedMemory()
+    {
+        Runtime rt;
+        rt = Runtime.getRuntime();
+        rt.gc();
+        rt.gc(); // the double gc seems to generate more consistent results.
+        return rt.totalMemory() - rt.freeMemory();
     }
 
     //##################################################
@@ -5664,4 +5835,109 @@ public class Kmu
             : e;
     }
 
+    //##################################################
+    //# lambda
+    //##################################################
+
+    //##################################################
+    //# lamdba
+    //##################################################
+
+    /**
+     * I convert a Function into a Supplier for a given input parameter.
+     * Evaluation of the function is deferred until the supplier is evaluated.
+     */
+    public static <T, R> Supplier<R> toSupplier(Function<T,R> f, T param)
+    {
+        return new Supplier<R>()
+        {
+            @Override
+            public R get()
+            {
+                return f.apply(param);
+            }
+        };
+    }
+
+    /**
+     * I convert a Function into a Supplier for a given input parameter.
+     * Converts r = fn(a,b)
+     *       to r = sup()
+     * Evaluation of the function is deferred until the supplier is evaluated.
+     */
+    public static <R, A, B> Supplier<R> toSupplier(BiFunction<A,B,R> f, A a, B b)
+    {
+        return new Supplier<R>()
+        {
+            @Override
+            public R get()
+            {
+                return f.apply(a, b);
+            }
+        };
+    }
+
+    /**
+     * I convert a Consumer into a Runnable for a given input parameter.
+     * Evaluation of the consumer is deferred until the runnable is evaluated.
+     */
+    public static <A> Runnable toRunnable(Consumer<A> consumer, A a)
+    {
+        return new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                consumer.accept(a);
+            }
+        };
+    }
+
+    /**
+     * I convert a BiConsumer into a Runnable for a given input parameter.
+     * Evaluation of the consumer is deferred until the runnable is evaluated.
+     */
+    public static <A, B> Runnable toRunnable(BiConsumer<A,B> consumer, A a, B b)
+    {
+        return new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                consumer.accept(a, b);
+            }
+        };
+    }
+
+    /**
+     * I convert a consumer into a simple runnable.
+     * The consumer is reevaluated with the same argument each time
+     * the runnable is run.
+     */
+    public static <T> Runnable newRunnable(Consumer<T> c, T arg)
+    {
+        return new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                c.accept(arg);
+            }
+        };
+    }
+
+    /**
+     * I convert a value into a function that always returns the same value.
+     */
+    public static <T, R> Function<T,R> toFunction(R value)
+    {
+        return new Function<T,R>()
+        {
+            @Override
+            public R apply(T t)
+            {
+                return value;
+            }
+        };
+    }
 }

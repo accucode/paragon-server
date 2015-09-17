@@ -31,7 +31,7 @@ import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
 
 /**
- * I am used to parse the stf format.  Structured Text Files.
+ * I am used to parse the stf format.  Structured Text Files.  
  */
 public class KmStfParser
     implements KmStfConstantsIF, KmConstantsIF
@@ -43,70 +43,70 @@ public class KmStfParser
     /**
      * The original source being parsed.
      */
-    private String                _source;
+    private String _source;
 
     /**
-     * The folder where the source is assumed to live.  This is
+     * The folder where the source is assumed to live.  This is 
      * not required and the parser can be used to simple parse
      * freeform strings.  However, the #include command needs to
      * know where this folder lives.
      */
-    private KmFile                _includeFolder;
+    private KmFile _includeFolder;
 
     /**
      * The normalized lines being parsed.
-     * Lines are normalized by doing things like
+     * Lines are normalized by doing things like 
      * trimming trailing whitespace and converting
      * tabs to spaces.  See normalize method below.
      */
-    private KmList<String>        _lines;
+    private KmList<String> _lines;
 
     /**
      * The 0-based index of the line currently being
      * parsed.
      */
-    private int                   _index;
+    private int _index;
 
     /**
-     * Using tabs is not recommended, but is supported by
+     * Using tabs is not recommended, but is supported by 
      * converting each tab to a specified number of spaces.
      * Must be set to a value >= 1; defaults to 4.
      */
-    private int                   _tabSpaces;
+    private int _tabSpaces;
 
     /**
      * The list of prefixes that identify single line comments.
      * The default values include:
      *      java-style: //
      */
-    private KmList<String>        _singleLineCommentsPatterns;
+    private KmList<String> _singleLineCommentsPatterns;
 
     /**
      * The list of prefixes and suffixes that delimit multiline
      * comments.  Multiline comments must start at the start
      * of a line, and end at the end of a line (not counting
      * whitespace).
-     *
+     * 
      * The following multiline comments are installed
      * by default.  Additional patterns may be added
      * or the defaults may be cleared.
-     *
+     * 
      *      java-style: slash-star ... star-slash
-     *      html-style: <!-- ... -->
-     *
+     *      html-style: <!-- ... -->  
+     * 
      */
-    private KmMap<String,String>  _multiLineCommentPatterns;
+    private KmMap<String,String> _multiLineCommentPatterns;
 
     /**
      * Shortcuts can be used to convert element arguments
-     * into attributes.
+     * into attributes. 
      */
     private KmList<KmStfShortcut> _shortcuts;
 
     /**
      * A container for the results.
      */
-    private KmStfRoot             _root;
+    private KmStfRoot _root;
 
     //##################################################
     //# constructor
@@ -592,7 +592,7 @@ public class KmStfParser
     //##################################################
 
     /**
-     * Anything not already parsed is assumed to be a
+     * Anything not already parsed is assumed to be a 
      * new element.  We throw an error if the element cannot
      * be parsed.
      */

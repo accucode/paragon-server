@@ -2,6 +2,15 @@ package com.kodemore.servlet.action;
 
 import com.kodemore.exception.KmApplicationException;
 
+/**
+ * I define the basic methods that provide context for running some action.
+ *
+ * I define general methods for checking security which allows actions to delegate
+ * the bulk of common security checks to the context (e.g.: the page), but without
+ * creating a tightly coupled binding between the control and the page.
+ *
+ * I also define methods for handling errors.
+ */
 public interface ScContextIF
 {
     /**

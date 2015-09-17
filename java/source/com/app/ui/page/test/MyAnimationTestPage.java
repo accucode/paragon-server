@@ -8,14 +8,27 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.script.ScBlockScript;
 
-public class MyAnimationTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyAnimationTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyAnimationTestPage instance = new MyAnimationTestPage();
+    private static MyAnimationTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyAnimationTestPage();
+    }
+
+    public static MyAnimationTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyAnimationTestPage()
     {
@@ -29,17 +42,27 @@ public class MyAnimationTestPage
     private KmList<ScBox> _group;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -100,6 +123,16 @@ public class MyAnimationTestPage
         e.css().boxBlue().pad().hide();
         e.addText("box " + (i + 1));
         return e;
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

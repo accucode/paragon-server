@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScSubmitButton;
@@ -17,8 +18,8 @@ public abstract class MyAddDialog<T>
 
     private KmList<Consumer<T>> _saveListeners;
 
-    private ScSubmitButton      _saveButton;
-    private ScActionButton      _cancelButton;
+    private ScSubmitButton _saveButton;
+    private ScActionButton _cancelButton;
 
     //##################################################
     //# install

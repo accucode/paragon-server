@@ -43,17 +43,17 @@ public class KmSimpleBarChart
     //# variables
     //##################################################
 
-    private String                        _valueAxisLabel;
-    private String                        _categoryAxisLabel;
-    private boolean                       _horizontal;
-    private boolean                       _showsLegend;
+    private String  _valueAxisLabel;
+    private String  _categoryAxisLabel;
+    private boolean _horizontal;
+    private boolean _showsLegend;
 
-    private boolean                       _usesAutoHeight;
+    private boolean _usesAutoHeight;
 
     /**
      * By default, null values are displayed as zeroes.
      */
-    private boolean                       _skipNullValues;
+    private boolean _skipNullValues;
 
     /**
      * The list of data groups.  Each group represents a series of data.
@@ -61,10 +61,10 @@ public class KmSimpleBarChart
     private KmList<KmSimpleBarChartGroup> _groups;
 
     /**
-     * If true, the chart will draw with lines connected to dots,
+     * If true, the chart will draw with lines connected to dots, 
      * rather than as raised bars.   False by default.
      */
-    private boolean                       _formatWithLines;
+    private boolean _formatWithLines;
 
     //##################################################
     //# constructor

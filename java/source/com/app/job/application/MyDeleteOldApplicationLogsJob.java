@@ -1,7 +1,12 @@
 package com.app.job.application;
 
-import com.app.command.MyDeleteOldApplicationLogsCommand;
+import com.kodemore.collection.KmList;
+import com.kodemore.command.KmDao;
+import com.kodemore.time.KmTimestamp;
+
+import com.app.filter.MyApplicationLogFilter;
 import com.app.job.MyJob;
+import com.app.model.MyApplicationLog;
 
 public class MyDeleteOldApplicationLogsJob
     extends MyJob
@@ -43,10 +48,27 @@ public class MyDeleteOldApplicationLogsJob
     @Override
     protected boolean handle()
     {
-        MyDeleteOldApplicationLogsCommand cmd;
-        cmd = new MyDeleteOldApplicationLogsCommand();
-        cmd.setWarningThresholdMs(5000);
-        cmd.run();
-        return cmd.hasMore();
+        return KmDao.fetch(this::deleteBatchDao);
     }
+
+    private boolean deleteBatchDao()
+    {
+        int limit = 100;
+        KmTimestamp latest = getNowUtc().subtractDay();
+
+        MyApplicationLogFilter f;
+        f = new MyApplicationLogFilter();
+        f.setMaximumCreatedUtcTs(latest);
+        f.sortOnCreatedUtcTs();
+
+        KmList<MyApplicationLog> v = f.findFirst(limit);
+        if ( v.isEmpty() )
+            return false;
+
+        for ( MyApplicationLog e : v )
+            e.deleteDao();
+
+        return true;
+    }
+
 }

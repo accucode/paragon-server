@@ -50,7 +50,7 @@ public class KmDateConsolidatorResult
     /**
      * The number of input values that counted towards this group.
      */
-    private int    _count;
+    private int _count;
 
     /**
      * A display label, typically suitable for display to end users.

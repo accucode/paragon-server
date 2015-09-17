@@ -13,7 +13,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextField;
-import com.kodemore.servlet.script.ScPushPageScript;
+import com.kodemore.servlet.script.ScEnterPageScript;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
@@ -24,14 +24,24 @@ import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
 import com.app.utility.MyNavigator;
 
-public class MySignInPage
+public final class MySignInPage
     extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MySignInPage instance = new MySignInPage();
+    private static MySignInPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MySignInPage();
+    }
+
+    public static MySignInPage getInstance()
+    {
+        return _instance;
+    }
 
     private MySignInPage()
     {
@@ -39,15 +49,21 @@ public class MySignInPage
     }
 
     //##################################################
+    //# constants
+    //##################################################
+
+    private static final String PARAM_QUERY = "q";
+
+    //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString                _targetQuery;
+    private ScLocalString _targetQuery;
 
-    private ScForm                       _form;
-    private ScTextField                  _emailField;
-    private ScTextField                  _passwordField;
-    private ScCheckboxField              _staySignedInField;
+    private ScForm          _form;
+    private ScTextField     _emailField;
+    private ScTextField     _passwordField;
+    private ScCheckboxField _staySignedInField;
 
     private MyRequestPasswordResetDialog _resetDialog;
 
@@ -58,41 +74,36 @@ public class MySignInPage
     @Override
     public MySecurityLevel getSecurityLevel()
     {
-        return MySecurityLevel.any;
+        return MySecurityLevel.none;
     }
 
     //##################################################
     //# navigation
     //##################################################
 
-    public void pushForWindowQuery()
+    public void ajaxEnterForWindowQuery()
     {
         String q = getData().getWindowQuery();
-        ajaxPushForQuery(q);
+        _targetQuery.setValue(q);
+
+        ajaxEnter();
     }
 
-    public void ajaxPushForQuery(String e)
-    {
-        _targetQuery.setValue(e);
-        _ajaxPush();
-    }
+    //##################################################
+    //# bookmark
+    //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public void composeBookmarkOn(ScParameterList v)
     {
-        ScParameterList v;
-        v = new ScParameterList();
-
         if ( _targetQuery.hasValue() )
-            v.setValue("q", _targetQuery.getValue());
-
-        return v;
+            v.setValue(PARAM_QUERY, _targetQuery.getValue());
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList params)
+    public void applyBookmark(ScParameterList params)
     {
-        String query = params.getValue("q");
+        String query = params.getValue(PARAM_QUERY);
         if ( Kmu.hasValue(query) )
             _targetQuery.setValue(query);
     }
@@ -218,8 +229,6 @@ public class MySignInPage
     @Override
     public void preRender()
     {
-        super.preRender();
-
         _emailField.setValue(getEmailCookie());
         _passwordField.clearText();
     }
@@ -253,24 +262,17 @@ public class MySignInPage
         setEmailCookie(email);
 
         if ( user == null )
-        {
-            _emailField.addError("No such user.");
-            throw newCancel();
-        }
+            _emailField.error("No such user.");
 
         if ( !user.isVerified() )
-        {
-            _emailField.addError("Not yet activated.");
-            throw newCancel();
-        }
+            _emailField.error("Not yet activated.");
 
         String pwd = _passwordField.getValue();
 
         if ( !user.hasPassword(pwd) )
         {
             _passwordField.ajax().focus();
-            _passwordField.addError("Invalid.");
-            throw newCancel();
+            _passwordField.error("Invalid.");
         }
 
         getAccess().getAutoSignInDao().deleteAllFor(user);
@@ -290,7 +292,6 @@ public class MySignInPage
             MySignInUtility.signIn(user);
 
         getLayout().ajaxRefreshHeaderContent();
-
         startNextPage();
     }
 
@@ -302,8 +303,8 @@ public class MySignInPage
     {
         if ( _targetQuery.hasValue() )
         {
-            ScPushPageScript script;
-            script = ajax().pushPage(_targetQuery.getValue());
+            ScEnterPageScript script;
+            script = ajax().enterPage(_targetQuery.getValue());
             script.setReplace();
 
             _targetQuery.clearValue();
@@ -311,7 +312,7 @@ public class MySignInPage
         }
 
         MyPageLayout.getInstance().ajaxClearContent();
-        MyNavigator.pushDefaultPage();
+        MyNavigator.ajaxEnter();
     }
 
     private String getEmailCookie()

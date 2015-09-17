@@ -27,25 +27,25 @@ public class KmTwitterConnection
     //# constants
     //##################################################
 
-    private static String               HOST                 = "api.twitter.com";
-    private static String               HTTP_METHOD          = "GET";
-    private static String               OAUTH_VERSION        = "1.0";
+    private static String HOST          = "api.twitter.com";
+    private static String HTTP_METHOD   = "GET";
+    private static String OAUTH_VERSION = "1.0";
 
     //##################################################
     //# constants (encryption)
     //##################################################
 
     /**
-     * The encryption method specified in the message header.
+     * The encryption method specified in the message header. 
      * This should correspond to the CRYPTO_METHOD.
      */
-    private static String               AUTHORIZATION_METHOD = "HMAC-SHA1";
+    private static String AUTHORIZATION_METHOD = "HMAC-SHA1";
 
     /**
      * The encryption method actually used by the javax.crypto.spec.SecretKeySpec.
      * This should correspond to the AUTHORIZATION_METHOD.
      */
-    private static String               CRYPTO_METHOD        = "HmacSHA1";
+    private static String CRYPTO_METHOD = "HmacSHA1";
 
     //##################################################
     //# variables (public)
@@ -53,23 +53,23 @@ public class KmTwitterConnection
 
     /**
      * The consumer key/secret are the ~permanent tokens associated with
-     * a particular user (or app).
+     * a particular user (or app). 
      */
-    private String                      _consumerKey;
-    private String                      _consumerSecret;
+    private String _consumerKey;
+    private String _consumerSecret;
 
     /**
-     * The auth tokens are typically transient and client may need to
+     * The auth tokens are typically transient and client may need to 
      * get new credentials fairly frequently.
      */
-    private String                      _authToken;
-    private String                      _authSecret;
+    private String _authToken;
+    private String _authSecret;
 
     /**
      * The uri path.  In general, don't encode parameters into the path;
      * set the parameters separately.
      */
-    private String                      _path;
+    private String _path;
 
     /**
      * The list of parameters.  Parameters are generally stored and used
@@ -85,23 +85,23 @@ public class KmTwitterConnection
     /**
      * "Number used Once".
      * http://hueniverse.com/2008/10/beginners-guide-to-oauth-part-iii-security-architecture/
-     *
-     * Each request should use a different nonce.
+     * 
+     * Each request should use a different nonce. 
      * Any relatively random alphanumeric string will work here.
      * In this case we use a standard UUID but strip the dashes.
      */
-    private String                      _nonce;
+    private String _nonce;
 
     /**
      * The timestamp is used as part of the authentication process.
      * It is updated for each submit, but not guarnateed to be unique.
      */
-    private String                      _timestamp;
+    private String _timestamp;
 
     /**
      * The http request wrapper.
      */
-    private KmHttpRequest               _request;
+    private KmHttpRequest _request;
 
     //##################################################
     //# constructor
@@ -290,7 +290,7 @@ public class KmTwitterConnection
     //##################################################
 
     /**
-     * Get the encrypted signature as a base-64 string.
+     * Get the encrypted signature as a base-64 string. 
      */
     private String getSignature()
     {

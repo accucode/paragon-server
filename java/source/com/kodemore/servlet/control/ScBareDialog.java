@@ -346,7 +346,7 @@ public class ScBareDialog
         if ( v.isEmpty() )
             return null;
 
-        return v.format();
+        return v.join();
     }
 
     //==================================================

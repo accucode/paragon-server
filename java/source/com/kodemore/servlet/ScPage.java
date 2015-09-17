@@ -1,5 +1,7 @@
 package com.kodemore.servlet;
 
+import java.util.function.Consumer;
+
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
@@ -25,7 +27,7 @@ public abstract class ScPage
     //# variables
     //##################################################
 
-    private String     _key;
+    private String _key;
 
     /**
      * Each page is assumed to have a single root.
@@ -98,22 +100,12 @@ public abstract class ScPage
     }
 
     //##################################################
-    //# push
+    //# layout
     //##################################################
 
     /**
-     * By default, simply call print(), to display the root control.
-     * Subclasses may freely override this method and do NOT need
-     * to call super.start().
-     */
-    public final void _ajaxPush()
-    {
-        ajax().pushPage(this);
-    }
-
-    /**
-     * Allow subclasses perform appropriate updates to the page layout when the
-     * page starts.
+     * Check if the layout is correct, and run any necessary ajax to correct
+     * the layout as needed.  This is called near the beginning of print().
      */
     protected void checkLayout()
     {
@@ -121,60 +113,62 @@ public abstract class ScPage
     }
 
     //##################################################
-    //# url
+    //# bookmark
     //##################################################
 
-    /*
-     * Subclasses should genrally implement the following methods:
+    /**
+     * Run ajax that adds this page onto the navigation stack.
+     * The client-side push will subsequently trigger the client
+     * to sent a request for the next page's content.
      *
-     *      push(...)
-     *      formatEntryUrl(...)
-     *      formatQueryString(...)
-     */
-
-    //==================================================
-    //= url :: abstract
-    //==================================================
-
-    /**
-     * Set entry parameters needed to define the url queryString
-     * that opens this page.  The "page" parameter is already populated
-     * and should now be overwritten.  Many, perhaps most, subclasses
-     * will implement this with an empty method.  Any parameters set here
-     * will need a management in the getEntryParameters method.
+     * Whereas print can generally be called repeatedly without
+     * adverse side effects, you should generally avoid calling
+     * enter unless you really want to ADD this page to the browser
+     * history.  Calling this multiple times for a single page will
+     * then require that the user press the browser-back button
+     * multiple times in order to leave the page.
+     *
+     * @see #ajaxPrint
      */
     @Override
-    public abstract ScParameterList composeQueryParameters();
-
-    /**
-     * Get the entry parameters that were passed to the application as
-     * part of the query string.
-     */
-    @Override
-    public abstract void applyQueryParameters(ScParameterList params);
-
-    //==================================================
-    //= url :: protected
-    //==================================================
-
-    public final String _formatQueryString()
+    public final void ajaxEnter()
     {
-        return _composeQueryParameters().formatUrl();
+        ajax().enterPage(this);
     }
 
-    protected final ScParameterList _composeQueryParameters()
+    /**
+     * @see ScPageIF#composeBookmarkOn
+     */
+    @Override
+    public abstract void composeBookmarkOn(ScParameterList v);
+
+    /**
+     * @see ScPageIF#applyBookmark
+     */
+    @Override
+    public abstract void applyBookmark(ScParameterList v);
+
+    //==================================================
+    //= navigation :: urls
+    //==================================================
+
+    /**
+     * @see ScPageIF#formatQueryString
+     */
+    @Override
+    public final String formatQueryString()
+    {
+        return composeBookmark().formatUrl();
+    }
+
+    protected final ScParameterList composeBookmark()
     {
         ScParameterList v;
-        v = composeQueryParameters();
+        v = new ScParameterList();
+        v.setValue(ScConstantsIF.PARAMETER_REQUESTED_PAGE_KEY, getKey());
 
-        if ( v == null )
-            v = new ScParameterList();
+        composeBookmarkOn(v);
 
-        String pageKey = ScConstantsIF.PARAMETER_REQUESTED_PAGE_KEY;
-        if ( v.hasKey(pageKey) )
-            KmLog.warnTrace("Pages should NOT set a 'page' parameter; it is reserved.");
-
-        v.setValue(pageKey, getKey());
         return v;
     }
 
@@ -183,16 +177,10 @@ public abstract class ScPage
     //##################################################
 
     /**
-     * A convenience method that:
-     *      - performs the generic security,
-     *      - displays the root control in the layout's main area,
-     *      - attempts to set focus on the root.
-     *
-     * Subclasses can use preRender and postRender to hook into
-     * the print process.
+     * @see ScPageIF#ajaxPrint
      */
     @Override
-    public final void print()
+    public final void ajaxPrint()
     {
         checkSecurity();
         checkLayout();
@@ -223,16 +211,13 @@ public abstract class ScPage
     }
 
     /**
-     * I am called immediately BEFORE the page is printed.
-     * I provide a hook for subclasses.
+     * I am called during the ajaxPrint process, after the security
+     * and layout has been checked, but before the html is rendered.
      */
-    protected void preRender()
-    {
-        // subclass
-    }
+    protected abstract void preRender();
 
     /**
-     * I am called immediately AFTER the page is printed.
+     * I am called immediately AFTER the page content is rendered.
      * I provide a hook for subclasses.
      */
     protected void postRender()
@@ -402,15 +387,6 @@ public abstract class ScPage
     }
 
     //##################################################
-    //# errors
-    //##################################################
-
-    protected RuntimeException newCancel()
-    {
-        return Kmu.newRollback();
-    }
-
-    //##################################################
     //# context
     //##################################################
 
@@ -444,6 +420,7 @@ public abstract class ScPage
     public void handleFatal(RuntimeException ex)
     {
         KmLog.fatal(ex);
+
         ajax().openErrorDialog(ex);
     }
 
@@ -472,7 +449,7 @@ public abstract class ScPage
         return ScBridge.getInstance();
     }
 
-    protected ScAction createAction(Runnable r)
+    protected ScAction newAction(Runnable r)
     {
         if ( r == null )
             return null;
@@ -480,4 +457,9 @@ public abstract class ScPage
         return new ScAction(this, r);
     }
 
+    protected <T> ScAction newAction(Consumer<T> c, T with)
+    {
+        Runnable r = Kmu.newRunnable(c, with);
+        return newAction(r);
+    }
 }

@@ -9,14 +9,24 @@ import com.app.model.MyShipCarrier;
 import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.support.MyManageDomainPage;
 
-public class MyManageShipCarriersPage
+public final class MyManageShipCarriersPage
     extends MyManageDomainPage<MyShipCarrier>
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManageShipCarriersPage instance = new MyManageShipCarriersPage();
+    private static MyManageShipCarriersPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyManageShipCarriersPage();
+    }
+
+    public static MyManageShipCarriersPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyManageShipCarriersPage()
     {

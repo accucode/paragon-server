@@ -75,7 +75,7 @@ public class ScAbsoluteLayout
     //# constants
     //##################################################
 
-    private static final int          DEFAULT_PAD = 10;
+    private static final int DEFAULT_PAD = 10;
 
     //##################################################
     //# variables
@@ -83,17 +83,17 @@ public class ScAbsoluteLayout
 
     private KmList<ScStyledControlIF> _children;
 
-    private int                       _leftPixel;
-    private int                       _leftPercent;
+    private int _leftPixel;
+    private int _leftPercent;
 
-    private int                       _rightPixel;
-    private int                       _rightPercent;
+    private int _rightPixel;
+    private int _rightPercent;
 
-    private int                       _topPixel;
-    private int                       _topPercent;
+    private int _topPixel;
+    private int _topPercent;
 
-    private int                       _bottomPixel;
-    private int                       _bottomPercent;
+    private int _bottomPixel;
+    private int _bottomPercent;
 
     //##################################################
     //# init

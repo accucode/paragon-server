@@ -9,15 +9,27 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.model.MySkill;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MyDraggableMultiSelectTestPage
-    extends MyAbstractTestEntryPage
+public final class MyDraggableMultiSelectTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDraggableMultiSelectTestPage instance = new MyDraggableMultiSelectTestPage();
+    private static MyDraggableMultiSelectTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDraggableMultiSelectTestPage();
+    }
+
+    public static MyDraggableMultiSelectTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDraggableMultiSelectTestPage()
     {
@@ -25,22 +37,36 @@ public class MyDraggableMultiSelectTestPage
     }
 
     //##################################################
-    //# navigation
+    //# variables
+    //##################################################
+
+    private ScDraggableMultiSelectList<MySkill> _list;
+
+    //##################################################
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
     }
 
+    //##################################################
+    //# bookmark
+    //##################################################
+
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void composeBookmarkOn(ScParameterList v)
     {
         // none
     }
 
-    private ScDraggableMultiSelectList<MySkill> _list;
+    @Override
+    public void applyBookmark(ScParameterList v)
+    {
+        // none
+    }
 
     //##################################################
     //# install
@@ -83,8 +109,6 @@ public class MyDraggableMultiSelectTestPage
     @Override
     public void preRender()
     {
-        super.preRender();
-
         KmList<MySkill> avail;
         avail = getCurrentProject().getSkillsByName();
 
@@ -111,8 +135,7 @@ public class MyDraggableMultiSelectTestPage
             skills.add(e);
         }
 
-        KmList<String> names = skills.collect(MySkill.Meta.Name);
-        String s = names.format();
+        String s = skills.join(e -> e.getName());
 
         ajax().toast(s);
     }

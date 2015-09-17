@@ -4,18 +4,30 @@ import com.kodemore.file.KmFile;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDropzone;
-import com.kodemore.servlet.control.ScDropzoneUploadHandlerIF;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyDropzoneTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyDropzoneTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDropzoneTestPage instance = new MyDropzoneTestPage();
+    private static MyDropzoneTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDropzoneTestPage();
+    }
+
+    public static MyDropzoneTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDropzoneTestPage()
     {
@@ -33,17 +45,27 @@ public class MyDropzoneTestPage
     private static final String UPLOAD_FOLDER = "/temp/uploads";
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -59,7 +81,7 @@ public class MyDropzoneTestPage
 
         ScDropzone dz;
         dz = new ScDropzone();
-        dz.setUploadHandler(newUploadHandler());
+        dz.setUploadHandler(this::handleUpload);
 
         ScGroup group;
         group = root.addGroup("Drop Zone Test");
@@ -67,19 +89,13 @@ public class MyDropzoneTestPage
     }
 
     //##################################################
-    //# action
+    //# print
     //##################################################
 
-    private ScDropzoneUploadHandlerIF newUploadHandler()
+    @Override
+    protected void preRender()
     {
-        return new ScDropzoneUploadHandlerIF()
-        {
-            @Override
-            public void upload(String fileName, byte[] data)
-            {
-                handleUpload(fileName, data);
-            }
-        };
+        // none
     }
 
     //##################################################

@@ -63,17 +63,17 @@ public class KmaGrid
     private KmaGridMouseModel       _mouseModel;
     private KmaGridActionModel      _actionModel;
 
-    private KmaGridHeaderIF         _rowHeader;
-    private KmaGridHeaderIF         _columnHeader;
+    private KmaGridHeaderIF _rowHeader;
+    private KmaGridHeaderIF _columnHeader;
 
-    private KmaGridCellRendererIF   _cellRenderer;
-    private CellRendererPane        _cellRendererPane;
+    private KmaGridCellRendererIF _cellRenderer;
+    private CellRendererPane      _cellRendererPane;
 
-    private JScrollBar              _horizontalScrollBar;
-    private JScrollBar              _verticalScrollBar;
+    private JScrollBar _horizontalScrollBar;
+    private JScrollBar _verticalScrollBar;
 
-    private boolean                 _hasGridLines;
-    private Color                   _gridLineColor;
+    private boolean _hasGridLines;
+    private Color   _gridLineColor;
 
     //##################################################
     //# constructors

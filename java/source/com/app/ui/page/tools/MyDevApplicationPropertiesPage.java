@@ -1,6 +1,7 @@
 package com.app.ui.page.tools;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
@@ -12,15 +13,27 @@ import com.kodemore.servlet.control.ScText;
 import com.app.property.MyPropertyDefinition;
 import com.app.property.MyPropertyRegistry;
 import com.app.property.base.MyPropertyDefinitions;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MyDevApplicationPropertiesPage
-    extends MyDevAbstractPage
+public final class MyDevApplicationPropertiesPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDevApplicationPropertiesPage instance = new MyDevApplicationPropertiesPage();
+    private static MyDevApplicationPropertiesPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDevApplicationPropertiesPage();
+    }
+
+    public static MyDevApplicationPropertiesPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDevApplicationPropertiesPage()
     {
@@ -34,6 +47,32 @@ public class MyDevApplicationPropertiesPage
     private ScLiteral _literal;
 
     //##################################################
+    //# settings
+    //##################################################
+
+    @Override
+    public final MySecurityLevel getSecurityLevel()
+    {
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyBookmark(ScParameterList v)
+    {
+        // none
+    }
+
+    //##################################################
     //# install
     //##################################################
 
@@ -41,22 +80,6 @@ public class MyDevApplicationPropertiesPage
     protected void installRoot(ScPageRoot root)
     {
         _literal = root.addLiteral();
-    }
-
-    //##################################################
-    //# navigation
-    //##################################################
-
-    @Override
-    public ScParameterList composeQueryParameters()
-    {
-        return null;
-    }
-
-    @Override
-    public void applyQueryParameters(ScParameterList v)
-    {
-        // none
     }
 
     //##################################################
@@ -95,7 +118,9 @@ public class MyDevApplicationPropertiesPage
                 text.setLabel(key);
             }
         }
-        _literal.setValue(root.render());
+
+        KmHtmlBuilder html = root.render();
+        _literal.setValue(html);
     }
 
     private KmList<MyPropertyDefinition> getDefs(String group)

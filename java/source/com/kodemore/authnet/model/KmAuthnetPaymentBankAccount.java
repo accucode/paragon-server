@@ -15,21 +15,21 @@ public class KmAuthnetPaymentBankAccount
     private static final String ACCOUNT_TYPE_SAVINGS           = "savings";
     private static final String ACCOUNT_TYPE_BUSINESS_CHECKING = "businessChecking";
 
-    private static final String ECHECK_TYPE_CCD                = "CCD";
-    private static final String ECHECK_TYPE_PPD                = "PPD";
-    private static final String ECHECK_TYPE_TEL                = "TEL";
-    private static final String ECHECK_TYPE_WEB                = "WEB";
+    private static final String ECHECK_TYPE_CCD = "CCD";
+    private static final String ECHECK_TYPE_PPD = "PPD";
+    private static final String ECHECK_TYPE_TEL = "TEL";
+    private static final String ECHECK_TYPE_WEB = "WEB";
 
     //##################################################
     //# variables
     //##################################################
 
-    private String              _accountType;
-    private String              _routingNumber;
-    private String              _accountNumber;
-    private String              _nameOnAccount;
-    private String              _echeckType;
-    private String              _bankName;
+    private String _accountType;
+    private String _routingNumber;
+    private String _accountNumber;
+    private String _nameOnAccount;
+    private String _echeckType;
+    private String _bankName;
 
     //##################################################
     //# routing number

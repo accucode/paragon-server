@@ -12,15 +12,27 @@ import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.model.MyUser;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MyScriptTestPage
-    extends MyAbstractTestEntryPage
+public final class MyScriptTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyScriptTestPage instance = new MyScriptTestPage();
+    private static MyScriptTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyScriptTestPage();
+    }
+
+    public static MyScriptTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyScriptTestPage()
     {
@@ -34,17 +46,27 @@ public class MyScriptTestPage
     private ScTextArea _scriptField;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -121,8 +143,6 @@ public class MyScriptTestPage
     @Override
     public void preRender()
     {
-        super.preRender();
-
         MyUser u;
         u = getAccess().getUserDao().findAll().getFirst();
         u.applyTo(this);

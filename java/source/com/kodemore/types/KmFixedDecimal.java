@@ -51,7 +51,7 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
     //# variables
     //##################################################
 
-    private BigDecimal         _value;
+    private BigDecimal _value;
 
     //##################################################
     //# constructor
@@ -421,7 +421,7 @@ public abstract class KmFixedDecimal<T extends KmFixedDecimal<?>>
      * Examples:
      *      12.3 >> 12.3
      *      1,234.56 >> 1.2 K
-     *      12,234,567.89 >> 1.2 M
+     *      12,234,567.89 >> 1.2 M  
      */
     public String formatShort()
     {

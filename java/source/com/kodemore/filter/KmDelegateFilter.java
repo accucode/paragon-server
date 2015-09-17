@@ -3,8 +3,8 @@ package com.kodemore.filter;
 import com.kodemore.collection.KmList;
 
 /**
- * I convert a filter of one type into a filter of
- * another type.
+ * I convert a filter of one type into a filter of 
+ * another type. 
  */
 public abstract class KmDelegateFilter<T, D>
     implements KmFilterIF<T>
@@ -128,7 +128,7 @@ public abstract class KmDelegateFilter<T, D>
     //##################################################
 
     /**
-     * Convert an instance from the delegate filter
+     * Convert an instance from the delegate filter 
      * into an instance of the target filter.
      */
     protected abstract T convert(D e);

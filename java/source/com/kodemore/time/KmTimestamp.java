@@ -29,7 +29,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import com.kodemore.string.KmStringReader;
-import com.kodemore.utility.KmClock;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -582,8 +581,7 @@ public class KmTimestamp
      */
     public int getMySqlOrdinal()
     {
-        return (getDate().getOrdinal() - DAYS_DIFF_1800_1970)
-            * SECONDS_PER_DAY
+        return (getDate().getOrdinal() - DAYS_DIFF_1800_1970) * SECONDS_PER_DAY
             + getTime().getTotalSeconds();
     }
 

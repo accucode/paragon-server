@@ -25,7 +25,6 @@ package com.kodemore.xml.utility;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -47,7 +46,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.string.KmString;
+import com.kodemore.time.KmDate;
+import com.kodemore.time.KmDateParser;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -268,48 +268,7 @@ public class KmXmlWrapper
 
     public KmList<String> getStringsAt(List<String> path)
     {
-        KmList<String> v = new KmList<>();
-        Iterator<KmXmlWrapper> i = getNodesAt(path).iterator();
-        while ( i.hasNext() )
-        {
-            KmXmlWrapper e = i.next();
-            v.add(e.getTextContent());
-        }
-        return v;
-    }
-
-    //##################################################
-    //# value at path
-    //##################################################
-
-    public KmString getValueAt(String path)
-    {
-        return getValueAt(_getList(path));
-    }
-
-    public KmString getValueAt(List<String> path)
-    {
-        KmList<KmString> v = getValuesAt(path);
-        if ( v.isEmpty() )
-            return new KmString();
-        return v.getFirst();
-    }
-
-    public KmList<KmString> getValuesAt(String path)
-    {
-        return getValuesAt(_getList(path));
-    }
-
-    public KmList<KmString> getValuesAt(List<String> path)
-    {
-        KmList<KmString> v = new KmList<>();
-        Iterator<String> i = getStringsAt(path).iterator();
-        while ( i.hasNext() )
-        {
-            String s = i.next();
-            v.add(new KmString(s));
-        }
-        return v;
+        return getNodesAt(path).collect(e -> e.getTextContent());
     }
 
     //##################################################
@@ -486,15 +445,12 @@ public class KmXmlWrapper
 
     public String printPrettyXmlToString()
     {
-        try ( StringWriter sw = new StringWriter();
-            PrintWriter out = new PrintWriter(sw) )
+        StringWriter sw = new StringWriter();
+        try (PrintWriter out = new PrintWriter(sw))
         {
             printPrettyXmlOn(out, 0);
+            out.flush();
             return sw.toString();
-        }
-        catch ( IOException ex )
-        {
-            throw Kmu.toRuntime(ex);
         }
     }
 
@@ -629,7 +585,8 @@ public class KmXmlWrapper
 
     public static void test1()
     {
-        KmXmlBuilder xml = new KmXmlBuilder();
+        KmXmlBuilder xml;
+        xml = new KmXmlBuilder();
         xml.begin("root");
         xml.value("name", "John");
         xml.begin("address");
@@ -647,7 +604,10 @@ public class KmXmlWrapper
         System.out.println("Name:  " + e.getStringAt("name"));
         System.out.println("City:  " + e.getStringAt("address.city"));
         System.out.println("Phone: " + e.getStringAt("phone"));
-        System.out.println("Date:  " + e.getValueAt("date").asDate());
+
+        String sDate = e.getStringAt("date");
+        KmDate date = KmDateParser.parseDate(sDate);
+        System.out.println("Date:  " + date);
 
         System.out.println("Root path: " + e.getPath());
         System.out.println("City path: " + e.getNodeAt("address.city").getPath());
@@ -655,11 +615,13 @@ public class KmXmlWrapper
 
     public static void test2()
     {
-        String xsd = Kmu.getHardcodedPath("/temp/xml/person.xsd");
-        String xml = Kmu.getHardcodedPath("/temp/xml/person3.xml");
-
-        try ( FileInputStream in = new FileInputStream(xml) )
+        FileInputStream in = null;
+        try
         {
+            String xsd = Kmu.getHardcodedPath("/temp/xml/person.xsd");
+            String xml = Kmu.getHardcodedPath("/temp/xml/person3.xml");
+
+            in = new FileInputStream(xml);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document d = db.parse(in);
@@ -675,6 +637,10 @@ public class KmXmlWrapper
         catch ( Exception ex )
         {
             throw Kmu.toRuntime(ex);
+        }
+        finally
+        {
+            Kmu.closeSafely(in);
         }
     }
 

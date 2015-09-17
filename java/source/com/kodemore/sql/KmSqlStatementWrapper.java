@@ -62,13 +62,13 @@ public class KmSqlStatementWrapper
     /**
      * The java.util.Statement that is wrapped for convenience.
      */
-    private Statement       _statement;
+    private Statement _statement;
 
     /**
      * Any statements with a time >= this threshold will be printed
      * as a warning.  A threshold of 0 disables the warnings.
      */
-    private int             _slowSqlThresholdMs;
+    private int _slowSqlThresholdMs;
 
     //##################################################
     //# constructor
@@ -112,7 +112,6 @@ public class KmSqlStatementWrapper
      * The statement is not closed since it must remain open
      * while processing the result set.
      */
-    @SuppressWarnings("resource")
     public KmSqlResultSet executeQuery(String sql)
     {
         try
@@ -213,7 +212,6 @@ public class KmSqlStatementWrapper
         }
     }
 
-    @SuppressWarnings("resource")
     public KmSqlResultSet _getResultSet()
     {
         try

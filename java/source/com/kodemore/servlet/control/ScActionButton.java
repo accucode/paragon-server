@@ -22,12 +22,14 @@
 
 package com.kodemore.servlet.control;
 
+import java.util.function.Function;
+
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.script.ScActionScript;
 import com.kodemore.servlet.variable.ScLocalAction;
 import com.kodemore.servlet.variable.ScLocalHtmlId;
-import com.kodemore.servlet.variable.ScLocalObject;
+import com.kodemore.servlet.variable.ScLocalRawFunction;
 import com.kodemore.servlet.variable.ScLocalString;
 
 /**
@@ -40,11 +42,11 @@ public class ScActionButton
     //# variables
     //##################################################
 
-    private ScLocalAction _action;
-    private ScLocalObject _argument;
-    private ScLocalString _extra;
-    private ScLocalHtmlId _blockTarget;
-    private ScLocalString _confirmationMessage;
+    private ScLocalAction      _action;
+    private ScLocalRawFunction _argument;
+    private ScLocalString      _extra;
+    private ScLocalHtmlId      _blockTarget;
+    private ScLocalString      _confirmationMessage;
 
     //##################################################
     //# init
@@ -56,7 +58,7 @@ public class ScActionButton
         super.install();
 
         _action = new ScLocalAction();
-        _argument = new ScLocalObject();
+        _argument = new ScLocalRawFunction();
         _extra = new ScLocalString();
         _blockTarget = new ScLocalHtmlId();
         _confirmationMessage = new ScLocalString();
@@ -88,7 +90,7 @@ public class ScActionButton
 
     public void setAction(Runnable r)
     {
-        _action.setValue(createAction(r));
+        _action.setValue(newAction(r));
     }
 
     public void setAction(ScAction e, Object arg)
@@ -102,14 +104,17 @@ public class ScActionButton
         return _action.hasValue();
     }
 
-    public Object getArgument()
+    @SuppressWarnings("rawtypes")
+    public Function getArgument()
     {
         return _argument.getValue();
     }
 
+    @SuppressWarnings("rawtypes")
     public void setArgument(Object e)
     {
-        _argument.setValue(e);
+        Function fn = ScUtility.toFunction(e);
+        _argument.setValue(fn);
     }
 
     public String getExtra()

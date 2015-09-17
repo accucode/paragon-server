@@ -8,14 +8,27 @@ import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
-public class MyNavigationTest2Page
-    extends MyAbstractTestPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyNavigationTest2Page
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyNavigationTest2Page instance = new MyNavigationTest2Page();
+    private static MyNavigationTest2Page _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyNavigationTest2Page();
+    }
+
+    public static MyNavigationTest2Page getInstance()
+    {
+        return _instance;
+    }
 
     private MyNavigationTest2Page()
     {
@@ -26,38 +39,49 @@ public class MyNavigationTest2Page
     //# constants
     //##################################################
 
-    private static final String VALUE_KEY = "value";
+    private static final String PARAM_VALUE = "value";
 
     //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString       _value;
-    private ScText              _message;
+    private ScLocalString _value;
+    private ScText        _message;
+
+    //##################################################
+    //# settings
+    //##################################################
+
+    @Override
+    public final MySecurityLevel getSecurityLevel()
+    {
+        return MySecurityLevel.developer;
+    }
 
     //##################################################
     //# navigation
     //##################################################
 
-    public void ajaxPush(String value)
+    public void ajaxEnter(String value)
     {
         _value.setValue(value);
-        _ajaxPush();
+        ajaxEnter();
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        v.setValue(PARAM_VALUE, _value.getValue());
     }
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public void applyBookmark(ScParameterList v)
     {
-        ScParameterList v;
-        v = new ScParameterList();
-        v.setValue(VALUE_KEY, _value.getValue());
-        return v;
-    }
-
-    @Override
-    public void applyQueryParameters(ScParameterList v)
-    {
-        _value.setValue(v.getValue(VALUE_KEY));
+        _value.setValue(v.getValue(PARAM_VALUE));
     }
 
     //##################################################
@@ -89,8 +113,6 @@ public class MyNavigationTest2Page
     @Override
     protected void preRender()
     {
-        super.preRender();
-
         String s = Kmu.format("The value is '%s'.", _value.getValue());
         _message.setValue(s);
     }

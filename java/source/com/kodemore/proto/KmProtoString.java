@@ -1,7 +1,7 @@
 package com.kodemore.proto;
 
 import com.kodemore.generator.model.KmgModelType;
-import com.kodemore.hibernate.criteria.KmStringCriteria;
+import com.kodemore.hibernate.KmhStringCondition;
 import com.kodemore.meta.KmMetaStringProperty;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.validator.KmStringValidator;
@@ -41,7 +41,7 @@ public class KmProtoString
     @Override
     public String format_CriteriaClass()
     {
-        return KmStringCriteria.class.getSimpleName();
+        return KmhStringCondition.class.getSimpleName();
     }
 
     @Override

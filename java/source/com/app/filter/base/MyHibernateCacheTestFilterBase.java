@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyHibernateCacheTestFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyHibernateCacheTest> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyHibernateCacheTest> c)
     {
         applyConditionsTo((MyHibernateCacheTestCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyHibernateCacheTest> c)
+    protected void applySortsTo(KmhModelCriteria<MyHibernateCacheTest> c)
     {
         applySortsTo((MyHibernateCacheTestCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyHibernateCacheTestFilterBase
     @Override
     protected MyHibernateCacheTestCriteria createCriteria()
     {
-        return new MyHibernateCacheTestCriteria(createGenericCriteria());
+        return new MyHibernateCacheTestCriteria(_createCriteria());
     }
 }

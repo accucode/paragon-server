@@ -11,20 +11,27 @@ import com.kodemore.servlet.control.ScTable;
 import com.kodemore.servlet.control.ScTableCell;
 import com.kodemore.servlet.control.ScTableRow;
 
-public class MyDevEnvironmentVariablesPage
-    extends MyDevAbstractPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyDevEnvironmentVariablesPage
+    extends MyPage
 {
-    //##################################################
-    //# variables
-    //##################################################
-
-    private ScLiteral                                 _literal;
-
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDevEnvironmentVariablesPage instance = new MyDevEnvironmentVariablesPage();
+    private static MyDevEnvironmentVariablesPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDevEnvironmentVariablesPage();
+    }
+
+    public static MyDevEnvironmentVariablesPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDevEnvironmentVariablesPage()
     {
@@ -32,17 +39,33 @@ public class MyDevEnvironmentVariablesPage
     }
 
     //##################################################
-    //# navigation
+    //# variables
+    //##################################################
+
+    private ScLiteral _literal;
+
+    //##################################################
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }

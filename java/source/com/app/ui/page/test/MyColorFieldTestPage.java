@@ -7,14 +7,27 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScColorField;
 
-public class MyColorFieldTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyColorFieldTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyColorFieldTestPage instance = new MyColorFieldTestPage();
+    private static MyColorFieldTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyColorFieldTestPage();
+    }
+
+    public static MyColorFieldTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyColorFieldTestPage()
     {
@@ -28,17 +41,27 @@ public class MyColorFieldTestPage
     private ScColorField _colorField;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -70,13 +93,22 @@ public class MyColorFieldTestPage
     }
 
     //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
+    //##################################################
     //# handle
     //##################################################
 
     private void handleSubmit()
     {
         ajax().hideAllErrors();
-
         validate();
 
         ajax().toast("Color = %s", _colorField.getValue());

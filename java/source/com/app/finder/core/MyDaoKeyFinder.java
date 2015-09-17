@@ -1,10 +1,9 @@
 package com.app.finder.core;
 
-import com.kodemore.command.KmDaoCommand;
+import com.kodemore.command.KmDao;
 import com.kodemore.utility.KmKeyFinderIF;
 
 public class MyDaoKeyFinder<T, K>
-    extends KmDaoCommand
 {
     //##################################################
     //# variables
@@ -38,8 +37,12 @@ public class MyDaoKeyFinder<T, K>
     //# run
     //##################################################
 
-    @Override
-    protected void handle()
+    public void run()
+    {
+        KmDao.run(this::handle);
+    }
+
+    private void handle()
     {
         _value = _finder.find(_key);
     }

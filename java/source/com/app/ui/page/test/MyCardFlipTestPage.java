@@ -7,14 +7,27 @@ import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyCardFlipTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyCardFlipTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyCardFlipTestPage instance = new MyCardFlipTestPage();
+    private static MyCardFlipTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyCardFlipTestPage();
+    }
+
+    public static MyCardFlipTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyCardFlipTestPage()
     {
@@ -27,26 +40,36 @@ public class MyCardFlipTestPage
 
     private ScCardFrame _flipFrame;
 
-    private ScCard      _flipFront;
-    private ScCard      _flipBack;
+    private ScCard _flipFront;
+    private ScCard _flipBack;
 
     private ScCardFrame _fadeFrame;
 
-    private ScCard      _fadeFront;
-    private ScCard      _fadeBack;
+    private ScCard _fadeFront;
+    private ScCard _fadeBack;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -101,6 +124,16 @@ public class MyCardFlipTestPage
         back = _fadeBack.addGroup("Fade");
         back.getBody().addPad().addText("THIS IS THE BACK!");
         back.bodyStyle().height(400);
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

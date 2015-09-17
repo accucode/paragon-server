@@ -1,13 +1,16 @@
 package com.kodemore.servlet.control;
 
+import java.util.function.Function;
+
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.renderer.ScRenderer;
 import com.kodemore.servlet.utility.ScControlRegistry;
-import com.kodemore.servlet.variable.ScLocalAdaptor;
 import com.kodemore.servlet.variable.ScLocalBoolean;
+import com.kodemore.servlet.variable.ScLocalFunction;
 import com.kodemore.servlet.variable.ScLocalInteger;
 import com.kodemore.servlet.variable.ScLocalRenderer;
 import com.kodemore.servlet.variable.ScLocalString;
@@ -29,56 +32,56 @@ public class ScGridColumn<T>
     /**
      * The unique key.
      */
-    private String              _key;
+    private String _key;
 
     /**
      * The grid.
      */
-    private ScGrid<T>           _grid;
+    private ScGrid<T> _grid;
 
     /**
      * The column header.
      */
-    private ScLocalString       _header;
+    private ScLocalString _header;
 
     /**
      * The column width, in pixels.
      */
-    private ScLocalInteger      _width;
+    private ScLocalInteger _width;
 
     /**
      * The horizontal alignment; left, right, center.
      */
-    private ScLocalString       _alignment;
+    private ScLocalString _alignment;
 
     /**
      * If false the column is hidden by default.
      */
-    private ScLocalBoolean      _visible;
+    private ScLocalBoolean _visible;
 
     /**
      * If true, the client side grid will allow the user to
      * select it for sorting.
      */
-    private ScLocalBoolean      _sortable;
+    private ScLocalBoolean _sortable;
 
     /**
      * Sort ascending (true), descending (false), or not sorted (null).
      */
-    private ScLocalBoolean      _defaultSort;
+    private ScLocalBoolean _defaultSort;
 
     /**
      * Convert each row's model into a value for display in the
      * table's column.  The result must be compatible with the
      * default formatter, ScFormatter.printAny(Object)
      */
-    private ScLocalRenderer     _displayRenderer;
+    private ScLocalRenderer _displayRenderer;
 
     /**
      * If non-null, include the column in the csv export.
      * The result is passed to KmCsvBuffer.printAny();
      */
-    private ScLocalAdaptor      _csvAdaptor;
+    private ScLocalFunction<T,Object> _csvFunction;
 
     //##################################################
     //# constructor
@@ -96,7 +99,7 @@ public class ScGridColumn<T>
         _defaultSort = new ScLocalBoolean(null);
 
         _displayRenderer = new ScLocalRenderer();
-        _csvAdaptor = new ScLocalAdaptor();
+        _csvFunction = new ScLocalFunction<>();
 
         alignLeft();
         setWidth(150);
@@ -368,25 +371,19 @@ public class ScGridColumn<T>
     //# csv adaptor
     //##################################################
 
-    @SuppressWarnings("unchecked")
-    public KmAdaptorIF<T,?> getCsvAdaptor()
+    public Function<T,?> getCsvFunction()
     {
-        return _csvAdaptor.getValue();
+        return _csvFunction.getValue();
     }
 
-    public void setCsvAdaptor(KmAdaptorIF<T,?> e)
+    public void setCsvFunction(Function<T,Object> e)
     {
-        _csvAdaptor.setValue(e);
+        _csvFunction.setValue(e);
     }
 
-    public boolean hasCsvAdaptor()
+    public boolean hasCsvFunction()
     {
-        return _csvAdaptor.hasValue();
-    }
-
-    public boolean isCsv()
-    {
-        return hasCsvAdaptor();
+        return _csvFunction.hasValue();
     }
 
     //##################################################
@@ -429,20 +426,6 @@ public class ScGridColumn<T>
         return hasHeader()
             ? getHeader()
             : "";
-    }
-
-    //##################################################
-    //# csv
-    //##################################################
-
-    public Object getCsvCell()
-    {
-        return getCsvAdaptor();
-    }
-
-    public boolean isCsvCell()
-    {
-        return hasCsvAdaptor();
     }
 
     //##################################################

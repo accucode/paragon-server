@@ -53,7 +53,11 @@ public class ScDateCoder
     @Override
     public Object decode(ScDecoder decoder, String s)
     {
-        int i = Kmu.parse_int(s);
+        int i = Kmu.parse_int(s, -1);
+
+        if ( i < 0 )
+            return null;
+
         return KmDate.createOrdinal(i);
     }
 

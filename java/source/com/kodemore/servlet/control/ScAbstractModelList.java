@@ -82,7 +82,7 @@ public abstract class ScAbstractModelList<T>
      * If empty, the container will still be rendered, thus allowing
      * for subsequent dynamic updates via ajax.
      */
-    private ScLocalList<T>        _values;
+    private ScLocalList<T> _values;
 
     //##################################################
     //# init

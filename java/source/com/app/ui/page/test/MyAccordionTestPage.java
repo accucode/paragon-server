@@ -7,14 +7,27 @@ import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
 
-public class MyAccordionTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyAccordionTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyAccordionTestPage instance = new MyAccordionTestPage();
+    private static MyAccordionTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyAccordionTestPage();
+    }
+
+    public static MyAccordionTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyAccordionTestPage()
     {
@@ -22,17 +35,27 @@ public class MyAccordionTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -70,4 +93,15 @@ public class MyAccordionTestPage
         content.style().height(200);
         content.addText(Kmu.repeat("four ", 100));
     }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
 }

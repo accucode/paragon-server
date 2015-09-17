@@ -8,14 +8,27 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
-public class MyFormTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyFormTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyFormTestPage instance = new MyFormTestPage();
+    private static MyFormTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyFormTestPage();
+    }
+
+    public static MyFormTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyFormTestPage()
     {
@@ -29,17 +42,27 @@ public class MyFormTestPage
     private ScTextField _textField;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -57,7 +80,7 @@ public class MyFormTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(this::handleOk);
+        form.setSubmitAction(this::handleSubmit);
         form.css().gap();
 
         ScGroup group;
@@ -74,10 +97,20 @@ public class MyFormTestPage
     }
 
     //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
+    //##################################################
     //# handle
     //##################################################
 
-    private void handleOk()
+    private void handleSubmit()
     {
         String s = _textField.getValue();
         if ( s == null )

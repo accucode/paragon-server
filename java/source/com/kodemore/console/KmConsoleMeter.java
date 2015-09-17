@@ -42,11 +42,11 @@ public class KmConsoleMeter
     //# variables
     //##################################################
 
-    private int              _count;
-    private int              _total;
-    private int              _lastPercent;
-    private long             _beginNanos;
-    private long             _endNanos;
+    private int  _count;
+    private int  _total;
+    private int  _lastPercent;
+    private long _beginNanos;
+    private long _endNanos;
 
     //##################################################
     //# constructor

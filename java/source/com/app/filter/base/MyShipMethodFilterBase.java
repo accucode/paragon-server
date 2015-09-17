@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyShipMethodFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyShipMethod> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyShipMethod> c)
     {
         applyConditionsTo((MyShipMethodCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyShipMethod> c)
+    protected void applySortsTo(KmhModelCriteria<MyShipMethod> c)
     {
         applySortsTo((MyShipMethodCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyShipMethodFilterBase
     @Override
     protected MyShipMethodCriteria createCriteria()
     {
-        return new MyShipMethodCriteria(createGenericCriteria());
+        return new MyShipMethodCriteria(_createCriteria());
     }
 }

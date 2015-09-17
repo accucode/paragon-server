@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyRegionFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyRegion> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyRegion> c)
     {
         applyConditionsTo((MyRegionCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyRegion> c)
+    protected void applySortsTo(KmhModelCriteria<MyRegion> c)
     {
         applySortsTo((MyRegionCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyRegionFilterBase
     @Override
     protected MyRegionCriteria createCriteria()
     {
-        return new MyRegionCriteria(createGenericCriteria());
+        return new MyRegionCriteria(_createCriteria());
     }
 }

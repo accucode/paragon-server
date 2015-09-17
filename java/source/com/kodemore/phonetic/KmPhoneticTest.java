@@ -41,7 +41,7 @@ public class KmPhoneticTest
 
     public static void print(KmPhoneticEncoder e, String s)
     {
-        System.out.printf("%s => %s%n", s, e.encode(s));
+        System.out.printf("%s => %s\n", s, e.encode(s));
     }
 
 }

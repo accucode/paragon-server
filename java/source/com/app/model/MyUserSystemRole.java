@@ -22,13 +22,13 @@ public enum MyUserSystemRole
     //##################################################
 
     Admin("A", "Admin"),
-    Developer("D", "Developer"), ;
+    Developer("D", "Developer"),;
 
     //##################################################
     //# find
     //##################################################
 
-    private static final KmList<MyUserSystemRole>       _values;
+    private static final KmList<MyUserSystemRole> _values;
     private static final KmMap<String,MyUserSystemRole> _codes;
 
     static

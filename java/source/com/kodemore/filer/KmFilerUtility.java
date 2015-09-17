@@ -139,15 +139,15 @@ public final class KmFilerUtility
     //# variables
     //##################################################
 
-    private FileInputStream     _fileInputStream;
-    private FileOutputStream    _fileOutputStream;
+    private FileInputStream  _fileInputStream;
+    private FileOutputStream _fileOutputStream;
 
     private KmFilerInputStream  _filerInputStream;
     private KmFilerOutputStream _filerOutputStream;
 
-    private boolean             _debug      = false;
-    private boolean             _compress   = false;
-    private int                 _bufferSize = 2048;
+    private boolean _debug      = false;
+    private boolean _compress   = false;
+    private int     _bufferSize = 2048;
 
     //##################################################
     //# accessing
@@ -192,7 +192,6 @@ public final class KmFilerUtility
 
             if ( _compress )
                 in = new InflaterInputStream(in);
-
             if ( _debug )
                 _filerInputStream = new KmFilerDebugInputStream(in);
             else
@@ -215,7 +214,6 @@ public final class KmFilerUtility
 
             if ( _compress )
                 out = new DeflaterOutputStream(out);
-
             if ( _debug )
                 _filerOutputStream = new KmFilerDebugOutputStream(out);
             else

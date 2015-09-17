@@ -43,8 +43,8 @@ public class KmSqlExpectedCount
     //# variables
     //##################################################
 
-    private int             _mode;
-    private int             _expected;
+    private int _mode;
+    private int _expected;
 
     //##################################################
     //# constructor

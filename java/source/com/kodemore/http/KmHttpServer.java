@@ -44,9 +44,9 @@ public abstract class KmHttpServer
     //# variables
     //##################################################
 
-    private ServerSocket     _serverSocket;
-    private Socket           _socket;
-    private String           _request;
+    private ServerSocket _serverSocket;
+    private Socket       _socket;
+    private String       _request;
 
     //##################################################
     //# run
@@ -95,9 +95,9 @@ public abstract class KmHttpServer
     {
         StringBuilder out = new StringBuilder();
 
-        try ( InputStream is = _socket.getInputStream();
+        try (InputStream is = _socket.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader r = new BufferedReader(isr); )
+            BufferedReader r = new BufferedReader(isr);)
         {
             while ( true )
             {
@@ -145,8 +145,6 @@ public abstract class KmHttpServer
         System.out.println(s);
 
         OutputStream os = _socket.getOutputStream();
-
-        @SuppressWarnings("resource")
         BufferedOutputStream out = new BufferedOutputStream(os);
 
         writeln(out, "HTTP/1.0 200 OK");

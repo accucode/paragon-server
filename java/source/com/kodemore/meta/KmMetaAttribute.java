@@ -1,8 +1,8 @@
 package com.kodemore.meta;
 
+import java.util.function.Function;
+
 import com.kodemore.adaptor.KmAdaptorIF;
-import com.kodemore.match.KmAbstractMatch;
-import com.kodemore.match.KmMatchIF;
 
 public abstract class KmMetaAttribute<T, V>
 {
@@ -34,16 +34,18 @@ public abstract class KmMetaAttribute<T, V>
         };
     }
 
-    public KmMatchIF<T> getMatch(final V value)
+    public Function<T,V> getGetter()
     {
-        return new KmAbstractMatch<T>()
-        {
-            @Override
-            public boolean matches(T model)
-            {
-                return hasValueFor(model, value);
-            }
-        };
+        return this::getValueFor;
+    }
+
+    /**
+     * This is useful to get around generic typing issues when you really
+     * need an untyped Object, but cannot use ? for various reasons.
+     */
+    public Function<T,Object> getObjectGetter()
+    {
+        return this::getValueFor;
     }
 
     //##################################################

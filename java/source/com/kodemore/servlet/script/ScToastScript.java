@@ -37,14 +37,14 @@ public class ScToastScript
      * This determines the general appearance; color, icon, etc.
      * The default is the 'notice' flavor.
      */
-    private String  _flavor;
+    private String _flavor;
 
     /**
      * This is the message to be displayed.  The toast allows html
      * formatting, so content such as <b> has special meaning.
      * See setText, setHtml.
      */
-    private String  _html;
+    private String _html;
 
     /**
      * If true, the message will remain on screen until the user
@@ -58,14 +58,14 @@ public class ScToastScript
      * The speed of the animation used to show new messages.
      * Clients will generally not override this.
      */
-    private int     _effectMs;
+    private int _effectMs;
 
     /**
      * This determines how long the message is displayed before
      * automatically disappearing.  This value is ignored for
      * sticky messages.
      */
-    private int     _durationMs;
+    private int _durationMs;
 
     //##################################################
     //# constructor
@@ -143,7 +143,8 @@ public class ScToastScript
      */
     public void setText(String e)
     {
-        _html = Kmu.escapeHtml(e);
+        boolean useBreaks = true;
+        _html = Kmu.escapeHtml(e, useBreaks);
     }
 
     public void setText(String e, Object... args)

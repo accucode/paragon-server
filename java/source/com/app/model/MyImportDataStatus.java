@@ -23,13 +23,13 @@ public enum MyImportDataStatus
 
     New("N", "New"),
     Error("E", "Error"),
-    Complete("C", "Complete"), ;
+    Complete("C", "Complete"),;
 
     //##################################################
     //# find
     //##################################################
 
-    private static final KmList<MyImportDataStatus>       _values;
+    private static final KmList<MyImportDataStatus> _values;
     private static final KmMap<String,MyImportDataStatus> _codes;
 
     static

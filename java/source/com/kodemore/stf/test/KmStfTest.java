@@ -27,7 +27,7 @@ import com.kodemore.stf.KmStfParser;
 import com.kodemore.utility.Kmu;
 
 /**
- * I am used to test the parser.
+ * I am used to test the parser.  
  */
 public class KmStfTest
 {
@@ -83,7 +83,7 @@ public class KmStfTest
 
         String res = Kmu.format("%s/%s", pkg, file);
 
-        return Kmu.readResourceString(getClass(), res);
+        return Kmu.readResourceString(res);
     }
 
 }

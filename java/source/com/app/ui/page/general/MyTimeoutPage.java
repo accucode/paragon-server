@@ -11,14 +11,24 @@ import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
 import com.app.utility.MyUrls;
 
-public class MyTimeoutPage
+public final class MyTimeoutPage
     extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyTimeoutPage instance = new MyTimeoutPage();
+    private static MyTimeoutPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyTimeoutPage();
+    }
+
+    public static MyTimeoutPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyTimeoutPage()
     {
@@ -32,21 +42,21 @@ public class MyTimeoutPage
     @Override
     public MySecurityLevel getSecurityLevel()
     {
-        return MySecurityLevel.any;
+        return MySecurityLevel.none;
     }
 
     //##################################################
-    //# navigation
+    //# bookmark
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public void composeBookmarkOn(ScParameterList v)
     {
-        return null;
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -80,4 +90,15 @@ public class MyTimeoutPage
         button.setText("Login >>");
         button.setHref(href);
     }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
 }

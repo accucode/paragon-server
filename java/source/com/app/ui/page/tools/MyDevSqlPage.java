@@ -16,16 +16,28 @@ import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.sql.formatter.KmSqlResultComposer;
 import com.kodemore.utility.Kmu;
 
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 import com.app.utility.MyButtonUrls;
 
-public class MyDevSqlPage
-    extends MyDevAbstractPage
+public final class MyDevSqlPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDevSqlPage instance = new MyDevSqlPage();
+    private static MyDevSqlPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDevSqlPage();
+    }
+
+    public static MyDevSqlPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDevSqlPage()
     {
@@ -45,26 +57,36 @@ public class MyDevSqlPage
     //# variables
     //##################################################
 
-    private ScTextField         _schemaField;
-    private ScDropdown          _formatField;
+    private ScTextField _schemaField;
+    private ScDropdown  _formatField;
 
-    private ScTextArea          _sqlField;
-    private ScBox               _results;
+    private ScTextArea _sqlField;
+    private ScBox      _results;
 
-    private ScDropdown          _tableDropdown;
+    private ScDropdown _tableDropdown;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -181,7 +203,7 @@ public class MyDevSqlPage
     }
 
     //##################################################
-    //# navigation
+    //# bookmark
     //##################################################
 
     @Override
@@ -203,9 +225,48 @@ public class MyDevSqlPage
     private void handleSubmit()
     {
         String sql = _sqlField.getValue();
-
         submitSql(sql);
     }
+
+    private void handleRefreshTables()
+    {
+        refreshTables();
+        _tableDropdown.ajaxUpdateOptions();
+    }
+
+    private void handleSelectAll()
+    {
+        handleQuickAction("select * from %s limit 10;");
+    }
+
+    private void handleCount()
+    {
+        handleQuickAction("select count(*) from %s;");
+    }
+
+    private void handleDescribeTable()
+    {
+        handleQuickAction("describe %s;");
+    }
+
+    private void handleQuickAction(String template)
+    {
+        String table = _tableDropdown.getStringValue();
+
+        if ( table == null )
+        {
+            ajax().toast("Please select a table.").warn();
+            return;
+        }
+
+        String sql = Kmu.format(template, table);
+        _sqlField.ajax().setValue(sql);
+        submitSql(sql);
+    }
+
+    //##################################################
+    //# support
+    //##################################################
 
     private void submitSql(String sql)
     {
@@ -258,42 +319,6 @@ public class MyDevSqlPage
 
         if ( s.equals(FORMAT_CSV_SIMPLE) )
             c.formatCsvSimple();
-    }
-
-    private void handleRefreshTables()
-    {
-        refreshTables();
-        _tableDropdown.ajaxUpdateOptions();
-    }
-
-    private void handleSelectAll()
-    {
-        handleQuickAction("select * from %s limit 10;");
-    }
-
-    private void handleCount()
-    {
-        handleQuickAction("select count(*) from %s;");
-    }
-
-    private void handleDescribeTable()
-    {
-        handleQuickAction("describe %s;");
-    }
-
-    private void handleQuickAction(String template)
-    {
-        String table = _tableDropdown.getStringValue();
-
-        if ( table == null )
-        {
-            ajax().toast("Please select a table.").warn();
-            return;
-        }
-
-        String sql = Kmu.format(template, table);
-        _sqlField.ajax().setValue(sql);
-        submitSql(sql);
     }
 
     //##################################################

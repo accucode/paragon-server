@@ -22,7 +22,7 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.servlet.ScEntryPageIF;
+import com.kodemore.servlet.ScPageIF;
 import com.kodemore.servlet.script.ScBlockScript;
 
 /**
@@ -35,7 +35,7 @@ public class ScPageLink
     //# variables
     //##################################################
 
-    private ScEntryPageIF _page;
+    private ScPageIF _page;
 
     //##################################################
     //# init
@@ -51,12 +51,12 @@ public class ScPageLink
     //# accessing
     //##################################################
 
-    public ScEntryPageIF getPage()
+    public ScPageIF getPage()
     {
         return _page;
     }
 
-    public void setPage(ScEntryPageIF e)
+    public void setPage(ScPageIF e)
     {
         _page = e;
     }
@@ -76,7 +76,7 @@ public class ScPageLink
     {
         ScBlockScript s;
         s = ScBlockScript.create();
-        s.pushPage(getPage().formatQueryString());
+        s.enterPage(getPage());
 
         return "javascript:" + s.formatScript();
     }

@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -23,75 +22,55 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyEmailPartJunction
-    extends KmModelJunction
+    extends KmhModelJunction
     implements MyEmailPartDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyEmailPartJunction(KmJunction context)
+    public MyEmailPartJunction(KmhJunction context)
     {
         super(context);
-    }
-
-    public MyEmailPartJunction(KmJunction context, KmAbstractCriteria parent)
-    {
-        super(context, parent);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmIntegerCriteria whereSequence()
+    public KmhIntegerCondition whereSequence()
     {
-        return new KmIntegerCriteria(context(), fullName(SEQUENCE));
+        return new KmhIntegerCondition(context(), fullName(SEQUENCE));
     }
 
-    public KmStringCriteria whereTypeCode()
+    public KmhStringCondition whereTypeCode()
     {
-        return new KmStringCriteria(context(), fullName(TYPE_CODE));
+        return new KmhStringCondition(context(), fullName(TYPE_CODE));
     }
 
-    public KmStringCriteria whereAttachmentName()
+    public KmhStringCondition whereAttachmentName()
     {
-        return new KmStringCriteria(context(), fullName(ATTACHMENT_NAME));
+        return new KmhStringCondition(context(), fullName(ATTACHMENT_NAME));
     }
 
-    public KmPropertyCriteria<KmBlob> whereData()
+    public KmhPropertyCondition<KmBlob> whereData()
     {
-        return new KmPropertyCriteria<>(context(), fullName(DATA));
+        return new KmhPropertyCondition<>(context(), fullName(DATA));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
     //# associations
     //##################################################
-
-    public MyEmailCriteria joinToEmail()
-    {
-        return join(new MyEmailCriteria(root().joinTo(EMAIL)));
-    }
-
-    public MyEmailCriteria leftJoinToEmail()
-    {
-        return join(new MyEmailCriteria(root().leftJoinTo(EMAIL)));
-    }
-
-    public KmStringCriteria whereEmailUid()
-    {
-        return new KmStringCriteria(context(), fullName(EMAIL_UID));
-    }
 
     //##################################################
     //# junction
@@ -99,12 +78,12 @@ public class MyEmailPartJunction
 
     public MyEmailPartJunction addAnd()
     {
-        return new MyEmailPartJunction(context().addAnd(), parent());
+        return new MyEmailPartJunction(context().addAnd());
     }
 
     public MyEmailPartJunction addOr()
     {
-        return new MyEmailPartJunction(context().addOr(), parent());
+        return new MyEmailPartJunction(context().addOr());
     }
 
 }

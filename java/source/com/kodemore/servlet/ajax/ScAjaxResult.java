@@ -43,7 +43,7 @@ public class ScAjaxResult
      * The length of the http output.  This is not set until
      * I am applied to the response.
      */
-    private int           _length;
+    private int _length;
 
     //##################################################
     //# constructor

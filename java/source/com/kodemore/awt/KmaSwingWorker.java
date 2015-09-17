@@ -100,7 +100,7 @@ public abstract class KmaSwingWorker
             {
                 t.join();
             }
-            catch ( InterruptedException e )
+            catch ( InterruptedException ex )
             {
                 Thread.currentThread().interrupt();
                 return null;

@@ -9,14 +9,27 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
 
-public class MyBlockTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyBlockTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyBlockTestPage instance = new MyBlockTestPage();
+    private static MyBlockTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyBlockTestPage();
+    }
+
+    public static MyBlockTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyBlockTestPage()
     {
@@ -33,21 +46,31 @@ public class MyBlockTestPage
     //# variables
     //##################################################
 
-    private ScGroup          _group;
-    private ScTextField      _nameField;
+    private ScGroup     _group;
+    private ScTextField _nameField;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -102,11 +125,12 @@ public class MyBlockTestPage
         form.setSubmitAction(this::handleFormTest);
         form.css().pad();
 
-        form.addText(""
-            + "Various containers (e.g.: Groups and Forms) act as Block Wrappers"
-            + " by default. This means that ajax submits initiated from within"
-            + " those containers will block only that container, rather than the"
-            + " entire page. In this example only the group is blocked.");
+        form.addText(
+            ""
+                + "Various containers (e.g.: Groups and Forms) act as Block Wrappers"
+                + " by default. This means that ajax submits initiated from within"
+                + " those containers will block only that container, rather than the"
+                + " entire page. In this example only the group is blocked.");
 
         ScGroup group;
         group = form.addGroup("Auto Block (group)");
@@ -127,11 +151,12 @@ public class MyBlockTestPage
         form.setSubmitAction(this::handleFormTest);
         form.css().pad();
 
-        form.addText(""
-            + "In some cases, we don't want the group (or form) to act as a "
-            + " Block Wrapper.  This is easy to configure.  In this example, we"
-            + " turn of the block wrapper for the group, so blocking will then"
-            + " default up the control hierarchy to the form that contains the group.");
+        form.addText(
+            ""
+                + "In some cases, we don't want the group (or form) to act as a "
+                + " Block Wrapper.  This is easy to configure.  In this example, we"
+                + " turn of the block wrapper for the group, so blocking will then"
+                + " default up the control hierarchy to the form that contains the group.");
 
         ScGroup group;
         group = form.addGroup("Auto Block (form)");
@@ -154,9 +179,10 @@ public class MyBlockTestPage
         form.setBlockWrapper(false); // DISABLE BLOCK WRAPPER
         form.css().pad();
 
-        form.addText(""
-            + "Here we disable block wrapping for both the form and the group,"
-            + " so blocking will default to the entire page.");
+        form.addText(
+            ""
+                + "Here we disable block wrapping for both the form and the group,"
+                + " so blocking will default to the entire page.");
 
         ScGroup group;
         group = form.addGroup("Auto Block (page)");
@@ -166,6 +192,16 @@ public class MyBlockTestPage
         lines = group.getBody().addLines();
         lines.addFieldTable().add(_nameField);
         lines.addSubmitButton();
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

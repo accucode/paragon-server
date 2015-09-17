@@ -4,7 +4,7 @@ package ${package}.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -22,14 +22,9 @@ public class ${model.f_CriteriaClass}
 {
 $utility.protocol("constructor")
 
-    public ${model.f_CriteriaClass}(KmCriteria parent)
+    public ${model.f_CriteriaClass}(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public ${model.f_CriteriaClass}(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
 $utility.protocol("properties")
@@ -251,13 +246,4 @@ $utility.protocol("junction")
     {
         return new ${model.f_JunctionClass}(parent().addOr());
     }
-
-$utility.protocol("support")
-
-    @Override
-    public ${model.f_CriteriaClass} createOn(KmModelJunction junction)
-    {
-        return new ${model.f_CriteriaClass}(parent(), junction.context());
-    }
-
 }

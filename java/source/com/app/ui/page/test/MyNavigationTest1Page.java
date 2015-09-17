@@ -7,14 +7,27 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
-public class MyNavigationTest1Page
-    extends MyAbstractTestPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyNavigationTest1Page
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyNavigationTest1Page instance = new MyNavigationTest1Page();
+    private static MyNavigationTest1Page _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyNavigationTest1Page();
+    }
+
+    public static MyNavigationTest1Page getInstance()
+    {
+        return _instance;
+    }
 
     private MyNavigationTest1Page()
     {
@@ -28,26 +41,37 @@ public class MyNavigationTest1Page
     private ScTextField _textField;
 
     //##################################################
+    //# settings
+    //##################################################
+
+    @Override
+    public final MySecurityLevel getSecurityLevel()
+    {
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
     //# navigation
     //##################################################
 
-    public void ajaxPush(String value)
+    public void ajaxEnter(String value)
     {
         _textField.setValue(value);
-        _ajaxPush();
+        ajaxEnter();
     }
 
+    //##################################################
+    //# bookmark
+    //##################################################
+
     @Override
-    public ScParameterList composeQueryParameters()
+    public void composeBookmarkOn(ScParameterList v)
     {
-        ScParameterList v;
-        v = new ScParameterList();
         v.setValue("value", _textField.getValue());
-        return v;
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         _textField.setValue(v.getValue("value"));
     }
@@ -91,7 +115,7 @@ public class MyNavigationTest1Page
     @Override
     protected void preRender()
     {
-        super.preRender();
+        // none
     }
 
     //##################################################
@@ -101,7 +125,7 @@ public class MyNavigationTest1Page
     private void handleNavigate()
     {
         String value = _textField.getValue();
-        MyNavigationTest2Page.instance.ajaxPush(value);
+        MyNavigationTest2Page.getInstance().ajaxEnter(value);
     }
 
     private void handleUpdateHistory()

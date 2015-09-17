@@ -38,7 +38,11 @@ public abstract class KmSqlResultFormatter
     //# format
     //##################################################
 
-    protected abstract void formatResultSet(String schema, String sql, KmSqlResultSet rs, KmTimer t);
+    protected abstract void formatResultSet(
+        String schema,
+        String sql,
+        KmSqlResultSet rs,
+        KmTimer t);
 
     protected abstract void formatUpdate(String schema, String sql, int count, KmTimer t);
 

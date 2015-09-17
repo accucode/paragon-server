@@ -9,14 +9,27 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScAutoCompleteCallbackIF;
 import com.kodemore.servlet.field.ScAutoCompleteField;
 
-public class MyAutoCompleteTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyAutoCompleteTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyAutoCompleteTestPage instance = new MyAutoCompleteTestPage();
+    private static MyAutoCompleteTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyAutoCompleteTestPage();
+    }
+
+    public static MyAutoCompleteTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyAutoCompleteTestPage()
     {
@@ -31,17 +44,27 @@ public class MyAutoCompleteTestPage
     private ScAutoCompleteField _dynamicField;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -106,6 +129,16 @@ public class MyAutoCompleteTestPage
                 return v;
             }
         };
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

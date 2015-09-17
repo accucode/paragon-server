@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -793,7 +792,7 @@ public abstract class MyEmailBase
     {
         KmList<MyEmailPart> v;
         v = getParts().toList();
-        v.sortOn(MyEmailPart.Meta.Sequence);
+        v.sortOn(MyEmailPart::getSequence);
         return v;
     }
 
@@ -961,62 +960,6 @@ public abstract class MyEmailBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("uid") )
-            setUid(p.getString("uid"));
-
-        if ( p.hasKey("subject") )
-            setSubject(p.getString("subject"));
-
-        if ( p.hasKey("fromAddress") )
-            setFromAddress(p.getString("fromAddress"));
-
-        if ( p.hasKey("statusCode") )
-            setStatusCode(p.getString("statusCode"));
-
-        if ( p.hasKey("errorNotes") )
-            setErrorNotes(p.getString("errorNotes"));
-
-        if ( p.hasKey("lockVersion") )
-            setLockVersion(p.getInteger("lockVersion"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasUid() )
-            p.setString("uid", getUid());
-
-        if ( hasSubject() )
-            p.setString("subject", getSubject());
-
-        if ( hasFromAddress() )
-            p.setString("fromAddress", getFromAddress());
-
-        if ( hasStatusCode() )
-            p.setString("statusCode", getStatusCode());
-
-        if ( hasErrorNotes() )
-            p.setString("errorNotes", getErrorNotes());
-
-        if ( hasLockVersion() )
-            p.setInteger("lockVersion", getLockVersion());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

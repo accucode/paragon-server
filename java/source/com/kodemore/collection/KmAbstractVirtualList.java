@@ -24,8 +24,6 @@ package com.kodemore.collection;
 
 import java.util.Iterator;
 
-import com.kodemore.match.KmMatchIF;
-
 public abstract class KmAbstractVirtualList<T>
     implements KmVirtualList<T>
 {
@@ -119,11 +117,5 @@ public abstract class KmAbstractVirtualList<T>
                 throw new UnsupportedOperationException();
             }
         };
-    }
-
-    @Override
-    public KmVirtualList<T> filter(KmMatchIF<T> m)
-    {
-        return new KmFilteredVirtualList<>(this, m);
     }
 }

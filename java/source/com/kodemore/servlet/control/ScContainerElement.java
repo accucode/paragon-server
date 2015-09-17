@@ -53,12 +53,12 @@ public abstract class ScContainerElement
     /**
      * The css classes.
      */
-    private ScLocalCss    _css;
+    private ScLocalCss _css;
 
     /**
      * The inline css style.
      */
-    private ScLocalStyle  _style;
+    private ScLocalStyle _style;
 
     /**
      * A script to run when this control is clicked.
@@ -251,7 +251,7 @@ public abstract class ScContainerElement
     {
         ScBlockScript script;
         script = ScBlockScript.create();
-        script.pushPage(e);
+        script.enterPage(e);
 
         setOnClick(script);
     }

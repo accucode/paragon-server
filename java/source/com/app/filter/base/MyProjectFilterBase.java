@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyProjectFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyProject> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyProject> c)
     {
         applyConditionsTo((MyProjectCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyProject> c)
+    protected void applySortsTo(KmhModelCriteria<MyProject> c)
     {
         applySortsTo((MyProjectCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyProjectFilterBase
     @Override
     protected MyProjectCriteria createCriteria()
     {
-        return new MyProjectCriteria(createGenericCriteria());
+        return new MyProjectCriteria(_createCriteria());
     }
 }

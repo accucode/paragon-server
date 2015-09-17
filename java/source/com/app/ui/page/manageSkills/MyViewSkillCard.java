@@ -18,8 +18,8 @@ public class MyViewSkillCard
     //# variables
     //##################################################
 
-    private MyTitleSection    _banner;
-    private ScActionButton    _editButton;
+    private MyTitleSection _banner;
+    private ScActionButton _editButton;
 
     private MyEditSkillDialog _editDialog;
 

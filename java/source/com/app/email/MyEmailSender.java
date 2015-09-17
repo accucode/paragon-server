@@ -1,6 +1,7 @@
 package com.app.email;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.command.KmDao;
 import com.kodemore.email.KmEmail;
 import com.kodemore.email.KmEmailIF;
 import com.kodemore.email.KmEmailPart;
@@ -8,14 +9,16 @@ import com.kodemore.email.KmEmailResult;
 import com.kodemore.email.method.KmEmailMethod;
 import com.kodemore.email.method.KmEmailNoopMethod;
 import com.kodemore.email.method.KmEmailPrintMethod;
-import com.kodemore.hibernate.lock.KmDaoLockException;
+import com.kodemore.hibernate.lock.KmhDaoLockException;
 import com.kodemore.utility.Kmu;
 
-import com.app.email.support.MyMarkEmailPendingCommand;
-import com.app.email.support.MyUpdateEmailResultsCommand;
+import com.app.dao.core.MyDaoSession;
+import com.app.filter.MyEmailFilter;
+import com.app.finder.MyEmailFinder;
 import com.app.model.MyEmail;
 import com.app.model.MyEmailPart;
 import com.app.model.MyEmailPartType;
+import com.app.model.MyEmailStatus;
 import com.app.property.MyPropertyRegistry;
 import com.app.utility.MyGlobals;
 
@@ -97,21 +100,36 @@ public class MyEmailSender
     {
         try
         {
-            int count = getProperties().getSendEmailBatch();
-
-            MyMarkEmailPendingCommand cmd;
-            cmd = new MyMarkEmailPendingCommand();
-            cmd.setMaximumCount(count);
-            cmd.run();
-
-            _emails = cmd.getEmails();
-
-            return _emails.isNotEmpty();
+            return KmDao.fetch(this::prepareBatchDao);
         }
-        catch ( KmDaoLockException ex )
+        catch ( KmhDaoLockException ex )
         {
             return false;
         }
+    }
+
+    private boolean prepareBatchDao()
+    {
+        int count = getProperties().getSendEmailBatch();
+
+        MyEmailFilter f;
+        f = new MyEmailFilter();
+        f.setStatusCode(MyEmailStatus.Ready);
+        f.sortOnCreatedUtcTs();
+
+        _emails = f.findFirst(count);
+
+        for ( MyEmail e : _emails )
+        {
+            e.markPending();
+
+            MyDaoSession session;
+            session = MyGlobals.getDaoSession();
+            session.fetch(e.getBaseRecipients());
+            session.fetch(e.getBaseParts());
+        }
+
+        return _emails.isNotEmpty();
     }
 
     //##################################################
@@ -183,7 +201,6 @@ public class MyEmailSender
     private KmEmailMethod getMethod()
     {
         String m = getProperties().getSendEmailMethod();
-
         if ( m == null )
             throw Kmu.newFatal("Property sendEmailMethod is null.");
 
@@ -208,10 +225,21 @@ public class MyEmailSender
 
     private void updateResults()
     {
-        MyUpdateEmailResultsCommand c;
-        c = new MyUpdateEmailResultsCommand();
-        c.setResults(_results);
-        c.run();
+        KmDao.run(this::updateResultsDao);
+    }
+
+    private void updateResultsDao()
+    {
+        for ( KmEmailResult r : _results )
+        {
+            String uid = (String)r.getEmailKey();
+            MyEmail email = MyEmailFinder.staticFind(uid);
+
+            if ( r.isOk() )
+                email.markSent();
+            else
+                email.markError(r.getErrorMessage());
+        }
     }
 
     //##################################################

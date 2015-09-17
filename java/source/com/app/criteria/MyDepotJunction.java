@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -23,65 +22,45 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyDepotJunction
-    extends KmModelJunction
+    extends KmhModelJunction
     implements MyDepotDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyDepotJunction(KmJunction context)
+    public MyDepotJunction(KmhJunction context)
     {
         super(context);
-    }
-
-    public MyDepotJunction(KmJunction context, KmAbstractCriteria parent)
-    {
-        super(context, parent);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereName()
+    public KmhStringCondition whereName()
     {
-        return new KmStringCriteria(context(), fullName(NAME));
+        return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmStringCriteria wherePhone()
+    public KmhStringCondition wherePhone()
     {
-        return new KmStringCriteria(context(), fullName(PHONE));
+        return new KmhStringCondition(context(), fullName(PHONE));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
     //# associations
     //##################################################
-
-    public MyProjectCriteria joinToProject()
-    {
-        return join(new MyProjectCriteria(root().joinTo(PROJECT)));
-    }
-
-    public MyProjectCriteria leftJoinToProject()
-    {
-        return join(new MyProjectCriteria(root().leftJoinTo(PROJECT)));
-    }
-
-    public KmStringCriteria whereProjectUid()
-    {
-        return new KmStringCriteria(context(), fullName(PROJECT_UID));
-    }
 
     //##################################################
     //# junction
@@ -89,12 +68,12 @@ public class MyDepotJunction
 
     public MyDepotJunction addAnd()
     {
-        return new MyDepotJunction(context().addAnd(), parent());
+        return new MyDepotJunction(context().addAnd());
     }
 
     public MyDepotJunction addOr()
     {
-        return new MyDepotJunction(context().addOr(), parent());
+        return new MyDepotJunction(context().addOr());
     }
 
 }

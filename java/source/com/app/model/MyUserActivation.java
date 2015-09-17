@@ -36,6 +36,6 @@ public class MyUserActivation
 
     public String formatEntryUrl()
     {
-        return MyUserActivationPage.instance.formatEntryUrl(this);
+        return MyUserActivationPage.getInstance().formatEntryUrl(this);
     }
 }

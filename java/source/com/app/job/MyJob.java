@@ -1,9 +1,9 @@
 package com.app.job;
 
 import com.kodemore.job.KmJob;
+import com.kodemore.time.KmClock;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.KmClock;
 
 import com.app.model.MyPerformanceLogRegistry;
 import com.app.property.MyPropertyRegistry;
@@ -52,7 +52,7 @@ public abstract class MyJob
     }
 
     /**
-     * Determines when maintenance jobs should run.  Typically
+     * Determines when maintenance jobs should run.  Typically 
      * returns from for something like 1am-4am, daily.  Or
      * once a week on Sunday night.
      */

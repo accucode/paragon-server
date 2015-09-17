@@ -5,6 +5,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * I WRAP a Collection, which allows subclasses to easily extend
+ * the collection interface without needing to copy the contents
+ * to a new list.  This can be especially useful when working with
+ * either large lists, or lists are backed by some other functionality
+ * such as hibernate.
+ *
+ * In general, my only methods should be those that are required to
+ * implement the Collection interface by delegating all methods to
+ * the backing store.
+ */
 public class KmCollectionWrapper<T>
     implements Collection<T>, Serializable
 {

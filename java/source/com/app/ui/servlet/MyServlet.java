@@ -3,8 +3,7 @@ package com.app.ui.servlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.kodemore.command.KmDaoCommand;
-import com.kodemore.command.KmDaoResultCommand;
+import com.kodemore.command.KmDao;
 import com.kodemore.servlet.ScAbstractServlet;
 
 import com.app.property.MyPropertyRegistry;
@@ -38,29 +37,20 @@ public abstract class MyServlet
     //# server session
     //##################################################
 
-    protected void beginServerSession()
+    protected final void beginServerSession()
     {
-        new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                MyServerSessionManager.beginSession();
-                MySignInUtility.checkAutoSignIn();
-            }
-        }.run();
+        KmDao.run(this::beginServerSessionDao);
+    }
+
+    private void beginServerSessionDao()
+    {
+        MyServerSessionManager.beginSession();
+        MySignInUtility.checkAutoSignIn();
     }
 
     protected boolean touchServerSession()
     {
-        return new KmDaoResultCommand<Boolean>()
-        {
-            @Override
-            protected Boolean handleResult()
-            {
-                return MyServerSessionManager.touchSession();
-            }
-        }.runResult();
+        return KmDao.fetch(MyServerSessionManager::touchSession);
     }
 
     protected boolean hasValidServerSession()
@@ -70,14 +60,7 @@ public abstract class MyServlet
 
     protected void endServerSession()
     {
-        new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                MyServerSessionManager.endSession();
-            }
-        }.run();
+        KmDao.run(MyServerSessionManager::endSession);
     }
 
     //##################################################

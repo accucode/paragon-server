@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,33 +30,28 @@ public class MyProjectCriteria
     //# constructor
     //##################################################
 
-    public MyProjectCriteria(KmCriteria parent)
+    public MyProjectCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyProjectCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereName()
+    public KmhStringCondition whereName()
     {
-        return new KmStringCriteria(context(), fullName(NAME));
+        return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
@@ -349,6 +343,20 @@ public class MyProjectCriteria
     }
 
     //##################################################
+    //# collection (AttentionGroups)
+    //##################################################
+
+    public MyAttentionGroupCriteria joinToAttentionGroups()
+    {
+        return new MyAttentionGroupCriteria(joinTo(ATTENTION_GROUPS));
+    }
+
+    public MyAttentionGroupCriteria leftJoinToAttentionGroups()
+    {
+        return new MyAttentionGroupCriteria(leftJoinTo(ATTENTION_GROUPS));
+    }
+
+    //##################################################
     //# collection (Products)
     //##################################################
 
@@ -403,15 +411,4 @@ public class MyProjectCriteria
     {
         return new MyProjectJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyProjectCriteria createOn(KmModelJunction junction)
-    {
-        return new MyProjectCriteria(parent(), junction.context());
-    }
-
 }

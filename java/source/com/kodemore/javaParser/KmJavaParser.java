@@ -221,7 +221,7 @@ public class KmJavaParser
 
         i = s.indexOf("(");
         if ( i < 0 )
-            throw newFatal("Cannot find open parenthesis in: " + source);
+            throw Kmu.newFatal("Cannot find open parenthesis in: " + source);
 
         String params = s.substring(i);
 
@@ -232,8 +232,9 @@ public class KmJavaParser
             return null; // constructor
 
         if ( arr.length != 2 )
-            throw newFatal("Expected to find exactly two tokens (return & name) before open parenthesis in: "
-                + source);
+            throw Kmu.newFatal(
+                "Expected to find two tokens (return & name) before open parenthesis in: %s.",
+                source);
 
         m.setReturnType(arr[0]);
         m.setName(arr[1]);
@@ -255,7 +256,7 @@ public class KmJavaParser
             arr = p.split(" ");
 
             if ( arr.length != 2 )
-                throw newFatal("Expected parameter (%s), to split into two parts.", p);
+                throw Kmu.newFatal("Expected parameter (%s), to split into two parts.", p);
 
             m.addArgument(arr[1], arr[0]);
         }
@@ -325,14 +326,4 @@ public class KmJavaParser
 
         return Kmu.parseInteger(s);
     }
-
-    //##################################################
-    //# utility
-    //##################################################
-
-    private RuntimeException newFatal(String msg, Object... args)
-    {
-        return Kmu.newFatal(msg, args);
-    }
-
 }

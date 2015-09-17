@@ -72,7 +72,7 @@ public class MyDaoBridge
     @Override
     protected int getStaleObjectRetryDelayMs()
     {
-        return 0;
+        return 100;
     }
 
     @Override

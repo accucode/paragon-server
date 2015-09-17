@@ -6,14 +6,27 @@ import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyHideErrorsTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyHideErrorsTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyHideErrorsTestPage instance = new MyHideErrorsTestPage();
+    private static MyHideErrorsTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyHideErrorsTestPage();
+    }
+
+    public static MyHideErrorsTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyHideErrorsTestPage()
     {
@@ -28,17 +41,27 @@ public class MyHideErrorsTestPage
     private ScGroup _groupTwo;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -77,6 +100,16 @@ public class MyHideErrorsTestPage
         buttons = group.getBody().addButtonBox();
         buttons.addSubmitButton("Validate");
         buttons.addButton("Hide All Errors", this::handleHideAllErrors);
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

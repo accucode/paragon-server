@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.function.Function;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.meta.KmMetaProperty;
 
 /**
  * I provide a convenient way to combine existing comparator into
@@ -120,11 +119,6 @@ public class KmCompositeComparator<T>
     public void add(Function<T,Comparable<?>> f)
     {
         add(KmComparator.createWith(f));
-    }
-
-    public void add(KmMetaProperty<T,?> e)
-    {
-        add(e.getComparator());
     }
 
     //==================================================

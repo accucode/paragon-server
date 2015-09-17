@@ -3,6 +3,7 @@ package com.app.ui.layout;
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.action.ScAction;
+import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.field.ScDropdownMenu;
 import com.kodemore.servlet.utility.ScUrls;
@@ -10,6 +11,8 @@ import com.kodemore.servlet.utility.ScUrls;
 import com.app.model.MyProject;
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
+import com.app.ui.page.general.MySignOutPage;
+import com.app.ui.page.login.MySignInUtility;
 import com.app.ui.page.userProfile.MyUserProfilePage;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyGlobals;
@@ -26,12 +29,12 @@ public class MyPageHeader
     /**
      * This is the box we put the logo and app title in.
      */
-    private ScDiv          _leftDiv;
+    private ScDiv _leftDiv;
 
     /**
      * This is the box we put the project and user dropdowns in.
      */
-    private ScDiv          _rightDiv;
+    private ScDiv _rightDiv;
 
     private ScDropdownMenu _userDropdown;
     private ScDropdownMenu _projectDropdown;
@@ -70,18 +73,31 @@ public class MyPageHeader
     {
         _userDropdown = new ScDropdownMenu();
         _userDropdown.setTitle("User");
-        _userDropdown.addItem("Profile", this::handleEditUserProfile);
-        _userDropdown.addItem("Log out", this::handleLogout);
+        _userDropdown.addItem("Profile", newEditUserProfileAction());
+        _userDropdown.addItem("Log out", newLogoutAction());
+    }
+
+    private ScAction newEditUserProfileAction()
+    {
+        return getGlobalContext().newAction(this::handleEditUserProfile);
+    }
+
+    private ScAction newLogoutAction()
+    {
+        return getGlobalContext().newAction(this::handleLogout);
     }
 
     private void handleEditUserProfile()
     {
-        MyUserProfilePage.instance.ajaxPush();
+        MyUserProfilePage.getInstance().ajaxEnter();
     }
 
     private void handleLogout()
     {
-        MyNavigator.logout();
+        MySignInUtility.signOut();
+        MyPageLayout.getInstance().ajaxRefreshHeaderContent();
+        MyPageLayout.getInstance().ajaxClearContent();
+        MySignOutPage.getInstance().ajaxEnter();
     }
 
     //==================================================
@@ -90,7 +106,7 @@ public class MyPageHeader
 
     private void installProjectDropdown()
     {
-        _selectProjectAction = createAction(this::handleSelectProject);
+        _selectProjectAction = newSelectProjectAction();
 
         _projectDropdown = new ScDropdownMenu();
         _projectDropdown.setTitle("Project");
@@ -103,6 +119,11 @@ public class MyPageHeader
     private ScAction getSelectProjectAction()
     {
         return _selectProjectAction;
+    }
+
+    private ScAction newSelectProjectAction()
+    {
+        return getGlobalContext().newAction(this::handleSelectProject);
     }
 
     private void handleSelectProject()
@@ -216,7 +237,7 @@ public class MyPageHeader
 
         KmList<MyProject> v;
         v = u.getProjects();
-        v.sortOn(MyProject.Meta.Name);
+        v.sortOn(MyProject::getName);
         return v;
     }
 
@@ -238,4 +259,10 @@ public class MyPageHeader
     {
         return MyGlobals.getServerSession();
     }
+
+    private ScGlobalContext getGlobalContext()
+    {
+        return ScGlobalContext.getInstance();
+    }
+
 }

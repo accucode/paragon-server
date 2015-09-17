@@ -25,12 +25,12 @@ package com.kodemore.utility;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import com.kodemore.collection.KmList;
+
 import bsh.EvalError;
 import bsh.Interpreter;
 import bsh.ParseException;
 import bsh.TargetError;
-
-import com.kodemore.collection.KmList;
 
 /**
  * I am a wrapper for BeanShell.

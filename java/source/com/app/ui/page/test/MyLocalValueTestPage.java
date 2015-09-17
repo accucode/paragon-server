@@ -15,17 +15,30 @@ import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.servlet.variable.ScLocalStringList;
 import com.kodemore.utility.Kmu;
 
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
 /**
  * Test of the ScLocal pattern.
  */
-public class MyLocalValueTestPage
-    extends MyAbstractTestEntryPage
+public final class MyLocalValueTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyLocalValueTestPage instance = new MyLocalValueTestPage();
+    private static MyLocalValueTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyLocalValueTestPage();
+    }
+
+    public static MyLocalValueTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyLocalValueTestPage()
     {
@@ -36,9 +49,9 @@ public class MyLocalValueTestPage
     //# variables
     //##################################################
 
-    private ScGroup           _fieldGroup;
-    private ScTextField       _textField;
-    private ScIntegerField    _integerField;
+    private ScGroup        _fieldGroup;
+    private ScTextField    _textField;
+    private ScIntegerField _integerField;
 
     private ScLocalStringList _listValues1;
     private ScTextArea        _listField1;
@@ -47,17 +60,27 @@ public class MyLocalValueTestPage
     private ScTextArea        _listField2;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -93,16 +116,17 @@ public class MyLocalValueTestPage
 
         ScBox body;
         body = group.getBody().addPad();
-        body.addBox().addText(
-            ""
-                + "'Local' allow the developer to manage state in multi-tenant "
-                + "servlets similar to managing state in single-threaded, "
-                + "single-user, desktop apps.  Each local value has a default "
-                + "state that is defined during the application installation. "
-                + "Subsequent changes during http requests are kept private to "
-                + "the current thread (request).  Additionally, state can be 'saved' "
-                + "to the page session so that the value is retained across multiple "
-                + "http requests for a given user session.");
+        body.addBox()
+            .addText(
+                ""
+                    + "'Local' variables allow the developer to manage state in multi-tenant "
+                    + "servlets similar to managing state in single-threaded, "
+                    + "single-user, desktop apps.  Each local value has a default "
+                    + "state that is defined during the application installation. "
+                    + "Subsequent changes during http requests are kept private to "
+                    + "the current thread (request).  Additionally, state can be 'saved' "
+                    + "to the page session so that the value is retained across multiple "
+                    + "http requests for a given user session.");
 
         body.addBreak();
 
@@ -147,11 +171,12 @@ public class MyLocalValueTestPage
 
         ScBox body;
         body = group.getBody().addPad();
-        body.addBox().addText(
-            ""
-                + "This sample tests ScLocalList directly, the field is used "
-                + "only to update and display the stored values. Enter multiple "
-                + "values separated by commas or new lines.");
+        body.addBox()
+            .addText(
+                ""
+                    + "This sample tests ScLocalList directly, the field is used "
+                    + "only to update and display the stored values. Enter multiple "
+                    + "values separated by commas or new lines.");
 
         body.addBreak();
 
@@ -182,8 +207,6 @@ public class MyLocalValueTestPage
     @Override
     public void preRender()
     {
-        super.preRender();
-
         updateLists();
     }
 
@@ -268,10 +291,10 @@ public class MyLocalValueTestPage
     {
         String s;
 
-        s = _listValues1.getValue().format("\n");
+        s = _listValues1.getValue().join("\n");
         _listField1.setValue(s);
 
-        s = _listValues2.getValue().format("\n");
+        s = _listValues2.getValue().join("\n");
         _listField2.setValue(s);
     }
 

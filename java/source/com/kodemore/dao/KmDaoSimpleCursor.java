@@ -23,7 +23,7 @@
 package com.kodemore.dao;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.hibernate.criteria.KmCriteria;
+import com.kodemore.hibernate.basic.KmhRootCriteria;
 
 /**
  * A simple cursor that can be used with almost any criteria.
@@ -45,18 +45,18 @@ public class KmDaoSimpleCursor<T>
     /**
      * The criteria to be iterated over.
      */
-    private KmCriteria _criteria;
+    private KmhRootCriteria _criteria;
 
     /**
      * The next index to retrieve from.
      */
-    private int        _index;
+    private int _index;
 
     //##################################################
     //# accessing
     //##################################################
 
-    public void setCriteria(KmCriteria e)
+    public void setCriteria(KmhRootCriteria e)
     {
         _criteria = e;
         _criteria.setMaxResults(100);

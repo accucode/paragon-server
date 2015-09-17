@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MyShipCarrierDaoBase
     @Override
     public MyShipCarrierCriteria createCriteria()
     {
-        return new MyShipCarrierCriteria(createGenericCriteria());
+        return new MyShipCarrierCriteria(_createCriteria());
+    }
+
+    @Override
+    public MyShipCarrierCriteria createDetachedCriteria(String alias)
+    {
+        return new MyShipCarrierCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaShipCarrier getMeta()

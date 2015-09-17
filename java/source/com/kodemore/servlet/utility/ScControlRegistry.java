@@ -22,8 +22,6 @@
 
 package com.kodemore.servlet.utility;
 
-import com.sun.istack.internal.NotNull;
-
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.log.KmLog;
@@ -64,8 +62,8 @@ public class ScControlRegistry
     //# variables
     //##################################################
 
-    private int                                _nextPersistentId;
-    private KmMap<String,ScKeyIF>              _persistentValues;
+    private int                   _nextPersistentId;
+    private KmMap<String,ScKeyIF> _persistentValues;
 
     private boolean                            _locked;
     private ThreadLocal<KmMap<String,ScKeyIF>> _transientValues;
@@ -129,7 +127,7 @@ public class ScControlRegistry
     //# accessing
     //##################################################
 
-    public @NotNull ScAction getAction(String key)
+    public ScAction getAction(String key)
     {
         Object e = findKey(key);
 

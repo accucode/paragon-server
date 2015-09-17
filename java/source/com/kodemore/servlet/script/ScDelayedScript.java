@@ -34,8 +34,8 @@ public class ScDelayedScript
 
     private ScBlockScript _script;
 
-    private boolean       _onReady;
-    private int           _delayMs;
+    private boolean _onReady;
+    private int     _delayMs;
 
     //##################################################
     //# constructor

@@ -5,11 +5,11 @@ Introduction
     This describes how to set up a machine to act as a development box.
 
 -----------------
-Java JDK 1.8
+Java JDK 1.7
 -----------------
 
     This is a java project.
-    Required version: 1.8.x
+    Required version: 1.7.x
 
 -----------------
 Tomcat 7
@@ -100,6 +100,17 @@ MySql Database
     You can disable it at Control Panel > Windows Firewall
 
 -----------------
+Environment Vars
+-----------------
+
+ You need to set the following environment variables to match the folders on your hard drive.
+    
+        JAVA_HOME       - this should point to the root folder of the installed jdk    
+        ANT_HOME        - This should point to where you installed Ant
+        TOMCAT_HOME     - This should point to where you installed Tomcat
+        CATALINA_HOME   - This should also point to where you installed Tomcat
+
+-----------------
 Local Environment
 -----------------
 
@@ -126,7 +137,7 @@ Local Environment
             This control the log4j logging utility.  You may need to modify
             the file path.
             
-        $project/web/WEB-INF/resource/webInstall/ROOT.xml
+        $project/web/WEB-INF/resource/webInstall/app.xml
             This controls the tomcat servlet.  You need to ensure the 
             file path points to your $project/web folder.
 
@@ -134,34 +145,17 @@ Local Environment
     should export them so that they can be saved to the git repo.
     
         ant -f antSetup.xml exportSettings
-            Enter your personal login when prompted, this is typically
-            a first initial + last name.  E.g. bsmith (for bob smith).
-            
-
------------------
-Configure Eclipse
------------------
-
-    To avoid custom configuration of the o/s environment, we instead configure
-    the environment of the ant script from within Eclipse:
-    
-        Run > External Tools > External Tool Configurations...
-            > Environment (tab) > New...
-            
-            Name: CATALINA_HOME
-            Value: <<your tomcat/catalina folder>>    
+        (enter your AccuCode login when prompted; e.g.: "wlove")
 
 -----------------
 Configure Tomcat
 -----------------
 
-    You already installed a base implementation of the Tomcat servlet container.
+ You already installed a base implementation of the Tomcat servlet container.
     Now that you have configured your local environment, you can point Tomcat
     to our application.  Simply run the ant script:
     
         ant -f antSetup.xml configureTomcat
-
-    Note, this requires the eclipse configuration above.
 
 -----------------
 Compile Java
@@ -201,9 +195,9 @@ Eclipse Memory
 Eclipse Debugging
 -----------------
 
-    The following is NOT recommended.
-    The debugging tools often cause more problems than they solve.
-    That said, there are some instances where they may be appropriate.
+    The following is not recommended as the debugging tools often cause more problems
+    than they solve.  That said, there are some instances where they can be useful so
+    these notes are left in for now.
 
     Tomcat can be started from within Eclipse so that debugging is through the IDE.
     Sysdeo is a good plugin, and it also comes with a plugin for Hot Code updates
@@ -223,23 +217,5 @@ Eclipse Debugging
     (assuming you are using Sysdeo or equivalent) any code changes as soon as
     they are saved (and therefore automatically compiled).
 
------------------
-Launching Tomcat
------------------
-
-    Create a .bat file inside $tomcat/bin named something like "_startParagon.bat", 
-    this will be the firle responsible for launching tomcat for this project.  The .bat
-    file should contain the following:
-   
-        @setlocal
-        set JAVA_HOME=<<your tomcat/catalina folder>>
-        set TOMCAT_HOME=%~dp0%..
-        set CATALINA_HOME=%~dp0%..
-        set CATALINA_OPTS=-Xms512m -Xmx512m -XX:MaxPermSize=256m
-        
-        call %~dp0%startup.bat
-
-    Create a shortcut to this file so you can easily launch tomcat with the appropriate 
-    settings for this project.
-
 [end]
+

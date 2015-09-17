@@ -52,13 +52,13 @@
         <property
             name="createdUtcTs"
             column="createdUtcTs"
-            type="com.kodemore.hibernate.KmHibernateTimestampType"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property
             name="closedUtcTs"
             column="closedUtcTs"
-            type="com.kodemore.hibernate.KmHibernateTimestampType"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property

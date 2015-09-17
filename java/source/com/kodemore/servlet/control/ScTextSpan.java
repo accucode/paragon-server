@@ -25,6 +25,7 @@ package com.kodemore.servlet.control;
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.meta.KmMetaAttribute;
+import com.kodemore.servlet.renderer.ScRenderer;
 import com.kodemore.servlet.variable.ScLocalRenderer;
 
 /**
@@ -94,7 +95,7 @@ public class ScTextSpan
         renderAttributesOn(out);
         out.close();
 
-        _value.renderOn(out, this);
+        _value.renderOn(out, this, getModel());
 
         out.end("span");
     }

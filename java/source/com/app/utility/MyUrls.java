@@ -31,7 +31,7 @@ public class MyUrls
 
     public static String getPasswordResetUrl(MyPasswordReset e)
     {
-        return MyPasswordResetPage.instance.formatEntryUrl(e);
+        return MyPasswordResetPage.getInstance().formatEntryUrl(e);
     }
 
     public static String getCallbackUrl()

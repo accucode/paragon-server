@@ -63,7 +63,7 @@ public class ScLocalOptionList
         "unchecked",
         "rawtypes"
     })
-    public void add(Collection<?> v, KmAdaptorIF valueAdaptor, KmAdaptorIF labelAdaptor)
+    public void addAll(Collection<?> v, KmAdaptorIF valueAdaptor, KmAdaptorIF labelAdaptor)
     {
         ScFormatter c = ScFormatter.getInstance();
         for ( Object e : v )
@@ -91,8 +91,8 @@ public class ScLocalOptionList
     @SuppressWarnings("rawtypes")
     public <T> void set(Collection<T> v, KmAdaptorIF valueAdaptor, KmAdaptorIF labelAdaptor)
     {
-        resetValue();
-        add(v, valueAdaptor, labelAdaptor);
+        clearValue();
+        addAll(v, valueAdaptor, labelAdaptor);
     }
 
 }

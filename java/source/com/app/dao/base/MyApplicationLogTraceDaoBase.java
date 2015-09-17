@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MyApplicationLogTraceDaoBase
     @Override
     public MyApplicationLogTraceCriteria createCriteria()
     {
-        return new MyApplicationLogTraceCriteria(createGenericCriteria());
+        return new MyApplicationLogTraceCriteria(_createCriteria());
+    }
+
+    @Override
+    public MyApplicationLogTraceCriteria createDetachedCriteria(String alias)
+    {
+        return new MyApplicationLogTraceCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaApplicationLogTrace getMeta()

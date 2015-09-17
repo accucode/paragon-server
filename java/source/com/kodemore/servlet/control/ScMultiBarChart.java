@@ -29,7 +29,7 @@ import com.kodemore.utility.Kmu;
 
 /**
  * This chart is similar to the ScLineChart, displaying several data sets
- * with many points, but in the form of a bar chart.
+ * with many points, but in the form of a bar chart.  
  */
 public class ScMultiBarChart
     extends ScAbstractChart
@@ -38,9 +38,9 @@ public class ScMultiBarChart
     //# constants
     //##################################################
 
-    private static final int      DEFAULT_DELAY                = 600;
-    private static final double   DEFAULT_GROUP_SPACING        = 0.1;
-    private static final int      DEFAULT_ROTATE_LABEL_DEGREES = 0;
+    private static final int    DEFAULT_DELAY                = 600;
+    private static final double DEFAULT_GROUP_SPACING        = 0.1;
+    private static final int    DEFAULT_ROTATE_LABEL_DEGREES = 0;
 
     //##################################################
     //# variables
@@ -50,24 +50,24 @@ public class ScMultiBarChart
      * The time delay between animating individual bars, or groups
      * or bars.
      */
-    private int                   _delay;
+    private int _delay;
 
     /**
      * The spacing between groups.  Value seems to be the ratio of the
      * size of the space to the size of the data.  Default is 0.1.
      */
-    private double                _groupSpacing;
+    private double _groupSpacing;
 
     /**
      * The X axis labels will be rotated by this many degrees.  Useful
      * if x axis precision is high, or if labels are long.
      */
-    private int                   _rotateLabelsDegrees;
+    private int _rotateLabelsDegrees;
 
     /**
      * Determines whether or not the grouped / stacked buttons are shown.
      */
-    private boolean               _showGroupStackControl;
+    private boolean _showGroupStackControl;
 
     /**
      * The list of data seried to be displayed in the chart

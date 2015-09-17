@@ -25,7 +25,8 @@ package com.kodemore.servlet;
 import java.util.List;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.collection.KmMap;
+import com.kodemore.collection.KmOrderedMap;
+import com.kodemore.log.KmLog;
 import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
@@ -62,7 +63,7 @@ public class ScParameterList
     //# variables
     //##################################################
 
-    private KmMap<String,KmList<String>> _map;
+    private KmOrderedMap<String,KmList<String>> _map;
 
     //##################################################
     //# constructor
@@ -70,7 +71,7 @@ public class ScParameterList
 
     public ScParameterList()
     {
-        _map = new KmMap<>();
+        _map = new KmOrderedMap<>();
     }
 
     //##################################################
@@ -129,6 +130,9 @@ public class ScParameterList
             return;
         }
 
+        if ( hasKey(key) )
+            KmLog.warnTrace("Duplicate key '%s', old value is overwritten.", key);
+
         KmList<String> v = KmList.createWith(value);
         _map.put(key, v);
     }
@@ -179,22 +183,6 @@ public class ScParameterList
     //##################################################
     //# accessing
     //##################################################
-
-    public KmMap<String,KmList<String>> getFullMap()
-    {
-        return _map;
-    }
-
-    public KmMap<String,String> getMap()
-    {
-        KmMap<String,String> m = new KmMap<>();
-
-        KmList<String> keys = getKeys();
-        for ( String key : keys )
-            m.put(key, getValue(key));
-
-        return m;
-    }
 
     public KmList<String> getKeys()
     {

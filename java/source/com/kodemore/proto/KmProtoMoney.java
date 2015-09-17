@@ -1,7 +1,7 @@
 package com.kodemore.proto;
 
 import com.kodemore.generator.model.KmgModelType;
-import com.kodemore.hibernate.KmHibernateMoneyType;
+import com.kodemore.hibernate.type.KmhMoneyType;
 import com.kodemore.meta.KmMetaMoneyProperty;
 import com.kodemore.servlet.field.ScMoneyField;
 import com.kodemore.types.KmMoney;
@@ -32,7 +32,7 @@ public class KmProtoMoney
     @Override
     public String getHibernateType()
     {
-        return KmHibernateMoneyType.class.getName();
+        return KmhMoneyType.class.getName();
     }
 
     @Override

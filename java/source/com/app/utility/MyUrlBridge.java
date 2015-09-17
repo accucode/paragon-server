@@ -72,7 +72,7 @@ public class MyUrlBridge
     @Override
     public String getWeb(String... path)
     {
-        //Assumes ROOT (implied) context
+        // Assumes ROOT (implied) context
         return join("/", join(path));
     }
 

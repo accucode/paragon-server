@@ -20,7 +20,7 @@ public enum MyLabelOrientation
     //# find
     //##################################################
 
-    private static final KmList<MyLabelOrientation>       _values;
+    private static final KmList<MyLabelOrientation> _values;
     private static final KmMap<String,MyLabelOrientation> _codes;
 
     static

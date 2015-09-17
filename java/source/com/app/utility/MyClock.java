@@ -1,7 +1,7 @@
 package com.app.utility;
 
+import com.kodemore.time.KmClock;
 import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.KmClock;
 
 /**
  * I override the default clock, sacrificing a little bit

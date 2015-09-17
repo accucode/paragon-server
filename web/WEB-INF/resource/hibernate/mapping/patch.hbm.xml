@@ -34,7 +34,7 @@
         <property
             name="installedUtcTs"
             column="installedUtcTs"
-            type="com.kodemore.hibernate.KmHibernateTimestampType"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
             />
 
         <property

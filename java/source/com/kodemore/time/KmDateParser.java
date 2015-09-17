@@ -22,8 +22,7 @@
 
 package com.kodemore.time;
 
-import java.util.List;
-
+import com.kodemore.collection.KmList;
 import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
 
@@ -59,8 +58,8 @@ public class KmDateParser
     //##################################################
 
     // kludge: change to enum
-    public static final int ONE_NUMBER_MODE_NONE                   = 0;
-    public static final int ONE_NUMBER_MODE_DAY_OFFSET             = 1;
+    public static final int ONE_NUMBER_MODE_NONE       = 0;
+    public static final int ONE_NUMBER_MODE_DAY_OFFSET = 1;
 
     public static final int TWO_NUMBER_MODE_NONE                   = 0;
     public static final int TWO_NUMBER_MODE_MONTH_DAY_CLOSEST_YEAR = 1;
@@ -68,22 +67,22 @@ public class KmDateParser
     public static final int TWO_NUMBER_MODE_MONTH_YEAR_FIRST_DAY   = 3;
     public static final int TWO_NUMBER_MODE_MONTH_YEAR_LAST_DAY    = 4;
 
-    public static final int THREE_NUMBER_MODE_NONE                 = 0;
-    public static final int THREE_NUMBER_MODE_MONTH_DAY_YEAR       = 1;
-    public static final int THREE_NUMBER_MODE_YEAR_MONTH_DAY       = 2;
+    public static final int THREE_NUMBER_MODE_NONE           = 0;
+    public static final int THREE_NUMBER_MODE_MONTH_DAY_YEAR = 1;
+    public static final int THREE_NUMBER_MODE_YEAR_MONTH_DAY = 2;
 
     //##################################################
     //# variables
     //##################################################
 
-    private char            _separator;
-    private int             _centurySplitYear;
-    private int             _minimumYear;
-    private int             _maximumYear;
+    private char _separator;
+    private int  _centurySplitYear;
+    private int  _minimumYear;
+    private int  _maximumYear;
 
-    private int             _oneNumberMode;
-    private int             _twoNumberMode;
-    private int             _threeNumberMode;
+    private int _oneNumberMode;
+    private int _twoNumberMode;
+    private int _threeNumberMode;
 
     //##################################################
     //# constructor
@@ -189,20 +188,23 @@ public class KmDateParser
         {
             if ( s == null )
                 return null;
-            s = s.trim();
 
-            int[] arr = getFields(s);
-            switch ( arr.length )
+            KmList<Integer> arr = getFields(s);
+            if ( arr.containsNull() )
+                return null;
+
+            switch ( arr.size() )
             {
                 case 1:
-                    return parse1(arr);
+                    return parse1(arr.get(0));
 
                 case 2:
-                    return parse2(arr);
+                    return parse2(arr.get(0), arr.get(1));
 
                 case 3:
-                    return parse3(arr);
+                    return parse3(arr.get(0), arr.get(1), arr.get(2));
             }
+
             return null;
         }
         catch ( IllegalArgumentException ex )
@@ -211,120 +213,139 @@ public class KmDateParser
         }
     }
 
-    public int[] getFields(String s)
+    public KmList<Integer> getFields(String s)
     {
-        List<String> v = Kmu.tokenize(s, _separator);
-        int n = v.size();
-        int[] arr = new int[n];
-        for ( int i = 0; i < n; i++ )
-            arr[i] = Kmu.parse_int(v.get(i));
-        return arr;
+        return Kmu.tokenize(s.trim(), _separator).collect(e -> Kmu.parseInteger(e));
     }
 
-    private KmDate parse1(int[] arr)
+    //==================================================
+    //= parse 1
+    //==================================================
+
+    private KmDate parse1(int a)
     {
         if ( _oneNumberMode == ONE_NUMBER_MODE_DAY_OFFSET )
-        {
-            int i = arr[0];
-            if ( i == UNDEFINED_INT )
-                return null;
+            return parse1_dayOffset(a);
 
-            KmDate d = KmDate.createOffsetUtc(i);
-
-            int yy = d.getYear();
-            if ( yy < _minimumYear )
-                return null;
-
-            if ( yy > _maximumYear )
-                return null;
-
-            return d;
-        }
         return null;
     }
 
-    private KmDate parse2(int[] arr)
+    private KmDate parse1_dayOffset(int a)
+    {
+        KmDate d = KmDate.createOffsetUtc(a);
+
+        int yy = d.getYear();
+        if ( yy < _minimumYear )
+            return null;
+
+        if ( yy > _maximumYear )
+            return null;
+
+        return d;
+    }
+
+    //==================================================
+    //= parse 2
+    //==================================================
+
+    private KmDate parse2(int a, int b)
     {
         if ( _twoNumberMode == TWO_NUMBER_MODE_MONTH_DAY_CLOSEST_YEAR )
-        {
-            int mm = arr[0];
-            int dd = arr[1];
+            return parse2_mmdd_closestYear(a, b);
 
-            if ( mm == UNDEFINED_INT || dd == UNDEFINED_INT )
-                return null;
-
-            KmDate today = KmDate.createTodayUtc();
-            int yy = today.getYear();
-
-            KmDate d1 = KmDate.create(yy - 1, mm, dd);
-            KmDate d2 = KmDate.create(yy, mm, dd);
-            KmDate d3 = KmDate.create(yy + 1, mm, dd);
-
-            int n1 = Math.abs(d1.getDaysUntil(today));
-            int n2 = Math.abs(d2.getDaysUntil(today));
-            int n3 = Math.abs(d3.getDaysUntil(today));
-
-            if ( n1 < n2 )
-                return d1;
-
-            if ( n3 < n2 )
-                return d3;
-
-            return d2;
-        }
         if ( _twoNumberMode == TWO_NUMBER_MODE_MONTH_DAY_CURRENT_YEAR )
-        {
-            int mm = arr[0];
-            int dd = arr[1];
+            return parse2_mmdd_currentYear(a, b);
 
-            if ( mm == UNDEFINED_INT || dd == UNDEFINED_INT )
-                return null;
-
-            int yy = KmDate.createTodayUtc().getYear();
-
-            return createDate(yy, mm, dd);
-        }
         if ( _twoNumberMode == TWO_NUMBER_MODE_MONTH_YEAR_FIRST_DAY )
-        {
-            if ( arr[0] == UNDEFINED_INT || arr[1] == UNDEFINED_INT )
-                return null;
+            return parse2_mmyy_firstDay(a, b);
 
-            int mm = arr[0];
-            int yy = coerceYear(arr[1]);
-
-            int dd = 1;
-            return createDate(yy, mm, dd);
-        }
         if ( _twoNumberMode == TWO_NUMBER_MODE_MONTH_YEAR_LAST_DAY )
-        {
-            if ( arr[0] == UNDEFINED_INT || arr[1] == UNDEFINED_INT )
-                return null;
+            return parse2_mmyy_lastDay(a, b);
 
-            int mm = arr[0];
-            int yy = coerceYear(arr[1]);
-            int dd = KmDateUtility.getDaysInYearMonth(yy, mm);
-            return createDate(yy, mm, dd);
-        }
         return null;
     }
 
-    private KmDate parse3(int[] arr)
+    private KmDate parse2_mmdd_closestYear(int a, int b)
+    {
+        int mm = a;
+        int dd = b;
+
+        KmDate today = KmDate.createTodayUtc();
+        int yy = today.getYear();
+
+        KmDate d1 = KmDate.create(yy - 1, mm, dd);
+        KmDate d2 = KmDate.create(yy, mm, dd);
+        KmDate d3 = KmDate.create(yy + 1, mm, dd);
+
+        int n1 = Math.abs(d1.getDaysUntil(today));
+        int n2 = Math.abs(d2.getDaysUntil(today));
+        int n3 = Math.abs(d3.getDaysUntil(today));
+
+        if ( n1 < n2 )
+            return d1;
+
+        if ( n3 < n2 )
+            return d3;
+
+        return d2;
+    }
+
+    private KmDate parse2_mmdd_currentYear(int a, int b)
+    {
+        int mm = a;
+        int dd = b;
+        int yy = KmDate.createTodayUtc().getYear();
+
+        return createDate(yy, mm, dd);
+    }
+
+    private KmDate parse2_mmyy_firstDay(int a, int b)
+    {
+        int mm = a;
+        int yy = coerceYear(b);
+        int dd = 1;
+
+        return createDate(yy, mm, dd);
+    }
+
+    private KmDate parse2_mmyy_lastDay(int a, int b)
+    {
+        int mm = a;
+        int yy = coerceYear(b);
+        int dd = KmDateUtility.getDaysInYearMonth(yy, mm);
+
+        return createDate(yy, mm, dd);
+    }
+
+    //==================================================
+    //= parse 3
+    //==================================================
+
+    private KmDate parse3(int a, int b, int c)
     {
         if ( _threeNumberMode == THREE_NUMBER_MODE_MONTH_DAY_YEAR )
-        {
-            int mm = arr[0];
-            int dd = arr[1];
-            int yy = arr[2];
-            return createDate(yy, mm, dd);
-        }
+            return parse3_mmddyy(a, b, c);
+
         if ( _threeNumberMode == THREE_NUMBER_MODE_YEAR_MONTH_DAY )
-        {
-            int yy = arr[0];
-            int mm = arr[1];
-            int dd = arr[2];
-            return createDate(yy, mm, dd);
-        }
+            return parse3_yymmdd(a, b, c);
+
         return null;
+    }
+
+    private KmDate parse3_mmddyy(int a, int b, int c)
+    {
+        int mm = a;
+        int dd = b;
+        int yy = c;
+        return createDate(yy, mm, dd);
+    }
+
+    private KmDate parse3_yymmdd(int a, int b, int c)
+    {
+        int yy = a;
+        int mm = b;
+        int dd = c;
+        return createDate(yy, mm, dd);
     }
 
     //##################################################
@@ -335,12 +356,16 @@ public class KmDateParser
     {
         if ( yy == UNDEFINED_INT )
             return yy;
+
         if ( yy >= 100 )
             return yy;
+
         if ( yy >= _centurySplitYear )
             yy += 1900;
+
         else
             yy += 2000;
+
         return yy;
     }
 
@@ -350,16 +375,22 @@ public class KmDateParser
 
         if ( mm < 1 )
             return null;
+
         if ( mm > 12 )
             return null;
+
         if ( yy < getMinimumYear() )
             return null;
+
         if ( yy > getMaximumYear() )
             return null;
+
         if ( dd < 1 )
             return null;
+
         if ( dd > KmDateUtility.getDaysInYearMonth(yy, mm) )
             return null;
+
         return KmDate.create(yy, mm, dd);
     }
 

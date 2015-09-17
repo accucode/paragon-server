@@ -40,8 +40,8 @@ public class ScTable
 
     private KmList<ScTableRow> _rows;
 
-    private ScLocalCss         _defaultCellCss;
-    private ScLocalStyle       _defaultCellStyle;
+    private ScLocalCss   _defaultCellCss;
+    private ScLocalStyle _defaultCellStyle;
 
     //##################################################
     //# init

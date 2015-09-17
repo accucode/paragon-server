@@ -672,9 +672,10 @@ public class KmgModel
         KmgModelField e;
         e = addField();
         e.setName("lockVersion");
-        e.setHelp(""
-            + "This is used to coordinate optimistic locking in the database. "
-            + "This is usually not displayed.");
+        e.setHelp(
+            ""
+                + "This is used to coordinate optimistic locking in the database. "
+                + "This is usually not displayed.");
         e.setType("lockVersion");
     }
 
@@ -840,7 +841,7 @@ public class KmgModel
 
     private String toJavaString(String s)
     {
-        return "\"" + Kmu.escapeJavaString(s) + "\"";
+        return "\"" + Kmu.encodeJavaString(s) + "\"";
     }
 
     //##################################################

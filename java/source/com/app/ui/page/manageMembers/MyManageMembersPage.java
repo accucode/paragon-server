@@ -9,14 +9,24 @@ import com.app.model.MyMember;
 import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.support.MyManageDomainPage;
 
-public class MyManageMembersPage
+public final class MyManageMembersPage
     extends MyManageDomainPage<MyMember>
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManageMembersPage instance = new MyManageMembersPage();
+    private static MyManageMembersPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyManageMembersPage();
+    }
+
+    public static MyManageMembersPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyManageMembersPage()
     {
@@ -62,7 +72,7 @@ public class MyManageMembersPage
     {
         _viewCard = frame.addCard(new MyViewMemberCard());
         _viewCard.addSaveListener(this::handleEdited);
-        _viewCard.addRemoveListener(this::handleRemoved);
+        _viewCard.addRemoveListener(this::handleRemove);
     }
 
     //##################################################

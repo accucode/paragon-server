@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -350,44 +349,6 @@ public abstract class MyPerformanceLogBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("id") )
-            setId(p.getInteger("id"));
-
-        if ( p.hasKey("name") )
-            setName(p.getString("name"));
-
-        if ( p.hasKey("durationMs") )
-            setDurationMs(p.getInteger("durationMs"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasId() )
-            p.setInteger("id", getId());
-
-        if ( hasName() )
-            p.setString("name", getName());
-
-        if ( hasDurationMs() )
-            p.setInteger("durationMs", getDurationMs());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

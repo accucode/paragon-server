@@ -18,27 +18,27 @@ public class KmZendeskTicket
     //# variables (public)
     //##################################################
 
-    private String                       _url;
-    private String                       _type;
-    private String                       _subject;
-    private String                       _description;
-    private String                       _priority;
-    private String                       _status;
-    private String                       _recipient;
+    private String _url;
+    private String _type;
+    private String _subject;
+    private String _description;
+    private String _priority;
+    private String _status;
+    private String _recipient;
 
-    private Integer                      _id;
-    private Integer                      _externalId;
-    private Integer                      _requesterId;
-    private Integer                      _submitterId;
-    private Integer                      _assigneeId;
-    private Integer                      _organizationId;
-    private Integer                      _groupId;
-    private Integer                      _forumTopicId;
-    private Integer                      _problemId;
-    private Integer                      _ticketFormId;
+    private Integer _id;
+    private Integer _externalId;
+    private Integer _requesterId;
+    private Integer _submitterId;
+    private Integer _assigneeId;
+    private Integer _organizationId;
+    private Integer _groupId;
+    private Integer _forumTopicId;
+    private Integer _problemId;
+    private Integer _ticketFormId;
 
-    private KmZendeskVia                 _via;
-    private KmZendeskSatisfactionRating  _satisfactionRating;
+    private KmZendeskVia                _via;
+    private KmZendeskSatisfactionRating _satisfactionRating;
 
     private KmList<Integer>              _collaboratorIds;
     private KmList<String>               _tags;
@@ -46,11 +46,11 @@ public class KmZendeskTicket
     private KmList<Integer>              _sharingAgreementIds;
     private KmList<Integer>              _followupIds;
 
-    private Boolean                      _hasIncidents;
+    private Boolean _hasIncidents;
 
-    private String                       _dueAt;
-    private String                       _createdAt;
-    private String                       _updatedAt;
+    private String _dueAt;
+    private String _createdAt;
+    private String _updatedAt;
 
     //##################################################
     //# accessing
@@ -357,17 +357,17 @@ public class KmZendeskTicket
         out.println("assignee_id: " + _assigneeId);
         out.println("organization_id: " + _organizationId);
         out.println("group_id: " + _groupId);
-        out.println("collaborator_ids: " + _collaboratorIds.format());
+        out.println("collaborator_ids: " + _collaboratorIds.join());
         out.println("forum_topic_id: " + _forumTopicId);
         out.println("problem_id: " + _problemId);
         out.println("has_incidents: " + _hasIncidents);
         out.println("due_at: " + _dueAt);
-        out.println("tags: " + _tags.format());
+        out.println("tags: " + _tags.join());
         out.println("via: " + _via.format());
-        out.println("custom_fields: " + _customFields.format());
+        out.println("custom_fields: " + _customFields.join());
         out.println("satisfaction_rating: " + _satisfactionRating);
-        out.println("sharing_agreement_ids: " + _sharingAgreementIds.format());
-        out.println("followup_ids:" + _followupIds.format());
+        out.println("sharing_agreement_ids: " + _sharingAgreementIds.join());
+        out.println("followup_ids:" + _followupIds.join());
         out.println("ticket_form_id: " + _ticketFormId);
         out.println("created_at: " + _createdAt);
         out.println("updated_at: " + _updatedAt);

@@ -22,13 +22,13 @@ public enum MyFieldSourceType
     //##################################################
 
     Output("O", "Output"),
-    Performance("P", "Performance"), ;
+    Performance("P", "Performance"),;
 
     //##################################################
     //# find
     //##################################################
 
-    private static final KmList<MyFieldSourceType>       _values;
+    private static final KmList<MyFieldSourceType> _values;
     private static final KmMap<String,MyFieldSourceType> _codes;
 
     static

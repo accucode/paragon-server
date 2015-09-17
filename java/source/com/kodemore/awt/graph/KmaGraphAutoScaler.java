@@ -30,15 +30,15 @@ public class KmaGraphAutoScaler
     //# variables
     //##################################################
 
-    private double   _minimum;
-    private double   _maximum;
-    private int      _maximumDivisions;
-    private double   _minimumLower;
+    private double _minimum;
+    private double _maximum;
+    private int    _maximumDivisions;
+    private double _minimumLower;
 
-    private double   _lower;
-    private double   _upper;
-    private double   _majorUnit;
-    private double   _minorUnit;
+    private double _lower;
+    private double _upper;
+    private double _majorUnit;
+    private double _minorUnit;
 
     private double[] _majorUnitOptions;
     private double[] _minorUnitOptions;

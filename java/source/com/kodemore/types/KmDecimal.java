@@ -59,7 +59,7 @@ public class KmDecimal
     //# variables
     //##################################################
 
-    private BigDecimal       _value;
+    private BigDecimal _value;
 
     //##################################################
     //# constructor

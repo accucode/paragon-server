@@ -1,18 +1,29 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScBox;
-import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyWyattTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyWyattTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyWyattTestPage instance = new MyWyattTestPage();
+    private static MyWyattTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyWyattTestPage();
+    }
+
+    public static MyWyattTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyWyattTestPage()
     {
@@ -20,17 +31,27 @@ public class MyWyattTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -42,20 +63,17 @@ public class MyWyattTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().fill().pad();
-
-        ScGroup group;
-        group = root.addGroup();
-        group.setTitle("hello");
-
-        ScBox body;
-        body = group.getBody().addPad();
-        body.addButton("hello", this::handleHello);
+        root.css().fill();
     }
 
-    private void handleHello()
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
     {
-        ajax().toast("world!");
+        // none
     }
 
 }

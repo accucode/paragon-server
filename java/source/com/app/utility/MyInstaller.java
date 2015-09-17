@@ -7,7 +7,7 @@ import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.utility.ScServletCallbackRegistry;
 import com.kodemore.time.KmTimeZoneBridge;
-import com.kodemore.utility.KmBenchmarking;
+import com.kodemore.utility.KmDeadlockMonitor;
 import com.kodemore.utility.Kmu;
 
 import com.app.bridge.MyApplicationBridge;
@@ -41,9 +41,9 @@ public class MyInstaller
     //# logger
     //##################################################
 
-    private static final MyInstallerLog _logger    = new MyInstallerLog(MyInstaller.class);
+    private static final MyInstallerLog _logger = new MyInstallerLog(MyInstaller.class);
 
-    private static boolean              _installed = false;
+    private static boolean _installed = false;
 
     //##################################################
     //# public
@@ -155,6 +155,7 @@ public class MyInstaller
     private static void _installCore()
     {
         _installLog4jConsole();
+        _installDeadlockMonitor();
         _installApplicationBridge();
         _installUrlBridge();
 
@@ -227,6 +228,13 @@ public class MyInstaller
         // This relies on the properties and database.
         printfHeader("Log4j");
         MyLog4jManager.install();
+        printOk();
+    }
+
+    private static void _installDeadlockMonitor()
+    {
+        printfHeader("Deadlock Monitor");
+        KmDeadlockMonitor.start();
         printOk();
     }
 
@@ -483,7 +491,7 @@ public class MyInstaller
 
     private static long getUsedMemory()
     {
-        return KmBenchmarking.getUsedMemory();
+        return Kmu.getUsedMemory();
     }
 
     //##################################################
@@ -493,6 +501,5 @@ public class MyInstaller
     public static void main(String[] args)
     {
         MyInstaller.installCore();
-
     }
 }

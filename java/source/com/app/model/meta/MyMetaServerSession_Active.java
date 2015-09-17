@@ -6,16 +6,13 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.meta;
 
 import java.util.*;
 
 import com.kodemore.adaptor.*;
 import com.kodemore.collection.*;
-import com.kodemore.comparator.*;
 import com.kodemore.exception.*;
-import com.kodemore.match.*;
 import com.kodemore.meta.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.field.*;
@@ -115,12 +112,6 @@ public class MyMetaServerSession_Active
     public boolean hasValueFor(MyServerSession model, Boolean value)
     {
         return model.hasActive(value);
-    }
-    
-    @Override
-    public int compareValues(MyServerSession o1, MyServerSession o2, boolean nullsOnTop)
-    {
-        return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }
     
 }

@@ -1,11 +1,11 @@
 package com.app.ui.page.test;
 
 import com.kodemore.filter.KmFilter;
-import com.kodemore.filter.KmFilterFactoryIF;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFilterBox;
+import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScGrid;
 import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScGroup;
@@ -16,15 +16,27 @@ import com.kodemore.utility.Kmu;
 import com.app.filter.MyUserFilter;
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MyGridTestPage
-    extends MyAbstractTestEntryPage
+public final class MyGridTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyGridTestPage instance = new MyGridTestPage();
+    private static MyGridTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyGridTestPage();
+    }
+
+    public static MyGridTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyGridTestPage()
     {
@@ -35,25 +47,35 @@ public class MyGridTestPage
     //# variables
     //##################################################
 
-    private ScFilterBox          _filterBox;
-    private ScTextField          _nameField;
+    private ScFilterBox _filterBox;
+    private ScTextField _nameField;
 
     private ScGrid<MyUser>       _grid;
     private ScGridColumn<MyUser> _emailColumn;
     private ScGridColumn<MyUser> _nameColumn;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -65,13 +87,17 @@ public class MyGridTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        root.css().fill();
 
-        installFilter(root);
-        installGrid(root);
+        ScFlexbox col;
+        col = root.addColumn();
+        col.css().fillOffset();
+
+        installFilterOn(col);
+        installGridOn(col);
     }
 
-    private void installFilter(ScContainer root)
+    private void installFilterOn(ScContainer root)
     {
         _nameField = new ScTextField();
         _nameField.setLabel("Name");
@@ -81,13 +107,16 @@ public class MyGridTestPage
         _filterBox.setAction(this::handleSearch);
     }
 
-    private void installGrid(ScContainer root)
+    private void installGridOn(ScContainer root)
     {
         MyMetaUser x = MyUser.Meta;
 
         ScGroup group;
         group = root.addGroup();
         group.setTitle("Users");
+
+        group.css().flexGrow().flexShrink().marginTop();
+        group.getBody().css().relative();
 
         ScDiv buttons;
         buttons = group.getBanner().addBox();
@@ -99,10 +128,11 @@ public class MyGridTestPage
         ScGrid<MyUser> grid;
         grid = group.getBody().addGrid();
         grid.trackAll(_filterBox);
-        grid.setFilterFactory(newFetcher());
+        grid.setFilterFactory(this::getFilter);
         grid.setWidthAuto();
-        grid.addLinkColumn("Select", this::handleSelect, x.Uid).width(50);
+        grid.addLinkColumn("Select", this::handleSelect, MyUser::getUid).width(50);
         grid.addColumn(x.Uid).width(200).hide();
+        grid.layoutFill();
 
         _nameColumn = grid.addColumn(x.Name);
         _nameColumn.setSortable();
@@ -112,18 +142,6 @@ public class MyGridTestPage
         _emailColumn.setDefaultSort();
 
         _grid = grid;
-    }
-
-    private KmFilterFactoryIF<MyUser> newFetcher()
-    {
-        return new KmFilterFactoryIF<MyUser>()
-        {
-            @Override
-            public KmFilter<MyUser> createFilter()
-            {
-                return getFilter();
-            }
-        };
     }
 
     private KmFilter<MyUser> getFilter()
@@ -147,6 +165,16 @@ public class MyGridTestPage
         }
 
         return f;
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################
@@ -174,14 +202,12 @@ public class MyGridTestPage
         }
 
         ajax().toast("Added %s user(s).", n);
-
         _grid.ajaxReload();
     }
 
     private void handleSelect()
     {
         String uid = getStringArgument();
-
         ajax().toast("Selected user: %s.", uid);
     }
 

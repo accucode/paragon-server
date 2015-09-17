@@ -58,7 +58,7 @@
         <property
             name="data"
             column="data"
-            type="com.kodemore.hibernate.KmHibernateBlobType"
+            type="com.kodemore.hibernate.type.KmhBlobType"
             />
 
         <many-to-one

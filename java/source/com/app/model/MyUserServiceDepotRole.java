@@ -22,13 +22,13 @@ public enum MyUserServiceDepotRole
     //##################################################
 
     Worker("W", "Worker"),
-    Manager("M", "Manager"), ;
+    Manager("M", "Manager"),;
 
     //##################################################
     //# find
     //##################################################
 
-    private static final KmList<MyUserServiceDepotRole>       _values;
+    private static final KmList<MyUserServiceDepotRole> _values;
     private static final KmMap<String,MyUserServiceDepotRole> _codes;
 
     static

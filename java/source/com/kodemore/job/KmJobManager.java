@@ -23,8 +23,8 @@
 package com.kodemore.job;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.hibernate.lock.KmDaoOptimisticLockException;
-import com.kodemore.hibernate.lock.KmDaoPessimisticLockException;
+import com.kodemore.hibernate.lock.KmhDaoOptimisticLockException;
+import com.kodemore.hibernate.lock.KmhDaoPessimisticLockException;
 import com.kodemore.log.KmLog;
 import com.kodemore.log.KmLogger;
 import com.kodemore.thread.KmThread;
@@ -184,11 +184,11 @@ public abstract class KmJobManager
             e.run();
             debug("job (%s) done.", e.getName());
         }
-        catch ( KmDaoPessimisticLockException ex )
+        catch ( KmhDaoPessimisticLockException ex )
         {
             KmLog.warn("Skipping job(%s), pessimistic lock failed.", e.getName());
         }
-        catch ( KmDaoOptimisticLockException ex )
+        catch ( KmhDaoOptimisticLockException ex )
         {
             KmLog.warn("Skipping job(%s), optimistic lock failed.", e.getName());
         }

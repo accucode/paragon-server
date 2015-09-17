@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,28 +30,23 @@ public class MyInvitationCriteria
     //# constructor
     //##################################################
 
-    public MyInvitationCriteria(KmCriteria parent)
+    public MyInvitationCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyInvitationCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereTypeCode()
+    public KmhStringCondition whereTypeCode()
     {
-        return new KmStringCriteria(context(), fullName(TYPE_CODE));
+        return new KmhStringCondition(context(), fullName(TYPE_CODE));
     }
 
     public void whereTypeIs(MyInvitationType e)
@@ -89,9 +83,9 @@ public class MyInvitationCriteria
             whereTypeIsNotJoinAccount();
     }
 
-    public KmStringCriteria whereStatusCode()
+    public KmhStringCondition whereStatusCode()
     {
-        return new KmStringCriteria(context(), fullName(STATUS_CODE));
+        return new KmhStringCondition(context(), fullName(STATUS_CODE));
     }
 
     public void whereStatusIs(MyInvitationStatus e)
@@ -200,29 +194,29 @@ public class MyInvitationCriteria
             whereStatusIsNotCancelled();
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereClosedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereClosedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CLOSED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CLOSED_UTC_TS));
     }
 
-    public KmStringCriteria whereToEmail()
+    public KmhStringCondition whereToEmail()
     {
-        return new KmStringCriteria(context(), fullName(TO_EMAIL));
+        return new KmhStringCondition(context(), fullName(TO_EMAIL));
     }
 
-    public KmStringCriteria whereRoleCode()
+    public KmhStringCondition whereRoleCode()
     {
-        return new KmStringCriteria(context(), fullName(ROLE_CODE));
+        return new KmhStringCondition(context(), fullName(ROLE_CODE));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
@@ -759,9 +753,9 @@ public class MyInvitationCriteria
         return new MyUserCriteria(leftJoinTo(FROM_USER));
     }
 
-    public KmStringCriteria whereFromUserUid()
+    public KmhStringCondition whereFromUserUid()
     {
-        return new KmStringCriteria(parent(), fullName(FROM_USER_UID));
+        return new KmhStringCondition(parent(), fullName(FROM_USER_UID));
     }
 
     public void whereFromUserIs(MyUser e)
@@ -806,9 +800,9 @@ public class MyInvitationCriteria
         return new MyProjectCriteria(leftJoinTo(PROJECT));
     }
 
-    public KmStringCriteria whereProjectUid()
+    public KmhStringCondition whereProjectUid()
     {
-        return new KmStringCriteria(parent(), fullName(PROJECT_UID));
+        return new KmhStringCondition(parent(), fullName(PROJECT_UID));
     }
 
     public void whereProjectIs(MyProject e)
@@ -832,15 +826,4 @@ public class MyInvitationCriteria
     {
         return new MyInvitationJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyInvitationCriteria createOn(KmModelJunction junction)
-    {
-        return new MyInvitationCriteria(parent(), junction.context());
-    }
-
 }

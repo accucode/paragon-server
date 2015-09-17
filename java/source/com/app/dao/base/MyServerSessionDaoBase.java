@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MyServerSessionDaoBase
     @Override
     public MyServerSessionCriteria createCriteria()
     {
-        return new MyServerSessionCriteria(createGenericCriteria());
+        return new MyServerSessionCriteria(_createCriteria());
+    }
+
+    @Override
+    public MyServerSessionCriteria createDetachedCriteria(String alias)
+    {
+        return new MyServerSessionCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaServerSession getMeta()

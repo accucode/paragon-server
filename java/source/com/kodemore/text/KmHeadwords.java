@@ -62,7 +62,7 @@ public class KmHeadwords
     /**
      * The list of all heads, including the heads that don't have alternates.
      */
-    private KmSet<String>        _heads;
+    private KmSet<String> _heads;
 
     /**
      * alternate -> head
@@ -136,7 +136,7 @@ public class KmHeadwords
 
     public void loadFromResource(String path)
     {
-        KmList<String> lines = Kmu.readResourceLines(getClass(), path);
+        KmList<String> lines = Kmu.readResourceLines(path);
         loadLines(lines);
     }
 
@@ -146,7 +146,11 @@ public class KmHeadwords
 
     private String getDefaultResourcePath()
     {
-        return "headwords.txt";
+        String pkg;
+        pkg = getClass().getPackage().getName();
+        pkg = Kmu.replaceAll(pkg, ".", "/");
+
+        return Kmu.joinFilePath(pkg, "headwords.txt");
     }
 
     //==================================================

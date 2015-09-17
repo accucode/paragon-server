@@ -20,7 +20,7 @@ public class MyEditShipCarrierDialog
     //# constants
     //##################################################
 
-    private static final int      METHOD_COUNT = MyShipCarrier.MAX_PER_PROJECT;
+    private static final int METHOD_COUNT = MyShipCarrier.MAX_PER_PROJECT;
 
     //##################################################
     //# variables

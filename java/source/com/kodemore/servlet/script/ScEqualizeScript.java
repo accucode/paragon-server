@@ -46,12 +46,12 @@ public class ScEqualizeScript
     /**
      * The jquery selector for the elements to be equalized.
      */
-    private String  _selector;
+    private String _selector;
 
-    private Mode    _mode;
+    private Mode _mode;
 
     /**
-     * The min/max values for height and width.  The
+     * The min/max values for height and width.  The 
      * equalized elements will always fall between these values
      * if they are defined.
      */

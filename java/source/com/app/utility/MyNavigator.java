@@ -7,8 +7,6 @@ import com.app.model.MyProject;
 import com.app.model.MyServerSession;
 import com.app.ui.layout.MyPageLayout;
 import com.app.ui.page.general.MyDashboardPage;
-import com.app.ui.page.general.MySignOutPage;
-import com.app.ui.page.login.MySignInUtility;
 
 public class MyNavigator
 {
@@ -17,33 +15,35 @@ public class MyNavigator
     //##################################################
 
     /**
+     * Enter the application via the default page.
+     */
+    public static void ajaxEnter()
+    {
+        getDefaultPage().ajaxEnter();
+    }
+
+    /**
      * Return the page to which users should be directed when no specific page
-     * is requested.  The page must not have any required parameters.  If the
-     * page requires an authenticated user, navigation will automatically
-     * redirect to the Login page.
+     * is requested.  If the page requires an authenticated user, navigation will
+     * automatically redirect to the Login page.
      */
     public static ScPage getEntryPage()
     {
-        return _getDefaultPage();
+        return getDefaultPage();
     }
 
-    public static void pushDefaultPage()
+    public static String formatEntryPageQueryString()
     {
-        _getDefaultPage().ajaxPush();
-    }
-
-    public static String formatDefaultPageQueryString()
-    {
-        return _getDefaultPage().formatQueryString();
+        return getDefaultPage().formatQueryString();
     }
 
     //==================================================
     //= default page :: private
     //==================================================
 
-    private static MyDashboardPage _getDefaultPage()
+    private static MyDashboardPage getDefaultPage()
     {
-        return MyDashboardPage.instance;
+        return MyDashboardPage.getInstance();
     }
 
     //##################################################
@@ -60,15 +60,7 @@ public class MyNavigator
         ss.setCurrentProject(project);
         layout.ajaxRefreshHeaderContent();
         layout.ajaxRefreshTitleContentFor(page);
-        pushDefaultPage();
-    }
-
-    public static void logout()
-    {
-        MySignInUtility.signOut();
-        MyPageLayout.getInstance().ajaxRefreshHeaderContent();
-        MyPageLayout.getInstance().ajaxClearContent();
-        MySignOutPage.instance.ajaxPush();
+        ajaxEnter();
     }
 
     //##################################################

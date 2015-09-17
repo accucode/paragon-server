@@ -59,10 +59,8 @@ public class KmgModelAssociationReference
     public KmgModelAssociation getAssociation()
     {
         KmgModel m = getReferenceModel();
-
         if ( m == null )
             throw newFatal("Cannot get association for model(%s).", getModelName());
-
         return m.getAssociation(getAssociationName());
     }
 

@@ -23,6 +23,7 @@
 package com.kodemore.comparator;
 
 import com.kodemore.utility.KmUnchecked;
+import com.kodemore.utility.Kmu;
 
 /**
  * I provide static utility methods for comparing objects.
@@ -42,7 +43,7 @@ public abstract class KmCompareUtility
         if ( a == null || b == null )
             return compareNulls(a, b, nullsOnTop);
 
-        return a.compareToIgnoreCase(b);
+        return Kmu.compare(a, b);
     }
 
     public static int compare(Boolean a, Boolean b, boolean nullsOnTop)

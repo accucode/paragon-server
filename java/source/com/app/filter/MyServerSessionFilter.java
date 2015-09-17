@@ -43,8 +43,8 @@ public class MyServerSessionFilter
     private KmTimestamp _maxCreatedUtcTs;
     private boolean     _usesMaxCreatedUtcTs;
 
-    private Sort        _sort;
-    private boolean     _sortAscending;
+    private Sort    _sort;
+    private boolean _sortAscending;
 
     //##################################################
     //# created utc ts (min)

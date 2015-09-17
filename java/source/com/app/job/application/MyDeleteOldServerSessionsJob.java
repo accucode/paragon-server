@@ -1,7 +1,12 @@
 package com.app.job.application;
 
-import com.app.command.MyDeleteOldServerSessionsCommand;
+import com.kodemore.collection.KmList;
+import com.kodemore.command.KmDao;
+import com.kodemore.time.KmTimestamp;
+
+import com.app.filter.MyServerSessionFilter;
 import com.app.job.MyJob;
+import com.app.model.MyServerSession;
 
 /**
  * I delete any sessions older than a day.
@@ -49,9 +54,26 @@ public class MyDeleteOldServerSessionsJob
     @Override
     protected boolean handle()
     {
-        MyDeleteOldServerSessionsCommand cmd;
-        cmd = new MyDeleteOldServerSessionsCommand();
-        cmd.run();
-        return cmd.hasMore();
+        return KmDao.fetch(this::deleteBatchDao);
+    }
+
+    private boolean deleteBatchDao()
+    {
+        int limit = 100;
+        KmTimestamp latest = getNowUtc().subtractDay();
+
+        MyServerSessionFilter f;
+        f = new MyServerSessionFilter();
+        f.setMaxCreatedUtcTs(latest);
+        f.sortOnCreatedUtcTs();
+
+        KmList<MyServerSession> v = f.findFirst(limit);
+        if ( v.isEmpty() )
+            return false;
+
+        for ( MyServerSession e : v )
+            e.deleteDao();
+
+        return true;
     }
 }

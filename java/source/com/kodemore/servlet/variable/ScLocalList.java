@@ -125,6 +125,12 @@ public class ScLocalList<T>
         _setValue(copy);
     }
 
+    @Override
+    public void clearValue()
+    {
+        clear();
+    }
+
     //##################################################
     //# accessing (non-mutating)
     //##################################################

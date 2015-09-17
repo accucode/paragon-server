@@ -12,7 +12,6 @@ public class KmgUtcTsFieldExtender
     public void extend(KmgModelField field)
     {
         KmProtoType baseType = field.getProtoType();
-
         if ( baseType == null )
             throw Kmu.newFatal("invalid base type for: " + field.getType().getName());
 

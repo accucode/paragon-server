@@ -6,16 +6,13 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.meta;
 
 import java.util.*;
 
 import com.kodemore.adaptor.*;
 import com.kodemore.collection.*;
-import com.kodemore.comparator.*;
 import com.kodemore.exception.*;
-import com.kodemore.match.*;
 import com.kodemore.meta.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.field.*;
@@ -81,12 +78,6 @@ public class MyMetaShipCarrier_MethodNames
     public boolean hasValueFor(MyShipCarrier model, String value)
     {
         return model.hasMethodNames(value);
-    }
-    
-    @Override
-    public int compareValues(MyShipCarrier o1, MyShipCarrier o2, boolean nullsOnTop)
-    {
-        return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }
     
 }

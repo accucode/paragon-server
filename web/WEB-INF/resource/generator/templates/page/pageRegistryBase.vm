@@ -15,9 +15,13 @@ public abstract class ${Prefix}PageRegistryBase
     protected void registerPages()
     {
         super.registerPages();
-        
+
 #foreach ( $e in $root.pageClassNames )
-        add(${e}.instance);
+        ${e}.installInstance();
+#end
+
+#foreach ( $e in $root.pageClassNames )
+        add(${e}.getInstance());
 #end
     }
 }

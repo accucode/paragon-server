@@ -40,8 +40,8 @@ public abstract class ScInputField<T>
     //# variables
     //##################################################
 
-    private ScLocalCss     _css;
-    private ScLocalStyle   _style;
+    private ScLocalCss   _css;
+    private ScLocalStyle _style;
 
     /**
      * NOTE, a disabled field cannont receive user input

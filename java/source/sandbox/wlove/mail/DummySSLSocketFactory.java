@@ -22,12 +22,12 @@ public class DummySSLSocketFactory
         try
         {
             SSLContext sslcontext = SSLContext.getInstance("TLS");
-            sslcontext.init(null, // No KeyManager required
+            sslcontext.init(
+                null, // No KeyManager required
                 new TrustManager[]
-                {
-                    new DummyTrustManager()
-                },
-                new java.security.SecureRandom());
+            {
+                new DummyTrustManager()
+            }, new java.security.SecureRandom());
             factory = sslcontext.getSocketFactory();
         }
         catch ( Exception ex )

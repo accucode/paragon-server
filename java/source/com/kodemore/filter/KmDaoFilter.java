@@ -1,8 +1,7 @@
 package com.kodemore.filter;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.command.KmDaoCommand;
-import com.kodemore.command.KmDaoResultCommand;
+import com.kodemore.command.KmDao;
 
 /**
  * I wrap another filter and ensure that all data is
@@ -42,27 +41,13 @@ public class KmDaoFilter<T>
     @Override
     public KmList<T> findAll()
     {
-        return new KmDaoResultCommand<KmList<T>>()
-        {
-            @Override
-            protected KmList<T> handleResult()
-            {
-                return getDelegate().findAll();
-            }
-        }.runResult();
+        return KmDao.fetchOnce(getDelegate()::findAll);
     }
 
     @Override
     public KmList<T> findBatch(final int index, final int count)
     {
-        return new KmDaoResultCommand<KmList<T>>()
-        {
-            @Override
-            protected KmList<T> handleResult()
-            {
-                return getDelegate().findBatch(index, count);
-            }
-        }.runResult();
+        return KmDao.fetchNoRetry(getDelegate()::findBatch, index, count);
     }
 
     @Override
@@ -90,27 +75,13 @@ public class KmDaoFilter<T>
     @Override
     public int getCount()
     {
-        return new KmDaoResultCommand<Integer>()
-        {
-            @Override
-            protected Integer handleResult()
-            {
-                return getDelegate().getCount();
-            }
-        }.runResult();
+        return KmDao.fetchOnce(getDelegate()::getCount);
     }
 
     @Override
     public boolean exists()
     {
-        return new KmDaoResultCommand<Boolean>()
-        {
-            @Override
-            protected Boolean handleResult()
-            {
-                return getDelegate().exists();
-            }
-        }.runResult();
+        return KmDao.fetchOnce(getDelegate()::exists);
     }
 
     //##################################################
@@ -120,39 +91,18 @@ public class KmDaoFilter<T>
     @Override
     public void deleteAll()
     {
-        new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                getDelegate().deleteAll();
-            }
-        }.run();
+        KmDao.run(getDelegate()::deleteAll);
     }
 
     @Override
     public void deleteFirst()
     {
-        new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                getDelegate().deleteFirst();
-            }
-        }.run();
+        KmDao.run(getDelegate()::deleteFirst);
     }
 
     @Override
     public void deleteFirst(final int count)
     {
-        new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                getDelegate().deleteFirst(count);
-            }
-        }.run();
+        KmDao.run(getDelegate()::deleteFirst, count);
     }
 }

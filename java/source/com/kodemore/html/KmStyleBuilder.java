@@ -42,7 +42,7 @@ public class KmStyleBuilder
     //# constants
     //##################################################
 
-    private static final int        DEFAULT_GAP = 10;
+    private static final int DEFAULT_GAP = 10;
 
     //##################################################
     //# variables
@@ -773,7 +773,7 @@ public class KmStyleBuilder
         if ( colorArr.length == 0 )
             return this;
 
-        String colors = Kmu.formatList(colorArr);
+        String colors = Kmu.join(colorArr);
         String value = Kmu.format("linear-gradient(to %s, %s)", to, colors);
         setValue("background-image", value);
 

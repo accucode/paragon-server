@@ -38,8 +38,8 @@ public class KmDbaseFieldDescriptor
     //# variables
     //##################################################
 
-    private KmDbaseData      _data;
-    private int              _offset;
+    private KmDbaseData _data;
+    private int         _offset;
 
     //##################################################
     //# accessing

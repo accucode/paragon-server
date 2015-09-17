@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MyUserActivationDaoBase
     @Override
     public MyUserActivationCriteria createCriteria()
     {
-        return new MyUserActivationCriteria(createGenericCriteria());
+        return new MyUserActivationCriteria(_createCriteria());
+    }
+
+    @Override
+    public MyUserActivationCriteria createDetachedCriteria(String alias)
+    {
+        return new MyUserActivationCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaUserActivation getMeta()

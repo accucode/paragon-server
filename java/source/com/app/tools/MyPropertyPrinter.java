@@ -27,7 +27,7 @@ public class MyPropertyPrinter
 
         for ( String group : groups )
         {
-            System.out.println("%nGROUP: " + group);
+            System.out.println("\nGROUP: " + group);
 
             KmList<MyPropertyDefinition> defs;
             defs = MyPropertyDefinitions.getAllInGroup(group);

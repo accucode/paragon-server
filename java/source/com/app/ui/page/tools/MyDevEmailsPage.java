@@ -23,15 +23,27 @@ import com.app.filter.MyEmailFilter;
 import com.app.model.MyEmail;
 import com.app.model.MyEmailStatus;
 import com.app.model.meta.MyMetaEmail;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MyDevEmailsPage
-    extends MyDevAbstractPage
+public final class MyDevEmailsPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDevEmailsPage instance = new MyDevEmailsPage();
+    private static MyDevEmailsPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDevEmailsPage();
+    }
+
+    public static MyDevEmailsPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDevEmailsPage()
     {
@@ -42,30 +54,40 @@ public class MyDevEmailsPage
     //# variables
     //##################################################
 
-    private ScLocalString   _emailUid;
+    private ScLocalString _emailUid;
 
-    private ScFilterBox     _filterBox;
-    private ScDateField     _createdStartField;
-    private ScDateField     _createdEndField;
-    private ScDropdown      _statusField;
+    private ScFilterBox _filterBox;
+    private ScDateField _createdStartField;
+    private ScDateField _createdEndField;
+    private ScDropdown  _statusField;
 
     private ScGrid<MyEmail> _grid;
 
-    private ScCardFrame     _emailFrame;
-    private ScCard          _emailViewCard;
+    private ScCardFrame _emailFrame;
+    private ScCard      _emailViewCard;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -135,7 +157,7 @@ public class MyDevEmailsPage
         _grid.trackAll(_filterBox);
 
         ScGridColumn<MyEmail> link;
-        link = _grid.addLinkColumn("View", this::handleView, x.Uid);
+        link = _grid.addLinkColumn("View", this::handleView, MyEmail::getUid);
         link.setWidth(50);
 
         _grid.addColumn(x.StatusName, 50);
@@ -165,9 +187,9 @@ public class MyDevEmailsPage
         };
     }
 
-    //##################################################
-    //# frame
-    //##################################################
+    //==================================================
+    //= install :: frame
+    //==================================================
 
     private void installFrame(ScContainer root)
     {
@@ -212,6 +234,16 @@ public class MyDevEmailsPage
         buttons = footer.addButtonBox();
         buttons.addButton("Re-Send", this::handleResend, x.Uid);
         buttons.addButton("Ignore", this::handleIgnore, x.Uid);
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

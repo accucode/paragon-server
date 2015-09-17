@@ -27,7 +27,7 @@ attributes
 
     field
     : name          = uid
-    : help          = The globally unique identifier; this is a big ugly number and is generally not displayed.
+    : help          = The globally unique identifier.
     : comment       = 
     : type          = uid
     : default       = newUid()
@@ -47,11 +47,11 @@ attributes
     : help      = The display name.  This should generally be unique within a given project.
     : comment   = 
     : type      = name
-    : required  = required
+    : required  = true
 
     field
     : name      = phone
-    : help      = The primary phone number for the depot related to this project.
+    : help      = The primary phone number.
     : comment   = 
     : type      = phone
     : required  = false

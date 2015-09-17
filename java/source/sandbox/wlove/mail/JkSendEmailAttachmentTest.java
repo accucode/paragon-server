@@ -21,7 +21,7 @@ import com.kodemore.time.KmTime;
 
 public class JkSendEmailAttachmentTest
 {
-    private static final String TEXT         = "text/plain";
+    private static final String TEXT = "text/plain";
 
     private static final String OCTET_STREAM = "application/octet-stream";
 

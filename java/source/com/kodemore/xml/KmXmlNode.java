@@ -22,7 +22,6 @@
 
 package com.kodemore.xml;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
@@ -184,15 +183,12 @@ public abstract class KmXmlNode
 
     public String getPrettyPrint()
     {
-        try ( StringWriter sw = new StringWriter();
-            PrintWriter out = new PrintWriter(sw); )
+        StringWriter sw = new StringWriter();
+        try (PrintWriter out = new PrintWriter(sw))
         {
             prettyPrintOn(out);
+            out.flush();
             return sw.toString();
-        }
-        catch ( IOException ex )
-        {
-            throw Kmu.toRuntime(ex);
         }
     }
 

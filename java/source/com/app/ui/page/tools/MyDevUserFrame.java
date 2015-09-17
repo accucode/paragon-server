@@ -25,10 +25,10 @@ public class MyDevUserFrame
 
     private ScLocalString _userUid;
 
-    private ScCard        _viewChild;
-    private ScCard        _editChild;
+    private ScCard _viewChild;
+    private ScCard _editChild;
 
-    private ScAction      _onChangeAction;
+    private ScAction _onChangeAction;
 
     //##################################################
     //# install
@@ -80,8 +80,8 @@ public class MyDevUserFrame
     {
         MyMetaUser x = MyUser.Meta;
 
-        ScAction saveAction = createAction(this::handleEditSave);
-        ScAction cancelAction = createAction(this::handleEditCancel);
+        ScAction saveAction = newAction(this::handleEditSave);
+        ScAction cancelAction = newAction(this::handleEditCancel);
 
         ScTextField emailField;
         emailField = x.Email.newField();
@@ -140,9 +140,9 @@ public class MyDevUserFrame
         _onChangeAction = e;
     }
 
-    public void setOnChangeAction(Runnable e)
+    public void setOnChangeAction(Runnable r)
     {
-        setOnChangeAction(createAction(e));
+        setOnChangeAction(newAction(r));
     }
 
     public void fireOnChangeAction()

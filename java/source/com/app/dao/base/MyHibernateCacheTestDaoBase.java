@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MyHibernateCacheTestDaoBase
     @Override
     public MyHibernateCacheTestCriteria createCriteria()
     {
-        return new MyHibernateCacheTestCriteria(createGenericCriteria());
+        return new MyHibernateCacheTestCriteria(_createCriteria());
+    }
+
+    @Override
+    public MyHibernateCacheTestCriteria createDetachedCriteria(String alias)
+    {
+        return new MyHibernateCacheTestCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaHibernateCacheTest getMeta()

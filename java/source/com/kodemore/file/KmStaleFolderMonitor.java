@@ -27,14 +27,14 @@ import java.io.File;
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
 import com.kodemore.log.KmLog;
+import com.kodemore.time.KmClock;
 import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.KmClock;
 import com.kodemore.utility.Kmu;
 
 /**
  * I am used to a folder to make sure that it is active.
  * That is, that it has files being added and removed from it.
- *
+ * 
  * I may be used to monitor a folder used to coordinate
  * files that are shared via ftp, and to make sure that files
  * are moving back and forth, and that no files are getting
@@ -46,10 +46,10 @@ public class KmStaleFolderMonitor
     //# variables
     //##################################################
 
-    private String                    _folderPath;
-    private int                       _staleMinutes;
-    private int                       _inactiveMinutes;
-    private boolean                   _logResults;
+    private String  _folderPath;
+    private int     _staleMinutes;
+    private int     _inactiveMinutes;
+    private boolean _logResults;
 
     private File                      _folder;
     private KmMap<String,KmTimestamp> _lastFilenameUtsTs;
@@ -120,6 +120,9 @@ public class KmStaleFolderMonitor
 
         if ( _folder == null )
             _folder = new File(_folderPath);
+
+        if ( _folder == null )
+            return;
 
         if ( !_folder.exists() )
             return;
@@ -232,7 +235,7 @@ public class KmStaleFolderMonitor
         keys = map.getKeys();
         keys.sort();
 
-        return keys.format(", ");
+        return keys.join(", ");
     }
 
 }

@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MyPasswordResetDaoBase
     @Override
     public MyPasswordResetCriteria createCriteria()
     {
-        return new MyPasswordResetCriteria(createGenericCriteria());
+        return new MyPasswordResetCriteria(_createCriteria());
+    }
+
+    @Override
+    public MyPasswordResetCriteria createDetachedCriteria(String alias)
+    {
+        return new MyPasswordResetCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaPasswordReset getMeta()

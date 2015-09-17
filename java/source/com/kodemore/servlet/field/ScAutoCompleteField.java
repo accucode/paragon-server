@@ -55,7 +55,7 @@ public class ScAutoCompleteField
     //# constants
     //##################################################
 
-    private static final String      PARAMETER_TRACKED_VALUES = "trackedValues";
+    private static final String PARAMETER_TRACKED_VALUES = "trackedValues";
 
     //##################################################
     //# variables
@@ -65,19 +65,19 @@ public class ScAutoCompleteField
      * The value of the text field.  This value is read
      * from the form post, and displayed in the text field.
      */
-    private ScLocalString            _text;
+    private ScLocalString _text;
 
     /**
      * The number of characters that must be entered in
      * order to trigger autocompletion.  Valid values
      * are 1..n.  The default is 1.
      */
-    private ScLocalInteger           _triggerLength;
+    private ScLocalInteger _triggerLength;
 
     /**
      * The list of options to display in the list.
      */
-    private ScLocalStringList        _options;
+    private ScLocalStringList _options;
 
     /**
      * Used to dynamically fill the options as the

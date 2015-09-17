@@ -1,10 +1,8 @@
 package com.app.model;
 
-import com.kodemore.collection.KmList;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyApplicationLogBase;
-import com.app.model.meta.MyMetaApplicationLogTrace;
 
 public class MyApplicationLog
     extends MyApplicationLogBase
@@ -31,9 +29,7 @@ public class MyApplicationLog
     @Override
     public String getFullTrace()
     {
-        MyMetaApplicationLogTrace x = MyApplicationLogTrace.Meta;
-        KmList<MyApplicationLogTrace> v = getSortedTraces();
-        return v.collect(x.Value).formatLines();
+        return getSortedTraces().joinLines(e -> e.getValue());
     }
 
 }

@@ -139,18 +139,15 @@ public class KmaDialog
 
     public void disposeOnEscape()
     {
+        KeyStroke escKey = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+        KeyStroke f1Key = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0);
+
+        int inWindow = JComponent.WHEN_IN_FOCUSED_WINDOW;
+
         JComponent c;
         c = (JComponent)getContentPane();
-
-        c.registerKeyboardAction(
-            newAction("dispose"),
-            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-            JComponent.WHEN_IN_FOCUSED_WINDOW);
-
-        c.registerKeyboardAction(
-            newAction("guiHelp"),
-            KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0),
-            JComponent.WHEN_IN_FOCUSED_WINDOW);
+        c.registerKeyboardAction(newAction("dispose"), escKey, inWindow);
+        c.registerKeyboardAction(newAction("guiHelp"), f1Key, inWindow);
     }
 
     public void guiHelp()
@@ -219,4 +216,10 @@ public class KmaDialog
     {
         return KmaAwtUtility.showYesNo(this, title, message);
     }
+
+    public Boolean showYesNoCancel(String title, String message)
+    {
+        return KmaAwtUtility.showYesNoCancel(this, title, message);
+    }
+
 }

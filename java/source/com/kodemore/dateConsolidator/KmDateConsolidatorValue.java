@@ -40,7 +40,7 @@ public class KmDateConsolidatorValue
      * Categories can be used to colsolidate multiple series of data
      * across the same date interval.  All values, across all categories
      * are used to determine the date range, and the date intervals.
-     * But the numeric values are then averaged within each category.
+     * But the numeric values are then averaged within each category.  
      */
     private String _category;
 
@@ -53,17 +53,17 @@ public class KmDateConsolidatorValue
      * The number of original elements used to compute this value.
      * In the simple scenario this default value of 1 result in
      * all values being weighted the same when they are counted
-     * towards the consolidated results.
-     *
+     * towards the consolidated results.  
+     * 
      * However, in some cases,
      * the client may be providing values with are themselves the
      * result of a weighted average; in this case the client may
      * provide the original counts to ensure that the weighted
      * averages carry the correct weight when being consolidated.
-     *
+     * 
      * Defaults to 1.
      */
-    private int    _count;
+    private int _count;
 
     //##################################################
     //# constructor

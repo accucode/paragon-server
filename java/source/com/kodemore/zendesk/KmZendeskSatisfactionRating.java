@@ -5,7 +5,7 @@ public class KmZendeskSatisfactionRating
 
     /**
      * I am a satisfaction rating
-     *
+     * 
      * Api documentation
      *     http://developer.zendesk.com/documentation/rest_api/satisfaction_ratings.html
      */
@@ -20,11 +20,11 @@ public class KmZendeskSatisfactionRating
     private Integer _requesterId;
     private Integer _ticketId;
 
-    private String  _url;
-    private String  _score;
-    private String  _createdAt;
-    private String  _updatedAt;
-    private String  _comment;
+    private String _url;
+    private String _score;
+    private String _createdAt;
+    private String _updatedAt;
+    private String _comment;
 
     //##################################################
     //# accessing

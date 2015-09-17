@@ -18,8 +18,8 @@ public class MyViewRegionCard
     //# variables
     //##################################################
 
-    private MyTitleSection     _banner;
-    private ScActionButton     _editButton;
+    private MyTitleSection _banner;
+    private ScActionButton _editButton;
 
     private MyEditRegionDialog _editDialog;
 

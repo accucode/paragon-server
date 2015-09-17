@@ -44,19 +44,19 @@ public class ScReplaceContentsScript
      * need to set the outer selector to the enclosing TABLE
      * for the animation to work correctly.
      */
-    private String        _outerSelector;
+    private String _outerSelector;
 
     /**
      * The selector whose contents will be replaced.
      *
      * See outerSelector.
      */
-    private String        _innerSelector;
+    private String _innerSelector;
 
     /**
      * The html to put into the innerSelector.
      */
-    private String        _contents;
+    private String _contents;
 
     /**
      * The script to run after the dom has been replaced.
@@ -72,13 +72,13 @@ public class ScReplaceContentsScript
     /**
      * The transition to use.
      */
-    private ScTransition  _transition;
+    private ScTransition _transition;
 
     /**
      * The speed of the transition.  Ignored if the transition
      * does not support it.
      */
-    private Integer       _speed;
+    private Integer _speed;
 
     //##################################################
     //# constructor

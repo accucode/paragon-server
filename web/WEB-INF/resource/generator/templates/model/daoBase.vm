@@ -4,8 +4,6 @@ package ${package}.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import ${package}.criteria.*;
@@ -42,7 +40,13 @@ $utility.protocol("override")
     @Override
     public ${model.f_CriteriaClass} createCriteria()
     {
-        return new ${model.f_CriteriaClass}(createGenericCriteria());
+        return new ${model.f_CriteriaClass}(_createCriteria());
+    }
+
+    @Override
+    public ${model.f_CriteriaClass} createDetachedCriteria(String alias)
+    {
+        return new ${model.f_CriteriaClass}(_createDetachedCriteria(alias));
     }
 
     protected ${model.f_MetaClass} getMeta()

@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -755,50 +754,6 @@ public abstract class MyServerSessionBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("uid") )
-            setUid(p.getString("uid"));
-
-        if ( p.hasKey("active") )
-            setActive(p.getBoolean("active"));
-
-        if ( p.hasKey("version") )
-            setVersion(p.getString("version"));
-
-        if ( p.hasKey("lockVersion") )
-            setLockVersion(p.getInteger("lockVersion"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasUid() )
-            p.setString("uid", getUid());
-
-        if ( hasActive() )
-            p.setBoolean("active", getActive());
-
-        if ( hasVersion() )
-            p.setString("version", getVersion());
-
-        if ( hasLockVersion() )
-            p.setInteger("lockVersion", getLockVersion());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

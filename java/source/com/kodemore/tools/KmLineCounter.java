@@ -65,12 +65,12 @@ public class KmLineCounter
     private KmList<String> _ignoredPrefixes = new KmList<>();
     private String         _suffix;
 
-    private int            _lines;
-    private int            _blankLines;
-    private int            _singleCharacterLines;
-    private int            _commentLines;
-    private int            _ignoredPrefixLines;
-    private int            _totalBytes;
+    private int _lines;
+    private int _blankLines;
+    private int _singleCharacterLines;
+    private int _commentLines;
+    private int _ignoredPrefixLines;
+    private int _totalBytes;
 
     //##################################################
     //# accessing

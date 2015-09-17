@@ -43,8 +43,8 @@ public class MyPerformanceLogFilter
     private KmTimestamp _maximumCreatedUtcTs;
     private boolean     _usesMaximumCreatedUtcTs;
 
-    private Sort        _sort;
-    private boolean     _sortAscending;
+    private Sort    _sort;
+    private boolean _sortAscending;
 
     //##################################################
     //# min created utc ts

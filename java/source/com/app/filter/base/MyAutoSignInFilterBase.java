@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyAutoSignInFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyAutoSignIn> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyAutoSignIn> c)
     {
         applyConditionsTo((MyAutoSignInCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyAutoSignIn> c)
+    protected void applySortsTo(KmhModelCriteria<MyAutoSignIn> c)
     {
         applySortsTo((MyAutoSignInCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyAutoSignInFilterBase
     @Override
     protected MyAutoSignInCriteria createCriteria()
     {
-        return new MyAutoSignInCriteria(createGenericCriteria());
+        return new MyAutoSignInCriteria(_createCriteria());
     }
 }

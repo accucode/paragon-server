@@ -36,10 +36,10 @@ public class ScTableCell
     private ScLocalInteger _columnSpan;
     private ScLocalInteger _rowSpan;
 
-    private ScLocalString  _horizontalAlign;
-    private ScLocalString  _verticalAlign;
+    private ScLocalString _horizontalAlign;
+    private ScLocalString _verticalAlign;
 
-    private ScLocalString  _width;
+    private ScLocalString _width;
 
     //##################################################
     //# init

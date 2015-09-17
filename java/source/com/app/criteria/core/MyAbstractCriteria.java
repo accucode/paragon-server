@@ -1,29 +1,23 @@
 package com.app.criteria.core;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.hibernate.criteria.KmAbstractCriteria;
-import com.kodemore.hibernate.criteria.KmCriteria;
-import com.kodemore.hibernate.criteria.KmModelCriteria;
-import com.kodemore.hibernate.criteria.KmProjectionResult;
-import com.kodemore.hibernate.criteria.KmProjectionRow;
+import com.kodemore.hibernate.KmhModelCriteria;
+import com.kodemore.hibernate.KmhProjectionResult;
+import com.kodemore.hibernate.KmhProjectionRow;
+import com.kodemore.hibernate.basic.KmhCriteria;
 
 import com.app.model.MyNamedCountVo;
 
 public abstract class MyAbstractCriteria<T>
-    extends KmModelCriteria<T>
+    extends KmhModelCriteria<T>
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyAbstractCriteria(KmCriteria parent)
+    public MyAbstractCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyAbstractCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
@@ -34,9 +28,9 @@ public abstract class MyAbstractCriteria<T>
     {
         KmList<MyNamedCountVo> v = new KmList<>();
 
-        KmProjectionResult results = findResults();
+        KmhProjectionResult results = findResults();
 
-        for ( KmProjectionRow row : results )
+        for ( KmhProjectionRow row : results )
         {
             String name = row.nextString();
             Integer count = row.nextInteger();

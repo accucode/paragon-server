@@ -114,20 +114,20 @@ public class MyUser
 
     public KmList<MyProject> getProjects()
     {
-        return getMemberships().collect(MyMember.Meta.Project);
+        return getMemberships().collect(e -> e.getProject());
     }
 
     public KmList<MyProject> getProjectsByName()
     {
         KmList<MyProject> v;
         v = getProjects();
-        v.sortOn(MyProject.Meta.Name);
+        v.sortOn(MyProject::getName);
         return v;
     }
 
     public KmList<String> getProjectNames()
     {
-        return getProjectsByName().collect(MyProject.Meta.Name);
+        return getProjectsByName().collect(e -> e.getName());
     }
 
     public boolean isMemberOf(MyProject e)

@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 
 import com.kodemore.utility.Kmu;
 
@@ -27,9 +26,12 @@ public class JkSqlDumpStripper
         boolean echo = false;
         int lines = 0;
 
-        try ( BufferedReader in = new BufferedReader(new FileReader(inFile));
-            BufferedWriter out = new BufferedWriter(new FileWriter(outFile)) )
+        BufferedReader in = null;
+        BufferedWriter out = null;
+        try
         {
+            in = new BufferedReader(new FileReader(inFile));
+            out = new BufferedWriter(new FileWriter(outFile));
 
             while ( true )
             {
@@ -44,7 +46,7 @@ public class JkSqlDumpStripper
                 if ( line.startsWith(sectionPrefix) )
                 {
                     echo = line.equals(sectionMatch);
-                    System.out.printf("%s [%s]%n", line, echo);
+                    System.out.printf("%s [%s]\n", line, echo);
                 }
 
                 if ( echo )
@@ -58,9 +60,14 @@ public class JkSqlDumpStripper
             System.out.println("lines: " + lines);
             System.out.println("ok.");
         }
-        catch ( IOException ex )
+        catch ( Exception ex )
         {
             throw Kmu.toRuntime(ex);
+        }
+        finally
+        {
+            Kmu.closeSafely(in);
+            Kmu.closeSafely(out);
         }
     }
 }

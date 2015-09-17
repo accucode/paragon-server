@@ -35,8 +35,8 @@ public class MyPatchBridge
     //# constants
     //##################################################
 
-    private static final String TABLE                   = "patch";
-    private static final String ALIAS                   = "p";
+    private static final String TABLE = "patch";
+    private static final String ALIAS = "p";
 
     private static final String COLUMN_NAME             = "name";
     private static final String COLUMN_SOURCE           = "source";
@@ -115,7 +115,7 @@ public class MyPatchBridge
 
             int n = st.execute(con);
             if ( n != 1 )
-                throw newFatal("Unexpected updated count(%s).", n);
+                throw Kmu.newFatal("Unexpected updated count(%s).", n);
 
             con.commit();
         }
@@ -142,7 +142,7 @@ public class MyPatchBridge
 
             int n = st.execute(con);
             if ( n != 1 )
-                throw newFatal("Unexpected delete count(%s).", n);
+                throw Kmu.newFatal("Unexpected delete count(%s).", n);
 
             con.commit();
         }
@@ -176,8 +176,4 @@ public class MyPatchBridge
             con.close();
     }
 
-    private RuntimeException newFatal(String msg, Object... args)
-    {
-        return Kmu.newFatal(msg, args);
-    }
 }

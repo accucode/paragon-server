@@ -27,6 +27,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.servlet.ScPage;
+import com.kodemore.servlet.ScPageIF;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScControlIF;
 import com.kodemore.servlet.control.ScForm;
@@ -375,36 +376,36 @@ public abstract class ScBlockScript
     //##################################################
 
     /**
-     * All of the pushPage methods redirect to me.
+     * All enterPage methods redirect to me.
      *
-     * Before adding the pushPage script, I write the CURRENT page session.  Updating the
+     * Before running the enterPage script, I update the CURRENT page session.  Updating the
      * page session as part of navigation is relatively rare, but when it does happen it is
      * important to ensure that the client side session gets updated BEFORE triggering the
      * client side history and navigation flows.
      */
-    private ScPushPageScript _pushPage()
+    private ScEnterPageScript _enterPage()
     {
         updatePageSession();
 
-        ScPushPageScript e;
-        e = new ScPushPageScript();
+        ScEnterPageScript e;
+        e = new ScEnterPageScript();
         run(e);
         return e;
     }
 
-    public ScPushPageScript pushPage(String url)
+    public ScEnterPageScript enterPage(String url)
     {
-        ScPushPageScript e;
-        e = _pushPage();
+        ScEnterPageScript e;
+        e = _enterPage();
         e.setUrl(url);
         return e;
     }
 
-    public ScPushPageScript pushPage(ScPage page)
+    public ScEnterPageScript enterPage(ScPageIF pg)
     {
-        ScPushPageScript e;
-        e = _pushPage();
-        e.setUrl(page);
+        ScEnterPageScript e;
+        e = _enterPage();
+        e.setUrl(pg);
         return e;
     }
 
@@ -413,10 +414,10 @@ public abstract class ScBlockScript
      * state of the page specified.  This does NOT trigger a navigation
      * event.
      */
-    public ScPushPageScript replaceHistory(ScPage page)
+    public ScEnterPageScript replaceHistory(ScPage pg)
     {
-        ScPushPageScript e;
-        e = pushPage(page);
+        ScEnterPageScript e;
+        e = enterPage(pg);
         e.setReplace();
         e.setHandleStateChange(false);
         return e;
@@ -638,11 +639,11 @@ public abstract class ScBlockScript
     //##################################################
 
     /**
-     * This is normally handled automatically immediately and clients should not need
-     * to call this directly under most circumstances.  There are two cases where this
-     * is usually handled automatically:
+     * This is normally handled automatically and clients should not need
+     * to call this directly under most circumstances.  There are two cases
+     * where this is usually handled automatically:
      *
-     * 1) Any time the client code calls pushPage.  This ensures the client-side page
+     * 1) Any time the client code calls enterPage.  This ensures the client-side page
      *      session is updated before navigating away from the page and updating the
      *      browser history stack.
      *
@@ -655,7 +656,7 @@ public abstract class ScBlockScript
     }
 
     /**
-     * See 'pageKey' variable in KmUtility.js.
+     * See 'currentPage' variable in Kmu.js.
      */
     public void updateCurrentPageKey(ScPage e)
     {

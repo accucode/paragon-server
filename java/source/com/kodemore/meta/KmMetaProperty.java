@@ -1,6 +1,5 @@
 package com.kodemore.meta;
 
-import com.kodemore.comparator.KmComparator;
 import com.kodemore.servlet.control.ScGridColumn;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.control.ScTextParagraph;
@@ -34,22 +33,6 @@ public abstract class KmMetaProperty<T, V>
     public boolean hasValidator()
     {
         return getValidator() != null;
-    }
-
-    //##################################################
-    //# compare
-    //##################################################
-
-    public KmComparator<T> getComparator()
-    {
-        return new KmComparator<T>()
-        {
-            @Override
-            public int compare(T o1, T o2)
-            {
-                return compareValues(o1, o2, getNullsOnTop());
-            }
-        };
     }
 
     //##################################################
@@ -120,7 +103,7 @@ public abstract class KmMetaProperty<T, V>
         e.setHeader(getLabel());
         e.setWidth(getColumnWidth() * 8);
         e.setDisplayAdaptor(getAdaptor());
-        e.setCsvAdaptor(getAdaptor());
+        e.setCsvFunction(getObjectGetter());
         return e;
     }
 
@@ -160,10 +143,4 @@ public abstract class KmMetaProperty<T, V>
         e.setHelp(getHelp());
         return e;
     }
-
-    //##################################################
-    //# value
-    //##################################################
-
-    public abstract int compareValues(T o1, T o2, boolean nullsOnTop);
 }

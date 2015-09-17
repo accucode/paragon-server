@@ -31,8 +31,8 @@ import com.kodemore.servlet.variable.ScLocalCss;
  * I am a horizontal divider used to conveniently display
  * a groove with padding.  I use two nested DIV elements
  * rather than a traditional rule (HR) because horizontal
- * 'rules' do not render consistently across multiple
- * browsers.
+ * 'rules' do not render consistently across multiple 
+ * browsers. 
  */
 public class ScDivider
     extends ScElement

@@ -18,8 +18,8 @@ public class MyViewCategoryCard
     //# variables
     //##################################################
 
-    private MyTitleSection       _banner;
-    private ScActionButton       _editButton;
+    private MyTitleSection _banner;
+    private ScActionButton _editButton;
 
     private MyEditCategoryDialog _editDialog;
 

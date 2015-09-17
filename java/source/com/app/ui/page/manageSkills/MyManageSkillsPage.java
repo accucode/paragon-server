@@ -9,14 +9,24 @@ import com.app.model.MySkill;
 import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.support.MyManageDomainPage;
 
-public class MyManageSkillsPage
+public final class MyManageSkillsPage
     extends MyManageDomainPage<MySkill>
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManageSkillsPage instance = new MyManageSkillsPage();
+    private static MyManageSkillsPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyManageSkillsPage();
+    }
+
+    public static MyManageSkillsPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyManageSkillsPage()
     {

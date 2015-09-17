@@ -23,10 +23,10 @@
 package com.kodemore.file;
 
 /**
- * I am used by the file monitor to define which files
- * to scan.  I can be set to a single specific file, or
- * to a folder.  I can be set to scan sub-folders
- * (recursively) and limited to a specific file extension.
+ * I am used by the file monitor to define which files 
+ * to scan.  I can be set to a single specific file, or 
+ * to a folder.  I can be set to scan sub-folders 
+ * (recursively) and limited to a specific file extension. 
  */
 public class KmFileMonitorRoot
 {
@@ -40,7 +40,7 @@ public class KmFileMonitorRoot
     private KmFile _file;
 
     /**
-     * If specified, only files matching this extension
+     * If specified, only files matching this extension 
      * will be scanned.
      */
     private String _extension;

@@ -24,13 +24,13 @@ public enum MyPasswordResetStatus
     New("N", "New"),
     Accepted("A", "Accepted"),
     Rejected("R", "Rejected"),
-    Cancelled("X", "Cancelled"), ;
+    Cancelled("X", "Cancelled"),;
 
     //##################################################
     //# find
     //##################################################
 
-    private static final KmList<MyPasswordResetStatus>       _values;
+    private static final KmList<MyPasswordResetStatus> _values;
     private static final KmMap<String,MyPasswordResetStatus> _codes;
 
     static

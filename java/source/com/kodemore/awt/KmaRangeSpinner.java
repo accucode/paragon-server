@@ -33,10 +33,10 @@ public class KmaRangeSpinner
     //# variables
     //##################################################
 
-    private int               _value;
-    private int               _leftValue;
-    private int               _rightValue;
-    private int               _step;
+    private int _value;
+    private int _leftValue;
+    private int _rightValue;
+    private int _step;
 
     private KmList<KmaAction> _changeActions;
 

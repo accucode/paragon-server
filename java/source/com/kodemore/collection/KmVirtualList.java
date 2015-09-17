@@ -24,8 +24,6 @@ package com.kodemore.collection;
 
 import java.util.Iterator;
 
-import com.kodemore.match.KmMatchIF;
-
 /**
  * I provide a minimal 'list' interface.
  *
@@ -60,5 +58,4 @@ public interface KmVirtualList<T>
 
     T getSafe(int index);
 
-    KmVirtualList<T> filter(KmMatchIF<T> m);
 }

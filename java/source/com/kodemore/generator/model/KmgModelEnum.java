@@ -23,7 +23,7 @@ public class KmgModelEnum
      * For example: If the model.field = Order.statusCode,
      * then the type is assumed to be OrderStatus.
      */
-    private String                    _type;
+    private String _type;
 
     /**
      * The name of the enum.  Normally, this is set automatically
@@ -31,7 +31,7 @@ public class KmgModelEnum
      * is statusCode, then it is assumed that the enum's name
      * is status.
      */
-    private String                    _name;
+    private String _name;
 
     /**
      * The individual values of the enum.

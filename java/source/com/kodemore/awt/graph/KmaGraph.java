@@ -30,18 +30,18 @@ public class KmaGraph
     //# variables
     //##################################################
 
-    private KmaGraphStyledText        _title;
+    private KmaGraphStyledText _title;
 
     private KmList<KmaGraphElementIF> _preGridLeftElements;
     private KmList<KmaGraphElementIF> _preGridRightElements;
     private KmList<KmaGraphElementIF> _postGridLeftElements;
     private KmList<KmaGraphElementIF> _postGridRightElements;
 
-    private KmaGraphAxis              _leftAxis;
-    private KmaGraphAxis              _rightAxis;
-    private KmaGraphAxis              _bottomAxis;
+    private KmaGraphAxis _leftAxis;
+    private KmaGraphAxis _rightAxis;
+    private KmaGraphAxis _bottomAxis;
 
-    private KmaGraphLineStyle         _borderStyle;
+    private KmaGraphLineStyle _borderStyle;
 
     //##################################################
     //# constructor

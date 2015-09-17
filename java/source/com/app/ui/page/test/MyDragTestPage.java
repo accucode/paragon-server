@@ -14,14 +14,27 @@ import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.servlet.field.ScHiddenField;
 import com.kodemore.servlet.script.ScSortableScript;
 
-public class MyDragTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyDragTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDragTestPage instance = new MyDragTestPage();
+    private static MyDragTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDragTestPage();
+    }
+
+    public static MyDragTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDragTestPage()
     {
@@ -39,22 +52,32 @@ public class MyDragTestPage
     //# variables
     //##################################################
 
-    private ScDiv               _container;
-    private ScDropdown          _dropdown;
-    private ScForm              _form;
+    private ScDiv      _container;
+    private ScDropdown _dropdown;
+    private ScForm     _form;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -148,7 +171,7 @@ public class MyDragTestPage
     @Override
     protected void preRender()
     {
-        super.preRender();
+        // none
     }
 
     //##################################################
@@ -174,6 +197,6 @@ public class MyDragTestPage
             ints.add(i);
         }
 
-        ajax().toast(ints.format());
+        ajax().toast(ints.join());
     }
 }

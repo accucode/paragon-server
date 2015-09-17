@@ -42,7 +42,7 @@ public abstract class KmRunnableLoop
     //# variables
     //##################################################
 
-    private Thread                _thread;
+    private Thread _thread;
 
     //##################################################
     //# abstract
@@ -116,7 +116,7 @@ public abstract class KmRunnableLoop
         if ( isOk() )
             return;
 
-        synchronized ( this )
+        synchronized (this)
         {
             _thread = new Thread(this);
             _thread.start();

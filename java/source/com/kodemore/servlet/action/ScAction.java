@@ -1,7 +1,8 @@
 package com.kodemore.servlet.action;
 
-import com.kodemore.command.KmDaoRollbackException;
+import com.kodemore.command.KmDao;
 import com.kodemore.exception.KmApplicationException;
+import com.kodemore.exception.KmSignalingException;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.utility.ScKeyIF;
 
@@ -9,25 +10,46 @@ public class ScAction
     implements ScKeyIF
 {
     //##################################################
+    //# variables
+    //##################################################
+
+    /**
+     * The unique, and permanent identifier of this action.
+     * Keys must be consistently assigned and registered during application
+     * startup so that all JVMs use the same keys for the same actions.
+     */
+    private String _key;
+
+    /**
+     * Used to find the context when checking security or processing errors.
+     */
+    private ScContextSupplierIF _contextSupplier;
+
+    /**
+     * The behavior to be executed.
+     */
+    private Runnable _runnable;
+
+    /**
+     * If true (the default) the runnable will be executed inside a hibernate
+     * transaction.
+     */
+    private boolean _useTransaction;
+
+    //##################################################
     //# constructor
     //##################################################
 
     public ScAction(ScContextSupplierIF ctx, Runnable r)
     {
-        _key = ScControlRegistry.getInstance().getNextPersistentKey();
+        ScControlRegistry reg = ScControlRegistry.getInstance();
+        _key = reg.getNextPersistentKey();
+        reg.register(this);
+
         _contextSupplier = ctx;
         _runnable = r;
-
-        ScControlRegistry.getInstance().register(this);
+        _useTransaction = true;
     }
-
-    //##################################################
-    //# variables
-    //##################################################
-
-    private String              _key;
-    private ScContextSupplierIF _contextSupplier;
-    private Runnable            _runnable;
 
     //##################################################
     //# key
@@ -86,6 +108,14 @@ public class ScAction
 
     public void run()
     {
+        if ( _useTransaction )
+            KmDao.run(this::_run);
+        else
+            _run();
+    }
+
+    public void _run()
+    {
         try
         {
             getContext().checkSecurity();
@@ -98,7 +128,7 @@ public class ScAction
 
             getContext().handleError(ex);
         }
-        catch ( KmDaoRollbackException ex )
+        catch ( KmSignalingException ex )
         {
             throw ex;
         }

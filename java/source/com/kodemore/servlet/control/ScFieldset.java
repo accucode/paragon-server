@@ -43,7 +43,7 @@ public class ScFieldset
     //# variables
     //##################################################
 
-    private ScLocalString       _flavor;
+    private ScLocalString _flavor;
 
     //##################################################
     //# constructor

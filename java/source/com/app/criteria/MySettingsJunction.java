@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -23,40 +22,35 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MySettingsJunction
-    extends KmModelJunction
+    extends KmhModelJunction
     implements MySettingsDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MySettingsJunction(KmJunction context)
+    public MySettingsJunction(KmhJunction context)
     {
         super(context);
-    }
-
-    public MySettingsJunction(KmJunction context, KmAbstractCriteria parent)
-    {
-        super(context, parent);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmIntegerCriteria whereCode()
+    public KmhIntegerCondition whereCode()
     {
-        return new KmIntegerCriteria(context(), fullName(CODE));
+        return new KmhIntegerCondition(context(), fullName(CODE));
     }
 
-    public KmStringCriteria whereSomeMessage()
+    public KmhStringCondition whereSomeMessage()
     {
-        return new KmStringCriteria(context(), fullName(SOME_MESSAGE));
+        return new KmhStringCondition(context(), fullName(SOME_MESSAGE));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
@@ -69,12 +63,12 @@ public class MySettingsJunction
 
     public MySettingsJunction addAnd()
     {
-        return new MySettingsJunction(context().addAnd(), parent());
+        return new MySettingsJunction(context().addAnd());
     }
 
     public MySettingsJunction addOr()
     {
-        return new MySettingsJunction(context().addOr(), parent());
+        return new MySettingsJunction(context().addOr());
     }
 
 }

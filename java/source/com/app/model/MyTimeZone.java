@@ -37,13 +37,13 @@ public enum MyTimeZone
     //# meta
     //##################################################
 
-    public static final MyMetaTimeZone            Meta = MyMetaTimeZone.instance;
+    public static final MyMetaTimeZone Meta = MyMetaTimeZone.instance;
 
     //##################################################
     //# find
     //##################################################
 
-    private static final KmList<MyTimeZone>       _values;
+    private static final KmList<MyTimeZone> _values;
     private static final KmMap<String,MyTimeZone> _codes;
 
     static
@@ -70,11 +70,11 @@ public enum MyTimeZone
     //# variables
     //##################################################
 
-    private String  _code;
-    private String  _name;
+    private String _code;
+    private String _name;
     private Integer _utcOffsetMinutes;
 
-    private String  _dstCode;
+    private String _dstCode;
     private Integer _dstOffsetMinutes;
     private Integer _dstStartMonth;
     private Integer _dstStartDay;

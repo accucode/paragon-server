@@ -10,20 +10,20 @@
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d %-5p %c - %m %n" />
         </layout>
-        <filter class="com.kodemore.hibernate.KmHibernateStaleObjectLogFilter"/>
+        <filter class="com.kodemore.hibernate.log4j.KmhStaleObjectLog4jFilter"/>
     </appender>
 
     <appender name="file" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="/projects/paragon-server/output/log/log"/>
+        <param name="File" value="/projects/fieldService-server/output/log/log"/>
         <param name="DatePattern" value="'_'yyyyMMdd'.txt'"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d %-5p %c - %m %n" />
         </layout>
-        <filter class="com.kodemore.hibernate.KmHibernateStaleObjectLogFilter"/>
+        <filter class="com.kodemore.hibernate.log4j.KmhStaleObjectLog4jFilter"/>
     </appender>
 
     <appender name="dao" class="com.app.utility.MyLog4jDaoAppender">
-        <filter class="com.kodemore.hibernate.KmHibernateStaleObjectLogFilter"/>
+        <filter class="com.kodemore.hibernate.log4j.KmhStaleObjectLog4jFilter"/>
     </appender>
     <appender name="daoAsync" class="org.apache.log4j.AsyncAppender">
         <appender-ref ref="dao"/>

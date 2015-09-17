@@ -1,11 +1,10 @@
 package com.kodemore.command;
 
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.time.KmClock;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.KmClock;
 import com.kodemore.utility.KmContextFormatter;
-import com.kodemore.utility.Kmu;
 
 public abstract class KmCommand
 {
@@ -33,11 +32,6 @@ public abstract class KmCommand
     //##################################################
     //# convenience
     //##################################################
-
-    protected RuntimeException newFata(String msg, Object... args)
-    {
-        return Kmu.newFatal(msg, args);
-    }
 
     protected String getSimpleClassName()
     {

@@ -9,14 +9,24 @@ import com.app.model.MyProject;
 import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.support.MyManageDomainPage;
 
-public class MyManageProjectsPage
+public final class MyManageProjectsPage
     extends MyManageDomainPage<MyProject>
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManageProjectsPage instance = new MyManageProjectsPage();
+    private static MyManageProjectsPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyManageProjectsPage();
+    }
+
+    public static MyManageProjectsPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyManageProjectsPage()
     {

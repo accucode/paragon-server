@@ -124,7 +124,6 @@ public class MySignInUtility
      * Return the autoSignIn record that corresponds to the browser cookie.
      * Return NULL is the autoSignIn is not valid.
      */
-
     public static MyAutoSignIn getValidAutoSignIn()
     {
         MyAutoSignIn e = getAutoSignIn();

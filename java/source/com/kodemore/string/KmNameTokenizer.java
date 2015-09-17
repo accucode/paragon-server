@@ -265,6 +265,6 @@ public class KmNameTokenizer
         KmList<String> v = KmNameTokenizer.parse(s);
 
         System.out.println(s);
-        System.out.println(v.format());
+        System.out.println(v.join());
     }
 }

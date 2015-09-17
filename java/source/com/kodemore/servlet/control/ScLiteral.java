@@ -22,9 +22,8 @@
 
 package com.kodemore.servlet.control;
 
-import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.html.KmHtmlBuilder;
-import com.kodemore.servlet.variable.ScLocalObject;
+import com.kodemore.servlet.variable.ScLocalRawFunction;
 
 public class ScLiteral
     extends ScControl
@@ -33,7 +32,7 @@ public class ScLiteral
     //# variables
     //##################################################
 
-    private ScLocalObject _value;
+    private ScLocalRawFunction _function;
 
     //##################################################
     //# init
@@ -44,7 +43,7 @@ public class ScLiteral
     {
         super.install();
 
-        _value = new ScLocalObject();
+        _function = new ScLocalRawFunction();
     }
 
     //##################################################
@@ -61,67 +60,27 @@ public class ScLiteral
         out.printLiteral(html);
     }
 
-    @SuppressWarnings(
-    {
-        "unchecked",
-        "rawtypes"
-    })
     private String formatHtml()
     {
-        Object value = getValue();
+        if ( !_function.hasValue() )
+            return "";
 
-        if ( value instanceof KmAdaptorIF<?,?> )
-        {
-            Object model = getModel();
-            if ( model == null )
-                return null;
-
-            KmAdaptorIF adaptor = (KmAdaptorIF)value;
-            value = adaptor.getValue(model);
-        }
-
-        if ( value == null )
-            return null;
-
-        return value.toString();
+        Object e = _function.apply(getModel());
+        return getFormatter().formatAny(e);
     }
 
     //##################################################
     //# accessing
     //##################################################
 
-    public void setValue(String e)
+    public void setValue(Object e)
     {
-        _value.setValue(e);
-    }
-
-    public void setValue(ScControl e)
-    {
-        if ( e == null )
-            clearValue();
-        else
-            setValue(e.render());
-    }
-
-    public void setValue(KmHtmlBuilder out)
-    {
-        setValue(out.toString());
-    }
-
-    @SuppressWarnings("rawtypes")
-    public void setValue(KmAdaptorIF e)
-    {
-        _value.setValue(e);
-    }
-
-    public Object getValue()
-    {
-        return _value.getValue();
+        _function.setValue(ScUtility.toFunction(e));
     }
 
     public void clearValue()
     {
-        _value.resetValue();
+        _function.clearValue();
     }
 
 }

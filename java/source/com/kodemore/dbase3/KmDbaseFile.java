@@ -150,11 +150,14 @@ public class KmDbaseFile
 
     public byte[] _readByteArray(int offset, int length)
     {
-        try ( RandomAccessFile in = new RandomAccessFile(getPath(), "r") )
+        String path = getPath();
+        RandomAccessFile in = null;
+        try
         {
             byte[] arr;
             arr = new byte[length];
 
+            in = new RandomAccessFile(path, "r");
             in.seek(offset);
 
             int n = in.read(arr);
@@ -166,6 +169,10 @@ public class KmDbaseFile
         catch ( Exception ex )
         {
             throw Kmu.toRuntime(ex);
+        }
+        finally
+        {
+            Kmu.closeSafely(in);
         }
     }
 

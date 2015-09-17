@@ -1,6 +1,5 @@
 package com.kodemore.authnet.request;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -17,14 +16,14 @@ public class KmAuthnetAbstractResponse
     //# constants
     //##################################################
 
-    public static final String               RESULT_CODE_OK             = "Ok";
-    public static final String               RESULT_CODE_DECLINED       = "Declined";
-    public static final String               RESULT_CODE_ERROR          = "Error";
+    public static final String RESULT_CODE_OK       = "Ok";
+    public static final String RESULT_CODE_DECLINED = "Declined";
+    public static final String RESULT_CODE_ERROR    = "Error";
 
     /**
      * Used for error codes generated in the application rather than by authnet.
      */
-    public static final String               RESULT_CODE_INTERNAL_ERROR = "Internal";
+    public static final String RESULT_CODE_INTERNAL_ERROR = "Internal";
 
     //##################################################
     //# variables
@@ -34,8 +33,8 @@ public class KmAuthnetAbstractResponse
     private String                           _resultCode;
     private KmList<KmAuthnetResponseMessage> _responseMessages;
 
-    private String                           _xmlSource;
-    private KmXmlDocument                    _xmlDocument;
+    private String        _xmlSource;
+    private KmXmlDocument _xmlDocument;
 
     //##################################################
     //# constructor
@@ -246,15 +245,11 @@ public class KmAuthnetAbstractResponse
 
     public final String printFieldsToString()
     {
-        try ( StringWriter sw = new StringWriter();
-            PrintWriter out = new PrintWriter(sw) )
+        StringWriter sw = new StringWriter();
+        try (PrintWriter out = new PrintWriter(sw))
         {
             printFieldsOn(out);
             return sw.toString();
-        }
-        catch ( IOException ex )
-        {
-            throw Kmu.toRuntime(ex);
         }
     }
 
@@ -263,7 +258,6 @@ public class KmAuthnetAbstractResponse
         out.println("======= Response Base =======");
         out.println("resultCode: " + getResultCode());
         out.println("refId:      " + getRefId());
-
         for ( KmAuthnetResponseMessage e : _responseMessages )
             out.println("message:    " + e);
     }

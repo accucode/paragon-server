@@ -32,9 +32,9 @@ import com.kodemore.string.KmStringBuilder;
  * I manage a list of scripts, roughly representing the
  * contents of a "block".  That is, the lines _between_
  * matching braces {...}.
- *
+ * 
  * NOTE: In many cases, clients will simply use my helper
- * methods such as toast(...).  However, when clients
+ * methods such as toast(...).  However, when clients 
  * directly compose their own script, then those clients
  * are responsible for manually including any appropriate
  * whitespace or terminators.  The basic add/run methods

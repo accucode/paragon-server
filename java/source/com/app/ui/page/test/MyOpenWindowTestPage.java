@@ -7,17 +7,30 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
 
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
 /**
  * Test the layout and usage of the groups.
  */
-public class MyOpenWindowTestPage
-    extends MyAbstractTestEntryPage
+public final class MyOpenWindowTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyOpenWindowTestPage instance = new MyOpenWindowTestPage();
+    private static MyOpenWindowTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyOpenWindowTestPage();
+    }
+
+    public static MyOpenWindowTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyOpenWindowTestPage()
     {
@@ -25,17 +38,27 @@ public class MyOpenWindowTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -49,6 +72,16 @@ public class MyOpenWindowTestPage
     {
         root.css().gap();
         root.addButton("Open Window", this::handleTest);
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

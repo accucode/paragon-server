@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -401,50 +400,6 @@ public abstract class MyEmailRecipientBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("uid") )
-            setUid(p.getString("uid"));
-
-        if ( p.hasKey("address") )
-            setAddress(p.getString("address"));
-
-        if ( p.hasKey("typeCode") )
-            setTypeCode(p.getString("typeCode"));
-
-        if ( p.hasKey("lockVersion") )
-            setLockVersion(p.getInteger("lockVersion"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasUid() )
-            p.setString("uid", getUid());
-
-        if ( hasAddress() )
-            p.setString("address", getAddress());
-
-        if ( hasTypeCode() )
-            p.setString("typeCode", getTypeCode());
-
-        if ( hasLockVersion() )
-            p.setInteger("lockVersion", getLockVersion());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

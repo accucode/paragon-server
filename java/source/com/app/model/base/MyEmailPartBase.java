@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -485,56 +484,6 @@ public abstract class MyEmailPartBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("uid") )
-            setUid(p.getString("uid"));
-
-        if ( p.hasKey("sequence") )
-            setSequence(p.getInteger("sequence"));
-
-        if ( p.hasKey("typeCode") )
-            setTypeCode(p.getString("typeCode"));
-
-        if ( p.hasKey("attachmentName") )
-            setAttachmentName(p.getString("attachmentName"));
-
-        if ( p.hasKey("lockVersion") )
-            setLockVersion(p.getInteger("lockVersion"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasUid() )
-            p.setString("uid", getUid());
-
-        if ( hasSequence() )
-            p.setInteger("sequence", getSequence());
-
-        if ( hasTypeCode() )
-            p.setString("typeCode", getTypeCode());
-
-        if ( hasAttachmentName() )
-            p.setString("attachmentName", getAttachmentName());
-
-        if ( hasLockVersion() )
-            p.setInteger("lockVersion", getLockVersion());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

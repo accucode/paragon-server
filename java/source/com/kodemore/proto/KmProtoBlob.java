@@ -2,7 +2,7 @@ package com.kodemore.proto;
 
 import com.kodemore.collection.KmBlob;
 import com.kodemore.generator.model.KmgModelType;
-import com.kodemore.hibernate.KmHibernateBlobType;
+import com.kodemore.hibernate.type.KmhBlobType;
 import com.kodemore.meta.KmMetaBlobProperty;
 import com.kodemore.validator.KmBlobValidator;
 
@@ -31,7 +31,7 @@ public class KmProtoBlob
     @Override
     public String getHibernateType()
     {
-        return KmHibernateBlobType.class.getName();
+        return KmhBlobType.class.getName();
     }
 
     @Override

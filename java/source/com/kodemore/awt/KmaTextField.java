@@ -42,14 +42,14 @@ public class KmaTextField
     //# variables
     //##################################################
 
-    private String       _oldText;
-    private boolean      _selectOnFocus;
-    private boolean      _allowEmpty;
-    private boolean      _forceUpperCase;
-    private boolean      _autoRevertOnError;
-    private boolean      _autoRevertToRange;
+    private String  _oldText;
+    private boolean _selectOnFocus;
+    private boolean _allowEmpty;
+    private boolean _forceUpperCase;
+    private boolean _autoRevertOnError;
+    private boolean _autoRevertToRange;
 
-    private KmaAction    _extendedEditAction;
+    private KmaAction _extendedEditAction;
 
     private KmaActionMap _actions;
 

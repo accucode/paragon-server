@@ -18,8 +18,8 @@ public class MyViewDepotCard
     //# variables
     //##################################################
 
-    private MyTitleSection    _banner;
-    private ScActionButton    _editButton;
+    private MyTitleSection _banner;
+    private ScActionButton _editButton;
 
     private MyEditDepotDialog _editDialog;
 
@@ -60,6 +60,7 @@ public class MyViewDepotCard
         ScFieldLayout fields;
         fields = body.addFieldLayout();
         fields.addText(x.Name);
+        fields.addText(x.Phone);
     }
 
     private void installEditDialog()
@@ -103,7 +104,7 @@ public class MyViewDepotCard
         _editDialog.ajaxOpen(e);
     }
 
-    private void handleSaved(MyDepot e)
+    protected void handleSaved(MyDepot e)
     {
         setDepot(e);
         ajaxPrintFast();

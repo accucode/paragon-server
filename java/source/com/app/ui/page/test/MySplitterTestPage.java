@@ -6,14 +6,27 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScSplitter;
 import com.kodemore.utility.Kmu;
 
-public class MySplitterTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MySplitterTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MySplitterTestPage instance = new MySplitterTestPage();
+    private static MySplitterTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MySplitterTestPage();
+    }
+
+    public static MySplitterTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MySplitterTestPage()
     {
@@ -21,17 +34,27 @@ public class MySplitterTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -68,6 +91,16 @@ public class MySplitterTestPage
         bottom = vSplit.addDiv();
         bottom.css().fill().pad().boxBlue();
         bottom.addText(Kmu.repeat("bottom ", 100));
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
 }

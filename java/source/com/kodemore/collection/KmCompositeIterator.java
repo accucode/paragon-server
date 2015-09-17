@@ -26,8 +26,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import com.sun.istack.internal.Nullable;
-
 /**
  * I subclass ArrayList in order to provide various convenience methods.
  */
@@ -55,10 +53,9 @@ public class KmCompositeIterator<T>
     //# accessing
     //##################################################
 
-    public <E extends T> void add(@Nullable E e)
+    public <E extends T> void add(E e)
     {
-        KmList<T> v;
-        v = new KmList<>();
+        KmList<T> v = new KmList<>();
         v.add(e);
         addAll(v);
     }

@@ -6,7 +6,6 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyEmailBase;
-import com.app.model.meta.MyMetaEmailRecipient;
 
 public class MyEmail
     extends MyEmailBase
@@ -41,10 +40,8 @@ public class MyEmail
 
     public KmCollection<String> getToAddresses()
     {
-        MyMetaEmailRecipient x = MyEmailRecipient.Meta;
-        String code = MyEmailRecipientType.To.getCode();
-
-        return getRecipients().select(x.TypeCode, code).collect(x.Address);
+        KmCollection<MyEmailRecipient> tos = getRecipients().select(e -> e.isTypeTo());
+        return tos.collect(e -> e.getAddress());
     }
 
     public void addCcRecipients(KmList<String> v)
@@ -64,30 +61,27 @@ public class MyEmail
 
     public KmCollection<String> getCcAddresses()
     {
-        MyMetaEmailRecipient x = MyEmailRecipient.Meta;
-        String code = MyEmailRecipientType.Cc.getCode();
-
-        return getRecipients().select(x.TypeCode, code).collect(x.Address);
+        return getRecipients().select(e -> e.isTypeTo()).collect(e -> e.getAddress());
     }
 
     @Override
     public String getRecipientSummary()
     {
         KmCollection<String> v = getToAddresses();
-        String s = v.format(", ");
+        String s = v.join();
         return Kmu.truncate(s, 30, true);
     }
 
     @Override
     public String getToAddressesLabel()
     {
-        return getToAddresses().format(", ");
+        return getToAddresses().join();
     }
 
     @Override
     public String getCcAddressesLabel()
     {
-        return getCcAddresses().format(", ");
+        return getCcAddresses().join();
     }
 
     //##################################################

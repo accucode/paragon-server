@@ -2,16 +2,16 @@ package com.kodemore.twitter;
 
 /**
  * I am and object with values for all the returned paramaters of a twitter user.
- *
+ * 
  * https://dev.twitter.com/docs/platform-objects/users
- *
+ * 
  * review_steve KmTwitterUser
  */
 public class KmTwitterUser
     extends Object
 {
     //##################################################
-    //# variables
+    //# variables 
     //##################################################
 
     private String          _id;
@@ -24,38 +24,38 @@ public class KmTwitterUser
     private String          _url;
     private KmTwitterStatus _status;
 
-    private Integer         _statusesCount;
-    private Integer         _favoritesCount;
-    private Integer         _friendsCount;
-    private Integer         _followersCount;
-    private Integer         _listedCount;
+    private Integer _statusesCount;
+    private Integer _favoritesCount;
+    private Integer _friendsCount;
+    private Integer _followersCount;
+    private Integer _listedCount;
 
-    private Boolean         _following;
-    private Boolean         _protected;
-    private Boolean         _verified;
-    private Boolean         _defaultProfile;
-    private Boolean         _isTranslator;
-    private Boolean         _contributorsEnabled;
-    private Boolean         _geoEmbed;
-    private Boolean         _followRequestSent;
-    private Boolean         _notifications;
+    private Boolean _following;
+    private Boolean _protected;
+    private Boolean _verified;
+    private Boolean _defaultProfile;
+    private Boolean _isTranslator;
+    private Boolean _contributorsEnabled;
+    private Boolean _geoEmbed;
+    private Boolean _followRequestSent;
+    private Boolean _notifications;
 
-    private Boolean         _defaultProflieImage;
-    private Boolean         _profileUseBackgroundImage;
-    private Boolean         _profileBackgroundTitle;
+    private Boolean _defaultProflieImage;
+    private Boolean _profileUseBackgroundImage;
+    private Boolean _profileBackgroundTitle;
 
-    private String          _profileSidebarFillColor;
-    private String          _profileLinkColor;
-    private String          _profileSidebarBoraderColor;
-    private String          _profileBackgroundColor;
-    private String          _profileTextColor;
-    private String          _profileBackgroundImageUrl;
-    private String          _profileBackgroundImageUrlHttps;
-    private String          _profileImageUrl;
-    private String          _profileImageUrlHttps;
+    private String _profileSidebarFillColor;
+    private String _profileLinkColor;
+    private String _profileSidebarBoraderColor;
+    private String _profileBackgroundColor;
+    private String _profileTextColor;
+    private String _profileBackgroundImageUrl;
+    private String _profileBackgroundImageUrlHttps;
+    private String _profileImageUrl;
+    private String _profileImageUrlHttps;
 
-    private Integer         _utcOffset;
-    private String          _timeZone;
+    private Integer _utcOffset;
+    private String  _timeZone;
 
     //##################################################
     //# access

@@ -52,8 +52,8 @@ public class KmProfileReader
     private KmList<KmProfileCpu>   _cpus;
     private KmProfileTraceNode     _traceNodeRoot;
 
-    private BufferedReader         _reader;
-    private String                 _line;
+    private BufferedReader _reader;
+    private String         _line;
 
     //##################################################
     //# constructor
@@ -149,12 +149,18 @@ public class KmProfileReader
         i1 = _line.indexOf(' ') + 1;
         i2 = _line.indexOf(':');
         s = _line.substring(i1, i2);
-        int traceId = Kmu.parse_int(s);
+
+        Integer traceId = Kmu.parseInteger(s);
+        if ( traceId == null )
+            return null;
 
         i1 = _line.indexOf('=') + 1;
         i2 = _line.indexOf(')');
         s = _line.substring(i1, i2);
-        int threadId = Kmu.parse_int(s);
+
+        Integer threadId = Kmu.parseInteger(s);
+        if ( threadId == null )
+            return null;
 
         KmProfileTrace trace;
         trace = new KmProfileTrace();
@@ -164,6 +170,7 @@ public class KmProfileReader
         while ( true )
         {
             _readLine();
+
             if ( _line.charAt(0) != '\t' )
                 break;
 
@@ -184,6 +191,7 @@ public class KmProfileReader
 
             trace.addLine(name, lineNumber);
         }
+
         return trace;
     }
 
@@ -290,21 +298,31 @@ public class KmProfileReader
         Iterator<String> i = tokens.iterator();
 
         s = i.next();
-        int rank = Kmu.parse_int(s);
+        Integer rank = Kmu.parseInteger(s);
+        if ( rank == null )
+            throw Kmu.newFatal("Cannot parse rank: %s.", s);
 
         s = i.next();
         s = s.substring(0, s.length() - 1);
-        double self = Kmu.parse_double(s);
+        Double self = Kmu.parseDouble(s);
+        if ( self == null )
+            throw Kmu.newFatal("Cannot parse self: %s.", s);
 
         s = i.next();
         s = s.substring(0, s.length() - 1);
-        double accum = Kmu.parse_double(s);
+        Double accum = Kmu.parseDouble(s);
+        if ( accum == null )
+            throw Kmu.newFatal("Cannot parse accum: %s.", s);
 
         s = i.next();
-        int count = Kmu.parse_int(s);
+        Integer count = Kmu.parseInteger(s);
+        if ( count == null )
+            throw Kmu.newFatal("Cannot parse count: %s.", s);
 
         s = i.next();
-        int traceId = Kmu.parse_int(s);
+        Integer traceId = Kmu.parseInteger(s);
+        if ( traceId == null )
+            throw Kmu.newFatal("Cannot parse traceId: %s.", s);
 
         KmProfileCpu cpu;
         cpu = new KmProfileCpu();

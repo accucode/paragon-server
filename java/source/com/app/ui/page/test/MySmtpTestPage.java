@@ -11,15 +11,27 @@ import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.email.MyEmailSmtpMethod;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MySmtpTestPage
-    extends MyAbstractTestEntryPage
+public final class MySmtpTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MySmtpTestPage instance = new MySmtpTestPage();
+    private static MySmtpTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MySmtpTestPage();
+    }
+
+    public static MySmtpTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MySmtpTestPage()
     {
@@ -36,17 +48,27 @@ public class MySmtpTestPage
     private ScTextArea  _messageField;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -96,6 +118,16 @@ public class MySmtpTestPage
 
         group.addBodyDivider();
         group.getBody().addButtonBox().addSubmitButton("Send");
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

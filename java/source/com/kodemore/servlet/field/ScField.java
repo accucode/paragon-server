@@ -53,7 +53,7 @@ public abstract class ScField<T>
      * which case the html id is associated with some wrapper that
      * encloses the field's other elements.
      */
-    private ScLocalString     _htmlId;
+    private ScLocalString _htmlId;
 
     /**
      * The value used for the html element's name.
@@ -64,7 +64,7 @@ public abstract class ScField<T>
      * buttons form a group based on the use of a common name.
      * Names are only required to be unique within a given form.
      */
-    private ScLocalString     _htmlName;
+    private ScLocalString _htmlName;
 
     /**
      * I adapt a domain model to this field.  The value adapter is not required,
@@ -72,14 +72,14 @@ public abstract class ScField<T>
      * In practice, adapters work best when all of the fields in a given containers
      * (e.g.: a form or group) are associated with the same model.
      */
-    private ScLocalAdaptor    _valueAdaptor;
+    private ScLocalAdaptor _valueAdaptor;
 
     /**
      * The meta attribute associated with the valueAdapter.
      * This can be used to subsequently find a specific field within the control hierarchy.
      */
     @SuppressWarnings("rawtypes")
-    private KmMetaAttribute   _valueMetaAttribute;
+    private KmMetaAttribute _valueMetaAttribute;
 
     /**
      * The list of errors currently associated with this field.
@@ -388,6 +388,12 @@ public abstract class ScField<T>
         super.collectErrorsOn(v);
 
         v.addAll(_errors.getValue());
+    }
+
+    public void error(String msg, Object... args)
+    {
+        addError(msg, args);
+        checkErrors();
     }
 
     //##################################################

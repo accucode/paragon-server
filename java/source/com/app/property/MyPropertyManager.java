@@ -46,8 +46,8 @@ public class MyPropertyManager
     private static MyPropertyRegistry _defaults;
     private static MyPropertyRegistry _overrides;
 
-    private static long               _lastModified;
-    private static KmFile             _file;
+    private static long   _lastModified;
+    private static KmFile _file;
 
     //##################################################
     //# accessing
@@ -101,7 +101,7 @@ public class MyPropertyManager
         MyInstaller.printfln("overrides file = %s", file);
 
         if ( !file.exists() )
-            throw Kmu.newFatal("OVERRIDES FILE DOES NOT EXIST!  file(%s).", file);
+            throw Kmu.newFatal("OVERRIDES FILE DOES NOT EXIST! file(%s).", file);
 
         MyPropertyRegistry r;
         r = new MyPropertyRegistry();
@@ -137,7 +137,7 @@ public class MyPropertyManager
         KmList<String> unknownKeys = getProperties().getUnknownKeys(allKeys);
         if ( unknownKeys.isNotEmpty() )
         {
-            String s = Kmu.format("Unknown properties: %s.", unknownKeys.format());
+            String s = Kmu.format("Unknown properties: %s.", unknownKeys.join());
             logger.warnTrace(s);
         }
     }

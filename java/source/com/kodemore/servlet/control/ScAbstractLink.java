@@ -22,10 +22,13 @@
 
 package com.kodemore.servlet.control;
 
+import java.util.function.Function;
+
 import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.meta.KmMetaAttribute;
+import com.kodemore.servlet.renderer.ScRenderer;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalRenderer;
 
@@ -42,7 +45,7 @@ public abstract class ScAbstractLink
      * If false, set the tabindex = -1 so that the link will
      * not receive tab focus.
      */
-    private ScLocalBoolean  _focusable;
+    private ScLocalBoolean _focusable;
 
     //##################################################
     //# initialize
@@ -85,6 +88,11 @@ public abstract class ScAbstractLink
         _text.setAttribute(e);
     }
 
+    public void setText(Function<?,?> e)
+    {
+        _text.setFunction(e);
+    }
+
     public boolean hasText()
     {
         return _text.hasValue();
@@ -120,7 +128,7 @@ public abstract class ScAbstractLink
         renderAttributesOn(out);
         out.close();
 
-        _text.renderOn(out, this);
+        _text.renderOn(out, this, getModel());
 
         out.end("a");
     }

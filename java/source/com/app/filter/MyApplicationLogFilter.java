@@ -38,23 +38,23 @@ public class MyApplicationLogFilter
     //# variables
     //##################################################
 
-    private Integer     _levelCode;
-    private boolean     _usesLevelCode;
+    private Integer _levelCode;
+    private boolean _usesLevelCode;
 
-    private String      _loggerName;
-    private boolean     _usesLoggerName;
+    private String  _loggerName;
+    private boolean _usesLoggerName;
 
-    private String      _loggerNamePrefix;
-    private boolean     _usesLoggerNamePrefix;
+    private String  _loggerNamePrefix;
+    private boolean _usesLoggerNamePrefix;
 
-    private String      _context;
-    private boolean     _usesContext;
+    private String  _context;
+    private boolean _usesContext;
 
-    private KmDate      _minimumCreatedUtcDate;
-    private boolean     _usesCreatedMinimumUtcDate;
+    private KmDate  _minimumCreatedUtcDate;
+    private boolean _usesCreatedMinimumUtcDate;
 
-    private KmDate      _maximumCreatedUtcDate;
-    private boolean     _usesMaximumCreatedUtcDate;
+    private KmDate  _maximumCreatedUtcDate;
+    private boolean _usesMaximumCreatedUtcDate;
 
     private KmTimestamp _minimumCreatedUtcTs;
     private boolean     _usesMinimumCreatedUtcTs;
@@ -62,8 +62,8 @@ public class MyApplicationLogFilter
     private KmTimestamp _maximumCreatedUtcTs;
     private boolean     _usesMaximumCreatedUtcTs;
 
-    private Sort        _sort;
-    private boolean     _sortAscending;
+    private Sort    _sort;
+    private boolean _sortAscending;
 
     //##################################################
     //# level

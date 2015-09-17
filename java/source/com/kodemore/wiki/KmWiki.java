@@ -142,7 +142,7 @@ public class KmWiki
 
             System.out.println("ERROR");
             System.out.printf(
-                "%s Location(%s,%s).%n",
+                "%s Location(%s,%s).\n",
                 error.getMessage(),
                 source.getRow(),
                 source.getColumn());

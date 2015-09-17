@@ -5,14 +5,17 @@ import org.hibernate.StaleStateException;
 
 import com.kodemore.dao.KmDaoSession;
 import com.kodemore.dao.KmDaoSessionManager;
-import com.kodemore.exception.KmApplicationException;
-import com.kodemore.exception.KmSecurityException;
-import com.kodemore.hibernate.lock.KmDaoLockException;
-import com.kodemore.hibernate.lock.KmDaoOptimisticLockException;
+import com.kodemore.exception.KmSignalingException;
+import com.kodemore.hibernate.lock.KmhDaoOptimisticLockException;
 import com.kodemore.log.KmLogger;
 import com.kodemore.utility.KmTimer;
 import com.kodemore.utility.Kmu;
 
+/**
+ * I implement a
+ * @author Wyatt
+ *
+ */
 public abstract class KmDaoCommand
     extends KmCommand
 {
@@ -26,8 +29,49 @@ public abstract class KmDaoCommand
     //# variables
     //##################################################
 
-    private int                   _warningThresholdMs;
-    private boolean               _ignoreStaleExceptions;
+    /**
+     * Log a warning if the command takes too long to run.
+     * This does not interrupt or otherwise affect the command.
+     */
+    private int _warningThresholdMs;
+
+    /**
+     * If true, ignore any stale object exceptions.
+     * False by default.
+     *
+     * Stale object exceptions are typically thrown when two independent
+     * threads attempt to modify the same object.  First in wins, the second
+     * throws a stale object exception.
+     *
+     * If a stale object retry is defined, then any stale object exceptions
+     * will be caught and handled as a retry.  Once the retry limit is
+     * reached, any additional exception will be throw unless this flag
+     * is set to ignore it.
+     */
+    private boolean _ignoreStaleExceptions;
+
+    /**
+     * The number of times to retry the transaction if a stale object
+     * exception is detected.
+     */
+    private int _staleObjectRetryCount;
+
+    /**
+     * The delay to way before retrying the transaction after a stale
+     * object exception.
+     */
+    private int _staleObjectRetryDelayMs;
+
+    /**
+     * The database lock key.  We primarily rely on optimistic locking
+     * via the lockVersion column that is automatically managed for more
+     * tables.  However, there are still some rare cases where a traditional
+     * lock key is used.
+     *
+     * This creates a global lock on the entire database installation and
+     * should generally be avoided except where absolutely necessary.
+     */
+    private String _lockKey;
 
     //##################################################
     //# constructor
@@ -35,7 +79,11 @@ public abstract class KmDaoCommand
 
     public KmDaoCommand()
     {
-        _warningThresholdMs = getBridge().getWarningThresholdMs();
+        KmDaoBridge bridge = getBridge();
+
+        _warningThresholdMs = bridge.getWarningThresholdMs();
+        _staleObjectRetryCount = bridge.getStaleObjectRetryCount();
+        _staleObjectRetryDelayMs = bridge.getStaleObjectRetryDelayMs();
     }
 
     //##################################################
@@ -79,32 +127,18 @@ public abstract class KmDaoCommand
     @Override
     public void run()
     {
-        boolean alreadyOpen = getSessionManager().hasSession();
         try
         {
             KmTimer timer = startTimer();
 
-            if ( alreadyOpen )
+            if ( getSessionManager().hasSession() )
                 runInOpenTransaction();
             else
                 runInNewTransaction();
 
             stopTimer(timer);
         }
-        catch ( KmDaoRollbackException ex )
-        {
-            if ( alreadyOpen )
-                throw ex;
-        }
-        catch ( KmDaoLockException ex )
-        {
-            throw ex;
-        }
-        catch ( KmSecurityException ex )
-        {
-            throw ex;
-        }
-        catch ( KmApplicationException ex )
+        catch ( KmSignalingException ex )
         {
             throw ex;
         }
@@ -149,7 +183,7 @@ public abstract class KmDaoCommand
                 if ( _ignoreStaleExceptions )
                     break;
 
-                throw new KmDaoOptimisticLockException(ex);
+                throw new KmhDaoOptimisticLockException(ex);
             }
     }
 
@@ -170,6 +204,10 @@ public abstract class KmDaoCommand
             runDao();
             mgr.commit();
             releaseLock();
+        }
+        catch ( KmDaoRollbackException ex )
+        {
+            // ignore
         }
         finally
         {
@@ -261,14 +299,19 @@ public abstract class KmDaoCommand
     //# lock
     //##################################################
 
+    public String getLockKey()
+    {
+        return _lockKey;
+    }
+
+    public void setLockKey(String e)
+    {
+        _lockKey = e;
+    }
+
     public boolean requiresLock()
     {
         return getLockKey() != null;
-    }
-
-    public String getLockKey()
-    {
-        return null;
     }
 
     public int getLockTimeoutSeconds()
@@ -316,7 +359,6 @@ public abstract class KmDaoCommand
             return;
 
         KmDaoSession session = getDaoSession();
-
         if ( !session.isLocked() )
             throw Kmu.newFatal(
                 "Command(%s) requires lock(%s), but is running in unlocked transaction.",
@@ -335,14 +377,24 @@ public abstract class KmDaoCommand
     //# stale object retry
     //##################################################
 
-    protected int getStaleObjectRetryCount()
+    public final int getStaleObjectRetryCount()
     {
-        return getBridge().getStaleObjectRetryCount();
+        return _staleObjectRetryCount;
     }
 
-    protected int getStaleObjectRetryDelayMs()
+    public void setStaleObjectRetryCount(int e)
     {
-        return getBridge().getStaleObjectRetryDelayMs();
+        _staleObjectRetryCount = e;
+    }
+
+    public final int getStaleObjectRetryDelayMs()
+    {
+        return _staleObjectRetryDelayMs;
+    }
+
+    public void setStaleObjectRetryDelayMs(int e)
+    {
+        _staleObjectRetryDelayMs = e;
     }
 
     protected void onStaleObjectRetry()

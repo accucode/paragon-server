@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,63 +30,58 @@ public class MyUserCriteria
     //# constructor
     //##################################################
 
-    public MyUserCriteria(KmCriteria parent)
+    public MyUserCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyUserCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereName()
+    public KmhStringCondition whereName()
     {
-        return new KmStringCriteria(context(), fullName(NAME));
+        return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmStringCriteria whereEmail()
+    public KmhStringCondition whereEmail()
     {
-        return new KmStringCriteria(context(), fullName(EMAIL));
+        return new KmhStringCondition(context(), fullName(EMAIL));
     }
 
-    public KmStringCriteria wherePhone()
+    public KmhStringCondition wherePhone()
     {
-        return new KmStringCriteria(context(), fullName(PHONE));
+        return new KmhStringCondition(context(), fullName(PHONE));
     }
 
-    public KmBooleanCriteria whereVerified()
+    public KmhBooleanCondition whereVerified()
     {
-        return new KmBooleanCriteria(context(), fullName(VERIFIED));
+        return new KmhBooleanCondition(context(), fullName(VERIFIED));
     }
 
-    public KmStringCriteria wherePasswordSalt()
+    public KmhStringCondition wherePasswordSalt()
     {
-        return new KmStringCriteria(context(), fullName(PASSWORD_SALT));
+        return new KmhStringCondition(context(), fullName(PASSWORD_SALT));
     }
 
-    public KmStringCriteria wherePasswordHash()
+    public KmhStringCondition wherePasswordHash()
     {
-        return new KmStringCriteria(context(), fullName(PASSWORD_HASH));
+        return new KmhStringCondition(context(), fullName(PASSWORD_HASH));
     }
 
-    public KmStringCriteria whereTimeZoneCode()
+    public KmhStringCondition whereTimeZoneCode()
     {
-        return new KmStringCriteria(context(), fullName(TIME_ZONE_CODE));
+        return new KmhStringCondition(context(), fullName(TIME_ZONE_CODE));
     }
 
-    public KmStringCriteria whereRoleCode()
+    public KmhStringCondition whereRoleCode()
     {
-        return new KmStringCriteria(context(), fullName(ROLE_CODE));
+        return new KmhStringCondition(context(), fullName(ROLE_CODE));
     }
 
     public void whereRoleIs(MyUserRole e)
@@ -160,9 +154,9 @@ public class MyUserCriteria
             whereRoleIsNotOther();
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
@@ -823,9 +817,9 @@ public class MyUserCriteria
         return new MyProjectCriteria(leftJoinTo(LAST_PROJECT));
     }
 
-    public KmStringCriteria whereLastProjectUid()
+    public KmhStringCondition whereLastProjectUid()
     {
-        return new KmStringCriteria(parent(), fullName(LAST_PROJECT_UID));
+        return new KmhStringCondition(parent(), fullName(LAST_PROJECT_UID));
     }
 
     public void whereLastProjectIs(MyProject e)
@@ -849,15 +843,4 @@ public class MyUserCriteria
     {
         return new MyUserJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyUserCriteria createOn(KmModelJunction junction)
-    {
-        return new MyUserCriteria(parent(), junction.context());
-    }
-
 }

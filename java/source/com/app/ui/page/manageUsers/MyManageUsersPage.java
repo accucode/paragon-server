@@ -9,14 +9,24 @@ import com.app.model.MyUser;
 import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.support.MyManageDomainPage;
 
-public class MyManageUsersPage
+public final class MyManageUsersPage
     extends MyManageDomainPage<MyUser>
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManageUsersPage instance = new MyManageUsersPage();
+    private static MyManageUsersPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyManageUsersPage();
+    }
+
+    public static MyManageUsersPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyManageUsersPage()
     {

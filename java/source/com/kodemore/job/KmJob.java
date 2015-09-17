@@ -23,7 +23,7 @@
 package com.kodemore.job;
 
 import com.kodemore.exception.KmApplicationException;
-import com.kodemore.hibernate.lock.KmDaoLockException;
+import com.kodemore.hibernate.lock.KmhDaoLockException;
 import com.kodemore.log.KmLog;
 import com.kodemore.time.KmTimeConstantsIF;
 import com.kodemore.utility.Kmu;
@@ -38,9 +38,9 @@ public abstract class KmJob
     //# variables
     //##################################################
 
-    private long    _lastStartTime;
-    private long    _lastEndTime;
-    private int     _lastRunTime;
+    private long _lastStartTime;
+    private long _lastEndTime;
+    private int  _lastRunTime;
 
     private boolean _running;
 
@@ -110,7 +110,7 @@ public abstract class KmJob
             _lastStartTime = now();
             return handle();
         }
-        catch ( KmDaoLockException ex )
+        catch ( KmhDaoLockException ex )
         {
             return handleLockException();
         }

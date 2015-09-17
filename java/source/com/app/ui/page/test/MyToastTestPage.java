@@ -6,14 +6,27 @@ import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyToastTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyToastTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyToastTestPage instance = new MyToastTestPage();
+    private static MyToastTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyToastTestPage();
+    }
+
+    public static MyToastTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyToastTestPage()
     {
@@ -21,17 +34,27 @@ public class MyToastTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -69,12 +92,23 @@ public class MyToastTestPage
         group = form.addGroup("Html");
         group.style().width(300);
         links = group.getBody().addLinkBox();
-        links.addText(""
-            + "By default, toast messages are escaped.  "
-            + "However, you can easily set raw html if desired.");
+        links.addText(
+            ""
+                + "By default, toast messages are escaped. "
+                + "However, you can easily set raw html if desired.");
         links.addBreak();
         links.addLink("Text (default)", this::handleTextMessage);
         links.addLink("Html", this::handleHtmlMessage);
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

@@ -8,15 +8,15 @@ import com.app.utility.MyGlobals;
 
 /**
  * These files are ALL available in BOTH Production and Development.
- *
+ * 
  * Nearly all of these files are located under web, many are
  * more specifically under web/WEB-INF to ensure they are NOT
- * directly visible to the customer.
- *
+ * directly visible to the customer.  
+ * 
  * A few paths, like getSharedPath(), are specifically NOT under
  * the production web directory, but should still be valid in
  * production.
- *
+ * 
  * To use, first call MyInstaller.install() (or installCore)
  */
 public class MyFilePaths

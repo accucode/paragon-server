@@ -15,17 +15,30 @@ import com.kodemore.servlet.control.ScPieChart;
 import com.kodemore.types.KmHtmlColor;
 import com.kodemore.utility.KmRandom;
 
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
 /**
  * Test the Nvd3 charts.
  */
-public class MyNvd3ChartTestPage
-    extends MyAbstractTestEntryPage
+public final class MyNvd3ChartTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyNvd3ChartTestPage instance = new MyNvd3ChartTestPage();
+    private static MyNvd3ChartTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyNvd3ChartTestPage();
+    }
+
+    public static MyNvd3ChartTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyNvd3ChartTestPage()
     {
@@ -40,17 +53,27 @@ public class MyNvd3ChartTestPage
     private static final int BAR_POINTS  = 20;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -259,7 +282,26 @@ public class MyNvd3ChartTestPage
     }
 
     //##################################################
-    //# utility
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
+    //##################################################
+    //# handle
+    //##################################################
+
+    private void handleTabChanged()
+    {
+        ajax().run(ScAbstractChart.getUpdateAllChartsScript());
+    }
+
+    //##################################################
+    //# data
     //##################################################
 
     private void generateData(ScChartSeries s, int number)
@@ -315,12 +357,4 @@ public class MyNvd3ChartTestPage
         pie.addSlice("1", 1);
     }
 
-    //##################################################
-    //# handle
-    //##################################################
-
-    private void handleTabChanged()
-    {
-        ajax().run(ScAbstractChart.getUpdateAllChartsScript());
-    }
 }

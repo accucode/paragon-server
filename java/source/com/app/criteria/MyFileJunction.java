@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -23,65 +22,60 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyFileJunction
-    extends KmModelJunction
+    extends KmhModelJunction
     implements MyFileDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyFileJunction(KmJunction context)
+    public MyFileJunction(KmhJunction context)
     {
         super(context);
-    }
-
-    public MyFileJunction(KmJunction context, KmAbstractCriteria parent)
-    {
-        super(context, parent);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmIntegerCriteria whereId()
+    public KmhIntegerCondition whereId()
     {
-        return new KmIntegerCriteria(context(), fullName(ID));
+        return new KmhIntegerCondition(context(), fullName(ID));
     }
 
-    public KmStringCriteria whereName()
+    public KmhStringCondition whereName()
     {
-        return new KmStringCriteria(context(), fullName(NAME));
+        return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmStringCriteria wherePath()
+    public KmhStringCondition wherePath()
     {
-        return new KmStringCriteria(context(), fullName(PATH));
+        return new KmhStringCondition(context(), fullName(PATH));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmStringCriteria whereStatusCode()
+    public KmhStringCondition whereStatusCode()
     {
-        return new KmStringCriteria(context(), fullName(STATUS_CODE));
+        return new KmhStringCondition(context(), fullName(STATUS_CODE));
     }
 
-    public KmIntegerCriteria whereSize()
+    public KmhIntegerCondition whereSize()
     {
-        return new KmIntegerCriteria(context(), fullName(SIZE));
+        return new KmhIntegerCondition(context(), fullName(SIZE));
     }
 
-    public KmIntegerCriteria wherePartialSize()
+    public KmhIntegerCondition wherePartialSize()
     {
-        return new KmIntegerCriteria(context(), fullName(PARTIAL_SIZE));
+        return new KmhIntegerCondition(context(), fullName(PARTIAL_SIZE));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
@@ -94,12 +88,12 @@ public class MyFileJunction
 
     public MyFileJunction addAnd()
     {
-        return new MyFileJunction(context().addAnd(), parent());
+        return new MyFileJunction(context().addAnd());
     }
 
     public MyFileJunction addOr()
     {
-        return new MyFileJunction(context().addOr(), parent());
+        return new MyFileJunction(context().addOr());
     }
 
 }

@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MyEmailDaoBase
     @Override
     public MyEmailCriteria createCriteria()
     {
-        return new MyEmailCriteria(createGenericCriteria());
+        return new MyEmailCriteria(_createCriteria());
+    }
+
+    @Override
+    public MyEmailCriteria createDetachedCriteria(String alias)
+    {
+        return new MyEmailCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaEmail getMeta()

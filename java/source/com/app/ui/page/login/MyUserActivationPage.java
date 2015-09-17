@@ -20,14 +20,24 @@ import com.app.model.MyUserActivation;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
 
-public class MyUserActivationPage
+public final class MyUserActivationPage
     extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyUserActivationPage instance = new MyUserActivationPage();
+    private static MyUserActivationPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyUserActivationPage();
+    }
+
+    public static MyUserActivationPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyUserActivationPage()
     {
@@ -38,59 +48,58 @@ public class MyUserActivationPage
     //# variables
     //##################################################
 
-    private ScLocalString   _token;
+    private ScLocalString _token;
 
-    private ScCardFrame     _frame;
+    private ScCardFrame _frame;
 
     private ScCard          _activationCard;
     private ScTextSpan      _emailText;
     private ScPasswordField _password1Field;
     private ScPasswordField _password2Field;
 
-    private ScCard          _successCard;
+    private ScCard _successCard;
 
-    private ScCard          _errorCard;
-    private ScText          _errorMessage;
+    private ScCard _errorCard;
+    private ScText _errorMessage;
 
     //##################################################
-    //# setup
+    //# settings
     //##################################################
 
     @Override
     public MySecurityLevel getSecurityLevel()
     {
-        return MySecurityLevel.any;
+        return MySecurityLevel.none;
     }
 
     //##################################################
     //# navigation
     //##################################################
 
-    public void ajaxPushToken(MyUserActivation e)
+    public void ajaxEnter(MyUserActivation e)
     {
         setToken(e.getToken());
-
-        _ajaxPush();
+        ajaxEnter();
     }
 
     public String formatEntryUrl(MyUserActivation e)
     {
         setToken(e.getToken());
-
-        return _formatEntryUrl();
+        return formatEntryUrl();
     }
 
+    //##################################################
+    //# bookmark
+    //##################################################
+
     @Override
-    public ScParameterList composeQueryParameters()
+    public void composeBookmarkOn(ScParameterList v)
     {
-        ScParameterList v;
-        v = new ScParameterList();
         v.setValue("token", getToken());
-        return v;
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         setToken(v.getValue("token"));
     }
@@ -192,15 +201,16 @@ public class MyUserActivationPage
         ScBox body;
         body = group.getBody().addBox();
         body.css().pad();
-        body.addText(""
-            + "Success! Your email has been activated. "
-            + "Please click the following link to sign in.");
+        body.addText(
+            ""
+                + "Success! Your email has been activated. "
+                + "Please click the following link to sign in.");
 
         group.addBodyDivider();
 
         ScBox footer;
         footer = group.getBody().addButtonBox();
-        footer.addButton("Sign In", MySignInPage.instance);
+        footer.addButton("Sign In", MySignInPage.getInstance());
 
         return card;
     }
@@ -228,7 +238,7 @@ public class MyUserActivationPage
 
         ScBox footer;
         footer = group.getBody().addButtonBox();
-        footer.addButton("Sign In", MySignInPage.instance);
+        footer.addButton("Sign In", MySignInPage.getInstance());
 
         return card;
     }
@@ -240,8 +250,6 @@ public class MyUserActivationPage
     @Override
     protected void preRender()
     {
-        super.preRender();
-
         if ( !hasValidUserActivation() )
         {
             _errorMessage.setValue("The requested activation is invalid or has expired.");
@@ -287,10 +295,7 @@ public class MyUserActivationPage
         String pw2 = _password2Field.getValue();
 
         if ( Kmu.isNotEqual(pw1, pw2) )
-        {
-            _password1Field.addError("Passwords did not match.");
-            throw newCancel();
-        }
+            _password1Field.error("Passwords did not match.");
 
         createUser();
         setEmailCookie();

@@ -63,7 +63,6 @@ public class KmSha1
     {
         String a = args[0];
         String b = hash(a);
-
         System.out.println(a);
         System.out.println(b);
     }
@@ -103,6 +102,8 @@ public class KmSha1
     {
         state = new int[5];
         count = 0;
+        if ( block == null )
+            block = new int[16];
         digestBits = new byte[20];
         digestValid = false;
     }
@@ -173,10 +174,9 @@ public class KmSha1
 
     final int blk(int i)
     {
-        block[i & 15] = rol(block[i + 13 & 15]
-            ^ block[i + 8 & 15]
-            ^ block[i + 2 & 15]
-            ^ block[i & 15], 1);
+        block[i & 15] = rol(
+            block[i + 13 & 15] ^ block[i + 8 & 15] ^ block[i + 2 & 15] ^ block[i & 15],
+            1);
         return block[i & 15];
     }
 

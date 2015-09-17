@@ -62,10 +62,10 @@ public class KmSqlCondition
     //# variables
     //##################################################
 
-    private KmSqlAdaptor       _adaptor;
-    private KmSqlBuffer        _buffer;
-    private String             _join;
-    private int                _count;
+    private KmSqlAdaptor _adaptor;
+    private KmSqlBuffer  _buffer;
+    private String       _join;
+    private int          _count;
 
     //##################################################
     //# constructor
@@ -172,7 +172,11 @@ public class KmSqlCondition
         _buffer.printColumn(alias2, column2);
     }
 
-    public void isLessThanOrEqualColumn(String alias1, String column1, String alias2, String column2)
+    public void isLessThanOrEqualColumn(
+        String alias1,
+        String column1,
+        String alias2,
+        String column2)
     {
         _join();
         _buffer.printColumn(alias1, column1);

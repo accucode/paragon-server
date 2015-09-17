@@ -27,6 +27,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.meta.KmMetaAttribute;
+import com.kodemore.servlet.renderer.ScRenderer;
 import com.kodemore.servlet.utility.ScUrlBridge;
 import com.kodemore.servlet.utility.ScUrls;
 import com.kodemore.servlet.variable.ScLocalBoolean;
@@ -41,9 +42,9 @@ public abstract class ScButton
     //# constants
     //##################################################
 
-    private static final String PREFIX          = KmCssDefaultConstantsIF.button_prefix;
+    private static final String PREFIX = KmCssDefaultConstantsIF.button_prefix;
 
-    private static final String PART            = KmCssDefaultConstantsIF.button_part_element;
+    private static final String PART = KmCssDefaultConstantsIF.button_part_element;
 
     private static final String FLAVOR_POSITIVE = KmCssDefaultConstantsIF.button_flavor_positive;
     private static final String FLAVOR_NEGATIVE = KmCssDefaultConstantsIF.button_flavor_negative;
@@ -54,16 +55,16 @@ public abstract class ScButton
     //# variables
     //##################################################
 
-    private ScLocalString       _htmlName;
+    private ScLocalString _htmlName;
 
-    private ScLocalRenderer     _text;
-    private ScLocalString       _flavor;
-    private ScLocalBoolean      _primary;
+    private ScLocalRenderer _text;
+    private ScLocalString   _flavor;
+    private ScLocalBoolean  _primary;
 
-    private ScLocalString       _preImage;
-    private ScLocalString       _postImage;
+    private ScLocalString _preImage;
+    private ScLocalString _postImage;
 
-    private ScLocalBoolean      _enabled;
+    private ScLocalBoolean _enabled;
 
     //##################################################
     //# initialize
@@ -198,7 +199,7 @@ public abstract class ScButton
         return _text.getValue();
     }
 
-    public void setText(String e)
+    public void setText(CharSequence e)
     {
         _text.setValue(e);
     }
@@ -406,7 +407,7 @@ public abstract class ScButton
     private void renderText(KmHtmlBuilder out)
     {
         if ( hasText() )
-            getText().renderOn(out, this);
+            getText().renderOn(out, this, getModel());
     }
 
     protected abstract String formatHtmlType();

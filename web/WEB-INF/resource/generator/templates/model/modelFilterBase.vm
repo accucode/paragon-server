@@ -3,7 +3,7 @@ ${javaAutoGenerationComment}
 package ${package}.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import ${package}.command.base.*;
 import ${package}.criteria.*;
@@ -21,13 +21,13 @@ public abstract class ${model.f_FilterBaseClass}
 $utility.protocol("apply")
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<${model.f_Class}> c)
+    protected void applyConditionsTo(KmhModelCriteria<${model.f_Class}> c)
     {
         applyConditionsTo((${model.f_CriteriaClass})c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<${model.f_Class}> c)
+    protected void applySortsTo(KmhModelCriteria<${model.f_Class}> c)
     {
         applySortsTo((${model.f_CriteriaClass})c);
     }
@@ -52,6 +52,6 @@ $utility.protocol("support")
     @Override
     protected ${model.f_CriteriaClass} createCriteria()
     {
-        return new ${model.f_CriteriaClass}(createGenericCriteria());
+        return new ${model.f_CriteriaClass}(_createCriteria());
     }
 }

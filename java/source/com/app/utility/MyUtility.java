@@ -2,7 +2,6 @@ package com.app.utility;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
-import com.kodemore.exception.KmApplicationException;
 import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.field.ScDropdown;
 import com.kodemore.types.KmMoney;
@@ -129,7 +128,6 @@ public class MyUtility
         ScDropdown e;
         e = new ScDropdown();
         e.setLabel("State");
-
         for ( String name : names )
         {
             String code = states.get(name);
@@ -145,20 +143,18 @@ public class MyUtility
     public static void validatePassword(String password, String confirmationPassword)
     {
         if ( Kmu.isNotEqual(password, confirmationPassword) )
-            throw newError("Passwords do not match.");
+            throw Kmu.newError("Passwords do not match.");
 
         Integer min = MyGlobals.getProperties().getMinimumPasswordLength();
-
         if ( min > 0 )
             if ( password == null || password.length() < min )
-                throw newError("Password must be at least %s characters.", min);
+                throw Kmu.newError("Password must be at least %s characters.", min);
     }
 
     public static String formatDeletedLabel(boolean deleted)
     {
         if ( deleted )
             return "DELETED";
-
         return "";
     }
 
@@ -273,14 +269,5 @@ public class MyUtility
         String html = c.render().formatHtml();
 
         Kmu.writeFile(path, html);
-    }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private static KmApplicationException newError(CharSequence msg, Object... args)
-    {
-        return Kmu.newError(msg, args);
     }
 }

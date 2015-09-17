@@ -9,14 +9,24 @@ import com.app.model.MyVisitType;
 import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.support.MyManageDomainPage;
 
-public class MyManageVisitTypesPage
+public final class MyManageVisitTypesPage
     extends MyManageDomainPage<MyVisitType>
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManageVisitTypesPage instance = new MyManageVisitTypesPage();
+    private static MyManageVisitTypesPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyManageVisitTypesPage();
+    }
+
+    public static MyManageVisitTypesPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyManageVisitTypesPage()
     {

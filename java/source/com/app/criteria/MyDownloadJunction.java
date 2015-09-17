@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -23,65 +22,45 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyDownloadJunction
-    extends KmModelJunction
+    extends KmhModelJunction
     implements MyDownloadDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyDownloadJunction(KmJunction context)
+    public MyDownloadJunction(KmhJunction context)
     {
         super(context);
-    }
-
-    public MyDownloadJunction(KmJunction context, KmAbstractCriteria parent)
-    {
-        super(context, parent);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereName()
+    public KmhStringCondition whereName()
     {
-        return new KmStringCriteria(context(), fullName(NAME));
+        return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
     //# associations
     //##################################################
-
-    public MyUserCriteria joinToUser()
-    {
-        return join(new MyUserCriteria(root().joinTo(USER)));
-    }
-
-    public MyUserCriteria leftJoinToUser()
-    {
-        return join(new MyUserCriteria(root().leftJoinTo(USER)));
-    }
-
-    public KmStringCriteria whereUserUid()
-    {
-        return new KmStringCriteria(context(), fullName(USER_UID));
-    }
 
     //##################################################
     //# junction
@@ -89,12 +68,12 @@ public class MyDownloadJunction
 
     public MyDownloadJunction addAnd()
     {
-        return new MyDownloadJunction(context().addAnd(), parent());
+        return new MyDownloadJunction(context().addAnd());
     }
 
     public MyDownloadJunction addOr()
     {
-        return new MyDownloadJunction(context().addOr(), parent());
+        return new MyDownloadJunction(context().addOr());
     }
 
 }

@@ -53,7 +53,7 @@ public class KmaListBoxCellRenderer<E>
     //# variables
     //##################################################
 
-    private KmFormatterIF      _formatter;
+    private KmFormatterIF _formatter;
 
     //##################################################
     //# constructors

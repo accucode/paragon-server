@@ -26,6 +26,7 @@ import java.util.Iterator;
 
 import com.kodemore.collection.KmEmptyIterator;
 import com.kodemore.collection.KmList;
+import com.kodemore.command.KmDaoRollbackException;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.json.KmJsonUtility;
@@ -73,14 +74,18 @@ public abstract class ScControl
      * but NOT across different application versions.  Keys are typically
      * assigned automatically when the control is created.
      */
-    private String                               _key;
+    private String _key;
 
     /**
      * Controls organized in a simple tree hierarchy.
-     * However, the parent can be null for non-root elements, typically
-     * when managing dynamic content.
+     *
+     * In general, it is important to ensure that all controls are attached
+     * to the hierarchy. Controls use the parent hierarchy for a couple of
+     * important convenience mechanisms.  For example...
+     * - Find the containing ScForm.
+     * - Find the containing ScContextIF.
      */
-    private ScControl                            _parent;
+    private ScControl _parent;
 
     /**
      * The label attribute is strictly an application feature,
@@ -89,7 +94,7 @@ public abstract class ScControl
      * conveniently manage the layout.  Although all controls
      * have the label attribute, the actual usage varies widely.
      */
-    private ScLocalString                        _label;
+    private ScLocalString _label;
 
     /**
      * The help text associated with this control.  This is primarily
@@ -97,7 +102,7 @@ public abstract class ScControl
      * Some of the layout controls such as ScFieldLayout, ScFieldTable,
      * use the help (if present) to display a on screen tooltips.
      */
-    private ScLocalString                        _help;
+    private ScLocalString _help;
 
     /**
      * Many controls support dynamic content based on the current
@@ -107,7 +112,7 @@ public abstract class ScControl
      * that Person in different ways - one control may apply
      * the person's name.
      */
-    private ScLocalObject                        _model;
+    private ScLocalObject _model;
 
     /**
      * The scripts to run after the dom has been updated.
@@ -118,7 +123,7 @@ public abstract class ScControl
      * the script can contains ScScriptIFs that will be evaluated
      * upon request.
      */
-    private ScBlockScript                        _postDomScript;
+    private ScBlockScript _postDomScript;
 
     /**
      * The scripts to run after the display has been rendered.
@@ -127,7 +132,7 @@ public abstract class ScControl
      * after the dom has been updated, and must wait until after
      * the display has been fully rendered.
      */
-    private ScBlockScript                        _postRenderScript;
+    private ScBlockScript _postRenderScript;
 
     //##################################################
     //# constructor
@@ -227,7 +232,7 @@ public abstract class ScControl
     //# action
     //##################################################
 
-    protected ScAction createAction(Runnable r)
+    protected ScAction newAction(Runnable r)
     {
         if ( r == null )
             return null;
@@ -238,6 +243,7 @@ public abstract class ScControl
     //##################################################
     //# context
     //##################################################
+
     @Override
     public ScContextIF getContext()
     {
@@ -460,9 +466,9 @@ public abstract class ScControl
         return ok;
     }
 
-    public RuntimeException newRollback()
+    public RuntimeException newRollbackException()
     {
-        return Kmu.newRollback();
+        throw new KmDaoRollbackException();
     }
 
     /**
@@ -471,11 +477,17 @@ public abstract class ScControl
      */
     public void checkErrors()
     {
-        if ( !hasErrors() )
+        if ( !isRoot() )
+        {
+            getRoot().checkErrors();
             return;
+        }
 
-        ajaxShowErrors();
-        throw Kmu.newRollback();
+        if ( hasErrors() )
+        {
+            ajaxShowErrors();
+            Kmu.throwDaoRollback();
+        }
     }
 
     @Override
@@ -582,9 +594,7 @@ public abstract class ScControl
      */
     public final void renderOn(ScLiteral e)
     {
-        KmHtmlBuilder out;
-        out = new KmHtmlBuilder();
-
+        KmHtmlBuilder out = new KmHtmlBuilder();
         renderOn(out);
         e.setValue(out);
     }
@@ -681,12 +691,17 @@ public abstract class ScControl
     }
 
     //##################################################
-    //# convenience
+    //# formatter
     //##################################################
 
     public ScFormatter getFormatter()
     {
         return ScFormatter.getInstance();
+    }
+
+    public String formatAny(Object e)
+    {
+        return getFormatter().formatAny(e);
     }
 
     //##################################################

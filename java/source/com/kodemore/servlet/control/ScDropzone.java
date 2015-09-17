@@ -63,7 +63,7 @@ public class ScDropzone
      * support for removing the file from the server.  See also _removeAction.
      * This is true by default.
      */
-    private ScLocalBoolean            _showsRemoveButtons;
+    private ScLocalBoolean _showsRemoveButtons;
 
     /**
      * This is called when the user clicks the remove/cancel button on an uploaded file.
@@ -72,7 +72,7 @@ public class ScDropzone
      * that the user removed/cancelled an upload, but doesn't tell the server WHICH file
      * was removed/cancelled.
      */
-    private ScAction                  _removeAction;
+    private ScAction _removeAction;
 
     //##################################################
     //# init
@@ -264,7 +264,7 @@ public class ScDropzone
             KmList<FileItem> files = getData().getUploadedFiles();
 
             for ( FileItem item : files )
-                try ( BufferedInputStream in = Kmu.toBufferedInputStream(item.getInputStream()) )
+                try (BufferedInputStream in = Kmu.toBufferedInputStream(item.getInputStream()))
                 {
                     String fileName = FilenameUtils.getName(item.getName());
                     byte[] data = Kmu.readBytesFrom(in);

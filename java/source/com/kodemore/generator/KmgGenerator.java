@@ -23,6 +23,7 @@
 package com.kodemore.generator;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.apache.velocity.Template;
@@ -35,7 +36,6 @@ import com.kodemore.generator.model.KmgModel;
 import com.kodemore.generator.model.KmgModelEnum;
 import com.kodemore.generator.setup.KmgSetup;
 import com.kodemore.generator.setup.KmgSetupReader;
-import com.kodemore.string.KmStringBuilder;
 import com.kodemore.utility.Kmu;
 
 public class KmgGenerator
@@ -44,26 +44,26 @@ public class KmgGenerator
     //# variables
     //##################################################
 
-    private String               _setupDir;
-    private String               _setupFile;
+    private String _setupDir;
+    private String _setupFile;
 
-    private String               _definesPath;
+    private String _definesPath;
 
     /**
      * The root path is used to process the templates, it is not combined
      * with the setupPath or definesPath.
      */
-    private String               _rootPath;
+    private String _rootPath;
 
-    private KmgRoot              _root;
+    private KmgRoot _root;
 
-    private KmList<KmgSetup>     _setups;
+    private KmList<KmgSetup> _setups;
 
-    private String               _javaAutoGenerationComment;
-    private String               _xmlAutoGenerationComment;
-    private String               _ddlAutoGenerationComment;
+    private String _javaAutoGenerationComment;
+    private String _xmlAutoGenerationComment;
+    private String _ddlAutoGenerationComment;
 
-    private String               _lineEnd;
+    private String _lineEnd;
 
     private VelocityEngine       _velocity;
     private VelocityContext      _rootContext;
@@ -460,9 +460,10 @@ public class KmgGenerator
 
     private String formatTemplate(Template template, VelocityContext context)
     {
-        try ( StringWriter out = new StringWriter() )
+        try (StringWriter out = new StringWriter())
         {
             template.merge(context, out);
+            out.flush();
             return out.toString();
         }
         catch ( Exception ex )
@@ -473,9 +474,10 @@ public class KmgGenerator
 
     private String evaluate(String template, VelocityContext context)
     {
-        try ( StringWriter out = new StringWriter() )
+        try (StringWriter out = new StringWriter())
         {
             boolean ok = _velocity.evaluate(context, out, "dynamic", template);
+            out.flush();
 
             if ( !ok )
                 throw Kmu.newFatal("Cannot evaluate template: (%s).", template);
@@ -501,16 +503,19 @@ public class KmgGenerator
 
     private String composeJavaAutoGenerationComment()
     {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.println("//###############################################################");
-        out.println("//###############################################################");
-        out.println("//##");
-        out.println("//##  AUTO GENERATED - DO NOT EDIT");
-        out.println("//##");
-        out.println("//###############################################################");
-        out.println("//###############################################################");
-        return out.toString();
+        StringWriter sw = new StringWriter();
+        try (PrintWriter out = new PrintWriter(sw))
+        {
+            out.println("//###############################################################");
+            out.println("//###############################################################");
+            out.println("//##");
+            out.println("//##  AUTO GENERATED - DO NOT EDIT");
+            out.println("//##");
+            out.println("//###############################################################");
+            out.print("//###############################################################");
+            out.flush();
+            return sw.toString();
+        }
     }
 
     private String getXmlAutoGenerationComment()
@@ -523,18 +528,21 @@ public class KmgGenerator
 
     private String composeXmlAutoGenerationComment()
     {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.println("<!--");
-        out.println("###############################################################");
-        out.println("###############################################################");
-        out.println("##");
-        out.println("##  AUTO GENERATED - DO NOT EDIT");
-        out.println("##");
-        out.println("###############################################################");
-        out.println("###############################################################");
-        out.print("-->");
-        return out.toString();
+        StringWriter sw = new StringWriter();
+        try (PrintWriter out = new PrintWriter(sw))
+        {
+            out.println("<!--");
+            out.println("###############################################################");
+            out.println("###############################################################");
+            out.println("##");
+            out.println("##  AUTO GENERATED - DO NOT EDIT");
+            out.println("##");
+            out.println("###############################################################");
+            out.println("###############################################################");
+            out.print("-->");
+            out.flush();
+            return sw.toString();
+        }
     }
 
     private String getHtmlAutoGenerationComment()
@@ -551,16 +559,19 @@ public class KmgGenerator
 
     private String composeDdlAutoGenerationComment()
     {
-        KmStringBuilder out;
-        out = new KmStringBuilder();
-        out.println("###############################################################");
-        out.println("###############################################################");
-        out.println("##");
-        out.println("##  AUTO GENERATED - DO NOT EDIT");
-        out.println("##");
-        out.println("###############################################################");
-        out.print("###############################################################");
-        return out.toString();
+        StringWriter sw = new StringWriter();
+        try (PrintWriter out = new PrintWriter(sw))
+        {
+            out.println("###############################################################");
+            out.println("###############################################################");
+            out.println("##");
+            out.println("##  AUTO GENERATED - DO NOT EDIT");
+            out.println("##");
+            out.println("###############################################################");
+            out.print("###############################################################");
+            out.flush();
+            return sw.toString();
+        }
     }
 
     //##################################################
@@ -596,13 +607,13 @@ public class KmgGenerator
         System.out.println();
         System.out.println();
         System.out.println("Summary");
-        System.out.printf("%8s: %10s %10s%n", "Ext", "Lines", "Bytes");
+        System.out.printf("%8s: %10s %10s\n", "Ext", "Lines", "Bytes");
 
         KmList<String> exts;
         exts = bytes.getKeys();
         exts.sort();
         for ( String s : exts )
-            System.out.printf("%8s: %,10d %,10d%n", s, lines.get(s), bytes.get(s));
+            System.out.printf("%8s: %,10d %,10d\n", s, lines.get(s), bytes.get(s));
     }
 
 }

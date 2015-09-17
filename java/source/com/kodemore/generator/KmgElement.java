@@ -92,7 +92,7 @@ public abstract class KmgElement
 
         for ( String key : p.getKeys() )
             if ( !options.contains(key) )
-                throw newFatal(p, "(%s) must match one of [%s]", key, options.format());
+                throw newFatal(p, "(%s) must match one of [%s]", key, options.join());
     }
 
     public void checkChildrenNames(KmStfElement p, String... namesArr)
@@ -103,7 +103,7 @@ public abstract class KmgElement
         {
             String name = child.getName();
             if ( !names.contains(name) )
-                throw newFatal(p, "(%s) must match one of [%s]", name, names.format());
+                throw newFatal(p, "(%s) must match one of [%s]", name, names.join());
         }
     }
 
@@ -118,7 +118,7 @@ public abstract class KmgElement
         KmList<String> values = p.getValues(attr);
         for ( String value : values )
             if ( !options.contains(value) )
-                throw newFatal(p, "(%s) must match one of [%s]", attr, Kmu.formatList(options));
+                throw newFatal(p, "(%s) must match one of [%s]", attr, Kmu.join(options));
     }
 
     public void checkDuplicates(String key, KmList<String> values)
@@ -126,7 +126,7 @@ public abstract class KmgElement
         KmList<String> dups = values.getDuplicates();
 
         if ( dups.isNotEmpty() )
-            throw newFatal("(%s) cannot contain duplicates: [%s]", key, dups.format());
+            throw newFatal("(%s) cannot contain duplicates: [%s]", key, dups.join());
     }
 
     public String parseStringAttribute(KmStfElement p, String attr, String def)
@@ -272,7 +272,6 @@ public abstract class KmgElement
         Integer i = parseInteger(p, tag, null);
         if ( i == null )
             throw newFatal(p, "Cannot parse required integer (%s).", tag);
-
         return i;
     }
 
@@ -336,13 +335,11 @@ public abstract class KmgElement
         System.out.println("\n");
         System.out.println(error);
         System.out.println(path);
-
         if ( x != null )
         {
             System.out.println();
             System.out.println("Location: " + x.getLocation());
         }
-
         System.out.println("=======================================================");
         System.out.println();
 
@@ -431,34 +428,27 @@ public abstract class KmgElement
     public KmList<String> toWords(String s)
     {
         KmList<String> v = new KmList<>();
-        StringBuilder out = new StringBuilder();
-
+        StringBuilder sb = new StringBuilder();
         if ( Kmu.isEmpty(s) )
             return v;
-
         s = s.trim();
-
         int n = s.length();
         for ( int i = 0; i < n; i++ )
         {
             char c = s.charAt(i);
             if ( !Character.isLetter(c) )
                 continue;
-
             if ( Character.isUpperCase(c) )
             {
-                if ( out.length() > 0 )
-                    v.add(out.toString());
-                out.setLength(0);
+                if ( sb.length() > 0 )
+                    v.add(sb.toString());
+                sb.setLength(0);
                 c = Character.toLowerCase(c);
             }
-
-            out.append(c);
+            sb.append(c);
         }
-
-        if ( out.length() > 0 )
-            v.add(out.toString());
-
+        if ( sb.length() > 0 )
+            v.add(sb.toString());
         return v;
     }
 

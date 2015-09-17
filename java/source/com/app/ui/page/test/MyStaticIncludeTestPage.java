@@ -8,19 +8,31 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
 
 import com.app.file.MyFilePaths;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 import com.app.utility.MyButtonUrls;
 
 /**
  * Include the content found at /web/test/staticInclude.html
  */
-public class MyStaticIncludeTestPage
-    extends MyAbstractTestEntryPage
+public final class MyStaticIncludeTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyStaticIncludeTestPage instance = new MyStaticIncludeTestPage();
+    private static MyStaticIncludeTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyStaticIncludeTestPage();
+    }
+
+    public static MyStaticIncludeTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyStaticIncludeTestPage()
     {
@@ -37,20 +49,30 @@ public class MyStaticIncludeTestPage
     //# variables
     //##################################################
 
-    private ScDiv               _contents;
+    private ScDiv _contents;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -91,8 +113,6 @@ public class MyStaticIncludeTestPage
     @Override
     public void preRender()
     {
-        super.preRender();
-
         _contents.getPostDomScript().setContents(getStaticHtml());
     }
 

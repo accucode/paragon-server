@@ -16,6 +16,7 @@ import com.app.ui.page.general.MyTimeoutPage;
 import com.app.ui.page.login.MyPasswordResetPage;
 import com.app.ui.page.login.MySignInPage;
 import com.app.ui.page.login.MyUserActivationPage;
+import com.app.ui.page.manageAttentionGroups.MyManageAttentionGroupsPage;
 import com.app.ui.page.manageCategories.MyManageCategoriesPage;
 import com.app.ui.page.manageDepots.MyManageDepotsPage;
 import com.app.ui.page.manageMembers.MyManageMembersPage;
@@ -115,7 +116,7 @@ public class MyMenuRegistry
     public static MyMenuRegistry getInstance()
     {
         if ( _instance == null )
-            throw Kmu.newFatal("Not installed.");
+            throw Kmu.newFatal("Already isntalled.");
 
         return _instance;
     }
@@ -128,7 +129,7 @@ public class MyMenuRegistry
      * The root of the recursive composite.
      * The root itself is generally ignored.
      */
-    private MyMenuItem               _root;
+    private MyMenuItem _root;
 
     /**
      * A lookup that quickly returns the menu for a particular page (key).
@@ -166,22 +167,22 @@ public class MyMenuRegistry
 
     private void registerHome()
     {
-        getRoot().addMenu("Home", MyDashboardPage.instance);
+        getRoot().addMenu("Home", MyDashboardPage.getInstance());
     }
 
     private void registerTasks()
     {
-        getRoot().addMenu("Tasks", MyTasksPage.instance);
+        getRoot().addMenu("Tasks", MyTasksPage.getInstance());
     }
 
     private void registerOrders()
     {
-        getRoot().addMenu("Orders", MyOrdersPage.instance);
+        getRoot().addMenu("Orders", MyOrdersPage.getInstance());
     }
 
     private void registerReports()
     {
-        getRoot().addMenu("Reports", MyReportsPage.instance);
+        getRoot().addMenu("Reports", MyReportsPage.getInstance());
     }
 
     private void registerProjectSetup()
@@ -191,20 +192,21 @@ public class MyMenuRegistry
 
         MyMenuItem left;
         left = top.addMenu("Facilities");
-        left.addMenu("Depots", MyManageDepotsPage.instance);
-        left.addMenu("Ship Carriers", MyManageShipCarriersPage.instance);
-        left.addMenu("Visit Types", MyManageVisitTypesPage.instance);
+        left.addMenu("Depots", MyManageDepotsPage.getInstance());
+        left.addMenu("Ship Carriers", MyManageShipCarriersPage.getInstance());
+        left.addMenu("Visit Types", MyManageVisitTypesPage.getInstance());
 
         left = top.addMenu("People");
-        left.addMenu("Members", MyManageMembersPage.instance);
-        left.addMenu("Skills", MyManageSkillsPage.instance);
+        left.addMenu("Members", MyManageMembersPage.getInstance());
+        left.addMenu("Skills", MyManageSkillsPage.getInstance());
+        left.addMenu("Attention Groups", MyManageAttentionGroupsPage.getInstance());
 
         left = top.addMenu("Catalog");
-        left.addMenu("Products", MyManageProductsPage.instance);
-        left.addMenu("Categories", MyManageCategoriesPage.instance);
-        left.addMenu("Vendors", MyManageVendorsPage.instance);
-        left.addMenu("Power Types", MyManagePowerTypesPage.instance);
-        left.addMenu("Regions", MyManageRegionsPage.instance);
+        left.addMenu("Products", MyManageProductsPage.getInstance());
+        left.addMenu("Categories", MyManageCategoriesPage.getInstance());
+        left.addMenu("Vendors", MyManageVendorsPage.getInstance());
+        left.addMenu("Power Types", MyManagePowerTypesPage.getInstance());
+        left.addMenu("Regions", MyManageRegionsPage.getInstance());
     }
 
     private void registerAdmin()
@@ -214,8 +216,8 @@ public class MyMenuRegistry
 
         MyMenuItem left;
         left = top.addMenu("Admin");
-        left.addMenu("Users", MyManageUsersPage.instance);
-        left.addMenu("Projects", MyManageProjectsPage.instance);
+        left.addMenu("Users", MyManageUsersPage.getInstance());
+        left.addMenu("Projects", MyManageProjectsPage.getInstance());
     }
 
     private void registerTools()
@@ -225,18 +227,18 @@ public class MyMenuRegistry
 
         MyMenuItem section;
         section = top.addMenu("Tools");
-        section.addMenu(MyDevUtilityPage.instance);
-        section.addMenu(MyDevSqlPage.instance);
-        section.addMenu(MyDevBeanShellPage.instance);
-        section.addMenu(MyDevPerformanceLogPage.instance);
-        section.addMenu(MyDevSharedFileBrowserPage.instance);
-        section.addMenu(MyDevApplicationLogsPage.instance);
-        section.addMenu(MyDevApplicationPropertiesPage.instance);
-        section.addMenu(MyDevUsersPage.instance);
-        section.addMenu(MyDevEmailsPage.instance);
-        section.addMenu(MyDevHibernateCachePage.instance);
-        section.addMenu(MyDevSystemPropertiesPage.instance);
-        section.addMenu(MyDevEnvironmentVariablesPage.instance);
+        section.addMenu(MyDevUtilityPage.getInstance());
+        section.addMenu(MyDevSqlPage.getInstance());
+        section.addMenu(MyDevBeanShellPage.getInstance());
+        section.addMenu(MyDevPerformanceLogPage.getInstance());
+        section.addMenu(MyDevSharedFileBrowserPage.getInstance());
+        section.addMenu(MyDevApplicationLogsPage.getInstance());
+        section.addMenu(MyDevApplicationPropertiesPage.getInstance());
+        section.addMenu(MyDevUsersPage.getInstance());
+        section.addMenu(MyDevEmailsPage.getInstance());
+        section.addMenu(MyDevHibernateCachePage.getInstance());
+        section.addMenu(MyDevSystemPropertiesPage.getInstance());
+        section.addMenu(MyDevEnvironmentVariablesPage.getInstance());
     }
 
     private void registerTests()
@@ -246,87 +248,87 @@ public class MyMenuRegistry
 
         MyMenuItem personal;
         personal = top.addMenu("Personal");
-        personal.addMenu(MyWyattTestPage.instance);
+        personal.addMenu(MyWyattTestPage.getInstance());
 
         MyMenuItem layout;
         layout = top.addMenu("Layout");
-        layout.addMenu(MyFlexboxTestPage.instance);
-        layout.addMenu(MyAbsoluteLayoutTestPage.instance);
-        layout.addMenu(MyAccordionTestPage.instance);
-        layout.addMenu(MyBorderTestPage.instance);
-        layout.addMenu(MyBlankTestPage.instance);
-        layout.addMenu(MyEqualizeTestPage.instance);
-        layout.addMenu(MyFormTestPage.instance);
-        layout.addMenu(MyGroupIconHeaderTestPage.instance);
-        layout.addMenu(MyGroupTestPage.instance);
-        layout.addMenu(MyNotebookTestPage.instance);
-        layout.addMenu(MyPaddingTestPage.instance);
-        layout.addMenu(MyPlaceholderTestPage.instance);
-        layout.addMenu(MyTabbedTestPage.instance);
-        layout.addMenu(MyBorderLayoutTestPage.instance);
-        layout.addMenu(MyTitlePanelTestPage.instance);
-        layout.addMenu(MySplitterTestPage.instance);
+        layout.addMenu(MyFlexboxTestPage.getInstance());
+        layout.addMenu(MyAbsoluteLayoutTestPage.getInstance());
+        layout.addMenu(MyAccordionTestPage.getInstance());
+        layout.addMenu(MyBorderTestPage.getInstance());
+        layout.addMenu(MyBlankTestPage.getInstance());
+        layout.addMenu(MyEqualizeTestPage.getInstance());
+        layout.addMenu(MyFormTestPage.getInstance());
+        layout.addMenu(MyGroupIconHeaderTestPage.getInstance());
+        layout.addMenu(MyGroupTestPage.getInstance());
+        layout.addMenu(MyNotebookTestPage.getInstance());
+        layout.addMenu(MyPaddingTestPage.getInstance());
+        layout.addMenu(MyPlaceholderTestPage.getInstance());
+        layout.addMenu(MyTabbedTestPage.getInstance());
+        layout.addMenu(MyBorderLayoutTestPage.getInstance());
+        layout.addMenu(MyTitlePanelTestPage.getInstance());
+        layout.addMenu(MySplitterTestPage.getInstance());
 
         // fields
         MyMenuItem fields;
         fields = top.addMenu("Fields");
-        fields.addMenu(MyFieldTestPage.instance);
-        fields.addMenu(MyLocalValueTestPage.instance);
-        fields.addMenu(MyDateFieldTestPage.instance);
-        fields.addMenu(MyColorFieldTestPage.instance);
-        fields.addMenu(MyAutoCompleteTestPage.instance);
-        fields.addMenu(MyGoogleChartTestPage.instance);
-        fields.addMenu(MyGridTestPage.instance);
-        fields.addMenu(MyDropzoneTestPage.instance);
-        fields.addMenu(MyRadioButtonTestPage.instance);
-        fields.addMenu(MyDraggableMultiSelectTestPage.instance);
+        fields.addMenu(MyFieldTestPage.getInstance());
+        fields.addMenu(MyLocalValueTestPage.getInstance());
+        fields.addMenu(MyDateFieldTestPage.getInstance());
+        fields.addMenu(MyColorFieldTestPage.getInstance());
+        fields.addMenu(MyAutoCompleteTestPage.getInstance());
+        fields.addMenu(MyGoogleChartTestPage.getInstance());
+        fields.addMenu(MyGridTestPage.getInstance());
+        fields.addMenu(MyDropzoneTestPage.getInstance());
+        fields.addMenu(MyRadioButtonTestPage.getInstance());
+        fields.addMenu(MyDraggableMultiSelectTestPage.getInstance());
 
         // misc
         MyMenuItem misc;
         misc = top.addMenu("Misc");
-        misc.addMenu(MyBlockTestPage.instance);
-        misc.addMenu(MySlowTestPage.instance);
-        misc.addMenu(MyToastTestPage.instance);
-        misc.addMenu(MyAnimationTestPage.instance);
-        misc.addMenu(MyHideErrorsTestPage.instance);
-        misc.addMenu(MyOpenWindowTestPage.instance);
-        misc.addMenu(MyDownloadTestPage.instance);
-        misc.addMenu(MyDialogTestPage.instance);
-        misc.addMenu(MyBarcodeTestPage.instance);
-        misc.addMenu(MyGradientTestPage.instance);
-        misc.addMenu(MyCardFlipTestPage.instance);
-        misc.addMenu(MyNvd3ChartTestPage.instance);
-        misc.addMenu(MyTimeAgoTestPage.instance);
-        misc.addMenu(MyFilterTableRowTestPage.instance);
-        misc.addMenu(MyDomainDropdownSetValueTestPage.instance);
+        misc.addMenu(MyBlockTestPage.getInstance());
+        misc.addMenu(MySlowTestPage.getInstance());
+        misc.addMenu(MyToastTestPage.getInstance());
+        misc.addMenu(MyAnimationTestPage.getInstance());
+        misc.addMenu(MyHideErrorsTestPage.getInstance());
+        misc.addMenu(MyOpenWindowTestPage.getInstance());
+        misc.addMenu(MyDownloadTestPage.getInstance());
+        misc.addMenu(MyDialogTestPage.getInstance());
+        misc.addMenu(MyBarcodeTestPage.getInstance());
+        misc.addMenu(MyGradientTestPage.getInstance());
+        misc.addMenu(MyCardFlipTestPage.getInstance());
+        misc.addMenu(MyNvd3ChartTestPage.getInstance());
+        misc.addMenu(MyTimeAgoTestPage.getInstance());
+        misc.addMenu(MyFilterTableRowTestPage.getInstance());
+        misc.addMenu(MyDomainDropdownSetValueTestPage.getInstance());
 
         // tools
         MyMenuItem tools;
         tools = top.addMenu("Tools");
-        tools.addMenu(MyScriptTestPage.instance);
-        tools.addMenu(MyMemoryLeakTestPage.instance);
-        tools.addMenu(MyGmailTestPage.instance);
-        tools.addMenu(MySmtpTestPage.instance);
-        tools.addMenu(MyStaticIncludeTestPage.instance);
-        tools.addMenu(MyHoverTestPage.instance);
-        tools.addMenu(MyDragTestPage.instance);
-        tools.addMenu(MyFacebookTestPage.instance);
-        tools.addMenu(MySharedStateTest1Page.instance);
-        tools.addMenu(MyNavigationTest1Page.instance);
+        tools.addMenu(MyScriptTestPage.getInstance());
+        tools.addMenu(MyMemoryLeakTestPage.getInstance());
+        tools.addMenu(MyGmailTestPage.getInstance());
+        tools.addMenu(MySmtpTestPage.getInstance());
+        tools.addMenu(MyStaticIncludeTestPage.getInstance());
+        tools.addMenu(MyHoverTestPage.getInstance());
+        tools.addMenu(MyDragTestPage.getInstance());
+        tools.addMenu(MyFacebookTestPage.getInstance());
+        tools.addMenu(MySharedStateTest1Page.getInstance());
+        tools.addMenu(MyNavigationTest1Page.getInstance());
     }
 
     private KmList<ScPage> getIgnoredPages()
     {
         KmList<ScPage> v;
         v = new KmList<>();
-        v.add(MySignInPage.instance);
-        v.add(MySignOutPage.instance);
-        v.add(MyPasswordResetPage.instance);
-        v.add(MyUserProfilePage.instance);
-        v.add(MyUserActivationPage.instance);
-        v.add(MyTimeoutPage.instance);
-        v.add(MySharedStateTest2Page.instance);
-        v.add(MyNavigationTest2Page.instance);
+        v.add(MySignInPage.getInstance());
+        v.add(MySignOutPage.getInstance());
+        v.add(MyPasswordResetPage.getInstance());
+        v.add(MyUserProfilePage.getInstance());
+        v.add(MyUserActivationPage.getInstance());
+        v.add(MyTimeoutPage.getInstance());
+        v.add(MySharedStateTest2Page.getInstance());
+        v.add(MyNavigationTest2Page.getInstance());
         return v;
     }
 
@@ -416,7 +418,7 @@ public class MyMenuRegistry
     {
         KmList<String> dups = getMenuPageKeys().getDuplicates();
         if ( dups.isNotEmpty() )
-            KmLog.warnTrace("You cannot assign a page to multiple menus: %s.", dups.format());
+            KmLog.warnTrace("You cannot assign a page to multiple menus: %s.", dups.join());
     }
 
     private void validateMissingPages()
@@ -429,7 +431,7 @@ public class MyMenuRegistry
         if ( missing.isNotEmpty() )
             KmLog.warnTrace(
                 "The following pages are not linked to the menu registry: %s.",
-                missing.format());
+                missing.join());
     }
 
     private void validateIngoredPages()
@@ -446,7 +448,7 @@ public class MyMenuRegistry
         if ( dups.isNotEmpty() )
             warn(
                 "Menu registry, the following pages are both used and also 'ignored': %s.",
-                dups.format());
+                dups.join());
     }
 
     //##################################################

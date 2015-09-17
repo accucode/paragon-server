@@ -27,15 +27,27 @@ import com.app.filter.MyApplicationLogFilter;
 import com.app.model.MyApplicationLog;
 import com.app.model.MyApplicationLogTools;
 import com.app.model.meta.MyMetaApplicationLog;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MyDevApplicationLogsPage
-    extends MyDevAbstractPage
+public final class MyDevApplicationLogsPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDevApplicationLogsPage instance = new MyDevApplicationLogsPage();
+    private static MyDevApplicationLogsPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDevApplicationLogsPage();
+    }
+
+    public static MyDevApplicationLogsPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDevApplicationLogsPage()
     {
@@ -46,31 +58,41 @@ public class MyDevApplicationLogsPage
     //# variables
     //##################################################
 
-    private ScFilterBox              _filterBox;
-    private ScDropdown               _levelDropdown;
-    private ScTextField              _loggerField;
-    private ScTextField              _contextField;
-    private ScDateField              _startDateField;
-    private ScDateField              _endDateField;
+    private ScFilterBox _filterBox;
+    private ScDropdown  _levelDropdown;
+    private ScTextField _loggerField;
+    private ScTextField _contextField;
+    private ScDateField _startDateField;
+    private ScDateField _endDateField;
 
     private ScGrid<MyApplicationLog> _grid;
 
-    private ScDiv                    _logPanel;
-    private ScGroup                  _logGroup;
-    private ScLink                   _deleteLogLink;
+    private ScDiv   _logPanel;
+    private ScGroup _logGroup;
+    private ScLink  _deleteLogLink;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -221,6 +243,16 @@ public class MyDevApplicationLogsPage
     }
 
     //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
+    //##################################################
     //# handle
     //##################################################
 
@@ -251,7 +283,7 @@ public class MyDevApplicationLogsPage
         getAccess().getApplicationLogTraceDao()._truncate();
 
         ajax().toast("All logs deleted.");
-        print();
+        ajaxPrint();
     }
 
     private void handleDelete()

@@ -1,18 +1,29 @@
 package com.app.ui.page.general;
 
+import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScPageRoot;
 
-import com.app.ui.page.MyAbstractEntryPage;
+import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
 
-public class MyDashboardPage
-    extends MyAbstractEntryPage
+public final class MyDashboardPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDashboardPage instance = new MyDashboardPage();
+    private static MyDashboardPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDashboardPage();
+    }
+
+    public static MyDashboardPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDashboardPage()
     {
@@ -30,6 +41,22 @@ public class MyDashboardPage
     }
 
     //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
+    }
+
+    @Override
+    public void applyBookmark(ScParameterList v)
+    {
+        // none
+    }
+
+    //##################################################
     //# install
     //##################################################
 
@@ -37,7 +64,17 @@ public class MyDashboardPage
     protected void installRoot(ScPageRoot root)
     {
         root.css().pad();
-        root.addText("Welcome to the KodeMore demo.");
+        root.addText("Welcome to the Field Service Portal.");
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
 }

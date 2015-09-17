@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,63 +30,58 @@ public class MyApplicationLogCriteria
     //# constructor
     //##################################################
 
-    public MyApplicationLogCriteria(KmCriteria parent)
+    public MyApplicationLogCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyApplicationLogCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmIntegerCriteria whereId()
+    public KmhIntegerCondition whereId()
     {
-        return new KmIntegerCriteria(context(), fullName(ID));
+        return new KmhIntegerCondition(context(), fullName(ID));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmStringCriteria whereLoggerName()
+    public KmhStringCondition whereLoggerName()
     {
-        return new KmStringCriteria(context(), fullName(LOGGER_NAME));
+        return new KmhStringCondition(context(), fullName(LOGGER_NAME));
     }
 
-    public KmStringCriteria whereContext()
+    public KmhStringCondition whereContext()
     {
-        return new KmStringCriteria(context(), fullName(CONTEXT));
+        return new KmhStringCondition(context(), fullName(CONTEXT));
     }
 
-    public KmStringCriteria whereMessage()
+    public KmhStringCondition whereMessage()
     {
-        return new KmStringCriteria(context(), fullName(MESSAGE));
+        return new KmhStringCondition(context(), fullName(MESSAGE));
     }
 
-    public KmStringCriteria whereLevelName()
+    public KmhStringCondition whereLevelName()
     {
-        return new KmStringCriteria(context(), fullName(LEVEL_NAME));
+        return new KmhStringCondition(context(), fullName(LEVEL_NAME));
     }
 
-    public KmIntegerCriteria whereLevelCode()
+    public KmhIntegerCondition whereLevelCode()
     {
-        return new KmIntegerCriteria(context(), fullName(LEVEL_CODE));
+        return new KmhIntegerCondition(context(), fullName(LEVEL_CODE));
     }
 
-    public KmStringCriteria whereThreadName()
+    public KmhStringCondition whereThreadName()
     {
-        return new KmStringCriteria(context(), fullName(THREAD_NAME));
+        return new KmhStringCondition(context(), fullName(THREAD_NAME));
     }
 
-    public KmStringCriteria whereExceptionText()
+    public KmhStringCondition whereExceptionText()
     {
-        return new KmStringCriteria(context(), fullName(EXCEPTION_TEXT));
+        return new KmhStringCondition(context(), fullName(EXCEPTION_TEXT));
     }
 
     //##################################################
@@ -679,15 +673,4 @@ public class MyApplicationLogCriteria
     {
         return new MyApplicationLogJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyApplicationLogCriteria createOn(KmModelJunction junction)
-    {
-        return new MyApplicationLogCriteria(parent(), junction.context());
-    }
-
 }

@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -23,60 +22,40 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyApplicationLogTraceJunction
-    extends KmModelJunction
+    extends KmhModelJunction
     implements MyApplicationLogTraceDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyApplicationLogTraceJunction(KmJunction context)
+    public MyApplicationLogTraceJunction(KmhJunction context)
     {
         super(context);
-    }
-
-    public MyApplicationLogTraceJunction(KmJunction context, KmAbstractCriteria parent)
-    {
-        super(context, parent);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmIntegerCriteria whereId()
+    public KmhIntegerCondition whereId()
     {
-        return new KmIntegerCriteria(context(), fullName(ID));
+        return new KmhIntegerCondition(context(), fullName(ID));
     }
 
-    public KmIntegerCriteria whereSequence()
+    public KmhIntegerCondition whereSequence()
     {
-        return new KmIntegerCriteria(context(), fullName(SEQUENCE));
+        return new KmhIntegerCondition(context(), fullName(SEQUENCE));
     }
 
-    public KmStringCriteria whereValue()
+    public KmhStringCondition whereValue()
     {
-        return new KmStringCriteria(context(), fullName(VALUE));
+        return new KmhStringCondition(context(), fullName(VALUE));
     }
 
     //##################################################
     //# associations
     //##################################################
-
-    public MyApplicationLogCriteria joinToLog()
-    {
-        return join(new MyApplicationLogCriteria(root().joinTo(LOG)));
-    }
-
-    public MyApplicationLogCriteria leftJoinToLog()
-    {
-        return join(new MyApplicationLogCriteria(root().leftJoinTo(LOG)));
-    }
-
-    public KmIntegerCriteria whereLogId()
-    {
-        return new KmIntegerCriteria(context(), fullName(LOG_ID));
-    }
 
     //##################################################
     //# junction
@@ -84,12 +63,12 @@ public class MyApplicationLogTraceJunction
 
     public MyApplicationLogTraceJunction addAnd()
     {
-        return new MyApplicationLogTraceJunction(context().addAnd(), parent());
+        return new MyApplicationLogTraceJunction(context().addAnd());
     }
 
     public MyApplicationLogTraceJunction addOr()
     {
-        return new MyApplicationLogTraceJunction(context().addOr(), parent());
+        return new MyApplicationLogTraceJunction(context().addOr());
     }
 
 }

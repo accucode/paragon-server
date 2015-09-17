@@ -22,6 +22,8 @@
 
 package com.kodemore.exception;
 
+import java.util.List;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.exception.error.KmDatabaseLockError;
 import com.kodemore.exception.error.KmErrorIF;
@@ -42,7 +44,7 @@ import com.kodemore.utility.Kmu;
  * NOT be wrapped as application exceptions.
  */
 public class KmApplicationException
-    extends RuntimeException
+    extends KmSignalingException
 {
     //##################################################
     //# variables
@@ -59,17 +61,12 @@ public class KmApplicationException
         super();
     }
 
-    public KmApplicationException(KmErrorIF error)
-    {
-        addError(error);
-    }
-
     public KmApplicationException(KmList<KmErrorIF> errors)
     {
         setErrors(errors);
     }
 
-    public KmApplicationException(CharSequence msg, Object... args)
+    public KmApplicationException(String msg, Object... args)
     {
         addError(msg, args);
     }
@@ -161,9 +158,14 @@ public class KmApplicationException
         _errors.add(e);
     }
 
-    public void addError(CharSequence msg, Object... args)
+    public void addError(String msg, Object... args)
     {
         addError(new KmGeneralError(msg, args));
+    }
+
+    public void addErrors(List<KmErrorIF> v)
+    {
+        _errors.addAll(v);
     }
 
     //##################################################

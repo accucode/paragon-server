@@ -110,18 +110,20 @@ public class KmTelnetEchoSession
     @Override
     public void handleOption(int command, int option)
     {
-        System.out.println("option: "
-            + KmTelnetUtility.formatCommand(command)
-            + " : "
-            + KmTelnetUtility.formatOption(option));
+        System.out.println(
+            "option: "
+                + KmTelnetUtility.formatCommand(command)
+                + " : "
+                + KmTelnetUtility.formatOption(option));
     }
 
     @Override
     public void handleSubnegotiation(int option, byte[] data)
     {
-        System.out.println("subnegotiation: "
-            + KmTelnetUtility.formatOption(option)
-            + KmTelnetUtility.formatCharacters(data));
+        System.out.println(
+            "subnegotiation: "
+                + KmTelnetUtility.formatOption(option)
+                + KmTelnetUtility.formatCharacters(data));
     }
 
 }

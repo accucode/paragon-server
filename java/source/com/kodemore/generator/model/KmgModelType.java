@@ -15,8 +15,8 @@ public class KmgModelType
     //# variables
     //##################################################
 
-    private String         _name;
-    private String         _comment;
+    private String _name;
+    private String _comment;
 
     private KmProtoType    _protoType;
     private Integer        _minimumLength;
@@ -26,11 +26,11 @@ public class KmgModelType
     private KmList<String> _validCharacters;
     private Integer        _columnWidth;
 
-    private boolean        _forcesLowerCase;
-    private boolean        _forcesUpperCase;
-    private boolean        _stripsLeadingZeros;
-    private boolean        _stripsAllSpaces;
-    private boolean        _stripsAllDashes;
+    private boolean _forcesLowerCase;
+    private boolean _forcesUpperCase;
+    private boolean _stripsLeadingZeros;
+    private boolean _stripsAllSpaces;
+    private boolean _stripsAllDashes;
 
     //##################################################
     //# constuctor
@@ -405,7 +405,6 @@ public class KmgModelType
         _comment = parseRequiredString(x, "comment");
 
         String baseTypeName = parseRequiredString(x, "baseType");
-
         _protoType = KmProtoTypes.get(baseTypeName);
         if ( _protoType == null )
             throw newFatal(x, "Unknown baseType: %s", baseTypeName);

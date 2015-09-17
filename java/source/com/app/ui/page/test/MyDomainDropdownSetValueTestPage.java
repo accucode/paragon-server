@@ -13,15 +13,27 @@ import com.kodemore.servlet.field.ScDomainDropdownField;
 
 import com.app.model.MyUser;
 import com.app.model.meta.MyMetaUser;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MyDomainDropdownSetValueTestPage
-    extends MyAbstractTestEntryPage
+public final class MyDomainDropdownSetValueTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDomainDropdownSetValueTestPage instance = new MyDomainDropdownSetValueTestPage();
+    private static MyDomainDropdownSetValueTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDomainDropdownSetValueTestPage();
+    }
+
+    public static MyDomainDropdownSetValueTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDomainDropdownSetValueTestPage()
     {
@@ -36,20 +48,30 @@ public class MyDomainDropdownSetValueTestPage
     private ScDomainDropdownField<MyUser,String> _toDropdown;
     private ScDomainDropdownField<MyUser,String> _dialogDropdown;
 
-    private ScDialog                             _dialog;
+    private ScDialog _dialog;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -135,6 +157,16 @@ public class MyDomainDropdownSetValueTestPage
         footer.alignEnd();
         footer.css().buttonBox();
         footer.addSubmitButton();
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

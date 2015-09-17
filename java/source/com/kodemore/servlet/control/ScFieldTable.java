@@ -37,13 +37,13 @@ public class ScFieldTable
     //# variables
     //##################################################
 
-    private ScSpan       _labelSpan;
-    private ScText       _labelText;
+    private ScSpan _labelSpan;
+    private ScText _labelText;
 
     private ScLocalCss   _css;
     private ScLocalStyle _style;
 
-    private ScLocalCss   _rightCss;
+    private ScLocalCss _rightCss;
 
     //##################################################
     //# init

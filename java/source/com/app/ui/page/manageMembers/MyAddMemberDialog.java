@@ -70,7 +70,7 @@ public class MyAddMemberDialog
 
     private void installCheckEmailCard()
     {
-        _checkEmailAction = createAction(this::handleCheckEmail);
+        _checkEmailAction = newAction(this::handleCheckEmail);
 
         _checkEmailCard = _frame.addCard();
         _checkEmailCard.beDefault();
@@ -98,7 +98,7 @@ public class MyAddMemberDialog
     private void installJoinUserCard()
     {
         _joinUserCard = _frame.addCard();
-        _joinUserAction = createAction(this::handleJoinUser);
+        _joinUserAction = newAction(this::handleJoinUser);
 
         ScFieldset set;
         set = _joinUserCard.addFieldset("Join Existing User");
@@ -126,7 +126,7 @@ public class MyAddMemberDialog
     private void installCreateUserCard()
     {
         _createUserCard = _frame.addCard();
-        _createUserAction = createAction(this::handleCreateUser);
+        _createUserAction = newAction(this::handleCreateUser);
 
         ScFieldset set;
         set = _createUserCard.addFieldset("Create New User");
@@ -175,10 +175,7 @@ public class MyAddMemberDialog
         boolean isValid = Kmu.isValidEmailAddress(email);
 
         if ( !isValid )
-        {
-            _checkEmailField.addError("Invalid email.");
-            throw newRollback();
-        }
+            _checkEmailField.error("Invalid email.");
 
         MyUser user;
         user = getAccess().getUserDao().findEmail(email);
@@ -190,10 +187,7 @@ public class MyAddMemberDialog
         }
 
         if ( getCurrentProject().hasMember(user) )
-        {
-            _checkEmailField.addError("Already a member.");
-            throw newRollback();
-        }
+            _checkEmailField.error("Already a member.");
 
         ajaxShowJoinUserCardFor(user);
     }
@@ -257,10 +251,7 @@ public class MyAddMemberDialog
 
         MyUser user = getAccess().getUserDao().findEmail(email);
         if ( user == null )
-        {
-            _joinEmailField.addError("Invalid email.");
-            throw newRollback();
-        }
+            _joinEmailField.error("Invalid email.");
 
         MyProject project = getCurrentProject();
         MyMember member = project.getMemberFor(user);
@@ -316,5 +307,60 @@ public class MyAddMemberDialog
         e.setValue(MyMemberRole.Worker);
         return e;
     }
+
+    //    //##################################################
+    //    //# install
+    //    //##################################################
+    //
+    //    @Override
+    //    protected void install()
+    //    {
+    //        super.install();
+    //
+    //        setLabel("ADD Member");
+    //        setWidth(400);
+    //        installFields();
+    //    }
+    //
+    //    private void installFields()
+    //    {
+    //        MyMetaMember x = MyMember.Meta;
+    //
+    //        ScDiv body;
+    //        body = getBody();
+    //        body.css().pad();
+    //
+    //        ScFieldLayout fields;
+    //        fields = body.addFieldLayout();
+    //        fields.addField(x.UserName);
+    //    }
+    //
+    //    //##################################################
+    //    //# prepare
+    //    //##################################################
+    //
+    //    @Override
+    //    protected void prepare()
+    //    {
+    //        // none
+    //    }
+    //
+    //    //##################################################
+    //    //# save
+    //    //##################################################
+    //
+    //    @Override
+    //    protected MyMember save()
+    //    {
+    //        validate();
+    //
+    //        MyMember e;
+    //        e = getCurrentProject().addMember();
+    //        e.applyFrom(this);
+    //
+    //        flushDao();
+    //
+    //        return e;
+    //    }
 
 }

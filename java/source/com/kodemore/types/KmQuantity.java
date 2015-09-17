@@ -31,13 +31,13 @@ public class KmQuantity
     //# constants
     //##################################################
 
-    public static final KmQuantity ZERO               = new KmQuantity(0);
-    public static final KmQuantity ONE                = new KmQuantity(1);
+    public static final KmQuantity ZERO = new KmQuantity(0);
+    public static final KmQuantity ONE  = new KmQuantity(1);
 
-    public static final KmQuantity MAX                = new KmQuantity(9999999.99999);
+    public static final KmQuantity MAX = new KmQuantity(9999999.99999);
 
-    public static final int        DATABASE_PRECISION = 12;
-    public static final int        SCALE              = 5;
+    public static final int DATABASE_PRECISION = 12;
+    public static final int SCALE              = 5;
 
     //##################################################
     //# constructor

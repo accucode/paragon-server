@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,33 +30,28 @@ public class MyApplicationLogTraceCriteria
     //# constructor
     //##################################################
 
-    public MyApplicationLogTraceCriteria(KmCriteria parent)
+    public MyApplicationLogTraceCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyApplicationLogTraceCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmIntegerCriteria whereId()
+    public KmhIntegerCondition whereId()
     {
-        return new KmIntegerCriteria(context(), fullName(ID));
+        return new KmhIntegerCondition(context(), fullName(ID));
     }
 
-    public KmIntegerCriteria whereSequence()
+    public KmhIntegerCondition whereSequence()
     {
-        return new KmIntegerCriteria(context(), fullName(SEQUENCE));
+        return new KmhIntegerCondition(context(), fullName(SEQUENCE));
     }
 
-    public KmStringCriteria whereValue()
+    public KmhStringCondition whereValue()
     {
-        return new KmStringCriteria(context(), fullName(VALUE));
+        return new KmhStringCondition(context(), fullName(VALUE));
     }
 
     //##################################################
@@ -284,9 +278,9 @@ public class MyApplicationLogTraceCriteria
         return new MyApplicationLogCriteria(leftJoinTo(LOG));
     }
 
-    public KmIntegerCriteria whereLogId()
+    public KmhIntegerCondition whereLogId()
     {
-        return new KmIntegerCriteria(parent(), fullName(LOG_ID));
+        return new KmhIntegerCondition(parent(), fullName(LOG_ID));
     }
 
     public void whereLogIs(MyApplicationLog e)
@@ -310,15 +304,4 @@ public class MyApplicationLogTraceCriteria
     {
         return new MyApplicationLogTraceJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyApplicationLogTraceCriteria createOn(KmModelJunction junction)
-    {
-        return new MyApplicationLogTraceCriteria(parent(), junction.context());
-    }
-
 }

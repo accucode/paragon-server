@@ -31,9 +31,9 @@ public interface ScEncoderConstantsIF
     char SLASH     = '/';
     char BACKSLASH = '\\';
 
-    char COMMA     = ',';
-    char QUOTE     = '"';
-    char TICK      = '\'';
-    char POUND     = '#';
+    char COMMA = ',';
+    char QUOTE = '"';
+    char TICK  = '\'';
+    char POUND = '#';
 
 }

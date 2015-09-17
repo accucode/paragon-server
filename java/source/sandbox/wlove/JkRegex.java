@@ -61,7 +61,7 @@ public class JkRegex
 
             System.out.println("    groupCount: " + groupCount);
             for ( int i = 0; i <= groupCount; i++ )
-                System.out.printf("    group[%s]: %s%n", i, matcher.group(i));
+                System.out.printf("    group[%s]: %s\n", i, matcher.group(i));
         }
     }
 

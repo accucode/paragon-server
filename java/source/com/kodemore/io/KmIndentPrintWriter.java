@@ -56,7 +56,6 @@ public class KmIndentPrintWriter
         this(e, false);
     }
 
-    @SuppressWarnings("resource")
     public KmIndentPrintWriter(Writer e, boolean autoFlush)
     {
         this(new KmIndentWriter(e), autoFlush);

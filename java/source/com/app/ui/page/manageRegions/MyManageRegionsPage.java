@@ -9,14 +9,24 @@ import com.app.model.MyRegion;
 import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.support.MyManageDomainPage;
 
-public class MyManageRegionsPage
+public final class MyManageRegionsPage
     extends MyManageDomainPage<MyRegion>
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManageRegionsPage instance = new MyManageRegionsPage();
+    private static MyManageRegionsPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyManageRegionsPage();
+    }
+
+    public static MyManageRegionsPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyManageRegionsPage()
     {

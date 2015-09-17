@@ -40,23 +40,23 @@ public class ScAppendContentsScript
     /**
      * The selector to which the contents will be added.
      */
-    private String       _selector;
+    private String _selector;
 
     /**
      * The html to put into the innerSelector.
      */
-    private String       _contents;
+    private String _contents;
 
     /**
      * The script to run after the dom has been replaced.
      */
-    private String       _postDomScript;
+    private String _postDomScript;
 
     /**
      * The script to run after the html has been rendered.
      * This is run AFTER any transition effects.
      */
-    private String       _postRenderScript;
+    private String _postRenderScript;
 
     /**
      * The transition to use.
@@ -65,9 +65,9 @@ public class ScAppendContentsScript
 
     /**
      * The speed of the transition.  Ignored if the transition
-     * does not support it.
+     * does not support it.  
      */
-    private Integer      _speed;
+    private Integer _speed;
 
     //##################################################
     //# constructor

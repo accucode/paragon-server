@@ -37,9 +37,9 @@ public class KmXmlElement
     //# variables
     //##################################################
 
-    private String                 _uri;
-    private String                 _localName;
-    private String                 _qualifiedName;
+    private String _uri;
+    private String _localName;
+    private String _qualifiedName;
 
     private KmList<KmXmlAttribute> _attributes;
     private KmList<KmXmlNode>      _children;

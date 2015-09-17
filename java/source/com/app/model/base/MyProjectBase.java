@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -49,6 +48,7 @@ public abstract class MyProjectBase
     private List<MyVendor> vendors;
     private List<MySkill> skills;
     private List<MyVisitType> visitTypes;
+    private List<MyAttentionGroup> attentionGroups;
     private List<MyProduct> products;
     private List<MyCategory> categories;
     private List<MyShipCarrier> shipCarriers;
@@ -68,6 +68,7 @@ public abstract class MyProjectBase
         vendors = new ArrayList<>();
         skills = new ArrayList<>();
         visitTypes = new ArrayList<>();
+        attentionGroups = new ArrayList<>();
         products = new ArrayList<>();
         categories = new ArrayList<>();
         shipCarriers = new ArrayList<>();
@@ -657,6 +658,73 @@ public abstract class MyProjectBase
     }
 
     //##################################################
+    //# AttentionGroups (collection)
+    //##################################################
+
+    public KmCollection<MyAttentionGroup> getAttentionGroups()
+    {
+        return new KmHibernateCollection<>(
+            getBaseAttentionGroups(),
+            (MyProject)this,
+            MyAttentionGroup.Meta.Project.getAdaptor());
+    }
+
+    public boolean hasAttentionGroups()
+    {
+        return !getBaseAttentionGroups().isEmpty();
+    }
+
+    public int getAttentionGroupCount()
+    {
+        return getBaseAttentionGroups().size();
+    }
+
+    public List<MyAttentionGroup> getBaseAttentionGroups()
+    {
+        return attentionGroups;
+    }
+
+    public MyAttentionGroup addAttentionGroup()
+    {
+        MyAttentionGroup e;
+        e = new MyAttentionGroup();
+        getAttentionGroups().add(e);
+        return e;
+    }
+
+    public void addAttentionGroup(MyAttentionGroup e)
+    {
+        getAttentionGroups().add(e);
+    }
+
+    public boolean removeAttentionGroup(MyAttentionGroup e)
+    {
+        return getAttentionGroups().remove(e);
+    }
+
+    public boolean removeAttentionGroupUid(String myUid)
+    {
+        MyAttentionGroup e = findAttentionGroupUid(myUid);
+        if ( e == null )
+            return false;
+
+        return removeAttentionGroup(e);
+    }
+
+    public MyAttentionGroup findAttentionGroupUid(String myUid)
+    {
+        for ( MyAttentionGroup e : getBaseAttentionGroups() )
+            if ( e.hasUid(myUid) )
+                return e;
+        return null;
+    }
+
+    public void clearAttentionGroups()
+    {
+        getAttentionGroups().clear();
+    }
+
+    //##################################################
     //# Products (collection)
     //##################################################
 
@@ -929,6 +997,11 @@ public abstract class MyProjectBase
         for ( MyVisitType e : old_visitTypes )
             addVisitType(copy(e));
 
+        List<MyAttentionGroup> old_attentionGroups = attentionGroups;
+        attentionGroups = new ArrayList<>();
+        for ( MyAttentionGroup e : old_attentionGroups )
+            addAttentionGroup(copy(e));
+
         List<MyProduct> old_products = products;
         products = new ArrayList<>();
         for ( MyProduct e : old_products )
@@ -987,44 +1060,6 @@ public abstract class MyProjectBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("uid") )
-            setUid(p.getString("uid"));
-
-        if ( p.hasKey("name") )
-            setName(p.getString("name"));
-
-        if ( p.hasKey("lockVersion") )
-            setLockVersion(p.getInteger("lockVersion"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasUid() )
-            p.setString("uid", getUid());
-
-        if ( hasName() )
-            p.setString("name", getName());
-
-        if ( hasLockVersion() )
-            p.setInteger("lockVersion", getLockVersion());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

@@ -72,6 +72,11 @@ public abstract class MyAbstractDomain
         return getNowUtc().getDate();
     }
 
+    protected void unsupported()
+    {
+        throw new UnsupportedOperationException();
+    }
+
     protected MyPropertyRegistry getProperties()
     {
         return MyGlobals.getProperties();

@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -23,40 +22,35 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyPatchJunction
-    extends KmModelJunction
+    extends KmhModelJunction
     implements MyPatchDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyPatchJunction(KmJunction context)
+    public MyPatchJunction(KmhJunction context)
     {
         super(context);
-    }
-
-    public MyPatchJunction(KmJunction context, KmAbstractCriteria parent)
-    {
-        super(context, parent);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereName()
+    public KmhStringCondition whereName()
     {
-        return new KmStringCriteria(context(), fullName(NAME));
+        return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereInstalledUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereInstalledUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(INSTALLED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(INSTALLED_UTC_TS));
     }
 
-    public KmStringCriteria whereSource()
+    public KmhStringCondition whereSource()
     {
-        return new KmStringCriteria(context(), fullName(SOURCE));
+        return new KmhStringCondition(context(), fullName(SOURCE));
     }
 
     //##################################################
@@ -69,12 +63,12 @@ public class MyPatchJunction
 
     public MyPatchJunction addAnd()
     {
-        return new MyPatchJunction(context().addAnd(), parent());
+        return new MyPatchJunction(context().addAnd());
     }
 
     public MyPatchJunction addOr()
     {
-        return new MyPatchJunction(context().addOr(), parent());
+        return new MyPatchJunction(context().addOr());
     }
 
 }

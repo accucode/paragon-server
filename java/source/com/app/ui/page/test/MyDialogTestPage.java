@@ -8,16 +8,28 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.ui.control.MyDialog;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.tools.MyDevUtilityPage;
 
-public class MyDialogTestPage
-    extends MyAbstractTestEntryPage
+public final class MyDialogTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDialogTestPage instance = new MyDialogTestPage();
+    private static MyDialogTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDialogTestPage();
+    }
+
+    public static MyDialogTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDialogTestPage()
     {
@@ -31,21 +43,31 @@ public class MyDialogTestPage
     private MyDialog    _dialog;
     private ScTextField _textField;
 
-    private MyDialog    _nestedDialog;
-    private MyDialog    _doubleNestedDialog;
+    private MyDialog _nestedDialog;
+    private MyDialog _doubleNestedDialog;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -138,6 +160,16 @@ public class MyDialogTestPage
     }
 
     //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
+    //##################################################
     //# handle
     //##################################################
 
@@ -169,7 +201,7 @@ public class MyDialogTestPage
         if ( _textField.hasValue("nav") )
         {
             _dialog.ajaxClose();
-            MyDevUtilityPage.instance.ajaxPush();
+            MyDevUtilityPage.getInstance().ajaxEnter();
             return;
         }
 

@@ -6,16 +6,13 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.meta;
 
 import java.util.*;
 
 import com.kodemore.adaptor.*;
 import com.kodemore.collection.*;
-import com.kodemore.comparator.*;
 import com.kodemore.exception.*;
-import com.kodemore.match.*;
 import com.kodemore.meta.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.field.*;
@@ -93,12 +90,6 @@ public class MyMetaNamedCountVo_Count
     public boolean hasValueFor(MyNamedCountVo model, Integer value)
     {
         return model.hasCount(value);
-    }
-    
-    @Override
-    public int compareValues(MyNamedCountVo o1, MyNamedCountVo o2, boolean nullsOnTop)
-    {
-        return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }
     
 }

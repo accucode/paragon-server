@@ -44,12 +44,12 @@ public class KmHtmlBuilder
     //# static
     //##################################################
 
-    private static final char   CHAR_CR = '\r';
-    private static final char   CHAR_LF = '\n';
+    private static final char CHAR_CR = '\r';
+    private static final char CHAR_LF = '\n';
 
-    private static final String CR      = "" + CHAR_CR;
-    private static final String LF      = "" + CHAR_LF;
-    private static final String CRLF    = CR + LF;
+    private static final String CR   = "" + CHAR_CR;
+    private static final String LF   = "" + CHAR_LF;
+    private static final String CRLF = CR + LF;
 
     //##################################################
     //# variables
@@ -58,7 +58,7 @@ public class KmHtmlBuilder
     /**
      * The buffer onto which the content is rendered.
      */
-    private KmStringBuilder     _buffer;
+    private KmStringBuilder _buffer;
 
     /**
      * Scripts that are NOT rendered directly onto the html.
@@ -67,7 +67,7 @@ public class KmHtmlBuilder
      * offscreen, or hidden. This allows us to render and
      * initialize complex html before its made visible.
      */
-    private ScBlockScript       _postDom;
+    private ScBlockScript _postDom;
 
     /**
      * Scripts that are NOT rendered directly onto the html.
@@ -77,7 +77,7 @@ public class KmHtmlBuilder
      * But a some scripts must be delayed until after the
      * html is visible; such as setFocus.
      */
-    private ScBlockScript       _postRender;
+    private ScBlockScript _postRender;
 
     //##################################################
     //# constructor
@@ -218,7 +218,7 @@ public class KmHtmlBuilder
 
     private String escapeAttribute(String value)
     {
-        return Kmu.escapeHtml(value);
+        return Kmu.escapeHtml(value, false);
     }
 
     public void printAttribute(String key, Integer i)
@@ -583,7 +583,15 @@ public class KmHtmlBuilder
 
     public void print(Object e)
     {
-        String s = format(e);
+        boolean useBreaks = true;
+        String s = format(e, useBreaks);
+        _buffer.append(s);
+    }
+
+    public void printNoBreaks(Object e)
+    {
+        boolean useBreaks = false;
+        String s = format(e, useBreaks);
         _buffer.append(s);
     }
 
@@ -617,7 +625,8 @@ public class KmHtmlBuilder
 
     public void printNonBreaking(Object e)
     {
-        String s = format(e);
+        boolean useBreaks = true;
+        String s = format(e, useBreaks);
         s = Kmu.replaceAll(s, " ", "&nbsp;");
         _buffer.append(s);
     }
@@ -1056,22 +1065,17 @@ public class KmHtmlBuilder
     //# support
     //##################################################
 
-    private String format(Object e)
+    /**
+     * Convert e to a string.
+     * Encode the string as html.
+     * If useBreaks is true, convert line-endings to break-tags.
+     */
+    private String format(Object e, boolean useBreaks)
     {
-        String s = e == null
-            ? ""
-            : e.toString();
+        if ( e == null )
+            return "";
 
-        s = Kmu.replaceAll(s, "&", "&amp;");
-        s = Kmu.replaceAll(s, "<", "&lt;");
-        s = Kmu.replaceAll(s, ">", "&gt;");
-        s = Kmu.replaceAll(s, "\"", "&quot;");
-
-        s = Kmu.replaceAll(s, CRLF, "<br>");
-        s = Kmu.replaceAll(s, CR, "<br>");
-        s = Kmu.replaceAll(s, LF, "<br>");
-
-        return s;
+        return Kmu.escapeHtml(e.toString(), useBreaks);
     }
 
     //##################################################

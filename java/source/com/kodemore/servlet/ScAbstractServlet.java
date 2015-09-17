@@ -17,8 +17,8 @@ public abstract class ScAbstractServlet<T extends ScServletData>
     //# constants
     //##################################################
 
-    private static final boolean           MONITOR_GET  = false;
-    private static final boolean           MONITOR_POST = false;
+    private static final boolean MONITOR_GET  = false;
+    private static final boolean MONITOR_POST = false;
 
     //##################################################
     //# accumulator (static)

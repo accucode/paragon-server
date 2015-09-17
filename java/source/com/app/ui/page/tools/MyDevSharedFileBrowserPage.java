@@ -14,15 +14,27 @@ import com.kodemore.servlet.field.ScTextField;
 import com.kodemore.utility.Kmu;
 
 import com.app.file.MySharedFiles;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MyDevSharedFileBrowserPage
-    extends MyDevAbstractPage
+public final class MyDevSharedFileBrowserPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDevSharedFileBrowserPage instance = new MyDevSharedFileBrowserPage();
+    private static MyDevSharedFileBrowserPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDevSharedFileBrowserPage();
+    }
+
+    public static MyDevSharedFileBrowserPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDevSharedFileBrowserPage()
     {
@@ -38,17 +50,27 @@ public class MyDevSharedFileBrowserPage
     private ScListField _fileList;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -124,8 +146,6 @@ public class MyDevSharedFileBrowserPage
     @Override
     public void preRender()
     {
-        super.preRender();
-
         preRenderFolders();
         preRenderFiles();
     }
@@ -161,7 +181,7 @@ public class MyDevSharedFileBrowserPage
     private void handleFind()
     {
         open(getDirectory());
-        print();
+        ajaxPrint();
     }
 
     private void handleCreatePath()
@@ -169,38 +189,29 @@ public class MyDevSharedFileBrowserPage
         KmFile dir = getDirectory();
 
         if ( dir.exists() )
-        {
-            _directoryField.addError("Already exists.");
-            throw newCancel();
-        }
+            _directoryField.error("Already exists.");
 
         if ( dir.createFolder() )
-        {
-            _directoryField.addError("Cannot create directory.");
-            throw newCancel();
-        }
-
+            _directoryField.error("Cannot create directory.");
         Object[] args = {};
 
         ajax().toast("Created Directory: " + dir, args);
-        print();
+        ajaxPrint();
     }
 
     private void handleOpenFolder()
     {
         String path = _folderList.getStringValue();
-
         if ( Kmu.isEmpty(path) )
             throw Kmu.newError("No folder selected.");
 
         open(getFile(path));
-        print();
+        ajaxPrint();
     }
 
     private void handleGetFile()
     {
         String path = _fileList.getStringValue();
-
         if ( Kmu.isEmpty(path) )
             throw Kmu.newError("No file selected.");
 

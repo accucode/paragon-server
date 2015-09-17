@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -23,40 +22,35 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyHibernateCacheTestJunction
-    extends KmModelJunction
+    extends KmhModelJunction
     implements MyHibernateCacheTestDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyHibernateCacheTestJunction(KmJunction context)
+    public MyHibernateCacheTestJunction(KmhJunction context)
     {
         super(context);
-    }
-
-    public MyHibernateCacheTestJunction(KmJunction context, KmAbstractCriteria parent)
-    {
-        super(context, parent);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereData()
+    public KmhStringCondition whereData()
     {
-        return new KmStringCriteria(context(), fullName(DATA));
+        return new KmhStringCondition(context(), fullName(DATA));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
@@ -69,12 +63,12 @@ public class MyHibernateCacheTestJunction
 
     public MyHibernateCacheTestJunction addAnd()
     {
-        return new MyHibernateCacheTestJunction(context().addAnd(), parent());
+        return new MyHibernateCacheTestJunction(context().addAnd());
     }
 
     public MyHibernateCacheTestJunction addOr()
     {
-        return new MyHibernateCacheTestJunction(context().addOr(), parent());
+        return new MyHibernateCacheTestJunction(context().addOr());
     }
 
 }

@@ -57,20 +57,20 @@ public class KmWikiReader
     private KmList<KmWikiParser> _parsers;
     private boolean              _enabledLiterals;
 
-    private String               _sourceText;
-    private char[]               _source;
+    private String _sourceText;
+    private char[] _source;
 
-    private int                  _index;
-    private int                  _rowIndex;
-    private int                  _columnIndex;
+    private int _index;
+    private int _rowIndex;
+    private int _columnIndex;
 
-    private StringBuilder        _text;
-    private KmWikiSource         _textSource;
+    private StringBuilder _text;
+    private KmWikiSource  _textSource;
 
     private KmList<StackElement> _stack;
     private KmList<KmWikiError>  _errors;
 
-    private KmWikiDocument       _document;
+    private KmWikiDocument _document;
 
     //##################################################
     //# constructor

@@ -7,7 +7,7 @@ public class KmZendeskTicketCreate
 {
 
     //##################################################
-    //# variables
+    //# variables 
     //##################################################
 
     private KmZendeskConnection _connection;
@@ -96,7 +96,7 @@ public class KmZendeskTicketCreate
         KmJsonMap m = new KmJsonMap();
         KmJsonMap ticket = new KmJsonMap();
 
-        //requester
+        //requester 
         KmJsonMap requester = new KmJsonMap();
         requester.setString("name", name);
         requester.setString("email", email);

@@ -83,7 +83,7 @@ public class KmgSetup
      * The last time when the setup file was modified.  If 0, the time is unknown.
      * This is populated using File.lastModified.
      */
-    private long   _lastModified;
+    private long _lastModified;
 
     //##################################################
     //# accessing

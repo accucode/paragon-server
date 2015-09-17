@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -445,7 +444,7 @@ public abstract class MyMemberBase
     {
         KmList<MyMemberSkill> v;
         v = getMemberSkills().toList();
-        v.sortOn(MyMemberSkill.Meta.Sequence);
+        v.sortOn(MyMemberSkill::getSequence);
         return v;
     }
 
@@ -594,44 +593,6 @@ public abstract class MyMemberBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("uid") )
-            setUid(p.getString("uid"));
-
-        if ( p.hasKey("roleCode") )
-            setRoleCode(p.getString("roleCode"));
-
-        if ( p.hasKey("lockVersion") )
-            setLockVersion(p.getInteger("lockVersion"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasUid() )
-            p.setString("uid", getUid());
-
-        if ( hasRoleCode() )
-            p.setString("roleCode", getRoleCode());
-
-        if ( hasLockVersion() )
-            p.setInteger("lockVersion", getLockVersion());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

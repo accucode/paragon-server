@@ -1,6 +1,6 @@
 package sandbox.wlove;
 
-import com.kodemore.command.KmDaoCommand;
+import com.kodemore.command.KmDao;
 import com.kodemore.dao.KmDaoStringKeyCursor;
 
 import com.app.model.MyUser;
@@ -17,24 +17,15 @@ public class JkCursorTest
     private void run()
     {
         MyInstaller.installDatabase();
-        newCommand().run();
+        KmDao.run(this::runDao);
     }
 
-    private KmDaoCommand newCommand()
+    protected void runDao()
     {
-        return new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                MyMetaUser x = MyUser.Meta;
+        MyMetaUser x = MyUser.Meta;
+        KmDaoStringKeyCursor<MyUser> c = KmDaoStringKeyCursor.createOn(x.Uid);
 
-                KmDaoStringKeyCursor<MyUser> c;
-                c = KmDaoStringKeyCursor.createOn(x.Uid);
-
-                for ( MyUser e : c )
-                    System.out.println(e.getUid());
-            }
-        };
+        for ( MyUser e : c )
+            System.out.println(e.getUid());
     }
 }

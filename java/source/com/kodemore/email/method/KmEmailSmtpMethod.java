@@ -59,29 +59,29 @@ public class KmEmailSmtpMethod
     //# constants
     //##################################################
 
-    private static final String            MIME_TYPE_TEXT         = "text/plain";
-    private static final String            MIME_TYPE_OCTET_STREAM = "application/octet-stream";
+    private static final String MIME_TYPE_TEXT         = "text/plain";
+    private static final String MIME_TYPE_OCTET_STREAM = "application/octet-stream";
 
     //##################################################
     //# variables
     //##################################################
 
-    private String                         _smtpScheme;
-    private boolean                        _smtpSsl;
-    private String                         _smtpHost;
-    private int                            _smtpPort;
-    private String                         _smtpUser;
-    private String                         _smtpPassword;
-    private String                         _smtpAutoBcc;
+    private String  _smtpScheme;
+    private boolean _smtpSsl;
+    private String  _smtpHost;
+    private int     _smtpPort;
+    private String  _smtpUser;
+    private String  _smtpPassword;
+    private String  _smtpAutoBcc;
 
     private KmList<KmEmailIF>              _emails;
     private KmMap<KmEmailIF,KmEmailResult> _results;
 
-    private KmMap<KmEmailIF,MimeMessage>   _messages;
+    private KmMap<KmEmailIF,MimeMessage> _messages;
 
-    private Properties                     _properties;
-    private Session                        _session;
-    private Transport                      _transport;
+    private Properties _properties;
+    private Session    _session;
+    private Transport  _transport;
 
     //##################################################
     //# setup

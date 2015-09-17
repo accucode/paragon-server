@@ -32,7 +32,6 @@ import com.kodemore.utility.Kmu;
 public class KmTimeParser
     implements KmTimeParserIF
 {
-
     //##################################################
     //# static
     //##################################################
@@ -76,39 +75,54 @@ public class KmTimeParser
     {
         if ( s == null )
             return null;
+
         s = s.trim();
 
         boolean hasPm = _hasPm(s);
 
         s = Kmu.stripLetters(s);
         s = s.replace(':', '.');
+
         int hh = 0;
         int mm = 0;
         int ss = 0;
         int ms = 0;
+
         Iterator<String> i = Kmu.tokenize(s, '.').iterator();
+
         if ( i.hasNext() )
-            hh = Kmu.parse_int(i.next());
+            hh = Kmu.parse_int(i.next(), -1);
+
         if ( i.hasNext() )
-            mm = Kmu.parse_int(i.next());
+            mm = Kmu.parse_int(i.next(), -1);
+
         if ( i.hasNext() )
-            ss = Kmu.parse_int(i.next());
+            ss = Kmu.parse_int(i.next(), -1);
+
         if ( i.hasNext() )
-            ms = Kmu.parse_int(i.next());
+            ms = Kmu.parse_int(i.next(), -1);
+
         if ( hh < 0 )
             return null;
+
         if ( hh > 23 )
             return null;
+
         if ( mm < 0 )
             return null;
+
         if ( mm > 59 )
             return null;
+
         if ( ss < 0 )
             return null;
+
         if ( ss > 59 )
             return null;
+
         if ( ms < 0 )
             return null;
+
         if ( ms > 999 )
             return null;
 
@@ -116,6 +130,7 @@ public class KmTimeParser
         {
             if ( hasPm && hh < 12 )
                 hh += 12;
+
             if ( !hasPm && hh == 12 )
                 hh = 0;
         }
@@ -130,6 +145,7 @@ public class KmTimeParser
     {
         if ( s == null )
             return null;
+
         s = s.trim();
 
         boolean hasPm = _hasPm(s);
@@ -137,9 +153,10 @@ public class KmTimeParser
         s = Kmu.stripLetters(s);
         s = s.replace(':', '.');
         int hh = 0;
+
         Iterator<String> i = Kmu.tokenize(s, '.').iterator();
         if ( i.hasNext() )
-            hh = Kmu.parse_int(i.next());
+            hh = Kmu.parse_int(i.next(), -1);
 
         if ( hh < 0 )
             return null;
@@ -151,9 +168,11 @@ public class KmTimeParser
         {
             if ( hasPm && hh < 12 )
                 hh += 12;
+
             if ( !hasPm && hh == 12 )
                 hh = 0;
         }
+
         return KmTime.create(hh, 0);
     }
 
@@ -164,10 +183,13 @@ public class KmTimeParser
     public static boolean _hasPm(String s)
     {
         s = s.toLowerCase();
+
         if ( s.endsWith("pm") )
             return true;
+
         if ( s.endsWith("p") )
             return true;
+
         return false;
     }
 
@@ -178,7 +200,9 @@ public class KmTimeParser
     public static void main(String[] args)
     {
         KmTimeParser tp = new KmTimeParser();
-        KmTime time = tp.parse("10:00");
+        KmTime time;
+
+        time = tp.parse("10:00");
         System.out.println("######");
         System.out.println(time);
         System.out.println(time.getHour());

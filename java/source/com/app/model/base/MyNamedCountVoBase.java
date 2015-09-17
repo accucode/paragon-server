@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -203,38 +202,6 @@ public abstract class MyNamedCountVoBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("name") )
-            setName(p.getString("name"));
-
-        if ( p.hasKey("count") )
-            setCount(p.getInteger("count"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasName() )
-            p.setString("name", getName());
-
-        if ( hasCount() )
-            p.setInteger("count", getCount());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

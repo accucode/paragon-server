@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyPasswordResetFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyPasswordReset> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyPasswordReset> c)
     {
         applyConditionsTo((MyPasswordResetCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyPasswordReset> c)
+    protected void applySortsTo(KmhModelCriteria<MyPasswordReset> c)
     {
         applySortsTo((MyPasswordResetCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyPasswordResetFilterBase
     @Override
     protected MyPasswordResetCriteria createCriteria()
     {
-        return new MyPasswordResetCriteria(createGenericCriteria());
+        return new MyPasswordResetCriteria(_createCriteria());
     }
 }

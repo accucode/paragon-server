@@ -49,13 +49,13 @@ public class ScTextArea
     //# variables
     //##################################################
 
-    private ScLocalString       _text;
-    private ScLocalBoolean      _readOnly;
-    private ScLocalBoolean      _disabled;
-    private ScLocalBoolean      _fullWrapper;
+    private ScLocalString  _text;
+    private ScLocalBoolean _readOnly;
+    private ScLocalBoolean _disabled;
+    private ScLocalBoolean _fullWrapper;
 
-    private ScLocalCss          _css;
-    private ScLocalStyle        _style;
+    private ScLocalCss   _css;
+    private ScLocalStyle _style;
 
     private KmValidator<String> _validator;
 

@@ -47,7 +47,7 @@ public class KmSimplePieChart
     /**
      * By default, null values are displayed as zeroes.
      */
-    private boolean        _skipNullValues;
+    private boolean _skipNullValues;
 
     //##################################################
     //# constructor

@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -23,65 +22,45 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyAutoSignInJunction
-    extends KmModelJunction
+    extends KmhModelJunction
     implements MyAutoSignInDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyAutoSignInJunction(KmJunction context)
+    public MyAutoSignInJunction(KmhJunction context)
     {
         super(context);
-    }
-
-    public MyAutoSignInJunction(KmJunction context, KmAbstractCriteria parent)
-    {
-        super(context, parent);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereLastTouchedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereLastTouchedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(LAST_TOUCHED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(LAST_TOUCHED_UTC_TS));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
     //# associations
     //##################################################
-
-    public MyUserCriteria joinToUser()
-    {
-        return join(new MyUserCriteria(root().joinTo(USER)));
-    }
-
-    public MyUserCriteria leftJoinToUser()
-    {
-        return join(new MyUserCriteria(root().leftJoinTo(USER)));
-    }
-
-    public KmStringCriteria whereUserUid()
-    {
-        return new KmStringCriteria(context(), fullName(USER_UID));
-    }
 
     //##################################################
     //# junction
@@ -89,12 +68,12 @@ public class MyAutoSignInJunction
 
     public MyAutoSignInJunction addAnd()
     {
-        return new MyAutoSignInJunction(context().addAnd(), parent());
+        return new MyAutoSignInJunction(context().addAnd());
     }
 
     public MyAutoSignInJunction addOr()
     {
-        return new MyAutoSignInJunction(context().addOr(), parent());
+        return new MyAutoSignInJunction(context().addOr());
     }
 
 }

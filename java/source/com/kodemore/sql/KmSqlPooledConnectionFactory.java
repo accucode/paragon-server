@@ -39,7 +39,7 @@ public class KmSqlPooledConnectionFactory
     //# constants
     //##################################################
 
-    private static final KmLogger    logger = KmLogger.create(KmSqlPooledConnectionFactory.class);
+    private static final KmLogger logger = KmLogger.create(KmSqlPooledConnectionFactory.class);
 
     //##################################################
     //# variables

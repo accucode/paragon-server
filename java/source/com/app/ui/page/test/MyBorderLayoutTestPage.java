@@ -5,14 +5,27 @@ import com.kodemore.servlet.control.ScAbsoluteLayout;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyBorderLayoutTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyBorderLayoutTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyBorderLayoutTestPage instance = new MyBorderLayoutTestPage();
+    private static MyBorderLayoutTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyBorderLayoutTestPage();
+    }
+
+    public static MyBorderLayoutTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyBorderLayoutTestPage()
     {
@@ -20,17 +33,27 @@ public class MyBorderLayoutTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -77,4 +100,15 @@ public class MyBorderLayoutTestPage
         e.css().pad().borderBlack();
         e.addText("7) center");
     }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
 }

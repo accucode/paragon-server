@@ -31,7 +31,6 @@ import java.util.Map;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
-import com.kodemore.string.KmString;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -44,25 +43,25 @@ public class KmCsvReader
     //# constants
     //##################################################
 
-    private static final char    DEFAULT_QUOTE     = '"';
-    private static final char    DEFAULT_SEPARATOR = ',';
+    private static final char DEFAULT_QUOTE     = '"';
+    private static final char DEFAULT_SEPARATOR = ',';
 
-    private static final char    CR                = '\r';
-    private static final char    LF                = '\n';
+    private static final char CR = '\r';
+    private static final char LF = '\n';
 
     //##################################################
     //# variables
     //##################################################
 
-    private PushbackReader       _reader;
-    private KmList<String>       _fields;
+    private PushbackReader _reader;
+    private KmList<String> _fields;
 
     /**
      * The 0-based index of the current line.
      * Return -1 if the first line has not been read yet.
      */
-    private int                  _lineIndex;
-    private int                  _fieldIndex;
+    private int _lineIndex;
+    private int _fieldIndex;
 
     private char                 _quote;
     private char                 _separator;
@@ -318,16 +317,6 @@ public class KmCsvReader
     //##################################################
     //# fields
     //##################################################
-
-    public KmString getValue(int i)
-    {
-        return new KmString(getString(i, null));
-    }
-
-    public KmString getValue()
-    {
-        return getValue(_fieldIndex++);
-    }
 
     public String getString(int i)
     {

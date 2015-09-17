@@ -146,13 +146,18 @@ public class KmDatabaseTool
         if ( s.length() == 0 )
             return 0;
 
-        try ( Statement st = createStatement() )
+        Statement st = createStatement();
+        try
         {
             return st.executeUpdate(s);
         }
         catch ( SQLException ex )
         {
             throw Kmu.toRuntime(ex);
+        }
+        finally
+        {
+            closeSafely(st);
         }
     }
 
@@ -224,15 +229,23 @@ public class KmDatabaseTool
      */
     public Integer getSingleInteger(String sql)
     {
-        try ( Statement st = createStatement();
-            ResultSet rs = st.executeQuery(sql) )
+        Statement st = null;
+        ResultSet rs = null;
+        try
         {
+            st = createStatement();
+            rs = st.executeQuery(sql);
             rs.next();
             return rs.getInt(1);
         }
         catch ( SQLException ex )
         {
             throw Kmu.toRuntime(ex);
+        }
+        finally
+        {
+            closeSafely(rs);
+            closeSafely(st);
         }
     }
 
@@ -242,9 +255,13 @@ public class KmDatabaseTool
      */
     public KmList<String> getStringResults(String sql)
     {
-        try ( Statement st = createStatement();
-            ResultSet rs = st.executeQuery(sql) )
+        Statement st = null;
+        ResultSet rs = null;
+        try
         {
+            st = createStatement();
+            rs = st.executeQuery(sql);
+
             KmList<String> v = new KmList<>();
             while ( rs.next() )
                 v.add(rs.getString(1));
@@ -253,6 +270,11 @@ public class KmDatabaseTool
         catch ( SQLException ex )
         {
             throw Kmu.toRuntime(ex);
+        }
+        finally
+        {
+            closeSafely(rs);
+            closeSafely(st);
         }
     }
 
@@ -335,7 +357,7 @@ public class KmDatabaseTool
     public boolean lock(String key, int timeoutSeconds, int retryCount, int retryDelayMs)
     {
         if ( Kmu.isEmpty(key) )
-            throw newFatal("Cannot create lock on empty key.");
+            throw Kmu.newFatal("Cannot create lock on empty key.");
 
         String sql = Kmu.format("select get_lock('%s', %s)", key, timeoutSeconds);
 
@@ -357,7 +379,7 @@ public class KmDatabaseTool
     {
         Integer x = _executeLockCommand(sql);
         if ( x == null )
-            throw newFatal("Locking error; database error for: %s", sql);
+            throw Kmu.newFatal("Locking error; database error for: %s", sql);
 
         // success
         if ( x == 1 )
@@ -367,28 +389,40 @@ public class KmDatabaseTool
         if ( x == 0 )
             return false;
 
-        throw newFatal("Locking error; unhandled result(%s) for: %s", x, sql);
+        throw Kmu.newFatal("Locking error; unhandled result(%s) for: %s", x, sql);
     }
 
     private Integer _executeLockCommand(String sql)
     {
-        try ( Statement st = getConnection().createStatement() )
+        Statement st = null;
+        try
         {
+            st = getConnection().createStatement();
             boolean isResultSet = st.execute(sql);
             if ( !isResultSet )
-                throw newFatal("Locking error; no result set for: %s", sql);
+                throw Kmu.newFatal("Locking error; no result set for: %s", sql);
 
-            try ( ResultSet rs = st.getResultSet() )
-            {
-                if ( !rs.next() )
-                    throw newFatal("Locking error; empty result set for: %s", sql);
+            ResultSet rs = st.getResultSet();
+            if ( !rs.next() )
+                throw Kmu.newFatal("Locking error; empty result set for: %s", sql);
 
-                return rs.getInt(1);
-            }
+            return rs.getInt(1);
         }
         catch ( Exception ex )
         {
             throw Kmu.newFatal(ex, "Locking error; %s", sql);
+        }
+        finally
+        {
+            try
+            {
+                if ( st != null )
+                    st.close();
+            }
+            catch ( Exception ex )
+            {
+                KmLog.error(ex, "Unable to close connection, continuing...");
+            }
         }
     }
 
@@ -398,21 +432,21 @@ public class KmDatabaseTool
     public void unlock(String key)
     {
         if ( key == null )
-            throw newFatal("Cannot unlock; no current lock.");
+            throw Kmu.newFatal("Cannot unlock; no current lock.");
 
         String sql = Kmu.format("select release_lock('%s')", key);
         Integer x = _executeLockCommand(sql);
 
         if ( x == null )
-            throw newFatal("Cannot release lock(%s); lock does not exist.", key);
+            throw Kmu.newFatal("Cannot release lock(%s); lock does not exist.", key);
 
         if ( x == 0 )
-            throw newFatal("Cannot release lock(%s); lock is held by another connection.", key);
+            throw Kmu.newFatal("Cannot release lock(%s); lock is held by another connection.", key);
 
         if ( x == 1 )
             return;
 
-        throw newFatal("Cannot release lock(%s); unknown response code(%s).", key, x);
+        throw Kmu.newFatal("Cannot release lock(%s); unknown response code(%s).", key, x);
     }
 
     public void unlockSafely(String key)
@@ -431,14 +465,9 @@ public class KmDatabaseTool
     //# convenience
     //##################################################
 
-    private KmDatabaseConnectionFactory getConnectionFactory()
+    public KmDatabaseConnectionFactory getConnectionFactory()
     {
         return KmDatabaseConnectionFactory.getInstance();
-    }
-
-    private RuntimeException newFatal(String msg, Object... args)
-    {
-        return Kmu.newFatal(msg, args);
     }
 
 }

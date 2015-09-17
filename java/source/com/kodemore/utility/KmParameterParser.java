@@ -47,23 +47,25 @@ public class KmParameterParser
      * Parse the string and return the ordered list of KmParameter.
      * Values of null, and values of empty string are distinct.  There
      * are basically three cases:
+     *
      *    1) key=value
      *    2) key=
      *    3) value
-     * The first case parses the key and associated the value.
+     *
+     * The first case parses the key and associates the value.
      * The second case parses the key add sets the value to empty string.
      * The third case sets only the value, the key is null.
      */
     public static KmList<KmParameter> parse(String... args)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder out = new StringBuilder();
         int n = args.length;
         for ( int i = 0; i < n; i++ )
         {
-            sb.append(args[i]);
-            sb.append(" ");
+            out.append(args[i]);
+            out.append(" ");
         }
-        String s = sb.toString().trim();
+        String s = out.toString().trim();
         return new KmParameterParser()._parse(s);
     }
 
@@ -71,9 +73,9 @@ public class KmParameterParser
     //# constants
     //##################################################
 
-    public static final char    ESCAPE       = '\\';
-    public static final char    DOUBLE_QUOTE = '\"';
-    public static final char    SINGLE_QUOTE = '\'';
+    public static final char ESCAPE       = '\\';
+    public static final char DOUBLE_QUOTE = '\"';
+    public static final char SINGLE_QUOTE = '\'';
 
     //##################################################
     //# variables
@@ -83,7 +85,7 @@ public class KmParameterParser
     private char[]              _characters;
     private KmList<KmParameter> _parameters;
 
-    private boolean             _quoted;
+    private boolean _quoted;
 
     //##################################################
     //# private

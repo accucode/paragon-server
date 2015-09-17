@@ -24,18 +24,18 @@ package com.kodemore.stf;
 
 public interface KmStfConstantsIF
 {
-    String ATTRIBUTE_PREFIX     = ":";
-    String ATTRIBUTE_ASSIGN     = "=";
-    String ATTRIBUTE_CONTINUE   = "...";
+    String ATTRIBUTE_PREFIX   = ":";
+    String ATTRIBUTE_ASSIGN   = "=";
+    String ATTRIBUTE_CONTINUE = "...";
 
-    String STRING_TICK          = "'";
-    String STRING_QUOTE         = "\"";
+    String STRING_TICK  = "'";
+    String STRING_QUOTE = "\"";
 
-    String STRING_EQUALS        = "===";
-    String STRING_DASHES        = "---";
+    String STRING_EQUALS = "===";
+    String STRING_DASHES = "---";
 
     String STRING_ELEMENT_NAME  = "text";
     String STRING_ATTRIBUTE_KEY = "value";
 
-    String COMMAND_PREFIX       = "#";
+    String COMMAND_PREFIX = "#";
 }

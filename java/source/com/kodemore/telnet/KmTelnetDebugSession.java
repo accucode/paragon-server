@@ -71,9 +71,8 @@ public class KmTelnetDebugSession
     @Override
     public void handleOption(int command, int option)
     {
-        System.out.println(KmTelnetUtility.formatCommand(command)
-            + ": "
-            + KmTelnetUtility.formatOption(option));
+        System.out.println(
+            KmTelnetUtility.formatCommand(command) + ": " + KmTelnetUtility.formatOption(option));
     }
 
     //        if ( option == OPTION_WINDOW_SIZE )
@@ -110,10 +109,11 @@ public class KmTelnetDebugSession
     @Override
     public void handleSubnegotiation(int option, byte[] data)
     {
-        System.out.println("subnegotiation: "
-            + KmTelnetUtility.formatOption(option)
-            + ", dataLength="
-            + data.length);
+        System.out.println(
+            "subnegotiation: "
+                + KmTelnetUtility.formatOption(option)
+                + ", dataLength="
+                + data.length);
         //        if ( option == OPTION_WINDOW_SIZE )
         //        {
         //            _windowWidth  = (data[0] << 16) | data[1];

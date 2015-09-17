@@ -1,6 +1,6 @@
 package sandbox.wlove;
 
-import com.kodemore.command.KmDaoCommand;
+import com.kodemore.command.KmDao;
 import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoRegistry;
@@ -26,91 +26,15 @@ public class JkDaoTest
     {
         MyInstaller.installDatabase();
 
-        newResetCommand().run();
+        KmDao.run(this::handleReset);
 
-        newTest1Command().run();
-        newTest2Command().run();
-        newTest3Command().run();
-        newTest4Command().run();
-        newTest5Command().run();
+        KmDao.run(this::handleTest1);
+        KmDao.run(this::handleTest2);
+        KmDao.run(this::handleTest3);
+        KmDao.run(this::handleTest4);
+        KmDao.run(this::handleTest5);
 
         printHeader("end");
-    }
-
-    //##################################################
-    //# commands
-    //##################################################
-
-    private KmDaoCommand newResetCommand()
-    {
-        return new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                handleReset();
-            }
-        };
-    }
-
-    private KmDaoCommand newTest1Command()
-    {
-        return new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                handleTest1();
-            }
-        };
-    }
-
-    private KmDaoCommand newTest2Command()
-    {
-        return new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                handleTest2();
-            }
-        };
-    }
-
-    private KmDaoCommand newTest3Command()
-    {
-        return new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                handleTest3();
-            }
-        };
-    }
-
-    private KmDaoCommand newTest4Command()
-    {
-        return new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                handleTest4();
-            }
-        };
-    }
-
-    private KmDaoCommand newTest5Command()
-    {
-        return new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                handleTest5();
-            }
-        };
     }
 
     //##################################################

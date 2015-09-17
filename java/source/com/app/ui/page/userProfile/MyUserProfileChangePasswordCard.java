@@ -19,9 +19,9 @@ public class MyUserProfileChangePasswordCard
     //# variables
     //##################################################
 
-    private ScTextField     _nameField;
-    private ScTextField     _emailField;
-    private ScTextField     _roleField;
+    private ScTextField _nameField;
+    private ScTextField _emailField;
+    private ScTextField _roleField;
 
     private ScPasswordField _oldPasswordField;
     private ScPasswordField _newPasswordField;
@@ -112,7 +112,7 @@ public class MyUserProfileChangePasswordCard
         ScBox buttons;
         buttons = footer.addButtonBox();
         buttons.addSubmitButton("Save");
-        buttons.addCancelButton(this::ajaxClose);
+        buttons.addCancelButton(this::handleCancel);
     }
 
     //##################################################
@@ -139,6 +139,11 @@ public class MyUserProfileChangePasswordCard
     //# handle
     //##################################################
 
+    private void handleCancel()
+    {
+        ajaxClose();
+    }
+
     private void handleSave()
     {
         ajax().hideAllErrors();
@@ -151,23 +156,20 @@ public class MyUserProfileChangePasswordCard
         if ( !getCurrentUser().hasPassword(oldPassword) )
         {
             _oldPasswordField.ajax().focus();
-            _oldPasswordField.addError("Invalid.");
-            throw newRollback();
+            _oldPasswordField.error("Invalid.");
         }
 
         if ( newPassword == null )
         {
             _newPasswordField.ajax().focus();
-            _newPasswordField.addError("Required.");
-            throw newRollback();
+            _newPasswordField.error("Required.");
         }
 
         if ( Kmu.isNotEqual(newPassword, retypePassword) )
         {
             _retypePasswordField.ajax().clearValue();
             _retypePasswordField.ajax().focus();
-            _retypePasswordField.addError("Passwords did not match.");
-            throw newRollback();
+            _retypePasswordField.error("Passwords did not match.");
         }
 
         getCurrentUser().setPassword(newPassword);

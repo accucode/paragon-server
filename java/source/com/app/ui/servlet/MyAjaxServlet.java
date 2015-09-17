@@ -1,6 +1,6 @@
 package com.app.ui.servlet;
 
-import com.kodemore.command.KmDaoCommand;
+import com.kodemore.command.KmDao;
 import com.kodemore.exception.KmApplicationException;
 import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
@@ -55,7 +55,17 @@ public class MyAjaxServlet
                 return;
 
             ScAction action = getAction(data);
-            runAction(action);
+            if ( action == null )
+            {
+                toastFatal("Invalid Action Key.");
+                return;
+            }
+
+            action.run();
+        }
+        catch ( KmApplicationException ex )
+        {
+            printError(ex);
         }
         catch ( KmSecurityException ex )
         {
@@ -99,19 +109,7 @@ public class MyAjaxServlet
         String key = data.getActionKey();
 
         if ( key.equals(ScConstantsIF.PRINT_WINDOW_LOCATION) )
-            printWindowLocationDao();
-    }
-
-    private void printWindowLocationDao()
-    {
-        new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                printWindowLocation();
-            }
-        }.run();
+            KmDao.run(this::printWindowLocation);
     }
 
     private void printWindowLocation()
@@ -120,21 +118,21 @@ public class MyAjaxServlet
 
         if ( requiresLoginFor(page) )
         {
-            MySignInPage.instance.pushForWindowQuery();
+            MySignInPage.getInstance().ajaxEnterForWindowQuery();
             return;
         }
 
         if ( !page.checkSecuritySilently() )
         {
             KmLog.debug("Entry page; security check: %s.", page.getClass().getSimpleName());
-            getDefaultEntryPage()._ajaxPush();
+            getDefaultEntryPage().ajaxEnter();
             return;
         }
 
         ScParameterList params = getData().getWindowParameters();
 
-        page.applyQueryParameters(params);
-        page.print();
+        page.applyBookmark(params);
+        page.ajaxPrint();
     }
 
     private ScPage getEntryPage()
@@ -166,79 +164,24 @@ public class MyAjaxServlet
     }
 
     //##################################################
-    //# run action
-    //##################################################
-
-    private void runAction(ScAction e)
-    {
-        try
-        {
-            runActionDao(e);
-        }
-        catch ( KmApplicationException ex )
-        {
-            printError(ex);
-        }
-    }
-
-    private void runActionDao(final ScAction e)
-    {
-        new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                handleAction(e);
-            }
-        }.run();
-    }
-
-    private void handleAction(ScAction e)
-    {
-        e.run();
-    }
-
-    //##################################################
-    //# print error
+    //# support
     //##################################################
 
     private void printError(KmApplicationException ex)
     {
         try
         {
-            printErrorDao(ex);
+            MyServletData data;
+            data = getData();
+            data.reset();
+
+            ajax().toast(ex.getMessage()).sticky().error();
         }
         catch ( KmApplicationException ex2 )
         {
-            toastFatal(ex2.getMessage());
+            KmLog.error(ex2, "Unable to report error");
         }
     }
-
-    private void printErrorDao(final KmApplicationException ex)
-    {
-        new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                printErrorNonDao(ex);
-            }
-
-        }.run();
-    }
-
-    private void printErrorNonDao(final KmApplicationException ex)
-    {
-        MyServletData data;
-        data = getData();
-        data.reset();
-
-        ajax().toast(ex.getMessage()).sticky().error();
-    }
-
-    //##################################################
-    //# support
-    //##################################################
 
     private void toastFatal(String s)
     {

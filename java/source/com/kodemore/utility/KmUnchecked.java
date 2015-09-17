@@ -117,13 +117,21 @@ public class KmUnchecked
             if ( e == null )
                 return null;
 
-            try ( ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-                ObjectOutputStream out = new ObjectOutputStream(byteOut);
-                ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());
-                ObjectInputStream in = new ObjectInputStream(byteIn); )
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            ObjectOutputStream oos;
+            oos = new ObjectOutputStream(baos);
+            oos.writeObject(e);
+            oos.flush();
+            oos.close();
+
+            byte[] ba = baos.toByteArray();
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(ba);
+            try (ObjectInputStream ois = new ObjectInputStream(bais))
             {
-                out.writeObject(e);
-                return (T)in.readObject();
+                Object x = ois.readObject();
+                return (T)x;
             }
         }
         catch ( Exception ex )

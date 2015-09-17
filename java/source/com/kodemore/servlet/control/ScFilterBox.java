@@ -50,16 +50,16 @@ public class ScFilterBox
     //# variables
     //##################################################
 
-    private ScForm   _form;
-    private ScGroup  _group;
-    private ScBox    _body;
+    private ScForm  _form;
+    private ScGroup _group;
+    private ScBox   _body;
 
     private ScAction _action;
     private ScBox    _leftButtons;
     private ScBox    _rightButtons;
 
     //##################################################
-    //# init
+    //# install
     //##################################################
 
     @Override
@@ -90,6 +90,11 @@ public class ScFilterBox
     //##################################################
     //# layout
     //##################################################
+
+    public ScForm getFormWrapper()
+    {
+        return _form;
+    }
 
     public void layoutFill()
     {
@@ -137,7 +142,7 @@ public class ScFilterBox
 
     public void setAction(Runnable r)
     {
-        ScAction action = createAction(r);
+        ScAction action = newAction(r);
 
         setAction(action);
     }

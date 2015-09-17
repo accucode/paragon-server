@@ -3,14 +3,27 @@ package com.app.ui.page.test;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyBlankTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyBlankTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyBlankTestPage instance = new MyBlankTestPage();
+    private static MyBlankTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyBlankTestPage();
+    }
+
+    public static MyBlankTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyBlankTestPage()
     {
@@ -18,17 +31,27 @@ public class MyBlankTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -42,4 +65,15 @@ public class MyBlankTestPage
     {
         // none
     }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
 }

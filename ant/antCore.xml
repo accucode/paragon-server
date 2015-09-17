@@ -160,6 +160,7 @@
     ** WAR
     ****************************************
     -->
+	
     <target name = "makeWar" depends="compile">
         <war destfile="${temp}/paragon.war" webxml="${web}/WEB-INF/web.xml">
             <fileset dir="${web}">

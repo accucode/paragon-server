@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,38 +30,33 @@ public class MyDownloadCriteria
     //# constructor
     //##################################################
 
-    public MyDownloadCriteria(KmCriteria parent)
+    public MyDownloadCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyDownloadCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereName()
+    public KmhStringCondition whereName()
     {
-        return new KmStringCriteria(context(), fullName(NAME));
+        return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
@@ -351,9 +345,9 @@ public class MyDownloadCriteria
         return new MyUserCriteria(leftJoinTo(USER));
     }
 
-    public KmStringCriteria whereUserUid()
+    public KmhStringCondition whereUserUid()
     {
-        return new KmStringCriteria(parent(), fullName(USER_UID));
+        return new KmhStringCondition(parent(), fullName(USER_UID));
     }
 
     public void whereUserIs(MyUser e)
@@ -377,15 +371,4 @@ public class MyDownloadCriteria
     {
         return new MyDownloadJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyDownloadCriteria createOn(KmModelJunction junction)
-    {
-        return new MyDownloadCriteria(parent(), junction.context());
-    }
-
 }

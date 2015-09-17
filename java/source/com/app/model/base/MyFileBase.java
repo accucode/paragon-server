@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -605,68 +604,6 @@ public abstract class MyFileBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("id") )
-            setId(p.getInteger("id"));
-
-        if ( p.hasKey("name") )
-            setName(p.getString("name"));
-
-        if ( p.hasKey("path") )
-            setPath(p.getString("path"));
-
-        if ( p.hasKey("statusCode") )
-            setStatusCode(p.getString("statusCode"));
-
-        if ( p.hasKey("size") )
-            setSize(p.getInteger("size"));
-
-        if ( p.hasKey("partialSize") )
-            setPartialSize(p.getInteger("partialSize"));
-
-        if ( p.hasKey("lockVersion") )
-            setLockVersion(p.getInteger("lockVersion"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasId() )
-            p.setInteger("id", getId());
-
-        if ( hasName() )
-            p.setString("name", getName());
-
-        if ( hasPath() )
-            p.setString("path", getPath());
-
-        if ( hasStatusCode() )
-            p.setString("statusCode", getStatusCode());
-
-        if ( hasSize() )
-            p.setInteger("size", getSize());
-
-        if ( hasPartialSize() )
-            p.setInteger("partialSize", getPartialSize());
-
-        if ( hasLockVersion() )
-            p.setInteger("lockVersion", getLockVersion());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

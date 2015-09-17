@@ -50,7 +50,7 @@ public class ScOpenWindowScript
     private String _html;
 
     /**
-     * The internal window name.  If left null, the window will not have a
+     * The internal window name.  If left null, the window will not have a 
      * name and a new window will be opened.  Specifying a window name will
      * reuse an existing window if one with the same name is available.
      */
@@ -149,7 +149,7 @@ public class ScOpenWindowScript
     }
 
     //##################################################
-    //# scriptIF
+    //# scriptIF 
     //##################################################
 
     @Override

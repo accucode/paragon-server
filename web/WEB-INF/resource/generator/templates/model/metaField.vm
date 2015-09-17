@@ -6,9 +6,7 @@ import java.util.*;
 
 import com.kodemore.adaptor.*;
 import com.kodemore.collection.*;
-import com.kodemore.comparator.*;
 import com.kodemore.exception.*;
-import com.kodemore.match.*;
 import com.kodemore.meta.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.field.*;
@@ -135,12 +133,6 @@ $utility.protocol("value")
     public boolean hasValueFor(${field.model.f_Class} model, ${field.f_Type} value)
     {
         return model.${field.f_hasMethod}(value);
-    }
-    
-    @Override
-    public int compareValues(${field.model.f_Class} o1, ${field.model.f_Class} o2, boolean nullsOnTop)
-    {
-        return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }
     
 }

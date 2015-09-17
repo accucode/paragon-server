@@ -29,7 +29,7 @@ import com.kodemore.json.KmJsonMap;
  * Render children as an accordion.
  * The label of each child acts as the title.
  * Clients should usually add block level children such as divs or boxes.
- *
+ * 
  * Depends on: jquery, jqueryUI.
  * http://api.jqueryui.com/accordion/
  */

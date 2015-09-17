@@ -22,7 +22,6 @@
 
 package com.kodemore.exception.error;
 
-import com.kodemore.exception.KmApplicationException;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -52,11 +51,6 @@ public abstract class KmError
     //# convenience
     //##################################################
 
-    public void throwException()
-    {
-        throw new KmApplicationException(this);
-    }
-
     @Override
     public boolean isConfirmation()
     {
@@ -76,9 +70,9 @@ public abstract class KmError
     @Override
     public String formatProblem()
     {
-        StringBuilder out = new StringBuilder();
-        formatProblem(out);
-        return out.toString();
+        StringBuilder sb = new StringBuilder();
+        formatProblem(sb);
+        return sb.toString();
     }
 
     public abstract void formatProblem(StringBuilder out);

@@ -21,13 +21,13 @@ public enum MyQueueActionType
     //# values
     //##################################################
 
-    ClearErrors("CE", "Clear Errors"), ;
+    ClearErrors("CE", "Clear Errors"),;
 
     //##################################################
     //# find
     //##################################################
 
-    private static final KmList<MyQueueActionType>       _values;
+    private static final KmList<MyQueueActionType> _values;
     private static final KmMap<String,MyQueueActionType> _codes;
 
     static

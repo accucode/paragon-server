@@ -1,6 +1,6 @@
 package com.app.ui.servlet;
 
-import com.kodemore.command.KmDaoCommand;
+import com.kodemore.command.KmDao;
 import com.kodemore.file.KmFile;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.utility.Kmu;
@@ -46,14 +46,7 @@ public class MyDownloadServlet
 
     private void handle()
     {
-        new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                handleDao();
-            }
-        }.run();
+        KmDao.run(this::handleDao);
     }
 
     private void handleDao()

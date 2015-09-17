@@ -53,8 +53,10 @@ public class ScTimestampCoder
     @Override
     public Object decode(ScDecoder decoder, String s)
     {
-        long i = Kmu.parse_long(s);
-        return KmTimestamp.createOrdinal(i);
+        Long i = Kmu.parseLong(s);
+        return i == null
+            ? null
+            : KmTimestamp.createOrdinal(i);
     }
 
 }

@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,33 +30,28 @@ public class MyHibernateCacheTestCriteria
     //# constructor
     //##################################################
 
-    public MyHibernateCacheTestCriteria(KmCriteria parent)
+    public MyHibernateCacheTestCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyHibernateCacheTestCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereData()
+    public KmhStringCondition whereData()
     {
-        return new KmStringCriteria(context(), fullName(DATA));
+        return new KmhStringCondition(context(), fullName(DATA));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
@@ -263,15 +257,4 @@ public class MyHibernateCacheTestCriteria
     {
         return new MyHibernateCacheTestJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyHibernateCacheTestCriteria createOn(KmModelJunction junction)
-    {
-        return new MyHibernateCacheTestCriteria(parent(), junction.context());
-    }
-
 }

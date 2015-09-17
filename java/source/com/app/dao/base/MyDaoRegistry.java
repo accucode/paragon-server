@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
@@ -64,6 +63,25 @@ public class MyDaoRegistry
     public MyApplicationLogTrace findApplicationLogTraceId(Integer e)
     {
         return getApplicationLogTraceDao().findId(e);
+    }
+
+    //##################################################
+    //# attentionGroup
+    //##################################################
+
+    public MyAttentionGroupDao getAttentionGroupDao()
+    {
+        return new MyAttentionGroupDao();
+    }
+
+    public KmList<MyAttentionGroup> findAllAttentionGroups()
+    {
+        return getAttentionGroupDao().findAll();
+    }
+
+    public MyAttentionGroup findAttentionGroupUid(String e)
+    {
+        return getAttentionGroupDao().findUid(e);
     }
 
     //##################################################

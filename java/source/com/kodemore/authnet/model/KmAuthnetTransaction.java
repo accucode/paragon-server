@@ -11,12 +11,12 @@ public class KmAuthnetTransaction
     //# constants
     //##################################################
 
-    private static final String                  TYPE_CAPTURE_ONLY = "profileTransCaptureOnly";
-    private static final String                  TYPE_AUTH_CAPTURE = "profileTransAuthCapture";
-    private static final String                  TYPE_AUTH_ONLY    = "profileTransAuthOnly";
+    private static final String TYPE_CAPTURE_ONLY = "profileTransCaptureOnly";
+    private static final String TYPE_AUTH_CAPTURE = "profileTransAuthCapture";
+    private static final String TYPE_AUTH_ONLY    = "profileTransAuthOnly";
 
-    private static final String                  TRUE              = "TRUE";
-    private static final String                  FALSE             = "FALSE";
+    private static final String TRUE  = "TRUE";
+    private static final String FALSE = "FALSE";
 
     //##################################################
     //# variables

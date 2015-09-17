@@ -22,8 +22,7 @@
 
 package com.kodemore.dataset;
 
-import com.kodemore.adaptor.KmAbstractAdaptor;
-import com.kodemore.adaptor.KmAdaptorIF;
+import java.util.function.Function;
 
 public class KmDatasetColumn
 {
@@ -77,15 +76,13 @@ public class KmDatasetColumn
     //# abstract accessing
     //##################################################
 
-    public KmAdaptorIF<KmDatasetRow,Object> getAdaptor()
+    public Function<KmDatasetRow,Object> getFunction()
     {
-        return new KmAbstractAdaptor<KmDatasetRow,Object>()
-        {
-            @Override
-            public Object getValue(KmDatasetRow row)
-            {
-                return row.getValues().getAtSafe(getIndex());
-            }
-        };
+        return this::applyFunction;
+    }
+
+    private Object applyFunction(KmDatasetRow row)
+    {
+        return row.getValues().getAtSafe(getIndex());
     }
 }

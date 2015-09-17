@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,48 +30,43 @@ public class MyPasswordResetCriteria
     //# constructor
     //##################################################
 
-    public MyPasswordResetCriteria(KmCriteria parent)
+    public MyPasswordResetCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyPasswordResetCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereEmail()
+    public KmhStringCondition whereEmail()
     {
-        return new KmStringCriteria(context(), fullName(EMAIL));
+        return new KmhStringCondition(context(), fullName(EMAIL));
     }
 
-    public KmStringCriteria whereToken()
+    public KmhStringCondition whereToken()
     {
-        return new KmStringCriteria(context(), fullName(TOKEN));
+        return new KmhStringCondition(context(), fullName(TOKEN));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereExpirationUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereExpirationUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(EXPIRATION_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(EXPIRATION_UTC_TS));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
@@ -464,15 +458,4 @@ public class MyPasswordResetCriteria
     {
         return new MyPasswordResetJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyPasswordResetCriteria createOn(KmModelJunction junction)
-    {
-        return new MyPasswordResetCriteria(parent(), junction.context());
-    }
-
 }

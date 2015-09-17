@@ -38,8 +38,8 @@ public class KmFilerDebugUtility
      */
     public static void writeObject(String path, KmFilerIF e)
     {
-        try ( FileOutputStream fs = new FileOutputStream(path);
-            BufferedOutputStream bs = new BufferedOutputStream(fs) )
+        try (FileOutputStream fs = new FileOutputStream(path);
+            BufferedOutputStream bs = new BufferedOutputStream(fs))
         {
             KmFilerDebugOutputStream out;
             out = new KmFilerDebugOutputStream(bs);
@@ -58,8 +58,8 @@ public class KmFilerDebugUtility
      */
     public static void writeList(String path, List<KmFilerIF> v)
     {
-        try ( FileOutputStream fs = new FileOutputStream(path);
-            BufferedOutputStream bs = new BufferedOutputStream(fs) )
+        try (FileOutputStream fs = new FileOutputStream(path);
+            BufferedOutputStream bs = new BufferedOutputStream(fs))
         {
             KmFilerDebugOutputStream out;
             out = new KmFilerDebugOutputStream(bs);
@@ -77,8 +77,8 @@ public class KmFilerDebugUtility
      */
     public static KmFilerIF readObject(String path, Class<?> c)
     {
-        try ( FileInputStream fs = new FileInputStream(new File(path));
-            BufferedInputStream bs = new BufferedInputStream(fs) )
+        try (FileInputStream fs = new FileInputStream(new File(path));
+            BufferedInputStream bs = new BufferedInputStream(fs))
         {
             KmFilerDebugInputStream in = new KmFilerDebugInputStream(bs);
             return in.readObject(c);
@@ -94,8 +94,8 @@ public class KmFilerDebugUtility
      */
     public static List<?> readList(String path, Class<?> c)
     {
-        try ( FileInputStream fs = new FileInputStream(path);
-            BufferedInputStream bs = new BufferedInputStream(fs) )
+        try (FileInputStream fs = new FileInputStream(path);
+            BufferedInputStream bs = new BufferedInputStream(fs))
         {
             KmFilerDebugInputStream in = new KmFilerDebugInputStream(bs);
             return in.readList(c);

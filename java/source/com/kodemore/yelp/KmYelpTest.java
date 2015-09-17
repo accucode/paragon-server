@@ -2,8 +2,8 @@ package com.kodemore.yelp;
 
 /**
  * I am used connect to Flickr make various requests.
- *
- *
+ * 
+ *       
  */
 /**
  * fixme_steve (steve) so this isn't working for some reason. there is very little documentation

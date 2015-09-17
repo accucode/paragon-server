@@ -1,7 +1,7 @@
 package com.kodemore.proto;
 
 import com.kodemore.generator.model.KmgModelType;
-import com.kodemore.hibernate.criteria.KmBooleanCriteria;
+import com.kodemore.hibernate.KmhBooleanCondition;
 import com.kodemore.meta.KmMetaBooleanProperty;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.validator.KmBooleanValidator;
@@ -30,7 +30,7 @@ public class KmProtoBoolean
     @Override
     public String format_CriteriaClass()
     {
-        return KmBooleanCriteria.class.getSimpleName();
+        return KmhBooleanCondition.class.getSimpleName();
     }
 
     @Override

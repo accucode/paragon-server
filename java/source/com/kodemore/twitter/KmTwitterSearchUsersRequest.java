@@ -7,15 +7,15 @@ import com.kodemore.utility.Kmu;
 
 /**
  * I am used to search for users.
- *
+ * 
  * api documentation https://dev.twitter.com/docs/api/1.1/get/users/search
- *
+ * 
  * review_steve KmTwitterSearchUserRequest
  */
 public class KmTwitterSearchUsersRequest
 {
     //##################################################
-    //# variables
+    //# variables 
     //##################################################
 
     private KmTwitterConnection _connection;
@@ -156,7 +156,8 @@ public class KmTwitterSearchUsersRequest
             u.setGeoEmbed(json.getBoolean("geo_enabled"));
             u.setStatus(createTwitterStatus(json.getMap("status")));
             u.setProfileBackgroundImageUrl(json.getString("profile_background_image_url"));
-            u.setProfileBackgroundImageUrlHttps(json.getString("profile_background_image_url_https"));
+            u.setProfileBackgroundImageUrlHttps(
+                json.getString("profile_background_image_url_https"));
             u.setFollowRequestSent(json.getBoolean("follow_request_sent"));
             u.setUrl(json.getString("url"));
             u.setUtcOffset(json.getInteger("utc_offset"));
@@ -246,9 +247,9 @@ public class KmTwitterSearchUsersRequest
     //##################################################
 
     /**
-     * coordinates are wierd, the json object has an array of an
-     * array of arrays with long and lat inside, so the line
-     * " KmJsonArray coordinatesArray = json.getArray("coordinates").getArray(0); "
+     * coordinates are wierd, the json object has an array of an 
+     * array of arrays with long and lat inside, so the line 
+     * " KmJsonArray coordinatesArray = json.getArray("coordinates").getArray(0); " 
      * is unpacking the outer array to get at the actual array of coordinate arrays.
      */
     private KmTwitterBoundingBox createBoundingBox(KmJsonMap json)

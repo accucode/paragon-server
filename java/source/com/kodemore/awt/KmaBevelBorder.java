@@ -37,8 +37,8 @@ public class KmaBevelBorder
     //# constants
     //##################################################
 
-    public static final int    RAISED         = 0;
-    public static final int    LOWERED        = 1;
+    public static final int RAISED  = 0;
+    public static final int LOWERED = 1;
 
     public static final Border _raisedBorder  = new KmaBevelBorder(RAISED);
     public static final Border _loweredBorder = new KmaBevelBorder(LOWERED);

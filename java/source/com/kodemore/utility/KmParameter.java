@@ -123,14 +123,14 @@ public class KmParameter
     //# convenience
     //##################################################
 
-    public int getIntegerValue()
+    public Integer getIntegerValue()
     {
-        return Kmu.parse_int(_value);
+        return Kmu.parseInteger(_value);
     }
 
-    public double getDoubleValue()
+    public Double getDoubleValue()
     {
-        return Kmu.parse_double(_value);
+        return Kmu.parseDouble(_value);
     }
 
     //##################################################
@@ -155,7 +155,6 @@ public class KmParameter
         for ( KmParameter e : v )
         {
             String k = e.getKey();
-
             if ( m.containsKey(k) )
                 throw Kmu.newFatal(
                     "Cannot convert to map, found two parameters with the same key(%s).",

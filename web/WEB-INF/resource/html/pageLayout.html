@@ -14,41 +14,138 @@ Version: ${applicationVersion}
     <meta http-equiv="Pragma"           content="no-cache">
     <meta http-equiv="Expires"          content="-1">
 
-    <!-- Assumes ROOT (implied) servlet context -->    
-    <script type="text/javascript" src ="/static/${versionFolder}/kodemore/loader/kmResourceLoader.js"></script>
-    <script type="text/javascript" src ="/static/${versionFolder}/app/common/script/myResourceLoader.js"></script>
+    <!-- reset --> 
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/reset.css">
 
+    <!-- jquery (not deferred) -->
+    <script src="/static/${versionFolder}/jquery/core/jquery-1.10.2.min.js"></script>
+    <script src="/static/${versionFolder}/jquery/core/jquery-migrate-1.2.1.min.js"></script>
+
+    <!-- jquery ui -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/jquery-ui-1.11.1/jquery-ui.min.css">
+    <script defer src="/static/${versionFolder}/jquery/jquery-ui-1.11.1/jquery-ui.min.js"></script>
+    
+    <!-- color picker -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/colorpicker-09.05.23/css/colorpicker.css">
+    <script defer src="/static/${versionFolder}/jquery/colorpicker-09.05.23/js/colorpicker.js"></script>
+
+    <!-- flexigrid -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/flexigrid-1.1/css/flexigrid.pack.css">
+    <script defer src="/static/${versionFolder}/jquery/flexigrid-1.1/js/flexigrid.js"></script>
+
+    <!-- akquinet toasts -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/akquinet-0.2.0-13/resources/css/jquery.toastmessage.css">
+    <script defer src="/static/${versionFolder}/jquery/akquinet-0.2.0-13/javascript/jquery.toastmessage.js"></script>
+
+    <!-- cl editor -->
+    <!-- "/static/${versionFolder}/jquery/cleditor-1.4.3/jquery.cleditor.css", -->
+    <!-- "/static/${versionFolder}/jquery/cleditor-1.4.3/jquery.cleditor.min.js"></script> -->
+
+    <!-- block ui -->
+    <script defer src="/static/${versionFolder}/jquery/blockUi-2.64.0/jquery.blockUI.js"></script>
+
+    <!-- cookie -->
+    <script defer src="/static/${versionFolder}/jquery/cookie-1.0.0/jquery.cookie.js"></script>
+
+    <!-- transit -->
+    <script defer src="/static/${versionFolder}/jquery/transit-0.9.9/jquery.transit-0.9.9.min.js"></script>
+
+	<!-- Twitter Bootstrap -->
+	<!-- "/static/${versionFolder}/bootstrap-2.3.2/css/bootstrap.min.css", -->
+	<!-- "/static/${versionFolder}/bootstrap-2.3.2/js/bootstrap.min.js", -->
+            
+	<!-- bootstap select -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/bootstrap-select-1.3.1/bootstrap-select.min.css">
+    <script defer src="/static/${versionFolder}/bootstrap-select-1.3.1/bootstrap-select.min.js"></script>
+            
+    <!-- dropzone -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/dropzone-3.6.1/dropzone.css">
+    <script defer src="/static/${versionFolder}/dropzone-3.6.1/dropzone.js"></script>
+
+    <!-- json -->
+    <script defer src="/static/${versionFolder}/json-2010.11.18/json2.js"></script>
+            
+    <!-- Code39 Azalea -->
+    <!-- <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/azaleaCode39/Code39Azalea.min.css"> -->
+            
+    <!-- history -->
+    <script defer src="/static/${versionFolder}/jquery/history-1.8.6/scripts/bundled-uncompressed/html5/jquery.history.js"></script>
+
+    <!-- scroll to -->
+    <script defer src="/static/${versionFolder}/jquery/scrollto-1.4.3.1/jquery.scrollTo-1.4.3.1-min.js"></script>
+
+    <!-- visible -->
+    <script defer src="/static/${versionFolder}/jquery/jquery-visible-master/jquery.visible.js"></script>
+
+    <!-- splitter -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/jcubic-splitter-0.14.0/css/jquery.splitter.css">
+    <script defer src="/static/${versionFolder}/jquery/jcubic-splitter-0.14.0/js/jquery.splitter-0.14.0.js"></script>
+
+    <!-- nvd3 charts 1.1.10 -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/nvd3-1.1.10/src/nv.d3.css">
+    <script defer src="/static/${versionFolder}/nvd3-1.1.10/lib/d3.v3.js"></script>
+    <script defer src="/static/${versionFolder}/nvd3-1.1.10/nv.d3.js"></script>
+    <script defer src="/static/${versionFolder}/nvd3-1.1.10/src/tooltip.js"></script>
+    <script defer src="/static/${versionFolder}/nvd3-1.1.10/src/utils.js"></script>
+    <script defer src="/static/${versionFolder}/nvd3-1.1.10/src/interactiveLayer.js"></script>
+    <script defer src="/static/${versionFolder}/nvd3-1.1.10/src/models/legend.js"></script>
+    <script defer src="/static/${versionFolder}/nvd3-1.1.10/src/models/axis.js"></script>
+    <script defer src="/static/${versionFolder}/nvd3-1.1.10/src/models/line.js"></script>
+    <script defer src="/static/${versionFolder}/nvd3-1.1.10/src/models/lineChart.js"></script>
+
+    <!-- kodemore -->
+    <script defer src="/static/${versionFolder}/app/common/script/kmExtensions.js"></script>
+    <script defer src="/static/${versionFolder}/app/common/script/kmu.js"></script>
+    <script defer src="/static/${versionFolder}/app/common/script/kmNavigator.js"></script>
+    <script defer src="/static/${versionFolder}/app/common/script/kmDropdownMenu.js"></script>
+    <script defer src="/static/${versionFolder}/app/common/script/kmTimeAgo.js"></script>
+    <script defer src="/static/${versionFolder}/app/common/script/kmDateAgo.js"></script>
+
+    <!-- app -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/button.css">
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/dropdownMenu.css">
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/theme.css">
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/spice.css">
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/tools.css">
+            
     <script type="text/javascript">
-        var App = {};
-        
-        App.load = function()
-        {
-            var version = "${versionFolder}";
-            
-            var options = 
-            { 
-                title: "${applicationName}",
-                onComplete: App.init
-            };
-            
-            MyResourceLoader.loadAppResources(options, version);
-        }
+		$(function() 
+		{
+			$('#pageLoadMessage').remove();
+			
+			KmDropdownMenu.installAutoClose();  
+			KmTimeAgo.init();
 
-        App.init = function()
-        {
-            KmDropdownMenu.installAutoClose();  
-            KmTimeAgo.init();
-            
-            KmNavigator.defaultTitle = "${applicationName}";
-            KmNavigator.init(
-            {
-                url: "${query}"
-            });
-        }
+			KmNavigator.defaultTitle = "${applicationName}";
+			KmNavigator.init(
+			{
+			    url: "${query}"
+			});
+		});
     </script>
+    
+    <style type="text/css">
+        #pageLoadMessage
+        {
+            font: italic bold 30px sans-serif;
+            position: fixed;
+            left:   0;
+            right:  0;
+            top:    0;
+            height: 50px;
+            padding: 10px;
+            background: linear-gradient(#aaa, #f8f8f8); 
+        }
+    </style>
+    
 </head>
 
-<body onload="App.load();" class="${bodyClass}">
-${html}
+<body class="${bodyClass}">
+    <div id="pageLoadMessage">
+       ${applicationName}, loading...
+    </div>
+	${html}
 </body>
 </html>
+
+    

@@ -91,6 +91,22 @@ public abstract class MyPage
     }
 
     //##################################################
+    //# bookmark
+    //##################################################
+
+    /**
+     * Return a complete url that navigates to this page.
+     * If this page supports bookmarkable context, the current context is
+     * encoded into the url.  The url returned is suitable for use in
+     * external content (or browser bookmarks) that navigate back to
+     * this page via an HTTP GET.
+     */
+    public final String formatEntryUrl()
+    {
+        return MyUrls.getEntryUrl(composeBookmark());
+    }
+
+    //##################################################
     //# user
     //##################################################
 
@@ -210,11 +226,6 @@ public abstract class MyPage
     protected MyDaoRegistry getAccess()
     {
         return MyGlobals.getAccess();
-    }
-
-    public final String _formatEntryUrl()
-    {
-        return MyUrls.getEntryUrl(_composeQueryParameters());
     }
 
 }

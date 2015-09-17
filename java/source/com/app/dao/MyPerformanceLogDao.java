@@ -1,8 +1,8 @@
 package com.app.dao;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.hibernate.criteria.KmProjectionResult;
-import com.kodemore.hibernate.criteria.KmProjectionRow;
+import com.kodemore.hibernate.KmhProjectionResult;
+import com.kodemore.hibernate.KmhProjectionRow;
 import com.kodemore.time.KmDate;
 
 import com.app.criteria.MyPerformanceLogCriteria;
@@ -34,8 +34,8 @@ public class MyPerformanceLogDao
 
         KmList<MyPerformanceLogSummaryVo> v = new KmList<>();
 
-        KmProjectionResult results = c.findResults();
-        for ( KmProjectionRow row : results )
+        KmhProjectionResult results = c.findResults();
+        for ( KmhProjectionRow row : results )
         {
             String name = row.nextString();
             Integer min = row.nextInteger();

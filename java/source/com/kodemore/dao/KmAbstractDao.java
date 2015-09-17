@@ -7,13 +7,15 @@ import org.hibernate.Criteria;
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.DetachedCriteria;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.hibernate.criteria.KmCriteria;
-import com.kodemore.hibernate.criteria.KmModelCriteria;
-import com.kodemore.hibernate.criteria.KmRootCriteria;
+import com.kodemore.hibernate.KmhModelCriteria;
+import com.kodemore.hibernate.basic.KmhBasicCriteria;
+import com.kodemore.hibernate.basic.KmhCriteria;
+import com.kodemore.hibernate.basic.KmhRootCriteria;
+import com.kodemore.time.KmClock;
 import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.KmClock;
 import com.kodemore.utility.Kmu;
 
 public abstract class KmAbstractDao<T, K extends Serializable>
@@ -184,13 +186,21 @@ public abstract class KmAbstractDao<T, K extends Serializable>
     //# criteria
     //##################################################
 
-    public KmCriteria createGenericCriteria()
+    public KmhRootCriteria _createCriteria()
     {
         Criteria e = getSession().createCriteria(getPersistentClass());
-        return new KmRootCriteria(e);
+        return new KmhRootCriteria(e);
     }
 
-    public abstract KmModelCriteria<T> createCriteria();
+    public KmhCriteria _createDetachedCriteria(String alias)
+    {
+        DetachedCriteria e = DetachedCriteria.forClass(getPersistentClass(), alias);
+        return new KmhBasicCriteria(e);
+    }
+
+    public abstract KmhModelCriteria<T> createCriteria();
+
+    public abstract KmhModelCriteria<T> createDetachedCriteria(String alias);
 
     //##################################################
     //# private
@@ -246,10 +256,4 @@ public abstract class KmAbstractDao<T, K extends Serializable>
     {
         return KmClock.getNowUtc();
     }
-
-    protected RuntimeException newFatal(String msg, Object... args)
-    {
-        return Kmu.newFatal(msg, args);
-    }
-
 }

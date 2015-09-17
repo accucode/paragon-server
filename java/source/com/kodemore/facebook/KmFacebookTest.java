@@ -69,6 +69,11 @@ public class KmFacebookTest
         req.setAccessToken(accessToken);
 
         KmFacebookUser u = req.findUser();
+        if ( u == null )
+        {
+            System.out.println("User is Null");
+            return;
+        }
 
         String id = u.getId();
         String username = u.getUsername();

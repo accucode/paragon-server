@@ -4,14 +4,27 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScNotebook;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyTabbedTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyTabbedTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyTabbedTestPage instance = new MyTabbedTestPage();
+    private static MyTabbedTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyTabbedTestPage();
+    }
+
+    public static MyTabbedTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyTabbedTestPage()
     {
@@ -19,17 +32,27 @@ public class MyTabbedTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -48,4 +71,15 @@ public class MyTabbedTestPage
         book.add(new MyFirstTab());
         book.add(new MySecondTab());
     }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
 }

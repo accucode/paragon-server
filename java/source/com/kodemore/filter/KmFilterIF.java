@@ -14,9 +14,9 @@ public interface KmFilterIF<T>
     KmList<T> findAll();
 
     /**
-     * Find a batch of elements, starting at the
-     * 0-based index, and returning a maximum of
-     * count elements.
+     * Find a batch of elements, starting at the 
+     * 0-based index, and returning a maximum of 
+     * count elements.  
      */
     KmList<T> findBatch(int index, int count);
 

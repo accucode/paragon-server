@@ -41,12 +41,12 @@ public class KmPatchProcessor
     /**
      * The patch to be processed.
      */
-    private KmPatch             _patch;
+    private KmPatch _patch;
 
     /**
      * Is the process upgrading or downgrading the database.
      */
-    private boolean             _upgrading;
+    private boolean _upgrading;
 
     //##################################################
     //# variables (processing)
@@ -56,14 +56,14 @@ public class KmPatchProcessor
      * Is the processor currently processing a section marked for
      * upgrade, downgrade, or unknown(null).
      */
-    private Boolean             _upgradeSection;
+    private Boolean _upgradeSection;
 
     /**
      * The partial statement being collected.  Statements are assumed
      * to end under the following conditions: 1) a semi-colon at the
      * end of line; 2) A comment; 3) end of file.
      */
-    private StringBuilder       _statement;
+    private StringBuilder _statement;
 
     /**
      * The entire script runs in a single connection.  Additionally,
@@ -72,7 +72,7 @@ public class KmPatchProcessor
      * transaction boundaries, so that cannot be relied on.
      * E.g.: "alter table..."
      */
-    private KmDatabaseTool      _databaseTool;
+    private KmDatabaseTool _databaseTool;
 
     //##################################################
     //# accessing

@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.meta;
 
 import java.util.*;
@@ -64,7 +63,7 @@ public class MyMetaVendor
 
     public static String getHelp()
     {
-        return "Vendors are used to help organized products and services.\nTypical examples: Acme Inc, Smith Co";
+        return "Vendors are used to help organized products and services.  Typical examples\nAccucode, Motorola, Meraki, and Netpulse.";
     }
 
     //##################################################

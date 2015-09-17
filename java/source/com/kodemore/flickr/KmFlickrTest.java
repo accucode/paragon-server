@@ -2,9 +2,9 @@ package com.kodemore.flickr;
 
 /**
  * (steve)
- *
+ * 
  * review_steve (wyatt)
- *      I'm not sure what you want me to review here.
+ *      I'm not sure what you want me to review here. 
  */
 
 /**
@@ -48,7 +48,7 @@ public class KmFlickrTest
         System.out.println(s);
 
         /**
-         * review_steve
+         * review_steve 
          * use kmXmlParser.parse(String xml) to get a KmXmlDocument.
          * once you have the document you can start building the Objects
          */

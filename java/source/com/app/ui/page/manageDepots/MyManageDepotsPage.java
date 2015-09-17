@@ -9,14 +9,24 @@ import com.app.model.MyDepot;
 import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.support.MyManageDomainPage;
 
-public class MyManageDepotsPage
+public final class MyManageDepotsPage
     extends MyManageDomainPage<MyDepot>
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManageDepotsPage instance = new MyManageDepotsPage();
+    private static MyManageDepotsPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyManageDepotsPage();
+    }
+
+    public static MyManageDepotsPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyManageDepotsPage()
     {
@@ -106,7 +116,7 @@ public class MyManageDepotsPage
     @Override
     protected KmMetaStringProperty<MyDepot> getDomainSubtitleProperty()
     {
-        return null;
+        return MyDepot.Meta.Phone;
     }
 
     //##################################################

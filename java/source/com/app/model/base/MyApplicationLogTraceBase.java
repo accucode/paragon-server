@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -277,44 +276,6 @@ public abstract class MyApplicationLogTraceBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("id") )
-            setId(p.getInteger("id"));
-
-        if ( p.hasKey("sequence") )
-            setSequence(p.getInteger("sequence"));
-
-        if ( p.hasKey("value") )
-            setValue(p.getString("value"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasId() )
-            p.setInteger("id", getId());
-
-        if ( hasSequence() )
-            p.setInteger("sequence", getSequence());
-
-        if ( hasValue() )
-            p.setString("value", getValue());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,38 +30,33 @@ public class MyPerformanceLogCriteria
     //# constructor
     //##################################################
 
-    public MyPerformanceLogCriteria(KmCriteria parent)
+    public MyPerformanceLogCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyPerformanceLogCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmIntegerCriteria whereId()
+    public KmhIntegerCondition whereId()
     {
-        return new KmIntegerCriteria(context(), fullName(ID));
+        return new KmhIntegerCondition(context(), fullName(ID));
     }
 
-    public KmStringCriteria whereName()
+    public KmhStringCondition whereName()
     {
-        return new KmStringCriteria(context(), fullName(NAME));
+        return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmIntegerCriteria whereDurationMs()
+    public KmhIntegerCondition whereDurationMs()
     {
-        return new KmIntegerCriteria(context(), fullName(DURATION_MS));
+        return new KmhIntegerCondition(context(), fullName(DURATION_MS));
     }
 
     //##################################################
@@ -330,15 +324,4 @@ public class MyPerformanceLogCriteria
     {
         return new MyPerformanceLogJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyPerformanceLogCriteria createOn(KmModelJunction junction)
-    {
-        return new MyPerformanceLogCriteria(parent(), junction.context());
-    }
-
 }

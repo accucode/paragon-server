@@ -22,7 +22,6 @@
 
 package com.kodemore.time;
 
-import com.kodemore.utility.KmClock;
 import com.kodemore.utility.Kmu;
 
 /**

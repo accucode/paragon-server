@@ -24,7 +24,6 @@ package com.kodemore.servlet.encoder;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.collection.KmMap;
-import com.kodemore.utility.Kmu;
 
 public class ScEncoderTest
 {
@@ -77,7 +76,7 @@ public class ScEncoderTest
         System.out.println("integer: " + d.getInteger());
         System.out.println("null:    " + d.isNull());
         d.skip();
-        System.out.println("list:    " + Kmu.formatList(d.getList()));
+        System.out.println("list:    " + d.getList().join());
         System.out.println("map:     " + d.getMap());
 
     }

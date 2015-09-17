@@ -8,14 +8,27 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.string.KmStringBuilder;
 
-public class MyEqualizeTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyEqualizeTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyEqualizeTestPage instance = new MyEqualizeTestPage();
+    private static MyEqualizeTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyEqualizeTestPage();
+    }
+
+    public static MyEqualizeTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyEqualizeTestPage()
     {
@@ -29,17 +42,27 @@ public class MyEqualizeTestPage
     private ScBox _groups;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -78,37 +101,37 @@ public class MyEqualizeTestPage
         ScGroup group;
         group = groups.addGroup("A group");
         links = group.getBody().addLinkBox();
-        links.addLink(MyBlankTestPage.instance);
-        links.addLink(MyFormTestPage.instance);
-        links.addLink(MyPlaceholderTestPage.instance);
-        links.addLink(MyGroupTestPage.instance);
-        links.addLink(MyGroupIconHeaderTestPage.instance);
-        links.addLink(MyNotebookTestPage.instance);
+        links.addLink(MyBlankTestPage.getInstance());
+        links.addLink(MyFormTestPage.getInstance());
+        links.addLink(MyPlaceholderTestPage.getInstance());
+        links.addLink(MyGroupTestPage.getInstance());
+        links.addLink(MyGroupIconHeaderTestPage.getInstance());
+        links.addLink(MyNotebookTestPage.getInstance());
 
         group = groups.addGroup("Another group");
         links = group.getBody().addLinkBox();
         group.style().height(300);
-        links.addLink(MyFieldTestPage.instance);
-        links.addLink(MyLocalValueTestPage.instance);
-        links.addLink(MyDateFieldTestPage.instance);
-        links.addLink(MyColorFieldTestPage.instance);
-        links.addLink(MyAutoCompleteTestPage.instance);
-        links.addLink(MyGoogleChartTestPage.instance);
-        links.addLink(MyGridTestPage.instance);
-        links.addLink(MyDropzoneTestPage.instance);
+        links.addLink(MyFieldTestPage.getInstance());
+        links.addLink(MyLocalValueTestPage.getInstance());
+        links.addLink(MyDateFieldTestPage.getInstance());
+        links.addLink(MyColorFieldTestPage.getInstance());
+        links.addLink(MyAutoCompleteTestPage.getInstance());
+        links.addLink(MyGoogleChartTestPage.getInstance());
+        links.addLink(MyGridTestPage.getInstance());
+        links.addLink(MyDropzoneTestPage.getInstance());
 
         group = groups.addGroup("And another");
         links = group.getBody().addLinkBox();
         group.style().width(300);
-        links.addLink(MyBlockTestPage.instance);
-        links.addLink(MySlowTestPage.instance);
-        links.addLink(MyToastTestPage.instance);
-        links.addLink(MyAnimationTestPage.instance);
-        links.addLink(MyHideErrorsTestPage.instance);
-        links.addLink(MyOpenWindowTestPage.instance);
-        links.addLink(MyDownloadTestPage.instance);
-        links.addLink(MyDialogTestPage.instance);
-        links.addLink(MyBarcodeTestPage.instance);
+        links.addLink(MyBlockTestPage.getInstance());
+        links.addLink(MySlowTestPage.getInstance());
+        links.addLink(MyToastTestPage.getInstance());
+        links.addLink(MyAnimationTestPage.getInstance());
+        links.addLink(MyHideErrorsTestPage.getInstance());
+        links.addLink(MyOpenWindowTestPage.getInstance());
+        links.addLink(MyDownloadTestPage.getInstance());
+        links.addLink(MyDialogTestPage.getInstance());
+        links.addLink(MyBarcodeTestPage.getInstance());
 
         group = root.addGroup("One more at down below");
 
@@ -122,13 +145,24 @@ public class MyEqualizeTestPage
         KmStringBuilder out;
         out = new KmStringBuilder();
 
-        out.println(""
-            + "'Equalize Groups' will make all of the below groups the same size. This uses "
-            + "client-side javascript to equalize the width and/or height of multiple "
-            + "elements.  This is now largely OBSOLETE; in most cases, a flexbox layout "
-            + "will achieve the same effect and with far fewer problems and complications.");
+        out.println(
+            ""
+                + "'Equalize Groups' will make all of the below groups the same size. This uses "
+                + "client-side javascript to equalize the width and/or height of multiple "
+                + "elements.  This is now largely OBSOLETE; in most cases, a flexbox layout "
+                + "will achieve the same effect and with far fewer problems and complications.");
 
         return out.toString();
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

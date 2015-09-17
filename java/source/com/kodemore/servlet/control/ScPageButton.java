@@ -80,7 +80,7 @@ public class ScPageButton
     {
         ScBlockScript s;
         s = ScBlockScript.create();
-        s.pushPage(getPage());
+        s.enterPage(getPage());
         return s.formatScript();
     }
 

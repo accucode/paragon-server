@@ -22,6 +22,9 @@
 
 package com.kodemore.thread;
 
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
 import com.kodemore.utility.Kmu;
 
 /**
@@ -31,7 +34,7 @@ import com.kodemore.utility.Kmu;
  * that the thread subclass can monitor and used to determine
  * when to die.
  */
-public abstract class KmThread
+public class KmThread
     extends Thread
 {
     //##################################################
@@ -47,6 +50,30 @@ public abstract class KmThread
      * wait or io operation.
      */
     private boolean _stopRequest;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    public KmThread()
+    {
+        // none
+    }
+
+    public KmThread(Runnable e)
+    {
+        super(e);
+    }
+
+    public <A> KmThread(Consumer<A> con, A a)
+    {
+        this(Kmu.toRunnable(con, a));
+    }
+
+    public <A, B> KmThread(BiConsumer<A,B> con, A a, B b)
+    {
+        this(Kmu.toRunnable(con, a, b));
+    }
 
     //##################################################
     //# start

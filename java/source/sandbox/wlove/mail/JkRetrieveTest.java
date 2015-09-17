@@ -1,7 +1,5 @@
 package sandbox.wlove.mail;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -25,15 +23,15 @@ public class JkRetrieveTest
         new JkRetrieveTest().run();
     }
 
-    private static final boolean DEBUG    = false;
-    private static final boolean UPDATE   = false;
+    private static final boolean DEBUG  = false;
+    private static final boolean UPDATE = false;
 
-    private static final String  SCHEME   = "https";
-    private static final String  HOST     = "smtp.gmail.com";
-    private static final String  USER     = "velocityservice@gmail.com";
-    private static final String  PASSWORD = "velocity123";
-    private static final String  FILE     = null;                       // not used
-    private static final int     PORT     = 995;
+    private static final String SCHEME   = "https";
+    private static final String HOST     = "smtp.gmail.com";
+    private static final String USER     = "velocityservice@gmail.com";
+    private static final String PASSWORD = "velocity123";
+    private static final String FILE     = null;                       // not used
+    private static final int    PORT     = 995;
 
     private void run()
     {
@@ -69,7 +67,7 @@ public class JkRetrieveTest
 
         Message messages[] = folder.getMessages();
 
-        System.out.printf("Found %s messages.%n", messages.length);
+        System.out.printf("Found %s messages.\n", messages.length);
 
         for ( Message message : messages )
             handleMessage(message);
@@ -192,24 +190,11 @@ public class JkRetrieveTest
         System.out.println("Attachment");
         System.out.println("Filename: " + part.getFileName());
 
-        try ( InputStream in = part.getInputStream();
-            ByteArrayOutputStream out = new ByteArrayOutputStream() )
-        {
-            while ( true )
-            {
-                int i = in.read();
-                if ( i < 0 )
-                    break;
+        byte[] arr = Kmu.readBytes(part);
 
-                out.write((byte)i);
-            }
+        System.out.println("Bytes...");
+        System.out.println(Kmu.formatHexString(arr, " "));
 
-            byte[] arr = out.toByteArray();
-
-            System.out.println("Bytes...");
-            System.out.println(Kmu.formatHexString(arr, " "));
-
-            return true;
-        }
+        return true;
     }
 }

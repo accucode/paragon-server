@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -23,100 +22,65 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyInvitationJunction
-    extends KmModelJunction
+    extends KmhModelJunction
     implements MyInvitationDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyInvitationJunction(KmJunction context)
+    public MyInvitationJunction(KmhJunction context)
     {
         super(context);
-    }
-
-    public MyInvitationJunction(KmJunction context, KmAbstractCriteria parent)
-    {
-        super(context, parent);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmStringCriteria whereTypeCode()
+    public KmhStringCondition whereTypeCode()
     {
-        return new KmStringCriteria(context(), fullName(TYPE_CODE));
+        return new KmhStringCondition(context(), fullName(TYPE_CODE));
     }
 
-    public KmStringCriteria whereStatusCode()
+    public KmhStringCondition whereStatusCode()
     {
-        return new KmStringCriteria(context(), fullName(STATUS_CODE));
+        return new KmhStringCondition(context(), fullName(STATUS_CODE));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereClosedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereClosedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CLOSED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CLOSED_UTC_TS));
     }
 
-    public KmStringCriteria whereToEmail()
+    public KmhStringCondition whereToEmail()
     {
-        return new KmStringCriteria(context(), fullName(TO_EMAIL));
+        return new KmhStringCondition(context(), fullName(TO_EMAIL));
     }
 
-    public KmStringCriteria whereRoleCode()
+    public KmhStringCondition whereRoleCode()
     {
-        return new KmStringCriteria(context(), fullName(ROLE_CODE));
+        return new KmhStringCondition(context(), fullName(ROLE_CODE));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
     //# associations
     //##################################################
-
-    public MyUserCriteria joinToFromUser()
-    {
-        return join(new MyUserCriteria(root().joinTo(FROM_USER)));
-    }
-
-    public MyUserCriteria leftJoinToFromUser()
-    {
-        return join(new MyUserCriteria(root().leftJoinTo(FROM_USER)));
-    }
-
-    public KmStringCriteria whereFromUserUid()
-    {
-        return new KmStringCriteria(context(), fullName(FROM_USER_UID));
-    }
-
-    public MyProjectCriteria joinToProject()
-    {
-        return join(new MyProjectCriteria(root().joinTo(PROJECT)));
-    }
-
-    public MyProjectCriteria leftJoinToProject()
-    {
-        return join(new MyProjectCriteria(root().leftJoinTo(PROJECT)));
-    }
-
-    public KmStringCriteria whereProjectUid()
-    {
-        return new KmStringCriteria(context(), fullName(PROJECT_UID));
-    }
 
     //##################################################
     //# junction
@@ -124,12 +88,12 @@ public class MyInvitationJunction
 
     public MyInvitationJunction addAnd()
     {
-        return new MyInvitationJunction(context().addAnd(), parent());
+        return new MyInvitationJunction(context().addAnd());
     }
 
     public MyInvitationJunction addOr()
     {
-        return new MyInvitationJunction(context().addOr(), parent());
+        return new MyInvitationJunction(context().addOr());
     }
 
 }

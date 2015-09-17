@@ -6,14 +6,27 @@ import com.kodemore.servlet.control.ScContainer;
 import com.kodemore.servlet.control.ScGoogleChart;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyGoogleChartTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyGoogleChartTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyGoogleChartTestPage instance = new MyGoogleChartTestPage();
+    private static MyGoogleChartTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyGoogleChartTestPage();
+    }
+
+    public static MyGoogleChartTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyGoogleChartTestPage()
     {
@@ -21,17 +34,27 @@ public class MyGoogleChartTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -47,16 +70,16 @@ public class MyGoogleChartTestPage
         arr = new ScArray();
         arr.setColumnCount(3);
 
-        addBar1(arr);
-        addBar2(arr);
-        addBar3(arr);
+        installBar1(arr);
+        installBar2(arr);
+        installBar3(arr);
 
-        addPie1(arr);
-        addPie2(arr);
-        addLine1(arr);
+        installPie1(arr);
+        installPie2(arr);
+        installLine1(arr);
     }
 
-    private void addBar1(ScContainer root)
+    private void installBar1(ScContainer root)
     {
         ScGoogleChart c;
         c = new ScGoogleChart();
@@ -70,7 +93,7 @@ public class MyGoogleChartTestPage
         root.add(c);
     }
 
-    private void addBar2(ScContainer root)
+    private void installBar2(ScContainer root)
     {
         ScGoogleChart c;
         c = new ScGoogleChart();
@@ -84,7 +107,7 @@ public class MyGoogleChartTestPage
         root.add(c);
     }
 
-    private void addBar3(ScContainer root)
+    private void installBar3(ScContainer root)
     {
         ScGoogleChart c;
         c = new ScGoogleChart();
@@ -99,7 +122,7 @@ public class MyGoogleChartTestPage
         root.add(c);
     }
 
-    private void addPie1(ScContainer root)
+    private void installPie1(ScContainer root)
     {
         ScGoogleChart c;
         c = new ScGoogleChart();
@@ -111,7 +134,7 @@ public class MyGoogleChartTestPage
         root.add(c);
     }
 
-    private void addPie2(ScContainer root)
+    private void installPie2(ScContainer root)
     {
         ScGoogleChart c;
         c = new ScGoogleChart();
@@ -124,7 +147,7 @@ public class MyGoogleChartTestPage
         root.add(c);
     }
 
-    private void addLine1(ScContainer root)
+    private void installLine1(ScContainer root)
     {
         ScGoogleChart c;
         c = new ScGoogleChart();
@@ -138,6 +161,16 @@ public class MyGoogleChartTestPage
         c.setLegends("Red", "Orange");
         c.setLegendLeft();
         root.add(c);
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
 }

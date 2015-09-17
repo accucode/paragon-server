@@ -55,9 +55,9 @@ public class ScServletCallbackRegistry
     //# constants
     //##################################################
 
-    private static final String       KEY_AUTO_COMPLETE = "autoComplete";
-    private static final String       KEY_FLEXIGRID     = "flexigrid";
-    private static final String       KEY_DROPZONE      = "dropzone";
+    private static final String KEY_AUTO_COMPLETE = "autoComplete";
+    private static final String KEY_FLEXIGRID     = "flexigrid";
+    private static final String KEY_DROPZONE      = "dropzone";
 
     //##################################################
     //# variables
@@ -67,7 +67,7 @@ public class ScServletCallbackRegistry
      * The path prefix.  Tools need this in order
      * to correctly compose the url.
      */
-    private String                    _prefix;
+    private String _prefix;
 
     /**
      * The list of registered paths and callbacks.

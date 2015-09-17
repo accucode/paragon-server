@@ -50,17 +50,17 @@ public class ScDomainDropdownField<T, K>
     //# variables
     //##################################################
 
-    private ScLocalAdaptor       _optionKeyAdaptor;
-    private ScLocalAdaptor       _optionLabelAdaptor;
+    private ScLocalAdaptor _optionKeyAdaptor;
+    private ScLocalAdaptor _optionLabelAdaptor;
 
-    private ScLocalString        _nullPrefix;
+    private ScLocalString _nullPrefix;
 
-    private ScLocal<K>           _valueKey;
+    private ScLocal<K> _valueKey;
 
-    private ScLocalBoolean       _readOnly;
-    private ScLocalBoolean       _disabled;
+    private ScLocalBoolean _readOnly;
+    private ScLocalBoolean _disabled;
 
-    private KmValidator<T>       _validator;
+    private KmValidator<T> _validator;
 
     /**
      * Used to find the list of options to be displayed.
@@ -69,7 +69,7 @@ public class ScDomainDropdownField<T, K>
      *
      * @see #_filterFactory
      */
-    private KmFilterIF<T>        _filter;
+    private KmFilterIF<T> _filter;
 
     /**
      * Used to specify a dynamic filter.
@@ -86,7 +86,7 @@ public class ScDomainDropdownField<T, K>
      * the filter.  In practice, the value returned should be
      * a value from the filter, but this is not guaranteed or validated.
      */
-    private KmKeyFinderIF<T,K>   _finder;
+    private KmKeyFinderIF<T,K> _finder;
 
     //##################################################
     //# init

@@ -54,15 +54,15 @@ public class ScCardFrame
     /**
      * If set, then render this card when rendering this frame.
      */
-    private ScCard         _defaultCard;
+    private ScCard _defaultCard;
 
-    private ScEffect       _showEffect;
-    private ScEasing       _showEasing;
-    private Integer        _showSpeed;
+    private ScEffect _showEffect;
+    private ScEasing _showEasing;
+    private Integer  _showSpeed;
 
-    private ScEffect       _hideEffect;
-    private ScEasing       _hideEasing;
-    private Integer        _hideSpeed;
+    private ScEffect _hideEffect;
+    private ScEasing _hideEasing;
+    private Integer  _hideSpeed;
 
     //##################################################
     //# init

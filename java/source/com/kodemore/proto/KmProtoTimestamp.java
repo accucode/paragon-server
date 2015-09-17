@@ -1,7 +1,7 @@
 package com.kodemore.proto;
 
 import com.kodemore.generator.model.KmgModelType;
-import com.kodemore.hibernate.KmHibernateTimestampType;
+import com.kodemore.hibernate.type.KmhTimestampType;
 import com.kodemore.meta.KmMetaTimestampProperty;
 import com.kodemore.servlet.field.ScTimestampField;
 import com.kodemore.time.KmTimestamp;
@@ -37,7 +37,7 @@ public class KmProtoTimestamp
     @Override
     public String getHibernateType()
     {
-        return KmHibernateTimestampType.class.getName();
+        return KmhTimestampType.class.getName();
     }
 
     @Override

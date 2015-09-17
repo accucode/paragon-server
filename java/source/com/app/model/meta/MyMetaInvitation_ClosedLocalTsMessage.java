@@ -6,16 +6,13 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.meta;
 
 import java.util.*;
 
 import com.kodemore.adaptor.*;
 import com.kodemore.collection.*;
-import com.kodemore.comparator.*;
 import com.kodemore.exception.*;
-import com.kodemore.match.*;
 import com.kodemore.meta.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.field.*;
@@ -81,12 +78,6 @@ public class MyMetaInvitation_ClosedLocalTsMessage
     public boolean hasValueFor(MyInvitation model, String value)
     {
         return model.hasClosedLocalTsMessage(value);
-    }
-    
-    @Override
-    public int compareValues(MyInvitation o1, MyInvitation o2, boolean nullsOnTop)
-    {
-        return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }
     
 }

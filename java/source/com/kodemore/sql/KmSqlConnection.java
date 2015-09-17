@@ -312,7 +312,6 @@ public class KmSqlConnection
     //# statements
     //##################################################
 
-    @SuppressWarnings("resource")
     public KmSqlStatementWrapper createSqlStatement()
     {
         Statement st = null;

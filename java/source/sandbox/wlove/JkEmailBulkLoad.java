@@ -1,6 +1,6 @@
 package sandbox.wlove;
 
-import com.kodemore.command.KmDaoCommand;
+import com.kodemore.command.KmDao;
 
 import com.app.model.MyEmail;
 import com.app.utility.MyInstaller;
@@ -15,30 +15,23 @@ public class JkEmailBulkLoad
     private void run()
     {
         MyInstaller.installDatabase();
-        newCommand().run();
+        KmDao.run(this::runDao);
     }
 
-    private KmDaoCommand newCommand()
+    private void runDao()
     {
-        return new KmDaoCommand()
+        int n = 10000;
+        for ( int i = 0; i < n; i++ )
         {
-            @Override
-            protected void handle()
-            {
-                int n = 10000;
-                for ( int i = 0; i < n; i++ )
-                {
-                    MyEmail email;
-                    email = new MyEmail();
-                    email.setSubject("subject " + i);
-                    email.addToRecipient("nobody@nowhere.com");
-                    email.setFromAddress("nobody@here.com");
-                    email.addTextPart("message");
-                    email.attachDao();
+            MyEmail email;
+            email = new MyEmail();
+            email.setSubject("subject " + i);
+            email.addToRecipient("nobody@nowhere.com");
+            email.setFromAddress("nobody@here.com");
+            email.addTextPart("message");
+            email.attachDao();
 
-                    System.out.println(i);
-                }
-            }
-        };
+            System.out.println(i);
+        }
     }
 }

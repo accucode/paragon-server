@@ -31,11 +31,11 @@ public class ScSimpleMessageComposer
     //# variables
     //##################################################
 
-    private String        _header;
-    private String        _title;
-    private String        _message;
-    private Throwable     _exception;
-    private boolean       _showException;
+    private String    _header;
+    private String    _title;
+    private String    _message;
+    private Throwable _exception;
+    private boolean   _showException;
 
     private KmHtmlBuilder _out;
 
@@ -174,9 +174,11 @@ public class ScSimpleMessageComposer
         int headerSize = 3;
         if ( _title == null )
         {
-            _out.printHeader(3, "We are sorry, an error has occurred in the "
-                + "application.  This has been recorded and administrators "
-                + "will be reviewing it.");
+            _out.printHeader(
+                3,
+                "We are sorry, an error has occurred in the "
+                    + "application.  This has been recorded and administrators "
+                    + "will be reviewing it.");
             return;
         }
 

@@ -23,8 +23,8 @@
 package com.kodemore.servlet.control;
 
 import java.util.Iterator;
+import java.util.function.Function;
 
-import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.collection.KmList;
 import com.kodemore.csv.KmCsvBuilder;
 import com.kodemore.filter.KmFilterFactoryIF;
@@ -73,96 +73,96 @@ public class ScGrid<T>
     // standard flexigrid parameters that are passed to the server
     // as part of each request.
 
-    private static final String      REQUEST_PAGE             = "page";
-    private static final String      REQUEST_ROWS             = "rp";
+    private static final String REQUEST_PAGE = "page";
+    private static final String REQUEST_ROWS = "rp";
 
     // my custom callback parameters.
     // these are set grid with it is created so that they can be
     // passed back to the server with every request.
 
-    private static final String      PARAMETER_TOTAL_COUNT    = "myTotalCount";
-    private static final String      PARAMETER_TRACKED_VALUES = "myTrackedValues";
+    private static final String PARAMETER_TOTAL_COUNT    = "myTotalCount";
+    private static final String PARAMETER_TRACKED_VALUES = "myTrackedValues";
 
     /**
      * The name of the file used when exported csv data as an attachment.
      */
-    private static final String      CSV_DATA_FILE            = "data.csv";
+    private static final String CSV_DATA_FILE = "data.csv";
 
     //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString            _header;
+    private ScLocalString _header;
 
     /**
      * Defines a factory capable of creating the filter used to
      * fetch data.
      */
-    private KmFilterFactoryIF<T>     _filterFactory;
+    private KmFilterFactoryIF<T> _filterFactory;
 
     /**
      * The list of columns to display.
      */
-    private KmList<ScGridColumn<T>>  _columns;
+    private KmList<ScGridColumn<T>> _columns;
 
     /**
      * If true, the contents will be fetched a page at a time.
      * True by default.
      */
-    private ScLocalBoolean           _usesPager;
+    private ScLocalBoolean _usesPager;
 
     /**
      * The number of rows displayed per page.
      * This can be set to any positive value.
      */
-    private ScLocalInteger           _rowsPerPage;
+    private ScLocalInteger _rowsPerPage;
 
     /**
      * Allow the user to select the number of rows per page.
      */
-    private ScLocalBoolean           _selectRowsPerPage;
+    private ScLocalBoolean _selectRowsPerPage;
 
     /**
      * If true, allows the user to hide the table.
      * Change is not persistent.
      * False by default.
      */
-    private ScLocalBoolean           _allowsToggleGrid;
+    private ScLocalBoolean _allowsToggleGrid;
 
     /**
      * If true, allow the user to toggle columns on and off.
      * Defaults to true.
      * Changes are not persistent.
      */
-    private ScLocalBoolean           _allowsToggleColumns;
+    private ScLocalBoolean _allowsToggleColumns;
 
     /**
      * If true, the table will only select one row at a time.
      */
-    private ScLocalBoolean           _singleSelect;
+    private ScLocalBoolean _singleSelect;
 
     /**
      * The width of the table, in pixels.
      * Null by default, which fills the available width.
      */
-    private ScLocalInteger           _width;
+    private ScLocalInteger _width;
 
     /**
      * The height of the table, in pixels.
      * Null by default.
      */
-    private ScLocalInteger           _height;
+    private ScLocalInteger _height;
 
     /**
      * If true, the user can resize the vertical and horizontal sizes.
      */
-    private ScLocalBoolean           _resizable;
+    private ScLocalBoolean _resizable;
 
     /**
      * If false, then allow values to word wrap.  Wrapper is disabled
      * by default.
      */
-    private ScLocalBoolean           _noWrap;
+    private ScLocalBoolean _noWrap;
 
     /**
      * If true, attempt to adjust the layout such that the grid will fill its parent.
@@ -170,7 +170,7 @@ public class ScGrid<T>
      * My parent must have a non-static layout.
      * Additionally, the layout currently assumes that the header and pager are both visible.
      */
-    private ScLocalBoolean           _fill;
+    private ScLocalBoolean _fill;
 
     //##################################################
     //# variables: state management
@@ -185,13 +185,13 @@ public class ScGrid<T>
      * If false, the totalCount is recomputed every time the
      * client requests additional data.
      */
-    private ScLocalBoolean           _cacheTotalCount;
+    private ScLocalBoolean _cacheTotalCount;
 
     /**
      * The cached totalCount.  This is only used if _cacheTotalCount
      * is true.
      */
-    private ScLocalInteger           _totalCount;
+    private ScLocalInteger _totalCount;
 
     /**
      * Used to bind extra data for filtering and sorting.
@@ -706,10 +706,11 @@ public class ScGrid<T>
         return c;
     }
 
-    public ScGridColumn<T> addLinkColumn(
-        KmMetaProperty<T,?> text,
-        ScAction action,
-        KmMetaProperty<T,?> arg)
+    //==================================================
+    //= link column
+    //==================================================
+
+    public ScGridColumn<T> addLinkColumn(KmMetaProperty<T,?> text, ScAction action, Object arg)
     {
         ScLink link;
         link = new ScLink();
@@ -723,14 +724,21 @@ public class ScGrid<T>
         return col;
     }
 
-    public ScGridColumn<T> addLinkColumn(
-        KmMetaProperty<T,?> text,
-        Runnable r,
-        KmMetaProperty<T,?> arg)
+    public ScGridColumn<T> addLinkColumn(KmMetaProperty<T,?> text, Runnable r, Object arg)
     {
-        ScAction action = createAction(r);
+        ScAction action = newAction(r);
 
         return addLinkColumn(text, action, arg);
+    }
+
+    public ScGridColumn<T> addLinkColumn(Function<T,?> text, Runnable action, Object arg)
+    {
+        ScLink link;
+        link = new ScLink();
+        link.setText(text);
+        link.setAction(action, arg);
+
+        return addColumn(link);
     }
 
     public ScGridColumn<T> addLinkColumn(KmMetaAttribute<T,?> text, ScAction action)
@@ -738,7 +746,7 @@ public class ScGrid<T>
         ScLink link;
         link = new ScLink();
         link.setText(text);
-        link.setAction(action, text);
+        link.setAction(action, text.getGetter());
 
         return addColumn(link);
     }
@@ -753,7 +761,7 @@ public class ScGrid<T>
         return addColumn(link);
     }
 
-    public ScGridColumn<T> addLinkColumn(String text, ScAction action, KmMetaProperty<T,?> arg)
+    public ScGridColumn<T> addLinkColumn(String text, Runnable action, Object arg)
     {
         ScLink link;
         link = new ScLink();
@@ -763,11 +771,9 @@ public class ScGrid<T>
         return addColumn(link);
     }
 
-    public ScGridColumn<T> addLinkColumn(String text, Runnable r, KmMetaProperty<T,?> arg)
+    public ScGridColumn<T> addLinkColumn(String text, Runnable action, Function<T,?> arg)
     {
-        ScAction action = createAction(r);
-
-        return addLinkColumn(text, action, arg);
+        return addLinkColumn(text, action, (Object)arg);
     }
 
     private ScGridColumn<T> addColumn(ScControl e)
@@ -902,83 +908,33 @@ public class ScGrid<T>
     private void renderCsvData(KmCsvBuilder out, Iterable<T> cursor)
     {
         KmList<ScGridColumn<T>> columns = getCsvColumns();
-        for ( T e : cursor )
+        for ( T model : cursor )
         {
             for ( ScGridColumn<T> col : columns )
-                renderCsvField(out, col, e);
+                renderCsvField(out, col, model);
 
             out.endRecord();
         }
     }
 
-    private void renderCsvField(KmCsvBuilder out, ScGridColumn<T> column, Object model)
+    private void renderCsvField(KmCsvBuilder out, ScGridColumn<T> column, T model)
     {
         if ( !column.getVisible() )
             return;
 
-        if ( !column.isCsvCell() )
+        if ( !column.hasCsvFunction() )
             return;
 
-        renderCsvField(out, column.getCsvCell(), model);
+        renderCsvField(out, column.getCsvFunction(), model);
     }
 
-    private void renderCsvField(KmCsvBuilder out, Object o, Object model)
+    private void renderCsvField(KmCsvBuilder out, Function<T,?> fn, T model)
     {
-        if ( o instanceof KmAdaptorIF<?,?> )
-        {
-            renderCsvAdaptor(out, o, model);
-            return;
-        }
+        Object value = model == null
+            ? null
+            : fn.apply(model);
 
-        if ( o instanceof ScLink )
-        {
-            ScLink link = (ScLink)o;
-            renderCsvField(out, link.getText(), model);
-            return;
-        }
-
-        if ( o instanceof ScRenderer )
-        {
-            if ( model == null )
-            {
-                renderCsvValue(out, null);
-                return;
-            }
-
-            KmHtmlBuilder html = new KmHtmlBuilder();
-
-            ScRenderer renderer;
-            renderer = (ScRenderer)o;
-            renderer.renderOn(html, this, model);
-
-            out.printField(html.toString());
-            return;
-        }
-
-        renderCsvValue(out, o);
-    }
-
-    @SuppressWarnings(
-    {
-        "unchecked",
-        "rawtypes"
-    })
-    private void renderCsvAdaptor(KmCsvBuilder out, Object adaptor, Object model)
-    {
-        if ( model == null )
-        {
-            renderCsvValue(out, null);
-            return;
-        }
-
-        KmAdaptorIF a = (KmAdaptorIF)adaptor;
-        Object value = a.getValue(model);
-        renderCsvValue(out, value);
-    }
-
-    private void renderCsvValue(KmCsvBuilder out, Object e)
-    {
-        out.printField(e);
+        out.printField(value);
     }
 
     private KmList<ScGridColumn<T>> getCsvColumns()
@@ -986,7 +942,7 @@ public class ScGrid<T>
         KmList<ScGridColumn<T>> v = new KmList<>();
 
         for ( ScGridColumn<T> e : getColumns() )
-            if ( e.isCsvCell() && e.isVisible() )
+            if ( e.hasCsvFunction() && e.isVisible() )
                 v.add(e);
 
         return v;

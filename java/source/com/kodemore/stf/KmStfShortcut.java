@@ -39,18 +39,18 @@ public class KmStfShortcut
      * parsing the attributes of an element with a matching
      * name.
      */
-    private String  _elementName;
+    private String _elementName;
 
     /**
      * If set, then this shortcut will only apply when parsing
-     * an element that matches this path.  Patterns should be in
+     * an element that matches this path.  Patterns should be in 
      * the form:
      *      a/@/b/@@/c
-     * where *'s are used in place of @'.  A single * indicates
+     * where *'s are used in place of @'.  A single * indicates 
      * exactly one wildcard path element.  A double ** indicates
      * 0-to-many wildcard path elements.
      */
-    private String  _elementPath;
+    private String _elementPath;
 
     /**
      * If defined, the shortcut will only match arguments
@@ -59,16 +59,16 @@ public class KmStfShortcut
      * prefix is typically a symbol (e.g.: @, #, $) to avoid
      * confusion, but this is not strictly required.
      */
-    private String  _argumentPrefix;
+    private String _argumentPrefix;
 
     /**
      * The attribute key the argument will be applied to.
      */
-    private String  _attributeKey;
+    private String _attributeKey;
 
     /**
-     * If true, multiple arguments will be appended to the
-     * same attribute separated by a space. If false (the default),
+     * If true, multiple arguments will be appended to the 
+     * same attribute separated by a space. If false (the default), 
      * multiple arguments will added as multiple attributes.
      */
     private boolean _appendMode;

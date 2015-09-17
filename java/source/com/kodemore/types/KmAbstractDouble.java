@@ -54,8 +54,8 @@ public abstract class KmAbstractDouble
     //# variables
     //##################################################
 
-    private double             _value;
-    private boolean            _readOnly;
+    private double  _value;
+    private boolean _readOnly;
 
     //##################################################
     //# constructor

@@ -1,7 +1,7 @@
 package com.kodemore.proto;
 
 import com.kodemore.generator.model.KmgModelType;
-import com.kodemore.hibernate.criteria.KmIntegerCriteria;
+import com.kodemore.hibernate.KmhIntegerCondition;
 import com.kodemore.meta.KmMetaIntegerProperty;
 import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.validator.KmIntegerValidator;
@@ -30,7 +30,7 @@ public class KmProtoInteger
     @Override
     public String format_CriteriaClass()
     {
-        return KmIntegerCriteria.class.getSimpleName();
+        return KmhIntegerCondition.class.getSimpleName();
     }
 
     @Override

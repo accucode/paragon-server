@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.hibernate.base;
 
 import com.app.dao.core.*;
@@ -23,6 +22,7 @@ public abstract class MyHibernateConfigurationBase
     {
         addMapping("applicationLog");
         addMapping("applicationLogTrace");
+        addMapping("attentionGroup");
         addMapping("autoSignIn");
         addMapping("category");
         addMapping("depot");

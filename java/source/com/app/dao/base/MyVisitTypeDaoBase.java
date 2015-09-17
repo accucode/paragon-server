@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MyVisitTypeDaoBase
     @Override
     public MyVisitTypeCriteria createCriteria()
     {
-        return new MyVisitTypeCriteria(createGenericCriteria());
+        return new MyVisitTypeCriteria(_createCriteria());
+    }
+
+    @Override
+    public MyVisitTypeCriteria createDetachedCriteria(String alias)
+    {
+        return new MyVisitTypeCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaVisitType getMeta()

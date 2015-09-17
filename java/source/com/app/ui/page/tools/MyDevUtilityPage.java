@@ -8,21 +8,34 @@ import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
+import com.kodemore.string.KmStringBuilder;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.MyTimeZone;
 import com.app.property.MyPropertyManager;
 import com.app.ui.core.MyServletData;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MyDevUtilityPage
-    extends MyDevAbstractPage
+public final class MyDevUtilityPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDevUtilityPage instance = new MyDevUtilityPage();
+    private static MyDevUtilityPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDevUtilityPage();
+    }
+
+    public static MyDevUtilityPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDevUtilityPage()
     {
@@ -41,17 +54,27 @@ public class MyDevUtilityPage
     private ScText _denverText;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -83,6 +106,7 @@ public class MyDevUtilityPage
 
         ScBox box;
         box = group.getBody().addLinkBox();
+        box.addLink("garbage collection", this::handleGarbageCollection);
         box.addLink("reload properties", this::handleReloadProperties);
     }
 
@@ -149,8 +173,6 @@ public class MyDevUtilityPage
     @Override
     public void preRender()
     {
-        super.preRender();
-
         MyServletData data = getData();
 
         String userAgent = data.getUserAgent();
@@ -175,6 +197,24 @@ public class MyDevUtilityPage
     //# handle
     //##################################################
 
+    private void handleGarbageCollection()
+    {
+        Runtime rt = Runtime.getRuntime();
+        long max = rt.maxMemory();
+        long free1 = rt.freeMemory();
+        rt.gc();
+        long free2 = rt.freeMemory();
+
+        KmStringBuilder out;
+        out = new KmStringBuilder();
+        out.printfln("Max: %s", Kmu.formatInteger(max));
+        out.printfln("Free Before: %s", Kmu.formatInteger(free1));
+        out.printfln("Free After: %s", Kmu.formatInteger(free2));
+        out.printfln("Reclaimed: %s", Kmu.formatInteger(free2 - free1));
+
+        ajax().toast(out.toString()).sticky();
+    }
+
     private void handleReloadProperties()
     {
         MyPropertyManager.reloadOverrides();
@@ -187,9 +227,9 @@ public class MyDevUtilityPage
         ajax().toast("test", args);
     }
 
-    private void handleRuntimeException()
+    private void handleError()
     {
-        throw new RuntimeException("test");
+        throw Kmu.newError("test");
     }
 
     private void handleFatal()
@@ -197,9 +237,9 @@ public class MyDevUtilityPage
         throw Kmu.newFatal("test");
     }
 
-    private void handleError()
+    private void handleRuntimeException()
     {
-        throw Kmu.newError("test");
+        throw new RuntimeException("test");
     }
 
 }

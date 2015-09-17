@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MySkillDaoBase
     @Override
     public MySkillCriteria createCriteria()
     {
-        return new MySkillCriteria(createGenericCriteria());
+        return new MySkillCriteria(_createCriteria());
+    }
+
+    @Override
+    public MySkillCriteria createDetachedCriteria(String alias)
+    {
+        return new MySkillCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaSkill getMeta()

@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyEmailRecipientFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyEmailRecipient> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyEmailRecipient> c)
     {
         applyConditionsTo((MyEmailRecipientCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyEmailRecipient> c)
+    protected void applySortsTo(KmhModelCriteria<MyEmailRecipient> c)
     {
         applySortsTo((MyEmailRecipientCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyEmailRecipientFilterBase
     @Override
     protected MyEmailRecipientCriteria createCriteria()
     {
-        return new MyEmailRecipientCriteria(createGenericCriteria());
+        return new MyEmailRecipientCriteria(_createCriteria());
     }
 }

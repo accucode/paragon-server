@@ -28,13 +28,13 @@ import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.string.KmStringBuilder;
 
 /**
- * Search a series a items for matching text.
+ * Search a series a items for matching text.  
  * All items that match are shown; all items that do not match are hidden.
- *
+ * 
  * This is typically used for situations where you have a single text field
- * to specify some substring, and a client side list of items that you want to
+ * to specify some substring, and a client side list of items that you want to 
  * match against.
- *
+ * 
  * Once configured, the search is triggered and executed 100% client side,
  * and assumes that all of the items have already been loaded into the page.
  */
@@ -50,13 +50,13 @@ public class ScFilterScript
      * This should identify a single element on the page, and the element
      * must support the ".val()" method.
      */
-    private String         _fieldSelector;
+    private String _fieldSelector;
 
     /**
      * The select that identifies the items to be filtered.
      * These are the elements to be shown or hidden; NOT the text to be matched.
      */
-    private String         _itemSelector;
+    private String _itemSelector;
 
     /**
      * One or more selectors to identify the elements WITHIN each item to be

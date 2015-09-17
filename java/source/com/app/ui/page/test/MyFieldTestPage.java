@@ -8,7 +8,6 @@ import com.kodemore.servlet.control.ScFieldset;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.field.ScAutoCompleteCallbackIF;
 import com.kodemore.servlet.field.ScAutoCompleteField;
 import com.kodemore.servlet.field.ScCheckboxField;
 import com.kodemore.servlet.field.ScColorField;
@@ -22,18 +21,30 @@ import com.kodemore.servlet.field.ScRadioField;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.model.MyUser;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
 /**
  * Test the various form fields.
  */
-public class MyFieldTestPage
-    extends MyAbstractTestEntryPage
+public final class MyFieldTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyFieldTestPage instance = new MyFieldTestPage();
+    private static MyFieldTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyFieldTestPage();
+    }
+
+    public static MyFieldTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyFieldTestPage()
     {
@@ -61,17 +72,27 @@ public class MyFieldTestPage
     private ScListField         _listField;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -123,7 +144,7 @@ public class MyFieldTestPage
 
         _autoCompleteField = new ScAutoCompleteField();
         _autoCompleteField.setLabel("AutoComplete");
-        _autoCompleteField.setCallback(newCallback());
+        _autoCompleteField.setCallback(this::getAutoCompleteOptions);
 
         _dropdown = new ScDropdown();
         _dropdown.setLabel("Dropdown");
@@ -194,18 +215,6 @@ public class MyFieldTestPage
         _fieldGroup = group;
     }
 
-    private ScAutoCompleteCallbackIF newCallback()
-    {
-        return new ScAutoCompleteCallbackIF()
-        {
-            @Override
-            public KmList<String> getOptionsFor(String term)
-            {
-                return getAutoCompleteOptions(term);
-            }
-        };
-    }
-
     private KmList<String> getAutoCompleteOptions(String term)
     {
         KmList<String> v;
@@ -251,6 +260,16 @@ public class MyFieldTestPage
         fields.addTextField().setLabel("Home");
         fields.addTextField().setLabel("Work");
         fields.addTextField().setLabel("Cell");
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

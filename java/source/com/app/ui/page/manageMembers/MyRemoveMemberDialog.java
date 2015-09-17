@@ -38,12 +38,13 @@ public class MyRemoveMemberDialog
         ScDiv body;
         body = getBody();
         body.css().pad();
-        body.addText(""
-            + "This will remove the user's access to this project, "
-            + "but does NOT remove the user from the system. "
-            + "The user will still be allowed to log in and may have "
-            + "access to other projects. Also, if the user has administrative "
-            + "access, this must be removed separately.");
+        body.addText(
+            ""
+                + "This will remove the user's access to this project, "
+                + "but does NOT remove the user from the system. "
+                + "The user will still be allowed to log in and may have "
+                + "access to other projects. Also, if the user has administrative "
+                + "access, this must be removed separately.");
 
         _uidField = body.addHiddenField(x.Uid);
     }

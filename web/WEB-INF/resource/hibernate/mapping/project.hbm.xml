@@ -114,6 +114,16 @@
         </bag>
 
         <bag
+            name="attentionGroups"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="projectUid"/>
+                <one-to-many class="com.app.model.MyAttentionGroup"/>
+        </bag>
+
+        <bag
             name="products"
             inverse="false"
             cascade="all-delete-orphan"

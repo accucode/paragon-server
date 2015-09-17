@@ -25,15 +25,15 @@ public class JkRetrieveEmailTest
         new JkRetrieveEmailTest().run();
     }
 
-    private static final boolean DEBUG    = false;
-    private static final boolean UPDATE   = false;
+    private static final boolean DEBUG  = false;
+    private static final boolean UPDATE = false;
 
-    private static final String  SCHEME   = "https";
-    private static final String  HOST     = "smtp.gmail.com";
-    private static final String  USER     = "velocityservice@gmail.com";
-    private static final String  PASSWORD = "velocity123";
-    private static final String  FILE     = null;                       // not used
-    private static final int     PORT     = 995;
+    private static final String SCHEME   = "https";
+    private static final String HOST     = "smtp.gmail.com";
+    private static final String USER     = "velocityservice@gmail.com";
+    private static final String PASSWORD = "velocity123";
+    private static final String FILE     = null;                       // not used
+    private static final int    PORT     = 995;
 
     private void run()
     {
@@ -69,7 +69,7 @@ public class JkRetrieveEmailTest
 
         Message messages[] = folder.getMessages();
 
-        System.out.printf("Found %s messages.%n", messages.length);
+        System.out.printf("Found %s messages.\n", messages.length);
 
         for ( Message message : messages )
             handleMessage(message);
@@ -192,24 +192,24 @@ public class JkRetrieveEmailTest
         System.out.println("Attachment");
         System.out.println("Filename: " + part.getFileName());
 
-        try ( ByteArrayOutputStream out = new ByteArrayOutputStream();
-            InputStream in = part.getInputStream(); )
+        byte[] arr;
+
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            InputStream is = part.getInputStream())
         {
             while ( true )
             {
-                int i = in.read();
+                int i = is.read();
                 if ( i < 0 )
                     break;
-
-                out.write((byte)i);
+                baos.write((byte)i);
             }
-
-            byte[] arr = out.toByteArray();
-
-            System.out.println("Bytes...");
-            System.out.println(Kmu.formatHexString(arr, " "));
-
-            return true;
+            arr = baos.toByteArray();
         }
+
+        System.out.println("Bytes...");
+        System.out.println(Kmu.formatHexString(arr, " "));
+
+        return true;
     }
 }

@@ -1,9 +1,10 @@
 package com.app.ui.page.tools;
 
+import java.util.function.Function;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.filter.KmFilter;
 import com.kodemore.filter.KmFilterFactoryIF;
-import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFilterBox;
@@ -18,15 +19,27 @@ import com.kodemore.utility.KmNamedEnumIF;
 
 import com.app.model.MyPerformanceLogSummaryVo;
 import com.app.model.meta.MyMetaPerformanceLogSummaryVo;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MyDevPerformanceLogPage
-    extends MyDevAbstractPage
+public final class MyDevPerformanceLogPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDevPerformanceLogPage instance = new MyDevPerformanceLogPage();
+    private static MyDevPerformanceLogPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDevPerformanceLogPage();
+    }
+
+    public static MyDevPerformanceLogPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDevPerformanceLogPage()
     {
@@ -65,25 +78,35 @@ public class MyDevPerformanceLogPage
     //# variables
     //##################################################
 
-    private ScFilterBox                       _filterBox;
-    private ScDateField                       _startDateField;
-    private ScDateField                       _endDateField;
-    private ScDropdown                        _sortField;
+    private ScFilterBox _filterBox;
+    private ScDateField _startDateField;
+    private ScDateField _endDateField;
+    private ScDropdown  _sortField;
 
     private ScGrid<MyPerformanceLogSummaryVo> _grid;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -178,6 +201,16 @@ public class MyDevPerformanceLogPage
     }
 
     //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
+    //##################################################
     //# handle
     //##################################################
 
@@ -215,35 +248,33 @@ public class MyDevPerformanceLogPage
                 return v.toFilter();
             }
 
-            private KmMetaProperty<MyPerformanceLogSummaryVo,?> getSortProperty()
+            private Function<MyPerformanceLogSummaryVo,Comparable<?>> getSortProperty()
             {
-                MyMetaPerformanceLogSummaryVo x = MyPerformanceLogSummaryVo.Meta;
-
                 Integer ord = _sortField.getIntegerValue();
                 Sort sort = Sort.values()[ord];
 
                 switch ( sort )
                 {
                     case Name:
-                        return x.Name;
+                        return MyPerformanceLogSummaryVo::getName;
 
                     case Minimum:
-                        return x.MinimumMs;
+                        return MyPerformanceLogSummaryVo::getMinimumMs;
 
                     case Maximum:
-                        return x.MaximumMs;
+                        return MyPerformanceLogSummaryVo::getMaximumMs;
 
                     case Average:
-                        return x.AverageMs;
+                        return MyPerformanceLogSummaryVo::getAverageMs;
 
                     case Total:
-                        return x.TotalMs;
+                        return MyPerformanceLogSummaryVo::getTotalMs;
 
                     case Count:
-                        return x.Count;
+                        return MyPerformanceLogSummaryVo::getCount;
                 }
 
-                return x.TotalMs;
+                return MyPerformanceLogSummaryVo::getTotalMs;
             }
         };
     }

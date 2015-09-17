@@ -84,7 +84,7 @@ public class MyUserProfileEditCard
         ScBox buttons;
         buttons = footer.addButtonBox();
         buttons.addSubmitButton("Save");
-        buttons.addCancelButton(this::ajaxClose);
+        buttons.addCancelButton(this::handleCancel);
     }
 
     //##################################################
@@ -110,6 +110,11 @@ public class MyUserProfileEditCard
     //##################################################
     //# handle
     //##################################################
+
+    private void handleCancel()
+    {
+        ajaxClose();
+    }
 
     private void handleSave()
     {

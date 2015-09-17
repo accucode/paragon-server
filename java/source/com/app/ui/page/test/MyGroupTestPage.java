@@ -6,17 +6,30 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.utility.Kmu;
 
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
 /**
  * Test the layout and usage of the groups.
  */
-public class MyGroupTestPage
-    extends MyAbstractTestEntryPage
+public final class MyGroupTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyGroupTestPage instance = new MyGroupTestPage();
+    private static MyGroupTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyGroupTestPage();
+    }
+
+    public static MyGroupTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyGroupTestPage()
     {
@@ -24,17 +37,27 @@ public class MyGroupTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -109,6 +132,16 @@ public class MyGroupTestPage
         e = newGroup(title, msg);
         e.style().floatRight().width(200);
         return e;
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
 }

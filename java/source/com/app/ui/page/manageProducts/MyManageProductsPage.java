@@ -9,14 +9,24 @@ import com.app.model.MyProduct;
 import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.support.MyManageDomainPage;
 
-public class MyManageProductsPage
+public final class MyManageProductsPage
     extends MyManageDomainPage<MyProduct>
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManageProductsPage instance = new MyManageProductsPage();
+    private static MyManageProductsPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyManageProductsPage();
+    }
+
+    public static MyManageProductsPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyManageProductsPage()
     {

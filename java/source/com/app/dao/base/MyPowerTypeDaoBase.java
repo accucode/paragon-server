@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MyPowerTypeDaoBase
     @Override
     public MyPowerTypeCriteria createCriteria()
     {
-        return new MyPowerTypeCriteria(createGenericCriteria());
+        return new MyPowerTypeCriteria(_createCriteria());
+    }
+
+    @Override
+    public MyPowerTypeCriteria createDetachedCriteria(String alias)
+    {
+        return new MyPowerTypeCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaPowerType getMeta()

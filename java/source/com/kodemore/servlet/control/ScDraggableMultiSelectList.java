@@ -65,7 +65,7 @@ public class ScDraggableMultiSelectList<T>
      * or (more typically) during the current context.
      * These cannot be persisted into the page session.
      */
-    private ScLocalList<T>        _selectedValues;
+    private ScLocalList<T> _selectedValues;
 
     /**
      * The list of available values.  This should generally include the selected values
@@ -75,19 +75,19 @@ public class ScDraggableMultiSelectList<T>
      * or (more typically) during the current context.
      * These cannot be persisted into the page session.
      */
-    private ScLocalList<T>        _availableValues;
+    private ScLocalList<T> _availableValues;
 
     //==================================================
     //= variables :: components
     //==================================================
 
-    private ScDiv                 _selectedHeader;
-    private ScDiv                 _selectedList;
-    private ScTransientContainer  _selectedItemContainer;
+    private ScDiv                _selectedHeader;
+    private ScDiv                _selectedList;
+    private ScTransientContainer _selectedItemContainer;
 
-    private ScDiv                 _availableHeader;
-    private ScDiv                 _availableList;
-    private ScTransientContainer  _availableItemContainer;
+    private ScDiv                _availableHeader;
+    private ScDiv                _availableList;
+    private ScTransientContainer _availableItemContainer;
 
     //##################################################
     //# init

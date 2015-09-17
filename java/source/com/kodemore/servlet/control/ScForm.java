@@ -22,6 +22,8 @@
 
 package com.kodemore.servlet.control;
 
+import java.util.function.Function;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.servlet.ScConstantsIF;
@@ -33,7 +35,7 @@ import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.servlet.script.ScSimpleBlockScript;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalHtmlId;
-import com.kodemore.servlet.variable.ScLocalObject;
+import com.kodemore.servlet.variable.ScLocalRawFunction;
 
 public class ScForm
     extends ScChildContainerElement
@@ -45,17 +47,17 @@ public class ScForm
     /**
      * The action to run when users press the enter key in a field.
      */
-    private ScAction       _submitAction;
+    private ScAction _submitAction;
 
     /**
      * The argument passed with the submit action.
      */
-    private ScLocalObject  _submitArgument;
+    private ScLocalRawFunction _submitArgument;
 
     /**
      * An optional target to use as the block root.
      */
-    private ScLocalHtmlId  _blockTarget;
+    private ScLocalHtmlId _blockTarget;
 
     /**
      * If true (the default), then act as a block wrapper.
@@ -72,7 +74,7 @@ public class ScForm
     {
         super.install();
 
-        _submitArgument = new ScLocalObject();
+        _submitArgument = new ScLocalRawFunction();
         _blockTarget = new ScLocalHtmlId();
         _blockWrapper = new ScLocalBoolean(true);
 
@@ -100,7 +102,7 @@ public class ScForm
 
     public void setSubmitAction(Runnable r)
     {
-        ScAction action = createAction(r);
+        ScAction action = newAction(r);
 
         setSubmitAction(action);
     }
@@ -119,14 +121,17 @@ public class ScForm
     //# argument
     //##################################################
 
-    public Object getSubmitArgument()
+    @SuppressWarnings("rawtypes")
+    public Function getSubmitArgument()
     {
         return _submitArgument.getValue();
     }
 
+    @SuppressWarnings("rawtypes")
     public void setSubmitArgument(Object e)
     {
-        _submitArgument.setValue(e);
+        Function fn = ScUtility.toFunction(e);
+        _submitArgument.setValue(fn);
     }
 
     public boolean hasSubmitArgument()
@@ -277,7 +282,7 @@ public class ScForm
 
     public void ajaxOnSubmit(Runnable runnable)
     {
-        ajaxOnSubmit(createAction(runnable));
+        ajaxOnSubmit(newAction(runnable));
     }
 
 }

@@ -78,11 +78,12 @@ public class KmDecimalValidator
         String s = i + "";
         int wholeNumberLength = _allDigits - _rightDigits;
         if ( s.length() > wholeNumberLength )
-            errors.add(new KmDecimalCharacteristicValidationError(
-                getModel(),
-                getField(),
-                d,
-                wholeNumberLength));
+            errors.add(
+                new KmDecimalCharacteristicValidationError(
+                    getModel(),
+                    getField(),
+                    d,
+                    wholeNumberLength));
     }
 
     //##################################################

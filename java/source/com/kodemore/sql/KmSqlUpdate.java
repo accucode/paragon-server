@@ -100,10 +100,10 @@ public class KmSqlUpdate
     public void validate()
     {
         if ( !hasTable() )
-            throw newFatal("Must specify a table to update.");
+            throw Kmu.newFatal("Must specify a table to update.");
 
         if ( _values.isEmpty() )
-            throw newFatal("Must specify the values to update.");
+            throw Kmu.newFatal("Must specify the values to update.");
     }
 
     //##################################################

@@ -6,16 +6,13 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.meta;
 
 import java.util.*;
 
 import com.kodemore.adaptor.*;
 import com.kodemore.collection.*;
-import com.kodemore.comparator.*;
 import com.kodemore.exception.*;
-import com.kodemore.match.*;
 import com.kodemore.meta.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.field.*;
@@ -115,12 +112,6 @@ public class MyMetaEmailPart_LockVersion
     public boolean hasValueFor(MyEmailPart model, Integer value)
     {
         return model.hasLockVersion(value);
-    }
-    
-    @Override
-    public int compareValues(MyEmailPart o1, MyEmailPart o2, boolean nullsOnTop)
-    {
-        return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }
     
 }

@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyVisitTypeFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyVisitType> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyVisitType> c)
     {
         applyConditionsTo((MyVisitTypeCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyVisitType> c)
+    protected void applySortsTo(KmhModelCriteria<MyVisitType> c)
     {
         applySortsTo((MyVisitTypeCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyVisitTypeFilterBase
     @Override
     protected MyVisitTypeCriteria createCriteria()
     {
-        return new MyVisitTypeCriteria(createGenericCriteria());
+        return new MyVisitTypeCriteria(_createCriteria());
     }
 }

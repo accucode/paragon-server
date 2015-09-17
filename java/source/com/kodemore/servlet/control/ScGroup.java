@@ -59,7 +59,7 @@ public class ScGroup
      * content such as an extra button (or link) on the right.  In simple cases, clients
      * should use the setBannerTitle() method to set a simple text title with default theming.
      */
-    private ScDiv          _banner;
+    private ScDiv _banner;
 
     /**
      * The header is optionally displayed between the banner and the body.  This provides
@@ -67,7 +67,7 @@ public class ScGroup
      * footer are often configured to display the same content.  The header is hidden by
      * default.
      */
-    private ScDiv          _header;
+    private ScDiv _header;
 
     /**
      * The body is always displayed, and is the only section that is intended to contain
@@ -75,13 +75,13 @@ public class ScGroup
      * However, if the group is given a fixed size, then the body will shrink to accommodate
      * the intended size.
      */
-    private ScDiv          _body;
+    private ScDiv _body;
 
     /**
      * The footer is just like the header, but displayed after the body.  The footer is
      * hidden by default.
      */
-    private ScDiv          _footer;
+    private ScDiv _footer;
 
     /**
      * Determine if I should act as the block root for ajax requests.

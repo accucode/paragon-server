@@ -23,7 +23,7 @@ public class KmgModelFieldDependsOn
     /**
      * The method to call when any of the attributes change.
      */
-    private String         _onChange;
+    private String _onChange;
 
     //##################################################
     //# constructor

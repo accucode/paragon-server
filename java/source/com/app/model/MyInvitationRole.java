@@ -23,13 +23,13 @@ public enum MyInvitationRole
 
     Owner("O", "Owner"),
     Manager("M", "Manager"),
-    User("U", "User"), ;
+    User("U", "User"),;
 
     //##################################################
     //# find
     //##################################################
 
-    private static final KmList<MyInvitationRole>       _values;
+    private static final KmList<MyInvitationRole> _values;
     private static final KmMap<String,MyInvitationRole> _codes;
 
     static

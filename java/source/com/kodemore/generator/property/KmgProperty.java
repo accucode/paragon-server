@@ -175,15 +175,14 @@ public class KmgProperty
         _defaultValue = e.getValue("default");
         _comment = e.getValue("comment");
 
-        KmList<String> validTags;
-        validTags = KmList.createStrings("name", "type", "default", "comment");
+        KmList<String> validTags = KmList.createStrings("name", "type", "default", "comment");
 
         KmList<String> keys;
         keys = e.getKeys().toDistinctList();
         keys.removeAll(validTags);
 
         if ( keys.isNotEmpty() )
-            KmLog.warnTrace("Unknown property attributes: %s", keys.format());
+            KmLog.warnTrace("Unknown property attributes: %s", keys.join());
     }
 
     @Override

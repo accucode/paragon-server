@@ -41,7 +41,7 @@ public class KmStringBuilder
     //# variables
     //##################################################
 
-    private StringBuilder       _buffer;
+    private StringBuilder _buffer;
 
     //##################################################
     //# constructor

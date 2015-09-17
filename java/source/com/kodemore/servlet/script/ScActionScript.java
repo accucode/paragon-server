@@ -22,11 +22,12 @@
 
 package com.kodemore.servlet.script;
 
-import com.kodemore.adaptor.KmAdaptorIF;
+import java.util.function.Function;
+
 import com.kodemore.json.KmJsonMap;
-import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScForm;
+import com.kodemore.servlet.control.ScUtility;
 import com.kodemore.servlet.encoder.ScEncoder;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.string.KmStringBuilder;
@@ -64,25 +65,26 @@ public class ScActionScript
      * The primary attribute; the action to run.  If null
      * the resulting script will be null as well.
      */
-    private ScAction   _action;
+    private ScAction _action;
 
     /**
      * The optional form.  This needs to be set in order for
      * field values to be submitted.
      */
-    private ScForm     _form;
+    private ScForm _form;
 
     /**
      * The optional argument; this value is encoded to a string
      * using the ScEncoder.
      */
-    private Object     _argument;
+    @SuppressWarnings("rawtypes")
+    private Function _argument;
 
     /**
      * The optional model.  This is used for arguments that dynamically
      * evaluate their value based on a model.
      */
-    private Object     _model;
+    private Object _model;
 
     /**
      * If set, the client will block the target element prior
@@ -95,13 +97,13 @@ public class ScActionScript
      * along with the action and the argument; but this extra value
      * is NOT encoded or evaluated using the model.
      */
-    private String     _extra;
+    private String _extra;
 
     /**
      * The optional confirmation message.  If set, the browser will prompt
      * the user with an ok/cancel dialog before submitting the request.
      */
-    private String     _confirmationMessage;
+    private String _confirmationMessage;
 
     //##################################################
     //# constructor
@@ -135,35 +137,18 @@ public class ScActionScript
     //# argument
     //##################################################
 
-    public Object getArgument()
-    {
-        return _argument;
-    }
-
     public void setArgument(Object e)
     {
-        _argument = e;
+        _argument = ScUtility.toFunction(e);
     }
 
-    @SuppressWarnings(
-    {
-        "unchecked",
-        "rawtypes"
-    })
+    @SuppressWarnings("unchecked")
     private Object evalArgument()
     {
-        Object e = getArgument();
+        if ( _argument == null )
+            return null;
 
-        if ( e instanceof KmMetaAttribute )
-            e = ((KmMetaAttribute)e).getAdaptor();
-
-        if ( e instanceof KmAdaptorIF )
-        {
-            KmAdaptorIF a = (KmAdaptorIF)e;
-            e = a.getValue(getModel());
-        }
-
-        return e;
+        return _argument.apply(getModel());
     }
 
     //##################################################

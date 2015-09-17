@@ -15,7 +15,7 @@ public class ScCoderRegistry
     //# variables
     //##################################################
 
-    private KmMap<String,ScCoderIF>     _coders;
+    private KmMap<String,ScCoderIF> _coders;
 
     //##################################################
     //# constructor

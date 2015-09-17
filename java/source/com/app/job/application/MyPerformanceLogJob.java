@@ -1,7 +1,7 @@
 package com.app.job.application;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.command.KmDaoCommand;
+import com.kodemore.command.KmDao;
 
 import com.app.job.MyJob;
 import com.app.model.MyPerformanceLog;
@@ -45,20 +45,13 @@ public class MyPerformanceLogJob
         if ( v.isEmpty() )
             return false;
 
-        newCommand(v).run();
+        KmDao.run(this::saveAllDao, v);
         return true;
     }
 
-    private KmDaoCommand newCommand(final KmList<MyPerformanceLog> v)
+    private void saveAllDao(KmList<MyPerformanceLog> v)
     {
-        return new KmDaoCommand()
-        {
-            @Override
-            protected void handle()
-            {
-                for ( MyPerformanceLog e : v )
-                    e.attachDao();
-            }
-        };
+        for ( MyPerformanceLog e : v )
+            e.attachDao();
     }
 }

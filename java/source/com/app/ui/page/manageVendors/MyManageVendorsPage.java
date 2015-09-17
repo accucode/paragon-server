@@ -9,14 +9,24 @@ import com.app.model.MyVendor;
 import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.support.MyManageDomainPage;
 
-public class MyManageVendorsPage
+public final class MyManageVendorsPage
     extends MyManageDomainPage<MyVendor>
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyManageVendorsPage instance = new MyManageVendorsPage();
+    private static MyManageVendorsPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyManageVendorsPage();
+    }
+
+    public static MyManageVendorsPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyManageVendorsPage()
     {

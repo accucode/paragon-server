@@ -26,8 +26,8 @@ public class MyPageTitle
     private ScTextSpan _nameText;
     private ScTextSpan _projectText;
 
-    private ScDiv      _right;
-    private ScImage    _helpImage;
+    private ScDiv   _right;
+    private ScImage _helpImage;
 
     //##################################################
     //# install

@@ -50,12 +50,12 @@ public class KmaGridBagBuilder
     private GridBagConstraints _defaults;
     private GridBagConstraints _current;
 
-    private int                _nextColumn  = 0;
-    private int                _nextRow     = 0;
-    private int                _columnCount = 2;
-    private int                _rowCount    = 0;
-    private boolean            _fillArray[][];
-    private boolean            _autoWrap;
+    private int     _nextColumn  = 0;
+    private int     _nextRow     = 0;
+    private int     _columnCount = 2;
+    private int     _rowCount    = 0;
+    private boolean _fillArray[][];
+    private boolean _autoWrap;
 
     //##################################################
     //# constructors
@@ -153,12 +153,10 @@ public class KmaGridBagBuilder
             for ( int j = 0; j < _fillArray[i].length; j++ )
                 if ( !_fillArray[i][j] )
                 {
-                    JPanel p;
-                    p = new JPanel();
+                    JPanel p = new JPanel();
                     p.setMinimumSize(d);
                     p.setMaximumSize(d);
                     p.setPreferredSize(d);
-
                     addAt(p, i, j, 1, 1);
                 }
     }

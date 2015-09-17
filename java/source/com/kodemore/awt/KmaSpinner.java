@@ -41,8 +41,8 @@ public class KmaSpinner
     private KmList<KmaAction> _leftActions;
     private KmList<KmaAction> _rightActions;
 
-    private JButton           _leftButton;
-    private JButton           _rightButton;
+    private JButton _leftButton;
+    private JButton _rightButton;
 
     //##################################################
     //# constructors

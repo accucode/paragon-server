@@ -11,21 +11,21 @@ public class KmParser
     //# constants
     //##################################################
 
-    public static final char   QUOTE     = '"';
-    public static final char   TICK      = '\'';
-    public static final char   BACKSPACE = '\\';
+    public static final char QUOTE     = '"';
+    public static final char TICK      = '\'';
+    public static final char BACKSPACE = '\\';
 
-    public static final String CR        = "\r";
-    public static final String LF        = "\n";
-    public static final String CRLF      = CR + LF;
+    public static final String CR   = "\r";
+    public static final String LF   = "\n";
+    public static final String CRLF = CR + LF;
 
     //##################################################
     //# variables
     //##################################################
 
-    private String             _source;
-    private char[]             _array;
-    private int                _index;
+    private String _source;
+    private char[] _array;
+    private int    _index;
 
     //##################################################
     //# accessing

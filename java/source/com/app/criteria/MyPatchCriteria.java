@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,33 +30,28 @@ public class MyPatchCriteria
     //# constructor
     //##################################################
 
-    public MyPatchCriteria(KmCriteria parent)
+    public MyPatchCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyPatchCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereName()
+    public KmhStringCondition whereName()
     {
-        return new KmStringCriteria(context(), fullName(NAME));
+        return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereInstalledUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereInstalledUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(INSTALLED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(INSTALLED_UTC_TS));
     }
 
-    public KmStringCriteria whereSource()
+    public KmhStringCondition whereSource()
     {
-        return new KmStringCriteria(context(), fullName(SOURCE));
+        return new KmhStringCondition(context(), fullName(SOURCE));
     }
 
     //##################################################
@@ -263,15 +257,4 @@ public class MyPatchCriteria
     {
         return new MyPatchJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyPatchCriteria createOn(KmModelJunction junction)
-    {
-        return new MyPatchCriteria(parent(), junction.context());
-    }
-
 }

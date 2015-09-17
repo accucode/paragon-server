@@ -95,9 +95,9 @@ public class ScServletData
     //# variables (delgates)
     //##################################################
 
-    private HttpServlet          _servlet;
-    private HttpServletRequest   _request;
-    private HttpServletResponse  _response;
+    private HttpServlet         _servlet;
+    private HttpServletRequest  _request;
+    private HttpServletResponse _response;
 
     //##################################################
     //# variables (setup)
@@ -106,7 +106,7 @@ public class ScServletData
     /**
      * The time when I was created.  Used for logging.
      */
-    private long                 _creationTimeNanos;
+    private long _creationTimeNanos;
 
     /**
      * Determines if parameters values should be normalized.
@@ -115,13 +115,13 @@ public class ScServletData
      * desireable as it helps avoid a large number of potential
      * problems.
      */
-    private boolean              _normalizeParameterValues;
+    private boolean _normalizeParameterValues;
 
     /**
      * The list of parameters extracted from the http request so that
      * values can be overridden during processing.
      */
-    private ScParameterList      _parameters;
+    private ScParameterList _parameters;
 
     /**
      * This is the value submitted in the form's argument parameter.
@@ -130,7 +130,7 @@ public class ScServletData
      * If the argument cannot be parsed it is set to null and an warning
      * is logged.
      */
-    private Object               _argument;
+    private Object _argument;
 
     /**
      * The persistent session information that is propogated through
@@ -138,7 +138,7 @@ public class ScServletData
      * server side http session.  Most session information should
      * be stored here.
      */
-    private KmJsonMap            _pageSessionEncodedValues;
+    private KmJsonMap _pageSessionEncodedValues;
 
     //##################################################
     //# variables (response)
@@ -148,7 +148,7 @@ public class ScServletData
      * A list of application error messages that we intend to display
      * to the user.
      */
-    private KmList<KmErrorIF>    _errors;
+    private KmList<KmErrorIF> _errors;
 
     /**
      * The result that we intend to write to the http response.
@@ -156,14 +156,14 @@ public class ScServletData
      * writing the http response until after we have confirmed
      * that the database transaction successfully committed.
      */
-    private ScResultIF           _result;
+    private ScResultIF _result;
 
     /**
      * The number of bytes written to the http response.
      * This value is only set when the http response is written.
      * Setting the "result" does not immediately affect this value.
      */
-    private int                  _responseSize;
+    private int _responseSize;
 
     /**
      * I provide a copy of the cookies that are set into the response.
@@ -640,7 +640,7 @@ public class ScServletData
 
         System.out.println("Parameters: " + keys.size());
         for ( String key : keys )
-            System.out.printf("    %s = %s%n", key, getParameters(key).format());
+            System.out.printf("    %s = %s%n", key, getParameters(key).join());
     }
 
     public String formatParametersAsQueryString()
@@ -1267,16 +1267,14 @@ public class ScServletData
 
     public String readStringResource(String path)
     {
-        try ( InputStream is = _servlet.getServletContext().getResourceAsStream(path);
-            StringWriter sw = new StringWriter(); )
+        try (InputStream is = _servlet.getServletContext().getResourceAsStream(path);
+            StringWriter sw = new StringWriter();)
         {
             while ( true )
             {
                 int i = is.read();
-
                 if ( i < 0 )
                     break;
-
                 sw.write((char)i);
             }
 
@@ -1684,7 +1682,7 @@ public class ScServletData
 
     public void writeBytes(byte[] value)
     {
-        try ( OutputStream out = getOutputStream() )
+        try (OutputStream out = getOutputStream())
         {
             setContentLength(value.length);
             out.write(value);
@@ -1697,7 +1695,7 @@ public class ScServletData
 
     public void writeFile(KmFile file)
     {
-        try ( OutputStream out = getOutputStream() )
+        try (OutputStream out = getOutputStream())
         {
             setContentLength((int)file.getLength());
             file.writeTo(out);

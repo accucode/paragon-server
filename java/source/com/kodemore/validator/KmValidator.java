@@ -27,12 +27,11 @@ import com.kodemore.exception.KmApplicationException;
 import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.exception.error.KmRequiredValidationError;
 import com.kodemore.string.KmStringBuilder;
-import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.KmCopyIF;
 import com.kodemore.utility.Kmu;
 
 public abstract class KmValidator<T>
-    implements KmConstantsIF, Cloneable
+    implements Cloneable
 {
     //##################################################
     //# variables
@@ -215,8 +214,13 @@ public abstract class KmValidator<T>
 
     private void check(KmList<KmErrorIF> errors)
     {
-        if ( errors.isNotEmpty() )
-            throw new KmApplicationException(errors);
+        if ( errors.isEmpty() )
+            return;
+
+        KmApplicationException ex;
+        ex = new KmApplicationException();
+        ex.addErrors(errors);
+        throw ex;
     }
 
 }

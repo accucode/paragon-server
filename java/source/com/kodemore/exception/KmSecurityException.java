@@ -3,7 +3,7 @@ package com.kodemore.exception;
 import com.kodemore.utility.Kmu;
 
 public class KmSecurityException
-    extends RuntimeException
+    extends KmSignalingException
 {
     //##################################################
     //# constructor
@@ -28,7 +28,7 @@ public class KmSecurityException
         String s = "Security Violation.";
 
         if ( hasMessage() )
-            return s + "\n" + getMessage();
+            s += "\n" + getMessage();
 
         return s;
     }

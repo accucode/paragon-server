@@ -37,7 +37,7 @@ public class ScFileResult
     /**
      * Set during applyTo.
      */
-    private int    _length;
+    private int _length;
 
     //##################################################
     //# accessing

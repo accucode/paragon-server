@@ -25,6 +25,6 @@ public class JkDuplicateFinderTest
         if ( dups.isEmpty() )
             System.out.println("no duplicates");
         else
-            System.out.println(dups.format());
+            System.out.println(dups.join());
     }
 }

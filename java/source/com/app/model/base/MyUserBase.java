@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -688,86 +687,6 @@ public abstract class MyUserBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("uid") )
-            setUid(p.getString("uid"));
-
-        if ( p.hasKey("name") )
-            setName(p.getString("name"));
-
-        if ( p.hasKey("email") )
-            setEmail(p.getString("email"));
-
-        if ( p.hasKey("phone") )
-            setPhone(p.getString("phone"));
-
-        if ( p.hasKey("verified") )
-            setVerified(p.getBoolean("verified"));
-
-        if ( p.hasKey("passwordSalt") )
-            setPasswordSalt(p.getString("passwordSalt"));
-
-        if ( p.hasKey("passwordHash") )
-            setPasswordHash(p.getString("passwordHash"));
-
-        if ( p.hasKey("timeZoneCode") )
-            setTimeZoneCode(p.getString("timeZoneCode"));
-
-        if ( p.hasKey("roleCode") )
-            setRoleCode(p.getString("roleCode"));
-
-        if ( p.hasKey("lockVersion") )
-            setLockVersion(p.getInteger("lockVersion"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasUid() )
-            p.setString("uid", getUid());
-
-        if ( hasName() )
-            p.setString("name", getName());
-
-        if ( hasEmail() )
-            p.setString("email", getEmail());
-
-        if ( hasPhone() )
-            p.setString("phone", getPhone());
-
-        if ( hasVerified() )
-            p.setBoolean("verified", getVerified());
-
-        if ( hasPasswordSalt() )
-            p.setString("passwordSalt", getPasswordSalt());
-
-        if ( hasPasswordHash() )
-            p.setString("passwordHash", getPasswordHash());
-
-        if ( hasTimeZoneCode() )
-            p.setString("timeZoneCode", getTimeZoneCode());
-
-        if ( hasRoleCode() )
-            p.setString("roleCode", getRoleCode());
-
-        if ( hasLockVersion() )
-            p.setInteger("lockVersion", getLockVersion());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

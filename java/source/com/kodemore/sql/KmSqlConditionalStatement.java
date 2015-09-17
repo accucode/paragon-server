@@ -41,7 +41,7 @@ public abstract class KmSqlConditionalStatement
     //# variables
     //##################################################
 
-    private KmSqlCondition     _where;
+    private KmSqlCondition _where;
 
     //##################################################
     //# constructor

@@ -28,41 +28,41 @@ public interface KmWikiConstantsIF
     //# CORE
     //##################################################
 
-    char   TAB                 = 9;
-    char   CR                  = 13;
-    char   LF                  = 10;
-    char   SPACE               = 32;
-    char   TICK                = '\'';
-    char   QUOTE               = '"';
+    char TAB   = 9;
+    char CR    = 13;
+    char LF    = 10;
+    char SPACE = 32;
+    char TICK  = '\'';
+    char QUOTE = '"';
 
     //##################################################
     //# PARSING
     //##################################################
 
-    char   HEADER_CHAR         = '=';
-    char   ORDERED_LIST_CHAR   = '#';
-    char   UNORDERED_LIST_CHAR = '*';
+    char HEADER_CHAR         = '=';
+    char ORDERED_LIST_CHAR   = '#';
+    char UNORDERED_LIST_CHAR = '*';
 
-    String BOLD_PREFIX         = "**";
-    String BOLD_SUFFIX         = BOLD_PREFIX;
+    String BOLD_PREFIX = "**";
+    String BOLD_SUFFIX = BOLD_PREFIX;
 
-    String ITALIC_PREFIX       = "//";
-    String ITALIC_SUFFIX       = ITALIC_PREFIX;
+    String ITALIC_PREFIX = "//";
+    String ITALIC_SUFFIX = ITALIC_PREFIX;
 
-    String UNDERLINE_PREFIX    = "__";
-    String UNDERLINE_SUFFIX    = UNDERLINE_PREFIX;
+    String UNDERLINE_PREFIX = "__";
+    String UNDERLINE_SUFFIX = UNDERLINE_PREFIX;
 
-    String STRIKEOUT_PREFIX    = "--";
-    String STRIKEOUT_SUFFIX    = STRIKEOUT_PREFIX;
+    String STRIKEOUT_PREFIX = "--";
+    String STRIKEOUT_SUFFIX = STRIKEOUT_PREFIX;
 
-    String QUOTE_PREFIX        = ">>>";
-    String QUOTE_SUFFIX        = "<<<";
+    String QUOTE_PREFIX = ">>>";
+    String QUOTE_SUFFIX = "<<<";
 
-    String NO_WIKI_PREFIX      = "{{{";
-    String NO_WIKI_SUFFIX      = "}}}";
+    String NO_WIKI_PREFIX = "{{{";
+    String NO_WIKI_SUFFIX = "}}}";
 
-    String LITERAL_PREFIX      = "" + QUOTE + QUOTE + QUOTE;
-    String LITERAL_SUFFIX      = LITERAL_PREFIX;
+    String LITERAL_PREFIX = "" + QUOTE + QUOTE + QUOTE;
+    String LITERAL_SUFFIX = LITERAL_PREFIX;
 
-    String RULE_TOKEN          = "---";
+    String RULE_TOKEN = "---";
 }

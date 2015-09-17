@@ -5,17 +5,30 @@ import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.time.KmTimestamp;
 
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
 /**
  * Test the layout and usage of the groups.
  */
-public class MyDownloadTestPage
-    extends MyAbstractTestEntryPage
+public final class MyDownloadTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDownloadTestPage instance = new MyDownloadTestPage();
+    private static MyDownloadTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDownloadTestPage();
+    }
+
+    public static MyDownloadTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDownloadTestPage()
     {
@@ -23,17 +36,27 @@ public class MyDownloadTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -47,6 +70,16 @@ public class MyDownloadTestPage
     {
         root.css().gap();
         root.addButton("Download", this::handleDownload);
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

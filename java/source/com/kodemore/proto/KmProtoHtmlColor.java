@@ -1,7 +1,7 @@
 package com.kodemore.proto;
 
 import com.kodemore.generator.model.KmgModelType;
-import com.kodemore.hibernate.KmHibernateHtmlColorType;
+import com.kodemore.hibernate.type.KmhHtmlColorType;
 import com.kodemore.meta.KmMetaHtmlColorProperty;
 import com.kodemore.servlet.field.ScColorField;
 import com.kodemore.types.KmHtmlColor;
@@ -31,7 +31,7 @@ public class KmProtoHtmlColor
     @Override
     public String getHibernateType()
     {
-        return KmHibernateHtmlColorType.class.getName();
+        return KmhHtmlColorType.class.getName();
     }
 
     @Override

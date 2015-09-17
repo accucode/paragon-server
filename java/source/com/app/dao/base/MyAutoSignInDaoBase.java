@@ -6,13 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.dao.base;
 
 import com.kodemore.collection.*;
 import com.kodemore.dao.*;
-import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
 import com.kodemore.utility.*;
 
 import com.app.criteria.*;
@@ -53,7 +50,13 @@ public abstract class MyAutoSignInDaoBase
     @Override
     public MyAutoSignInCriteria createCriteria()
     {
-        return new MyAutoSignInCriteria(createGenericCriteria());
+        return new MyAutoSignInCriteria(_createCriteria());
+    }
+
+    @Override
+    public MyAutoSignInCriteria createDetachedCriteria(String alias)
+    {
+        return new MyAutoSignInCriteria(_createDetachedCriteria(alias));
     }
 
     protected MyMetaAutoSignIn getMeta()

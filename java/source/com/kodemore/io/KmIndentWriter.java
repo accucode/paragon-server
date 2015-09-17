@@ -133,7 +133,7 @@ public class KmIndentWriter
     @Override
     public void write(char buf[], int off, int len) throws IOException
     {
-        synchronized ( lock )
+        synchronized (lock)
         {
             while ( len > 0 )
             {

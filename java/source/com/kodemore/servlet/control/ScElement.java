@@ -48,8 +48,8 @@ public abstract class ScElement
 
     private ScLocalString _htmlId;
 
-    private ScLocalCss    _css;
-    private ScLocalStyle  _style;
+    private ScLocalCss   _css;
+    private ScLocalStyle _style;
 
     private ScLocalString _hoverText;
 

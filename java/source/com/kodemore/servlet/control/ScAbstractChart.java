@@ -30,9 +30,9 @@ import com.kodemore.string.KmStringBuilder;
 /**
  * This implements the Nvd3 javascript chart library.
  * http://nvd3.org/
- *
+ * 
  * It should be noted that if a chart is placed in a div
- * that is initially hidded, the chart will initialize with
+ * that is initially hidded, the chart will initialize with 
  * a size of 0.  In order to display correctly, the chart(s)
  * should be manually updated once shown using updateAllCharts()
  * or getUpdateAllChartsScript().
@@ -46,9 +46,9 @@ public abstract class ScAbstractChart
 
     protected static final int DEFAULT_TRANSITION_DURATION = 500;
 
-    protected static final int DEFAULT_Y_AXIS_SCALE        = 0;
+    protected static final int DEFAULT_Y_AXIS_SCALE = 0;
 
-    protected static final int Y_LABEL_MARGIN              = 85;
+    protected static final int Y_LABEL_MARGIN = 85;
 
     //##################################################
     //# variables
@@ -57,42 +57,42 @@ public abstract class ScAbstractChart
     /**
      * The time it takes for the chart to appear on the page.
      */
-    private int                _transitionDuration;
+    private int _transitionDuration;
 
-    private String             _xAxisLabel;
-    private String             _yAxisLabel;
+    private String _xAxisLabel;
+    private String _yAxisLabel;
 
     /**
-     * If set, the chart will expand to include this value.  However, the
+     * If set, the chart will expand to include this value.  However, the 
      * chart will not cut off data that exists outside of this range.  The
      * chart will always automatically expand to fit all data.
      */
-    private Integer            _xAxisMin;
+    private Integer _xAxisMin;
 
     /**
      * See _xAxisMin.
      */
-    private Integer            _xAxisMax;
+    private Integer _xAxisMax;
 
     /**
      * See _xAxisMin.
      */
-    private Integer            _yAxisMin;
+    private Integer _yAxisMin;
 
     /**
      * See _xAxisMin.
      */
-    private Integer            _yAxisMax;
+    private Integer _yAxisMax;
 
     /**
      * The number of decimal digits, for x axis labels
      */
-    private int                _xAxisScale;
+    private int _xAxisScale;
 
     /**
      * The number of decimal digits, for y axis labels
      */
-    private int                _yAxisScale;
+    private int _yAxisScale;
 
     //##################################################
     //# constructor
@@ -266,8 +266,8 @@ public abstract class ScAbstractChart
     }
 
     /**
-     * The is where the chart is initialized using the specific
-     * nvd3 chart model.
+     * The is where the chart is initialized using the specific 
+     * nvd3 chart model. 
      */
     protected abstract void initializeChart(KmStringBuilder out);
 
@@ -311,7 +311,7 @@ public abstract class ScAbstractChart
 
     /**
      * Static method returning the script to manually update
-     * all charts.
+     * all charts. 
      */
     public static String getUpdateAllChartsScript()
     {

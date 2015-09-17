@@ -50,10 +50,10 @@ public class KmaGraphics
 
     private Graphics2D _graphics;
 
-    private double     _scaleX;
-    private double     _scaleY;
-    private double     _translationX;
-    private double     _translationY;
+    private double _scaleX;
+    private double _scaleY;
+    private double _translationX;
+    private double _translationY;
 
     //##################################################
     //# constructor

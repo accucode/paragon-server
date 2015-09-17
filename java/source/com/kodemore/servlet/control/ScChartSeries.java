@@ -34,10 +34,10 @@ public class ScChartSeries
     //##################################################
 
     /**
-     * The unique identifier of the data series, and can
+     * The unique identifier of the data series, and can 
      * not be null.  Doubles as the series label.
      */
-    private String      _key;
+    private String _key;
 
     /**
      * Optional value to determine the color of the data
@@ -49,7 +49,7 @@ public class ScChartSeries
      * On line charts, this attribute determines if the
      * area below the line is filled in or not.
      */
-    private Boolean     _area;
+    private Boolean _area;
 
     /**
      * The data points to be charted.  Each point has an

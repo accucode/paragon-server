@@ -4,9 +4,9 @@ import java.util.Iterator;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.dao.KmDaoSessionManager;
+import com.kodemore.time.KmClock;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
-import com.kodemore.utility.KmClock;
 
 /**
  * I provide a simple implementation of KmFilterIF.

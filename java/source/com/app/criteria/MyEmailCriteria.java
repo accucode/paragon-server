@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -31,48 +30,43 @@ public class MyEmailCriteria
     //# constructor
     //##################################################
 
-    public MyEmailCriteria(KmCriteria parent)
+    public MyEmailCriteria(KmhCriteria parent)
     {
         super(parent);
-    }
-
-    public MyEmailCriteria(KmCriteria parent, KmAbstractCriteria context)
-    {
-        super(parent, context);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereCreatedUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmPropertyCriteria<KmTimestamp> whereSentUtcTs()
+    public KmhPropertyCondition<KmTimestamp> whereSentUtcTs()
     {
-        return new KmPropertyCriteria<>(context(), fullName(SENT_UTC_TS));
+        return new KmhPropertyCondition<>(context(), fullName(SENT_UTC_TS));
     }
 
-    public KmStringCriteria whereSubject()
+    public KmhStringCondition whereSubject()
     {
-        return new KmStringCriteria(context(), fullName(SUBJECT));
+        return new KmhStringCondition(context(), fullName(SUBJECT));
     }
 
-    public KmStringCriteria whereFromAddress()
+    public KmhStringCondition whereFromAddress()
     {
-        return new KmStringCriteria(context(), fullName(FROM_ADDRESS));
+        return new KmhStringCondition(context(), fullName(FROM_ADDRESS));
     }
 
-    public KmStringCriteria whereStatusCode()
+    public KmhStringCondition whereStatusCode()
     {
-        return new KmStringCriteria(context(), fullName(STATUS_CODE));
+        return new KmhStringCondition(context(), fullName(STATUS_CODE));
     }
 
     public void whereStatusIs(MyEmailStatus e)
@@ -199,14 +193,14 @@ public class MyEmailCriteria
             whereStatusIsNotIgnored();
     }
 
-    public KmStringCriteria whereErrorNotes()
+    public KmhStringCondition whereErrorNotes()
     {
-        return new KmStringCriteria(context(), fullName(ERROR_NOTES));
+        return new KmhStringCondition(context(), fullName(ERROR_NOTES));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
@@ -750,15 +744,4 @@ public class MyEmailCriteria
     {
         return new MyEmailJunction(parent().addOr());
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    @Override
-    public MyEmailCriteria createOn(KmModelJunction junction)
-    {
-        return new MyEmailCriteria(parent(), junction.context());
-    }
-
 }

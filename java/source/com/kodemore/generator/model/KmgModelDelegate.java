@@ -278,7 +278,7 @@ public class KmgModelDelegate
 
     public String getf_help()
     {
-        return Kmu.escapeJavaString(getHelp());
+        return Kmu.encodeJavaString(getHelp());
     }
 
     @Override

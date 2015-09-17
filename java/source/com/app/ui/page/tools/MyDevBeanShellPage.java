@@ -1,6 +1,7 @@
 package com.app.ui.page.tools;
 
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -10,15 +11,27 @@ import com.kodemore.servlet.script.ScAddContentScript;
 import com.kodemore.utility.KmBeanShell;
 
 import com.app.file.MyResourceFiles;
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
 
-public class MyDevBeanShellPage
-    extends MyDevAbstractPage
+public final class MyDevBeanShellPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDevBeanShellPage instance = new MyDevBeanShellPage();
+    private static MyDevBeanShellPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDevBeanShellPage();
+    }
+
+    public static MyDevBeanShellPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDevBeanShellPage()
     {
@@ -33,17 +46,27 @@ public class MyDevBeanShellPage
     private ScBox      _resultsBox;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -55,13 +78,15 @@ public class MyDevBeanShellPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
+        ScAction submitAction = newAction(this::handleSubmit);
+
         _scriptField = new ScTextArea();
         _scriptField.style().height(100);
         _scriptField.setWidthFull();
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(this::handleSubmit);
+        form.setSubmitAction(submitAction);
         form.css().pad();
 
         ScGroup group;
@@ -72,6 +97,16 @@ public class MyDevBeanShellPage
 
         _resultsBox = root.addBox();
         _resultsBox.css().gap();
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

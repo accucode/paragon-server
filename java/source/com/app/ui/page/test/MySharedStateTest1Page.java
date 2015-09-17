@@ -6,6 +6,9 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.variable.ScLocalString;
 
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
 /**
  * This demonstrates two pages that share some page session.
  * Test1 and Test2 both rely on _testValue; Test2 uses Test1's
@@ -20,14 +23,24 @@ import com.kodemore.servlet.variable.ScLocalString;
  * it's pre-navigation value when the using the back button to
  * navigate "back" from Test2 to Test1.
  */
-public class MySharedStateTest1Page
-    extends MyAbstractTestEntryPage
+public final class MySharedStateTest1Page
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MySharedStateTest1Page instance = new MySharedStateTest1Page();
+    private static MySharedStateTest1Page _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MySharedStateTest1Page();
+    }
+
+    public static MySharedStateTest1Page getInstance()
+    {
+        return _instance;
+    }
 
     private MySharedStateTest1Page()
     {
@@ -41,17 +54,27 @@ public class MySharedStateTest1Page
     private ScLocalString _testValue;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -85,7 +108,6 @@ public class MySharedStateTest1Page
         footer.addButton("red", this::handleRed);
         footer.addButton("blue", this::handleBlue);
         footer.addButton("toast", this::handleToast);
-        // footer.addButton("page 2", MySharedStateTest2Page.instance);
         footer.addButton("page 2", this::handlePage2);
     }
 
@@ -96,7 +118,7 @@ public class MySharedStateTest1Page
     @Override
     protected void preRender()
     {
-        super.preRender();
+        // none
     }
 
     //##################################################
@@ -123,7 +145,7 @@ public class MySharedStateTest1Page
     private void handlePage2()
     {
         getTestValueHolder().setValue("yellow");
-        MySharedStateTest2Page.instance.ajaxPush();
+        MySharedStateTest2Page.getInstance().ajaxEnter();
     }
 
     //##################################################

@@ -20,7 +20,7 @@ public class KmJsonPrettyPrinter
     /**
      * Format the json object.
      * Valid values: null, boolean, long, double, string, KmJsonArray, KmJsonMap.
-     *
+     * 
      * @throws IllegalArgumentException for unhandled types.
      */
     public static String format(Object e)
@@ -40,8 +40,8 @@ public class KmJsonPrettyPrinter
     //# variables
     //##################################################
 
-    private KmStringBuilder   _out;
-    private int               _indent;
+    private KmStringBuilder _out;
+    private int             _indent;
 
     //##################################################
     //# constructor

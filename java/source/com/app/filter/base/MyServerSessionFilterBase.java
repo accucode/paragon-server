@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyServerSessionFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyServerSession> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyServerSession> c)
     {
         applyConditionsTo((MyServerSessionCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyServerSession> c)
+    protected void applySortsTo(KmhModelCriteria<MyServerSession> c)
     {
         applySortsTo((MyServerSessionCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyServerSessionFilterBase
     @Override
     protected MyServerSessionCriteria createCriteria()
     {
-        return new MyServerSessionCriteria(createGenericCriteria());
+        return new MyServerSessionCriteria(_createCriteria());
     }
 }

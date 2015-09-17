@@ -6,7 +6,6 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.base;
 
 import java.util.*;
@@ -897,62 +896,6 @@ public abstract class MyInvitationBase
     {
         return !isSameIgnoringKey(e);
     }
-
-    //##################################################
-    //# property
-    //##################################################
-
-    public void importPropertyMap(KmMap<String,String> map)
-    {
-        KmProperties p;
-        p = new KmProperties();
-        p.setMap(map);
-
-        if ( p.hasKey("uid") )
-            setUid(p.getString("uid"));
-
-        if ( p.hasKey("typeCode") )
-            setTypeCode(p.getString("typeCode"));
-
-        if ( p.hasKey("statusCode") )
-            setStatusCode(p.getString("statusCode"));
-
-        if ( p.hasKey("toEmail") )
-            setToEmail(p.getString("toEmail"));
-
-        if ( p.hasKey("roleCode") )
-            setRoleCode(p.getString("roleCode"));
-
-        if ( p.hasKey("lockVersion") )
-            setLockVersion(p.getInteger("lockVersion"));
-    }
-
-    public KmMap<String,String> exportPropertyMap()
-    {
-        KmProperties p;
-        p = new KmProperties();
-
-        if ( hasUid() )
-            p.setString("uid", getUid());
-
-        if ( hasTypeCode() )
-            p.setString("typeCode", getTypeCode());
-
-        if ( hasStatusCode() )
-            p.setString("statusCode", getStatusCode());
-
-        if ( hasToEmail() )
-            p.setString("toEmail", getToEmail());
-
-        if ( hasRoleCode() )
-            p.setString("roleCode", getRoleCode());
-
-        if ( hasLockVersion() )
-            p.setInteger("lockVersion", getLockVersion());
-
-        return p.getMap();
-    }
-
 
     //##################################################
     //# display

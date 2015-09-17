@@ -29,7 +29,7 @@ import com.kodemore.string.KmStringBuilder;
 import com.kodemore.types.KmHtmlColor;
 
 /**
- * This is a simple bar chart that displays several discrete data points.
+ * This is a simple bar chart that displays several discrete data points. 
  */
 public class ScBarChart
     extends ScAbstractChart
@@ -38,8 +38,8 @@ public class ScBarChart
     //# constants
     //##################################################
 
-    private static final int  DEFAULT_Y_AXIS_MIN   = 0;
-    private static final int  STAGGER_LABEL_MARGIN = 65;
+    private static final int DEFAULT_Y_AXIS_MIN   = 0;
+    private static final int STAGGER_LABEL_MARGIN = 65;
 
     //##################################################
     //# variables
@@ -48,10 +48,10 @@ public class ScBarChart
     /**
      * Determines if the individual bar labes should be staggered vertically.
      */
-    private boolean           _staggerLabels;
+    private boolean _staggerLabels;
 
     /**
-     * This is the data to be represented in the chart.
+     * This is the data to be represented in the chart.  
      * Each bar must have a "key" (also the label)
      * and a "value", and may optionally have a color using the
      * key "color".
@@ -73,7 +73,7 @@ public class ScBarChart
     }
 
     //##################################################
-    //# Stagger Labels
+    //# Stagger Labels 
     //##################################################
 
     public boolean getStaggerLabels()

@@ -52,19 +52,23 @@ public class JkXmlTransformer
         //        earth.appendChild(canada);
 
         // write result
-        Transformer transformer;
-        transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        String xml = composeXml(doc);
+        System.out.println(xml);
+    }
 
-        try ( StringWriter out = new StringWriter() )
+    private String composeXml(Document doc) throws Exception
+    {
+        try (StringWriter out = new StringWriter())
         {
+            Transformer transformer;
+            transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
             StreamResult result = new StreamResult(out);
             DOMSource source = new DOMSource(doc);
             transformer.transform(source, result);
 
-            String xml = out.toString();
-            System.out.println(xml);
+            return out.toString();
         }
     }
-
 }

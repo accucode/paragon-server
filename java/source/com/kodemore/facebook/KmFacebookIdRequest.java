@@ -103,15 +103,6 @@ public class KmFacebookIdRequest
             return;
 
         KmJsonMap map = resp.getMap(errorKey);
-        throw newFatal(map.getString("message"));
-    }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private RuntimeException newFatal(String msg, Object... args)
-    {
-        return Kmu.newFatal(msg, args);
+        throw Kmu.newError(map.getString("message"));
     }
 }

@@ -93,7 +93,10 @@ public abstract class ScPageRegistry
 
     private void installPages()
     {
-        KmList<ScPage> v = _pages.getValues();
+        KmList<ScPage> v;
+        v = _pages.getValues();
+        v.sortOn(ScPage::getSimpleClassName);
+
         for ( ScPage e : v )
             e.install();
     }

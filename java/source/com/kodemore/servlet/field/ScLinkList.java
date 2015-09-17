@@ -36,11 +36,11 @@ import com.kodemore.servlet.variable.ScLocalOptionList;
 
 /**
  * A list of links, each link separated by an html break.
- * All of the links will use the same action, but the
+ * All of the links will use the same action, but the 
  * links label(text) and argument are determined by applying
  * the specified adapters to each option.
- *
- * This control only generates the links, not a container
+ * 
+ * This control only generates the links, not a container 
  * around the links.  Scrolling, borders, and other artifacts
  * around the list need to be managed with a separate control.
  */
@@ -54,7 +54,7 @@ public class ScLinkList
     /**
      * The common action to be used for all links.
      */
-    private ScLocalAction     _action;
+    private ScLocalAction _action;
 
     /**
      * The list of options.  Each option corresponds to a single link.
@@ -63,15 +63,15 @@ public class ScLinkList
 
     /**
      * Adapts a single option to the label/text to be displayed.
-     * This adapter is required.
+     * This adapter is required. 
      */
-    private ScLocalAdaptor    _optionLabelAdaptor;
+    private ScLocalAdaptor _optionLabelAdaptor;
 
     /**
      * Adapts a single option to the value/argument to be submitted with the action.
-     * This adapter is required.
+     * This adapter is required. 
      */
-    private ScLocalAdaptor    _optionValueAdaptor;
+    private ScLocalAdaptor _optionValueAdaptor;
 
     //##################################################
     //# init

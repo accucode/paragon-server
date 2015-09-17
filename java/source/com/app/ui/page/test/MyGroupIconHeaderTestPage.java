@@ -9,19 +9,31 @@ import com.kodemore.servlet.control.ScGroupBannerIcon;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
 
-public class MyGroupIconHeaderTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+/**
+ * This is an example of how to use the ScGroupIconHeadder
+ * to change the title and icon in a group's header.
+ */
+public final class MyGroupIconHeaderTestPage
+    extends MyPage
 {
-    /**
-     * this is an example of how to use the ScGroupIconHeadder
-     * to dynamically change the title and icon in a group's
-     * headder.
-     */
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyGroupIconHeaderTestPage instance = new MyGroupIconHeaderTestPage();
+    private static MyGroupIconHeaderTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyGroupIconHeaderTestPage();
+    }
+
+    public static MyGroupIconHeaderTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyGroupIconHeaderTestPage()
     {
@@ -36,17 +48,27 @@ public class MyGroupIconHeaderTestPage
     private ScDropdown        _dropdown;
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -89,8 +111,6 @@ public class MyGroupIconHeaderTestPage
     @Override
     protected void preRender()
     {
-        super.preRender();
-
         _groupHeader.setText("Welcome " + getCurrentUser().getName());
         _groupHeader.setImageSource(getCommonImageUrl("smiley.png"));
     }

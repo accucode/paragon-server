@@ -4,14 +4,27 @@ import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScPageRoot;
 
-public class MyBorderTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyBorderTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyBorderTestPage instance = new MyBorderTestPage();
+    private static MyBorderTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyBorderTestPage();
+    }
+
+    public static MyBorderTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyBorderTestPage()
     {
@@ -19,17 +32,27 @@ public class MyBorderTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -92,11 +115,22 @@ public class MyBorderTestPage
         outset.addText("Outset");
     }
 
-    public ScDiv addBox(ScDiv root)
+    private ScDiv addBox(ScDiv root)
     {
         ScDiv div;
         div = root.addBox();
         div.css().gap();
         return div;
     }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
 }

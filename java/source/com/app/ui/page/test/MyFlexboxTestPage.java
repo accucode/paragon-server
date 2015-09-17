@@ -7,14 +7,27 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScTextSpan;
 
-public class MyFlexboxTestPage
-    extends MyAbstractTestEntryPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyFlexboxTestPage
+    extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyFlexboxTestPage instance = new MyFlexboxTestPage();
+    private static MyFlexboxTestPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyFlexboxTestPage();
+    }
+
+    public static MyFlexboxTestPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyFlexboxTestPage()
     {
@@ -22,17 +35,27 @@ public class MyFlexboxTestPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -79,6 +102,16 @@ public class MyFlexboxTestPage
         int n = 10;
         for ( int i = 0; i < n; i++ )
             addGroupOn(row, i);
+    }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
     }
 
     //##################################################

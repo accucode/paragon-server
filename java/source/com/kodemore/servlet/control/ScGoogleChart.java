@@ -41,7 +41,7 @@ public class ScGoogleChart
     //# logging
     //##################################################
 
-    private static final KmLogger       logger = KmLogger.create(ScGoogleChart.class);
+    private static final KmLogger logger = KmLogger.create(ScGoogleChart.class);
 
     //##################################################
     //# install
@@ -49,51 +49,51 @@ public class ScGoogleChart
 
     // http://chart.apis.google.com/chart?cht=p3&chd=t:60,40&chs=250x100&chl=Hello|World
 
-    public static String                scheme = "http";
-    public static String                host   = "chart.apis.google.com";
-    public static String                path   = "chart";
-    public static int                   port   = 80;
+    public static String scheme = "http";
+    public static String host   = "chart.apis.google.com";
+    public static String path   = "chart";
+    public static int    port   = 80;
 
     //##################################################
     //# constants
     //##################################################
 
-    private static final String         PIPE   = "|";
-    private static final String         PLUS   = "+";
-    private static final String         COMMA  = ",";
+    private static final String PIPE  = "|";
+    private static final String PLUS  = "+";
+    private static final String COMMA = ",";
 
     //##################################################
     //# variables
     //##################################################
 
-    private ScLocalString               _type;
+    private ScLocalString _type;
 
-    private ScLocalInteger              _width;
-    private ScLocalInteger              _height;
+    private ScLocalInteger _width;
+    private ScLocalInteger _height;
 
     private ScLocalList<KmList<Double>> _valueSets;
 
-    private ScLocalInteger              _minimumScale;
-    private ScLocalInteger              _maximumScale;
+    private ScLocalInteger _minimumScale;
+    private ScLocalInteger _maximumScale;
 
-    private ScLocalString               _title;
-    private ScLocalString               _titleColor;
-    private ScLocalInteger              _titleSize;
+    private ScLocalString  _title;
+    private ScLocalString  _titleColor;
+    private ScLocalInteger _titleSize;
 
-    private ScLocalStringList           _legends;
-    private ScLocalString               _legendPosition;
+    private ScLocalStringList _legends;
+    private ScLocalString     _legendPosition;
 
-    private ScLocalStringList           _labels;
-    private ScLocalStringList           _colors;
+    private ScLocalStringList _labels;
+    private ScLocalStringList _colors;
 
-    private ScLocalInteger              _barSize;
-    private ScLocalInteger              _barGap;
-    private ScLocalInteger              _barGroupGap;
+    private ScLocalInteger _barSize;
+    private ScLocalInteger _barGap;
+    private ScLocalInteger _barGroupGap;
 
-    private ScLocalString               _backgroundColor;
+    private ScLocalString _backgroundColor;
 
-    private ScLocalInteger              _yAxisMinimum;
-    private ScLocalInteger              _yAxisMaximum;
+    private ScLocalInteger _yAxisMinimum;
+    private ScLocalInteger _yAxisMaximum;
 
     //##################################################
     //# init
@@ -607,7 +607,8 @@ public class ScGoogleChart
 
         String template = "%s://%s:%s/%s?%s";
         String url = Kmu.format(template, scheme, host, port, path, args.toString());
-        String src = Kmu.escapeHtml(url);
+        boolean useBreaks = false;
+        String src = Kmu.escapeHtml(url, useBreaks);
 
         logger.debug("ScGoogleChart");
         logger.debug("    url:" + url);
@@ -689,7 +690,7 @@ public class ScGoogleChart
         if ( !hasLegends() )
             return null;
 
-        String s = getLegends().format("|");
+        String s = getLegends().join("|");
         return Kmu.format("chdl=%s", s);
     }
 
@@ -709,7 +710,7 @@ public class ScGoogleChart
         if ( !hasLabels() )
             return null;
 
-        String s = getLabels().format("|");
+        String s = getLabels().join("|");
         return Kmu.format("chl=%s", s);
     }
 
@@ -718,7 +719,7 @@ public class ScGoogleChart
         if ( !hasColors() )
             return null;
 
-        String s = getColors().format(",");
+        String s = getColors().join(",");
         return Kmu.format("chco=%s", s);
     }
 

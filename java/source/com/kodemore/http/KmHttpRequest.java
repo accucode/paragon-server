@@ -50,10 +50,10 @@ public abstract class KmHttpRequest
     private KmOrderedMap<String,String> _parameters;
     private boolean                     _https;
 
-    private URL                         _url;
-    private HttpURLConnection           _connection;
-    private byte[]                      _responseValue;
-    private Exception                   _exception;
+    private URL               _url;
+    private HttpURLConnection _connection;
+    private byte[]            _responseValue;
+    private Exception         _exception;
 
     //##################################################
     //# constructor

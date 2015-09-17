@@ -6,16 +6,13 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.model.meta;
 
 import java.util.*;
 
 import com.kodemore.adaptor.*;
 import com.kodemore.collection.*;
-import com.kodemore.comparator.*;
 import com.kodemore.exception.*;
-import com.kodemore.match.*;
 import com.kodemore.meta.*;
 import com.kodemore.servlet.encoder.*;
 import com.kodemore.servlet.field.*;
@@ -53,7 +50,7 @@ public class MyMetaDepot_Phone
     @Override
     public String getHelp()
     {
-        return "The primary phone number for the depot related to this project.";
+        return "The primary phone number.";
     }
     
     @Override
@@ -115,12 +112,6 @@ public class MyMetaDepot_Phone
     public boolean hasValueFor(MyDepot model, String value)
     {
         return model.hasPhone(value);
-    }
-    
-    @Override
-    public int compareValues(MyDepot o1, MyDepot o2, boolean nullsOnTop)
-    {
-        return KmCompareUtility.compare(getValueFor(o1), getValueFor(o2), nullsOnTop);    
     }
     
 }

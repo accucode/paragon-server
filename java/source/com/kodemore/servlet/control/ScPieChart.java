@@ -28,13 +28,13 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.string.KmStringBuilder;
 
 /**
- * This is a simple pie chart displaying several discrete data points.
+ * This is a simple pie chart displaying several discrete data points. 
  */
 public class ScPieChart
     extends ScAbstractChart
 {
     //##################################################
-    //# enum
+    //# enum 
     //##################################################
 
     private enum LabelType
@@ -64,10 +64,10 @@ public class ScPieChart
      * Whether or not the chart should be represented as
      * a "donut", with the center cut out.
      */
-    private boolean           _donut;
+    private boolean _donut;
 
     /**
-     * This is the data to be represented in the chart.
+     * This is the data to be represented in the chart.  
      * Each "slice" must have a "key" (also the label)
      * and a "value".
      */
@@ -76,7 +76,7 @@ public class ScPieChart
     /**
      * The type of label on the slices.
      */
-    private LabelType         _labelType;
+    private LabelType _labelType;
 
     //##################################################
     //# constructor
@@ -137,7 +137,7 @@ public class ScPieChart
     }
 
     /**
-     * Slices are labeled with the data point's percentage
+     * Slices are labeled with the data point's percentage 
      * of the whole
      */
     public void setLabelTypePercent()

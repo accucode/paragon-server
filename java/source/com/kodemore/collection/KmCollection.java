@@ -5,14 +5,13 @@ import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
-import com.kodemore.adaptor.KmAdaptorIF;
 import com.kodemore.comparator.KmComparator;
 import com.kodemore.comparator.KmUncheckedComparator;
-import com.kodemore.match.KmCompositeMatch;
-import com.kodemore.match.KmMatchIF;
-import com.kodemore.meta.KmMetaAttribute;
-import com.kodemore.meta.KmMetaProperty;
 import com.kodemore.utility.KmIntegerIdIF;
 import com.kodemore.utility.KmUnchecked;
 import com.kodemore.utility.Kmu;
@@ -185,16 +184,6 @@ public class KmCollection<T>
         return min;
     }
 
-    public T getMinimum(KmMetaProperty<T,?> x)
-    {
-        return getMinimum(x.getComparator());
-    }
-
-    public <V> V getMinimumValue(KmMetaProperty<T,V> x)
-    {
-        return collect(x).getMinimum();
-    }
-
     //##################################################
     //# maximum
     //##################################################
@@ -220,16 +209,6 @@ public class KmCollection<T>
                     max = e;
         }
         return max;
-    }
-
-    public T getMaximum(KmMetaProperty<T,?> x)
-    {
-        return getMaximum(x.getComparator());
-    }
-
-    public <V> V getMaximumValue(KmMetaProperty<T,V> x)
-    {
-        return collect(x).getMaximum();
     }
 
     //##################################################
@@ -387,27 +366,27 @@ public class KmCollection<T>
     }
 
     //##################################################
-    //# display
+    //# join
     //##################################################
 
-    public String format()
+    public String join()
     {
-        return Kmu.formatList(this);
+        return Kmu.join(this);
     }
 
-    public String format(KmAdaptorIF<T,?> a)
+    public String join(Function<T,?> fn)
     {
-        return Kmu.formatList(this, a);
+        return Kmu.join(this, fn);
     }
 
-    public String format(KmMetaAttribute<T,?> a)
+    public String join(String delim)
     {
-        return Kmu.formatList(this, a);
+        return Kmu.join(this, delim);
     }
 
-    public String format(Object separator)
+    public String joinLines()
     {
-        return Kmu.formatList(this, separator);
+        return Kmu.joinLines(this);
     }
 
     //##################################################
@@ -471,129 +450,6 @@ public class KmCollection<T>
     }
 
     //##################################################
-    //# match
-    //##################################################
-
-    public <K> KmCollection<K> collect(KmAdaptorIF<T,K> a)
-    {
-        KmCollection<K> v = new KmCollection<>();
-
-        for ( T e : this )
-            v.add(a.getValue(e));
-
-        return v;
-    }
-
-    public <K> KmCollection<K> collect(KmMetaAttribute<T,K> a)
-    {
-        return collect(a.getAdaptor());
-    }
-
-    public KmCollection<T> select(KmMatchIF<T> m)
-    {
-        KmCollection<T> v = new KmCollection<>();
-
-        for ( T e : this )
-            if ( m.matches(e) )
-                v.add(e);
-
-        return v;
-    }
-
-    public <V> KmCollection<T> select(KmMetaAttribute<T,V> attr, V value)
-    {
-        return select(attr.getMatch(value));
-    }
-
-    public T selectFirst(KmMatchIF<T> m)
-    {
-        for ( T e : this )
-            if ( m.matches(e) )
-                return e;
-
-        return null;
-    }
-
-    public <V> T selectFirst(KmMetaAttribute<T,V> attr, V value)
-    {
-        return selectFirst(attr.getMatch(value));
-    }
-
-    public KmCollection<T> reject(KmMatchIF<T> m)
-    {
-        KmCollection<T> v = new KmCollection<>();
-
-        for ( T e : this )
-            if ( !m.matches(e) )
-                v.add(e);
-
-        return v;
-    }
-
-    public <V> KmCollection<T> reject(KmMetaProperty<T,V> attr, V value)
-    {
-        return reject(attr.getMatch(value));
-    }
-
-    public void removeAll(KmMatchIF<T> m)
-    {
-        Iterator<T> i = iterator();
-        while ( i.hasNext() )
-            if ( m.matches(i.next()) )
-                i.remove();
-    }
-
-    public <V> void removeAll(KmMetaProperty<T,V> a, V value)
-    {
-        removeAll(a.getMatch(value));
-    }
-
-    @SuppressWarnings("unchecked")
-    public T selectInSequence(KmMatchIF<T> first, KmMatchIF<T>... arr)
-    {
-        return selectInSequence(first, KmList.createWith(arr));
-    }
-
-    public T selectInSequence(KmMatchIF<T> first, List<KmMatchIF<T>> arr)
-    {
-        T e = selectFirst(first);
-        if ( e != null )
-            return e;
-
-        for ( KmMatchIF<T> m : arr )
-        {
-            e = selectFirst(m);
-            if ( e != null )
-                return e;
-        }
-        return null;
-    }
-
-    /**
-     * Determine if any of the element match all of the criteria specified.
-     */
-    public boolean containsMatch(KmMatchIF<T> a, KmMatchIF<T> b)
-    {
-        KmCompositeMatch<T> m;
-        m = new KmCompositeMatch<>();
-        m.add(a);
-        m.add(b);
-        return containsMatch(m);
-    }
-
-    /**
-     * Determine if any element matches.
-     */
-    public boolean containsMatch(KmMatchIF<T> m)
-    {
-        for ( T e : this )
-            if ( m.matches(e) )
-                return true;
-
-        return false;
-    }
-
-    //##################################################
     //# collection conversion
     //##################################################
 
@@ -607,75 +463,43 @@ public class KmCollection<T>
         return v;
     }
 
-    public <K> KmSet<K> toSet(KmAdaptorIF<T,K> a)
+    public <K> KmSet<K> toSet(Function<T,K> fn)
     {
         KmSet<K> v = new KmSetImpl<>();
 
         for ( T e : this )
-            v.add(a.getValue(e));
+            v.add(fn.apply(e));
 
         return v;
     }
 
-    public <K> KmSet<K> toSet(KmMetaProperty<T,K> p)
-    {
-        return toSet(p.getAdaptor());
-    }
-
-    public <K, V> KmMap<K,V> toMap(KmAdaptorIF<T,K> keyAdaptor, KmAdaptorIF<T,V> valueAdaptor)
-    {
-        KmMap<K,V> m = new KmMap<>();
-
-        for ( T e : this )
-            m.put(keyAdaptor.getValue(e), valueAdaptor.getValue(e));
-
-        return m;
-    }
-
-    public <K> KmMap<K,T> toMap(KmAdaptorIF<T,K> keyAdaptor)
+    public <K> KmMap<K,T> toMap(Function<T,K> keyFn)
     {
         KmMap<K,T> m = new KmMap<>();
 
         for ( T e : this )
-            m.put(keyAdaptor.getValue(e), e);
+            m.put(keyFn.apply(e), e);
 
         return m;
     }
 
-    public <K> KmMap<K,T> toMap(KmMetaProperty<T,K> property)
+    public <K, V> KmMap<K,V> toMap(Function<T,K> keyFn, Function<T,V> valueFn)
     {
-        return toMap(property.getAdaptor());
-    }
+        KmMap<K,V> m = new KmMap<>();
 
-    public <K, V> KmMap<K,KmCollection<V>> toMapList(
-        KmAdaptorIF<T,K> keyAdaptor,
-        KmAdaptorIF<T,V> valueAdaptor)
-    {
-        KmMap<K,KmCollection<V>> map = new KmMap<>();
         for ( T e : this )
-        {
-            K key = keyAdaptor.getValue(e);
-            V value = valueAdaptor.getValue(e);
+            m.put(keyFn.apply(e), valueFn.apply(e));
 
-            KmCollection<V> list = map.get(key);
-            if ( list == null )
-            {
-                list = new KmCollection<>();
-                map.put(key, list);
-            }
-
-            list.add(value);
-        }
-        return map;
+        return m;
     }
 
-    public <K> KmMap<K,KmCollection<T>> toMapList(KmAdaptorIF<T,K> keyAdaptor)
+    public <K> KmMap<K,KmCollection<T>> toMapList(Function<T,K> keyFn)
     {
         KmMap<K,KmCollection<T>> m = new KmMap<>();
 
         for ( T e : this )
         {
-            K key = keyAdaptor.getValue(e);
+            K key = keyFn.apply(e);
             KmCollection<T> v = m.get(key);
 
             if ( v == null )
@@ -688,6 +512,26 @@ public class KmCollection<T>
         }
 
         return m;
+    }
+
+    public <K, V> KmMap<K,KmCollection<V>> toMapList(Function<T,K> keyFn, Function<T,V> valueFn)
+    {
+        KmMap<K,KmCollection<V>> map = new KmMap<>();
+        for ( T e : this )
+        {
+            K key = keyFn.apply(e);
+            V value = valueFn.apply(e);
+
+            KmCollection<V> list = map.get(key);
+            if ( list == null )
+            {
+                list = new KmCollection<>();
+                map.put(key, list);
+            }
+
+            list.add(value);
+        }
+        return map;
     }
 
     public KmList<T> toList()
@@ -703,9 +547,12 @@ public class KmCollection<T>
         return v;
     }
 
-    public KmList<T> toList(KmMetaProperty<T,?> p)
+    public KmList<T> toList(Function<T,Comparable<?>> f)
     {
-        return toList(p.getComparator());
+        KmList<T> v;
+        v = toList();
+        v.sortOn(f);
+        return v;
     }
 
     //##################################################
@@ -715,6 +562,116 @@ public class KmCollection<T>
     public Integer getNextSequence()
     {
         return KmListUtility.getNextSequence(this);
+    }
+
+    //##################################################
+    //# lambda
+    //##################################################
+
+    /**
+     * Return a NEW list containing only the elements that match the predicate.
+     */
+    public KmCollection<T> select(Predicate<? super T> p)
+    {
+        KmCollection<T> v = new KmCollection<>();
+
+        for ( T e : this )
+            if ( p.test(e) )
+                v.add(e);
+
+        return v;
+    }
+
+    /**
+     * Return a NEW list containing only the elements that do NOT match the predicate.
+     */
+    public KmCollection<T> reject(Predicate<? super T> p)
+    {
+        return select(p.negate());
+    }
+
+    /**
+     * Return a NEW list containing exactly one converted value for each element in the original.
+     */
+    public <R> KmCollection<R> collect(Function<? super T,R> f)
+    {
+        KmCollection<R> v = new KmCollection<>();
+
+        for ( T e : this )
+            v.add(f.apply(e));
+
+        return v;
+    }
+
+    /**
+     * Return the first element that matches the predicate.
+     * Return null if no matches are found.
+     */
+    public T detect(Predicate<? super T> p)
+    {
+        return detect(p, (T)null);
+    }
+
+    /**
+     * Return the first element that matches the predicate.
+     * Return the default if no matches are found.
+     */
+    public T detect(Predicate<? super T> p, T def)
+    {
+        for ( T e : this )
+            if ( p.test(e) )
+                return e;
+
+        return def;
+    }
+
+    /**
+     * Find the first element that matches the predicate,
+     * and return the value of either ifFound or ifNotFound accordingly.
+     */
+    public <R> R detect(Predicate<? super T> p, Function<T,R> ifFound)
+    {
+        for ( T e : this )
+            if ( p.test(e) )
+                return ifFound.apply(e);
+
+        return null;
+    }
+
+    /**
+     * Find the first element that matches the predicate,
+     * and return the value of either ifFound or ifNotFound accordingly.
+     */
+    public <R> R detect(Predicate<? super T> p, Function<T,R> ifFound, Supplier<R> ifNotFound)
+    {
+        for ( T e : this )
+            if ( p.test(e) )
+                return ifFound.apply(e);
+
+        return ifNotFound.get();
+    }
+
+    /**
+     * REMOVE matching elements from THIS list.
+     */
+    @Override
+    public boolean removeIf(Predicate<? super T> p)
+    {
+        return super.removeIf(p);
+    }
+
+    /**
+     * KEEP  matching elements from THIS list.
+     */
+    public void retainIf(Predicate<? super T> p)
+    {
+        removeIf(p.negate());
+    }
+
+    @Override
+    public void forEach(Consumer<? super T> c)
+    {
+        super.forEach(c);
     }
 
 }

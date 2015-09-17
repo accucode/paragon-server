@@ -1,7 +1,6 @@
 package com.app.model;
 
 import com.kodemore.collection.KmList;
-import com.kodemore.match.KmMatchIF;
 
 import com.app.model.base.MyProjectBase;
 
@@ -23,8 +22,7 @@ public class MyProject
 
     public MyMember getMemberFor(MyUser user)
     {
-        KmMatchIF<MyMember> match = MyMember.Meta.User.getMatch(user);
-        return getMembers().selectFirst(match);
+        return getMembers().detect(e -> e.hasUser(user));
     }
 
     public boolean hasMember(MyUser u)
@@ -36,7 +34,7 @@ public class MyProject
     {
         KmList<MyMember> v;
         v = getMembers().toList();
-        v.sortOn(MyMember.Meta.UserName);
+        v.sortOn(MyMember::getUserName);
         return v;
     }
 
@@ -63,32 +61,32 @@ public class MyProject
 
     public KmList<MyProduct> getProductsByName()
     {
-        return getProducts().toList(MyProduct.Meta.Name);
+        return getProducts().toList(MyProduct::getName);
     }
 
     public KmList<MyDepot> getDepotsByName()
     {
-        return getDepots().toList(MyDepot.Meta.Name);
+        return getDepots().toList(MyDepot::getName);
     }
 
     public KmList<MyShipCarrier> getShipCarriersByName()
     {
-        return getShipCarriers().toList(MyShipCarrier.Meta.Name);
+        return getShipCarriers().toList(MyShipCarrier::getName);
     }
 
     public KmList<MyVendor> getVendorsByName()
     {
-        return getVendors().toList(MyVendor.Meta.Name);
+        return getVendors().toList(MyVendor::getName);
     }
 
     public KmList<MyVisitType> getVisitTypesByName()
     {
-        return getVisitTypes().toList(MyVisitType.Meta.Name);
+        return getVisitTypes().toList(MyVisitType::getName);
     }
 
     public KmList<MySkill> getSkillsByName()
     {
-        return getSkills().toList(MySkill.Meta.Name);
+        return getSkills().toList(MySkill::getName);
     }
 
     public KmList<MySkill> findSkillUids(KmList<String> uids)
@@ -103,22 +101,27 @@ public class MyProject
 
     public KmList<String> getSkillNames()
     {
-        return getSkillsByName().collect(MySkill.Meta.Name);
+        return getSkillsByName().collect(e -> e.getName());
     }
 
     public KmList<MyRegion> getRegionsByName()
     {
-        return getRegions().toList(MyRegion.Meta.Name);
+        return getRegions().toList(MyRegion::getName);
+    }
+
+    public KmList<MyAttentionGroup> getAttentionGroupsByName()
+    {
+        return getAttentionGroups().toList(MyAttentionGroup::getName);
     }
 
     public KmList<MyCategory> getCategoriesByName()
     {
-        return getCategories().toList(MyCategory.Meta.Name);
+        return getCategories().toList(MyCategory::getName);
     }
 
     public KmList<MyPowerType> getPowerTypesByName()
     {
-        return getPowerTypes().toList(MyPowerType.Meta.Name);
+        return getPowerTypes().toList(MyPowerType::getName);
     }
 
 }

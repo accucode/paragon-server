@@ -35,6 +35,7 @@ public class MyAddDepotDialog
         ScFieldLayout fields;
         fields = body.addFieldLayout();
         fields.addField(x.Name);
+        fields.addField(x.Phone);
     }
 
     //##################################################

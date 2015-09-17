@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.dao.KmAbstractDao;
-import com.kodemore.hibernate.criteria.KmCriteria;
-import com.kodemore.hibernate.criteria.KmModelCriteria;
+import com.kodemore.hibernate.KmhModelCriteria;
+import com.kodemore.hibernate.basic.KmhCriteria;
 
 import com.app.command.base.MyFilterBase;
 
@@ -20,7 +20,7 @@ public abstract class MyBasicFilter<T>
      * Apply the full filter.  A convenience for applying all
      * conditions, sorts, and row limits.
      */
-    public void applyTo(KmModelCriteria<T> c)
+    public void applyTo(KmhModelCriteria<T> c)
     {
         applyConditionsTo(c);
         applySortsTo(c);
@@ -34,14 +34,14 @@ public abstract class MyBasicFilter<T>
      * SELECT COUNT(*), and also to other actions like UPDATEs
      * and DELETEs.
      */
-    protected abstract void applyConditionsTo(KmModelCriteria<T> c);
+    protected abstract void applyConditionsTo(KmhModelCriteria<T> c);
 
     /**
      * Apply any sorting.   By default, framework methods will
      * not include sorts when running aggregate methods like
      * count(*), nor when performing UPDATEs or DELETEs.
      */
-    protected abstract void applySortsTo(KmModelCriteria<T> c);
+    protected abstract void applySortsTo(KmhModelCriteria<T> c);
 
     //##################################################
     //# find (callbacks)
@@ -59,7 +59,7 @@ public abstract class MyBasicFilter<T>
     @Override
     public KmList<T> findAll()
     {
-        KmModelCriteria<T> c = createCriteria();
+        KmhModelCriteria<T> c = createCriteria();
         applyTo(c);
         KmList<?> result = c.findAll();
         return castList(result);
@@ -68,7 +68,7 @@ public abstract class MyBasicFilter<T>
     @Override
     public KmList<T> findBatch(int index, int count)
     {
-        KmModelCriteria<T> c = createCriteria();
+        KmhModelCriteria<T> c = createCriteria();
         applyTo(c);
         c.setFirstResult(index);
         c.setMaxResults(count);
@@ -79,7 +79,7 @@ public abstract class MyBasicFilter<T>
     @Override
     public int getCount()
     {
-        KmModelCriteria<T> c = createCriteria();
+        KmhModelCriteria<T> c = createCriteria();
         applyConditionsTo(c);
         return c.findRowCount();
     }
@@ -91,10 +91,15 @@ public abstract class MyBasicFilter<T>
     @Override
     protected abstract KmAbstractDao<T,? extends Serializable> getDao();
 
-    protected final KmCriteria createGenericCriteria()
+    /**
+     * Clients should generally use the createCriteria() method instead.
+     * I am primarily used by the framework to create the more useful
+     * wrapper classes.
+     */
+    protected final KmhCriteria _createCriteria()
     {
-        return getDao().createGenericCriteria();
+        return getDao()._createCriteria();
     }
 
-    protected abstract KmModelCriteria<T> createCriteria();
+    protected abstract KmhModelCriteria<T> createCriteria();
 }

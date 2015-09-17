@@ -1,7 +1,6 @@
 package com.app.ui.page.general;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
@@ -13,14 +12,24 @@ import com.app.ui.page.MySecurityLevel;
 import com.app.utility.MyConstantsIF;
 import com.app.utility.MyUrls;
 
-public class MySignOutPage
+public final class MySignOutPage
     extends MyPage
 {
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MySignOutPage instance = new MySignOutPage();
+    private static MySignOutPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MySignOutPage();
+    }
+
+    public static MySignOutPage getInstance()
+    {
+        return _instance;
+    }
 
     private MySignOutPage()
     {
@@ -41,26 +50,21 @@ public class MySignOutPage
     @Override
     public MySecurityLevel getSecurityLevel()
     {
-        return MySecurityLevel.any;
+        return MySecurityLevel.none;
     }
 
     //##################################################
-    //# navigation
+    //# bookmark
     //##################################################
 
-    public void ajaxPush()
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
     {
-        _ajaxPush();
+        // none
     }
 
     @Override
-    public ScParameterList composeQueryParameters()
-    {
-        return null;
-    }
-
-    @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }
@@ -78,15 +82,11 @@ public class MySignOutPage
 
         _titleText = group.setTitle(getDefaultTitle());
 
-        ScDiv body;
-        body = group.getBody();
-        body.css().pad();
+        _messageText = group.getBody().addPad().addText(getDefaultMessage());
 
-        _messageText = body.addText(getDefaultMessage());
-
-        body.addBreak();
-        body.addBreak();
-        body.addUrlLink("Sign In", MyUrls.getEntryUrl());
+        group.getBody().addBreak();
+        group.getBody().addBreak();
+        group.getBody().addPad().addUrlLink("Sign In", MyUrls.getEntryUrl());
     }
 
     //##################################################
@@ -114,6 +114,19 @@ public class MySignOutPage
 
     private String getDefaultMessage()
     {
-        return Kmu.format("You have successfully signed out of %s.", MyConstantsIF.APPLICATION_NAME);
+        return Kmu.format(
+            "You have successfully signed out of %s.",
+            MyConstantsIF.APPLICATION_NAME);
     }
+
+    //##################################################
+    //# print
+    //##################################################
+
+    @Override
+    protected void preRender()
+    {
+        // none
+    }
+
 }

@@ -37,7 +37,7 @@ public class MyPageRegistry
 
     public MyPage getHomeActivity()
     {
-        return MyDashboardPage.instance;
+        return MyDashboardPage.getInstance();
     }
 
 }

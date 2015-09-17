@@ -47,7 +47,7 @@ public class KmProfileTraceNode
             {
                 double d1 = n1.getTotalPercent();
                 double d2 = n2.getTotalPercent();
-                return Kmu.compare(d2, d1);
+                return -Kmu.compare(d1, d2);
             }
         };
     }
@@ -62,9 +62,9 @@ public class KmProfileTraceNode
     private String                     _name;
     private int                        _lineNumber;
 
-    private int                        _count;
-    private double                     _localPercent;
-    private double                     _totalPercent;
+    private int    _count;
+    private double _localPercent;
+    private double _totalPercent;
 
     //##################################################
     //# constructor

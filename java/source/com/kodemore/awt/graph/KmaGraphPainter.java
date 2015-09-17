@@ -42,18 +42,18 @@ public class KmaGraphPainter
     //# constants
     //##################################################
 
-    private static boolean      DEBUG_OUTLINE = false;
+    private static boolean DEBUG_OUTLINE = false;
 
     //##################################################
     //# variables
     //##################################################
 
-    private KmaGraph            _graph;
+    private KmaGraph _graph;
 
-    private Color               _backgroundColor;
+    private Color _backgroundColor;
 
-    private Rectangle           _bounds;
-    private Insets              _margin;
+    private Rectangle _bounds;
+    private Insets    _margin;
 
     private KmaGraphPixelBounds _topBounds;
     private KmaGraphPixelBounds _leftBounds;

@@ -16,7 +16,7 @@ public class ScPageSessionAccess
     //# constructor
     //##################################################
 
-    ScPageSessionAccess(ScServletData data)
+    public ScPageSessionAccess(ScServletData data)
     {
         _data = data;
     }

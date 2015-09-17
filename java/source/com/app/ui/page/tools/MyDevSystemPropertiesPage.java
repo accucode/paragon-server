@@ -10,20 +10,33 @@ import com.kodemore.servlet.control.ScTableRow;
 import com.kodemore.servlet.control.ScTransientContainer;
 import com.kodemore.utility.KmSystemProperties;
 
-public class MyDevSystemPropertiesPage
-    extends MyDevAbstractPage
+import com.app.ui.page.MyPage;
+import com.app.ui.page.MySecurityLevel;
+
+public final class MyDevSystemPropertiesPage
+    extends MyPage
 {
     //##################################################
     //# variables
     //##################################################
 
-    private ScTransientContainer                  _container;
+    private ScTransientContainer _container;
 
     //##################################################
     //# singleton
     //##################################################
 
-    public static final MyDevSystemPropertiesPage instance = new MyDevSystemPropertiesPage();
+    private static MyDevSystemPropertiesPage _instance;
+
+    public static void installInstance()
+    {
+        _instance = new MyDevSystemPropertiesPage();
+    }
+
+    public static MyDevSystemPropertiesPage getInstance()
+    {
+        return _instance;
+    }
 
     private MyDevSystemPropertiesPage()
     {
@@ -31,17 +44,27 @@ public class MyDevSystemPropertiesPage
     }
 
     //##################################################
-    //# navigation
+    //# settings
     //##################################################
 
     @Override
-    public ScParameterList composeQueryParameters()
+    public final MySecurityLevel getSecurityLevel()
     {
-        return null;
+        return MySecurityLevel.developer;
+    }
+
+    //##################################################
+    //# bookmark
+    //##################################################
+
+    @Override
+    public void composeBookmarkOn(ScParameterList v)
+    {
+        // none
     }
 
     @Override
-    public void applyQueryParameters(ScParameterList v)
+    public void applyBookmark(ScParameterList v)
     {
         // none
     }

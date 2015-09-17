@@ -6,12 +6,11 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.criteria;
 
 import com.kodemore.collection.*;
 import com.kodemore.hibernate.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.basic.*;
 import com.kodemore.time.*;
 import com.kodemore.types.*;
 
@@ -23,75 +22,40 @@ import com.app.model.*;
 import com.app.model.meta.*;
 
 public class MyMemberSkillJunction
-    extends KmModelJunction
+    extends KmhModelJunction
     implements MyMemberSkillDaoConstantsIF
 {
     //##################################################
     //# constructor
     //##################################################
 
-    public MyMemberSkillJunction(KmJunction context)
+    public MyMemberSkillJunction(KmhJunction context)
     {
         super(context);
-    }
-
-    public MyMemberSkillJunction(KmJunction context, KmAbstractCriteria parent)
-    {
-        super(context, parent);
     }
 
     //##################################################
     //# properties
     //##################################################
 
-    public KmStringCriteria whereUid()
+    public KmhStringCondition whereUid()
     {
-        return new KmStringCriteria(context(), fullName(UID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmIntegerCriteria whereSequence()
+    public KmhIntegerCondition whereSequence()
     {
-        return new KmIntegerCriteria(context(), fullName(SEQUENCE));
+        return new KmhIntegerCondition(context(), fullName(SEQUENCE));
     }
 
-    public KmIntegerCriteria whereLockVersion()
+    public KmhIntegerCondition whereLockVersion()
     {
-        return new KmIntegerCriteria(context(), fullName(LOCK_VERSION));
+        return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
     }
 
     //##################################################
     //# associations
     //##################################################
-
-    public MyMemberCriteria joinToMember()
-    {
-        return join(new MyMemberCriteria(root().joinTo(MEMBER)));
-    }
-
-    public MyMemberCriteria leftJoinToMember()
-    {
-        return join(new MyMemberCriteria(root().leftJoinTo(MEMBER)));
-    }
-
-    public KmStringCriteria whereMemberUid()
-    {
-        return new KmStringCriteria(context(), fullName(MEMBER_UID));
-    }
-
-    public MySkillCriteria joinToSkill()
-    {
-        return join(new MySkillCriteria(root().joinTo(SKILL)));
-    }
-
-    public MySkillCriteria leftJoinToSkill()
-    {
-        return join(new MySkillCriteria(root().leftJoinTo(SKILL)));
-    }
-
-    public KmStringCriteria whereSkillUid()
-    {
-        return new KmStringCriteria(context(), fullName(SKILL_UID));
-    }
 
     //##################################################
     //# junction
@@ -99,12 +63,12 @@ public class MyMemberSkillJunction
 
     public MyMemberSkillJunction addAnd()
     {
-        return new MyMemberSkillJunction(context().addAnd(), parent());
+        return new MyMemberSkillJunction(context().addAnd());
     }
 
     public MyMemberSkillJunction addOr()
     {
-        return new MyMemberSkillJunction(context().addOr(), parent());
+        return new MyMemberSkillJunction(context().addOr());
     }
 
 }

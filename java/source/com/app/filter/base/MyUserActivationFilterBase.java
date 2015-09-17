@@ -6,11 +6,10 @@
 //###############################################################
 //###############################################################
 
-
 package com.app.filter.base;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
+import com.kodemore.hibernate.*;
 
 import com.app.command.base.*;
 import com.app.criteria.*;
@@ -30,13 +29,13 @@ public abstract class MyUserActivationFilterBase
     //##################################################
 
     @Override
-    protected void applyConditionsTo(KmModelCriteria<MyUserActivation> c)
+    protected void applyConditionsTo(KmhModelCriteria<MyUserActivation> c)
     {
         applyConditionsTo((MyUserActivationCriteria)c);
     }
 
     @Override
-    protected void applySortsTo(KmModelCriteria<MyUserActivation> c)
+    protected void applySortsTo(KmhModelCriteria<MyUserActivation> c)
     {
         applySortsTo((MyUserActivationCriteria)c);
     }
@@ -63,6 +62,6 @@ public abstract class MyUserActivationFilterBase
     @Override
     protected MyUserActivationCriteria createCriteria()
     {
-        return new MyUserActivationCriteria(createGenericCriteria());
+        return new MyUserActivationCriteria(_createCriteria());
     }
 }
