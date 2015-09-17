@@ -20,7 +20,8 @@ Purpose
 License
 -------
 
-    The souce code is primarily licensed under the MIT license.
+    The souce code is primarily licensed under the MIT and/or Apache
+    licenses.
     
 Minimum requirements
 --------------------
@@ -32,9 +33,7 @@ Minimum requirements
 Eclipse
 -------
 
-    * We use Luna or later.
-    * Disable the auto-indent on save. 
-    * See [here](http://goo.gl/y5S39B).
+    * We use Mars or later.
 
 Third party libraries
 ---------------------
