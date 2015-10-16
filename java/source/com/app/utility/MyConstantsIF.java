@@ -10,7 +10,7 @@ public interface MyConstantsIF
      * The name of the project.  It is used in a variety of
      * contexts and may be displayed on screen to users.
      */
-    String APPLICATION_NAME = "Field Service";
+    String APPLICATION_NAME = "Paragon";
 
     /**
      * The build number is important.  It should be updated
@@ -30,14 +30,14 @@ public interface MyConstantsIF
      * and authentications used to access the application.
      * New values can be generated via Kmu.newUid().
      *
-     * This salt has been UPDATED for fieldService-server.
+     * This salt should be updated for each new project.
      */
-    String APPLICATION_SHA_SALT = "6GNFMQX-Y22IT0-FJWVBZ-3KMU1J";
+    String APPLICATION_SHA_SALT = "FOR PARAGON TESTING ONLY";
 
     //##################################################
     //# copyright
     //##################################################
 
-    String COPYRIGHT_TEXT = "Copyright 2015 Accucode Inc.";
-    String COPYRIGHT_HTML = "&copy; 2015 Accucode Inc.";
+    String COPYRIGHT_TEXT = "Open Source MIT/Apache License";
+    String COPYRIGHT_HTML = "Open Source MIT/Apache License";
 }
