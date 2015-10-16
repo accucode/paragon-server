@@ -43,7 +43,7 @@ public class JkUidSequenceTest
     {
         KmList<Data> v = new KmList<>();
 
-        int n = 10000;
+        int n = 1000;
         for ( int i = 0; i < n; i++ )
             addLineTo(v);
 
