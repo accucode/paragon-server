@@ -2,19 +2,14 @@ ${javaAutoGenerationComment}
 
 package ${package}.hibernate.base;
 
-import ${package}.dao.core.*;
-
 public abstract class ${Prefix}HibernateConfigurationBase
-    extends ${Prefix}AbstractHibernateConfiguration
 {
-$utility.protocol("private")
-
-    @Override
-    protected void addCustomMappings()
+    protected void installMappings()
     {
 #foreach ( $model in $root.databaseModels )
-        addMapping("${model.f_name}");
+        installMapping("${model.f_name}");
 #end
     }
 
+    protected abstract void installMapping(String clazz);
 }

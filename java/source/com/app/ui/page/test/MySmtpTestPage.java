@@ -116,8 +116,10 @@ public final class MySmtpTestPage
         fields.add(_subjectField);
         fields.add(_messageField);
 
-        group.addBodyDivider();
-        group.getBody().addButtonBox().addSubmitButton("Send");
+        ScBox buttons;
+        buttons = group.showFooter().addButtonBox();
+        buttons.addSubmitButton("Send");
+        buttons.addResetButton();
     }
 
     //##################################################
@@ -136,6 +138,7 @@ public final class MySmtpTestPage
 
     private void handleSend()
     {
+        ajax().hideAllErrors();
         validate();
 
         KmEmail e;
@@ -148,8 +151,8 @@ public final class MySmtpTestPage
         MyEmailSmtpMethod m;
         m = new MyEmailSmtpMethod();
         m.send(e);
-        Object[] args = {};
 
-        ajax().toast("Your email has been sent.", args);
+        getRoot().ajaxUpdateValues();
+        ajax().toast("Your email has been sent.");
     }
 }

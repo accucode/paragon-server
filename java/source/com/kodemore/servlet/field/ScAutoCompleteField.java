@@ -30,6 +30,7 @@ import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScEncodedValueIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.control.ScControl;
@@ -137,7 +138,7 @@ public class ScAutoCompleteField
 
     public void clearText()
     {
-        _text.setValue("");
+        _text.setNull();
     }
 
     public boolean isEmpty()
@@ -339,6 +340,7 @@ public class ScAutoCompleteField
         out.printAttribute("type", "text");
         out.printAttribute("value", getText());
         out.printAttribute(formatCss());
+        printOldValueAttributeOn(out, getValue());
     }
 
     private KmCssDefaultBuilder formatCss()
@@ -474,7 +476,11 @@ public class ScAutoCompleteField
     @Override
     public void ajaxUpdateValue()
     {
-        ajax().setValue(getText());
-    }
+        String value = getText();
+        ajax().setValue(value);
 
+        if ( value == null )
+            value = "";
+        ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
+    }
 }

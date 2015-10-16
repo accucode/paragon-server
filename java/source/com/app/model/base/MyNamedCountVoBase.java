@@ -25,6 +25,7 @@ import com.app.utility.*;
 
 public abstract class MyNamedCountVoBase
     extends MyAbstractDomain
+    implements MyDomainIF
 {
     //##################################################
     //# static
@@ -210,13 +211,14 @@ public abstract class MyNamedCountVoBase
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("MyNamedCountVo");
-        sb.append("(");
-        sb.append("Name=");
-        sb.append(name);
-        sb.append(")");
-        return sb.toString();
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append("MyNamedCountVo");
+        out.append("(");
+        out.append("Name=");
+        out.append(name);
+        out.append(")");
+        return out.toString();
     }
 
     public void printFields()
@@ -230,12 +232,20 @@ public abstract class MyNamedCountVoBase
      * Format the primary key fields in a comma separated list.  The format
      * is intended to be suitable for display to users.
      */
+    @Override
     public String formatPrimaryKey()
     {
-        StringBuilder sb = new StringBuilder();
-        ScFormatter f = getFormatter();
-        sb.append(f.formatAny(name));
-        return sb.toString();
+        return name;
     }
 
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    @Override
+    public String getMetaName()
+    {
+        return Meta.getName();
+    }
 }

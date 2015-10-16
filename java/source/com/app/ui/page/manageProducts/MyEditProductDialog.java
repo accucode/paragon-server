@@ -1,18 +1,15 @@
 package com.app.ui.page.manageProducts;
 
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
-import com.kodemore.servlet.field.ScDomainDropdownField;
 import com.kodemore.servlet.field.ScHiddenField;
 
-import com.app.model.MyCategory;
-import com.app.model.MyProduct;
-import com.app.model.meta.MyMetaProduct;
+import com.app.model.MyMasterProduct;
+import com.app.model.meta.MyMetaMasterProduct;
 import com.app.ui.control.MyEditDialog;
 
 public class MyEditProductDialog
-    extends MyEditDialog<MyProduct>
+    extends MyEditDialog<MyMasterProduct>
 {
     //##################################################
     //# variables
@@ -36,7 +33,7 @@ public class MyEditProductDialog
 
     private void installFields()
     {
-        MyMetaProduct x = MyProduct.Meta;
+        MyMetaMasterProduct x = MyMasterProduct.Meta;
 
         ScDiv body;
         body = getBody();
@@ -46,18 +43,7 @@ public class MyEditProductDialog
 
         ScFieldLayout fields;
         fields = body.addFieldLayout();
-        fields.addField(x.Name);
-        fields.add(newCategoryDropdown());
-    }
-
-    private ScControl newCategoryDropdown()
-    {
-        MyMetaProduct x = MyProduct.Meta;
-
-        ScDomainDropdownField<MyCategory,String> e;
-        e = MyCategory.Tools.newDomainDropdownForCurrentProject();
-        e.setValueAdaptor(x.Category);
-        return e;
+        fields.addField(x.PartNumber);
     }
 
     //##################################################
@@ -65,7 +51,7 @@ public class MyEditProductDialog
     //##################################################
 
     @Override
-    protected void prepare(MyProduct e)
+    protected void prepare(MyMasterProduct e)
     {
         applyFromModel(e);
     }
@@ -75,20 +61,16 @@ public class MyEditProductDialog
     //##################################################
 
     @Override
-    protected MyProduct save()
+    protected MyMasterProduct save()
     {
         validate();
 
         String uid;
         uid = _uidField.getValue();
 
-        MyProduct e;
-        e = getAccess().findProductUid(uid);
+        MyMasterProduct e;
+        e = getAccess().findMasterProductUid(uid);
         e.applyFrom(this);
-        e.validate();
-
-        flushDao();
-
         return e;
     }
 }

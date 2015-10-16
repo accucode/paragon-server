@@ -17,7 +17,7 @@ public interface MyApplicationLogDaoConstantsIF
     //# fields
     //##################################################
 
-    String ID = "id";
+    String UID = "uid";
     String CREATED_UTC_TS = "createdUtcTs";
     String LOGGER_NAME = "loggerName";
     String CONTEXT = "context";
@@ -25,17 +25,11 @@ public interface MyApplicationLogDaoConstantsIF
     String LEVEL_NAME = "levelName";
     String LEVEL_CODE = "levelCode";
     String THREAD_NAME = "threadName";
-    String EXCEPTION_TEXT = "exceptionText";
+    String TRACE = "trace";
     String LEVEL_CODE_NAME = "levelCodeName";
-    String FULL_TRACE = "fullTrace";
     String CREATED_LOCAL_TS = "createdLocalTs";
     String CREATED_LOCAL_TS_MESSAGE = "createdLocalTsMessage";
     String CREATED_LOCAL_DATE = "createdLocalDate";
     String CREATED_LOCAL_TIME = "createdLocalTime";
 
-    //##################################################
-    //# collections
-    //##################################################
-
-    String TRACES = "traces";
 }

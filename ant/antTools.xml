@@ -151,4 +151,19 @@
         </delete>
     </target>
 
+    <!--
+    ****************************************
+    ** STANDALONE HTML TEST
+    ****************************************
+    -->
+    
+    <target
+        name="updateHtmlTestHeaders"
+        description="Standardize the header of standalone html tests">
+        <antcall
+            target="runJavaClass">
+            <param name="javaClass" value="com.app.tools.MyTestHtmlFormatter"/>
+        </antcall>
+    </target>
+    
 </project>

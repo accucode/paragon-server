@@ -4,23 +4,36 @@ import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ThrowableInformation;
 
-import com.kodemore.collection.KmList;
-import com.kodemore.command.KmDao;
 import com.kodemore.log.KmLog;
 import com.kodemore.utility.Kmu;
 
+import com.app.job.application.MyApplicationLogFlusherJob;
 import com.app.model.MyApplicationLog;
-import com.app.model.MyApplicationLogTrace;
+import com.app.model.MyApplicationLogBuffer;
 
+/**
+ * For convenience, we echo Log4J messages to the database via
+ * the applicationLog table.  Each time log4j logs a message
+ * it forwards that message to our customer adapter MyLog4jDaoAppender.
+ *
+ * Messages are reported to the appender on a separate thread from
+ * the main application.  This means that any persistence to the
+ * database will run in a separate transaction from the application.
+ * For casual logging this is considered acceptable, and we do NOT
+ * require strict transactional consistency.
+ *
+ * Also messages are reported one at a time.  This means that inserting
+ * them into the database can be relatively inefficient, since each insert
+ * requires a separate transaction.  To reduce the performance penalty,
+ * the applicationLogs are buffered in a queue, and periodically written
+ * to the database from a background job.
+ *
+ * @see MyApplicationLogBuffer
+ * @see MyApplicationLogFlusherJob
+ */
 public class MyLog4jDaoAppender
     extends AppenderSkeleton
 {
-    //##################################################
-    //# constants
-    //##################################################
-
-    private static final boolean ENABLED = false;
-
     //##################################################
     //# override
     //##################################################
@@ -28,16 +41,19 @@ public class MyLog4jDaoAppender
     @Override
     protected void append(LoggingEvent ev)
     {
+        boolean enabled = MyGlobals.getProperties().getApplicationLogFlusherJobEnabled();
+        if ( !enabled )
+            return;
+
         try
         {
-            if ( !ENABLED )
-                return;
-
             KmLog.disableThread();
-            KmDao.run(this::saveDao, ev);
+            MyApplicationLog log = composeLog(ev);
+            MyApplicationLogBuffer.push(log);
         }
         catch ( Exception ex )
         {
+            // do NOT use log4j here.
             ex.printStackTrace();
         }
         finally
@@ -59,10 +75,10 @@ public class MyLog4jDaoAppender
     }
 
     //##################################################
-    //# command
+    //# support
     //##################################################
 
-    private void saveDao(LoggingEvent ev)
+    private MyApplicationLog composeLog(LoggingEvent ev)
     {
         String loggerName = ev.getLoggerName();
         String context = ev.getNDC();
@@ -89,25 +105,16 @@ public class MyLog4jDaoAppender
         e.setMessage(message);
         e.truncateMessage();
 
+        e.setTrace(formatTrace(ev));
+        e.truncateTrace();
+        return e;
+    }
+
+    private String formatTrace(LoggingEvent ev)
+    {
         ThrowableInformation ti = ev.getThrowableInformation();
-        if ( ti != null )
-        {
-            e.setExceptionText(ti.getThrowable().toString());
-            e.truncateExceptionText();
-
-            for ( String s : ti.getThrowableStrRep() )
-            {
-                KmList<String> lines = Kmu.parseLines(s);
-                for ( String line : lines )
-                {
-                    MyApplicationLogTrace trace;
-                    trace = e.addTrace();
-                    trace.setValue(line);
-                    trace.truncateValue();
-                }
-            }
-        }
-
-        e.attachDao();
+        return ti == null
+            ? null
+            : Kmu.joinLines(ti.getThrowableStrRep());
     }
 }

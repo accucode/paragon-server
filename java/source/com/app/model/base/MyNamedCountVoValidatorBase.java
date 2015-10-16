@@ -70,6 +70,7 @@ public class MyNamedCountVoValidatorBase
     @Override
     public void convertOnly(MyNamedCountVo value)
     {
+        // fields...
         value.setName(nameValidator.convertOnly(value.getName()));
         value.setCount(countValidator.convertOnly(value.getCount()));
     }
@@ -77,8 +78,10 @@ public class MyNamedCountVoValidatorBase
     @Override
     public void validateOnly(MyNamedCountVo value, KmList<KmErrorIF> errors)
     {
+        // fields...
         nameValidator.validateOnly(value.getName(), errors);
         countValidator.validateOnly(value.getCount(), errors);
+        // required associations...
     }
 
     //##################################################

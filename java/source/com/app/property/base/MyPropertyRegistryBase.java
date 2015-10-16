@@ -237,6 +237,16 @@ public class MyPropertyRegistryBase
        return MyPropertyDefinitions.getAllowEmptyUserPasswords().getBooleanFor(this);
     }
 
+    public Boolean getPrintAuditLog()
+    {
+       return MyPropertyDefinitions.getPrintAuditLog().getBooleanFor(this);
+    }
+
+    public Boolean getPrintPerformanceLog()
+    {
+       return MyPropertyDefinitions.getPrintPerformanceLog().getBooleanFor(this);
+    }
+
     public Boolean getServletShowStackTrace()
     {
        return MyPropertyDefinitions.getServletShowStackTrace().getBooleanFor(this);
@@ -343,6 +353,21 @@ public class MyPropertyRegistryBase
     //# jobs
     //##################################################
 
+    public Integer getApplicationLogFlusherJobActiveSeconds()
+    {
+       return MyPropertyDefinitions.getApplicationLogFlusherJobActiveSeconds().getIntegerFor(this);
+    }
+
+    public Boolean getApplicationLogFlusherJobEnabled()
+    {
+       return MyPropertyDefinitions.getApplicationLogFlusherJobEnabled().getBooleanFor(this);
+    }
+
+    public Integer getApplicationLogFlusherJobIdleSeconds()
+    {
+       return MyPropertyDefinitions.getApplicationLogFlusherJobIdleSeconds().getIntegerFor(this);
+    }
+
     public Integer getCsvUploadProcessorJobActiveSeconds()
     {
        return MyPropertyDefinitions.getCsvUploadProcessorJobActiveSeconds().getIntegerFor(this);
@@ -371,51 +396,6 @@ public class MyPropertyRegistryBase
     public Integer getDataProcessorJobIdleSeconds()
     {
        return MyPropertyDefinitions.getDataProcessorJobIdleSeconds().getIntegerFor(this);
-    }
-
-    public Integer getDeleteOldPerformanceLogsJobActiveSeconds()
-    {
-       return MyPropertyDefinitions.getDeleteOldPerformanceLogsJobActiveSeconds().getIntegerFor(this);
-    }
-
-    public Boolean getDeleteOldPerformanceLogsJobEnabled()
-    {
-       return MyPropertyDefinitions.getDeleteOldPerformanceLogsJobEnabled().getBooleanFor(this);
-    }
-
-    public Integer getDeleteOldPerformanceLogsJobIdleSeconds()
-    {
-       return MyPropertyDefinitions.getDeleteOldPerformanceLogsJobIdleSeconds().getIntegerFor(this);
-    }
-
-    public Integer getDeleteOldServerSessionsJobActiveSeconds()
-    {
-       return MyPropertyDefinitions.getDeleteOldServerSessionsJobActiveSeconds().getIntegerFor(this);
-    }
-
-    public Boolean getDeleteOldServerSessionsJobEnabled()
-    {
-       return MyPropertyDefinitions.getDeleteOldServerSessionsJobEnabled().getBooleanFor(this);
-    }
-
-    public Integer getDeleteOldServerSessionsJobIdleSeconds()
-    {
-       return MyPropertyDefinitions.getDeleteOldServerSessionsJobIdleSeconds().getIntegerFor(this);
-    }
-
-    public Integer getDeleteOldSystemLogsJobActiveSeconds()
-    {
-       return MyPropertyDefinitions.getDeleteOldSystemLogsJobActiveSeconds().getIntegerFor(this);
-    }
-
-    public Boolean getDeleteOldSystemLogsJobEnabled()
-    {
-       return MyPropertyDefinitions.getDeleteOldSystemLogsJobEnabled().getBooleanFor(this);
-    }
-
-    public Integer getDeleteOldSystemLogsJobIdleSeconds()
-    {
-       return MyPropertyDefinitions.getDeleteOldSystemLogsJobIdleSeconds().getIntegerFor(this);
     }
 
     public Integer getFtpSendToNotifierJobActiveSeconds()
@@ -448,6 +428,21 @@ public class MyPropertyRegistryBase
        return MyPropertyDefinitions.getLog4jReloaderJobIdleSeconds().getIntegerFor(this);
     }
 
+    public Integer getMaintenanceJobActiveSeconds()
+    {
+       return MyPropertyDefinitions.getMaintenanceJobActiveSeconds().getIntegerFor(this);
+    }
+
+    public Boolean getMaintenanceJobEnabled()
+    {
+       return MyPropertyDefinitions.getMaintenanceJobEnabled().getBooleanFor(this);
+    }
+
+    public Integer getMaintenanceJobIdleSeconds()
+    {
+       return MyPropertyDefinitions.getMaintenanceJobIdleSeconds().getIntegerFor(this);
+    }
+
     public Integer getMonitorJobActiveSeconds()
     {
        return MyPropertyDefinitions.getMonitorJobActiveSeconds().getIntegerFor(this);
@@ -478,19 +473,19 @@ public class MyPropertyRegistryBase
        return MyPropertyDefinitions.getOverridesReloaderJobIdleSeconds().getIntegerFor(this);
     }
 
-    public Integer getPerformanceLogJobActiveSeconds()
+    public Integer getPerformanceLogFlusherJobActiveSeconds()
     {
-       return MyPropertyDefinitions.getPerformanceLogJobActiveSeconds().getIntegerFor(this);
+       return MyPropertyDefinitions.getPerformanceLogFlusherJobActiveSeconds().getIntegerFor(this);
     }
 
-    public Boolean getPerformanceLogJobEnabled()
+    public Boolean getPerformanceLogFlusherJobEnabled()
     {
-       return MyPropertyDefinitions.getPerformanceLogJobEnabled().getBooleanFor(this);
+       return MyPropertyDefinitions.getPerformanceLogFlusherJobEnabled().getBooleanFor(this);
     }
 
-    public Integer getPerformanceLogJobIdleSeconds()
+    public Integer getPerformanceLogFlusherJobIdleSeconds()
     {
-       return MyPropertyDefinitions.getPerformanceLogJobIdleSeconds().getIntegerFor(this);
+       return MyPropertyDefinitions.getPerformanceLogFlusherJobIdleSeconds().getIntegerFor(this);
     }
 
     //##################################################

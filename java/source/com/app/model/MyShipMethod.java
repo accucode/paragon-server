@@ -13,4 +13,15 @@ public class MyShipMethod
     {
         super();
     }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getName();
+    }
+
 }

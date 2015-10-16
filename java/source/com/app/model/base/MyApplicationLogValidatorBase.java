@@ -35,7 +35,7 @@ public class MyApplicationLogValidatorBase
     //# variables
     //##################################################
 
-    private KmIntegerValidator idValidator;
+    private KmStringValidator uidValidator;
     private KmTimestampValidator createdUtcTsValidator;
     private KmStringValidator loggerNameValidator;
     private KmStringValidator contextValidator;
@@ -43,7 +43,7 @@ public class MyApplicationLogValidatorBase
     private KmStringValidator levelNameValidator;
     private KmIntegerValidator levelCodeValidator;
     private KmStringValidator threadNameValidator;
-    private KmStringValidator exceptionTextValidator;
+    private KmStringValidator traceValidator;
 
     //##################################################
     //# constructor
@@ -52,7 +52,7 @@ public class MyApplicationLogValidatorBase
     protected MyApplicationLogValidatorBase()
     {
         super();
-        idValidator = newIdValidator();
+        uidValidator = newUidValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
         loggerNameValidator = newLoggerNameValidator();
         contextValidator = newContextValidator();
@@ -60,16 +60,16 @@ public class MyApplicationLogValidatorBase
         levelNameValidator = newLevelNameValidator();
         levelCodeValidator = newLevelCodeValidator();
         threadNameValidator = newThreadNameValidator();
-        exceptionTextValidator = newExceptionTextValidator();
+        traceValidator = newTraceValidator();
     }
 
     //##################################################
     //# accessing
     //##################################################
 
-    public KmIntegerValidator getIdValidator()
+    public KmStringValidator getUidValidator()
     {
-        return idValidator;
+        return uidValidator;
     }
 
     public KmTimestampValidator getCreatedUtcTsValidator()
@@ -107,9 +107,9 @@ public class MyApplicationLogValidatorBase
         return threadNameValidator;
     }
 
-    public KmStringValidator getExceptionTextValidator()
+    public KmStringValidator getTraceValidator()
     {
-        return exceptionTextValidator;
+        return traceValidator;
     }
 
     //##################################################
@@ -119,7 +119,8 @@ public class MyApplicationLogValidatorBase
     @Override
     public void convertOnly(MyApplicationLog value)
     {
-        value.setId(idValidator.convertOnly(value.getId()));
+        // fields...
+        value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
         value.setLoggerName(loggerNameValidator.convertOnly(value.getLoggerName()));
         value.setContext(contextValidator.convertOnly(value.getContext()));
@@ -127,13 +128,14 @@ public class MyApplicationLogValidatorBase
         value.setLevelName(levelNameValidator.convertOnly(value.getLevelName()));
         value.setLevelCode(levelCodeValidator.convertOnly(value.getLevelCode()));
         value.setThreadName(threadNameValidator.convertOnly(value.getThreadName()));
-        value.setExceptionText(exceptionTextValidator.convertOnly(value.getExceptionText()));
+        value.setTrace(traceValidator.convertOnly(value.getTrace()));
     }
 
     @Override
     public void validateOnly(MyApplicationLog value, KmList<KmErrorIF> errors)
     {
-        idValidator.validateOnly(value.getId(), errors);
+        // fields...
+        uidValidator.validateOnly(value.getUid(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
         loggerNameValidator.validateOnly(value.getLoggerName(), errors);
         contextValidator.validateOnly(value.getContext(), errors);
@@ -141,19 +143,22 @@ public class MyApplicationLogValidatorBase
         levelNameValidator.validateOnly(value.getLevelName(), errors);
         levelCodeValidator.validateOnly(value.getLevelCode(), errors);
         threadNameValidator.validateOnly(value.getThreadName(), errors);
-        exceptionTextValidator.validateOnly(value.getExceptionText(), errors);
+        traceValidator.validateOnly(value.getTrace(), errors);
+        // required associations...
     }
 
     //##################################################
     //# instance creation
     //##################################################
 
-    public KmIntegerValidator newIdValidator()
+    public KmStringValidator newUidValidator()
     {
-        KmIntegerValidator e;
-        e = new KmIntegerValidator();
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
         e.setModel("applicationLog");
-        e.setField("id");
+        e.setField("uid");
         return e;
     }
 
@@ -233,15 +238,15 @@ public class MyApplicationLogValidatorBase
         return e;
     }
 
-    public KmStringValidator newExceptionTextValidator()
+    public KmStringValidator newTraceValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(100);
+        e.setMaximumLength(50000);
         e.setAllowsPrintable(true);
         e.setAllowsWhitespace(true);
         e.setModel("applicationLog");
-        e.setField("exceptionText");
+        e.setField("trace");
         return e;
     }
 

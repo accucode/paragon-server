@@ -49,9 +49,9 @@ public class MyDownloadCriteria
         return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
+    public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmhIntegerCondition whereLockVersion()

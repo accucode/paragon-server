@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyCustomer"
+        table="customer"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
+            />
+
+        <property
+            name="discountRate"
+            column="discountRate"
+            type="double"
+            />
+
+        <property
+            name="addressStreet1"
+            column="addressStreet1"
+            type="string"
+            />
+
+        <property
+            name="addressStreet2"
+            column="addressStreet2"
+            type="string"
+            />
+
+        <property
+            name="addressCity"
+            column="addressCity"
+            type="string"
+            />
+
+        <property
+            name="addressRegion"
+            column="addressRegion"
+            type="string"
+            />
+
+        <property
+            name="addressPostalCode"
+            column="addressPostalCode"
+            type="string"
+            />
+
+        <property
+            name="addressCountry"
+            column="addressCountry"
+            type="string"
+            />
+
+        <many-to-one
+            name="project"
+            column="projectUid"
+            class="com.app.model.MyProject"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="tier"
+            column="tierUid"
+            class="com.app.model.MyCustomerTier"
+            cascade="none"
+            />
+
+        <bag
+            name="contacts"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="customerUid"/>
+                <one-to-many class="com.app.model.MyCustomerContact"/>
+        </bag>
+
+        <bag
+            name="endUsers"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="customerUid"/>
+                <one-to-many class="com.app.model.MyEndUser"/>
+        </bag>
+
+        <bag
+            name="sites"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="customerUid"/>
+                <one-to-many class="com.app.model.MyCustomerSite"/>
+        </bag>
+
+    </class>
+</hibernate-mapping>

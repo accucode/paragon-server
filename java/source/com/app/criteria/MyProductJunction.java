@@ -43,9 +43,79 @@ public class MyProductJunction
         return new KmhStringCondition(context(), fullName(UID));
     }
 
+    public KmhStringCondition whereStatusCode()
+    {
+        return new KmhStringCondition(context(), fullName(STATUS_CODE));
+    }
+
     public KmhStringCondition whereName()
     {
         return new KmhStringCondition(context(), fullName(NAME));
+    }
+
+    public KmhStringCondition whereDescription()
+    {
+        return new KmhStringCondition(context(), fullName(DESCRIPTION));
+    }
+
+    public KmhPropertyCondition<KmMoney> whereListPrice()
+    {
+        return new KmhPropertyCondition<>(context(), fullName(LIST_PRICE));
+    }
+
+    public KmhBooleanCondition whereDiscountable()
+    {
+        return new KmhBooleanCondition(context(), fullName(DISCOUNTABLE));
+    }
+
+    public KmhBooleanCondition whereTaxable()
+    {
+        return new KmhBooleanCondition(context(), fullName(TAXABLE));
+    }
+
+    public KmhPropertyCondition<KmMoney> whereCost()
+    {
+        return new KmhPropertyCondition<>(context(), fullName(COST));
+    }
+
+    public KmhBooleanCondition whereRequiresShip()
+    {
+        return new KmhBooleanCondition(context(), fullName(REQUIRES_SHIP));
+    }
+
+    public KmhStringCondition whereShipInstruction()
+    {
+        return new KmhStringCondition(context(), fullName(SHIP_INSTRUCTION));
+    }
+
+    public KmhStringCondition wherePickInstruction()
+    {
+        return new KmhStringCondition(context(), fullName(PICK_INSTRUCTION));
+    }
+
+    public KmhIntegerCondition whereNetworkPortsProduced()
+    {
+        return new KmhIntegerCondition(context(), fullName(NETWORK_PORTS_PRODUCED));
+    }
+
+    public KmhIntegerCondition whereNetworkPortsConsumed()
+    {
+        return new KmhIntegerCondition(context(), fullName(NETWORK_PORTS_CONSUMED));
+    }
+
+    public KmhIntegerCondition wherePoePortsProduced()
+    {
+        return new KmhIntegerCondition(context(), fullName(POE_PORTS_PRODUCED));
+    }
+
+    public KmhIntegerCondition wherePoePortsConsumed()
+    {
+        return new KmhIntegerCondition(context(), fullName(POE_PORTS_CONSUMED));
+    }
+
+    public KmhIntegerCondition whereVendorPartNumber()
+    {
+        return new KmhIntegerCondition(context(), fullName(VENDOR_PART_NUMBER));
     }
 
     public KmhIntegerCondition whereLockVersion()

@@ -63,7 +63,7 @@ public class MyMetaPatch
 
     public static String getHelp()
     {
-        return "The list of all database patches. These are used to coordinate database migrations.\nDuring database migration checks, the list of patches on the file system are compared to the\nlist of patches known in this table.  f";
+        return "The list of all database patches. These are used to coordinate database migrations. During database migration checks, the list of patches on the file system are compared to the list of patches known in this table.  f";
     }
 
     //##################################################

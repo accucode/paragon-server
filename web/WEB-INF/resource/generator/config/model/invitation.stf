@@ -1,0 +1,92 @@
+model
+: name      = invitation
+: help...
+    ---
+    I coordinate user invitations.  The system generates an invitation, stores the record,
+    and sends a corresponding email to the user.  The user can verify/accept the invitation
+    by clicking on a hyperlink in the email.  The response is trusted as it includes a 
+    large randomly generated number.
+    --- 
+
+database
+: alias = inv
+: auditLog  = true
+: locking   = true
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The globally unique identifier.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    field
+    : name      = typeCode
+    : label     = Type
+    : help      = The type of invitation.  Currently the only type is a JoinAccount, but other types can be added.
+    : type      = letterCode
+    : required  = true
+
+        enum
+            value(#J JoinAccount)
+
+    field
+    : name      = statusCode
+    : help      = The status of this invitation: pending, accepted, rejected, expired, or cancelled.
+    : type      = letterCode
+    : required  = true
+
+        enum
+            value(#P Pending)
+            value(#A Accepted)
+            value(#R Rejected)
+            value(#E Expired)
+            value(#X Cancelled)
+            
+    field
+    : name      = createdUtcTs
+    : help      = The date and time when this invitation was created.
+    : type      = timestamp
+    : default   = getNowUtc()
+    : required  = true
+
+    field
+    : name      = closedUtcTs
+    : help      = The date and time when this invitation was closed (e.g.: accepted).
+    : type      = timestamp
+
+    association
+    : name      = fromUser
+    : help      = The user that issued the invitation.
+    : modelName = user
+    : relation  = reference
+    : required  = true
+
+        delegate
+        : fieldName = name
+        
+    field
+    : name      = toEmail
+    : help      = The email to which the invitation was sent.
+    : type      = email
+    : required  = true
+    
+    association
+    : name      = project
+    : help      = The project to which the invitation referred.
+    : modelName = project
+    : relation  = reference
+    : required  = false
+
+        delegate
+        : fieldName = name
+        
+    field
+    : name      = roleCode
+    : label     = Role
+    : help      = The security role to be assigned to the invited user.
+    : type      = letterCode
+    : required  = false

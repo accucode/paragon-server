@@ -126,6 +126,7 @@ public class MyUserValidatorBase
     @Override
     public void convertOnly(MyUser value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setName(nameValidator.convertOnly(value.getName()));
         value.setEmail(emailValidator.convertOnly(value.getEmail()));
@@ -141,6 +142,7 @@ public class MyUserValidatorBase
     @Override
     public void validateOnly(MyUser value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         nameValidator.validateOnly(value.getName(), errors);
         emailValidator.validateOnly(value.getEmail(), errors);
@@ -151,6 +153,7 @@ public class MyUserValidatorBase
         timeZoneCodeValidator.validateOnly(value.getTimeZoneCode(), errors);
         roleCodeValidator.validateOnly(value.getRoleCode(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
     }
 
     //##################################################

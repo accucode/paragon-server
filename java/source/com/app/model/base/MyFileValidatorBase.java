@@ -35,7 +35,7 @@ public class MyFileValidatorBase
     //# variables
     //##################################################
 
-    private KmIntegerValidator idValidator;
+    private KmStringValidator uidValidator;
     private KmStringValidator nameValidator;
     private KmStringValidator pathValidator;
     private KmTimestampValidator createdUtcTsValidator;
@@ -51,7 +51,7 @@ public class MyFileValidatorBase
     protected MyFileValidatorBase()
     {
         super();
-        idValidator = newIdValidator();
+        uidValidator = newUidValidator();
         nameValidator = newNameValidator();
         pathValidator = newPathValidator();
         createdUtcTsValidator = newCreatedUtcTsValidator();
@@ -65,9 +65,9 @@ public class MyFileValidatorBase
     //# accessing
     //##################################################
 
-    public KmIntegerValidator getIdValidator()
+    public KmStringValidator getUidValidator()
     {
-        return idValidator;
+        return uidValidator;
     }
 
     public KmStringValidator getNameValidator()
@@ -112,7 +112,8 @@ public class MyFileValidatorBase
     @Override
     public void convertOnly(MyFile value)
     {
-        value.setId(idValidator.convertOnly(value.getId()));
+        // fields...
+        value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setName(nameValidator.convertOnly(value.getName()));
         value.setPath(pathValidator.convertOnly(value.getPath()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
@@ -125,7 +126,8 @@ public class MyFileValidatorBase
     @Override
     public void validateOnly(MyFile value, KmList<KmErrorIF> errors)
     {
-        idValidator.validateOnly(value.getId(), errors);
+        // fields...
+        uidValidator.validateOnly(value.getUid(), errors);
         nameValidator.validateOnly(value.getName(), errors);
         pathValidator.validateOnly(value.getPath(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
@@ -133,18 +135,21 @@ public class MyFileValidatorBase
         sizeValidator.validateOnly(value.getSize(), errors);
         partialSizeValidator.validateOnly(value.getPartialSize(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
     }
 
     //##################################################
     //# instance creation
     //##################################################
 
-    public KmIntegerValidator newIdValidator()
+    public KmStringValidator newUidValidator()
     {
-        KmIntegerValidator e;
-        e = new KmIntegerValidator();
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(30);
+        e.setAllowsPrintable(true);
         e.setModel("file");
-        e.setField("id");
+        e.setField("uid");
         return e;
     }
 

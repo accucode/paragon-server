@@ -75,7 +75,9 @@ public class ScActionScript
 
     /**
      * The optional argument; this value is encoded to a string
-     * using the ScEncoder.
+     * using the ScEncoder.  This is primarily used for situations
+     * such as grids or other repeating content, where the same
+     * action may be applied to one of many different items.
      */
     @SuppressWarnings("rawtypes")
     private Function _argument;
@@ -271,6 +273,9 @@ public class ScActionScript
 
         if ( hasConfirmationMessage() )
             args.setString("confirmation", getConfirmationMessage());
+
+        if ( !getAction().getChangeTracking() )
+            args.setBoolean("changeTracking", false);
 
         out.printf("Kmu.ajax(%s);", args);
     }

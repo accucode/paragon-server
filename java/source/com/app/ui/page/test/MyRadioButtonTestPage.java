@@ -2,6 +2,7 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -133,8 +134,10 @@ public final class MyRadioButtonTestPage
             addLabelledRadioButton(_buttons, i);
         }
 
-        body.addDivider();
-        body.addButtonBox().addSubmitButton();
+        ScBox buttons;
+        buttons = group.showFooter().addButtonBox();
+        buttons.addSubmitButton();
+        buttons.addResetButton();
     }
 
     private void addLabelledRadioButton(KmList<ScRadioField> buttons, int i)
@@ -174,12 +177,15 @@ public final class MyRadioButtonTestPage
     private void handleSubmit()
     {
         ajax().hideAllErrors();
+        validate();
 
         KmList<String> values = new KmList<>();
 
         for ( ScRadioField button : _buttons )
             if ( button.isChecked() )
                 values.add(button.getStringValue());
+
+        getRoot().ajaxUpdateValues();
 
         String msg = "Ok... " + values.join();
         ajax().toast(msg).success();

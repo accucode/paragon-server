@@ -8,8 +8,11 @@ import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScPage;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.action.ScAction;
+import com.kodemore.utility.KmTimer;
+import com.kodemore.utility.Kmu;
 
 import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MyPerformanceLogBuffer;
 import com.app.ui.core.MyServletData;
 import com.app.ui.page.MyPageRegistry;
 import com.app.ui.page.login.MySignInPage;
@@ -61,7 +64,7 @@ public class MyAjaxServlet
                 return;
             }
 
-            action.run();
+            runAction(action);
         }
         catch ( KmApplicationException ex )
         {
@@ -83,6 +86,20 @@ public class MyAjaxServlet
         String key = data.getActionKey();
 
         return MyGlobals.getControlRegistry().getAction(key);
+    }
+
+    private void runAction(ScAction e)
+    {
+        KmTimer t = KmTimer.run();
+        try
+        {
+            e.run();
+        }
+        finally
+        {
+            String name = Kmu.format("action... %s", e.getFullName());
+            MyPerformanceLogBuffer.push(name, t);
+        }
     }
 
     //##################################################
@@ -109,13 +126,26 @@ public class MyAjaxServlet
         String key = data.getActionKey();
 
         if ( key.equals(ScConstantsIF.PRINT_WINDOW_LOCATION) )
-            KmDao.run(this::printWindowLocation);
+            printWindowLocation();
     }
 
     private void printWindowLocation()
     {
+        KmTimer t = KmTimer.run();
         ScPage page = getEntryPage();
+        try
+        {
+            KmDao.run(this::printWindowLocation, page);
+        }
+        finally
+        {
+            String name = Kmu.format("print... %s", page.getClass().getSimpleName());
+            MyPerformanceLogBuffer.push(name, t);
+        }
+    }
 
+    private void printWindowLocation(ScPage page)
+    {
         if ( requiresLoginFor(page) )
         {
             MySignInPage.getInstance().ajaxEnterForWindowQuery();

@@ -69,8 +69,8 @@ public class MyServerSessionManager
 
     /**
      * Checks to see if there is a valid session.
-     * The session is not created, if missing.
-     * The session is not touched.
+     * The session is NOT created, if missing.
+     * The session is NOT touched.
      */
     public static boolean hasValidSession()
     {
@@ -134,6 +134,8 @@ public class MyServerSessionManager
     private static String getCookieUid()
     {
         MyServletData data = getData();
+        if ( data == null )
+            return null;
 
         String uid = data.getCachedServerSessionUid();
         if ( uid == null )

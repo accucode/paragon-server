@@ -18,6 +18,7 @@ public class KmgModelDatabase
     private boolean               _pages;
     private KmList<KmgModelIndex> _indexes;
     private boolean               _lockVersion;
+    private boolean               _auditLog;
 
     //##################################################
     //# constructor
@@ -35,13 +36,14 @@ public class KmgModelDatabase
     @Override
     public void parse(KmStfElement x)
     {
-        checkAttributeKeys(x, "alias", "engine", "pages", "locking");
+        checkAttributeKeys(x, "alias", "engine", "pages", "locking", "auditLog");
         checkChildrenNames(x, "index");
 
         _alias = parseRequiredString(x, "alias");
         _engine = parseString(x, "engine", "innodb");
         _pages = parseBoolean(x, "pages");
-        _lockVersion = parseBoolean(x, "locking", true);
+        _lockVersion = parseRequiredBoolean(x, "locking");
+        _auditLog = parseRequiredBoolean(x, "auditLog");
 
         parseIndexes(x);
     }
@@ -78,6 +80,11 @@ public class KmgModelDatabase
     public boolean getLockVersion()
     {
         return _lockVersion;
+    }
+
+    public boolean getAuditLog()
+    {
+        return _auditLog;
     }
 
     //##################################################

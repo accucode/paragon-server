@@ -59,9 +59,6 @@ public class MyAddRegionDialog
         MyRegion e;
         e = getCurrentProject().addRegion();
         e.applyFrom(this);
-
-        flushDao();
-
         return e;
     }
 }

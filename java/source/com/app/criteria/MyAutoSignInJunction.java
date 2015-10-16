@@ -43,14 +43,14 @@ public class MyAutoSignInJunction
         return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
+    public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmhPropertyCondition<KmTimestamp> whereLastTouchedUtcTs()
+    public KmhTimestampCondition whereLastTouchedUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(LAST_TOUCHED_UTC_TS));
+        return new KmhTimestampCondition(context(), fullName(LAST_TOUCHED_UTC_TS));
     }
 
     public KmhIntegerCondition whereLockVersion()

@@ -25,6 +25,7 @@ import com.app.utility.*;
 
 public abstract class MyProjectBase
     extends MyAbstractDomain
+    implements MyDomainIF
 {
     //##################################################
     //# static
@@ -40,6 +41,7 @@ public abstract class MyProjectBase
 
     private String uid;
     private String name;
+    private String orderNumberPrefix;
     private Integer lockVersion;
     private List<MyMember> members;
     private List<MyDepot> depots;
@@ -49,9 +51,13 @@ public abstract class MyProjectBase
     private List<MySkill> skills;
     private List<MyVisitType> visitTypes;
     private List<MyAttentionGroup> attentionGroups;
-    private List<MyProduct> products;
-    private List<MyCategory> categories;
+    private List<MyMasterProduct> masterProducts;
+    private List<MyProductCategory> productCategories;
     private List<MyShipCarrier> shipCarriers;
+    private List<MyAttributeField> attributeFields;
+    private List<MyCustomer> customers;
+    private List<MyCustomerTier> customerTiers;
+    private List<MyShipAccount> shipAccounts;
 
     //##################################################
     //# constructor
@@ -69,9 +75,13 @@ public abstract class MyProjectBase
         skills = new ArrayList<>();
         visitTypes = new ArrayList<>();
         attentionGroups = new ArrayList<>();
-        products = new ArrayList<>();
-        categories = new ArrayList<>();
+        masterProducts = new ArrayList<>();
+        productCategories = new ArrayList<>();
         shipCarriers = new ArrayList<>();
+        attributeFields = new ArrayList<>();
+        customers = new ArrayList<>();
+        customerTiers = new ArrayList<>();
+        shipAccounts = new ArrayList<>();
     }
 
     //##################################################
@@ -154,6 +164,47 @@ public abstract class MyProjectBase
     public void truncateName(boolean ellipses)
     {
         name = Kmu.truncate(name, 50, ellipses);
+    }
+
+    //##################################################
+    //# field (orderNumberPrefix)
+    //##################################################
+
+    public String getOrderNumberPrefix()
+    {
+        return orderNumberPrefix;
+    }
+
+    public void setOrderNumberPrefix(String e)
+    {
+        checkReadOnly();
+        e = Validator.getOrderNumberPrefixValidator().convertOnly(e);
+        orderNumberPrefix = e;
+    }
+
+    public void clearOrderNumberPrefix()
+    {
+        setOrderNumberPrefix(null);
+    }
+
+    public boolean hasOrderNumberPrefix()
+    {
+        return Kmu.hasValue(getOrderNumberPrefix());
+    }
+
+    public boolean hasOrderNumberPrefix(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getOrderNumberPrefix(), e);
+    }
+
+    public void truncateOrderNumberPrefix()
+    {
+        truncateOrderNumberPrefix(false);
+    }
+
+    public void truncateOrderNumberPrefix(boolean ellipses)
+    {
+        orderNumberPrefix = Kmu.truncate(orderNumberPrefix, 5, ellipses);
     }
 
     //##################################################
@@ -725,137 +776,137 @@ public abstract class MyProjectBase
     }
 
     //##################################################
-    //# Products (collection)
+    //# MasterProducts (collection)
     //##################################################
 
-    public KmCollection<MyProduct> getProducts()
+    public KmCollection<MyMasterProduct> getMasterProducts()
     {
         return new KmHibernateCollection<>(
-            getBaseProducts(),
+            getBaseMasterProducts(),
             (MyProject)this,
-            MyProduct.Meta.Project.getAdaptor());
+            MyMasterProduct.Meta.Project.getAdaptor());
     }
 
-    public boolean hasProducts()
+    public boolean hasMasterProducts()
     {
-        return !getBaseProducts().isEmpty();
+        return !getBaseMasterProducts().isEmpty();
     }
 
-    public int getProductCount()
+    public int getMasterProductCount()
     {
-        return getBaseProducts().size();
+        return getBaseMasterProducts().size();
     }
 
-    public List<MyProduct> getBaseProducts()
+    public List<MyMasterProduct> getBaseMasterProducts()
     {
-        return products;
+        return masterProducts;
     }
 
-    public MyProduct addProduct()
+    public MyMasterProduct addMasterProduct()
     {
-        MyProduct e;
-        e = new MyProduct();
-        getProducts().add(e);
+        MyMasterProduct e;
+        e = new MyMasterProduct();
+        getMasterProducts().add(e);
         return e;
     }
 
-    public void addProduct(MyProduct e)
+    public void addMasterProduct(MyMasterProduct e)
     {
-        getProducts().add(e);
+        getMasterProducts().add(e);
     }
 
-    public boolean removeProduct(MyProduct e)
+    public boolean removeMasterProduct(MyMasterProduct e)
     {
-        return getProducts().remove(e);
+        return getMasterProducts().remove(e);
     }
 
-    public boolean removeProductUid(String myUid)
+    public boolean removeMasterProductUid(String myUid)
     {
-        MyProduct e = findProductUid(myUid);
+        MyMasterProduct e = findMasterProductUid(myUid);
         if ( e == null )
             return false;
 
-        return removeProduct(e);
+        return removeMasterProduct(e);
     }
 
-    public MyProduct findProductUid(String myUid)
+    public MyMasterProduct findMasterProductUid(String myUid)
     {
-        for ( MyProduct e : getBaseProducts() )
+        for ( MyMasterProduct e : getBaseMasterProducts() )
             if ( e.hasUid(myUid) )
                 return e;
         return null;
     }
 
-    public void clearProducts()
+    public void clearMasterProducts()
     {
-        getProducts().clear();
+        getMasterProducts().clear();
     }
 
     //##################################################
-    //# Categories (collection)
+    //# ProductCategories (collection)
     //##################################################
 
-    public KmCollection<MyCategory> getCategories()
+    public KmCollection<MyProductCategory> getProductCategories()
     {
         return new KmHibernateCollection<>(
-            getBaseCategories(),
+            getBaseProductCategories(),
             (MyProject)this,
-            MyCategory.Meta.Project.getAdaptor());
+            MyProductCategory.Meta.Project.getAdaptor());
     }
 
-    public boolean hasCategories()
+    public boolean hasProductCategories()
     {
-        return !getBaseCategories().isEmpty();
+        return !getBaseProductCategories().isEmpty();
     }
 
-    public int getCategoryCount()
+    public int getProductCategoryCount()
     {
-        return getBaseCategories().size();
+        return getBaseProductCategories().size();
     }
 
-    public List<MyCategory> getBaseCategories()
+    public List<MyProductCategory> getBaseProductCategories()
     {
-        return categories;
+        return productCategories;
     }
 
-    public MyCategory addCategory()
+    public MyProductCategory addProductCategory()
     {
-        MyCategory e;
-        e = new MyCategory();
-        getCategories().add(e);
+        MyProductCategory e;
+        e = new MyProductCategory();
+        getProductCategories().add(e);
         return e;
     }
 
-    public void addCategory(MyCategory e)
+    public void addProductCategory(MyProductCategory e)
     {
-        getCategories().add(e);
+        getProductCategories().add(e);
     }
 
-    public boolean removeCategory(MyCategory e)
+    public boolean removeProductCategory(MyProductCategory e)
     {
-        return getCategories().remove(e);
+        return getProductCategories().remove(e);
     }
 
-    public boolean removeCategoryUid(String myUid)
+    public boolean removeProductCategoryUid(String myUid)
     {
-        MyCategory e = findCategoryUid(myUid);
+        MyProductCategory e = findProductCategoryUid(myUid);
         if ( e == null )
             return false;
 
-        return removeCategory(e);
+        return removeProductCategory(e);
     }
 
-    public MyCategory findCategoryUid(String myUid)
+    public MyProductCategory findProductCategoryUid(String myUid)
     {
-        for ( MyCategory e : getBaseCategories() )
+        for ( MyProductCategory e : getBaseProductCategories() )
             if ( e.hasUid(myUid) )
                 return e;
         return null;
     }
 
-    public void clearCategories()
+    public void clearProductCategories()
     {
-        getCategories().clear();
+        getProductCategories().clear();
     }
 
     //##################################################
@@ -923,6 +974,274 @@ public abstract class MyProjectBase
     public void clearShipCarriers()
     {
         getShipCarriers().clear();
+    }
+
+    //##################################################
+    //# AttributeFields (collection)
+    //##################################################
+
+    public KmCollection<MyAttributeField> getAttributeFields()
+    {
+        return new KmHibernateCollection<>(
+            getBaseAttributeFields(),
+            (MyProject)this,
+            MyAttributeField.Meta.Project.getAdaptor());
+    }
+
+    public boolean hasAttributeFields()
+    {
+        return !getBaseAttributeFields().isEmpty();
+    }
+
+    public int getAttributeFieldCount()
+    {
+        return getBaseAttributeFields().size();
+    }
+
+    public List<MyAttributeField> getBaseAttributeFields()
+    {
+        return attributeFields;
+    }
+
+    public MyAttributeField addAttributeField()
+    {
+        MyAttributeField e;
+        e = new MyAttributeField();
+        getAttributeFields().add(e);
+        return e;
+    }
+
+    public void addAttributeField(MyAttributeField e)
+    {
+        getAttributeFields().add(e);
+    }
+
+    public boolean removeAttributeField(MyAttributeField e)
+    {
+        return getAttributeFields().remove(e);
+    }
+
+    public boolean removeAttributeFieldUid(String myUid)
+    {
+        MyAttributeField e = findAttributeFieldUid(myUid);
+        if ( e == null )
+            return false;
+
+        return removeAttributeField(e);
+    }
+
+    public MyAttributeField findAttributeFieldUid(String myUid)
+    {
+        for ( MyAttributeField e : getBaseAttributeFields() )
+            if ( e.hasUid(myUid) )
+                return e;
+        return null;
+    }
+
+    public void clearAttributeFields()
+    {
+        getAttributeFields().clear();
+    }
+
+    //##################################################
+    //# Customers (collection)
+    //##################################################
+
+    public KmCollection<MyCustomer> getCustomers()
+    {
+        return new KmHibernateCollection<>(
+            getBaseCustomers(),
+            (MyProject)this,
+            MyCustomer.Meta.Project.getAdaptor());
+    }
+
+    public boolean hasCustomers()
+    {
+        return !getBaseCustomers().isEmpty();
+    }
+
+    public int getCustomerCount()
+    {
+        return getBaseCustomers().size();
+    }
+
+    public List<MyCustomer> getBaseCustomers()
+    {
+        return customers;
+    }
+
+    public MyCustomer addCustomer()
+    {
+        MyCustomer e;
+        e = new MyCustomer();
+        getCustomers().add(e);
+        return e;
+    }
+
+    public void addCustomer(MyCustomer e)
+    {
+        getCustomers().add(e);
+    }
+
+    public boolean removeCustomer(MyCustomer e)
+    {
+        return getCustomers().remove(e);
+    }
+
+    public boolean removeCustomerUid(String myUid)
+    {
+        MyCustomer e = findCustomerUid(myUid);
+        if ( e == null )
+            return false;
+
+        return removeCustomer(e);
+    }
+
+    public MyCustomer findCustomerUid(String myUid)
+    {
+        for ( MyCustomer e : getBaseCustomers() )
+            if ( e.hasUid(myUid) )
+                return e;
+        return null;
+    }
+
+    public void clearCustomers()
+    {
+        getCustomers().clear();
+    }
+
+    //##################################################
+    //# CustomerTiers (collection)
+    //##################################################
+
+    public KmCollection<MyCustomerTier> getCustomerTiers()
+    {
+        return new KmHibernateCollection<>(
+            getBaseCustomerTiers(),
+            (MyProject)this,
+            MyCustomerTier.Meta.Project.getAdaptor());
+    }
+
+    public boolean hasCustomerTiers()
+    {
+        return !getBaseCustomerTiers().isEmpty();
+    }
+
+    public int getCustomerTierCount()
+    {
+        return getBaseCustomerTiers().size();
+    }
+
+    public List<MyCustomerTier> getBaseCustomerTiers()
+    {
+        return customerTiers;
+    }
+
+    public MyCustomerTier addCustomerTier()
+    {
+        MyCustomerTier e;
+        e = new MyCustomerTier();
+        getCustomerTiers().add(e);
+        return e;
+    }
+
+    public void addCustomerTier(MyCustomerTier e)
+    {
+        getCustomerTiers().add(e);
+    }
+
+    public boolean removeCustomerTier(MyCustomerTier e)
+    {
+        return getCustomerTiers().remove(e);
+    }
+
+    public boolean removeCustomerTierUid(String myUid)
+    {
+        MyCustomerTier e = findCustomerTierUid(myUid);
+        if ( e == null )
+            return false;
+
+        return removeCustomerTier(e);
+    }
+
+    public MyCustomerTier findCustomerTierUid(String myUid)
+    {
+        for ( MyCustomerTier e : getBaseCustomerTiers() )
+            if ( e.hasUid(myUid) )
+                return e;
+        return null;
+    }
+
+    public void clearCustomerTiers()
+    {
+        getCustomerTiers().clear();
+    }
+
+    //##################################################
+    //# ShipAccounts (collection)
+    //##################################################
+
+    public KmCollection<MyShipAccount> getShipAccounts()
+    {
+        return new KmHibernateCollection<>(
+            getBaseShipAccounts(),
+            (MyProject)this,
+            MyShipAccount.Meta.Project.getAdaptor());
+    }
+
+    public boolean hasShipAccounts()
+    {
+        return !getBaseShipAccounts().isEmpty();
+    }
+
+    public int getShipAccountCount()
+    {
+        return getBaseShipAccounts().size();
+    }
+
+    public List<MyShipAccount> getBaseShipAccounts()
+    {
+        return shipAccounts;
+    }
+
+    public MyShipAccount addShipAccount()
+    {
+        MyShipAccount e;
+        e = new MyShipAccount();
+        getShipAccounts().add(e);
+        return e;
+    }
+
+    public void addShipAccount(MyShipAccount e)
+    {
+        getShipAccounts().add(e);
+    }
+
+    public boolean removeShipAccount(MyShipAccount e)
+    {
+        return getShipAccounts().remove(e);
+    }
+
+    public boolean removeShipAccountUid(String myUid)
+    {
+        MyShipAccount e = findShipAccountUid(myUid);
+        if ( e == null )
+            return false;
+
+        return removeShipAccount(e);
+    }
+
+    public MyShipAccount findShipAccountUid(String myUid)
+    {
+        for ( MyShipAccount e : getBaseShipAccounts() )
+            if ( e.hasUid(myUid) )
+                return e;
+        return null;
+    }
+
+    public void clearShipAccounts()
+    {
+        getShipAccounts().clear();
     }
 
     //##################################################
@@ -1002,20 +1321,40 @@ public abstract class MyProjectBase
         for ( MyAttentionGroup e : old_attentionGroups )
             addAttentionGroup(copy(e));
 
-        List<MyProduct> old_products = products;
-        products = new ArrayList<>();
-        for ( MyProduct e : old_products )
-            addProduct(copy(e));
+        List<MyMasterProduct> old_masterProducts = masterProducts;
+        masterProducts = new ArrayList<>();
+        for ( MyMasterProduct e : old_masterProducts )
+            addMasterProduct(copy(e));
 
-        List<MyCategory> old_categories = categories;
-        categories = new ArrayList<>();
-        for ( MyCategory e : old_categories )
-            addCategory(copy(e));
+        List<MyProductCategory> old_productCategories = productCategories;
+        productCategories = new ArrayList<>();
+        for ( MyProductCategory e : old_productCategories )
+            addProductCategory(copy(e));
 
         List<MyShipCarrier> old_shipCarriers = shipCarriers;
         shipCarriers = new ArrayList<>();
         for ( MyShipCarrier e : old_shipCarriers )
             addShipCarrier(copy(e));
+
+        List<MyAttributeField> old_attributeFields = attributeFields;
+        attributeFields = new ArrayList<>();
+        for ( MyAttributeField e : old_attributeFields )
+            addAttributeField(copy(e));
+
+        List<MyCustomer> old_customers = customers;
+        customers = new ArrayList<>();
+        for ( MyCustomer e : old_customers )
+            addCustomer(copy(e));
+
+        List<MyCustomerTier> old_customerTiers = customerTiers;
+        customerTiers = new ArrayList<>();
+        for ( MyCustomerTier e : old_customerTiers )
+            addCustomerTier(copy(e));
+
+        List<MyShipAccount> old_shipAccounts = shipAccounts;
+        shipAccounts = new ArrayList<>();
+        for ( MyShipAccount e : old_shipAccounts )
+            addShipAccount(copy(e));
     }
 
     //##################################################
@@ -1047,6 +1386,7 @@ public abstract class MyProjectBase
     public boolean isSameIgnoringKey(MyProject e)
     {
         if ( !Kmu.isEqual(getName(), e.getName()) ) return false;
+        if ( !Kmu.isEqual(getOrderNumberPrefix(), e.getOrderNumberPrefix()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
         return true;
     }
@@ -1068,13 +1408,14 @@ public abstract class MyProjectBase
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("MyProject");
-        sb.append("(");
-        sb.append("Uid=");
-        sb.append(uid);
-        sb.append(")");
-        return sb.toString();
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append("MyProject");
+        out.append("(");
+        out.append("Uid=");
+        out.append(uid);
+        out.append(")");
+        return out.toString();
     }
 
     public void printFields()
@@ -1082,6 +1423,7 @@ public abstract class MyProjectBase
         System.out.println(this);
         System.out.println("    Uid = " + uid);
         System.out.println("    Name = " + name);
+        System.out.println("    OrderNumberPrefix = " + orderNumberPrefix);
         System.out.println("    LockVersion = " + lockVersion);
     }
 
@@ -1089,12 +1431,20 @@ public abstract class MyProjectBase
      * Format the primary key fields in a comma separated list.  The format
      * is intended to be suitable for display to users.
      */
+    @Override
     public String formatPrimaryKey()
     {
-        StringBuilder sb = new StringBuilder();
-        ScFormatter f = getFormatter();
-        sb.append(f.formatAny(uid));
-        return sb.toString();
+        return uid;
     }
 
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    @Override
+    public String getMetaName()
+    {
+        return Meta.getName();
+    }
 }

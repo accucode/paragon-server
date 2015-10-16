@@ -98,6 +98,7 @@ public class MyEmailPartValidatorBase
     @Override
     public void convertOnly(MyEmailPart value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setSequence(sequenceValidator.convertOnly(value.getSequence()));
         value.setTypeCode(typeCodeValidator.convertOnly(value.getTypeCode()));
@@ -109,12 +110,16 @@ public class MyEmailPartValidatorBase
     @Override
     public void validateOnly(MyEmailPart value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         sequenceValidator.validateOnly(value.getSequence(), errors);
         typeCodeValidator.validateOnly(value.getTypeCode(), errors);
         attachmentNameValidator.validateOnly(value.getAttachmentName(), errors);
         dataValidator.validateOnly(value.getData(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
+        if ( !value.hasEmail() )
+            errors.add(new KmRequiredValidationError("emailPart", "email"));
     }
 
     //##################################################

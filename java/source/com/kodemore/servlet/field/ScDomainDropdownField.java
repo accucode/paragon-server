@@ -32,6 +32,7 @@ import com.kodemore.filter.KmFilterIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.meta.KmMetaAttribute;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.servlet.variable.ScLocal;
@@ -549,6 +550,9 @@ public class ScDomainDropdownField<T, K>
     @Override
     public void ajaxUpdateValue()
     {
-        ajax().setValue(encode(getValueKey()));
+        String value = encode(getValueKey());
+
+        ajax().setValue(value);
+        ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
     }
 }

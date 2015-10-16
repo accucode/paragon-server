@@ -17,9 +17,10 @@ import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
 import com.app.model.meta.*;
+import com.app.utility.*;
 
 public abstract class MyFileDaoBase
-    extends KmAbstractDao<MyFile,Integer>
+    extends KmAbstractDao<MyFile,String>
     implements MyFileDaoConstantsIF
 {
     //##################################################
@@ -68,7 +69,7 @@ public abstract class MyFileDaoBase
     //# find
     //##################################################
 
-    public MyFile findId(Integer e)
+    public MyFile findUid(String e)
     {
         return getKey(e);
     }
@@ -77,14 +78,22 @@ public abstract class MyFileDaoBase
     //# delete
     //##################################################
 
-    public void deleteId(Integer e)
+    public void deleteUid(String e)
     {
-        MyFile m = findId(e);
-        
+        MyFile m = findUid(e);
+
         if ( m == null )
             throw Kmu.newFatal("Cannot delete; key not found(%s).", e);
-            
+
         delete(m);
     }
 
+    //##################################################
+    //# convenience
+    //##################################################
+
+    protected MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
 }

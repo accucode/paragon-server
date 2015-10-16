@@ -13,4 +13,15 @@ public class MyAttentionGroup
     {
         super();
     }
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getName();
+    }
+
 }

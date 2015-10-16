@@ -66,6 +66,16 @@ public abstract class KmhModelCriteria<T>
         return new KmhBooleanCondition(context(), fullName(attr.getDaoPropertyName()));
     }
 
+    public KmhDateCondition whereDate(KmMetaDaoPropertyIF<T,KmDate> attr)
+    {
+        return new KmhDateCondition(context(), fullName(attr.getDaoPropertyName()));
+    }
+
+    public KmhTimestampCondition whereTimestamp(KmMetaDaoPropertyIF<T,KmTimestamp> attr)
+    {
+        return new KmhTimestampCondition(context(), fullName(attr.getDaoPropertyName()));
+    }
+
     public KmhSubqueryCondition whereSubquery(KmhModelCriteria<?> c)
     {
         DetachedCriteria dc = c.context().getCriteria().getProxy().asDetached().getInner();

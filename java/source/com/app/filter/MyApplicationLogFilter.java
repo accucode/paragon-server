@@ -17,7 +17,7 @@ public class MyApplicationLogFilter
     public static enum Sort
         implements KmNamedEnumIF
     {
-        Id("Id"),
+        Uid("Uid"),
         CreatedUtcTs("CreatedUtcTs");
 
         private String _name;
@@ -229,9 +229,9 @@ public class MyApplicationLogFilter
     //# sort
     //##################################################
 
-    public void sortOnId()
+    public void sortOnUid()
     {
-        sortOn(Sort.Id);
+        sortOn(Sort.Uid);
     }
 
     public void sortOnCreatedUtcTs()
@@ -319,8 +319,8 @@ public class MyApplicationLogFilter
 
         switch ( _sort )
         {
-            case Id:
-                c.sortOnId(asc);
+            case Uid:
+                c.sortOnUid(asc);
                 break;
 
             case CreatedUtcTs:

@@ -25,6 +25,7 @@ import com.app.utility.*;
 
 public abstract class MyHibernateCacheTestBase
     extends MyAbstractDomain
+    implements MyDomainIF
 {
     //##################################################
     //# static
@@ -254,13 +255,14 @@ public abstract class MyHibernateCacheTestBase
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("MyHibernateCacheTest");
-        sb.append("(");
-        sb.append("Uid=");
-        sb.append(uid);
-        sb.append(")");
-        return sb.toString();
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append("MyHibernateCacheTest");
+        out.append("(");
+        out.append("Uid=");
+        out.append(uid);
+        out.append(")");
+        return out.toString();
     }
 
     public void printFields()
@@ -275,12 +277,20 @@ public abstract class MyHibernateCacheTestBase
      * Format the primary key fields in a comma separated list.  The format
      * is intended to be suitable for display to users.
      */
+    @Override
     public String formatPrimaryKey()
     {
-        StringBuilder sb = new StringBuilder();
-        ScFormatter f = getFormatter();
-        sb.append(f.formatAny(uid));
-        return sb.toString();
+        return uid;
     }
 
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    @Override
+    public String getMetaName()
+    {
+        return Meta.getName();
+    }
 }

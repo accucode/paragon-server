@@ -79,6 +79,14 @@ setup
 : ifExists          = overwrite
 
 setup
+: name              = auditLogInfo
+: template          = auditLogInfo.vm
+: targetDirectory   = java/source/${packagePath}/model/base
+: fileMode          = oneFile
+: fileName          = ${Prefix}AuditLogInfo.java
+: ifExists          = overwrite
+
+setup
 : name              = hibernateMapping
 : template          = hibernateMapping.vm
 : targetDirectory   = web/WEB-INF/resource/hibernate/mapping

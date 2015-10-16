@@ -13,4 +13,14 @@ public class MyHibernateCacheTest
     {
         super();
     }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getUid();
+    }
 }

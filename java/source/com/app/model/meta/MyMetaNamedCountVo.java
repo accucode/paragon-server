@@ -63,7 +63,7 @@ public class MyMetaNamedCountVo
 
     public static String getHelp()
     {
-        return "A node in the configuration hierarchy (customer/contract/modelCat/division).\nThis is a non-persistent domain model; it is NOT stored in the database.";
+        return "A node in the configuration hierarchy (customer/contract/modelCat/division). This is a non-persistent domain model; it is NOT stored in the database.";
     }
 
     //##################################################

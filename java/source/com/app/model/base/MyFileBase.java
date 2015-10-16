@@ -25,6 +25,7 @@ import com.app.utility.*;
 
 public abstract class MyFileBase
     extends MyAbstractDomain
+    implements MyDomainIF
 {
     //##################################################
     //# static
@@ -38,7 +39,7 @@ public abstract class MyFileBase
     //# variables
     //##################################################
 
-    private Integer id;
+    private String uid;
     private String name;
     private String path;
     private KmTimestamp createdUtcTs;
@@ -54,38 +55,49 @@ public abstract class MyFileBase
     public MyFileBase()
     {
         super();
+        setUid(newUid());
         setCreatedUtcTs(getNowUtc());
     }
 
     //##################################################
-    //# field (id)
+    //# field (uid)
     //##################################################
 
-    public Integer getId()
+    public String getUid()
     {
-        return id;
+        return uid;
     }
 
-    public void setId(Integer e)
+    public void setUid(String e)
     {
         checkReadOnly();
-        e = Validator.getIdValidator().convertOnly(e);
-        id = e;
+        e = Validator.getUidValidator().convertOnly(e);
+        uid = e;
     }
 
-    public void clearId()
+    public void clearUid()
     {
-        setId(null);
+        setUid(null);
     }
 
-    public boolean hasId()
+    public boolean hasUid()
     {
-        return getId() != null;
+        return Kmu.hasValue(getUid());
     }
 
-    public boolean hasId(Integer e)
+    public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getId(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
+    }
+
+    public void truncateUid()
+    {
+        truncateUid(false);
+    }
+
+    public void truncateUid(boolean ellipses)
+    {
+        uid = Kmu.truncate(uid, 30, ellipses);
     }
 
     //##################################################
@@ -549,7 +561,7 @@ public abstract class MyFileBase
     public void postCopy()
     {
         super.postCopy();
-        id = null;
+        uid = null;
     }
 
     //##################################################
@@ -563,18 +575,18 @@ public abstract class MyFileBase
             return false;
 
         MyFileBase e = (MyFileBase)o;
-        return Kmu.isEqual(getId(), e.getId());
+        return Kmu.isEqual(getUid(), e.getUid());
     }
 
     @Override
     public int hashCode()
     {
-        return Kmu.getHashCode(getId());
+        return Kmu.getHashCode(getUid());
     }
 
     public boolean isSame(MyFile e)
     {
-        if ( !Kmu.isEqual(getId(), e.getId()) ) return false;
+        if ( !Kmu.isEqual(getUid(), e.getUid()) ) return false;
         return isSameIgnoringKey(e);
     }
 
@@ -612,19 +624,20 @@ public abstract class MyFileBase
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("MyFile");
-        sb.append("(");
-        sb.append("Id=");
-        sb.append(id);
-        sb.append(")");
-        return sb.toString();
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append("MyFile");
+        out.append("(");
+        out.append("Uid=");
+        out.append(uid);
+        out.append(")");
+        return out.toString();
     }
 
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Id = " + id);
+        System.out.println("    Uid = " + uid);
         System.out.println("    Name = " + name);
         System.out.println("    Path = " + path);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
@@ -638,12 +651,20 @@ public abstract class MyFileBase
      * Format the primary key fields in a comma separated list.  The format
      * is intended to be suitable for display to users.
      */
+    @Override
     public String formatPrimaryKey()
     {
-        StringBuilder sb = new StringBuilder();
-        ScFormatter f = getFormatter();
-        sb.append(f.formatAny(id));
-        return sb.toString();
+        return uid;
     }
 
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    @Override
+    public String getMetaName()
+    {
+        return Meta.getName();
+    }
 }

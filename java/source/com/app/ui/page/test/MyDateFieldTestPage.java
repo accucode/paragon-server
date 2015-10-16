@@ -1,6 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -102,8 +103,10 @@ public final class MyDateFieldTestPage
         fields.add(_startField);
         fields.add(_endField);
 
-        group.addBodyDivider();
-        group.getBody().addButtonBox().addSubmitButton();
+        ScBox buttons;
+        buttons = group.showFooter().addButtonBox();
+        buttons.addSubmitButton();
+        buttons.addResetButton();
     }
 
     //##################################################
@@ -122,6 +125,7 @@ public final class MyDateFieldTestPage
 
     private void handleSubmit()
     {
+        ajax().hideAllErrors();
         validate();
 
         String name = _nameField.getValue();
@@ -134,6 +138,7 @@ public final class MyDateFieldTestPage
         out.printfln("Start = %s.", start);
         out.printfln("End = %s.", end);
 
+        getRoot().ajaxUpdateValues();
         ajax().toast(out);
     }
 

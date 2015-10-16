@@ -44,45 +44,55 @@ KmNavigator.init = function(options)
  *      handleStateChange
  *          By default, a push normally triggers the statechange event.  
  *          If handleStateChange is false, the statechange event is temporarily ignored.
+ *          
+ *      changeTracking
+ *      	If true (the default), check if there are any unsaved changes on the page.
+ *      	If unsaved changes are found, warn the user before initiating the navigation.
  */
 KmNavigator.pushPage = function(options)
 {
-    var url = options.url;
-    
-    var title = options.title;
-    if ( !title )
-        title = KmNavigator.defaultTitle;
-    
-    var state = History.getState();
-    
-    var push = true;
-    if ( options.replace )
-        push = false;
-        
-    var data = {};
-    data.pageSession = KmNavigator.getPageSession();
-    
-    var inc = push && !state.url.endsWith(url);
-    if ( inc )
-        data.depth = KmNavigator.getNextDepth();
-    else
-    	data.depth = state.data.depth;
-        
-    var handle = options.handleStateChange;
-    if ( handle === undefined )
-        handle = true;
-    
-    KmNavigator.unbind();
-
-    if ( push )
-        History.pushState(data, title, url);
-    else
-        History.replaceState(data, title, url);
-        
-    KmNavigator.bind();
-
-    if ( handle )
-        KmNavigator.handleStateChange();
+	var pushFn = function()
+	{
+		var url = options.url;
+		
+		var title = options.title;
+		if ( !title )
+			title = KmNavigator.defaultTitle;
+		
+		var state = History.getState();
+		
+		var push = true;
+		if ( options.replace )
+			push = false;
+		
+		var data = {};
+		data.pageSession = KmNavigator.getPageSession();
+		
+		var inc = push && !state.url.endsWith(url);
+		if ( inc )
+			data.depth = KmNavigator.getNextDepth();
+		else
+			data.depth = state.data.depth;
+		
+		var handle = options.handleStateChange;
+		if ( handle === undefined )
+			handle = true;
+		
+		KmNavigator.unbind();
+		
+		if ( push )
+			History.pushState(data, title, url);
+		else
+			History.replaceState(data, title, url);
+		
+		KmNavigator.bind();
+		
+		if ( handle )
+			KmNavigator.handleStateChange();
+	};
+	
+	var warn = options.changeTracking;
+	Kmu.warnIfDirty(pushFn, warn);
 }
 
 KmNavigator.pushUrl = function(url)
@@ -94,8 +104,9 @@ KmNavigator.printCurrentPage = function()
 {
     Kmu.ajax(
     {
-        action: "_printWindowLocation",
-        direction: KmNavigator.getDirection()
+        action:         "_printWindowLocation",
+        direction:      KmNavigator.getDirection(),
+        changeTracking: false
     });
     
 	KmNavigator.previousPrintDepth = KmNavigator.getDepth();    

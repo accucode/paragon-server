@@ -108,7 +108,7 @@ public class MyViewShipCarrierCard
     {
         _editDialog = new MyEditShipCarrierDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(this::handleSaved);
+        _editDialog.addSavedListener(this::handleSaved);
     }
 
     //##################################################
@@ -122,7 +122,7 @@ public class MyViewShipCarrierCard
 
     public void addSaveListener(Consumer<MyShipCarrier> e)
     {
-        getEditDialog().addSaveListener(e);
+        getEditDialog().addSavedListener(e);
     }
 
     public void setShipCarrier(MyShipCarrier e)

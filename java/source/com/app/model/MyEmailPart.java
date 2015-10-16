@@ -35,4 +35,15 @@ public class MyEmailPart
         e.setValue(bytes);
         setData(e);
     }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getTypeName();
+    }
+
 }

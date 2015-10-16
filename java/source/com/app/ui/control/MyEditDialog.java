@@ -12,7 +12,7 @@ public abstract class MyEditDialog<T>
     //# variables
     //##################################################
 
-    private KmList<Consumer<T>> _saveListeners;
+    private KmList<Consumer<T>> _savedListeners;
 
     //##################################################
     //# install
@@ -23,7 +23,7 @@ public abstract class MyEditDialog<T>
     {
         super.install();
 
-        _saveListeners = new KmList<>();
+        _savedListeners = new KmList<>();
 
         setSubmitAction(this::handleSave);
         installButtons();
@@ -53,14 +53,14 @@ public abstract class MyEditDialog<T>
     //# save listener
     //##################################################
 
-    public void addSaveListener(Consumer<T> e)
+    public void addSavedListener(Consumer<T> e)
     {
-        _saveListeners.add(e);
+        _savedListeners.add(e);
     }
 
-    private void fireSaveListeners(T model)
+    private void fireSavedListeners(T model)
     {
-        for ( Consumer<T> e : _saveListeners )
+        for ( Consumer<T> e : _savedListeners )
             e.accept(model);
     }
 
@@ -76,7 +76,7 @@ public abstract class MyEditDialog<T>
             return;
 
         ajaxClose();
-        fireSaveListeners(e);
+        fireSavedListeners(e);
     }
 
     //##################################################

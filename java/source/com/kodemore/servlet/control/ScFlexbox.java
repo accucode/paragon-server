@@ -105,6 +105,11 @@ public class ScFlexbox
         css().flexAlignSpaced();
     }
 
+    public void alignSpacedAround()
+    {
+        css().flexAlignSpacedAround();
+    }
+
     //##################################################
     //# cross align
     //##################################################
@@ -127,6 +132,11 @@ public class ScFlexbox
     public void crossAlignCenter()
     {
         css().flexCrossAlignCenter();
+    }
+
+    public void crossAlignBaseline()
+    {
+        css().flexCrossAlignBaseline();
     }
 
     //##################################################

@@ -122,12 +122,15 @@ public final class MyDevEmailsPage
         _statusField = MyEmail.Tools.newStatusDropdown();
         _statusField.setLabel("Status");
         _statusField.addNullAnyPrefix();
+        _statusField.disableChangeTracking();
 
         _createdStartField = new ScDateField();
         _createdStartField.setLabel("Created Start");
+        _createdStartField.disableChangeTracking();
 
         _createdEndField = new ScDateField();
         _createdEndField.setLabel("Created End");
+        _createdEndField.disableChangeTracking();
 
         _filterBox = root.addFilterBox("Search");
         _filterBox.layoutFill();

@@ -33,6 +33,7 @@ import com.kodemore.json.KmJsonUtility;
 import com.kodemore.log.KmLog;
 import com.kodemore.meta.KmMetaAttribute;
 import com.kodemore.meta.KmMetaProperty;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScModelApplicatorIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScAction;
@@ -46,6 +47,7 @@ import com.kodemore.servlet.field.ScField;
 import com.kodemore.servlet.field.ScHtmlIdIF;
 import com.kodemore.servlet.field.ScStoppableControlVisitorIF;
 import com.kodemore.servlet.script.ScBlockScript;
+import com.kodemore.servlet.utility.ScBridge;
 import com.kodemore.servlet.utility.ScControlRegistry;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.servlet.utility.ScKeyIF;
@@ -859,6 +861,31 @@ public abstract class ScControl
     protected final KmCssDefaultBuilder newCssBuilder()
     {
         return new KmCssDefaultBuilder();
+    }
+
+    protected final void warnIfInstalled()
+    {
+        ScBridge.getInstance().warnIfInstalled();
+    }
+
+    //##################################################
+    //# print old value
+    //##################################################
+
+    protected void printOldValueAttributeOn(KmHtmlBuilder out, String value)
+    {
+        if ( value == null )
+            value = "";
+
+        out.printDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
+    }
+
+    protected void printOldCheckedAttributeOn(KmHtmlBuilder out, Boolean value)
+    {
+        if ( value == null )
+            value = false;
+
+        out.printDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_CHECKED, value);
     }
 
     //##################################################

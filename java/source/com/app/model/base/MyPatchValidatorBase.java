@@ -77,6 +77,7 @@ public class MyPatchValidatorBase
     @Override
     public void convertOnly(MyPatch value)
     {
+        // fields...
         value.setName(nameValidator.convertOnly(value.getName()));
         value.setInstalledUtcTs(installedUtcTsValidator.convertOnly(value.getInstalledUtcTs()));
         value.setSource(sourceValidator.convertOnly(value.getSource()));
@@ -85,9 +86,11 @@ public class MyPatchValidatorBase
     @Override
     public void validateOnly(MyPatch value, KmList<KmErrorIF> errors)
     {
+        // fields...
         nameValidator.validateOnly(value.getName(), errors);
         installedUtcTsValidator.validateOnly(value.getInstalledUtcTs(), errors);
         sourceValidator.validateOnly(value.getSource(), errors);
+        // required associations...
     }
 
     //##################################################
@@ -119,7 +122,7 @@ public class MyPatchValidatorBase
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(20000);
+        e.setMaximumLength(50000);
         e.setAllowsPrintable(true);
         e.setAllowsWhitespace(true);
         e.setModel("patch");

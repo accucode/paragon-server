@@ -88,9 +88,11 @@ public class ScActionButton
         _action.setValue(e);
     }
 
-    public void setAction(Runnable r)
+    public ScAction setAction(Runnable r)
     {
-        _action.setValue(newAction(r));
+        ScAction a = newAction(r);
+        _action.setValue(a);
+        return a;
     }
 
     public void setAction(ScAction e, Object arg)
@@ -135,6 +137,12 @@ public class ScActionButton
     public void setConfirmationMessage(String e)
     {
         _confirmationMessage.setValue(e);
+    }
+
+    public void disableChangeTracking()
+    {
+        if ( hasAction() )
+            getAction().disableChangeTracking();
     }
 
     //##################################################

@@ -1,9 +1,11 @@
 package com.app.ui.layout;
 
+import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFlexbox;
 import com.kodemore.servlet.control.ScParagraph;
 import com.kodemore.servlet.control.ScTransientContainer;
+import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.utility.Kmu;
 
 import com.app.ui.control.MyDialog;
@@ -42,7 +44,25 @@ public class MyPageErrorDialog
         footer = showFooter();
         footer.alignEnd();
         footer.css().buttonBox();
-        footer.addButton("Close", this::ajaxClose);
+        footer.addButton("Copy", newCopyScript(body));
+        footer.addButton("Close", newCloseAction());
+    }
+
+    private ScBlockScript newCopyScript(ScDiv body)
+    {
+        ScBlockScript e;
+        e = ScBlockScript.create();
+        e.selectAndCopyText(body);
+        e.toast("Copied.");
+        return e;
+    }
+
+    private ScAction newCloseAction()
+    {
+        ScAction e;
+        e = newAction(this::ajaxClose);
+        e.disableChangeTracking();
+        return e;
     }
 
     //##################################################

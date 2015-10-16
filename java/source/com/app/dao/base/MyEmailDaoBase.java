@@ -17,6 +17,7 @@ import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
 import com.app.model.meta.*;
+import com.app.utility.*;
 
 public abstract class MyEmailDaoBase
     extends KmAbstractDao<MyEmail,String>
@@ -80,11 +81,19 @@ public abstract class MyEmailDaoBase
     public void deleteUid(String e)
     {
         MyEmail m = findUid(e);
-        
+
         if ( m == null )
             throw Kmu.newFatal("Cannot delete; key not found(%s).", e);
-            
+
         delete(m);
     }
 
+    //##################################################
+    //# convenience
+    //##################################################
+
+    protected MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
 }

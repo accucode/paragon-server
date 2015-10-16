@@ -1,0 +1,368 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>auditLog</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>auditLog</h1>
+
+${model.f_comment}<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Help / Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The globally unique identifier.<br>
+            &nbsp;
+  </td>
+  
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+            pk<br>                required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>transactionUid&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        A unique identifier of the database transaction.<br>
+            &nbsp;
+  </td>
+  
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>userName&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The user's name (denormalized).<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>typeCode&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The type of change.<br>
+            &nbsp;
+  </td>
+  
+  <td>letterCode
+        <br><nobr>max length: 1</nobr>           <br>allows(
+                      letters
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>utcTs&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The time this change was made.<br>
+            &nbsp;
+  </td>
+  
+  <td>timestamp
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>modelName&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The name of the domain model; e.g.: Project, Depot, User, etc.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>modelUid&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The unique id of the model.<br>
+            &nbsp;
+  </td>
+  
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>fieldName&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The name of the field that was modified.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>newValue&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        A human readable summary of the new/current value.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>oldValue&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        A human readable summary of the old/previous value.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>stringValue&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The truncated string value, if applicable.<br>
+            &nbsp;
+  </td>
+  
+  <td>text1000
+        <br><nobr>max length: 1000</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>integerValue&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The integer value, if applicable.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>longValue&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The long value, if applicable.<br>
+            &nbsp;
+  </td>
+  
+  <td>long
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>doubleValue&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The double value, if applicable.<br>
+            &nbsp;
+  </td>
+  
+  <td>double
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>moneyValue&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The money value, if applicable.<br>
+            &nbsp;
+  </td>
+  
+  <td>money
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>booleanValue&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The boolean value, if applicable.<br>
+            &nbsp;
+  </td>
+  
+  <td>boolean
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>dateValue&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The date value, if applicable.<br>
+            &nbsp;
+  </td>
+  
+  <td>date
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>timestampValue&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The timestamp value, if applicable.<br>
+            &nbsp;
+  </td>
+  
+  <td>timestamp
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>uidValue&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The foreign key reference uid, if applicable.<br>
+            &nbsp;
+  </td>
+  
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>typeName&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The type of change.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

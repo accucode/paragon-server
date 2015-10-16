@@ -71,10 +71,6 @@ public class MyEditVisitTypeDialog
         MyVisitType e;
         e = getAccess().findVisitTypeUid(uid);
         e.applyFrom(this);
-        e.validate();
-
-        flushDao();
-
         return e;
     }
 }

@@ -1,11 +1,21 @@
 package com.app.hibernate;
 
-import org.hibernate.cfg.Configuration;
+import java.io.File;
+import java.util.Properties;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+
+import com.kodemore.file.KmFile;
 import com.kodemore.utility.Kmu;
 
+import com.app.file.MyResourceFiles;
 import com.app.hibernate.base.MyHibernateConfigurationBase;
 import com.app.property.MyPropertyRegistry;
+import com.app.utility.MyGlobals;
 
 public class MyHibernateConfiguration
     extends MyHibernateConfigurationBase
@@ -38,11 +48,68 @@ public class MyHibernateConfiguration
     }
 
     //##################################################
-    //# private
+    //# variables
+    //##################################################
+
+    private Configuration  _configuration;
+    private SessionFactory _sessionFactory;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    protected MyHibernateConfiguration()
+    {
+        _configuration = new Configuration();
+
+        installMappings();
+        installConfigFile();
+        installInterceptor();
+        installConnection();
+        installSecondLevelCache();
+        installMisc();
+        installSessionFactory();
+    }
+
+    //##################################################
+    //# public
+    //##################################################
+
+    public Session newSession()
+    {
+        return _sessionFactory.openSession();
+    }
+
+    public void shutDown()
+    {
+        if ( !_sessionFactory.isClosed() )
+            _sessionFactory.close();
+    }
+
+    //##################################################
+    //# install
     //##################################################
 
     @Override
-    protected void addCustomConfigurations(Configuration c)
+    protected void installMapping(String clazz)
+    {
+        String fileName = Kmu.format("%s.hbm.xml", clazz);
+        KmFile mappingFolder = getHibernateFolder().getChild("mapping");
+        KmFile mappingFile = mappingFolder.getChild(fileName);
+        File file = mappingFile.getRealFile();
+
+        _configuration.addFile(file);
+    }
+
+    private void installConfigFile()
+    {
+        KmFile folder = getHibernateFolder();
+        KmFile file = folder.getChild("hibernate.cfg.xml");
+
+        _configuration.configure(file.getRealFile());
+    }
+
+    private void installConnection()
     {
         MyPropertyRegistry p = getProperties();
 
@@ -51,42 +118,68 @@ public class MyHibernateConfiguration
         String user = p.getDatabaseUser();
         String password = p.getDatabasePassword();
 
-        c.setProperty("hibernate.connection.driver_class", driver);
-        c.setProperty("hibernate.connection.url", url);
-        c.setProperty("hibernate.connection.username", user);
-        c.setProperty("hibernate.connection.password", password);
-
-        c.setProperty("hibernate.connection.release_mode", "on_close");
-        c.setProperty("hibernate.show_sql", formatTrueFalse(getShowSql()));
-
-        if ( useSecondLevelCache() )
-            setSecondLevelCacheProperties(c);
+        _configuration.setProperty("hibernate.connection.driver_class", driver);
+        _configuration.setProperty("hibernate.connection.url", url);
+        _configuration.setProperty("hibernate.connection.username", user);
+        _configuration.setProperty("hibernate.connection.password", password);
     }
 
-    private void setSecondLevelCacheProperties(Configuration c)
+    private void installSecondLevelCache()
     {
         MyPropertyRegistry p = getProperties();
+
+        boolean usesCache = p.getHibernateUseSecondLevelCache();
+        if ( !usesCache )
+            return;
+
+        String useSecondLevelCache = formatTrueFalse(true);
         String cacheProvider = p.getHibernateCacheProvider();
         String servers = p.getHibernateMemcachedServers();
-        Integer cacheTime = p.getHibernateCacheTimeSeconds();
+        String cacheTime = p.getHibernateCacheTimeSeconds().toString();
 
-        c.setProperty(
-            "hibernate.cache.use_second_level_cache",
-            formatTrueFalse(useSecondLevelCache()));
-        c.setProperty("hibernate.cache.provider_class", cacheProvider);
-        c.setProperty("hibernate.memcached.servers", servers);
-        c.setProperty("hibernate.memcached.cacheTimeSeconds", cacheTime.toString());
-
+        _configuration.setProperty("hibernate.cache.use_second_level_cache", useSecondLevelCache);
+        _configuration.setProperty("hibernate.cache.provider_class", cacheProvider);
+        _configuration.setProperty("hibernate.memcached.servers", servers);
+        _configuration.setProperty("hibernate.memcached.cacheTimeSeconds", cacheTime);
     }
 
-    private boolean useSecondLevelCache()
+    private void installMisc()
     {
-        return getProperties().getHibernateUseSecondLevelCache();
+        MyPropertyRegistry p = getProperties();
+
+        String showSql = formatTrueFalse(p.getShowHibernateSql());
+        String releaseMode = "on_close";
+
+        _configuration.setProperty("hibernate.show_sql", showSql);
+        _configuration.setProperty("hibernate.connection.release_mode", releaseMode);
     }
 
-    private boolean getShowSql()
+    private void installInterceptor()
     {
-        return getProperties().getShowHibernateSql();
+        _configuration.setInterceptor(new MyHibernateInterceptor());
+    }
+
+    private void installSessionFactory()
+    {
+        Properties p = _configuration.getProperties();
+        StandardServiceRegistryBuilder b = new StandardServiceRegistryBuilder();
+        ServiceRegistry r = b.applySettings(p).build();
+
+        _sessionFactory = _configuration.buildSessionFactory(r);
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private MyPropertyRegistry getProperties()
+    {
+        return MyGlobals.getProperties();
+    }
+
+    private KmFile getHibernateFolder()
+    {
+        return MyResourceFiles.getInstance().getHibernateFolder();
     }
 
     private String formatTrueFalse(boolean b)

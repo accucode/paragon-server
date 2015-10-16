@@ -87,15 +87,19 @@ public final class MyFilterTableRowTestPage
     {
         _searchAddressField = new ScTextField();
         _searchAddressField.setLabel("Address contains ");
+        _searchAddressField.disableChangeTracking();
 
         _searchMinSquareFootageField = new ScIntegerField();
         _searchMinSquareFootageField.setLabel("Minimum Square Footage is ");
+        _searchMinSquareFootageField.disableChangeTracking();
 
         _searchMaxSquareFootageField = new ScIntegerField();
         _searchMaxSquareFootageField.setLabel("Maximum Square Footage is ");
+        _searchMaxSquareFootageField.disableChangeTracking();
 
         _searchRoomNumberField1 = new ScTextField();
         _searchRoomNumberField1.setLabel("Room Number contains ");
+        _searchRoomNumberField1.disableChangeTracking();
 
         ScFilterBox box;
         box = root.addFilterBox();

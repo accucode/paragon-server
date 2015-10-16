@@ -71,10 +71,6 @@ public class MyEditVendorDialog
         MyVendor e;
         e = getAccess().findVendorUid(uid);
         e.applyFrom(this);
-        e.validate();
-
-        flushDao();
-
         return e;
     }
 }

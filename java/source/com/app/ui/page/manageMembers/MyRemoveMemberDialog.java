@@ -73,7 +73,6 @@ public class MyRemoveMemberDialog
             return null;
 
         e.getProject().removeMember(e);
-        flushDao();
 
         return e;
     }

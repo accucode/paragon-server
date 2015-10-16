@@ -50,7 +50,7 @@ public class MyMetaPatch_Source
     @Override
     public String getHelp()
     {
-        return "The full raw script.  This contains both the text originally used to upgrade, as well as the text used to subsequently downgrade.  Each script has a maximum length of 20,000 characters (bytes).";
+        return "The full raw script.  This contains both the text originally used to upgrade, as well as the text used to subsequently downgrade.  Each script has a maximum length of 50,000 characters.";
     }
     
     @Override

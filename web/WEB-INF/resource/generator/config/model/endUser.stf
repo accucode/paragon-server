@@ -1,0 +1,55 @@
+model
+: name      = endUser
+: help...
+    ---
+    The end users associated with a particular customer.  The end user
+    represents the person (or business) that maintains physical possession
+    of our equipment.  This is important for both maintenance and leases,
+    and the end user may be someone different than the customer that actually
+    pays us.
+    
+    Because end users are typically defined and entered by the customer, 
+    we do NOT model end users as a globally shared party within the project.
+    Each customer has its own set of end users, and this may result in the
+    same end user being defined multiple times under different customers. 
+    --- 
+
+database
+: alias     = eu
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = customer
+    : unique    = false
+    : on        = customer
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The globally unique identifier.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    association
+    : name      = customer
+    : help      = The customer that owns this end user.
+    : modelName = customer
+    : relation  = parent
+    : required  = true
+
+    field
+    : name      = name
+    : help      = The business name.  E.g.: Acme Inc.
+    : type      = name
+    : required  = true
+
+    collection
+    : name          = site
+    : comment       = The sites (locations) tracked for this end user.
+    : relation      = children
+    : elementModel  = endUserSite
+    : elementField  = endUser

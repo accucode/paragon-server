@@ -13,4 +13,15 @@ public class MyNamedCountVo
     {
         super();
     }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getName() + " " + getCount();
+    }
+
 }

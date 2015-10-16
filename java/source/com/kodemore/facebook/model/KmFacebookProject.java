@@ -6,26 +6,23 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmDateParser;
 
-/**
- * todo_aaron description
- */
 public class KmFacebookProject
-    extends Object
+extends Object
 {
     //##################################################
     //# constants
     //##################################################
 
-    private static final String ID_KEY          = "id";
-    private static final String NAME_KEY        = "name";
-    private static final String WITH_KEY        = "with";
-    private static final String DESCRIPTION_KEY = "description";
-    private static final String START_DATE_KEY  = "start_date";
-    private static final String END_DATE_KEY    = "end_date";
-    private static final String FROM_KEY        = "from";
+    private static final String      ID_KEY          = "id";
+    private static final String      NAME_KEY        = "name";
+    private static final String      WITH_KEY        = "with";
+    private static final String      DESCRIPTION_KEY = "description";
+    private static final String      START_DATE_KEY  = "start_date";
+    private static final String      END_DATE_KEY    = "end_date";
+    private static final String      FROM_KEY        = "from";
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
     private String                   _id;

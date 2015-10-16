@@ -15,7 +15,7 @@ public class MyFileFilter
     public static enum Sort
         implements KmNamedEnumIF
     {
-        Id("Id");
+        Uid("Uid");
 
         private String _name;
 
@@ -42,9 +42,9 @@ public class MyFileFilter
     //# sort
     //##################################################
 
-    public void sortOnId()
+    public void sortOnUid()
     {
-        sortOn(Sort.Id);
+        sortOn(Sort.Uid);
     }
 
     //##################################################
@@ -105,8 +105,8 @@ public class MyFileFilter
 
         switch ( _sort )
         {
-            case Id:
-                c.sortOnId(asc);
+            case Uid:
+                c.sortOnUid(asc);
                 break;
         }
     }

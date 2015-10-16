@@ -17,7 +17,7 @@ import com.app.ui.page.login.MyPasswordResetPage;
 import com.app.ui.page.login.MySignInPage;
 import com.app.ui.page.login.MyUserActivationPage;
 import com.app.ui.page.manageAttentionGroups.MyManageAttentionGroupsPage;
-import com.app.ui.page.manageCategories.MyManageCategoriesPage;
+import com.app.ui.page.manageCategories.MyManageProductCategoriesPage;
 import com.app.ui.page.manageDepots.MyManageDepotsPage;
 import com.app.ui.page.manageMembers.MyManageMembersPage;
 import com.app.ui.page.managePowerTypes.MyManagePowerTypesPage;
@@ -38,7 +38,9 @@ import com.app.ui.page.test.MyBlankTestPage;
 import com.app.ui.page.test.MyBlockTestPage;
 import com.app.ui.page.test.MyBorderLayoutTestPage;
 import com.app.ui.page.test.MyBorderTestPage;
+import com.app.ui.page.test.MyCalendarTestPage;
 import com.app.ui.page.test.MyCardFlipTestPage;
+import com.app.ui.page.test.MyChoiceFieldTestPage;
 import com.app.ui.page.test.MyColorFieldTestPage;
 import com.app.ui.page.test.MyDateFieldTestPage;
 import com.app.ui.page.test.MyDialogTestPage;
@@ -50,6 +52,7 @@ import com.app.ui.page.test.MyDropzoneTestPage;
 import com.app.ui.page.test.MyEqualizeTestPage;
 import com.app.ui.page.test.MyFacebookTestPage;
 import com.app.ui.page.test.MyFieldTestPage;
+import com.app.ui.page.test.MyFieldsetTestPage;
 import com.app.ui.page.test.MyFilterTableRowTestPage;
 import com.app.ui.page.test.MyFlexboxTestPage;
 import com.app.ui.page.test.MyFormTestPage;
@@ -71,6 +74,7 @@ import com.app.ui.page.test.MyOpenWindowTestPage;
 import com.app.ui.page.test.MyPaddingTestPage;
 import com.app.ui.page.test.MyPlaceholderTestPage;
 import com.app.ui.page.test.MyRadioButtonTestPage;
+import com.app.ui.page.test.MyRichTextEditorTestPage;
 import com.app.ui.page.test.MyScriptTestPage;
 import com.app.ui.page.test.MySharedStateTest1Page;
 import com.app.ui.page.test.MySharedStateTest2Page;
@@ -88,13 +92,15 @@ import com.app.ui.page.tools.MyDevApplicationPropertiesPage;
 import com.app.ui.page.tools.MyDevBeanShellPage;
 import com.app.ui.page.tools.MyDevEmailsPage;
 import com.app.ui.page.tools.MyDevEnvironmentVariablesPage;
-import com.app.ui.page.tools.MyDevHibernateCachePage;
-import com.app.ui.page.tools.MyDevPerformanceLogPage;
+import com.app.ui.page.tools.MyDevPerformanceLogDetailPage;
+import com.app.ui.page.tools.MyDevPerformanceLogSummaryPage;
+import com.app.ui.page.tools.MyDevSampleDataPage;
 import com.app.ui.page.tools.MyDevSharedFileBrowserPage;
 import com.app.ui.page.tools.MyDevSqlPage;
 import com.app.ui.page.tools.MyDevSystemPropertiesPage;
 import com.app.ui.page.tools.MyDevUsersPage;
 import com.app.ui.page.tools.MyDevUtilityPage;
+import com.app.ui.page.tools.MyHibernateCacheTestPage;
 import com.app.ui.page.userProfile.MyUserProfilePage;
 
 public class MyMenuRegistry
@@ -203,7 +209,7 @@ public class MyMenuRegistry
 
         left = top.addMenu("Catalog");
         left.addMenu("Products", MyManageProductsPage.getInstance());
-        left.addMenu("Categories", MyManageCategoriesPage.getInstance());
+        left.addMenu("Categories", MyManageProductCategoriesPage.getInstance());
         left.addMenu("Vendors", MyManageVendorsPage.getInstance());
         left.addMenu("Power Types", MyManagePowerTypesPage.getInstance());
         left.addMenu("Regions", MyManageRegionsPage.getInstance());
@@ -229,16 +235,17 @@ public class MyMenuRegistry
         section = top.addMenu("Tools");
         section.addMenu(MyDevUtilityPage.getInstance());
         section.addMenu(MyDevSqlPage.getInstance());
-        section.addMenu(MyDevBeanShellPage.getInstance());
-        section.addMenu(MyDevPerformanceLogPage.getInstance());
-        section.addMenu(MyDevSharedFileBrowserPage.getInstance());
-        section.addMenu(MyDevApplicationLogsPage.getInstance());
-        section.addMenu(MyDevApplicationPropertiesPage.getInstance());
         section.addMenu(MyDevUsersPage.getInstance());
         section.addMenu(MyDevEmailsPage.getInstance());
-        section.addMenu(MyDevHibernateCachePage.getInstance());
+        section.addMenu(MyDevSampleDataPage.getInstance());
+        section.addMenu("Perf Detail", MyDevPerformanceLogDetailPage.getInstance());
+        section.addMenu("Perf Summary", MyDevPerformanceLogSummaryPage.getInstance());
+        section.addMenu("App Logs", MyDevApplicationLogsPage.getInstance());
+        section.addMenu("App Properties", MyDevApplicationPropertiesPage.getInstance());
         section.addMenu(MyDevSystemPropertiesPage.getInstance());
         section.addMenu(MyDevEnvironmentVariablesPage.getInstance());
+        section.addMenu(MyDevSharedFileBrowserPage.getInstance());
+        section.addMenu(MyDevBeanShellPage.getInstance());
     }
 
     private void registerTests()
@@ -269,10 +276,10 @@ public class MyMenuRegistry
         layout.addMenu(MyTitlePanelTestPage.getInstance());
         layout.addMenu(MySplitterTestPage.getInstance());
 
-        // fields
         MyMenuItem fields;
         fields = top.addMenu("Fields");
         fields.addMenu(MyFieldTestPage.getInstance());
+        fields.addMenu(MyFieldsetTestPage.getInstance());
         fields.addMenu(MyLocalValueTestPage.getInstance());
         fields.addMenu(MyDateFieldTestPage.getInstance());
         fields.addMenu(MyColorFieldTestPage.getInstance());
@@ -282,8 +289,9 @@ public class MyMenuRegistry
         fields.addMenu(MyDropzoneTestPage.getInstance());
         fields.addMenu(MyRadioButtonTestPage.getInstance());
         fields.addMenu(MyDraggableMultiSelectTestPage.getInstance());
+        fields.addMenu(MyRichTextEditorTestPage.getInstance());
+        fields.addMenu(MyChoiceFieldTestPage.getInstance());
 
-        // misc
         MyMenuItem misc;
         misc = top.addMenu("Misc");
         misc.addMenu(MyBlockTestPage.getInstance());
@@ -301,8 +309,8 @@ public class MyMenuRegistry
         misc.addMenu(MyTimeAgoTestPage.getInstance());
         misc.addMenu(MyFilterTableRowTestPage.getInstance());
         misc.addMenu(MyDomainDropdownSetValueTestPage.getInstance());
+        misc.addMenu(MyCalendarTestPage.getInstance());
 
-        // tools
         MyMenuItem tools;
         tools = top.addMenu("Tools");
         tools.addMenu(MyScriptTestPage.getInstance());
@@ -315,6 +323,7 @@ public class MyMenuRegistry
         tools.addMenu(MyFacebookTestPage.getInstance());
         tools.addMenu(MySharedStateTest1Page.getInstance());
         tools.addMenu(MyNavigationTest1Page.getInstance());
+        tools.addMenu(MyHibernateCacheTestPage.getInstance());
     }
 
     private KmList<ScPage> getIgnoredPages()

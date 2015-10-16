@@ -108,10 +108,6 @@ public class MyEditMemberDialog
         e = getAccess().findMemberUid(uid);
         e.applyFrom(this);
         applySkillsTo(e);
-        e.validate();
-
-        flushDao();
-
         return e;
     }
 

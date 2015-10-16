@@ -13,4 +13,15 @@ public class MyPatch
     {
         super();
     }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getName();
+    }
+
 }

@@ -35,6 +35,7 @@ public class MyAddProjectDialog
         ScFieldLayout fields;
         fields = body.addFieldLayout();
         fields.addField(x.Name);
+        fields.addField(x.OrderNumberPrefix);
     }
 
     //##################################################
@@ -60,9 +61,6 @@ public class MyAddProjectDialog
         e = new MyProject();
         e.applyFrom(this);
         e.attachDao();
-
-        flushDao();
-
         return e;
     }
 }

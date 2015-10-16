@@ -2,6 +2,7 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -106,8 +107,10 @@ public final class MyAutoCompleteTestPage
         fields.add(_staticField);
         fields.add(_dynamicField);
 
-        group.addBodyDivider();
-        group.getBody().addButtonBox().addSubmitButton();
+        ScBox buttons;
+        buttons = group.showFooter().addButtonBox();
+        buttons.addSubmitButton();
+        buttons.addResetButton();
     }
 
     private ScAutoCompleteCallbackIF newCallback()
@@ -147,9 +150,13 @@ public final class MyAutoCompleteTestPage
 
     private void handleSubmit()
     {
+        ajax().hideAllErrors();
+        validate();
+
         String s1 = _staticField.getValue();
         String s2 = _dynamicField.getValue();
 
+        getRoot().ajaxUpdateValues();
         ajax().toast("%s\n%s", s1, s2);
     }
 }

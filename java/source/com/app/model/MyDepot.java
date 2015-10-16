@@ -13,4 +13,15 @@ public class MyDepot
     {
         super();
     }
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getName();
+    }
+
 }

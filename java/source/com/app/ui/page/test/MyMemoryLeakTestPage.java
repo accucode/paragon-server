@@ -88,6 +88,7 @@ public final class MyMemoryLeakTestPage
     {
         _field = new ScDateField();
         _field.setLabel("Some field");
+        _field.disableChangeTracking();
 
         ScForm form;
         form = root.addForm();

@@ -37,6 +37,31 @@ public abstract class ScInputField<T>
     implements ScElementIF
 {
     //##################################################
+    //# constants
+    //##################################################
+
+    /**
+     * Web sites generally enable autocompletion, but for web APPs it
+     * often makes more sense to disable autocompletion.
+     *
+     * For values that need to be frequently re-entered, some type of
+     * pick-from-list may be more appropriate than autocompletion.
+     * Pick-from-list ensures that the data is actually consistent.
+     * Also, using a pick-from-list allows the value to be changed in
+     * a consistent manner if that is needed at a later time.
+     *
+     * Additionally, our apps often include fields that are entered
+     * via a keyboard wedge and barcode scanner.  Autocompletion on
+     * such fields can result in confusing results when autocompletion
+     * changes the value without the user realizing it.
+     *
+     * Enabling autocompletion by default is not necessarily 'wrong'
+     * but should be carefully considered as it has historically caused
+     * multiple problems for our applications in general.
+     */
+    private static final boolean DEFAULT_AUTO_COMPLETE = false;
+
+    //##################################################
     //# variables
     //##################################################
 
@@ -44,11 +69,16 @@ public abstract class ScInputField<T>
     private ScLocalStyle _style;
 
     /**
-     * NOTE, a disabled field cannont receive user input
+     * NOTE, a disabled field cannot receive user input
      * nor will its value be submitted with the form.
      * http://www.w3.org/TR/REC-html40/interact/forms.html#adef-disabled
      */
     private ScLocalBoolean _disabled;
+
+    /**
+     * If false (the default) client-side autocompletion is disabled.
+     */
+    private ScLocalBoolean _autoComplete;
 
     //##################################################
     //# init
@@ -62,6 +92,7 @@ public abstract class ScInputField<T>
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
         _disabled = new ScLocalBoolean(false);
+        _autoComplete = new ScLocalBoolean(DEFAULT_AUTO_COMPLETE);
     }
 
     //##################################################
@@ -165,6 +196,20 @@ public abstract class ScInputField<T>
     }
 
     //##################################################
+    //# autocomplete
+    //##################################################
+
+    public boolean getAutoComplete()
+    {
+        return _autoComplete.getValue();
+    }
+
+    public void setAutoComplete(boolean e)
+    {
+        _autoComplete.setValue(e);
+    }
+
+    //##################################################
     //# escape key
     //##################################################
 
@@ -208,6 +253,9 @@ public abstract class ScInputField<T>
 
         if ( getDisabled() )
             out.printAttribute("disabled", "disabled");
+
+        if ( !getAutoComplete() )
+            out.printAttribute("autocomplete", "off");
 
         out.printAttribute(formatCss());
         out.printAttribute(formatStyle());

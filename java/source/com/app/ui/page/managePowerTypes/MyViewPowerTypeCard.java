@@ -66,7 +66,7 @@ public class MyViewPowerTypeCard
     {
         _editDialog = new MyEditPowerTypeDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(this::handleSaved);
+        _editDialog.addSavedListener(this::handleSaved);
     }
 
     //##################################################
@@ -80,7 +80,7 @@ public class MyViewPowerTypeCard
 
     public void addSaveListener(Consumer<MyPowerType> e)
     {
-        getEditDialog().addSaveListener(e);
+        getEditDialog().addSavedListener(e);
     }
 
     public void setPowerType(MyPowerType e)

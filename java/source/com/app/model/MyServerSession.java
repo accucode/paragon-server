@@ -126,4 +126,14 @@ public class MyServerSession
         clearCurrentProject();
     }
 
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getUser().getName();
+    }
+
 }

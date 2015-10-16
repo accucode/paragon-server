@@ -19,8 +19,9 @@ import ${package}.utility.*;
 
 public abstract class $model.f_BaseClass
     extends $model.f_Superclass
+    implements MyDomainIF
 #if ( $model.isSequenceIF() )
-    implements KmSequenceIF
+    ,KmSequenceIF
 #end
 {
 $utility.protocol("static")
@@ -78,9 +79,17 @@ $utility.protocol("field (${field.Name})")
     {
         checkReadOnly();
         e = Validator.get${field.f_Name}Validator().convertOnly(e);
+#if ( $field.onChangeMethods.isEmpty() )
         ${field.f_variable} = e;
+#else
+        ${field.f_Type} oldValue = ${field.f_variable};
+        ${field.f_variable} = e;
+        if ( Kmu.isNotEqual(e, oldValue) )
+        {
 #foreach ( $method in ${field.onChangeMethods} )
-        ${method}();
+            ${method}();
+#end
+        }
 #end
     }
 
@@ -488,18 +497,19 @@ $utility.protocol("display")
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("${model.f_Class}");
-        sb.append("(");
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append("${model.f_Class}");
+        out.append("(");
 #foreach ( $field in $model.primaryKeyFields )
 #if ( $foreachIndex > 0 )
-        sb.append(", ");
+        out.append(", ");
 #end
-        sb.append("${field.f_Name}=");
-        sb.append(${field.f_variable});
+        out.append("${field.f_Name}=");
+        out.append(${field.f_variable});
 #end
-        sb.append(")");
-        return sb.toString();
+        out.append(")");
+        return out.toString();
     }
 
     public void printFields()
@@ -515,18 +525,33 @@ $utility.protocol("display")
      * Format the primary key fields in a comma separated list.  The format
      * is intended to be suitable for display to users.
      */
+    @Override
     public String formatPrimaryKey()
     {
-        StringBuilder sb = new StringBuilder();
+#if ( $model.isSimplePrimaryKey() )
+        return ${model.primaryKeyField.f_variable};
+#else
         ScFormatter f = getFormatter();
+
+        StringBuilder out;
+        out = new StringBuilder();
 #foreach ( $field in $model.primaryKeyFields )
 #if ( $foreachIndex > 0 )
-        sb.append(", ");
+        out.append(", ");
 #end
-        sb.append(f.formatAny(${field.f_variable}));
+        out.append(f.formatAny(${field.f_variable}));
 #end
-        return sb.toString();
+        return out.toString();
+#end
     }
 
 #end
+
+$utility.protocol("convenience")
+
+    @Override
+    public String getMetaName()
+    {
+        return Meta.getName();
+    }
 }

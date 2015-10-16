@@ -26,6 +26,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalString;
@@ -273,6 +274,7 @@ public class ScColorField
         super.renderAttributesOn(out);
 
         out.printAttribute("value", getText());
+        printOldValueAttributeOn(out, getText());
     }
 
     @Override
@@ -296,6 +298,9 @@ public class ScColorField
     @Override
     public void ajaxUpdateValue()
     {
-        ajax().setValue(getText());
+        String value = getText();
+
+        ajax().setValue(value);
+        ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
     }
 }

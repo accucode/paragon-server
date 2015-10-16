@@ -63,7 +63,7 @@ public class MyMetaInvitation
 
     public static String getHelp()
     {
-        return "I coordinate user invitations.  The system generates an invitation, stores the record,\nand sends a corresponding email to the user.  The user can verify/accept the invitation\nby clicking on a hyperlink in the email.  The response is trusted as it includes a\nlarge randomly generated number.";
+        return "I coordinate user invitations.  The system generates an invitation, stores the record, and sends a corresponding email to the user.  The user can verify/accept the invitation by clicking on a hyperlink in the email.  The response is trusted as it includes a large randomly generated number.";
     }
 
     //##################################################

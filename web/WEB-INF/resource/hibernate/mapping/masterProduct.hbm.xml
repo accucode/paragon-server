@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyMasterProduct"
+        table="masterProduct"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="partNumber"
+            column="partNumber"
+            type="string"
+            />
+
+        <property
+            name="active"
+            column="active"
+            type="yes_no"
+            />
+
+        <many-to-one
+            name="project"
+            column="projectUid"
+            class="com.app.model.MyProject"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="publishedVersion"
+            column="publishedVersionUid"
+            class="com.app.model.MyProduct"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="draftVersion"
+            column="draftVersionUid"
+            class="com.app.model.MyProduct"
+            cascade="none"
+            />
+
+        <bag
+            name="versions"
+            inverse="false"
+            cascade="all-delete-orphan"
+            >
+                <cache usage="read-write"/>
+                <key column="masterUid"/>
+                <one-to-many class="com.app.model.MyProduct"/>
+        </bag>
+
+    </class>
+</hibernate-mapping>

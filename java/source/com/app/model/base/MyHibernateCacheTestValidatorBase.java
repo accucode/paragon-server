@@ -77,6 +77,7 @@ public class MyHibernateCacheTestValidatorBase
     @Override
     public void convertOnly(MyHibernateCacheTest value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setData(dataValidator.convertOnly(value.getData()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
@@ -85,9 +86,11 @@ public class MyHibernateCacheTestValidatorBase
     @Override
     public void validateOnly(MyHibernateCacheTest value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         dataValidator.validateOnly(value.getData(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
     }
 
     //##################################################

@@ -25,7 +25,7 @@ import com.app.model.core.*;
 import com.app.utility.*;
 
 public class MyMetaProduct_Category
-    extends KmMetaDaoAssociation<MyProduct,MyCategory>
+    extends KmMetaDaoAssociation<MyProduct,MyProductCategory>
 {
     //##################################################
     //# accessing
@@ -42,19 +42,19 @@ public class MyMetaProduct_Category
     //##################################################
 
     @Override
-    public MyCategory getValueFor(MyProduct model)
+    public MyProductCategory getValueFor(MyProduct model)
     {
         return model.getCategory();
     }
     
     @Override
-    public void setValueFor(MyProduct model, MyCategory value)
+    public void setValueFor(MyProduct model, MyProductCategory value)
     {
         model.setCategory(value);
     }
     
     @Override
-    public boolean hasValueFor(MyProduct model, MyCategory value)
+    public boolean hasValueFor(MyProduct model, MyProductCategory value)
     {
         return model.hasCategory(value);
     }

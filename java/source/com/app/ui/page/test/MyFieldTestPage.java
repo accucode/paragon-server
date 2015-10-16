@@ -3,8 +3,9 @@ package com.app.ui.page.test;
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScContainer;
+import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldTable;
-import com.kodemore.servlet.control.ScFieldset;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
@@ -18,6 +19,7 @@ import com.kodemore.servlet.field.ScIntegerField;
 import com.kodemore.servlet.field.ScListField;
 import com.kodemore.servlet.field.ScLongField;
 import com.kodemore.servlet.field.ScRadioField;
+import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
 
 import com.app.model.MyUser;
@@ -70,6 +72,7 @@ public final class MyFieldTestPage
     private ScRadioField        _radio2Field;
     private ScRadioField        _radio3Field;
     private ScListField         _listField;
+    private ScTextArea          _textArea;
 
     //##################################################
     //# settings
@@ -104,13 +107,31 @@ public final class MyFieldTestPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().gap();
+        ScForm form;
+        form = root.addForm();
+        form.css().fillOffset();
+        form.setSubmitAction(this::handleSubmit);
 
-        installFieldGroup(root);
-        installFieldsets(root);
+        ScGroup group;
+        group = form.addGroup("Field Test");
+        group.css().fill();
+
+        ScDiv body;
+        body = group.getBody();
+        body.css().autoY();
+
+        installFieldsOn(body);
+
+        ScBox footer;
+        footer = group.showFooter().addButtonBox();
+        footer.addSubmitButton();
+        footer.addResetButton();
+        footer.addButton("Reinitialize", this::handleReinitialize);
+
+        _fieldGroup = group;
     }
 
-    private void installFieldGroup(ScBox root)
+    private void installFieldsOn(ScContainer root)
     {
         _textField = new ScTextField();
         _textField.setLabel("Text");
@@ -148,6 +169,10 @@ public final class MyFieldTestPage
 
         _dropdown = new ScDropdown();
         _dropdown.setLabel("Dropdown");
+        _dropdown.addNullAnyPrefix();
+        _dropdown.addOption("Red");
+        _dropdown.addOption("Blue");
+        _dropdown.addOption("Green");
 
         _checkboxField = new ScCheckboxField();
         _checkboxField.setLabel("Checkbox");
@@ -171,23 +196,20 @@ public final class MyFieldTestPage
 
         _listField = new ScListField();
         _listField.setLabel("List");
+        _listField.style().height(100);
+        _listField.addOption(null, "-select-");
         _listField.addOption("1", "one");
         _listField.addOption("2", "two");
         _listField.addOption("3", "three");
         _listField.addOption("4", "four");
 
-        ScForm form;
-        form = root.addForm();
-        form.setSubmitAction(this::handleValidate);
-
-        ScGroup group;
-        group = form.addGroup("Field Test");
-
-        ScBox body;
-        body = group.getBody().addPad();
+        _textArea = new ScTextArea();
+        _textArea.setLabel("Text Area");
+        _textArea.style().width(300);
+        _textArea.style().height(80);
 
         ScFieldTable fields;
-        fields = body.addFieldTable();
+        fields = root.addPad().addFieldTable();
         fields.add(_textField);
         fields.add(_readOnlyField);
         fields.add(_integerField);
@@ -204,15 +226,8 @@ public final class MyFieldTestPage
         fields.add(_radio3Field);
         fields.addSpace();
         fields.add(_listField);
-
-        group.addBodyDivider();
-
-        ScBox footer;
-        footer = group.getBody().addButtonBox();
-        footer.addSubmitButton("Validate");
-        footer.addButton("Reset", this::handleResetValues);
-
-        _fieldGroup = group;
+        fields.addSpace();
+        fields.add(_textArea);
     }
 
     private KmList<String> getAutoCompleteOptions(String term)
@@ -230,38 +245,6 @@ public final class MyFieldTestPage
         return v;
     }
 
-    private void installFieldsets(ScBox root)
-    {
-        ScGroup group;
-        group = root.addGroup("Fieldsets");
-
-        ScBox body;
-        body = group.getBody().addGap();
-
-        ScFieldset box;
-        box = body.addFieldset("Name");
-        box.css().floatLeft().pad();
-
-        ScFieldTable fields;
-        fields = box.addFieldTable();
-        fields.addTextField().setLabel("First");
-        fields.addTextField().setLabel("Middle");
-
-        ScTextField field;
-        field = fields.addTextField();
-        field.setLabel("Last");
-        field.setValue("readonly");
-        field.setReadOnly();
-
-        box = body.addFieldset("Phone");
-        box.css().floatLeft().pad();
-
-        fields = box.addFieldTable();
-        fields.addTextField().setLabel("Home");
-        fields.addTextField().setLabel("Work");
-        fields.addTextField().setLabel("Cell");
-    }
-
     //##################################################
     //# print
     //##################################################
@@ -276,30 +259,20 @@ public final class MyFieldTestPage
     //# handle
     //##################################################
 
-    private void handleValidate()
+    private void handleSubmit()
     {
         ajax().hideAllErrors();
+        validate();
 
-        _fieldGroup.validate();
-
-        if ( _radio1Field.isChecked() )
-            ajax().toast(_radio1Field.getValue());
-
-        if ( _radio2Field.isChecked() )
-            ajax().toast(_radio2Field.getValue());
-
-        if ( _radio3Field.isChecked() )
-            ajax().toast(_radio3Field.getValue());
-
+        getRoot().ajaxUpdateValues();
         ajax().toast("Ok").success();
     }
 
-    private void handleResetValues()
+    private void handleReinitialize()
     {
         ajax().hideAllErrors();
 
         _fieldGroup.resetFieldValues();
         _fieldGroup.ajaxUpdateValues();
     }
-
 }

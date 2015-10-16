@@ -1,7 +1,8 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
-import com.kodemore.servlet.control.ScButton;
+import com.kodemore.servlet.control.ScActionButton;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -80,6 +81,7 @@ public final class MyHoverTestPage
         _nameField.setLabel("Name");
         _nameField.setHoverText("Please enter a name here.");
         _nameField.css().padLeft5();
+        _nameField.disableChangeTracking();
 
         _form = root.addForm();
         _form.css().gap();
@@ -101,11 +103,13 @@ public final class MyHoverTestPage
         group.getBody().addPad().addText(
             "Show hover text over the icon, form, field, and button using the title attribute");
         group.getBody().addPad().addFieldTable().add(_nameField);
-        group.addBodyDivider();
 
-        ScButton button;
-        button = group.getBody().addButtonBox().addButton("Clear", this::handleClear);
-        button.setHoverText("This button is used for clearing the field.");
+        ScBox buttons;
+        buttons = group.showFooter().addButtonBox();
+
+        ScActionButton clearButton;
+        clearButton = buttons.addButton("Clear", this::handleClear);
+        clearButton.setHoverText("This button is used for clearing the field.");
     }
 
     //##################################################

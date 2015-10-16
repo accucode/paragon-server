@@ -13,4 +13,15 @@ public class MySettings
     {
         super();
     }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return "settings";
+    }
+
 }

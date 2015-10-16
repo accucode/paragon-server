@@ -49,6 +49,11 @@ public class MyProjectCriteria
         return new KmhStringCondition(context(), fullName(NAME));
     }
 
+    public KmhStringCondition whereOrderNumberPrefix()
+    {
+        return new KmhStringCondition(context(), fullName(ORDER_NUMBER_PREFIX));
+    }
+
     public KmhIntegerCondition whereLockVersion()
     {
         return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));
@@ -92,6 +97,24 @@ public class MyProjectCriteria
             sortOnName();
         else
             sortOnNameDescending();
+    }
+
+    public void sortOnOrderNumberPrefix()
+    {
+        parent().sortAscending(ORDER_NUMBER_PREFIX);
+    }
+
+    public void sortOnOrderNumberPrefixDescending()
+    {
+        parent().sortDescending(ORDER_NUMBER_PREFIX);
+    }
+
+    public void sortOnOrderNumberPrefix(boolean asc)
+    {
+        if ( asc )
+            sortOnOrderNumberPrefix();
+        else
+            sortOnOrderNumberPrefixDescending();
     }
 
     public void sortOnLockVersion()
@@ -198,6 +221,50 @@ public class MyProjectCriteria
     public void groupByName()
     {
         groupBy(NAME);
+    }
+
+    //##################################################
+    //# projections (orderNumberPrefix)
+    //##################################################
+
+    public void selectOrderNumberPrefix()
+    {
+        select(ORDER_NUMBER_PREFIX);
+    }
+
+    public void selectDistinctOrderNumberPrefix()
+    {
+        selectDistinct(ORDER_NUMBER_PREFIX);
+    }
+
+    public void selectCountDistinctOrderNumberPrefix()
+    {
+        selectCountDistinct(ORDER_NUMBER_PREFIX);
+    }
+
+    public void selectMinimumOrderNumberPrefix()
+    {
+        selectMinimum(ORDER_NUMBER_PREFIX);
+    }
+
+    public void selectMaximumOrderNumberPrefix()
+    {
+        selectMaximum(ORDER_NUMBER_PREFIX);
+    }
+
+    public void selectAverageOrderNumberPrefix()
+    {
+        selectAverage(ORDER_NUMBER_PREFIX);
+    }
+
+    public void selectSumOrderNumberPrefix()
+    {
+        selectSum(ORDER_NUMBER_PREFIX);
+    }
+
+    public void groupByOrderNumberPrefix()
+    {
+        groupBy(ORDER_NUMBER_PREFIX);
     }
 
     //##################################################
@@ -357,31 +424,31 @@ public class MyProjectCriteria
     }
 
     //##################################################
-    //# collection (Products)
+    //# collection (MasterProducts)
     //##################################################
 
-    public MyProductCriteria joinToProducts()
+    public MyMasterProductCriteria joinToMasterProducts()
     {
-        return new MyProductCriteria(joinTo(PRODUCTS));
+        return new MyMasterProductCriteria(joinTo(MASTER_PRODUCTS));
     }
 
-    public MyProductCriteria leftJoinToProducts()
+    public MyMasterProductCriteria leftJoinToMasterProducts()
     {
-        return new MyProductCriteria(leftJoinTo(PRODUCTS));
+        return new MyMasterProductCriteria(leftJoinTo(MASTER_PRODUCTS));
     }
 
     //##################################################
-    //# collection (Categories)
+    //# collection (ProductCategories)
     //##################################################
 
-    public MyCategoryCriteria joinToCategories()
+    public MyProductCategoryCriteria joinToProductCategories()
     {
-        return new MyCategoryCriteria(joinTo(CATEGORIES));
+        return new MyProductCategoryCriteria(joinTo(PRODUCT_CATEGORIES));
     }
 
-    public MyCategoryCriteria leftJoinToCategories()
+    public MyProductCategoryCriteria leftJoinToProductCategories()
     {
-        return new MyCategoryCriteria(leftJoinTo(CATEGORIES));
+        return new MyProductCategoryCriteria(leftJoinTo(PRODUCT_CATEGORIES));
     }
 
     //##################################################
@@ -396,6 +463,62 @@ public class MyProjectCriteria
     public MyShipCarrierCriteria leftJoinToShipCarriers()
     {
         return new MyShipCarrierCriteria(leftJoinTo(SHIP_CARRIERS));
+    }
+
+    //##################################################
+    //# collection (AttributeFields)
+    //##################################################
+
+    public MyAttributeFieldCriteria joinToAttributeFields()
+    {
+        return new MyAttributeFieldCriteria(joinTo(ATTRIBUTE_FIELDS));
+    }
+
+    public MyAttributeFieldCriteria leftJoinToAttributeFields()
+    {
+        return new MyAttributeFieldCriteria(leftJoinTo(ATTRIBUTE_FIELDS));
+    }
+
+    //##################################################
+    //# collection (Customers)
+    //##################################################
+
+    public MyCustomerCriteria joinToCustomers()
+    {
+        return new MyCustomerCriteria(joinTo(CUSTOMERS));
+    }
+
+    public MyCustomerCriteria leftJoinToCustomers()
+    {
+        return new MyCustomerCriteria(leftJoinTo(CUSTOMERS));
+    }
+
+    //##################################################
+    //# collection (CustomerTiers)
+    //##################################################
+
+    public MyCustomerTierCriteria joinToCustomerTiers()
+    {
+        return new MyCustomerTierCriteria(joinTo(CUSTOMER_TIERS));
+    }
+
+    public MyCustomerTierCriteria leftJoinToCustomerTiers()
+    {
+        return new MyCustomerTierCriteria(leftJoinTo(CUSTOMER_TIERS));
+    }
+
+    //##################################################
+    //# collection (ShipAccounts)
+    //##################################################
+
+    public MyShipAccountCriteria joinToShipAccounts()
+    {
+        return new MyShipAccountCriteria(joinTo(SHIP_ACCOUNTS));
+    }
+
+    public MyShipAccountCriteria leftJoinToShipAccounts()
+    {
+        return new MyShipAccountCriteria(leftJoinTo(SHIP_ACCOUNTS));
     }
 
     //##################################################

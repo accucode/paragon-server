@@ -40,6 +40,16 @@ public class MyMasterJob
     }
 
     @Override
+    protected boolean logsPerformance()
+    {
+        return false;
+    }
+
+    //##################################################
+    //# handle
+    //##################################################
+
+    @Override
     protected synchronized boolean handle()
     {
         if ( !_systemJobManager.isRunning() )

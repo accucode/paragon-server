@@ -34,14 +34,14 @@ public abstract class MyApplicationLogToolsBase
 {
     public static final MyMetaApplicationLog Meta = MyApplicationLog.Meta;
 
-    public ScDomainDropdownField<MyApplicationLog,Integer> newDomainDropdown()
+    public ScDomainDropdownField<MyApplicationLog,String> newDomainDropdown()
     {
-        ScDomainDropdownField<MyApplicationLog,Integer> e;
+        ScDomainDropdownField<MyApplicationLog,String> e;
         e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyApplicationLogFilter());
         e.setFinder(new MyApplicationLogFinder());
-        e.setOptionKeyAdaptor(Meta.Id);
+        e.setOptionKeyAdaptor(Meta.Uid);
         return e;
     }
 }

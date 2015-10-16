@@ -144,4 +144,14 @@ public class MyUser
         return null;
     }
 
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getName();
+    }
+
 }

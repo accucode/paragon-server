@@ -63,7 +63,7 @@ public class MyMetaSettings
 
     public static String getHelp()
     {
-        return "A single record with global settings.  This provides a simply, typesafe way to store\nsome global settings in the database.  For example, we could define a global contact\n(email or phone) for technical assistance with the portal.";
+        return "A single record with global settings.  This provides a simply, typesafe way to store some global settings in the database.  For example, we could define a global contact (email or phone) for technical assistance with the portal.";
     }
 
     //##################################################

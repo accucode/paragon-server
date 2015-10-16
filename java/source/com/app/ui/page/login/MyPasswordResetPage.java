@@ -147,9 +147,11 @@ public final class MyPasswordResetPage
         _password1Field = new ScPasswordField();
         _password1Field.style().width(width);
         _password1Field.setRequired();
+        _password1Field.disableChangeTracking();
 
         _password2Field = new ScPasswordField();
         _password2Field.style().width(width);
+        _password2Field.disableChangeTracking();
     }
 
     private void installForm(ScContainer root)

@@ -24,6 +24,7 @@ package com.kodemore.servlet.field;
 
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalObject;
@@ -107,7 +108,10 @@ public class ScRadioField
         String value = encode(getValue());
         out.printAttribute("value", value);
 
-        if ( isChecked() )
+        boolean checked = isChecked();
+        printOldCheckedAttributeOn(out, checked);
+
+        if ( checked )
             out.printAttribute("checked");
     }
 
@@ -168,6 +172,11 @@ public class ScRadioField
     @Override
     public void ajaxUpdateValue()
     {
-        ajax().setValue(encode(getValue()));
+        String value = encode(getValue());
+        boolean checked = isChecked();
+
+        ajax().setValue(value);
+        ajax().setChecked(checked);
+        ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_CHECKED, checked);
     }
 }

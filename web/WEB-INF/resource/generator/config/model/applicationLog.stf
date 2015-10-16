@@ -1,0 +1,80 @@
+model
+: name      = applicationLog
+: help...
+    ---
+    Used to persist log4j events with a custom appender.
+    In general, everything that would normally be logged with log4j
+    is echoed here.
+    ---
+
+database
+: alias     = al
+: auditLog  = false
+: locking   = false
+
+    index
+    : name      = levelCode
+    : on        = levelCode
+    : on        = uid
+
+    index
+    : name      = createdUtcTs
+    : on        = createdUtcTs
+    : on        = uid
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The unique key.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+
+    field
+    : name      = createdUtcTs
+    : help      = The date and time when this log was created.
+    : type      = timestamp
+    : default   = getNowUtc()
+    : required  = true
+
+    field
+    : name      = loggerName
+    : help      = The logger name, typically similar to a fully qualified class name.
+    : type      = text100
+    : required  = true
+
+    field
+    : name      = context
+    : help      = The nested diagnostic context; used to distinguish threads.
+    : type      = text100
+
+    field
+    : name      = message
+    : help      = The plain text message describing the log event.
+    : type      = multiline100
+
+    field
+    : name      = levelName
+    : help      = The display name for the severity level. E.g.: info, warn, error.
+    : type      = text5
+
+    field
+    : name      = levelCode
+    : help      = The severity level code. This can be used to find all events that are high or lower than some level.
+    : type      = integer
+
+    abstractField
+    : name      = levelCodeName
+    : help      = A combination of the code and name for display.
+    : type      = calculated
+
+    field
+    : name      = threadName
+    : help      = The java thread name.  This is not directly useful except to determine which logs are generated from the same JVM thread.
+    : type      = text100
+
+    field
+    : name      = trace
+    : help      = The full text of the exception trace.  This can be quite long.
+    : type      = bigText

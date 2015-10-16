@@ -57,6 +57,8 @@ public final class MyNavigationTest1Page
     public void ajaxEnter(String value)
     {
         _textField.setValue(value);
+        _textField.disableChangeTracking();
+
         ajaxEnter();
     }
 

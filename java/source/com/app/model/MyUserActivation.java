@@ -38,4 +38,15 @@ public class MyUserActivation
     {
         return MyUserActivationPage.getInstance().formatEntryUrl(this);
     }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getEmail();
+    }
+
 }

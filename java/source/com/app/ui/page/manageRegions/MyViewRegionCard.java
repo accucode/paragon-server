@@ -66,7 +66,7 @@ public class MyViewRegionCard
     {
         _editDialog = new MyEditRegionDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(this::handleSaved);
+        _editDialog.addSavedListener(this::handleSaved);
     }
 
     //##################################################
@@ -80,7 +80,7 @@ public class MyViewRegionCard
 
     public void addSaveListener(Consumer<MyRegion> e)
     {
-        getEditDialog().addSaveListener(e);
+        getEditDialog().addSavedListener(e);
     }
 
     public void setRegion(MyRegion e)

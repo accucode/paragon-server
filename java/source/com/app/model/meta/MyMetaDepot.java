@@ -63,7 +63,7 @@ public class MyMetaDepot
 
     public static String getHelp()
     {
-        return "A depot generally represents a facility where\nwork is processed for a particular project.  Usually, a depot is configured\nto correspond to a single building or street address.  However, in some cases\nit may be useful to define multiple depots within a single physical building,\nor to group multiple physical buildings together as a single depot.  Each\nworker is assigned to a single depot.  Additionally, product inventory (quantity\non hand) is tracked by depot.  Note: multiple project may define the same depot,\nsuch as \"Denver,\" but each depot is specific to its project and each depot\nmaintains a separate inventory, even if multiple projects contain a depot with\nthe same name.";
+        return "A depot generally represents a facility where work is processed for a particular project.  Usually, a depot is configured to correspond to a single building or street address.  However, in some cases it may be useful to define multiple depots within a single physical building, or to group multiple physical buildings together as a single depot.  Each worker is assigned to a single depot.  Additionally, product inventory (quantity on hand) is tracked by depot.  Note: multiple project may define the same depot, such as \"Denver,\" but each depot is specific to its project and each depot maintains a separate inventory, even if multiple projects contain a depot with the same name.";
     }
 
     //##################################################

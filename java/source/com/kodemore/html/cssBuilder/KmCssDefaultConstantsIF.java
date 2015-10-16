@@ -31,6 +31,7 @@ public interface KmCssDefaultConstantsIF
     String childMarginLeft = "childMarginLeft";
     String childMarginRight = "childMarginRight";
     String childMarginTop = "childMarginTop";
+    String choiceFieldFocus = "choiceFieldFocus";
     String content = "content";
     String dataTable = "dataTable";
     String dataTableEven = "dataTableEven";
@@ -145,8 +146,8 @@ public interface KmCssDefaultConstantsIF
     String pageFooterInner = "pageFooterInner";
     String pageHeader_bare = "pageHeader-bare";
     String pageHeader_left = "pageHeader-left";
+    String pageHeader_normal = "pageHeader-normal";
     String pageHeader_right = "pageHeader-right";
-    String pageHeader_normal = "pageHeader_normal";
     String pageTitle_bare = "pageTitle-bare";
     String pageTitle_help = "pageTitle-help";
     String pageTitle_left = "pageTitle-left";

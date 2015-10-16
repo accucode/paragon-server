@@ -2,6 +2,7 @@ package com.app.ui.page.test;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScDraggableMultiSelectList;
 import com.kodemore.servlet.control.ScForm;
@@ -95,11 +96,10 @@ public final class MyDraggableMultiSelectTestPage
         _list.setKeyAdapter(MySkill.Meta.Uid);
         _list.setTitleAdapter(MySkill.Meta.Name);
 
-        ScDiv footer;
-        footer = group.getFooter();
-        footer.css().smallGap();
-        footer.addSubmitButton();
-        footer.show();
+        ScBox buttons;
+        buttons = group.showFooter().addButtonBox();
+        buttons.addSubmitButton();
+        buttons.addResetButton();
     }
 
     //##################################################

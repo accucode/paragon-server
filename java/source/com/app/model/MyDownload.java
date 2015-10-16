@@ -22,6 +22,12 @@ public class MyDownload
     //# convenience
     //##################################################
 
+    @Override
+    public String getDisplayString()
+    {
+        return getName();
+    }
+
     public KmFile getFile()
     {
         return MySharedFiles.getInstance().getDownload(this);

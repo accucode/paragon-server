@@ -1,6 +1,8 @@
 package com.app.utility;
 
+import com.kodemore.command.KmDao;
 import com.kodemore.file.KmFile;
+import com.kodemore.log.KmLog;
 import com.kodemore.patch.KmPatchManager;
 import com.kodemore.servlet.action.ScActions;
 import com.kodemore.servlet.action.ScGlobalContext;
@@ -60,10 +62,10 @@ public class MyInstaller
         _installUserInterface();
 
         _installJdbc();
-        _syncDatabasePatches();
-
+        _installDatabasePatches();
         _installHibernate();
         _installLog4j();
+        _installOrderNumbers();
 
         _installClock();
         _installAjaxLog();
@@ -104,7 +106,7 @@ public class MyInstaller
     /**
      * Install the raw jdbc connection configuration,
      * but NOT the hibernate configuration.
-     * This includes the pre-requisites.
+     * This includes the prerequisites.
      */
     public static void installJdbc()
     {
@@ -114,7 +116,7 @@ public class MyInstaller
 
     /**
      * Install hibernate;
-     * Assumes the pre-requisites (jdbc) are already installed.
+     * Assumes the prerequisites (jdbc) are already installed.
      */
     public static void installHibernate()
     {
@@ -122,35 +124,29 @@ public class MyInstaller
             _installHibernate();
     }
 
-    public boolean isInstalled()
+    public static boolean isInstalled()
     {
         return _installed;
     }
 
-    public void checkPreInstalled()
+    public static void warnIfInstalled()
     {
         if ( isInstalled() )
-            throw Kmu.newFatal("Operation not allowed after install.");
+            KmLog.warnTrace("Operation not allowed after install.");
+    }
+
+    //##################################################
+    //# shutdown
+    //##################################################
+
+    public static void shutdown()
+    {
+        MyShutdownManager.shutdown();
     }
 
     //##################################################
     //# private
     //##################################################
-
-    private static void _syncDatabasePatches()
-    {
-        boolean sync = MyGlobals.getProperties().getDatabaseSyncOnStartup();
-        if ( !sync )
-            return;
-
-        printfHeader("Database Patch Sync");
-
-        KmPatchManager mgr = new KmPatchManager();
-        mgr.setLog(_logger);
-        mgr.sync();
-        printOk();
-
-    }
 
     private static void _installCore()
     {
@@ -231,6 +227,18 @@ public class MyInstaller
         printOk();
     }
 
+    private static void _installOrderNumbers()
+    {
+        printfHeader("Order Numbers");
+        KmDao.run(MyInstaller::prepopulateOrderNumbersDao);
+        printOk();
+    }
+
+    private static void prepopulateOrderNumbersDao()
+    {
+        MyGlobals.getAccess().getOrderNumberDao().prepopulate();
+    }
+
     private static void _installDeadlockMonitor()
     {
         printfHeader("Deadlock Monitor");
@@ -275,6 +283,22 @@ public class MyInstaller
         _installHibernateConfiguration();
     }
 
+    private static void _installDatabasePatches()
+    {
+        boolean sync = MyGlobals.getProperties().getDatabaseSyncOnStartup();
+        if ( !sync )
+            return;
+
+        printfHeader("Database Patch Sync");
+
+        KmPatchManager mgr;
+        mgr = new KmPatchManager();
+        mgr.setLog(_logger);
+        mgr.sync();
+
+        printOk();
+    }
+
     private static void _installConnectionFactory()
     {
         printfHeader("Connection Factory");
@@ -305,12 +329,12 @@ public class MyInstaller
 
     private static void _installUserInterface()
     {
-        _installScBridge();
+        _installFormatter();
         _installServletCallbacks();
         _installControlRegistry();
+        _installScBridge();
         _installActions();
         _installCoders();
-        _installFormatter();
         _installPageLayout();
         _installPages();
         _installMenu();

@@ -84,6 +84,7 @@ public class MyEmailRecipientValidatorBase
     @Override
     public void convertOnly(MyEmailRecipient value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setAddress(addressValidator.convertOnly(value.getAddress()));
         value.setTypeCode(typeCodeValidator.convertOnly(value.getTypeCode()));
@@ -93,10 +94,14 @@ public class MyEmailRecipientValidatorBase
     @Override
     public void validateOnly(MyEmailRecipient value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         addressValidator.validateOnly(value.getAddress(), errors);
         typeCodeValidator.validateOnly(value.getTypeCode(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
+        if ( !value.hasEmail() )
+            errors.add(new KmRequiredValidationError("emailRecipient", "email"));
     }
 
     //##################################################

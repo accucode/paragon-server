@@ -6,7 +6,7 @@ import com.kodemore.json.KmJsonMap;
  * A user's Facebook profile picture
  */
 public class KmFacebookPicture
-    extends Object
+extends Object
 {
     //##################################################
     //# constants
@@ -16,20 +16,19 @@ public class KmFacebookPicture
     public static final String IS_SILOUETTE_KEY = "is_silhouette";
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
-    // review_aaron: do we want to save the actual photo?
     /**
      * The url of the photo
      */
-    private String _url;
+    private String             _url;
 
     /**
      * Is true if the user has not selected a profile picture
      * and a silouette placeholder is displayed instead.
      */
-    private Boolean _isSilouette;
+    private Boolean            _isSilouette;
 
     //##################################################
     //# accessing

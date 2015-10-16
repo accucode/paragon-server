@@ -33,13 +33,18 @@ import com.kodemore.servlet.script.ScSortableScript;
 import com.kodemore.servlet.variable.ScLocalList;
 
 /**
+ * low_wyatt: oldValue
+ * Add support for oldValue and/or changeTracking.
+ * This is relatively complex so I'm waiting to see if we really need it.
+ */
+
+/**
  * I am a composite widget that allows users to easily select multiple values
  * and to simultaneously prioritize the selected values via drag-and-drop.
  *
  * NOTE: My outer container MUST be styled with a non-static position and explicit
  * sizing.  By default, I use a relative layout with size of 300x200px.  Clients can
- * change this using layoutSize() or layoutFill().  Or may follow those examples for
- * layouts.
+ * change this using layoutSize() or layoutFill().
  */
 public class ScDraggableMultiSelectList<T>
     extends ScDivWrapper
@@ -260,6 +265,10 @@ public class ScDraggableMultiSelectList<T>
         super.renderControlOn(out);
     }
 
+    //==================================================
+    //= render :: transient items
+    //==================================================
+
     private void addTransientSelectedItems()
     {
         addItemsTo(_selectedValues, _selectedItemContainer, true);
@@ -322,7 +331,7 @@ public class ScDraggableMultiSelectList<T>
 
     private String getItemFieldName()
     {
-        return getKey() + "-field";
+        return getHtmlId() + "-field";
     }
 
 }

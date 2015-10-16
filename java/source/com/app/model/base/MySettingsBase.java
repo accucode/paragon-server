@@ -25,6 +25,7 @@ import com.app.utility.*;
 
 public abstract class MySettingsBase
     extends MyAbstractDomain
+    implements MyDomainIF
 {
     //##################################################
     //# static
@@ -243,13 +244,14 @@ public abstract class MySettingsBase
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("MySettings");
-        sb.append("(");
-        sb.append("Code=");
-        sb.append(code);
-        sb.append(")");
-        return sb.toString();
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append("MySettings");
+        out.append("(");
+        out.append("Code=");
+        out.append(code);
+        out.append(")");
+        return out.toString();
     }
 
     public void printFields()
@@ -264,12 +266,25 @@ public abstract class MySettingsBase
      * Format the primary key fields in a comma separated list.  The format
      * is intended to be suitable for display to users.
      */
+    @Override
     public String formatPrimaryKey()
     {
-        StringBuilder sb = new StringBuilder();
         ScFormatter f = getFormatter();
-        sb.append(f.formatAny(code));
-        return sb.toString();
+
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append(f.formatAny(code));
+        return out.toString();
     }
 
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    @Override
+    public String getMetaName()
+    {
+        return Meta.getName();
+    }
 }

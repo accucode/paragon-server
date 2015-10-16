@@ -8,6 +8,7 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScGroupBannerIcon;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.field.ScDropdown;
+import com.kodemore.utility.Kmu;
 
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
@@ -44,7 +45,7 @@ public final class MyGroupIconHeaderTestPage
     //# variables
     //##################################################
 
-    private ScGroupBannerIcon _groupHeader;
+    private ScGroupBannerIcon _icon;
     private ScDropdown        _dropdown;
 
     //##################################################
@@ -84,19 +85,22 @@ public final class MyGroupIconHeaderTestPage
 
         ScForm form = root.addForm();
 
-        KmList<String> list = new KmList<>();
+        KmList<String> list;
+        list = new KmList<>();
         list.add("house");
         list.add("smiley");
         list.add("squares");
 
         _dropdown = new ScDropdown();
+        _dropdown.addNullDefaultPrefix();
         _dropdown.setOptions(list);
         _dropdown.setOnChangeAction(this::handleChangeIcon);
+        _dropdown.disableChangeTracking();
 
         ScGroup group;
         group = form.addGroup();
 
-        _groupHeader = group.setTitleWithIcon("source ", "welcome");
+        _icon = group.setTitleWithIcon("source ", "welcome");
 
         ScBox body;
         body = group.getBody().addPad();
@@ -111,8 +115,7 @@ public final class MyGroupIconHeaderTestPage
     @Override
     protected void preRender()
     {
-        _groupHeader.setText("Welcome " + getCurrentUser().getName());
-        _groupHeader.setImageSource(getCommonImageUrl("smiley.png"));
+        setupGroupHeader();
     }
 
     //##################################################
@@ -121,21 +124,40 @@ public final class MyGroupIconHeaderTestPage
 
     private void handleChangeIcon()
     {
+        setupGroupHeader();
+        _icon.ajax().replace();
+    }
+
+    //##################################################
+    //# support
+    //##################################################
+
+    private void setupGroupHeader()
+    {
+        _icon.setText("Welcome " + getCurrentUser().getName());
+        _icon.setImageSource(getImageUrl());
+    }
+
+    private String getImageUrl()
+    {
         String house = getCommonImageUrl("house.png");
         String smiley = getCommonImageUrl("smiley.png");
         String squares = getCommonImageUrl("squares.png");
 
-        _groupHeader.setText("Welcome " + getCurrentUser().getName());
+        String type = _dropdown.getStringValue();
 
-        if ( _dropdown.getStringValue().equals("house") )
-            _groupHeader.setImageSource(house);
+        if ( Kmu.isEmpty(type) )
+            return smiley;
 
-        if ( _dropdown.getStringValue().equals("smiley") )
-            _groupHeader.setImageSource(smiley);
+        if ( type.equals("house") )
+            return house;
 
-        if ( _dropdown.getStringValue().equals("squares") )
-            _groupHeader.setImageSource(squares);
+        if ( type.equals("smiley") )
+            return smiley;
 
-        _groupHeader.ajax().replace();
+        if ( type.equals("squares") )
+            return squares;
+
+        return smiley;
     }
 }

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyAttributeValue"
+        table="attributeValue"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="data"
+            column="data"
+            type="string"
+            />
+
+        <many-to-one
+            name="field"
+            column="fieldUid"
+            class="com.app.model.MyAttributeField"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="product"
+            column="productUid"
+            class="com.app.model.MyProduct"
+            cascade="none"
+            />
+
+    </class>
+</hibernate-mapping>

@@ -63,7 +63,7 @@ public class MyMetaTimeZone
 
     public static String getHelp()
     {
-        return "The time zones supported by this application.\nIdeally, this should be replaced by a more modern and dynamic time zone mechanism.";
+        return "The time zones supported by this application. Ideally, this should be replaced by a more modern and dynamic time zone mechanism.";
     }
 
     //##################################################

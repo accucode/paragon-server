@@ -5,16 +5,16 @@ Application: ${applicationName}
 Version: ${applicationVersion}
 -->
 
-<html>
+<html lang="en">
 <head>
     <title>${applicationName}</title>
-    
+
     <meta http-equiv="Content-Type"     content="text/html; charset=UTF-8">
     <meta http-equiv="Cache-Control"    content="no-cache">
     <meta http-equiv="Pragma"           content="no-cache">
     <meta http-equiv="Expires"          content="-1">
 
-    <!-- reset --> 
+    <!-- reset -->
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/reset.css">
 
     <!-- jquery (not deferred) -->
@@ -24,7 +24,7 @@ Version: ${applicationVersion}
     <!-- jquery ui -->
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/jquery-ui-1.11.1/jquery-ui.min.css">
     <script defer src="/static/${versionFolder}/jquery/jquery-ui-1.11.1/jquery-ui.min.js"></script>
-    
+
     <!-- color picker -->
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/jquery/colorpicker-09.05.23/css/colorpicker.css">
     <script defer src="/static/${versionFolder}/jquery/colorpicker-09.05.23/js/colorpicker.js"></script>
@@ -50,24 +50,24 @@ Version: ${applicationVersion}
     <!-- transit -->
     <script defer src="/static/${versionFolder}/jquery/transit-0.9.9/jquery.transit-0.9.9.min.js"></script>
 
-	<!-- Twitter Bootstrap -->
-	<!-- "/static/${versionFolder}/bootstrap-2.3.2/css/bootstrap.min.css", -->
-	<!-- "/static/${versionFolder}/bootstrap-2.3.2/js/bootstrap.min.js", -->
-            
-	<!-- bootstap select -->
+    <!-- Twitter Bootstrap -->
+    <!-- "/static/${versionFolder}/bootstrap-2.3.2/css/bootstrap.min.css", -->
+    <!-- "/static/${versionFolder}/bootstrap-2.3.2/js/bootstrap.min.js", -->
+
+    <!-- bootstap select -->
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/bootstrap-select-1.3.1/bootstrap-select.min.css">
     <script defer src="/static/${versionFolder}/bootstrap-select-1.3.1/bootstrap-select.min.js"></script>
-            
+
     <!-- dropzone -->
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/dropzone-3.6.1/dropzone.css">
     <script defer src="/static/${versionFolder}/dropzone-3.6.1/dropzone.js"></script>
 
     <!-- json -->
     <script defer src="/static/${versionFolder}/json-2010.11.18/json2.js"></script>
-            
+
     <!-- Code39 Azalea -->
     <!-- <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/azaleaCode39/Code39Azalea.min.css"> -->
-            
+
     <!-- history -->
     <script defer src="/static/${versionFolder}/jquery/history-1.8.6/scripts/bundled-uncompressed/html5/jquery.history.js"></script>
 
@@ -107,23 +107,35 @@ Version: ${applicationVersion}
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/theme.css">
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/spice.css">
     <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/app/theme/default/css/tools.css">
-            
-    <script type="text/javascript">
-		$(function() 
-		{
-			$('#pageLoadMessage').remove();
-			
-			KmDropdownMenu.installAutoClose();  
-			KmTimeAgo.init();
 
-			KmNavigator.defaultTitle = "${applicationName}";
-			KmNavigator.init(
-			{
-			    url: "${query}"
-			});
-		});
+    <!-- ckEditor -->
+    <script defer src="/static/${versionFolder}/ckeditor/ckeditor.js"></script>
+    <script defer src="/static/${versionFolder}/ckeditor/adapters/jquery.js"></script>
+
+    <!-- full calendar -->
+    <link rel="stylesheet" type="text/css" href="/static/${versionFolder}/fullcalendar-2.4.0/fullcalendar.min.css">
+    <script defer src="/static/${versionFolder}/fullcalendar-2.4.0/moment.min.js"></script>
+    <script defer src="/static/${versionFolder}/fullcalendar-2.4.0/fullcalendar.min.js"></script>
+
+    <!-- html2canvas -->
+    <script defer src="/static/version/html2canvas-0.5.0-a1/html2canvas.js"></script>
+
+    <script type="text/javascript">
+        $(function()
+        {
+            $('#pageLoadMessage').remove();
+
+            KmDropdownMenu.installAutoClose();
+            KmTimeAgo.init();
+
+            KmNavigator.defaultTitle = "${applicationName}";
+            KmNavigator.init(
+            {
+                url: "${query}"
+            });
+        });
     </script>
-    
+
     <style type="text/css">
         #pageLoadMessage
         {
@@ -134,18 +146,22 @@ Version: ${applicationVersion}
             top:    0;
             height: 50px;
             padding: 10px;
-            background: linear-gradient(#aaa, #f8f8f8); 
+            background: linear-gradient(#aaa, #f8f8f8);
         }
     </style>
-    
+
 </head>
 
 <body class="${bodyClass}">
     <div id="pageLoadMessage">
        ${applicationName}, loading...
     </div>
-	${html}
+
+    <!-- This is used by kmu.js => warnIfDirty() -->
+    <div id="warnIfDirtyDialog" title="Unsaved Changes!" class="hide">
+        You have unsaved changes!
+    </div>
+
+    ${html}
 </body>
 </html>
-
-    

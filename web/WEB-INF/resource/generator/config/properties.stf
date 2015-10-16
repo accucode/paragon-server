@@ -111,7 +111,7 @@ group
     property
     : name      = sendEmailOverrideTo
     : type      = string
-    : default   = 
+    : default   =
     : comment   = If set, then force all emails to be sent to this email address rather than the requested recipients. This can be useful for testing.
 
     property
@@ -141,13 +141,13 @@ group
     property
     : name      = gmailUser
     : type      = string
-    : default   = 
+    : default   =
     : comment   = Connecting to gmail.
 
     property
     : name      = gmailPassword
     : type      = string
-    : default   = 
+    : default   =
     : comment   = Connecting to gmail.
 
     property
@@ -171,15 +171,15 @@ group
     property
     : name      = smtpUser
     : type      = string
-    : default   = 
+    : default   =
     : comment   = Connecting to smtp.
 
     property
     : name      = smtpPassword
     : type      = string
-    : default   = 
+    : default   =
     : comment   = Connecting to smtp.
-    
+
     property
     : name      = smtpUseSsl
     : type      = boolean
@@ -193,7 +193,7 @@ group
     property
     : name      = servletHost
     : type      = string
-    : default   = 
+    : default   =
     : comment   = This should be set to the appropriate host name. For simple development 'localhost' can typically be used. However, some development and local debugging may need a static IP address.
 
     property
@@ -205,7 +205,7 @@ group
     property
     : name      = servletPort
     : type      = string
-    : default   = 
+    : default   =
     : comment   = The port number used to serve the servlet requests. Normally left blank, so that it defaults based on the scheme.
 
     property
@@ -258,6 +258,18 @@ group
     : default   = false
     : comment   = Determines if empty/blank passwords should be allowed.
 
+    property
+    : name      = printAuditLog
+    : type      = boolean
+    : default   = false
+    : comment   = If true, logs are echoed to the console (log4j).
+
+    property
+    : name      = printPerformanceLog
+    : type      = boolean
+    : default   = false
+    : comment   = If true, logs are echoed to the console (log4j).
+
 group
 : name      = DatabaseConnection
 : comment   = The basic database properties.
@@ -265,33 +277,33 @@ group
     property
     : name      = databaseSchema
     : type      = string
-    : default   = 
+    : default   =
     : comment   = Database connection.
 
     property
     : name      = databaseDriver
     : type      = string
-    : default   = 
+    : default   =
     : comment   = Database connection.
 
     property
     : name      = databaseUri
     : type      = string
-    : default   = 
+    : default   =
     : comment   = Database connection.
 
     property
     : name      = databaseUser
     : type      = string
-    : default   = 
+    : default   =
     : comment   = Database connection.
 
     property
     : name      = databasePassword
     : type      = string
-    : default   = 
+    : default   =
     : comment   = Database connection.
-    
+
 group
 : name      = HibernateSecondLevelCache
 : comment   = Configuration parameters for using Hibernate second level cache.
@@ -301,25 +313,25 @@ group
     : type      = boolean
     : default   = false
     : comment   = Use Hibernate second level caching.
-    
+
     property
     : name      = hibernateCacheProvider
     : type      = string
-    : default   = 
+    : default   =
     : comment   = Hibernate cache provider class.
-    
+
     property
     : name      = hibernateMemcachedServers
     : type      = string
-    : default   = 
+    : default   =
     : comment   = Names of the Memcached Servers, format is <hostname>:<port>
-    
+
     property
     : name      = hibernateCacheTimeSeconds
     : type      = integer
     : default   = 300
     : comment   = How long items should remain in the second level cache.
-    
+
 
 group
 : name      = DatabaseOther
@@ -366,13 +378,13 @@ group
     : type      = string
     : default   = databasePassword
     : comment   = The password used for aes encryption. The password must be exactly 16 characters long. This should be overriden in production.
-    
+
     property
     : name      = databaseSyncOnStartup
     : type      = boolean
     : default   = true
     : comment   = Normally the application will sync the database patches upon startup.  Set this to false to disable.
-    
+
 
 group
 : name      = Jobs
@@ -451,60 +463,6 @@ group
     : comment   = x
 
     property
-    : name      = deleteOldServerSessionsJobEnabled
-    : type      = boolean
-    : default   = true
-    : comment   = Indicates if the job should be run.
-
-    property
-    : name      = deleteOldServerSessionsJobActiveSeconds
-    : type      = integer
-    : default   = 60
-    : comment   = x
-
-    property
-    : name      = deleteOldServerSessionsJobIdleSeconds
-    : type      = integer
-    : default   = 600
-    : comment   = x
-
-    property
-    : name      = deleteOldPerformanceLogsJobEnabled
-    : type      = boolean
-    : default   = true
-    : comment   = Indicates if the job should be run.
-
-    property
-    : name      = deleteOldPerformanceLogsJobActiveSeconds
-    : type      = integer
-    : default   = 60
-    : comment   = x
-
-    property
-    : name      = deleteOldPerformanceLogsJobIdleSeconds
-    : type      = integer
-    : default   = 600
-    : comment   = x
-
-    property
-    : name      = deleteOldSystemLogsJobEnabled
-    : type      = boolean
-    : default   = true
-    : comment   = Indicates if the job should be run.
-
-    property
-    : name      = deleteOldSystemLogsJobActiveSeconds
-    : type      = integer
-    : default   = 60
-    : comment   = x
-
-    property
-    : name      = deleteOldSystemLogsJobIdleSeconds
-    : type      = integer
-    : default   = 600
-    : comment   = x
-
-    property
     : name      = csvUploadProcessorJobEnabled
     : type      = boolean
     : default   = true
@@ -523,21 +481,57 @@ group
     : comment   = x
 
     property
-    : name      = performanceLogJobEnabled
+    : name      = performanceLogFlusherJobEnabled
     : type      = boolean
     : default   = true
     : comment   = Indicates if the job should be run.
 
     property
-    : name      = performanceLogJobActiveSeconds
+    : name      = performanceLogFlusherJobActiveSeconds
     : type      = integer
     : default   = 10
     : comment   = x
 
     property
-    : name      = performanceLogJobIdleSeconds
+    : name      = performanceLogFlusherJobIdleSeconds
     : type      = integer
     : default   = 10
+    : comment   = x
+
+    property
+    : name      = applicationLogFlusherJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Indicates if the job should be run.
+
+    property
+    : name      = applicationLogFlusherJobActiveSeconds
+    : type      = integer
+    : default   = 10
+    : comment   = x
+
+    property
+    : name      = applicationLogFlusherJobIdleSeconds
+    : type      = integer
+    : default   = 10
+    : comment   = x
+
+    property
+    : name      = maintenanceJobEnabled
+    : type      = boolean
+    : default   = true
+    : comment   = Indicates if the job should be run.
+
+    property
+    : name      = maintenanceJobActiveSeconds
+    : type      = integer
+    : default   = 60
+    : comment   = x
+
+    property
+    : name      = maintenanceJobIdleSeconds
+    : type      = integer
+    : default   = 60
     : comment   = x
 
     property
@@ -573,13 +567,13 @@ group
     : type      = string
     : default   = static
     : comment   ...
-        === 
+        ---
         This is used to automatically version css and javascript files.
         none   - the version is always set to 'version'.
         deploy - used in production to include the application version in the path.
-        dev    - used in development to change the path each time the app is restarted. 
-        ===                
-                
+        dev    - used in development to change the path each time the app is restarted.
+        ---
+
     property
     : name      = synchronizeServletsBySession
     : type      = boolean
@@ -649,7 +643,7 @@ group
     property
     : name      = autoLoginEmail
     : type      = string
-    : default   = 
+    : default   =
     : comment   = If not blank, automatically login as this user.  Useful for development.
 
 group
@@ -687,6 +681,6 @@ group
     property
     : name      = rootUserEmail
     : type      = string
-    : default   = 
+    : default   =
     : comment   = If set, the system will create a default user when bootstrapping the initial database installation.
 

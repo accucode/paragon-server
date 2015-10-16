@@ -1,0 +1,55 @@
+model
+: name      = download
+: help...
+    ---
+    I am used to manage file downloads to the client browser.  When a client requests a file
+    the server returns a token (url) that redirects the user to the page where the download 
+    can actually occur.  This helps avoid the problem of download interferring with the current
+    user interface, especially with the single page ajax ui we now use.  However, this also
+    means that additional security is needed to ensure that users cannot access someone else's
+    download.  Only the "user" identified in this record is allowed to download the specified
+    file.
+    --- 
+
+
+database
+: alias = dl
+: auditLog  = false
+: locking   = true
+
+    index
+    : name      = created
+    : unique    = false
+    : on        = createdUtcTs
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The globally unique identifier.  This is a big ugly number and is generally not displayed.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    field
+    : name      = name
+    : help      = The name of the file to be downloaded.  This is the name provided to the client browser, NOT the name we use internally.
+    : type      = name
+    : required  = true
+
+    field
+    : name      = createdUtcTs
+    : help      = The date and time this record was created.
+    : type      = timestamp
+    : required  = true
+    : default   = getNowUtc() 
+
+    association
+    : name      = user
+    : help      = The specific user allowed to download this file.
+    : modelName = user
+    : relation  = reference
+    : required  = true
+
+

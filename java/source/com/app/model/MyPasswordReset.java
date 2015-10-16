@@ -49,4 +49,14 @@ public class MyPasswordReset
         return getAccess().getUserDao().findEmail(getEmail());
     }
 
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getEmail();
+    }
+
 }

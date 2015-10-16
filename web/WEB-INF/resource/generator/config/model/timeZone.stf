@@ -1,0 +1,56 @@
+model
+: name          = timeZone
+: help...       
+    ---
+    The time zones supported by this application.
+    Ideally, this should be replaced by a more modern and dynamic time zone mechanism.
+    ---
+: skipModelBase
+
+attributes
+
+    abstractField
+    : name      = code
+    : help      = The unique key; e.g.: MST (for mountain standard time).
+    : type      = code5
+
+    abstractField
+    : name      = name
+    : help      = The longer display name.  E.g.: Mountain Standard Time.
+    : type      = name
+
+    abstractField
+    : name      = utcOffsetMinutes
+    : help      = The number of minutes ahead or behind UTC.
+    : type      = integer
+
+    abstractField
+    : name      = dstCode
+    : help      = dstCode
+    : type      = calculated
+
+    abstractField
+    : name      = dstOffsetMinutes
+    : help      = dstOffsetMinutes
+    : type      = integer
+
+    abstractField
+    : name      = dstStartMonth
+    : help      = The date (month) when daylight savings starts.
+    : type      = integer
+
+    abstractField
+    : name      = dstStartDay
+    : help      = The date (day) when daylight savings starts.
+    : type      = integer
+
+    abstractField
+    : name      = dstEndMonth
+    : help      = The date (month) when daylight savings ends.
+    : type      = integer
+
+    abstractField
+    : name      = dstEndDay
+    : help      = The date (day) when daylight savings ends.
+    : type      = integer
+

@@ -59,9 +59,6 @@ public class MyAddSkillDialog
         MySkill e;
         e = getCurrentProject().addSkill();
         e.applyFrom(this);
-
-        flushDao();
-
         return e;
     }
 }

@@ -66,7 +66,7 @@ public class MyViewAttentionGroupCard
     {
         _editDialog = new MyEditAttentionGroupDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(this::handleSaved);
+        _editDialog.addSavedListener(this::handleSaved);
     }
 
     //##################################################
@@ -80,7 +80,7 @@ public class MyViewAttentionGroupCard
 
     public void addSaveListener(Consumer<MyAttentionGroup> e)
     {
-        getEditDialog().addSaveListener(e);
+        getEditDialog().addSavedListener(e);
     }
 
     public void setAttentionGroup(MyAttentionGroup e)

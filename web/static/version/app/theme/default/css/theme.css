@@ -4,7 +4,7 @@
 
 html
 {
-    font-size: 62.5%; /* 10px */ 
+    font-size: 62.5%; /* 10px */
     line-height: 1.2;
 }
 
@@ -19,11 +19,11 @@ body
  ** page header
  *******************************************************************/
 
-.pageHeader_normal,
+.pageHeader-normal,
 .pageHeader-bare
 {
-    box-sizing: border-box;  
-    
+    box-sizing: border-box;
+
     position: absolute;
     left:   0;
     right:  0;
@@ -33,18 +33,18 @@ body
     display: flex;
     align-items: center;
     white-space: nowrap;
-        
+
     overflow: visible;
     background-image: linear-gradient(to bottom, #bbb, #f8f8f8);
 }
 
-.environmentStage .pageHeader_normal,
+.environmentStage .pageHeader-normal,
 .environmentStage .pageHeader-bare
 {
     background-image: linear-gradient(to bottom, #00f, #f8f8f8);
 }
 
-.environmentProduction .pageHeader_normal,
+.environmentProduction .pageHeader-normal,
 .environmentProduction .pageHeader-bare
 {
     background-image: linear-gradient(to bottom, #f00, #f8f8f8);
@@ -97,8 +97,8 @@ body
 
 .pageFooter-normal
 {
-    box-sizing: border-box;  
-    
+    box-sizing: border-box;
+
     position:   absolute;
     left:       0;
     right:      0;
@@ -108,8 +108,8 @@ body
 
 .pageFooter-bare
 {
-    box-sizing: border-box;  
-    
+    box-sizing: border-box;
+
     position:   absolute;
     left:       0;
     right:      0;
@@ -138,10 +138,10 @@ body
     right:              0;
     top:                50px;
     height:             50px;
-    
+
     display:            flex;
     align-items:        flex-end;
-    
+
     overflow:           visible;
     border-bottom:      1px solid white;
     background-color:   #f8f8f8;
@@ -160,7 +160,7 @@ body
 
 .topMenuLeft
 {
-    box-sizing: border-box;  
+    box-sizing: border-box;
     height: 38px;
     border: 1px outset #fff;
     border-left: none;
@@ -169,22 +169,22 @@ body
     width:       20px;
     flex-grow:   0;
     flex-shrink: 0;
-}        
-        
+}
+
 .topMenuRight
 {
-    box-sizing: border-box;  
+    box-sizing: border-box;
     height: 38px;
     border: 1px outset #fff;
     border-right: none;
     background-image: linear-gradient(to bottom, #E3F2EC, #C0E2D4);
 
     flex-grow: 1;
-}        
-        
+}
+
 .topMenuItem
 {
-    box-sizing: border-box;  
+    box-sizing: border-box;
     height: 38px;
     flex-grow:   0;
     flex-shrink: 0;
@@ -193,11 +193,11 @@ body
     background-image: linear-gradient(to bottom, #E3F2EC, #C0E2D4);
 
     padding: 7px 15px 0 15px;
-    font:   bold 1.8rem sans-serif;               
+    font:   bold 1.8rem sans-serif;
     color:  #874B46;
     cursor: pointer;
-}        
-.topMenuItem:hover 
+}
+.topMenuItem:hover
 {
     background-image: linear-gradient(to bottom, #C0E2D4, #E3F2EC);
     text-decoration:  underline;
@@ -205,7 +205,7 @@ body
 
 .topMenuSelected
 {
-    box-sizing: border-box;  
+    box-sizing: border-box;
     position: relative;
     top: 2px;
     height: 48px;
@@ -217,15 +217,15 @@ body
     border: 1px outset #fff;
     border-bottom: none;
     border-radius: 15px 15px 0 0;
-    
+
     color: #fff;
-    font: bold 1.8rem sans-serif;               
+    font: bold 1.8rem sans-serif;
     cursor: pointer;
-    
+
     background-color: #366;
     background-image: radial-gradient(ellipse, #588 0px, #366 40px);
-}        
-.topMenuSelected:hover 
+}
+.topMenuSelected:hover
 {
     text-decoration: underline;
 }
@@ -233,14 +233,14 @@ body
 .topMenuSelected > span
 {
 }
- 
+
 /*******************************************************************
- ** left menu 
+ ** left menu
  *******************************************************************/
- 
+
 .leftMenu
 {
-    box-sizing: border-box;  
+    box-sizing: border-box;
 
     position: absolute;
     left:   0;
@@ -249,10 +249,10 @@ body
     bottom: 30px;
     height: auto;
 
-    overflow-y: auto;  
+    overflow-y: auto;
     overflow-x: hidden;
 
-    border-top: 10px solid #366;    
+    border-top: 10px solid #366;
     background-color: #f8f8f8;
     background-image: linear-gradient(to bottom, #CBE5DA, #CBE5DA, #f8f8f8);
 }
@@ -265,7 +265,7 @@ body
 
     font: bold 1.5rem sans-serif;
     color: #000;
-    
+
     padding: 5px;
     background-image: linear-gradient(to bottom, #aaa, #eee);
     border-top:    1px solid #ddd;
@@ -299,14 +299,14 @@ body
     color: #fff;
     background-color: #366;
     background-image: radial-gradient(ellipse at 35px 15px, #588 0px, #366 40px);
-    
+
     padding: 4px 10px;
     margin:  3px 0 3px 10px;
-    
+
     border: 1px outset #fff;
     border-right: none;
     border-radius: 15px 0 0 15px;
-    
+
     cursor: pointer;
     white-space: nowrap;
 }
@@ -331,7 +331,7 @@ body
 
 .pageTitle-simple
 {
-    box-sizing: border-box;  
+    box-sizing: border-box;
 
     position: absolute;
     left:   0;
@@ -341,7 +341,7 @@ body
 
     display: flex;
     align-items: center;
-    
+
     overflow: hidden;
     background-color: #366;
     border-radius: 0 15px 0 0;
@@ -349,19 +349,19 @@ body
 
 .pageTitle-nested
 {
-    box-sizing: border-box;  
+    box-sizing: border-box;
 
     position: absolute;
     left:   150px;
     right:  0;
     top:    100px;
     height: 40px;
-    
+
     display: flex;
     align-items: center;
-    
+
     overflow: hidden;
-    
+
     background-color: #366;
     border-radius: 0 15px 0 0;
 }
@@ -410,13 +410,13 @@ body
 .pageTitle-help
 {
     box-sizing: border-box;
-  
+
     cursor: pointer;
     vertical-align: middle;
-  
+
     background:   url(pageHelp.png) no-repeat;
     height:       16px;
-    width:        16px; 
+    width:        16px;
     padding-left: 16px; /* equal to width */
 }
 
@@ -432,7 +432,7 @@ body
     top:    50px;
     bottom: 30px;
     height: auto;
-    
+
     overflow: hidden;
 }
 
@@ -445,7 +445,7 @@ body
     top:    140px;
     bottom: 30px;
     height: auto;
-    
+
     overflow: hidden;
     background-color: #eee;
 
@@ -463,10 +463,10 @@ body
     top:    140px;
     bottom: 30px;
     height: auto;
-    
+
     overflow: hidden;
     background-color: #eee;
-    
+
     border: 10px solid #366;
     border-top: none;
     border-radius: 0 0 15px 15px;
@@ -481,41 +481,41 @@ body
     top:    0;
     bottom: 0;
     height: auto;
-    
+
     overflow: auto;
 }
 
 /*******************************************************************
- ** form area 
+ ** form area
  *******************************************************************/
 
 .formFilter
 {
-    /* 
-     * The section that contains the filter, 
-     * as well as the refresh and add buttons. 
+    /*
+     * The section that contains the filter,
+     * as well as the refresh and add buttons.
      */
-    
+
     box-sizing: border-box;
-    height: 50px;  
-    
+    height: 50px;
+
     background-color: #eed;
     border: 1px outset #fff;
 }
 
 .formBanner
 {
-    /* 
+    /*
      * The top section used to display a selected value.
-     * This contains the title and subtitle text, and the edit button(s).  
+     * This contains the title and subtitle text, and the edit button(s).
      */
-     
+
     box-sizing: border-box;
-    height: 50px;  
-     
+    height: 50px;
+
     display: flex;
     align-items: center;
-    
+
     background-color: #bdc;
     background-image: linear-gradient(to bottom, #ced, #bdc);
     border: 1px outset #fff;
@@ -538,7 +538,7 @@ body
     /* Displayed below the banner, contains the save/cancel buttons. */
 
     box-sizing: border-box;
-    height: 50px;  
+    height: 50px;
 
     display: flex;
     align-items: center;
@@ -558,7 +558,7 @@ body
     /* Displayed at the bottom, repeats the save/cancel buttons. */
 
     box-sizing: border-box;
-    height: 50px;  
+    height: 50px;
 
     display: flex;
     align-items: center;
@@ -570,7 +570,7 @@ body
 .formBody
 {
     /* The main center section where fields are displayed and edited. */
-    
+
     border: 1px outset #fff;
     background-color: #ffe;
 }
@@ -586,7 +586,7 @@ body
 {
     flex-grow:   1;
     flex-shrink: 1;
-    
+
     white-space: nowrap;
     overflow: hidden;
     padding: 10px;
@@ -596,7 +596,7 @@ body
 {
     flex-grow:   0;
     flex-shrink: 0;
-    
+
     white-space: nowrap;
     overflow: hidden;
     padding: 10px;
@@ -612,18 +612,18 @@ body
 .formHelp
 {
     box-sizing: border-box;
-    
+
     height:       11px;
-    width:        11px; 
+    width:        11px;
     padding-left: 11px; /* equal to width */
-    
+
     cursor: help;
     vertical-align: middle;
     background:     url(fieldHelp11.png) no-repeat;
 }
 
 /*******************************************************************
- ** text field 
+ ** text field
  *******************************************************************/
 
 .textField
@@ -632,12 +632,12 @@ body
     padding: 5px;
     font: normal 1.5rem sans-serif;
     background-color: #fff;
-    
+
     border-top:    1px solid #999;
     border-left:   1px solid #999;
     border-bottom: 1px solid #bbb;
     border-right:  1px solid #bbb;
-    
+
     transition: border 100ms;
 }
 
@@ -653,9 +653,9 @@ body
     box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-/* 
- * Used to wrap the field when the field's width is 100%. 
- * This value should equal the sum of the element's left 
+/*
+ * Used to wrap the field when the field's width is 100%.
+ * This value should equal the sum of the element's left
  * and right padding, margin, and border.
  */
 .textFieldWrapper
@@ -673,12 +673,12 @@ body
     padding: 5px;
     font: normal 1.5rem sans-serif;
     background-color: #ccc;
-    
+
     border-top:    1px solid #999;
     border-left:   1px solid #999;
     border-bottom: 1px solid #bbb;
     border-right:  1px solid #bbb;
-    
+
     -moz-transition:    border 200ms;
     -webkit-transition: border 200ms;
     transition:         border 200ms;
@@ -692,7 +692,7 @@ body
 .textFieldReadOnly:focus
 {
     border: 1px solid #48f;
-    
+
     box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
@@ -706,12 +706,12 @@ body
     padding: 3px;
     font: normal 1.5rem sans-serif;
     background-color: #fff;
-    
+
     border-top:    1px solid #999;
     border-left:   1px solid #999;
     border-bottom: 1px solid #bbb;
     border-right:  1px solid #bbb;
-    
+
     -moz-transition:    border 200ms;
     -webkit-transition: border 200ms;
     transition:         border 200ms;
@@ -726,12 +726,12 @@ body
 {
     border: 1px solid #48f;
     background-color: #fff;
-    
+
     box-shadow:         inset 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 /*******************************************************************
- ** other fields 
+ ** other fields
  *******************************************************************/
 
 .radio
@@ -748,6 +748,13 @@ body
 
 .listBox
 {
+}
+
+.choiceFieldFocus
+{
+    box-shadow: 0 0 1px 1px #7294CB;
+    border-radius: 4px;
+    padding-right: 4px;
 }
 
 /*******************************************************************
@@ -1048,7 +1055,7 @@ a.tab
     border-bottom: 0px;
     margin: 0px 5px 0px 0px;
     text-decoration: none;
-    
+
     -moz-border-radius-topleft:         5px;
     -moz-border-radius-topright:        5px;
     -webkit-border-top-left-radius:     5px;
@@ -1067,7 +1074,7 @@ a.tabx
     border-bottom: 0px;
     margin: 0px 5px 0px 0px;
     text-decoration: none;
-    
+
     -moz-border-radius-topleft:         5px;
     -moz-border-radius-topright:        5px;
     -webkit-border-top-left-radius:     5px;
@@ -1161,8 +1168,8 @@ a.tabx:hover
     color: red;
     padding: 5px;
     background-color: white;
-    font: normal 1.2rem sans-serif; 
-    
+    font: normal 1.2rem sans-serif;
+
     border: 1px solid red;
     border-top: none;
 }
@@ -1177,17 +1184,17 @@ a.tabx:hover
     padding: 2px 5px;
     background-color: white;
     font: normal 1.2rem sans-serif;
-    
+
     border: 1px solid #f00;
-    margin-top: 1px; 
-    margin-bottom: 3px; 
+    margin-top: 1px;
+    margin-bottom: 3px;
 }
 
 
 
 /*******************************************************************
  ** group (default)
- ** 
+ **
  ** The default groups are designed to vertically expand as needed
  ** based on the contents of the body.
  *******************************************************************/
@@ -1201,7 +1208,7 @@ a.tabx:hover
     border-left: 1px solid #aaa;
     border-top-left-radius:  10px;
     border-top-right-radius: 10px;
-    
+
     box-shadow: 5px 5px 5px #ccc;
     overflow: hidden;
     background-color: #e8e8e8;
@@ -1224,17 +1231,17 @@ a.tabx:hover
 {
     display: inline-flex;
     flex-direction: column;
-}        
+}
 
 .groupBanner
 {
     flex-grow:   0;
     flex-shrink: 0;
     overflow: hidden;
-    
+
     border-top-left-radius:  10px;
     border-top-right-radius: 10px;
-    
+
     font: bold 2.0rem sans-serif;
     background-color: #ccc;
 }
@@ -1269,43 +1276,43 @@ a.tabx:hover
 
 .groupDivider
 {
-    box-sizing: border-box;  
+    box-sizing: border-box;
     height: 2px;
     border-top:    1px solid #aaa;
     border-bottom: 1px solid #fff;
 }
-        
+
 
 /*******************************************************************
- ** block ui 
+ ** block ui
  *******************************************************************/
- 
+
 .blockMsg
 {
     background-color: #ffa;
     border: 4px solid #f00;
     font: bold 1.2rem sans-serif;
-     
+
     padding: 10px;
     padding-left: 35px;
-    
+
     border-radius:          5px;
 
     background-image:       url(blockSpinner.gif);
     background-repeat:      no-repeat;
     background-position:    10px center;
-    
+
     cursor: wait;
 }
 
 
 /*******************************************************************
- ** rules (dividers) 
+ ** rules (dividers)
  *******************************************************************/
 
 .divider-inner-groove
 {
-    box-sizing: border-box;  
+    box-sizing: border-box;
     height: 2px;
     border-top:    1px solid #aaa;
     border-bottom: 1px solid #fff;
@@ -1313,7 +1320,7 @@ a.tabx:hover
 
 .divider-inner-bevel
 {
-    box-sizing: border-box;  
+    box-sizing: border-box;
     height: 2px;
     border-top:    1px solid #fff;
     border-bottom: 1px solid #aaa;
@@ -1321,7 +1328,7 @@ a.tabx:hover
 
 .divider
 {
-    box-sizing: border-box;  
+    box-sizing: border-box;
     height: 2px;
     border-top:    1px solid #aaa;
     border-bottom: 1px solid #fff;
@@ -1330,30 +1337,30 @@ a.tabx:hover
 
 
 /*******************************************************************
- ** sql result 
+ ** sql result
  *******************************************************************/
 
 .sqlResultBlock
 {
     border: 1px solid #444;
     padding: 5px;
-    
+
     box-shadow:         5px 5px 5px #ccc;
 }
 
 .sqlResultSelect
 {
-    background-color: #ff0; 
+    background-color: #ff0;
 }
 
 .sqlResultUpdate
 {
-    background-color: #0ff; 
+    background-color: #0ff;
 }
 
 .sqlResultError
 {
-    background-color: #f00; 
+    background-color: #f00;
 }
 
 table.sqlResultTable
@@ -1387,7 +1394,7 @@ td.sqlResultValue
 }
 
 /*******************************************************************
- ** title panel 
+ ** title panel
  *******************************************************************/
 
 .titlePanelHeader
@@ -1417,15 +1424,15 @@ td.sqlResultValue
 }
 
 /*******************************************************************
- ** position 
+ ** position
  *******************************************************************/
 
 .offset
 {
-	left:   10px;
-	right:  10px;
-	top:    10px;
-	bottom: 10px;
+    left:   10px;
+    right:  10px;
+    top:    10px;
+    bottom: 10px;
 }
 
 .leftOffset     { left:   10px }
@@ -1435,7 +1442,7 @@ td.sqlResultValue
 
 
 /*******************************************************************
- ** model list 
+ ** model list
  *******************************************************************/
 
 .modelList
@@ -1451,20 +1458,20 @@ td.sqlResultValue
     overflow-x: hidden;
     overflow-y: scroll;
 
-    background-color: #aaa;    
+    background-color: #aaa;
     background-image: url("bgLightTexture.png");
 }
 
 .modelList-item
 {
-    box-sizing: border-box;  
+    box-sizing: border-box;
     height: 50px;
-    
+
     display: flex;
     align-items: center;
-    
-	cursor: pointer;
-	border: 1px outset #fff;
+
+    cursor: pointer;
+    border: 1px outset #fff;
     background-color: #eee;
     background-image: linear-gradient(to bottom, #eee, #ddd);
 }
@@ -1522,10 +1529,10 @@ td.sqlResultValue
 /*******************************************************************
  ** dragging
  *******************************************************************/
- 
+
 .dragHandle
 {
-    box-sizing: border-box;  
+    box-sizing: border-box;
     width:   15px;
     height:  16px;
 
@@ -1571,7 +1578,7 @@ td.sqlResultValue
     right:      0;
     top:        0;
     height:     30px;
-    
+
     border: 1px outset #fff;
     background-color: #eed;
     font: bold 1.5rem sans-serif;
@@ -1587,12 +1594,12 @@ td.sqlResultValue
     width:      50%;
     top:        30px;
     bottom:     0;
-    
+
     overflow-x: hidden;
     overflow-y: scroll;
-    
+
     border: 1px outset #fff;
-    background-color: #aaa;    
+    background-color: #aaa;
     background-image: url("bgLightTexture.png");
 }
 
@@ -1604,12 +1611,12 @@ td.sqlResultValue
     right:      0;
     top:        30px;
     bottom:     0;
-    
+
     overflow-x: hidden;
     overflow-y: scroll;
-    
+
     border: 1px outset #fff;
-    background-color: #aaa;    
+    background-color: #aaa;
     background-image: url("bgLightTexture.png");
 }
 
@@ -1638,7 +1645,7 @@ td.sqlResultValue
     flex-grow:   0;
     flex-shrink: 0;
 
-    box-sizing: border-box;  
+    box-sizing: border-box;
     width:   15px;
     height:  16px;
 
@@ -1656,7 +1663,7 @@ td.sqlResultValue
     flex-grow:   0;
     flex-shrink: 0;
 
-    box-sizing: border-box;  
+    box-sizing: border-box;
     width: 20px;
     margin-left: 5px;
     font: bold 1.4rem sans-serif;
@@ -1687,11 +1694,11 @@ td.sqlResultValue
 }
 .dmsSelectedList .dmsItemToggle
 {
-    background: transparent url("dmsRemove.png") no-repeat center;    
+    background: transparent url("dmsRemove.png") no-repeat center;
 }
 .dmsAvailableList .dmsItemToggle
 {
-    background: transparent url("dmsAdd.png") no-repeat center;    
+    background: transparent url("dmsAdd.png") no-repeat center;
 }
 
 .dmsItemField
@@ -1713,13 +1720,13 @@ td.sqlResultValue
     box-shadow: 0 0 3px 3px #666;
     padding: 0;
 }
-    
+
 .ui-dialog-title
 {
     font-size: 2.0rem;
 }
-    
-.dialogNoClose .ui-dialog-titlebar-close 
+
+.dialogNoClose .ui-dialog-titlebar-close
 {
     /* optionally hide the default close button */
     display: none;
@@ -1737,21 +1744,21 @@ td.sqlResultValue
 }
 
 /*******************************************************************
- ** common spacing 
+ ** common spacing
  **
  ** These styles should be included at the bottom of the css.
- ** This way, they will override defaults applied above.  
- ** For example, the normal .textField (above) sets the default margin to 0, 
+ ** This way, they will override defaults applied above.
+ ** For example, the normal .textField (above) sets the default margin to 0,
  ** but the spacing styles (below) may override the text field's 0-margin.
  *******************************************************************/
 
-.pad        
-{ 
+.pad
+{
     padding: 10px;
 }
 
-.smallPad        
-{ 
+.smallPad
+{
     padding: 5px;
 }
 

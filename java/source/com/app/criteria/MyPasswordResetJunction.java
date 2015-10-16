@@ -53,14 +53,14 @@ public class MyPasswordResetJunction
         return new KmhStringCondition(context(), fullName(TOKEN));
     }
 
-    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
+    public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmhPropertyCondition<KmTimestamp> whereExpirationUtcTs()
+    public KmhTimestampCondition whereExpirationUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(EXPIRATION_UTC_TS));
+        return new KmhTimestampCondition(context(), fullName(EXPIRATION_UTC_TS));
     }
 
     public KmhIntegerCondition whereLockVersion()

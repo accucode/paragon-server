@@ -129,6 +129,16 @@ public class MyInvitation
     }
 
     //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getToEmail() + " " + getTypeName();
+    }
+
+    //##################################################
     //# support
     //##################################################
 
@@ -146,4 +156,5 @@ public class MyInvitation
     {
         return getProperties().getSendEmailFromAddress();
     }
+
 }

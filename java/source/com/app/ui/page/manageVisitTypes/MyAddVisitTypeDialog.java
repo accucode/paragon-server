@@ -59,9 +59,6 @@ public class MyAddVisitTypeDialog
         MyVisitType e;
         e = getCurrentProject().addVisitType();
         e.applyFrom(this);
-
-        flushDao();
-
         return e;
     }
 }

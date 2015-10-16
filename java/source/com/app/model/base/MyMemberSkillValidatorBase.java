@@ -77,6 +77,7 @@ public class MyMemberSkillValidatorBase
     @Override
     public void convertOnly(MyMemberSkill value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setSequence(sequenceValidator.convertOnly(value.getSequence()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
@@ -85,9 +86,15 @@ public class MyMemberSkillValidatorBase
     @Override
     public void validateOnly(MyMemberSkill value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         sequenceValidator.validateOnly(value.getSequence(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
+        if ( !value.hasMember() )
+            errors.add(new KmRequiredValidationError("memberSkill", "member"));
+        if ( !value.hasSkill() )
+            errors.add(new KmRequiredValidationError("memberSkill", "skill"));
     }
 
     //##################################################

@@ -26,6 +26,7 @@ import com.kodemore.collection.KmList;
 import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.validator.KmValidator;
@@ -41,6 +42,12 @@ public class ScCheckboxField
 
     private ScLocalBoolean _checked;
 
+    /**
+     * If true (by default), the original value is included in the html data- attribute
+     * and the client-side browser uses javascript to track if changes are made.
+     */
+    private boolean _changeTracking;
+
     //##################################################
     //# init
     //##################################################
@@ -51,6 +58,7 @@ public class ScCheckboxField
         super.install();
 
         _checked = new ScLocalBoolean(false);
+        _changeTracking = true;
     }
 
     //##################################################
@@ -71,6 +79,26 @@ public class ScCheckboxField
     public boolean isEditable()
     {
         return !isDisabled();
+    }
+
+    //##################################################
+    //# change tracking
+    //##################################################
+
+    public boolean getChangeTracking()
+    {
+        return _changeTracking;
+    }
+
+    public void setChangeTracking(boolean e)
+    {
+        warnIfInstalled();
+        _changeTracking = e;
+    }
+
+    public void disableChangeTracking()
+    {
+        setChangeTracking(false);
     }
 
     //##################################################
@@ -117,7 +145,12 @@ public class ScCheckboxField
     {
         super.renderAttributesOn(out);
 
-        if ( _checked.isTrue() )
+        boolean checked = isChecked();
+
+        if ( getChangeTracking() )
+            printOldCheckedAttributeOn(out, checked);
+
+        if ( checked )
             out.printAttribute("checked");
     }
 
@@ -131,10 +164,15 @@ public class ScCheckboxField
     //# convenience
     //##################################################
 
+    public boolean isChecked()
+    {
+        return _checked.isTrue();
+    }
+
     @Override
     public Boolean getValue()
     {
-        return _checked.getValue();
+        return isChecked();
     }
 
     public boolean isTrue()
@@ -229,6 +267,13 @@ public class ScCheckboxField
 
     public void ajaxSetValue(Object e)
     {
-        ajax().setValue(encode(e));
+        String value = encode(e);
+        boolean checked = isChecked();
+
+        ajax().setValue(value);
+        ajax().setChecked(checked);
+
+        if ( getChangeTracking() )
+            ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_CHECKED, checked);
     }
 }

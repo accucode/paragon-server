@@ -3,6 +3,7 @@ package com.app.ui.control;
 import java.util.function.Consumer;
 
 import com.kodemore.collection.KmList;
+import com.kodemore.hibernate.KmhAttachDaoIF;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScActionButton;
@@ -67,7 +68,7 @@ public abstract class MyAddDialog<T>
         _saveListeners.add(e);
     }
 
-    private void fireSaveListeners(T e)
+    protected void fireSaveListeners(T e)
     {
         for ( Consumer<T> ve : _saveListeners )
             ve.accept(e);
@@ -97,6 +98,9 @@ public abstract class MyAddDialog<T>
 
         if ( e == null )
             return;
+
+        if ( e instanceof KmhAttachDaoIF )
+            ((KmhAttachDaoIF)e).attachDao();
 
         ajaxClose();
         fireSaveListeners(e);

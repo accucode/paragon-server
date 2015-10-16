@@ -59,9 +59,6 @@ public class MyAddShipCarrierDialog
         MyShipCarrier e;
         e = getCurrentProject().addShipCarrier();
         e.applyFrom(this);
-
-        flushDao();
-
         return e;
     }
 }

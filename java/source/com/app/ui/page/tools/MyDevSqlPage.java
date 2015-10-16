@@ -61,7 +61,7 @@ public final class MyDevSqlPage
     private ScDropdown  _formatField;
 
     private ScTextArea _sqlField;
-    private ScBox      _results;
+    private ScBox      _resultBox;
 
     private ScDropdown _tableDropdown;
 
@@ -126,10 +126,9 @@ public final class MyDevSqlPage
         fields.add(createFormatField());
         fields.add(createSqlField());
 
-        ScDiv footer;
-        footer = group.showFooter();
-        footer.css().buttonBox();
-        footer.addSubmitButton();
+        ScBox buttons;
+        buttons = group.showFooter().addButtonBox();
+        buttons.addSubmitButton();
     }
 
     private ScTextField createSchemaField()
@@ -138,6 +137,7 @@ public final class MyDevSqlPage
         e = new ScTextField();
         e.setLabel("Schema");
         e.setValue(getProperties().getDatabaseSchema());
+        e.disableChangeTracking();
 
         _schemaField = e;
         return e;
@@ -149,6 +149,7 @@ public final class MyDevSqlPage
         e = new ScDropdown();
         e.setLabel("Format");
         e.setValue(FORMAT_HTML);
+        e.disableChangeTracking();
         e.addOption(FORMAT_HTML);
         e.addOption(FORMAT_HTML_SIMPLE);
         e.addOption(FORMAT_CSV);
@@ -163,10 +164,11 @@ public final class MyDevSqlPage
         _tableDropdown = new ScDropdown();
         _tableDropdown.addNullSelectPrefix();
         _tableDropdown.css().floatLeft();
+        _tableDropdown.disableChangeTracking();
 
         ScBox box;
         box = new ScBox();
-        box.setLabel("Quick");
+        box.setLabel("Table");
         box.css().marginRightChildren5();
         box.add(_tableDropdown);
 
@@ -175,9 +177,9 @@ public final class MyDevSqlPage
         b.setImage(MyButtonUrls.refresh());
         b.setAction(this::handleRefreshTables);
 
-        box.addButton("select *", this::handleSelectAll);
+        box.addButton("select *", this::handleSelectStar);
         box.addButton("count", this::handleCount);
-        box.addButton("describe", this::handleDescribeTable);
+        box.addButton("describe", this::handleDescribe);
 
         return box;
     }
@@ -190,6 +192,7 @@ public final class MyDevSqlPage
         e.setWidthFull();
         e.style().height(150);
         e.getPostRenderScript().focus();
+        e.disableChangeTracking();
 
         _sqlField = e;
         return e;
@@ -197,9 +200,9 @@ public final class MyDevSqlPage
 
     private void installResultsOn(ScPageRoot root)
     {
-        _results = new ScBox();
+        _resultBox = new ScBox();
 
-        root.add(_results);
+        root.add(_resultBox);
     }
 
     //##################################################
@@ -234,7 +237,7 @@ public final class MyDevSqlPage
         _tableDropdown.ajaxUpdateOptions();
     }
 
-    private void handleSelectAll()
+    private void handleSelectStar()
     {
         handleQuickAction("select * from %s limit 10;");
     }
@@ -244,7 +247,7 @@ public final class MyDevSqlPage
         handleQuickAction("select count(*) from %s;");
     }
 
-    private void handleDescribeTable()
+    private void handleDescribe()
     {
         handleQuickAction("describe %s;");
     }
@@ -294,12 +297,12 @@ public final class MyDevSqlPage
 
     private void applyHtmlResult(String result)
     {
-        _results.ajax().setContents(result).fade();
+        _resultBox.ajax().setContents(result).fade();
     }
 
     private void applyAttachmentResult(String result)
     {
-        getData().setAttachmentResult("sql.csv", result);
+        ajax().download("sql.csv", result);
     }
 
     private void installFormatter(KmSqlResultComposer c)

@@ -1,0 +1,200 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>salesOrderLine</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>salesOrderLine</h1>
+
+${model.f_comment}<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Help / Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The globally unique identifier.<br>
+            &nbsp;
+  </td>
+  
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+            pk<br>                required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>listPrice&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The standard list price of the product before any applicable discounts.<br>
+            &nbsp;
+  </td>
+  
+  <td>money
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>unitPrice&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The price of an individual unit (quantity 1) after any applicable discounts.<br>
+            &nbsp;
+  </td>
+  
+  <td>money
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>orderedQuantity&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The quantity ordered by the customer.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>fulfilledQuantity&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The quantity ordered by the customer.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>extendedPrice&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The price of line including discounts (quantity ordered * unit price).<br>
+            &nbsp;
+  </td>
+  
+  <td>money
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>priceAdjustment&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The manual price adjustment, if required.<br>
+            &nbsp;
+  </td>
+  
+  <td>money
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>adjustedPrice&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The price of the line, including the manual adjustment. Adjusted price = extended price + adjustment.<br>
+            &nbsp;
+  </td>
+  
+  <td>money
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>tax&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The amount of tax due for this line. The tax is based on multiple factors including: whether the item is taxable, whether the order is tax exempt, and the tax rate associated with the order.<br>
+            &nbsp;
+  </td>
+  
+  <td>money
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>totalPrice&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The total price of the line, including the adjustment and tax.<br>
+            &nbsp;
+  </td>
+  
+  <td>money
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>lockVersion&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
+            &nbsp;
+  </td>
+  
+  <td>lockVersion
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

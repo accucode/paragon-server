@@ -135,8 +135,8 @@ public final class MySignInPage
 
     private void installContentOn(ScFlexbox col)
     {
-        ScFlexbox row;
-        row = col.addRow();
+        ScFlexbox row = col.addRow();
+
         installForm(row);
         installLogo(row);
     }
@@ -144,6 +144,7 @@ public final class MySignInPage
     private void installForm(ScContainer root)
     {
         _staySignedInField = new ScCheckboxField();
+        _staySignedInField.disableChangeTracking();
 
         ScForm form;
         form = root.addForm();
@@ -172,9 +173,11 @@ public final class MySignInPage
         _emailField = new ScTextField();
         _emailField.setRequired();
         _emailField.setWidthFull();
+        _emailField.disableChangeTracking();
 
         _passwordField = new ScPasswordField();
         _passwordField.setWidthFull();
+        _passwordField.disableChangeTracking();
 
         ScBox box;
         box = group.getBody().addBox();

@@ -191,6 +191,11 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.childMarginTop);
     }
     
+    public KmCssDefaultBuilder choiceFieldFocus()
+    {
+        return apply(KmCssDefaultConstantsIF.choiceFieldFocus);
+    }
+    
     public KmCssDefaultBuilder content()
     {
         return apply(KmCssDefaultConstantsIF.content);
@@ -761,14 +766,14 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.pageHeader_left);
     }
     
-    public KmCssDefaultBuilder pageHeader_right()
-    {
-        return apply(KmCssDefaultConstantsIF.pageHeader_right);
-    }
-    
     public KmCssDefaultBuilder pageHeader_normal()
     {
         return apply(KmCssDefaultConstantsIF.pageHeader_normal);
+    }
+    
+    public KmCssDefaultBuilder pageHeader_right()
+    {
+        return apply(KmCssDefaultConstantsIF.pageHeader_right);
     }
     
     public KmCssDefaultBuilder pageTitle_bare()

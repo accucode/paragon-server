@@ -77,6 +77,7 @@ public class MySettingsValidatorBase
     @Override
     public void convertOnly(MySettings value)
     {
+        // fields...
         value.setCode(codeValidator.convertOnly(value.getCode()));
         value.setSomeMessage(someMessageValidator.convertOnly(value.getSomeMessage()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
@@ -85,9 +86,11 @@ public class MySettingsValidatorBase
     @Override
     public void validateOnly(MySettings value, KmList<KmErrorIF> errors)
     {
+        // fields...
         codeValidator.validateOnly(value.getCode(), errors);
         someMessageValidator.validateOnly(value.getSomeMessage(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
     }
 
     //##################################################

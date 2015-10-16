@@ -28,7 +28,7 @@ public class MyDevUserFrame
     private ScCard _viewChild;
     private ScCard _editChild;
 
-    private ScAction _onChangeAction;
+    private Runnable _onChange;
 
     //##################################################
     //# install
@@ -80,8 +80,13 @@ public class MyDevUserFrame
     {
         MyMetaUser x = MyUser.Meta;
 
-        ScAction saveAction = newAction(this::handleEditSave);
-        ScAction cancelAction = newAction(this::handleEditCancel);
+        ScAction saveAction;
+        saveAction = newAction(this::handleEditSaved);
+        saveAction.disableChangeTracking();
+
+        ScAction cancelAction;
+        cancelAction = newAction(this::handleEditCancelled);
+        cancelAction.disableChangeTracking();
 
         ScTextField emailField;
         emailField = x.Email.newField();
@@ -120,8 +125,8 @@ public class MyDevUserFrame
 
         ScDiv footer;
         footer = group.getBody().addButtonBox();
-        footer.addCancelButton(cancelAction);
         footer.addSubmitButton("Save");
+        footer.addCancelButton(cancelAction);
 
         return child;
     }
@@ -130,25 +135,20 @@ public class MyDevUserFrame
     //# accessing
     //##################################################
 
-    public ScAction getOnChangeAction()
+    public Runnable getOnChange()
     {
-        return _onChangeAction;
+        return _onChange;
     }
 
-    public void setOnChangeAction(ScAction e)
+    public void setOnChange(Runnable e)
     {
-        _onChangeAction = e;
+        _onChange = e;
     }
 
-    public void setOnChangeAction(Runnable r)
+    public void fireOnChanged()
     {
-        setOnChangeAction(newAction(r));
-    }
-
-    public void fireOnChangeAction()
-    {
-        if ( _onChangeAction != null )
-            _onChangeAction.run();
+        if ( _onChange != null )
+            _onChange.run();
     }
 
     //##################################################
@@ -160,23 +160,22 @@ public class MyDevUserFrame
         renderEdit();
     }
 
-    private void handleEditCancel()
+    private void handleEditCancelled()
     {
         renderView();
     }
 
-    private void handleEditSave()
+    private void handleEditSaved()
     {
         _editChild.validate();
 
         MyUser user;
         user = getUser();
         user.applyFrom(_editChild);
-        user.validate();
 
         renderView();
 
-        fireOnChangeAction();
+        fireOnChanged();
     }
 
     //##################################################

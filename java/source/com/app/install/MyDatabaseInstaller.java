@@ -13,7 +13,7 @@ import com.app.utility.MyInstaller;
 
 /**
  * Install the database from scratch.
- * This assumes that the schema already exists.
+ * This will attempt to create the schema if it does not already exist.
  */
 public class MyDatabaseInstaller
 {
@@ -50,7 +50,7 @@ public class MyDatabaseInstaller
         checkInit();
         resetSchema();
         installHibernate();
-        initializeData();
+        resetDatabase();
         printSuccess();
     }
 
@@ -153,14 +153,12 @@ public class MyDatabaseInstaller
         println("ok.");
     }
 
-    private void initializeData()
+    private void resetDatabase()
     {
         println();
-        println("Initialize data...");
+        println("Reset database...");
 
-        MyDatabaseBootstrapCommand cmd;
-        cmd = new MyDatabaseBootstrapCommand();
-        cmd.run();
+        MyResetDatabaseTool.run();
 
         println("ok.");
     }

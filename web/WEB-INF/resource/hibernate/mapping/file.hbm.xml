@@ -24,11 +24,11 @@
         <cache usage="read-write"/>
 
         <id
-            name="id"
-            column="id"
-            type="integer"
+            name="uid"
+            column="uid"
+            type="string"
             >
-            <generator class="identity"/>
+            <generator class="assigned"/>
         </id>
 
         <version

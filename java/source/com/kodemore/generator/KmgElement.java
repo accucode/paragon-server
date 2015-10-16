@@ -221,6 +221,17 @@ public abstract class KmgElement
     }
 
     /**
+     * If the attribute is NOT present, or has no value, generate an error.
+     */
+    public Boolean parseRequiredBoolean(KmStfElement p, String attr)
+    {
+        if ( !p.hasAttribute(attr) )
+            throw newFatal(p, "Cannot parse required boolean (%s).", attr);
+
+        return parseBoolean(p, attr);
+    }
+
+    /**
      * If the attribute is NOT present, return false.
      * If the attribute IS present, but has no value, return true.
      * Otherwise, return the specified value.

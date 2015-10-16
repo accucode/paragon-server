@@ -63,7 +63,7 @@ public class MyMetaUser
 
     public static String getHelp()
     {
-        return "Users define the global list of people that can log in to the system.\nMost users are configured as Other and then given project specific roles.\nA few users may be configured as Admin users so that they can create new\nprojects.";
+        return "Users define the global list of people that can log in to the system. Most users are configured as Other and then given project specific roles. A few users may be configured as Admin users so that they can create new projects.";
     }
 
     //##################################################

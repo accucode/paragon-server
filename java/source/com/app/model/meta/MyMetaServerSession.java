@@ -63,7 +63,7 @@ public class MyMetaServerSession
 
     public static String getHelp()
     {
-        return "Server sessions are used in place of the Virtual Http Session.\nThis allow for a user session to be served by multiple web server machines.\nThe session is created as early as possible, even before the user actually logs in.";
+        return "Server sessions are used in place of the Virtual Http Session. This allow for a user session to be served by multiple web server machines. The session is created as early as possible, even before the user actually logs in.";
     }
 
     //##################################################

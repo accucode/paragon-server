@@ -106,6 +106,7 @@ public final class MyDevUsersPage
     {
         _searchField = new ScTextField();
         _searchField.setLabel("Find");
+        _searchField.disableChangeTracking();
 
         ScFilterBox box;
         box = root.addFilterBox();
@@ -180,7 +181,7 @@ public final class MyDevUsersPage
     private void installFrame(ScContainer root)
     {
         _frame = new MyDevUserFrame();
-        _frame.setOnChangeAction(this::handleOnChange);
+        _frame.setOnChange(this::handleOnChange);
         _frame.css().fill().marginLeft();
 
         root.add(_frame);

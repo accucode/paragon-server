@@ -1,0 +1,45 @@
+model
+: name      = autoSignIn
+: help...
+    ---
+    Track the tokens that authorize a person/browser to automatically sign in.
+    ---
+
+database
+: alias     = asi
+: auditLog  = false
+: locking   = true
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The globally unique identifier.
+    : comment       =
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+
+    field
+    : name          = createdUtcTs
+    : comment       = This date and time when the user initially logged in manually.
+    : type          = timestamp
+    : default       = getNowUtc()
+    : required      = true
+                    
+    field
+    : name          = lastTouchedUtcTs
+    : help          = The date and time the user logged in.  This is generally updated each time the user logs in either manaully or automatically.
+    : comment       = 
+    : type          = timestamp
+    : default       = getNowUtc()
+    : required      = true
+                    
+    association     
+    : name          = user
+    : help          = The user associated with this sign in.
+    : comment       = 
+    : modelName     = user
+    : relation      = reference
+    : required      = true
+

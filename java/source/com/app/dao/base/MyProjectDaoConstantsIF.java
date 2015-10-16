@@ -19,6 +19,7 @@ public interface MyProjectDaoConstantsIF
 
     String UID = "uid";
     String NAME = "name";
+    String ORDER_NUMBER_PREFIX = "orderNumberPrefix";
     String LOCK_VERSION = "lockVersion";
 
     //##################################################
@@ -33,7 +34,11 @@ public interface MyProjectDaoConstantsIF
     String SKILLS = "skills";
     String VISIT_TYPES = "visitTypes";
     String ATTENTION_GROUPS = "attentionGroups";
-    String PRODUCTS = "products";
-    String CATEGORIES = "categories";
+    String MASTER_PRODUCTS = "masterProducts";
+    String PRODUCT_CATEGORIES = "productCategories";
     String SHIP_CARRIERS = "shipCarriers";
+    String ATTRIBUTE_FIELDS = "attributeFields";
+    String CUSTOMERS = "customers";
+    String CUSTOMER_TIERS = "customerTiers";
+    String SHIP_ACCOUNTS = "shipAccounts";
 }

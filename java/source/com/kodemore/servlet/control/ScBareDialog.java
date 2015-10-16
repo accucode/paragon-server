@@ -46,7 +46,7 @@ import com.kodemore.utility.Kmu;
  * process.  Instead, they attach themselves to the html body during ajaxOpen(),
  * and then automatically detach themselves from the dom when they close.
  *
- * Dialogs still need to be attached to the control hierarchy.  That is they need
+ * Dialogs still need to be attached to the control hierarchy.  That is, they need
  * to have a parent.  This is needed in order to delegate commmon security checks
  * to the page root, and for a few other things.
  */

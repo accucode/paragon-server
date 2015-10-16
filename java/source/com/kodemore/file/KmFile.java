@@ -148,8 +148,10 @@ public class KmFile
         if ( isRoot() )
             return null;
 
-        int i = _relativePath.lastIndexOf(SLASH);
-        String parentPath = _relativePath.substring(0, i + 1);
+        String s = Kmu.removeSuffix(_relativePath, SLASH);
+        int i = s.lastIndexOf(SLASH);
+        String parentPath = s.substring(0, i + 1);
+
         return new KmFile(_root, parentPath);
     }
 

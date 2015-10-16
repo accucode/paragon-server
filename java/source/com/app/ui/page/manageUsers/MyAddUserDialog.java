@@ -64,9 +64,6 @@ public class MyAddUserDialog
         e.applyFrom(this);
         validateEmail(e);
         e.attachDao();
-
-        flushDao();
-
         return e;
     }
 

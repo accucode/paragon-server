@@ -1,0 +1,98 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>customerTier</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>customerTier</h1>
+
+${model.f_comment}<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Help / Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The globally unique identifier.<br>
+            &nbsp;
+  </td>
+  
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+            pk<br>                required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>name&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The display name.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>discountRate&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The default discount rate used for customers associated with this tier. This determines the discount amount off of list price. For example, suppose the list price is $100, and the discount rate is 0.25 (25%); then the discount will be $25 ($100 * .25) and the effective unit price will be $75.<br>
+            &nbsp;
+  </td>
+  
+  <td>double
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>lockVersion&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
+            &nbsp;
+  </td>
+  
+  <td>lockVersion
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

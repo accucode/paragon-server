@@ -379,12 +379,19 @@ public abstract class ScBlockScript
      * All enterPage methods redirect to me.
      *
      * Before running the enterPage script, I update the CURRENT page session.  Updating the
-     * page session as part of navigation is relatively rare, but when it does happen it is
+     * page session as part of navigation is relatively rare, but when it does happen, it is
      * important to ensure that the client side session gets updated BEFORE triggering the
      * client side history and navigation flows.
      */
     private ScEnterPageScript _enterPage()
     {
+        /**
+         * low_wyatt: updatePageSession?
+         * Because of the way this is coded, the updatePageSession is effectively
+         * hardcoded to always CLEAR the session, rather than updating it with the
+         * current value.  ???
+         */
+
         updatePageSession();
 
         ScEnterPageScript e;
@@ -412,7 +419,8 @@ public abstract class ScBlockScript
     /**
      * Uses replaces the current browser history with the current
      * state of the page specified.  This does NOT trigger a navigation
-     * event.
+     * event.  This does NOT warn if there are changed values that will
+     * be lost.
      */
     public ScEnterPageScript replaceHistory(ScPage pg)
     {
@@ -420,6 +428,7 @@ public abstract class ScBlockScript
         e = enterPage(pg);
         e.setReplace();
         e.setHandleStateChange(false);
+        e.setChangeTracking(false);
         return e;
     }
 
@@ -687,6 +696,21 @@ public abstract class ScBlockScript
         clearText(target);
     }
 
+    public void selectText(ScHtmlIdIF target)
+    {
+        run("Kmu.selectText('%s');", target.getJquerySelector());
+    }
+
+    public void selectAndCopyText(ScHtmlIdIF target)
+    {
+        run("Kmu.selectAndCopyText('%s');", target.getJquerySelector());
+    }
+
+    public void copyToClipboard()
+    {
+        run("Kmu.copyToClipboard();");
+    }
+
     //##################################################
     //# html attributes
     //##################################################
@@ -722,6 +746,37 @@ public abstract class ScBlockScript
     public void clearValue(ScHtmlIdIF field)
     {
         setValue(field, "");
+    }
+
+    public void setChecked(ScHtmlIdIF field, boolean checked)
+    {
+        run("%s[0].checked=%s;", formatReference(field), checked);
+    }
+
+    //##################################################
+    //# html5 data attributes
+    //##################################################
+
+    /**
+     * Set an html5 data attribute, that is also compatible with the
+     * jquery data attribute.
+     *
+     * The key should NOT include the data- prefix.
+     */
+    public void setDataAttribute(ScHtmlIdIF field, String key, String value)
+    {
+        if ( value == null )
+            value = "";
+
+        run("%s.data(%s,%s);", formatReference(field), json(key), json(value));
+    }
+
+    public void setDataAttribute(ScHtmlIdIF field, String key, Boolean value)
+    {
+        if ( value == null )
+            value = false;
+
+        run("%s.data(%s,%s);", formatReference(field), json(key), json(value + ""));
     }
 
     //##################################################
@@ -1181,6 +1236,15 @@ public abstract class ScBlockScript
     }
 
     //##################################################
+    //# old values
+    //##################################################
+
+    public void resetFieldsToOldValue()
+    {
+        run("Kmu.resetFieldsToOldValue();");
+    }
+
+    //##################################################
     //# format
     //##################################################
 
@@ -1228,4 +1292,12 @@ public abstract class ScBlockScript
         return !isEmpty();
     }
 
+    //##################################################
+    //# noop
+    //##################################################
+
+    public void noop()
+    {
+        run(";");
+    }
 }

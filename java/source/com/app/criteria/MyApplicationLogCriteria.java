@@ -39,14 +39,14 @@ public class MyApplicationLogCriteria
     //# properties
     //##################################################
 
-    public KmhIntegerCondition whereId()
+    public KmhStringCondition whereUid()
     {
-        return new KmhIntegerCondition(context(), fullName(ID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
+    public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmhStringCondition whereLoggerName()
@@ -79,31 +79,31 @@ public class MyApplicationLogCriteria
         return new KmhStringCondition(context(), fullName(THREAD_NAME));
     }
 
-    public KmhStringCondition whereExceptionText()
+    public KmhStringCondition whereTrace()
     {
-        return new KmhStringCondition(context(), fullName(EXCEPTION_TEXT));
+        return new KmhStringCondition(context(), fullName(TRACE));
     }
 
     //##################################################
     //# sorts
     //##################################################
 
-    public void sortOnId()
+    public void sortOnUid()
     {
-        parent().sortAscending(ID);
+        parent().sortAscending(UID);
     }
 
-    public void sortOnIdDescending()
+    public void sortOnUidDescending()
     {
-        parent().sortDescending(ID);
+        parent().sortDescending(UID);
     }
 
-    public void sortOnId(boolean asc)
+    public void sortOnUid(boolean asc)
     {
         if ( asc )
-            sortOnId();
+            sortOnUid();
         else
-            sortOnIdDescending();
+            sortOnUidDescending();
     }
 
     public void sortOnCreatedUtcTs()
@@ -232,66 +232,66 @@ public class MyApplicationLogCriteria
             sortOnThreadNameDescending();
     }
 
-    public void sortOnExceptionText()
+    public void sortOnTrace()
     {
-        parent().sortAscending(EXCEPTION_TEXT);
+        parent().sortAscending(TRACE);
     }
 
-    public void sortOnExceptionTextDescending()
+    public void sortOnTraceDescending()
     {
-        parent().sortDescending(EXCEPTION_TEXT);
+        parent().sortDescending(TRACE);
     }
 
-    public void sortOnExceptionText(boolean asc)
+    public void sortOnTrace(boolean asc)
     {
         if ( asc )
-            sortOnExceptionText();
+            sortOnTrace();
         else
-            sortOnExceptionTextDescending();
+            sortOnTraceDescending();
     }
 
     //##################################################
-    //# projections (id)
+    //# projections (uid)
     //##################################################
 
-    public void selectId()
+    public void selectUid()
     {
-        select(ID);
+        select(UID);
     }
 
-    public void selectDistinctId()
+    public void selectDistinctUid()
     {
-        selectDistinct(ID);
+        selectDistinct(UID);
     }
 
-    public void selectCountDistinctId()
+    public void selectCountDistinctUid()
     {
-        selectCountDistinct(ID);
+        selectCountDistinct(UID);
     }
 
-    public void selectMinimumId()
+    public void selectMinimumUid()
     {
-        selectMinimum(ID);
+        selectMinimum(UID);
     }
 
-    public void selectMaximumId()
+    public void selectMaximumUid()
     {
-        selectMaximum(ID);
+        selectMaximum(UID);
     }
 
-    public void selectAverageId()
+    public void selectAverageUid()
     {
-        selectAverage(ID);
+        selectAverage(UID);
     }
 
-    public void selectSumId()
+    public void selectSumUid()
     {
-        selectSum(ID);
+        selectSum(UID);
     }
 
-    public void groupById()
+    public void groupByUid()
     {
-        groupBy(ID);
+        groupBy(UID);
     }
 
     //##################################################
@@ -603,61 +603,47 @@ public class MyApplicationLogCriteria
     }
 
     //##################################################
-    //# projections (exceptionText)
+    //# projections (trace)
     //##################################################
 
-    public void selectExceptionText()
+    public void selectTrace()
     {
-        select(EXCEPTION_TEXT);
+        select(TRACE);
     }
 
-    public void selectDistinctExceptionText()
+    public void selectDistinctTrace()
     {
-        selectDistinct(EXCEPTION_TEXT);
+        selectDistinct(TRACE);
     }
 
-    public void selectCountDistinctExceptionText()
+    public void selectCountDistinctTrace()
     {
-        selectCountDistinct(EXCEPTION_TEXT);
+        selectCountDistinct(TRACE);
     }
 
-    public void selectMinimumExceptionText()
+    public void selectMinimumTrace()
     {
-        selectMinimum(EXCEPTION_TEXT);
+        selectMinimum(TRACE);
     }
 
-    public void selectMaximumExceptionText()
+    public void selectMaximumTrace()
     {
-        selectMaximum(EXCEPTION_TEXT);
+        selectMaximum(TRACE);
     }
 
-    public void selectAverageExceptionText()
+    public void selectAverageTrace()
     {
-        selectAverage(EXCEPTION_TEXT);
+        selectAverage(TRACE);
     }
 
-    public void selectSumExceptionText()
+    public void selectSumTrace()
     {
-        selectSum(EXCEPTION_TEXT);
+        selectSum(TRACE);
     }
 
-    public void groupByExceptionText()
+    public void groupByTrace()
     {
-        groupBy(EXCEPTION_TEXT);
-    }
-
-    //##################################################
-    //# collection (Traces)
-    //##################################################
-
-    public MyApplicationLogTraceCriteria joinToTraces()
-    {
-        return new MyApplicationLogTraceCriteria(joinTo(TRACES));
-    }
-
-    public MyApplicationLogTraceCriteria leftJoinToTraces()
-    {
-        return new MyApplicationLogTraceCriteria(leftJoinTo(TRACES));
+        groupBy(TRACE);
     }
 
     //##################################################

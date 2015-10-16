@@ -4,22 +4,118 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
-    <script type="text/javascript" src ="../static/version/kodemore/loader/kmResourceLoader.js"></script>
-    <script type="text/javascript" src ="../static/version/app/common/script/myResourceLoader.js"></script>
+<!-- BEGIN_STANDARD_HEADER -->
+    <!-- reset -->
+    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/reset.css">
+
+    <!-- jquery (not deferred) -->
+    <script src="../static/version/jquery/core/jquery-1.10.2.min.js"></script>
+    <script src="../static/version/jquery/core/jquery-migrate-1.2.1.min.js"></script>
+
+    <!-- jquery ui -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/jquery-ui-1.11.1/jquery-ui.min.css">
+    <script defer src="../static/version/jquery/jquery-ui-1.11.1/jquery-ui.min.js"></script>
+
+    <!-- color picker -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/colorpicker-09.05.23/css/colorpicker.css">
+    <script defer src="../static/version/jquery/colorpicker-09.05.23/js/colorpicker.js"></script>
+
+    <!-- flexigrid -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/flexigrid-1.1/css/flexigrid.pack.css">
+    <script defer src="../static/version/jquery/flexigrid-1.1/js/flexigrid.js"></script>
+
+    <!-- akquinet toasts -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/akquinet-0.2.0-13/resources/css/jquery.toastmessage.css">
+    <script defer src="../static/version/jquery/akquinet-0.2.0-13/javascript/jquery.toastmessage.js"></script>
+
+    <!-- cl editor -->
+    <!-- "../static/version/jquery/cleditor-1.4.3/jquery.cleditor.css", -->
+    <!-- "../static/version/jquery/cleditor-1.4.3/jquery.cleditor.min.js"></script> -->
+
+    <!-- block ui -->
+    <script defer src="../static/version/jquery/blockUi-2.64.0/jquery.blockUI.js"></script>
+
+    <!-- cookie -->
+    <script defer src="../static/version/jquery/cookie-1.0.0/jquery.cookie.js"></script>
+
+    <!-- transit -->
+    <script defer src="../static/version/jquery/transit-0.9.9/jquery.transit-0.9.9.min.js"></script>
+
+    <!-- Twitter Bootstrap -->
+    <!-- "../static/version/bootstrap-2.3.2/css/bootstrap.min.css", -->
+    <!-- "../static/version/bootstrap-2.3.2/js/bootstrap.min.js", -->
+
+    <!-- bootstap select -->
+    <link rel="stylesheet" type="text/css" href="../static/version/bootstrap-select-1.3.1/bootstrap-select.min.css">
+    <script defer src="../static/version/bootstrap-select-1.3.1/bootstrap-select.min.js"></script>
+
+    <!-- dropzone -->
+    <link rel="stylesheet" type="text/css" href="../static/version/dropzone-3.6.1/dropzone.css">
+    <script defer src="../static/version/dropzone-3.6.1/dropzone.js"></script>
+
+    <!-- json -->
+    <script defer src="../static/version/json-2010.11.18/json2.js"></script>
+
+    <!-- Code39 Azalea -->
+    <!-- <link rel="stylesheet" type="text/css" href="../static/version/azaleaCode39/Code39Azalea.min.css"> -->
+
+    <!-- history -->
+    <script defer src="../static/version/jquery/history-1.8.6/scripts/bundled-uncompressed/html5/jquery.history.js"></script>
+
+    <!-- scroll to -->
+    <script defer src="../static/version/jquery/scrollto-1.4.3.1/jquery.scrollTo-1.4.3.1-min.js"></script>
+
+    <!-- visible -->
+    <script defer src="../static/version/jquery/jquery-visible-master/jquery.visible.js"></script>
+
+    <!-- splitter -->
+    <link rel="stylesheet" type="text/css" href="../static/version/jquery/jcubic-splitter-0.14.0/css/jquery.splitter.css">
+    <script defer src="../static/version/jquery/jcubic-splitter-0.14.0/js/jquery.splitter-0.14.0.js"></script>
+
+    <!-- nvd3 charts 1.1.10 -->
+    <link rel="stylesheet" type="text/css" href="../static/version/nvd3-1.1.10/src/nv.d3.css">
+    <script defer src="../static/version/nvd3-1.1.10/lib/d3.v3.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/nv.d3.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/tooltip.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/utils.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/interactiveLayer.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/models/legend.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/models/axis.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/models/line.js"></script>
+    <script defer src="../static/version/nvd3-1.1.10/src/models/lineChart.js"></script>
+
+    <!-- kodemore -->
+    <script defer src="../static/version/app/common/script/kmExtensions.js"></script>
+    <script defer src="../static/version/app/common/script/kmu.js"></script>
+    <script defer src="../static/version/app/common/script/kmNavigator.js"></script>
+    <script defer src="../static/version/app/common/script/kmDropdownMenu.js"></script>
+    <script defer src="../static/version/app/common/script/kmTimeAgo.js"></script>
+    <script defer src="../static/version/app/common/script/kmDateAgo.js"></script>
+
+    <!-- app -->
+    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/button.css">
+    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/dropdownMenu.css">
+    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/theme.css">
+    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/spice.css">
+    <link rel="stylesheet" type="text/css" href="../static/version/app/theme/default/css/tools.css">
+
+    <!-- ckEditor -->
+    <script src="../static/version/ckeditor/ckeditor.js"></script>
+
+    <!-- full calendar -->
+    <link rel="stylesheet" type="text/css" href="../static/version/fullcalendar-2.4.0/fullcalendar.min.css">
+    <script src="../static/version/fullcalendar-2.4.0/moment.min.js"></script>
+    <script src="../static/version/fullcalendar-2.4.0/fullcalendar.min.js"></script>
+
+    <!-- html2canvas -->
+    <script src="../static/version/html2canvas-0.5.0-a1/html2canvas.js"></script>
+<!-- END_STANDARD_HEADER -->
 
     <script type="text/javascript">
 
         function myLoad()
         {
-            MyResourceLoader.loadTestResources(
-            {
-                onComplete: myInstall
-            });
-        }
-        
-        function myInstall()
-        {
-            $('#main').show();
+        	$('#main').show();
         }
         
     </script>

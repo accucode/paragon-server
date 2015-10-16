@@ -1,0 +1,65 @@
+model
+: name      = salesOrderContact
+: help...
+    ---
+    The contacts associated with a particular order.  These contacts
+    are primarily used for notifications related to a single order. 
+    --- 
+
+database
+: alias     = soc
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = salesOrder
+    : unique    = false
+    : on        = salesOrder
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The globally unique identifier.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    association
+    : name      = salesOrder
+    : help      = The order to which this contact belongs.
+    : modelName = salesOrder
+    : relation  = parent
+    : required  = true
+
+    field
+    : name      = name
+    : help      = The person's name.  E.g.: John Doe.
+    : type      = name
+    : required  = true
+
+    field
+    : name      = title
+    : help      = The person's business title.  E.g.: Director of Sales.
+    : type      = name
+    : required  = false
+    
+    field
+    : name      = phone
+    : help      = The person's phone number.  E.g.: 303.555.1234.
+    : type      = phone
+    : required  = false
+
+    field
+    : name      = email
+    : help      = The person's email address.  E.g.: john.doe@example.com.
+    : type      = email
+    : required  = false
+
+    field
+    : name      = orderNotifications
+    : help      = If true, we will attempt to send notifications about orders.
+    : type      = boolean
+    : required  = true
+    : default   = false

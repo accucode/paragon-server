@@ -60,9 +60,6 @@ public class MyAddDepotDialog
         MyDepot e;
         e = getCurrentProject().addDepot();
         e.applyFrom(this);
-
-        flushDao();
-
         return e;
     }
 }

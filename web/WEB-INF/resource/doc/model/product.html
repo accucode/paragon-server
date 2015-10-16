@@ -31,7 +31,7 @@ ${model.f_comment}<br>
   
   <td>
             <i>Help</i><br>
-        The globally unique identifier.  This is a big ugly number and is generally not displayed.<br>
+        The globally unique identifier.<br>
             &nbsp;
   </td>
   
@@ -45,11 +45,29 @@ ${model.f_comment}<br>
   </td>
 </tr>
 <tr>
+  <td>statusCode&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The status of this version.\n Draft. New versions always start as a draft and each (master) product can have only one draft at a time.\n Cancelled. Indicates that a draft was cancelled without ever being published.\n Published. When the user is done editing a draft, the draft is published for use.  Only one version can be published at a time. When a new version is published, the previously published version (if any) will be archived.\n Archived. A previously published version that has been superceded when a newer version has been published.<br>
+            &nbsp;
+  </td>
+  
+  <td>letterCode
+        <br><nobr>max length: 1</nobr>           <br>allows(
+                      letters
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
   <td>name&nbsp;</td>
   
   <td>
             <i>Help</i><br>
-        The display name.<br>
+        A short, informal display name. Unlike the part number, this value can be changed as needed and is not required to be strictly unique.<br>
             &nbsp;
   </td>
   
@@ -58,6 +76,216 @@ ${model.f_comment}<br>
                       printable
             )
       </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>description&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        A longer multi-line description of the product.<br>
+            &nbsp;
+  </td>
+  
+  <td>notes
+        <br><nobr>max length: 1000</nobr>           <br>allows(
+                      printable
+                        ,&nbsp;
+                whitespace
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>listPrice&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The standard list price as published in the standard catalog.<br>
+            &nbsp;
+  </td>
+  
+  <td>money
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>discountable&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        In many cases, a customer-specific discount is applied to the list price in order to determine the actual sell price of the item for a particular order. However, in some cases the item is NOT subject to discounts.\n For example, we may define an product called \"$50 Delayed Install Discount\" with a price -100.00.  This product provide a convenient way to give customers a standard discount for delayed installations.  But we would NOT want to apply the customer's discount rate to the list price defined for this item.<br>
+            &nbsp;
+  </td>
+  
+  <td>boolean
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>taxable&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        Indicate if this product is subject to sales tax.  This is generally set to false for labor and servcies, and true for everything else.  If a product is some type of package that includes multiple items, then it must be set to taxable if even a single sub-component is taxable.\n Additional rules related to sales tax are checked for each order.  If a particular order is flagged as tax exempt, then we will not apply sales tax even if the items are taxable.<br>
+            &nbsp;
+  </td>
+  
+  <td>boolean
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>cost&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        An estimate of the total cost of this product.  By comparing the sale price and cost of each product sold, we can report an estimated profit.<br>
+            &nbsp;
+  </td>
+  
+  <td>money
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>requiresShip&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        Physical goods generally require that we ship them to the customer.  That is, they must be picked, packed, and shipped to the customer.  On the other hand, services such as installation or warranty generally do not require shipping.<br>
+            &nbsp;
+  </td>
+  
+  <td>boolean
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>shipInstruction&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        Special instructions that need to be displayed to the worker when shipping this product.<br>
+            &nbsp;
+  </td>
+  
+  <td>notes
+        <br><nobr>max length: 1000</nobr>           <br>allows(
+                      printable
+                        ,&nbsp;
+                whitespace
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>pickInstruction&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        Special instructions that need to be displayed to the worker when picking this product.<br>
+            &nbsp;
+  </td>
+  
+  <td>notes
+        <br><nobr>max length: 1000</nobr>           <br>allows(
+                      printable
+                        ,&nbsp;
+                whitespace
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>networkPortsProduced&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The number of network (cat5) ports that this device adds to a network topology.  For example, this is used to help warn when an order may be missing a switch, or when the switch doesn't have enough ports for the number of access points.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>networkPortsConsumed&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The number of network (cat5) ports that this device uses/removes from a network topology.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>poePortsProduced&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The number of Power Over Ethernet ports that this adds to a network topology. Note that this may be different from the number of network ports.  For example an 8-port switch may only support 3 fully powered PoE ports.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>poePortsConsumed&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The number of Power Over Ethernet ports that this uses in a network topology.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>vendorPartNumber&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The vendor's part number, which may be different from the part number.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
   <td>
                    required<br>           &nbsp;
   </td>
@@ -73,6 +301,24 @@ ${model.f_comment}<br>
   
   <td>lockVersion
               </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>statusName&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The status of this version.\n Draft. New versions always start as a draft and each (master) product can have only one draft at a time.\n Cancelled. Indicates that a draft was cancelled without ever being published.\n Published. When the user is done editing a draft, the draft is published for use.  Only one version can be published at a time. When a new version is published, the previously published version (if any) will be archived.\n Archived. A previously published version that has been superceded when a newer version has been published.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
   <td>
                          &nbsp;
   </td>

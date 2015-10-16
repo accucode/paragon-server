@@ -426,6 +426,11 @@ public class KmgModel
         return v;
     }
 
+    public boolean isSimplePrimaryKey()
+    {
+        return getPrimaryKeyFields().isSingleton() && getPrimaryKeyField().isString();
+    }
+
     public KmList<KmgModelField> getNonPrimaryKeyFields()
     {
         KmList<KmgModelField> v = new KmList<>();
@@ -672,11 +677,12 @@ public class KmgModel
         KmgModelField e;
         e = addField();
         e.setName("lockVersion");
+        e.setType("lockVersion");
+        e.setAuditLogMode("false");
         e.setHelp(
             ""
                 + "This is used to coordinate optimistic locking in the database. "
                 + "This is usually not displayed.");
-        e.setType("lockVersion");
     }
 
     //##################################################

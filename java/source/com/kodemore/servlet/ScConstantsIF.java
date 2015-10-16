@@ -226,4 +226,27 @@ public interface ScConstantsIF
      * identified by the url bar at the top of the browser window.
      */
     String PRINT_WINDOW_LOCATION = "_printWindowLocation";
+
+    //##################################################
+    //# data attributes
+    //##################################################
+
+    /**
+     * The attribute key used to identify editable/revertable field values.
+     * Client side javascript is used to test if the field's value has changed.
+     * Fields with this attribute must be compatible with...
+     *      $('#field').val();
+     *      $('#field').val(oldValue);
+     */
+    String DATA_ATTRIBUTE_OLD_VALUE = "km-old-value";
+
+    /**
+     * The attribute key used to identify editable/revertable field values.
+     * Client side javascript is used to test if the field's value has changed.
+     * Fields with this attribute must be compatible with:
+     *      $('#field')[0].checked;
+     *      $('#field')[0].checked = (oldValue == 'true');
+     *
+     */
+    String DATA_ATTRIBUTE_OLD_CHECKED = "km-old-checked";
 }

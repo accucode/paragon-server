@@ -15,4 +15,15 @@ public class MyEmailRecipient
 
         setTypeTo();
     }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getTypeName() + " " + getAddress();
+    }
+
 }

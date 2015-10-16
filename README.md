@@ -27,13 +27,22 @@ Minimum requirements
 --------------------
 
     Java 1.8
-    Tomcat 7
-    Ant 1.8
+    Tomcat 8
+    Ant 1.9
 
 Eclipse
 -------
 
     * We use Mars or later.
+    * Disable the auto-indent on save.
+    * See [here](http://goo.gl/y5S39B).
+
+Eclipse Plugins
+-------
+
+    * AnyEdit, convert tabs to spaces.
+    * Convert tabs inside line (not just prefix)
+
 
 Third party libraries
 ---------------------

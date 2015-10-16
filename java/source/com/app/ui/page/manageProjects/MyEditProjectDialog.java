@@ -44,6 +44,7 @@ public class MyEditProjectDialog
         ScFieldLayout fields;
         fields = body.addFieldLayout();
         fields.addField(x.Name);
+        fields.addField(x.OrderNumberPrefix);
     }
 
     //##################################################
@@ -71,10 +72,6 @@ public class MyEditProjectDialog
         MyProject e;
         e = getAccess().findProjectUid(uid);
         e.applyFrom(this);
-        e.validate();
-
-        flushDao();
-
         return e;
     }
 }

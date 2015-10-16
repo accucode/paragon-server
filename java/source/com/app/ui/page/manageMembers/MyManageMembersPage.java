@@ -72,7 +72,7 @@ public final class MyManageMembersPage
     {
         _viewCard = frame.addCard(new MyViewMemberCard());
         _viewCard.addSaveListener(this::handleEdited);
-        _viewCard.addRemoveListener(this::handleRemove);
+        _viewCard.addRemoveListener(this::handleRemoved);
     }
 
     //##################################################

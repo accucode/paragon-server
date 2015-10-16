@@ -21,15 +21,14 @@ public class MyApplicationLog
     //##################################################
 
     @Override
+    public String getDisplayString()
+    {
+        return getMessage();
+    }
+
+    @Override
     public String getLevelCodeName()
     {
         return Kmu.format("%s (%s)", getLevelName(), getLevelCode());
     }
-
-    @Override
-    public String getFullTrace()
-    {
-        return getSortedTraces().joinLines(e -> e.getValue());
-    }
-
 }

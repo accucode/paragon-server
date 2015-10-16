@@ -117,6 +117,12 @@ public class KmgModelAssociation
 
     private boolean _abstract;
 
+    /**
+     * The list of attributes that I depend on, and what
+     * to do when any of those attributes changes.
+     */
+    private KmgModelDependsOn _dependsOn;
+
     private KmList<String> _onChangeMethods;
 
     //##################################################
@@ -265,6 +271,16 @@ public class KmgModelAssociation
         return !isAbstract();
     }
 
+    public KmgModelDependsOn getDependsOn()
+    {
+        return _dependsOn;
+    }
+
+    public boolean hasDependsOn()
+    {
+        return getDependsOn() != null;
+    }
+
     public KmList<String> getOnChangeMethods()
     {
         return _onChangeMethods;
@@ -399,7 +415,7 @@ public class KmgModelAssociation
     public void parse(KmStfElement x)
     {
         checkAttributeKeys(x, "name", "help", "comment", "modelName", "relation", "required");
-        checkChildrenNames(x, "delegate");
+        checkChildrenNames(x, "delegate", "dependsOn");
 
         _name = parseRequiredNameAttribute(x);
         _help = parseString(x, "help", null);
@@ -420,6 +436,20 @@ public class KmgModelAssociation
         KmList<KmStfElement> v = x.getChildren("delegate");
         for ( KmStfElement e : v )
             addDelegate().parse(e);
+
+        _dependsOn = parseDependsOn(x);
+    }
+
+    private KmgModelDependsOn parseDependsOn(KmStfElement x)
+    {
+        x = x.getChild("dependsOn");
+        if ( x == null )
+            return null;
+
+        KmgModelDependsOn e;
+        e = new KmgModelDependsOn(this);
+        e.parse(x);
+        return e;
     }
 
     @Override
@@ -431,6 +461,9 @@ public class KmgModelAssociation
         validateRelation();
 
         _validate(_delegates);
+
+        if ( hasDependsOn() )
+            getDependsOn().validate();
     }
 
     private void validateRelation()
@@ -468,6 +501,9 @@ public class KmgModelAssociation
     public void postValidate()
     {
         _postValidate(_delegates);
+
+        if ( hasDependsOn() )
+            getDependsOn().postValidate();
     }
 
     //##################################################

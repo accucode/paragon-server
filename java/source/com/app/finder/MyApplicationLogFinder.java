@@ -17,18 +17,18 @@ import com.app.finder.core.*;
 import com.app.model.*;
 
 public class MyApplicationLogFinder
-    implements KmKeyFinderIF<MyApplicationLog,Integer>
+    implements KmKeyFinderIF<MyApplicationLog,String>
 {
     //##################################################
     //# static
     //##################################################
 
-    public static MyApplicationLog staticFind(Integer key)
+    public static MyApplicationLog staticFind(String key)
     {
         return new MyApplicationLogFinder().find(key);
     }
 
-    public static MyApplicationLog staticFindDao(Integer key)
+    public static MyApplicationLog staticFindDao(String key)
     {
         return new MyApplicationLogFinder().findDao(key);
     }
@@ -38,14 +38,14 @@ public class MyApplicationLogFinder
     //##################################################
 
     @Override
-    public MyApplicationLog find(Integer key)
+    public MyApplicationLog find(String key)
     {
-        return new MyApplicationLogDao().findId(key);
+        return new MyApplicationLogDao().findUid(key);
     }
 
-    public MyApplicationLog findDao(Integer key)
+    public MyApplicationLog findDao(String key)
     {
-        MyDaoKeyFinder<MyApplicationLog,Integer> e;
+        MyDaoKeyFinder<MyApplicationLog,String> e;
         e = new MyDaoKeyFinder<>(this, key);
         e.run();
         return e.getValue();

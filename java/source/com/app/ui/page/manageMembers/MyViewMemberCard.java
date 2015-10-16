@@ -76,7 +76,7 @@ public class MyViewMemberCard
     {
         _editDialog = new MyEditMemberDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(this::handleSaved);
+        _editDialog.addSavedListener(this::handleSaved);
     }
 
     private void installRemoveDialog()
@@ -92,7 +92,7 @@ public class MyViewMemberCard
 
     public void addSaveListener(Consumer<MyMember> e)
     {
-        _editDialog.addSaveListener(e);
+        _editDialog.addSavedListener(e);
     }
 
     public void addRemoveListener(Consumer<MyMember> e)

@@ -31,7 +31,7 @@ ${model.f_comment}<br>
   
   <td>
             <i>Help</i><br>
-        The unique key.  This is typically a short date-ish value such as: 20140131-1.txt.<br>
+        The unique key. This is typically a short date-ish value such as: 20140131-1.txt. The patches are applied in the sequence implied by their collating sequence.<br>
             &nbsp;
   </td>
   
@@ -64,12 +64,12 @@ ${model.f_comment}<br>
   
   <td>
             <i>Help</i><br>
-        The full raw script.  This contains both the text originally used to upgrade, as well as the text used to subsequently downgrade.  Each script has a maximum length of 20,000 characters (bytes).<br>
+        The full raw script.  This contains both the text originally used to upgrade, as well as the text used to subsequently downgrade.  Each script has a maximum length of 50,000 characters.<br>
             &nbsp;
   </td>
   
-  <td>multiline20000
-        <br><nobr>max length: 20000</nobr>           <br>allows(
+  <td>bigText
+        <br><nobr>max length: 50000</nobr>           <br>allows(
                       printable
                         ,&nbsp;
                 whitespace

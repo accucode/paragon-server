@@ -63,7 +63,7 @@ public class MyMetaEmail
 
     public static String getHelp()
     {
-        return "I am used to manage emails.  This allows the application to easily create an email\nas part of a database transaction, and to subsequently send (and re-send) the email\nas needed.  This also provides a convenient log of email that were previously sent.";
+        return "I am used to manage emails.  This allows the application to easily create an email as part of a database transaction, and to subsequently send (and re-send) the email as needed.  This also provides a convenient log of email that were previously sent.";
     }
 
     //##################################################

@@ -1,0 +1,181 @@
+model
+: name      = auditLog
+: help...
+    ---
+    I maintain a log of changes made to the domain.  Each record identify a single
+    attribute that has been modified on a given model.  For example, a single
+    record may record that the user John Doe changed the Widget's price to $13.00
+    on Jan 1, 2015.
+
+    This is intended to be a historical archive that can be easily exported to a
+    third-party reporting.  All records must be immutable; records can be added,
+    but not modified.
+    ---
+
+database
+: alias     = au
+: auditLog  = false
+: locking   = false
+
+    index
+    : name      = modelField
+    : unique    = false
+    : on        = modelUid
+    : on        = fieldName
+    : on        = utcTs
+
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The globally unique identifier.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+
+    field
+    : name          = transactionUid
+    : help          = A unique identifier of the database transaction.
+    : type          = uid
+    : required      = true
+
+
+    association
+    : name      = user
+    : help      = The user that made this change.  May be null for automated updates.
+    : modelName = user
+    : relation  = reference
+    : required  = false
+
+
+    field
+    : name      = userName
+    : help      = The user's name (denormalized).
+    : type      = name
+    : required  = false
+
+        dependsOn
+        : value = user
+
+
+    field
+    : name      = typeCode
+    : help      = The type of change.
+    : type      = letterCode
+    : required  = true
+
+        enum
+            value(#A Add)
+            value(#U Update)
+            value(#D Delete)
+
+
+    field
+    : name      = utcTs
+    : help      = The time this change was made.
+    : type      = timestamp
+    : default   = getNowUtc()
+    : required  = true
+
+
+    field
+    : name      = modelName
+    : help      = The name of the domain model; e.g.: Project, Depot, User, etc.
+    : type      = name
+    : required  = true
+
+
+    field
+    : name      = modelUid
+    : help      = The unique id of the model.
+    : type      = uid
+    : required  = true
+
+
+    field
+    : name      = fieldName
+    : help      = The name of the field that was modified.
+    : type      = name
+    : required  = true
+
+
+    field
+    : name      = newValue
+    : help      = A human readable summary of the new/current value.
+    : type      = name
+    : required  = true
+
+
+    field
+    : name      = oldValue
+    : help      = A human readable summary of the old/previous value.
+    : type      = name
+    : required  = true
+
+
+    field
+    : name      = stringValue
+    : help      = The truncated string value, if applicable.
+    : type      = text1000
+    : required  = false
+
+
+    field
+    : name      = integerValue
+    : help      = The integer value, if applicable.
+    : type      = integer
+    : required  = false
+
+
+    field
+    : name      = longValue
+    : help      = The long value, if applicable.
+    : type      = long
+    : required  = false
+
+
+    field
+    : name      = doubleValue
+    : help      = The double value, if applicable.
+    : type      = double
+    : required  = false
+
+
+    field
+    : name      = moneyValue
+    : help      = The money value, if applicable.
+    : type      = money
+    : required  = false
+
+
+    field
+    : name      = booleanValue
+    : help      = The boolean value, if applicable.
+    : type      = boolean
+    : required  = false
+
+
+    field
+    : name      = dateValue
+    : help      = The date value, if applicable.
+    : type      = date
+    : required  = false
+
+
+    field
+    : name      = timestampValue
+    : help      = The timestamp value, if applicable.
+    : type      = timestamp
+    : required  = false
+
+
+    field
+    : name      = uidValue
+    : help      = The foreign key reference uid, if applicable.
+    : type      = uid
+    : required  = false
+
+

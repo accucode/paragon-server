@@ -63,7 +63,7 @@ public class MyMetaSkill
 
     public static String getHelp()
     {
-        return "Skills are used to coordinate which workers are assigned to specific tasks.\nTypical examples include: Manager, Shipper, Picker, Scheduler, etc.\nEach worker is configured with the list of skills they are trained to perform,\nand each task is configured with the list of skills it requires.";
+        return "Skills are used to coordinate which workers are assigned to specific tasks. Typical examples include: Manager, Shipper, Picker, Scheduler, etc. Each worker is configured with the list of skills they are trained to perform, and each task is configured with the list of skills it requires.";
     }
 
     //##################################################

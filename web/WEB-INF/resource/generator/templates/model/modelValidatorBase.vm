@@ -25,7 +25,7 @@ $utility.protocol("static")
 
 $utility.protocol("variables")
 
-#foreach ( $field in ${model.editableFieldsAndDelegates} )
+#foreach ( $field in ${model.editableFields} )
     private ${field.f_ValidatorClass} ${field.f_variable}Validator;
 #end
 
@@ -34,14 +34,14 @@ $utility.protocol("constructor")
     protected ${model.f_ValidatorBaseClass}()
     {
         super();
-#foreach ( $field in ${model.editableFieldsAndDelegates} )
+#foreach ( $field in ${model.editableFields} )
         ${field.f_variable}Validator = new${field.f_Name}Validator();
 #end
     }
 
 $utility.protocol("accessing")
 
-#foreach ( $field in ${model.editableFieldsAndDelegates} )
+#foreach ( $field in ${model.editableFields} )
     public ${field.f_ValidatorClass} ${field.f_getMethod}Validator()
     {
         return ${field.f_variable}Validator;
@@ -53,9 +53,7 @@ $utility.protocol("validate")
     @Override
     public void convertOnly(${model.f_Class} value)
     {
-#if ( $model.editableFields.isEmpty() )
-        // none
-#end
+        // fields...
 #foreach ( $field in ${model.editableFields} )
         value.${field.f_setMethod}(${field.f_variable}Validator.convertOnly(value.${field.f_getMethod}()));
 #end
@@ -64,17 +62,22 @@ $utility.protocol("validate")
     @Override
     public void validateOnly(${model.f_Class} value, KmList<KmErrorIF> errors)
     {
-#if ( $model.editableFields.isEmpty() )
-        // none
-#end
+        // fields...
 #foreach ( $field in ${model.editableFields} )
         ${field.f_variable}Validator.validateOnly(value.${field.f_getMethod}(), errors);
+#end
+        // required associations...
+#foreach ( $field in ${model.editableAssociations} )
+#if ( $field.isRequired() )
+        if ( !value.${field.f_hasMethod}() )
+            errors.add(new KmRequiredValidationError("$model.f_name", "${field.f_name}"));
+#end
 #end
     }
 
 $utility.protocol("instance creation")
 
-#foreach ( $field in ${model.editableFieldsAndDelegates} )
+#foreach ( $field in ${model.editableFields} )
     public ${field.f_ValidatorClass} new${field.f_Name}Validator()
     {
         $field.f_ValidatorClass e;

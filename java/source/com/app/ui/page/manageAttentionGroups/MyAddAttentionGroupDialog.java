@@ -59,9 +59,6 @@ public class MyAddAttentionGroupDialog
         MyAttentionGroup e;
         e = getCurrentProject().addAttentionGroup();
         e.applyFrom(this);
-
-        flushDao();
-
         return e;
     }
 }

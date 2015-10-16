@@ -66,7 +66,7 @@ public class MyViewVendorCard
     {
         _editDialog = new MyEditVendorDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(this::handleSaved);
+        _editDialog.addSavedListener(this::handleSaved);
     }
 
     //##################################################
@@ -80,7 +80,7 @@ public class MyViewVendorCard
 
     public void addSaveListener(Consumer<MyVendor> e)
     {
-        getEditDialog().addSaveListener(e);
+        getEditDialog().addSavedListener(e);
     }
 
     public void setVendor(MyVendor e)

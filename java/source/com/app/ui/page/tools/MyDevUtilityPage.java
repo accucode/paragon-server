@@ -17,6 +17,7 @@ import com.app.property.MyPropertyManager;
 import com.app.ui.core.MyServletData;
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
+import com.app.utility.MyUidSequenceTest;
 
 public final class MyDevUtilityPage
     extends MyPage
@@ -96,6 +97,7 @@ public final class MyDevUtilityPage
         installSingleVmGroup(row);
         installExceptionGroup(row);
         installTimeGroup(row);
+        installTestGroup(row);
         installRequestGroup(row);
     }
 
@@ -143,6 +145,16 @@ public final class MyDevUtilityPage
         fields.add(_utcText);
         fields.add(_localText);
         fields.add(_denverText);
+    }
+
+    private void installTestGroup(ScContainer root)
+    {
+        ScGroup group;
+        group = root.addInlineGroup("Tests");
+
+        ScBox box;
+        box = group.getBody().addLinkBox();
+        box.addLink("uid sequence", this::handleUidSequence);
     }
 
     private void installRequestGroup(ScContainer root)
@@ -242,4 +254,13 @@ public final class MyDevUtilityPage
         throw new RuntimeException("test");
     }
 
+    private void handleUidSequence()
+    {
+        boolean ok = MyUidSequenceTest.test();
+
+        if ( ok )
+            ajax().toast("Uid sequence ok.").success();
+        else
+            ajax().toast("Uid sequence FAILED.").warn();
+    }
 }

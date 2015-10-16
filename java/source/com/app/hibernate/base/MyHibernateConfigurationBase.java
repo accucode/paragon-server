@@ -8,49 +8,60 @@
 
 package com.app.hibernate.base;
 
-import com.app.dao.core.*;
-
 public abstract class MyHibernateConfigurationBase
-    extends MyAbstractHibernateConfiguration
 {
-    //##################################################
-    //# private
-    //##################################################
-
-    @Override
-    protected void addCustomMappings()
+    protected void installMappings()
     {
-        addMapping("applicationLog");
-        addMapping("applicationLogTrace");
-        addMapping("attentionGroup");
-        addMapping("autoSignIn");
-        addMapping("category");
-        addMapping("depot");
-        addMapping("download");
-        addMapping("email");
-        addMapping("emailPart");
-        addMapping("emailRecipient");
-        addMapping("file");
-        addMapping("hibernateCacheTest");
-        addMapping("invitation");
-        addMapping("member");
-        addMapping("memberSkill");
-        addMapping("passwordReset");
-        addMapping("patch");
-        addMapping("performanceLog");
-        addMapping("powerType");
-        addMapping("product");
-        addMapping("project");
-        addMapping("region");
-        addMapping("serverSession");
-        addMapping("settings");
-        addMapping("shipCarrier");
-        addMapping("shipMethod");
-        addMapping("skill");
-        addMapping("user");
-        addMapping("userActivation");
-        addMapping("vendor");
-        addMapping("visitType");
+        installMapping("applicationLog");
+        installMapping("attentionGroup");
+        installMapping("attributeField");
+        installMapping("attributeValue");
+        installMapping("auditLog");
+        installMapping("autoSignIn");
+        installMapping("customer");
+        installMapping("customerContact");
+        installMapping("customerSite");
+        installMapping("customerTier");
+        installMapping("depot");
+        installMapping("download");
+        installMapping("email");
+        installMapping("emailPart");
+        installMapping("emailRecipient");
+        installMapping("endUser");
+        installMapping("endUserSite");
+        installMapping("fieldTest");
+        installMapping("file");
+        installMapping("hibernateCacheTest");
+        installMapping("invitation");
+        installMapping("masterProduct");
+        installMapping("member");
+        installMapping("memberSkill");
+        installMapping("orderNumber");
+        installMapping("passwordReset");
+        installMapping("patch");
+        installMapping("performanceLogDetail");
+        installMapping("performanceLogSummary");
+        installMapping("powerType");
+        installMapping("product");
+        installMapping("productCategory");
+        installMapping("project");
+        installMapping("region");
+        installMapping("salesOrder");
+        installMapping("salesOrderContact");
+        installMapping("salesOrderLine");
+        installMapping("serverSession");
+        installMapping("settings");
+        installMapping("shipAccount");
+        installMapping("shipCarrier");
+        installMapping("shipMethod");
+        installMapping("shipment");
+        installMapping("skill");
+        installMapping("threadTopic");
+        installMapping("user");
+        installMapping("userActivation");
+        installMapping("vendor");
+        installMapping("visitType");
     }
 
+    protected abstract void installMapping(String clazz);
 }

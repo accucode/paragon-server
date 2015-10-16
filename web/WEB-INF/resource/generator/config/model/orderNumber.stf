@@ -1,0 +1,69 @@
+model
+: name      = orderNumber
+: help...
+    ---
+    A utility table used to coordinate the generation of unique order numbers by date.
+    The goal is to generate unique order numbers, that are still relatively short 
+    and easy to read.  Also, we would like the order numbers to provide a rough indication 
+    of the age of the order.  
+    
+    Finally, we need to support some limited ability to format the order numbers to 
+    make them unique across multiple independent systems.  For example, by including
+    a common prefix at the beginning of each order number, where the prefix 
+    
+    This table maintains separate order numbers for each project.  The assumption is
+    that these numbers are combined with a short project-specific prefix to generate
+    a globally unique order number.
+    
+    The records in this table are typically prepopulated a week in advance.  Although
+    collisions should be very rare, this help to ensure smooth operations since it is
+    simpler to coordination collisions with optimistic record locking rather handling
+    collisions related to duplicate key insertion. 
+    ---
+    
+database
+: alias     = onu
+: auditLog  = false
+: locking   = true
+
+    index
+    : name      = projectDate
+    : unique    = true
+    : on        = project
+    : on        = date
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The globally unique identifier.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    association
+    : name      = project
+    : help      = The project for which the order number is used.
+    : modelName = project
+    : relation  = reference
+    : required  = true
+
+    field
+    : name          = date
+    : help          = The date associated with this order number. 
+    : type          = date
+    : required      = true
+
+    field
+    : name      = nextNumber
+    : help...
+        ---
+        The next number to be assigned.  This is a number that has NOT yet been
+        used.  Clients will usually increment this value by one each time an order
+        number is needed.  However, if a client needs a batch of multiple orders numbers
+        this value may be incremented by some larger unit (e.g.: 10). 
+        --- 
+    : type      = integer
+    : required  = true
+    : default   = 1

@@ -148,26 +148,25 @@ public class KmSqlResultFormatterHtmlNormal
         _out.printAttribute("class", "sqlResultData");
         _out.close();
 
-        if ( schema != null )
-        {
-            _out.begin("tr");
-            _out.begin("td");
-            _out.print("Schema: ");
-            _out.end("td");
-            _out.begin("td");
-            _out.print(schema);
-            _out.end("td");
-            _out.end("tr");
-        }
-
         if ( sql != null )
         {
             _out.begin("tr");
             _out.begin("td");
-            _out.print("Sql: ");
-            _out.end("td");
-            _out.begin("td");
+            _out.begin("b");
             _out.print(sql);
+            _out.end("b");
+            _out.end("td");
+            _out.end("tr");
+        }
+
+        if ( schema != null )
+        {
+            _out.begin("tr");
+            _out.begin("td");
+            _out.begin("i");
+            _out.print("in ");
+            _out.print(schema);
+            _out.end("i");
             _out.end("td");
             _out.end("tr");
         }
@@ -176,10 +175,8 @@ public class KmSqlResultFormatterHtmlNormal
         {
             _out.begin("tr");
             _out.begin("td");
-            _out.print("Seconds: ");
-            _out.end("td");
-            _out.begin("td");
             _out.print(formatSeconds(timer));
+            _out.print(" secs");
             _out.end("td");
             _out.end("tr");
         }

@@ -67,7 +67,7 @@ public class MyViewDepotCard
     {
         _editDialog = new MyEditDepotDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(this::handleSaved);
+        _editDialog.addSavedListener(this::handleSaved);
     }
 
     //##################################################
@@ -81,7 +81,7 @@ public class MyViewDepotCard
 
     public void addSaveListener(Consumer<MyDepot> e)
     {
-        getEditDialog().addSaveListener(e);
+        getEditDialog().addSavedListener(e);
     }
 
     public void setDepot(MyDepot e)

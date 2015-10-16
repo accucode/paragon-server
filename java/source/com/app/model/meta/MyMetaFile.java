@@ -63,14 +63,14 @@ public class MyMetaFile
 
     public static String getHelp()
     {
-        return "I represent a file stored on the file system.  I only store a reference to the\nfile, NOT the contents of the file itself.";
+        return "I represent a file stored on the file system.  I only store a reference to the file, NOT the contents of the file itself.";
     }
 
     //##################################################
     //# fields and delegates
     //##################################################
 
-    public static final MyMetaFile_Id Id = new MyMetaFile_Id();
+    public static final MyMetaFile_Uid Uid = new MyMetaFile_Uid();
     public static final MyMetaFile_Name Name = new MyMetaFile_Name();
     public static final MyMetaFile_Path Path = new MyMetaFile_Path();
     public static final MyMetaFile_CreatedUtcTs CreatedUtcTs = new MyMetaFile_CreatedUtcTs();

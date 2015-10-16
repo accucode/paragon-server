@@ -27,6 +27,7 @@ import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.meta.KmMetaProperty;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalString;
@@ -46,8 +47,13 @@ public abstract class ScAbstractTextField<T>
     private ScLocalString  _hoverText;
     private ScLocalBoolean _readOnly;
     private ScLocalBoolean _fullWrapper;
-
     private KmValidator<T> _validator;
+
+    /**
+     * If true (by default), the original value is included in the html data- attribute
+     * and the client-side browser uses javascript to track if changes are made.
+     */
+    private boolean _changeTracking;
 
     //##################################################
     //# init
@@ -63,6 +69,7 @@ public abstract class ScAbstractTextField<T>
         _hoverText = new ScLocalString();
         _readOnly = new ScLocalBoolean(false);
         _fullWrapper = new ScLocalBoolean(false);
+        _changeTracking = true;
     }
 
     //##################################################
@@ -91,7 +98,6 @@ public abstract class ScAbstractTextField<T>
 
     public void setWidthFull()
     {
-        // setFullWrapper(true);
         css().widthFull().boxSizingBorder();
     }
 
@@ -148,6 +154,26 @@ public abstract class ScAbstractTextField<T>
         e = getValidator().getCopy();
         e.setOptional();
         setValidator(e);
+    }
+
+    //##################################################
+    //# change tracking
+    //##################################################
+
+    public boolean getChangeTracking()
+    {
+        return _changeTracking;
+    }
+
+    public void setChangeTracking(boolean e)
+    {
+        warnIfInstalled();
+        _changeTracking = e;
+    }
+
+    public void disableChangeTracking()
+    {
+        setChangeTracking(false);
     }
 
     //##################################################
@@ -211,8 +237,10 @@ public abstract class ScAbstractTextField<T>
 
         out.printAttribute("placeholder", getPlaceholder());
         out.printAttribute("title", getHoverText());
-
         out.printAttribute("value", getText());
+
+        if ( getChangeTracking() )
+            printOldValueAttributeOn(out, getText());
     }
 
     @Override
@@ -441,7 +469,12 @@ public abstract class ScAbstractTextField<T>
     @Override
     public void ajaxUpdateValue()
     {
-        ajax().setValue(getText());
+        String value = getText();
+
+        ajax().setValue(value);
+
+        if ( getChangeTracking() )
+            ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
     }
 
 }

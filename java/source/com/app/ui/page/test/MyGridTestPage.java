@@ -101,6 +101,7 @@ public final class MyGridTestPage
     {
         _nameField = new ScTextField();
         _nameField.setLabel("Name");
+        _nameField.disableChangeTracking();
 
         _filterBox = root.addFilterBox();
         _filterBox.addFieldTable().add(_nameField);

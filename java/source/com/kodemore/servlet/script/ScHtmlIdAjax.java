@@ -294,6 +294,11 @@ public class ScHtmlIdAjax
         clearValue(getTarget());
     }
 
+    public void setChecked(boolean checked)
+    {
+        setChecked(getTarget(), checked);
+    }
+
     //##################################################
     //# on escape
     //##################################################
@@ -495,6 +500,20 @@ public class ScHtmlIdAjax
     public void removeAttribute(String key)
     {
         removeAttribute(getTarget(), key);
+    }
+
+    //##################################################
+    //# data attributes
+    //##################################################
+
+    public void setDataAttribute(String key, String value)
+    {
+        setDataAttribute(getTarget(), key, value);
+    }
+
+    public void setDataAttribute(String key, Boolean value)
+    {
+        setDataAttribute(getTarget(), key, value);
     }
 
     //##################################################

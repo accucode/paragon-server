@@ -80,19 +80,23 @@ public final class MyPlaceholderTestPage
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(this::handleOk);
+        form.setSubmitAction(this::handleSubmit);
         form.css().gap();
 
         ScGroup group;
         group = form.addGroup("Placeholder Test");
 
+        String msg = "The following field should show a 'placeholder' hint inside the field...";
+
         ScBox box;
         box = group.getBody().addGap();
-        box.addBox().addText(
-            "The following field should show a 'placeholder' hint inside the field...");
+        box.addBox().addText(msg);
         box.addFieldTable().add(_textField);
-        group.addBodyDivider();
-        group.getBody().addButtonBox().addSubmitButton();
+
+        ScBox buttons;
+        buttons = group.showFooter().addButtonBox();
+        buttons.addSubmitButton();
+        buttons.addResetButton();
     }
 
     //##################################################
@@ -109,12 +113,16 @@ public final class MyPlaceholderTestPage
     //# handle
     //##################################################
 
-    private void handleOk()
+    private void handleSubmit()
     {
+        ajax().hideAllErrors();
+        validate();
+
         String s = _textField.getValue();
         if ( s == null )
             s = "<null>";
 
+        getRoot().ajaxUpdateValues();
         ajax().toast(s);
     }
 

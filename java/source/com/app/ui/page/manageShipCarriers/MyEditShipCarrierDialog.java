@@ -132,30 +132,24 @@ public class MyEditShipCarrierDialog
         MyShipCarrier e;
         e = getAccess().findShipCarrierUid(uid);
         e.applyFrom(this);
-
         applyMethodsTo(e);
-
-        e.validate();
-
-        flushDao();
-
         return e;
     }
 
-    private void applyMethodsTo(MyShipCarrier e)
+    private void applyMethodsTo(MyShipCarrier sc)
     {
-        e.clearShipMethods();
+        sc.clearShipMethods();
 
         int n = METHOD_COUNT;
         for ( int i = 0; i < n; i++ )
         {
-            ScTextField f;
-            f = _methodFields[i];
-
+            ScTextField f = _methodFields[i];
             if ( f.hasValue() )
             {
-                String name = f.getValue();
-                e.addShipMethod(name);
+                MyShipMethod m;
+                m = sc.addShipMethod();
+                m.setName(f.getValue());
+                m.attachDao();
             }
         }
     }

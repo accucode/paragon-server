@@ -68,7 +68,7 @@ public final class MyDevApplicationLogsPage
     private ScGrid<MyApplicationLog> _grid;
 
     private ScDiv   _logPanel;
-    private ScGroup _logGroup;
+    private ScGroup _detailGroup;
     private ScLink  _deleteLogLink;
 
     //##################################################
@@ -117,7 +117,7 @@ public final class MyDevApplicationLogsPage
 
         installFilter(top);
         installGrid(left);
-        installLogGroup();
+        installDetailGroup();
     }
 
     private void installFilter(ScDiv root)
@@ -140,7 +140,7 @@ public final class MyDevApplicationLogsPage
         _endDateField = new ScDateField();
         _endDateField.setLabel("End Date");
 
-        _filterBox = root.addFilterBox("System Logs");
+        _filterBox = root.addFilterBox("Filter");
         _filterBox.layoutFill();
         _filterBox.setAction(this::handleFilter);
 
@@ -191,55 +191,56 @@ public final class MyDevApplicationLogsPage
         _grid.layoutFill();
 
         ScGridColumn<MyApplicationLog> col;
-        col = _grid.addLinkColumn(x.Id, this::handleSelect);
-        col.setWidth(50);
-        col.setHeader("Id");
+        col = _grid.addLinkColumn("View", this::handleSelect, x.Uid);
+        col.setWidth(40);
 
         _grid.addColumn(x.CreatedLocalTsMessage);
         _grid.addColumn(x.LevelName, "Level");
         _grid.addColumn(x.Message);
     }
 
-    private void installLogGroup()
+    private void installDetailGroup()
     {
         MyMetaApplicationLog x = MyApplicationLog.Meta;
 
         ScGroup group;
         group = new ScGroup();
-        group.setTitle("Log");
+        group.setTitle("Detail");
         group.css().fill().marginLeft();
-        group.bodyCss().pad();
 
         // created, but disconnected from the main content.
-        _logGroup = group;
+        _detailGroup = group;
 
         ScSimpleContainer idRow;
         idRow = new ScSimpleContainer();
-        idRow.setLabel("Id");
-        idRow.addText(x.Id);
+        idRow.setLabel("Uid");
+        idRow.addText(x.Uid);
         idRow.addSpace();
 
-        _deleteLogLink = idRow.addLink("delete", this::handleDelete, x.Id);
+        _deleteLogLink = idRow.addLink("delete", this::handleDelete, x.Uid);
         _deleteLogLink.setConfirmationMessage("Delete?");
 
-        ScBox body;
-        body = group.getBody().addBox();
+        group.bodyCss().auto();
+
+        ScDiv box;
+        box = group.getBody().addBox();
+        box.css().pad();
 
         ScFieldTable fields;
-        fields = body.addFieldTable();
+        fields = box.addFieldTable();
         fields.add(idRow);
         fields.addText(x.CreatedLocalTsMessage);
         fields.addText(x.Context);
         fields.addText(x.LevelName);
         fields.addText(x.LoggerName);
 
-        body.addBreak();
-        body.addParagraph().addBold("Message");
-        body.addParagraph().addText(x.Message);
+        box.addBreak();
+        box.addParagraph().addBold("Message");
+        box.addParagraph().addTextSpan(x.Message).css().noWrap();
 
-        body.addBreak();
-        body.addParagraph().addBold("Trace");
-        body.addParagraph().addText(x.FullTrace);
+        box.addBreak();
+        box.addParagraph().addBold("Trace");
+        box.addParagraph().addTextSpan(x.Trace).css().noWrap();
     }
 
     //##################################################
@@ -264,8 +265,8 @@ public final class MyDevApplicationLogsPage
 
     private void handleSelect()
     {
-        Integer id = getIntegerArgument();
-        MyApplicationLog log = getAccess().findApplicationLogId(id);
+        String uid = getStringArgument();
+        MyApplicationLog log = getAccess().findApplicationLogUid(uid);
 
         if ( log == null )
         {
@@ -273,14 +274,13 @@ public final class MyDevApplicationLogsPage
             return;
         }
 
-        _logGroup.applyFromModel(log);
-        _logPanel.ajax().setContents(_logGroup).fade();
+        _detailGroup.applyFromModel(log);
+        _logPanel.ajax().setContents(_detailGroup).fade();
     }
 
     private void handleDeleteAll()
     {
         getAccess().getApplicationLogDao()._truncate();
-        getAccess().getApplicationLogTraceDao()._truncate();
 
         ajax().toast("All logs deleted.");
         ajaxPrint();
@@ -288,17 +288,17 @@ public final class MyDevApplicationLogsPage
 
     private void handleDelete()
     {
-        Integer id = getIntegerArgument();
+        String uid = getStringArgument();
 
         MyApplicationLog e;
-        e = getAccess().findApplicationLogId(id);
+        e = getAccess().findApplicationLogUid(uid);
 
         if ( e != null )
             e.deleteDao();
 
         _grid.ajaxReload();
-        _logGroup.ajax().hide().fade();
-        ajax().toast("Log %s, deleted.", id);
+        _detailGroup.ajax().hide().fade();
+        ajax().toast("Log %s, deleted.", uid);
     }
 
     private void handleAddDebugLog()
@@ -339,7 +339,7 @@ public final class MyDevApplicationLogsPage
     {
         MyApplicationLogFilter f;
         f = new MyApplicationLogFilter();
-        f.sortOnId();
+        f.sortOnUid();
         f.sortDescending();
 
         if ( _levelDropdown.hasValue() )

@@ -1,7 +1,6 @@
 package ${package}.dao;
 
 import com.kodemore.collection.*;
-import com.kodemore.hibernate.criteria.*;
 
 import ${package}.dao.base.*;
 import ${package}.filter.*;

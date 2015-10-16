@@ -1,0 +1,98 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>masterProduct</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>masterProduct</h1>
+
+${model.f_comment}<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Help / Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The globally unique identifier.  This is a big ugly number and is generally not displayed.<br>
+            &nbsp;
+  </td>
+  
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+            pk<br>                required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>partNumber&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The unique part number shared by all versions of the product.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>active&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        Products cannot be deleted from the system, but they can be deactivated. Once set to inactive, the product will no longer be available for sale. Also, the product will be hidden from most configuration screens. Inactive products are still included in historical reports.<br>
+            &nbsp;
+  </td>
+  
+  <td>boolean
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>lockVersion&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
+            &nbsp;
+  </td>
+  
+  <td>lockVersion
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

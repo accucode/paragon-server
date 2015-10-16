@@ -194,14 +194,14 @@ public class MyInvitationCriteria
             whereStatusIsNotCancelled();
     }
 
-    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
+    public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmhPropertyCondition<KmTimestamp> whereClosedUtcTs()
+    public KmhTimestampCondition whereClosedUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(CLOSED_UTC_TS));
+        return new KmhTimestampCondition(context(), fullName(CLOSED_UTC_TS));
     }
 
     public KmhStringCondition whereToEmail()

@@ -63,7 +63,7 @@ public class MyMetaPowerType
 
     public static String getHelp()
     {
-        return "Power types are used help coordinate hardware adapters, primarily for\ninternational orders. For example, a typical switch may be designed to\nwork with typical U.S. power 120V-60Hz, but when we sell it overseas we\nmay need to include an adapter for 220V-50Hz.";
+        return "Power types are used help coordinate hardware adapters, primarily for international orders. For example, a typical switch may be designed to work with typical U.S. power 120V-60Hz, but when we sell it overseas we may need to include an adapter for 220V-50Hz.";
     }
 
     //##################################################

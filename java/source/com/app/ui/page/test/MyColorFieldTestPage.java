@@ -1,6 +1,7 @@
 package com.app.ui.page.test;
 
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScFieldTable;
 import com.kodemore.servlet.control.ScForm;
 import com.kodemore.servlet.control.ScGroup;
@@ -88,8 +89,10 @@ public final class MyColorFieldTestPage
         fields = group.getBody().addPad().addFieldTable();
         fields.add(_colorField);
 
-        group.addBodyDivider();
-        group.getBody().addButtonBox().addSubmitButton();
+        ScBox buttons;
+        buttons = group.showFooter().addButtonBox();
+        buttons.addSubmitButton();
+        buttons.addResetButton();
     }
 
     //##################################################
@@ -111,6 +114,7 @@ public final class MyColorFieldTestPage
         ajax().hideAllErrors();
         validate();
 
+        getRoot().ajaxUpdateValues();
         ajax().toast("Color = %s", _colorField.getValue());
     }
 

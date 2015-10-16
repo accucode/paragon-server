@@ -102,7 +102,9 @@ public class ScForm
 
     public void setSubmitAction(Runnable r)
     {
-        ScAction action = newAction(r);
+        ScAction action;
+        action = newAction(r);
+        action.disableChangeTracking();
 
         setSubmitAction(action);
     }

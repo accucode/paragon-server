@@ -1,0 +1,128 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>shipment</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>shipment</h1>
+
+${model.f_comment}<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Help / Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The global unique key.<br>
+            &nbsp;
+  </td>
+  
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+            pk<br>                required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>trackingNumber&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The tracking number used by the third party carrier to identify this shipment.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>weight&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The weight of this shipment in U.S. pounds.<br>
+            &nbsp;
+  </td>
+  
+  <td>double
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>cost&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The cost of this shipment.  If recorded, this should be the exact cost reported by the carrier.<br>
+            &nbsp;
+  </td>
+  
+  <td>money
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>invoiceCustomer&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        Indicates whether we should invoice the customer for this shipment.<br>
+            &nbsp;
+  </td>
+  
+  <td>boolean
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>lockVersion&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
+            &nbsp;
+  </td>
+  
+  <td>lockVersion
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

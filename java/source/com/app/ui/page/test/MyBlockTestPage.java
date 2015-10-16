@@ -46,8 +46,11 @@ public final class MyBlockTestPage
     //# variables
     //##################################################
 
-    private ScGroup     _group;
-    private ScTextField _nameField;
+    private ScGroup _group;
+
+    private ScTextField _nameField1;
+    private ScTextField _nameField2;
+    private ScTextField _nameField3;
 
     //##################################################
     //# settings
@@ -117,12 +120,13 @@ public final class MyBlockTestPage
 
     private void installFormGroup1(ScBox root)
     {
-        _nameField = new ScTextField();
-        _nameField.setLabel("Name");
+        _nameField1 = new ScTextField();
+        _nameField1.setLabel("Name1");
+        _nameField1.disableChangeTracking();
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(this::handleFormTest);
+        form.setSubmitAction(this::handleFormTest1);
         form.css().pad();
 
         form.addText(
@@ -137,18 +141,19 @@ public final class MyBlockTestPage
 
         ScBox lines;
         lines = group.getBody().addLines();
-        lines.addFieldTable().add(_nameField);
+        lines.addFieldTable().add(_nameField1);
         lines.addSubmitButton();
     }
 
     private void installFormGroup2(ScBox root)
     {
-        _nameField = new ScTextField();
-        _nameField.setLabel("Name");
+        _nameField2 = new ScTextField();
+        _nameField2.setLabel("Name2");
+        _nameField2.disableChangeTracking();
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(this::handleFormTest);
+        form.setSubmitAction(this::handleFormTest2);
         form.css().pad();
 
         form.addText(
@@ -164,18 +169,19 @@ public final class MyBlockTestPage
 
         ScBox lines;
         lines = group.getBody().addLines();
-        lines.addFieldTable().add(_nameField);
+        lines.addFieldTable().add(_nameField2);
         lines.addSubmitButton();
     }
 
     private void installFormGroup3(ScBox root)
     {
-        _nameField = new ScTextField();
-        _nameField.setLabel("Name");
+        _nameField3 = new ScTextField();
+        _nameField3.setLabel("Name3");
+        _nameField3.disableChangeTracking();
 
         ScForm form;
         form = root.addForm();
-        form.setSubmitAction(this::handleFormTest);
+        form.setSubmitAction(this::handleFormTest3);
         form.setBlockWrapper(false); // DISABLE BLOCK WRAPPER
         form.css().pad();
 
@@ -190,7 +196,7 @@ public final class MyBlockTestPage
 
         ScBox lines;
         lines = group.getBody().addLines();
-        lines.addFieldTable().add(_nameField);
+        lines.addFieldTable().add(_nameField3);
         lines.addSubmitButton();
     }
 
@@ -229,11 +235,25 @@ public final class MyBlockTestPage
         ajax().toast("Ok");
     }
 
-    private void handleFormTest()
+    private void handleFormTest1()
     {
         Kmu.sleepMs(DELAY_MS);
-        String name = _nameField.getValue();
-        ajax().toast("name = %s.", name);
+        String name = _nameField1.getValue();
+        ajax().toast("name1 = %s.", name);
+    }
+
+    private void handleFormTest2()
+    {
+        Kmu.sleepMs(DELAY_MS);
+        String name = _nameField2.getValue();
+        ajax().toast("name2 = %s.", name);
+    }
+
+    private void handleFormTest3()
+    {
+        Kmu.sleepMs(DELAY_MS);
+        String name = _nameField3.getValue();
+        ajax().toast("name3 = %s.", name);
     }
 
 }

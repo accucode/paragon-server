@@ -1,0 +1,56 @@
+model
+: name      = performanceLogDetail
+: help...
+    ---
+    A log for performance metrics.  We track a number of performance metrics on the active
+    system.  This is primarily used as a tool in production to identify hotspots that may
+    require tuning and optimization.  Some care needs to be taken to avoid enabling so many
+    metrics that the performance logging itself becomes a bottleneck.
+    ---
+
+database
+: alias     = pld
+: auditLog  = false
+: locking   = false
+
+    index
+    : name  = name
+    : on    = name
+
+    index
+    : name  = createdUtcTs
+    : on    = createdUtcTs
+    : on    = name
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The unique identifier.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+
+    field
+    : name          = name
+    : help          = The display name.  E.g.: the classname of the servlet or job.
+    : type          = text100
+    : required      = true
+
+    field
+    : name          = createdUtcTs
+    : help...
+        ---
+        The time when this log was created.  This is usually very very close to
+        when the task ended (not started).
+        ---
+    : type          = timestamp
+    : default       = getNowUtc()
+    : required      = true
+
+    field
+    : name          = durationMs
+    : help          = The duration of the task in milliseconds.
+    : type          = integer
+    : required      = true
+

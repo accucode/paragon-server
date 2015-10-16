@@ -77,6 +77,7 @@ public class MySkillValidatorBase
     @Override
     public void convertOnly(MySkill value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setName(nameValidator.convertOnly(value.getName()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
@@ -85,9 +86,13 @@ public class MySkillValidatorBase
     @Override
     public void validateOnly(MySkill value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         nameValidator.validateOnly(value.getName(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
+        if ( !value.hasProject() )
+            errors.add(new KmRequiredValidationError("skill", "project"));
     }
 
     //##################################################

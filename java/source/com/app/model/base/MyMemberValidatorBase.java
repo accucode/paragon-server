@@ -38,9 +38,6 @@ public class MyMemberValidatorBase
     private KmStringValidator uidValidator;
     private KmStringValidator roleCodeValidator;
     private KmIntegerValidator lockVersionValidator;
-    private KmStringValidator projectNameValidator;
-    private KmStringValidator userNameValidator;
-    private KmStringValidator userEmailValidator;
 
     //##################################################
     //# constructor
@@ -52,9 +49,6 @@ public class MyMemberValidatorBase
         uidValidator = newUidValidator();
         roleCodeValidator = newRoleCodeValidator();
         lockVersionValidator = newLockVersionValidator();
-        projectNameValidator = newProjectNameValidator();
-        userNameValidator = newUserNameValidator();
-        userEmailValidator = newUserEmailValidator();
     }
 
     //##################################################
@@ -76,21 +70,6 @@ public class MyMemberValidatorBase
         return lockVersionValidator;
     }
 
-    public KmStringValidator getProjectNameValidator()
-    {
-        return projectNameValidator;
-    }
-
-    public KmStringValidator getUserNameValidator()
-    {
-        return userNameValidator;
-    }
-
-    public KmStringValidator getUserEmailValidator()
-    {
-        return userEmailValidator;
-    }
-
     //##################################################
     //# validate
     //##################################################
@@ -98,6 +77,7 @@ public class MyMemberValidatorBase
     @Override
     public void convertOnly(MyMember value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setRoleCode(roleCodeValidator.convertOnly(value.getRoleCode()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
@@ -106,9 +86,15 @@ public class MyMemberValidatorBase
     @Override
     public void validateOnly(MyMember value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         roleCodeValidator.validateOnly(value.getRoleCode(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
+        if ( !value.hasProject() )
+            errors.add(new KmRequiredValidationError("member", "project"));
+        if ( !value.hasUser() )
+            errors.add(new KmRequiredValidationError("member", "user"));
     }
 
     //##################################################
@@ -147,42 +133,6 @@ public class MyMemberValidatorBase
         e = new KmIntegerValidator();
         e.setModel("member");
         e.setField("lockVersion");
-        return e;
-    }
-
-    public KmStringValidator newProjectNameValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("member");
-        e.setField("projectName");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newUserNameValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("member");
-        e.setField("userName");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newUserEmailValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("member");
-        e.setField("userEmail");
-        e.setRequired();
         return e;
     }
 

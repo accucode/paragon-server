@@ -1,7 +1,9 @@
 package sandbox.wlove;
 
-import com.kodemore.command.KmDao;
-import com.kodemore.utility.Kmu;
+import com.kodemore.collection.KmList;
+import com.kodemore.command.KmDaoRunnableCommand;
+import com.kodemore.time.KmClock;
+import com.kodemore.time.KmDate;
 
 import com.app.dao.base.MyDaoRegistry;
 import com.app.utility.MyGlobals;
@@ -26,75 +28,37 @@ public class JkDaoTest
     {
         MyInstaller.installDatabase();
 
-        KmDao.run(this::handleReset);
+        System.out.println("installed. --------------------");
 
-        KmDao.run(this::handleTest1);
-        KmDao.run(this::handleTest2);
-        KmDao.run(this::handleTest3);
-        KmDao.run(this::handleTest4);
-        KmDao.run(this::handleTest5);
+        KmDaoRunnableCommand cmd;
+        cmd = new KmDaoRunnableCommand();
+        cmd.setRunnable(this::handle);
+        cmd.disableWarningThresholdMs();
+        cmd.run();
 
-        printHeader("end");
+        System.out.println("done. -------------------------");
     }
 
     //##################################################
-    //# reset
+    //# test
     //##################################################
 
-    private void handleReset()
+    private void handle()
     {
-        printHeader("Reset");
-    }
+        KmDate date = KmClock.getTodayUtc();
 
-    //##################################################
-    //# handle
-    //##################################################
+        KmList<String> names;
+        names = getAccess().getPerformanceLogDetailDao().findNamesOn(date);
+        names.sort();
 
-    private void handleTest1()
-    {
-        printHeader("test 1");
-    }
-
-    private void handleTest2()
-    {
-        printHeader("test 2");
-    }
-
-    private void handleTest3()
-    {
-        printHeader("test 3");
-    }
-
-    private void handleTest4()
-    {
-        printHeader("test 4");
-    }
-
-    private void handleTest5()
-    {
-        printHeader("test 5");
-    }
-
-    //##################################################
-    //# print
-    //##################################################
-
-    private void printHeader(String s)
-    {
-        String prefix = "-- " + s.toUpperCase() + " ";
-
-        System.out.println();
-        System.out.print(prefix);
-        System.out.println(Kmu.dashes(80 - prefix.length()));
-        System.out.println();
+        System.out.println(names.joinLines());
     }
 
     //##################################################
     //# support
     //##################################################
 
-    @SuppressWarnings("unused")
-    private MyDaoRegistry getAccess()
+    protected MyDaoRegistry getAccess()
     {
         return MyGlobals.getAccess();
     }

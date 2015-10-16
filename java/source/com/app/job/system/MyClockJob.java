@@ -22,6 +22,12 @@ public class MyClockJob
         return 500;
     }
 
+    @Override
+    protected boolean logsPerformance()
+    {
+        return false;
+    }
+
     //##################################################
     //# run
     //##################################################

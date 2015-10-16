@@ -35,6 +35,7 @@ import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
 import com.kodemore.json.KmJsonArray;
 import com.kodemore.json.KmJsonMap;
 import com.kodemore.meta.KmMetaAttribute;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.control.ScElementIF;
@@ -95,6 +96,16 @@ public class ScDropdown
      */
     private ScLocalBoolean _usesBootstrapSelect;
 
+    /**
+     * If true (the default), the value is encoded into an html data- attribute
+     * and the browser utilizes client-side utilizes to warn the user before
+     * ajax actions if the value has changed.
+     *
+     * Change tracking should be set during initial page initialization, and should
+     * NOT be modified while processing a page.
+     */
+    private boolean _changeTracking;
+
     //##################################################
     //# init
     //##################################################
@@ -115,6 +126,8 @@ public class ScDropdown
         _style = new ScLocalStyle();
 
         _usesBootstrapSelect = new ScLocalBoolean(USE_BOOTSTRAP_SELECT);
+
+        _changeTracking = true;
     }
 
     //##################################################
@@ -298,6 +311,26 @@ public class ScDropdown
     }
 
     //##################################################
+    //# change tracking
+    //##################################################
+
+    public boolean getChangeTracking()
+    {
+        return _changeTracking;
+    }
+
+    public void setChangeTracking(boolean e)
+    {
+        warnIfInstalled();
+        _changeTracking = e;
+    }
+
+    public void disableChangeTracking()
+    {
+        setChangeTracking(false);
+    }
+
+    //##################################################
     //# parameters
     //##################################################
 
@@ -354,6 +387,9 @@ public class ScDropdown
 
         if ( isDisabled() )
             out.printAttribute("disabled");
+
+        if ( getChangeTracking() )
+            printOldValueAttributeOn(out, encode(getValue()));
     }
 
     protected KmCssBuilder formatCss()
@@ -457,11 +493,11 @@ public class ScDropdown
         _onChangeAction = e;
     }
 
-    public void setOnChangeAction(Runnable e)
+    public ScAction setOnChangeAction(Runnable e)
     {
         ScAction action = newAction(e);
-
         setOnChangeAction(action);
+        return action;
     }
 
     public boolean hasOnChangeAction()
@@ -781,7 +817,12 @@ public class ScDropdown
 
     public void ajaxSetValue(Object e)
     {
-        ajax().setValue(encode(e));
+        String value = encode(e);
+
+        ajax().setValue(value);
+
+        if ( getChangeTracking() )
+            ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
     }
 
     /**

@@ -66,7 +66,7 @@ public class MyViewVisitTypeCard
     {
         _editDialog = new MyEditVisitTypeDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(this::handleSaved);
+        _editDialog.addSavedListener(this::handleSaved);
     }
 
     //##################################################
@@ -80,7 +80,7 @@ public class MyViewVisitTypeCard
 
     public void addSaveListener(Consumer<MyVisitType> e)
     {
-        getEditDialog().addSaveListener(e);
+        getEditDialog().addSavedListener(e);
     }
 
     public void setVisitType(MyVisitType e)

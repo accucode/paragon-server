@@ -325,6 +325,18 @@
         <td>false&nbsp;</td>
       </tr>
       <tr>
+        <td>printAuditLog&nbsp;</td>
+        <td>If true, logs are echoed to the console (log4j).&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>false&nbsp;</td>
+      </tr>
+      <tr>
+        <td>printPerformanceLog&nbsp;</td>
+        <td>If true, logs are echoed to the console (log4j).&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>false&nbsp;</td>
+      </tr>
+      <tr>
         <td>servletShowStackTrace&nbsp;</td>
         <td>Determines if the stack trace should be displayed upon errors. Normally, this is 'false' and the trace is hidden in a comment. For debugging this is usually enabled.&nbsp;</td>
         <td>boolean&nbsp;</td>
@@ -477,6 +489,24 @@
         <th>Default</th>
       </tr>
       <tr>
+        <td>applicationLogFlusherJobActiveSeconds&nbsp;</td>
+        <td>x&nbsp;</td>
+        <td>integer&nbsp;</td>
+        <td>10&nbsp;</td>
+      </tr>
+      <tr>
+        <td>applicationLogFlusherJobEnabled&nbsp;</td>
+        <td>Indicates if the job should be run.&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>true&nbsp;</td>
+      </tr>
+      <tr>
+        <td>applicationLogFlusherJobIdleSeconds&nbsp;</td>
+        <td>x&nbsp;</td>
+        <td>integer&nbsp;</td>
+        <td>10&nbsp;</td>
+      </tr>
+      <tr>
         <td>csvUploadProcessorJobActiveSeconds&nbsp;</td>
         <td>x&nbsp;</td>
         <td>integer&nbsp;</td>
@@ -511,60 +541,6 @@
         <td>The idle frquency of the job.&nbsp;</td>
         <td>integer&nbsp;</td>
         <td>60&nbsp;</td>
-      </tr>
-      <tr>
-        <td>deleteOldPerformanceLogsJobActiveSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>60&nbsp;</td>
-      </tr>
-      <tr>
-        <td>deleteOldPerformanceLogsJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>deleteOldPerformanceLogsJobIdleSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>600&nbsp;</td>
-      </tr>
-      <tr>
-        <td>deleteOldServerSessionsJobActiveSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>60&nbsp;</td>
-      </tr>
-      <tr>
-        <td>deleteOldServerSessionsJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>deleteOldServerSessionsJobIdleSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>600&nbsp;</td>
-      </tr>
-      <tr>
-        <td>deleteOldSystemLogsJobActiveSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>60&nbsp;</td>
-      </tr>
-      <tr>
-        <td>deleteOldSystemLogsJobEnabled&nbsp;</td>
-        <td>Indicates if the job should be run.&nbsp;</td>
-        <td>boolean&nbsp;</td>
-        <td>true&nbsp;</td>
-      </tr>
-      <tr>
-        <td>deleteOldSystemLogsJobIdleSeconds&nbsp;</td>
-        <td>x&nbsp;</td>
-        <td>integer&nbsp;</td>
-        <td>600&nbsp;</td>
       </tr>
       <tr>
         <td>ftpSendToNotifierJobActiveSeconds&nbsp;</td>
@@ -603,6 +579,24 @@
         <td>10&nbsp;</td>
       </tr>
       <tr>
+        <td>maintenanceJobActiveSeconds&nbsp;</td>
+        <td>x&nbsp;</td>
+        <td>integer&nbsp;</td>
+        <td>60&nbsp;</td>
+      </tr>
+      <tr>
+        <td>maintenanceJobEnabled&nbsp;</td>
+        <td>Indicates if the job should be run.&nbsp;</td>
+        <td>boolean&nbsp;</td>
+        <td>true&nbsp;</td>
+      </tr>
+      <tr>
+        <td>maintenanceJobIdleSeconds&nbsp;</td>
+        <td>x&nbsp;</td>
+        <td>integer&nbsp;</td>
+        <td>60&nbsp;</td>
+      </tr>
+      <tr>
         <td>monitorJobActiveSeconds&nbsp;</td>
         <td>x&nbsp;</td>
         <td>integer&nbsp;</td>
@@ -639,19 +633,19 @@
         <td>10&nbsp;</td>
       </tr>
       <tr>
-        <td>performanceLogJobActiveSeconds&nbsp;</td>
+        <td>performanceLogFlusherJobActiveSeconds&nbsp;</td>
         <td>x&nbsp;</td>
         <td>integer&nbsp;</td>
         <td>10&nbsp;</td>
       </tr>
       <tr>
-        <td>performanceLogJobEnabled&nbsp;</td>
+        <td>performanceLogFlusherJobEnabled&nbsp;</td>
         <td>Indicates if the job should be run.&nbsp;</td>
         <td>boolean&nbsp;</td>
         <td>true&nbsp;</td>
       </tr>
       <tr>
-        <td>performanceLogJobIdleSeconds&nbsp;</td>
+        <td>performanceLogFlusherJobIdleSeconds&nbsp;</td>
         <td>x&nbsp;</td>
         <td>integer&nbsp;</td>
         <td>10&nbsp;</td>
@@ -747,10 +741,7 @@
       </tr>
       <tr>
         <td>webResourceVersioning&nbsp;</td>
-        <td>This is used to automatically version css and javascript files.
-none   - the version is always set to 'version'.
-deploy - used in production to include the application version in the path.
-dev    - used in development to change the path each time the app is restarted.&nbsp;</td>
+        <td>This is used to automatically version css and javascript files. none   - the version is always set to 'version'. deploy - used in production to include the application version in the path. dev    - used in development to change the path each time the app is restarted.&nbsp;</td>
         <td>string&nbsp;</td>
         <td>static&nbsp;</td>
       </tr>

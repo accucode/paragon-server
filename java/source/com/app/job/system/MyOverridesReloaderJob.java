@@ -30,6 +30,12 @@ public class MyOverridesReloaderJob
         return secondsToMs(seconds);
     }
 
+    @Override
+    protected boolean logsPerformance()
+    {
+        return false;
+    }
+
     //##################################################
     //# run
     //##################################################

@@ -22,14 +22,13 @@
 
 package com.kodemore.utility;
 
+/**
+ * I define a standard method for fetching text that is intended for
+ * display to an end user.  The format of toString() is often undefined
+ * and used for development/debugging.  But getDisplayString should return
+ * a value that is suitable for display to users.
+ */
 public interface KmDisplayStringIF
 {
-    @Override
-    String toString();
-
-    String toStringValue();
-
     String getDisplayString();
-
-    String getClassName();
 }

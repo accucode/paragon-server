@@ -7,11 +7,10 @@ public class MyApplicationJobManager
 {
     public MyApplicationJobManager()
     {
-        add(new MyMonitorJob("ApplicationJobManager"));
+        add(new MyMonitorJob(getClass()));
         add(new MySendEmailJob());
-        add(new MyDeleteOldServerSessionsJob());
-        add(new MyDeleteOldApplicationLogsJob());
-        add(new MyDeleteOldPerformanceLogsJob());
-        add(new MyPerformanceLogJob());
+        add(new MyPerformanceLogFlusherJob());
+        add(new MyApplicationLogFlusherJob());
+        add(new MyMaintenanceJob());
     }
 }

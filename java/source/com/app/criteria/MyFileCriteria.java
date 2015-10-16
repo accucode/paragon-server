@@ -39,9 +39,9 @@ public class MyFileCriteria
     //# properties
     //##################################################
 
-    public KmhIntegerCondition whereId()
+    public KmhStringCondition whereUid()
     {
-        return new KmhIntegerCondition(context(), fullName(ID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
     public KmhStringCondition whereName()
@@ -54,9 +54,9 @@ public class MyFileCriteria
         return new KmhStringCondition(context(), fullName(PATH));
     }
 
-    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
+    public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmhStringCondition whereStatusCode()
@@ -171,22 +171,22 @@ public class MyFileCriteria
     //# sorts
     //##################################################
 
-    public void sortOnId()
+    public void sortOnUid()
     {
-        parent().sortAscending(ID);
+        parent().sortAscending(UID);
     }
 
-    public void sortOnIdDescending()
+    public void sortOnUidDescending()
     {
-        parent().sortDescending(ID);
+        parent().sortDescending(UID);
     }
 
-    public void sortOnId(boolean asc)
+    public void sortOnUid(boolean asc)
     {
         if ( asc )
-            sortOnId();
+            sortOnUid();
         else
-            sortOnIdDescending();
+            sortOnUidDescending();
     }
 
     public void sortOnName()
@@ -316,47 +316,47 @@ public class MyFileCriteria
     }
 
     //##################################################
-    //# projections (id)
+    //# projections (uid)
     //##################################################
 
-    public void selectId()
+    public void selectUid()
     {
-        select(ID);
+        select(UID);
     }
 
-    public void selectDistinctId()
+    public void selectDistinctUid()
     {
-        selectDistinct(ID);
+        selectDistinct(UID);
     }
 
-    public void selectCountDistinctId()
+    public void selectCountDistinctUid()
     {
-        selectCountDistinct(ID);
+        selectCountDistinct(UID);
     }
 
-    public void selectMinimumId()
+    public void selectMinimumUid()
     {
-        selectMinimum(ID);
+        selectMinimum(UID);
     }
 
-    public void selectMaximumId()
+    public void selectMaximumUid()
     {
-        selectMaximum(ID);
+        selectMaximum(UID);
     }
 
-    public void selectAverageId()
+    public void selectAverageUid()
     {
-        selectAverage(ID);
+        selectAverage(UID);
     }
 
-    public void selectSumId()
+    public void selectSumUid()
     {
-        selectSum(ID);
+        selectSum(UID);
     }
 
-    public void groupById()
+    public void groupByUid()
     {
-        groupBy(ID);
+        groupBy(UID);
     }
 
     //##################################################

@@ -66,7 +66,7 @@ public class MyViewSkillCard
     {
         _editDialog = new MyEditSkillDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(this::handleSaved);
+        _editDialog.addSavedListener(this::handleSaved);
     }
 
     //##################################################
@@ -80,7 +80,7 @@ public class MyViewSkillCard
 
     public void addSaveListener(Consumer<MySkill> e)
     {
-        getEditDialog().addSaveListener(e);
+        getEditDialog().addSavedListener(e);
     }
 
     public void setSkill(MySkill e)

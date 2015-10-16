@@ -41,4 +41,15 @@ public class MyAutoSignIn
 
         return isPast;
     }
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getCreatedUtcTs().format_m_d_yyyy_hh_mm_ss();
+    }
+
 }

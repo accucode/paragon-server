@@ -71,10 +71,6 @@ public class MyEditPowerTypeDialog
         MyPowerType e;
         e = getAccess().findPowerTypeUid(uid);
         e.applyFrom(this);
-        e.validate();
-
-        flushDao();
-
         return e;
     }
 }

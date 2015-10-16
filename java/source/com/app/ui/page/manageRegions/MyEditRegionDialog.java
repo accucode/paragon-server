@@ -71,10 +71,6 @@ public class MyEditRegionDialog
         MyRegion e;
         e = getAccess().findRegionUid(uid);
         e.applyFrom(this);
-        e.validate();
-
-        flushDao();
-
         return e;
     }
 }

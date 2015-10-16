@@ -1,6 +1,7 @@
 package com.kodemore.proto;
 
 import com.kodemore.generator.model.KmgModelType;
+import com.kodemore.hibernate.KmhDateCondition;
 import com.kodemore.hibernate.type.KmhDateType;
 import com.kodemore.meta.KmMetaDateProperty;
 import com.kodemore.servlet.field.ScDateField;
@@ -26,6 +27,18 @@ public class KmProtoDate
     public String getDatabaseType(KmgModelType e)
     {
         return "date";
+    }
+
+    @Override
+    public String format_CriteriaClass()
+    {
+        return KmhDateCondition.class.getSimpleName();
+    }
+
+    @Override
+    public String format_CriteriaClass_NoGeneric()
+    {
+        return format_CriteriaClass();
     }
 
     @Override

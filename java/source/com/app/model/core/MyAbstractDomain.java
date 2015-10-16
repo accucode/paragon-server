@@ -2,13 +2,14 @@ package com.app.model.core;
 
 import java.io.Serializable;
 
+import com.kodemore.hibernate.KmhAttachDaoIF;
 import com.kodemore.servlet.ScModelApplicatorIF;
 import com.kodemore.servlet.utility.ScFormatter;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.KmCodedEnumIF;
-import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.KmCopyIF;
+import com.kodemore.utility.KmDisplayStringIF;
 import com.kodemore.utility.KmReadOnlyException;
 import com.kodemore.utility.KmReadOnlyIF;
 import com.kodemore.utility.Kmu;
@@ -20,7 +21,7 @@ import com.app.property.MyPropertyRegistry;
 import com.app.utility.MyGlobals;
 
 public abstract class MyAbstractDomain
-    implements KmConstantsIF, KmReadOnlyIF, KmCopyIF, Serializable, Cloneable
+    implements KmhAttachDaoIF, KmDisplayStringIF, KmReadOnlyIF, KmCopyIF, Serializable, Cloneable
 {
     //##################################################
     //# variables
@@ -168,22 +169,18 @@ public abstract class MyAbstractDomain
      * hibernate will persist any changes automatically.  You should not need to
      * call this every time you modify the object, and doing do is misleading.
      *
-     * The standard domain validation is run before attaching the instance to
-     * hibernate.
+     * Calling attach will automatically check any model validation, so make
+     * sure the object is configured correctly BEFORE you attach it to hibernate.
+     *
+     * When adding an element to a hibernate managed collection, calling attach
+     * is not strictly necessary.  HOWEVER, certainly hibernate functions, such
+     * as fetching an object by its key, do not work correctly until the object
+     * has either been explicitly attached, or until until the session has been
+     * flushed/committed.
      */
+    @Override
     public void attachDao()
     {
-        attachDao(true);
-    }
-
-    /**
-     * Attach the instance to hibernate, optionally disabling normal validation.
-     */
-    public void attachDao(boolean validate)
-    {
-        if ( validate )
-            validate();
-
         getDaoSession().save(this);
     }
 
@@ -194,15 +191,6 @@ public abstract class MyAbstractDomain
     public void saveDao()
     {
         attachDao();
-    }
-
-    /**
-     * Use attachDao instead.
-     */
-    @Deprecated
-    public void saveDao(boolean validate)
-    {
-        attachDao(validate);
     }
 
     public void deleteDao()
@@ -245,5 +233,9 @@ public abstract class MyAbstractDomain
     {
         return MyGlobals.getAccess();
     }
+
+    public abstract String getMetaName();
+
+    public abstract String formatPrimaryKey();
 
 }

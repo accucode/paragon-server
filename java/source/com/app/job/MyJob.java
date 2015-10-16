@@ -5,7 +5,8 @@ import com.kodemore.time.KmClock;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 
-import com.app.model.MyPerformanceLogRegistry;
+import com.app.dao.base.MyDaoRegistry;
+import com.app.model.MyPerformanceLogBuffer;
 import com.app.property.MyPropertyRegistry;
 import com.app.utility.MyGlobals;
 import com.app.utility.MyUtility;
@@ -20,7 +21,7 @@ public abstract class MyJob
     @Override
     protected void logPerformance(int ms)
     {
-        MyPerformanceLogRegistry.push(getName(), ms);
+        MyPerformanceLogBuffer.push("job... " + getName(), ms);
     }
 
     //##################################################
@@ -52,7 +53,7 @@ public abstract class MyJob
     }
 
     /**
-     * Determines when maintenance jobs should run.  Typically 
+     * Determines when maintenance jobs should run.  Typically
      * returns from for something like 1am-4am, daily.  Or
      * once a week on Sunday night.
      */
@@ -80,4 +81,8 @@ public abstract class MyJob
         return KmClock.getTodayUtc();
     }
 
+    protected MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
 }

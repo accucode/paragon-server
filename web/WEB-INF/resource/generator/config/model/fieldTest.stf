@@ -1,0 +1,102 @@
+model
+: name      = fieldTest
+: help...
+    ---
+    This is NOT used by the application.  
+    Rather it is used solely to test frameworks during development.
+    --- 
+
+database
+: alias     = ft
+: auditLog  = true
+: locking   = true
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The globally unique identifier.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+
+    field
+    : name      = nameValue
+    : help      = 
+    : type      = name
+    : required  = false
+
+
+    field
+    : name      = integerValue
+    : help      = 
+    : type      = integer
+    : required  = false
+
+
+    field
+    : name      = longTest
+    : help      = 
+    : type      = long
+    : required  = false
+
+
+    field
+    : name      = doubleTest
+    : help      = 
+    : type      = double
+    : required  = false
+
+
+    field
+    : name      = moneyTest
+    : help      = 
+    : type      = money
+    : required  = false
+
+
+    field
+    : name      = booleanTest
+    : help      = 
+    : type      = boolean
+    : required  = false
+
+    
+    field
+    : name      = dateTest
+    : help      = 
+    : type      = date
+    : required  = false
+
+    
+    field
+    : name      = timestampTest
+    : help      = 
+    : type      = timestamp
+    : required  = false
+
+    
+    association
+    : name      = userTest
+    : help      = 
+    : modelName = user
+    : relation  = reference
+    : required  = false
+
+
+    field
+    : name      = pinNumber1
+    : help      = Included in the auditLog , but masked.
+    : type      = text5 
+    : required  = false
+    : auditLog  = mask
+
+    
+    field
+    : name      = pinNumber2
+    : help      = Excluded from the auditLog .
+    : type      = text5 
+    : required  = false
+    : auditLog  = false

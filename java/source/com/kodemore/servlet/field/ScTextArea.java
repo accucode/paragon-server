@@ -27,6 +27,7 @@ import com.kodemore.exception.error.KmErrorIF;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.variable.ScLocalBoolean;
 import com.kodemore.servlet.variable.ScLocalCss;
@@ -49,15 +50,20 @@ public class ScTextArea
     //# variables
     //##################################################
 
-    private ScLocalString  _text;
-    private ScLocalBoolean _readOnly;
-    private ScLocalBoolean _disabled;
-    private ScLocalBoolean _fullWrapper;
+    private ScLocalString       _text;
+    private ScLocalBoolean      _readOnly;
+    private ScLocalBoolean      _disabled;
+    private ScLocalBoolean      _fullWrapper;
+    private KmValidator<String> _validator;
+
+    /**
+     * If true (by default), the original value is included in the html data- attribute
+     * and the client-side browser uses javascript to track if changes are made.
+     */
+    private boolean _changeTracking;
 
     private ScLocalCss   _css;
     private ScLocalStyle _style;
-
-    private KmValidator<String> _validator;
 
     //##################################################
     //# init
@@ -72,6 +78,7 @@ public class ScTextArea
         _readOnly = new ScLocalBoolean(false);
         _disabled = new ScLocalBoolean(false);
         _fullWrapper = new ScLocalBoolean(false);
+        _changeTracking = true;
 
         _css = new ScLocalCss();
         _style = new ScLocalStyle();
@@ -140,6 +147,26 @@ public class ScTextArea
     public boolean isNotEmpty()
     {
         return !isEmpty();
+    }
+
+    //##################################################
+    //# change tracking
+    //##################################################
+
+    public boolean getChangeTracking()
+    {
+        return _changeTracking;
+    }
+
+    public void setChangeTracking(boolean e)
+    {
+        warnIfInstalled();
+        _changeTracking = e;
+    }
+
+    public void disableChangeTracking()
+    {
+        setChangeTracking(false);
     }
 
     //##################################################
@@ -352,6 +379,9 @@ public class ScTextArea
 
         if ( isDisabled() )
             out.printAttribute("disabled", "disabled");
+
+        if ( getChangeTracking() )
+            printOldValueAttributeOn(out, getValue());
     }
 
     //##################################################
@@ -416,7 +446,12 @@ public class ScTextArea
     @Override
     public void ajaxUpdateValue()
     {
-        ajax().setValue(getValue());
+        String value = getValue();
+
+        ajax().setValue(value);
+
+        if ( getChangeTracking() )
+            ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
     }
 
 }

@@ -638,6 +638,7 @@ public class KmTimestamp
 
     /**
      * Return the duration from myself until the specified ts.
+     * Returns a positive value if ts is AFTER myself.
      *
      * Durations may be positive or negative:
      *      today.getDurationUntil(tomorrow)  ==  1 day.
@@ -653,11 +654,32 @@ public class KmTimestamp
     }
 
     /**
+     * Return the duration since the specified ts, to myself.
+     * Returns a positive value if ts is BEFORE myself.
+     *
+     * Durations may be positive or negative:
+     *      today.getDurationSince(yesterday) ==  1 day.
+     *      today.getDurationSince(tomorrow)  == -1 day.
+     */
+    public KmDuration getDurationSince(KmTimestamp ts)
+    {
+        return getDurationUntil(ts).negate();
+    }
+
+    /**
      * An alias for getDurationUntil(ts).
+     *
+     * This short-hand method assumes the common format start.diff(end), where
+     * start is typically before the end.
      */
     public KmDuration diff(KmTimestamp ts)
     {
         return getDurationUntil(ts);
+    }
+
+    public int getMinutesSince(KmTimestamp ts)
+    {
+        return getDurationSince(ts).getTotalMinutes();
     }
 
     //##################################################

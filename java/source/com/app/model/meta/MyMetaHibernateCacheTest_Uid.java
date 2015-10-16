@@ -50,7 +50,7 @@ public class MyMetaHibernateCacheTest_Uid
     @Override
     public String getHelp()
     {
-        return "The globally unique identifier.  This is a big ugly number and generally not displayed.";
+        return "The globally unique identifier.";
     }
     
     @Override

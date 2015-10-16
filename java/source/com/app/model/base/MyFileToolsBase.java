@@ -34,14 +34,14 @@ public abstract class MyFileToolsBase
 {
     public static final MyMetaFile Meta = MyFile.Meta;
 
-    public ScDomainDropdownField<MyFile,Integer> newDomainDropdown()
+    public ScDomainDropdownField<MyFile,String> newDomainDropdown()
     {
-        ScDomainDropdownField<MyFile,Integer> e;
+        ScDomainDropdownField<MyFile,String> e;
         e = new ScDomainDropdownField<>();
         e.setLabel(Meta.getLabel());
         e.setFilter(new MyFileFilter());
         e.setFinder(new MyFileFinder());
-        e.setOptionKeyAdaptor(Meta.Id);
+        e.setOptionKeyAdaptor(Meta.Uid);
         return e;
     }
 }

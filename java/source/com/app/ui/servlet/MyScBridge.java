@@ -13,6 +13,7 @@ import com.app.model.MyCssConstantsIF;
 import com.app.ui.core.MyServletData;
 import com.app.ui.layout.MyPageErrorDialog;
 import com.app.ui.layout.MyPageLayout;
+import com.app.utility.MyInstaller;
 
 public class MyScBridge
     extends ScBridge
@@ -27,12 +28,18 @@ public class MyScBridge
     }
 
     //##################################################
+    //# variables
+    //##################################################
+
+    private MyPageErrorDialog _errorDialog;
+
+    //##################################################
     //# constructor
     //##################################################
 
     private MyScBridge()
     {
-        // private
+        _errorDialog = new MyPageErrorDialog();
     }
 
     //##################################################
@@ -42,9 +49,7 @@ public class MyScBridge
     @Override
     public void displayError(Throwable ex)
     {
-        MyPageErrorDialog e;
-        e = new MyPageErrorDialog();
-        e.ajaxOpenException(ex);
+        _errorDialog.ajaxOpenException(ex);
     }
 
     @Override
@@ -57,6 +62,12 @@ public class MyScBridge
     public int getTransitionFadeMs()
     {
         return 100;
+    }
+
+    @Override
+    public void warnIfInstalled()
+    {
+        MyInstaller.warnIfInstalled();
     }
 
     //##################################################

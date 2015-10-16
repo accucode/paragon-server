@@ -1,0 +1,161 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>performanceLogDetail</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>performanceLogDetail</h1>
+
+${model.f_comment}<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Help / Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The unique identifier.<br>
+            &nbsp;
+  </td>
+  
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+            pk<br>                      &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>name&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The display name.  E.g.: the classname of the servlet or job.<br>
+            &nbsp;
+  </td>
+  
+  <td>text100
+        <br><nobr>max length: 100</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdUtcTs&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The time when this log was created.  This is usually very very close to when the task ended (not started).<br>
+            &nbsp;
+  </td>
+  
+  <td>timestamp
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>durationMs&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The duration of the task in milliseconds.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdLocalTs&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The time when this log was created.  This is usually very very close to when the task ended (not started).<br>
+            &nbsp;
+  </td>
+  
+  <td>timestamp
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdLocalTsMessage&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The time when this log was created.  This is usually very very close to when the task ended (not started).<br>
+            &nbsp;
+  </td>
+  
+  <td>text100
+        <br><nobr>max length: 100</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdLocalDate&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The time when this log was created.  This is usually very very close to when the task ended (not started).<br>
+            &nbsp;
+  </td>
+  
+  <td>date
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>createdLocalTime&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The time when this log was created.  This is usually very very close to when the task ended (not started).<br>
+            &nbsp;
+  </td>
+  
+  <td>time
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

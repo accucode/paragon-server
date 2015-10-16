@@ -103,6 +103,7 @@ public final class MyDragTestPage
     {
         _dropdown = new ScDropdown();
         _dropdown.setOptions(new KmIntegerRange(0, ITEM_COUNT - 1).toList());
+        _dropdown.disableChangeTracking();
 
         ScBox row;
         row = root.addBox();

@@ -1,0 +1,76 @@
+model
+: name      = performanceLogSummary
+: help...
+    ---
+    A daily summary of the performance logs.  The logs for each day are grouped by name
+    stored with various aggregates such as the min, max, and average durations.  Although
+    the individual performance logs are automatically deleted (after a ~week), these
+    daily summary logs are kept indefinitely for long term reporting.
+    ---
+
+database
+: alias     = pls
+: auditLog  = false
+: locking   = false
+
+    index
+    : name      = date
+    : unique    = true
+    : on        = utcDate
+    : on        = name
+
+    index
+    : name  = name
+    : on    = name
+    : on    = utcDate
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The unique identifier.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+
+    field
+    : name          = utcDate
+    : help          = The day being summarized.
+    : type          = date
+    : required      = true
+
+    field
+    : name          = name
+    : help          = The display name.  E.g.: the classname of the servlet or job.
+    : type          = text100
+    : required      = true
+
+    field
+    : name          = count
+    : help          = The number of performance logs being aggregated.
+    : type          = integer
+    : required      = true
+
+    field
+    : name          = minimumMs
+    : help          = Aggregate information about the individual logs.
+    : type          = integer
+    : required      = true
+
+    field
+    : name          = maximumMs
+    : help          = Aggregate information about the individual logs.
+    : type          = integer
+    : required      = true
+
+    field
+    : name          = averageMs
+    : help          = Aggregate information about the individual logs.
+    : type          = integer
+    : required      = true
+
+    field
+    : name          = totalMs
+    : help          = Aggregate information about the individual logs.
+    : type          = integer
+    : required      = true

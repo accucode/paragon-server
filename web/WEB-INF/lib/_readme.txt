@@ -26,7 +26,7 @@ MySql JDBC Connector
     From:   http://www.mysql.com/
     Lic:    GPL
     Last:   12/16/2014
-    
+
         mysql-connector-java-5.1.34-bin.jar
 
 Apache Commons
@@ -35,14 +35,14 @@ Apache Commons
     From:   http://commons.apache.org/
     Lic:    Apache 2.0
     Last:   12/16/2014
-    
+
         commons-codec-1.10.jar
         commons-collections-3.2.1.jar (older version required for Velocity 1.7)
         commons-collections4-4.0.jar  (newer version uses a different package to avoid conflicts)
         commons-fileupload-1.3.1.jar
         commons-io-2.4.jar
-        commons-lang-2.6.jar    (older version required for velocity 1.7)        
-        commons-lang3-3.3.2.jar (newer version uses a different package to avoid conflicts)       
+        commons-lang-2.6.jar    (older version required for velocity 1.7)
+        commons-lang3-3.3.2.jar (newer version uses a different package to avoid conflicts)
         commons-logging-1.2.jar
 
 Apache HTTP Components
@@ -51,7 +51,7 @@ Apache HTTP Components
     From:   http://hc.apache.org/
     Lic:    Apache 2.0
     Last:   12/16/2014
-    
+
         httpcore-4.3.3.jar
         httpclient-4.3.6.jar
 
@@ -61,7 +61,7 @@ Apache Logging
     From:   http://logging.apache.org/log4j/1.2/
     Lic:    Apache 2.0
     Last:   12/16/2014
-    
+
         log4j-1.2.17.jar
 
 Java Mail
@@ -78,7 +78,7 @@ Amazon Web Services
     Use:    Java wrapper interface for AWS SDK.
     From:   http://aws.amazon.com/sdk-for-java/
     Lic:    Apache 2.0
-    Last:   12/16/2014    
+    Last:   12/16/2014
 
         aws-java-sdk-1.9.11.jar
 
@@ -87,7 +87,7 @@ EnterpriseDT FTP
     Use:    FTP library
     From:   https://enterprisedt.com/products/edtftpj/
     Lic:    LGPL 2.1
-    Last:   12/16/2014    
+    Last:   12/16/2014
 
         edtftpj-2.4.0.jar
 
@@ -96,7 +96,7 @@ The Simple API for CSS (SAC)
     Use:    Used to parse css files.
     From:   http://www.w3.org/Style/CSS/SAC/Overview.en.html
     Lic:    W3C
-    Last:   12/16/2014    
+    Last:   12/16/2014
 
         sac-1.3.jar
 
@@ -105,7 +105,7 @@ Css Parser
     Use:    Used to parse css files.
     From:   http://cssparser.sourceforge.net/
     Lic:    LGPL
-    Last:   12/16/2014    
+    Last:   12/16/2014
 
         cssparser-0.9.14.jar
 
@@ -114,7 +114,7 @@ Bean Shell
     Use:    For live ad hoc debug scripting in production.
     From:   http://www.beanshell.org/
     Lic:    LGPL
-    Last:   12/16/2014    
+    Last:   12/16/2014
 
         bsh-2.0b2.jar
 
@@ -123,7 +123,7 @@ Simple JSON
     Use:    Used to format and parse json.
     From:   https://code.google.com/p/json-simple/
     Lic:    Apache 2.0
-    Last:   12/16/2014    
+    Last:   12/16/2014
 
         json-simple-1.1.1.jar
 
@@ -132,7 +132,7 @@ JFree Chart
     Use:    Generate chart images with server side code.
     From:   http://www.jfree.org/jfreechart/
     Lic:    LGPL
-    Last:   12/16/2014    
+    Last:   12/16/2014
 
         jcommon-1.0.23.jar
         jfreechart-1.0.19.jar
@@ -142,7 +142,7 @@ Hibernate
     Use:    Object relational mapping to mySql (ORM)
     From:   http://hibernate.org/orm
     Lic:    LGPL
-    Last:   12/16/2014    
+    Last:   12/16/2014
 
         antlr-2.7.7.jar
         dom4j-1.6.1.jar
@@ -160,7 +160,7 @@ Hibernate (optional c3po libs)
     Use:    Connection pooling for hibernate
     From:   http://hibernate.org/orm
     Lic:    LGPL
-    Last:   12/16/2014    
+    Last:   12/16/2014
 
         c3p0-0.9.2.1.jar
         hibernate-c3p0-4.3.7.Final.jar
@@ -171,7 +171,7 @@ Velocity Templates
     Use:    Used for templates and code generation.
     From:   https://velocity.apache.org/
     Lic:    Apache 2.0
-    Last:   12/16/2014    
+    Last:   12/16/2014
 
         velocity-1.7.jar
 
@@ -196,20 +196,29 @@ http client, apache commons
     httpmime-4.0.1.jar
 
 sac-1.3
-	w3c standard interface for CSS parser
-	http://www.w3.org/Style/CSS/SAC/
-	Open
-	
+    w3c standard interface for CSS parser
+    http://www.w3.org/Style/CSS/SAC/
+    Open
+
 cssparser-0.9.7.jar
-	Css parser
-	http://cssparser.sourceforge.net/
-	GNU Lesser General Public License.
-    
-    
-    
-    
-    
-    
+    Css parser
+    http://cssparser.sourceforge.net/
+    GNU Lesser General Public License.
+
+
+Jsoup
+
+    Use:    Html Parser
+    From:   http://jsoup.org/
+    Lic:    MIT
+    Last:   10/15/2015
+
+        jsoup-1.8.3.jar
+        jsoup-1.8.3-sources.jar
+        jsoup-1.8.3-javadoc.jar
+
+
+
 
 antlr-2.7.6.jar
 apache-mime4j-0.6.jar

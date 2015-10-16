@@ -77,8 +77,8 @@ public final class MyFlexboxTestPage
     {
         ScFlexbox row;
         row = root.addRow();
-        row.alignSpaced();
-        row.crossAlignCenter();
+        row.alignSpacedAround();
+        row.crossAlignBaseline();
         row.css().boxBlue();
 
         ScTextSpan item;
@@ -124,6 +124,9 @@ public final class MyFlexboxTestPage
 
         ScGroup group;
         group = root.addGroup(title);
+
+        group.css().flexGrow();
+
         group.bodyCss().pad();
 
         for ( int i = 0; i < n; i++ )

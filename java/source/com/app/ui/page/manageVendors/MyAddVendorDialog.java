@@ -59,9 +59,6 @@ public class MyAddVendorDialog
         MyVendor e;
         e = getCurrentProject().addVendor();
         e.applyFrom(this);
-
-        flushDao();
-
         return e;
     }
 }

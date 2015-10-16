@@ -69,11 +69,17 @@ public class ScEnterPageScript
 
     /**
      * If false, the statechange listener will be temporarily disconnected
-     * during the push in order to avoid trigging a an event.  This is
-     * normally true, and is primarily used when you want to replace the
-     * current state without triggering a navigation.
+     * during the push in order to avoid trigging an event notification.
+     * This is normally enabled (true), and is primarily disabled when
+     * you want to replace the current state without triggering a navigation.
      */
     private boolean _handleStateChange;
+
+    /**
+     * If true (the default) the client browser warn the user if there
+     * are any dirty fields before updating the browser navigation.
+     */
+    private boolean _changeTracking;
 
     //##################################################
     //# constructor
@@ -82,6 +88,7 @@ public class ScEnterPageScript
     public ScEnterPageScript()
     {
         setHandleStateChange(true);
+        setChangeTracking(true);
     }
 
     //##################################################
@@ -162,6 +169,25 @@ public class ScEnterPageScript
     }
 
     //##################################################
+    //# change tracking
+    //##################################################
+
+    public boolean getChangeTracking()
+    {
+        return _changeTracking;
+    }
+
+    public void setChangeTracking(boolean e)
+    {
+        _changeTracking = e;
+    }
+
+    public void disableChangeTracking()
+    {
+        setChangeTracking(false);
+    }
+
+    //##################################################
     //# format
     //##################################################
 
@@ -180,6 +206,9 @@ public class ScEnterPageScript
 
         if ( !getHandleStateChange() )
             json.setBoolean("handleStateChange", false);
+
+        if ( !getChangeTracking() )
+            json.setBoolean("changeTracking", false);
 
         ScBlockScript s;
         s = ScBlockScript.create();

@@ -43,8 +43,6 @@ public class MyInvitationValidatorBase
     private KmStringValidator toEmailValidator;
     private KmStringValidator roleCodeValidator;
     private KmIntegerValidator lockVersionValidator;
-    private KmStringValidator fromUserNameValidator;
-    private KmStringValidator projectNameValidator;
 
     //##################################################
     //# constructor
@@ -61,8 +59,6 @@ public class MyInvitationValidatorBase
         toEmailValidator = newToEmailValidator();
         roleCodeValidator = newRoleCodeValidator();
         lockVersionValidator = newLockVersionValidator();
-        fromUserNameValidator = newFromUserNameValidator();
-        projectNameValidator = newProjectNameValidator();
     }
 
     //##################################################
@@ -109,16 +105,6 @@ public class MyInvitationValidatorBase
         return lockVersionValidator;
     }
 
-    public KmStringValidator getFromUserNameValidator()
-    {
-        return fromUserNameValidator;
-    }
-
-    public KmStringValidator getProjectNameValidator()
-    {
-        return projectNameValidator;
-    }
-
     //##################################################
     //# validate
     //##################################################
@@ -126,6 +112,7 @@ public class MyInvitationValidatorBase
     @Override
     public void convertOnly(MyInvitation value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setTypeCode(typeCodeValidator.convertOnly(value.getTypeCode()));
         value.setStatusCode(statusCodeValidator.convertOnly(value.getStatusCode()));
@@ -139,6 +126,7 @@ public class MyInvitationValidatorBase
     @Override
     public void validateOnly(MyInvitation value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         typeCodeValidator.validateOnly(value.getTypeCode(), errors);
         statusCodeValidator.validateOnly(value.getStatusCode(), errors);
@@ -147,6 +135,9 @@ public class MyInvitationValidatorBase
         toEmailValidator.validateOnly(value.getToEmail(), errors);
         roleCodeValidator.validateOnly(value.getRoleCode(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
+        if ( !value.hasFromUser() )
+            errors.add(new KmRequiredValidationError("invitation", "fromUser"));
     }
 
     //##################################################
@@ -243,30 +234,6 @@ public class MyInvitationValidatorBase
         e = new KmIntegerValidator();
         e.setModel("invitation");
         e.setField("lockVersion");
-        return e;
-    }
-
-    public KmStringValidator newFromUserNameValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("invitation");
-        e.setField("fromUserName");
-        e.setRequired();
-        return e;
-    }
-
-    public KmStringValidator newProjectNameValidator()
-    {
-        KmStringValidator e;
-        e = new KmStringValidator();
-        e.setMaximumLength(50);
-        e.setAllowsPrintable(true);
-        e.setModel("invitation");
-        e.setField("projectName");
-        e.setRequired();
         return e;
     }
 

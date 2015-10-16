@@ -1,17 +1,14 @@
 package com.app.ui.page.manageProducts;
 
-import com.kodemore.servlet.control.ScControl;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
-import com.kodemore.servlet.field.ScDomainDropdownField;
 
-import com.app.model.MyCategory;
-import com.app.model.MyProduct;
-import com.app.model.meta.MyMetaProduct;
+import com.app.model.MyMasterProduct;
+import com.app.model.meta.MyMetaMasterProduct;
 import com.app.ui.control.MyAddDialog;
 
 public class MyAddProductDialog
-    extends MyAddDialog<MyProduct>
+    extends MyAddDialog<MyMasterProduct>
 {
     //##################################################
     //# install
@@ -29,7 +26,7 @@ public class MyAddProductDialog
 
     private void installFields()
     {
-        MyMetaProduct x = MyProduct.Meta;
+        MyMetaMasterProduct x = MyMasterProduct.Meta;
 
         ScDiv body;
         body = getBody();
@@ -37,18 +34,7 @@ public class MyAddProductDialog
 
         ScFieldLayout fields;
         fields = body.addFieldLayout();
-        fields.addField(x.Name);
-        fields.add(newCategoryDropdown());
-    }
-
-    private ScControl newCategoryDropdown()
-    {
-        MyMetaProduct x = MyProduct.Meta;
-
-        ScDomainDropdownField<MyCategory,String> e;
-        e = MyCategory.Tools.newDomainDropdownForCurrentProject();
-        e.setValueAdaptor(x.Category);
-        return e;
+        fields.addField(x.PartNumber);
     }
 
     //##################################################
@@ -66,16 +52,13 @@ public class MyAddProductDialog
     //##################################################
 
     @Override
-    protected MyProduct save()
+    protected MyMasterProduct save()
     {
         validate();
 
-        MyProduct e;
-        e = getCurrentProject().addProduct();
+        MyMasterProduct e;
+        e = getCurrentProject().addMasterProduct();
         e.applyFrom(this);
-
-        flushDao();
-
         return e;
     }
 }

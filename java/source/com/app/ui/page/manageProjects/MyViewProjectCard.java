@@ -60,13 +60,14 @@ public class MyViewProjectCard
         ScFieldLayout fields;
         fields = body.addFieldLayout();
         fields.addText(x.Name);
+        fields.addText(x.OrderNumberPrefix);
     }
 
     private void installEditDialog()
     {
         _editDialog = new MyEditProjectDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(this::handleSaved);
+        _editDialog.addSavedListener(this::handleSaved);
     }
 
     //##################################################
@@ -80,7 +81,7 @@ public class MyViewProjectCard
 
     public void addSaveListener(Consumer<MyProject> e)
     {
-        getEditDialog().addSaveListener(e);
+        getEditDialog().addSavedListener(e);
     }
 
     public void setProject(MyProject e)

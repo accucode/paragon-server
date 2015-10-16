@@ -31,7 +31,7 @@ import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
 
 /**
- * I am used to parse the stf format.  Structured Text Files.  
+ * I am used to parse the stf format.  Structured Text Files.
  */
 public class KmStfParser
     implements KmStfConstantsIF, KmConstantsIF
@@ -46,8 +46,8 @@ public class KmStfParser
     private String _source;
 
     /**
-     * The folder where the source is assumed to live.  This is 
-     * not required and the parser can be used to simple parse
+     * The folder where the source is assumed to live.  This is
+     * not required and the parser can be used to simply parse
      * freeform strings.  However, the #include command needs to
      * know where this folder lives.
      */
@@ -55,7 +55,7 @@ public class KmStfParser
 
     /**
      * The normalized lines being parsed.
-     * Lines are normalized by doing things like 
+     * Lines are normalized by doing things like
      * trimming trailing whitespace and converting
      * tabs to spaces.  See normalize method below.
      */
@@ -68,7 +68,7 @@ public class KmStfParser
     private int _index;
 
     /**
-     * Using tabs is not recommended, but is supported by 
+     * Using tabs is not recommended, but is supported by
      * converting each tab to a specified number of spaces.
      * Must be set to a value >= 1; defaults to 4.
      */
@@ -86,20 +86,20 @@ public class KmStfParser
      * comments.  Multiline comments must start at the start
      * of a line, and end at the end of a line (not counting
      * whitespace).
-     * 
+     *
      * The following multiline comments are installed
      * by default.  Additional patterns may be added
      * or the defaults may be cleared.
-     * 
+     *
      *      java-style: slash-star ... star-slash
-     *      html-style: <!-- ... -->  
-     * 
+     *      html-style: <!-- ... -->
+     *
      */
     private KmMap<String,String> _multiLineCommentPatterns;
 
     /**
      * Shortcuts can be used to convert element arguments
-     * into attributes. 
+     * into attributes.
      */
     private KmList<KmStfShortcut> _shortcuts;
 
@@ -592,7 +592,7 @@ public class KmStfParser
     //##################################################
 
     /**
-     * Anything not already parsed is assumed to be a 
+     * Anything not already parsed is assumed to be a
      * new element.  We throw an error if the element cannot
      * be parsed.
      */
@@ -785,6 +785,15 @@ public class KmStfParser
 
             if ( eof() )
                 throw newParseError("Multiline string not terminated.");
+
+            boolean isBlankLine = getLine().length() == 0;
+            if ( isBlankLine )
+            {
+                if ( out.isNotEmpty() )
+                    out.append("\n");
+
+                continue;
+            }
 
             if ( getIndent() < indent )
                 throw newParseError("Multiline string cannot indent less than first line.");

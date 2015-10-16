@@ -1,6 +1,7 @@
 package com.kodemore.proto;
 
 import com.kodemore.generator.model.KmgModelType;
+import com.kodemore.hibernate.KmhTimestampCondition;
 import com.kodemore.hibernate.type.KmhTimestampType;
 import com.kodemore.meta.KmMetaTimestampProperty;
 import com.kodemore.servlet.field.ScTimestampField;
@@ -32,6 +33,18 @@ public class KmProtoTimestamp
     public String getDatabaseType(KmgModelType e)
     {
         return "datetime";
+    }
+
+    @Override
+    public String format_CriteriaClass()
+    {
+        return KmhTimestampCondition.class.getSimpleName();
+    }
+
+    @Override
+    public String format_CriteriaClass_NoGeneric()
+    {
+        return format_CriteriaClass();
     }
 
     @Override

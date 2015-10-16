@@ -25,6 +25,7 @@ import com.app.utility.*;
 
 public abstract class MyApplicationLogBase
     extends MyAbstractDomain
+    implements MyDomainIF
 {
     //##################################################
     //# static
@@ -38,7 +39,7 @@ public abstract class MyApplicationLogBase
     //# variables
     //##################################################
 
-    private Integer id;
+    private String uid;
     private KmTimestamp createdUtcTs;
     private String loggerName;
     private String context;
@@ -46,8 +47,7 @@ public abstract class MyApplicationLogBase
     private String levelName;
     private Integer levelCode;
     private String threadName;
-    private String exceptionText;
-    private List<MyApplicationLogTrace> traces;
+    private String trace;
 
     //##################################################
     //# constructor
@@ -56,39 +56,49 @@ public abstract class MyApplicationLogBase
     public MyApplicationLogBase()
     {
         super();
+        setUid(newUid());
         setCreatedUtcTs(getNowUtc());
-        traces = new ArrayList<>();
     }
 
     //##################################################
-    //# field (id)
+    //# field (uid)
     //##################################################
 
-    public Integer getId()
+    public String getUid()
     {
-        return id;
+        return uid;
     }
 
-    public void setId(Integer e)
+    public void setUid(String e)
     {
         checkReadOnly();
-        e = Validator.getIdValidator().convertOnly(e);
-        id = e;
+        e = Validator.getUidValidator().convertOnly(e);
+        uid = e;
     }
 
-    public void clearId()
+    public void clearUid()
     {
-        setId(null);
+        setUid(null);
     }
 
-    public boolean hasId()
+    public boolean hasUid()
     {
-        return getId() != null;
+        return Kmu.hasValue(getUid());
     }
 
-    public boolean hasId(Integer e)
+    public boolean hasUid(String e)
     {
-        return Kmu.isEqual(getId(), e);
+        return Kmu.isEqualIgnoreCase(getUid(), e);
+    }
+
+    public void truncateUid()
+    {
+        truncateUid(false);
+    }
+
+    public void truncateUid(boolean ellipses)
+    {
+        uid = Kmu.truncate(uid, 30, ellipses);
     }
 
     //##################################################
@@ -359,44 +369,44 @@ public abstract class MyApplicationLogBase
     }
 
     //##################################################
-    //# field (exceptionText)
+    //# field (trace)
     //##################################################
 
-    public String getExceptionText()
+    public String getTrace()
     {
-        return exceptionText;
+        return trace;
     }
 
-    public void setExceptionText(String e)
+    public void setTrace(String e)
     {
         checkReadOnly();
-        e = Validator.getExceptionTextValidator().convertOnly(e);
-        exceptionText = e;
+        e = Validator.getTraceValidator().convertOnly(e);
+        trace = e;
     }
 
-    public void clearExceptionText()
+    public void clearTrace()
     {
-        setExceptionText(null);
+        setTrace(null);
     }
 
-    public boolean hasExceptionText()
+    public boolean hasTrace()
     {
-        return Kmu.hasValue(getExceptionText());
+        return Kmu.hasValue(getTrace());
     }
 
-    public boolean hasExceptionText(String e)
+    public boolean hasTrace(String e)
     {
-        return Kmu.isEqualIgnoreCase(getExceptionText(), e);
+        return Kmu.isEqualIgnoreCase(getTrace(), e);
     }
 
-    public void truncateExceptionText()
+    public void truncateTrace()
     {
-        truncateExceptionText(false);
+        truncateTrace(false);
     }
 
-    public void truncateExceptionText(boolean ellipses)
+    public void truncateTrace(boolean ellipses)
     {
-        exceptionText = Kmu.truncate(exceptionText, 100, ellipses);
+        trace = Kmu.truncate(trace, 50000, ellipses);
     }
 
     //##################################################
@@ -413,22 +423,6 @@ public abstract class MyApplicationLogBase
     public boolean hasLevelCodeName(String e)
     {
         return Kmu.isEqualIgnoreCase(getLevelCodeName(), e);
-    }
-
-    //##################################################
-    //# field (fullTrace)
-    //##################################################
-
-    public abstract String getFullTrace();
-
-    public boolean hasFullTrace()
-    {
-        return Kmu.hasValue(getFullTrace());
-    }
-
-    public boolean hasFullTrace(String e)
-    {
-        return Kmu.isEqualIgnoreCase(getFullTrace(), e);
     }
 
     //##################################################
@@ -509,82 +503,6 @@ public abstract class MyApplicationLogBase
 
 
     //##################################################
-    //# Traces (collection)
-    //##################################################
-
-    public KmCollection<MyApplicationLogTrace> getTraces()
-    {
-        return new KmHibernateCollection<>(
-            getBaseTraces(),
-            (MyApplicationLog)this,
-            MyApplicationLogTrace.Meta.Log.getAdaptor());
-    }
-
-    public KmList<MyApplicationLogTrace> getSortedTraces()
-    {
-        KmList<MyApplicationLogTrace> v;
-        v = getTraces().toList();
-        v.sortOn(MyApplicationLogTrace::getSequence);
-        return v;
-    }
-
-    public boolean hasTraces()
-    {
-        return !getBaseTraces().isEmpty();
-    }
-
-    public int getTraceCount()
-    {
-        return getBaseTraces().size();
-    }
-
-    public List<MyApplicationLogTrace> getBaseTraces()
-    {
-        return traces;
-    }
-
-    public MyApplicationLogTrace addTrace()
-    {
-        MyApplicationLogTrace e;
-        e = new MyApplicationLogTrace();
-        e.setSequence(getTraces().getNextSequence());
-        getTraces().add(e);
-        return e;
-    }
-
-    public void addTrace(MyApplicationLogTrace e)
-    {
-        getTraces().add(e);
-    }
-
-    public boolean removeTrace(MyApplicationLogTrace e)
-    {
-        return getTraces().remove(e);
-    }
-
-    public boolean removeTraceId(Integer myId)
-    {
-        MyApplicationLogTrace e = findTraceId(myId);
-        if ( e == null )
-            return false;
-
-        return removeTrace(e);
-    }
-
-    public MyApplicationLogTrace findTraceId(Integer myId)
-    {
-        for ( MyApplicationLogTrace e : getBaseTraces() )
-            if ( e.hasId(myId) )
-                return e;
-        return null;
-    }
-
-    public void clearTraces()
-    {
-        getTraces().clear();
-    }
-
-    //##################################################
     //# validate
     //##################################################
 
@@ -619,12 +537,7 @@ public abstract class MyApplicationLogBase
     public void postCopy()
     {
         super.postCopy();
-        id = null;
-
-        List<MyApplicationLogTrace> old_traces = traces;
-        traces = new ArrayList<>();
-        for ( MyApplicationLogTrace e : old_traces )
-            addTrace(copy(e));
+        uid = null;
     }
 
     //##################################################
@@ -638,18 +551,18 @@ public abstract class MyApplicationLogBase
             return false;
 
         MyApplicationLogBase e = (MyApplicationLogBase)o;
-        return Kmu.isEqual(getId(), e.getId());
+        return Kmu.isEqual(getUid(), e.getUid());
     }
 
     @Override
     public int hashCode()
     {
-        return Kmu.getHashCode(getId());
+        return Kmu.getHashCode(getUid());
     }
 
     public boolean isSame(MyApplicationLog e)
     {
-        if ( !Kmu.isEqual(getId(), e.getId()) ) return false;
+        if ( !Kmu.isEqual(getUid(), e.getUid()) ) return false;
         return isSameIgnoringKey(e);
     }
 
@@ -662,9 +575,8 @@ public abstract class MyApplicationLogBase
         if ( !Kmu.isEqual(getLevelName(), e.getLevelName()) ) return false;
         if ( !Kmu.isEqual(getLevelCode(), e.getLevelCode()) ) return false;
         if ( !Kmu.isEqual(getThreadName(), e.getThreadName()) ) return false;
-        if ( !Kmu.isEqual(getExceptionText(), e.getExceptionText()) ) return false;
+        if ( !Kmu.isEqual(getTrace(), e.getTrace()) ) return false;
         if ( !Kmu.isEqual(getLevelCodeName(), e.getLevelCodeName()) ) return false;
-        if ( !Kmu.isEqual(getFullTrace(), e.getFullTrace()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTs(), e.getCreatedLocalTs()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalTsMessage(), e.getCreatedLocalTsMessage()) ) return false;
         if ( !Kmu.isEqual(getCreatedLocalDate(), e.getCreatedLocalDate()) ) return false;
@@ -689,19 +601,20 @@ public abstract class MyApplicationLogBase
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("MyApplicationLog");
-        sb.append("(");
-        sb.append("Id=");
-        sb.append(id);
-        sb.append(")");
-        return sb.toString();
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append("MyApplicationLog");
+        out.append("(");
+        out.append("Uid=");
+        out.append(uid);
+        out.append(")");
+        return out.toString();
     }
 
     public void printFields()
     {
         System.out.println(this);
-        System.out.println("    Id = " + id);
+        System.out.println("    Uid = " + uid);
         System.out.println("    CreatedUtcTs = " + createdUtcTs);
         System.out.println("    LoggerName = " + loggerName);
         System.out.println("    Context = " + context);
@@ -709,19 +622,27 @@ public abstract class MyApplicationLogBase
         System.out.println("    LevelName = " + levelName);
         System.out.println("    LevelCode = " + levelCode);
         System.out.println("    ThreadName = " + threadName);
-        System.out.println("    ExceptionText = " + exceptionText);
+        System.out.println("    Trace = " + trace);
     }
 
     /**
      * Format the primary key fields in a comma separated list.  The format
      * is intended to be suitable for display to users.
      */
+    @Override
     public String formatPrimaryKey()
     {
-        StringBuilder sb = new StringBuilder();
-        ScFormatter f = getFormatter();
-        sb.append(f.formatAny(id));
-        return sb.toString();
+        return uid;
     }
 
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    @Override
+    public String getMetaName()
+    {
+        return Meta.getName();
+    }
 }

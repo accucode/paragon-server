@@ -30,6 +30,12 @@ public class MyLog4jReloaderJob
         return secondsToMs(seconds);
     }
 
+    @Override
+    protected boolean logsPerformance()
+    {
+        return false;
+    }
+
     //##################################################
     //# run
     //##################################################

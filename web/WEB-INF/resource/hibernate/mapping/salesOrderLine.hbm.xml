@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MySalesOrderLine"
+        table="salesOrderLine"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="listPrice"
+            column="listPrice"
+            type="com.kodemore.hibernate.type.KmhMoneyType"
+            />
+
+        <property
+            name="unitPrice"
+            column="unitPrice"
+            type="com.kodemore.hibernate.type.KmhMoneyType"
+            />
+
+        <property
+            name="orderedQuantity"
+            column="orderedQuantity"
+            type="integer"
+            />
+
+        <property
+            name="fulfilledQuantity"
+            column="fulfilledQuantity"
+            type="integer"
+            />
+
+        <property
+            name="extendedPrice"
+            column="extendedPrice"
+            type="com.kodemore.hibernate.type.KmhMoneyType"
+            />
+
+        <property
+            name="priceAdjustment"
+            column="priceAdjustment"
+            type="com.kodemore.hibernate.type.KmhMoneyType"
+            />
+
+        <property
+            name="adjustedPrice"
+            column="adjustedPrice"
+            type="com.kodemore.hibernate.type.KmhMoneyType"
+            />
+
+        <property
+            name="tax"
+            column="tax"
+            type="com.kodemore.hibernate.type.KmhMoneyType"
+            />
+
+        <property
+            name="totalPrice"
+            column="totalPrice"
+            type="com.kodemore.hibernate.type.KmhMoneyType"
+            />
+
+        <many-to-one
+            name="salesOrder"
+            column="salesOrderUid"
+            class="com.app.model.MySalesOrder"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="product"
+            column="productUid"
+            class="com.app.model.MyProduct"
+            cascade="none"
+            />
+
+    </class>
+</hibernate-mapping>

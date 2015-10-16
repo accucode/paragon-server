@@ -63,7 +63,7 @@ public class MyMetaEmailPart
 
     public static String getHelp()
     {
-        return "Each email is composed of at least one part, the body.  In some cases the body may\nbe composed of multiple parts.  For example, to supply both plaintext and html versions\nof the body; or to provide attachments.";
+        return "Each email is composed of at least one part, the body.  In some cases the body may be composed of multiple parts.  For example, to supply both plaintext and html versions of the body; or to provide attachments.";
     }
 
     //##################################################

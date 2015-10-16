@@ -17,6 +17,7 @@ import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
 import com.app.model.meta.*;
+import com.app.utility.*;
 
 public abstract class MyUserActivationDaoBase
     extends KmAbstractDao<MyUserActivation,String>
@@ -80,11 +81,19 @@ public abstract class MyUserActivationDaoBase
     public void deleteUid(String e)
     {
         MyUserActivation m = findUid(e);
-        
+
         if ( m == null )
             throw Kmu.newFatal("Cannot delete; key not found(%s).", e);
-            
+
         delete(m);
     }
 
+    //##################################################
+    //# convenience
+    //##################################################
+
+    protected MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
 }

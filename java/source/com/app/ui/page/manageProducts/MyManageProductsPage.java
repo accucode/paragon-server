@@ -5,12 +5,12 @@ import com.kodemore.meta.KmMetaStringProperty;
 import com.kodemore.servlet.control.ScCardFrame;
 import com.kodemore.servlet.control.ScContainer;
 
-import com.app.model.MyProduct;
+import com.app.model.MyMasterProduct;
 import com.app.ui.page.MySecurityLevel;
 import com.app.ui.page.support.MyManageDomainPage;
 
 public final class MyManageProductsPage
-    extends MyManageDomainPage<MyProduct>
+    extends MyManageDomainPage<MyMasterProduct>
 {
     //##################################################
     //# singleton
@@ -53,7 +53,7 @@ public final class MyManageProductsPage
     @Override
     public String getHelpMessage()
     {
-        return MyProduct.Meta.getHelp();
+        return MyMasterProduct.Meta.getHelp();
     }
 
     //##################################################
@@ -98,25 +98,25 @@ public final class MyManageProductsPage
     @Override
     protected String getDomainName()
     {
-        return MyProduct.Meta.getLabel();
+        return MyMasterProduct.Meta.getLabel();
     }
 
     @Override
-    protected KmMetaStringProperty<MyProduct> getDomainUidProperty()
+    protected KmMetaStringProperty<MyMasterProduct> getDomainUidProperty()
     {
-        return MyProduct.Meta.Uid;
+        return MyMasterProduct.Meta.Uid;
     }
 
     @Override
-    protected KmMetaStringProperty<MyProduct> getDomainTitleProperty()
+    protected KmMetaStringProperty<MyMasterProduct> getDomainTitleProperty()
     {
-        return MyProduct.Meta.Name;
+        return MyMasterProduct.Meta.PartNumber;
     }
 
     @Override
-    protected KmMetaStringProperty<MyProduct> getDomainSubtitleProperty()
+    protected KmMetaStringProperty<MyMasterProduct> getDomainSubtitleProperty()
     {
-        return MyProduct.Meta.CategoryName;
+        return null;
     }
 
     //##################################################
@@ -124,14 +124,14 @@ public final class MyManageProductsPage
     //##################################################
 
     @Override
-    protected KmList<MyProduct> findSortedDomains()
+    protected KmList<MyMasterProduct> findSortedDomains()
     {
-        return getCurrentProject().getProductsByName();
+        return getCurrentProject().getMasterProductsByPartNumber();
     }
 
     @Override
-    protected MyProduct findDomain(String uid)
+    protected MyMasterProduct findDomain(String uid)
     {
-        return getAccess().findProductUid(uid);
+        return getAccess().findMasterProductUid(uid);
     }
 }

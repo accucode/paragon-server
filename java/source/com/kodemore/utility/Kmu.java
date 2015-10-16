@@ -81,6 +81,7 @@ import com.kodemore.log.KmLog;
 import com.kodemore.string.KmNameTokenizer;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.text.KmEditDistance;
+import com.kodemore.time.KmClock;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmDateFormatter;
 import com.kodemore.time.KmTime;
@@ -1810,6 +1811,34 @@ public class Kmu
     }
 
     /**
+     * Replace all sections of the string that occur between <begin> and <end> with <replace>.
+     */
+    public static String replaceSectionsBetween(String s, String begin, String end, String replace)
+    {
+        int i = s.indexOf(begin);
+        if ( i < 0 )
+            return s;
+
+        int j = 0;
+        StringBuilder out = new StringBuilder();
+
+        while ( i >= 0 )
+        {
+            out.append(s.substring(j, i + begin.length()));
+            out.append(replace);
+            j = s.indexOf(end, i + begin.length());
+
+            if ( j < 0 )
+                j = s.length();
+
+            i = s.indexOf(begin, j);
+        }
+
+        out.append(s.substring(j));
+        return out.toString();
+    }
+
+    /**
      * Determine if the string begins with an eol pattern. One of: CRLF, CR, LF
      */
     public static boolean hasEndOfLinePrefix(String s)
@@ -2665,6 +2694,16 @@ public class Kmu
     //==================================================
     //= join lines
     //==================================================
+
+    @SuppressWarnings("unchecked")
+    public static String joinLines(String... arr)
+    {
+        if ( arr == null )
+            return "";
+
+        ArrayIterator i = new ArrayIterator(arr);
+        return join(i, null, LIST_LINE_DELIMITER);
+    }
 
     public static <E> String joinLines(Iterable<E> v)
     {
@@ -5282,40 +5321,55 @@ public class Kmu
     /**
      * Return a "unique" id based on the combination of the current time and a random value.
      * This format does NOT attempt to match the format of a formal UUID/GUID.  The returned
-     * string is in the format of ttttttt-aaaaaa-bbbbbb-cccccc.  Time is roughly the number of
-     * tenths of a second since Jan 1, 1970.  The values a, b, c, are each a random integer.
-     * All four values are converted to a base-36, then left padded with zeroes.
+     * string is in the format of ttttttt-nnnnnnn-mmmmmmm-rrrrrr.
      *
-     * This format has the main advantage of being sortable by creation time.
-     * This is primarily intended as an aid in debugging, and loose sorting
-     * for data that does not require strict sequencing.
+     * ttttttt is the current time, measured as the number of seconds since 1/1/1970.
+     * nnnnnnn the 32-high bits of the nano-time.
+     * mmmmmmm the 32-low bits of the nano-time.
+     * rrrrrr is a random integer.
+     *
+     * The clock time is is generally synchronized across all JVMs.  The nanoseconds
+     * are NOT synchronzed across JVMs but generally ensure that all uids within each
+     * JVM are in ascending order.
+     *
+     * All four values are converted to a base-36, then left padded with zeroes.
+     * The resulting value should always be the same length, exactly 30 characters long.
+     *
+     * The advantage of this format is that it generally ensures records can be correctly
+     * sorted by primary key, WITHOUT the need to rely on explicit synchronization, locking
+     * or multi-vm coordination.  Also, this allows us to use UIDs even for log-oriented tables
+     * where strict sequencing is relatively important, but without having to resort to
+     * database generated auto-incrementing identity columns.
+     *
+     * Although this does NOT guarantee perfect ordering across multiple servers it is close
+     * enough for most practical uses.
      */
     public static String newUid()
     {
         KmRandom rand = new KmRandom();
 
-        long now = System.currentTimeMillis() / 100;
-        // long now = KmDate.create(2200, 1, 1).getJavaDate().getTime() / 100;
+        int secs = KmClock.getNowUtc()
+            .getDurationSince(KmTimestamp.createFromSystemMillis(0))
+            .getTotalSeconds();
 
-        String a = formatBase36(now);
-        String b = formatBase36(rand.getPositiveInteger());
-        String c = formatBase36(rand.getPositiveInteger());
+        long nanos = System.nanoTime();
+        long nanosHi = (nanos & 0xFFFFFFFF00000000L) >> 32;
+        long nanosLo = nanos & 0x00000000FFFFFFFFL;
+
+        String a = formatBase36(secs);
+        String b = formatBase36(nanosHi);
+        String c = formatBase36(nanosLo);
         String d = formatBase36(rand.getPositiveInteger());
 
         StringBuilder out;
-        out = new StringBuilder();
-
+        out = new StringBuilder(30);
         out.append(leftPad(a, 7, '0'));
         out.append(CHAR_DASH);
-
-        out.append(leftPad(b, 6, '0'));
+        out.append(leftPad(b, 7, '0'));
         out.append(CHAR_DASH);
-
-        out.append(leftPad(c, 6, '0'));
+        out.append(leftPad(c, 7, '0'));
         out.append(CHAR_DASH);
-
         out.append(leftPad(d, 6, '0'));
-
         return out.toString();
     }
 

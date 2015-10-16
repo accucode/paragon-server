@@ -11,6 +11,7 @@ import ${package}.dao.core.*;
 import ${package}.filter.*;
 import ${package}.model.*;
 import ${package}.model.meta.*;
+import ${package}.utility.*;
 
 public abstract class ${model.f_DaoBaseClass}
     extends KmAbstractDao<${model.f_Class},${model.primaryKeyField.f_Type}>
@@ -66,11 +67,17 @@ $utility.protocol("delete")
     public void delete${model.primaryKeyField.f_Name}(${model.primaryKeyField.f_Type} e)
     {
         ${model.f_Class} m = find${model.primaryKeyField.f_Name}(e);
-        
+
         if ( m == null )
             throw Kmu.newFatal("Cannot delete; key not found(%s).", e);
-            
+
         delete(m);
     }
 
+$utility.protocol("convenience")
+
+    protected ${Prefix}DaoRegistry getAccess()
+    {
+        return ${Prefix}Globals.getAccess();
+    }
 }

@@ -1,0 +1,111 @@
+model
+: name      = shipment
+: help...
+    ---
+    This is primarily used to track parcel shipments sent via third
+    party carriers such as FedEx or UPS.  The expectation is to 
+    create a separate shipment for each distinct tracking number.
+    --- 
+
+database
+: alias     = sh
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = salesOrder
+    : unique    = false
+    : on        = salesOrder
+
+    index
+    : name      = trackingNumber
+    : unique    = false
+    : on        = trackingNumber
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The global unique key.
+    : comment       = 
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+
+    association
+    : name      = salesOrder
+    : help      = The sales order this shipment belongs to.
+    : modelName = salesOrder
+    : relation  = parent
+    : required  = true
+
+
+    association
+    : name      = account
+    : help      = The account this is being shipped on.
+    : modelName = shipAccount
+    : relation  = reference
+    : required  = true
+
+
+    association
+    : name      = method
+    : help      = The method used for this shipment (standard ground, next day, etc).
+    : modelName = shipMethod
+    : relation  = reference
+    : required  = true
+
+
+    field
+    : name      = trackingNumber
+    : help...
+        ---
+        The tracking number used by the third party carrier to identify
+        this shipment.
+        ---
+    : type      = name
+    : required  = false
+
+    
+    field
+    : name      = weight
+    : help...
+        ---
+        The weight of this shipment in U.S. pounds.
+        ---
+    : type      = double
+    : required  = false
+
+    
+    field
+    : name      = cost
+    : help...
+        ---
+        The cost of this shipment.  If recorded, this should be the exact 
+        cost reported by the carrier.
+        ---
+    : type      = money
+    : required  = false
+
+    
+    association
+    : name      = depot
+    : help      = The depot that sent this shipment.
+    : modelName = depot
+    : relation  = reference
+    : required  = false
+
+
+    field
+    : name      = invoiceCustomer
+    : help...
+        ---
+        Indicates whether we should invoice the customer for this shipment.
+        ---
+    : type      = boolean
+    : default   = false
+    : required  = true
+    
+    

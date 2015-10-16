@@ -6,11 +6,8 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.time.KmTimestampParser;
 
-/**
- * todo_aaron description
- */
 public class KmFacebookAlbum
-    extends Object
+extends Object
 {
     //##################################################
     //# constants
@@ -31,28 +28,26 @@ public class KmFacebookAlbum
     private static final String CAN_UPLOAD_KEY   = "can_upload";
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
-    private String           _id;
-    private String           _name;
-    private KmFacebookIdName _from;
-    private String           _description;
-    private String           _location;
-    private String           _link;
-    private String           _coverPhoto;
-    private String           _privacy;
-    private Integer          _count;
-    private String           _type;
-    private KmTimestamp      _createdTimestamp;
-    private KmTimestamp      _updatedTimestamp;
-    private Boolean          _canUpload;
+    private String              _id;
+    private String              _name;
+    private KmFacebookIdName    _from;
+    private String              _description;
+    private String              _location;
+    private String              _link;
+    private String              _coverPhoto;
+    private String              _privacy;
+    private Integer             _count;
+    private String              _type;
+    private KmTimestamp         _createdTimestamp;
+    private KmTimestamp         _updatedTimestamp;
+    private Boolean             _canUpload;
 
     //==================================================
     //= variables :: connections
     //==================================================
-
-    // todo_aaron: add connections 
 
     //##################################################
     //# accessing
@@ -219,8 +214,6 @@ public class KmFacebookAlbum
 
     private static KmTimestamp parseTime(String s)
     {
-        // todo_aaron: parse time 
-
         return new KmTimestampParser().parse(s);
     }
 

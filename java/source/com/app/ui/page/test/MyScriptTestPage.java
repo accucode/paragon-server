@@ -96,6 +96,7 @@ public final class MyScriptTestPage
         field = group.getBody().addPad().addTextArea();
         field.setWidthFull();
         field.style().height(100);
+        field.disableChangeTracking();
 
         group.addBodyDivider();
         group.getBody().addButtonBox().addSubmitButton();

@@ -23,10 +23,14 @@
 package com.kodemore.servlet.field;
 
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
+import com.kodemore.servlet.variable.ScLocalCss;
 import com.kodemore.servlet.variable.ScLocalObject;
 import com.kodemore.servlet.variable.ScLocalOptionList;
+import com.kodemore.servlet.variable.ScLocalStyle;
 
 public class ScListField
     extends ScField<Object>
@@ -35,8 +39,17 @@ public class ScListField
     //# variables
     //##################################################
 
+    private ScLocalCss   _css;
+    private ScLocalStyle _style;
+
     private ScLocalObject     _value;
     private ScLocalOptionList _options;
+
+    /**
+     * If true (by default), the original value is included in the html data- attribute
+     * and the client-side browser uses javascript to track if changes are made.
+     */
+    private boolean _changeTracking;
 
     //##################################################
     //# init
@@ -47,8 +60,70 @@ public class ScListField
     {
         super.install();
 
+        _css = new ScLocalCss();
+        _style = new ScLocalStyle();
+
         _value = new ScLocalObject();
         _options = new ScLocalOptionList();
+        _changeTracking = true;
+    }
+
+    //##################################################
+    //# css
+    //##################################################
+
+    public String getCss()
+    {
+        return _css.getValue();
+    }
+
+    public void setCss(String e)
+    {
+        _css.setValue(e);
+    }
+
+    public KmCssDefaultBuilder css()
+    {
+        return _css.toDefaultBuilder();
+    }
+
+    protected KmCssDefaultBuilder formatCss()
+    {
+        return css().getCopy().linkBox();
+    }
+
+    //##################################################
+    //# style
+    //##################################################
+
+    public String getStyle()
+    {
+        return _style.getValue();
+    }
+
+    public void setStyle(String e)
+    {
+        _style.setValue(e);
+    }
+
+    public KmStyleBuilder style()
+    {
+        return _style.toBuilder();
+    }
+
+    protected KmStyleBuilder formatStyle()
+    {
+        return style();
+    }
+
+    public void show()
+    {
+        style().show();
+    }
+
+    public void hide()
+    {
+        style().hide();
     }
 
     //##################################################
@@ -71,6 +146,26 @@ public class ScListField
     public void resetValue()
     {
         _value.resetValue();
+    }
+
+    //##################################################
+    //# change tracking
+    //##################################################
+
+    public boolean getChangeTracking()
+    {
+        return _changeTracking;
+    }
+
+    public void setChangeTracking(boolean e)
+    {
+        warnIfInstalled();
+        _changeTracking = e;
+    }
+
+    public void disableChangeTracking()
+    {
+        setChangeTracking(false);
     }
 
     //##################################################
@@ -110,7 +205,12 @@ public class ScListField
 
         // Hardcoded to 2.  Set height via css.
         out.printAttribute("size", 2);
+
         out.printAttribute(formatCss());
+        out.printAttribute(formatStyle());
+
+        if ( getChangeTracking() )
+            printOldValueAttributeOn(out, encode(getValue()));
     }
 
     private void renderOptionsOn(KmHtmlBuilder out)
@@ -131,11 +231,6 @@ public class ScListField
 
         out.print(e.getText());
         out.end("option");
-    }
-
-    private KmCssDefaultBuilder formatCss()
-    {
-        return newCssBuilder().listBox();
     }
 
     //##################################################
@@ -199,7 +294,12 @@ public class ScListField
     @Override
     public void ajaxUpdateValue()
     {
-        ajax().setValue(encode(getValue()));
+        String value = encode(getValue());
+
+        ajax().setValue(value);
+
+        if ( getChangeTracking() )
+            ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
     }
 
 }

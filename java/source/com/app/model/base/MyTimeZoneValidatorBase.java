@@ -56,13 +56,14 @@ public class MyTimeZoneValidatorBase
     @Override
     public void convertOnly(MyTimeZone value)
     {
-        // none
+        // fields...
     }
 
     @Override
     public void validateOnly(MyTimeZone value, KmList<KmErrorIF> errors)
     {
-        // none
+        // fields...
+        // required associations...
     }
 
     //##################################################

@@ -68,7 +68,7 @@ public class MyViewUserCard
     {
         _editDialog = new MyEditUserDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(this::handleSaved);
+        _editDialog.addSavedListener(this::handleSaved);
     }
 
     //##################################################
@@ -82,7 +82,7 @@ public class MyViewUserCard
 
     public void addSaveListener(Consumer<MyUser> e)
     {
-        getEditDialog().addSaveListener(e);
+        getEditDialog().addSavedListener(e);
     }
 
     public void setUser(MyUser e)
@@ -91,6 +91,7 @@ public class MyViewUserCard
 
         _banner.setTitle(e.getName());
         _banner.setSubtitle(e.getEmail());
+
         _editButton.setArgument(e.getUid());
     }
 

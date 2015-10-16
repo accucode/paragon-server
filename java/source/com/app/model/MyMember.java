@@ -89,4 +89,15 @@ public class MyMember
     {
         KmLog.info("%s: %s", getUserName(), getSkillNames());
     }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return Kmu.format("%s => %s", getProjectName(), getUserName());
+    }
+
 }

@@ -84,6 +84,7 @@ public class MyDownloadValidatorBase
     @Override
     public void convertOnly(MyDownload value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setName(nameValidator.convertOnly(value.getName()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
@@ -93,10 +94,14 @@ public class MyDownloadValidatorBase
     @Override
     public void validateOnly(MyDownload value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         nameValidator.validateOnly(value.getName(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
+        if ( !value.hasUser() )
+            errors.add(new KmRequiredValidationError("download", "user"));
     }
 
     //##################################################

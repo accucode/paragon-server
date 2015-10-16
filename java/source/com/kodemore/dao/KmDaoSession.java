@@ -39,9 +39,32 @@ public abstract class KmDaoSession
     //# variables
     //##################################################
 
-    private Session     _session;
+    /**
+     * Hibernate's primitive session.
+     * Client's do not need this except for a few of the core framework methods.
+     */
+    private Session _session;
+
+    /**
+     * Hibernate's internal transactions.
+     * Clients should never use this.  All manipulation of the transaction should
+     * be performed via the convenience methods in this class.
+     */
     private Transaction _transaction;
 
+    /**
+     * A unique value for each transaction.  This provides a unique identifier
+     * for each transaction.  Beginning a new transaction creates a new uid,
+     * committing or rolling back a transaction clears the uid.  This value
+     * should be unique across all servers.
+     */
+    private String _transactionUid;
+
+    /**
+     * If set, this key is used to generate a global pessimistic lock on the
+     * database.  Use of pessimistic locks is generally discouraged, but still
+     * useful on a few highly specific scenarios.
+     */
     private String _lockKey;
 
     //##################################################
@@ -51,6 +74,25 @@ public abstract class KmDaoSession
     public KmDaoSession()
     {
         // none
+    }
+
+    //##################################################
+    //# accessing
+    //##################################################
+
+    public Session getSession()
+    {
+        return _session;
+    }
+
+    private Transaction getTransaction()
+    {
+        return _transaction;
+    }
+
+    public String getTransactionUid()
+    {
+        return _transactionUid;
     }
 
     //##################################################
@@ -68,10 +110,11 @@ public abstract class KmDaoSession
         checkLockOnClose();
         checkTransactionOnClose();
 
-        _transaction = null;
-
         _session.close();
         _session = null;
+
+        _transaction = null;
+        _transactionUid = null;
     }
 
     public void begin()
@@ -79,6 +122,7 @@ public abstract class KmDaoSession
         if ( _transaction == null )
         {
             _transaction = _session.beginTransaction();
+            _transactionUid = Kmu.newUid();
             return;
         }
 
@@ -87,12 +131,14 @@ public abstract class KmDaoSession
                 "Attempt to begin transaction, but transaction is already 'active'.");
 
         _transaction.begin();
+        _transactionUid = Kmu.newUid();
         clearCache();
     }
 
     public void commit()
     {
         _transaction.commit();
+        _transactionUid = null;
         clearCache();
     }
 
@@ -105,6 +151,7 @@ public abstract class KmDaoSession
     public void rollback()
     {
         _transaction.rollback();
+        _transactionUid = null;
         clearCache();
     }
 
@@ -147,6 +194,23 @@ public abstract class KmDaoSession
     public void flush()
     {
         getSession().flush();
+    }
+
+    /**
+     * Perform a flush, but return false instead of throwing a runtime exception.
+     * This should only be used under specialized circumstances.
+     */
+    public boolean tryFlush()
+    {
+        try
+        {
+            flush();
+            return true;
+        }
+        catch ( RuntimeException ignored )
+        {
+            return false;
+        }
     }
 
     public boolean isDirty()
@@ -445,20 +509,6 @@ public abstract class KmDaoSession
     {
         if ( _transaction != null && _transaction.isActive() )
             KmLog.warnTrace("A connection is being closed with an active transaction.");
-    }
-
-    //##################################################
-    //# hibernate
-    //##################################################
-
-    public Session getSession()
-    {
-        return _session;
-    }
-
-    public Transaction getTransaction()
-    {
-        return _transaction;
     }
 
     //##################################################

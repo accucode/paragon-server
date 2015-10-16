@@ -159,6 +159,7 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
         left.addSpace();
 
         _filterField = left.addTextField();
+        _filterField.disableChangeTracking();
         _filterField.style().width(175);
         _filterField.css().flexShrink();
 
@@ -394,8 +395,7 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
 
     protected T getDomain()
     {
-        String uid = _uid.getValue();
-        return findDomain(uid);
+        return findDomain(_uid.getValue());
     }
 
     protected void ajaxClearDomain()
@@ -491,7 +491,7 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
     /**
      * Called to update the ui, after a domain has been removed.
      */
-    protected void handleRemove(T e)
+    protected void handleRemoved(T e)
     {
         ajaxClearDomain();
         _list.ajaxRemoveValue(e);

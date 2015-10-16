@@ -61,4 +61,6 @@ public abstract class ScBridge
     public abstract void printMain(ScPageRoot root, boolean focus);
 
     public abstract void clearMain();
+
+    public abstract void warnIfInstalled();
 }

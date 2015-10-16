@@ -59,9 +59,9 @@ public class MyProject
     //# convenience
     //##################################################
 
-    public KmList<MyProduct> getProductsByName()
+    public KmList<MyMasterProduct> getMasterProductsByPartNumber()
     {
-        return getProducts().toList(MyProduct::getName);
+        return getMasterProducts().toList(MyMasterProduct::getPartNumber);
     }
 
     public KmList<MyDepot> getDepotsByName()
@@ -114,14 +114,34 @@ public class MyProject
         return getAttentionGroups().toList(MyAttentionGroup::getName);
     }
 
-    public KmList<MyCategory> getCategoriesByName()
-    {
-        return getCategories().toList(MyCategory::getName);
-    }
-
     public KmList<MyPowerType> getPowerTypesByName()
     {
         return getPowerTypes().toList(MyPowerType::getName);
+    }
+
+    public KmList<MyProductCategory> getProductCategoriesByName()
+    {
+        return getProductCategories().toList(MyProductCategory::getName);
+    }
+
+    public String getNextOrderNumber()
+    {
+        return getAccess().getOrderNumberDao().getNextNumberFor(this);
+    }
+
+    public KmList<String> getNextOrderNumbers(int n)
+    {
+        return getAccess().getOrderNumberDao().getNextNumbersFor(this, n);
+    }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getName();
     }
 
 }

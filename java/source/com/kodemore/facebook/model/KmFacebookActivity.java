@@ -6,11 +6,8 @@ import com.kodemore.json.KmJsonMap;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.time.KmTimestampParser;
 
-/**
- * todo_aaron description
- */
 public class KmFacebookActivity
-    extends Object
+extends Object
 {
     //##################################################
     //# constants
@@ -22,13 +19,13 @@ public class KmFacebookActivity
     private static final String CREATE_TIMESTAMP_KEY = "create_time";
 
     //##################################################
-    //# variables 
+    //# variables
     //##################################################
 
-    private String      _id;
-    private String      _name;
-    private String      _category;
-    private KmTimestamp _createTime;
+    private String              _id;
+    private String              _name;
+    private String              _category;
+    private KmTimestamp         _createTime;
 
     //##################################################
     //# accessing
@@ -91,8 +88,6 @@ public class KmFacebookActivity
 
     private static KmTimestamp parseTime(String s)
     {
-        // todo_aaron: parse time
-
         return new KmTimestampParser().parse(s);
     }
 

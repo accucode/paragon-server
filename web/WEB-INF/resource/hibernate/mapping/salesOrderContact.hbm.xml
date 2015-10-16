@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MySalesOrderContact"
+        table="salesOrderContact"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
+            />
+
+        <property
+            name="title"
+            column="title"
+            type="string"
+            />
+
+        <property
+            name="phone"
+            column="phone"
+            type="string"
+            />
+
+        <property
+            name="email"
+            column="email"
+            type="string"
+            />
+
+        <property
+            name="orderNotifications"
+            column="orderNotifications"
+            type="yes_no"
+            />
+
+        <many-to-one
+            name="salesOrder"
+            column="salesOrderUid"
+            class="com.app.model.MySalesOrder"
+            cascade="none"
+            />
+
+    </class>
+</hibernate-mapping>

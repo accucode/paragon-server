@@ -44,14 +44,14 @@ public class MyEmailCriteria
         return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
+    public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
     }
 
-    public KmhPropertyCondition<KmTimestamp> whereSentUtcTs()
+    public KmhTimestampCondition whereSentUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(SENT_UTC_TS));
+        return new KmhTimestampCondition(context(), fullName(SENT_UTC_TS));
     }
 
     public KmhStringCondition whereSubject()

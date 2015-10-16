@@ -215,12 +215,12 @@ type
 : maximumLength = 100
 
 type
-: name          = multiline20000
-: comment       = See multiline
+: name          = bigText
+: comment       = A very large multiline string value stored as "text" in mysql.
 : baseType      = string
 : allows        = printable
 : allows        = whitespace
-: maximumLength = 20000
+: maximumLength = 50000
 
 type
 : name          = phone
@@ -229,14 +229,6 @@ type
 : maximumLength = 30
 : allows        = printable
 : columnWidth   = 12
-
-type
-: name          = price
-: comment       = a price.
-: baseType      = double
-: allDigits     = 13
-: rightDigits   = 5
-: columnWidth   = 10
 
 type
 : name      = quantity
@@ -338,6 +330,13 @@ type
 : comment       = The code for a timezone.
 : baseType      = string
 : maximumLength = 5
+: allows        = printable
+
+type
+: name          = postalCode
+: comment       = An international postal code (not just the U.S. 5-4 format.)
+: baseType      = string
+: maximumLength = 20
 : allows        = printable
 
 type

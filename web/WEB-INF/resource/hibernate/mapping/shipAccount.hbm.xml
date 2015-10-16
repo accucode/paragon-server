@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyShipAccount"
+        table="shipAccount"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
+            />
+
+        <property
+            name="description"
+            column="description"
+            type="string"
+            />
+
+        <property
+            name="billedToCustomer"
+            column="billedToCustomer"
+            type="yes_no"
+            />
+
+        <property
+            name="shipOnAccountName"
+            column="shipOnAccountName"
+            type="string"
+            />
+
+        <property
+            name="shipOnAccountNumber"
+            column="shipOnAccountNumber"
+            type="string"
+            />
+
+        <property
+            name="billToTypeCode"
+            column="billToTypeCode"
+            type="string"
+            />
+
+        <property
+            name="billToAccount"
+            column="billToAccount"
+            type="string"
+            />
+
+        <many-to-one
+            name="project"
+            column="projectUid"
+            class="com.app.model.MyProject"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="customer"
+            column="customerUid"
+            class="com.app.model.MyCustomer"
+            cascade="none"
+            />
+
+        <many-to-one
+            name="carrier"
+            column="carrierUid"
+            class="com.app.model.MyShipCarrier"
+            cascade="none"
+            />
+
+    </class>
+</hibernate-mapping>

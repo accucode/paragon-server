@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyAuditLog"
+        table="auditLog"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <property
+            name="transactionUid"
+            column="transactionUid"
+            type="string"
+            />
+
+        <property
+            name="userName"
+            column="userName"
+            type="string"
+            />
+
+        <property
+            name="typeCode"
+            column="typeCode"
+            type="string"
+            />
+
+        <property
+            name="utcTs"
+            column="utcTs"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="modelName"
+            column="modelName"
+            type="string"
+            />
+
+        <property
+            name="modelUid"
+            column="modelUid"
+            type="string"
+            />
+
+        <property
+            name="fieldName"
+            column="fieldName"
+            type="string"
+            />
+
+        <property
+            name="newValue"
+            column="newValue"
+            type="string"
+            />
+
+        <property
+            name="oldValue"
+            column="oldValue"
+            type="string"
+            />
+
+        <property
+            name="stringValue"
+            column="stringValue"
+            type="string"
+            />
+
+        <property
+            name="integerValue"
+            column="integerValue"
+            type="integer"
+            />
+
+        <property
+            name="longValue"
+            column="longValue"
+            type="long"
+            />
+
+        <property
+            name="doubleValue"
+            column="doubleValue"
+            type="double"
+            />
+
+        <property
+            name="moneyValue"
+            column="moneyValue"
+            type="com.kodemore.hibernate.type.KmhMoneyType"
+            />
+
+        <property
+            name="booleanValue"
+            column="booleanValue"
+            type="yes_no"
+            />
+
+        <property
+            name="dateValue"
+            column="dateValue"
+            type="com.kodemore.hibernate.type.KmhDateType"
+            />
+
+        <property
+            name="timestampValue"
+            column="timestampValue"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="uidValue"
+            column="uidValue"
+            type="string"
+            />
+
+        <many-to-one
+            name="user"
+            column="userUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+    </class>
+</hibernate-mapping>

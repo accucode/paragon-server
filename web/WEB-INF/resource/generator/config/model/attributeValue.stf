@@ -1,0 +1,46 @@
+model
+: name      = attributeValue
+: help...
+    ---
+    The field data for each custom attribute.  For example, this may store the 
+    value ('red') of the custom 'color' attribute used with products.  
+    --- 
+
+database
+: alias     = av
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = field
+    : unique    = false
+    : on        = field
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The globally unique identifier.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    association
+    : name      = field
+    : help      = The attribute field to which this value belongs.
+    : modelName = attributeField
+    : relation  = parent
+    : required  = true
+
+    association
+    : name      = product
+    : help      = The product that this value is associated with.
+    : modelName = product
+    : relation  = reference
+
+    field
+    : name      = data
+    : help      = The value of the custom attribute.
+    : type      = text100
+    : required  = false

@@ -22,11 +22,11 @@ parent
     : name  = camie
     : age   = 10
     : description ...
-        ===
+        ---
         This is some long
         text that spans 
         multiple lines.
-        ===
+        ---
 /*
 a.b.c
     x.xx.xxx
@@ -35,11 +35,11 @@ a.b.c
 
         "one line"
         
-        ===
+        ---
         This is some long
         text that spans 
         multiple lines.
-        ===
+        ---
 */
 /*
 theInclude

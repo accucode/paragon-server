@@ -17,7 +17,7 @@ public interface MyFileDaoConstantsIF
     //# fields
     //##################################################
 
-    String ID = "id";
+    String UID = "uid";
     String NAME = "name";
     String PATH = "path";
     String CREATED_UTC_TS = "createdUtcTs";

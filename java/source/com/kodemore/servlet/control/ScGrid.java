@@ -1094,10 +1094,19 @@ public class ScGrid<T>
 
     public void ajaxReload()
     {
+        ajaxReload(true);
+    }
+
+    public void ajaxReload(boolean gotoFirstPage)
+    {
         String sel = getJquerySelector();
 
         KmJsonMap map = new KmJsonMap();
         setupAllParameters(map);
+
+        if ( gotoFirstPage )
+            map.setInteger("newp", 1);
+
         String options = map.formatJson();
 
         ajax().run("$(%s).flexOptions(%s);", json(sel), options);

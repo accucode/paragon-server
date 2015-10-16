@@ -1,0 +1,29 @@
+    field
+    : name      = addressStreet1
+    : help      = The first line of the street address.
+    : type      = name
+
+    field
+    : name      = addressStreet2
+    : help      = The second line of the street address.
+    : type      = name
+
+    field
+    : name      = addressCity
+    : help      = The name of the city.
+    : type      = name
+
+    field
+    : name      = addressRegion
+    : help      = The name or abbreviation of the of the region (or state).
+    : type      = name
+
+    field
+    : name      = addressPostalCode
+    : help      = The zip/postal code.
+    : type      = postalCode
+
+    field
+    : name      = addressCountry
+    : help      = The name or abbreviation of the country.
+    : type      = name

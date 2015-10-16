@@ -192,4 +192,15 @@ public class MyEmail
 
         return out.toString();
     }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getSubject();
+    }
+
 }

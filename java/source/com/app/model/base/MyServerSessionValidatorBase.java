@@ -105,6 +105,7 @@ public class MyServerSessionValidatorBase
     @Override
     public void convertOnly(MyServerSession value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setActive(activeValidator.convertOnly(value.getActive()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
@@ -117,6 +118,7 @@ public class MyServerSessionValidatorBase
     @Override
     public void validateOnly(MyServerSession value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         activeValidator.validateOnly(value.getActive(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
@@ -124,6 +126,7 @@ public class MyServerSessionValidatorBase
         lastTouchedUtcTsValidator.validateOnly(value.getLastTouchedUtcTs(), errors);
         versionValidator.validateOnly(value.getVersion(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
     }
 
     //##################################################

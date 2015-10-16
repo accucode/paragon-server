@@ -1,0 +1,80 @@
+${javaAutoGenerationComment}
+
+package ${package}.model.base;
+
+import com.kodemore.collection.*;
+import com.kodemore.exception.*;
+import com.kodemore.exception.error.*;
+import com.kodemore.time.*;
+import com.kodemore.utility.*;
+import com.kodemore.validator.*;
+
+import ${package}.model.*;
+import ${package}.model.core.*;
+import ${package}.utility.*;
+
+/**
+ * Information about the audit log policy.
+ * By default, all models and fields are audited; exceptions are defined here.
+ */
+public class ${Prefix}AuditLogInfo
+{
+$utility.protocol("testing")
+
+    public static boolean isModelDisabled(String model)
+    {
+        return _disabledModels.contains(model);
+    }
+
+    public static boolean isFieldDisabled(String model, String field)
+    {
+        String key = formatFieldKey(model, field);
+        return _disabledFields.contains(key);
+    }
+
+    public static boolean isFieldMasked(String model, String field)
+    {
+        String key = formatFieldKey(model, field);
+        return _maskedFields.contains(key);
+    }
+
+$utility.protocol("setup")
+
+    private static final KmSet<String> _disabledModels;
+    private static final KmSet<String> _disabledFields;
+    private static final KmSet<String> _maskedFields;
+
+    static
+    {
+        _disabledModels = new KmSetImpl<>();
+#foreach ( $model in $root.databaseModels )
+#if ( !$model.database.auditLog )
+        _disabledModels.add("${model.name}");
+#end
+#end
+
+        _disabledFields = new KmSetImpl<>();
+#foreach ( $model in $root.databaseModels )
+#foreach ( $field in ${model.editableFields} )
+#if ( $field.isAuditLogDisabled() )
+        _disabledFields.add(formatFieldKey("${model.name}", "${field.name}"));
+#end
+#end
+#end
+
+        _maskedFields = new KmSetImpl<>();
+#foreach ( $model in $root.databaseModels )
+#foreach ( $field in ${model.editableFields} )
+#if ( $field.isAuditLogMasked() )
+        _maskedFields.add(formatFieldKey("${model.name}", "${field.name}"));
+#end
+#end
+#end
+    }
+
+    private static String formatFieldKey(String model, String field)
+    {
+        return model + "." + field;
+    }
+}
+

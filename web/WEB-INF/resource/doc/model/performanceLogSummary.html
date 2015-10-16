@@ -1,0 +1,158 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>performanceLogSummary</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>performanceLogSummary</h1>
+
+${model.f_comment}<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Help / Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The unique identifier.<br>
+            &nbsp;
+  </td>
+  
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+            pk<br>                      &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>utcDate&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The day being summarized.<br>
+            &nbsp;
+  </td>
+  
+  <td>date
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>name&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The display name.  E.g.: the classname of the servlet or job.<br>
+            &nbsp;
+  </td>
+  
+  <td>text100
+        <br><nobr>max length: 100</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>count&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The number of performance logs being aggregated.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>minimumMs&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        Aggregate information about the individual logs.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>maximumMs&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        Aggregate information about the individual logs.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>averageMs&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        Aggregate information about the individual logs.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>totalMs&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        Aggregate information about the individual logs.<br>
+            &nbsp;
+  </td>
+  
+  <td>integer
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

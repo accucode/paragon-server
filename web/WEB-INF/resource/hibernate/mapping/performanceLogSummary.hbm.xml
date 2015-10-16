@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyPerformanceLogSummary"
+        table="performanceLogSummary"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <property
+            name="utcDate"
+            column="utcDate"
+            type="com.kodemore.hibernate.type.KmhDateType"
+            />
+
+        <property
+            name="name"
+            column="name"
+            type="string"
+            />
+
+        <property
+            name="count"
+            column="count"
+            type="integer"
+            />
+
+        <property
+            name="minimumMs"
+            column="minimumMs"
+            type="integer"
+            />
+
+        <property
+            name="maximumMs"
+            column="maximumMs"
+            type="integer"
+            />
+
+        <property
+            name="averageMs"
+            column="averageMs"
+            type="integer"
+            />
+
+        <property
+            name="totalMs"
+            column="totalMs"
+            type="integer"
+            />
+
+    </class>
+</hibernate-mapping>

@@ -71,10 +71,6 @@ public class MyEditSkillDialog
         MySkill e;
         e = getAccess().findSkillUid(uid);
         e.applyFrom(this);
-        e.validate();
-
-        flushDao();
-
         return e;
     }
 }

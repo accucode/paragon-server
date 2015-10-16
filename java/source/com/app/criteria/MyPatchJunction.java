@@ -43,9 +43,9 @@ public class MyPatchJunction
         return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmhPropertyCondition<KmTimestamp> whereInstalledUtcTs()
+    public KmhTimestampCondition whereInstalledUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(INSTALLED_UTC_TS));
+        return new KmhTimestampCondition(context(), fullName(INSTALLED_UTC_TS));
     }
 
     public KmhStringCondition whereSource()

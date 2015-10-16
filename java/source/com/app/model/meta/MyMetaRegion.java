@@ -63,7 +63,7 @@ public class MyMetaRegion
 
     public static String getHelp()
     {
-        return "Regions are typically used to define broad geographic areas; such as\nDomestic and Internation.  Once regions have been defined, they can be used\nto customize pricing, shipping, and other factors.";
+        return "Regions are typically used to define broad geographic areas; such as Domestic and Internation.  Once regions have been defined, they can be used to customize pricing, shipping, and other factors.";
     }
 
     //##################################################

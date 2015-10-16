@@ -59,9 +59,6 @@ public class MyAddPowerTypeDialog
         MyPowerType e;
         e = getCurrentProject().addPowerType();
         e.applyFrom(this);
-
-        flushDao();
-
         return e;
     }
 }

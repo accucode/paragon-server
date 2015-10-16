@@ -15,4 +15,15 @@ public class MyFile
 
         setStatusNew();
     }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getName();
+    }
+
 }

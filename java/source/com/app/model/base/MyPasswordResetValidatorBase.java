@@ -98,6 +98,7 @@ public class MyPasswordResetValidatorBase
     @Override
     public void convertOnly(MyPasswordReset value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setEmail(emailValidator.convertOnly(value.getEmail()));
         value.setToken(tokenValidator.convertOnly(value.getToken()));
@@ -109,12 +110,14 @@ public class MyPasswordResetValidatorBase
     @Override
     public void validateOnly(MyPasswordReset value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         emailValidator.validateOnly(value.getEmail(), errors);
         tokenValidator.validateOnly(value.getToken(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
         expirationUtcTsValidator.validateOnly(value.getExpirationUtcTs(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
     }
 
     //##################################################

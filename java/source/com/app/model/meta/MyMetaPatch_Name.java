@@ -50,7 +50,7 @@ public class MyMetaPatch_Name
     @Override
     public String getHelp()
     {
-        return "The unique key.  This is typically a short date-ish value such as: 20140131-1.txt.";
+        return "The unique key. This is typically a short date-ish value such as: 20140131-1.txt. The patches are applied in the sequence implied by their collating sequence.";
     }
     
     @Override

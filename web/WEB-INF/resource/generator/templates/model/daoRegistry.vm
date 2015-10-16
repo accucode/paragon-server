@@ -3,10 +3,12 @@ ${javaAutoGenerationComment}
 package ${package}.dao.base;
 
 import com.kodemore.collection.*;
+import com.kodemore.dao.*;
 
 import ${package}.dao.*;
 import ${package}.model.*;
 import ${package}.model.meta.*;
+import ${package}.utility.*;
 
 public class ${Prefix}DaoRegistry
 {
@@ -17,6 +19,18 @@ $utility.protocol("instance")
     public static final ${Prefix}DaoRegistry getInstance()
     {
         return _instance;
+    }
+
+$utility.protocol("all")
+
+    public KmList<KmAbstractDao<?,?>> getAllDaos()
+    {
+        KmList<KmAbstractDao<?,?>> v;
+        v = new KmList<>();
+#foreach ( $model in $root.databaseModels )
+        v.add(get${model.f_Name}Dao());
+#end
+        return v;
     }
 
 #foreach ( $model in $root.databaseModels )
@@ -38,4 +52,17 @@ $utility.protocol("${model.f_name}")
     }
 
 #end
+
+$utility.protocol("convenience")
+
+    public void flush()
+    {
+        ${Prefix}Globals.getDaoSession().flush();
+    }
+
+    public boolean tryFlush()
+    {
+        return ${Prefix}Globals.getDaoSession().tryFlush();
+    }
+
 }

@@ -25,6 +25,7 @@ import com.app.utility.*;
 
 public abstract class MySkillBase
     extends MyAbstractDomain
+    implements MyDomainIF
 {
     //##################################################
     //# static
@@ -292,13 +293,14 @@ public abstract class MySkillBase
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("MySkill");
-        sb.append("(");
-        sb.append("Uid=");
-        sb.append(uid);
-        sb.append(")");
-        return sb.toString();
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append("MySkill");
+        out.append("(");
+        out.append("Uid=");
+        out.append(uid);
+        out.append(")");
+        return out.toString();
     }
 
     public void printFields()
@@ -313,12 +315,20 @@ public abstract class MySkillBase
      * Format the primary key fields in a comma separated list.  The format
      * is intended to be suitable for display to users.
      */
+    @Override
     public String formatPrimaryKey()
     {
-        StringBuilder sb = new StringBuilder();
-        ScFormatter f = getFormatter();
-        sb.append(f.formatAny(uid));
-        return sb.toString();
+        return uid;
     }
 
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    @Override
+    public String getMetaName()
+    {
+        return Meta.getName();
+    }
 }

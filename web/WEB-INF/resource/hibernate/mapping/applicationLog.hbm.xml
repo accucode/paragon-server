@@ -24,11 +24,11 @@
         <cache usage="read-write"/>
 
         <id
-            name="id"
-            column="id"
-            type="integer"
+            name="uid"
+            column="uid"
+            type="string"
             >
-            <generator class="identity"/>
+            <generator class="assigned"/>
         </id>
 
         <property
@@ -74,20 +74,10 @@
             />
 
         <property
-            name="exceptionText"
-            column="exceptionText"
+            name="trace"
+            column="trace"
             type="string"
             />
-
-        <bag
-            name="traces"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="logId"/>
-                <one-to-many class="com.app.model.MyApplicationLogTrace"/>
-        </bag>
 
     </class>
 </hibernate-mapping>

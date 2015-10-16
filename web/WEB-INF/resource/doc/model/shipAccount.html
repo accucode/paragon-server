@@ -1,0 +1,208 @@
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<html>
+<head>
+  <title>shipAccount</title>
+  <link rel="StyleSheet" type="text/css" href="../style.css">
+</head>
+<body>
+<h1>shipAccount</h1>
+
+${model.f_comment}<br>
+<br>
+
+<table cellspacing=0 cellpadding=3 border=1>
+<tr>
+  <th>Attribute</th>
+  <th>Help / Comment</th>
+  <th>Format</th>
+  <th>Attributes</th>
+</tr>
+<tr>
+  <td>uid&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The global unique key.<br>
+            &nbsp;
+  </td>
+  
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+            pk<br>                required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>name&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The common display name.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>description&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        A free-form multiline description.<br>
+            &nbsp;
+  </td>
+  
+  <td>notes
+        <br><nobr>max length: 1000</nobr>           <br>allows(
+                      printable
+                        ,&nbsp;
+                whitespace
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>billedToCustomer&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        Indicates whether shipments on this account will be automatically billed to the customer by the carrier.\n This is independent from the customer.  For example, this could be set to true, even if this account is not associated with a specific customer.  Also, this could be set to false even if this account is associated with a single specific customer.<br>
+            &nbsp;
+  </td>
+  
+  <td>boolean
+              </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>shipOnAccountName&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The Ship On account name is used when entering the ship information into the external carrier's system.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>shipOnAccountNumber&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The Ship On account number is used when entering the ship information into the external carrier's system.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>billToTypeCode&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This indicates who the carrier should bill, and is used when configuring the third party carrier.\n Sender: Bill to the sender, that is, ourselves.  This is the normal option for non-customer specific accounts.\n Receiving: Bill the party receiving the shipment.  This options is almost never used.  It introduces a number of potential issues, and may imply C.O.D. terms and the potential that the shipment will be refused at the receiving end.\n ThirdParty: This is the option we typically use when configuring accounts that are associated with a customer.  Some additional set up and verification is generally required to coordinate permission with the customer and the carrier.  But once set up, this allows us to ship directly against the customer's account.<br>
+            &nbsp;
+  </td>
+  
+  <td>letterCode
+        <br><nobr>max length: 1</nobr>           <br>allows(
+                      letters
+            )
+      </td>
+  <td>
+                   required<br>           &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>billToAccount&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        The account name/number that the carrier should bill. This is only applicable when the billToType is third party.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>lockVersion&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This is used to coordinate optimistic locking in the database. This is usually not displayed.<br>
+            &nbsp;
+  </td>
+  
+  <td>lockVersion
+              </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+<tr>
+  <td>billToTypeName&nbsp;</td>
+  
+  <td>
+            <i>Help</i><br>
+        This indicates who the carrier should bill, and is used when configuring the third party carrier.\n Sender: Bill to the sender, that is, ourselves.  This is the normal option for non-customer specific accounts.\n Receiving: Bill the party receiving the shipment.  This options is almost never used.  It introduces a number of potential issues, and may imply C.O.D. terms and the potential that the shipment will be refused at the receiving end.\n ThirdParty: This is the option we typically use when configuring accounts that are associated with a customer.  Some additional set up and verification is generally required to coordinate permission with the customer and the carrier.  But once set up, this allows us to ship directly against the customer's account.<br>
+            &nbsp;
+  </td>
+  
+  <td>name
+        <br><nobr>max length: 50</nobr>           <br>allows(
+                      printable
+            )
+      </td>
+  <td>
+                         &nbsp;
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -57,14 +57,26 @@ body
     font-family: sans-serif;
 }
 
-b
+b, strong
 {
     font-weight: bold;
 }
 
-i
+i, em
 {
     font-style: italic;
+}
+
+sub
+{
+    vertical-align: sub;
+    font-size: smaller;
+}
+
+sup
+{
+    vertical-align: super;
+    font-size: smaller;
 }
 
 button

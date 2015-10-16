@@ -97,6 +97,7 @@ public final class MyDevSharedFileBrowserPage
         _directoryField = new ScTextField();
         _directoryField.setLabel("Directory");
         _directoryField.setValue("/");
+        _directoryField.disableChangeTracking();
 
         ScGroup group;
         group = root.addGroup("Path");
@@ -116,6 +117,7 @@ public final class MyDevSharedFileBrowserPage
     private void installFolders(ScContainer root)
     {
         _folderList = new ScListField();
+        _folderList.disableChangeTracking();
 
         ScGroup group;
         group = root.addGroup("Folders");
@@ -129,6 +131,7 @@ public final class MyDevSharedFileBrowserPage
     private void installFiles(ScContainer root)
     {
         _fileList = new ScListField();
+        _fileList.disableChangeTracking();
 
         ScGroup group;
         group = root.addGroup("Files");

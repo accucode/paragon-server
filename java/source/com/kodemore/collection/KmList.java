@@ -22,6 +22,7 @@
 
 package com.kodemore.collection;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -61,6 +62,14 @@ public class KmList<T>
         v = new KmList<>(arr.length);
         v.addAll(arr);
         return v;
+    }
+
+    public static <E> KmList<E> createSynchronized()
+    {
+        List<E> v;
+        v = new ArrayList<>();
+        v = Collections.synchronizedList(v);
+        return wrap(v);
     }
 
     /**

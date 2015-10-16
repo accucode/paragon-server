@@ -23,6 +23,7 @@
 package com.kodemore.servlet.field;
 
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.servlet.ScConstantsIF;
 import com.kodemore.servlet.ScServletData;
 import com.kodemore.servlet.variable.ScLocalObject;
 
@@ -122,7 +123,10 @@ public class ScHiddenField<T>
     @Override
     public void ajaxUpdateValue()
     {
-        ajax().setValue(encode(getValue()));
+        String value = encode(getValue());
+
+        ajax().setValue(value);
+        ajax().setDataAttribute(ScConstantsIF.DATA_ATTRIBUTE_OLD_VALUE, value);
     }
 
 }

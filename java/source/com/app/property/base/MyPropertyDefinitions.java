@@ -77,6 +77,8 @@ public class MyPropertyDefinitions
 
     public static final String GROUP_DEBUG = "debug";
     public static final String PROPERTY_ALLOW_EMPTY_USER_PASSWORDS = "allowEmptyUserPasswords";
+    public static final String PROPERTY_PRINT_AUDIT_LOG = "printAuditLog";
+    public static final String PROPERTY_PRINT_PERFORMANCE_LOG = "printPerformanceLog";
     public static final String PROPERTY_SERVLET_SHOW_STACK_TRACE = "servletShowStackTrace";
 
     public static final String GROUP_DATABASE_CONNECTION = "databaseConnection";
@@ -103,36 +105,33 @@ public class MyPropertyDefinitions
     public static final String PROPERTY_DATABASE_SYNC_ON_STARTUP = "databaseSyncOnStartup";
 
     public static final String GROUP_JOBS = "jobs";
+    public static final String PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ACTIVE_SECONDS = "applicationLogFlusherJobActiveSeconds";
+    public static final String PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ENABLED = "applicationLogFlusherJobEnabled";
+    public static final String PROPERTY_APPLICATION_LOG_FLUSHER_JOB_IDLE_SECONDS = "applicationLogFlusherJobIdleSeconds";
     public static final String PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ACTIVE_SECONDS = "csvUploadProcessorJobActiveSeconds";
     public static final String PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ENABLED = "csvUploadProcessorJobEnabled";
     public static final String PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_IDLE_SECONDS = "csvUploadProcessorJobIdleSeconds";
     public static final String PROPERTY_DATA_PROCESSOR_JOB_ACTIVE_SECONDS = "dataProcessorJobActiveSeconds";
     public static final String PROPERTY_DATA_PROCESSOR_JOB_ENABLED = "dataProcessorJobEnabled";
     public static final String PROPERTY_DATA_PROCESSOR_JOB_IDLE_SECONDS = "dataProcessorJobIdleSeconds";
-    public static final String PROPERTY_DELETE_OLD_PERFORMANCE_LOGS_JOB_ACTIVE_SECONDS = "deleteOldPerformanceLogsJobActiveSeconds";
-    public static final String PROPERTY_DELETE_OLD_PERFORMANCE_LOGS_JOB_ENABLED = "deleteOldPerformanceLogsJobEnabled";
-    public static final String PROPERTY_DELETE_OLD_PERFORMANCE_LOGS_JOB_IDLE_SECONDS = "deleteOldPerformanceLogsJobIdleSeconds";
-    public static final String PROPERTY_DELETE_OLD_SERVER_SESSIONS_JOB_ACTIVE_SECONDS = "deleteOldServerSessionsJobActiveSeconds";
-    public static final String PROPERTY_DELETE_OLD_SERVER_SESSIONS_JOB_ENABLED = "deleteOldServerSessionsJobEnabled";
-    public static final String PROPERTY_DELETE_OLD_SERVER_SESSIONS_JOB_IDLE_SECONDS = "deleteOldServerSessionsJobIdleSeconds";
-    public static final String PROPERTY_DELETE_OLD_SYSTEM_LOGS_JOB_ACTIVE_SECONDS = "deleteOldSystemLogsJobActiveSeconds";
-    public static final String PROPERTY_DELETE_OLD_SYSTEM_LOGS_JOB_ENABLED = "deleteOldSystemLogsJobEnabled";
-    public static final String PROPERTY_DELETE_OLD_SYSTEM_LOGS_JOB_IDLE_SECONDS = "deleteOldSystemLogsJobIdleSeconds";
     public static final String PROPERTY_FTP_SEND_TO_NOTIFIER_JOB_ACTIVE_SECONDS = "ftpSendToNotifierJobActiveSeconds";
     public static final String PROPERTY_FTP_SEND_TO_NOTIFIER_JOB_ENABLED = "ftpSendToNotifierJobEnabled";
     public static final String PROPERTY_FTP_SEND_TO_NOTIFIER_JOB_IDLE_SECONDS = "ftpSendToNotifierJobIdleSeconds";
     public static final String PROPERTY_LOGJ_RELOADER_JOB_ACTIVE_SECONDS = "log4jReloaderJobActiveSeconds";
     public static final String PROPERTY_LOGJ_RELOADER_JOB_ENABLED = "log4jReloaderJobEnabled";
     public static final String PROPERTY_LOGJ_RELOADER_JOB_IDLE_SECONDS = "log4jReloaderJobIdleSeconds";
+    public static final String PROPERTY_MAINTENANCE_JOB_ACTIVE_SECONDS = "maintenanceJobActiveSeconds";
+    public static final String PROPERTY_MAINTENANCE_JOB_ENABLED = "maintenanceJobEnabled";
+    public static final String PROPERTY_MAINTENANCE_JOB_IDLE_SECONDS = "maintenanceJobIdleSeconds";
     public static final String PROPERTY_MONITOR_JOB_ACTIVE_SECONDS = "monitorJobActiveSeconds";
     public static final String PROPERTY_MONITOR_JOB_ENABLED = "monitorJobEnabled";
     public static final String PROPERTY_MONITOR_JOB_IDLE_SECONDS = "monitorJobIdleSeconds";
     public static final String PROPERTY_OVERRIDES_RELOADER_JOB_ACTIVE_SECONDS = "overridesReloaderJobActiveSeconds";
     public static final String PROPERTY_OVERRIDES_RELOADER_JOB_ENABLED = "overridesReloaderJobEnabled";
     public static final String PROPERTY_OVERRIDES_RELOADER_JOB_IDLE_SECONDS = "overridesReloaderJobIdleSeconds";
-    public static final String PROPERTY_PERFORMANCE_LOG_JOB_ACTIVE_SECONDS = "performanceLogJobActiveSeconds";
-    public static final String PROPERTY_PERFORMANCE_LOG_JOB_ENABLED = "performanceLogJobEnabled";
-    public static final String PROPERTY_PERFORMANCE_LOG_JOB_IDLE_SECONDS = "performanceLogJobIdleSeconds";
+    public static final String PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ACTIVE_SECONDS = "performanceLogFlusherJobActiveSeconds";
+    public static final String PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ENABLED = "performanceLogFlusherJobEnabled";
+    public static final String PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_IDLE_SECONDS = "performanceLogFlusherJobIdleSeconds";
 
     public static final String GROUP_MISCELLANEOUS = "miscellaneous";
     public static final String PROPERTY_AJAX_LOG_DELETE_ON_START = "ajaxLogDeleteOnStart";
@@ -221,6 +220,8 @@ public class MyPropertyDefinitions
 
         // debug
         install(m, newAllowEmptyUserPasswords());
+        install(m, newPrintAuditLog());
+        install(m, newPrintPerformanceLog());
         install(m, newServletShowStackTrace());
 
         // databaseConnection
@@ -247,36 +248,33 @@ public class MyPropertyDefinitions
         install(m, newDatabaseSyncOnStartup());
 
         // jobs
+        install(m, newApplicationLogFlusherJobActiveSeconds());
+        install(m, newApplicationLogFlusherJobEnabled());
+        install(m, newApplicationLogFlusherJobIdleSeconds());
         install(m, newCsvUploadProcessorJobActiveSeconds());
         install(m, newCsvUploadProcessorJobEnabled());
         install(m, newCsvUploadProcessorJobIdleSeconds());
         install(m, newDataProcessorJobActiveSeconds());
         install(m, newDataProcessorJobEnabled());
         install(m, newDataProcessorJobIdleSeconds());
-        install(m, newDeleteOldPerformanceLogsJobActiveSeconds());
-        install(m, newDeleteOldPerformanceLogsJobEnabled());
-        install(m, newDeleteOldPerformanceLogsJobIdleSeconds());
-        install(m, newDeleteOldServerSessionsJobActiveSeconds());
-        install(m, newDeleteOldServerSessionsJobEnabled());
-        install(m, newDeleteOldServerSessionsJobIdleSeconds());
-        install(m, newDeleteOldSystemLogsJobActiveSeconds());
-        install(m, newDeleteOldSystemLogsJobEnabled());
-        install(m, newDeleteOldSystemLogsJobIdleSeconds());
         install(m, newFtpSendToNotifierJobActiveSeconds());
         install(m, newFtpSendToNotifierJobEnabled());
         install(m, newFtpSendToNotifierJobIdleSeconds());
         install(m, newLog4jReloaderJobActiveSeconds());
         install(m, newLog4jReloaderJobEnabled());
         install(m, newLog4jReloaderJobIdleSeconds());
+        install(m, newMaintenanceJobActiveSeconds());
+        install(m, newMaintenanceJobEnabled());
+        install(m, newMaintenanceJobIdleSeconds());
         install(m, newMonitorJobActiveSeconds());
         install(m, newMonitorJobEnabled());
         install(m, newMonitorJobIdleSeconds());
         install(m, newOverridesReloaderJobActiveSeconds());
         install(m, newOverridesReloaderJobEnabled());
         install(m, newOverridesReloaderJobIdleSeconds());
-        install(m, newPerformanceLogJobActiveSeconds());
-        install(m, newPerformanceLogJobEnabled());
-        install(m, newPerformanceLogJobIdleSeconds());
+        install(m, newPerformanceLogFlusherJobActiveSeconds());
+        install(m, newPerformanceLogFlusherJobEnabled());
+        install(m, newPerformanceLogFlusherJobIdleSeconds());
 
         // miscellaneous
         install(m, newAjaxLogDeleteOnStart());
@@ -840,6 +838,32 @@ public class MyPropertyDefinitions
         return e;
     }
 
+    private static MyPropertyDefinition newPrintAuditLog()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DEBUG);
+        e.setKey(PROPERTY_PRINT_AUDIT_LOG);
+        e.setComment("If true, logs are echoed to the console (log4j).");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newPrintPerformanceLog()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_DEBUG);
+        e.setKey(PROPERTY_PRINT_PERFORMANCE_LOG);
+        e.setComment("If true, logs are echoed to the console (log4j).");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("false");
+        e.postInstall();
+        return e;
+    }
+
     private static MyPropertyDefinition newServletShowStackTrace()
     {
         MyPropertyDefinition e;
@@ -1090,6 +1114,45 @@ public class MyPropertyDefinitions
     //# install (jobs)
     //##################################################
 
+    private static MyPropertyDefinition newApplicationLogFlusherJobActiveSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ACTIVE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("10");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newApplicationLogFlusherJobEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ENABLED);
+        e.setComment("Indicates if the job should be run.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newApplicationLogFlusherJobIdleSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_APPLICATION_LOG_FLUSHER_JOB_IDLE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("10");
+        e.postInstall();
+        return e;
+    }
+
     private static MyPropertyDefinition newCsvUploadProcessorJobActiveSeconds()
     {
         MyPropertyDefinition e;
@@ -1164,123 +1227,6 @@ public class MyPropertyDefinitions
         e.setComment("The idle frquency of the job.");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
         e.setDefaultValue("60");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDeleteOldPerformanceLogsJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_DELETE_OLD_PERFORMANCE_LOGS_JOB_ACTIVE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("60");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDeleteOldPerformanceLogsJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_DELETE_OLD_PERFORMANCE_LOGS_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDeleteOldPerformanceLogsJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_DELETE_OLD_PERFORMANCE_LOGS_JOB_IDLE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("600");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDeleteOldServerSessionsJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_DELETE_OLD_SERVER_SESSIONS_JOB_ACTIVE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("60");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDeleteOldServerSessionsJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_DELETE_OLD_SERVER_SESSIONS_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDeleteOldServerSessionsJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_DELETE_OLD_SERVER_SESSIONS_JOB_IDLE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("600");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDeleteOldSystemLogsJobActiveSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_DELETE_OLD_SYSTEM_LOGS_JOB_ACTIVE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("60");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDeleteOldSystemLogsJobEnabled()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_DELETE_OLD_SYSTEM_LOGS_JOB_ENABLED);
-        e.setComment("Indicates if the job should be run.");
-        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
-        e.setDefaultValue("true");
-        e.postInstall();
-        return e;
-    }
-
-    private static MyPropertyDefinition newDeleteOldSystemLogsJobIdleSeconds()
-    {
-        MyPropertyDefinition e;
-        e = newPropertyDefinition();
-        e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_DELETE_OLD_SYSTEM_LOGS_JOB_IDLE_SECONDS);
-        e.setComment("x");
-        e.setType(KmPropertyTypes.TYPE_INTEGER);
-        e.setDefaultValue("600");
         e.postInstall();
         return e;
     }
@@ -1363,6 +1309,45 @@ public class MyPropertyDefinitions
         return e;
     }
 
+    private static MyPropertyDefinition newMaintenanceJobActiveSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_MAINTENANCE_JOB_ACTIVE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("60");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newMaintenanceJobEnabled()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_MAINTENANCE_JOB_ENABLED);
+        e.setComment("Indicates if the job should be run.");
+        e.setType(KmPropertyTypes.TYPE_BOOLEAN);
+        e.setDefaultValue("true");
+        e.postInstall();
+        return e;
+    }
+
+    private static MyPropertyDefinition newMaintenanceJobIdleSeconds()
+    {
+        MyPropertyDefinition e;
+        e = newPropertyDefinition();
+        e.setGroup(GROUP_JOBS);
+        e.setKey(PROPERTY_MAINTENANCE_JOB_IDLE_SECONDS);
+        e.setComment("x");
+        e.setType(KmPropertyTypes.TYPE_INTEGER);
+        e.setDefaultValue("60");
+        e.postInstall();
+        return e;
+    }
+
     private static MyPropertyDefinition newMonitorJobActiveSeconds()
     {
         MyPropertyDefinition e;
@@ -1441,12 +1426,12 @@ public class MyPropertyDefinitions
         return e;
     }
 
-    private static MyPropertyDefinition newPerformanceLogJobActiveSeconds()
+    private static MyPropertyDefinition newPerformanceLogFlusherJobActiveSeconds()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
         e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_PERFORMANCE_LOG_JOB_ACTIVE_SECONDS);
+        e.setKey(PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ACTIVE_SECONDS);
         e.setComment("x");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
         e.setDefaultValue("10");
@@ -1454,12 +1439,12 @@ public class MyPropertyDefinitions
         return e;
     }
 
-    private static MyPropertyDefinition newPerformanceLogJobEnabled()
+    private static MyPropertyDefinition newPerformanceLogFlusherJobEnabled()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
         e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_PERFORMANCE_LOG_JOB_ENABLED);
+        e.setKey(PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ENABLED);
         e.setComment("Indicates if the job should be run.");
         e.setType(KmPropertyTypes.TYPE_BOOLEAN);
         e.setDefaultValue("true");
@@ -1467,12 +1452,12 @@ public class MyPropertyDefinitions
         return e;
     }
 
-    private static MyPropertyDefinition newPerformanceLogJobIdleSeconds()
+    private static MyPropertyDefinition newPerformanceLogFlusherJobIdleSeconds()
     {
         MyPropertyDefinition e;
         e = newPropertyDefinition();
         e.setGroup(GROUP_JOBS);
-        e.setKey(PROPERTY_PERFORMANCE_LOG_JOB_IDLE_SECONDS);
+        e.setKey(PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_IDLE_SECONDS);
         e.setComment("x");
         e.setType(KmPropertyTypes.TYPE_INTEGER);
         e.setDefaultValue("10");
@@ -1659,7 +1644,7 @@ public class MyPropertyDefinitions
         e = newPropertyDefinition();
         e.setGroup(GROUP_MISCELLANEOUS);
         e.setKey(PROPERTY_WEB_RESOURCE_VERSIONING);
-        e.setComment("This is used to automatically version css and javascript files.\nnone - the version is always set to 'version'.\ndeploy - used in production to include the application version in the path.\ndev - used in development to change the path each time the app is restarted.");
+        e.setComment("This is used to automatically version css and javascript files. none - the version is always set to 'version'. deploy - used in production to include the application version in the path. dev - used in development to change the path each time the app is restarted.");
         e.setType(KmPropertyTypes.TYPE_STRING);
         e.setDefaultValue("static");
         e.postInstall();
@@ -1970,6 +1955,16 @@ public class MyPropertyDefinitions
         return get(PROPERTY_ALLOW_EMPTY_USER_PASSWORDS);
     }
 
+    public static MyPropertyDefinition getPrintAuditLog()
+    {
+        return get(PROPERTY_PRINT_AUDIT_LOG);
+    }
+
+    public static MyPropertyDefinition getPrintPerformanceLog()
+    {
+        return get(PROPERTY_PRINT_PERFORMANCE_LOG);
+    }
+
     public static MyPropertyDefinition getServletShowStackTrace()
     {
         return get(PROPERTY_SERVLET_SHOW_STACK_TRACE);
@@ -2060,6 +2055,21 @@ public class MyPropertyDefinitions
         return get(PROPERTY_DATABASE_SYNC_ON_STARTUP);
     }
 
+    public static MyPropertyDefinition getApplicationLogFlusherJobActiveSeconds()
+    {
+        return get(PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ACTIVE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getApplicationLogFlusherJobEnabled()
+    {
+        return get(PROPERTY_APPLICATION_LOG_FLUSHER_JOB_ENABLED);
+    }
+
+    public static MyPropertyDefinition getApplicationLogFlusherJobIdleSeconds()
+    {
+        return get(PROPERTY_APPLICATION_LOG_FLUSHER_JOB_IDLE_SECONDS);
+    }
+
     public static MyPropertyDefinition getCsvUploadProcessorJobActiveSeconds()
     {
         return get(PROPERTY_CSV_UPLOAD_PROCESSOR_JOB_ACTIVE_SECONDS);
@@ -2088,51 +2098,6 @@ public class MyPropertyDefinitions
     public static MyPropertyDefinition getDataProcessorJobIdleSeconds()
     {
         return get(PROPERTY_DATA_PROCESSOR_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getDeleteOldPerformanceLogsJobActiveSeconds()
-    {
-        return get(PROPERTY_DELETE_OLD_PERFORMANCE_LOGS_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getDeleteOldPerformanceLogsJobEnabled()
-    {
-        return get(PROPERTY_DELETE_OLD_PERFORMANCE_LOGS_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getDeleteOldPerformanceLogsJobIdleSeconds()
-    {
-        return get(PROPERTY_DELETE_OLD_PERFORMANCE_LOGS_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getDeleteOldServerSessionsJobActiveSeconds()
-    {
-        return get(PROPERTY_DELETE_OLD_SERVER_SESSIONS_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getDeleteOldServerSessionsJobEnabled()
-    {
-        return get(PROPERTY_DELETE_OLD_SERVER_SESSIONS_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getDeleteOldServerSessionsJobIdleSeconds()
-    {
-        return get(PROPERTY_DELETE_OLD_SERVER_SESSIONS_JOB_IDLE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getDeleteOldSystemLogsJobActiveSeconds()
-    {
-        return get(PROPERTY_DELETE_OLD_SYSTEM_LOGS_JOB_ACTIVE_SECONDS);
-    }
-
-    public static MyPropertyDefinition getDeleteOldSystemLogsJobEnabled()
-    {
-        return get(PROPERTY_DELETE_OLD_SYSTEM_LOGS_JOB_ENABLED);
-    }
-
-    public static MyPropertyDefinition getDeleteOldSystemLogsJobIdleSeconds()
-    {
-        return get(PROPERTY_DELETE_OLD_SYSTEM_LOGS_JOB_IDLE_SECONDS);
     }
 
     public static MyPropertyDefinition getFtpSendToNotifierJobActiveSeconds()
@@ -2165,6 +2130,21 @@ public class MyPropertyDefinitions
         return get(PROPERTY_LOGJ_RELOADER_JOB_IDLE_SECONDS);
     }
 
+    public static MyPropertyDefinition getMaintenanceJobActiveSeconds()
+    {
+        return get(PROPERTY_MAINTENANCE_JOB_ACTIVE_SECONDS);
+    }
+
+    public static MyPropertyDefinition getMaintenanceJobEnabled()
+    {
+        return get(PROPERTY_MAINTENANCE_JOB_ENABLED);
+    }
+
+    public static MyPropertyDefinition getMaintenanceJobIdleSeconds()
+    {
+        return get(PROPERTY_MAINTENANCE_JOB_IDLE_SECONDS);
+    }
+
     public static MyPropertyDefinition getMonitorJobActiveSeconds()
     {
         return get(PROPERTY_MONITOR_JOB_ACTIVE_SECONDS);
@@ -2195,19 +2175,19 @@ public class MyPropertyDefinitions
         return get(PROPERTY_OVERRIDES_RELOADER_JOB_IDLE_SECONDS);
     }
 
-    public static MyPropertyDefinition getPerformanceLogJobActiveSeconds()
+    public static MyPropertyDefinition getPerformanceLogFlusherJobActiveSeconds()
     {
-        return get(PROPERTY_PERFORMANCE_LOG_JOB_ACTIVE_SECONDS);
+        return get(PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ACTIVE_SECONDS);
     }
 
-    public static MyPropertyDefinition getPerformanceLogJobEnabled()
+    public static MyPropertyDefinition getPerformanceLogFlusherJobEnabled()
     {
-        return get(PROPERTY_PERFORMANCE_LOG_JOB_ENABLED);
+        return get(PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_ENABLED);
     }
 
-    public static MyPropertyDefinition getPerformanceLogJobIdleSeconds()
+    public static MyPropertyDefinition getPerformanceLogFlusherJobIdleSeconds()
     {
-        return get(PROPERTY_PERFORMANCE_LOG_JOB_IDLE_SECONDS);
+        return get(PROPERTY_PERFORMANCE_LOG_FLUSHER_JOB_IDLE_SECONDS);
     }
 
     public static MyPropertyDefinition getAjaxLogDeleteOnStart()

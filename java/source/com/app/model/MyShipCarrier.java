@@ -34,17 +34,20 @@ public class MyShipCarrier
         return v;
     }
 
-    public MyShipMethod addShipMethod(String name)
-    {
-        MyShipMethod e;
-        e = addShipMethod();
-        e.setName(name);
-        return e;
-    }
-
     @Override
     public String getMethodNames()
     {
         return getShipMethodsByName().join(e -> e.getName());
     }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getName();
+    }
+
 }

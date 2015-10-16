@@ -38,14 +38,14 @@ public class MyApplicationLogJunction
     //# properties
     //##################################################
 
-    public KmhIntegerCondition whereId()
+    public KmhStringCondition whereUid()
     {
-        return new KmhIntegerCondition(context(), fullName(ID));
+        return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmhPropertyCondition<KmTimestamp> whereCreatedUtcTs()
+    public KmhTimestampCondition whereCreatedUtcTs()
     {
-        return new KmhPropertyCondition<>(context(), fullName(CREATED_UTC_TS));
+        return new KmhTimestampCondition(context(), fullName(CREATED_UTC_TS));
     }
 
     public KmhStringCondition whereLoggerName()
@@ -78,9 +78,9 @@ public class MyApplicationLogJunction
         return new KmhStringCondition(context(), fullName(THREAD_NAME));
     }
 
-    public KmhStringCondition whereExceptionText()
+    public KmhStringCondition whereTrace()
     {
-        return new KmhStringCondition(context(), fullName(EXCEPTION_TEXT));
+        return new KmhStringCondition(context(), fullName(TRACE));
     }
 
     //##################################################

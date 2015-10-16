@@ -1,0 +1,54 @@
+model
+: name      = customerTier
+: help...
+    ---
+    The tiers used to organize and report of customers.
+    Examples may include OEM, Distributor, Reseller, and Consumer.
+    ---
+
+database
+: alias     = ct
+: auditLog  = true
+: locking   = true
+
+    index
+    : name      = project
+    : unique    = false
+    : on        = project
+
+attributes
+
+    field
+    : name          = uid
+    : help          = The globally unique identifier.
+    : type          = uid
+    : default       = newUid()
+    : primaryKey    = true
+    : required      = true
+
+    association
+    : name      = project
+    : help      = The project to which this carrier belongs.
+    : modelName = project
+    : relation  = parent
+    : required  = true
+
+    field
+    : name      = name
+    : help      = The display name.
+    : type      = name
+    : required  = true
+
+    field
+    : name      = discountRate
+    : help...
+        ---
+        The default discount rate used for customers associated with this tier.
+        This determines the discount amount off of list price.
+        For example, suppose the list price is $100, and the discount rate
+        is 0.25 (25%); then the discount will be $25 ($100 * .25) and the
+        effective unit price will be $75.
+        ---
+    : type      = double
+    : required  = true
+    : default   = 0.0

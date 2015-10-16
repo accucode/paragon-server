@@ -17,9 +17,10 @@ import com.app.dao.core.*;
 import com.app.filter.*;
 import com.app.model.*;
 import com.app.model.meta.*;
+import com.app.utility.*;
 
 public abstract class MyApplicationLogDaoBase
-    extends KmAbstractDao<MyApplicationLog,Integer>
+    extends KmAbstractDao<MyApplicationLog,String>
     implements MyApplicationLogDaoConstantsIF
 {
     //##################################################
@@ -68,7 +69,7 @@ public abstract class MyApplicationLogDaoBase
     //# find
     //##################################################
 
-    public MyApplicationLog findId(Integer e)
+    public MyApplicationLog findUid(String e)
     {
         return getKey(e);
     }
@@ -77,14 +78,22 @@ public abstract class MyApplicationLogDaoBase
     //# delete
     //##################################################
 
-    public void deleteId(Integer e)
+    public void deleteUid(String e)
     {
-        MyApplicationLog m = findId(e);
-        
+        MyApplicationLog m = findUid(e);
+
         if ( m == null )
             throw Kmu.newFatal("Cannot delete; key not found(%s).", e);
-            
+
         delete(m);
     }
 
+    //##################################################
+    //# convenience
+    //##################################################
+
+    protected MyDaoRegistry getAccess()
+    {
+        return MyGlobals.getAccess();
+    }
 }

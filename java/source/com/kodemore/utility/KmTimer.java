@@ -295,10 +295,11 @@ public class KmTimer
     public String format(int scale)
     {
         double d = getSeconds();
-        String s = Kmu.formatDouble(d, scale) + "sec";
-        if ( hasName() )
-            return getName() + ": " + s;
-        return s;
+        String s = Kmu.formatDouble(d, scale) + " secs";
+
+        return hasName()
+            ? getName() + ": " + s
+            : s;
     }
 
     public void printAverage()
@@ -314,19 +315,40 @@ public class KmTimer
     public String formatAverage(int scale)
     {
         double d = getAverageSeconds();
-        String s = Kmu.formatDouble(d, scale) + "sec (average)";
-        if ( hasName() )
-            return getName() + ": " + s;
-        return s;
+        String s = Kmu.formatDouble(d, scale) + " secs (average)";
+
+        return hasName()
+            ? getName() + ": " + s
+            : s;
     }
 
     public String formatLap(int scale)
     {
         double d = getLapSeconds();
         String s = Kmu.formatDouble(d, scale) + "sec (lap)";
-        if ( hasName() )
-            return getName() + ": " + s;
-        return s;
+
+        return hasName()
+            ? getName() + ": " + s
+            : s;
+    }
+
+    //==================================================
+    //= average ms
+    //==================================================
+
+    public void printAverageMs()
+    {
+        System.out.println(formatAverageMs(0));
+    }
+
+    public String formatAverageMs(int scale)
+    {
+        double d = getAverageMilliseconds();
+        String s = Kmu.formatDouble(d, scale) + " ms (average)";
+
+        return hasName()
+            ? getName() + ": " + s
+            : s;
     }
 
     //##################################################

@@ -84,6 +84,7 @@ public class MyDepotValidatorBase
     @Override
     public void convertOnly(MyDepot value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setName(nameValidator.convertOnly(value.getName()));
         value.setPhone(phoneValidator.convertOnly(value.getPhone()));
@@ -93,10 +94,14 @@ public class MyDepotValidatorBase
     @Override
     public void validateOnly(MyDepot value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         nameValidator.validateOnly(value.getName(), errors);
         phoneValidator.validateOnly(value.getPhone(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
+        if ( !value.hasProject() )
+            errors.add(new KmRequiredValidationError("depot", "project"));
     }
 
     //##################################################

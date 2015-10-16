@@ -40,6 +40,8 @@ import com.kodemore.servlet.field.ScLinkList;
 import com.kodemore.servlet.field.ScPasswordField;
 import com.kodemore.servlet.field.ScTextArea;
 import com.kodemore.servlet.field.ScTextField;
+import com.kodemore.servlet.script.ScBlockScript;
+import com.kodemore.servlet.script.ScScriptIF;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
@@ -377,6 +379,7 @@ public abstract class ScContainer
         ScActionButton e;
         e = addButton("Cancel", action);
         e.applyNegativeFlavor();
+        e.disableChangeTracking();
         return e;
     }
 
@@ -384,6 +387,23 @@ public abstract class ScContainer
     {
         ScActionButton e;
         e = addButton("Cancel", r);
+        e.applyNegativeFlavor();
+        e.disableChangeTracking();
+        return e;
+    }
+
+    /**
+     * Add a standard button that uses client-side javascript to reset
+     * fields to their original values.
+     */
+    public ScGeneralButton addResetButton()
+    {
+        ScBlockScript script;
+        script = ScBlockScript.create();
+        script.resetFieldsToOldValue();
+
+        ScGeneralButton e;
+        e = addButton("Reset", script);
         e.applyNegativeFlavor();
         return e;
     }
@@ -393,6 +413,15 @@ public abstract class ScContainer
         ScGeneralButton e;
         e = new ScGeneralButton();
         return add(e);
+    }
+
+    public ScGeneralButton addButton(String title, ScScriptIF script)
+    {
+        ScGeneralButton e;
+        e = addGeneralButton();
+        e.setText(title);
+        e.setOnClick(script.formatScript());
+        return e;
     }
 
     //##################################################

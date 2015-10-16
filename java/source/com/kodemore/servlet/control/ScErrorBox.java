@@ -27,6 +27,7 @@ import java.util.Iterator;
 import com.kodemore.collection.KmCompositeIterator;
 import com.kodemore.html.KmHtmlBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
+import com.kodemore.servlet.script.ScHtmlIdAjax;
 import com.kodemore.servlet.variable.ScLocalString;
 
 public class ScErrorBox
@@ -137,8 +138,10 @@ public class ScErrorBox
         if ( s == null )
             return;
 
-        _messageBox.ajax().setText(s);
-        _messageBox.ajax().show().slide();
+        ScHtmlIdAjax ajax;
+        ajax = _messageBox.ajax();
+        ajax.setText(s);
+        ajax.show().slide();
     }
 
     @Override

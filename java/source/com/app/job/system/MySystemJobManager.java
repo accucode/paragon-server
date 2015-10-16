@@ -9,7 +9,7 @@ public class MySystemJobManager
 {
     public MySystemJobManager()
     {
-        add(new MyMonitorJob("SystemJobManager"));
+        add(new MyMonitorJob(getClass()));
         add(new MyClockJob());
         add(new MyOverridesReloaderJob());
         add(new MyLog4jReloaderJob());

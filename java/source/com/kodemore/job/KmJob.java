@@ -108,7 +108,14 @@ public abstract class KmJob
         {
             _running = true;
             _lastStartTime = now();
-            return handle();
+
+            if ( !preHandle() )
+                return false;
+
+            boolean active = handle();
+
+            postHandle();
+            return active;
         }
         catch ( KmhDaoLockException ex )
         {
@@ -128,13 +135,35 @@ public abstract class KmJob
             _lastEndTime = now();
             _lastRunTime = (int)(_lastEndTime - _lastStartTime);
             _running = false;
-            tryLogPerformance(_lastRunTime);
+
+            if ( logsPerformance() )
+                tryLogPerformance(_lastRunTime);
         }
     }
 
     protected boolean isRunnable()
     {
         return isEnabled();
+    }
+
+    /**
+     * I implement a hook for subclasses to run certain code BEFORE handle().
+     * This should only be used by framework code; not by concrete application classes.
+     * A return value of false indicates that this job is NOT active, and exits
+     * early without calling handle.
+     */
+    protected boolean preHandle()
+    {
+        return true;
+    }
+
+    /**
+     * I implement a hook for subclasses to run certain code AFTER handle().
+     * This should only be used by framework code; not by concrete application classes.
+     */
+    protected void postHandle()
+    {
+        // none
     }
 
     private boolean handleApplicationException(KmApplicationException ex)
@@ -287,6 +316,11 @@ public abstract class KmJob
     //# log performance
     //##################################################
 
+    protected boolean logsPerformance()
+    {
+        return true;
+    }
+
     private void tryLogPerformance(int ms)
     {
         try
@@ -310,14 +344,19 @@ public abstract class KmJob
         return System.currentTimeMillis();
     }
 
-    protected int secondsToMs(Integer seconds)
+    protected int secondsToMs(int seconds)
     {
         return seconds * KmTimeConstantsIF.MS_PER_SECOND;
     }
 
-    protected int minutesToMs(Integer minutes)
+    protected int minutesToMs(int minutes)
     {
         return minutes * KmTimeConstantsIF.MS_PER_MINUTE;
+    }
+
+    protected int hoursToMs(int hours)
+    {
+        return hours * KmTimeConstantsIF.MS_PER_HOUR;
     }
 
 }

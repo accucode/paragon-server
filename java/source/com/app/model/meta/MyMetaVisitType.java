@@ -63,7 +63,7 @@ public class MyMetaVisitType
 
     public static String getHelp()
     {
-        return "Visit types are configured to identify the types of visits we make to\ncustomer sites. Typical examples include: Installation, Survey, and\nTroubleshooting.";
+        return "Visit types are configured to identify the types of visits we make to customer sites. Typical examples include: Installation, Survey, and Troubleshooting.";
     }
 
     //##################################################

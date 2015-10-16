@@ -63,7 +63,7 @@ public class MyMetaPasswordReset
 
     public static String getHelp()
     {
-        return "A request to reset a user's password.  When a user requests to reset a password,\nwe confirm the request by sending an email.  When the user responds to the email,\nthe response is checked against this record to authenticate the request.";
+        return "A request to reset a user's password.  When a user requests to reset a password, we confirm the request by sending an email.  When the user responds to the email, the response is checked against this record to authenticate the request.";
     }
 
     //##################################################

@@ -27,18 +27,21 @@ ${model.f_comment}<br>
   <th>Attributes</th>
 </tr>
 <tr>
-  <td>id&nbsp;</td>
+  <td>uid&nbsp;</td>
   
   <td>
             <i>Help</i><br>
-        The global unique identifier.  This is a big ugly number and is usually not displayed.<br>
+        The unique key.<br>
             &nbsp;
   </td>
   
-  <td>id
-              </td>
+  <td>uid
+        <br><nobr>max length: 30</nobr>           <br>allows(
+                      printable
+            )
+      </td>
   <td>
-         id<br>              pk<br>                      &nbsp;
+            pk<br>                      &nbsp;
   </td>
 </tr>
 <tr>
@@ -164,16 +167,16 @@ ${model.f_comment}<br>
   </td>
 </tr>
 <tr>
-  <td>exceptionText&nbsp;</td>
+  <td>trace&nbsp;</td>
   
   <td>
             <i>Help</i><br>
-        The first part of the exception.<br>
+        The full text of the exception trace.  This can be quite long.<br>
             &nbsp;
   </td>
   
-  <td>multiline1000
-        <br><nobr>max length: 100</nobr>           <br>allows(
+  <td>bigText
+        <br><nobr>max length: 50000</nobr>           <br>allows(
                       printable
                         ,&nbsp;
                 whitespace
@@ -189,24 +192,6 @@ ${model.f_comment}<br>
   <td>
             <i>Help</i><br>
         A combination of the code and name for display.<br>
-            &nbsp;
-  </td>
-  
-  <td>calculated
-        <br><nobr>max length: 1000</nobr>           <br>allows(
-                      all
-            )
-      </td>
-  <td>
-                         &nbsp;
-  </td>
-</tr>
-<tr>
-  <td>fullTrace&nbsp;</td>
-  
-  <td>
-            <i>Help</i><br>
-        All of the traces composed into a single string.  This is calculated (not stored in the db) and can be quite long.<br>
             &nbsp;
   </td>
   

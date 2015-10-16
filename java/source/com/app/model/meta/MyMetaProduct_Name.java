@@ -50,7 +50,7 @@ public class MyMetaProduct_Name
     @Override
     public String getHelp()
     {
-        return "The display name.";
+        return "A short, informal display name. Unlike the part number, this value can be changed as needed and is not required to be strictly unique.";
     }
     
     @Override

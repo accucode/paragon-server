@@ -103,10 +103,12 @@ public final class MyLocalValueTestPage
         _textField = new ScTextField();
         _textField.setLabel("Text");
         _textField.setWidthFull();
+        _textField.disableChangeTracking();
 
         _integerField = new ScIntegerField();
         _integerField.setLabel("Integer");
         _integerField.setWidthFull();
+        _integerField.disableChangeTracking();
 
         ScForm form;
         form = root.addForm();
@@ -149,19 +151,21 @@ public final class MyLocalValueTestPage
     private void installListGroup(ScBox root)
     {
         _listField1 = new ScTextArea();
+        _listField1.setLabel("List (empty)");
+        _listField1.style().width(150).height(100);
+        _listField1.disableChangeTracking();
+
         _listValues1 = new ScLocalStringList();
+
+        _listField2 = new ScTextArea();
+        _listField2.setLabel("List (a,b,c)");
+        _listField2.style().width(150).height(100);
+        _listField2.disableChangeTracking();
 
         _listValues2 = new ScLocalStringList();
         _listValues2.add("a");
         _listValues2.add("b");
         _listValues2.add("c");
-
-        _listField1.setLabel("List (empty)");
-        _listField1.style().width(150).height(100);
-
-        _listField2 = new ScTextArea();
-        _listField2.setLabel("List (a,b,c)");
-        _listField2.style().width(150).height(100);
 
         ScForm form;
         form = root.addForm();

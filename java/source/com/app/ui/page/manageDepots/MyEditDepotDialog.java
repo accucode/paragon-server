@@ -72,10 +72,6 @@ public class MyEditDepotDialog
         MyDepot e;
         e = getAccess().findDepotUid(uid);
         e.applyFrom(this);
-        e.validate();
-
-        flushDao();
-
         return e;
     }
 }

@@ -109,7 +109,7 @@ public class KmgModelField
      * The list of attributes that I depend on, and what
      * to do when any of those attributes changes.
      */
-    private KmgModelFieldDependsOn _dependsOn;
+    private KmgModelDependsOn _dependsOn;
 
     /**
      * Call these methods when I change.
@@ -121,6 +121,14 @@ public class KmgModelField
      */
     private String _getter;
 
+    /**
+     * There are currently three options.
+     *      - true (default), changes are logged normally.
+     *      - false, changes are NOT logged.
+     *      - mask, changes are logged but always report *** as the value.
+     */
+    private String _auditLogMode;
+
     //##################################################
     //# constructor
     //##################################################
@@ -129,6 +137,7 @@ public class KmgModelField
     {
         super(parent);
         _onChangeMethods = new KmList<>();
+        _auditLogMode = "true";
     }
 
     //##################################################
@@ -347,7 +356,7 @@ public class KmgModelField
         return getEnum() != null;
     }
 
-    public KmgModelFieldDependsOn getDependsOn()
+    public KmgModelDependsOn getDependsOn()
     {
         return _dependsOn;
     }
@@ -385,6 +394,35 @@ public class KmgModelField
     public boolean hasGetter()
     {
         return _getter != null;
+    }
+
+    //==================================================
+    //= audit log mode
+    //==================================================
+
+    public String getAuditLogMode()
+    {
+        return _auditLogMode;
+    }
+
+    public void setAuditLogMode(String e)
+    {
+        _auditLogMode = e;
+    }
+
+    public boolean isAuditLogNormal()
+    {
+        return !(isAuditLogMasked() || isAuditLogDisabled());
+    }
+
+    public boolean isAuditLogMasked()
+    {
+        return _auditLogMode.equals("mask");
+    }
+
+    public boolean isAuditLogDisabled()
+    {
+        return _auditLogMode.equals("false");
     }
 
     //##################################################
@@ -504,7 +542,9 @@ public class KmgModelField
             "singleton",
             "default",
             "getter",
-            "type");
+            "type",
+            "auditLog",
+            "onChange");
 
         checkChildrenNames(x, "enum", "dependsOn");
 
@@ -526,6 +566,14 @@ public class KmgModelField
         if ( _type == null )
             throw newFatal(x, "Unknown type: %s", typeName);
 
+        _auditLogMode = parseString(x, "auditLog", "true");
+        if ( !Kmu.matchesAny(_auditLogMode, "true", "false", "mask") )
+            throw newFatal(x, "Unknown audit log: %s", _auditLogMode);
+
+        String onChange = parseString(x, "onChange", null);
+        if ( Kmu.hasValue(onChange) )
+            _onChangeMethods.add(onChange);
+
         _enum = parseEnum(x);
         _dependsOn = parseDependsOn(x);
     }
@@ -542,14 +590,14 @@ public class KmgModelField
         return e;
     }
 
-    private KmgModelFieldDependsOn parseDependsOn(KmStfElement x)
+    private KmgModelDependsOn parseDependsOn(KmStfElement x)
     {
         x = x.getChild("dependsOn");
         if ( x == null )
             return null;
 
-        KmgModelFieldDependsOn e;
-        e = new KmgModelFieldDependsOn(this);
+        KmgModelDependsOn e;
+        e = new KmgModelDependsOn(this);
         e.parse(x);
         return e;
     }

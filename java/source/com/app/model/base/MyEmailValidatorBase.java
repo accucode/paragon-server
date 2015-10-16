@@ -112,6 +112,7 @@ public class MyEmailValidatorBase
     @Override
     public void convertOnly(MyEmail value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
         value.setSentUtcTs(sentUtcTsValidator.convertOnly(value.getSentUtcTs()));
@@ -125,6 +126,7 @@ public class MyEmailValidatorBase
     @Override
     public void validateOnly(MyEmail value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
         sentUtcTsValidator.validateOnly(value.getSentUtcTs(), errors);
@@ -133,6 +135,7 @@ public class MyEmailValidatorBase
         statusCodeValidator.validateOnly(value.getStatusCode(), errors);
         errorNotesValidator.validateOnly(value.getErrorNotes(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
     }
 
     //##################################################

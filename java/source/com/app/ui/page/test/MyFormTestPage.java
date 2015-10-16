@@ -94,6 +94,7 @@ public final class MyFormTestPage
         ScBox buttons;
         buttons = footer.addButtonBox();
         buttons.addSubmitButton();
+        buttons.addResetButton();
     }
 
     //##################################################
@@ -112,10 +113,14 @@ public final class MyFormTestPage
 
     private void handleSubmit()
     {
+        ajax().hideAllErrors();
+        validate();
+
         String s = _textField.getValue();
         if ( s == null )
             s = "<null>";
 
+        getRoot().ajaxUpdateValues();
         ajax().toast(s);
     }
 

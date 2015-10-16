@@ -18,7 +18,7 @@ webResourceVersioning                       = dev
 ## database
 #######################################
 
-databaseSchema                              = paragon
+databaseSchema                              = field_service
 databaseDriver                              = com.mysql.jdbc.Driver
 databaseUri                                 = jdbc:mysql://localhost:3306/
 databaseUser                                = root

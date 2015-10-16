@@ -6,8 +6,8 @@ import com.kodemore.servlet.control.ScActionButton;
 import com.kodemore.servlet.control.ScDiv;
 import com.kodemore.servlet.control.ScFieldLayout;
 
-import com.app.model.MyProduct;
-import com.app.model.meta.MyMetaProduct;
+import com.app.model.MyMasterProduct;
+import com.app.model.meta.MyMetaMasterProduct;
 import com.app.ui.control.MyCard;
 import com.app.ui.page.support.MyTitleSection;
 
@@ -51,7 +51,7 @@ public class MyViewProductCard
 
     private void installBody()
     {
-        MyMetaProduct x = MyProduct.Meta;
+        MyMetaMasterProduct x = MyMasterProduct.Meta;
 
         ScDiv body;
         body = addDiv();
@@ -59,15 +59,14 @@ public class MyViewProductCard
 
         ScFieldLayout fields;
         fields = body.addFieldLayout();
-        fields.addText(x.Name);
-        fields.addText(x.CategoryName);
+        fields.addText(x.PartNumber);
     }
 
     private void installEditDialog()
     {
         _editDialog = new MyEditProductDialog();
         _editDialog.setParent(this);
-        _editDialog.addSaveListener(this::handleSaved);
+        _editDialog.addSavedListener(this::handleSaved);
     }
 
     //##################################################
@@ -79,16 +78,16 @@ public class MyViewProductCard
         return _editDialog;
     }
 
-    public void addSaveListener(Consumer<MyProduct> e)
+    public void addSaveListener(Consumer<MyMasterProduct> e)
     {
-        getEditDialog().addSaveListener(e);
+        getEditDialog().addSavedListener(e);
     }
 
-    public void setProduct(MyProduct e)
+    public void setProduct(MyMasterProduct e)
     {
         e.applyTo(this);
 
-        _banner.setTitle(e.getName());
+        _banner.setTitle(e.getPartNumber());
         _editButton.setArgument(e.getUid());
     }
 
@@ -99,12 +98,12 @@ public class MyViewProductCard
     private void handleEdit()
     {
         String uid = getStringArgument();
-        MyProduct e = getAccess().findProductUid(uid);
+        MyMasterProduct e = getAccess().findMasterProductUid(uid);
 
         _editDialog.ajaxOpen(e);
     }
 
-    private void handleSaved(MyProduct e)
+    private void handleSaved(MyMasterProduct e)
     {
         setProduct(e);
         ajaxPrintFast();

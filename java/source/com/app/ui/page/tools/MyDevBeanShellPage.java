@@ -83,6 +83,7 @@ public final class MyDevBeanShellPage
         _scriptField = new ScTextArea();
         _scriptField.style().height(100);
         _scriptField.setWidthFull();
+        _scriptField.disableChangeTracking();
 
         ScForm form;
         form = root.addForm();

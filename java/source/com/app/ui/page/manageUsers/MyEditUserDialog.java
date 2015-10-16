@@ -81,10 +81,6 @@ public class MyEditUserDialog
         validateEmail(oldUser, newUser);
 
         oldUser.applyFrom(this);
-        oldUser.validate();
-
-        flushDao();
-
         return oldUser;
     }
 

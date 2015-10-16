@@ -37,6 +37,7 @@ public class MyProjectValidatorBase
 
     private KmStringValidator uidValidator;
     private KmStringValidator nameValidator;
+    private KmStringValidator orderNumberPrefixValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -48,6 +49,7 @@ public class MyProjectValidatorBase
         super();
         uidValidator = newUidValidator();
         nameValidator = newNameValidator();
+        orderNumberPrefixValidator = newOrderNumberPrefixValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -65,6 +67,11 @@ public class MyProjectValidatorBase
         return nameValidator;
     }
 
+    public KmStringValidator getOrderNumberPrefixValidator()
+    {
+        return orderNumberPrefixValidator;
+    }
+
     public KmIntegerValidator getLockVersionValidator()
     {
         return lockVersionValidator;
@@ -77,17 +84,22 @@ public class MyProjectValidatorBase
     @Override
     public void convertOnly(MyProject value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setName(nameValidator.convertOnly(value.getName()));
+        value.setOrderNumberPrefix(orderNumberPrefixValidator.convertOnly(value.getOrderNumberPrefix()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
     }
 
     @Override
     public void validateOnly(MyProject value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         nameValidator.validateOnly(value.getName(), errors);
+        orderNumberPrefixValidator.validateOnly(value.getOrderNumberPrefix(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
     }
 
     //##################################################
@@ -114,6 +126,21 @@ public class MyProjectValidatorBase
         e.setAllowsPrintable(true);
         e.setModel("project");
         e.setField("name");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newOrderNumberPrefixValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(5);
+        e.setAllowsLetters(true);
+        e.setAllowsDigits(true);
+        e.setForcesUpperCase(true);
+        e.setStripsAllSpaces(true);
+        e.setModel("project");
+        e.setField("orderNumberPrefix");
         e.setRequired();
         return e;
     }

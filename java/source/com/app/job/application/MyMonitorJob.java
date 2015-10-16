@@ -23,9 +23,9 @@ public class MyMonitorJob
     //# constructor
     //##################################################
 
-    public MyMonitorJob(String name)
+    public MyMonitorJob(Class<?> clazz)
     {
-        _name = name;
+        _name = clazz.getSimpleName();
     }
 
     //##################################################

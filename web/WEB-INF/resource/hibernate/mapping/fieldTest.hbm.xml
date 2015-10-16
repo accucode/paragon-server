@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--
+###############################################################
+###############################################################
+##
+##  AUTO GENERATED - DO NOT EDIT
+##
+###############################################################
+###############################################################
+-->
+
+<hibernate-mapping
+    default-access="field">
+
+    <class
+        name="com.app.model.MyFieldTest"
+        table="fieldTest"
+        >
+
+        <cache usage="read-write"/>
+
+        <id
+            name="uid"
+            column="uid"
+            type="string"
+            >
+            <generator class="assigned"/>
+        </id>
+
+        <version
+            name="lockVersion"
+            column="lockVersion"
+            type="integer"
+            />
+
+        <property
+            name="nameValue"
+            column="nameValue"
+            type="string"
+            />
+
+        <property
+            name="integerValue"
+            column="integerValue"
+            type="integer"
+            />
+
+        <property
+            name="longTest"
+            column="longTest"
+            type="long"
+            />
+
+        <property
+            name="doubleTest"
+            column="doubleTest"
+            type="double"
+            />
+
+        <property
+            name="moneyTest"
+            column="moneyTest"
+            type="com.kodemore.hibernate.type.KmhMoneyType"
+            />
+
+        <property
+            name="booleanTest"
+            column="booleanTest"
+            type="yes_no"
+            />
+
+        <property
+            name="dateTest"
+            column="dateTest"
+            type="com.kodemore.hibernate.type.KmhDateType"
+            />
+
+        <property
+            name="timestampTest"
+            column="timestampTest"
+            type="com.kodemore.hibernate.type.KmhTimestampType"
+            />
+
+        <property
+            name="pinNumber1"
+            column="pinNumber1"
+            type="string"
+            />
+
+        <property
+            name="pinNumber2"
+            column="pinNumber2"
+            type="string"
+            />
+
+        <many-to-one
+            name="userTest"
+            column="userTestUid"
+            class="com.app.model.MyUser"
+            cascade="none"
+            />
+
+    </class>
+</hibernate-mapping>

@@ -437,6 +437,7 @@ public class KmgRoot
 
         KmStfParser p;
         p = new KmStfParser();
+        p.setIncludeFolder(f.getParent().getSibling("include"));
 
         KmStfShortcut sc;
 

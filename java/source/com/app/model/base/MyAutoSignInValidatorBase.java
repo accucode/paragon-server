@@ -84,6 +84,7 @@ public class MyAutoSignInValidatorBase
     @Override
     public void convertOnly(MyAutoSignIn value)
     {
+        // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
         value.setCreatedUtcTs(createdUtcTsValidator.convertOnly(value.getCreatedUtcTs()));
         value.setLastTouchedUtcTs(lastTouchedUtcTsValidator.convertOnly(value.getLastTouchedUtcTs()));
@@ -93,10 +94,14 @@ public class MyAutoSignInValidatorBase
     @Override
     public void validateOnly(MyAutoSignIn value, KmList<KmErrorIF> errors)
     {
+        // fields...
         uidValidator.validateOnly(value.getUid(), errors);
         createdUtcTsValidator.validateOnly(value.getCreatedUtcTs(), errors);
         lastTouchedUtcTsValidator.validateOnly(value.getLastTouchedUtcTs(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
+        // required associations...
+        if ( !value.hasUser() )
+            errors.add(new KmRequiredValidationError("autoSignIn", "user"));
     }
 
     //##################################################

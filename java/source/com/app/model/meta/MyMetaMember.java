@@ -63,7 +63,7 @@ public class MyMetaMember
 
     public static String getHelp()
     {
-        return "The list of members determines which users have access to a specific project.\nAlthough users are global, their roles, skills, and access may vary by project.";
+        return "The list of members determines which users have access to a specific project. Although users are global, their roles, skills, and access may vary by project.";
     }
 
     //##################################################

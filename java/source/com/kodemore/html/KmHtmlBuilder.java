@@ -51,6 +51,8 @@ public class KmHtmlBuilder
     private static final String LF   = "" + CHAR_LF;
     private static final String CRLF = CR + LF;
 
+    private static final String DATA_ATTRIBUTE_PREFIX = "data-";
+
     //##################################################
     //# variables
     //##################################################
@@ -229,6 +231,14 @@ public class KmHtmlBuilder
         printAttribute(key, i + "");
     }
 
+    public void printAttribute(String key, Boolean value)
+    {
+        if ( value == null )
+            return;
+
+        printAttribute(key, value + "");
+    }
+
     public void printAttribute(KmStyleBuilder out)
     {
         if ( out == null )
@@ -243,6 +253,37 @@ public class KmHtmlBuilder
             return;
 
         printAttribute("class", out.getValue());
+    }
+
+    //##################################################
+    //# data attribute
+    //##################################################
+
+    /**
+     * Print an attribute with the html5 'data-' prefix.
+     * The key should be all lower-case with dashes between the words.
+     * This help ensure consistency when accessing the values from
+     * javascript and jquery.
+     *
+     * Unlike other attributes, null DATA attributes are converted to
+     * empty/false values.
+     *
+     * E.g.: 'some-interesting-value'.
+     */
+    public void printDataAttribute(String key, String value)
+    {
+        if ( value == null )
+            value = "";
+
+        printAttribute(DATA_ATTRIBUTE_PREFIX + key, value);
+    }
+
+    public void printDataAttribute(String key, Boolean value)
+    {
+        if ( value == null )
+            value = false;
+
+        printAttribute(DATA_ATTRIBUTE_PREFIX + key, value);
     }
 
     //##################################################

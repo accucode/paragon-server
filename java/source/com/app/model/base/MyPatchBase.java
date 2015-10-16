@@ -25,6 +25,7 @@ import com.app.utility.*;
 
 public abstract class MyPatchBase
     extends MyAbstractDomain
+    implements MyDomainIF
 {
     //##################################################
     //# static
@@ -162,7 +163,7 @@ public abstract class MyPatchBase
 
     public void truncateSource(boolean ellipses)
     {
-        source = Kmu.truncate(source, 20000, ellipses);
+        source = Kmu.truncate(source, 50000, ellipses);
     }
 
     //##################################################
@@ -334,13 +335,14 @@ public abstract class MyPatchBase
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("MyPatch");
-        sb.append("(");
-        sb.append("Name=");
-        sb.append(name);
-        sb.append(")");
-        return sb.toString();
+        StringBuilder out;
+        out = new StringBuilder();
+        out.append("MyPatch");
+        out.append("(");
+        out.append("Name=");
+        out.append(name);
+        out.append(")");
+        return out.toString();
     }
 
     public void printFields()
@@ -355,12 +357,20 @@ public abstract class MyPatchBase
      * Format the primary key fields in a comma separated list.  The format
      * is intended to be suitable for display to users.
      */
+    @Override
     public String formatPrimaryKey()
     {
-        StringBuilder sb = new StringBuilder();
-        ScFormatter f = getFormatter();
-        sb.append(f.formatAny(name));
-        return sb.toString();
+        return name;
     }
 
+
+    //##################################################
+    //# convenience
+    //##################################################
+
+    @Override
+    public String getMetaName()
+    {
+        return Meta.getName();
+    }
 }
