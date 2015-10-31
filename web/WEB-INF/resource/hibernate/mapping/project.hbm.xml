@@ -160,16 +160,6 @@
         </bag>
 
         <bag
-            name="attributeFields"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyAttributeField"/>
-        </bag>
-
-        <bag
             name="customers"
             inverse="false"
             cascade="all-delete-orphan"

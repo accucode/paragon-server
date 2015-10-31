@@ -16,7 +16,6 @@ model
     ---
 
 database
-: alias     = tt
 : auditLog  = false
 : locking   = true
 

@@ -39,9 +39,6 @@ public class MyDaoRegistry
         v = new KmList<>();
         v.add(getApplicationLogDao());
         v.add(getAttentionGroupDao());
-        v.add(getAttentionMemberDao());
-        v.add(getAttributeFieldDao());
-        v.add(getAttributeValueDao());
         v.add(getAuditLogDao());
         v.add(getAutoSignInDao());
         v.add(getCustomerDao());
@@ -62,7 +59,6 @@ public class MyDaoRegistry
         v.add(getMasterProductDao());
         v.add(getMemberDao());
         v.add(getMemberSkillDao());
-        v.add(getNextOrderNumberDao());
         v.add(getPasswordResetDao());
         v.add(getPatchDao());
         v.add(getPerformanceLogDetailDao());
@@ -72,15 +68,11 @@ public class MyDaoRegistry
         v.add(getProductCategoryDao());
         v.add(getProjectDao());
         v.add(getRegionDao());
-        v.add(getSalesOrderDao());
-        v.add(getSalesOrderContactDao());
-        v.add(getSalesOrderLineDao());
         v.add(getServerSessionDao());
         v.add(getSettingsDao());
         v.add(getShipAccountDao());
         v.add(getShipCarrierDao());
         v.add(getShipMethodDao());
-        v.add(getShipmentDao());
         v.add(getSkillDao());
         v.add(getThreadTopicDao());
         v.add(getUserDao());
@@ -126,63 +118,6 @@ public class MyDaoRegistry
     public MyAttentionGroup findAttentionGroupUid(String e)
     {
         return getAttentionGroupDao().findUid(e);
-    }
-
-    //##################################################
-    //# attentionMember
-    //##################################################
-
-    public MyAttentionMemberDao getAttentionMemberDao()
-    {
-        return new MyAttentionMemberDao();
-    }
-
-    public KmList<MyAttentionMember> findAllAttentionMembers()
-    {
-        return getAttentionMemberDao().findAll();
-    }
-
-    public MyAttentionMember findAttentionMemberUid(String e)
-    {
-        return getAttentionMemberDao().findUid(e);
-    }
-
-    //##################################################
-    //# attributeField
-    //##################################################
-
-    public MyAttributeFieldDao getAttributeFieldDao()
-    {
-        return new MyAttributeFieldDao();
-    }
-
-    public KmList<MyAttributeField> findAllAttributeFields()
-    {
-        return getAttributeFieldDao().findAll();
-    }
-
-    public MyAttributeField findAttributeFieldUid(String e)
-    {
-        return getAttributeFieldDao().findUid(e);
-    }
-
-    //##################################################
-    //# attributeValue
-    //##################################################
-
-    public MyAttributeValueDao getAttributeValueDao()
-    {
-        return new MyAttributeValueDao();
-    }
-
-    public KmList<MyAttributeValue> findAllAttributeValues()
-    {
-        return getAttributeValueDao().findAll();
-    }
-
-    public MyAttributeValue findAttributeValueUid(String e)
-    {
-        return getAttributeValueDao().findUid(e);
     }
 
     //##################################################
@@ -566,25 +501,6 @@ public class MyDaoRegistry
     }
 
     //##################################################
-    //# nextOrderNumber
-    //##################################################
-
-    public MyNextOrderNumberDao getNextOrderNumberDao()
-    {
-        return new MyNextOrderNumberDao();
-    }
-
-    public KmList<MyNextOrderNumber> findAllNextOrderNumbers()
-    {
-        return getNextOrderNumberDao().findAll();
-    }
-
-    public MyNextOrderNumber findNextOrderNumberUid(String e)
-    {
-        return getNextOrderNumberDao().findUid(e);
-    }
-
-    //##################################################
     //# passwordReset
     //##################################################
 
@@ -756,63 +672,6 @@ public class MyDaoRegistry
     }
 
     //##################################################
-    //# salesOrder
-    //##################################################
-
-    public MySalesOrderDao getSalesOrderDao()
-    {
-        return new MySalesOrderDao();
-    }
-
-    public KmList<MySalesOrder> findAllSalesOrders()
-    {
-        return getSalesOrderDao().findAll();
-    }
-
-    public MySalesOrder findSalesOrderUid(String e)
-    {
-        return getSalesOrderDao().findUid(e);
-    }
-
-    //##################################################
-    //# salesOrderContact
-    //##################################################
-
-    public MySalesOrderContactDao getSalesOrderContactDao()
-    {
-        return new MySalesOrderContactDao();
-    }
-
-    public KmList<MySalesOrderContact> findAllSalesOrderContacts()
-    {
-        return getSalesOrderContactDao().findAll();
-    }
-
-    public MySalesOrderContact findSalesOrderContactUid(String e)
-    {
-        return getSalesOrderContactDao().findUid(e);
-    }
-
-    //##################################################
-    //# salesOrderLine
-    //##################################################
-
-    public MySalesOrderLineDao getSalesOrderLineDao()
-    {
-        return new MySalesOrderLineDao();
-    }
-
-    public KmList<MySalesOrderLine> findAllSalesOrderLines()
-    {
-        return getSalesOrderLineDao().findAll();
-    }
-
-    public MySalesOrderLine findSalesOrderLineUid(String e)
-    {
-        return getSalesOrderLineDao().findUid(e);
-    }
-
-    //##################################################
     //# serverSession
     //##################################################
 
@@ -905,25 +764,6 @@ public class MyDaoRegistry
     public MyShipMethod findShipMethodUid(String e)
     {
         return getShipMethodDao().findUid(e);
-    }
-
-    //##################################################
-    //# shipment
-    //##################################################
-
-    public MyShipmentDao getShipmentDao()
-    {
-        return new MyShipmentDao();
-    }
-
-    public KmList<MyShipment> findAllShipments()
-    {
-        return getShipmentDao().findAll();
-    }
-
-    public MyShipment findShipmentUid(String e)
-    {
-        return getShipmentDao().findUid(e);
     }
 
     //##################################################

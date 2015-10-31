@@ -605,29 +605,29 @@ public interface KmCssDefaultConstantsIF
     String button_flavor_disabled = "disabled";
     String button_flavor_negative = "negative";
     String button_flavor_positive = "positive";
-
+    
     String ui_prefix = "ui";
     String ui_part_dialog = "dialog";
     String ui_part_widget = "widget";
     String ui_flavor_title = "title";
     String ui_flavor_overlay = "overlay";
-
+    
     String divider_prefix = "divider";
     String divider_part_inner = "inner";
     String divider_flavor_bevel = "bevel";
     String divider_flavor_groove = "groove";
-
+    
     String errorBox_prefix = "errorBox";
     String errorBox_part_message = "message";
     String errorBox_part_wrapper = "wrapper";
     String errorBox_flavor_attached = "attached";
     String errorBox_flavor_detached = "detached";
-
+    
     String fieldset_prefix = "fieldset";
     String fieldset_part_body = "body";
     String fieldset_part_legend = "legend";
     String fieldset_flavor_default = "default";
-
+    
     String group_prefix = "group";
     String group_part_banner = "banner";
     String group_part_title = "title";
@@ -637,6 +637,6 @@ public interface KmCssDefaultConstantsIF
     String group_flavor_search = "search";
     String group_flavor_secondary = "secondary";
     String group_flavor_tertiary = "tertiary";
-
+    
 
 }

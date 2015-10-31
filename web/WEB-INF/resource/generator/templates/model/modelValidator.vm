@@ -16,6 +16,6 @@ import ${package}.utility.*;
 public class ${model.f_ValidatorClass}
     extends ${model.f_ValidatorBaseClass}
 {
-    //
+    // none
 }
 

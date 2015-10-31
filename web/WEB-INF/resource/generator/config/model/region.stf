@@ -8,7 +8,6 @@ model
     --- 
 
 database
-: alias     = r
 : auditLog  = true
 : locking   = true
 
@@ -22,7 +21,7 @@ attributes
 
     field
     : name          = uid
-    : help          = The globally unique identifier.  This is a big ugly number and is generally not displayed.
+    : help          = The unique key.
     : type          = uid
     : default       = newUid()
     : primaryKey    = true

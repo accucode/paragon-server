@@ -15,7 +15,6 @@ model
     --- 
 
 database
-: alias     = eu
 : auditLog  = true
 : locking   = true
 

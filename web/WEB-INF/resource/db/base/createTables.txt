@@ -37,33 +37,6 @@ CREATE TABLE attentionGroup
 create index attentionGroup on attentionGroup (projectUid, name);
 
 
-DROP TABLE IF EXISTS attributeField;
-CREATE TABLE attributeField
-(
-    uid varchar(30),
-    categoryCode char(1),
-    name varchar(50),
-    active char(1),
-    lockVersion int,
-    projectUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index projectName on attributeField (projectUid, name);
-
-
-DROP TABLE IF EXISTS attributeValue;
-CREATE TABLE attributeValue
-(
-    uid varchar(30),
-    data varchar(100),
-    lockVersion int,
-    fieldUid varchar(30),
-    productUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index field on attributeValue (fieldUid);
-
-
 DROP TABLE IF EXISTS auditLog;
 CREATE TABLE auditLog
 (
@@ -72,6 +45,7 @@ CREATE TABLE auditLog
     userName varchar(50),
     typeCode char(1),
     utcTs datetime,
+    modelType varchar(50),
     modelName varchar(50),
     modelUid varchar(30),
     fieldName varchar(50),
@@ -374,19 +348,6 @@ CREATE TABLE memberSkill
 create unique index memberSkill on memberSkill (memberUid, skillUid);
 
 
-DROP TABLE IF EXISTS orderNumber;
-CREATE TABLE orderNumber
-(
-    uid varchar(30),
-    date date,
-    nextNumber int,
-    lockVersion int,
-    projectUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create unique index projectDate on orderNumber (projectUid, date);
-
-
 DROP TABLE IF EXISTS passwordReset;
 CREATE TABLE passwordReset
 (
@@ -521,68 +482,6 @@ CREATE TABLE region
 create index region on region (projectUid, name);
 
 
-DROP TABLE IF EXISTS salesOrder;
-CREATE TABLE salesOrder
-(
-    uid varchar(30),
-    number varchar(50),
-    statusCode char(1),
-    holdUntilUtcTs datetime,
-    expedite char(1),
-    taxExempt char(1),
-    taxRate double,
-    discountRate double,
-    totalPrice decimal(20,2),
-    totalTax decimal(20,2),
-    lockVersion int,
-    projectUid varchar(30),
-    customerUid varchar(30),
-    regionUid varchar(30),
-    attentionToUid varchar(30),
-    powerTypeUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index number on salesOrder (number);
-create index status on salesOrder (statusCode);
-
-
-DROP TABLE IF EXISTS salesOrderContact;
-CREATE TABLE salesOrderContact
-(
-    uid varchar(30),
-    name varchar(50),
-    title varchar(50),
-    phone varchar(30),
-    email varchar(50),
-    orderNotifications char(1),
-    lockVersion int,
-    salesOrderUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index salesOrder on salesOrderContact (salesOrderUid);
-
-
-DROP TABLE IF EXISTS salesOrderLine;
-CREATE TABLE salesOrderLine
-(
-    uid varchar(30),
-    listPrice decimal(20,2),
-    unitPrice decimal(20,2),
-    orderedQuantity int,
-    fulfilledQuantity int,
-    extendedPrice decimal(20,2),
-    priceAdjustment decimal(20,2),
-    adjustedPrice decimal(20,2),
-    tax decimal(20,2),
-    totalPrice decimal(20,2),
-    lockVersion int,
-    salesOrderUid varchar(30),
-    productUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index salesOrder on salesOrderLine (salesOrderUid);
-
-
 DROP TABLE IF EXISTS serverSession;
 CREATE TABLE serverSession
 (
@@ -652,25 +551,6 @@ CREATE TABLE shipMethod
     primary key (uid)
 ) ENGINE = INNODB;
 create index carrier on shipMethod (carrierUid, name);
-
-
-DROP TABLE IF EXISTS shipment;
-CREATE TABLE shipment
-(
-    uid varchar(30),
-    trackingNumber varchar(50),
-    weight double,
-    cost decimal(20,2),
-    invoiceCustomer char(1),
-    lockVersion int,
-    salesOrderUid varchar(30),
-    accountUid varchar(30),
-    methodUid varchar(30),
-    depotUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index salesOrder on shipment (salesOrderUid);
-create index trackingNumber on shipment (trackingNumber);
 
 
 DROP TABLE IF EXISTS skill;

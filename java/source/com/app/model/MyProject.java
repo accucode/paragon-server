@@ -1,6 +1,5 @@
 package com.app.model;
 
-import com.kodemore.collection.KmCollection;
 import com.kodemore.collection.KmList;
 
 import com.app.model.base.MyProjectBase;
@@ -123,26 +122,6 @@ public class MyProject
     public KmList<MyProductCategory> getProductCategoriesByName()
     {
         return getProductCategories().toList(MyProductCategory::getName);
-    }
-
-    public String getNextOrderNumber()
-    {
-        return getAccess().getNextOrderNumberDao().getNextNumberFor(this);
-    }
-
-    public KmList<String> getNextOrderNumbers(int n)
-    {
-        return getAccess().getNextOrderNumberDao().getNextNumbersFor(this, n);
-    }
-
-    public KmCollection<MyAttributeField> getProductAttributes()
-    {
-        return getAttributeFields().select(e -> e.isCategoryProduct());
-    }
-
-    public MyAttributeField findProductAttributeName(String e)
-    {
-        return getProductAttributes().selectFirst(x -> x.hasName(e));
     }
 
     public MyMember findMember(MyUser e)

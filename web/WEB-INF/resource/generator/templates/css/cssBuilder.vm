@@ -105,9 +105,9 @@ $utility.protocol("copy")
         return copy;
     }
 
-$utility.protocol("selectors")
+$utility.protocol("css selectors")
 
-#foreach ( $e in $bundle.selectors )
+#foreach ( $e in $bundle.cssSelectors )
     public KmCss${bundle.f_Name}Builder ${e.f_method}()
     {
         return apply(KmCss${bundle.f_Name}ConstantsIF.${e.f_constant});

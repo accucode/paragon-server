@@ -11,7 +11,6 @@ model
     ---
 
 database
-: alias     = ag
 : auditLog  = true
 : locking   = true
 
@@ -25,8 +24,7 @@ attributes
 
     field
     : name          = uid
-    : help          = The globally unique identifier.  This is a big ugly number and is usually not displayed.
-    : comment       = The unique key.
+    : help          = The unique key.
     : type          = uid
     : default       = newUid()
     : primaryKey    = true
@@ -42,7 +40,10 @@ attributes
 
     field
     : name      = name
-    : help      = The display name of this group.  This should generally be unique within a given project.
-    : comment   =
+    : help...
+        ---
+        The display name of this group.
+        This should generally be unique within a given project.
+        ---
     : type      = name
     : required  = true

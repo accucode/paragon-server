@@ -63,7 +63,6 @@ public class MyAuditLogInfo
         _disabledModels.add("download");
         _disabledModels.add("file");
         _disabledModels.add("hibernateCacheTest");
-        _disabledModels.add("nextOrderNumber");
         _disabledModels.add("passwordReset");
         _disabledModels.add("patch");
         _disabledModels.add("performanceLogDetail");
@@ -73,9 +72,6 @@ public class MyAuditLogInfo
 
         _disabledFields = new KmSetImpl<>();
         _disabledFields.add(formatFieldKey("attentionGroup", "lockVersion"));
-        _disabledFields.add(formatFieldKey("attentionMember", "lockVersion"));
-        _disabledFields.add(formatFieldKey("attributeField", "lockVersion"));
-        _disabledFields.add(formatFieldKey("attributeValue", "lockVersion"));
         _disabledFields.add(formatFieldKey("autoSignIn", "lockVersion"));
         _disabledFields.add(formatFieldKey("customer", "lockVersion"));
         _disabledFields.add(formatFieldKey("customerContact", "lockVersion"));
@@ -96,22 +92,17 @@ public class MyAuditLogInfo
         _disabledFields.add(formatFieldKey("masterProduct", "lockVersion"));
         _disabledFields.add(formatFieldKey("member", "lockVersion"));
         _disabledFields.add(formatFieldKey("memberSkill", "lockVersion"));
-        _disabledFields.add(formatFieldKey("nextOrderNumber", "lockVersion"));
         _disabledFields.add(formatFieldKey("passwordReset", "lockVersion"));
         _disabledFields.add(formatFieldKey("powerType", "lockVersion"));
         _disabledFields.add(formatFieldKey("product", "lockVersion"));
         _disabledFields.add(formatFieldKey("productCategory", "lockVersion"));
         _disabledFields.add(formatFieldKey("project", "lockVersion"));
         _disabledFields.add(formatFieldKey("region", "lockVersion"));
-        _disabledFields.add(formatFieldKey("salesOrder", "lockVersion"));
-        _disabledFields.add(formatFieldKey("salesOrderContact", "lockVersion"));
-        _disabledFields.add(formatFieldKey("salesOrderLine", "lockVersion"));
         _disabledFields.add(formatFieldKey("serverSession", "lockVersion"));
         _disabledFields.add(formatFieldKey("settings", "lockVersion"));
         _disabledFields.add(formatFieldKey("shipAccount", "lockVersion"));
         _disabledFields.add(formatFieldKey("shipCarrier", "lockVersion"));
         _disabledFields.add(formatFieldKey("shipMethod", "lockVersion"));
-        _disabledFields.add(formatFieldKey("shipment", "lockVersion"));
         _disabledFields.add(formatFieldKey("skill", "lockVersion"));
         _disabledFields.add(formatFieldKey("threadTopic", "lockVersion"));
         _disabledFields.add(formatFieldKey("user", "lockVersion"));

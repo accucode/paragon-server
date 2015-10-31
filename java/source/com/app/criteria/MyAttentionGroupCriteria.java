@@ -292,20 +292,6 @@ public class MyAttentionGroupCriteria
     }
 
     //##################################################
-    //# collection (AttentionMembers)
-    //##################################################
-
-    public MyAttentionMemberCriteria joinToAttentionMembers()
-    {
-        return new MyAttentionMemberCriteria(joinTo(ATTENTION_MEMBERS));
-    }
-
-    public MyAttentionMemberCriteria leftJoinToAttentionMembers()
-    {
-        return new MyAttentionMemberCriteria(leftJoinTo(ATTENTION_MEMBERS));
-    }
-
-    //##################################################
     //# junction
     //##################################################
 

@@ -9,7 +9,6 @@ model
     ---   
 
 database
-: alias     = p
 : auditLog  = true
 : locking   = true
 
@@ -115,13 +114,6 @@ attributes
     : comment       = The carriers for this project.
     : relation      = children
     : elementModel  = shipCarrier
-    : elementField  = project
-
-    collection
-    : name          = attributeField
-    : comment       = The attribute field definitions for this project.
-    : relation      = children
-    : elementModel  = attributeField
     : elementField  = project
 
     collection

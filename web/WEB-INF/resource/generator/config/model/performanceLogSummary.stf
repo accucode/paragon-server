@@ -9,7 +9,6 @@ model
     ---
 
 database
-: alias     = pls
 : auditLog  = false
 : locking   = false
 

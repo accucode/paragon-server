@@ -14,7 +14,6 @@ model
     --- 
 
 database
-: alias     = sa
 : auditLog  = true
 : locking   = true
 

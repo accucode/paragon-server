@@ -466,20 +466,6 @@ public class MyProjectCriteria
     }
 
     //##################################################
-    //# collection (AttributeFields)
-    //##################################################
-
-    public MyAttributeFieldCriteria joinToAttributeFields()
-    {
-        return new MyAttributeFieldCriteria(joinTo(ATTRIBUTE_FIELDS));
-    }
-
-    public MyAttributeFieldCriteria leftJoinToAttributeFields()
-    {
-        return new MyAttributeFieldCriteria(leftJoinTo(ATTRIBUTE_FIELDS));
-    }
-
-    //##################################################
     //# collection (Customers)
     //##################################################
 

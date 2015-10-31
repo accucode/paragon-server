@@ -7,15 +7,21 @@ import com.kodemore.utility.KmValueHolderIF;
 
 public interface KmCss${bundle.f_Name}ConstantsIF
 {
-$utility.protocol("selectors")
+$utility.protocol("id selectors")
 
-#foreach ( $e in $bundle.selectors )
+#foreach ( $e in $bundle.idSelectors )
+    String ID_${e.f_constant} = "${e.f_name}";
+#end
+
+$utility.protocol("css selectors")
+
+#foreach ( $e in $bundle.cssSelectors )
     String ${e.f_constant} = "${e.f_name}";
 #end
 
-$utility.protocol("composites")
+$utility.protocol("css composites")
 
-#foreach ( $e in $bundle.composites )
+#foreach ( $e in $bundle.cssComposites )
     String ${e.prefixConstant.key} = "${e.prefixConstant.value}";
 #foreach ( $part in $e.partConstants )
     String ${part.key} = "${part.value}";

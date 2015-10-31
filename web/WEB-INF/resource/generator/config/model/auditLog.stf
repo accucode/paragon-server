@@ -13,7 +13,6 @@ model
     ---
 
 database
-: alias     = au
 : auditLog  = false
 : locking   = false
 
@@ -82,8 +81,22 @@ attributes
 
 
     field
+    : name      = modelType
+    : help      = The type of model; e.g.: Project, Depot, User, etc.
+    : type      = name
+    : required  = true
+
+
+    field
     : name      = modelName
-    : help      = The name of the domain model; e.g.: Project, Depot, User, etc.
+    : help...
+        ---
+        The common, but non-unique name of the model.
+        Models generally rely on long UIDs as their unique identifier so
+        we also store a model's display string as a 'name'.  Although this name
+        is not guaranteed to be unique, it is generally human-readable and is usually
+        sufficient to identify which model was affected.
+        ---
     : type      = name
     : required  = true
 

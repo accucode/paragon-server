@@ -8,7 +8,6 @@ model
     ---
 
 database
-: alias     = pa
 : auditLog  = false
 : locking   = false
 

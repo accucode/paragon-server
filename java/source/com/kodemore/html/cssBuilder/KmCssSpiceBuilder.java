@@ -67,7 +67,7 @@ public class KmCssSpiceBuilder
     {
         return (KmCssSpiceBuilder) super.remove(e);
     }
-
+    
     @Override
     public KmCssSpiceBuilder remove(String prefix, String part, String flavor)
     {
@@ -125,5 +125,5 @@ public class KmCssSpiceBuilder
     {
         return apply(KmCssSpiceConstantsIF.shadow);
     }
-
+    
 }

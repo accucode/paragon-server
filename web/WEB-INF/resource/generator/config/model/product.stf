@@ -22,7 +22,6 @@ model
     --- 
 
 database
-: alias     = pd
 : auditLog  = true
 : locking   = true
 

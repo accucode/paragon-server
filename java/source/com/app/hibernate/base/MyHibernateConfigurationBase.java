@@ -14,9 +14,6 @@ public abstract class MyHibernateConfigurationBase
     {
         installMapping("applicationLog");
         installMapping("attentionGroup");
-        installMapping("attentionMember");
-        installMapping("attributeField");
-        installMapping("attributeValue");
         installMapping("auditLog");
         installMapping("autoSignIn");
         installMapping("customer");
@@ -37,7 +34,6 @@ public abstract class MyHibernateConfigurationBase
         installMapping("masterProduct");
         installMapping("member");
         installMapping("memberSkill");
-        installMapping("nextOrderNumber");
         installMapping("passwordReset");
         installMapping("patch");
         installMapping("performanceLogDetail");
@@ -47,15 +43,11 @@ public abstract class MyHibernateConfigurationBase
         installMapping("productCategory");
         installMapping("project");
         installMapping("region");
-        installMapping("salesOrder");
-        installMapping("salesOrderContact");
-        installMapping("salesOrderLine");
         installMapping("serverSession");
         installMapping("settings");
         installMapping("shipAccount");
         installMapping("shipCarrier");
         installMapping("shipMethod");
-        installMapping("shipment");
         installMapping("skill");
         installMapping("threadTopic");
         installMapping("user");

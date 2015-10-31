@@ -89,4 +89,19 @@ Stylus (css preprocessor)
 
     npm install stylus -g
 
+Stylus (Eclipse Builder)
+-------------------------
+    
+    Name
+    Stylus
+    
+    Location
+    ${env_var:USERPROFILE}\AppData\Roaming\npm\stylus.cmd
+    
+    Working Directory
+    ${workspace_loc:/paragon-server}
+    
+    Arguments
+    web\static\version\app\theme\default\css -c -l
+    
 end.

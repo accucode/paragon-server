@@ -6,7 +6,6 @@ model
     --- 
 
 database
-: alias     = sc
 : auditLog  = true
 : locking   = true
 

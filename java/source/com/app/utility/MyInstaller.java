@@ -159,6 +159,7 @@ public class MyInstaller
         _installSharedFiles();
 
         _installTimeZoneBridge();
+        _installFormatter();
     }
 
     private static void _installEnvironment()
@@ -315,7 +316,6 @@ public class MyInstaller
 
     private static void _installUserInterface()
     {
-        _installFormatter();
         _installServletCallbacks();
         _installControlRegistry();
         _installScBridge();

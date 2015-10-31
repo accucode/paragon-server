@@ -13,7 +13,6 @@ model
 
 
 database
-: alias = dl
 : auditLog  = false
 : locking   = true
 

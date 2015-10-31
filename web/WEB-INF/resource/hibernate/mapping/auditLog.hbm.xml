@@ -56,6 +56,12 @@
             />
 
         <property
+            name="modelType"
+            column="modelType"
+            type="string"
+            />
+
+        <property
             name="modelName"
             column="modelName"
             type="string"

@@ -1,5 +1,7 @@
 package sandbox.wlove;
 
+import com.app.utility.MyInstaller;
+
 public class JkTest
 {
     //##################################################
@@ -17,6 +19,7 @@ public class JkTest
     private void run()
     {
         System.out.println("hello");
+        MyInstaller.installCore();
     }
 
 }

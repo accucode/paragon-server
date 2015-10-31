@@ -9,10 +9,10 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.string.KmStringBuilder;
+import com.kodemore.time.KmTimeZoneIF;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
 
-import com.app.model.MyTimeZoneVo;
 import com.app.property.MyPropertyManager;
 import com.app.ui.core.MyServletData;
 import com.app.ui.page.MyPage;
@@ -192,7 +192,8 @@ public final class MyDevUtilityPage
         boolean isFirefox = data.isUserAgentFirefox();
 
         KmTimestamp now = getNowUtc();
-        MyTimeZoneVo denverTz = MyTimeZoneVo.MSTD;
+        KmTimeZoneIF denverTz = KmTimeZoneIF.DENVER;
+
         KmTimestamp localTs = now.toLocal();
         KmTimestamp denverTs = now.toLocal(denverTz);
 

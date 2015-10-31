@@ -38,15 +38,6 @@ public class MyProduct
     }
 
     //##################################################
-    //# attributes
-    //##################################################
-
-    public void setAttribute(MyAttributeField field, String text)
-    {
-        getAccess().getAttributeValueDao().setText(this, field, text);
-    }
-
-    //##################################################
     //# on change
     //##################################################
 

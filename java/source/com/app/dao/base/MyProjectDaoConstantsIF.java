@@ -37,7 +37,6 @@ public interface MyProjectDaoConstantsIF
     String MASTER_PRODUCTS = "masterProducts";
     String PRODUCT_CATEGORIES = "productCategories";
     String SHIP_CARRIERS = "shipCarriers";
-    String ATTRIBUTE_FIELDS = "attributeFields";
     String CUSTOMERS = "customers";
     String CUSTOMER_TIERS = "customerTiers";
     String SHIP_ACCOUNTS = "shipAccounts";

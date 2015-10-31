@@ -50,7 +50,7 @@ public class MyMetaAttentionGroup_Name
     @Override
     public String getHelp()
     {
-        return "The display name of this group.  This should generally be unique within a given project.";
+        return "The display name of this group. This should generally be unique within a given project.";
     }
     
     @Override

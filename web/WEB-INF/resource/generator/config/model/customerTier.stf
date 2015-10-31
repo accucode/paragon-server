@@ -7,7 +7,6 @@ model
     ---
 
 database
-: alias     = ct
 : auditLog  = true
 : locking   = true
 

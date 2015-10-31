@@ -5,7 +5,6 @@ import com.kodemore.log.KmLog;
 
 import com.app.dao.base.MyDaoRegistry;
 import com.app.model.MyAttentionGroup;
-import com.app.model.MyAttributeField;
 import com.app.model.MyCustomer;
 import com.app.model.MyCustomerContact;
 import com.app.model.MyCustomerSite;
@@ -18,7 +17,6 @@ import com.app.model.MyProduct;
 import com.app.model.MyProductCategory;
 import com.app.model.MyProject;
 import com.app.model.MyRegion;
-import com.app.model.MySalesOrder;
 import com.app.model.MyShipCarrier;
 import com.app.model.MyShipMethod;
 import com.app.model.MySkill;
@@ -52,33 +50,33 @@ public class MySampleFitnessRolloutsProjectTool
      * is independent of the others.  The projects are installed separately
      * and this is the project currently being installed.
      */
-    private MyProject         _project;
+    private MyProject _project;
 
-    private MyDepot           _depotDenver;
-    private MyDepot           _depotLouisville;
+    private MyDepot _depotDenver;
+    private MyDepot _depotLouisville;
 
-    private MyRegion          _regionDomestic;
-    private MyRegion          _regionInternational;
+    private MyRegion _regionDomestic;
+    private MyRegion _regionInternational;
 
-    private MySkill           _skillAccounting;
-    private MySkill           _skillShipping;
-    private MySkill           _skillPicking;
+    private MySkill _skillAccounting;
+    private MySkill _skillShipping;
+    private MySkill _skillPicking;
 
-    private MyAttentionGroup  _attentionManager;
-    private MyAttentionGroup  _attentionAccounting;
+    private MyAttentionGroup _attentionManager;
+    private MyAttentionGroup _attentionAccounting;
 
-    private MyPowerType       _powerUs;
-    private MyPowerType       _powerEu;
-    private MyPowerType       _powerUk;
-    private MyPowerType       _powerAu;
+    private MyPowerType _powerUs;
+    private MyPowerType _powerEu;
+    private MyPowerType _powerUk;
+    private MyPowerType _powerAu;
 
-    private MyVendor          _vendorAccucode;
-    private MyVendor          _vendorNetpulse;
-    private MyVendor          _vendorMeraki;
-    private MyVendor          _vendorFieldNation;
+    private MyVendor _vendorAccucode;
+    private MyVendor _vendorNetpulse;
+    private MyVendor _vendorMeraki;
+    private MyVendor _vendorFieldNation;
 
-    private MyVisitType       _visitTypeSurvey;
-    private MyVisitType       _visitTypeInstall;
+    private MyVisitType _visitTypeSurvey;
+    private MyVisitType _visitTypeInstall;
 
     private MyProductCategory _categoryAccessPoint;
     private MyProductCategory _categoryCable;
@@ -86,40 +84,35 @@ public class MySampleFitnessRolloutsProjectTool
     private MyProductCategory _categorySurvey;
     private MyProductCategory _categoryOther;
 
-    private MyShipCarrier     _carrierFedEx;
-    private MyShipCarrier     _carrierUsps;
+    private MyShipCarrier _carrierFedEx;
+    private MyShipCarrier _carrierUsps;
 
-    private MyAttributeField  _attributeSalesOrderLineColor;
-    private MyAttributeField  _attributeProductSize;
-    private MyAttributeField  _attributeProductMaterial;
-    private MyAttributeField  _attributeCustomerSiteHeight;
+    private MyCustomerTier _tierOem;
+    private MyCustomerTier _tierReseller;
+    private MyCustomerTier _tierEndUser;
 
-    private MyCustomerTier    _tierOem;
-    private MyCustomerTier    _tierReseller;
-    private MyCustomerTier    _tierEndUser;
+    private MyCustomer _customerLifeFitness;
+    private MyCustomer _customerFitMax;
+    private MyCustomer _customerMainStreetGym;
 
-    private MyCustomer        _customerLifeFitness;
-    private MyCustomer        _customerFitMax;
-    private MyCustomer        _customerMainStreetGym;
+    private MyUser _userMandy;
+    private MyUser _userMason;
+    private MyUser _userPatrick;
+    private MyUser _userPenny;
+    private MyUser _userShelly;
+    private MyUser _userAlan;
+    private MyUser _userAgnus;
 
-    private MyUser            _userMandy;
-    private MyUser            _userMason;
-    private MyUser            _userPatrick;
-    private MyUser            _userPenny;
-    private MyUser            _userShelly;
-    private MyUser            _userAlan;
-    private MyUser            _userAgnus;
-
-    private MyProduct         _productMeraki12;
-    private MyProduct         _productMeraki24;
-    private MyProduct         _productCable10;
-    private MyProduct         _productCable300;
-    private MyProduct         _productFirstApInstallation;
-    private MyProduct         _productAdditionalApInstallation;
-    private MyProduct         _productGateway;
-    private MyProduct         _productGatewayInstallation;
-    private MyProduct         _productBasicSurvey;
-    private MyProduct         _productAdvancedSurvey;
+    private MyProduct _productMeraki12;
+    private MyProduct _productMeraki24;
+    private MyProduct _productCable10;
+    private MyProduct _productCable300;
+    private MyProduct _productFirstApInstallation;
+    private MyProduct _productAdditionalApInstallation;
+    private MyProduct _productGateway;
+    private MyProduct _productGatewayInstallation;
+    private MyProduct _productBasicSurvey;
+    private MyProduct _productAdvancedSurvey;
 
     //##################################################
     //# constructor
@@ -142,23 +135,17 @@ public class MySampleFitnessRolloutsProjectTool
         installSkills();
         installUsers();
         installMembers();
-        installAttentionGroups();
         installPowerTypes();
         installRegions();
         installVendors();
         installVisitTypes();
         installShipCarriers();
 
-        installProductAttributes();
         installProductCategories();
         installProducts();
 
         installCustomerTiers();
-        installCustomerSiteAttributes();
         installCustomers();
-
-        installSalesOrderLineAttributes();
-        installSalesOrders();
     }
 
     //##################################################
@@ -339,26 +326,6 @@ public class MySampleFitnessRolloutsProjectTool
         _skillPicking = e;
     }
 
-    private void installAttentionGroups()
-    {
-        log("install attention groups...");
-
-        MyAttentionGroup g;
-        g = _project.addAttentionGroup();
-        g.setName("Manager");
-        g.addMember(_userMandy);
-        g.addMember(_userMason);
-        g.attachDao();
-        _attentionManager = g;
-
-        g = _project.addAttentionGroup();
-        g.setName("Accounting");
-        g.addMember(_userAgnus);
-        g.addMember(_userAlan);
-        g.attachDao();
-        _attentionAccounting = g;
-    }
-
     private void installPowerTypes()
     {
         log("install power types...");
@@ -483,23 +450,6 @@ public class MySampleFitnessRolloutsProjectTool
     //# products
     //##################################################
 
-    private void installProductAttributes()
-    {
-        MyAttributeField f;
-
-        f = _project.addAttributeField();
-        f.setCategoryProduct();
-        f.setName("Size");
-        f.attachDao();
-        _attributeProductSize = f;
-
-        f = _project.addAttributeField();
-        f.setCategoryProduct();
-        f.setName("Material");
-        f.attachDao();
-        _attributeProductMaterial = f;
-    }
-
     private void installProductCategories()
     {
         log("install product categories...");
@@ -564,8 +514,6 @@ public class MySampleFitnessRolloutsProjectTool
         p.setName("Meraki MR12");
         p.setCategory(_categoryAccessPoint);
         p.setListPrice(500.00);
-        p.setAttribute(_attributeProductSize, "6x8 inches");
-        p.setAttribute(_attributeProductMaterial, "plastic case");
         p.attachDao();
         p.publish();
 
@@ -586,8 +534,6 @@ public class MySampleFitnessRolloutsProjectTool
         p.setName("Meraki MR24");
         p.setCategory(_categoryAccessPoint);
         p.setListPrice(1200.00);
-        p.setAttribute(_attributeProductSize, "7x9 inches");
-        p.setAttribute(_attributeProductMaterial, "metal case");
         p.attachDao();
         p.publish();
 
@@ -778,17 +724,6 @@ public class MySampleFitnessRolloutsProjectTool
         _tierEndUser = e;
     }
 
-    private void installCustomerSiteAttributes()
-    {
-        MyAttributeField f;
-
-        f = _project.addAttributeField();
-        f.setCategoryCustomerSite();
-        f.setName("Ceiling Height");
-        f.attachDao();
-        _attributeCustomerSiteHeight = f;
-    }
-
     private void installCustomers()
     {
         installCustomerLifeFitness();
@@ -855,56 +790,6 @@ public class MySampleFitnessRolloutsProjectTool
         e.setDiscountRate(e.getTier().getDiscountRate());
         e.attachDao();
         _customerMainStreetGym = e;
-    }
-
-    //##################################################
-    //# sales order
-    //##################################################
-
-    private void installSalesOrderLineAttributes()
-    {
-        MyAttributeField f;
-
-        f = _project.addAttributeField();
-        f.setCategorySalesOrderLine();
-        f.setName("Color");
-        f.attachDao();
-        _attributeSalesOrderLineColor = f;
-    }
-
-    private void installSalesOrders()
-    {
-        installSalesOrder1();
-    }
-
-    /**
-     * New domestic order for an installed gateway.
-     * Direct sale to gym is taxable.
-     */
-    private void installSalesOrder1()
-    {
-        MyProject project = _project;
-        String number = project.getNextOrderNumber();
-        MyCustomer customer = _customerMainStreetGym;
-
-        MySalesOrder so;
-        so = new MySalesOrder();
-        so.setProject(project);
-        so.setCustomer(customer);
-        so.setNumber(number);
-        so.setDiscountRate(customer.getDiscountRate());
-        so.setPowerType(_powerUs);
-        so.setRegion(_regionDomestic);
-        so.setTaxExempt(false);
-        so.setTaxRate(0.825);
-        so.attachDao();
-
-        so.addLine(1, _productBasicSurvey);
-        so.addLine(1, _productGateway);
-        so.addLine(1, _productGatewayInstallation);
-        so.addLine(2, _productMeraki12);
-        so.addLine(1, _productFirstApInstallation);
-        so.addLine(1, _productAdditionalApInstallation);
     }
 
     //##################################################

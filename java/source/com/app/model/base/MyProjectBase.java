@@ -54,7 +54,6 @@ public abstract class MyProjectBase
     private List<MyMasterProduct> masterProducts;
     private List<MyProductCategory> productCategories;
     private List<MyShipCarrier> shipCarriers;
-    private List<MyAttributeField> attributeFields;
     private List<MyCustomer> customers;
     private List<MyCustomerTier> customerTiers;
     private List<MyShipAccount> shipAccounts;
@@ -78,7 +77,6 @@ public abstract class MyProjectBase
         masterProducts = new ArrayList<>();
         productCategories = new ArrayList<>();
         shipCarriers = new ArrayList<>();
-        attributeFields = new ArrayList<>();
         customers = new ArrayList<>();
         customerTiers = new ArrayList<>();
         shipAccounts = new ArrayList<>();
@@ -977,73 +975,6 @@ public abstract class MyProjectBase
     }
 
     //##################################################
-    //# AttributeFields (collection)
-    //##################################################
-
-    public KmCollection<MyAttributeField> getAttributeFields()
-    {
-        return new KmHibernateCollection<>(
-            getBaseAttributeFields(),
-            (MyProject)this,
-            MyAttributeField.Meta.Project.getAdaptor());
-    }
-
-    public boolean hasAttributeFields()
-    {
-        return !getBaseAttributeFields().isEmpty();
-    }
-
-    public int getAttributeFieldCount()
-    {
-        return getBaseAttributeFields().size();
-    }
-
-    public List<MyAttributeField> getBaseAttributeFields()
-    {
-        return attributeFields;
-    }
-
-    public MyAttributeField addAttributeField()
-    {
-        MyAttributeField e;
-        e = new MyAttributeField();
-        getAttributeFields().add(e);
-        return e;
-    }
-
-    public void addAttributeField(MyAttributeField e)
-    {
-        getAttributeFields().add(e);
-    }
-
-    public boolean removeAttributeField(MyAttributeField e)
-    {
-        return getAttributeFields().remove(e);
-    }
-
-    public boolean removeAttributeFieldUid(String myUid)
-    {
-        MyAttributeField e = findAttributeFieldUid(myUid);
-        if ( e == null )
-            return false;
-
-        return removeAttributeField(e);
-    }
-
-    public MyAttributeField findAttributeFieldUid(String myUid)
-    {
-        for ( MyAttributeField e : getBaseAttributeFields() )
-            if ( e.hasUid(myUid) )
-                return e;
-        return null;
-    }
-
-    public void clearAttributeFields()
-    {
-        getAttributeFields().clear();
-    }
-
-    //##################################################
     //# Customers (collection)
     //##################################################
 
@@ -1335,11 +1266,6 @@ public abstract class MyProjectBase
         shipCarriers = new ArrayList<>();
         for ( MyShipCarrier e : old_shipCarriers )
             addShipCarrier(copy(e));
-
-        List<MyAttributeField> old_attributeFields = attributeFields;
-        attributeFields = new ArrayList<>();
-        for ( MyAttributeField e : old_attributeFields )
-            addAttributeField(copy(e));
 
         List<MyCustomer> old_customers = customers;
         customers = new ArrayList<>();
