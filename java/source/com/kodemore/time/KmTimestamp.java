@@ -26,6 +26,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import com.kodemore.utility.Kmu;
@@ -652,34 +653,61 @@ public class KmTimestamp
     //# time zone
     //##################################################
 
+    /**
+     * Convert to a utc timestamp, assuming I am in the default local zone.
+     */
     public KmTimestamp toUtc()
     {
-        return KmTimestampUtility.toUtc(this);
+        ZoneId from = getDefaultLocalZone();
+        ZoneId to = UTC_ZONE;
+        return changeZone(from, to);
     }
 
-    public KmTimestamp toUtc(KmTimeZoneIF localTz)
+    /**
+     * Convert to a utc timestamp, assuming I am in the specified local zone.
+     */
+    public KmTimestamp toUtc(ZoneId from)
     {
-        return KmTimestampUtility.toUtc(this, localTz);
+        ZoneId to = UTC_ZONE;
+        return changeZone(from, to);
     }
 
+    /**
+     * Convert to a local timestamp, assuming I am in UTC zone.
+     */
     public KmTimestamp toLocal()
     {
-        return KmTimestampUtility.toLocal(this);
+        ZoneId from = UTC_ZONE;
+        ZoneId to = getDefaultLocalZone();
+        return changeZone(from, to);
     }
 
-    public KmTimestamp toLocal(KmTimeZoneIF localTz)
+    public KmTimestamp toLocal(ZoneId from)
     {
-        return KmTimestampUtility.toLocal(this, localTz);
+        ZoneId to = getDefaultLocalZone();
+        return changeZone(from, to);
     }
 
-    public KmDate toLocalDate(KmTimeZoneIF tz)
+    /**
+     * Convert from one time zone to another.
+     */
+    public KmTimestamp changeZone(ZoneId from, ZoneId to)
     {
-        return toLocal(tz).getDate();
+        if ( from.equals(to) )
+            return this;
+
+        LocalDateTime e = _inner.atZone(from).withZoneSameInstant(to).toLocalDateTime();
+        return fromLocalDateTime(e);
     }
 
-    public KmTime toLocalTime(KmTimeZoneIF tz)
+    public KmDate toLocalDate(ZoneId zone)
     {
-        return toLocal(tz).getTime();
+        return toLocal(zone).getDate();
+    }
+
+    public KmTime toLocalTime(ZoneId zone)
+    {
+        return toLocal(zone).getTime();
     }
 
     public String formatLocal()
@@ -692,9 +720,9 @@ public class KmTimestamp
         return KmTimestampUtility.formatLocalMessage(this);
     }
 
-    public String formatLocalMessage(KmTimeZoneIF localTz)
+    public String formatLocalMessage(ZoneId zone)
     {
-        return KmTimestampUtility.formatLocalMessage(this, localTz);
+        return KmTimestampUtility.formatLocalMessage(this, zone);
     }
 
     public String formatMySql()
@@ -707,6 +735,11 @@ public class KmTimestamp
             getHour(),
             getMinute(),
             getSecond());
+    }
+
+    private static ZoneId getDefaultLocalZone()
+    {
+        return KmTimeZoneBridge.getInstance().getLocalTimeZone();
     }
 
     //##################################################

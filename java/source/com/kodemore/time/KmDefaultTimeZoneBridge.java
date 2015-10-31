@@ -22,6 +22,8 @@
 
 package com.kodemore.time;
 
+import java.time.ZoneId;
+
 /**
  * I am used as a default converter and simply assume that
  * the local timezone is always the same as utc.  Applications
@@ -31,8 +33,8 @@ public class KmDefaultTimeZoneBridge
     extends KmTimeZoneBridge
 {
     @Override
-    public KmTimeZoneIF getLocalTimeZone()
+    public ZoneId getLocalTimeZone()
     {
-        return null;
+        return ZoneId.systemDefault();
     }
 }

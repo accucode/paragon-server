@@ -1,5 +1,7 @@
 package com.app.ui.page.tools;
 
+import java.time.ZoneId;
+
 import com.kodemore.servlet.ScParameterList;
 import com.kodemore.servlet.control.ScBox;
 import com.kodemore.servlet.control.ScContainer;
@@ -9,7 +11,7 @@ import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 import com.kodemore.string.KmStringBuilder;
-import com.kodemore.time.KmTimeZoneIF;
+import com.kodemore.time.KmTimeConstantsIF;
 import com.kodemore.time.KmTimestamp;
 import com.kodemore.utility.Kmu;
 
@@ -192,10 +194,10 @@ public final class MyDevUtilityPage
         boolean isFirefox = data.isUserAgentFirefox();
 
         KmTimestamp now = getNowUtc();
-        KmTimeZoneIF denverTz = KmTimeZoneIF.DENVER;
+        ZoneId denverZone = KmTimeConstantsIF.DENVER_ZONE;
 
         KmTimestamp localTs = now.toLocal();
-        KmTimestamp denverTs = now.toLocal(denverTz);
+        KmTimestamp denverTs = now.toLocal(denverZone);
 
         _userAgentText.setFormattedValue(userAgent);
         _isInternetExplorerText.setFormattedValue(isIE);

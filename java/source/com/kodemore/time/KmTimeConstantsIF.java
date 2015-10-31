@@ -37,20 +37,25 @@ public interface KmTimeConstantsIF
     /**
      * The UTC Time Zone.
      */
-    ZoneId      UTC_ZONE                      = ZoneId.of("UTC");
+    ZoneId UTC_ZONE = ZoneId.of("UTC");
+
+    /**
+     * The Denver Time Zone.
+     */
+    ZoneId DENVER_ZONE = ZoneId.of("America/Denver");
 
     /**
      * A UTC clock, accurate to approximatly 1-second.
      * This clock may be optimized for wall-clock time, but is not
      * useful for milli and/or nano seconds.
      */
-    Clock       UTC_WALL_CLOCK                = Clock.tickSeconds(UTC_ZONE);
+    Clock UTC_WALL_CLOCK = Clock.tickSeconds(UTC_ZONE);
 
     //##################################################
     //# date format
     //##################################################
 
-    String      DATE_SEPARATOR                = "/";
+    String DATE_SEPARATOR = "/";
 
     //##################################################
     //# internal
@@ -62,12 +67,12 @@ public interface KmTimeConstantsIF
 
     int MINUTES_PER_HOUR = 60;
 
-    int SECONDS_PER_MINUTE = 60;
-    int         SECONDS_PER_HOUR              = 60 * 60;
-    int SECONDS_PER_DAY    = 60 * 60 * 24;
-    int         SECONDS_PER_WEEK              = 60 * 60 * 24 * 7;
-    int         SECONDS_PER_YEAR_APPROXIMATE  = SECONDS_PER_DAY * DAYS_PER_NONLEAP_YEAR;
-    int         SECONDS_PER_MONTH_APPROXIMATE = SECONDS_PER_YEAR_APPROXIMATE / 12;
+    int SECONDS_PER_MINUTE            = 60;
+    int SECONDS_PER_HOUR              = 60 * 60;
+    int SECONDS_PER_DAY               = 60 * 60 * 24;
+    int SECONDS_PER_WEEK              = 60 * 60 * 24 * 7;
+    int SECONDS_PER_YEAR_APPROXIMATE  = SECONDS_PER_DAY * DAYS_PER_NONLEAP_YEAR;
+    int SECONDS_PER_MONTH_APPROXIMATE = SECONDS_PER_YEAR_APPROXIMATE / 12;
 
     int MS_PER_SECOND = 1000;
     int MS_PER_MINUTE = 1000 * 60;
@@ -82,16 +87,16 @@ public interface KmTimeConstantsIF
      * The value used to convert an ordinal value into mysql.
      * This provides compatibility with the mysql functions to_days, from_days.
      */
-    int         MY_SQL_EPOCH_DAY_OFFSET       = 719528;
+    int MY_SQL_EPOCH_DAY_OFFSET = 719528;
 
     //##################################################
     //# sql limits
     //##################################################
 
-    KmTimestamp MINIMUM_TIMESTAMP             = KmTimestamp.fromYearMonthDay(1800, 1, 1);
-    KmTimestamp MAXIMUM_TIMESTAMP             = KmTimestamp.fromYearMonthDay(2100, 1, 1);
+    KmTimestamp MINIMUM_TIMESTAMP = KmTimestamp.fromYearMonthDay(1800, 1, 1);
+    KmTimestamp MAXIMUM_TIMESTAMP = KmTimestamp.fromYearMonthDay(2100, 1, 1);
 
-    KmDate      MINIMUM_DATE                  = KmDate.fromYearMonthDay(1800, 1, 1);
-    KmDate      MAXIMUM_DATE                  = KmDate.fromYearMonthDay(2100, 1, 1);
+    KmDate MINIMUM_DATE = KmDate.fromYearMonthDay(1800, 1, 1);
+    KmDate MAXIMUM_DATE = KmDate.fromYearMonthDay(2100, 1, 1);
 
 }

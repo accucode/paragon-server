@@ -22,6 +22,12 @@
 
 package com.kodemore.time;
 
+import java.time.ZoneId;
+import java.time.format.TextStyle;
+import java.util.Locale;
+
+import com.kodemore.utility.Kmu;
+
 public class KmTimestampUtility
 {
     //##################################################
@@ -105,6 +111,50 @@ public class KmTimestampUtility
     }
 
     //##################################################
+    //# format (local)
+    //##################################################
+
+    public static String formatLocalMessage(KmTimestamp utc)
+    {
+        return formatLocalMessage(utc, getLocalZone());
+    }
+
+    public static String formatLocalMessage(KmTimestamp utc, ZoneId localZone)
+    {
+        if ( utc == null )
+            return "";
+
+        KmTimestamp local = utc.toLocal(localZone);
+        String s = KmTimestampUtility.format_m_dd_yy_h_mm_ss_am(local);
+
+        if ( localZone != null )
+        {
+            String localCode = localZone.getDisplayName(TextStyle.SHORT, Locale.getDefault());
+            s += Kmu.format(" (%s)", localCode);
+        }
+
+        return s;
+    }
+
+    //##################################################
+    //# conversion
+    //##################################################
+
+    public static KmTimestamp toLocal(KmTimestamp e)
+    {
+        return e == null
+            ? null
+            : e.toLocal();
+    }
+
+    public static KmTimestamp toUtc(KmTimestamp e)
+    {
+        return e == null
+            ? null
+            : e.toUtc();
+    }
+
+    //##################################################
     //# parts
     //##################################################
 
@@ -123,42 +173,17 @@ public class KmTimestampUtility
     }
 
     //##################################################
-    //# time zone
+    //# bridge
     //##################################################
-
-    public static KmTimestamp toUtc(KmTimestamp local)
-    {
-        return getTimeZoneBridge().toUtc(local);
-    }
-
-    public static KmTimestamp toUtc(KmTimestamp local, KmTimeZoneIF localTz)
-    {
-        return getTimeZoneBridge().toUtc(local, localTz);
-    }
-
-    public static KmTimestamp toLocal(KmTimestamp utc)
-    {
-        return getTimeZoneBridge().toLocal(utc);
-    }
-
-    public static KmTimestamp toLocal(KmTimestamp utc, KmTimeZoneIF localTz)
-    {
-        return getTimeZoneBridge().toLocal(utc, localTz);
-    }
-
-    public static String formatLocalMessage(KmTimestamp utc)
-    {
-        return getTimeZoneBridge().formatLocalMessage(utc);
-    }
-
-    public static String formatLocalMessage(KmTimestamp utc, KmTimeZoneIF localTz)
-    {
-        return getTimeZoneBridge().formatLocalMessage(utc, localTz);
-    }
 
     private static KmTimeZoneBridge getTimeZoneBridge()
     {
         return KmTimeZoneBridge.getInstance();
+    }
+
+    public static ZoneId getLocalZone()
+    {
+        return getTimeZoneBridge().getLocalTimeZone();
     }
 
 }

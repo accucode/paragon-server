@@ -1,7 +1,10 @@
 package com.app.model;
 
+import java.time.ZoneId;
+
 import com.kodemore.collection.KmList;
-import com.kodemore.time.KmTimeZoneIF;
+import com.kodemore.time.KmTimeConstantsIF;
+import com.kodemore.time.KmTimeZoneUtility;
 import com.kodemore.utility.Kmu;
 
 import com.app.model.base.MyUserBase;
@@ -18,7 +21,7 @@ public class MyUser
     {
         super();
 
-        setTimeZone(KmTimeZoneIF.DENVER);
+        setTimeZone(KmTimeConstantsIF.DENVER_ZONE);
     }
 
     //##################################################
@@ -66,18 +69,17 @@ public class MyUser
     //# time zone
     //##################################################
 
-    public KmTimeZoneIF getTimeZone()
+    public ZoneId getTimeZone()
     {
-        // fixme_wyatt: timezone
-        return KmTimeZoneIF.UTC;
+        return KmTimeZoneUtility.getZoneOrUtc(getTimeZoneCode());
     }
 
-    public void setTimeZone(KmTimeZoneIF e)
+    public void setTimeZone(ZoneId e)
     {
         if ( e == null )
             setTimeZoneCode(null);
         else
-            setTimeZoneCode(e.getCode());
+            setTimeZoneCode(e.getId());
     }
 
     //##################################################

@@ -1,7 +1,8 @@
 package com.app.bridge;
 
+import java.time.ZoneId;
+
 import com.kodemore.time.KmTimeZoneBridge;
-import com.kodemore.time.KmTimeZoneIF;
 
 import com.app.model.MyServerSession;
 import com.app.model.MyUser;
@@ -12,7 +13,7 @@ public class MyTimeZoneBridge
     extends KmTimeZoneBridge
 {
     @Override
-    public KmTimeZoneIF getLocalTimeZone()
+    public ZoneId getLocalTimeZone()
     {
         MyServletData data = MyGlobals.getData();
         if ( data == null )

@@ -23,23 +23,30 @@
 package com.kodemore.time;
 
 import java.time.ZoneId;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-public abstract class KmTimeZoneBridge
+import com.kodemore.log.KmLog;
+
+public class KmTimeZoneUtility
 {
     //##################################################
-    //# singleton
+    //# constants
     //##################################################
 
-    private static KmTimeZoneBridge _instance = new KmDefaultTimeZoneBridge();
+    /**
+     * The list of known zones.
+     */
+    private static Map<String,ZoneId> ZONES;
 
-    public static KmTimeZoneBridge getInstance()
+    static
     {
-        return _instance;
-    }
+        ZONES = new HashMap<>();
 
-    public static void setInstance(KmTimeZoneBridge e)
-    {
-        _instance = e;
+        Set<String> ids = ZoneId.getAvailableZoneIds();
+        for ( String id : ids )
+            ZONES.put(id, ZoneId.of(id));
     }
 
     //##################################################
@@ -47,8 +54,24 @@ public abstract class KmTimeZoneBridge
     //##################################################
 
     /**
-     * Get the local time zone based on whatever preferences are
-     * appropriate for your application.
+     * Return a well known zone, or null if the id is unknown.
      */
-    public abstract ZoneId getLocalTimeZone();
+    public static ZoneId getZone(String id)
+    {
+        return ZONES.get(id);
+    }
+
+    /**
+     * Return a non-null zone.
+     * If the id is unknown, log a warning and return UTC.
+     */
+    public static ZoneId getZoneOrUtc(String id)
+    {
+        ZoneId e = getZone(id);
+        if ( e != null )
+            return e;
+
+        KmLog.warnTrace("Unknown time zone id (%s)", id);
+        return KmTimeConstantsIF.UTC_ZONE;
+    }
 }
