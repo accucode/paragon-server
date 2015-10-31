@@ -18,13 +18,15 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-*/
+ */
 
 package com.kodemore.servlet.control;
 
 import com.kodemore.html.KmStyleBuilder;
 import com.kodemore.html.cssBuilder.KmCssDefaultBuilder;
+import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.variable.ScLocalBoolean;
+import com.kodemore.servlet.variable.ScLocalString;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -50,6 +52,22 @@ public class ScGroup
     extends ScDivWrapper
 {
     //##################################################
+    //# constants
+    //##################################################
+
+    private static final String PREFIX           = KmCssDefaultConstantsIF.group_prefix;
+
+    private static final String BANNER           = KmCssDefaultConstantsIF.group_part_banner;
+    private static final String TITLE            = KmCssDefaultConstantsIF.group_part_title;
+
+    private static final String FLAVOR_DEFAULT   = KmCssDefaultConstantsIF.group_flavor_default;
+    private static final String FLAVOR_PRIMARY   = KmCssDefaultConstantsIF.group_flavor_primary;
+    private static final String FLAVOR_SECONDARY = KmCssDefaultConstantsIF.group_flavor_secondary;
+    private static final String FLAVOR_TERTIARY  = KmCssDefaultConstantsIF.group_flavor_tertiary;
+    private static final String FLAVOR_SEARCH    = KmCssDefaultConstantsIF.group_flavor_search;
+    private static final String FLAVOR_DETAILS   = KmCssDefaultConstantsIF.group_flavor_details;
+
+    //##################################################
     //# variables
     //##################################################
 
@@ -59,7 +77,7 @@ public class ScGroup
      * content such as an extra button (or link) on the right.  In simple cases, clients
      * should use the setBannerTitle() method to set a simple text title with default theming.
      */
-    private ScDiv _banner;
+    private ScDiv               _banner;
 
     /**
      * The header is optionally displayed between the banner and the body.  This provides
@@ -67,7 +85,7 @@ public class ScGroup
      * footer are often configured to display the same content.  The header is hidden by
      * default.
      */
-    private ScDiv _header;
+    private ScDiv               _header;
 
     /**
      * The body is always displayed, and is the only section that is intended to contain
@@ -75,19 +93,24 @@ public class ScGroup
      * However, if the group is given a fixed size, then the body will shrink to accommodate
      * the intended size.
      */
-    private ScDiv _body;
+    private ScDiv               _body;
 
     /**
      * The footer is just like the header, but displayed after the body.  The footer is
      * hidden by default.
      */
-    private ScDiv _footer;
+    private ScDiv               _footer;
 
     /**
      * Determine if I should act as the block root for ajax requests.
      * See ScControl.findBlockWrapper().  True by default.
      */
-    private ScLocalBoolean _blockWrapper;
+    private ScLocalBoolean      _blockWrapper;
+
+    /**
+     * determined what color scheme a group has
+     */
+    private ScLocalString       _flavor;
 
     //##################################################
     //# init
@@ -102,6 +125,8 @@ public class ScGroup
 
         ScDiv root;
         root = getInner();
+
+        _flavor = new ScLocalString();
 
         _banner = root.addDiv();
         _banner.css().groupBanner();
@@ -118,6 +143,8 @@ public class ScGroup
         _footer.hide();
 
         _blockWrapper = new ScLocalBoolean(true);
+
+        applyFlavor();
 
         layoutBlock();
     }
@@ -299,6 +326,82 @@ public class ScGroup
     public KmStyleBuilder footerStyle()
     {
         return getFooter().style();
+    }
+
+    //##################################################
+    //# flavor
+    //##################################################
+
+    public String getFlavor()
+    {
+        return _flavor.getValue();
+    }
+
+    private void setFlavor(String e)
+    {
+        _flavor.setValue(e);
+    }
+
+    /**
+     * review_steve (wyatt) fix compiler warnings
+     * Steve, the following was generating a compilation warning so
+     * I suppressed it.  Please unsupress and confirm that you get the
+     * same warning in Eclipse.  If you do, then fix warning before you
+     * commit.  If you don't get the warning, correct your Eclipse settings
+     * or let me know if you need assistance.
+     */
+    @SuppressWarnings("unused")
+    private boolean hasFlavor()
+    {
+        if ( getFlavor() == null )
+            return false;
+
+        return true;
+    }
+
+    public boolean hasFlavor(String e)
+    {
+        return Kmu.isEqual(getFlavor(), e);
+    }
+
+    public void setFlavorDefault()
+    {
+        setFlavor(FLAVOR_DEFAULT);
+    }
+
+    public void setFlavorPrimary()
+    {
+        setFlavor(FLAVOR_PRIMARY);
+    }
+
+    public void setFlavorSecondary()
+    {
+        setFlavor(FLAVOR_SECONDARY);
+    }
+
+    public void setFlavorTertiary()
+    {
+        setFlavor(FLAVOR_TERTIARY);
+    }
+
+    public void setFlavorSerach()
+    {
+        setFlavor(FLAVOR_SEARCH);
+    }
+
+    public void setFlavorDetails()
+    {
+        setFlavor(FLAVOR_DETAILS);
+    }
+
+    private void applyFlavor()
+    {
+        if ( getFlavor() == null )
+            setFlavorDefault();
+
+        getBanner().css().apply(PREFIX, BANNER, getFlavor());
+        // fixme_steve: well this didn't work. gotta find where the title gets set
+        getBanner().css().apply(PREFIX, TITLE, getFlavor());
     }
 
 }

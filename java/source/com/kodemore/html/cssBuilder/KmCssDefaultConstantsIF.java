@@ -14,7 +14,19 @@ import com.kodemore.utility.KmValueHolderIF;
 public interface KmCssDefaultConstantsIF
 {
     //##################################################
-    //# selectors
+    //# id selectors
+    //##################################################
+
+    String ID_appContent = "appContent";
+    String ID_appContentInner = "appContentInner";
+    String ID_appFooter = "appFooter";
+    String ID_appHeader = "appHeader";
+    String ID_appMenu = "appMenu";
+    String ID_appTabs = "appTabs";
+    String ID_appTitle = "appTitle";
+
+    //##################################################
+    //# css selectors
     //##################################################
 
     String accordion = "accordion";
@@ -22,6 +34,38 @@ public interface KmCssDefaultConstantsIF
     String accordionEnabledTab = "accordionEnabledTab";
     String accordionOpenBody = "accordionOpenBody";
     String accordionOpenTab = "accordionOpenTab";
+    String appContent_bare = "appContent-bare";
+    String appContent_nested = "appContent-nested";
+    String appContent_simple = "appContent-simple";
+    String appContentInner = "appContentInner";
+    String appFooter_bare = "appFooter-bare";
+    String appFooter_normal = "appFooter-normal";
+    String appFooterInner = "appFooterInner";
+    String appHeader_bare = "appHeader-bare";
+    String appHeader_left = "appHeader-left";
+    String appHeader_normal = "appHeader-normal";
+    String appHeader_right = "appHeader-right";
+    String appHeaderLink = "appHeaderLink";
+    String appHeaderLogoImage = "appHeaderLogoImage";
+    String appHeaderLogoText = "appHeaderLogoText";
+    String appMenu = "appMenu";
+    String appMenu_item = "appMenu-item";
+    String appMenu_section = "appMenu-section";
+    String appMenu_selection = "appMenu-selection";
+    String appTabs = "appTabs";
+    String appTabsItem = "appTabsItem";
+    String appTabsPrefix = "appTabsPrefix";
+    String appTabsSelected = "appTabsSelected";
+    String appTabsSuffix = "appTabsSuffix";
+    String appTitle_bare = "appTitle-bare";
+    String appTitle_help = "appTitle-help";
+    String appTitle_left = "appTitle-left";
+    String appTitle_link = "appTitle-link";
+    String appTitle_nameText = "appTitle-nameText";
+    String appTitle_nested = "appTitle-nested";
+    String appTitle_projectText = "appTitle-projectText";
+    String appTitle_right = "appTitle-right";
+    String appTitle_simple = "appTitle-simple";
     String blockMsg = "blockMsg";
     String bottomOffset = "bottomOffset";
     String buttonGap = "buttonGap";
@@ -93,6 +137,18 @@ public interface KmCssDefaultConstantsIF
     String gapInner = "gapInner";
     String gapOuter = "gapOuter";
     String group = "group";
+    String group_banner_default = "group-banner-default";
+    String group_banner_details = "group-banner-details";
+    String group_banner_primary = "group-banner-primary";
+    String group_banner_search = "group-banner-search";
+    String group_banner_secondary = "group-banner-secondary";
+    String group_banner_tertiary = "group-banner-tertiary";
+    String group_title_default = "group-title-default";
+    String group_title_details = "group-title-details";
+    String group_title_primary = "group-title-primary";
+    String group_title_search = "group-title-search";
+    String group_title_secondary = "group-title-secondary";
+    String group_title_tertiary = "group-title-tertiary";
     String groupBanner = "groupBanner";
     String groupBannerTitle = "groupBannerTitle";
     String groupBlock = "groupBlock";
@@ -103,10 +159,6 @@ public interface KmCssDefaultConstantsIF
     String groupInline = "groupInline";
     String importantText = "importantText";
     String label = "label";
-    String leftMenu = "leftMenu";
-    String leftMenu_item = "leftMenu-item";
-    String leftMenu_section = "leftMenu-section";
-    String leftMenu_selection = "leftMenu-selection";
     String leftOffset = "leftOffset";
     String lineBox = "lineBox";
     String link = "link";
@@ -137,26 +189,6 @@ public interface KmCssDefaultConstantsIF
     String padTop = "padTop";
     String padTopChildren = "padTopChildren";
     String padVertical = "padVertical";
-    String pageContent_bare = "pageContent-bare";
-    String pageContent_nested = "pageContent-nested";
-    String pageContent_simple = "pageContent-simple";
-    String pageContentInner = "pageContentInner";
-    String pageFooter_bare = "pageFooter-bare";
-    String pageFooter_normal = "pageFooter-normal";
-    String pageFooterInner = "pageFooterInner";
-    String pageHeader_bare = "pageHeader-bare";
-    String pageHeader_left = "pageHeader-left";
-    String pageHeader_normal = "pageHeader-normal";
-    String pageHeader_right = "pageHeader-right";
-    String pageTitle_bare = "pageTitle-bare";
-    String pageTitle_help = "pageTitle-help";
-    String pageTitle_left = "pageTitle-left";
-    String pageTitle_link = "pageTitle-link";
-    String pageTitle_nameText = "pageTitle-nameText";
-    String pageTitle_nested = "pageTitle-nested";
-    String pageTitle_projectText = "pageTitle-projectText";
-    String pageTitle_right = "pageTitle-right";
-    String pageTitle_simple = "pageTitle-simple";
     String radio = "radio";
     String rightOffset = "rightOffset";
     String smallChildMargin = "smallChildMargin";
@@ -190,11 +222,6 @@ public interface KmCssDefaultConstantsIF
     String titlePanelBody = "titlePanelBody";
     String titlePanelHeader = "titlePanelHeader";
     String titlePanelText = "titlePanelText";
-    String topMenu = "topMenu";
-    String topMenuItem = "topMenuItem";
-    String topMenuLeft = "topMenuLeft";
-    String topMenuRight = "topMenuRight";
-    String topMenuSelected = "topMenuSelected";
     String topOffset = "topOffset";
     String ui_dialog = "ui-dialog";
     String ui_dialog_title = "ui-dialog-title";
@@ -569,7 +596,7 @@ public interface KmCssDefaultConstantsIF
     String buttonPrimary = "buttonPrimary";
 
     //##################################################
-    //# composites
+    //# css composites
     //##################################################
 
     String button_prefix = "button";
@@ -578,28 +605,38 @@ public interface KmCssDefaultConstantsIF
     String button_flavor_disabled = "disabled";
     String button_flavor_negative = "negative";
     String button_flavor_positive = "positive";
-    
+
     String ui_prefix = "ui";
     String ui_part_dialog = "dialog";
     String ui_part_widget = "widget";
     String ui_flavor_title = "title";
     String ui_flavor_overlay = "overlay";
-    
+
     String divider_prefix = "divider";
     String divider_part_inner = "inner";
     String divider_flavor_bevel = "bevel";
     String divider_flavor_groove = "groove";
-    
+
     String errorBox_prefix = "errorBox";
     String errorBox_part_message = "message";
     String errorBox_part_wrapper = "wrapper";
     String errorBox_flavor_attached = "attached";
     String errorBox_flavor_detached = "detached";
-    
+
     String fieldset_prefix = "fieldset";
     String fieldset_part_body = "body";
     String fieldset_part_legend = "legend";
     String fieldset_flavor_default = "default";
-    
+
+    String group_prefix = "group";
+    String group_part_banner = "banner";
+    String group_part_title = "title";
+    String group_flavor_default = "default";
+    String group_flavor_details = "details";
+    String group_flavor_primary = "primary";
+    String group_flavor_search = "search";
+    String group_flavor_secondary = "secondary";
+    String group_flavor_tertiary = "tertiary";
+
 
 }

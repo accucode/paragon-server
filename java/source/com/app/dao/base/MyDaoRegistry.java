@@ -39,6 +39,7 @@ public class MyDaoRegistry
         v = new KmList<>();
         v.add(getApplicationLogDao());
         v.add(getAttentionGroupDao());
+        v.add(getAttentionMemberDao());
         v.add(getAttributeFieldDao());
         v.add(getAttributeValueDao());
         v.add(getAuditLogDao());
@@ -61,7 +62,7 @@ public class MyDaoRegistry
         v.add(getMasterProductDao());
         v.add(getMemberDao());
         v.add(getMemberSkillDao());
-        v.add(getOrderNumberDao());
+        v.add(getNextOrderNumberDao());
         v.add(getPasswordResetDao());
         v.add(getPatchDao());
         v.add(getPerformanceLogDetailDao());
@@ -125,6 +126,25 @@ public class MyDaoRegistry
     public MyAttentionGroup findAttentionGroupUid(String e)
     {
         return getAttentionGroupDao().findUid(e);
+    }
+
+    //##################################################
+    //# attentionMember
+    //##################################################
+
+    public MyAttentionMemberDao getAttentionMemberDao()
+    {
+        return new MyAttentionMemberDao();
+    }
+
+    public KmList<MyAttentionMember> findAllAttentionMembers()
+    {
+        return getAttentionMemberDao().findAll();
+    }
+
+    public MyAttentionMember findAttentionMemberUid(String e)
+    {
+        return getAttentionMemberDao().findUid(e);
     }
 
     //##################################################
@@ -546,22 +566,22 @@ public class MyDaoRegistry
     }
 
     //##################################################
-    //# orderNumber
+    //# nextOrderNumber
     //##################################################
 
-    public MyOrderNumberDao getOrderNumberDao()
+    public MyNextOrderNumberDao getNextOrderNumberDao()
     {
-        return new MyOrderNumberDao();
+        return new MyNextOrderNumberDao();
     }
 
-    public KmList<MyOrderNumber> findAllOrderNumbers()
+    public KmList<MyNextOrderNumber> findAllNextOrderNumbers()
     {
-        return getOrderNumberDao().findAll();
+        return getNextOrderNumberDao().findAll();
     }
 
-    public MyOrderNumber findOrderNumberUid(String e)
+    public MyNextOrderNumber findNextOrderNumberUid(String e)
     {
-        return getOrderNumberDao().findUid(e);
+        return getNextOrderNumberDao().findUid(e);
     }
 
     //##################################################

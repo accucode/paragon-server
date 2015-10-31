@@ -8,5 +8,5 @@ import com.app.model.base.MyMemberSkillValidatorBase;
 public class MyMemberSkillValidator
     extends MyMemberSkillValidatorBase
 {
-    //
+    // none
 }

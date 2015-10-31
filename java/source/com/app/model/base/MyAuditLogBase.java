@@ -44,6 +44,7 @@ public abstract class MyAuditLogBase
     private String userName;
     private String typeCode;
     private KmTimestamp utcTs;
+    private String modelType;
     private String modelName;
     private String modelUid;
     private String fieldName;
@@ -332,6 +333,47 @@ public abstract class MyAuditLogBase
     public boolean hasUtcTs(KmTimestamp e)
     {
         return Kmu.isEqual(getUtcTs(), e);
+    }
+
+    //##################################################
+    //# field (modelType)
+    //##################################################
+
+    public String getModelType()
+    {
+        return modelType;
+    }
+
+    public void setModelType(String e)
+    {
+        checkReadOnly();
+        e = Validator.getModelTypeValidator().convertOnly(e);
+        modelType = e;
+    }
+
+    public void clearModelType()
+    {
+        setModelType(null);
+    }
+
+    public boolean hasModelType()
+    {
+        return Kmu.hasValue(getModelType());
+    }
+
+    public boolean hasModelType(String e)
+    {
+        return Kmu.isEqualIgnoreCase(getModelType(), e);
+    }
+
+    public void truncateModelType()
+    {
+        truncateModelType(false);
+    }
+
+    public void truncateModelType(boolean ellipses)
+    {
+        modelType = Kmu.truncate(modelType, 50, ellipses);
     }
 
     //##################################################
@@ -993,6 +1035,7 @@ public abstract class MyAuditLogBase
         if ( !Kmu.isEqual(getUserName(), e.getUserName()) ) return false;
         if ( !Kmu.isEqual(getTypeCode(), e.getTypeCode()) ) return false;
         if ( !Kmu.isEqual(getUtcTs(), e.getUtcTs()) ) return false;
+        if ( !Kmu.isEqual(getModelType(), e.getModelType()) ) return false;
         if ( !Kmu.isEqual(getModelName(), e.getModelName()) ) return false;
         if ( !Kmu.isEqual(getModelUid(), e.getModelUid()) ) return false;
         if ( !Kmu.isEqual(getFieldName(), e.getFieldName()) ) return false;
@@ -1046,6 +1089,7 @@ public abstract class MyAuditLogBase
         System.out.println("    UserName = " + userName);
         System.out.println("    TypeCode = " + typeCode);
         System.out.println("    UtcTs = " + utcTs);
+        System.out.println("    ModelType = " + modelType);
         System.out.println("    ModelName = " + modelName);
         System.out.println("    ModelUid = " + modelUid);
         System.out.println("    FieldName = " + fieldName);

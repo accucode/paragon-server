@@ -394,11 +394,6 @@ public class KmgModel
         return getFields().isEmpty();
     }
 
-    public boolean isCached()
-    {
-        return hasDatabase() && getDatabase().isCached();
-    }
-
     //##################################################
     //# abstract accessing
     //##################################################
@@ -502,32 +497,6 @@ public class KmgModel
     public boolean isNotIdentity()
     {
         return !isIdentity();
-    }
-
-    public boolean hasSingleton()
-    {
-        for ( KmgModelField e : getFields() )
-            if ( e.isSingleton() )
-                return true;
-        return false;
-    }
-
-    public boolean hasAvailable()
-    {
-        for ( KmgModelField e : getFields() )
-            if ( e.isAvailable() )
-                return true;
-
-        return false;
-    }
-
-    public boolean hasUnique()
-    {
-        for ( KmgModelField e : getFields() )
-            if ( e.isUnique() )
-                return true;
-
-        return false;
     }
 
     public KmList<String> getFieldNames()

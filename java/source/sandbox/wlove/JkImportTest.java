@@ -129,7 +129,7 @@ public class JkImportTest
             return null;
 
         KmTimestamp ts;
-        ts = KmTimestamp.create(1970, 1, 1);
+        ts = KmTimestamp.fromYearMonthDay(1970, 1, 1);
         ts = ts.addSeconds(i);
         return ts;
     }

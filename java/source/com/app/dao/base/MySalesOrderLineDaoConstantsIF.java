@@ -39,4 +39,9 @@ public interface MySalesOrderLineDaoConstantsIF
     String PRODUCT = "product";
     String PRODUCT_UID = "product.uid";
 
+    //##################################################
+    //# collections
+    //##################################################
+
+    String ATTRIBUTE_VALUES = "attributeValues";
 }

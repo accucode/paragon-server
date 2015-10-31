@@ -90,7 +90,7 @@ public final class MyOpenWindowTestPage
 
     private void handleTest()
     {
-        KmTimestamp ts = KmTimestamp.createNowLocal();
+        KmTimestamp ts = KmTimestamp.nowUtc().toLocal();
 
         String title = Kmu.format("New Window, %s:%s", ts.getMinute(), ts.getSecond());
 

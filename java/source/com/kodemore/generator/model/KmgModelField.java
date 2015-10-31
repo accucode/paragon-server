@@ -60,33 +60,10 @@ public class KmgModelField
     private boolean _identity;
 
     /**
-     * Indicates that the values in this field must be unique.  This will
-     * be automatically enfored by the framework when records are inserted
-     * or updated.
-     */
-    private boolean _unique;
-
-    /**
      * Indicates the field is required.  For most types this simply means
      * non-null.  String types are also limited from being empty (length=0).
      */
     private boolean _required;
-
-    /**
-     * Marks which fields are used to indicate that the record is "active".
-     * The term "available" is used to avoid naming conflicts.  Typically,
-     * only one field (often named 'active') will be used to indicate an
-     * active/available record.  However, if multiple fields have the
-     * available flag, then all available fields must have a true value
-     * in order for the record to be considered available.
-     */
-    private boolean _available;
-
-    /**
-     * Used to indicate that only one record may have a true value for this
-     * field.  Only applicable if the field's format is boolean.
-     */
-    private boolean _singleton;
 
     /**
      * Used to indicate that this field is a getter rather than an editable field.
@@ -259,16 +236,6 @@ public class KmgModelField
         _identity = e;
     }
 
-    public boolean isUnique()
-    {
-        return _unique;
-    }
-
-    public void setUnique(boolean e)
-    {
-        _unique = e;
-    }
-
     @Override
     public boolean isRequired()
     {
@@ -278,26 +245,6 @@ public class KmgModelField
     public void setRequired(boolean e)
     {
         _required = e;
-    }
-
-    public boolean isAvailable()
-    {
-        return _available;
-    }
-
-    public void setAvailable(boolean e)
-    {
-        _available = e;
-    }
-
-    public boolean isSingleton()
-    {
-        return _singleton;
-    }
-
-    public void setSingleton(boolean e)
-    {
-        _singleton = e;
     }
 
     public boolean hasValidator()
@@ -536,10 +483,7 @@ public class KmgModelField
             "comment",
             "primaryKey",
             "identity",
-            "unique",
             "required",
-            "available",
-            "singleton",
             "default",
             "getter",
             "type",
@@ -554,10 +498,7 @@ public class KmgModelField
         _comment = parseString(x, "comment", null);
         _primaryKey = parseBoolean(x, "primaryKey");
         _identity = parseBoolean(x, "identity");
-        _unique = parseBoolean(x, "unique");
         _required = parseBoolean(x, "required");
-        _available = parseBoolean(x, "available");
-        _singleton = parseBoolean(x, "singleton");
         _defaultValue = parseString(x, "default", null);
         _getter = parseString(x, "getter", null);
 

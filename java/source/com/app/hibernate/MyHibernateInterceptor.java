@@ -196,12 +196,13 @@ public class MyHibernateInterceptor
         Object oldValue,
         Object newValue)
     {
-        String modelName = model.getMetaName();
+        String modelType = model.getMetaName();
+        String modelName = model.getDisplayString();
 
-        if ( MyAuditLogInfo.isFieldDisabled(modelName, fieldName) )
+        if ( MyAuditLogInfo.isFieldDisabled(modelType, fieldName) )
             return;
 
-        if ( MyAuditLogInfo.isFieldMasked(modelName, fieldName) )
+        if ( MyAuditLogInfo.isFieldMasked(modelType, fieldName) )
         {
             newValue = "***";
             oldValue = "***";
@@ -212,6 +213,7 @@ public class MyHibernateInterceptor
         e.setTransactionUid(getTransactionUid());
         e.setUser(getCurrentUser());
         e.setType(changeType);
+        e.setModelType(modelType);
         e.setModelName(modelName);
         e.setModelUid(model.formatPrimaryKey());
         e.setFieldName(fieldName);
@@ -230,7 +232,7 @@ public class MyHibernateInterceptor
         e.attachDao();
 
         if ( printsAuditLog() )
-            KmLog.printfln(e.formatMessage());
+            KmLog.printfln("AUDIT LOG..." + e.formatMessage());
     }
 
     /**

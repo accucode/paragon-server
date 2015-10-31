@@ -8,5 +8,5 @@ import com.app.model.base.MyVisitTypeValidatorBase;
 public class MyVisitTypeValidator
     extends MyVisitTypeValidatorBase
 {
-    //
+    // none
 }

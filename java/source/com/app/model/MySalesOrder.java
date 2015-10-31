@@ -17,14 +17,38 @@ public class MySalesOrder
     }
 
     //##################################################
+    //# accessing :: convenience
+    //##################################################
+
+    public void addLine(int qty, MyProduct product)
+    {
+        MySalesOrderLine line;
+        line = addLine();
+        line.setOrderedQuantity(qty);
+        line.setProduct(product);
+        line.updatePricing();
+        line.attachDao();
+
+        updateTotals();
+    }
+
+    //##################################################
     //# updates
     //##################################################
+
+    public void updatePricing()
+    {
+        for ( MySalesOrderLine e : getLines() )
+            e.updatePricing();
+
+        updateTotals();
+    }
 
     /**
      * Update the order totals based on the lines.
      * This does NOT recalculate information in the individual lines.
      */
-    public void updateTotals()
+    private void updateTotals()
     {
         KmMoney price = KmMoney.ZERO;
         KmMoney tax = KmMoney.ZERO;
@@ -37,13 +61,6 @@ public class MySalesOrder
 
         setTotalPrice(price);
         setTotalTax(tax);
-    }
-
-    @Override
-    protected void handleTaxRateChange()
-    {
-        for ( MySalesOrderLine e : getLines() )
-            e.updatePrice();
     }
 
     //##################################################

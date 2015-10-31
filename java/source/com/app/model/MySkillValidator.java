@@ -8,5 +8,5 @@ import com.app.model.base.MySkillValidatorBase;
 public class MySkillValidator
     extends MySkillValidatorBase
 {
-    //
+    // none
 }

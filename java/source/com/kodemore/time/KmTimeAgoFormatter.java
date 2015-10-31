@@ -165,7 +165,7 @@ public class KmTimeAgoFormatter
     {
         KmTimestamp ts;
 
-        ts = KmTimestamp.create(2014, 1, 7).addHours(23).addMinutes(56);
+        ts = KmTimestamp.fromYearMonthDay(2014, 1, 7).addHours(23).addMinutes(56);
         System.out.println(ts.formatTimeAgoUtc());
     }
 

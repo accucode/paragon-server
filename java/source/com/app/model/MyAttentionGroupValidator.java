@@ -8,5 +8,5 @@ import com.app.model.base.MyAttentionGroupValidatorBase;
 public class MyAttentionGroupValidator
     extends MyAttentionGroupValidatorBase
 {
-    //
+    // none
 }

@@ -39,7 +39,7 @@ public class KmSqlMsTimestampAdaptor
         if ( rs.wasNull() )
             return def;
 
-        return KmTimestamp.create(jt);
+        return KmTimestamp.fromJavaDate(jt);
     }
 
     @Override

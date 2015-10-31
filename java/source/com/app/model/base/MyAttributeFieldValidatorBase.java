@@ -133,8 +133,9 @@ public class MyAttributeFieldValidatorBase
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(1);
+        e.setMaximumLength(5);
         e.setAllowsLetters(true);
+        e.setAllowsDigits(true);
         e.setForcesUpperCase(true);
         e.setStripsAllSpaces(true);
         e.setModel("attributeField");

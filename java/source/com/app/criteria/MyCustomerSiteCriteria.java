@@ -694,6 +694,20 @@ public class MyCustomerSiteCriteria
     }
 
     //##################################################
+    //# collection (AttributeValues)
+    //##################################################
+
+    public MyAttributeValueCriteria joinToAttributeValues()
+    {
+        return new MyAttributeValueCriteria(joinTo(ATTRIBUTE_VALUES));
+    }
+
+    public MyAttributeValueCriteria leftJoinToAttributeValues()
+    {
+        return new MyAttributeValueCriteria(leftJoinTo(ATTRIBUTE_VALUES));
+    }
+
+    //##################################################
     //# junction
     //##################################################
 

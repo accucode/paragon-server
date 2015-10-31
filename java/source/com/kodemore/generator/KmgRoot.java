@@ -131,15 +131,6 @@ public class KmgRoot
         return _models;
     }
 
-    public KmList<KmgModel> getCacheModels()
-    {
-        KmList<KmgModel> v = new KmList<>();
-        for ( KmgModel e : getModels() )
-            if ( e.isCached() )
-                v.add(e);
-        return v;
-    }
-
     public KmList<KmgModel> getDatabaseModels()
     {
         KmList<KmgModel> v = new KmList<>();
@@ -194,15 +185,6 @@ public class KmgRoot
         return v;
     }
 
-    public KmList<KmgModel> getPageModels()
-    {
-        KmList<KmgModel> v = new KmList<>();
-        for ( KmgModel e : getModels() )
-            if ( e.hasDatabase() && e.getDatabase().getPages() )
-                v.add(e);
-        return v;
-    }
-
     public KmList<KmgModelEnum> getEnums()
     {
         KmMap<String,KmgModelEnum> v = new KmMap<>();
@@ -217,29 +199,11 @@ public class KmgRoot
         return v.getValues();
     }
 
-    public KmList<KmgModel> getModelsByAlias(String s)
-    {
-        KmList<KmgModel> v = new KmList<>();
-        for ( KmgModel e : getModels() )
-            if ( e.hasDatabase() && e.getDatabase().hasAlias(s) )
-                v.add(e);
-        return v;
-    }
-
     public KmList<String> getModelNames()
     {
         KmList<String> v = new KmList<>();
         for ( KmgModel e : getModels() )
             v.add(e.getName());
-        return v;
-    }
-
-    public KmList<String> getModelAliases()
-    {
-        KmList<String> v = new KmList<>();
-        for ( KmgModel e : getModels() )
-            if ( e.hasDatabase() )
-                v.add(e.getDatabase().getAlias());
         return v;
     }
 
@@ -406,7 +370,6 @@ public class KmgRoot
     {
         _validate(_models);
         checkDuplicates("model.name", getModelNames());
-        checkDuplicateAliases();
         _postValidate(_models);
     }
 
@@ -453,21 +416,6 @@ public class KmgRoot
         p.parseSource(s);
 
         return p.getRoot();
-    }
-
-    private void checkDuplicateAliases()
-    {
-        String alias = getModelAliases().getDuplicates().getFirstSafe();
-        if ( alias == null )
-            return;
-
-        KmList<KmgModel> models = getModelsByAlias(alias);
-        KmList<String> names = new KmList<>();
-
-        for ( KmgModel m : models )
-            names.add(m.getName());
-
-        throw newFatal("Cannot have duplicate alias(%s), see models: %s.", alias, names.join());
     }
 
     public void installExtensions()

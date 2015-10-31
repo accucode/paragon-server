@@ -18,7 +18,7 @@ public interface MyAttributeValueDaoConstantsIF
     //##################################################
 
     String UID = "uid";
-    String DATA = "data";
+    String TEXT_VALUE = "textValue";
     String LOCK_VERSION = "lockVersion";
 
     //##################################################
@@ -30,5 +30,11 @@ public interface MyAttributeValueDaoConstantsIF
 
     String PRODUCT = "product";
     String PRODUCT_UID = "product.uid";
+
+    String CUSTOMER_SITE = "customerSite";
+    String CUSTOMER_SITE_UID = "customerSite.uid";
+
+    String SALES_ORDER_LINE = "salesOrderLine";
+    String SALES_ORDER_LINE_UID = "salesOrderLine.uid";
 
 }

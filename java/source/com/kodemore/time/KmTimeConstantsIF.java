@@ -22,7 +22,8 @@
 
 package com.kodemore.time;
 
-import java.util.TimeZone;
+import java.time.Clock;
+import java.time.ZoneId;
 
 /**
  * I define several constants that are useful when dealing with times.
@@ -30,27 +31,26 @@ import java.util.TimeZone;
 public interface KmTimeConstantsIF
 {
     //##################################################
+    //# constants
+    //##################################################
+
+    /**
+     * The UTC Time Zone.
+     */
+    ZoneId      UTC_ZONE                      = ZoneId.of("UTC");
+
+    /**
+     * A UTC clock, accurate to approximatly 1-second.
+     * This clock may be optimized for wall-clock time, but is not
+     * useful for milli and/or nano seconds.
+     */
+    Clock       UTC_WALL_CLOCK                = Clock.tickSeconds(UTC_ZONE);
+
+    //##################################################
     //# date format
     //##################################################
 
-    String DATE_SEPARATOR = "/";
-
-    //##################################################
-    //# months of the year
-    //##################################################
-
-    int JANUARY   = 1;
-    int FEBRUARY  = 2;
-    int MARCH     = 3;
-    int APRIL     = 4;
-    int MAY       = 5;
-    int JUNE      = 6;
-    int JULY      = 7;
-    int AUGUST    = 8;
-    int SEPTEMBER = 9;
-    int OCTOBER   = 10;
-    int NOVEMBER  = 11;
-    int DECEMBER  = 12;
+    String      DATE_SEPARATOR                = "/";
 
     //##################################################
     //# internal
@@ -58,21 +58,16 @@ public interface KmTimeConstantsIF
 
     // these constants will rarely be used outside of the implementation.
 
-    int UNDEFINED = -1;
-
-    int MINIMUM_MONTH = 1;
-    int MAXIMUM_MONTH = 12;
-    int MINIMUM_DAY   = 1;
-    int MINIMUM_YEAR  = 1800;
-    int MAXIMUM_YEAR  = 9999;
-
     int DAYS_PER_NONLEAP_YEAR = 365;
-    int DAYS_PER_LEAP_YEAR    = 366;
 
     int MINUTES_PER_HOUR = 60;
 
     int SECONDS_PER_MINUTE = 60;
+    int         SECONDS_PER_HOUR              = 60 * 60;
     int SECONDS_PER_DAY    = 60 * 60 * 24;
+    int         SECONDS_PER_WEEK              = 60 * 60 * 24 * 7;
+    int         SECONDS_PER_YEAR_APPROXIMATE  = SECONDS_PER_DAY * DAYS_PER_NONLEAP_YEAR;
+    int         SECONDS_PER_MONTH_APPROXIMATE = SECONDS_PER_YEAR_APPROXIMATE / 12;
 
     int MS_PER_SECOND = 1000;
     int MS_PER_MINUTE = 1000 * 60;
@@ -83,54 +78,20 @@ public interface KmTimeConstantsIF
     long MS_PER_YEAR_APPROXIMATE  = (long)1000 * 60 * 60 * 24 * DAYS_PER_NONLEAP_YEAR;
     long MS_PER_MONTH_APPROXIMATE = MS_PER_YEAR_APPROXIMATE / 12;
 
-    int DAYS_DIFF_1800_1970 = 62091;   // why? see _getDiffDays1800And1970()
-    int DAYS_DIFF_1800_9999 = 2994623; // why? see _getDiffDays1800And9999()
-
-    long MS_DIFF_1800_1970 = DAYS_DIFF_1800_1970 * MS_PER_DAY;
-
-    int[] DAYS_PER_MONTH_NONLEAP =
-    {
-        31,
-        28,
-        31,
-        30,
-        31,
-        30,
-        31,
-        31,
-        30,
-        31,
-        30,
-        31
-    };
-    int[] DAYS_PER_MONTH_LEAP    =
-    {
-        31,
-        29,
-        31,
-        30,
-        31,
-        30,
-        31,
-        31,
-        30,
-        31,
-        30,
-        31
-    };
-
-    int MY_SQL_DATE_OFFSET = 657437;
-
-    TimeZone UTC_TIME_ZONE = TimeZone.getTimeZone("UTC");
+    /**
+     * The value used to convert an ordinal value into mysql.
+     * This provides compatibility with the mysql functions to_days, from_days.
+     */
+    int         MY_SQL_EPOCH_DAY_OFFSET       = 719528;
 
     //##################################################
     //# sql limits
     //##################################################
 
-    KmTimestamp MINIMUM_TIMESTAMP = KmTimestamp.create(1980, 1, 1);
-    KmTimestamp MAXIMUM_TIMESTAMP = KmTimestamp.create(2030, 1, 1);
+    KmTimestamp MINIMUM_TIMESTAMP             = KmTimestamp.fromYearMonthDay(1800, 1, 1);
+    KmTimestamp MAXIMUM_TIMESTAMP             = KmTimestamp.fromYearMonthDay(2100, 1, 1);
 
-    KmDate MINIMUM_DATE = KmDate.create(1800, 1, 1);
-    KmDate MAXIMUM_DATE = KmDate.create(2030, 1, 1);
+    KmDate      MINIMUM_DATE                  = KmDate.fromYearMonthDay(1800, 1, 1);
+    KmDate      MAXIMUM_DATE                  = KmDate.fromYearMonthDay(2100, 1, 1);
 
 }

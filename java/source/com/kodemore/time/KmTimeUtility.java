@@ -50,7 +50,6 @@ public class KmTimeUtility
      * {MM}   : minute (00-59)
      * {S}    : second (0-59)
      * {SS}   : second (00-59)
-     * {MS}   : millisecond (000-999)
      * {am/pm}: am/pm (am, pm)
      */
     public static String format(KmTime e, String format)
@@ -69,8 +68,6 @@ public class KmTimeUtility
 
         s = Kmu.replaceAll(s, "{S}", e.getSecond() + "");
         s = Kmu.replaceAll(s, "{SS}", pad2(e.getSecond()));
-
-        s = Kmu.replaceAll(s, "{MS}", pad3(e.getMillisecond()));
 
         s = Kmu.replaceAll(s, "{/p}", e.isAm()
             ? ""
@@ -134,38 +131,6 @@ public class KmTimeUtility
         return hh + COLON + pad2(mm) + COLON + pad2(ss) + suffix;
     }
 
-    public static String format_h_mm_ss_msss_am(KmTime t)
-    {
-        if ( t == null )
-            return "";
-
-        int hh = t.getHour();
-        int mm = t.getMinute();
-        int ss = t.getSecond();
-        int ms = t.getMillisecond();
-        String suffix = AM;
-        if ( t.isPm() )
-        {
-            hh -= 12;
-            suffix = PM;
-        }
-        if ( hh == 0 )
-            hh = 12;
-        return hh + COLON + pad2(mm) + COLON + pad2(ss) + DOT + pad3(ms) + suffix;
-    }
-
-    public static String format_h_mm_ss_msss(KmTime t)
-    {
-        if ( t == null )
-            return "";
-
-        int hh = t.getHour();
-        int mm = t.getMinute();
-        int ss = t.getSecond();
-        int ms = t.getMillisecond();
-        return hh + COLON + pad2(mm) + COLON + pad2(ss) + DOT + pad3(ms);
-    }
-
     public static String format_hh24_mm(KmTime t)
     {
         return format(t, "{HH24}:{MM}");
@@ -202,7 +167,7 @@ public class KmTimeUtility
         if ( mm < 0 )
             return null;
 
-        return KmTime.create(hh, mm, 0, 0);
+        return KmTime.fromHourMinute(hh, mm);
     }
 
     //##################################################
@@ -212,11 +177,6 @@ public class KmTimeUtility
     private static String pad2(int i)
     {
         return Kmu.leftPad(i + "", 2, '0');
-    }
-
-    private static String pad3(int i)
-    {
-        return Kmu.leftPad(i + "", 3, '0');
     }
 
 }

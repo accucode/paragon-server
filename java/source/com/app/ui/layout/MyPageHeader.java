@@ -2,6 +2,7 @@ package com.app.ui.layout;
 
 import com.kodemore.collection.KmList;
 import com.kodemore.html.KmHtmlBuilder;
+import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScGlobalContext;
 import com.kodemore.servlet.control.ScDiv;
@@ -49,7 +50,7 @@ public class MyPageHeader
     {
         super.install();
 
-        setHtmlId("pageHeader");
+        setHtmlId(KmCssDefaultConstantsIF.ID_appHeader);
 
         installLayout();
         installUserDropdown();
@@ -59,10 +60,10 @@ public class MyPageHeader
     private void installLayout()
     {
         _leftDiv = addDiv();
-        _leftDiv.css().pageHeader_left();
+        _leftDiv.css().appHeader_left();
 
         _rightDiv = addDiv();
-        _rightDiv.css().pageHeader_right();
+        _rightDiv.css().appHeader_right();
     }
 
     //==================================================
@@ -185,18 +186,18 @@ public class MyPageHeader
     private void renderLogoOn(KmHtmlBuilder out)
     {
         out.open("a");
-        out.printAttribute("id", "pageHeaderLink");
+        out.printAttribute("class", KmCssDefaultConstantsIF.appHeaderLink);
         out.printAttribute("href", MyUrls.getEntryUrl());
         out.close();
 
         out.open("img");
-        out.printAttribute("id", "pageHeaderLogoImage");
+        out.printAttribute("class", KmCssDefaultConstantsIF.appHeaderLogoImage);
         out.printAttribute("src", ScUrls.getThemeImage("logo35.png"));
         out.printAttribute("width", 35);
         out.printAttribute("height", 35);
         out.close();
 
-        out.beginSpanId("pageHeaderLogoText");
+        out.beginSpanCss(KmCssDefaultConstantsIF.appHeaderLogoText);
         out.print(MyConstantsIF.APPLICATION_NAME);
         out.endSpan();
 

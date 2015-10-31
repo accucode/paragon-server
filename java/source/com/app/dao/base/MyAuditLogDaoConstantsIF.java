@@ -22,6 +22,7 @@ public interface MyAuditLogDaoConstantsIF
     String USER_NAME = "userName";
     String TYPE_CODE = "typeCode";
     String UTC_TS = "utcTs";
+    String MODEL_TYPE = "modelType";
     String MODEL_NAME = "modelName";
     String MODEL_UID = "modelUid";
     String FIELD_NAME = "fieldName";

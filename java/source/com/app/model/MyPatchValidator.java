@@ -8,5 +8,5 @@ import com.app.model.base.MyPatchValidatorBase;
 public class MyPatchValidator
     extends MyPatchValidatorBase
 {
-    //
+    // none
 }

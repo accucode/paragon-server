@@ -8,5 +8,5 @@ import com.app.model.base.MyRegionValidatorBase;
 public class MyRegionValidator
     extends MyRegionValidatorBase
 {
-    //
+    // none
 }

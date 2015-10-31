@@ -18,10 +18,11 @@ import javax.mail.internet.MimeMultipart;
 import com.sun.mail.smtp.SMTPSSLTransport;
 
 import com.kodemore.time.KmTime;
+import com.kodemore.time.KmTimestamp;
 
 public class JkSendEmailAttachmentTest
 {
-    private static final String TEXT = "text/plain";
+    private static final String TEXT         = "text/plain";
 
     private static final String OCTET_STREAM = "application/octet-stream";
 
@@ -68,7 +69,8 @@ public class JkSendEmailAttachmentTest
             String fromName = "Velocity Service";
 
             // kludge_wyatt: SUBJECT
-            String name = KmTime.createNowLocal().format_hh24mmss() + ".csv";
+            KmTime time = KmTimestamp.nowUtc().toLocal().getTime();
+            String name = time.format_hh24mmss() + ".csv";
             String subject = "Attachment: " + name;
 
             Properties p;

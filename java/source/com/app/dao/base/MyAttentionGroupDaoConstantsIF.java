@@ -28,4 +28,9 @@ public interface MyAttentionGroupDaoConstantsIF
     String PROJECT = "project";
     String PROJECT_UID = "project.uid";
 
+    //##################################################
+    //# collections
+    //##################################################
+
+    String ATTENTION_MEMBERS = "attentionMembers";
 }

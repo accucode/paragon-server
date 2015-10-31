@@ -36,7 +36,7 @@ public class MyAttributeValueValidatorBase
     //##################################################
 
     private KmStringValidator uidValidator;
-    private KmStringValidator dataValidator;
+    private KmStringValidator textValueValidator;
     private KmIntegerValidator lockVersionValidator;
 
     //##################################################
@@ -47,7 +47,7 @@ public class MyAttributeValueValidatorBase
     {
         super();
         uidValidator = newUidValidator();
-        dataValidator = newDataValidator();
+        textValueValidator = newTextValueValidator();
         lockVersionValidator = newLockVersionValidator();
     }
 
@@ -60,9 +60,9 @@ public class MyAttributeValueValidatorBase
         return uidValidator;
     }
 
-    public KmStringValidator getDataValidator()
+    public KmStringValidator getTextValueValidator()
     {
-        return dataValidator;
+        return textValueValidator;
     }
 
     public KmIntegerValidator getLockVersionValidator()
@@ -79,7 +79,7 @@ public class MyAttributeValueValidatorBase
     {
         // fields...
         value.setUid(uidValidator.convertOnly(value.getUid()));
-        value.setData(dataValidator.convertOnly(value.getData()));
+        value.setTextValue(textValueValidator.convertOnly(value.getTextValue()));
         value.setLockVersion(lockVersionValidator.convertOnly(value.getLockVersion()));
     }
 
@@ -88,7 +88,7 @@ public class MyAttributeValueValidatorBase
     {
         // fields...
         uidValidator.validateOnly(value.getUid(), errors);
-        dataValidator.validateOnly(value.getData(), errors);
+        textValueValidator.validateOnly(value.getTextValue(), errors);
         lockVersionValidator.validateOnly(value.getLockVersion(), errors);
         // required associations...
         if ( !value.hasField() )
@@ -111,14 +111,14 @@ public class MyAttributeValueValidatorBase
         return e;
     }
 
-    public KmStringValidator newDataValidator()
+    public KmStringValidator newTextValueValidator()
     {
         KmStringValidator e;
         e = new KmStringValidator();
         e.setMaximumLength(100);
         e.setAllowsPrintable(true);
         e.setModel("attributeValue");
-        e.setField("data");
+        e.setField("textValue");
         return e;
     }
 

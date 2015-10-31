@@ -8,5 +8,5 @@ import com.app.model.base.MyApplicationLogValidatorBase;
 public class MyApplicationLogValidator
     extends MyApplicationLogValidatorBase
 {
-    //
+    // none
 }

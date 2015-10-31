@@ -16,6 +16,6 @@ import com.app.utility.*;
 public class MyCustomerValidator
     extends MyCustomerValidatorBase
 {
-    //
+    // none
 }
 

@@ -528,8 +528,8 @@ public class ScCalendar
         Long start = extra.getLong(ScCalendar.EVENT_START_KEY);
         Long end = extra.getLong(ScCalendar.EVENT_END_KEY);
 
-        KmTimestamp startUtcTs = KmTimestamp.createFromMsSince1970(start);
-        KmTimestamp endUtcTs = KmTimestamp.createFromMsSince1970(end);
+        KmTimestamp startUtcTs = KmTimestamp.fromEpochMs(start);
+        KmTimestamp endUtcTs = KmTimestamp.fromEpochMs(end);
 
         ScCalendarEvent e;
         e = new ScCalendarEvent();
@@ -556,11 +556,11 @@ public class ScCalendar
         Boolean allDay = extra.getBoolean(ScCalendar.EVENT_ALL_DAY_KEY);
         String color = extra.getString(ScCalendar.EVENT_COLOR_KEY);
 
-        KmTimestamp startUtcTs = KmTimestamp.createFromMsSince1970(start);
+        KmTimestamp startUtcTs = KmTimestamp.fromEpochMs(start);
 
         KmTimestamp endUtcTs = null;
         if ( end != null )
-            endUtcTs = KmTimestamp.createFromMsSince1970(end);
+            endUtcTs = KmTimestamp.fromEpochMs(end);
 
         ScCalendarEvent e;
         e = new ScCalendarEvent();
@@ -587,8 +587,8 @@ public class ScCalendar
         addBusinessDay(KmWeekDay.Thursday);
         addBusinessDay(KmWeekDay.Friday);
 
-        setBusinessHoursStart(KmTime.create(9));
-        setBusinessHoursEnd(KmTime.create(17));
+        setBusinessHoursStart(KmTime.fromHour(9));
+        setBusinessHoursEnd(KmTime.fromHour(17));
     }
 
     //##################################################

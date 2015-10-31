@@ -1,9 +1,10 @@
 package com.app.filter;
 
-import com.kodemore.utility.*;
+import com.kodemore.utility.KmNamedEnumIF;
 
-import com.app.criteria.*;
-import com.app.filter.base.*;
+import com.app.criteria.MyMasterProductCriteria;
+import com.app.filter.base.MyMasterProductFilterBase;
+import com.app.model.MyProject;
 
 public class MyMasterProductFilter
     extends MyMasterProductFilterBase
@@ -24,7 +25,7 @@ public class MyMasterProductFilter
             _name = name;
         }
 
-		@Override
+        @Override
         public String getName()
         {
             return _name;
@@ -35,8 +36,54 @@ public class MyMasterProductFilter
     //# variables
     //##################################################
 
-    private Sort _sort;
+    private MyProject _project;
+    private boolean   _usesProject;
+
+    private String  _partNumber;
+    private boolean _usesPartNumber;
+
+    private Sort    _sort;
     private boolean _sortAscending;
+
+    //##################################################
+    //# project
+    //##################################################
+
+    public MyProject getProject()
+    {
+        return _project;
+    }
+
+    public void setProject(MyProject e)
+    {
+        _project = e;
+        _usesProject = true;
+    }
+
+    public boolean usesProject()
+    {
+        return _usesProject;
+    }
+
+    //##################################################
+    //# part number
+    //##################################################
+
+    public String getPartNumber()
+    {
+        return _partNumber;
+    }
+
+    public void setPartNumber(String e)
+    {
+        _partNumber = e;
+        _usesPartNumber = true;
+    }
+
+    public boolean usesPartNumber()
+    {
+        return _usesPartNumber;
+    }
 
     //##################################################
     //# sort
@@ -92,7 +139,11 @@ public class MyMasterProductFilter
     @Override
     protected void applyConditionsTo(MyMasterProductCriteria c)
     {
-        // none
+        if ( usesProject() )
+            c.whereProjectIs(getProject());
+
+        if ( usesPartNumber() )
+            c.wherePartNumber().is(getPartNumber());
     }
 
     @Override

@@ -16,6 +16,6 @@ import com.app.utility.*;
 public class MyThreadTopicValidator
     extends MyThreadTopicValidatorBase
 {
-    //
+    // none
 }
 

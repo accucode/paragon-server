@@ -46,7 +46,7 @@ public class MyMember
 
     public KmList<MySkill> getSkills()
     {
-        return getSortedMemberSkills().collect(e -> e.getSkill());
+        return getSortedMemberSkills().collect(x -> x.getSkill());
     }
 
     @Override
@@ -57,18 +57,26 @@ public class MyMember
 
     public void setSkills(List<MySkill> v)
     {
-        for ( MyMemberSkill ms : getMemberSkills().getShallowCopy() )
-            if ( !v.contains(ms.getSkill()) )
-                removeMemberSkill(ms);
+        getMemberSkills().clear();
 
-        int i = 0;
-        for ( MySkill s : v )
-        {
-            MyMemberSkill ms;
-            ms = lazyGetMemberSkillFor(s);
-            ms.setSequence(i);
-            i++;
-        }
+        for ( MySkill e : v )
+            addSkill(e);
+    }
+
+    public void addSkill(MySkill e)
+    {
+        if ( hasSkill(e) )
+            return;
+
+        MyMemberSkill ms;
+        ms = addMemberSkill();
+        ms.setSkill(e);
+        ms.attachDao();
+    }
+
+    public boolean hasSkill(MySkill e)
+    {
+        return getSkills().contains(e);
     }
 
     //##################################################

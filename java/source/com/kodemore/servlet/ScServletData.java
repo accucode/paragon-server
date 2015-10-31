@@ -1560,39 +1560,39 @@ public class ScServletData
     //# layout visibility
     //##################################################
 
-    public boolean isPageHeaderVisible()
+    public boolean isAppHeaderVisible()
     {
-        String s = getParameter(PARAMETER_IS_PAGE_HEADER_VISIBLE);
+        String s = getParameter(PARAMETER_IS_APP_HEADER_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 
-    public boolean isPageFooterVisible()
+    public boolean isAppFooterVisible()
     {
-        String s = getParameter(PARAMETER_IS_PAGE_FOOTER_VISIBLE);
+        String s = getParameter(PARAMETER_IS_APP_FOOTER_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 
-    public boolean isTopMenuVisible()
+    public boolean isAppTabsVisible()
     {
-        String s = getParameter(PARAMETER_IS_TOP_MENU_VISIBLE);
+        String s = getParameter(PARAMETER_IS_APP_TABS_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 
-    public boolean isLeftMenuVisible()
+    public boolean isAppMenuVisible()
     {
-        String s = getParameter(PARAMETER_IS_LEFT_MENU_VISIBLE);
+        String s = getParameter(PARAMETER_IS_APP_MENU_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 
-    public boolean isPageTitleVisible()
+    public boolean isAppTitleVisible()
     {
-        String s = getParameter(PARAMETER_IS_PAGE_TITLE_VISIBLE);
+        String s = getParameter(PARAMETER_IS_APP_TITLE_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 
-    public boolean isPageContentVisible()
+    public boolean isAppContentVisible()
     {
-        String s = getParameter(PARAMETER_IS_PAGE_CONTENT_VISIBLE);
+        String s = getParameter(PARAMETER_IS_APP_CONTENT_VISIBLE);
         return Kmu.parse_boolean(s);
     }
 

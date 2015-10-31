@@ -1,12 +1,15 @@
 package com.app.ui.page.general;
 
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScBox;
+import com.kodemore.servlet.control.ScFlexbox;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
-import com.kodemore.servlet.control.ScText;
 
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
 
+// todo_aaron: Finish orders page
 public final class MyOrdersPage
     extends MyPage
 {
@@ -34,8 +37,6 @@ public final class MyOrdersPage
     //##################################################
     //# variables
     //##################################################
-
-    private ScText _message;
 
     //##################################################
     //# settings
@@ -70,8 +71,33 @@ public final class MyOrdersPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
-        root.css().pad();
-        _message = root.addText("This page displays orders for the current project.");
+        ScFlexbox fb;
+        fb = root._addFlexbox();
+
+        fb.css().fill().flexCrossAlignStretch().borderPurple();
+
+        ScBox searchContainer;
+        searchContainer = fb.addBox();
+        searchContainer.css().flexNoGrow();
+
+        installSeachPanelOn(searchContainer);
+
+        ScBox orderContainer;
+        orderContainer = fb.addBox();
+        orderContainer.css().flexGrow();
+
+        ScBox auxContainer;
+        auxContainer = fb.addBox();
+        auxContainer.css().flexGrow();
+    }
+
+    private void installSeachPanelOn(ScBox root)
+    {
+        root.css().gap();
+
+        ScGroup searchGroup;
+        searchGroup = root.addGroup("Orders");
+        searchGroup.getBody().addText("Search for orders");
     }
 
     //##################################################
@@ -81,7 +107,6 @@ public final class MyOrdersPage
     @Override
     protected void preRender()
     {
-        if ( !hasCurrentProject() )
-            _message.setValue("Please select a project.");
+        // review_aaron: prerender
     }
 }

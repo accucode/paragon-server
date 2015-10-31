@@ -87,6 +87,11 @@ public abstract class KmAbstractDao<T, K extends Serializable>
             delete(e);
     }
 
+    public void deleteAll(KmhModelCriteria<T> c)
+    {
+        deleteAll(c.findAll());
+    }
+
     /**
      * Delete all objects.   This method respects the normal hibernate
      * modelling rules.  Thus is you delete an object that is on the "one"

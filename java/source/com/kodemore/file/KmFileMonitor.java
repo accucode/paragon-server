@@ -93,12 +93,12 @@ public class KmFileMonitor
     /**
      * The frequency at which we scan for modified files.
      */
-    private int _modifiedScanFrequencyMs;
+    private int                       _modifiedScanFrequencySeconds;
 
     /**
      * The frequency at which we scan for new files.
      */
-    private int _newScanFrequencyMs;
+    private int                       _newScanFrequencySeconds;
 
     /**
      * If true, print a brief log message each time the scan
@@ -116,8 +116,8 @@ public class KmFileMonitor
     public KmFileMonitor()
     {
         _roots = new KmList<>();
-        _newScanFrequencyMs = 5000;
-        _modifiedScanFrequencyMs = 500;
+        _newScanFrequencySeconds = 5;
+        _modifiedScanFrequencySeconds = 1;
     }
 
     //##################################################
@@ -163,24 +163,24 @@ public class KmFileMonitor
         _handler = e;
     }
 
-    public int getNewScanFrequencyMs()
+    public int getNewScanFrequencySeconds()
     {
-        return _newScanFrequencyMs;
+        return _newScanFrequencySeconds;
     }
 
-    public void setNewScanFrequencyMs(int e)
+    public void setNewScanFrequencySeconds(int e)
     {
-        _newScanFrequencyMs = e;
+        _newScanFrequencySeconds = e;
     }
 
-    public int getModifiedScanFrequencyMs()
+    public int getModifiedScanFrequencySeconds()
     {
-        return _modifiedScanFrequencyMs;
+        return _modifiedScanFrequencySeconds;
     }
 
-    public void setModifiedScanFrequencyMs(int e)
+    public void setModifiedScanFrequencySeconds(int e)
     {
-        _modifiedScanFrequencyMs = e;
+        _modifiedScanFrequencySeconds = e;
     }
 
     public boolean getLogScan()
@@ -222,7 +222,7 @@ public class KmFileMonitor
 
     private KmTimestamp getNowUtc()
     {
-        return KmTimestamp.createNowUtc();
+        return KmTimestamp.nowUtc();
     }
 
     private KmThread newThread()
@@ -282,7 +282,7 @@ public class KmFileMonitor
 
     private void checkScanNew()
     {
-        if ( isReady(_lastNewScanTs, _newScanFrequencyMs) )
+        if ( isReady(_lastNewScanTs, _newScanFrequencySeconds) )
             scanNewFiles();
     }
 
@@ -321,7 +321,7 @@ public class KmFileMonitor
 
     private void checkScanModified()
     {
-        if ( isReady(_lastModifiedScanTs, _modifiedScanFrequencyMs) )
+        if ( isReady(_lastModifiedScanTs, _modifiedScanFrequencySeconds) )
             scanModifiedFiles();
     }
 
@@ -363,14 +363,14 @@ public class KmFileMonitor
         getHandler().handleChange(f);
     }
 
-    private boolean isReady(KmTimestamp lastTs, int freqMs)
+    private boolean isReady(KmTimestamp lastTs, int freqSecs)
     {
-        return lastTs.addMilliseconds(freqMs).isBeforeNowUtc();
+        return lastTs.addSeconds(freqSecs).isBeforeNowUtc();
     }
 
     private void sleep()
     {
-        Kmu.sleepMs(100);
+        Kmu.sleepSeconds(1);
     }
 
 }

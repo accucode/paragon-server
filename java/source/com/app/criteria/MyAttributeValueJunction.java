@@ -43,9 +43,9 @@ public class MyAttributeValueJunction
         return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmhStringCondition whereData()
+    public KmhStringCondition whereTextValue()
     {
-        return new KmhStringCondition(context(), fullName(DATA));
+        return new KmhStringCondition(context(), fullName(TEXT_VALUE));
     }
 
     public KmhIntegerCondition whereLockVersion()

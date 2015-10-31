@@ -66,22 +66,21 @@ public class MyDaoBridge
     @Override
     protected int getStaleObjectRetryCount()
     {
-        return 3;
+        return 10;
     }
 
     @Override
     protected int getStaleObjectRetryDelayMs()
     {
-        return 100;
+        return 10;
     }
 
     @Override
     protected void onStaleObjectRetry()
     {
-        MyServletData e = MyServletData.getLocal();
-        if ( e == null )
-            return;
-        e.reset();
+        MyServletData data = MyServletData.getLocal();
+        if ( data != null )
+            data.reset();
     }
 
     //##################################################

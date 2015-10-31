@@ -8,5 +8,5 @@ import com.app.model.base.MyPowerTypeValidatorBase;
 public class MyPowerTypeValidator
     extends MyPowerTypeValidatorBase
 {
-    //
+    // none
 }

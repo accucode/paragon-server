@@ -23,11 +23,8 @@
 package com.kodemore.time;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
-import com.kodemore.utility.Kmu;
+import java.time.Instant;
+import java.time.LocalTime;
 
 /**
  * I represent a time of day; e.g.: 2:12 pm.
@@ -37,102 +34,121 @@ public class KmTime
     implements KmTimeConstantsIF, Comparable<KmTime>, Serializable
 {
     //##################################################
-    //# instance creation
+    //# constants
     //##################################################
 
-    public static KmTime createNowUtc()
+    /**
+     * Midnight.
+     */
+    public static final KmTime MIDNIGHT = fromHour(0);
+
+    //##################################################
+    //# instance creation :: now
+    //##################################################
+
+    public static KmTime nowUtc()
     {
-        long ms = System.currentTimeMillis();
-        return createFromSystemMillis(ms);
+        return fromInstant(UTC_WALL_CLOCK.instant());
+    }
+
+    //==================================================
+    //= creation :: from hh:mm:ss
+    //==================================================
+
+    public static KmTime fromHourMinuteSecond(int hh, int mm, int ss)
+    {
+        return fromLocalTime(LocalTime.of(hh, mm, ss));
+    }
+
+    public static KmTime fromHourMinute(int hh, int mm)
+    {
+        return fromHourMinuteSecond(hh, mm, 0);
+    }
+
+    public static KmTime fromHour(int hh)
+    {
+        return fromHourMinuteSecond(hh, 0, 0);
+    }
+
+    //==================================================
+    // conversion :: instant
+    //==================================================
+
+    /**
+     * Convert from a java.time.Instant.
+     */
+    public static KmTime fromInstant(Instant i)
+    {
+        LocalTime e = i.atZone(UTC_ZONE).toLocalTime();
+        return new KmTime(e);
     }
 
     /**
-     * Create a time based on the number of milliseconds as returned
-     * from System.currentTimeMillis.
+     * Convert to a java.time.Instant.
      */
-    public static KmTime createFromSystemMillis(long ms)
+    public Instant toInstant(KmDate e)
     {
-        return createFromMsSince1970(ms);
+        return _inner.atDate(e.toLocalDate()).atZone(UTC_ZONE).toInstant();
     }
+
+    //==================================================
+    //= conversion :: seconds
+    //==================================================
+
+    public static KmTime fromDaySeconds(int secs)
+    {
+        return fromLocalTime(LocalTime.ofSecondOfDay(secs));
+    }
+
+    public int toDaySeconds()
+    {
+        return _inner.toSecondOfDay();
+    }
+
+    //==================================================
+    //= conversion :: ms
+    //==================================================
+
+    public static KmTime fromDayMs(int ms)
+    {
+        return fromDaySeconds(ms / 1000);
+    }
+
+    public int toDayMs()
+    {
+        return _inner.toSecondOfDay() * 1000;
+    }
+
+    //==================================================
+    //= conversion :: local time
+    //==================================================
+
+    public static KmTime fromLocalTime(LocalTime e)
+    {
+        return new KmTime(e);
+    }
+
+    public LocalTime toLocalTime()
+    {
+        return _inner;
+    }
+
+    //==================================================
+    //= conversion :: MySql
+    //==================================================
 
     /**
-     * Create a time based on the number of milliseconds since 1970 Utc.
+     * Used to fast time conversion with my sql.
+     * Returns the number of seconds since midnight.
      */
-    public static KmTime createFromMsSince1970(long ms)
+    public int toMySqlOrdinal()
     {
-        return createOrdinal((int)(ms % MS_PER_DAY));
+        return getTotalSeconds();
     }
 
-    public static KmTime createNowLocal()
+    public static KmTime fromMySqlOrdinal(int secs)
     {
-        Calendar c = new GregorianCalendar();
-        int hh = c.get(Calendar.HOUR_OF_DAY);
-        int mm = c.get(Calendar.MINUTE);
-        int ss = c.get(Calendar.SECOND);
-        int ms = c.get(Calendar.MILLISECOND);
-        return create(hh, mm, ss, ms);
-    }
-
-    public static KmTime create(int hh, int mm, int ss, int ms)
-    {
-        return new KmTime(hh * MS_PER_HOUR + mm * MS_PER_MINUTE + ss * MS_PER_SECOND + ms);
-    }
-
-    public static KmTime create(int hh, int mm, int ss)
-    {
-        return create(hh, mm, ss, 0);
-    }
-
-    public static KmTime create(int hh, int mm)
-    {
-        return create(hh, mm, 0, 0);
-    }
-
-    public static KmTime create(int hh)
-    {
-        return create(hh, 0, 0, 0);
-    }
-
-    public static KmTime create(Date d)
-    {
-        if ( d == null )
-            return null;
-
-        // does not account for time zones
-        Calendar c = new GregorianCalendar();
-        c.setTime(d);
-        int hh = c.get(Calendar.HOUR_OF_DAY);
-        int mm = c.get(Calendar.MINUTE);
-        int ss = c.get(Calendar.SECOND);
-        return create(hh, mm, ss);
-    }
-
-    public static KmTime createMidnight()
-    {
-        return new KmTime(0);
-    }
-
-    public static KmTime createOrdinal(int i)
-    {
-        return createAdjustment(i).getTime();
-    }
-
-    /**
-     * Set the orginal value and return the number of days offset.
-     * For example if the value set is MS_PER_DAY + 3, then ordinal
-     * is set to 3 and the number of days returned is 1.  If the value
-     * set is -3 then the milliseconds should be set to MS_PER_DAY - 3,
-     * and the number of days returned should be -1.
-     */
-    public static KmTimeAdjustment createAdjustment(long i)
-    {
-        int days = (int)(i / MS_PER_DAY);
-        int ms = (int)(i % MS_PER_DAY);
-
-        if ( ms >= 0 )
-            return new KmTimeAdjustment(new KmTime(ms), days);
-
-        return new KmTimeAdjustment(new KmTime(MS_PER_DAY + ms), -days - 1);
+        return fromDaySeconds(secs);
     }
 
     //##################################################
@@ -140,32 +156,17 @@ public class KmTime
     //##################################################
 
     /**
-     * Ordinal is the number of milliseconds since midnight.  The
-     * ordinal is always normalized so that it is in the range of
-     * 0..ms_per_day.
+     * The internal implementation relies on java.time.LocalTime.
      */
-    private int _ordinal;
+    private LocalTime _inner;
 
     //##################################################
     //# constructor
     //##################################################
 
-    private KmTime(int ordinal)
+    private KmTime(LocalTime e)
     {
-        _ordinal = ordinal % MS_PER_DAY;
-    }
-
-    //##################################################
-    //# accessing
-    //##################################################
-
-    /**
-     * Get the ordinal value.  This is the number of milliseconds
-     * since midnight.
-     */
-    public int getOrdinal()
-    {
-        return _ordinal;
+        _inner = e;
     }
 
     //##################################################
@@ -174,7 +175,7 @@ public class KmTime
 
     public int getHour()
     {
-        return _ordinal / MS_PER_HOUR;
+        return _inner.getHour();
     }
 
     public int getHour12()
@@ -187,55 +188,17 @@ public class KmTime
 
     public int getMinute()
     {
-        return _ordinal / MS_PER_MINUTE % MINUTES_PER_HOUR;
-    }
-
-    public int getTotalMinutes()
-    {
-        return _ordinal / MS_PER_MINUTE;
+        return _inner.getMinute();
     }
 
     public int getSecond()
     {
-        return _ordinal / MS_PER_SECOND % SECONDS_PER_MINUTE;
+        return _inner.getSecond();
     }
 
     public int getTotalSeconds()
     {
-        return _ordinal / MS_PER_SECOND;
-    }
-
-    public int getMillisecond()
-    {
-        return _ordinal % MS_PER_SECOND;
-    }
-
-    public int getTotalMilliseconds()
-    {
-        return _ordinal;
-    }
-
-    public KmTime toHour(int hh)
-    {
-        return create(hh, getMinute(), getSecond(), getMillisecond());
-    }
-
-    //##################################################
-    //# database (my sql)
-    //##################################################
-
-    /**
-     * Used to fast time conversion with my sql.  Returns
-     * the number of seconds since midnight.
-     */
-    public int getMySqlOrdinal()
-    {
-        return getTotalSeconds();
-    }
-
-    public static KmTime createMySqlOrdinal(int secs)
-    {
-        return create(0, 0, secs);
+        return _inner.toSecondOfDay();
     }
 
     //##################################################
@@ -262,19 +225,19 @@ public class KmTime
         if ( !(e instanceof KmTime) )
             return false;
 
-        return ((KmTime)e)._ordinal == _ordinal;
+        return ((KmTime)e)._inner.equals(_inner);
     }
 
     @Override
     public int hashCode()
     {
-        return _ordinal;
+        return _inner.hashCode();
     }
 
     @Override
     public int compareTo(KmTime e)
     {
-        return Kmu.compare(_ordinal, e.getOrdinal());
+        return _inner.compareTo(e._inner);
     }
 
     //##################################################
@@ -339,11 +302,11 @@ public class KmTime
      */
     public KmDuration getDurationUntil(KmTime t)
     {
-        long start = getOrdinal();
-        long end = t.getOrdinal();
-        long diff = end - start;
+        long start = getTotalSeconds();
+        long end = t.getTotalSeconds();
+        long secs = end - start;
 
-        return new KmDuration(diff);
+        return KmDuration.fromSeconds(secs);
     }
 
     /**
@@ -358,98 +321,73 @@ public class KmTime
     //# math
     //##################################################
 
-    public KmTimeAdjustment addHour()
+    public KmTime addHour()
     {
         return addHours(1);
     }
 
-    public KmTimeAdjustment addHours(long i)
+    public KmTime addHours(int i)
     {
-        return createAdjustment(_ordinal + i * MS_PER_HOUR);
+        return fromLocalTime(_inner.plusHours(i));
     }
 
-    public KmTimeAdjustment addMinute()
+    public KmTime addMinute()
     {
         return addMinutes(1);
     }
 
-    public KmTimeAdjustment addMinutes(long i)
+    public KmTime addMinutes(long i)
     {
-        return createAdjustment(_ordinal + i * MS_PER_MINUTE);
+        return fromLocalTime(_inner.plusMinutes(i));
     }
 
-    public KmTimeAdjustment addSecond()
+    public KmTime addSecond()
     {
         return addSeconds(1);
     }
 
-    public KmTimeAdjustment addSeconds(long i)
+    public KmTime addSeconds(long i)
     {
-        return createAdjustment(_ordinal + i * MS_PER_SECOND);
+        return fromLocalTime(_inner.plusSeconds(i));
     }
 
-    public KmTimeAdjustment addMillisecond()
+    public KmTime addDuration(KmDuration e)
     {
-        return addMilliseconds(1);
-    }
-
-    public KmTimeAdjustment addMilliseconds(long i)
-    {
-        return createAdjustment(_ordinal + i);
-    }
-
-    public KmTimeAdjustment addDuration(KmDuration e)
-    {
-        return createAdjustment(_ordinal + e.getTotalMs());
+        return fromLocalTime(_inner.plusSeconds(e.getTotalSeconds()));
     }
 
     //##################################################
     //# subtract
     //##################################################
 
-    public KmTimeAdjustment subtractHour()
+    public KmTime subtractHour()
     {
         return addHours(-1);
     }
 
-    public KmTimeAdjustment subtractHours(int i)
+    public KmTime subtractHours(int i)
     {
         return addHours(-i);
     }
 
-    public KmTimeAdjustment subtractMinute()
+    public KmTime subtractMinute()
     {
         return addMinutes(-1);
     }
 
-    public KmTimeAdjustment subtractMinutes(int i)
+    public KmTime subtractMinutes(int i)
     {
         return addMinutes(-i);
     }
 
-    public KmTimeAdjustment subtractSecond()
+    public KmTime subtractSecond()
     {
         return addSeconds(-1);
     }
 
-    public KmTimeAdjustment subtractSeconds(int i)
+    public KmTime subtractSeconds(int i)
     {
         return addSeconds(-i);
-    }
-
-    public KmTimeAdjustment subtractMillisecond()
-    {
-        return addMilliseconds(-1);
-    }
-
-    public KmTimeAdjustment subtractMilliseconds(int i)
-    {
-        return addMilliseconds(-i);
-    }
-
-    public KmTimeAdjustment subtractDuration(KmDuration e)
-    {
-        return createAdjustment(_ordinal - e.getTotalMs());
     }
 
     //##################################################

@@ -8,5 +8,5 @@ import com.app.model.base.MyEmailRecipientValidatorBase;
 public class MyEmailRecipientValidator
     extends MyEmailRecipientValidatorBase
 {
-    //
+    // none
 }

@@ -78,6 +78,6 @@ public class KmClock
 
     protected KmTimestamp _getNowUtc()
     {
-        return KmTimestamp.createNowUtc();
+        return KmTimestamp.nowUtc();
     }
 }

@@ -54,7 +54,7 @@ public class JkUidSequenceTest
             if ( v.get(i).index != i )
                 diffs++;
 
-        // System.out.println(v.joinLines());
+        v.printLines();
 
         if ( diffs == 0 )
             System.out.println("OK, all uids are in sequence.");

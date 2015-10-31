@@ -8,5 +8,5 @@ import com.app.model.base.MyDownloadValidatorBase;
 public class MyDownloadValidator
     extends MyDownloadValidatorBase
 {
-    //
+    // none
 }

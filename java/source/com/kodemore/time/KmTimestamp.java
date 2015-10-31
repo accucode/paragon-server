@@ -24,11 +24,10 @@ package com.kodemore.time;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Calendar;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
-import com.kodemore.string.KmStringReader;
 import com.kodemore.utility.Kmu;
 
 /**
@@ -45,94 +44,154 @@ public class KmTimestamp
     /**
      * Most clients should probably use KmClock.getNowUtc().
      */
-    public static KmTimestamp createNowUtc()
+    public static KmTimestamp nowUtc()
     {
-        return new KmTimestamp(KmDate.createTodayUtc(), KmTime.createNowUtc());
+        return fromInstant(UTC_WALL_CLOCK.instant());
+    }
+
+    public static KmTimestamp fromDateTime(KmDate d, KmTime t)
+    {
+        LocalDateTime e = d.toLocalDate().atTime(t.toLocalTime());
+        return fromLocalDateTime(e);
+    }
+
+    public static KmTimestamp fromYearMonthDay(int year, int month, int day)
+    {
+        LocalDateTime e = LocalDateTime.of(year, month, day, 0, 0);
+        return fromLocalDateTime(e);
+    }
+
+    //==================================================
+    //= conversion :: instant
+    //==================================================
+
+    public static KmTimestamp fromInstant(Instant i)
+    {
+        LocalDateTime e = i.atZone(UTC_ZONE).toLocalDateTime();
+        return fromLocalDateTime(e);
+    }
+
+    public Instant toInstant()
+    {
+        return _inner.atZone(UTC_ZONE).toInstant();
+    }
+
+    //==================================================
+    //= conversion :: localDateTime
+    //==================================================
+
+    public static KmTimestamp fromLocalDateTime(LocalDateTime e)
+    {
+        return new KmTimestamp(e);
+    }
+
+    public LocalDateTime toLocalDateTime()
+    {
+        return _inner;
+    }
+
+    //==================================================
+    //= conversion :: epoch ms
+    //==================================================
+
+    /**
+     * Create a timestamp based on the number of milliseconds since the standard epoch.
+     */
+    public static KmTimestamp fromEpochMs(long ms)
+    {
+        Instant i = Instant.ofEpochMilli(ms);
+        return fromInstant(i);
     }
 
     /**
-     * Most clients usually use KmClock.getNowLocal().
+     * Return the number of milliseconds since the standard epoch.
      */
-    public static KmTimestamp createNowLocal()
+    public long toEpochMs()
     {
-        return KmTimestampUtility.toLocal(createNowUtc());
+        return toInstant().toEpochMilli();
     }
 
-    public static KmTimestamp createNowSystemLocal()
-    {
-        return new KmTimestamp(KmDate.createTodaySystemLocal(), KmTime.createNowLocal());
-    }
+    //==================================================
+    //= conversion :: epoch seconds
+    //==================================================
 
-    public static KmTimestamp create(KmDate d, KmTime t)
+    /**
+     * Create a timestamp based on the number of milliseconds since the standard epoch.
+     */
+    public static KmTimestamp fromEpochSeconds(long secs)
     {
-        return new KmTimestamp(d, t);
-    }
-
-    public static KmTimestamp create(int year, int month, int day)
-    {
-        KmDate d = KmDate.create(year, month, day);
-        return create(d);
-    }
-
-    public static KmTimestamp create(KmDate d)
-    {
-        return create(d, KmTime.createMidnight());
-    }
-
-    public static KmTimestamp create(Date d)
-    {
-        return createJavaDate(d);
+        Instant i = Instant.ofEpochSecond(secs);
+        return fromInstant(i);
     }
 
     /**
-     * Create a timestamp based on the number of milliseconds as returned
-     * from System.currentTimeMillis.
+     * Return the number of milliseconds since the standard epoch.
      */
-    public static KmTimestamp createFromSystemMillis(long ms)
+    public int toEpochSeconds()
     {
-        return createFromMsSince1970(ms);
+        return (int)toInstant().toEpochMilli() / 1000;
     }
 
-    /**
-     * Create a timestamp based on the ms since midnight 1970 Utc.
-     */
-    public static KmTimestamp createFromMsSince1970(long ms)
+    //==================================================
+    //= conversion :: java date
+    //==================================================
+
+    public static KmTimestamp fromJavaDate(Date e)
     {
-        KmDate date = KmDate.createFromMsSince1970(ms);
-        KmTime time = KmTime.createFromMsSince1970(ms);
-        return new KmTimestamp(date, time);
+        return fromInstant(e.toInstant());
     }
 
-    /**
-     * Create a timestamp from an ordinal.  This is the reciprical
-     * of KmTimestamp.getOrdinal().
-     */
-    public static KmTimestamp createOrdinal(long i)
+    public Date toJavaDate()
     {
-        int dateOrdinal = (int)(i / MS_PER_DAY);
-        int timeOrdinal = (int)(i % MS_PER_DAY);
+        return Date.from(toInstant());
+    }
 
-        KmDate date = KmDate.createOrdinal(dateOrdinal);
-        KmTime time = KmTime.createOrdinal(timeOrdinal);
+    //==================================================
+    //= conversion :: java timestamp
+    //==================================================
 
-        return KmTimestamp.create(date, time);
+    public static KmTimestamp fromJavaTimestamp(Timestamp e)
+    {
+        return fromInstant(e.toInstant());
+    }
+
+    public Timestamp toJavaTimestamp()
+    {
+        return Timestamp.from(toInstant());
+    }
+
+    //==================================================
+    //= conversion :: MySql
+    //==================================================
+
+    /**
+     * Fast conversions for use with MY SQL.
+     * MySql must be in UTC timezone.
+     * This is compatible with MySql unix_timestamp and from_unixtime.
+     */
+    public static KmTimestamp fromMySqlOrdinal(int i)
+    {
+        return fromEpochSeconds(i);
+    }
+
+    public int toMySqlOrdinal()
+    {
+        return toEpochSeconds();
     }
 
     //##################################################
     //# variables
     //##################################################
 
-    private KmDate _date;
-    private KmTime _time;
+    private LocalDateTime _inner;
 
     //##################################################
     //# constructor
     //##################################################
 
-    private KmTimestamp(KmDate date, KmTime time)
+    private KmTimestamp(LocalDateTime e)
     {
-        _date = date;
-        _time = time;
+        _inner = e;
     }
 
     //##################################################
@@ -141,7 +200,7 @@ public class KmTimestamp
 
     public KmDate getDate()
     {
-        return _date;
+        return KmDate.fromLocalDate(_inner.toLocalDate());
     }
 
     public boolean hasDate(KmDate e)
@@ -156,7 +215,7 @@ public class KmTimestamp
 
     public KmTime getTime()
     {
-        return _time;
+        return KmTime.fromLocalTime(_inner.toLocalTime());
     }
 
     public boolean hasTime(KmTime e)
@@ -170,22 +229,22 @@ public class KmTimestamp
 
     public int getYear()
     {
-        return getDate().getYear();
+        return _inner.getYear();
     }
 
     public int getMonth()
     {
-        return getDate().getMonth();
+        return _inner.getMonthValue();
     }
 
     public int getDay()
     {
-        return getDate().getDay();
+        return _inner.getDayOfMonth();
     }
 
     public int getHour()
     {
-        return getTime().getHour();
+        return _inner.getHour();
     }
 
     public int getHour12()
@@ -195,86 +254,17 @@ public class KmTimestamp
 
     public int getMinute()
     {
-        return getTime().getMinute();
+        return _inner.getMinute();
     }
 
     public int getSecond()
     {
-        return getTime().getSecond();
-    }
-
-    public int getMillisecond()
-    {
-        return getTime().getMillisecond();
-    }
-
-    public KmTimestamp toDay(Integer dd)
-    {
-        return create(getDate().toDay(dd), getTime());
-    }
-
-    public KmTimestamp toHour(Integer hh)
-    {
-        return create(getDate(), getTime().toHour(hh));
-    }
-
-    public KmTimestamp toHourExact(Integer hh)
-    {
-        return create(getDate(), KmTime.create(hh));
+        return _inner.getSecond();
     }
 
     //##################################################
     //# abstract accessing
     //##################################################
-
-    public static KmTimestamp createJavaDate(Date jd)
-    {
-        Calendar c = new GregorianCalendar();
-        c.setTime(jd);
-        int y = c.get(Calendar.YEAR);
-        int m = c.get(Calendar.MONTH);
-        int d = c.get(Calendar.DAY_OF_MONTH);
-        int hh = c.get(Calendar.HOUR_OF_DAY);
-        int mm = c.get(Calendar.MINUTE);
-        int ss = c.get(Calendar.SECOND);
-        int ms = c.get(Calendar.MILLISECOND);
-
-        KmDate date = KmDate.create(y, m + 1, d);
-        KmTime time = KmTime.create(hh, mm, ss, ms);
-        return create(date, time);
-    }
-
-    public static KmTimestamp createJavaTimestamp(Timestamp ts)
-    {
-        Calendar c = new GregorianCalendar();
-        c.setTimeInMillis(ts.getTime());
-        int y = c.get(Calendar.YEAR);
-        int m = c.get(Calendar.MONTH);
-        int d = c.get(Calendar.DAY_OF_MONTH);
-        int hh = c.get(Calendar.HOUR_OF_DAY);
-        int mm = c.get(Calendar.MINUTE);
-        int ss = c.get(Calendar.SECOND);
-        int ms = c.get(Calendar.MILLISECOND);
-
-        KmDate date = KmDate.create(y, m + 1, d);
-        KmTime time = KmTime.create(hh, mm, ss, ms);
-        return create(date, time);
-    }
-
-    public Timestamp getJavaTimestamp()
-    {
-        Calendar c = new GregorianCalendar();
-        c.set(Calendar.YEAR, getYear());
-        c.set(Calendar.MONTH, getMonth() - 1);
-        c.set(Calendar.DAY_OF_MONTH, getDay());
-        c.set(Calendar.HOUR_OF_DAY, getHour());
-        c.set(Calendar.MINUTE, getMinute());
-        c.set(Calendar.SECOND, getSecond());
-        c.set(Calendar.MILLISECOND, getMillisecond());
-
-        long x = c.getTimeInMillis();
-        return new Timestamp(x);
-    }
 
     public KmTimestamp getStartOfDay()
     {
@@ -428,12 +418,22 @@ public class KmTimestamp
 
     public KmTimestamp addYear()
     {
-        return create(getDate().addYear(), getTime());
+        return addYears(1);
+    }
+
+    public KmTimestamp addYears(int i)
+    {
+        return fromLocalDateTime(_inner.plusYears(i));
     }
 
     public KmTimestamp addMonth()
     {
-        return create(getDate().addMonth(), getTime());
+        return addMonths(1);
+    }
+
+    public KmTimestamp addMonths(int i)
+    {
+        return fromLocalDateTime(_inner.plusMonths(i));
     }
 
     public KmTimestamp addDay()
@@ -443,7 +443,7 @@ public class KmTimestamp
 
     public KmTimestamp addDays(int i)
     {
-        return create(getDate().addDays(i), getTime());
+        return fromLocalDateTime(_inner.plusDays(i));
     }
 
     public KmTimestamp addWeek()
@@ -453,7 +453,7 @@ public class KmTimestamp
 
     public KmTimestamp addWeeks(int i)
     {
-        return addDays(i * 7);
+        return fromLocalDateTime(_inner.plusWeeks(i));
     }
 
     public KmTimestamp addHour()
@@ -463,7 +463,7 @@ public class KmTimestamp
 
     public KmTimestamp addHours(long i)
     {
-        return adjust(getTime().addHours(i));
+        return fromLocalDateTime(_inner.plusHours(i));
     }
 
     public KmTimestamp addMinutes()
@@ -473,7 +473,7 @@ public class KmTimestamp
 
     public KmTimestamp addMinutes(long i)
     {
-        return adjust(getTime().addMinutes(i));
+        return fromLocalDateTime(_inner.plusMinutes(i));
     }
 
     public KmTimestamp addSecond()
@@ -483,22 +483,12 @@ public class KmTimestamp
 
     public KmTimestamp addSeconds(long i)
     {
-        return adjust(getTime().addSeconds(i));
-    }
-
-    public KmTimestamp addMillisecond()
-    {
-        return addMilliseconds(1);
-    }
-
-    public KmTimestamp addMilliseconds(long i)
-    {
-        return adjust(getTime().addMilliseconds(i));
+        return fromLocalDateTime(_inner.plusSeconds(i));
     }
 
     public KmTimestamp addDuration(KmDuration d)
     {
-        return adjust(getTime().addDuration(d));
+        return addSeconds(d.getTotalSeconds());
     }
 
     //##################################################
@@ -512,7 +502,7 @@ public class KmTimestamp
 
     public KmTimestamp subtractDays(int i)
     {
-        return create(getDate().subtractDays(i), getTime());
+        return addDays(-i);
     }
 
     public KmTimestamp subtractWeek()
@@ -520,14 +510,9 @@ public class KmTimestamp
         return subtractWeeks(1);
     }
 
-    public KmTimestamp subtractWeeks()
-    {
-        return subtractDays(7);
-    }
-
     public KmTimestamp subtractWeeks(int i)
     {
-        return create(getDate().subtractWeeks(i), getTime());
+        return addWeeks(-i);
     }
 
     public KmTimestamp subtractHour()
@@ -560,78 +545,6 @@ public class KmTimestamp
         return addSeconds(-i);
     }
 
-    public KmTimestamp subtractMillisecond()
-    {
-        return subtractMilliseconds(1);
-    }
-
-    public KmTimestamp subtractMilliseconds(int i)
-    {
-        return addMilliseconds(-i);
-    }
-
-    //##################################################
-    //# database (my sql)
-    //##################################################
-
-    /**
-     * kludge
-     * Fast conversions for use with MY SQL
-     * MySql must be in UTC timezone.
-     */
-    public int getMySqlOrdinal()
-    {
-        return (getDate().getOrdinal() - DAYS_DIFF_1800_1970) * SECONDS_PER_DAY
-            + getTime().getTotalSeconds();
-    }
-
-    public static KmTimestamp createMySqlOrdinal(int i)
-    {
-        KmDate date = KmDate.createOrdinal(i / SECONDS_PER_DAY + DAYS_DIFF_1800_1970);
-        KmTime time = KmTime.createAdjustment(i % SECONDS_PER_DAY * MS_PER_SECOND).getTime();
-        return create(date, time);
-    }
-
-    /**
-     * Create a timestamp based on the "goofy" format used when
-     * mysql returns datetimes as a double.  E.g.:
-     *
-     * select now() + 0;
-     * -> 20071215235026.000000
-     *
-     * which means: 2007-12-15 23:50:26.
-     */
-    public static KmTimestamp createMySqlGoofy(Double d)
-    {
-        String s = d.longValue() + "";
-
-        KmStringReader r = new KmStringReader(s);
-        int yy = r.readInteger(4);
-        int mm = r.readInteger(2);
-        int dd = r.readInteger(2);
-        int hh = r.readInteger(2);
-        int nn = r.readInteger(2);
-        int ss = r.readInteger(2);
-
-        KmDate date = KmDate.create(yy, mm, dd);
-        KmTime time = KmTime.create(hh, nn, ss);
-        return create(date, time);
-    }
-
-    //##################################################
-    //# utility
-    //##################################################
-
-    /**
-     * Ordinal is a unique value that is only intended for use when comparing
-     * two timestamp.  Comparing two ordinals yields the number of milliseconds
-     * between the timestamps.
-     */
-    public long getOrdinal()
-    {
-        return (long)getDate().getOrdinal() * MS_PER_DAY + getTime().getOrdinal();
-    }
-
     //##################################################
     //# difference
     //##################################################
@@ -646,11 +559,11 @@ public class KmTimestamp
      */
     public KmDuration getDurationUntil(KmTimestamp ts)
     {
-        long end = ts.getOrdinal();
-        long start = getOrdinal();
-        long ms = end - start;
+        long end = ts.toEpochSeconds();
+        long start = toEpochSeconds();
+        long secs = end - start;
 
-        return new KmDuration(ms);
+        return KmDuration.fromSeconds(secs);
     }
 
     /**
@@ -689,7 +602,7 @@ public class KmTimestamp
     @Override
     public String toString()
     {
-        return KmTimestampUtility.formatFull(this);
+        return KmTimestampUtility.format_m_dd_yy_h_mm_ss_am(this);
     }
 
     public String format(String s)
@@ -797,26 +710,13 @@ public class KmTimestamp
     }
 
     //##################################################
-    //# support
-    //##################################################
-
-    private KmTimestamp adjust(KmTimeAdjustment a)
-    {
-        int days = a.getDays();
-        KmDate date = getDate().addDays(days);
-        KmTime time = a.getTime();
-
-        return create(date, time);
-    }
-
-    //##################################################
     //# main
     //##################################################
 
     public static void main(String... args)
     {
         KmTimestamp a = KmClock.getNowLocal();
-        KmTimestamp b = KmTimestamp.createOrdinal(a.getOrdinal());
+        KmTimestamp b = KmTimestamp.fromEpochMs(a.toEpochMs());
 
         System.out.println(a);
         System.out.println(b);

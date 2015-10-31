@@ -50,7 +50,7 @@ public class MyMetaAttentionGroup_Uid
     @Override
     public String getHelp()
     {
-        return "The globally unique identifier.  This is a big ugly number and is usually not displayed.";
+        return "The unique key.";
     }
     
     @Override

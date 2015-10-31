@@ -7,6 +7,8 @@ import com.kodemore.exception.KmSecurityException;
 import com.kodemore.log.KmLog;
 import com.kodemore.servlet.action.ScAction;
 import com.kodemore.servlet.action.ScContextIF;
+import com.kodemore.servlet.control.ScControl;
+import com.kodemore.servlet.control.ScNonRenderedContainer;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.script.ScBlockScript;
 import com.kodemore.servlet.utility.ScBridge;
@@ -35,6 +37,13 @@ public abstract class ScPage
      */
     private ScPageRoot _root;
 
+    // review_aaron: non rendered container
+    /**
+     * This is a container for controls that need to be added to
+     * the page's heirarch, but not rendered in html.
+     */
+    private ScNonRenderedContainer _nonRenderedContainer;
+
     //##################################################
     //# constructor
     //##################################################
@@ -51,6 +60,10 @@ public abstract class ScPage
     public final void install()
     {
         _root = newPageRoot();
+
+        _nonRenderedContainer = new ScNonRenderedContainer();
+        _root.add(_nonRenderedContainer);
+
         installRoot(_root);
     }
 
@@ -97,6 +110,21 @@ public abstract class ScPage
     public boolean hasRoot()
     {
         return _root != null;
+    }
+
+    // review_aaron: non rendered container
+    //##################################################
+    //# non rendered container
+    //##################################################
+
+    protected ScNonRenderedContainer getNonRenderedContainer()
+    {
+        return _nonRenderedContainer;
+    }
+
+    protected void attach(ScControl e)
+    {
+        getNonRenderedContainer().add(e);
     }
 
     //##################################################

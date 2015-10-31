@@ -61,7 +61,7 @@ public class MyClock
 
     private KmTimestamp _now()
     {
-        return KmTimestamp.createNowUtc();
+        return KmTimestamp.nowUtc();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.app.ui.layout;
 
+import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.control.ScDiv;
 
 public class MyPageContent
@@ -20,11 +21,11 @@ public class MyPageContent
     {
         super.install();
 
-        setHtmlId("pageContent");
+        setHtmlId(KmCssDefaultConstantsIF.ID_appContent);
 
         _inner = addDiv();
-        _inner.setHtmlId("pageContentInner");
-        _inner.css().pageContentInner();
+        _inner.setHtmlId(KmCssDefaultConstantsIF.ID_appContentInner);
+        _inner.css().appContentInner();
     }
 
     //##################################################

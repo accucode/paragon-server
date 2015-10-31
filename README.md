@@ -69,5 +69,24 @@ Setup
     
         $project/java/source/com/app/utility/MyConstantsIF.java
         Also, do a text search for all references to "accucode".
-	
+
+Node.js
+-------
+
+    This project relies on Node.js.
+    In particular, we use it for the Stylus css preprocessor.
+    Install Node with NPM (package manager).
+
+
+Stylus (css preprocessor)
+-------------------------
+
+    We use Stylus as a css preprocessor.
+    https://learnboost.github.io/stylus/
+
+    If you already have Node.js installed, you can install
+    Stylus from a command shell using:
+
+    npm install stylus -g
+
 end.

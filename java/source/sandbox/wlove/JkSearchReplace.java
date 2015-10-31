@@ -7,10 +7,13 @@ public class JkSearchReplace
 {
     public static void main(String[] args)
     {
-        String folder = "/projects/paragon-server";
+        String folder = "/projects/fieldService-server";
         String ext = "java";
         KmFile search = new KmFile("/temp/search.txt");
         KmFile replace = new KmFile("/temp/replace.txt");
+
+        System.out.println("Searching " + folder);
+        System.out.println("----------");
 
         KmSearchReplaceTool e;
         e = new KmSearchReplaceTool();
@@ -20,6 +23,9 @@ public class JkSearchReplace
         e.setReplaceText(replace);
 
         e.findAll();
-        //e.replaceAll();
+        // e.replaceAll();
+
+        System.out.println("----------");
+        System.out.println("done.");
     }
 }

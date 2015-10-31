@@ -75,6 +75,7 @@ public class MyMetaAuditLog
     public static final MyMetaAuditLog_UserName UserName = new MyMetaAuditLog_UserName();
     public static final MyMetaAuditLog_TypeCode TypeCode = new MyMetaAuditLog_TypeCode();
     public static final MyMetaAuditLog_UtcTs UtcTs = new MyMetaAuditLog_UtcTs();
+    public static final MyMetaAuditLog_ModelType ModelType = new MyMetaAuditLog_ModelType();
     public static final MyMetaAuditLog_ModelName ModelName = new MyMetaAuditLog_ModelName();
     public static final MyMetaAuditLog_ModelUid ModelUid = new MyMetaAuditLog_ModelUid();
     public static final MyMetaAuditLog_FieldName FieldName = new MyMetaAuditLog_FieldName();

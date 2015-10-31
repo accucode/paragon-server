@@ -28,6 +28,7 @@ import com.kodemore.sql.KmSqlBuffer;
 import com.kodemore.sql.KmSqlResultSet;
 import com.kodemore.sql.adaptor.KmSqlValueAdaptor;
 import com.kodemore.time.KmTime;
+import com.kodemore.time.KmTimestamp;
 
 public class KmSqlBasicTimeAdaptor
     extends KmSqlValueAdaptor<KmTime>
@@ -39,7 +40,7 @@ public class KmSqlBasicTimeAdaptor
         if ( rs.wasNull() )
             return def;
 
-        return KmTime.create(jd);
+        return KmTimestamp.fromJavaDate(jd).getTime();
     }
 
     @Override

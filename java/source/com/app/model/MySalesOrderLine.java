@@ -17,16 +17,6 @@ public class MySalesOrderLine
     }
 
     //##################################################
-    //# display
-    //##################################################
-
-    @Override
-    public String getDisplayString()
-    {
-        return getProduct().getPartNumber();
-    }
-
-    //##################################################
     //# price
     //##################################################
 
@@ -34,7 +24,7 @@ public class MySalesOrderLine
      * Update the price, recalculating it based on current attributes
      * in the order and line.
      */
-    public void updatePrice()
+    public void updatePricing()
     {
         KmMoney listPrice = getProduct().getListPrice();
 
@@ -54,15 +44,9 @@ public class MySalesOrderLine
         setListPrice(listPrice);
         setUnitPrice(unitPrice);
         setExtendedPrice(extendedPrice);
+        setAdjustedPrice(adjustedPrice);
         setTax(tax);
         setTotalPrice(totalPrice);
-    }
-
-    @Override
-    public void updateOrderTotals()
-    {
-        if ( hasSalesOrder() )
-            getSalesOrder().updateTotals();
     }
 
     private double getEffectiveTaxRate()
@@ -85,6 +69,16 @@ public class MySalesOrderLine
             return 0.0;
 
         return getSalesOrder().getDiscountRate();
+    }
+
+    //##################################################
+    //# display
+    //##################################################
+
+    @Override
+    public String getDisplayString()
+    {
+        return getProduct().getPartNumber();
     }
 
 }

@@ -8,5 +8,5 @@ import com.app.model.base.MyUserValidatorBase;
 public class MyUserValidator
     extends MyUserValidatorBase
 {
-    //
+    // none
 }

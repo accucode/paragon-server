@@ -16,6 +16,6 @@ import com.app.utility.*;
 public class MySalesOrderValidator
     extends MySalesOrderValidatorBase
 {
-    //
+    // none
 }
 

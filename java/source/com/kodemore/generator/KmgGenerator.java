@@ -192,18 +192,6 @@ public class KmgGenerator
             return;
         }
 
-        if ( t.getFileMode().equals("oneFilePerPageModel") )
-        {
-            processOneFilePerPageModel(t);
-            return;
-        }
-
-        if ( t.getFileMode().equals("oneFilePerCacheModel") )
-        {
-            processOneFilePerCacheModel(t);
-            return;
-        }
-
         if ( t.getFileMode().equals("oneFilePerDatabaseModel") )
         {
             processOneFilePerDatabaseModel(t);
@@ -259,18 +247,6 @@ public class KmgGenerator
     {
         KmList<KmgModelEnum> v = _root.getEnums();
         processOneFilePer(gs, v, "enum");
-    }
-
-    private void processOneFilePerPageModel(KmgSetup gs)
-    {
-        KmList<KmgModel> v = _root.getPageModels();
-        processOneFilePer(gs, v, "model");
-    }
-
-    private void processOneFilePerCacheModel(KmgSetup gs)
-    {
-        KmList<KmgModel> v = _root.getCacheModels();
-        processOneFilePer(gs, v, "model");
     }
 
     private void processOneFilePerDatabaseModel(KmgSetup gs)

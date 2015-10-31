@@ -37,18 +37,18 @@ public abstract class MyPage
     //= layout :: shows
     //==================================================
 
-    public MyMenuItem getTopMenu()
+    public MyMenuItem getPrimaryMenuItem()
     {
         if ( hasMenu() )
-            return getMenu().getTop();
+            return getMenu().getPrimary();
 
         return null;
     }
 
-    public MyMenuItem getLeftMenuItem()
+    public MyMenuItem getSecondaryMenuItem()
     {
         if ( hasMenu() )
-            return getMenu().getLeftItem();
+            return getMenu().getSecondary();
 
         return null;
     }

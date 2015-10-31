@@ -44,9 +44,9 @@ public class MyAttributeValueCriteria
         return new KmhStringCondition(context(), fullName(UID));
     }
 
-    public KmhStringCondition whereData()
+    public KmhStringCondition whereTextValue()
     {
-        return new KmhStringCondition(context(), fullName(DATA));
+        return new KmhStringCondition(context(), fullName(TEXT_VALUE));
     }
 
     public KmhIntegerCondition whereLockVersion()
@@ -76,22 +76,22 @@ public class MyAttributeValueCriteria
             sortOnUidDescending();
     }
 
-    public void sortOnData()
+    public void sortOnTextValue()
     {
-        parent().sortAscending(DATA);
+        parent().sortAscending(TEXT_VALUE);
     }
 
-    public void sortOnDataDescending()
+    public void sortOnTextValueDescending()
     {
-        parent().sortDescending(DATA);
+        parent().sortDescending(TEXT_VALUE);
     }
 
-    public void sortOnData(boolean asc)
+    public void sortOnTextValue(boolean asc)
     {
         if ( asc )
-            sortOnData();
+            sortOnTextValue();
         else
-            sortOnDataDescending();
+            sortOnTextValueDescending();
     }
 
     public void sortOnLockVersion()
@@ -157,47 +157,47 @@ public class MyAttributeValueCriteria
     }
 
     //##################################################
-    //# projections (data)
+    //# projections (textValue)
     //##################################################
 
-    public void selectData()
+    public void selectTextValue()
     {
-        select(DATA);
+        select(TEXT_VALUE);
     }
 
-    public void selectDistinctData()
+    public void selectDistinctTextValue()
     {
-        selectDistinct(DATA);
+        selectDistinct(TEXT_VALUE);
     }
 
-    public void selectCountDistinctData()
+    public void selectCountDistinctTextValue()
     {
-        selectCountDistinct(DATA);
+        selectCountDistinct(TEXT_VALUE);
     }
 
-    public void selectMinimumData()
+    public void selectMinimumTextValue()
     {
-        selectMinimum(DATA);
+        selectMinimum(TEXT_VALUE);
     }
 
-    public void selectMaximumData()
+    public void selectMaximumTextValue()
     {
-        selectMaximum(DATA);
+        selectMaximum(TEXT_VALUE);
     }
 
-    public void selectAverageData()
+    public void selectAverageTextValue()
     {
-        selectAverage(DATA);
+        selectAverage(TEXT_VALUE);
     }
 
-    public void selectSumData()
+    public void selectSumTextValue()
     {
-        selectSum(DATA);
+        selectSum(TEXT_VALUE);
     }
 
-    public void groupByData()
+    public void groupByTextValue()
     {
-        groupBy(DATA);
+        groupBy(TEXT_VALUE);
     }
 
     //##################################################
@@ -336,6 +336,100 @@ public class MyAttributeValueCriteria
             whereProductUid().isNull();
         else
             whereProductUid().is(e.getUid());
+    }
+
+    //##################################################
+    //# association (CustomerSite)
+    //##################################################
+
+    public void selectCustomerSiteUid()
+    {
+        select(CUSTOMER_SITE_UID);
+    }
+
+    public void selectMinimumCustomerSiteUid()
+    {
+        selectMinimum(CUSTOMER_SITE_UID);
+    }
+
+    public void selectMaximumCustomerSiteUid()
+    {
+        selectMaximum(CUSTOMER_SITE_UID);
+    }
+
+    public void groupByCustomerSiteUid()
+    {
+        groupBy(CUSTOMER_SITE);
+    }
+
+    public MyCustomerSiteCriteria joinToCustomerSite()
+    {
+        return new MyCustomerSiteCriteria(joinTo(CUSTOMER_SITE));
+    }
+
+    public MyCustomerSiteCriteria leftJoinToCustomerSite()
+    {
+        return new MyCustomerSiteCriteria(leftJoinTo(CUSTOMER_SITE));
+    }
+
+    public KmhStringCondition whereCustomerSiteUid()
+    {
+        return new KmhStringCondition(parent(), fullName(CUSTOMER_SITE_UID));
+    }
+
+    public void whereCustomerSiteIs(MyCustomerSite e)
+    {
+        if ( e == null )
+            whereCustomerSiteUid().isNull();
+        else
+            whereCustomerSiteUid().is(e.getUid());
+    }
+
+    //##################################################
+    //# association (SalesOrderLine)
+    //##################################################
+
+    public void selectSalesOrderLineUid()
+    {
+        select(SALES_ORDER_LINE_UID);
+    }
+
+    public void selectMinimumSalesOrderLineUid()
+    {
+        selectMinimum(SALES_ORDER_LINE_UID);
+    }
+
+    public void selectMaximumSalesOrderLineUid()
+    {
+        selectMaximum(SALES_ORDER_LINE_UID);
+    }
+
+    public void groupBySalesOrderLineUid()
+    {
+        groupBy(SALES_ORDER_LINE);
+    }
+
+    public MySalesOrderLineCriteria joinToSalesOrderLine()
+    {
+        return new MySalesOrderLineCriteria(joinTo(SALES_ORDER_LINE));
+    }
+
+    public MySalesOrderLineCriteria leftJoinToSalesOrderLine()
+    {
+        return new MySalesOrderLineCriteria(leftJoinTo(SALES_ORDER_LINE));
+    }
+
+    public KmhStringCondition whereSalesOrderLineUid()
+    {
+        return new KmhStringCondition(parent(), fullName(SALES_ORDER_LINE_UID));
+    }
+
+    public void whereSalesOrderLineIs(MySalesOrderLine e)
+    {
+        if ( e == null )
+            whereSalesOrderLineUid().isNull();
+        else
+            whereSalesOrderLineUid().is(e.getUid());
     }
 
     //##################################################

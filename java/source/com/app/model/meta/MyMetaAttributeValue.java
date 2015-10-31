@@ -71,7 +71,7 @@ public class MyMetaAttributeValue
     //##################################################
 
     public static final MyMetaAttributeValue_Uid Uid = new MyMetaAttributeValue_Uid();
-    public static final MyMetaAttributeValue_Data Data = new MyMetaAttributeValue_Data();
+    public static final MyMetaAttributeValue_TextValue TextValue = new MyMetaAttributeValue_TextValue();
     public static final MyMetaAttributeValue_LockVersion LockVersion = new MyMetaAttributeValue_LockVersion();
 
     //##################################################
@@ -80,4 +80,6 @@ public class MyMetaAttributeValue
 
     public static final MyMetaAttributeValue_Field Field = new MyMetaAttributeValue_Field();
     public static final MyMetaAttributeValue_Product Product = new MyMetaAttributeValue_Product();
+    public static final MyMetaAttributeValue_CustomerSite CustomerSite = new MyMetaAttributeValue_CustomerSite();
+    public static final MyMetaAttributeValue_SalesOrderLine SalesOrderLine = new MyMetaAttributeValue_SalesOrderLine();
 }

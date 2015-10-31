@@ -98,32 +98,32 @@ public interface ScConstantsIF
     /**
      * Indicates if the page header side is visible.
      */
-    String PARAMETER_IS_PAGE_HEADER_VISIBLE = "_isHeaderVisible";
+    String PARAMETER_IS_APP_HEADER_VISIBLE = "_isAppHeaderVisible";
 
     /**
      * Indicates if the page footer is visible.
      */
-    String PARAMETER_IS_PAGE_FOOTER_VISIBLE = "_isFooterVisible";
+    String PARAMETER_IS_APP_FOOTER_VISIBLE = "_isAppFooterVisible";
 
     /**
      * Indicates if the top menu is visible.
      */
-    String PARAMETER_IS_TOP_MENU_VISIBLE = "_isTopMenuVisible";
+    String PARAMETER_IS_APP_TABS_VISIBLE = "_isAppTabsVisible";
 
     /**
      * Indicates if the left menu is visible.
      */
-    String PARAMETER_IS_LEFT_MENU_VISIBLE = "_isLeftMenuVisible";
+    String PARAMETER_IS_APP_MENU_VISIBLE = "_isAppMenuVisible";
 
     /**
      * Indicates if the page title is visible.
      */
-    String PARAMETER_IS_PAGE_TITLE_VISIBLE = "_isPageTitleVisible";
+    String PARAMETER_IS_APP_TITLE_VISIBLE = "_isAppTitleVisible";
 
     /**
      * Indicates if the page title is visible.
      */
-    String PARAMETER_IS_PAGE_CONTENT_VISIBLE = "_isPageContentVisible";
+    String PARAMETER_IS_APP_CONTENT_VISIBLE = "_isAppContentVisible";
 
     /**
      * The key of the form that was submitted.

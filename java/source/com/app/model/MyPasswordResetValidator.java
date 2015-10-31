@@ -8,5 +8,5 @@ import com.app.model.base.MyPasswordResetValidatorBase;
 public class MyPasswordResetValidator
     extends MyPasswordResetValidatorBase
 {
-    //
+    // none
 }

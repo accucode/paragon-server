@@ -49,6 +49,7 @@ public abstract class MyCustomerSiteBase
     private String addressCountry;
     private Integer lockVersion;
     private MyCustomer customer;
+    private List<MyAttributeValue> attributeValues;
 
     //##################################################
     //# constructor
@@ -58,6 +59,7 @@ public abstract class MyCustomerSiteBase
     {
         super();
         setUid(newUid());
+        attributeValues = new ArrayList<>();
     }
 
     //##################################################
@@ -457,6 +459,73 @@ public abstract class MyCustomerSiteBase
 
 
     //##################################################
+    //# AttributeValues (collection)
+    //##################################################
+
+    public KmCollection<MyAttributeValue> getAttributeValues()
+    {
+        return new KmHibernateCollection<>(
+            getBaseAttributeValues(),
+            (MyCustomerSite)this,
+            MyAttributeValue.Meta.CustomerSite.getAdaptor());
+    }
+
+    public boolean hasAttributeValues()
+    {
+        return !getBaseAttributeValues().isEmpty();
+    }
+
+    public int getAttributeValueCount()
+    {
+        return getBaseAttributeValues().size();
+    }
+
+    public List<MyAttributeValue> getBaseAttributeValues()
+    {
+        return attributeValues;
+    }
+
+    public MyAttributeValue addAttributeValue()
+    {
+        MyAttributeValue e;
+        e = new MyAttributeValue();
+        getAttributeValues().add(e);
+        return e;
+    }
+
+    public void addAttributeValue(MyAttributeValue e)
+    {
+        getAttributeValues().add(e);
+    }
+
+    public boolean removeAttributeValue(MyAttributeValue e)
+    {
+        return getAttributeValues().remove(e);
+    }
+
+    public boolean removeAttributeValueUid(String myUid)
+    {
+        MyAttributeValue e = findAttributeValueUid(myUid);
+        if ( e == null )
+            return false;
+
+        return removeAttributeValue(e);
+    }
+
+    public MyAttributeValue findAttributeValueUid(String myUid)
+    {
+        for ( MyAttributeValue e : getBaseAttributeValues() )
+            if ( e.hasUid(myUid) )
+                return e;
+        return null;
+    }
+
+    public void clearAttributeValues()
+    {
+        getAttributeValues().clear();
+    }
+
+    //##################################################
     //# validate
     //##################################################
 
@@ -493,6 +562,8 @@ public abstract class MyCustomerSiteBase
         super.postCopy();
         uid = null;
         customer = null;
+
+        attributeValues = new ArrayList<>();
     }
 
     //##################################################

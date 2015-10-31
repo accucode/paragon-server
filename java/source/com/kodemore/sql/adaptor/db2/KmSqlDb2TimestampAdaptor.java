@@ -44,9 +44,6 @@ public class KmSqlDb2TimestampAdaptor
         out.pad2(value.getMinute());
         out.printDot();
         out.pad2(value.getSecond());
-        out.printDot();
-        out.pad3(value.getMillisecond());
-        out.printLiteral("000");
         out.printTick();
     }
 

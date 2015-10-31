@@ -244,22 +244,20 @@ public class MyGenerator
 
         KmgCssBundle e;
         e = root.addCssBundle("default");
-        e.addSelectors(getCssSelectors(themePath));
-        e.addSelectors(getCssSelectors(spicePath));
-        e.addSelectors(getCssSelectors(toolsPath));
-        e.addSelectors(getCssSelectors(buttonPath));
-        e.installComposites();
+        addSelectorsTo(e, themePath);
+        addSelectorsTo(e, spicePath);
+        addSelectorsTo(e, toolsPath);
+        addSelectorsTo(e, buttonPath);
 
         e = root.addCssBundle("spice");
-        e.addSelectors(getCssSelectors(spicePath));
-        e.installComposites();
+        addSelectorsTo(e, spicePath);
 
         _installedCss = true;
     }
 
-    private KmList<String> getCssSelectors(String path)
+    private void addSelectorsTo(KmgCssBundle bundle, String path)
     {
-        System.out.println("parse css: " + path);
+        System.out.println("parse style sheeet: " + path);
 
         path = getRootPath(path);
 
@@ -267,10 +265,9 @@ public class MyGenerator
         parser = new KmCssParser();
         parser.parseFile(path);
 
-        KmList<String> v;
-        v = parser.getClassSelectors();
-
-        return v;
+        bundle.addIdSelectors(parser.getIdSelectors());
+        bundle.addCssSelectors(parser.getCssSelectors());
+        bundle.installCssComposites();
     }
 
     //##################################################

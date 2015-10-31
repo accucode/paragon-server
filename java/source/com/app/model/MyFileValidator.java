@@ -8,5 +8,5 @@ import com.app.model.base.MyFileValidatorBase;
 public class MyFileValidator
     extends MyFileValidatorBase
 {
-    //
+    // none
 }

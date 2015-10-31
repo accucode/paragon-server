@@ -8,5 +8,5 @@ import com.app.model.base.MyProjectValidatorBase;
 public class MyProjectValidator
     extends MyProjectValidatorBase
 {
-    //
+    // none
 }

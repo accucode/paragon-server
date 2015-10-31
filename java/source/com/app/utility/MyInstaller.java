@@ -1,6 +1,5 @@
 package com.app.utility;
 
-import com.kodemore.command.KmDao;
 import com.kodemore.file.KmFile;
 import com.kodemore.log.KmLog;
 import com.kodemore.patch.KmPatchManager;
@@ -65,7 +64,6 @@ public class MyInstaller
         _installDatabasePatches();
         _installHibernate();
         _installLog4j();
-        _installOrderNumbers();
 
         _installClock();
         _installAjaxLog();
@@ -225,18 +223,6 @@ public class MyInstaller
         printfHeader("Log4j");
         MyLog4jManager.install();
         printOk();
-    }
-
-    private static void _installOrderNumbers()
-    {
-        printfHeader("Order Numbers");
-        KmDao.run(MyInstaller::prepopulateOrderNumbersDao);
-        printOk();
-    }
-
-    private static void prepopulateOrderNumbersDao()
-    {
-        MyGlobals.getAccess().getOrderNumberDao().prepopulate();
     }
 
     private static void _installDeadlockMonitor()

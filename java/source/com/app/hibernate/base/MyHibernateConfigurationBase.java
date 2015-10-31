@@ -14,6 +14,7 @@ public abstract class MyHibernateConfigurationBase
     {
         installMapping("applicationLog");
         installMapping("attentionGroup");
+        installMapping("attentionMember");
         installMapping("attributeField");
         installMapping("attributeValue");
         installMapping("auditLog");
@@ -36,7 +37,7 @@ public abstract class MyHibernateConfigurationBase
         installMapping("masterProduct");
         installMapping("member");
         installMapping("memberSkill");
-        installMapping("orderNumber");
+        installMapping("nextOrderNumber");
         installMapping("passwordReset");
         installMapping("patch");
         installMapping("performanceLogDetail");

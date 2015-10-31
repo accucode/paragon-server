@@ -41,11 +41,6 @@ public class KmTimeParser
         return new KmTimeParser().parse(s);
     }
 
-    public static KmTime parseOffset(String s)
-    {
-        return new KmTimeParser().parseHour(s);
-    }
-
     //##################################################
     //# variables
     //##################################################
@@ -86,7 +81,6 @@ public class KmTimeParser
         int hh = 0;
         int mm = 0;
         int ss = 0;
-        int ms = 0;
 
         Iterator<String> i = Kmu.tokenize(s, '.').iterator();
 
@@ -98,9 +92,6 @@ public class KmTimeParser
 
         if ( i.hasNext() )
             ss = Kmu.parse_int(i.next(), -1);
-
-        if ( i.hasNext() )
-            ms = Kmu.parse_int(i.next(), -1);
 
         if ( hh < 0 )
             return null;
@@ -120,50 +111,6 @@ public class KmTimeParser
         if ( ss > 59 )
             return null;
 
-        if ( ms < 0 )
-            return null;
-
-        if ( ms > 999 )
-            return null;
-
-        if ( _hour12 )
-        {
-            if ( hasPm && hh < 12 )
-                hh += 12;
-
-            if ( !hasPm && hh == 12 )
-                hh = 0;
-        }
-        return KmTime.create(hh, mm, ss, ms);
-    }
-
-    // One of the production accounts returned the timestamp below:
-    // "2008-01-03T11:06:49-04:4294967266"
-    // Check out the minute = 4294967266.  Since different timezones
-    // only have hour differences, let's ignore the minutes.
-    public KmTime parseHour(String s)
-    {
-        if ( s == null )
-            return null;
-
-        s = s.trim();
-
-        boolean hasPm = _hasPm(s);
-
-        s = Kmu.stripLetters(s);
-        s = s.replace(':', '.');
-        int hh = 0;
-
-        Iterator<String> i = Kmu.tokenize(s, '.').iterator();
-        if ( i.hasNext() )
-            hh = Kmu.parse_int(i.next(), -1);
-
-        if ( hh < 0 )
-            return null;
-
-        if ( hh > 23 )
-            return null;
-
         if ( _hour12 )
         {
             if ( hasPm && hh < 12 )
@@ -173,7 +120,7 @@ public class KmTimeParser
                 hh = 0;
         }
 
-        return KmTime.create(hh, 0);
+        return KmTime.fromHourMinuteSecond(hh, mm, ss);
     }
 
     //##################################################
@@ -209,18 +156,6 @@ public class KmTimeParser
         System.out.println(time.getMinute());
 
         time = tp.parse("04:42");
-        System.out.println("######");
-        System.out.println(time);
-        System.out.println(time.getHour());
-        System.out.println(time.getMinute());
-
-        time = tp.parseHour("04:4294967266");
-        System.out.println("######");
-        System.out.println(time);
-        System.out.println(time.getHour());
-        System.out.println(time.getMinute());
-
-        time = tp.parseHour("16:4294967266");
         System.out.println("######");
         System.out.println(time);
         System.out.println(time.getHour());

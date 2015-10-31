@@ -16,8 +16,17 @@ public class KmgCssBundle
     //##################################################
 
     private String                  _name;
-    private KmList<KmgCssSelector>  _selectors;
-    private KmList<KmgCssComposite> _composites;
+
+    /**
+     * The ID style sheet selectors.  E.g.: #someId.
+     */
+    private KmList<KmgCssSelector> _idSelectors;
+
+    /**
+     * The CLASS style sheet selectors.  E.g.: .someClass.
+     */
+    private KmList<KmgCssSelector>  _cssSelectors;
+    private KmList<KmgCssComposite> _cssComposites;
 
     //##################################################
     //# constructor
@@ -25,8 +34,10 @@ public class KmgCssBundle
 
     public KmgCssBundle()
     {
-        _selectors = new KmList<>();
-        _composites = new KmList<>();
+        _idSelectors = new KmList<>();
+
+        _cssSelectors = new KmList<>();
+        _cssComposites = new KmList<>();
     }
 
     //##################################################
@@ -43,41 +54,78 @@ public class KmgCssBundle
         _name = e;
     }
 
-    public KmList<KmgCssSelector> getSelectors()
+    //==================================================
+    //= id selectors
+    //==================================================
+
+    public KmList<KmgCssSelector> getIdSelectors()
     {
-        return _selectors;
+        return _idSelectors;
     }
 
-    public void setSelectors(KmList<KmgCssSelector> v)
+    public void setIdSelectors(KmList<KmgCssSelector> v)
     {
-        _selectors = v;
+        _idSelectors = v;
     }
 
-    public void addSelector(String e)
+    public void addIdSelector(String e)
     {
         KmgCssSelector s;
         s = new KmgCssSelector();
         s.setName(e);
 
-        _selectors.add(s);
+        _idSelectors.add(s);
     }
 
-    public void addSelectors(KmList<String> v)
+    public void addIdSelectors(KmList<String> v)
     {
         for ( String e : v )
-            addSelector(e);
+            addIdSelector(e);
     }
 
-    public KmList<KmgCssComposite> getComposites()
+    //==================================================
+    //= css selectors
+    //==================================================
+
+    public KmList<KmgCssSelector> getCssSelectors()
     {
-        return _composites;
+        return _cssSelectors;
     }
 
-    public void installComposites()
+    public void setCssSelectors(KmList<KmgCssSelector> v)
+    {
+        _cssSelectors = v;
+    }
+
+    public void addCssSelector(String e)
+    {
+        KmgCssSelector s;
+        s = new KmgCssSelector();
+        s.setName(e);
+
+        _cssSelectors.add(s);
+    }
+
+    public void addCssSelectors(KmList<String> v)
+    {
+        for ( String e : v )
+            addCssSelector(e);
+    }
+
+    //==================================================
+    //= css composites
+    //==================================================
+
+    public KmList<KmgCssComposite> getCssComposites()
+    {
+        return _cssComposites;
+    }
+
+    public void installCssComposites()
     {
         KmMap<String,KmgCssComposite> map = new KmMap<>();
 
-        KmList<KmgCssSelector> sels = getSelectors();
+        KmList<KmgCssSelector> sels = getCssSelectors();
         for ( KmgCssSelector sel : sels )
         {
             if ( !sel.isComposite() )
@@ -99,7 +147,7 @@ public class KmgCssBundle
             c.addFlavor(flavor);
         }
 
-        _composites = map.getValues();
+        _cssComposites = map.getValues();
     }
 
     //##################################################

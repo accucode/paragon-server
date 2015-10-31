@@ -103,7 +103,7 @@ public class KmDbaseData
         if ( dd < 0 )
             return null;
 
-        return KmDate.create(yy, mm, dd);
+        return KmDate.fromYearMonthDay(yy, mm, dd);
     }
 
     /**
@@ -116,7 +116,7 @@ public class KmDbaseData
         int mm = get1ByteInteger(index + 1);
         int dd = get1ByteInteger(index + 2);
 
-        return KmDate.create(yy, mm, dd);
+        return KmDate.fromYearMonthDay(yy, mm, dd);
     }
 
     /**

@@ -240,19 +240,19 @@ public abstract class MySalesOrderBase
         return !isStatusNew();
     }
 
-    public void setStatusIn()
+    public void setStatusInProgress()
     {
-        setStatus(MySalesOrderStatus.In);
+        setStatus(MySalesOrderStatus.InProgress);
     }
 
-    public boolean isStatusIn()
+    public boolean isStatusInProgress()
     {
-        return hasStatus(MySalesOrderStatus.In);
+        return hasStatus(MySalesOrderStatus.InProgress);
     }
 
-    public boolean isNotStatusIn()
+    public boolean isNotStatusInProgress()
     {
-        return !isStatusIn();
+        return !isStatusInProgress();
     }
 
     public void setStatusClosed()
@@ -420,12 +420,7 @@ public abstract class MySalesOrderBase
     {
         checkReadOnly();
         e = Validator.getTaxRateValidator().convertOnly(e);
-        Double oldValue = taxRate;
         taxRate = e;
-        if ( Kmu.isNotEqual(e, oldValue) )
-        {
-            handleTaxRateChange();
-        }
     }
 
     public void clearTaxRate()
@@ -1043,12 +1038,6 @@ public abstract class MySalesOrderBase
     {
         getShipments().clear();
     }
-
-    //##################################################
-    //# on change
-    //##################################################
-
-    protected abstract void handleTaxRateChange();
 
     //##################################################
     //# validate

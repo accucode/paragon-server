@@ -8,5 +8,5 @@ import com.app.model.base.MyServerSessionValidatorBase;
 public class MyServerSessionValidator
     extends MyServerSessionValidatorBase
 {
-    //
+    // none
 }

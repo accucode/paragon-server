@@ -8,5 +8,5 @@ import com.app.model.base.MyShipMethodValidatorBase;
 public class MyShipMethodValidator
     extends MyShipMethodValidatorBase
 {
-    //
+    // none
 }

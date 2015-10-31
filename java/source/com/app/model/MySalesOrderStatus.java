@@ -21,7 +21,7 @@ public enum MySalesOrderStatus
     //##################################################
 
     New("N", "New"),
-    In("P", "In"),
+    InProgress("P", "In Progress"),
     Closed("C", "Closed"),
     ;
 
@@ -94,9 +94,9 @@ public enum MySalesOrderStatus
         return this == New;
     }
 
-    public boolean isIn()
+    public boolean isInProgress()
     {
-        return this == In;
+        return this == InProgress;
     }
 
     public boolean isClosed()

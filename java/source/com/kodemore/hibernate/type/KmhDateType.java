@@ -60,7 +60,7 @@ public class KmhDateType
         if ( rs.wasNull() )
             return null;
 
-        return KmDate.createJavaDate(e);
+        return KmDate.fromJavaDate(e);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class KmhDateType
         }
 
         KmDate d = (KmDate)value;
-        Date e = new Date(d.getJavaDate().getTime());
+        Date e = new Date(d.toJavaDate().getTime());
         st.setDate(index, e);
     }
 

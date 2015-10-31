@@ -24,6 +24,10 @@ package com.kodemore.time;
 
 public class KmTimestampUtility
 {
+    //##################################################
+    //# format
+    //##################################################
+
     /**
      * Format the timestamp using the formats defined in
      * KmDateUtility.format() and KmTimeUtility.format().
@@ -59,16 +63,6 @@ public class KmTimestampUtility
             + KmTimeUtility.format_h_mm_ss_am(ts.getTime());
     }
 
-    public static String formatFull(KmTimestamp ts)
-    {
-        if ( ts == null )
-            return "";
-
-        return KmDateUtility.format_mm_dd_yyyy(ts.getDate())
-            + " "
-            + KmTimeUtility.format_h_mm_ss_msss(ts.getTime());
-    }
-
     public static String formatXsdUtc(KmTimestamp ts)
     {
         return format(ts, "{yyyy}-{mm}-{dd}T{HH24}:{MM}:{SS}Z");
@@ -92,7 +86,7 @@ public class KmTimestampUtility
         if ( ts2 == null )
             return ts1;
 
-        return ts1.getOrdinal() < ts2.getOrdinal()
+        return ts1.toEpochMs() < ts2.toEpochMs()
             ? ts1
             : ts2;
     }
@@ -105,7 +99,7 @@ public class KmTimestampUtility
         if ( ts2 == null )
             return ts1;
 
-        return ts1.getOrdinal() < ts2.getOrdinal()
+        return ts1.toEpochMs() < ts2.toEpochMs()
             ? ts2
             : ts1;
     }

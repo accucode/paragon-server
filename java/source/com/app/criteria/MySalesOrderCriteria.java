@@ -88,22 +88,22 @@ public class MySalesOrderCriteria
             whereStatusIsNotNew();
     }
 
-    public void whereStatusIsIn()
+    public void whereStatusIsInProgress()
     {
-        whereStatusIs(MySalesOrderStatus.In);
+        whereStatusIs(MySalesOrderStatus.InProgress);
     }
 
-    public void whereStatusIsNotIn()
+    public void whereStatusIsNotInProgress()
     {
-        whereStatusIsNot(MySalesOrderStatus.In);
+        whereStatusIsNot(MySalesOrderStatus.InProgress);
     }
 
-    public void whereStatusIsIn(boolean e)
+    public void whereStatusIsInProgress(boolean e)
     {
         if ( e )
-            whereStatusIsIn();
+            whereStatusIsInProgress();
         else
-            whereStatusIsNotIn();
+            whereStatusIsNotInProgress();
     }
 
     public void whereStatusIsClosed()

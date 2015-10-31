@@ -63,6 +63,11 @@ public class MyAuditLogJunction
         return new KmhTimestampCondition(context(), fullName(UTC_TS));
     }
 
+    public KmhStringCondition whereModelType()
+    {
+        return new KmhStringCondition(context(), fullName(MODEL_TYPE));
+    }
+
     public KmhStringCondition whereModelName()
     {
         return new KmhStringCondition(context(), fullName(MODEL_NAME));

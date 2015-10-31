@@ -45,7 +45,7 @@ public class KmSqlMySqlDateAdaptor
         if ( rs.wasNull() )
             return def;
 
-        return KmDate.createMySqlOrdinal(i);
+        return KmDate.fromMySqlOrdinal(i);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class KmSqlMySqlDateAdaptor
     {
         out.printLiteral("from_days");
         out.printOpenParen();
-        out.printValue(value.getMySqlOrdinal());
+        out.printValue(value.toMySqlOrdinal());
         out.printCloseParen();
     }
 

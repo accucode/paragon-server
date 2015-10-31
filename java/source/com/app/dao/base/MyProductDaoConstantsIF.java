@@ -55,4 +55,9 @@ public interface MyProductDaoConstantsIF
     String VENDOR = "vendor";
     String VENDOR_UID = "vendor.uid";
 
+    //##################################################
+    //# collections
+    //##################################################
+
+    String ATTRIBUTE_VALUES = "attributeValues";
 }

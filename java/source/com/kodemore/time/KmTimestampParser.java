@@ -63,7 +63,7 @@ public class KmTimestampParser
         if ( t == null )
             return null;
 
-        return KmTimestamp.create(d, t);
+        return KmTimestamp.fromDateTime(d, t);
     }
 
 }

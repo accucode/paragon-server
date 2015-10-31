@@ -1,5 +1,7 @@
 package com.kodemore.command;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import org.hibernate.StaleObjectStateException;
 import org.hibernate.StaleStateException;
 
@@ -168,28 +170,40 @@ public abstract class KmDaoCommand
             }
             catch ( RuntimeException ex )
             {
-                Throwable root = Kmu.getRootCause(ex);
-                if ( !isStaleException(root) )
+                if ( !isRetryable(ex) )
                     throw ex;
 
-                if ( retries < retryCount )
+                if ( retries >= retryCount )
                 {
-                    retries++;
-                    Kmu.sleepMs(retryDelayMs);
-                    onStaleObjectRetry();
-                    continue;
-                }
-
                 if ( _ignoreStaleExceptions )
                     break;
 
                 throw new KmhDaoOptimisticLockException(ex);
             }
+
+                retries++;
+                Kmu.sleepMs(retryDelayMs);
+                onStaleObjectRetry();
+            }
     }
 
-    private boolean isStaleException(Throwable root)
+    /**
+     * Determine if the exception indicates an error state that we can retry.
+     *
+     * For example, we can generally retry the Hibernate exceptions for
+     * optimistic locking.
+     *
+     * Also, we retry constraint violation exceptions.  These generally indicate
+     * a collision on a unique key/index.  In most cases this is effectively the
+     * same type of situation as an optimistic lock, so we retry this as well.
+     */
+    private boolean isRetryable(RuntimeException ex)
     {
-        return root instanceof StaleObjectStateException || root instanceof StaleStateException;
+        Throwable root = Kmu.getRootCause(ex);
+
+        return root instanceof StaleStateException
+            || root instanceof StaleObjectStateException
+            || root instanceof SQLIntegrityConstraintViolationException;
     }
 
     private void runOnceInNewTransaction()

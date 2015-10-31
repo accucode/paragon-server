@@ -1,5 +1,6 @@
 package com.app.ui.layout;
 
+import com.kodemore.html.cssBuilder.KmCssDefaultConstantsIF;
 import com.kodemore.servlet.control.ScDiv;
 
 import com.app.utility.MyConstantsIF;
@@ -22,10 +23,10 @@ public class MyPageFooter
     {
         super.install();
 
-        setHtmlId("pageFooter");
+        setHtmlId(KmCssDefaultConstantsIF.ID_appFooter);
 
         _inner = addDiv();
-        _inner.css().pageFooterInner();
+        _inner.css().appFooterInner();
     }
 
     //##################################################

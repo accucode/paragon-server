@@ -100,7 +100,7 @@ public class MyPatchBridge
     {
         KmSqlConnection con = null;
         KmSqlInsert st = null;
-        KmTimestamp now = KmTimestamp.createNowUtc();
+        KmTimestamp now = KmTimestamp.nowUtc();
 
         try
         {

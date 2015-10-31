@@ -13,7 +13,7 @@ public class MyUser
     //# constants
     //##################################################
 
-    public static final MyTimeZone DEFAULT_TIME_ZONE = MyTimeZone.MSTD;
+    public static final MyTimeZoneVo DEFAULT_TIME_ZONE = MyTimeZoneVo.MSTD;
 
     //##################################################
     //# constructor
@@ -71,12 +71,12 @@ public class MyUser
     //# time zone
     //##################################################
 
-    public MyTimeZone getTimeZone()
+    public MyTimeZoneVo getTimeZone()
     {
-        return MyTimeZone.findCode(getTimeZoneCode());
+        return MyTimeZoneVo.findCode(getTimeZoneCode());
     }
 
-    public void setTimeZone(MyTimeZone e)
+    public void setTimeZone(MyTimeZoneVo e)
     {
         if ( e == null )
             setTimeZoneCode(null);

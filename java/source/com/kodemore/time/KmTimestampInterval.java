@@ -340,19 +340,19 @@ public class KmTimestampInterval
         KmTimestamp startTimestamp2 = null;
 
         if ( start1 > 0 )
-            startTimestamp1 = KmTimestamp.create(KmDate.create(2000, 1, start1));
+            startTimestamp1 = KmDate.fromYearMonthDay(2000, 1, start1).getStartOfDay();
 
         if ( start2 > 0 )
-            startTimestamp2 = KmTimestamp.create(KmDate.create(2000, 2, start2));
+            startTimestamp2 = KmDate.fromYearMonthDay(2000, 2, start2).getStartOfDay();
 
         KmTimestamp endTimestamp1 = null;
         KmTimestamp endTimestamp2 = null;
 
         if ( end1 > 0 )
-            endTimestamp1 = KmTimestamp.create(KmDate.create(2000, 1, end1));
+            endTimestamp1 = KmDate.fromYearMonthDay(2000, 1, end1).getStartOfDay();
 
         if ( end2 > 0 )
-            endTimestamp2 = KmTimestamp.create(KmDate.create(2000, 2, end2));
+            endTimestamp2 = KmDate.fromYearMonthDay(2000, 2, end2).getStartOfDay();
 
         KmTimestampInterval ts1 = KmTimestampInterval.create(startTimestamp1, endTimestamp1);
         KmTimestampInterval ts2 = KmTimestampInterval.create(startTimestamp2, endTimestamp2);

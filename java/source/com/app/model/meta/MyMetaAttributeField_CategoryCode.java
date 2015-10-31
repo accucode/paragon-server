@@ -56,7 +56,7 @@ public class MyMetaAttributeField_CategoryCode
     @Override
     public int getColumnWidth()
     {
-        return 3;
+        return 5;
     }
 
     @Override

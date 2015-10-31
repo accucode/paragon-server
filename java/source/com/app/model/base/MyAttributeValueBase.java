@@ -40,10 +40,12 @@ public abstract class MyAttributeValueBase
     //##################################################
 
     private String uid;
-    private String data;
+    private String textValue;
     private Integer lockVersion;
     private MyAttributeField field;
     private MyProduct product;
+    private MyCustomerSite customerSite;
+    private MySalesOrderLine salesOrderLine;
 
     //##################################################
     //# constructor
@@ -97,44 +99,44 @@ public abstract class MyAttributeValueBase
     }
 
     //##################################################
-    //# field (data)
+    //# field (textValue)
     //##################################################
 
-    public String getData()
+    public String getTextValue()
     {
-        return data;
+        return textValue;
     }
 
-    public void setData(String e)
+    public void setTextValue(String e)
     {
         checkReadOnly();
-        e = Validator.getDataValidator().convertOnly(e);
-        data = e;
+        e = Validator.getTextValueValidator().convertOnly(e);
+        textValue = e;
     }
 
-    public void clearData()
+    public void clearTextValue()
     {
-        setData(null);
+        setTextValue(null);
     }
 
-    public boolean hasData()
+    public boolean hasTextValue()
     {
-        return Kmu.hasValue(getData());
+        return Kmu.hasValue(getTextValue());
     }
 
-    public boolean hasData(String e)
+    public boolean hasTextValue(String e)
     {
-        return Kmu.isEqualIgnoreCase(getData(), e);
+        return Kmu.isEqualIgnoreCase(getTextValue(), e);
     }
 
-    public void truncateData()
+    public void truncateTextValue()
     {
-        truncateData(false);
+        truncateTextValue(false);
     }
 
-    public void truncateData(boolean ellipses)
+    public void truncateTextValue(boolean ellipses)
     {
-        data = Kmu.truncate(data, 100, ellipses);
+        textValue = Kmu.truncate(textValue, 100, ellipses);
     }
 
     //##################################################
@@ -240,6 +242,78 @@ public abstract class MyAttributeValueBase
         return Kmu.isEqual(getProduct(), e);
     }
 
+    //##################################################
+    //# customerSite
+    //##################################################
+
+    public MyCustomerSite getCustomerSite()
+    {
+        return customerSite;
+    }
+
+    public void setCustomerSite(MyCustomerSite e)
+    {
+        checkReadOnly();
+        customerSite = e;
+    }
+
+    public void _setCustomerSite(MyCustomerSite e)
+    {
+        checkReadOnly();
+        customerSite = e;
+    }
+
+    public void clearCustomerSite()
+    {
+        setCustomerSite(null);
+    }
+
+    public boolean hasCustomerSite()
+    {
+        return getCustomerSite() != null;
+    }
+
+    public boolean hasCustomerSite(MyCustomerSite e)
+    {
+        return Kmu.isEqual(getCustomerSite(), e);
+    }
+
+    //##################################################
+    //# salesOrderLine
+    //##################################################
+
+    public MySalesOrderLine getSalesOrderLine()
+    {
+        return salesOrderLine;
+    }
+
+    public void setSalesOrderLine(MySalesOrderLine e)
+    {
+        checkReadOnly();
+        salesOrderLine = e;
+    }
+
+    public void _setSalesOrderLine(MySalesOrderLine e)
+    {
+        checkReadOnly();
+        salesOrderLine = e;
+    }
+
+    public void clearSalesOrderLine()
+    {
+        setSalesOrderLine(null);
+    }
+
+    public boolean hasSalesOrderLine()
+    {
+        return getSalesOrderLine() != null;
+    }
+
+    public boolean hasSalesOrderLine(MySalesOrderLine e)
+    {
+        return Kmu.isEqual(getSalesOrderLine(), e);
+    }
+
 
     //##################################################
     //# validate
@@ -278,6 +352,9 @@ public abstract class MyAttributeValueBase
         super.postCopy();
         uid = null;
         field = null;
+        product = null;
+        customerSite = null;
+        salesOrderLine = null;
     }
 
     //##################################################
@@ -308,7 +385,7 @@ public abstract class MyAttributeValueBase
 
     public boolean isSameIgnoringKey(MyAttributeValue e)
     {
-        if ( !Kmu.isEqual(getData(), e.getData()) ) return false;
+        if ( !Kmu.isEqual(getTextValue(), e.getTextValue()) ) return false;
         if ( !Kmu.isEqual(getLockVersion(), e.getLockVersion()) ) return false;
         return true;
     }
@@ -344,7 +421,7 @@ public abstract class MyAttributeValueBase
     {
         System.out.println(this);
         System.out.println("    Uid = " + uid);
-        System.out.println("    Data = " + data);
+        System.out.println("    TextValue = " + textValue);
         System.out.println("    LockVersion = " + lockVersion);
     }
 

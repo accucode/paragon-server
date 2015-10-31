@@ -39,7 +39,7 @@ public class KmSqlBasicDateAdaptor
         if ( rs.wasNull() )
             return def;
 
-        return KmDate.createJavaDate(jd);
+        return KmDate.fromJavaDate(jd);
     }
 
     @Override

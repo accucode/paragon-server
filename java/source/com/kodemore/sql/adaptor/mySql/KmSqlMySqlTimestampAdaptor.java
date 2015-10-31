@@ -45,7 +45,7 @@ public class KmSqlMySqlTimestampAdaptor
         if ( rs.wasNull() )
             return def;
 
-        return KmTimestamp.createMySqlOrdinal(i);
+        return KmTimestamp.fromMySqlOrdinal(i);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class KmSqlMySqlTimestampAdaptor
     {
         out.printLiteral("from_unixtime");
         out.printOpenParen();
-        out.printValue(value.getMySqlOrdinal());
+        out.printValue(value.toMySqlOrdinal());
         out.printCloseParen();
     }
 

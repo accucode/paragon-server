@@ -22,6 +22,9 @@
 
 package com.kodemore.time;
 
+import java.time.Month;
+import java.time.Year;
+
 import com.kodemore.collection.KmList;
 import com.kodemore.utility.KmConstantsIF;
 import com.kodemore.utility.Kmu;
@@ -232,7 +235,7 @@ public class KmDateParser
 
     private KmDate parse1_dayOffset(int a)
     {
-        KmDate d = KmDate.createOffsetUtc(a);
+        KmDate d = KmDate.todayUtc().addDays(a);
 
         int yy = d.getYear();
         if ( yy < _minimumYear )
@@ -270,12 +273,12 @@ public class KmDateParser
         int mm = a;
         int dd = b;
 
-        KmDate today = KmDate.createTodayUtc();
+        KmDate today = KmDate.todayUtc();
         int yy = today.getYear();
 
-        KmDate d1 = KmDate.create(yy - 1, mm, dd);
-        KmDate d2 = KmDate.create(yy, mm, dd);
-        KmDate d3 = KmDate.create(yy + 1, mm, dd);
+        KmDate d1 = KmDate.fromYearMonthDay(yy - 1, mm, dd);
+        KmDate d2 = KmDate.fromYearMonthDay(yy, mm, dd);
+        KmDate d3 = KmDate.fromYearMonthDay(yy + 1, mm, dd);
 
         int n1 = Math.abs(d1.getDaysUntil(today));
         int n2 = Math.abs(d2.getDaysUntil(today));
@@ -294,7 +297,7 @@ public class KmDateParser
     {
         int mm = a;
         int dd = b;
-        int yy = KmDate.createTodayUtc().getYear();
+        int yy = KmDate.todayUtc().getYear();
 
         return createDate(yy, mm, dd);
     }
@@ -312,7 +315,9 @@ public class KmDateParser
     {
         int mm = a;
         int yy = coerceYear(b);
-        int dd = KmDateUtility.getDaysInYearMonth(yy, mm);
+
+        boolean leap = Year.isLeap(yy);
+        int dd = Month.of(mm).length(leap);
 
         return createDate(yy, mm, dd);
     }
@@ -391,7 +396,7 @@ public class KmDateParser
         if ( dd > KmDateUtility.getDaysInYearMonth(yy, mm) )
             return null;
 
-        return KmDate.create(yy, mm, dd);
+        return KmDate.fromYearMonthDay(yy, mm, dd);
     }
 
     //##################################################

@@ -21,7 +21,7 @@ public class MyAttributeValue
     @Override
     public String getDisplayString()
     {
-        return getData();
+        return getTextValue();
     }
 
 }

@@ -8,5 +8,5 @@ import com.app.model.base.MySettingsValidatorBase;
 public class MySettingsValidator
     extends MySettingsValidatorBase
 {
-    //
+    // none
 }

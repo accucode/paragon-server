@@ -65,22 +65,22 @@ public class MyAttributeFieldCriteria
             whereCategoryCode().isNot(e.getCode());
     }
 
-    public void whereCategoryIsSite()
+    public void whereCategoryIsCustomerSite()
     {
-        whereCategoryIs(MyAttributeFieldCategory.Site);
+        whereCategoryIs(MyAttributeFieldCategory.CustomerSite);
     }
 
-    public void whereCategoryIsNotSite()
+    public void whereCategoryIsNotCustomerSite()
     {
-        whereCategoryIsNot(MyAttributeFieldCategory.Site);
+        whereCategoryIsNot(MyAttributeFieldCategory.CustomerSite);
     }
 
-    public void whereCategoryIsSite(boolean e)
+    public void whereCategoryIsCustomerSite(boolean e)
     {
         if ( e )
-            whereCategoryIsSite();
+            whereCategoryIsCustomerSite();
         else
-            whereCategoryIsNotSite();
+            whereCategoryIsNotCustomerSite();
     }
 
     public void whereCategoryIsProduct()
@@ -101,22 +101,22 @@ public class MyAttributeFieldCriteria
             whereCategoryIsNotProduct();
     }
 
-    public void whereCategoryIsOrderLine()
+    public void whereCategoryIsSalesOrderLine()
     {
-        whereCategoryIs(MyAttributeFieldCategory.OrderLine);
+        whereCategoryIs(MyAttributeFieldCategory.SalesOrderLine);
     }
 
-    public void whereCategoryIsNotOrderLine()
+    public void whereCategoryIsNotSalesOrderLine()
     {
-        whereCategoryIsNot(MyAttributeFieldCategory.OrderLine);
+        whereCategoryIsNot(MyAttributeFieldCategory.SalesOrderLine);
     }
 
-    public void whereCategoryIsOrderLine(boolean e)
+    public void whereCategoryIsSalesOrderLine(boolean e)
     {
         if ( e )
-            whereCategoryIsOrderLine();
+            whereCategoryIsSalesOrderLine();
         else
-            whereCategoryIsNotOrderLine();
+            whereCategoryIsNotSalesOrderLine();
     }
 
     public KmhStringCondition whereName()

@@ -250,7 +250,7 @@ public class KmFile
         if ( msSince1970 == 0 )
             return null;
 
-        return KmTimestamp.createFromMsSince1970(msSince1970);
+        return KmTimestamp.fromEpochMs(msSince1970);
     }
 
     public long getLength()

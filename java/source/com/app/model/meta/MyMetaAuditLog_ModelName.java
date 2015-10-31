@@ -50,7 +50,7 @@ public class MyMetaAuditLog_ModelName
     @Override
     public String getHelp()
     {
-        return "The name of the domain model; e.g.: Project, Depot, User, etc.";
+        return "The common, but non-unique name of the model. Models generally rely on long UIDs as their unique identifier so we also store a model's display string as a 'name'.  Although this name is not guaranteed to be unique, it is generally human-readable and is usually sufficient to identify which model was affected.";
     }
     
     @Override

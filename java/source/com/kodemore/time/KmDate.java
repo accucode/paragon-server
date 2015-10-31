@@ -23,118 +23,150 @@
 package com.kodemore.time;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 import com.kodemore.types.KmDayFrequency;
-import com.kodemore.utility.Kmu;
 
 /**
- * Support a simpler (and more reliable) date class than java.util.Date.
- * Instances are assumed to be immutable.
- * Valid years are in the range 1800..9999
- * Valid months are in the range 1..12
- * Valid days are in the range 1..31
- * Days are validated based on the year and month.
+ * Support convenience methods for manipulating dates.
+ * Instances are immutable.
+ * Months, days, and day of week conform to ISO standards; e.g.: 1..12 for Jan..Dec.
+ *
+ * I was originally created as an alternative to java.util.Date.
+ * The old Date implementations were difficult to use and also had
+ * significant bugs and performance issues.  As of JDK 8, the new
+ * LocalDate class resolves the majority of these historical issues.
+ * My implementation has been updated and simplified to leverage the
+ * new JDK LocalDate class.
  */
 public class KmDate
     implements KmTimeConstantsIF, Comparable<KmDate>, Serializable
 {
     //##################################################
-    //# instance creation
+    //# instance creation :: misc
     //##################################################
 
     /**
      * Create today, relative to the UTC clock.
      */
-    public static KmDate createTodayUtc()
+    public static KmDate todayUtc()
     {
-        long msSince1970 = System.currentTimeMillis();
-        return createFromSystemMillis(msSince1970);
-    }
-
-    /**
-     * Create today, relative to whatever business rules define the local time.
-     */
-    public static KmDate createTodayLocal()
-    {
-        return KmTimestamp.createNowLocal().getDate();
-    }
-
-    /**
-     * Create a date from System.currentTimeMillis().
-     */
-    public static KmDate createFromSystemMillis(long ms)
-    {
-        return createFromMsSince1970(ms);
-    }
-
-    /**
-     * Create a date based on the number of milliseconds as returned
-     * from System.currentTimeMillis (ms since midnight 1970 Utc).
-     */
-    public static KmDate createFromMsSince1970(long ms)
-    {
-        int daysSince1970 = (int)(ms / MS_PER_DAY);
-        int x = DAYS_DIFF_1800_1970 + daysSince1970;
-        KmDate e = new KmDate(x);
-        int padMs = UTC_TIME_ZONE.getOffset(
-            1,
-            e.getYear(),
-            e.getMonth() - 1,
-            e.getDay(),
-            e.getWeekDay().getJdkIndex(),
-            0);
-        int excessMillis = (int)(ms % MS_PER_DAY);
-        if ( excessMillis + padMs < 0 )
-            return new KmDate(x - 1);
-        return e;
-    }
-
-    /**
-     * Create a date that is offset from today.
-     * E.g.: 0=today, 1=tomorrow, -1=yesterday...
-     */
-    public static KmDate createOffsetUtc(int days)
-    {
-        return createTodayUtc().addDays(days);
-    }
-
-    /**
-     * Return today, relative to the current system clock.
-     */
-    public static KmDate createTodaySystemLocal()
-    {
-        long msSince1970 = System.currentTimeMillis();
-        int daysSince1970 = (int)(msSince1970 / MS_PER_DAY);
-        int x = DAYS_DIFF_1800_1970 + daysSince1970;
-        KmDate e = new KmDate(x);
-        int padMs = TimeZone.getDefault().getOffset(
-            1,
-            e.getYear(),
-            e.getMonth() - 1,
-            e.getDay(),
-            e.getWeekDay().getJdkIndex(),
-            0);
-        int excessMillis = (int)(msSince1970 % MS_PER_DAY);
-        if ( excessMillis + padMs < 0 )
-            return new KmDate(x - 1);
-        return e;
+        return fromInstant(UTC_WALL_CLOCK.instant());
     }
 
     /**
      * Return a specific date.  Jan 31, 2000 = create(2000, 1, 31);
      */
-    public static KmDate create(int yy, int mm, int dd)
+    public static KmDate fromYearMonthDay(int yy, int mm, int dd)
     {
-        return createOrdinal(computeOrdinal(yy, mm, dd));
+        return fromLocalDate(LocalDate.of(yy, mm, dd));
     }
 
-    public static KmDate createOrdinal(int i)
+    //##################################################
+    //# instance creation :: conversions
+    //##################################################
+
+    /**
+     * Convert from a java.time.LocalDate.
+     */
+    public static KmDate fromLocalDate(LocalDate e)
     {
-        return new KmDate(i);
+        return new KmDate(e);
+    }
+
+    /**
+     * Convert to a java.time.LocalDate.
+     */
+    public LocalDate toLocalDate()
+    {
+        return _inner;
+    }
+
+    //==================================================
+    // conversion :: instant
+    //==================================================
+
+    /**
+     * Convert from a java.time.Instant.
+     */
+    public static KmDate fromInstant(Instant i)
+    {
+        LocalDate e = i.atZone(UTC_ZONE).toLocalDate();
+        return new KmDate(e);
+    }
+
+    /**
+     * Convert to an java.time.Instant, assuming midnight UTC.
+     */
+    public Instant toInstant()
+    {
+        return _inner.atStartOfDay(UTC_ZONE).toInstant();
+    }
+
+    //==================================================
+    //= conversion :: epoch days
+    //==================================================
+
+    /**
+     * Create a date based on an offset from the standard epoch of Jan 1, 1970.
+     * Values may be negative.
+     */
+    public static KmDate fromEpochDays(int i)
+    {
+        LocalDate e = LocalDate.ofEpochDay(i);
+        return fromLocalDate(e);
+    }
+
+    /**
+     * Return the number of days since the epoch of Jan 1, 1970.
+     * Dates prior to 1970 will return a negative number.
+     */
+    public int toEpochDays()
+    {
+        return (int)_inner.getLong(ChronoField.EPOCH_DAY);
+    }
+
+    //==================================================
+    //= conversion :: java date
+    //==================================================
+
+    /**
+     * Convert a java.util.Date based on the UTC time zone.
+     */
+    public static KmDate fromJavaDate(Date e)
+    {
+        return fromInstant(e.toInstant());
+    }
+
+    /**
+     * Return a java.util.Date corresponding to the start of my day, in UTC.
+     */
+    public Date toJavaDate()
+    {
+        return Date.from(_inner.atStartOfDay(UTC_ZONE).toInstant());
+    }
+
+    //==================================================
+    //= conversion :: MySql
+    //==================================================
+
+    /**
+     * Convert from a MySql from_days integer value.
+     */
+    public static KmDate fromMySqlOrdinal(int i)
+    {
+        return fromEpochDays(i - MY_SQL_EPOCH_DAY_OFFSET);
+    }
+
+    /**
+     * Convert to a MySql from_days integer value.
+     */
+    public int toMySqlOrdinal()
+    {
+        return toEpochDays() + MY_SQL_EPOCH_DAY_OFFSET;
     }
 
     //##################################################
@@ -142,23 +174,9 @@ public class KmDate
     //##################################################
 
     /**
-     * The ordinal is what fundamentally defines the date.
-     * An ordinal value of zero means Jan 1, 1800,
-     * An ordinal value of one means Jan 2, 1800, etc...
-     *
-     * Changing the meaning of ordinal will break the contract
-     * for weekDays.  However, if necessary, this is easy to
-     * fix, see KmWeekDay.DATE_ORDINAL_ADJUSTMENT.
+     * We rely on java.time.LocalDate to provide the core implementation.
      */
-    private int _ordinal;
-
-    /**
-     * The year, month, and day are calculated based on the ordinal
-     * value.  They are cached to significantly improve performance.
-     */
-    private int _year;
-    private int _month;
-    private int _day;
+    private LocalDate _inner;
 
     //##################################################
     //# constructor
@@ -167,12 +185,9 @@ public class KmDate
     /**
      * Create a date based on the number of days since 1800.
      */
-    private KmDate(int ordinal)
+    private KmDate(LocalDate e)
     {
-        _ordinal = ordinal;
-        _year = UNDEFINED;
-        _month = UNDEFINED;
-        _day = UNDEFINED;
+        _inner = e;
     }
 
     //##################################################
@@ -184,9 +199,7 @@ public class KmDate
      */
     public int getYear()
     {
-        if ( _year == UNDEFINED )
-            _computeYearMonthDay();
-        return _year;
+        return _inner.getYear();
     }
 
     /**
@@ -198,13 +211,11 @@ public class KmDate
     }
 
     /**
-     * Get the month.
+     * Get the month, 1..12.
      */
     public int getMonth()
     {
-        if ( _month == UNDEFINED )
-            _computeYearMonthDay();
-        return _month;
+        return _inner.getMonthValue();
     }
 
     public String getMonthName()
@@ -222,9 +233,7 @@ public class KmDate
      */
     public int getDay()
     {
-        if ( _day == UNDEFINED )
-            _computeYearMonthDay();
-        return _day;
+        return _inner.getDayOfMonth();
     }
 
     /**
@@ -232,17 +241,17 @@ public class KmDate
      */
     public KmDate toDay(int dd)
     {
-        return create(getYear(), getMonth(), dd);
+        return fromYearMonthDay(getYear(), getMonth(), dd);
     }
 
     public KmDate toMonth(int mm)
     {
-        return create(getYear(), mm, getDay());
+        return fromYearMonthDay(getYear(), mm, getDay());
     }
 
     public KmDate toYear(int yy)
     {
-        return create(yy, getMonth(), getDay());
+        return fromYearMonthDay(yy, getMonth(), getDay());
     }
 
     //##################################################
@@ -284,7 +293,7 @@ public class KmDate
      */
     public KmDate getStartOfYear()
     {
-        return create(getYear(), 1, 1);
+        return fromYearMonthDay(getYear(), 1, 1);
     }
 
     /**
@@ -292,7 +301,7 @@ public class KmDate
      */
     public KmDate getEndOfYear()
     {
-        return create(getYear(), 12, 31);
+        return fromYearMonthDay(getYear(), 12, 31);
     }
 
     public boolean isStartOfYear()
@@ -310,14 +319,11 @@ public class KmDate
     //##################################################
 
     /**
-     * The number of days since Jan 1 of the current year, 1-based offset.
-     * (Jan 1 is day 1).
+     * The number of days since Jan 1 of the current year, 1..366.
      */
     public int getDayOfYear()
     {
-        int yy = getYear();
-        int start = KmDate.create(yy, 1, 1).getOrdinal();
-        return getOrdinal() - start + 1;
+        return _inner.getDayOfYear();
     }
 
     /**
@@ -327,18 +333,6 @@ public class KmDate
     public int getDaysToEndOfMonth()
     {
         return getDaysInMonth() - getDay() + 1;
-    }
-
-    //##################################################
-    //# accessing (ordinal)
-    //##################################################
-
-    /**
-     * Get the ordinal value; days since Jan 1, 1800.
-     */
-    public int getOrdinal()
-    {
-        return _ordinal;
     }
 
     //##################################################
@@ -354,7 +348,7 @@ public class KmDate
         if ( !(e instanceof KmDate) )
             return false;
 
-        return ((KmDate)e)._ordinal == _ordinal;
+        return ((KmDate)e)._inner.equals(_inner);
     }
 
     /**
@@ -363,16 +357,16 @@ public class KmDate
     @Override
     public int hashCode()
     {
-        return _ordinal;
+        return _inner.hashCode();
     }
 
     /**
      * Compare two dates.
      */
     @Override
-    public int compareTo(KmDate o)
+    public int compareTo(KmDate e)
     {
-        return _ordinal - o._ordinal;
+        return _inner.compareTo(e._inner);
     }
 
     //##################################################
@@ -465,22 +459,31 @@ public class KmDate
 
     public boolean isFutureUtc()
     {
-        return isAfter(createTodayUtc());
+        return isAfter(todayUtc());
     }
 
     public boolean isPastUtc()
     {
-        return isBefore(createTodayUtc());
+        return isBefore(todayUtc());
     }
 
     public boolean isTodayUtc()
     {
-        return equals(createTodayUtc());
+        return equals(todayUtc());
     }
 
     //##################################################
     //# week
     //##################################################
+
+    /**
+     * Return the position of the week day, 1..7, Mon..Sun.
+     * ISO-8601 Standard.
+     */
+    public int getWeekDayValue()
+    {
+        return _inner.getDayOfWeek().getValue();
+    }
 
     public KmWeekDay getWeekDay()
     {
@@ -520,7 +523,7 @@ public class KmDate
     /**
      * Return the most recent day, prior to myself, matching
      * the requested weekDay.
-     **/
+     */
     public KmDate getPreviousDayOfWeek(KmWeekDay day)
     {
         return getPreviousDayOfWeek(day, false);
@@ -547,7 +550,7 @@ public class KmDate
     /**
      * Return the closest day, after myself, matching
      * the requested weekDay.
-     **/
+     */
     public KmDate getNextDayOfWeek(KmWeekDay day)
     {
         return getNextDayOfWeek(day, false);
@@ -556,7 +559,7 @@ public class KmDate
     /**
      * Return the closest day matching the requested weekDay.
      * Optionally include myself in the search.
-     **/
+     */
     public KmDate getNextDayOfWeek(KmWeekDay day, boolean includeToday)
     {
         if ( includeToday && isWeekDay(day) )
@@ -624,50 +627,11 @@ public class KmDate
      */
     public int getDaysInMonth()
     {
-        return KmDateUtility.getDaysInYearMonth(getYear(), getMonth());
+        return _inner.lengthOfMonth();
     }
 
     //##################################################
-    //# java date conversion
-    //##################################################
-
-    /**
-     * Set the date from a java.util.Date.
-     */
-    public static KmDate createJavaDate(Date jd)
-    {
-        // kludge: fix for time zones
-        Calendar c;
-        c = new GregorianCalendar();
-        c.setTime(jd);
-        int yy = c.get(Calendar.YEAR);
-        int mm = c.get(Calendar.MONTH);
-        int dd = c.get(Calendar.DAY_OF_MONTH);
-        return create(yy, mm + 1, dd);
-    }
-
-    /**
-     * Return a java.util.Caldenar corresponding to my date.
-     */
-    public Calendar getJavaCalendar()
-    {
-        Calendar c;
-        c = new GregorianCalendar();
-        c.clear();
-        c.set(getYear(), getMonth() - 1, getDay());
-        return c;
-    }
-
-    /**
-     * Return a java.util.Caldenar corresponding to my date.
-     */
-    public Date getJavaDate()
-    {
-        return getJavaCalendar().getTime();
-    }
-
-    //##################################################
-    //# math
+    //# math :: days
     //##################################################
 
     /**
@@ -683,9 +647,9 @@ public class KmDate
      */
     public KmDate addDays(int i)
     {
-        if ( i == 0 )
-            return this;
-        return new KmDate(_ordinal + i);
+        return i == 0
+            ? this
+            : fromLocalDate(_inner.plusDays(i));
     }
 
     /**
@@ -704,6 +668,10 @@ public class KmDate
         return addDays(-i);
     }
 
+    //==================================================
+    //= math :: weeks
+    //==================================================
+
     /**
      * Add seven days to my date.
      */
@@ -717,7 +685,9 @@ public class KmDate
      */
     public KmDate addWeeks(int i)
     {
-        return addDays(7 * i);
+        return i == 0
+            ? this
+            : fromLocalDate(_inner.plusWeeks(i));
     }
 
     /**
@@ -736,15 +706,9 @@ public class KmDate
         return addWeeks(-i);
     }
 
-    public KmDate addDuration(KmDuration e)
-    {
-        return addDays(e.getTotalDays());
-    }
-
-    public KmDate subtractDuration(KmDuration e)
-    {
-        return subtractDays(e.getTotalDays());
-    }
+    //==================================================
+    //= math :: months
+    //==================================================
 
     /**
      * Add one month to the current date.
@@ -753,24 +717,14 @@ public class KmDate
      */
     public KmDate addMonth()
     {
-        int yy = getYear();
-        int mm = getMonth() + 1;
-        if ( mm > 12 )
-        {
-            mm = 1;
-            yy++;
-        }
-        int ddMax = KmDateUtility.getDaysInYearMonth(yy, mm);
-        int dd = Kmu.min(getDay(), ddMax);
-        return create(yy, mm, dd);
+        return addMonths(1);
     }
 
-    public KmDate addMonths(int n)
+    public KmDate addMonths(int i)
     {
-        KmDate e = this;
-        for ( int i = 0; i < n; i++ )
-            e = e.addMonth();
-        return e;
+        return i == 0
+            ? this
+            : fromLocalDate(_inner.plusMonths(i));
     }
 
     /**
@@ -780,39 +734,28 @@ public class KmDate
      */
     public KmDate subtractMonth()
     {
-        int yy = getYear();
-        int mm = getMonth() - 1;
-        if ( mm < 1 )
-        {
-            mm = 12;
-            yy--;
-        }
-        int ddMax = KmDateUtility.getDaysInYearMonth(yy, mm);
-        int dd = Kmu.min(getDay(), ddMax);
-        return create(yy, mm, dd);
+        return subtractMonths(1);
     }
 
-    public KmDate subtractMonths(int n)
+    public KmDate subtractMonths(int i)
     {
-        KmDate e = this;
-        for ( int i = 0; i < n; i++ )
-            e = e.subtractMonth();
-        return e;
+        return addMonths(-i);
     }
+
+    //==================================================
+    //= math :: years
+    //==================================================
 
     /**
      * Add n years to the current date.
      * Attempt to preserve the day, but ensure that the new day is valid for the new date.
      * E.g.: if the old date is 2/29/2004, the new date would be 2/28/2005
      */
-    public KmDate addYears(int n)
+    public KmDate addYears(int i)
     {
-        int yy = getYear() + n;
-        int mm = getMonth();
-
-        int ddMax = KmDateUtility.getDaysInYearMonth(yy, mm);
-        int dd = Kmu.min(getDay(), ddMax);
-        return create(yy, mm, dd);
+        return i == 0
+            ? this
+            : fromLocalDate(_inner.plusYears(i));
     }
 
     /**
@@ -829,6 +772,20 @@ public class KmDate
     public KmDate subtractYear()
     {
         return addYears(-1);
+    }
+
+    //==================================================
+    //= math :: duration
+    //==================================================
+
+    public KmDate addDuration(KmDuration e)
+    {
+        return addDays(e.getTotalDays());
+    }
+
+    public KmDate subtractDuration(KmDuration e)
+    {
+        return subtractDays(e.getTotalDays());
     }
 
     //##################################################
@@ -858,11 +815,11 @@ public class KmDate
      */
     public KmDuration getDurationUntil(KmDate d)
     {
-        long end = d.getOrdinal();
-        long start = getOrdinal();
-        long ms = (end - start) * MS_PER_DAY;
+        int start = toEpochDays();
+        int end = d.toEpochDays();
+        int days = end - start;
 
-        return new KmDuration(ms);
+        return KmDuration.fromDays(days);
     }
 
     /**
@@ -884,7 +841,7 @@ public class KmDate
 
     public KmTimestamp getStartOfDay()
     {
-        return KmTimestamp.create(this);
+        return KmTimestamp.fromDateTime(this, KmTime.MIDNIGHT);
     }
 
     public KmTimestamp getEndOfDay()
@@ -978,20 +935,6 @@ public class KmDate
     }
 
     //##################################################
-    //# database (my sql)
-    //##################################################
-
-    public int getMySqlOrdinal()
-    {
-        return _ordinal + MY_SQL_DATE_OFFSET;
-    }
-
-    public static KmDate createMySqlOrdinal(int i)
-    {
-        return new KmDate(i - MY_SQL_DATE_OFFSET);
-    }
-
-    //##################################################
     //# frequency
     //##################################################
 
@@ -1023,59 +966,4 @@ public class KmDate
 
         return false;
     }
-
-    //##################################################
-    //# support
-    //##################################################
-
-    private static int computeOrdinal(int yy, int mm, int dd)
-    {
-        yy += (mm - 1) / 12;
-        mm = (mm - 1) % 12 + 1;
-
-        int x = 0;
-        for ( int i = MINIMUM_YEAR; i < yy; i++ )
-        {
-            x += DAYS_PER_NONLEAP_YEAR;
-            if ( KmDateUtility.isLeapYear(i) )
-                x++;
-        }
-
-        for ( int i = MINIMUM_MONTH; i < mm; i++ )
-            x += KmDateUtility.getDaysInYearMonth(yy, i);
-
-        x += dd - 1;
-        return x;
-    }
-
-    private void _computeYearMonthDay()
-    {
-        int days = 0;
-        for ( int i = MINIMUM_YEAR; i <= MAXIMUM_YEAR; i++ )
-        {
-            int inc = KmDateUtility.isLeapYear(i)
-                ? DAYS_PER_LEAP_YEAR
-                : DAYS_PER_NONLEAP_YEAR;
-            days += inc;
-            if ( days > _ordinal )
-            {
-                days -= inc;
-                _year = i;
-                break;
-            }
-        }
-        for ( int i = MINIMUM_MONTH; i <= MAXIMUM_MONTH; i++ )
-        {
-            int inc = KmDateUtility.getDaysInYearMonth(_year, i);
-            days += inc;
-            if ( days > _ordinal )
-            {
-                days -= inc;
-                _month = i;
-                break;
-            }
-        }
-        _day = _ordinal - days + 1;
-    }
-
 }

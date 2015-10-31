@@ -44,69 +44,58 @@ public class KmDuration
     implements KmTimeConstantsIF, Comparable<KmDuration>, Serializable
 {
     //##################################################
-    //# variables
+    //# constants
     //##################################################
 
-    private long _ordinal;
-
-    //##################################################
-    //# constructor
-    //##################################################
-
-    /**
-     * Create a duration with zero (0) total ms.
-     */
-    public KmDuration()
-    {
-        this(0);
-    }
-
-    /**
-     * Create a duration with the specified total ms.
-     * The ms may be positive or negative (or zero).
-     */
-    public KmDuration(long ms)
-    {
-        _ordinal = ms;
-    }
+    public static final KmDuration ZERO = fromSeconds(0);
 
     //##################################################
     //# instance creation
     //##################################################
 
-    public static KmDuration createDuration(int hh, int mm, int ss, int ms)
+    public static KmDuration fromHoursMinutesSeconds(int hh, int mm, int ss)
     {
         long total;
-        total = ms;
-        total += (long)ss * MS_PER_SECOND;
+        total = ss;
         total += (long)mm * MS_PER_MINUTE;
         total += (long)hh * MS_PER_HOUR;
 
-        return new KmDuration(total);
+        return fromSeconds(total);
     }
 
-    public static KmDuration createDuration(int hh, int mm, int ss)
+    public static KmDuration fromHoursMinutes(int hh, int mm)
     {
-        return createDuration(hh, mm, ss, 0);
+        return fromHoursMinutesSeconds(hh, mm, 0);
     }
 
-    public static KmDuration createDuration(int hh, int mm)
+    public static KmDuration fromHours(int hh)
     {
-        return createDuration(hh, mm, 0, 0);
+        return fromHoursMinutes(hh, 0);
     }
 
-    public static KmDuration createDuration(int hh)
+    public static KmDuration fromSeconds(long ss)
     {
-        return createDuration(hh, 0, 0, 0);
+        return new KmDuration(ss);
+    }
+
+    public static KmDuration fromDays(int dd)
+    {
+        return fromHours(dd * 24);
     }
 
     //##################################################
-    //# accessing
+    //# variables
     //##################################################
 
-    public long getOrdinal()
+    private long _seconds;
+
+    //##################################################
+    //# constructor
+    //##################################################
+
+    private KmDuration(long seconds)
     {
-        return _ordinal;
+        _seconds = seconds;
     }
 
     //==================================================
@@ -115,22 +104,17 @@ public class KmDuration
 
     public int getCompositeHour()
     {
-        return (int)(_ordinal % MS_PER_DAY / MS_PER_HOUR);
+        return (int)(_seconds % SECONDS_PER_DAY / SECONDS_PER_HOUR);
     }
 
     public int getCompositeMinute()
     {
-        return (int)(_ordinal % MS_PER_HOUR / MS_PER_MINUTE);
+        return (int)(_seconds % SECONDS_PER_HOUR / SECONDS_PER_MINUTE);
     }
 
     public int getCompositeSecond()
     {
-        return (int)(_ordinal % MS_PER_MINUTE / MS_PER_SECOND);
-    }
-
-    public int getCompositeMs()
-    {
-        return (int)(_ordinal % MS_PER_SECOND);
+        return (int)(_seconds % SECONDS_PER_MINUTE);
     }
 
     //==================================================
@@ -142,7 +126,7 @@ public class KmDuration
      */
     public int getTotalYears()
     {
-        return (int)(_ordinal / MS_PER_YEAR_APPROXIMATE);
+        return (int)(_seconds / SECONDS_PER_YEAR_APPROXIMATE);
     }
 
     /**
@@ -150,37 +134,32 @@ public class KmDuration
      */
     public int getTotalMonths()
     {
-        return (int)(_ordinal / MS_PER_MONTH_APPROXIMATE);
+        return (int)(_seconds / SECONDS_PER_MONTH_APPROXIMATE);
     }
 
     public int getTotalDays()
     {
-        return (int)(_ordinal / MS_PER_DAY);
+        return (int)(_seconds / SECONDS_PER_DAY);
     }
 
     public int getTotalWeeks()
     {
-        return (int)(_ordinal / MS_PER_WEEK);
+        return (int)(_seconds / SECONDS_PER_WEEK);
     }
 
     public int getTotalHours()
     {
-        return (int)(_ordinal / MS_PER_HOUR);
+        return (int)(_seconds / SECONDS_PER_HOUR);
     }
 
     public int getTotalMinutes()
     {
-        return (int)(_ordinal / MS_PER_MINUTE);
+        return (int)(_seconds / SECONDS_PER_MINUTE);
     }
 
     public int getTotalSeconds()
     {
-        return (int)(_ordinal / MS_PER_SECOND);
-    }
-
-    public int getTotalMs()
-    {
-        return (int)_ordinal;
+        return (int)_seconds;
     }
 
     //==================================================
@@ -189,22 +168,22 @@ public class KmDuration
 
     public double getTotalDaysExact()
     {
-        return (double)_ordinal / MS_PER_DAY;
+        return (double)_seconds / SECONDS_PER_DAY;
     }
 
     public double getTotalHoursExact()
     {
-        return (double)_ordinal / MS_PER_HOUR;
+        return (double)_seconds / SECONDS_PER_HOUR;
     }
 
     public double getTotalMinutesExact()
     {
-        return (double)_ordinal / MS_PER_MINUTE;
+        return (double)_seconds / SECONDS_PER_MINUTE;
     }
 
     public double getTotalSecondsExact()
     {
-        return (double)_ordinal / MS_PER_SECOND;
+        return _seconds;
     }
 
     //##################################################
@@ -213,36 +192,27 @@ public class KmDuration
 
     public KmDuration add(KmDuration d)
     {
-        return addMs(d.getOrdinal());
+        return fromSeconds(_seconds + d._seconds);
     }
 
     public KmDuration addDays(int dd)
     {
-        long ms = (long)dd * MS_PER_DAY;
-        return addMs(ms);
+        return addSeconds(dd * SECONDS_PER_DAY);
     }
 
     public KmDuration addHours(int hh)
     {
-        long ms = (long)hh * MS_PER_HOUR;
-        return addMs(ms);
+        return addSeconds(hh * SECONDS_PER_HOUR);
     }
 
     public KmDuration addMinutes(int mm)
     {
-        long ms = (long)mm * MS_PER_MINUTE;
-        return addMs(ms);
+        return addSeconds(mm * SECONDS_PER_MINUTE);
     }
 
     public KmDuration addSeconds(int ss)
     {
-        long ms = (long)ss * MS_PER_SECOND;
-        return addMs(ms);
-    }
-
-    public KmDuration addMs(long ms)
-    {
-        return new KmDuration(_ordinal + ms);
+        return fromSeconds(_seconds + ss);
     }
 
     //==================================================
@@ -274,18 +244,13 @@ public class KmDuration
         return addSeconds(-ss);
     }
 
-    public KmDuration subtractMs(int ms)
-    {
-        return addMs(-ms);
-    }
-
     //==================================================
     //= math :: conversion
     //==================================================
 
     public KmDuration negate()
     {
-        return new KmDuration(-_ordinal);
+        return fromSeconds(-_seconds);
     }
 
     public KmDuration abs()
@@ -301,17 +266,17 @@ public class KmDuration
 
     public boolean isZero()
     {
-        return _ordinal == 0;
+        return _seconds == 0;
     }
 
     public boolean isPositive()
     {
-        return _ordinal > 0;
+        return _seconds > 0;
     }
 
     public boolean isNegative()
     {
-        return _ordinal < 0;
+        return _seconds < 0;
     }
 
     //##################################################
@@ -324,13 +289,13 @@ public class KmDuration
         if ( !(e instanceof KmDuration) )
             return false;
 
-        return ((KmDuration)e)._ordinal == _ordinal;
+        return ((KmDuration)e)._seconds == _seconds;
     }
 
     @Override
     public int hashCode()
     {
-        return (int)_ordinal;
+        return (int)_seconds;
     }
 
     //##################################################
@@ -340,10 +305,10 @@ public class KmDuration
     @Override
     public int compareTo(KmDuration e)
     {
-        if ( _ordinal < e._ordinal )
+        if ( _seconds < e._seconds )
             return -1;
 
-        if ( _ordinal > e._ordinal )
+        if ( _seconds > e._seconds )
             return 1;
 
         return 0;
@@ -390,7 +355,6 @@ public class KmDuration
         int hh = abs.getCompositeHour();
         int mm = abs.getCompositeMinute();
         int ss = abs.getCompositeSecond();
-        int ms = abs.getCompositeMs();
 
         if ( dd > 0 )
         {
@@ -403,12 +367,6 @@ public class KmDuration
         out.append(_pad2(mm));
         out.append(":");
         out.append(_pad2(ss));
-
-        if ( ms > 0 )
-        {
-            out.append(".");
-            out.append(_pad3(ms));
-        }
 
         return out.toString();
     }
@@ -425,10 +383,5 @@ public class KmDuration
     private String _pad2(long i)
     {
         return Kmu.leftPad(i + "", 2, '0');
-    }
-
-    private String _pad3(long i)
-    {
-        return Kmu.leftPad(i + "", 3, '0');
     }
 }

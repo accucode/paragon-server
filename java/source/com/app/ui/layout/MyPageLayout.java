@@ -46,8 +46,8 @@ public class MyPageLayout
 
     private MyPageHeader  _header;
     private MyPageFooter  _footer;
-    private MyTopMenu     _topMenu;
-    private MyLeftMenu    _leftMenu;
+    private MyPageTabs    _tabs;
+    private MyPageMenu    _menu;
     private MyPageTitle   _title;
     private MyPageContent _content;
 
@@ -68,11 +68,11 @@ public class MyPageLayout
         _title = add(new MyPageTitle());
         _title.style().hide();
 
-        _leftMenu = add(new MyLeftMenu());
-        _leftMenu.style().hide();
+        _menu = add(new MyPageMenu());
+        _menu.style().hide();
 
-        _topMenu = add(new MyTopMenu());
-        _topMenu.style().hide();
+        _tabs = add(new MyPageTabs());
+        _tabs.style().hide();
 
         _footer = add(new MyPageFooter());
         _footer.style().hide();
@@ -95,14 +95,14 @@ public class MyPageLayout
         return _footer;
     }
 
-    private MyTopMenu getTopMenu()
+    private MyPageTabs getTabs()
     {
-        return _topMenu;
+        return _tabs;
     }
 
-    private MyLeftMenu getLeftMenu()
+    private MyPageMenu getMenu()
     {
-        return _leftMenu;
+        return _menu;
     }
 
     private MyPageTitle getTitle()
@@ -161,12 +161,12 @@ public class MyPageLayout
         ScServletData data = getData();
         MyPageLayoutType type = page.getLayoutType();
 
-        MyMenuItem top = page.getTopMenu();
-        MyMenuItem left = page.getLeftMenuItem();
+        MyMenuItem tab = page.getPrimaryMenuItem();
+        MyMenuItem menu = page.getSecondaryMenuItem();
 
         MyPageLayoutType prevType = prevPage.getLayoutType();
-        MyMenuItem prevTop = prevPage.getTopMenu();
-        MyMenuItem prevLeft = prevPage.getLeftMenuItem();
+        MyMenuItem prevTab = prevPage.getPrimaryMenuItem();
+        MyMenuItem prevMenu = prevPage.getSecondaryMenuItem();
 
         if ( type != prevType )
             ajaxRefreshAllCss(type);
@@ -175,46 +175,46 @@ public class MyPageLayout
         boolean refreshHeader = false;
         boolean showsHeader = type.showsHeader();
 
-        if ( showsHeader && !data.isPageHeaderVisible() )
+        if ( showsHeader && !data.isAppHeaderVisible() )
             refreshHeader = true;
 
         // refresh footer?
         boolean refreshFooter = false;
         boolean showsFooter = type.showsFooter();
 
-        if ( showsFooter && !data.isPageFooterVisible() )
+        if ( showsFooter && !data.isAppFooterVisible() )
             refreshFooter = true;
 
-        // refresh top menu?
-        boolean refreshTopMenu = false;
-        boolean refreshTopMenuSelection = false;
-        boolean showsTopMenu = type.showsTopMenu();
+        // refresh tab (primary navigation)?
+        boolean refreshTabs = false;
+        boolean refreshTabSelection = false;
+        boolean showsTabs = type.showsTabs();
 
-        if ( showsTopMenu && !data.isTopMenuVisible() )
+        if ( showsTabs && !data.isAppTabsVisible() )
         {
-            refreshTopMenu = true;
-            refreshTopMenuSelection = true;
+            refreshTabs = true;
+            refreshTabSelection = true;
         }
 
-        // refresh left menu?
-        boolean refreshLeftMenu = false;
-        boolean refreshLeftSelection = false;
-        boolean showsLeftMenu = type.showsLeftMenu();
+        // refresh menu (secondary navigation)?
+        boolean refreshMenu = false;
+        boolean refreshMenuSelection = false;
+        boolean showsMenu = type.showsMenu();
 
-        if ( showsLeftMenu && !data.isLeftMenuVisible() )
+        if ( showsMenu && !data.isAppMenuVisible() )
         {
-            refreshLeftMenu = true;
-            refreshLeftSelection = true;
+            refreshMenu = true;
+            refreshMenuSelection = true;
         }
 
-        if ( top != prevTop )
+        if ( tab != prevTab )
         {
-            refreshTopMenuSelection = true;
-            refreshLeftMenu = true;
+            refreshTabSelection = true;
+            refreshMenu = true;
         }
 
-        if ( left != prevLeft )
-            refreshLeftSelection = true;
+        if ( menu != prevMenu )
+            refreshMenuSelection = true;
 
         // refresh title?
         boolean refreshTitle = false;
@@ -236,23 +236,23 @@ public class MyPageLayout
             getFooter().ajaxRefreshContent();
         }
 
-        if ( refreshTopMenu )
+        if ( refreshTabs )
         {
-            getTopMenu().ajax().show(showsTopMenu);
-            getTopMenu().ajaxRefreshContent();
+            getTabs().ajax().show(showsTabs);
+            getTabs().ajaxRefreshContent();
         }
 
-        if ( refreshTopMenuSelection )
-            getTopMenu().ajaxRefreshSelection(page);
+        if ( refreshTabSelection )
+            getTabs().ajaxRefreshSelection(page);
 
-        if ( refreshLeftMenu )
+        if ( refreshMenu )
         {
-            getLeftMenu().ajax().show(showsLeftMenu);
-            getLeftMenu().ajaxRefreshContentFor(page);
+            getMenu().ajax().show(showsMenu);
+            getMenu().ajaxRefreshContentFor(page);
         }
 
-        if ( refreshLeftSelection )
-            getLeftMenu().ajaxRefreshSelection(page);
+        if ( refreshMenuSelection )
+            getMenu().ajaxRefreshSelection(page);
 
         if ( refreshTitle )
             getTitle().ajaxRefreshContentFor(page);
@@ -266,7 +266,7 @@ public class MyPageLayout
         MyPage prevPage = (MyPage)data.getCurrentPage();
         MyPageLayoutType type = page.getLayoutType();
 
-        if ( type.showsTitle() && !data.isPageTitleVisible() )
+        if ( type.showsTitle() && !data.isAppTitleVisible() )
             return true;
 
         if ( page != prevPage )
@@ -292,18 +292,18 @@ public class MyPageLayout
             getFooter().ajax().show();
         }
 
-        if ( type.showsTopMenu() )
+        if ( type.showsTabs() )
         {
-            getTopMenu().ajaxRefreshContent();
-            getTopMenu().ajaxRefreshSelection(page);
-            getTopMenu().ajax().show();
+            getTabs().ajaxRefreshContent();
+            getTabs().ajaxRefreshSelection(page);
+            getTabs().ajax().show();
         }
 
-        if ( type.showsLeftMenu() )
+        if ( type.showsMenu() )
         {
-            getLeftMenu().ajaxRefreshContentFor(page);
-            getLeftMenu().ajaxRefreshSelection(page);
-            getLeftMenu().ajax().show();
+            getMenu().ajaxRefreshContentFor(page);
+            getMenu().ajaxRefreshSelection(page);
+            getMenu().ajax().show();
         }
 
         if ( type.showsTitle() )
@@ -320,8 +320,8 @@ public class MyPageLayout
     {
         getHeader().ajax().setCss(type.getHeaderCss());
         getFooter().ajax().setCss(type.getFooterCss());
-        getTopMenu().ajax().setCss(type.getTopMenuCss());
-        getLeftMenu().ajax().setCss(type.getLeftMenuCss());
+        getTabs().ajax().setCss(type.getTabsCss());
+        getMenu().ajax().setCss(type.getMenuCss());
         getTitle().ajax().setCss(type.getTitleCss());
         getContent().ajax().setCss(type.getContentCss());
     }
@@ -330,12 +330,12 @@ public class MyPageLayout
     {
         ScServletData data = getData();
 
-        ajaxVisibleIf(getHeader(), type.showsHeader(), data.isPageHeaderVisible());
-        ajaxVisibleIf(getFooter(), type.showsFooter(), data.isPageFooterVisible());
-        ajaxVisibleIf(getTopMenu(), type.showsTopMenu(), data.isTopMenuVisible());
-        ajaxVisibleIf(getLeftMenu(), type.showsLeftMenu(), data.isLeftMenuVisible());
-        ajaxVisibleIf(getTitle(), type.showsTitle(), data.isPageTitleVisible());
-        ajaxVisibleIf(getContent(), type.showsContent(), data.isPageContentVisible());
+        ajaxVisibleIf(getHeader(), type.showsHeader(), data.isAppHeaderVisible());
+        ajaxVisibleIf(getFooter(), type.showsFooter(), data.isAppFooterVisible());
+        ajaxVisibleIf(getTabs(), type.showsTabs(), data.isAppTabsVisible());
+        ajaxVisibleIf(getMenu(), type.showsMenu(), data.isAppMenuVisible());
+        ajaxVisibleIf(getTitle(), type.showsTitle(), data.isAppTitleVisible());
+        ajaxVisibleIf(getContent(), type.showsContent(), data.isAppContentVisible());
     }
 
     private void ajaxVisibleIf(ScHtmlIdIF target, boolean shows, boolean visible)

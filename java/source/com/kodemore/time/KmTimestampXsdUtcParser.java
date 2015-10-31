@@ -68,7 +68,8 @@ public class KmTimestampXsdUtcParser
             return null;
         if ( t == null )
             return null;
-        return KmTimestamp.create(d, t);
+
+        return KmTimestamp.fromDateTime(d, t);
     }
 
     public KmTimeParser getTimeParser()

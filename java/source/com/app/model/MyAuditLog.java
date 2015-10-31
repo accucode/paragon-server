@@ -48,7 +48,7 @@ public class MyAuditLog
         MyAuditLogType type = getType();
 
         if ( type == null )
-            return "No Audit Type.";
+            return "No Type.";
 
         switch ( type )
         {
@@ -68,8 +68,9 @@ public class MyAuditLog
     private String formatAddMessage()
     {
         return Kmu.format(
-            "AUDIT... %s added %s.%s; %s.",
+            "%s added %s %s; set %s = [%s].",
             formatMessageUserName(),
+            getModelType(),
             getModelName(),
             getFieldName(),
             getNewValue());
@@ -78,8 +79,9 @@ public class MyAuditLog
     private String formatUpdateMessage()
     {
         return Kmu.format(
-            "AUDIT... %s updated %s.%s; %s => %s.",
+            "%s updated %s %s; changed %s from [%s] to [%s].",
             formatMessageUserName(),
+            getModelType(),
             getModelName(),
             getFieldName(),
             getOldValue(),
@@ -89,8 +91,9 @@ public class MyAuditLog
     private String formatDeleteMessage()
     {
         return Kmu.format(
-            "AUDIT... %s deleted %s.%s; %s.",
+            "%s deleted %s %s; %s was [%s].",
             formatMessageUserName(),
+            getModelType(),
             getModelName(),
             getFieldName(),
             getOldValue());

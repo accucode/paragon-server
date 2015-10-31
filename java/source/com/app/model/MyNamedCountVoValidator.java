@@ -8,5 +8,5 @@ import com.app.model.base.MyNamedCountVoValidatorBase;
 public class MyNamedCountVoValidator
     extends MyNamedCountVoValidatorBase
 {
-    //
+    // none
 }

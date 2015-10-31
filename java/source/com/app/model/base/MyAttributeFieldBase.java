@@ -55,7 +55,7 @@ public abstract class MyAttributeFieldBase
     {
         super();
         setUid(newUid());
-        setActive(false);
+        setActive(true);
         values = new ArrayList<>();
     }
 
@@ -138,7 +138,7 @@ public abstract class MyAttributeFieldBase
 
     public void truncateCategoryCode(boolean ellipses)
     {
-        categoryCode = Kmu.truncate(categoryCode, 1, ellipses);
+        categoryCode = Kmu.truncate(categoryCode, 5, ellipses);
     }
 
     public MyAttributeFieldCategory getCategory()
@@ -164,19 +164,19 @@ public abstract class MyAttributeFieldBase
         return getCategory() == e;
     }
 
-    public void setCategorySite()
+    public void setCategoryCustomerSite()
     {
-        setCategory(MyAttributeFieldCategory.Site);
+        setCategory(MyAttributeFieldCategory.CustomerSite);
     }
 
-    public boolean isCategorySite()
+    public boolean isCategoryCustomerSite()
     {
-        return hasCategory(MyAttributeFieldCategory.Site);
+        return hasCategory(MyAttributeFieldCategory.CustomerSite);
     }
 
-    public boolean isNotCategorySite()
+    public boolean isNotCategoryCustomerSite()
     {
-        return !isCategorySite();
+        return !isCategoryCustomerSite();
     }
 
     public void setCategoryProduct()
@@ -194,19 +194,19 @@ public abstract class MyAttributeFieldBase
         return !isCategoryProduct();
     }
 
-    public void setCategoryOrderLine()
+    public void setCategorySalesOrderLine()
     {
-        setCategory(MyAttributeFieldCategory.OrderLine);
+        setCategory(MyAttributeFieldCategory.SalesOrderLine);
     }
 
-    public boolean isCategoryOrderLine()
+    public boolean isCategorySalesOrderLine()
     {
-        return hasCategory(MyAttributeFieldCategory.OrderLine);
+        return hasCategory(MyAttributeFieldCategory.SalesOrderLine);
     }
 
-    public boolean isNotCategoryOrderLine()
+    public boolean isNotCategorySalesOrderLine()
     {
-        return !isCategoryOrderLine();
+        return !isCategorySalesOrderLine();
     }
 
     //##################################################

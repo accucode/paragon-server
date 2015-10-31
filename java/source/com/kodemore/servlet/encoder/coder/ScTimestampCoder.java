@@ -46,7 +46,7 @@ public class ScTimestampCoder
     public void encode(ScEncoder encoder, Object o)
     {
         KmTimestamp e = (KmTimestamp)o;
-        long i = e.getOrdinal();
+        long i = e.toEpochMs();
         encoder._printLong(i);
     }
 
@@ -56,7 +56,7 @@ public class ScTimestampCoder
         Long i = Kmu.parseLong(s);
         return i == null
             ? null
-            : KmTimestamp.createOrdinal(i);
+            : KmTimestamp.fromEpochMs(i);
     }
 
 }

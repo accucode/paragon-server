@@ -134,6 +134,11 @@ public class MyAuditLogCriteria
         return new KmhTimestampCondition(context(), fullName(UTC_TS));
     }
 
+    public KmhStringCondition whereModelType()
+    {
+        return new KmhStringCondition(context(), fullName(MODEL_TYPE));
+    }
+
     public KmhStringCondition whereModelName()
     {
         return new KmhStringCondition(context(), fullName(MODEL_NAME));
@@ -296,6 +301,24 @@ public class MyAuditLogCriteria
             sortOnUtcTs();
         else
             sortOnUtcTsDescending();
+    }
+
+    public void sortOnModelType()
+    {
+        parent().sortAscending(MODEL_TYPE);
+    }
+
+    public void sortOnModelTypeDescending()
+    {
+        parent().sortDescending(MODEL_TYPE);
+    }
+
+    public void sortOnModelType(boolean asc)
+    {
+        if ( asc )
+            sortOnModelType();
+        else
+            sortOnModelTypeDescending();
     }
 
     public void sortOnModelName()
@@ -768,6 +791,50 @@ public class MyAuditLogCriteria
     public void groupByUtcTs()
     {
         groupBy(UTC_TS);
+    }
+
+    //##################################################
+    //# projections (modelType)
+    //##################################################
+
+    public void selectModelType()
+    {
+        select(MODEL_TYPE);
+    }
+
+    public void selectDistinctModelType()
+    {
+        selectDistinct(MODEL_TYPE);
+    }
+
+    public void selectCountDistinctModelType()
+    {
+        selectCountDistinct(MODEL_TYPE);
+    }
+
+    public void selectMinimumModelType()
+    {
+        selectMinimum(MODEL_TYPE);
+    }
+
+    public void selectMaximumModelType()
+    {
+        selectMaximum(MODEL_TYPE);
+    }
+
+    public void selectAverageModelType()
+    {
+        selectAverage(MODEL_TYPE);
+    }
+
+    public void selectSumModelType()
+    {
+        selectSum(MODEL_TYPE);
+    }
+
+    public void groupByModelType()
+    {
+        groupBy(MODEL_TYPE);
     }
 
     //##################################################

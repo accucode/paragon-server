@@ -25,7 +25,7 @@ import com.app.model.core.*;
 import com.app.utility.*;
 
 public class MyMetaOrderNumber_Project
-    extends KmMetaDaoAssociation<MyOrderNumber,MyProject>
+    extends KmMetaDaoAssociation<MyNextOrderNumber,MyProject>
 {
     //##################################################
     //# accessing
@@ -42,19 +42,19 @@ public class MyMetaOrderNumber_Project
     //##################################################
 
     @Override
-    public MyProject getValueFor(MyOrderNumber model)
+    public MyProject getValueFor(MyNextOrderNumber model)
     {
         return model.getProject();
     }
     
     @Override
-    public void setValueFor(MyOrderNumber model, MyProject value)
+    public void setValueFor(MyNextOrderNumber model, MyProject value)
     {
         model.setProject(value);
     }
     
     @Override
-    public boolean hasValueFor(MyOrderNumber model, MyProject value)
+    public boolean hasValueFor(MyNextOrderNumber model, MyProject value)
     {
         return model.hasProject(value);
     }

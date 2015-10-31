@@ -37,14 +37,9 @@ public enum KmWeekDay
     /**
      * The enumerated values.
      *   
-     * The values are assumed to be in the correct sequence, but
-     * the first enum is NOT assumed to be the first day of the week.
-     * E.g.: The enumeration may list the days as Mon..Sun, but the
-     * first day of the week may be Saturday.
-     * 
-     * If you change the sequence of these values, the conversion
-     * between dates and weekDays may break.  See the constant
-     * KmWeekDay.DATE_ORDINAL_ADJUSTMENT.
+     * The values are assumed to be in the correct sequence, Monday..Sunday.
+     * This matches the ISO-8601 standard, and is consistent with standard
+     * JDK APIs such as LocalDate and WeekDay.
      */
 
     Monday("M", "Monday", "Mon"),
@@ -69,14 +64,15 @@ public enum KmWeekDay
     public static final KmWeekDay FIRST_DAY = Sunday;
     public static final KmWeekDay LAST_DAY = FIRST_DAY.getPreviousDay();
 
-    /**
-     * This is used to convert a date's ordinal value into a week day.
-     * If you change the sequence of the enum, or change the date's 
-     * ordinal implementation, then this value may need to change.
-     * Current assumes that KmDate.createOrdinal(0) = Jan 1, 1800
-     * 
-     */
-    public static final int DATE_ORDINAL_ADJUSTMENT = 2;
+    //##################################################
+    //# static
+    //##################################################
+
+    public static KmWeekDay fromDate(KmDate date)
+    {
+        int i = date.getWeekDayValue();
+        return values()[i - 1];
+    }
 
     //##################################################
     //# variables
@@ -240,11 +236,5 @@ public enum KmWeekDay
     public String toString()
     {
         return getName();
-    }
-
-    public static KmWeekDay fromDate(KmDate date)
-    {
-        int i = (date.getOrdinal() + DATE_ORDINAL_ADJUSTMENT) % 7;
-        return values()[i];
     }
 }

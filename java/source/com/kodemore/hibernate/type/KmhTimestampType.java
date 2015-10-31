@@ -69,7 +69,7 @@ public class KmhTimestampType
         if ( rs.wasNull() )
             return null;
 
-        return KmTimestamp.create(e);
+        return KmTimestamp.fromJavaDate(e);
     }
 
     @Override
@@ -83,8 +83,8 @@ public class KmhTimestampType
         }
 
         KmTimestamp ts = (KmTimestamp)value;
-        Timestamp e = new Timestamp(ts.getJavaTimestamp().getTime());
-        st.setTimestamp(index, e);
+        Timestamp jts = ts.toJavaTimestamp();
+        st.setTimestamp(index, jts);
     }
 
 }

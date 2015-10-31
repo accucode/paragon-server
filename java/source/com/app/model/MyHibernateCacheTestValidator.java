@@ -8,5 +8,5 @@ import com.app.model.base.MyHibernateCacheTestValidatorBase;
 public class MyHibernateCacheTestValidator
     extends MyHibernateCacheTestValidatorBase
 {
-    //
+    // none
 }

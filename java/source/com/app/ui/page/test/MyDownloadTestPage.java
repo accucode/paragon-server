@@ -93,7 +93,7 @@ public final class MyDownloadTestPage
         KmStringBuilder value;
         value = new KmStringBuilder();
         value.println("Sample file");
-        value.println(KmTimestamp.createNowLocal());
+        value.println(KmTimestamp.nowUtc().toLocal());
 
         ajax().download(name, value);
     }

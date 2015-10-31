@@ -1,6 +1,8 @@
 package com.app.ui.page.general;
 
 import com.kodemore.servlet.ScParameterList;
+import com.kodemore.servlet.control.ScActionButton;
+import com.kodemore.servlet.control.ScGroup;
 import com.kodemore.servlet.control.ScPageRoot;
 import com.kodemore.servlet.control.ScText;
 
@@ -70,8 +72,19 @@ public final class MyTasksPage
     @Override
     protected void installRoot(ScPageRoot root)
     {
+        ScGroup group = new ScGroup();
+
         root.css().pad();
-        _message = root.addText("This page shows tasks for the current project.");
+        group = root.addGroup("Task Test");
+        // remove_steve: added height500 for testing
+        group.css().height500();
+        // fixme_steve: move the theming into a convinience method
+        group.getBanner().css().group_banner_primary();
+
+        ScActionButton button = group.getFooter().addButton();
+        button.css().button_element_positive();
+        _message = group.getBody().addText("This page shows tasks for the current project.");
+
     }
 
     //##################################################

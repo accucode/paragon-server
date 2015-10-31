@@ -22,6 +22,11 @@
 
 package com.kodemore.time;
 
+import java.time.Month;
+import java.time.Year;
+import java.time.format.TextStyle;
+import java.util.Locale;
+
 import com.kodemore.utility.Kmu;
 
 /**
@@ -35,87 +40,12 @@ public class KmDateUtility
     //##################################################
 
     /**
-     * Determine if the combination of year, month, and day
-     * defines a valid date.
-     */
-    public static boolean isValid(int year, int month, int day)
-    {
-        if ( !isYearValid(year) )
-            return false;
-
-        if ( !isMonthValid(month) )
-            return false;
-
-        if ( !isDayValid(year, month, day) )
-            return false;
-
-        return true;
-    }
-
-    /**
-     * Determine if the month is valid.
-     */
-    public static boolean isMonthValid(int month)
-    {
-        if ( month < MINIMUM_MONTH )
-            return false;
-
-        if ( month > MAXIMUM_MONTH )
-            return false;
-
-        return true;
-    }
-
-    /**
-     * Determine if the day is valid for the year and month.
-     */
-    public static boolean isDayValid(int year, int month, int day)
-    {
-        if ( day < MINIMUM_DAY )
-            return false;
-
-        if ( day > KmDateUtility.getDaysInYearMonth(year, month) )
-            return false;
-
-        return true;
-    }
-
-    /**
-     * Determine if the year is valid.
-     */
-    public static boolean isYearValid(int year)
-    {
-        if ( year < MINIMUM_YEAR )
-            return false;
-
-        if ( year > MAXIMUM_YEAR )
-            return false;
-
-        return true;
-    }
-
-    /**
-     * Determine if the orginal value is valid.
-     */
-    public static boolean isOrdinalValid(int ordinal)
-    {
-        if ( ordinal < 0 )
-            return false;
-
-        if ( ordinal > DAYS_DIFF_1800_9999 )
-            return false;
-
-        return true;
-    }
-
-    /**
      * Determine the number of days in a given month.
      */
-    public static int getDaysInYearMonth(int year, int month)
+    public static int getDaysInYearMonth(int yy, int mm)
     {
-        return isLeapYear(year)
-            ? DAYS_PER_MONTH_LEAP[month - 1]
-            : DAYS_PER_MONTH_NONLEAP[month - 1];
+        boolean isLeap = Year.isLeap(yy);
+        return Month.of(mm).length(isLeap);
     }
 
     /**
@@ -123,196 +53,25 @@ public class KmDateUtility
      */
     public static boolean isLeapYear(int year)
     {
-        if ( !isYearValid(year) )
-            throw new IllegalArgumentException("Invalid year: " + year);
-
-        if ( year % 400 == 0 )
-            return true;
-
-        if ( year % 100 == 0 )
-            return false;
-
-        if ( year % 4 == 0 )
-            return true;
-
-        return false;
-    }
-
-    //##################################################
-    //# misc
-    //##################################################
-
-    /**
-     * Determine the difference between two dates.  The resultant
-     * array contains three elements { years, months, days }.
-     */
-    public static final int[] difference(KmDate fromDate, KmDate toDate)
-    {
-        if ( fromDate.getOrdinal() >= toDate.getOrdinal() )
-            return new int[]
-            {
-                0,
-                0,
-                0
-            };
-
-        int fromYear = fromDate.getYear();
-        int fromMonth = fromDate.getMonth();
-        int fromDay = fromDate.getDay();
-        int toYear = toDate.getYear();
-        int toMonth = toDate.getMonth();
-        int toDay = toDate.getDay();
-        int diffYears = toYear - fromYear;
-        int diffMonths = toMonth - fromMonth;
-        int diffDays = toDay - fromDay;
-
-        if ( diffDays < 0 )
-        {
-            diffDays += getDaysInYearMonth(fromYear, fromMonth);
-            diffMonths--;
-        }
-        if ( diffMonths < 0 )
-        {
-            diffMonths += 12;
-            diffYears--;
-        }
-        if ( fromYear < 0 && toYear > 0 )
-            diffYears--;
-
-        if ( diffYears < 0 )
-        {
-            diffYears = 0;
-            diffMonths = 0;
-            diffDays = 0;
-        }
-        return new int[]
-        {
-            diffYears,
-            diffMonths,
-            diffDays
-        };
-    }
-
-    //##################################################
-    //# debug
-    //##################################################
-
-    /**
-     * Determine the value for the constant DAYS_DIFF_1800_1970.
-     */
-    public int _getDiffDays1800And1970()
-    {
-        int days = 0;
-        for ( int i = MINIMUM_YEAR; i < 1970; i++ )
-            if ( isLeapYear(i) )
-                days += DAYS_PER_LEAP_YEAR;
-            else
-                days += DAYS_PER_NONLEAP_YEAR;
-        return days;
-    }
-
-    /**
-     * Determine the value for the constant DAYS_DIFF_1800_9999
-     */
-    public int _getDiffDays1800And9999()
-    {
-        int days = 0;
-        for ( int i = MINIMUM_YEAR; i < MAXIMUM_YEAR; i++ )
-            if ( isLeapYear(i) )
-                days += DAYS_PER_LEAP_YEAR;
-            else
-                days += DAYS_PER_NONLEAP_YEAR;
-        return days;
+        return Year.isLeap(year);
     }
 
     //##################################################
     //# display
     //##################################################
 
+    /**
+     * Get the name of the month.
+     * The month index should be 1..12, Jan = 1.
+     */
     public static String getMonthName(int i)
     {
-        switch ( i )
-        {
-            case JANUARY:
-                return "January";
-
-            case FEBRUARY:
-                return "February";
-
-            case MARCH:
-                return "March";
-
-            case APRIL:
-                return "April";
-
-            case MAY:
-                return "May";
-
-            case JUNE:
-                return "June";
-
-            case JULY:
-                return "July";
-
-            case AUGUST:
-                return "August";
-
-            case SEPTEMBER:
-                return "September";
-
-            case OCTOBER:
-                return "October";
-
-            case NOVEMBER:
-                return "November";
-
-            case DECEMBER:
-                return "December";
-        }
-        return "Unknown";
+        return Month.of(i).getDisplayName(TextStyle.FULL, Locale.getDefault());
     }
 
     public static String getMonthAbbreviation(int i)
     {
-        switch ( i )
-        {
-            case JANUARY:
-                return "Jan";
-
-            case FEBRUARY:
-                return "Feb";
-
-            case MARCH:
-                return "Mar";
-
-            case APRIL:
-                return "Apr";
-
-            case MAY:
-                return "May";
-
-            case JUNE:
-                return "Jun";
-
-            case JULY:
-                return "Jul";
-
-            case AUGUST:
-                return "Aug";
-
-            case SEPTEMBER:
-                return "Sep";
-
-            case OCTOBER:
-                return "Oct";
-
-            case NOVEMBER:
-                return "Nov";
-
-            case DECEMBER:
-                return "Dec";
-        }
-        return "Unknown";
+        return Month.of(i).getDisplayName(TextStyle.SHORT, Locale.getDefault());
     }
 
     //##################################################

@@ -38,29 +38,29 @@ public class MyPageTitle
     {
         super.install();
 
-        setHtmlId("pageTitle");
+        setHtmlId(KmCssDefaultConstantsIF.ID_appTitle);
 
         _left = addDiv();
-        _left.css().pageTitle_left();
+        _left.css().appTitle_left();
 
         _nameText = _left.addTextSpan();
-        _nameText.css().pageTitle_nameText();
+        _nameText.css().appTitle_nameText();
 
         _projectText = _left.addTextSpan();
-        _projectText.css().pageTitle_projectText();
+        _projectText.css().appTitle_projectText();
 
         _right = addDiv();
-        _right.css().pageTitle_right();
+        _right.css().appTitle_right();
 
         ScScriptLink toggleHelpLink;
         toggleHelpLink = _right.addScriptLink();
-        toggleHelpLink.css().clear().pageTitle_link();
+        toggleHelpLink.css().clear().appTitle_link();
         toggleHelpLink.setText("toggle field help");
         toggleHelpLink.setScript(getToggleFieldHelpScript());
         toggleHelpLink.hide();
 
         _helpImage = _right.addImage();
-        _helpImage.css().pageTitle_help();
+        _helpImage.css().appTitle_help();
         _helpImage.style().hide();
     }
 

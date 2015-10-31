@@ -46,7 +46,7 @@ public class ScDateCoder
     public void encode(ScEncoder encoder, Object o)
     {
         KmDate e = (KmDate)o;
-        int i = e.getOrdinal();
+        int i = e.toEpochDays();
         encoder._printInteger(i);
     }
 
@@ -58,7 +58,7 @@ public class ScDateCoder
         if ( i < 0 )
             return null;
 
-        return KmDate.createOrdinal(i);
+        return KmDate.fromEpochDays(i);
     }
 
 }

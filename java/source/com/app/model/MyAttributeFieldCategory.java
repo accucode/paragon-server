@@ -20,9 +20,9 @@ public enum MyAttributeFieldCategory
     //# values
     //##################################################
 
-    Site("S", "Site"),
+    CustomerSite("CS", "Customer Site"),
     Product("P", "Product"),
-    OrderLine("L", "Order Line"),
+    SalesOrderLine("SOL", "Sales Order Line"),
     ;
 
     //##################################################
@@ -89,9 +89,9 @@ public enum MyAttributeFieldCategory
     //# testing
     //##################################################
 
-    public boolean isSite()
+    public boolean isCustomerSite()
     {
-        return this == Site;
+        return this == CustomerSite;
     }
 
     public boolean isProduct()
@@ -99,9 +99,9 @@ public enum MyAttributeFieldCategory
         return this == Product;
     }
 
-    public boolean isOrderLine()
+    public boolean isSalesOrderLine()
     {
-        return this == OrderLine;
+        return this == SalesOrderLine;
     }
 
     //##################################################

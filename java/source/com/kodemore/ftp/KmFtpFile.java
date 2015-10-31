@@ -18,7 +18,7 @@ public class KmFtpFile
     public static KmFtpFile createFtpFile(FTPFile f)
     {
         String s = f.getName();
-        KmDate d = KmDate.createJavaDate(f.lastModified());
+        KmDate d = KmDate.fromJavaDate(f.lastModified());
         return new KmFtpFile(s, d);
     }
 

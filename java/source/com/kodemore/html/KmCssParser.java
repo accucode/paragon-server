@@ -173,7 +173,7 @@ public class KmCssParser
     }
 
     /**
-     * Get all class selectors.  Some examples...
+     * Get all css (CLASS) selectors.  Some examples...
      *      .footer         => footer
      *      td.highlight    => highlight
      *      a.big:hover     => big
@@ -181,7 +181,7 @@ public class KmCssParser
      *      div             => -- not a class selector --
      *      #someElement    => -- not a class selector --
      */
-    public KmList<String> getClassSelectors()
+    public KmList<String> getCssSelectors()
     {
         KmList<String> v;
         v = new KmList<>();
@@ -216,6 +216,37 @@ public class KmCssParser
 
                 v.addDistinct(s);
             }
+        }
+
+        v.sort();
+        return v;
+    }
+
+    /**
+     * Get all ID selectors.  Some examples...
+     *      #someElement    => someElement
+     *      #some:psuedo    => some
+     *      #some.small     => some
+     *      .footer         => -- not an id selector --
+     *      td.highlight    => -- not an id selector --
+     *      a.big:hover     => -- not an id selector --
+     *      div             => -- not an id selector --
+     */
+    public KmList<String> getIdSelectors()
+    {
+        KmList<String> v;
+        v = new KmList<>();
+
+        KmStringTokenizer t;
+        t = new KmStringTokenizer();
+        t.addCharDelimiters(" \t,>.*:");
+
+        for ( String sel : getAllSelectors() )
+        {
+            KmList<String> tokens = t.split(sel);
+            for ( String s : tokens )
+                if ( s.startsWith(HASH + "") )
+                    v.addDistinct(s.substring(1));
         }
 
         v.sort();
@@ -323,14 +354,14 @@ public class KmCssParser
         System.out.println("parse successful.");
         System.out.println("class selectors...");
 
-        KmList<String> v = p.getClassSelectors();
+        KmList<String> v = p.getCssSelectors();
         for ( String e : v )
             System.out.println("  " + e);
     }
 
     private static void _testCss()
     {
-        String css = ".aaa, .bbb .ccc > .ddd { color: red }";
+        String css = ".aaa, .bbb #ccc > .ddd { color: red }";
 
         System.out.println();
         System.out.println("Parse css...");
@@ -341,10 +372,19 @@ public class KmCssParser
         p.printRules();
 
         System.out.println("parse successful.");
+
+        System.out.println();
         System.out.println("class selectors...");
 
-        KmList<String> v = p.getClassSelectors();
-        for ( String e : v )
+        KmList<String> classes = p.getCssSelectors();
+        for ( String e : classes )
+            System.out.println("  " + e);
+
+        System.out.println();
+        System.out.println("id selectors...");
+
+        KmList<String> ids = p.getIdSelectors();
+        for ( String e : ids )
             System.out.println("  " + e);
     }
 

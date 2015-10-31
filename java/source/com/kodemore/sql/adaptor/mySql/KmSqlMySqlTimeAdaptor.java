@@ -45,7 +45,7 @@ public class KmSqlMySqlTimeAdaptor
         if ( rs.wasNull() )
             return def;
 
-        return KmTime.createMySqlOrdinal(i);
+        return KmTime.fromMySqlOrdinal(i);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class KmSqlMySqlTimeAdaptor
     {
         out.printLiteral("sec_to_time");
         out.printOpenParen();
-        out.printValue(value.getMySqlOrdinal());
+        out.printValue(value.toMySqlOrdinal());
         out.printCloseParen();
     }
 

@@ -52,6 +52,7 @@ public abstract class MySalesOrderLineBase
     private Integer lockVersion;
     private MySalesOrder salesOrder;
     private MyProduct product;
+    private List<MyAttributeValue> attributeValues;
 
     //##################################################
     //# constructor
@@ -62,8 +63,9 @@ public abstract class MySalesOrderLineBase
         super();
         setUid(newUid());
         setOrderedQuantity(1);
-        setFulfilledQuantity(1);
+        setFulfilledQuantity(0);
         setPriceAdjustment(KmMoney.ZERO);
+        attributeValues = new ArrayList<>();
     }
 
     //##################################################
@@ -337,12 +339,7 @@ public abstract class MySalesOrderLineBase
     {
         checkReadOnly();
         e = Validator.getTaxValidator().convertOnly(e);
-        KmMoney oldValue = tax;
         tax = e;
-        if ( Kmu.isNotEqual(e, oldValue) )
-        {
-            updateOrderTotals();
-        }
     }
 
     public void clearTax()
@@ -373,12 +370,7 @@ public abstract class MySalesOrderLineBase
     {
         checkReadOnly();
         e = Validator.getTotalPriceValidator().convertOnly(e);
-        KmMoney oldValue = totalPrice;
         totalPrice = e;
-        if ( Kmu.isNotEqual(e, oldValue) )
-        {
-            updateOrderTotals();
-        }
     }
 
     public void clearTotalPrice()
@@ -501,10 +493,71 @@ public abstract class MySalesOrderLineBase
 
 
     //##################################################
-    //# on change
+    //# AttributeValues (collection)
     //##################################################
 
-    protected abstract void updateOrderTotals();
+    public KmCollection<MyAttributeValue> getAttributeValues()
+    {
+        return new KmHibernateCollection<>(
+            getBaseAttributeValues(),
+            (MySalesOrderLine)this,
+            MyAttributeValue.Meta.SalesOrderLine.getAdaptor());
+    }
+
+    public boolean hasAttributeValues()
+    {
+        return !getBaseAttributeValues().isEmpty();
+    }
+
+    public int getAttributeValueCount()
+    {
+        return getBaseAttributeValues().size();
+    }
+
+    public List<MyAttributeValue> getBaseAttributeValues()
+    {
+        return attributeValues;
+    }
+
+    public MyAttributeValue addAttributeValue()
+    {
+        MyAttributeValue e;
+        e = new MyAttributeValue();
+        getAttributeValues().add(e);
+        return e;
+    }
+
+    public void addAttributeValue(MyAttributeValue e)
+    {
+        getAttributeValues().add(e);
+    }
+
+    public boolean removeAttributeValue(MyAttributeValue e)
+    {
+        return getAttributeValues().remove(e);
+    }
+
+    public boolean removeAttributeValueUid(String myUid)
+    {
+        MyAttributeValue e = findAttributeValueUid(myUid);
+        if ( e == null )
+            return false;
+
+        return removeAttributeValue(e);
+    }
+
+    public MyAttributeValue findAttributeValueUid(String myUid)
+    {
+        for ( MyAttributeValue e : getBaseAttributeValues() )
+            if ( e.hasUid(myUid) )
+                return e;
+        return null;
+    }
+
+    public void clearAttributeValues()
+    {
+        getAttributeValues().clear();
+    }
 
     //##################################################
     //# validate
@@ -543,6 +596,8 @@ public abstract class MySalesOrderLineBase
         super.postCopy();
         uid = null;
         salesOrder = null;
+
+        attributeValues = new ArrayList<>();
     }
 
     //##################################################

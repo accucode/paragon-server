@@ -289,7 +289,7 @@ public class KmDateInterval
 
     public int getDays()
     {
-        return _end.getOrdinal() - _start.getOrdinal() + 1;
+        return _end.toEpochDays() - _start.toEpochDays() + 1;
     }
 
     public int getWeeks()

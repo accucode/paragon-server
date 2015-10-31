@@ -97,7 +97,6 @@ public class MyMaintenanceJob
     {
         log("start...");
 
-        prepopulateOrderNumbers();
         consolidatePerformanceLogs();
         deletePerformanceLogs();
         deleteApplicationLogs();
@@ -106,22 +105,6 @@ public class MyMaintenanceJob
         log("done.");
 
         return false;
-    }
-
-    //==================================================
-    //= populate order numbers
-    //==================================================
-
-    private void prepopulateOrderNumbers()
-    {
-        log("prepopulate order numbers...");
-        touch();
-        KmDao.run(this::prepopulateOrderNumbersDao);
-    }
-
-    private void prepopulateOrderNumbersDao()
-    {
-        getAccess().getOrderNumberDao().prepopulate();
     }
 
     //==================================================

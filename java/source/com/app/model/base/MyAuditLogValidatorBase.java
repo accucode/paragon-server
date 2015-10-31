@@ -40,6 +40,7 @@ public class MyAuditLogValidatorBase
     private KmStringValidator userNameValidator;
     private KmStringValidator typeCodeValidator;
     private KmTimestampValidator utcTsValidator;
+    private KmStringValidator modelTypeValidator;
     private KmStringValidator modelNameValidator;
     private KmStringValidator modelUidValidator;
     private KmStringValidator fieldNameValidator;
@@ -67,6 +68,7 @@ public class MyAuditLogValidatorBase
         userNameValidator = newUserNameValidator();
         typeCodeValidator = newTypeCodeValidator();
         utcTsValidator = newUtcTsValidator();
+        modelTypeValidator = newModelTypeValidator();
         modelNameValidator = newModelNameValidator();
         modelUidValidator = newModelUidValidator();
         fieldNameValidator = newFieldNameValidator();
@@ -110,6 +112,11 @@ public class MyAuditLogValidatorBase
     public KmTimestampValidator getUtcTsValidator()
     {
         return utcTsValidator;
+    }
+
+    public KmStringValidator getModelTypeValidator()
+    {
+        return modelTypeValidator;
     }
 
     public KmStringValidator getModelNameValidator()
@@ -195,6 +202,7 @@ public class MyAuditLogValidatorBase
         value.setUserName(userNameValidator.convertOnly(value.getUserName()));
         value.setTypeCode(typeCodeValidator.convertOnly(value.getTypeCode()));
         value.setUtcTs(utcTsValidator.convertOnly(value.getUtcTs()));
+        value.setModelType(modelTypeValidator.convertOnly(value.getModelType()));
         value.setModelName(modelNameValidator.convertOnly(value.getModelName()));
         value.setModelUid(modelUidValidator.convertOnly(value.getModelUid()));
         value.setFieldName(fieldNameValidator.convertOnly(value.getFieldName()));
@@ -220,6 +228,7 @@ public class MyAuditLogValidatorBase
         userNameValidator.validateOnly(value.getUserName(), errors);
         typeCodeValidator.validateOnly(value.getTypeCode(), errors);
         utcTsValidator.validateOnly(value.getUtcTs(), errors);
+        modelTypeValidator.validateOnly(value.getModelType(), errors);
         modelNameValidator.validateOnly(value.getModelName(), errors);
         modelUidValidator.validateOnly(value.getModelUid(), errors);
         fieldNameValidator.validateOnly(value.getFieldName(), errors);
@@ -296,6 +305,18 @@ public class MyAuditLogValidatorBase
         e = new KmTimestampValidator();
         e.setModel("auditLog");
         e.setField("utcTs");
+        e.setRequired();
+        return e;
+    }
+
+    public KmStringValidator newModelTypeValidator()
+    {
+        KmStringValidator e;
+        e = new KmStringValidator();
+        e.setMaximumLength(50);
+        e.setAllowsPrintable(true);
+        e.setModel("auditLog");
+        e.setField("modelType");
         e.setRequired();
         return e;
     }

@@ -8,5 +8,5 @@ import com.app.model.base.MyUserActivationValidatorBase;
 public class MyUserActivationValidator
     extends MyUserActivationValidatorBase
 {
-    //
+    // none
 }

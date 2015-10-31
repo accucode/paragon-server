@@ -240,7 +240,7 @@ public class MyMenuItem
         return getDepth() == 1;
     }
 
-    public MyMenuItem getTop()
+    public MyMenuItem getPrimary()
     {
         if ( isTop() )
             return this;
@@ -248,7 +248,7 @@ public class MyMenuItem
         if ( isRoot() )
             return null;
 
-        return getParent().getTop();
+        return getParent().getPrimary();
     }
 
     public KmList<MyMenuItem> getMenuPath()
@@ -269,7 +269,7 @@ public class MyMenuItem
         return !hasSubMenus();
     }
 
-    public MyMenuItem getLeftItem()
+    public MyMenuItem getSecondary()
     {
         if ( getDepth() == 3 )
             return this;

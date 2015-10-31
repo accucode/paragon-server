@@ -55,6 +55,8 @@ import java.nio.charset.Charset;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.time.Clock;
+import java.time.ZoneId;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -81,7 +83,6 @@ import com.kodemore.log.KmLog;
 import com.kodemore.string.KmNameTokenizer;
 import com.kodemore.string.KmStringBuilder;
 import com.kodemore.text.KmEditDistance;
-import com.kodemore.time.KmClock;
 import com.kodemore.time.KmDate;
 import com.kodemore.time.KmDateFormatter;
 import com.kodemore.time.KmTime;
@@ -115,7 +116,9 @@ public class Kmu
     private static final String HEX_CHAR_STRING = "0123456789ABCDEF";
     private static final char[] HEX_CHAR_ARRAY  = HEX_CHAR_STRING.toCharArray();
 
-    private static final String BASE_62_STRING = DIGITS + UPPERCASE_LETTERS + LOWERCASE_LETTERS;
+    private static final String  BASE_62_STRING       = DIGITS
+                                                          + UPPERCASE_LETTERS
+                                                          + LOWERCASE_LETTERS;
     private static final char[] BASE_62_ARRAY  = BASE_62_STRING.toCharArray();
 
     private static final String BASE_36_STRING = DIGITS + UPPERCASE_LETTERS;
@@ -139,6 +142,8 @@ public class Kmu
 
     private static final String LIST_DELIMITER      = ", ";
     private static final String LIST_LINE_DELIMITER = "\n";
+
+    private static final Clock   UID_CLOCK            = Clock.tickSeconds(ZoneId.of("UTC"));
 
     //##################################################
     //# parse integer
@@ -3916,7 +3921,7 @@ public class Kmu
      */
     public static String getUniqueFileName(String dirPath)
     {
-        KmDate d = KmDate.createTodayUtc();
+        KmDate d = KmDate.todayUtc();
         KmDateFormatter f = new KmDateFormatter("{yyyy}{mm}{dd}");
         String prefix = f.format(d);
 
@@ -5348,9 +5353,7 @@ public class Kmu
     {
         KmRandom rand = new KmRandom();
 
-        int secs = KmClock.getNowUtc()
-            .getDurationSince(KmTimestamp.createFromSystemMillis(0))
-            .getTotalSeconds();
+        int secs = (int)(UID_CLOCK.millis() / 1000);
 
         long nanos = System.nanoTime();
         long nanosHi = (nanos & 0xFFFFFFFF00000000L) >> 32;

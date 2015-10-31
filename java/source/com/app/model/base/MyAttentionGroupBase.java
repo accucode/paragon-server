@@ -43,6 +43,7 @@ public abstract class MyAttentionGroupBase
     private String name;
     private Integer lockVersion;
     private MyProject project;
+    private List<MyAttentionMember> attentionMembers;
 
     //##################################################
     //# constructor
@@ -52,6 +53,7 @@ public abstract class MyAttentionGroupBase
     {
         super();
         setUid(newUid());
+        attentionMembers = new ArrayList<>();
     }
 
     //##################################################
@@ -205,6 +207,73 @@ public abstract class MyAttentionGroupBase
 
 
     //##################################################
+    //# AttentionMembers (collection)
+    //##################################################
+
+    public KmCollection<MyAttentionMember> getAttentionMembers()
+    {
+        return new KmHibernateCollection<>(
+            getBaseAttentionMembers(),
+            (MyAttentionGroup)this,
+            MyAttentionMember.Meta.Group.getAdaptor());
+    }
+
+    public boolean hasAttentionMembers()
+    {
+        return !getBaseAttentionMembers().isEmpty();
+    }
+
+    public int getAttentionMemberCount()
+    {
+        return getBaseAttentionMembers().size();
+    }
+
+    public List<MyAttentionMember> getBaseAttentionMembers()
+    {
+        return attentionMembers;
+    }
+
+    public MyAttentionMember addAttentionMember()
+    {
+        MyAttentionMember e;
+        e = new MyAttentionMember();
+        getAttentionMembers().add(e);
+        return e;
+    }
+
+    public void addAttentionMember(MyAttentionMember e)
+    {
+        getAttentionMembers().add(e);
+    }
+
+    public boolean removeAttentionMember(MyAttentionMember e)
+    {
+        return getAttentionMembers().remove(e);
+    }
+
+    public boolean removeAttentionMemberUid(String myUid)
+    {
+        MyAttentionMember e = findAttentionMemberUid(myUid);
+        if ( e == null )
+            return false;
+
+        return removeAttentionMember(e);
+    }
+
+    public MyAttentionMember findAttentionMemberUid(String myUid)
+    {
+        for ( MyAttentionMember e : getBaseAttentionMembers() )
+            if ( e.hasUid(myUid) )
+                return e;
+        return null;
+    }
+
+    public void clearAttentionMembers()
+    {
+        getAttentionMembers().clear();
+    }
+
+    //##################################################
     //# validate
     //##################################################
 
@@ -241,6 +310,11 @@ public abstract class MyAttentionGroupBase
         super.postCopy();
         uid = null;
         project = null;
+
+        List<MyAttentionMember> old_attentionMembers = attentionMembers;
+        attentionMembers = new ArrayList<>();
+        for ( MyAttentionMember e : old_attentionMembers )
+            addAttentionMember(copy(e));
     }
 
     //##################################################

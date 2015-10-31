@@ -3,7 +3,6 @@ package com.kodemore.generator.model;
 import com.kodemore.collection.KmList;
 import com.kodemore.generator.KmgElement;
 import com.kodemore.stf.KmStfElement;
-import com.kodemore.utility.Kmu;
 
 public class KmgModelDatabase
     extends KmgElement
@@ -12,10 +11,7 @@ public class KmgModelDatabase
     //# variables
     //##################################################
 
-    private String                _alias;
     private String                _engine;
-    private boolean               _cache;
-    private boolean               _pages;
     private KmList<KmgModelIndex> _indexes;
     private boolean               _lockVersion;
     private boolean               _auditLog;
@@ -36,12 +32,10 @@ public class KmgModelDatabase
     @Override
     public void parse(KmStfElement x)
     {
-        checkAttributeKeys(x, "alias", "engine", "pages", "locking", "auditLog");
+        checkAttributeKeys(x, "engine", "locking", "auditLog");
         checkChildrenNames(x, "index");
 
-        _alias = parseRequiredString(x, "alias");
         _engine = parseString(x, "engine", "innodb");
-        _pages = parseBoolean(x, "pages");
         _lockVersion = parseRequiredBoolean(x, "locking");
         _auditLog = parseRequiredBoolean(x, "auditLog");
 
@@ -101,39 +95,9 @@ public class KmgModelDatabase
     //# accessing
     //##################################################
 
-    public String getAlias()
-    {
-        return _alias;
-    }
-
-    public void setAlias(String alias)
-    {
-        _alias = alias;
-    }
-
-    public boolean hasAlias(String s)
-    {
-        return Kmu.isEqual(_alias, s);
-    }
-
     public String getEngine()
     {
         return _engine;
-    }
-
-    public Boolean isCached()
-    {
-        return _cache;
-    }
-
-    public void setCache(Boolean e)
-    {
-        _cache = e;
-    }
-
-    public boolean getPages()
-    {
-        return _pages;
     }
 
     public KmList<KmgModelIndex> getIndexes()
@@ -144,11 +108,6 @@ public class KmgModelDatabase
     //##################################################
     //# context
     //##################################################
-
-    public String getf_alias()
-    {
-        return _alias;
-    }
 
     public String getf_table()
     {

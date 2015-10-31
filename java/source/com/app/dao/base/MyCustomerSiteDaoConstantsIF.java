@@ -34,4 +34,9 @@ public interface MyCustomerSiteDaoConstantsIF
     String CUSTOMER = "customer";
     String CUSTOMER_UID = "customer.uid";
 
+    //##################################################
+    //# collections
+    //##################################################
+
+    String ATTRIBUTE_VALUES = "attributeValues";
 }

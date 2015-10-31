@@ -985,7 +985,7 @@ public class KmList<T>
             if ( !set.add(e) )
                 v.add(e);
 
-        return v;
+        return v.toDistinctList();
     }
 
     /**
@@ -1041,6 +1041,11 @@ public class KmList<T>
     public void print()
     {
         System.out.println(join());
+    }
+
+    public void printLines()
+    {
+        System.out.println(joinLines());
     }
 
     //##################################################

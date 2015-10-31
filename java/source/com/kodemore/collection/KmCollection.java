@@ -582,6 +582,11 @@ public class KmCollection<T>
         return v;
     }
 
+    public T selectFirst(Predicate<? super T> p)
+    {
+        return select(p).getFirstSafe();
+    }
+
     /**
      * Return a NEW list containing only the elements that do NOT match the predicate.
      */

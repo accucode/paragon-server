@@ -8,5 +8,5 @@ import com.app.model.base.MyAutoSignInValidatorBase;
 public class MyAutoSignInValidator
     extends MyAutoSignInValidatorBase
 {
-    //
+    // none
 }
