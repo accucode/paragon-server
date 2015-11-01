@@ -38,47 +38,32 @@ public class MyDaoRegistry
         KmList<KmAbstractDao<?,?>> v;
         v = new KmList<>();
         v.add(getApplicationLogDao());
-        v.add(getAttentionGroupDao());
         v.add(getAuditLogDao());
         v.add(getAutoSignInDao());
-        v.add(getCustomerDao());
-        v.add(getCustomerContactDao());
-        v.add(getCustomerSiteDao());
-        v.add(getCustomerTierDao());
         v.add(getDepotDao());
         v.add(getDownloadDao());
         v.add(getEmailDao());
         v.add(getEmailPartDao());
         v.add(getEmailRecipientDao());
-        v.add(getEndUserDao());
-        v.add(getEndUserSiteDao());
         v.add(getFieldTestDao());
         v.add(getFileDao());
         v.add(getHibernateCacheTestDao());
         v.add(getInvitationDao());
-        v.add(getMasterProductDao());
         v.add(getMemberDao());
         v.add(getMemberSkillDao());
         v.add(getPasswordResetDao());
         v.add(getPatchDao());
         v.add(getPerformanceLogDetailDao());
         v.add(getPerformanceLogSummaryDao());
-        v.add(getPowerTypeDao());
-        v.add(getProductDao());
-        v.add(getProductCategoryDao());
         v.add(getProjectDao());
         v.add(getRegionDao());
         v.add(getServerSessionDao());
         v.add(getSettingsDao());
-        v.add(getShipAccountDao());
-        v.add(getShipCarrierDao());
-        v.add(getShipMethodDao());
         v.add(getSkillDao());
         v.add(getThreadTopicDao());
         v.add(getUserDao());
         v.add(getUserActivationDao());
         v.add(getVendorDao());
-        v.add(getVisitTypeDao());
         return v;
     }
 
@@ -99,25 +84,6 @@ public class MyDaoRegistry
     public MyApplicationLog findApplicationLogUid(String e)
     {
         return getApplicationLogDao().findUid(e);
-    }
-
-    //##################################################
-    //# attentionGroup
-    //##################################################
-
-    public MyAttentionGroupDao getAttentionGroupDao()
-    {
-        return new MyAttentionGroupDao();
-    }
-
-    public KmList<MyAttentionGroup> findAllAttentionGroups()
-    {
-        return getAttentionGroupDao().findAll();
-    }
-
-    public MyAttentionGroup findAttentionGroupUid(String e)
-    {
-        return getAttentionGroupDao().findUid(e);
     }
 
     //##################################################
@@ -156,82 +122,6 @@ public class MyDaoRegistry
     public MyAutoSignIn findAutoSignInUid(String e)
     {
         return getAutoSignInDao().findUid(e);
-    }
-
-    //##################################################
-    //# customer
-    //##################################################
-
-    public MyCustomerDao getCustomerDao()
-    {
-        return new MyCustomerDao();
-    }
-
-    public KmList<MyCustomer> findAllCustomers()
-    {
-        return getCustomerDao().findAll();
-    }
-
-    public MyCustomer findCustomerUid(String e)
-    {
-        return getCustomerDao().findUid(e);
-    }
-
-    //##################################################
-    //# customerContact
-    //##################################################
-
-    public MyCustomerContactDao getCustomerContactDao()
-    {
-        return new MyCustomerContactDao();
-    }
-
-    public KmList<MyCustomerContact> findAllCustomerContacts()
-    {
-        return getCustomerContactDao().findAll();
-    }
-
-    public MyCustomerContact findCustomerContactUid(String e)
-    {
-        return getCustomerContactDao().findUid(e);
-    }
-
-    //##################################################
-    //# customerSite
-    //##################################################
-
-    public MyCustomerSiteDao getCustomerSiteDao()
-    {
-        return new MyCustomerSiteDao();
-    }
-
-    public KmList<MyCustomerSite> findAllCustomerSites()
-    {
-        return getCustomerSiteDao().findAll();
-    }
-
-    public MyCustomerSite findCustomerSiteUid(String e)
-    {
-        return getCustomerSiteDao().findUid(e);
-    }
-
-    //##################################################
-    //# customerTier
-    //##################################################
-
-    public MyCustomerTierDao getCustomerTierDao()
-    {
-        return new MyCustomerTierDao();
-    }
-
-    public KmList<MyCustomerTier> findAllCustomerTiers()
-    {
-        return getCustomerTierDao().findAll();
-    }
-
-    public MyCustomerTier findCustomerTierUid(String e)
-    {
-        return getCustomerTierDao().findUid(e);
     }
 
     //##################################################
@@ -330,44 +220,6 @@ public class MyDaoRegistry
     }
 
     //##################################################
-    //# endUser
-    //##################################################
-
-    public MyEndUserDao getEndUserDao()
-    {
-        return new MyEndUserDao();
-    }
-
-    public KmList<MyEndUser> findAllEndUsers()
-    {
-        return getEndUserDao().findAll();
-    }
-
-    public MyEndUser findEndUserUid(String e)
-    {
-        return getEndUserDao().findUid(e);
-    }
-
-    //##################################################
-    //# endUserSite
-    //##################################################
-
-    public MyEndUserSiteDao getEndUserSiteDao()
-    {
-        return new MyEndUserSiteDao();
-    }
-
-    public KmList<MyEndUserSite> findAllEndUserSites()
-    {
-        return getEndUserSiteDao().findAll();
-    }
-
-    public MyEndUserSite findEndUserSiteUid(String e)
-    {
-        return getEndUserSiteDao().findUid(e);
-    }
-
-    //##################################################
     //# fieldTest
     //##################################################
 
@@ -441,25 +293,6 @@ public class MyDaoRegistry
     public MyInvitation findInvitationUid(String e)
     {
         return getInvitationDao().findUid(e);
-    }
-
-    //##################################################
-    //# masterProduct
-    //##################################################
-
-    public MyMasterProductDao getMasterProductDao()
-    {
-        return new MyMasterProductDao();
-    }
-
-    public KmList<MyMasterProduct> findAllMasterProducts()
-    {
-        return getMasterProductDao().findAll();
-    }
-
-    public MyMasterProduct findMasterProductUid(String e)
-    {
-        return getMasterProductDao().findUid(e);
     }
 
     //##################################################
@@ -577,63 +410,6 @@ public class MyDaoRegistry
     }
 
     //##################################################
-    //# powerType
-    //##################################################
-
-    public MyPowerTypeDao getPowerTypeDao()
-    {
-        return new MyPowerTypeDao();
-    }
-
-    public KmList<MyPowerType> findAllPowerTypes()
-    {
-        return getPowerTypeDao().findAll();
-    }
-
-    public MyPowerType findPowerTypeUid(String e)
-    {
-        return getPowerTypeDao().findUid(e);
-    }
-
-    //##################################################
-    //# product
-    //##################################################
-
-    public MyProductDao getProductDao()
-    {
-        return new MyProductDao();
-    }
-
-    public KmList<MyProduct> findAllProducts()
-    {
-        return getProductDao().findAll();
-    }
-
-    public MyProduct findProductUid(String e)
-    {
-        return getProductDao().findUid(e);
-    }
-
-    //##################################################
-    //# productCategory
-    //##################################################
-
-    public MyProductCategoryDao getProductCategoryDao()
-    {
-        return new MyProductCategoryDao();
-    }
-
-    public KmList<MyProductCategory> findAllProductCategories()
-    {
-        return getProductCategoryDao().findAll();
-    }
-
-    public MyProductCategory findProductCategoryUid(String e)
-    {
-        return getProductCategoryDao().findUid(e);
-    }
-
-    //##################################################
     //# project
     //##################################################
 
@@ -707,63 +483,6 @@ public class MyDaoRegistry
     public MySettings findSettingsCode(Integer e)
     {
         return getSettingsDao().findCode(e);
-    }
-
-    //##################################################
-    //# shipAccount
-    //##################################################
-
-    public MyShipAccountDao getShipAccountDao()
-    {
-        return new MyShipAccountDao();
-    }
-
-    public KmList<MyShipAccount> findAllShipAccounts()
-    {
-        return getShipAccountDao().findAll();
-    }
-
-    public MyShipAccount findShipAccountUid(String e)
-    {
-        return getShipAccountDao().findUid(e);
-    }
-
-    //##################################################
-    //# shipCarrier
-    //##################################################
-
-    public MyShipCarrierDao getShipCarrierDao()
-    {
-        return new MyShipCarrierDao();
-    }
-
-    public KmList<MyShipCarrier> findAllShipCarriers()
-    {
-        return getShipCarrierDao().findAll();
-    }
-
-    public MyShipCarrier findShipCarrierUid(String e)
-    {
-        return getShipCarrierDao().findUid(e);
-    }
-
-    //##################################################
-    //# shipMethod
-    //##################################################
-
-    public MyShipMethodDao getShipMethodDao()
-    {
-        return new MyShipMethodDao();
-    }
-
-    public KmList<MyShipMethod> findAllShipMethods()
-    {
-        return getShipMethodDao().findAll();
-    }
-
-    public MyShipMethod findShipMethodUid(String e)
-    {
-        return getShipMethodDao().findUid(e);
     }
 
     //##################################################
@@ -859,25 +578,6 @@ public class MyDaoRegistry
     public MyVendor findVendorUid(String e)
     {
         return getVendorDao().findUid(e);
-    }
-
-    //##################################################
-    //# visitType
-    //##################################################
-
-    public MyVisitTypeDao getVisitTypeDao()
-    {
-        return new MyVisitTypeDao();
-    }
-
-    public KmList<MyVisitType> findAllVisitTypes()
-    {
-        return getVisitTypeDao().findAll();
-    }
-
-    public MyVisitType findVisitTypeUid(String e)
-    {
-        return getVisitTypeDao().findUid(e);
     }
 
 

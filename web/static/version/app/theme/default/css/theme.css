@@ -1,623 +1,601 @@
 
-/* line 2055 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 286 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
 /* line 1 : C:\Users\Wyatt\AppData\Roaming\npm\node_modules\stylus\lib\functions\index.styl */
 
 /* line 1 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 70 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 19 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 74 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 72 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
+/* line 76 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 html{font-size:62.5%;line-height:1.2}
-/* line 80 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 82 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 body{overflow:hidden;font-size:1.3rem;background-color:#fff}
-/* line 88 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 90 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 96 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 98 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 97 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 99 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .environmentStage{content:normal;}
-/* line 102 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 104 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 103 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 105 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .environmentProduction{content:normal;}
-/* line 108 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 110 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 116 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 118 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 120 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 122 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 #appHeader{content:normal;}
-/* line 125 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appHeader-normal,.appHeader-bare{box-sizing:border-box;position:absolute;left:0;right:0;top:0;height:50px;display:flex;align-items:center;white-space:nowrap;overflow:visible;background-color:#242a36}
-/* line 144 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 127 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appHeader-normal,.appHeader-bare{box-sizing:border-box;position:absolute;left:0;right:0;top:0;height:50px;display:flex;align-items:center;white-space:nowrap;overflow:visible;background-color:#888}
+/* line 146 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .environmentStage .appHeader-normal,.environmentStage .appHeader-bare{background-image:linear-gradient(to bottom,#00f,#f8f8f8)}
-/* line 150 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 152 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .environmentProduction .appHeader-normal,.environmentProduction .appHeader-bare{background-image:linear-gradient(to bottom,#f00,#f8f8f8)}
-/* line 157 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 159 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 158 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 160 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appHeader-left{padding-top:5px;flex-grow:1}
-/* line 164 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 166 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appHeaderLink{content:normal;}
-/* line 169 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 171 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appHeaderLogoImage{padding:0 5px}
-/* line 174 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 176 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appHeaderLogoText{color:#fff;font:italic bold 3rem sans-serif;display:inline-block;vertical-align:top}
-/* line 182 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 184 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 183 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 185 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appHeader-right{flex-shrink:0}
-/* line 187 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 189 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appHeader-right > *{margin-right:5px}
-/* line 192 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 194 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appHeader-bare > .appHeader-right{display:none}
-/* line 197 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 199 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 205 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 207 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 209 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 211 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 #appFooter{content:normal;}
-/* line 214 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appFooter-normal{box-sizing:border-box;position:absolute;left:0;right:0;bottom:0;height:30px}
-/* line 225 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 216 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appFooter-normal{box-sizing:border-box;position:absolute;left:0;right:0;bottom:0;height:30px;border-top:1px solid #666}
+/* line 229 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appFooter-bare{box-sizing:border-box;position:absolute;left:0;right:0;bottom:0;height:30px}
-/* line 236 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 240 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appFooterInner{vertical-align:middle;text-align:center;color:#444;font:normal 1.2rem sans-serif;padding-top:8px}
-/* line 245 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
 /* line 249 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
 /* line 253 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
+/* line 257 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 #appTabs{content:normal;}
-/* line 258 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
 /* line 262 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appTabs{box-sizing:border-box;position:absolute;left:0;width:170px;top:50px;bottom:30px;display:flex;flex-direction:column;align-items:stretch;overflow:hidden;border-bottom:1px solid #454545;background-color:#242a36}
-/* line 280 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appTabsPrefix{box-sizing:border-box;height:40px;background-color:#242a36;flex-grow:0;flex-shrink:0}
-/* line 290 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appTabsSuffix{box-sizing:border-box;height:38px;border:1px outset #454545;border-right:none;background-color:#242a36;flex-grow:1}
-/* line 301 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appTabsItem{box-sizing:border-box;height:38px;flex-grow:0;flex-shrink:0;border:1px solid #454545;border-right-width:10px;border-right-color:#fff;background-color:#242a36;padding:7px 15px 0 15px;font:bold 1.8rem sans-serif;color:#fff;cursor:pointer}
-/* line 320 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
+/* line 266 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appTabs{box-sizing:border-box;position:absolute;left:0;right:0;top:50px;height:50px;display:flex;flex-direction:row;align-items:flex-end;overflow:hidden;background-color:#888;border-bottom:5px solid #08f}
+/* line 284 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appTabsPrefix{box-sizing:border-box;width:20px;flex-grow:0;flex-shrink:0}
+/* line 293 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appTabsSuffix{box-sizing:border-box;width:20px;flex-grow:1;flex-shrink:1}
+/* line 302 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appTabsItem{box-sizing:border-box;flex-grow:0;flex-shrink:0;border:1px solid #454545;border-bottom:none;border-radius:5px 5px 0 0;background-color:#000;height:30px;padding:5px 15px 0 15px;margin-right:5px;font:bold 1.8rem sans-serif;color:#fff;cursor:pointer}
+/* line 324 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appTabsItem:hover{text-decoration:underline}
-/* line 325 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appTabsSelected{box-sizing:border-box;height:38px;flex-grow:0;flex-shrink:0;border:1px solid #454545;border-right-width:10px;border-right-color:#0d70ac;background-color:#242a36;padding:7px 15px 0 15px;font:bold 1.8rem sans-serif;color:#fff;cursor:pointer}
-/* line 344 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 329 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appTabsSelected{box-sizing:border-box;vertical-align:bottom;flex-grow:0;flex-shrink:0;border:1px solid #454545;border-bottom:none;border-radius:5px 5px 0 0;background-color:#08f;height:35px;padding:10px 15px 0 15px;margin-right:5px;font:bold 1.8rem sans-serif;color:#fff;cursor:pointer}
+/* line 352 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appTabsSelected:hover{text-decoration:underline}
-/* line 349 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 353 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
 /* line 357 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
 /* line 361 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-#appMenu{content:normal;}
-/* line 366 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appMenu{box-sizing:border-box;position:absolute;left:170px;width:150px;top:90px;bottom:30px;overflow-y:auto;overflow-x:hidden;margin-top:40px;background-color:#fff;margin:20px 0 20px 20px;border:1px solid #454545;box-shadow:6px 6px 10px #999}
-/* line 387 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appMenu-section{cursor:normal;white-space:nowrap;word-break:keep-all;font:bold 1.5rem sans-serif;color:#fff;padding:5px;background-color:#008c83}
-/* line 400 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appMenu-item{color:#874b46;font:bold 1.5rem sans-serif;white-space:nowrap;cursor:pointer;padding:3px 10px;margin:3px 0 3px 10px;border:2px solid transparent;border-right:none;border-radius:15px 0 0 15px}
-/* line 415 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appMenu-item:hover{text-decoration:underline;border-color:#888}
-/* line 421 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appMenu-selection{font:bold 1.5rem sans-serif;color:#fff;background-color:#366;background-image:radial-gradient(ellipse at 35px 15px,#588 0,#366 40px);padding:4px 10px;margin:3px 0 3px 10px;border:1px outset #fff;border-right:none;border-radius:15px 0 0 15px;cursor:pointer;white-space:nowrap}
-/* line 439 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appMenu-selection:hover{text-decoration:underline}
-/* line 444 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appMenu-selection > span{content:normal;}
-/* line 449 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
+/* line 365 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
+/* line 369 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+#appMenu{content:normal;}
+/* line 374 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appMenu{box-sizing:border-box;position:absolute;left:0;width:200px;top:100px;bottom:30px;overflow-y:auto;overflow-x:hidden;background-color:#eee;border-top:1px solid #444;border-right:1px solid #666}
+/* line 393 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appMenu-section{cursor:normal;white-space:nowrap;word-break:keep-all;font:bold 1.5rem sans-serif;padding:5px;color:#fff;background-color:#888}
+/* line 406 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appMenu-item{color:#008;font:bold 1.5rem sans-serif;white-space:nowrap;cursor:pointer;padding:3px 10px;margin:3px 0 3px 10px;border:2px solid transparent;border-right:none;border-radius:15px 0 0 15px}
+/* line 421 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appMenu-item:hover{text-decoration:underline}
+/* line 426 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appMenu-selection{font:bold 1.5rem sans-serif;color:#fff;background-color:#08f;padding:4px 10px;margin:3px 0 3px 10px;border:1px outset #fff;border-right:none;border-radius:5px 0 0 5px;cursor:pointer;white-space:nowrap}
+/* line 443 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appMenu-selection:hover{text-decoration:underline}
+/* line 448 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appMenu-selection > span{content:normal;}
 /* line 453 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
 /* line 457 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
+/* line 461 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 #appTitle{content:normal;}
-/* line 462 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 466 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appTitle-bare{display:flex}
-/* line 467 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appTitle-simple{box-sizing:border-box;position:absolute;left:170px;right:0;top:50px;height:40px;display:flex;align-items:center;overflow:hidden;background-color:#0d70ac}
-/* line 484 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appTitle-nested{box-sizing:border-box;position:absolute;left:170px;right:0;top:50px;height:40px;display:flex;align-items:center;overflow:hidden;background-color:#0d70ac}
-/* line 502 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appTitle-left{flex-grow:1;padding-left:10px}
+/* line 471 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appTitle-simple{box-sizing:border-box;position:absolute;left:0;right:0;top:100px;height:40px;display:flex;align-items:center;overflow:hidden;background-color:#08f;border-bottom:1px solid #00f}
+/* line 489 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appTitle-nested{box-sizing:border-box;position:absolute;left:200px;right:0;top:100px;height:40px;display:flex;align-items:center;overflow:hidden;background-color:#08f;border-bottom:1px solid #00f}
 /* line 508 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appTitle-right{flex-shrink:0;padding-right:10px}
+.appTitle-left{flex-grow:1;padding-left:10px}
 /* line 514 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appTitle-right{flex-shrink:0;padding-right:10px}
+/* line 520 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appTitle-nameText{color:#fff;font:bold 2.2rem sans-serif;white-space:nowrap}
-/* line 521 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 527 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appTitle-projectText{color:#ddd;font:normal 1.6rem sans-serif;white-space:nowrap;margin-left:10px}
-/* line 529 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 535 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appTitle-link{color:#eee;font:normal 1.2rem sans-serif;white-space:nowrap;vertical-align:middle;margin-right:5px;text-decoration:none}
-/* line 538 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 544 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appTitle-link:hover{text-decoration:underline}
-/* line 543 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 549 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appTitle-help{box-sizing:border-box;cursor:pointer;vertical-align:middle;background:url("pageHelp.png") no-repeat;height:16px;width:16px;padding-left:16px;}
-/* line 556 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 562 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 560 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 566 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 564 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-#appContent{content:normal}
 /* line 570 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appContent-bare{position:absolute;left:0;right:0;top:50px;bottom:30px;height:auto;overflow:hidden}
-/* line 582 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appContent-simple{position:absolute;left:170px;right:0;top:90px;bottom:30px;overflow:hidden;background-color:#fff;border-top:none;border-radius:0 0 15px 15px}
-/* line 597 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.appContent-nested{position:absolute;left:340px;right:0;top:90px;bottom:30px;overflow:hidden;background-color:#fff;border-top:none;margin:20px;box-shadow:6px 6px 10px #999}
-/* line 613 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+#appContent{content:normal}
+/* line 576 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appContent-bare{position:absolute;left:0;right:0;top:50px;bottom:30px;overflow:hidden}
+/* line 587 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appContent-simple{position:absolute;left:0;right:0;top:140px;bottom:30px;overflow:hidden}
+/* line 598 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.appContent-nested{position:absolute;left:200px;right:0;top:140px;bottom:30px;overflow:hidden}
+/* line 609 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 #appContentInner{content:normal;}
-/* line 618 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 614 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .appContentInner{position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto}
+/* line 625 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 629 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 633 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .formFilter{box-sizing:border-box;height:50px;background-color:#eed;border:1px outset #fff}
-/* line 647 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 643 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .formBanner{box-sizing:border-box;height:50px;display:flex;align-items:center;background-color:#bdc;background-image:linear-gradient(to bottom,#ced,#bdc);border:1px outset #fff}
-/* line 665 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 661 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .formTitle{font:bold 1.6rem sans-serif}
-/* line 671 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 667 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .formSubtitle{font:italic 1.2rem sans-serif}
-/* line 677 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 673 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .formHeader{box-sizing:border-box;height:50px;display:flex;align-items:center;background-color:#eed;border:1px outset #fff}
-/* line 691 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 687 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .formHeaderText{font:italic 1.8rem sans-serif}
-/* line 697 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 693 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .formFooter{box-sizing:border-box;height:50px;display:flex;align-items:center;background-color:#eed;border:1px outset #fff}
-/* line 711 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 707 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .formBody{border:1px outset #fff;background-color:#ffe}
-/* line 719 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 715 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .formBodyWarning{background-color:#fee;border:1px outset #fff}
-/* line 726 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 722 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .formSectionLeft{flex-grow:1;flex-shrink:1;white-space:nowrap;overflow:hidden;padding:10px}
-/* line 736 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 732 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .formSectionRight{flex-grow:0;flex-shrink:0;white-space:nowrap;overflow:hidden;padding:10px}
-/* line 746 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 742 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .formEmpty{background-color:#ffe;font:normal 1.4rem sans-serif;padding:10px}
-/* line 753 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 749 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .formHelp{box-sizing:border-box;height:11px;width:11px;padding-left:11px;cursor:help;vertical-align:middle;background:url("fieldHelp11.png") no-repeat}
+/* line 762 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 766 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 770 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .textField{margin:0;padding:5px;font:normal 1.5rem sans-serif;background-color:#fff;border-top:1px solid #999;border-left:1px solid #999;border-bottom:1px solid #bbb;border-right:1px solid #bbb;transition:border 100ms}
-/* line 785 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 781 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .textField:hover{box-shadow:inset 1px 1px 1px rgba(0,0,0,0.2)}
-/* line 790 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 786 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .textField:focus{background-color:#fff;border:1px solid #48f;box-shadow:inset 1px 1px 1px rgba(0,0,0,0.2)}
-/* line 797 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 793 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 802 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 798 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .textFieldWrapper{padding-right:12px}
+/* line 803 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 807 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 811 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .textFieldReadOnly{margin:0;padding:5px;font:normal 1.5rem sans-serif;background-color:#ccc;border-top:1px solid #999;border-left:1px solid #999;border-bottom:1px solid #bbb;border-right:1px solid #bbb;-moz-transition:border 200ms;-webkit-transition:border 200ms;transition:border 200ms}
-/* line 828 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 824 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .textFieldReadOnly:hover{box-shadow:inset 1px 1px 1px rgba(0,0,0,0.2)}
-/* line 833 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 829 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .textFieldReadOnly:focus{border:1px solid #48f;box-shadow:inset 1px 1px 1px rgba(0,0,0,0.2)}
+/* line 836 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 840 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 844 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dropdown{margin:0;padding:3px;font:normal 1.5rem sans-serif;background-color:#fff;border-top:1px solid #999;border-left:1px solid #999;border-bottom:1px solid #bbb;border-right:1px solid #bbb;-moz-transition:border 200ms;-webkit-transition:border 200ms;transition:border 200ms}
-/* line 861 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 857 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dropdown:hover{box-shadow:inset 1px 1px 1px rgba(0,0,0,0.2)}
-/* line 866 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 862 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dropdown:focus{border:1px solid #48f;background-color:#fff;box-shadow:inset 1px 1px 1px rgba(0,0,0,0.2)}
+/* line 870 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 874 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 878 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .radio{padding:0;margin:0}
-/* line 884 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 880 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .checkbox{padding:0;margin:0}
-/* line 890 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 886 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .listBox{content:normal;}
-/* line 895 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 891 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .choiceFieldFocus{box-shadow:0 0 1px 1px #7294cb;border-radius:4px;padding-right:4px}
+/* line 898 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 902 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 906 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .link{font:normal 1.3rem sans-serif;color:#000}
-/* line 912 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 908 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .link:hover{color:#00f;cursor:pointer}
-/* line 918 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 914 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .linkBox{padding:10px 5px 5px 10px}
-/* line 919 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 915 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .linkBox > *{margin:0 5px 5px 0}
-/* line 921 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 917 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .lineBox{padding:10px 5px 5px 10px}
-/* line 922 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 918 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .lineBox > *{margin:0 5px 5px 0}
+/* line 920 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 924 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 928 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .fieldset-legend-default{font:bold 1.4rem sans-serif;padding:2px 14px;background-color:#ddc;border:2px groove #fff;border-radius:10px}
-/* line 937 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 933 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .fieldset-body-default{background-color:#eed;border:2px groove #fff}
+/* line 940 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 944 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 948 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 table.main{padding:0;margin:0;height:400px;width:100%;border-collapse:collapse}
-/* line 957 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 953 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 td.main{padding:0;margin:0;background-color:#eee;min-height:400px;height:400px;border-bottom:1px solid #ddd;vertical-align:top}
-/* line 968 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 964 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 table.content{margin:0;padding:0;border-collapse:collapse;width:100%}
-/* line 976 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 972 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 td.content{vertical-align:top;margin:0;padding:5px}
+/* line 979 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 983 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 987 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dataTable{border-collapse:collapse;border-spacing:0;border:1px solid #666}
-/* line 994 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 990 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 th.dataTableHeader{vertical-align:top;font:1.2rem sans-serif;background-color:#d4d0c8;margin:0 0 0 0;padding:1px 5px 2px 2px;border:0;border-right:1px solid #808080;border-left:1px solid #fff;border-bottom:1px solid #808080}
-/* line 1007 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1003 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 tr.dataTableOdd{vertical-align:top;font:1.2rem sans-serif;background-color:#fff;padding:1px 2px 1px 2px;border:0;border-right:1px solid #666}
-/* line 1017 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1013 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 tr.dataTableEven{vertical-align:top;font:1.2rem sans-serif;background-color:#f0f5fa;padding:1px 2px 1px 2px;border:0;border-right:1px solid #666}
-/* line 1027 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1023 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 tr.dataTableOddOver{vertical-align:top;font:1.2rem sans-serif;background-color:#eddfc9;padding:1px 2px 1px 2px;border:0;border-right:1px solid #666}
-/* line 1037 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1033 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 tr.dataTableEvenOver{vertical-align:top;font:1.2rem sans-serif;background-color:#eddfc9;padding:1px 2px 1px 2px;border:0;border-right:1px solid #666}
-/* line 1047 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1043 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 td.dataTableOdd{vertical-align:top;font:1.2rem sans-serif;padding:1px 2px 1px 2px;border:0;border-right:1px solid #666;white-space:nowrap}
-/* line 1057 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1053 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 td.dataTableEven{vertical-align:top;font:1.2rem sans-serif;padding:1px 2px 1px 2px;border:0;border-right:1px solid #666;white-space:nowrap}
+/* line 1064 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 1068 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 1072 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .text{font:normal 1.2rem sans-serif;color:#000}
-/* line 1078 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1074 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallText{font:normal 1rem sans-serif;color:#000}
-/* line 1084 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1080 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .importantText{font:bold 1.2rem sans-serif;color:#f00}
-/* line 1090 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1086 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .label{font:bold 1.5rem sans-serif;color:#000;white-space:nowrap}
-/* line 1097 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1093 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .fieldValue{font:normal 1.5rem sans-serif;border:1px solid #ddd;padding:2px}
+/* line 1101 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 1105 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 1109 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 table.fields{border-collapse:collapse;border-spacing:0;padding:0}
+/* line 1112 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 1116 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 1120 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 td.fields{padding:0;vertical-align:top}
-/* line 1126 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1122 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 td.fieldsTop{content:normal;}
-/* line 1131 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1127 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 td.fieldsMore{padding-top:3px}
-/* line 1136 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1132 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 td.fieldsLeft{vertical-align:middle}
-/* line 1141 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1137 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 td.fieldsRight{padding-left:3px;width:100%}
+/* line 1143 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 1147 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 1151 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .fieldLayout{content:normal;}
-/* line 1156 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1152 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .fieldLayoutRow{margin-top:15px}
-/* line 1160 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1156 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .fieldLayoutRow:first-child{margin-top:0}
-/* line 1165 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1161 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .fieldLayoutLabel{font:bold 1.3rem sans-serif;color:#000;white-space:nowrap;vertical-align:middle}
+/* line 1169 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 1173 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 1177 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .tabGroup{background-color:#cf9958;border:1px solid #000;padding-top:5px;border-bottom:1px solid #000}
-/* line 1185 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1181 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .tabBody{background-color:#e3dfd6;border:1px solid #000;border-top:none;padding:10px}
-/* line 1193 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1189 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 a.tab{color:#000;padding:3px 3px 3px 3px;background-color:#c5c1b8;border:1px solid #000;border-bottom:0;margin:0 5px 0 0;text-decoration:none;-moz-border-radius-topleft:5px;-moz-border-radius-topright:5px;-webkit-border-top-left-radius:5px;-webkit-border-top-right-radius:5px;border-top-left-radius:5px;border-top-right-radius:5px}
-/* line 1211 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1207 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 a.tabx{color:#000;padding:8px 6px 4px 6px;font-weight:bold;background-color:#e3dfd6;border:1px solid #000;border-bottom:0;margin:0 5px 0 0;text-decoration:none;-moz-border-radius-topleft:5px;-moz-border-radius-topright:5px;-webkit-border-top-left-radius:5px;-webkit-border-top-right-radius:5px;border-top-left-radius:5px;border-top-right-radius:5px}
-/* line 1230 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1226 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 a.tab:hover{color:#00f;background:#fff;border-bottom:1px solid #000}
-/* line 1237 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1233 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 a.tabx:hover{color:#00f}
-/* line 1242 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1238 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 1246 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1242 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .accordion{content:normal;}
-/* line 1251 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1247 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .accordionEnabledTab{font:bold 1.2rem sans-serif;color:#000;background-color:#eee;border:1px solid #ccc;padding:5px;cursor:pointer}
-/* line 1261 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1257 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .accordionEnabledTab:hover{color:#00f}
-/* line 1266 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1262 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .accordionDisabledTab{font:bold 1.2rem sans-serif;color:#000;background-color:#eee;border:1px solid #ccc;padding:5px;cursor:pointer}
-/* line 1276 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1272 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .accordionOpenTab{font:bold 1.2rem sans-serif;color:#000;background-color:#dd6;border:1px solid #444;padding:5px;cursor:pointer}
-/* line 1286 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1282 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .accordionOpenBody{background-color:#ff8;border:1px solid #444;border-top:none;padding:5px}
+/* line 1290 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
 /* line 1294 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 1298 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 1303 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1299 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .error{content:normal;}
-/* line 1308 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1304 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .errorBox-wrapper-attached{content:normal;}
-/* line 1313 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1309 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .errorBox-message-attached{color:#f00;padding:5px;background-color:#fff;font:normal 1.2rem sans-serif;border:1px solid #f00;border-top:none}
-/* line 1324 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1320 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .errorBox-wrapper-detached{content:normal;}
-/* line 1329 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1325 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .errorBox-message-detached{color:#f00;padding:2px 5px;background-color:#fff;font:normal 1.2rem sans-serif;border:1px solid #f00;margin-top:1px;margin-bottom:3px}
-/* line 1343 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1339 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
+/* line 1346 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
 /* line 1350 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
 /* line 1354 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 1357 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group{border-top:1px solid #aaa;border-left:1px solid #aaa;box-shadow:5px 5px 5px #ccc;overflow:hidden;background-color:#fff}
-/* line 1366 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group > *{border-bottom:1px solid #aaa;border-right:1px solid #aaa}
-/* line 1372 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.group{border-top:1px solid #666;border-left:1px solid #666;border-radius:5px 5px 0 0;box-shadow:5px 5px 5px #ccc;overflow:hidden;background-color:#eee}
+/* line 1364 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.group > *{border-bottom:1px solid #666;border-right:1px solid #666}
+/* line 1370 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .groupBlock{display:flex;flex-direction:column}
-/* line 1378 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1376 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .groupInline{display:inline-flex;flex-direction:column}
-/* line 1384 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.groupBanner{flex-grow:0;flex-shrink:0;overflow:hidden;font:bold 2rem sans-serif;}
-/* line 1395 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1382 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.groupBanner{flex-grow:0;flex-shrink:0;overflow:hidden;font:bold 2rem sans-serif}
+/* line 1391 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .groupBannerTitle{padding:5px 10px;font:bold 2rem sans-serif;white-space:nowrap;float:left}
-/* line 1403 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1399 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .groupHeader{flex-grow:0;flex-shrink:0;overflow:hidden}
-/* line 1410 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.groupBody{flex-grow:1;flex-shrink:1}
-/* line 1416 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1406 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.groupBody{flex-grow:1;flex-shrink:1;background-color:#eee}
+/* line 1413 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .groupFooter{flex-grow:0;flex-shrink:0;overflow:hidden}
-/* line 1423 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1420 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .groupDivider{box-sizing:border-box;height:2px;border-top:1px solid #aaa;border-bottom:1px solid #fff}
-/* line 1431 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1428 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 1435 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group-banner-default{background-color:#0d70ac}
-/* line 1440 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group-title-default{background-color:#0d70ac}
-/* line 1445 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1432 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.group-banner-default{background-color:#aaa}
+/* line 1437 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.group-title-default{color:#fff;background-color:#888}
+/* line 1443 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 1449 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group-banner-primary{background-color:#008c83}
-/* line 1454 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group-title-primary{color:#fff}
-/* line 1459 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1447 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.group-banner-warning{background-color:#f00}
+/* line 1452 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.group-title-warning{background-color:#fff}
+/* line 1457 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 1463 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group-banner-secondary{background-color:#ffcd1c}
-/* line 1468 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group-title-secondary{color:#fff}
-/* line 1473 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 1477 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group-banner-tertiary{background-color:#61cee9}
-/* line 1482 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group-title-tertiary{color:#fff}
-/* line 1487 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 1491 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group-banner-search{background-color:#59b9ff}
-/* line 1496 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group-title-search{color:#fff}
-/* line 1501 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 1505 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group-banner-details{color:#fff}
-/* line 1510 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.group-title-details{color:#fff}
-/* line 1515 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 1519 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1461 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .blockMsg{background-color:#ffa;border:4px solid #f00;font:bold 1.2rem sans-serif;padding:10px;padding-left:35px;border-radius:5px;background-image:url("blockSpinner.gif");background-repeat:no-repeat;background-position:10px center;cursor:wait}
-/* line 1538 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1480 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 1542 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1484 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .divider-inner-groove{box-sizing:border-box;height:2px;border-top:1px solid #aaa;border-bottom:1px solid #fff}
-/* line 1550 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1492 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .divider-inner-bevel{box-sizing:border-box;height:2px;border-top:1px solid #fff;border-bottom:1px solid #aaa}
-/* line 1558 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1500 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .divider{box-sizing:border-box;height:2px;border-top:1px solid #aaa;border-bottom:1px solid #fff}
+/* line 1510 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+
+/* line 1514 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.sqlResultBlock{border:1px solid #444;padding:5px;box-shadow:5px 5px 5px #ccc}
+/* line 1522 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.sqlResultSelect{background-color:#ff0}
+/* line 1527 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.sqlResultUpdate{background-color:#0ff}
+/* line 1532 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.sqlResultError{background-color:#f00}
+/* line 1537 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+table.sqlResultTable{content:normal;}
+/* line 1542 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+td.sqlResultHeader{font-weight:bold;padding:3px;background-color:#eee;white-space:nowrap;border:1px solid #808080}
+/* line 1551 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+tr.sqlResultValue:nth-child(even){background-color:#fff}
+/* line 1556 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+tr.sqlResultValue:nth-child(odd){background-color:#eee}
+/* line 1561 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+td.sqlResultValue{padding:3px;border:1px solid #808080;white-space:nowrap}
 /* line 1568 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
 /* line 1572 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.sqlResultBlock{border:1px solid #444;padding:5px;box-shadow:5px 5px 5px #ccc}
-/* line 1580 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.sqlResultSelect{background-color:#ff0}
-/* line 1585 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.sqlResultUpdate{background-color:#0ff}
-/* line 1590 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.sqlResultError{background-color:#f00}
-/* line 1595 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-table.sqlResultTable{content:normal;}
-/* line 1600 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-td.sqlResultHeader{font-weight:bold;padding:3px;background-color:#eee;white-space:nowrap;border:1px solid #808080}
-/* line 1609 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-tr.sqlResultValue:nth-child(even){background-color:#fff}
-/* line 1614 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-tr.sqlResultValue:nth-child(odd){background-color:#eee}
-/* line 1619 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-td.sqlResultValue{padding:3px;border:1px solid #808080;white-space:nowrap}
-/* line 1626 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-
-/* line 1630 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .titlePanelHeader{overflow:hidden}
-/* line 1635 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1577 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .titlePanelText{padding:5px;font:bold 2rem sans-serif}
-/* line 1641 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1583 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 1646 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1588 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .titlePanelBody{position:absolute;left:0;right:0;bottom:0;top:38px;overflow:auto}
-/* line 1656 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1598 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 1660 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1602 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .offset{left:10px;right:10px;top:10px;bottom:10px}
-/* line 1668 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1610 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .leftOffset{left:10px}
-/* line 1669 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1611 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .rightOffset{right:10px}
-/* line 1670 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1612 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .topOffset{top:10px}
-/* line 1671 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1613 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .bottomOffset{bottom:10px}
-/* line 1674 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1616 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 1678 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
-.modelList{position:absolute;left:0;right:0;width:auto;top:0;bottom:0;height:auto;overflow-x:hidden;overflow-y:scroll;background-color:#aaa;background-image:url("bgLightTexture.png")}
-/* line 1695 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1620 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+.modelList{position:absolute;left:0;right:0;top:0;bottom:0;overflow-x:hidden;overflow-y:scroll;background-color:#aaa;background-image:url("bgLightTexture.png")}
+/* line 1635 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .modelList-item{box-sizing:border-box;height:50px;display:flex;align-items:center;cursor:pointer;border:1px outset #fff;background-color:#eee;background-image:linear-gradient(to bottom,#eee,#ddd)}
-/* line 1708 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1648 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .modelList-item:hover{background-color:#ddd;background-image:linear-gradient(to bottom,#ddd,#ccc)}
-/* line 1713 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1653 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .modelList-item:first-child{border-top:none}
-/* line 1718 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1658 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .modelList-itemSelected{background-color:#bdc;background-image:linear-gradient(to bottom,#ced,#bdc)}
-/* line 1723 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1663 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .modelList-itemSelected:hover{background-color:#acb;background-image:linear-gradient(to bottom,#bdc,#acb)}
-/* line 1729 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1669 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .modelList-itemLeftBox{flex-grow:1;overflow:hidden;padding-left:5px}
-/* line 1736 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1676 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .modelList-itemRightBox{flex-shrink:0;padding:5px;}
-/* line 1742 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1682 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .modelList-item:hover .modelList-itemRightBox{visibility:visible}
-/* line 1747 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1687 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .modelList-itemTitle{font:bold 1.6rem sans-serif;white-space:nowrap}
-/* line 1753 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1693 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .modelList-itemSubtitle{font:italic 1.2rem sans-serif;white-space:nowrap}
-/* line 1759 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1699 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 1763 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1703 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dragHandle{box-sizing:border-box;width:15px;height:16px;cursor:move;display:inline-block;background:transparent url("drag.png") no-repeat center;border:1px solid transparent}
-/* line 1775 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1715 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 1782 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1722 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsContainer{overflow:hidden}
-/* line 1787 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1727 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsSelectedHeader{box-sizing:border-box;position:absolute;left:0;width:50%;top:0;height:30px;border:1px outset #fff;background-color:#eed;font:bold 1.5rem sans-serif;padding:5px;overflow:hidden}
-/* line 1803 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1743 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsAvailableHeader{box-sizing:border-box;position:absolute;left:50%;right:0;top:0;height:30px;border:1px outset #fff;background-color:#eed;font:bold 1.5rem sans-serif;padding:5px;overflow:hidden}
-/* line 1819 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1759 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsSelectedList{box-sizing:border-box;position:absolute;left:0;width:50%;top:30px;bottom:0;overflow-x:hidden;overflow-y:scroll;border:1px outset #fff;background-color:#aaa;background-image:url("bgLightTexture.png")}
-/* line 1836 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1776 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsAvailableList{box-sizing:border-box;position:absolute;left:50%;right:0;top:30px;bottom:0;overflow-x:hidden;overflow-y:scroll;border:1px outset #fff;background-color:#aaa;background-image:url("bgLightTexture.png")}
-/* line 1853 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1793 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsItem{display:flex;align-items:center;padding:5px;border:1px outset #fff;background-color:#eee;background-image:linear-gradient(to bottom,#eee,#ddd)}
-/* line 1863 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1803 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsItem:first-child{border-top:none}
-/* line 1867 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1807 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsItem:hover{background-color:#ddd;background-image:linear-gradient(to bottom,#ddd,#ccc)}
-/* line 1873 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1813 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsSelectedList .dmsItemHandle{flex-grow:0;flex-shrink:0;box-sizing:border-box;width:15px;height:16px;cursor:move;display:inline-block;background:transparent url("drag.png") no-repeat center}
-/* line 1886 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1826 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsAvailableList .dmsItemHandle{display:none}
-/* line 1891 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1831 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsSelectedList .dmsItemPriority{flex-grow:0;flex-shrink:0;box-sizing:border-box;width:20px;margin-left:5px;font:bold 1.4rem sans-serif;padding-bottom:4px}
-/* line 1902 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1842 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsAvailableList .dmsItemPriority{display:none}
-/* line 1907 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1847 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsItemText{flex-grow:1;flex-shrink:1;margin-left:5px;font:normal 1.4rem sans-serif;padding-bottom:2px}
-/* line 1916 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1856 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsItemToggle{flex-grow:0;flex-shrink:0;width:20px;height:20px;border:1px outset #fff;cursor:pointer}
-/* line 1925 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1865 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsSelectedList .dmsItemToggle{background:transparent url("dmsRemove.png") no-repeat center}
-/* line 1929 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1869 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsAvailableList .dmsItemToggle{background:transparent url("dmsAdd.png") no-repeat center}
-/* line 1934 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1874 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dmsItemField{content:normal;}
-/* line 1939 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1879 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 1943 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1883 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .ui-widget-overlay{opacity:.5}
-/* line 1948 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1888 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .ui-dialog{border:none !important;box-shadow:0 0 3px 3px #666;padding:0}
-/* line 1955 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1895 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .ui-dialog-title{font-size:2rem}
-/* line 1960 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1900 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dialogNoClose .ui-dialog-titlebar-close{display:none}
-/* line 1966 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1906 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dialogBody{background-color:#ffe;padding:10px}
-/* line 1972 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1912 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .dialogFooter{background-color:#eed}
-/* line 1977 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1917 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 1986 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1926 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .pad{padding:10px}
-/* line 1991 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1931 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallPad{padding:5px}
-/* line 1996 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1936 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .padVertical{padding-top:10px;padding-bottom:10px}
-/* line 2002 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1942 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .padHorizontal{padding-left:10px;padding-right:10px}
-/* line 2008 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1948 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .padTop{padding-top:10px}
-/* line 2009 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1949 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .padTopChildren > *{padding-top:10px}
-/* line 2011 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1951 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .padBottom{padding-bottom:10px}
-/* line 2012 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1952 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .padBottomChildren > *{padding-bottom:10px}
-/* line 2014 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1954 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .padLeft{padding-left:10px}
-/* line 2015 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1955 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .padLeftChildren > *{padding-left:10px}
-/* line 2017 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1957 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .padRight{padding-right:10px}
-/* line 2018 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1958 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .padRightChildren > *{padding-right:10px}
-/* line 2020 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1960 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .margin{margin:10px}
-/* line 2021 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1961 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .marginLeft{margin-left:10px}
-/* line 2022 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1962 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .marginRight{margin-right:10px}
-/* line 2023 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1963 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .marginTop{margin-top:10px}
-/* line 2024 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1964 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .marginBottom{margin-bottom:10px}
-/* line 2026 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1966 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallMargin{margin:5px}
-/* line 2027 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1967 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallMarginLeft{margin-left:5px}
-/* line 2028 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1968 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallMarginRight{margin-right:5px}
-/* line 2029 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1969 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallMarginTop{margin-top:5px}
-/* line 2030 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1970 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallMarginBottom{margin-bottom:5px}
-/* line 2032 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1972 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .childMargin > *{margin:10px}
-/* line 2033 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1973 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .childMarginLeft > *{margin-left:10px}
-/* line 2034 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1974 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .childMarginRight > *{margin-right:10px}
-/* line 2035 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1975 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .childMarginTop > *{margin-top:10px}
-/* line 2036 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1976 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .childMarginBottom > *{margin-bottom:10px}
-/* line 2038 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1978 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallChildMargin > *{margin:5px}
-/* line 2039 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1979 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallChildMarginLeft > *{margin-left:5px}
-/* line 2040 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1980 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallChildMarginRight > *{margin-right:5px}
-/* line 2041 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1981 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallChildMarginTop > *{margin-top:5px}
-/* line 2042 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1982 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallChildMarginBottom > *{margin-bottom:5px}
-/* line 2044 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1984 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .gapOuter{padding:10px 0 0 10px}
-/* line 2045 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1985 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .gapInner > *{margin:0 10px 10px 0}
-/* line 2047 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1987 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .gap{padding:10px 0 0 10px}
-/* line 2048 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1988 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .gap > *{margin:0 10px 10px 0}
-/* line 2050 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1990 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallGap{padding:5px 0 0 5px}
-/* line 2051 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1991 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .smallGap > *{margin:0 5px 5px 0}
-/* line 2053 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1993 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 
-/* line 2054 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1994 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .buttonGap{padding:10px}
-/* line 2055 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
+/* line 1995 : C:\projects\paragon-server\web\static\version\app\theme\default\css\theme.styl */
 .buttonGap > *{margin-right:5px}

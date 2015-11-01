@@ -60,7 +60,6 @@ public class MyViewProjectCard
         ScFieldLayout fields;
         fields = body.addFieldLayout();
         fields.addText(x.Name);
-        fields.addText(x.OrderNumberPrefix);
     }
 
     private void installEditDialog()

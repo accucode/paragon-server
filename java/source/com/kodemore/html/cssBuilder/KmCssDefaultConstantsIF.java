@@ -138,17 +138,9 @@ public interface KmCssDefaultConstantsIF
     String gapOuter = "gapOuter";
     String group = "group";
     String group_banner_default = "group-banner-default";
-    String group_banner_details = "group-banner-details";
-    String group_banner_primary = "group-banner-primary";
-    String group_banner_search = "group-banner-search";
-    String group_banner_secondary = "group-banner-secondary";
-    String group_banner_tertiary = "group-banner-tertiary";
+    String group_banner_warning = "group-banner-warning";
     String group_title_default = "group-title-default";
-    String group_title_details = "group-title-details";
-    String group_title_primary = "group-title-primary";
-    String group_title_search = "group-title-search";
-    String group_title_secondary = "group-title-secondary";
-    String group_title_tertiary = "group-title-tertiary";
+    String group_title_warning = "group-title-warning";
     String groupBanner = "groupBanner";
     String groupBannerTitle = "groupBannerTitle";
     String groupBlock = "groupBlock";
@@ -632,11 +624,7 @@ public interface KmCssDefaultConstantsIF
     String group_part_banner = "banner";
     String group_part_title = "title";
     String group_flavor_default = "default";
-    String group_flavor_details = "details";
-    String group_flavor_primary = "primary";
-    String group_flavor_search = "search";
-    String group_flavor_secondary = "secondary";
-    String group_flavor_tertiary = "tertiary";
+    String group_flavor_warning = "warning";
     
 
 }

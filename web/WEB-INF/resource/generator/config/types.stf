@@ -329,7 +329,7 @@ type
 : name          = timeZoneCode
 : comment       = The code for a timezone.
 : baseType      = string
-: maximumLength = 5
+: maximumLength = 50
 : allows        = printable
 
 type

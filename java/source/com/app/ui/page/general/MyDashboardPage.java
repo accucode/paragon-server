@@ -5,6 +5,7 @@ import com.kodemore.servlet.control.ScPageRoot;
 
 import com.app.ui.page.MyPage;
 import com.app.ui.page.MySecurityLevel;
+import com.app.utility.MyConstantsIF;
 
 public final class MyDashboardPage
     extends MyPage
@@ -64,7 +65,7 @@ public final class MyDashboardPage
     protected void installRoot(ScPageRoot root)
     {
         root.css().pad();
-        root.addText("Welcome to the Field Service Portal.");
+        root.addText("Welcome to the %s.", MyConstantsIF.APPLICATION_NAME);
     }
 
     //##################################################

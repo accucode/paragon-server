@@ -1,6 +1,7 @@
 package sandbox.wlove;
 
-import com.app.utility.MyInstaller;
+import java.time.ZoneId;
+import java.util.Set;
 
 public class JkTest
 {
@@ -18,8 +19,12 @@ public class JkTest
 
     private void run()
     {
-        System.out.println("hello");
-        MyInstaller.installCore();
+        int n = 0;
+        Set<String> ids = ZoneId.getAvailableZoneIds();
+        for ( String id : ids )
+            n = Math.max(n, id.length());
+
+        System.out.println(n);
     }
 
 }

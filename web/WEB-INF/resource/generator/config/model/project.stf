@@ -18,11 +18,6 @@ database
     : on        = name
     
 
-    index
-    : name      = orderNumber
-    : unique    = true
-    : on        = orderNumberPrefix
-
 attributes
 
     field
@@ -54,13 +49,6 @@ attributes
     : elementField  = project
     
     collection
-    : name          = powerType
-    : comment       = The power types for this project.
-    : relation      = children
-    : elementModel  = powerType
-    : elementField  = project
-        
-    collection
     : name          = region
     : comment       = The regions for this project.
     : relation      = children
@@ -80,72 +68,3 @@ attributes
     : relation      = children
     : elementModel  = skill
     : elementField  = project
-
-    collection
-    : name          = visitType
-    : comment       = The visit types for this project.
-    : relation      = children
-    : elementModel  = visitType
-    : elementField  = project
-
-    collection
-    : name          = attentionGroup
-    : comment       = The groups for this project.
-    : relation      = children
-    : elementModel  = attentionGroup
-    : elementField  = project
-
-    collection
-    : name          = masterProduct
-    : comment       = The products for this project.
-    : relation      = children
-    : elementModel  = masterProduct
-    : elementField  = project
-    
-    collection
-    : name          = productCategory
-    : comment       = The product categories for this project.
-    : relation      = children
-    : elementModel  = productCategory
-    : elementField  = project
-
-    collection
-    : name          = shipCarrier
-    : comment       = The carriers for this project.
-    : relation      = children
-    : elementModel  = shipCarrier
-    : elementField  = project
-
-    collection
-    : name          = customer
-    : comment       = The customers.
-    : relation      = children
-    : elementModel  = customer
-    : elementField  = project
-
-    collection
-    : name          = customerTier
-    : comment       = The customer tiers.
-    : relation      = children
-    : elementModel  = customerTier
-    : elementField  = project
-
-    collection
-    : name          = shipAccount
-    : comment       = The ship accounts.
-    : relation      = children
-    : elementModel  = shipAccount
-    : elementField  = project
-
-
-    field
-    : name      = orderNumberPrefix
-    : help...      
-        ---
-        The unique prefix used for all order numbers on this project.
-        This can be changed, but changing it does not affect any orders
-        (or order numbers) already created.
-        ---
-    : type      = code5
-    : required  = true
-

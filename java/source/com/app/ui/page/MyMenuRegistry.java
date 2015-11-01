@@ -11,24 +11,17 @@ import com.app.ui.page.general.MyDashboardPage;
 import com.app.ui.page.general.MyOrdersPage;
 import com.app.ui.page.general.MyReportsPage;
 import com.app.ui.page.general.MySignOutPage;
-import com.app.ui.page.general.MyTasksPage;
 import com.app.ui.page.general.MyTimeoutPage;
 import com.app.ui.page.login.MyPasswordResetPage;
 import com.app.ui.page.login.MySignInPage;
 import com.app.ui.page.login.MyUserActivationPage;
-import com.app.ui.page.manageAttentionGroups.MyManageAttentionGroupsPage;
-import com.app.ui.page.manageCategories.MyManageProductCategoriesPage;
 import com.app.ui.page.manageDepots.MyManageDepotsPage;
 import com.app.ui.page.manageMembers.MyManageMembersPage;
-import com.app.ui.page.managePowerTypes.MyManagePowerTypesPage;
-import com.app.ui.page.manageProducts.MyManageProductsPage;
 import com.app.ui.page.manageProjects.MyManageProjectsPage;
 import com.app.ui.page.manageRegions.MyManageRegionsPage;
-import com.app.ui.page.manageShipCarriers.MyManageShipCarriersPage;
 import com.app.ui.page.manageSkills.MyManageSkillsPage;
 import com.app.ui.page.manageUsers.MyManageUsersPage;
 import com.app.ui.page.manageVendors.MyManageVendorsPage;
-import com.app.ui.page.manageVisitTypes.MyManageVisitTypesPage;
 import com.app.ui.page.test.MyAbsoluteLayoutTestPage;
 import com.app.ui.page.test.MyAccordionTestPage;
 import com.app.ui.page.test.MyAnimationTestPage;
@@ -162,7 +155,6 @@ public class MyMenuRegistry
     protected void register()
     {
         registerHome();
-        registerTasks();
         registerOrders();
         registerReports();
         registerProjectSetup();
@@ -174,11 +166,6 @@ public class MyMenuRegistry
     private void registerHome()
     {
         getRoot().addMenu("Home", MyDashboardPage.getInstance());
-    }
-
-    private void registerTasks()
-    {
-        getRoot().addMenu("Tasks", MyTasksPage.getInstance());
     }
 
     private void registerOrders()
@@ -199,19 +186,13 @@ public class MyMenuRegistry
         MyMenuItem left;
         left = top.addMenu("Facilities");
         left.addMenu("Depots", MyManageDepotsPage.getInstance());
-        left.addMenu("Ship Carriers", MyManageShipCarriersPage.getInstance());
-        left.addMenu("Visit Types", MyManageVisitTypesPage.getInstance());
 
         left = top.addMenu("People");
         left.addMenu("Members", MyManageMembersPage.getInstance());
         left.addMenu("Skills", MyManageSkillsPage.getInstance());
-        left.addMenu("Attention Groups", MyManageAttentionGroupsPage.getInstance());
 
         left = top.addMenu("Catalog");
-        left.addMenu("Products", MyManageProductsPage.getInstance());
-        left.addMenu("Categories", MyManageProductCategoriesPage.getInstance());
         left.addMenu("Vendors", MyManageVendorsPage.getInstance());
-        left.addMenu("Power Types", MyManagePowerTypesPage.getInstance());
         left.addMenu("Regions", MyManageRegionsPage.getInstance());
     }
 

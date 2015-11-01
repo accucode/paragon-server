@@ -56,7 +56,7 @@ public class MyMetaUser_TimeZoneCode
     @Override
     public int getColumnWidth()
     {
-        return 5;
+        return 20;
     }
 
     @Override

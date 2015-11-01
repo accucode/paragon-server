@@ -244,7 +244,7 @@ public class MyUserValidatorBase
     {
         KmStringValidator e;
         e = new KmStringValidator();
-        e.setMaximumLength(5);
+        e.setMaximumLength(50);
         e.setAllowsPrintable(true);
         e.setModel("user");
         e.setField("timeZoneCode");

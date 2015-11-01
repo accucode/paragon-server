@@ -666,29 +666,9 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.group_banner_default);
     }
     
-    public KmCssDefaultBuilder group_banner_details()
+    public KmCssDefaultBuilder group_banner_warning()
     {
-        return apply(KmCssDefaultConstantsIF.group_banner_details);
-    }
-    
-    public KmCssDefaultBuilder group_banner_primary()
-    {
-        return apply(KmCssDefaultConstantsIF.group_banner_primary);
-    }
-    
-    public KmCssDefaultBuilder group_banner_search()
-    {
-        return apply(KmCssDefaultConstantsIF.group_banner_search);
-    }
-    
-    public KmCssDefaultBuilder group_banner_secondary()
-    {
-        return apply(KmCssDefaultConstantsIF.group_banner_secondary);
-    }
-    
-    public KmCssDefaultBuilder group_banner_tertiary()
-    {
-        return apply(KmCssDefaultConstantsIF.group_banner_tertiary);
+        return apply(KmCssDefaultConstantsIF.group_banner_warning);
     }
     
     public KmCssDefaultBuilder group_title_default()
@@ -696,29 +676,9 @@ public class KmCssDefaultBuilder
         return apply(KmCssDefaultConstantsIF.group_title_default);
     }
     
-    public KmCssDefaultBuilder group_title_details()
+    public KmCssDefaultBuilder group_title_warning()
     {
-        return apply(KmCssDefaultConstantsIF.group_title_details);
-    }
-    
-    public KmCssDefaultBuilder group_title_primary()
-    {
-        return apply(KmCssDefaultConstantsIF.group_title_primary);
-    }
-    
-    public KmCssDefaultBuilder group_title_search()
-    {
-        return apply(KmCssDefaultConstantsIF.group_title_search);
-    }
-    
-    public KmCssDefaultBuilder group_title_secondary()
-    {
-        return apply(KmCssDefaultConstantsIF.group_title_secondary);
-    }
-    
-    public KmCssDefaultBuilder group_title_tertiary()
-    {
-        return apply(KmCssDefaultConstantsIF.group_title_tertiary);
+        return apply(KmCssDefaultConstantsIF.group_title_warning);
     }
     
     public KmCssDefaultBuilder groupBanner()

@@ -59,29 +59,14 @@ public class MyProject
     //# convenience
     //##################################################
 
-    public KmList<MyMasterProduct> getMasterProductsByPartNumber()
-    {
-        return getMasterProducts().toList(MyMasterProduct::getPartNumber);
-    }
-
     public KmList<MyDepot> getDepotsByName()
     {
         return getDepots().toList(MyDepot::getName);
     }
 
-    public KmList<MyShipCarrier> getShipCarriersByName()
-    {
-        return getShipCarriers().toList(MyShipCarrier::getName);
-    }
-
     public KmList<MyVendor> getVendorsByName()
     {
         return getVendors().toList(MyVendor::getName);
-    }
-
-    public KmList<MyVisitType> getVisitTypesByName()
-    {
-        return getVisitTypes().toList(MyVisitType::getName);
     }
 
     public KmList<MySkill> getSkillsByName()
@@ -107,21 +92,6 @@ public class MyProject
     public KmList<MyRegion> getRegionsByName()
     {
         return getRegions().toList(MyRegion::getName);
-    }
-
-    public KmList<MyAttentionGroup> getAttentionGroupsByName()
-    {
-        return getAttentionGroups().toList(MyAttentionGroup::getName);
-    }
-
-    public KmList<MyPowerType> getPowerTypesByName()
-    {
-        return getPowerTypes().toList(MyPowerType::getName);
-    }
-
-    public KmList<MyProductCategory> getProductCategoriesByName()
-    {
-        return getProductCategories().toList(MyProductCategory::getName);
     }
 
     public MyMember findMember(MyUser e)

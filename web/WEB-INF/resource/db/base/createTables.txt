@@ -25,18 +25,6 @@ create index levelCode on applicationLog (levelCode, uid);
 create index createdUtcTs on applicationLog (createdUtcTs, uid);
 
 
-DROP TABLE IF EXISTS attentionGroup;
-CREATE TABLE attentionGroup
-(
-    uid varchar(30),
-    name varchar(50),
-    lockVersion int,
-    projectUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index attentionGroup on attentionGroup (projectUid, name);
-
-
 DROP TABLE IF EXISTS auditLog;
 CREATE TABLE auditLog
 (
@@ -76,73 +64,6 @@ CREATE TABLE autoSignIn
     userUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
-
-
-DROP TABLE IF EXISTS customer;
-CREATE TABLE customer
-(
-    uid varchar(30),
-    name varchar(50),
-    discountRate double,
-    addressStreet1 varchar(50),
-    addressStreet2 varchar(50),
-    addressCity varchar(50),
-    addressRegion varchar(50),
-    addressPostalCode varchar(20),
-    addressCountry varchar(50),
-    lockVersion int,
-    projectUid varchar(30),
-    tierUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index project on customer (projectUid);
-
-
-DROP TABLE IF EXISTS customerContact;
-CREATE TABLE customerContact
-(
-    uid varchar(30),
-    name varchar(50),
-    title varchar(50),
-    phone varchar(30),
-    email varchar(50),
-    orderNotifications char(1),
-    lockVersion int,
-    customerUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index customer on customerContact (customerUid);
-
-
-DROP TABLE IF EXISTS customerSite;
-CREATE TABLE customerSite
-(
-    uid varchar(30),
-    name varchar(50),
-    addressStreet1 varchar(50),
-    addressStreet2 varchar(50),
-    addressCity varchar(50),
-    addressRegion varchar(50),
-    addressPostalCode varchar(20),
-    addressCountry varchar(50),
-    lockVersion int,
-    customerUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index customer on customerSite (customerUid);
-
-
-DROP TABLE IF EXISTS customerTier;
-CREATE TABLE customerTier
-(
-    uid varchar(30),
-    name varchar(50),
-    discountRate double,
-    lockVersion int,
-    projectUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index project on customerTier (projectUid);
 
 
 DROP TABLE IF EXISTS depot;
@@ -215,36 +136,6 @@ CREATE TABLE emailRecipient
 create index email on emailRecipient (emailUid);
 
 
-DROP TABLE IF EXISTS endUser;
-CREATE TABLE endUser
-(
-    uid varchar(30),
-    name varchar(50),
-    lockVersion int,
-    customerUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index customer on endUser (customerUid);
-
-
-DROP TABLE IF EXISTS endUserSite;
-CREATE TABLE endUserSite
-(
-    uid varchar(30),
-    name varchar(50),
-    addressStreet1 varchar(50),
-    addressStreet2 varchar(50),
-    addressCity varchar(50),
-    addressRegion varchar(50),
-    addressPostalCode varchar(20),
-    addressCountry varchar(50),
-    lockVersion int,
-    endUserUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index endUser on endUserSite (endUserUid);
-
-
 DROP TABLE IF EXISTS fieldTest;
 CREATE TABLE fieldTest
 (
@@ -305,21 +196,6 @@ CREATE TABLE invitation
     projectUid varchar(30),
     primary key (uid)
 ) ENGINE = INNODB;
-
-
-DROP TABLE IF EXISTS masterProduct;
-CREATE TABLE masterProduct
-(
-    uid varchar(30),
-    partNumber varchar(50),
-    active char(1),
-    lockVersion int,
-    projectUid varchar(30),
-    publishedVersionUid varchar(30),
-    draftVersionUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create unique index projectPart on masterProduct (projectUid, partNumber);
 
 
 DROP TABLE IF EXISTS member;
@@ -403,71 +279,15 @@ create unique index date on performanceLogSummary (utcDate, name);
 create index name on performanceLogSummary (name, utcDate);
 
 
-DROP TABLE IF EXISTS powerType;
-CREATE TABLE powerType
-(
-    uid varchar(30),
-    name varchar(50),
-    lockVersion int,
-    projectUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index projectName on powerType (projectUid, name);
-
-
-DROP TABLE IF EXISTS product;
-CREATE TABLE product
-(
-    uid varchar(30),
-    statusCode char(1),
-    name varchar(50),
-    description varchar(1000),
-    listPrice decimal(20,2),
-    discountable char(1),
-    taxable char(1),
-    cost decimal(20,2),
-    requiresShip char(1),
-    shipInstruction varchar(1000),
-    pickInstruction varchar(1000),
-    networkPortsProduced int,
-    networkPortsConsumed int,
-    poePortsProduced int,
-    poePortsConsumed int,
-    vendorPartNumber int,
-    lockVersion int,
-    projectUid varchar(30),
-    masterUid varchar(30),
-    categoryUid varchar(30),
-    powerTypeUid varchar(30),
-    vendorUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index projectName on product (projectUid, name);
-
-
-DROP TABLE IF EXISTS productCategory;
-CREATE TABLE productCategory
-(
-    uid varchar(30),
-    name varchar(50),
-    lockVersion int,
-    projectUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index projectName on productCategory (projectUid, name);
-
-
 DROP TABLE IF EXISTS project;
 CREATE TABLE project
 (
     uid varchar(30),
     name varchar(50),
-    orderNumberPrefix char(5),
     lockVersion int,
     primary key (uid)
 ) ENGINE = INNODB;
 create unique index projectName on project (name);
-create unique index orderNumber on project (orderNumberPrefix);
 
 
 DROP TABLE IF EXISTS region;
@@ -509,50 +329,6 @@ CREATE TABLE settings
 ) ENGINE = INNODB;
 
 
-DROP TABLE IF EXISTS shipAccount;
-CREATE TABLE shipAccount
-(
-    uid varchar(30),
-    name varchar(50),
-    description varchar(1000),
-    billedToCustomer char(1),
-    shipOnAccountName varchar(50),
-    shipOnAccountNumber varchar(50),
-    billToTypeCode char(1),
-    billToAccount varchar(50),
-    lockVersion int,
-    projectUid varchar(30),
-    customerUid varchar(30),
-    carrierUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index projectName on shipAccount (projectUid, name);
-
-
-DROP TABLE IF EXISTS shipCarrier;
-CREATE TABLE shipCarrier
-(
-    uid varchar(30),
-    name varchar(50),
-    lockVersion int,
-    projectUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index projectName on shipCarrier (projectUid, name);
-
-
-DROP TABLE IF EXISTS shipMethod;
-CREATE TABLE shipMethod
-(
-    uid varchar(30),
-    name varchar(50),
-    lockVersion int,
-    carrierUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index carrier on shipMethod (carrierUid, name);
-
-
 DROP TABLE IF EXISTS skill;
 CREATE TABLE skill
 (
@@ -590,7 +366,7 @@ CREATE TABLE user
     verified char(1),
     passwordSalt varchar(30),
     passwordHash varchar(40),
-    timeZoneCode char(5),
+    timeZoneCode varchar(50),
     roleCode char(1),
     lockVersion int,
     lastProjectUid varchar(30),
@@ -624,17 +400,5 @@ CREATE TABLE vendor
     primary key (uid)
 ) ENGINE = INNODB;
 create index projectName on vendor (projectUid, name);
-
-
-DROP TABLE IF EXISTS visitType;
-CREATE TABLE visitType
-(
-    uid varchar(30),
-    name varchar(50),
-    lockVersion int,
-    projectUid varchar(30),
-    primary key (uid)
-) ENGINE = INNODB;
-create index projectName on visitType (projectUid, name);
 
 

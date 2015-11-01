@@ -67,6 +67,9 @@ public class KmTimeZoneUtility
      */
     public static ZoneId getZoneOrUtc(String id)
     {
+        if ( id == null )
+            return KmTimeConstantsIF.UTC_ZONE;
+
         ZoneId e = getZone(id);
         if ( e != null )
             return e;

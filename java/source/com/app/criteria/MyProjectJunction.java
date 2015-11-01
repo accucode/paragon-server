@@ -48,11 +48,6 @@ public class MyProjectJunction
         return new KmhStringCondition(context(), fullName(NAME));
     }
 
-    public KmhStringCondition whereOrderNumberPrefix()
-    {
-        return new KmhStringCondition(context(), fullName(ORDER_NUMBER_PREFIX));
-    }
-
     public KmhIntegerCondition whereLockVersion()
     {
         return new KmhIntegerCondition(context(), fullName(LOCK_VERSION));

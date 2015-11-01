@@ -43,12 +43,6 @@
             type="string"
             />
 
-        <property
-            name="orderNumberPrefix"
-            column="orderNumberPrefix"
-            type="string"
-            />
-
         <bag
             name="members"
             inverse="false"
@@ -67,16 +61,6 @@
                 <cache usage="read-write"/>
                 <key column="projectUid"/>
                 <one-to-many class="com.app.model.MyDepot"/>
-        </bag>
-
-        <bag
-            name="powerTypes"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyPowerType"/>
         </bag>
 
         <bag
@@ -107,86 +91,6 @@
                 <cache usage="read-write"/>
                 <key column="projectUid"/>
                 <one-to-many class="com.app.model.MySkill"/>
-        </bag>
-
-        <bag
-            name="visitTypes"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyVisitType"/>
-        </bag>
-
-        <bag
-            name="attentionGroups"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyAttentionGroup"/>
-        </bag>
-
-        <bag
-            name="masterProducts"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyMasterProduct"/>
-        </bag>
-
-        <bag
-            name="productCategories"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyProductCategory"/>
-        </bag>
-
-        <bag
-            name="shipCarriers"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyShipCarrier"/>
-        </bag>
-
-        <bag
-            name="customers"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyCustomer"/>
-        </bag>
-
-        <bag
-            name="customerTiers"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyCustomerTier"/>
-        </bag>
-
-        <bag
-            name="shipAccounts"
-            inverse="false"
-            cascade="all-delete-orphan"
-            >
-                <cache usage="read-write"/>
-                <key column="projectUid"/>
-                <one-to-many class="com.app.model.MyShipAccount"/>
         </bag>
 
     </class>

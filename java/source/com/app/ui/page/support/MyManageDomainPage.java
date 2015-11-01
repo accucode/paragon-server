@@ -216,7 +216,7 @@ public abstract class MyManageDomainPage<T extends MyAbstractDomain>
 
         ScDiv center;
         center = root.addDiv();
-        center.css().outset().flexFiller().relative();
+        center.css().flexFiller().relative();
         center.add(_list);
     }
 

@@ -72,7 +72,6 @@ public class MyMetaProject
 
     public static final MyMetaProject_Uid Uid = new MyMetaProject_Uid();
     public static final MyMetaProject_Name Name = new MyMetaProject_Name();
-    public static final MyMetaProject_OrderNumberPrefix OrderNumberPrefix = new MyMetaProject_OrderNumberPrefix();
     public static final MyMetaProject_LockVersion LockVersion = new MyMetaProject_LockVersion();
 
     //##################################################

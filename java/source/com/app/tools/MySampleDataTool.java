@@ -103,14 +103,14 @@ public class MySampleDataTool
 
         int n = 3;
         for ( int i = 0; i < n; i++ )
-            installFitnessProject(i + 1);
+            installSampleProject(i + 1);
     }
 
-    private void installFitnessProject(int i)
+    private void installSampleProject(int i)
     {
-        log("install project; Fitness Rollouts %s...", i);
+        log("install project; %s...", i);
 
-        MySampleFitnessRolloutsProjectTool.run(i);
+        MySampleProjectTool.run(i);
     }
 
     //##################################################

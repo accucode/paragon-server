@@ -20,7 +20,7 @@ import com.app.utility.MyUrls;
  *
  * -- Redirect to a standard url.
  * -- Redirect the GET with a POST (to avoid caching).
- * -- Begin the server session and register the cookie.
+ * -- Begin the server session and register.
  * -- Generate the minimal html page, just enough to bootstrap the first ajax request.
  */
 public class MyMainServlet

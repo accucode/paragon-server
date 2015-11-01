@@ -1,71 +1,73 @@
 /*******************************************************************
- ** variables
+ ** basic colors
  *******************************************************************/
 
-    $dark = #242A36
-    $light = #fff
-    $blue = #0D70AC
-    $green = #008C83
-    $darkGray = #454545
-    $lightGray = #EBECEE
-    $shadow = #999
-    $genericGroupColor = #0D70AC
-    $primaryGroupColor = #008C83
-    $secondaryGroupColor = #FFCD1C
-    $tertiaryGroupColor = #61CEE9
-    $searchGroupColor = #59B9FF
-    $detailsGroupColor = #C156FF
+$dark = #242A36
+$light = #fff
+$blue = #0D70AC
+$green = #008C83
+$darkGray = #454545
+$lightGray = #EBECEE
+$shadow = #999
+$genericGroupColor = #0D70AC
+$primaryGroupColor = #008C83
+$secondaryGroupColor = #FFCD1C
+$tertiaryGroupColor = #61CEE9
+$searchGroupColor = #59B9FF
+$detailsGroupColor = #C156FF
 
-    $bodyBkgColor = $light
+/*******************************************************************
+ ** application colors
+ *******************************************************************/
 
-    $appHeaderBkgColor = $dark
-    $appHeaderTextColor = $light
+$bodyBackgroundColor = $light
 
-    $appContentBkgColor = $light
+$appHeaderBackgroundColor = #888
+$appHeaderTextColor = $light
 
-    $appTabBkgColor = $dark
-    $appTabsBorderColor = $darkGray
-    $appTabTxtColor = $light
-    $appTabIndicatorColorOff = $light
-    $appTabIndicatorColorOn = $blue
+$appContentBackgroundColor = $light
 
-    $appTitleBkgColor = $blue
-    $appTitleTxtColor = $light
+$appTabBackgroundColor = $dark
+$appTabsBorderColor = $darkGray
+$appTabTextColor = $light
+$appTabIndicatorColorOff = $light
+$appTabIndicatorColorOn = $blue
 
-    $appMenuHeadderBkgColor = $green
-    $appMenuHeadderTxtColor = $light
-    $appMenuHeadderBorderColor = $lightGray
+$appTitleBackgroundColor = $blue
+$appTitleTextColor = $light
 
-    $appMenuSectionBkgColor = $green
-    $appMenuSectionTxtColor = $light
-    $appMenuSectionBorderColor = $darkGray
+$appMenuHeadderBackgroundColor = $green
+$appMenuHeadderTextColor = $light
+$appMenuHeadderBorderColor = $lightGray
 
-    $appMenuItemBkgColor = $green
-    $appMenuItemTxtColor = $darkGray
-    $appMenuItemBorderColor = $darkGray
+$appMenuSectionBackgroundColor = $green
+$appMenuSectionTextColor = $light
+$appMenuSectionBorderColor = $darkGray
 
-    $paneBkgColor = $light
-    $paneBorderColor = $darkGray
-    $boxShadow = $shadow
+$appMenuItemBackgroundColor = $green
+$appMenuItemTextColor = $darkGray
+$appMenuItemBorderColor = $darkGray
 
-    $groupBkgColor = $light
+$paneBackgroundColor = $light
+$paneBorderColor = $darkGray
+$boxShadow = $shadow
 
-    $defaultGroupColor = $genericGroupColor
-    $defaultGroupBannerColor = $genericGroupColor
-    $primaryGroupBannerColor = $primaryGroupColor
-    $secondaryGroupBannerColor = $secondaryGroupColor
-    $tertiaryGroupBannerColor = $tertiaryGroupColor
-    $searchGroupBannerColor = $searchGroupColor
-    $detailsGroupBannerColor = $detailsGroupColor
+$groupBackgroundColor = $light
 
-    $defaultGroupBanneTxtColor = $light
-    $primaryGroupBannerTxtColor = $light
-    $secondaryGroupBannerTxtColor = $light
-    $tertiaryGroupBannerTxtColor = $light
-    $searchGroupBannerTxtColor = $light
-    $detailsGroupBannerTxtColor = $light
+$defaultGroupColor = $genericGroupColor
+$defaultGroupBannerColor = $genericGroupColor
+$primaryGroupBannerColor = $primaryGroupColor
+$secondaryGroupBannerColor = $secondaryGroupColor
+$tertiaryGroupBannerColor = $tertiaryGroupColor
+$searchGroupBannerColor = $searchGroupColor
+$detailsGroupBannerColor = $detailsGroupColor
 
-
+$defaultGroupBanneTextColor = $light
+$primaryGroupBannerTextColor = $light
+$secondaryGroupBannerTextColor = $light
+$tertiaryGroupBannerTextColor = $light
+$searchGroupBannerTextColor = $light
+$detailsGroupBannerTextColor = $light 
 
 /*******************************************************************
  ** root
@@ -81,7 +83,7 @@ body
 {
     overflow: hidden;
     font-size: 1.3rem;
-    background-color: $bodyBkgColor;
+    background-color: $bodyBackgroundColor;
 }
 
 
@@ -138,7 +140,7 @@ body
     white-space: nowrap;
 
     overflow: visible;
-    background-color: $appHeaderBkgColor;
+    background-color: $appHeaderBackgroundColor;
 }
 
 .environmentStage .appHeader-normal,
@@ -220,6 +222,8 @@ body
     right:      0;
     bottom:     0;
     height:     30px;
+    
+    border-top: 1px solid #666;
 }
 
 .appFooter-bare
@@ -264,24 +268,23 @@ body
     box-sizing:         border-box;
     position:           absolute;
     left:               0px;
-    width:              170px;
+    right:              0px;
     top:                50px;
-    bottom:             30px;
+    height:             50px;
 
     display:            flex;
-    flex-direction:     column;
-    align-items:        stretch;
+    flex-direction:     row;
+    align-items:        flex-end;
 
     overflow:           hidden;
-    border-bottom:      1px solid $appTabsBorderColor;
-    background-color:   $appTabBkgColor;
+    background-color:   #888;
+    border-bottom:      5px solid #08f;
 }
 
 .appTabsPrefix
 {
     box-sizing:       border-box;
-    height:           40px;
-    background-color: $appTabBkgColor;
+    width:            20px;
 
     flex-grow:   0;
     flex-shrink: 0;
@@ -290,31 +293,32 @@ body
 .appTabsSuffix
 {
     box-sizing: border-box;
-    height: 38px;
-    border: 1px outset $appTabsBorderColor;
-    border-right: none;
-    background-color: $appTabBkgColor;
+    width: 20px;
 
-    flex-grow: 1;
+    flex-grow:   1;
+    flex-shrink: 1;
 }
 
 .appTabsItem
 {
     box-sizing: border-box;
-    height: 38px;
+    
     flex-grow:   0;
     flex-shrink: 0;
 
     border: 1px solid $appTabsBorderColor;
-    border-right-width: 10px;
-    border-right-color: $appTabIndicatorColorOff;
-    background-color: $appTabBkgColor;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    
+    background-color: #000;
 
-    padding: 7px 15px 0 15px;
+    height: 30px;
+    padding: 5px 15px 0 15px;
+    margin-right: 5px;
+    
     font:   bold 1.8rem sans-serif;
-    color:  $appTabTxtColor;
+    color:  $appTabTextColor;
     cursor: pointer;
-
 }
 
 .appTabsItem:hover
@@ -325,20 +329,24 @@ body
 .appTabsSelected
 {
     box-sizing: border-box;
-    height: 38px;
+    vertical-align: bottom;
+    
     flex-grow:   0;
     flex-shrink: 0;
 
     border: 1px solid $appTabsBorderColor;
-    border-right-width: 10px;
-    border-right-color: $appTabIndicatorColorOn;
-    background-color: $appTabBkgColor;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    
+    background-color: #08f;
 
-    padding: 7px 15px 0 15px;
+    height: 35px;
+    padding: 10px 15px 0 15px;
+    margin-right: 5px;
+    
     font:   bold 1.8rem sans-serif;
-    color:  $appTabTxtColor;
+    color:  $appTabTextColor;
     cursor: pointer;
-
 }
 
 .appTabsSelected:hover
@@ -368,20 +376,18 @@ body
     box-sizing: border-box;
 
     position: absolute;
-    left:   170px;
-    width:  150px;
-    top:    90px;
+    left:   0px;
+    width:  200px;
+    top:    100px;
     bottom: 30px;
 
     overflow-y: auto;
     overflow-x: hidden;
 
-    margin-top: 40px;
-    background-color: $paneBkgColor;
+    background-color: #eee;
 
-    margin: 20px 0px 20px 20px;
-    border: 1px solid $paneBorderColor;
-    box-shadow: 6px 6px 10px $boxShadow;
+    border-top:   1px solid #444;
+    border-right: 1px solid #666;
 }
 
 .appMenu-section
@@ -391,15 +397,15 @@ body
     word-break: keep-all;
 
     font: bold 1.5rem sans-serif;
-    color: $appMenuSectionTxtColor;
-
     padding: 5px;
-    background-color: $appMenuSectionBkgColor;
+    
+    color: #fff;
+    background-color: #888;
 }
 
 .appMenu-item
 {
-    color:  #874B46;
+    color:  #008;
     font: bold 1.5rem sans-serif;
     white-space: nowrap;
 
@@ -415,22 +421,20 @@ body
 .appMenu-item:hover
 {
     text-decoration: underline;
-    border-color: #888;
 }
 
 .appMenu-selection
 {
     font: bold 1.5rem sans-serif;
     color: #fff;
-    background-color: #366;
-    background-image: radial-gradient(ellipse at 35px 15px, #588 0px, #366 40px);
+    background-color: #08f;
 
     padding: 4px 10px;
     margin:  3px 0 3px 10px;
 
     border: 1px outset #fff;
     border-right: none;
-    border-radius: 15px 0 0 15px;
+    border-radius: 5px 0 0 5px;
 
     cursor: pointer;
     white-space: nowrap;
@@ -469,16 +473,17 @@ body
     box-sizing: border-box;
 
     position: absolute;
-    left:   170px;
+    left:   0px;
     right:  0px;
-    top:    50px;
+    top:    100px;
     height: 40px;
 
     display: flex;
     align-items: center;
 
     overflow: hidden;
-    background-color: $appTitleBkgColor;
+    background-color: #08f;
+    border-bottom: 1px solid #00f;
 }
 
 .appTitle-nested
@@ -486,9 +491,9 @@ body
     box-sizing: border-box;
 
     position: absolute;
-    left:   170px;
+    left:   200px;
     right:  0;
-    top:    50px;
+    top:    100px;
     height: 40px;
 
     display: flex;
@@ -496,7 +501,8 @@ body
 
     overflow: hidden;
 
-    background-color: $appTitleBkgColor;
+    background-color: #08f;
+    border-bottom: 1px solid #00f;
 }
 
 .appTitle-left
@@ -513,7 +519,7 @@ body
 
 .appTitle-nameText
 {
-    color: $appTitleTxtColor;
+    color: $appTitleTextColor;
     font: bold 2.2rem sans-serif;
     white-space: nowrap;
 }
@@ -570,44 +576,34 @@ body
 .appContent-bare
 {
     position: absolute;
-    left:   0;
-    right:  0;
+    left:   0px;
+    right:  0px;
     top:    50px;
     bottom: 30px;
-    height: auto;
-
+    
     overflow: hidden;
 }
 
 .appContent-simple
 {
     position: absolute;
-    left:   170px;
+    left:   0px;
     right:  0px;
-    top:    90px;
+    top:    140px;
     bottom: 30px;
 
     overflow: hidden;
-    background-color: $appContentBkgColor;
-
-    border-top: none;
-    border-radius: 0 0 15px 15px;
 }
 
 .appContent-nested
 {
     position: absolute;
-    left:   340px;
+    left:   200px;
     right:  0px;
-    top:    90px;
+    top:    140px;
     bottom: 30px;
 
     overflow: hidden;
-    background-color: $appContentBkgColor;
-
-    border-top: none;
-    margin: 20px;
-    box-shadow: 6px 6px 10px $boxShadow;
 }
 
 #appContentInner
@@ -618,10 +614,10 @@ body
 .appContentInner
 {
     position: absolute;
-    left:   0;
-    right:  0;
-    top:    0;
-    bottom: 0;
+    left:   0px;
+    right:  0px;
+    top:    0px;
+    bottom: 0px;
 
     overflow: auto;
 }
@@ -1351,22 +1347,24 @@ a.tabx:hover
  * Used to identify groups.  Should not have any styling.
  */
 
- /******************************
+/******************************
  * base
  ******************************/
+
 .group
 {
-    border-top:  1px solid #aaa;
-    border-left: 1px solid #aaa;
+    border-top:  1px solid #666;
+    border-left: 1px solid #666;
+    border-radius: 5px 5px 0 0;
 
     box-shadow: 5px 5px 5px #ccc;
     overflow: hidden;
-    background-color: $groupBkgColor;
+    background-color: #eee;
 }
 .group > *
 {
-    border-bottom: 1px solid #aaa;
-    border-right:  1px solid #aaa;
+    border-bottom: 1px solid #666;
+    border-right:  1px solid #666;
 }
 
 .groupBlock
@@ -1388,8 +1386,6 @@ a.tabx:hover
     overflow: hidden;
 
     font: bold 2.0rem sans-serif;
-
-/**   background-color: #ccc;  **/
 }
 
 .groupBannerTitle
@@ -1411,6 +1407,7 @@ a.tabx:hover
 {
     flex-grow:   1;
     flex-shrink: 1;
+    background-color: #eee;
 }
 
 .groupFooter
@@ -1429,87 +1426,32 @@ a.tabx:hover
 }
 
 /******************************
- * Default
+ * default
  ******************************/
 
 .group-banner-default
 {
-    background-color: $defaultGroupColor;
+    background-color: #aaa;
 }
 
 .group-title-default
 {
-    background-color: $defaultGroupColor;
+    color: #fff;
+    background-color: #888;
 }
 
 /******************************
- * Primary
+ * warning
  ******************************/
 
-.group-banner-primary
+.group-banner-warning
 {
-    background-color: $primaryGroupBannerColor;
+    background-color: #f00;
 }
 
-.group-title-primary
+.group-title-warning
 {
-    color: $primaryGroupBannerTxtColor;
-}
-
-/******************************
- * Secondary
- ******************************/
-
-.group-banner-secondary
-{
-    background-color: $secondaryGroupBannerColor;
-}
-
-.group-title-secondary
-{
-    color: $secondaryGroupBannerTxtColor;
-}
-
-/******************************
- * Tertiary
- ******************************/
-
-.group-banner-tertiary
-{
-    background-color: $tertiaryGroupBannerColor;
-}
-
-.group-title-tertiary
-{
-    color: $tertiaryGroupBannerTxtColor;
-}
-
-/******************************
- * Search
- ******************************/
-
-.group-banner-search
-{
-    background-color: $searchGroupBannerColor;
-}
-
-.group-title-search
-{
-    color: $searchGroupBannerTxtColor;
-}
-
-/******************************
- * Details
- ******************************/
-
-.group-banner-details
-{
-    color: $detailsGroupBannerTxtColor;
-}
-
-.group-title-details
-{
-    color: $detailsGroupBannerTxtColor;
+    background-color: #fff;
 }
 
 /*******************************************************************
@@ -1680,10 +1622,8 @@ td.sqlResultValue
     position: absolute;
     left:   0;
     right:  0;
-    width:  auto;
     top:    0;
     bottom: 0;
-    height: auto;
 
     overflow-x: hidden;
     overflow-y: scroll;

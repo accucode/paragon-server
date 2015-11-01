@@ -44,7 +44,6 @@ public class MyEditProjectDialog
         ScFieldLayout fields;
         fields = body.addFieldLayout();
         fields.addField(x.Name);
-        fields.addField(x.OrderNumberPrefix);
     }
 
     //##################################################

@@ -401,7 +401,7 @@ public abstract class MyUserBase
 
     public void truncateTimeZoneCode(boolean ellipses)
     {
-        timeZoneCode = Kmu.truncate(timeZoneCode, 5, ellipses);
+        timeZoneCode = Kmu.truncate(timeZoneCode, 50, ellipses);
     }
 
     //##################################################
